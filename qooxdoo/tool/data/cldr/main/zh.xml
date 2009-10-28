@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.134 $"/>
-		<generation date="$Date: 2008/06/26 03:47:58 $"/>
+		<version number="$Revision: 1.164 $"/>
+		<generation date="$Date: 2009/06/19 20:09:12 $"/>
 		<language type="zh"/>
 	</identity>
 	<localeDisplayNames>
@@ -31,8 +31,7 @@
 			<language type="am">阿姆哈拉文</language>
 			<language type="an" references="R500">阿拉贡文</language>
 			<language type="ang" references="R500">古英文</language>
-			<language type="anp">安吉卡文</language>
-			<language type="anp" alt="proposed-x1001" draft="unconfirmed">昂加语</language>
+			<language type="anp">昂加语</language>
 			<language type="apa">阿帕切文</language>
 			<language type="ar">阿拉伯文</language>
 			<language type="arc">阿拉米文</language>
@@ -82,7 +81,7 @@
 			<language type="cai">其他中美印第安语系</language>
 			<language type="car">巴勒比文</language>
 			<language type="cau">其他高加索语系</language>
-			<language type="cch" draft="provisional">cch</language>
+			<language type="cch">cch</language>
 			<language type="ce">车臣文</language>
 			<language type="ceb">宿务文</language>
 			<language type="cel">其他凯尔特语系</language>
@@ -116,8 +115,7 @@
 			<language type="dar">达尔格瓦文</language>
 			<language type="day">达雅克文</language>
 			<language type="de">德文</language>
-			<language type="de_AT">德语（奥地利）</language>
-			<language type="de_AT" alt="proposed-x1001" draft="unconfirmed">奥地利德语</language>
+			<language type="de_AT">奥地利德语</language>
 			<language type="de_CH">高地德文 (瑞士)</language>
 			<language type="del" references="R500">特拉华文</language>
 			<language type="den">司雷夫文</language>
@@ -139,15 +137,13 @@
 			<language type="elx">艾拉米特文</language>
 			<language type="en">英文</language>
 			<language type="en_AU">英语（澳大利亚）</language>
-			<language type="en_CA">英语（加拿大）</language>
-			<language type="en_CA" alt="proposed-x1001" draft="unconfirmed">加拿大英语</language>
+			<language type="en_CA">加拿大英语</language>
 			<language type="en_GB">英语（英国）</language>
 			<language type="en_US">英语（美国）</language>
 			<language type="enm">中古英文</language>
 			<language type="eo">世界文</language>
 			<language type="es">西班牙文</language>
-			<language type="es_419">西班牙语（拉丁美洲）</language>
-			<language type="es_419" alt="proposed-x1001" draft="unconfirmed">拉丁美洲西班牙语</language>
+			<language type="es_419">拉丁美洲西班牙语</language>
 			<language type="es_ES">西班牙语（伊比利亚）</language>
 			<language type="et">爱沙尼亚文</language>
 			<language type="eu">巴斯克文</language>
@@ -163,10 +159,8 @@
 			<language type="fo">法罗文</language>
 			<language type="fon">丰文</language>
 			<language type="fr">法文</language>
-			<language type="fr_CA">法语（加拿大）</language>
-			<language type="fr_CA" alt="proposed-x1001" draft="unconfirmed">加拿大法语</language>
-			<language type="fr_CH">法语 (瑞士)</language>
-			<language type="fr_CH" alt="proposed-x1001" draft="unconfirmed">瑞士法语</language>
+			<language type="fr_CA">加拿大法语</language>
+			<language type="fr_CH">瑞士法语</language>
 			<language type="frm">中古法文</language>
 			<language type="fro">古法文</language>
 			<language type="frr">北弗里西亚语</language>
@@ -190,8 +184,7 @@
 			<language type="got" references="R500">哥特文</language>
 			<language type="grb">格列博文</language>
 			<language type="grc">古希腊文</language>
-			<language type="gsw">德文 (瑞士)</language>
-			<language type="gsw" alt="proposed-x1001" draft="unconfirmed">瑞士德文</language>
+			<language type="gsw">瑞士德文</language>
 			<language type="gu">古加拉提文</language>
 			<language type="gv">马恩岛文</language>
 			<language type="gwi">吉维克琴文</language>
@@ -212,12 +205,10 @@
 			<language type="hup">胡帕文</language>
 			<language type="hy">亚美尼亚文</language>
 			<language type="hz">赫雷罗文</language>
-			<language type="ia" references="R500">国际文 A</language>
-			<language type="ia" alt="proposed-x1001" draft="unconfirmed">国际语</language>
+			<language type="ia">国际语</language>
 			<language type="iba">伊班文</language>
 			<language type="id">印度尼西亚文</language>
-			<language type="ie" references="R500">国际文 E</language>
-			<language type="ie" alt="proposed-x1001" draft="unconfirmed">国际语E</language>
+			<language type="ie">国际语E</language>
 			<language type="ig">伊格博文</language>
 			<language type="ii">四川话</language>
 			<language type="ijo">伊乔文</language>
@@ -229,8 +220,6 @@
 			<language type="io" references="R501">伊多文</language>
 			<language type="ira">伊朗文</language>
 			<language type="iro" references="R500">伊洛魁语系</language>
-			<language type="iro" alt="proposed-x1001" draft="unconfirmed">易洛魁文</language>
-			<language type="iro" alt="proposed-x1002" draft="unconfirmed">易洛魁语</language>
 			<language type="is">冰岛文</language>
 			<language type="it">意大利文</language>
 			<language type="iu" references="R500">伊努伊特文</language>
@@ -243,14 +232,13 @@
 			<language type="kaa">卡拉卡尔帕克文</language>
 			<language type="kab">卡比尔文</language>
 			<language type="kac">卡琴文</language>
-			<language type="kaj" draft="provisional">kaj</language>
+			<language type="kaj">kaj</language>
 			<language type="kam">卡姆巴文</language>
 			<language type="kar">喀伦文</language>
 			<language type="kaw">卡威文</language>
 			<language type="kbd">卡巴尔达文</language>
-			<language type="kcg" draft="provisional">kcg</language>
-			<language type="kfo">科罗文</language>
-			<language type="kfo" alt="proposed-x1001" draft="unconfirmed">科罗语</language>
+			<language type="kcg">kcg</language>
+			<language type="kfo">科罗语</language>
 			<language type="kg">刚果文</language>
 			<language type="kha">卡西文</language>
 			<language type="khi">其他科伊桑语系</language>
@@ -269,8 +257,7 @@
 			<language type="kr">卡努里文</language>
 			<language type="krc" references="R500">卡拉恰伊巴尔卡尔文</language>
 			<language type="krl">卡累利阿文</language>
-			<language type="krl" alt="proposed-x1001" draft="unconfirmed">卡累利阿语</language>
-			<language type="krl" alt="proposed-x1002" draft="unconfirmed">卡累利亚语</language>
+			<language type="krl" alt="proposed-x1001" draft="unconfirmed">卡累利亚语</language>
 			<language type="kro">克鲁文</language>
 			<language type="kru">库鲁克文</language>
 			<language type="ks">克什米尔文</language>
@@ -353,7 +340,6 @@
 			<language type="niu">纽埃文</language>
 			<language type="nl">荷兰文</language>
 			<language type="nl_BE">弗拉芒语</language>
-			<language type="nl_BE" alt="proposed-x1001" draft="unconfirmed">弗拉芒文</language>
 			<language type="nn">挪威尼诺斯克文</language>
 			<language type="no">挪威文</language>
 			<language type="nog">诺盖文</language>
@@ -370,7 +356,6 @@
 			<language type="nyo">尼约罗文</language>
 			<language type="nzi">恩济马文</language>
 			<language type="oc">奥克西唐语</language>
-			<language type="oc" alt="proposed-x1001" draft="unconfirmed">奥克西唐文(1500以后)</language>
 			<language type="oj">奥吉布瓦文</language>
 			<language type="om">奥洛莫文</language>
 			<language type="or">欧里亚文</language>
@@ -381,7 +366,6 @@
 			<language type="pa">旁遮普文</language>
 			<language type="paa">其他巴布亚文</language>
 			<language type="pag">邦阿西楠语</language>
-			<language type="pag" alt="proposed-x1001" draft="unconfirmed">邦阿西楠文</language>
 			<language type="pal">帕拉维文</language>
 			<language type="pam">邦板牙文</language>
 			<language type="pap">帕皮亚门托文</language>
@@ -407,7 +391,7 @@
 			<language type="ro">罗马尼亚文</language>
 			<language type="roa">其他拉丁语系</language>
 			<language type="rom">吉普赛文</language>
-			<language type="root" draft="provisional">root</language>
+			<language type="root">根语言</language>
 			<language type="ru">俄文</language>
 			<language type="rup" references="R500">亚美尼亚语</language>
 			<language type="rw">卢旺达文</language>
@@ -442,15 +426,12 @@
 			<language type="sma">南萨米文</language>
 			<language type="smi">其他萨米文</language>
 			<language type="smj">律勒欧萨莫斯语</language>
-			<language type="smj" alt="proposed-x1001" draft="unconfirmed">Lule 萨米语</language>
 			<language type="smn">伊纳里萨米语</language>
 			<language type="sms">斯科特萨米文</language>
 			<language type="sn">绍纳文</language>
 			<language type="snk">索尼基文</language>
 			<language type="so">索马里文</language>
 			<language type="sog">古粟特语</language>
-			<language type="sog" alt="proposed-x1001" draft="unconfirmed">粟特文</language>
-			<language type="sog" alt="proposed-x1002" draft="unconfirmed">古粟特文</language>
 			<language type="son">桑海文</language>
 			<language type="sq">阿尔巴尼亚文</language>
 			<language type="sr">塞尔维亚文</language>
@@ -459,8 +440,7 @@
 			<language type="ss">斯瓦特文</language>
 			<language type="ssa">非洲撒哈拉沙漠边缘地带语言</language>
 			<language type="st">塞索托文</language>
-			<language type="su">巽他文</language>
-			<language type="su" alt="proposed-x1001" draft="unconfirmed">巽他语</language>
+			<language type="su">巽他语</language>
 			<language type="suk">苏库马文</language>
 			<language type="sus">苏苏文</language>
 			<language type="sux">苏马文</language>
@@ -470,8 +450,7 @@
 			<language type="ta">泰米尔文</language>
 			<language type="tai">傣语诸语言（其他）</language>
 			<language type="te">泰卢固文</language>
-			<language type="tem">滕内文</language>
-			<language type="tem" alt="proposed-x1001" draft="unconfirmed">滕内语</language>
+			<language type="tem">滕内语</language>
 			<language type="ter">特列纳文</language>
 			<language type="tet">特塔姆文</language>
 			<language type="tg">塔吉克文</language>
@@ -481,9 +460,7 @@
 			<language type="tiv">蒂夫文</language>
 			<language type="tk">土库曼文</language>
 			<language type="tkl">托克劳文</language>
-			<language type="tl">他加禄文</language>
-			<language type="tl" alt="proposed-x1001" draft="unconfirmed">他加禄语</language>
-			<language type="tl" alt="proposed-x1002" draft="unconfirmed">塔加洛语</language>
+			<language type="tl">塔加洛语</language>
 			<language type="tlh">克林贡文</language>
 			<language type="tli">特林吉特文</language>
 			<language type="tmh">塔马奇克文</language>
@@ -561,7 +538,9 @@
 			<script type="Copt">克普特语</script>
 			<script type="Cprt">塞浦路斯语</script>
 			<script type="Cyrl">西里尔语</script>
+			<script type="Cyrl" alt="proposed-x1001" draft="unconfirmed">西里俄语</script>
 			<script type="Cyrs">西里尔文字（古教会斯拉夫语的变体）</script>
+			<script type="Cyrs" alt="proposed-x1001" draft="unconfirmed">西里俄文字（古教会斯拉夫语的变体</script>
 			<script type="Deva">梵文</script>
 			<script type="Dsrt">德塞莱特文</script>
 			<script type="Egyd">后期埃及语</script>
@@ -575,7 +554,7 @@
 			<script type="Grek">希腊语</script>
 			<script type="Gujr">古吉拉特语</script>
 			<script type="Guru">果鲁穆奇语</script>
-			<script type="Hang">韩语</script>
+			<script type="Hang">韩文</script>
 			<script type="Hani">汉语</script>
 			<script type="Hano">汉奴罗语</script>
 			<script type="Hans">简体中文</script>
@@ -594,7 +573,7 @@
 			<script type="Khar">卡罗须提文</script>
 			<script type="Khmr">高棉语</script>
 			<script type="Knda">卡纳塔克语</script>
-			<script type="Kore" draft="contributed">朝鲜语</script>
+			<script type="Kore">韩语</script>
 			<script type="Lana">兰拿语</script>
 			<script type="Laoo">老挝语</script>
 			<script type="Latf">拉丁文（哥特式字体变体）</script>
@@ -613,12 +592,10 @@
 			<script type="Mong">蒙古语</script>
 			<script type="Moon" draft="contributed">韩文语系</script>
 			<script type="Mtei">曼尼普尔语</script>
-			<script type="Mtei" alt="proposed-x1001" draft="unconfirmed">曼尼普尔文</script>
 			<script type="Mymr">缅甸</script>
 			<script type="Nkoo">N’Ko（西非书面语言）</script>
 			<script type="Ogam">欧甘语</script>
 			<script type="Olck">桑塔利语</script>
-			<script type="Olck" alt="proposed-x1001" draft="unconfirmed">Ol Chiki 桑塔利语</script>
 			<script type="Orkh">鄂尔浑文</script>
 			<script type="Orya">奥里亚语</script>
 			<script type="Osma">奥斯曼亚语</script>
@@ -646,8 +623,7 @@
 			<script type="Talu">新傣文</script>
 			<script type="Taml">泰米尔语</script>
 			<script type="Telu">泰卢固语</script>
-			<script type="Teng">格瓦文字</script>
-			<script type="Teng" alt="proposed-x1001" draft="unconfirmed">腾格瓦文字</script>
+			<script type="Teng">腾格瓦文字</script>
 			<script type="Tfng">提非纳文</script>
 			<script type="Tglg">塔加路语</script>
 			<script type="Thaa">塔安娜语</script>
@@ -655,8 +631,7 @@
 			<script type="Tibt">藏语</script>
 			<script type="Ugar">乌加里特语</script>
 			<script type="Vaii">瓦依语</script>
-			<script type="Visp">可见语音</script>
-			<script type="Visp" alt="proposed-x1001" draft="unconfirmed">可见语言</script>
+			<script type="Visp">可见语言</script>
 			<script type="Xpeo">古波斯语</script>
 			<script type="Xsux">苏美尔-阿卡德楔形文字</script>
 			<script type="Yiii">彝语</script>
@@ -676,7 +651,6 @@
 			<territory type="015">北非</territory>
 			<territory type="017">中非</territory>
 			<territory type="018">南部非洲</territory>
-			<territory type="018" alt="proposed-x1001" draft="unconfirmed">非洲南部</territory>
 			<territory type="019">美洲</territory>
 			<territory type="021">美洲北部</territory>
 			<territory type="029">加勒比海</territory>
@@ -788,14 +762,13 @@
 			<territory type="GP">瓜德罗普岛</territory>
 			<territory type="GQ">赤道几内亚</territory>
 			<territory type="GR">希腊</territory>
-			<territory type="GS">南佐治亚和南三明治群岛</territory>
+			<territory type="GS">南乔治亚岛和南桑威齐群岛</territory>
 			<territory type="GT">危地马拉</territory>
 			<territory type="GU">关岛</territory>
 			<territory type="GW">几内亚比绍</territory>
 			<territory type="GY">圭亚那</territory>
 			<territory type="HK">中国香港特别行政区</territory>
 			<territory type="HK" alt="short">香港</territory>
-			<territory type="HK" alt="short-proposed-x1001" draft="unconfirmed">香港地区</territory>
 			<territory type="HM">赫德与麦克唐纳群岛</territory>
 			<territory type="HN">洪都拉斯</territory>
 			<territory type="HR">克罗地亚</territory>
@@ -821,8 +794,8 @@
 			<territory type="KI">基里巴斯</territory>
 			<territory type="KM">科摩罗</territory>
 			<territory type="KN">圣基茨和尼维斯</territory>
-			<territory type="KP">北朝鲜</territory>
-			<territory type="KP" alt="proposed-x1001" draft="unconfirmed">朝鲜</territory>
+			<territory type="KP">朝鲜</territory>
+			<territory type="KP" alt="proposed-x1001" draft="unconfirmed">北朝鲜</territory>
 			<territory type="KR">韩国</territory>
 			<territory type="KW">科威特</territory>
 			<territory type="KY">开曼群岛</territory>
@@ -851,7 +824,6 @@
 			<territory type="MN">蒙古</territory>
 			<territory type="MO">中国澳门特别行政区</territory>
 			<territory type="MO" alt="short">澳门</territory>
-			<territory type="MO" alt="short-proposed-x1001" draft="unconfirmed">澳门地区</territory>
 			<territory type="MP">北马里亚纳群岛</territory>
 			<territory type="MQ">马提尼克群岛</territory>
 			<territory type="MR">毛里塔尼亚</territory>
@@ -962,7 +934,7 @@
 			<variant type="AREVMDA">西亚美尼亚语</variant>
 			<variant type="FONIPA">国际音标</variant>
 			<variant type="POLYTON">多音</variant>
-			<variant type="POLYTON" alt="proposed-x1001" draft="unconfirmed">多(声)调语言</variant>
+			<variant type="POSIX">电脑</variant>
 			<variant type="REVISED">已修订的拼字学</variant>
 			<variant type="REVISED" alt="proposed-x1001" draft="unconfirmed">已修订</variant>
 			<variant type="SAAHO">萨霍</variant>
@@ -991,13 +963,13 @@
 			<type type="traditional" key="collation">传统历法</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US">美制</measurementSystemName>
 			<measurementSystemName type="metric">公制</measurementSystemName>
+			<measurementSystemName type="US">美制</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
-			<codePattern type="language" draft="contributed">语言：{0}</codePattern>
-			<codePattern type="script" draft="contributed">脚本：{0}</codePattern>
-			<codePattern type="territory" draft="contributed">区域：{0}</codePattern>
+			<codePattern type="language">语言：{0}</codePattern>
+			<codePattern type="script">脚本：{0}</codePattern>
+			<codePattern type="territory">区域：{0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
@@ -1012,12 +984,11 @@
 		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
 		<calendars>
-			<calendar type="chinese">
+			<calendar type="buddhist">
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MEd" draft="contributed">M-dE</dateFormatItem>
+						<dateFormatItem id="yyyyM" draft="provisional">yyyy/M</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1070,15 +1041,25 @@
 						</monthWidth>
 						<monthWidth type="narrow">
 							<month type="1">1月</month>
+							<month type="1" alt="proposed-x1001" draft="unconfirmed">1</month>
 							<month type="2">2月</month>
+							<month type="2" alt="proposed-x1001" draft="unconfirmed">2</month>
 							<month type="3">3月</month>
+							<month type="3" alt="proposed-x1001" draft="unconfirmed">3</month>
 							<month type="4">4月</month>
+							<month type="4" alt="proposed-x1001" draft="unconfirmed">4</month>
 							<month type="5">5月</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">5</month>
 							<month type="6">6月</month>
+							<month type="6" alt="proposed-x1001" draft="unconfirmed">6</month>
 							<month type="7">7月</month>
+							<month type="7" alt="proposed-x1001" draft="unconfirmed">7</month>
 							<month type="8">8月</month>
+							<month type="8" alt="proposed-x1001" draft="unconfirmed">8</month>
 							<month type="9">9月</month>
+							<month type="9" alt="proposed-x1001" draft="unconfirmed">9</month>
 							<month type="10">10月</month>
+							<month type="10" alt="proposed-x1001" draft="unconfirmed">10</month>
 							<month type="11">11月</month>
 							<month type="12">12月</month>
 						</monthWidth>
@@ -1135,13 +1116,9 @@
 					<quarterContext type="format">
 						<quarterWidth type="abbreviated">
 							<quarter type="1">1季</quarter>
-							<quarter type="1" alt="proposed-x1001" draft="unconfirmed">第一季度</quarter>
 							<quarter type="2">2季</quarter>
-							<quarter type="2" alt="proposed-x1001" draft="unconfirmed">第二季度</quarter>
 							<quarter type="3">3季</quarter>
-							<quarter type="3" alt="proposed-x1001" draft="unconfirmed">第三季度</quarter>
 							<quarter type="4">4季</quarter>
-							<quarter type="4" alt="proposed-x1001" draft="unconfirmed">第四季度</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">第1季度</quarter>
@@ -1174,12 +1151,12 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>yyyy年M月d日EEEE</pattern>
+							<pattern>y年M月d日EEEE</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>yyyy年M月d日</pattern>
+							<pattern>y年M月d日</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -1196,20 +1173,17 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>ahh时mm分ss秒v</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">vah时mm分ss秒</pattern>
+							<pattern>zzzzah时mm分ss秒</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern>ahh时mm分ss秒z</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">zah时mm分ss秒</pattern>
+							<pattern>zah时mm分ss秒</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
 							<pattern>ahh:mm:ss</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">ah:mm:ss</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
@@ -1219,76 +1193,63 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1}{0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1}{0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{1} {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d">d日</dateFormatItem>
 						<dateFormatItem id="Ed">d日E</dateFormatItem>
 						<dateFormatItem id="H">H时</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="hm">ah:mm</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">ah:mm:ss</dateFormatItem>
 						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
+						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MEd">M-dE</dateFormatItem>
-						<dateFormatItem id="MEd" alt="proposed-x1001" draft="unconfirmed">E,M-d</dateFormatItem>
+						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMMd日</dateFormatItem>
 						<dateFormatItem id="MMMEd">MMMd日E</dateFormatItem>
-						<dateFormatItem id="MMMMEd">MMMMd日E</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMMd日</dateFormatItem>
 						<dateFormatItem id="MMMMdd">MMMMdd日</dateFormatItem>
-						<dateFormatItem id="MMMd">MMMd日</dateFormatItem>
-						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
-						<dateFormatItem id="MMdd" alt="proposed-x1001" draft="unconfirmed">MM/dd</dateFormatItem>
-						<dateFormatItem id="MMdd" alt="proposed-x1002" draft="unconfirmed">dd/MM</dateFormatItem>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="d">d日</dateFormatItem>
-						<dateFormatItem id="d" alt="proposed-x1001" draft="unconfirmed">号</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="MMMMEd">MMMMd日E</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">yyyy年</dateFormatItem>
-						<dateFormatItem id="y" alt="proposed-x1001" draft="unconfirmed">yyyy</dateFormatItem>
+						<dateFormatItem id="y">y年</dateFormatItem>
 						<dateFormatItem id="yM">yyyy-M</dateFormatItem>
-						<dateFormatItem id="yMEd">yyyy年M月d日，E</dateFormatItem>
-						<dateFormatItem id="yMEd" alt="proposed-x1001" draft="unconfirmed">yyyy-M-dEEE</dateFormatItem>
-						<dateFormatItem id="yMMM">yyyy年MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd">yyyy年MMMd日EEE</dateFormatItem>
-						<dateFormatItem id="yMMMM">yyyy年MMMM</dateFormatItem>
-						<dateFormatItem id="yMMMM" alt="proposed-x1001" draft="unconfirmed">yyyyMMMM</dateFormatItem>
-						<dateFormatItem id="yQ">yyyy年QQQ</dateFormatItem>
+						<dateFormatItem id="yMEd">y年M月d日，E</dateFormatItem>
+						<dateFormatItem id="yMMM">y年MMM</dateFormatItem>
+						<dateFormatItem id="yMMMd">y年MMMd日</dateFormatItem>
+						<dateFormatItem id="yMMMEd">y年MMMd日EEE</dateFormatItem>
+						<dateFormatItem id="yMMMM">y年MMMM</dateFormatItem>
+						<dateFormatItem id="yQ">y年QQQ</dateFormatItem>
 						<dateFormatItem id="yQQQ">y年QQQ</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="contributed">yy-MM</dateFormatItem>
 						<dateFormatItem id="yyMMM">yy年MMM</dateFormatItem>
 						<dateFormatItem id="yyQ">yy年第Q季度</dateFormatItem>
-						<dateFormatItem id="yyyy">yyyy年</dateFormatItem>
-						<dateFormatItem id="yyyyM">yyyy年M月</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">yyyy年MMMM</dateFormatItem>
+						<dateFormatItem id="yyyy">y年</dateFormatItem>
+						<dateFormatItem id="yyyyM">y年M月</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">y年MMMM</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="contributed">{0}–{1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">L至L</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M">M-dE至M-dE</greatestDifference>
-							<greatestDifference id="d">M-dE至M-dE</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">LLLL至LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M">M月d日E至M月d日E</greatestDifference>
-							<greatestDifference id="d">M月d日E至d日E</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M">M月d日至M月d日</greatestDifference>
-							<greatestDifference id="d">M月d日至d日</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M">M-d至M-d</greatestDifference>
-							<greatestDifference id="d">M-d至M-d</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d日至d日</greatestDifference>
 						</intervalFormatItem>
@@ -1302,18 +1263,35 @@
 							<greatestDifference id="m">ah:mm至h:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">ah:mm至ah:mmv</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">vah:mm至ah:mm</greatestDifference>
-							<greatestDifference id="h">ah:mm至h:mmv</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">vah:mm至h:mm</greatestDifference>
-							<greatestDifference id="m">ah:mm至h:mmv</greatestDifference>
-							<greatestDifference id="m" alt="proposed-x1001" draft="unconfirmed">vah:mm至h:mm</greatestDifference>
+							<greatestDifference id="a">vah:mm至ah:mm</greatestDifference>
+							<greatestDifference id="h">vah:mm至h:mm</greatestDifference>
+							<greatestDifference id="m">vah:mm至h:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">ah至ah时v</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">vah至ah时</greatestDifference>
-							<greatestDifference id="h">ah至h时v</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">vah至h时</greatestDifference>
+							<greatestDifference id="a">vah至ah时</greatestDifference>
+							<greatestDifference id="h">vah至h时</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">L至L</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">M-d至M-d</greatestDifference>
+							<greatestDifference id="M">M-d至M-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">M-dE至M-dE</greatestDifference>
+							<greatestDifference id="M">M-dE至M-dE</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">LLLL至LLLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">M月d日至d日</greatestDifference>
+							<greatestDifference id="M">M月d日至M月d日</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">M月d日E至d日E</greatestDifference>
+							<greatestDifference id="M">M月d日E至M月d日E</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y">y至y</greatestDifference>
@@ -1322,29 +1300,29 @@
 							<greatestDifference id="M">yy-M至yy-M</greatestDifference>
 							<greatestDifference id="y">yy-M至yy-M</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">yy-M-d至yy-M-d</greatestDifference>
+							<greatestDifference id="M">yy-M-d至yy-M-d</greatestDifference>
+							<greatestDifference id="y">yy-M-d至yy-M-d</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M">yy-M-dE至yy-M-dE</greatestDifference>
 							<greatestDifference id="d">yy-M-dE至yy-M-dE</greatestDifference>
+							<greatestDifference id="M">yy-M-dE至yy-M-dE</greatestDifference>
 							<greatestDifference id="y">yy-M-dE至yy-M-dE</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">yyyy年M月至M月</greatestDifference>
-							<greatestDifference id="y">yyyy年M月至yyyy年M月</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M">yyyy年M月d日E至M月d日E</greatestDifference>
-							<greatestDifference id="d">yyyy年M月d日E至d日E</greatestDifference>
-							<greatestDifference id="y">yyyy年M月d日E至yyyy年M月d日E</greatestDifference>
+							<greatestDifference id="M">y年M月至M月</greatestDifference>
+							<greatestDifference id="y">y年M月至y年M月</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M">yyyy年M月d日至M月d日</greatestDifference>
-							<greatestDifference id="d">yyyy年M月d日至d日</greatestDifference>
-							<greatestDifference id="y">yyyy年M月d日至yyyy年M月d日</greatestDifference>
+							<greatestDifference id="d">y年M月d日至d日</greatestDifference>
+							<greatestDifference id="M">y年M月d日至M月d日</greatestDifference>
+							<greatestDifference id="y">y年M月d日至y年M月d日</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M">yy-M-d至yy-M-d</greatestDifference>
-							<greatestDifference id="d">yy-M-d至yy-M-d</greatestDifference>
-							<greatestDifference id="y">yy-M-d至yy-M-d</greatestDifference>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">y年M月d日E至d日E</greatestDifference>
+							<greatestDifference id="M">y年M月d日E至M月d日E</greatestDifference>
+							<greatestDifference id="y">y年M月d日E至y年M月d日E</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1363,11 +1341,11 @@
 					</field>
 					<field type="day">
 						<displayName>日</displayName>
+						<relative type="-2">前天</relative>
+						<relative type="-1">昨天</relative>
 						<relative type="0">今天</relative>
 						<relative type="1">明天</relative>
 						<relative type="2">后天</relative>
-						<relative type="-1">昨天</relative>
-						<relative type="-2">前天</relative>
 					</field>
 					<field type="weekday">
 						<displayName>周天</displayName>
@@ -1388,13 +1366,6 @@
 						<displayName>区域</displayName>
 					</field>
 				</fields>
-			</calendar>
-			<calendar type="japanese">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yyyyM" draft="contributed">yyyy-M</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 			<calendar type="roc">
 				<eras>
@@ -1425,21 +1396,42 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="hm">ah:mm</dateFormatItem>
+						<dateFormatItem id="hms">ah:mm:ss</dateFormatItem>
+						<dateFormatItem id="yyyyM">Gy/M</dateFormatItem>
+						<dateFormatItem id="yyyyMd">Gy/M/d</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">Gy/M/d（EEE）</dateFormatItem>
+						<dateFormatItem id="yyyyMM">Gy/MM</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">Gy年MMM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">Gy年M月d日</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Gy年第Q季度</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">y/M至y/M</greatestDifference>
+							<greatestDifference id="y">y/M至y/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">y/M/d至y/M/d</greatestDifference>
+							<greatestDifference id="M">y/M/d至y/M/d</greatestDifference>
+							<greatestDifference id="y">y/M/d至y/M/d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">y/M/dE至y/M/dE</greatestDifference>
+							<greatestDifference id="M">y/M/dE至y/M/dE</greatestDifference>
+							<greatestDifference id="y">y/M/dE至y/M/dE</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
 			<hourFormat>+HHmm;-HHmm</hourFormat>
 			<gmtFormat>格林尼治标准时间{0}</gmtFormat>
-			<regionFormat>{0}</regionFormat>
-			<!-- <zone type="America/Indiana/Indianapolis">
-				 <exemplarCity>印地安那州/印第安纳波利斯</exemplarCity>
-				 </zone>
-
-
-				 <zone type="America/Kentucky/Louisville">
-				 <exemplarCity>路易斯维尔</exemplarCity>
-				 </zone>
-			-->
+			<gmtZeroFormat>格林尼治标准时间</gmtZeroFormat>
+			<regionFormat>{0}时间</regionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="contributed">未知</exemplarCity>
 			</zone>
@@ -1470,7 +1462,6 @@
 			<zone type="Africa/Luanda">
 				<exemplarCity>罗安达</exemplarCity>
 			</zone>
-			<!-- Antarctica -->
 			<zone type="Antarctica/Rothera">
 				<exemplarCity>罗瑟拉</exemplarCity>
 			</zone>
@@ -1501,7 +1492,6 @@
 			<zone type="Antarctica/McMurdo">
 				<exemplarCity>马克默多</exemplarCity>
 			</zone>
-			<!-- Argentina -->
 			<zone type="America/Argentina/Rio_Gallegos">
 				<exemplarCity>里奥加耶戈斯</exemplarCity>
 			</zone>
@@ -1538,12 +1528,11 @@
 			<zone type="Europe/Vienna">
 				<exemplarCity>维也纳</exemplarCity>
 			</zone>
-			<!-- Australia -->
 			<zone type="Australia/Perth">
 				<exemplarCity>佩思</exemplarCity>
 			</zone>
 			<zone type="Australia/Eucla">
-				<exemplarCity draft="contributed">尤克拉</exemplarCity>
+				<exemplarCity>尤克拉</exemplarCity>
 			</zone>
 			<zone type="Australia/Darwin">
 				<exemplarCity>达尔文</exemplarCity>
@@ -1564,7 +1553,7 @@
 				<exemplarCity>霍巴特</exemplarCity>
 			</zone>
 			<zone type="Australia/Lindeman">
-				<exemplarCity draft="contributed">林德曼</exemplarCity>
+				<exemplarCity>林德曼</exemplarCity>
 			</zone>
 			<zone type="Australia/Sydney">
 				<exemplarCity>悉尼</exemplarCity>
@@ -1620,9 +1609,8 @@
 			<zone type="America/La_Paz">
 				<exemplarCity>拉巴斯</exemplarCity>
 			</zone>
-			<!-- Brazil -->
 			<zone type="America/Eirunepe">
-				<exemplarCity draft="contributed">依伦尼贝</exemplarCity>
+				<exemplarCity>依伦尼贝</exemplarCity>
 			</zone>
 			<zone type="America/Rio_Branco">
 				<exemplarCity>里奥布郎库</exemplarCity>
@@ -1681,7 +1669,6 @@
 			<zone type="America/Belize">
 				<exemplarCity>伯利兹</exemplarCity>
 			</zone>
-			<!-- Canada -->
 			<zone type="America/Dawson">
 				<exemplarCity>道森</exemplarCity>
 			</zone>
@@ -1708,6 +1695,8 @@
 			</zone>
 			<zone type="America/Cambridge_Bay">
 				<exemplarCity draft="contributed">坎布里季贝</exemplarCity>
+				<exemplarCity alt="proposed-x1001" draft="unconfirmed">坎布里季湾</exemplarCity>
+				<exemplarCity alt="proposed-x1002" draft="unconfirmed">坎布里奇湾</exemplarCity>
 			</zone>
 			<zone type="America/Regina">
 				<exemplarCity>里贾纳</exemplarCity>
@@ -1719,7 +1708,7 @@
 				<exemplarCity>雨河</exemplarCity>
 			</zone>
 			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="provisional">雷今海口</exemplarCity>
+				<exemplarCity>雷今海口</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity>珊瑚港</exemplarCity>
@@ -1760,7 +1749,6 @@
 			<zone type="Indian/Cocos">
 				<exemplarCity>可可斯</exemplarCity>
 			</zone>
-			<!-- Democratic Republic of the Congo -->
 			<zone type="Africa/Kinshasa">
 				<exemplarCity>金沙萨</exemplarCity>
 			</zone>
@@ -1782,7 +1770,6 @@
 			<zone type="Pacific/Rarotonga">
 				<exemplarCity>拉罗汤加</exemplarCity>
 			</zone>
-			<!-- Chile -->
 			<zone type="Pacific/Easter">
 				<exemplarCity>复活节岛</exemplarCity>
 			</zone>
@@ -1792,7 +1779,6 @@
 			<zone type="Africa/Douala">
 				<exemplarCity>杜阿拉</exemplarCity>
 			</zone>
-			<!-- China -->
 			<zone type="Asia/Kashgar">
 				<exemplarCity>喀什葛尔</exemplarCity>
 			</zone>
@@ -1847,7 +1833,6 @@
 			<zone type="Africa/Algiers">
 				<exemplarCity>阿尔及尔</exemplarCity>
 			</zone>
-			<!-- Ecuador -->
 			<zone type="Pacific/Galapagos">
 				<exemplarCity>加拉帕哥斯</exemplarCity>
 			</zone>
@@ -1866,7 +1851,6 @@
 			<zone type="Africa/Asmera">
 				<exemplarCity>阿斯马拉</exemplarCity>
 			</zone>
-			<!-- Spain -->
 			<zone type="Atlantic/Canary">
 				<exemplarCity>加那利</exemplarCity>
 			</zone>
@@ -1930,7 +1914,6 @@
 			<zone type="Europe/Gibraltar">
 				<exemplarCity>直布罗陀</exemplarCity>
 			</zone>
-			<!-- Greenland -->
 			<zone type="America/Thule">
 				<exemplarCity>图勒</exemplarCity>
 			</zone>
@@ -1938,7 +1921,7 @@
 				<exemplarCity>戈特霍布</exemplarCity>
 			</zone>
 			<zone type="America/Scoresbysund">
-				<exemplarCity draft="provisional">斯科列斯比桑德</exemplarCity>
+				<exemplarCity>斯科列斯比桑德</exemplarCity>
 			</zone>
 			<zone type="America/Danmarkshavn">
 				<exemplarCity>Danmarkshavn（格陵兰东北城市）</exemplarCity>
@@ -1988,7 +1971,6 @@
 			<zone type="Europe/Budapest">
 				<exemplarCity>布达佩斯</exemplarCity>
 			</zone>
-			<!-- Indonesia -->
 			<zone type="Asia/Jakarta">
 				<exemplarCity>雅加达</exemplarCity>
 			</zone>
@@ -2049,7 +2031,6 @@
 			<zone type="Asia/Phnom_Penh">
 				<exemplarCity>金边</exemplarCity>
 			</zone>
-			<!-- Kiribati -->
 			<zone type="Pacific/Enderbury">
 				<exemplarCity>恩德贝里</exemplarCity>
 			</zone>
@@ -2077,7 +2058,6 @@
 			<zone type="America/Cayman">
 				<exemplarCity>开曼</exemplarCity>
 			</zone>
-			<!-- Kazakhstan -->
 			<zone type="Asia/Aqtau">
 				<exemplarCity>阿克图</exemplarCity>
 			</zone>
@@ -2141,7 +2121,6 @@
 			<zone type="Indian/Antananarivo">
 				<exemplarCity draft="unconfirmed">安塔那利佛</exemplarCity>
 			</zone>
-			<!-- Marshall Islands -->
 			<zone type="Pacific/Kwajalein">
 				<exemplarCity>夸贾林</exemplarCity>
 			</zone>
@@ -2151,14 +2130,12 @@
 			<zone type="Europe/Skopje">
 				<exemplarCity draft="provisional">斯科普里</exemplarCity>
 			</zone>
-			<!-- Mali -->
 			<zone type="Africa/Bamako">
 				<exemplarCity>巴马科</exemplarCity>
 			</zone>
 			<zone type="Asia/Rangoon">
 				<exemplarCity>仰光</exemplarCity>
 			</zone>
-			<!-- Mongolia -->
 			<zone type="Asia/Hovd">
 				<exemplarCity>科布多</exemplarCity>
 			</zone>
@@ -2195,7 +2172,6 @@
 			<zone type="Africa/Blantyre">
 				<exemplarCity>布兰太尔</exemplarCity>
 			</zone>
-			<!-- Mexico -->
 			<zone type="America/Tijuana">
 				<exemplarCity>提华纳</exemplarCity>
 			</zone>
@@ -2220,7 +2196,6 @@
 			<zone type="America/Cancun">
 				<exemplarCity>坎昆</exemplarCity>
 			</zone>
-			<!-- Malaysia -->
 			<zone type="Asia/Kuala_Lumpur">
 				<exemplarCity>吉隆坡</exemplarCity>
 			</zone>
@@ -2263,7 +2238,6 @@
 			<zone type="Pacific/Niue">
 				<exemplarCity>纽埃</exemplarCity>
 			</zone>
-			<!-- New Zealand -->
 			<zone type="Pacific/Chatham">
 				<exemplarCity>查塔姆</exemplarCity>
 			</zone>
@@ -2279,7 +2253,6 @@
 			<zone type="America/Lima">
 				<exemplarCity draft="unconfirmed">利马</exemplarCity>
 			</zone>
-			<!-- French Polynesia -->
 			<zone type="Pacific/Tahiti">
 				<exemplarCity>塔希提</exemplarCity>
 			</zone>
@@ -2313,9 +2286,8 @@
 			<zone type="Asia/Gaza">
 				<exemplarCity>加沙</exemplarCity>
 			</zone>
-			<!-- Portugal -->
 			<zone type="Atlantic/Azores">
-				<exemplarCity draft="contributed">亚述尔群岛</exemplarCity>
+				<exemplarCity>亚述尔群岛</exemplarCity>
 			</zone>
 			<zone type="Atlantic/Madeira">
 				<exemplarCity>马德拉</exemplarCity>
@@ -2341,7 +2313,6 @@
 			<zone type="Europe/Belgrade">
 				<exemplarCity draft="provisional">贝尔格莱德</exemplarCity>
 			</zone>
-			<!-- Russia -->
 			<zone type="Europe/Kaliningrad">
 				<exemplarCity>加里宁格勒</exemplarCity>
 			</zone>
@@ -2495,7 +2466,6 @@
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>达累斯萨拉姆</exemplarCity>
 			</zone>
-			<!-- Ukraine -->
 			<zone type="Europe/Uzhgorod">
 				<exemplarCity>乌日戈罗德</exemplarCity>
 			</zone>
@@ -2511,9 +2481,8 @@
 			<zone type="Africa/Kampala">
 				<exemplarCity>坎帕拉</exemplarCity>
 			</zone>
-			<!-- United States Minor Outlying Islands -->
 			<zone type="Pacific/Midway">
-				<exemplarCity draft="contributed">中途岛</exemplarCity>
+				<exemplarCity>中途岛</exemplarCity>
 			</zone>
 			<zone type="Pacific/Johnston">
 				<exemplarCity>约翰斯顿</exemplarCity>
@@ -2521,7 +2490,6 @@
 			<zone type="Pacific/Wake">
 				<exemplarCity>威克</exemplarCity>
 			</zone>
-			<!-- United States -->
 			<zone type="America/Adak">
 				<exemplarCity>艾德克</exemplarCity>
 			</zone>
@@ -2597,7 +2565,6 @@
 			<zone type="America/Montevideo">
 				<exemplarCity>蒙得维的亚</exemplarCity>
 			</zone>
-			<!-- Uzbekistan -->
 			<zone type="Asia/Samarkand">
 				<exemplarCity>撒马尔罕</exemplarCity>
 			</zone>
@@ -2648,75 +2615,42 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
-					<generic>Acre 时间</generic>
-					<standard>Acre 标准时间</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">阿克里标准时间</standard>
-					<daylight>Acre 夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">阿克里夏令时间</daylight>
+					<standard>阿克里标准时间</standard>
+					<daylight>阿克里夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Afghanistan">
 				<long>
-					<standard draft="contributed">阿富汗時間</standard>
+					<standard>阿富汗时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
-					<generic>非洲中部时间</generic>
 					<standard>中部非洲标准时间</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">中部非洲时间</standard>
 				</long>
-				<short>
-					<standard draft="contributed">中部非洲时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
-					<generic>非洲东部时间</generic>
 					<standard>东部非洲标准时间</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">东部非洲时间</standard>
 				</long>
-				<short>
-					<standard draft="contributed">东部非洲时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
 					<generic>非洲南部时间</generic>
 					<standard>南部非洲标准时间</standard>
 				</long>
-				<short>
-					<generic draft="contributed">南部非洲时间</generic>
-					<standard draft="contributed">南部非洲标准时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<generic>西部非洲时间</generic>
 					<standard>西部非洲标准时间</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">西部非洲时间</standard>
 					<daylight>西部非洲夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">南部非洲时间</standard>
-					<daylight draft="contributed">西部非洲标准时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
-					<generic>阿尔卑斯时间</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">阿克约宾斯克时间</generic>
 					<standard>阿尔卑斯标准时间</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">阿克约宾斯克标准时间</standard>
 					<daylight>阿尔卑斯夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">阿克约宾斯克夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
@@ -2724,11 +2658,6 @@
 					<standard>阿拉斯加标准时间</standard>
 					<daylight>阿拉斯加夏令时间</daylight>
 				</long>
-				<short>
-					<standard>阿拉斯加标准时间</standard>
-					<daylight>阿拉斯加夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Alaska_Hawaii">
 				<long>
@@ -2736,78 +2665,64 @@
 					<standard>阿拉斯加－夏威夷标准时间</standard>
 					<daylight>阿拉斯加－夏威夷夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Almaty">
 				<long>
-					<generic>Almaty 时间</generic>
-					<standard>Almaty 标准时间</standard>
-					<daylight>Almaty 夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">阿拉木图夏令时间</daylight>
+					<standard>阿拉木图标准时间</standard>
+					<daylight>阿拉木图夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<generic>亚马逊时间</generic>
 					<standard>亚马逊标准时间</standard>
 					<daylight>亚马逊夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
-					<generic draft="contributed">美国中部时间</generic>
+					<generic>美国中部时间</generic>
 					<standard>中部标准时间</standard>
 					<daylight>中部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
-					<generic draft="contributed">美国东部时间</generic>
+					<generic>美国东部时间</generic>
 					<standard>东部标准时间</standard>
 					<daylight>东部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
-					<generic draft="contributed">美国山区时间</generic>
+					<generic>美国山区时间</generic>
 					<standard>山区标准时间</standard>
 					<daylight>山区夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
-					<generic draft="contributed">美国太平洋时间</generic>
+					<generic>美国太平洋时间</generic>
 					<standard>太平洋标准时间</standard>
 					<daylight>太平洋夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
-					<standard draft="contributed">阿納德爾時間</standard>
-					<daylight draft="contributed">阿納德爾夏令時間</daylight>
+					<standard>阿纳德尔标准时间</standard>
+					<daylight>阿纳德尔夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
-					<generic draft="contributed">阿克图时间</generic>
-					<standard draft="contributed">阿克图标准时间</standard>
-					<daylight draft="contributed">阿克图夏令时间</daylight>
+					<standard>阿克图标准时间</standard>
+					<daylight>阿克图夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
-					<generic draft="contributed">阿克托别时间</generic>
 					<standard draft="contributed">阿克托别标准时间</standard>
 					<daylight draft="contributed">阿克托别夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Arabian">
 				<long>
@@ -2815,52 +2730,37 @@
 					<standard draft="contributed">阿拉伯标准时间</standard>
 					<daylight draft="contributed">阿拉伯夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
-					<generic draft="contributed">阿根廷时间</generic>
 					<standard draft="contributed">阿根廷标准时间</standard>
 					<daylight draft="contributed">阿根廷夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<generic draft="contributed">阿根廷西部时间</generic>
 					<standard draft="contributed">阿根廷西部标准时间</standard>
 					<daylight draft="contributed">阿根廷西部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
-					<generic draft="contributed">亚美尼亚时间</generic>
 					<standard draft="contributed">亚美尼亚标准时间</standard>
 					<daylight draft="contributed">亚美尼亚夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">AMT (Armenia)</generic>
-					<standard draft="contributed">AMST (Armenia)</standard>
-					<daylight draft="contributed">AMDT (Armenia)</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
-					<generic draft="contributed">阿什哈巴德时间</generic>
 					<standard draft="contributed">阿什哈巴德标准时间</standard>
 					<daylight draft="contributed">阿什哈巴德夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
-					<generic draft="contributed">大西洋时间</generic>
+					<generic>大西洋时间</generic>
 					<standard>大西洋标准时间</standard>
 					<daylight>大西洋夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Australia_Central">
 				<long>
@@ -2868,22 +2768,12 @@
 					<standard draft="contributed">澳大利亚中部标准时间</standard>
 					<daylight draft="contributed">澳大利亚中部夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">澳大利亚中部时间</generic>
-					<standard draft="contributed">澳大利亚中部标准时间</standard>
-					<daylight draft="contributed">澳大利亚中部夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
 				<long>
 					<standard draft="contributed">澳大利亚中西部标准时间</standard>
 					<daylight draft="contributed">澳大利亚中西部夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">澳大利亚中西部标准时间</standard>
-					<daylight draft="contributed">澳大利亚中西部夏令时间</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
 				<long>
@@ -2891,12 +2781,6 @@
 					<standard draft="contributed">澳大利亚东部标准时间</standard>
 					<daylight>澳大利亚东部夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">澳大利亚东部时间</generic>
-					<standard draft="contributed">澳大利亚东部标准时间</standard>
-					<daylight draft="contributed">澳大利亚东部夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Australia_Western">
 				<long>
@@ -2904,57 +2788,30 @@
 					<standard draft="contributed">澳大利亚西部标准时间</standard>
 					<daylight>澳大利亚西部夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">澳大利亚西部时间</generic>
-					<standard draft="contributed">澳大利亚西部标准时间</standard>
-					<daylight draft="contributed">澳大利亚西部夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
-					<generic draft="contributed">阿塞拜疆时间</generic>
 					<standard draft="contributed">阿塞拜疆标准时间</standard>
 					<daylight draft="contributed">阿塞拜疆夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<generic draft="contributed">亚述尔群岛时间</generic>
 					<standard draft="contributed">亚述尔群岛时间</standard>
 					<daylight draft="contributed">亚述尔群岛夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">亚述尔时间</generic>
-					<standard draft="contributed">亚述尔群岛时间</standard>
-					<daylight draft="contributed">亚述尔群岛夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Baku">
 				<long>
-					<generic draft="contributed">巴库时间</generic>
-					<standard draft="provisional">巴库标准时间</standard>
+					<standard draft="contributed">巴库标准时间</standard>
 					<daylight draft="contributed">巴库夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">巴库时间</standard>
-					<daylight draft="contributed">巴库标准时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
-					<generic draft="contributed">孟加拉时间</generic>
 					<standard draft="contributed">孟加拉标准时间</standard>
 					<daylight draft="contributed">孟加拉夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">孟加拉夏令时间</standard>
-					<daylight draft="contributed">BDT</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Bering">
 				<long>
@@ -2962,53 +2819,40 @@
 					<standard draft="contributed">白令标准时间</standard>
 					<daylight draft="contributed">白令夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
-					<generic draft="contributed">不丹时间</generic>
 					<standard draft="contributed">不丹标准时间</standard>
-					<daylight draft="contributed">不丹夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">孟加拉标准时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Bolivia">
 				<long>
-					<standard draft="contributed">玻利維亞時間</standard>
+					<standard>玻利维亚时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Borneo">
 				<long>
-					<generic draft="contributed">婆罗洲时间</generic>
 					<standard draft="contributed">婆罗洲标准时间</standard>
-					<daylight draft="provisional">婆罗洲夏令时间</daylight>
+					<daylight draft="contributed">婆罗洲夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<generic draft="contributed">巴西利亚时间</generic>
 					<standard draft="contributed">巴西利亚标准时间</standard>
 					<daylight draft="contributed">巴西利亚夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
 					<standard draft="contributed">汶萊時間</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">文莱时间</standard>
+					<standard alt="proposed-x1002" draft="unconfirmed">文莱达鲁萨兰国时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
 					<standard draft="contributed">查莫罗标准时区</standard>
 				</long>
-				<short>
-					<standard draft="contributed">查莫罗标准时区</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Changbai">
 				<long>
@@ -3017,11 +2861,9 @@
 			</metazone>
 			<metazone type="Chile">
 				<long>
-					<generic draft="contributed">智利时间</generic>
 					<standard draft="contributed">智利标准时间</standard>
 					<daylight draft="contributed">智利夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="China">
 				<long>
@@ -3034,108 +2876,95 @@
 					<standard draft="contributed">CST（中国）</standard>
 					<daylight draft="contributed">CDT（中国）</daylight>
 				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
-					<generic draft="contributed">乔巴山时间</generic>
 					<standard draft="contributed">乔巴山标准时间</standard>
 					<daylight draft="contributed">乔巴山夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Colombia">
 				<long>
-					<standard draft="contributed">哥倫比亞時間</standard>
-					<daylight draft="contributed">哥倫比亞夏令時間</daylight>
+					<standard>哥伦比亚时间</standard>
+					<daylight>哥伦比亚夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cuba">
 				<long>
-					<generic draft="contributed">古巴時間</generic>
-					<standard draft="contributed">古巴標準時間</standard>
-					<daylight draft="contributed">古巴夏令時間</daylight>
+					<generic>古巴时间</generic>
+					<standard>古巴标准时间</standard>
+					<daylight>古巴夏令时间</daylight>
 				</long>
+				<short>
+					<standard draft="contributed">CST（古巴）</standard>
+					<daylight draft="contributed">CDT（古巴）</daylight>
+				</short>
 			</metazone>
 			<metazone type="Dacca">
 				<long>
-					<generic draft="contributed">达卡时间</generic>
 					<standard draft="contributed">达卡标准时间</standard>
-					<daylight draft="contributed">达卡夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
-					<generic draft="contributed">杜尚别时间</generic>
 					<standard draft="contributed">杜尚别标准时间</standard>
 					<daylight draft="contributed">杜尚别夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Dutch_Guiana">
 				<long>
-					<generic draft="contributed">荷属圭亚那时间</generic>
 					<standard draft="contributed">荷属圭亚那标准时间</standard>
-					<daylight draft="contributed">荷属圭亚那夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="East_Timor">
 				<long>
-					<generic draft="contributed">东帝汶时间</generic>
 					<standard draft="contributed">东帝汶标准时间</standard>
-					<daylight draft="contributed">东帝汶夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Ecuador">
 				<long>
 					<standard draft="contributed">厄瓜多尔标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<generic draft="contributed">中欧时间</generic>
 					<standard>中欧标准时间</standard>
 					<daylight>中欧夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<generic draft="contributed">东欧时间</generic>
 					<standard>东欧标准时间</standard>
 					<daylight>东欧夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<generic draft="contributed">西欧时间</generic>
 					<standard draft="contributed">欧洲西部时间</standard>
 					<daylight draft="contributed">欧洲西部夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">西欧时间</generic>
-					<standard draft="contributed">欧洲西部时间</standard>
-					<daylight draft="contributed">欧洲西部夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="French_Guiana">
 				<long>
-					<standard draft="contributed">法屬圭亞那時間</standard>
+					<standard>法属圭亚那时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Frunze">
 				<long>
-					<generic draft="contributed">伏龙芝时间</generic>
 					<standard draft="contributed">伏龙芝标准时间</standard>
 					<daylight draft="contributed">伏龙芝夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
+			</metazone>
+			<metazone type="Galapagos">
+				<long>
+					<standard draft="contributed">加拉帕戈斯时间</standard>
+				</long>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<standard draft="contributed">格鲁吉亚标准时间</standard>
+					<daylight draft="contributed">格鲁吉亚夏令时间</daylight>
+				</long>
 			</metazone>
 			<metazone type="GMT">
 				<long>
@@ -3143,63 +2972,28 @@
 				</long>
 				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
-			<metazone type="Galapagos">
-				<long>
-					<generic draft="contributed">加拉帕戈斯时间</generic>
-					<standard draft="contributed">加拉帕戈斯时间</standard>
-					<daylight draft="contributed">加拉帕戈斯夏令时间</daylight>
-				</long>
-				<short>
-					<generic draft="contributed">加拉帕哥斯时间</generic>
-					<standard draft="contributed">加拉帕戈斯时间</standard>
-					<daylight draft="contributed">加拉帕哥斯夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
-			</metazone>
-			<metazone type="Georgia">
-				<long>
-					<generic draft="contributed">格鲁吉亚时间</generic>
-					<standard draft="contributed">格鲁吉亚标准时间</standard>
-					<daylight draft="contributed">格鲁吉亚夏令时间</daylight>
-				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
-			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
-					<generic draft="contributed">格林兰中部时间</generic>
 					<standard draft="contributed">格林兰中部标准时间</standard>
 					<daylight draft="contributed">格林兰中部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
-					<generic draft="contributed">格林兰东部时间</generic>
 					<standard draft="contributed">格林兰东部标准时间</standard>
 					<daylight draft="contributed">格林兰东部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
-					<generic draft="contributed">格林兰西部时间</generic>
 					<standard draft="contributed">格林兰西部标准时间</standard>
 					<daylight draft="contributed">格林兰西部夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Guam">
 				<long>
-					<generic draft="contributed">关岛时间</generic>
 					<standard draft="contributed">关岛标准时间</standard>
-					<daylight draft="contributed">关岛夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">关岛时间</generic>
-					<standard draft="contributed">关岛标准时间</standard>
-					<daylight draft="contributed">关岛夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Gulf">
 				<long>
@@ -3208,119 +3002,102 @@
 			</metazone>
 			<metazone type="Guyana">
 				<long>
-					<standard draft="contributed">蓋亞那時間</standard>
+					<standard>盖亚那时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<standard draft="contributed">夏威夷—阿留申标准时间</standard>
 				</long>
-				<short>
-					<standard draft="contributed">夏威夷—阿留申标准时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<standard draft="contributed">香港時間</standard>
-					<daylight draft="contributed">香港夏令時間</daylight>
+					<standard>香港时间</standard>
+					<daylight>香港夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
-					<standard draft="contributed">科布多時間</standard>
-					<daylight draft="contributed">科布多夏令時間</daylight>
+					<standard>科布多时间</standard>
+					<daylight>科布多夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="India">
 				<long>
 					<standard draft="contributed">印度标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
 					<standard draft="contributed">印度尼西亚中部标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
 					<standard draft="contributed">印度尼西亚东部标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
 					<standard draft="contributed">印度尼西亚西部标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Iran">
 				<long>
-					<standard draft="contributed">伊朗標準時間</standard>
-					<daylight draft="contributed">伊朗夏令時間</daylight>
+					<standard>伊朗标准时间</standard>
+					<daylight>伊朗夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
-					<standard draft="contributed">伊爾庫茨克時間</standard>
-					<daylight draft="contributed">伊爾庫茨克夏令時間</daylight>
+					<standard>伊尔库茨克时间</standard>
+					<daylight>伊尔库茨克夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
-					<generic draft="contributed">以色列时间</generic>
+					<generic>以色列时间</generic>
 					<standard>以色列标准时间</standard>
 					<daylight>以色列夏令时间</daylight>
 				</long>
 				<short>
-					<standard>IST (Israel)</standard>
+					<standard>IST (以色列)</standard>
 				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Japan">
 				<long>
-					<generic draft="contributed">日本時間</generic>
+					<generic>日本时间</generic>
 					<standard>日本标准时间</standard>
 					<daylight>日本夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Karachi">
 				<long>
-					<generic draft="contributed">卡拉奇时间</generic>
 					<standard draft="contributed">卡拉奇标准时间</standard>
-					<daylight draft="contributed">卡拉奇夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kashgar">
 				<long>
 					<standard draft="contributed">喀什标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
 					<generic draft="contributed">哈萨克斯坦东部时间</generic>
 					<standard draft="contributed">哈萨克斯坦东部标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
 					<generic draft="contributed">哈萨克斯坦西部时间</generic>
 					<standard draft="contributed">哈萨克斯坦西部标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
-					<generic draft="contributed">Kizilorda 时间</generic>
-					<standard draft="contributed">Kizilorda 标准时间</standard>
-					<daylight draft="contributed">Kizilorda 夏令时间</daylight>
+					<standard draft="contributed">克孜勒奥尔达标准时间</standard>
+					<daylight draft="contributed">克孜勒奥尔达夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Korea">
 				<long>
@@ -3328,54 +3105,27 @@
 					<standard draft="contributed">韩国标准时间</standard>
 					<daylight draft="contributed">韩国夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<generic draft="contributed">古比雪夫时间</generic>
 					<standard draft="contributed">古比雪夫时间</standard>
 					<daylight draft="contributed">古比雪夫夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">古比雪夫时间</standard>
-					<daylight draft="contributed">古比雪夫夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kwajalein">
 				<long>
-					<generic draft="contributed">夸贾林时间</generic>
 					<standard draft="contributed">夸贾林时间</standard>
-					<daylight draft="contributed">夸贾林夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">夸贾林时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
-					<generic draft="contributed">Kyrgystan 时间</generic>
-					<standard draft="contributed">Kyrgystan 标准时间</standard>
-					<daylight draft="contributed">Kyrgystan 夏令时间</daylight>
+					<standard draft="contributed">吉尔吉斯斯坦标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Lanka">
 				<long>
-					<generic draft="contributed">Lanka 时间</generic>
-					<standard draft="contributed">Lanka 标准时间</standard>
-					<daylight draft="contributed">Lanka 夏令时间</daylight>
+					<standard draft="contributed">斯里兰卡标准时间</standard>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
-			</metazone>
-			<metazone type="Long_Shu">
-				<long>
-					<generic draft="contributed">Long-Shu 时间</generic>
-					<standard draft="contributed">Long-Shu 标准时间</standard>
-					<daylight draft="contributed">Long-Shu 夏令时间</daylight>
-				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
@@ -3383,59 +3133,39 @@
 					<standard draft="contributed">罗德毫岛标准时间</standard>
 					<daylight draft="contributed">罗德毫岛夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">罗德毫岛标准时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Macau">
 				<long>
-					<generic draft="contributed">澳门时间</generic>
 					<standard draft="contributed">澳门标准时间</standard>
 					<daylight draft="contributed">澳门夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<standard draft="contributed">馬加丹時間</standard>
-					<daylight draft="contributed">馬加丹夏令時間</daylight>
+					<standard>马加丹时间</standard>
+					<daylight>马加丹夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Malaya">
 				<long>
-					<generic draft="contributed">马来亚时间</generic>
 					<standard draft="contributed">马来亚标准时间</standard>
-					<daylight draft="contributed">马来亚夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Malaysia">
 				<long>
-					<generic draft="contributed">马来西亚时间</generic>
 					<standard draft="contributed">马来西亚标准时间</standard>
-					<daylight draft="contributed">马来西亚夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
-					<generic draft="contributed">马绍尔群岛时间</generic>
 					<standard draft="contributed">马绍尔群岛时间</standard>
-					<daylight draft="contributed">马绍尔群岛夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">马绍尔群岛时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">乌兰巴托时间</generic>
 					<standard draft="contributed">乌兰巴托标准时间</standard>
 					<daylight draft="contributed">乌兰巴托夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
@@ -3443,16 +3173,15 @@
 					<standard draft="contributed">莫斯科标准时间</standard>
 					<daylight draft="contributed">莫斯科夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Myanmar">
 				<long>
-					<standard draft="contributed">緬甸時間</standard>
+					<standard>缅甸时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Nepal">
 				<long>
-					<standard draft="contributed">尼泊爾時間</standard>
+					<standard>尼泊尔时间</standard>
 				</long>
 			</metazone>
 			<metazone type="New_Zealand">
@@ -3461,75 +3190,59 @@
 					<standard draft="contributed">新西兰标准时间</standard>
 					<daylight draft="contributed">新西兰夏令时间</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">新西兰时间</generic>
-					<standard draft="contributed">新西兰标准时间</standard>
-					<daylight draft="contributed">新西兰夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
-					<generic draft="contributed">纽芬兰时间</generic>
+					<generic>纽芬兰时间</generic>
 					<standard>纽芬兰标准时间</standard>
 					<daylight>纽芬兰夏令时间</daylight>
 				</long>
-				<short>
-					<standard>纽芬兰标准时间</standard>
-					<daylight>纽芬兰夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<standard draft="contributed">爾南多-迪諾羅尼亞島時間</standard>
-					<daylight draft="contributed">爾南多-迪諾羅尼亞島夏令時間</daylight>
+					<standard>费尔南多-迪诺罗尼亚岛时间</standard>
+					<daylight>费尔南多-迪诺罗尼亚岛夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="North_Mariana">
 				<long>
-					<generic draft="contributed">北马里亚纳群岛时间</generic>
 					<standard draft="contributed">北马里亚纳群岛时间</standard>
-					<daylight draft="contributed">北马里亚纳群岛夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
-					<standard draft="contributed">新西伯利亞時間</standard>
-					<daylight draft="contributed">新西伯利亞夏令時間</daylight>
+					<standard>新西伯利亚时间</standard>
+					<daylight>新西伯利亚夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<standard draft="contributed">鄂木斯克時間</standard>
-					<daylight draft="contributed">鄂木斯克夏令時間</daylight>
+					<standard>鄂木斯克时间</standard>
+					<daylight>鄂木斯克夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
-					<generic draft="contributed">巴基斯坦时间</generic>
 					<standard draft="contributed">巴基斯坦标准时间</standard>
 					<daylight draft="contributed">巴基斯坦夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<standard draft="contributed">巴拉圭時間</standard>
-					<daylight draft="contributed">巴拉圭夏令時間</daylight>
+					<standard>巴拉圭时间</standard>
+					<daylight>巴拉圭夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
-					<standard draft="contributed">秘魯時間</standard>
-					<daylight draft="contributed">秘魯夏令時間</daylight>
+					<standard>秘鲁时间</standard>
+					<daylight>秘鲁夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
-					<standard draft="contributed">菲律賓時間</standard>
-					<daylight draft="contributed">菲律賓夏令時間</daylight>
+					<standard>菲律宾时间</standard>
+					<daylight>菲律宾夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pierre_Miquelon">
@@ -3538,189 +3251,150 @@
 					<standard draft="contributed">彼得岛和米克隆岛标准时间</standard>
 					<daylight draft="contributed">彼得岛和米克隆岛夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
-					<generic draft="contributed">克孜勒奥尔达时间</generic>
 					<standard draft="contributed">克孜勒奥尔达标准时间</standard>
 					<daylight draft="contributed">克孜勒奥尔达夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<standard draft="contributed">庫頁島時間</standard>
-					<daylight draft="contributed">庫頁島夏令時間</daylight>
+					<standard>库页岛时间</standard>
+					<daylight>库页岛夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<generic draft="contributed">萨马拉时间</generic>
 					<standard draft="contributed">萨马拉时间</standard>
 					<daylight draft="contributed">萨马拉夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">萨马拉时间</standard>
-					<daylight draft="contributed">萨马拉夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Samarkand">
 				<long>
-					<generic draft="contributed">撒马尔罕时间</generic>
 					<standard draft="contributed">撒马尔罕标准时间</standard>
 					<daylight draft="contributed">撒马尔罕夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Samoa">
 				<long>
-					<generic draft="contributed">萨摩亚时间</generic>
 					<standard draft="contributed">萨摩亚标准时间</standard>
-					<daylight draft="contributed">萨摩亚夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">瑞典夏令时间</standard>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Shevchenko">
 				<long>
 					<standard draft="contributed">舍甫琴科时间</standard>
 					<daylight draft="contributed">舍甫琴科夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Singapore">
 				<long>
-					<standard draft="contributed">新加坡標準時間</standard>
+					<standard>新加坡标准时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Suriname">
 				<long>
-					<generic draft="contributed">苏里南夏令时间</generic>
 					<standard draft="contributed">苏里南标准时间</standard>
 				</long>
-				<short>
-					<daylight draft="contributed">蘇利南夏令時間</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Sverdlovsk">
 				<long>
-					<generic draft="contributed">斯维尔德洛夫斯克时间</generic>
 					<standard draft="contributed">斯维尔德洛夫斯克标准时间</standard>
 					<daylight draft="contributed">斯维尔德洛夫斯克夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
+			</metazone>
+			<metazone type="Taipei">
+				<long>
+					<generic>台北时间</generic>
+					<standard>台北标准时间</standard>
+					<daylight>台北夏令时间</daylight>
+				</long>
+				<short>
+					<generic>CT（台北）</generic>
+					<standard>CST（台北）</standard>
+					<daylight>CDT（台北）</daylight>
+				</short>
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<generic draft="contributed">塔吉克斯坦时间</generic>
 					<standard draft="contributed">塔吉克斯坦标准时间</standard>
-					<daylight draft="contributed">塔吉克斯坦夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
-					<generic draft="contributed">塔什干时间</generic>
 					<standard draft="contributed">塔什干标准时间</standard>
 					<daylight draft="contributed">塔什干夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
-					<generic draft="contributed">第比利斯时间</generic>
 					<standard draft="contributed">第比利斯标准时间</standard>
 					<daylight draft="contributed">第比利斯夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<generic draft="contributed">土耳其时间</generic>
 					<standard draft="contributed">土耳其时间</standard>
 					<daylight draft="contributed">土耳其夏令时间</daylight>
 				</long>
-				<short>
-					<standard draft="contributed">土耳其时间</standard>
-					<daylight draft="contributed">土耳其夏令时间</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
-					<generic draft="contributed">土库曼斯坦时间</generic>
 					<standard draft="contributed">土库曼斯坦标准时间</standard>
 					<daylight draft="contributed">土库曼斯坦夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<generic draft="contributed">乌拉尔斯克时间</generic>
 					<standard draft="contributed">乌拉尔斯克标准时间</standard>
 					<daylight draft="contributed">乌拉尔斯克夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
-					<standard draft="contributed">烏拉圭時間</standard>
-					<daylight draft="contributed">烏拉圭夏令時間</daylight>
+					<standard>乌拉圭时间</standard>
+					<daylight>乌拉圭夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Urumqi">
 				<long>
-					<generic draft="contributed">乌鲁木齐时间</generic>
 					<standard draft="contributed">乌鲁木齐标准时间</standard>
-					<daylight draft="contributed">乌鲁木齐夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
-					<generic draft="contributed">乌兹别克斯坦时间</generic>
 					<standard draft="contributed">乌兹别克斯坦标准时间</standard>
 					<daylight draft="contributed">乌兹别克斯坦夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Venezuela">
 				<long>
-					<standard draft="contributed">委內瑞拉時間</standard>
+					<standard>委内瑞拉时间</standard>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<standard draft="contributed">海參崴時間</standard>
-					<daylight draft="contributed">海參崴夏令時間</daylight>
+					<standard>海参崴时间</standard>
+					<daylight>海参崴夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<standard draft="contributed">雅庫茨克時間</standard>
-					<daylight draft="contributed">雅庫茨克夏令時間</daylight>
+					<standard>雅库茨克时间</standard>
+					<daylight>雅库茨克夏令时间</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic draft="contributed">叶卡捷琳堡时间</generic>
 					<standard draft="contributed">叶卡捷琳堡标准时间</standard>
 					<daylight draft="contributed">叶卡捷琳堡夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
-					<generic draft="contributed">埃里温时间</generic>
 					<standard draft="contributed">埃里温标准时间</standard>
 					<daylight draft="contributed">埃里温夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Yukon">
 				<long>
@@ -3728,7 +3402,6 @@
 					<standard draft="contributed">育空标准时间</standard>
 					<daylight draft="contributed">育空夏令时间</daylight>
 				</long>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -3983,9 +3656,6 @@
 			<currency type="EGP">
 				<displayName references="R502">埃及镑</displayName>
 			</currency>
-			<currency type="EQE">
-				<displayName references="R502">埃奎勒</displayName>
-			</currency>
 			<currency type="ERN">
 				<displayName references="R502">厄立特里亚纳克法</displayName>
 			</currency>
@@ -4029,7 +3699,7 @@
 				<displayName>加纳塞第</displayName>
 			</currency>
 			<currency type="GHS">
-				<displayName draft="contributed">加纳塞迪</displayName>
+				<displayName>加纳塞地</displayName>
 			</currency>
 			<currency type="GIP">
 				<displayName references="R502">直布罗陀镑</displayName>
@@ -4063,7 +3733,6 @@
 			</currency>
 			<currency type="HKD">
 				<displayName>港元</displayName>
-				<symbol>HK$</symbol>
 			</currency>
 			<currency type="HNL">
 				<displayName references="R502">洪都拉斯拉伦皮拉</displayName>
@@ -4106,7 +3775,6 @@
 			</currency>
 			<currency type="ITL">
 				<displayName>意大利里拉</displayName>
-				<symbol>ITL</symbol>
 			</currency>
 			<currency type="JMD">
 				<displayName>牙买加元</displayName>
@@ -4159,9 +3827,6 @@
 			</currency>
 			<currency type="LSL">
 				<displayName references="R502">莱索托洛蒂</displayName>
-			</currency>
-			<currency type="LSM">
-				<displayName references="R502">马洛蒂</displayName>
 			</currency>
 			<currency type="LTL">
 				<displayName references="R502">立陶宛立特</displayName>
@@ -4216,7 +3881,6 @@
 			</currency>
 			<currency type="MOP">
 				<displayName>澳门元</displayName>
-				<symbol>P</symbol>
 			</currency>
 			<currency type="MRO">
 				<displayName references="R502">毛里塔尼亚乌吉亚</displayName>
@@ -4252,10 +3916,11 @@
 				<displayName>莫桑比克埃斯库多</displayName>
 			</currency>
 			<currency type="MZM">
-				<displayName references="R502">莫桑比克梅蒂卡尔</displayName>
+				<displayName>旧莫桑比克美提卡</displayName>
 			</currency>
 			<currency type="MZN">
-				<displayName draft="contributed">莫桑比克美提卡</displayName>
+				<displayName>莫桑比克美提卡</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">莫桑比克梅蒂卡尔</displayName>
 			</currency>
 			<currency type="NAD">
 				<displayName>纳米比亚元</displayName>
@@ -4288,8 +3953,7 @@
 				<displayName>巴拿马巴波亚</displayName>
 			</currency>
 			<currency type="PEI">
-				<displayName references="R507">秘鲁印锑</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">秘鲁印第</displayName>
+				<displayName>秘鲁印第</displayName>
 			</currency>
 			<currency type="PEN">
 				<displayName references="R502">秘鲁新索尔</displayName>
@@ -4344,7 +4008,6 @@
 			</currency>
 			<currency type="SAR">
 				<displayName>沙特里亚尔</displayName>
-				<symbol>SRl</symbol>
 			</currency>
 			<currency type="SBD">
 				<displayName>所罗门群岛元</displayName>
@@ -4360,19 +4023,15 @@
 			</currency>
 			<currency type="SDP">
 				<displayName>旧苏丹镑</displayName>
-				<displayName references="R507" alt="proposed-x1001" draft="unconfirmed">苏丹镑</displayName>
-				<displayName alt="proposed-x1002" draft="unconfirmed">SDP</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName references="R502">瑞典克朗</displayName>
 			</currency>
 			<currency type="SGD">
 				<displayName>新加坡元</displayName>
-				<symbol>S$</symbol>
 			</currency>
 			<currency type="SHP">
-				<displayName references="R507">圣赫勒拿镑</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">圣赫勒拿群岛磅</displayName>
+				<displayName>圣赫勒拿群岛磅</displayName>
 			</currency>
 			<currency type="SIT">
 				<displayName references="R502">斯洛文尼亚托拉尔</displayName>
@@ -4438,8 +4097,7 @@
 				<displayName>特立尼达和多巴哥元</displayName>
 			</currency>
 			<currency type="TWD">
-				<displayName references="R502">新台币元</displayName>
-				<symbol>NT$</symbol>
+				<displayName>新台币</displayName>
 			</currency>
 			<currency type="TZS">
 				<displayName>坦桑尼亚先令</displayName>
@@ -4478,7 +4136,7 @@
 				<displayName references="R502">委内瑞拉博利瓦</displayName>
 			</currency>
 			<currency type="VEF">
-				<displayName draft="contributed">Venezuelan Bolivar Fuerte</displayName>
+				<displayName>委内瑞拉强势玻利瓦</displayName>
 			</currency>
 			<currency type="VND">
 				<displayName>越南盾</displayName>
@@ -4538,7 +4196,7 @@
 				<displayName references="R502">铂</displayName>
 			</currency>
 			<currency type="XRE">
-				<displayName draft="contributed">RINET 基金</displayName>
+				<displayName>RINET 基金</displayName>
 			</currency>
 			<currency type="XTS">
 				<displayName references="R502">为测试保留的代码</displayName>
@@ -4584,24 +4242,31 @@
 	<units>
 		<unit type="day">
 			<unitPattern count="other">{0}日</unitPattern>
+			<unitPattern count="other" alt="short">{0}日</unitPattern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0}时</unitPattern>
+			<unitPattern count="other">{0}小时</unitPattern>
+			<unitPattern count="other" alt="short">{0}小时</unitPattern>
 		</unit>
 		<unit type="minute">
 			<unitPattern count="other">{0}分</unitPattern>
+			<unitPattern count="other" alt="short">{0}分</unitPattern>
 		</unit>
 		<unit type="month">
 			<unitPattern count="other">{0}月</unitPattern>
+			<unitPattern count="other" alt="short">{0}月</unitPattern>
 		</unit>
 		<unit type="second">
 			<unitPattern count="other">{0}秒</unitPattern>
+			<unitPattern count="other" alt="short">{0}秒</unitPattern>
 		</unit>
 		<unit type="week">
 			<unitPattern count="other">{0}周</unitPattern>
+			<unitPattern count="other" alt="short">{0}周</unitPattern>
 		</unit>
 		<unit type="year">
 			<unitPattern count="other">{0}年</unitPattern>
+			<unitPattern count="other" alt="short">{0}年</unitPattern>
 		</unit>
 	</units>
 	<posix>
@@ -4640,7 +4305,7 @@
 		<reference type="R526">Chinese (Simplified Han): currencies: &quot;Belarussian New Ruble (1994-1999) (symbol)&quot; propose &quot;BYB (1994-1999)&quot;</reference>
 		<reference type="R527">Chinese (Simplified Han): languages: &quot;Cornish&quot; propose &quot;康沃尔文&quot;</reference>
 		<reference type="R528">Kingsoft Online Dictionary</reference>
-		<reference type="R529" uri="http://www.xzqh.org/waiguo/asia/1046.htm">Chinese (Simplified Han): timezones: Asia/Oral/exemplarCity (change from  &quot;奥拉&quot; to &quot;乌拉尔&quot;)</reference>
+		<reference type="R529" uri="http://www.xzqh.org/waiguo/asia/1046.htm">Chinese (Simplified Han): timezones: Asia/Oral/exemplarCity (change from &quot;奥拉&quot; to &quot;乌拉尔&quot;)</reference>
 		<reference type="R530">Chinese (Simplified Han): currencies: &quot;Angolan New Kwanza (1990-2000) (symbol) propose &quot;AON (1990-2000)&quot;</reference>
 		<reference type="R531">Chinese (Simplified Han): timezones: Europe/Paris/short/daylight (chang from &quot;CEST&quot; to &quot;CEDT&quot;)</reference>
 		<reference type="R532">Chinese (Simplified Han): timezones: Asia/Tokyo/short/daylight (change form &quot;JST&quot; to &quot;JDT&quot;)</reference>
@@ -4648,7 +4313,7 @@
 		<reference type="R534" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Central European Daylight Time (change from “中歐日光節約時間” to “中歐夏令時間”)</reference>
 		<reference type="R535" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Cham.htm">Script : Cham (It's a new term)</reference>
 		<reference type="R536" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Pacific Daylight Time(change from “太平洋日光節約時間” to “太平洋夏令時間”)</reference>
-		<reference type="R537" uri="http://www.ncn.org/asp/zwgInfo/bg_Da.asp?ID=67438%20&amp;amp;amp;ad=1/2/2006">Script : Kayah Li  (It's a new term)</reference>
+		<reference type="R537" uri="http://www.ncn.org/asp/zwgInfo/bg_Da.asp?ID=67438%20&amp;amp;amp;ad=1/2/2006">Script : Kayah Li (It's a new term)</reference>
 		<reference type="R538" uri="http://www.google.com/search?q=Filipino&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=40&amp;amp;amp;sa=N">Language: Filipino (change from &amp;amp;quot;fil&amp;amp;quot; to &amp;amp;quot;菲律賓文&amp;amp;quot;)</reference>
 		<reference type="R539" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Louisville&amp;amp;amp;btnG=Google+%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Louisville&amp;amp;amp;btnG=Google+%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW</reference>
 		<reference type="R540" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Newfoundland Daylight Time(change from “纽芬蘭日光節約時間” to “纽芬蘭夏令時間”)</reference>
@@ -4664,14 +4329,14 @@
 		<reference type="R550">Currencies: East German Ostmark (change from &amp;amp;quot;東德東德馬克&amp;amp;quot; to &amp;amp;quot;東德奧斯特馬克&amp;amp;quot;)</reference>
 		<reference type="R551" uri="http://www.evangellite.org/159/article01.html &amp;amp;amp; http://wordpedia.britannica.com/concise/content.aspx?id=488&amp;amp;amp;hash=O12Uh%2FEcmekMDUZER8jE%2BA%3D%3D&amp;amp;amp;t=3">Script : Sumero-Akkadian Cuneiform (It's a new term)</reference>
 		<reference type="R552">Currencies: El Salvador Colon (change from &amp;amp;quot;愛爾 薩爾瓦多科郎&amp;amp;quot; to &amp;amp;quot;愛爾薩爾瓦多科郎&amp;amp;quot;)</reference>
-		<reference type="R553" uri="http://www.3miao.net/Article/ShowArticle.asp?ArticleID=717">Script :Pahawh Hmong   (It's a new term)</reference>
+		<reference type="R553" uri="http://www.3miao.net/Article/ShowArticle.asp?ArticleID=717">Script :Pahawh Hmong (It's a new term)</reference>
 		<reference type="R554" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Petersburg&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Petersburg&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW</reference>
 		<reference type="R555" uri="//www.google.com/search?q=Moncton&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Moncton(This is a new word, change from “Moncton” to “曼克頓”)</reference>
-		<reference type="R556" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal  (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
+		<reference type="R556" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
 		<reference type="R557" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Hawaii Daylight Time(change from “夏威夷標準時間” to “夏威夷夏令時間”)</reference>
 		<reference type="R558" uri="http://www.google.com/search?q=Haitian&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=0&amp;amp;amp;sa=N">Language: Haitian (change from &amp;amp;quot;海地人&amp;amp;quot; to &amp;amp;quot;海地文&amp;amp;quot;)</reference>
 		<reference type="R559">Currencies: Serbian Dinar (change from &amp;amp;quot;Serbian Dinar&amp;amp;quot; to &amp;amp;quot;塞爾維亞第納爾&amp;amp;quot;)</reference>
-		<reference type="R560" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
+		<reference type="R560" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
 		<reference type="R561" uri="http://www.ntctc.edu.tw/spc/ebook/pdf/9003/1.pdf">Script :Blissymbols (It's a new term)</reference>
 		<reference type="R562" uri="http://tw.britannica.com/MiniSite/Article/id00036950.html">Script : Linear A (It's a new term)</reference>
 		<reference type="R563" uri="none">Language: Egyptian (Ancient) (change from &amp;amp;quot;古埃及文)&amp;amp;quot; to &amp;amp;quot;古埃及文&amp;amp;quot;)</reference>
@@ -4681,7 +4346,7 @@
 		<reference type="R567" uri="http://www.google.com/search?q=Commonwealth+of+Independent+States&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Territories: Commonwealth of Independent States (change from “Commonwealth of Independent States” to “獨立國家國協”)</reference>
 		<reference type="R568" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Indianapolis&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Timezones: Indianapolis (Indianapolis is a new word, change from “Indianapolis” to “印第安那波里斯”).</reference>
 		<reference type="R569">Currencies: Saint Helena Pound (change from &amp;amp;quot;聖赫勒拿 鎊&amp;amp;quot; to &amp;amp;quot;聖赫勒拿鎊&amp;amp;quot;)</reference>
-		<reference type="R570" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo  (change from “srn” to “蘇拉南東墎文”)</reference>
+		<reference type="R570" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo (change from “srn” to “蘇拉南東墎文”)</reference>
 		<reference type="R571" uri="http://tw.britannica.com/MiniSite/Article/id00048822.html">Script : Old Permic (It's a new term)</reference>
 		<reference type="R572" uri="http://egyptwords.blogspot.com/">Script : Egyptian hieratic (It's a new term)</reference>
 		<reference type="R573" uri="http://www.thisisthelife.com/zh/historical-sites/easter-island.htm">Script : Rongorongo (It's a new term)</reference>
@@ -4691,28 +4356,28 @@
 		<reference type="R577" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: America/Indianapolis/long/daylight (change from “東部標準時間” to “東部夏令時間”)</reference>
 		<reference type="R578" uri="http://203.64.158.220/ebintra/Content.asp?ContentID=25845 &amp;amp;amp;">Script : Lepcha (Róng) (It's a new term)</reference>
 		<reference type="R579">Currencies: Netherlands Antillan Guilder (change from &amp;amp;quot;荷蘭 安梯蘭 盾&amp;amp;quot; to &amp;amp;quot;荷蘭安梯蘭盾&amp;amp;quot;, extra spaces deleted)</reference>
-		<reference type="R580" uri="http://egyptwords.blogspot.com/">Script :  Egyptian demotic (It's a new term)</reference>
+		<reference type="R580" uri="http://egyptwords.blogspot.com/">Script : Egyptian demotic (It's a new term)</reference>
 		<reference type="R581" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Africa/Casablanca/long/daylight (change from “格林威治標準時間” to “格林威治夏令時間”)</reference>
 		<reference type="R582" uri="http://www.tattpe.org.tw/news_20051114-2.shtml">Script : New Tai Lue (It's a new term)</reference>
-		<reference type="R583" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc  ” to “ 古尼瓦爾文  ”)</reference>
+		<reference type="R583" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc ” to “ 古尼瓦爾文 ”)</reference>
 		<reference type="R584" uri="http://www.google.com/search?q=Germanic+(Other)&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=60&amp;amp;amp;sa=N">Language: Germanic (Other) (change from &amp;amp;quot;德國的(其他)&amp;amp;quot; to &amp;amp;quot;日耳曼文（其它）&amp;amp;quot;)</reference>
 		<reference type="R585" uri="http://www2.ccim.org:8088/dictionary/zhaoindex.jsp?k=Gnosticism">Script : Mandaean (It's a new term)</reference>
 		<reference type="R586" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Mountain Daylight Time(change from “山區日光節約時間” to “山區夏令時間”)</reference>
 		<reference type="R587" uri="http://www.google.com/search?q=Vincennes&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Vincennes (Louisville is a new word, change from “Vincennes” to “溫森斯”).</reference>
-		<reference type="R588" uri="http://zh.wikipedia.org/wiki/ÃƒÂ§Ã‚Â²Ã‚Â¾ÃƒÂ©Ã‚ï¿½Ã‚Ë†ÃƒÂ¨Ã‚ÂªÃ‚Å¾">Script : Sarati (It's a new term)</reference>
+		<reference type="R588" uri="http://zh.wikipedia.org/wiki/ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â²Ãƒâ€šÃ‚Â¾ÃƒÆ’Ã‚Â©Ãƒâ€šÃ¯Â¿Â½Ãƒâ€šÃ‹â€ ÃƒÆ’Ã‚Â¨Ãƒâ€šÃ‚ÂªÃƒâ€šÃ…Â¾">Script : Sarati (It's a new term)</reference>
 		<reference type="R589" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Latin+America+and+the+Caribbean&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Territories: Latin America and the Caribbean (change from “Latin America and the Caribbean” to “拉丁美洲和加勒比海”)</reference>
 		<reference type="R590" uri="http://zh.wikipedia.org/wiki/%E5%85%AB%E6%80%9D%E5%B7%B4%E5%AD%97">Script : Phags-pa (It's a new term)</reference>
 		<reference type="R591" uri="http://www.google.com/search?q=Dutch&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=20&amp;amp;amp;sa=N">Language: Middle Dutch (change from &amp;amp;quot;荷蘭，中古 (ca. 1050-1350)&amp;amp;quot; to &amp;amp;quot;荷蘭文，中古&amp;amp;quot;)</reference>
-		<reference type="R592" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Javanese&amp;amp;amp;btnG=Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Scripts: Javanese (change from “Java” to “爪哇文”)</reference>
-		<reference type="R593" uri="http://egyptwords.blogspot.com/">Script :  Egyptian hieroglyphs (It's a new term)</reference>
-		<reference type="R594" draft="unconfirmed">Language: Klingon (change from “tlh” to “克林貢文”)</reference>
+		<reference type="R592" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Javanese&amp;amp;amp;btnG=ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Scripts: Javanese (change from “Java” to “爪哇文”)</reference>
+		<reference type="R593" uri="http://egyptwords.blogspot.com/">Script : Egyptian hieroglyphs (It's a new term)</reference>
+		<reference type="R594">克林贡文</reference>
 		<reference type="R595">Currencies: Spanish Peseta (convertible account) (change from &amp;amp;quot;西班牙比塞塔（可轉換單位）&amp;amp;quot; to &amp;amp;quot;西班牙披索（可轉換單位）&amp;amp;quot;)</reference>
 		<reference type="R596">Currencies: Brazilian Cruzeiro Novo (1967-1986) (change from &amp;amp;quot;巴西克魯薩多 農瓦 (1967-1986)&amp;amp;quot; to &amp;amp;quot;巴西克魯薩多農瓦 (1967-1986)&amp;amp;quot;, extra spaces deleted)</reference>
 		<reference type="R597" uri="http://webtitle.nmh.gov.tw/india/page/page.php?id=103">Script : Kharoshthi (It's a new term)</reference>
 		<reference type="R598" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: America/Phoenix/long/daylight(change from “山區標準時間” to “山區夏令時間”)</reference>
 		<reference type="R599">Currencies: Spanish Peseta (A account) (change from &amp;amp;quot;西班牙比塞塔（會計單位）&amp;amp;quot; to &amp;amp;quot;西班牙披索（會計單位）&amp;amp;quot;)</reference>
-		<reference type="R600" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian  (change from “scn” to “西西里文”)</reference>
-		<reference type="R601" uri="http://www.unicode.org/cldr/data/common/main/zh_Hant.xml">Script : Buginese  (It's a new term)</reference>
+		<reference type="R600" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian (change from “scn” to “西西里文”)</reference>
+		<reference type="R601" uri="http://www.unicode.org/cldr/data/common/main/zh_Hant.xml">Script : Buginese (It's a new term)</reference>
 		<reference type="R602">Territories: Greenland (After check again, “格陵蘭”is right, please ignore: “陵蘭”)</reference>
 		<reference type="R603" uri="http://tw.britannica.com/MiniSite/Article/id00040761.html">Script : Meroitic (It's a new term)</reference>
 		<reference type="R604" uri="http://wordpedia.britannica.com/concise/content.aspx?id=570&amp;amp;amp;hash=vsW50K8BiqKfMw5LJ8gJmA%3D%3D&amp;amp;amp;t=3">Script : Cyrillic (Old Church Slavonic variant) (It's a new term)</reference>
@@ -4743,17 +4408,17 @@
 		<reference type="R629" uri="http://hk.dictionary.yahoo.com/search.html?s=Gaelic">Script : Latin (Gaelic variant) (It's a new term)</reference>
 		<reference type="R630" uri="http://tw.britannica.com/MiniSite/Article/id00049079.html">Script : Phoenician (It's a new term)</reference>
 		<reference type="R631" uri="http://www.zftrans.com/favorite/vocabulary/20050707/185716-83.htm">Timezones: Coral Harbour (Coral Harbour is a new word, change from “Coral Harbour” to “珊瑚港”).</reference>
-		<reference type="R632" uri="http://www.google.com/search?q=Dutch&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=20&amp;amp;amp;sa=N">Language: Middle Dutch  (change from “荷蘭，中古 (ca. 1050-1350)” to “中古荷蘭文”)</reference>
-		<reference type="R633" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Altai.htm">Language: Southern Altai  (change from “alt” to “南阿爾泰語”)</reference>
+		<reference type="R632" uri="http://www.google.com/search?q=Dutch&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=20&amp;amp;amp;sa=N">Language: Middle Dutch (change from “荷蘭，中古 (ca. 1050-1350)” to “中古荷蘭文”)</reference>
+		<reference type="R633" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Altai.htm">Language: Southern Altai (change from “alt” to “南阿爾泰語”)</reference>
 		<reference type="R634" uri="http://www.apecgender.org/Page_Show.asp?Page_ID=177">Timezones: Petersburg (Petersburg is a new word, change from “Petersburg” to “彼得堡”)</reference>
 		<reference type="R635" uri="http://www.taiwanus.us/MediaVideoAudio/books/history/b5/03.htm">Script: Batak (It's a new term)</reference>
 		<reference type="R636" uri="http://tw.britannica.com/MiniSite/Article/id00005994.html">Script: Brahmi (It's a new term)</reference>
-		<reference type="R637">types: Stroke Order  (change &amp;quot;筆劃顺序&amp;quot; to &amp;quot;筆劃順序&amp;quot;)</reference>
+		<reference type="R637">types: Stroke Order (change &amp;quot;筆劃顺序&amp;quot; to &amp;quot;筆劃順序&amp;quot;)</reference>
 		<reference type="R638" uri="http://www.google.com/search?q=Chuvash&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Chuvash (change from “楚瓦甚文” to “楚瓦士文”)</reference>
 		<reference type="R639" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: China Daylight Time(change from “中國標準時間” to “中國夏令時間”)</reference>
 		<reference type="R640">Currencies: Uzbekistan Sum (change from &amp;quot;烏茲別克斯坦 薩木&amp;quot; to &amp;quot;烏茲別克斯坦薩木&amp;quot;)</reference>
 		<reference type="R641" uri="http://www.google.com/search?q=Commonwealth+of+Independent+States&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Territories: Commonwealth of Independent States (change from “172” to “獨立國家國協”)</reference>
-		<reference type="R642" uri="http://www.google.com/search?q=Filipino&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=40&amp;amp;amp;sa=N">Language: Filipino  (change from “fil” to “菲律賓文”)</reference>
+		<reference type="R642" uri="http://www.google.com/search?q=Filipino&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=40&amp;amp;amp;sa=N">Language: Filipino (change from “fil” to “菲律賓文”)</reference>
 		<reference type="R643" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Eastern Daylight Time(change from “東部日光節約時間” to “東部夏令時間”)</reference>
 		<reference type="R644">Currencies: Brazilian Cruzeiro Novo (1967-1986) (change from &amp;quot;巴西克魯薩多 農瓦 (1967-1986)&amp;quot; to &amp;quot;巴西克魯薩多農瓦 (1967-1986)&amp;quot;)</reference>
 		<reference type="R645" uri="http://tw.britannica.com/MiniSite/Article/id00036950.html">Script: Linear B (It's a new term)</reference>
@@ -4766,14 +4431,14 @@
 		<reference type="R652" uri="http://www.zftrans.com/favorite/vocabulary/20050707/185716-83.htm">Timezones: Coral Harbour (Coral Harbour is a new word, change from “Coral Harbour” to “珊瑚港”).</reference>
 		<reference type="R653" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: America/Indianapolis/long/daylight (change from “東部標準時間” to “東部夏令時間”)</reference>
 		<reference type="R654" uri="http://www2.ccim.org:8088/dictionary/zhaoindex.jsp?k=Gnosticism">Script: Mandaean (It's a new term)</reference>
-		<reference type="R655" uri="RP39  http://blog.yam.com/festival/archives/1044108.html">Script: Bali (It's a new term)</reference>
+		<reference type="R655" uri="RP39 http://blog.yam.com/festival/archives/1044108.html">Script: Bali (It's a new term)</reference>
 		<reference type="R656" uri="//www.google.com/search?q=Moncton&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Moncton(This is a new word, change from “Moncton” to “曼克頓”)</reference>
 		<reference type="R657" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Pacific Daylight Time(change from “太平洋日光節約時間” to “太平洋夏令時間”)</reference>
 		<reference type="R658" uri="http://homework.wtuc.edu.tw/~wenlurg/forghis/0323-10.htm">Script: Indus (Harappan) (It's a new term)</reference>
 		<reference type="R659" uri="http://www.tattpe.org.tw/news_20051114-2.shtml">Script: New Tai Lue (It's a new term)</reference>
-		<reference type="R660" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal  (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
+		<reference type="R660" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
 		<reference type="R661">Currencies: Belgian Franc (convertible) (change from &amp;quot;比利時法郎 （可轉換）&amp;quot; to &amp;quot;比利時法郎（可轉換）&amp;quot;)</reference>
-		<reference type="R662" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc  ” to “ 古尼瓦爾文  ”)</reference>
+		<reference type="R662" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc ” to “ 古尼瓦爾文 ”)</reference>
 		<reference type="R663" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Central Daylight Time(change from “中部日光節約時間” to “中部夏令時間”)</reference>
 		<reference type="R664" uri="http://www.macaoheritage.net/Trends/NewsC.asp?nid=5678">Script: Orkhon (It's a new term)</reference>
 		<reference type="R665" uri="http://www.google.com/search?q=Central+Asia&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=270&amp;amp;amp;sa=N">Territories: Central Asia (change from “143” to “中亞”)</reference>
@@ -4797,7 +4462,7 @@
 		<reference type="R683" uri="http://www.gamez.com.tw/printthread.php?t=17770&amp;amp;amp;pp=40">Script: Cirth (It's a new term)</reference>
 		<reference type="R684" uri="http://egyptwords.blogspot.com/">Script: Egyptian demotic (It's a new term)</reference>
 		<reference type="R685" uri="http://egyptwords.blogspot.com/">Script: Egyptian hieroglyphs (It's a new term)</reference>
-		<reference type="R686" uri="http://www.google.com/search?q=Germanic+(Other)&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=60&amp;amp;amp;sa=N">Language: Germanic (Other)  (change from “德國的(其他)” to “日耳曼文（其它）”)</reference>
+		<reference type="R686" uri="http://www.google.com/search?q=Germanic+(Other)&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=60&amp;amp;amp;sa=N">Language: Germanic (Other) (change from “德國的(其他)” to “日耳曼文（其它）”)</reference>
 		<reference type="R687" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Hawaii Daylight Time(change from “夏威夷標準時間” to “夏威夷夏令時間”)</reference>
 		<reference type="R688" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Cham.htm">Script: Cham (It's a new term)</reference>
 		<reference type="R689" uri="http://www.ncn.org/asp/zwgInfo/bg_Da.asp?ID=67438%20&amp;amp;amp;ad=1/2/2006">Script: Kayah Li (It's a new term)</reference>
@@ -4806,20 +4471,20 @@
 		<reference type="R692">Currencies: Laotian Kip (change from &amp;quot;老撾 開普&amp;quot; to &amp;quot;老撾開普&amp;quot;)</reference>
 		<reference type="R693">Currencies: Ukrainian Karbovanetz (change from &amp;quot;烏克蘭 卡本瓦那茲&amp;quot; to &amp;quot;烏克蘭卡本瓦那茲&amp;quot;)</reference>
 		<reference type="R694">Currencies: CFA Franc BEAC (change from &amp;quot;西非 法郎 BEAC&amp;quot; to &amp;quot;西非法郎 BEAC&amp;quot;)</reference>
-		<reference type="R695" uri="http://www.google.com/search?q=Haitian&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=0&amp;amp;amp;sa=N">Language: Haitian  (change from “海地人” to “海地文”)</reference>
+		<reference type="R695" uri="http://www.google.com/search?q=Haitian&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=0&amp;amp;amp;sa=N">Language: Haitian (change from “海地人” to “海地文”)</reference>
 		<reference type="R696">Currencies: Tanzanian Shilling (change from &amp;quot;坦桑尼亞 先令&amp;quot; to &amp;quot;坦桑尼亞先令&amp;quot;)</reference>
 		<reference type="R697" uri="http://203.64.158.220/ebintra/Content.asp?ContentID=16907">Script: Glagolitic (It's a new term)</reference>
 		<reference type="R699">Currencies: El Salvador Colon (change from &amp;quot;愛爾 薩爾瓦多科郎&amp;quot; to &amp;quot;愛爾薩爾瓦多科郎&amp;quot;)</reference>
 		<reference type="R700">Currencies: Netherlands Antillan Guilder (change from &amp;quot;荷蘭 安梯蘭 盾&amp;quot; to &amp;quot;荷蘭安梯蘭盾&amp;quot;)</reference>
-		<reference type="R701" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
-		<reference type="R702" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script: Tifinagh (Berber)  (It's a new term)</reference>
+		<reference type="R701" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
+		<reference type="R702" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script: Tifinagh (Berber) (It's a new term)</reference>
 		<reference type="R703" uri="http://wordpedia.britannica.com/concise/content.aspx?id=570&amp;amp;amp;hash=vsW50K8BiqKfMw5LJ8gJmA%3D%3D&amp;amp;amp;t=3">Script: Cyrillic (Old Church Slavonic variant) (It's a new term)</reference>
 		<reference type="R704" uri="http://egyptwords.blogspot.com/">Script: Egyptian hieratic (It's a new term)</reference>
 		<reference type="R705" uri="http://www.fantasyweb.idv.tw/yilu/gallery/Spec/Tolkien_fonts/index.htm">Script: Tengwar (It's a new term)</reference>
 		<reference type="R706" uri="http://www.google.com/search?q=Vincennes&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Vincennes (Louisville is a new word, change from “Vincennes” to “溫森斯”).</reference>
 		<reference type="R707" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Southern+Africa&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Territories: Southern Africa (change from “南非” to “非洲南部”)</reference>
 		<reference type="R708" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Mountain Daylight Time(change from “山區日光節約時間” to “山區夏令時間”)</reference>
-		<reference type="R709" uri="http://www.google.com/search?q=Klingon+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Klingon  (change from “tlh” to “克林貢文”)</reference>
+		<reference type="R709" uri="http://www.google.com/search?q=Klingon+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Klingon (change from “tlh” to “克林貢文”)</reference>
 		<reference type="R710">Currencies: Nicaraguan Cordoba Oro (change from &amp;quot;尼加拉瓜 金哥多華&amp;quot; to &amp;quot;尼加拉瓜金哥多華&amp;quot;)</reference>
 		<reference type="R711">Currencies: Yugoslavian Convertible Dinar (change from &amp;quot;南斯拉夫 可轉換第納爾&amp;quot; to &amp;quot;南斯拉夫可轉換第納爾&amp;quot;)</reference>
 		<reference type="R712" uri="http://leoboard.cpatch.org/cgi-bin/topic.cgi?forum=4&amp;amp;amp;topic=164">Script: Javanese (It's a new term)</reference>
@@ -4827,10 +4492,10 @@
 		<reference type="R714" uri="http://webtitle.nmh.gov.tw/india/page/page.php?id=103">Script: Kharoshthi (It's a new term)</reference>
 		<reference type="R715">Currencies: Trinidad and Tobago Dollar (change from &amp;quot;千里達及托巴哥r&amp;quot; to &amp;quot;千里達及托巴哥&amp;quot;)</reference>
 		<reference type="R716" uri="http://tw.britannica.com/MiniSite/Article/id00040761.html">Script: Meroitic (It's a new term)</reference>
-		<reference type="R717" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo  (change from “srn” to “蘇拉南東墎文”)</reference>
-		<reference type="R718" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian  (change from “scn” to “西西里文”)</reference>
+		<reference type="R717" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo (change from “srn” to “蘇拉南東墎文”)</reference>
+		<reference type="R718" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian (change from “scn” to “西西里文”)</reference>
 		<reference type="R719">Currencies: CFA Franc BCEAO (change from &amp;quot;西非 法郎 BCEAO&amp;quot; to &amp;quot;西非法郎 BCEAO&amp;quot;)</reference>
-		<reference type="R720" draft="unconfirmed">Currencies: East German Ostmark (change from &amp;quot;東德東德馬克&amp;quot; to &amp;quot;東德奧斯特馬克&amp;quot;)</reference>
+		<reference type="R720">东德马克</reference>
 		<reference type="R721">Currencies: Swaziland Lilangeni (change from &amp;quot;斯威士蘭 里郎&amp;quot; to &amp;quot;斯威士蘭里郎&amp;quot;)</reference>
 		<reference type="R722" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Central European Daylight Time (change from “中歐日光節約時間” to “中歐夏令時間”)</reference>
 		<reference type="R723" uri="http://hk.dictionary.yahoo.com/search.html?s=Gaelic">Script: Latin (Gaelic variant) (It's a new term)</reference>
@@ -4849,42 +4514,42 @@
 		<reference type="R736">Currencies: Belgian Franc (convertible) (change from &amp;quot;比利時法郎 （可轉換）&amp;quot; to &amp;quot;比利時法郎（可轉換）&amp;quot;)</reference>
 		<reference type="R737" uri="http://www.google.com/search?q=Macao+S.A.R.,+China&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Territories: Macao S.A.R., China(change from “澳門特別行政區”to “中華人民共和國澳門特別行政區”)</reference>
 		<reference type="R738" uri="http://www.macaoheritage.net/Trends/NewsC.asp?nid=5678">Script: Orkhon (It's a new term)</reference>
-		<reference type="R739" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Altai.htm">Language: Southern Altai  (change from “alt” to “南阿爾泰語”)</reference>
+		<reference type="R739" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Altai.htm">Language: Southern Altai (change from “alt” to “南阿爾泰語”)</reference>
 		<reference type="R740" uri="http://www.e-safety.com.tw/1_main/103_learning/1037_news/ENS48/pdf/C6.pdf">Script: Gujarati (It's a new term)</reference>
 		<reference type="R741" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Latin+America+and+the+Caribbean&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Territories: Latin America and the Caribbean (change from “419” to “拉丁美洲和加勒比海”)</reference>
-		<reference type="R742" uri="http://www.ncn.org/asp/zwgInfo/bg_Da.asp?ID=67438%20&amp;amp;amp;ad=1/2/2006">Script:  Kayah Li  (It's a new term)</reference>
+		<reference type="R742" uri="http://www.ncn.org/asp/zwgInfo/bg_Da.asp?ID=67438%20&amp;amp;amp;ad=1/2/2006">Script: Kayah Li (It's a new term)</reference>
 		<reference type="R743" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Eastern Daylight Time(change from “東部日光節約時間” to “東部夏令時間”)</reference>
-		<reference type="R744" uri="http://www.google.com/search?q=Germanic+(Other)&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=60&amp;amp;amp;sa=N">Language: Germanic (Other)  (change from “德國的(其他)” to “日耳曼文（其它）”)</reference>
+		<reference type="R744" uri="http://www.google.com/search?q=Germanic+(Other)&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=60&amp;amp;amp;sa=N">Language: Germanic (Other) (change from “德國的(其他)” to “日耳曼文（其它）”)</reference>
 		<reference type="R745" uri="http://www.evangellite.org/159/article01.html &amp;amp;amp; http://wordpedia.britannica.com/concise/content.aspx?id=488&amp;amp;amp;hash=O12Uh%2FEcmekMDUZER8jE%2BA%3D%3D&amp;amp;amp;t=3">Script: Sumero-Akkadian Cuneiform (It's a new term)</reference>
 		<reference type="R746" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: America/Phoenix/long/daylight(change from “山區標準時間” to “山區夏令時間”)</reference>
 		<reference type="R747">Currencies: Trinidad and Tobago Dollar (change from &amp;quot;千里達及托巴哥r&amp;quot; to &amp;quot;千里達及托巴哥元&amp;quot;)</reference>
 		<reference type="R748" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Indianapolis&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Timezones: Indianapolis (Indianapolis is a new word, change from “Indianapolis” to “印第安那波里斯”)</reference>
-		<reference type="R749" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script:  Tifinagh (Berber)  (It's a new term)</reference>
+		<reference type="R749" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script: Tifinagh (Berber) (It's a new term)</reference>
 		<reference type="R750">Currencies: Uzbekistan Sum (change from &amp;quot;烏茲別克斯坦 薩木&amp;quot; to &amp;quot;烏茲別克斯坦薩木&amp;quot;)</reference>
 		<reference type="R751" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Africa/Casablanca/long/daylight (change from “格林威治標準時間” to “格林威治夏令時間”)</reference>
 		<reference type="R752" uri="http://www.zftrans.com/favorite/vocabulary/20050707/185716-83.htm">Timezones: Coral Harbour (Coral Harbour is a new word, change from “Coral Harbour” to “珊瑚港”).</reference>
 		<reference type="R753" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: America/Indianapolis/long/daylight (change from “東部標準時間” to “東部夏令時間”)</reference>
 		<reference type="R754">Currencies: El Salvador Colon (change from &amp;quot;愛爾 薩爾瓦多科郎&amp;quot; to &amp;quot;愛爾薩爾瓦多科郎&amp;quot;)</reference>
-		<reference type="R755" uri="http://www.google.com/search?q=Haitian&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=0&amp;amp;amp;sa=N">Language: Haitian  (change from “海地人” to “海地文”)</reference>
+		<reference type="R755" uri="http://www.google.com/search?q=Haitian&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=0&amp;amp;amp;sa=N">Language: Haitian (change from “海地人” to “海地文”)</reference>
 		<reference type="R756" uri="//www.google.com/search?q=Moncton&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Moncton(This is a new word, change from “Moncton” to “曼克頓”)</reference>
 		<reference type="R757" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Pacific Daylight Time(change from “太平洋日光節約時間” to “太平洋夏令時間”)</reference>
 		<reference type="R758">Currencies: CFA Franc BEAC (change from &amp;quot;西非 法郎 BEAC&amp;quot; to &amp;quot;西非法郎 BEAC&amp;quot;)</reference>
 		<reference type="R759" uri="http://tw.britannica.com/MiniSite/Article/id00040761.html">Script: Meroitic (It's a new term)</reference>
 		<reference type="R760" uri="http://hk.dictionary.yahoo.com/search.html?s=Gaelic">Script: Latin (Gaelic variant) (It's a new term)</reference>
-		<reference type="R761" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Syriac-Estrangelo.htm &amp;amp;amp; http://artvine.com.tw/cgi-bin/board/bbsboard.pl?board_id=2&amp;amp;amp;type=show_post&amp;amp;amp;post=3997">Script:  Syriac (Estrangelo variant)  (It's a new term)</reference>
+		<reference type="R761" uri="http://www.worldlanguage.com/ChineseTraditional/Languages/Syriac-Estrangelo.htm &amp;amp;amp; http://artvine.com.tw/cgi-bin/board/bbsboard.pl?board_id=2&amp;amp;amp;type=show_post&amp;amp;amp;post=3997">Script: Syriac (Estrangelo variant) (It's a new term)</reference>
 		<reference type="R762" uri="http://140.128.159.78/yldict/word.asp?w=Fraktur">Script: Latin (Fraktur variant) (It's a new term)</reference>
 		<reference type="R763" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Central Daylight Time(change from “中部日光節約時間” to “中部夏令時間”)</reference>
 		<reference type="R764">Currencies: Tajikistan Somoni (change from &amp;quot;塔吉克斯坦 索莫尼&amp;quot; to &amp;quot;塔吉克斯坦索莫尼&amp;quot;)</reference>
 		<reference type="R765" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Southern+Africa&amp;amp;amp;btnG=%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Territories: Southern Africa (change from “南非” to “非洲南部”)</reference>
 		<reference type="R766" uri="http://www.google.com/search?q=Commonwealth+of+Independent+States&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Territories: Commonwealth of Independent States (change from “172” to “獨立國家國協”)</reference>
-		<reference type="R767" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian  (change from “scn” to “西西里文”)</reference>
+		<reference type="R767" uri="http://www.google.com/search?q=Sicilian+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Sicilian (change from “scn” to “西西里文”)</reference>
 		<reference type="R768" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Atlantic Daylight Time(change from “大西洋日光節約時間” to “大西洋夏令時間”)</reference>
-		<reference type="R769" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc  ” to “ 古尼瓦爾文  ”)</reference>
+		<reference type="R769" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Classical+Newari+&amp;amp;amp;btnG=Google+ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Classical Newari (change from “ nwc ” to “ 古尼瓦爾文 ”)</reference>
 		<reference type="R770">Currencies: Ukrainian Karbovanetz (change from &amp;quot;烏克蘭 卡本瓦那茲&amp;quot; to &amp;quot;烏克蘭卡本瓦那茲&amp;quot;)</reference>
-		<reference type="R771" uri="http://wordpedia.britannica.com/concise/content.aspx?id=570&amp;amp;amp;hash=vsW50K8BiqKfMw5LJ8gJmA%3D%3D&amp;amp;amp;t=3">Script: Cyrillic (Old Church Slavonic variant)  (It's a new term)</reference>
+		<reference type="R771" uri="http://wordpedia.britannica.com/concise/content.aspx?id=570&amp;amp;amp;hash=vsW50K8BiqKfMw5LJ8gJmA%3D%3D&amp;amp;amp;t=3">Script: Cyrillic (Old Church Slavonic variant) (It's a new term)</reference>
 		<reference type="R772">Currencies: Saint Helena Pound (change from &amp;quot;聖赫勒拿 鎊&amp;quot; to &amp;quot;聖赫勒拿鎊&amp;quot;)</reference>
 		<reference type="R773" uri="http://tw.britannica.com/MiniSite/Article/id00005994.html">Script: Brahmi (It's a new term)</reference>
-		<reference type="R774" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=Ã¦ï¿½Å“Ã¥Â°â€¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
+		<reference type="R774" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Mirandese&amp;amp;amp;btnG=ÃƒÂ¦Ã¯Â¿Â½Ã…â€œÃƒÂ¥Ã‚Â°Ã¢â‚¬Â¹&amp;amp;amp;lr=lang_zh-TW">Language: Mirandese (change from “mwl” to “米蘭德斯文”)</reference>
 		<reference type="R775" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Japan Daylight Time(change from “日本標準時間” to “日本夏令時間”)</reference>
 		<reference type="R776">types: Stroke Order (change &amp;quot;筆劃顺序&amp;quot; to &amp;quot;筆劃順序&amp;quot;)</reference>
 		<reference type="R777" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;q=Louisville&amp;amp;amp;btnG=Google+%E6%90%9C%E5%B0%8B&amp;amp;amp;lr=lang_zh-TW">Timezones: Louisville (Louisville is a new word, change from “Louisville” to “路易斯維爾”)</reference>
@@ -4895,28 +4560,28 @@
 		<reference type="R782" uri="http://www.taiwanus.us/MediaVideoAudio/books/history/b5/03.htm">Script: Batak (It's a new term)</reference>
 		<reference type="R783">Currencies: Bolivian Mvdol (change from &amp;quot;玻利維亞 幕多&amp;quot; to &amp;quot;玻利維亞幕多&amp;quot;)</reference>
 		<reference type="R784">Currencies: Brazilian Cruzeiro Novo (1967-1986) (change from &amp;quot;巴西克魯薩多 農瓦 (1967-1986)&amp;quot; to &amp;quot;巴西克魯薩多農瓦 (1967-1986)&amp;quot;)</reference>
-		<reference type="R785" draft="unconfirmed">Currencies: East German Ostmark (change from &amp;quot;東德東德馬克&amp;quot; to &amp;quot;東德奧斯特馬克&amp;quot;)</reference>
-		<reference type="R786" uri="http://www.google.com/search?q=Klingon+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Klingon  (change from “tlh” to “克林貢文”)</reference>
+		<reference type="R785">东德马克</reference>
+		<reference type="R786" uri="http://www.google.com/search?q=Klingon+%E6%96%87&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;ie=UTF-8&amp;amp;amp;inlang=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Klingon (change from “tlh” to “克林貢文”)</reference>
 		<reference type="R787" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Hawaii Daylight Time(change from “夏威夷標準時間” to “夏威夷夏令時間”)</reference>
 		<reference type="R788">Currencies: Belgian Franc (financial) (change from &amp;quot;比利時法郎 （金融）&amp;quot; to &amp;quot;比利時法郎（金融）&amp;quot;)</reference>
 		<reference type="R789" uri="http://www.fantasyweb.idv.tw/yilu/gallery/Spec/Tolkien_fonts/index.htm">Script: Tengwar (It's a new term)</reference>
-		<reference type="R790" uri="http://www.cc-us.org/usa/H39-5.htm">Script:  Pollard Phonetic  (It's a new term)</reference>
+		<reference type="R790" uri="http://www.cc-us.org/usa/H39-5.htm">Script: Pollard Phonetic (It's a new term)</reference>
 		<reference type="R791" uri="http://www.google.com/search?q=Currie&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=50&amp;amp;amp;sa=N">Timezones: Currie(This is a new word, change from “Currie” to “居里”)</reference>
-		<reference type="R792" uri="http://www.google.com/search?q=Dutch&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=20&amp;amp;amp;sa=N">Language: Middle Dutch  (change from “荷蘭，中古 (ca. 1050-1350)” to “中古荷蘭文”)</reference>
+		<reference type="R792" uri="http://www.google.com/search?q=Dutch&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=20&amp;amp;amp;sa=N">Language: Middle Dutch (change from “荷蘭，中古 (ca. 1050-1350)” to “中古荷蘭文”)</reference>
 		<reference type="R793" uri="http://203.64.158.220/ebintra/Content.asp?ContentID=16907">Script: Glagolitic (It's a new term)</reference>
-		<reference type="R794" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal  (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
+		<reference type="R794" uri="http://wordpedia.britannica.com/concise/content.aspx?id=7841&amp;amp;amp;hash=PF16q%2BQ%2FWdoVa2%2Bve%2B%2FS%2Bg%3D%3D">Language: Old Provençal (change from “普羅文斯文 (to 1500)” to “古普羅旺斯文”)</reference>
 		<reference type="R795" uri="http://www2.ccim.org:8088/dictionary/zhaoindex.jsp?k=Gnosticism">Script: Mandaean (It's a new term)</reference>
-		<reference type="R796" uri="http://egyptwords.blogspot.com/">Script:  Egyptian hieroglyphs (It's a new term)</reference>
+		<reference type="R796" uri="http://egyptwords.blogspot.com/">Script: Egyptian hieroglyphs (It's a new term)</reference>
 		<reference type="R797" uri="http://www.tattpe.org.tw/news_20051114-2.shtml">Script: New Tai Lue (It's a new term)</reference>
 		<reference type="R798" uri="http://www.gamez.com.tw/printthread.php?t=17770&amp;amp;amp;pp=40">Script: Cirth (It's a new term)</reference>
-		<reference type="R799" uri="http://www.google.com/search?q=Filipino&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=40&amp;amp;amp;sa=N">Language: Filipino  (change from “fil” to “菲律賓文”)</reference>
+		<reference type="R799" uri="http://www.google.com/search?q=Filipino&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=40&amp;amp;amp;sa=N">Language: Filipino (change from “fil” to “菲律賓文”)</reference>
 		<reference type="R800" uri="http://webtitle.nmh.gov.tw/india/page/page.php?id=103">Script: Kharoshthi (It's a new term)</reference>
 		<reference type="R801" uri="http://zh.wikipedia.org/wiki/%E5%85%AB%E6%80%9D%E5%B7%B4%E5%AD%97">Script: Phags-pa (It's a new term)</reference>
 		<reference type="R802" uri="http://www.thisisthelife.com/zh/historical-sites/easter-island.htm">Script: Rongorongo (It's a new term)</reference>
 		<reference type="R803">Currencies: Brazilian Cruzado Novo (change from &amp;quot;巴西 克如爾達 農瓦&amp;quot; to &amp;quot;巴西克如爾達農瓦&amp;quot;)</reference>
-		<reference type="R804" uri="http://tw.britannica.com/MiniSite/Article/id00048822.html">Script: Old Permic  (It's a new term)</reference>
+		<reference type="R804" uri="http://tw.britannica.com/MiniSite/Article/id00048822.html">Script: Old Permic (It's a new term)</reference>
 		<reference type="R805" uri="http://www.google.com/search?q=Vincennes&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Timezones: Vincennes (Louisville is a new word, change from “Vincennes” to “溫森斯”).</reference>
-		<reference type="R806" draft="unconfirmed">Territories: Southern Asia(change from “034” to “南亞”)</reference>
+		<reference type="R806">南亚</reference>
 		<reference type="R807" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Mountain Daylight Time(change from “山區日光節約時間” to “山區夏令時間”)</reference>
 		<reference type="R808" uri="http://tw.britannica.com/MiniSite/Article/id00036950.html">Script: Linear B (It's a new term)</reference>
 		<reference type="R809" uri="http://www.unicode.org/cldr/data/common/main/zh_Hant.xml">Script: Buginese (It's a new term)</reference>
@@ -4928,37 +4593,20 @@
 		<reference type="R815">Currencies: Swaziland Lilangeni (change from &amp;quot;斯威士蘭 里郎&amp;quot; to &amp;quot;斯威士蘭里郎&amp;quot;)</reference>
 		<reference type="R816" uri="http://tw.britannica.com/MiniSite/Article/id00036950.htm">Script: Linear A (It's a new term)</reference>
 		<reference type="R817" uri="http://203.64.158.220/ebintra/Content.asp?ContentID=25845 &amp;amp;amp;">Script: Lepcha (Róng) (It's a new term)</reference>
-		<reference type="R818" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo  (change from “srn” to “蘇拉南東墎文”)</reference>
+		<reference type="R818" uri="http://140.111.34.46/cgi-bin/jdict/loadpage.cgi?file=gm/12-6-27.html&amp;amp;amp;word=%E8%98%87%E5%88%A9%E5%8D%97%E5%85%B1%E5%92%8C%E5%9C%8B">Language: Sranan Tongo (change from “srn” to “蘇拉南東墎文”)</reference>
 		<reference type="R819" uri="http://www.ntctc.edu.tw/spc/ebook/pdf/9003/1.pdf">Script: Blissymbols (It's a new term)</reference>
 		<reference type="R820" uri="http://www.google.com/search?q=Chuvash&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=10&amp;amp;amp;sa=N">Language: Chuvash (change from “楚瓦甚文” to “楚瓦士文”)</reference>
 		<reference type="R821" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Central European Daylight Time (change from “中歐日光節約時間” to “中歐夏令時間”)</reference>
-		<reference type="R822" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script: Tifinagh (Berber)  (It's a new term)</reference>
+		<reference type="R822" uri="http://wiki.foreprinciple.org/mediawiki-1.3.8/index.php?title=%E6%8F%90%E9%9D%9E%E7%B4%8D%E6%96%87">Script: Tifinagh (Berber) (It's a new term)</reference>
 		<reference type="R823" uri="http://blog.yam.com/festival/archives/1044108.html">Script: Bali (It's a new term)</reference>
 		<reference type="R824" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: Newfoundland Daylight Time(change from “纽芬蘭日光節約時間” to “纽芬蘭夏令時間”)</reference>
-		<reference type="R825" uri="http://egyptwords.blogspot.com/">Script:  Egyptian demotic (It's a new term)</reference>
+		<reference type="R825" uri="http://egyptwords.blogspot.com/">Script: Egyptian demotic (It's a new term)</reference>
 		<reference type="R826">Currencies: Tanzanian Shilling (change from &amp;quot;坦桑尼亞 先令&amp;quot; to &amp;quot;坦桑尼亞先令&amp;quot;)</reference>
-		<reference type="R827" uri="http://zh.wikipedia.org/wiki/ÃƒÂ§Ã‚Â²Ã‚Â¾ÃƒÂ©Ã‚ï¿½Ã‚Ë†ÃƒÂ¨Ã‚ÂªÃ‚Å¾ ">Script: Sarati (It's a new term)</reference>
+		<reference type="R827" uri="http://zh.wikipedia.org/wiki/ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â²Ãƒâ€šÃ‚Â¾ÃƒÆ’Ã‚Â©Ãƒâ€šÃ¯Â¿Â½Ãƒâ€šÃ‹â€ ÃƒÆ’Ã‚Â¨Ãƒâ€šÃ‚ÂªÃƒâ€šÃ…Â¾ ">Script: Sarati (It's a new term)</reference>
 		<reference type="R828" uri="http://www.google.com/search?q=Central+Asia&amp;amp;amp;hl=zh-TW&amp;amp;amp;lr=lang_zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;start=270&amp;amp;amp;sa=N">Territories: Central Asia (change from “143” to “中亞”)</reference>
 		<reference type="R829" uri="http://www.google.com/search?hl=zh-TW&amp;amp;amp;newwindow=1&amp;amp;amp;q=Daylight+Time&amp;amp;amp;lr=lang_zh-TW">Timezones: China Daylight Time(change from “中國標準時間” to “中國夏令時間”)</reference>
 		<reference type="R830" uri="http://tw.britannica.com/MiniSite/Article/id00049079.html">Script: Phoenician (It's a new term)</reference>
-		<reference type="RP1" uri="http://www.worldweather.cn/bz/bz021.htm">Chinese (Simplified Han): timezones: Brazil (Rio Branco) Time(Change from &quot;Rio Branco&quot; to  &quot;里奥布郎库&quot;)</reference>
+		<reference type="RP1" uri="http://www.worldweather.cn/bz/bz021.htm">Chinese (Simplified Han): timezones: Brazil (Rio Branco) Time(Change from &quot;Rio Branco&quot; to &quot;里奥布郎库&quot;)</reference>
 	</references>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/zh.txt?only_with_tag=final-update-LDML
-
-        CN { "\u4E2D\u56FD" }  // From the JDK and translation center
-CN { "\u4E2D\u83EF\u4EBA\u6C11\u5171\u548C\u570B" } // Old value
-KR { "\u5357\u671D\u9C9C" } // Old value
-Currency display names
-? an  { "\u963F\u62C9\u8CA2\u6587" }
-? ht  { "\u6D77\u5730\u4EBA" }
-        Hans { "\u7B80\u4F53\u6C49\u8BED" } // Not a formal part of ISO-15924 yet
-        Hant { "\u7E41\u4F53\u6C49\u8BED" } // Not a formal part of ISO-15924 yet
-Linb { "\u7EBF\u5F62\u6587\u5B57\u4E59" }
-Qaai { "\u7EE7\u627F\u8BED" } // PUA
-Zyyy { "\u672A\u786E\u5B9A\u8BED\u7CFB" } // This may need to become "undetermined script"
-EURO    { "\u6b27\u5143" }
-PREEURO { "\u65e7\u5e01" }
--->
 
