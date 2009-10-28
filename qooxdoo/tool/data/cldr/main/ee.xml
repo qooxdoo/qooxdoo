@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.28 $"/>
-		<generation date="$Date: 2008/05/28 15:49:29 $"/>
+		<version number="$Revision: 1.37 $"/>
+		<generation date="$Date: 2009/05/05 23:06:35 $"/>
 		<language type="ee"/>
 	</identity>
 	<characters>
@@ -125,17 +125,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, yyyy MMMM dd</pattern>
+							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">yyyy MMMM d</pattern>
+							<pattern draft="unconfirmed">y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">yyyy MMM d</pattern>
+							<pattern draft="unconfirmed">y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -147,7 +147,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss v</pattern>
+							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -167,11 +167,6 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 					</availableFormats>
@@ -188,12 +183,9 @@
 		<currencies>
 			<currency type="GHC">
 				<displayName draft="unconfirmed">Siɖi</displayName>
-				<symbol draft="unconfirmed">¢</symbol>
-				<symbol alt="variant" draft="unconfirmed">₵</symbol>
 			</currency>
 			<currency type="XOF">
 				<displayName draft="unconfirmed">Sefa</displayName>
-				<symbol draft="unconfirmed">CFA</symbol>
 			</currency>
 		</currencies>
 	</numbers>
@@ -202,3 +194,4 @@
 		<reference type="R031" uri="http://developer.mimer.com/charts/ewe.htm">Mimer Ewe collation</reference>
 	</references>
 </ldml>
+
