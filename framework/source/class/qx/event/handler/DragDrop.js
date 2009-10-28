@@ -619,7 +619,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable && dropable != this.__dropTarget)
       {
-        this.__validDrop = this.__fireEvent("dragover", dropable, this.__dropTarget, true, e);
+        this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
         this.__dropTarget = dropable;
 
         this.__detectAction();
