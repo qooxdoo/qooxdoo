@@ -30,4 +30,14 @@ class Part(object):
         self.initial_deps = []   # initial deps, as defined in config
         self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
         self.packages  = []   # list of packages constituting this part
+        self.packageIdsSorted = [] # list of sorted package id's of this part
 
+    ##
+    # returns a list of the packages of this part, as indices into the provided
+    # list of package Id's
+
+    def packagesAsIndices(self, packageIdsSorted):
+        result = []
+        for package in self.packages:
+            result.append(packageIdsSorted.index(package.id))
+        return result

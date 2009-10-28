@@ -25,6 +25,7 @@ qx.$$packageData = {};
 qx.$$loader = {
   parts : %{Parts},
   uris : %{Uris},
+  packageHashes : %{PackageHashes},
   boot : %{Boot},
   
   decodeUris : function(compressedUris)

@@ -38,6 +38,7 @@ from generator.code.LibraryPath      import LibraryPath
 from generator.code.ResourceHandler  import ResourceHandler
 from generator.code.Script           import Script
 from generator.code.Package          import Package
+from generator.code.Part             import Part
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ImageInfo      import ImgInfoFmt
 from generator.action.ImageClipping  import ImageClipping
@@ -283,10 +284,15 @@ class Generator(object):
                 partPackages   = { "boot" : [0] }
                 packageClasses = [classList]
                 # patch script object
-                script.packageIdsSorted = [0]
-                packageObj  = Package(0)
+                script.boot        = boot
+                packageObj         = Package(0)
                 packageObj.classes = classList
-                script.packages1 = {0: packageObj}
+                script.packages[0] = packageObj
+                script.packageIdsSorted = [0]
+                partObj            = Part("boot")
+                #partObj.packages   = [0]
+                partObj.packages.append(packageObj)
+                script.parts       = { "boot" : partObj }
 
             return boot, partPackages, packageClasses
 
@@ -552,9 +558,12 @@ class Generator(object):
             script.classes  = self._classList
 
             # get parts config
-            (script.boot,
-            script.parts,            # script.parts['boot']=[0,1,3]
-            script.packages          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
+            #(script.boot,
+            #script.parts,            # script.parts['boot']=[0,1,3]
+            #script.packages          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
+            (_,
+            _,            # script.parts['boot']=[0,1,3]
+            _          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
             )               = partsConfigFromClassList(excludeWithDeps, script)
 
             # Execute real tasks
@@ -599,7 +608,7 @@ class Generator(object):
         if not self._job.get("log/classes-unused", False):
             return
 
-        packages   = script.packages
+        packages   = script.packagesArraySorted()
         parts      = script.parts
         variants   = script.variants
 
@@ -673,7 +682,7 @@ class Generator(object):
         if not depsLogConf:
            return
 
-        packages   = script.packages
+        packages   = script.packagesArraySorted()
         parts      = script.parts
         variants   = script.variants
 

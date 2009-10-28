@@ -82,9 +82,8 @@ class PartBuilder(object):
         script = self._getFinalClassList1(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
 
-        script.parts    = resultParts
+        #script.parts    = resultParts
         #script.packages = resultClasses
-        script.packages1 = script.packages  # retain the object array here, as script.packages gets overwritten in caller
 
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
@@ -199,15 +198,22 @@ class PartBuilder(object):
         for package in packages.values():
             for part in parts.values():
                 if package.id & part.bit_mask:
-                    part.packages.append(package.id)
-                    package.parts.append(part.name)
+                    #part.packages.append(package.id)
+                    part.packages.append(package)
+                    #package.parts.append(part.name)
+                    package.parts.append(part)
                     
             package.part_count = len(package.parts)
 
         # Sorting packages of parts
         for part in parts.values():
-            part.packages = self._sortPackages(part.packages, packages)
-
+            part.packageIdsSorted = self._sortPackages([x.id for x in part.packages], packages)
+            # re-map sorting to part.packages
+            packObjs = []
+            for pkgId in part.packageIdsSorted:
+                packObjs.append(packages[pkgId])
+            part.packages = packObjs
+         
         return packages
 
 
@@ -354,7 +360,7 @@ class PartBuilder(object):
         def isUnique(package, collapse_group):
             seen = 0
             for part in collapse_group:
-                if package in part.packages:
+                if package in part.packageIdsSorted:
                     seen += 1
                     if seen > 1:
                         return False
@@ -363,14 +369,15 @@ class PartBuilder(object):
         def isCommon(package, collapse_group):
             seen = 0
             for part in collapse_group:
-                if package in part.packages:
+                if package in part.packageIdsSorted:
                     seen += 1
             return seen == len(collapse_group)
 
         def getUniquePackages(part, collapse_group, packages):
             uniques = {}
-            for packId in part.packages:
-                package = packages[packId]
+            #for packId in part.packages:
+            #    package = packages[packId]
+            for package in part.packages:
                 if isUnique(package.id, collapse_group):
                     uniques[package.id] = package
             return uniques
@@ -379,8 +386,9 @@ class PartBuilder(object):
 
         def getCommonPackages(part, collapse_group, packages):
             commons = {}
-            for packId in part.packages:
-                package = packages[packId]
+            #for packId in part.packages:
+            #    package = packages[packId]
+            for package in part.packages:
                 if isCommon(package.id, collapse_group):
                     commons[package.id] = package
             return commons
@@ -396,8 +404,9 @@ class PartBuilder(object):
             for part in collapse_group:
                 selected_packages = selectFunc(part, collapse_group, packages)
                 #print "xxx selecteds: %r" % selected_packages
-                for packId in reversed(part.packages):   # start with "smallest" package
-                    package = packages[packId]
+                #for packId in reversed(part.packages):   # start with "smallest" package
+                #    package = packages[packId]
+                for package in reversed(part.packages):   # start with "smallest" package
                     if package.id in selected_packages:
                         mergedPackage, targetPackage = self._mergePackage(package, parts, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
@@ -451,8 +460,9 @@ class PartBuilder(object):
 
         # Update part information
         for part in parts.values():
-            if fromPackage.id in part.packages:
-                part.packages.remove(fromPackage.id)
+            #if fromPackage.id in part.packages:
+            if fromPackage in part.packages:
+                part.packages.remove(fromPackage)
 
         # Merging package content
         toPackage.classes.extend(fromPackage.classes)
@@ -481,7 +491,7 @@ class PartBuilder(object):
 
 
     def _getFinalClassList(self, script):
-        packages   = script.packages
+        packages   = script.packagesArraySorted()
         variants   = script.variants
         packageIds = self._sortPackages(packages.keys(), packages)
 
@@ -528,7 +538,7 @@ class PartBuilder(object):
         self._console.debug("Part summary")
         self._console.indent()
         for part in parts.values():
-            self._console.debug("Part #%s packages(%d): %s" % (part.name, len(part.packages), ", ".join('#'+str(x) for x in part.packages)))
+            self._console.debug("Part #%s packages(%d): %s" % (part.name, len(part.packages), ", ".join('#'+str(x.id) for x in part.packages)))
 
         self._console.outdent()
         self._console.debug("")

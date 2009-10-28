@@ -28,6 +28,7 @@ from ecmascript import compiler
 from misc import filetool, json, Path
 from misc.ExtMap import ExtMap
 from misc.Path import OsPath, Uri
+from misc import securehash as sha
         
 
 console = None
@@ -63,7 +64,7 @@ class CodeGenerator(object):
             fileUri = Path.posifyPath(fileUri)
             return fileUri
 
-        def generateBootScript(bootPackage=""):
+        def generateBootScript(script, bootPackage=""):
 
             def packagesOfFiles(fileUri, packages):
                 # returns list of lists, each containing destination file name of the corresp. part
@@ -75,19 +76,6 @@ class CodeGenerator(object):
                 else:
                     totalLen = len(packages) + 1
                 for packageId, packageFileName in enumerate(self.packagesFileNames(file, totalLen, classPackagesOnly=True)):
-                    npackages.append((packageFileName,))
-                return npackages
-
-            def packagesOfFiles1(fileUri, packages):
-                # returns list of lists, each containing destination file name of the corresp. part
-                # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
-                npackages = []
-                file = os.path.basename(fileUri)
-                for packageId in range(len(packages)):
-                    suffix = packageId -1
-                    if suffix < 0:
-                        suffix = ""
-                    packageFileName = self._resolveFileName(file, variants, settings, suffix)
                     npackages.append((packageFileName,))
                 return npackages
 
@@ -110,25 +98,20 @@ class CodeGenerator(object):
             plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
             bootContent = self.generateBootCode(parts, filesPackages, boot, script, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
 
-            #codeBlocks.append( loaderCode(loaderTemplate) )
-            #codeBlocks.append( globalCodes(globalsTemplate) )  # these is global data, formerly populated by translations, resources etc.
-            #codeBlocks.append( bootPackage(script) )  # this contains resources etc. for the boot classes
-
             return bootContent
 
 
-        def getCompiledPackages(script):
-            cpacks = []
-            for pkgId in script.packageIdsSorted:
-                cpacks.append(script.packages1[pkgId].packageCode())
-            return cpacks
+        def getPackageData():
+            data = json.dumpsCode({})
+            data += ';\n'
+            return data
 
         # ----------------------------------------------------------------------
 
         if not self._job.get("compile-dist", False):
             return
 
-        packages   = script.packages
+        packages   = script.packagesArraySorted()
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
@@ -176,61 +159,38 @@ class CodeGenerator(object):
 
         bootPackage = ""
         compiledPackages = []
-        for packageId, classes in enumerate(packages):
-            self._console.info("Compiling package #%s:" % packageId, False)
+        for packageIndex, packageBitId in enumerate(script.packageIdsSorted):
+            self._console.info("Compiling package #%s:" % packageIndex, False)
             self._console.indent()
 
             # Compile file content
-            pkgCode = self._treeCompiler.compileClasses(classes, variants, optimize, format)
-            #pkgData = getPackageData()
-            #hash    = getHash(pkgData + pkgCode)
-            #compiledContent = ("qx.$$packageData[%s]=" % hash) + pkgData + pkgCode
-            compiledContent = pkgCode
+            pkgCode = self._treeCompiler.compileClasses(script.packages[packageBitId].classes, variants, optimize, format)
+            pkgData = getPackageData()
+            hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
+            compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
+            script.packages[packageBitId].hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
             compiledPackages.append(compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
 
+        self._console.outdent()
         if not len(compiledPackages):
             raise RuntimeError("No valid boot package generated.")
 
-        self._console.outdent()
+        outputPackages = []
 
-        def prodOutput():
-            if self._job.get("packages/loader-with-boot", True):
-                content = generateBootScript(compiledPackages[0])
-                self.writePackage(content, script)
-                self.writePackages(compiledPackages[1:], script, 1)
-                #self.writePackages(compiledPackages_1[1:], script, 1)
-            else:
-                content = generateBootScript()
-                self.writePackage(content, script)
-                self.writePackages(compiledPackages, script)
-                #self.writePackages(compiledPackages_1, script)
-            return
+        if self._job.get("packages/loader-with-boot", True):
+            outputPackages.append( generateBootScript(script, compiledPackages[0]) )
+        else:
+            outputPackages.append( generateBootScript(script) )
+            outputPackages.append( compiledPackages[0] )
 
-        def prodOutput1():
-            #globalCodes = getGlobalCodes()
-            #loaderCode  = getLoaderCode()
-            #loader = globalCodes + loaderCode
+        # copy rest over
+        for p in compiledPackages[1:]:
+            outputPackages.append(p)
 
-            outputPackages = []
-
-            if self._job.get("packages/loader-with-boot", True):
-                outputPackages.append( generateBootScript(compiledPackages[0]) )
-            else:
-                outputPackages.append( generateBootScript() )
-                outputPackages.append( compiledPackages[0] )
-
-            # copy rest over
-            for p in compiledPackages[1:]:
-                outputPackages.append(p)
-
-            self.writePackages(outputPackages, script)
-            return
-
-        #prodOutput()
-        prodOutput1()
+        self.writePackages(outputPackages, script)
 
         return
 
@@ -243,7 +203,7 @@ class CodeGenerator(object):
         self._console.info("Generate source version...")
         self._console.indent()
 
-        packages   = script.packages
+        packages   = script.packagesArraySorted()
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
@@ -279,8 +239,6 @@ class CodeGenerator(object):
 
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
-        #import cProfile
-        #cProfile.runctx("translationMaps = self.getTranslationMaps(packagesArray, variants, locales)", globals(), locals(), "/home/thron7/tmp/translation.profile2")
         translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
@@ -722,12 +680,16 @@ class CodeGenerator(object):
     def generateBootCode(self, parts, packages, boot, script, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
 
-        def partsMap(parts):
+        def partsMap(script):
             # create a map with part names as key and array of package id's and
             # return as string
 
             # <parts> is already a suitable map; just serialize it
-            partData = json.dumpsCode(parts)
+            #partData = json.dumpsCode(parts)
+            partData = {}
+            for part in script.parts:
+                partData[part] = script.parts[part].packagesAsIndices(script.packageIdsSorted)
+            partData = json.dumpsCode(partData)
 
             return partData
 
@@ -792,11 +754,18 @@ class CodeGenerator(object):
         vals["BootPart"] = bootCode
 
         # Translate part information to JavaScript
-        vals["Parts"] = partsMap(parts)
+        vals["Parts"] = partsMap(script)
 
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
         vals["Uris"] = json.dumpsCode(vals["Uris"])
+
+        # Package Hashes
+        if version == "build":  # TODO: this is perliminary, until runSource and the source template is adapted
+            vals["PackageHashes"] = {}
+            for key, packageId in enumerate(script.packageIdsSorted):
+                vals["PackageHashes"][key] = script.packages[packageId].hash 
+            vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
         # Script hook for qx.$$loader.decodeUris() function
         vals["DecodeUrisPlug"] = ""
