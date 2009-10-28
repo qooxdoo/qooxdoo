@@ -39,22 +39,22 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       var areaSize = 1000;
       
       this.assertEquals(
-        440,
+        430,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        620,
+        610,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        500,
+        510,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        550,
+        530,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
     },
@@ -73,12 +73,12 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
 
       this.assertEquals(
-        220,
+        210,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        30,
+        40,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       var areaSize = 500;
       
       this.assertEquals(
-        40,
+        30,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
@@ -112,7 +112,7 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
 
       this.assertEquals(
-        150,
+        130,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );      
     },
