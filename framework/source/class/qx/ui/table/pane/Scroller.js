@@ -315,7 +315,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __ignoreClick : null,
     __lastMousePageX : null,
     __lastMousePageY : null,
-    __ignoreScrollYEvent : null,
 
     __focusedCol : null,
     __focusedRow : null,
@@ -485,12 +484,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     setScrollY : function(scrollY, renderSync)
     {
-      this.__ignoreScrollYEvent = renderSync;
       this.__verScrollBar.scrollTo(scrollY);
       if (renderSync) {
         this._updateContent()
       }
-      this.__ignoreScrollYEvent = false;
     },
 
 

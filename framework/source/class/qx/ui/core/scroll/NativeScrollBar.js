@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     
     // interface implementation
     scrollTo : function(position) {
-      this.setPosition(position);
+      this.setPosition(Math.min(this.getMaximum(), position));
     },
 
 
