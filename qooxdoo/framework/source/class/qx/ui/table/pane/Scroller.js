@@ -59,7 +59,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__tablePane = this._showChildControl("pane");
 
     // the top line containing the header clipper and the top right widget
-    this.__top = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+    this.__top = new qx.ui.container.Composite(new qx.ui.layout.HBox()).set({
+      minWidth: 0
+    });
     this._add(this.__top, {row: 0, column: 0, colSpan: 2});
 
     // embed header into a scrollable container
