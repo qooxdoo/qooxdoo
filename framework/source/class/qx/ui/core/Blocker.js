@@ -326,9 +326,11 @@ qx.Class.define("qx.ui.core.Blocker",
       var blocker = this.getBlockerElement();
       blocker.include();
       blocker.activate();
-      blocker.addListener("keypress", this.__stopEvent, this);
-      blocker.addListener("keydown", this.__stopEvent, this); 
-      blocker.addListener("keyup", this.__stopEvent, this);
+
+      blocker.addListener("deactivate", this.__activateBlockerElement, this);
+      blocker.addListener("keypress", this.__stopTabEvent, this);
+      blocker.addListener("keydown", this.__stopTabEvent, this); 
+      blocker.addListener("keyup", this.__stopTabEvent, this);
     },
 
 
@@ -355,9 +357,10 @@ qx.Class.define("qx.ui.core.Blocker",
       this._restoreActiveWidget();
 
       var blocker = this.getBlockerElement();
-      blocker.removeListener("keypress", this.__stopEvent, this);
-      blocker.removeListener("keydown", this.__stopEvent, this); 
-      blocker.removeListener("keyup", this.__stopEvent, this);
+      blocker.removeListener("deactivate", this.__activateBlockerElement, this);
+      blocker.removeListener("keypress", this.__stopTabEvent, this);
+      blocker.removeListener("keydown", this.__stopTabEvent, this); 
+      blocker.removeListener("keyup", this.__stopTabEvent, this);
       blocker.exclude();
     },
 
@@ -471,18 +474,27 @@ qx.Class.define("qx.ui.core.Blocker",
         width: doc.documentElement.scrollWidth + "px"
       });
     },
-    
+
+
     /**
-     * Stops the passed event.
+     * Stops the passed "Tab" event.
      * 
      * @param e {qx.event.type.KeySequence} event to stop.
      */
-    __stopEvent : function(e) {
-      e.stop();
+    __stopTabEvent : function(e) {
+      if (e.getKeyIdentifier() == "Tab") {
+        e.stop();
+      }
+    },
+
+
+    /**
+     * Sets the blocker element to avtive.
+     */
+    __activateBlockerElement : function() {
+      this.getBlockerElement().activate();
     }
   },
-
-
 
 
   /*
