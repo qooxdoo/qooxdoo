@@ -470,6 +470,12 @@
       "extend" : [ "scan-local-lib" ],
 
       "fix-files" : {}
+    },
+    
+    
+    "info" : 
+    {
+      "collect-environment-info" : {}
     }
   }
 }
