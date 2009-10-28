@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.162 $"/>
-		<generation date="$Date: 2008/07/09 17:41:17 $"/>
+		<version number="$Revision: 1.192 $"/>
+		<generation date="$Date: 2009/06/15 21:39:59 $"/>
 		<language type="root"/>
 	</identity>
 	<fallback/>
@@ -13,8 +13,8 @@
 			<localeSeparator>, </localeSeparator>
 		</localeDisplayPattern>
 		<measurementSystemNames>
-			<measurementSystemName type="US">US</measurementSystemName>
 			<measurementSystemName type="metric">Metric</measurementSystemName>
+			<measurementSystemName type="US">US</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language">{0}</codePattern>
@@ -42,7 +42,7 @@
 	<characters>
 		<exemplarCharacters>[]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a-c č d-l ł m-o º p-z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -51,7 +51,6 @@
 		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<localizedPatternChars>GyMdkHmsSEDFwWahKzYeugAZvcL</localizedPatternChars>
 		<dateRangePattern>{0} - {1}</dateRangePattern>
 		<calendars>
 			<default choice="gregorian"/>
@@ -73,7 +72,7 @@
 					</eraNames>
 					<eraAbbr>
 						<era type="0">BE</era>
-						<!-- = 544 BC gregorian. See: http://dev.icu-project.org/cgi-bin/viewcvs.cgi/*checkout*/icu/source/i18n/buddhcal.cpp -->
+						<!-- = 544 BC gregorian. -->
 					</eraAbbr>
 					<eraNarrow>
 						<alias source="locale" path="../eraAbbr"/>
@@ -83,17 +82,17 @@
 					<default choice="medium"/>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, MMMM d, yyyy G</pattern>
+							<pattern>EEEE, MMMM d, y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>MMMM d, yyyy G</pattern>
+							<pattern>MMMM d, y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>MMM d, yyyy G</pattern>
+							<pattern>MMM d, y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -106,7 +105,50 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
 				</timeFormats>
 				<dateTimeFormats>
-					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+					<dateTimeFormatLength>
+						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/dateTimeFormatLength"/>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">M-d</dateFormatItem>
+						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
+						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM, y</dateFormatItem>
+						<dateFormatItem id="yQ">y Q</dateFormatItem>
+						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
+					</availableFormats>
+					<appendItems>
+						<appendItem request="Day">{0} ({2}: {1})</appendItem>
+						<appendItem request="Day-Of-Week">{0} {1}</appendItem>
+						<appendItem request="Era">{0} {1}</appendItem>
+						<appendItem request="Hour">{0} ({2}: {1})</appendItem>
+						<appendItem request="Minute">{0} ({2}: {1})</appendItem>
+						<appendItem request="Month">{0} ({2}: {1})</appendItem>
+						<appendItem request="Quarter">{0} ({2}: {1})</appendItem>
+						<appendItem request="Second">{0} ({2}: {1})</appendItem>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+						<appendItem request="Week">{0} ({2}: {1})</appendItem>
+						<appendItem request="Year">{0} {1}</appendItem>
+					</appendItems>
+					<intervalFormats>
+						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/intervalFormats"/>
+					</intervalFormats>
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="chinese">
@@ -210,7 +252,6 @@
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Tout</month>
-							<!-- from ICU data -->
 							<month type="2">Baba</month>
 							<month type="3">Hator</month>
 							<month type="4">Kiahk</month>
@@ -263,7 +304,6 @@
 					</eraNames>
 					<eraAbbr>
 						<era type="0">ERA0</era>
-						<!-- to be replaced -->
 						<era type="1">ERA1</era>
 					</eraAbbr>
 					<eraNarrow>
@@ -293,7 +333,6 @@
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Meskerem</month>
-							<!-- from ICU data -->
 							<month type="2">Tekemt</month>
 							<month type="3">Hedar</month>
 							<month type="4">Tahsas</month>
@@ -346,8 +385,40 @@
 					</eraNames>
 					<eraAbbr>
 						<era type="0">ERA0</era>
-						<!-- to be replaced -->
 						<era type="1">ERA1</era>
+					</eraAbbr>
+					<eraNarrow>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNarrow>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="ethiopic-amete-alem">
+				<months>
+					<alias source="locale" path="../../calendar[@type='ethiopic']/months"/>
+				</months>
+				<days>
+					<alias source="locale" path="../../calendar[@type='gregorian']/days"/>
+				</days>
+				<quarters>
+					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
+				</quarters>
+				<am>AM</am>
+				<pm>PM</pm>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">ERA0</era>
 					</eraAbbr>
 					<eraNarrow>
 						<alias source="locale" path="../eraAbbr"/>
@@ -498,17 +569,17 @@
 					<default choice="medium"/>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, yyyy MMMM dd</pattern>
+							<pattern>EEEE, y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>yyyy MMMM d</pattern>
+							<pattern>y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>yyyy MMM d</pattern>
+							<pattern>y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -521,7 +592,7 @@
 					<default choice="medium"/>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>HH:mm:ss v</pattern>
+							<pattern>HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -541,31 +612,51 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<default choice="medium"/>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{1} {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">yyyy</dateFormatItem>
-						<dateFormatItem id="yM">yyyy-M</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, yyyy-M-d</dateFormatItem>
-						<dateFormatItem id="yMMM">yyyy MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM">yyyy MMMM</dateFormatItem>
-						<dateFormatItem id="yQ">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">y-M</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMMM">y MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, y MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMM">y MMMM</dateFormatItem>
+						<dateFormatItem id="yQ">y Q</dateFormatItem>
+						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Day">{0} ({2}: {1})</appendItem>
@@ -582,31 +673,6 @@
 					</appendItems>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M">E, MM-dd – E, MM-dd</greatestDifference>
-							<greatestDifference id="d">E, MM-dd – E, MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">LLL-LLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M">E, MM-d – E, MM-d</greatestDifference>
-							<greatestDifference id="d">E, MM-d – E, MM-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M">MM-d – MM-d</greatestDifference>
-							<greatestDifference id="d">MM-d – d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M">MM-dd – MM-dd</greatestDifference>
-							<greatestDifference id="d">MM-dd – dd</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d-d</greatestDifference>
 						</intervalFormatItem>
@@ -628,6 +694,31 @@
 							<greatestDifference id="a">HH-HH v</greatestDifference>
 							<greatestDifference id="h">HH-HH v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">MM-dd – dd</greatestDifference>
+							<greatestDifference id="M">MM-dd – MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">E, MM-dd – E, MM-dd</greatestDifference>
+							<greatestDifference id="M">E, MM-dd – E, MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">LLL-LLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">MM-d – d</greatestDifference>
+							<greatestDifference id="M">MM-d – MM-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">E, MM-d – E, MM-d</greatestDifference>
+							<greatestDifference id="M">E, MM-d – E, MM-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMM">
+							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y">y-y</greatestDifference>
 						</intervalFormatItem>
@@ -635,33 +726,33 @@
 							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
 							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">yyyy-MM-dd – dd</greatestDifference>
+							<greatestDifference id="M">yyyy-MM-dd – MM-dd</greatestDifference>
+							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="d">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="y">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
 							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">yyyy-MM-d – d</greatestDifference>
+							<greatestDifference id="M">yyyy-MM-dd – MM-d</greatestDifference>
+							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="d">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="y">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
 							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M">yyyy-MM-dd – MM-d</greatestDifference>
-							<greatestDifference id="d">yyyy-MM-d – d</greatestDifference>
-							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M">yyyy-MM-dd – MM-dd</greatestDifference>
-							<greatestDifference id="d">yyyy-MM-dd – dd</greatestDifference>
-							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -680,9 +771,9 @@
 					</field>
 					<field type="day">
 						<displayName>Day</displayName>
+						<relative type="-1">Yesterday</relative>
 						<relative type="0">Today</relative>
 						<relative type="1">Tomorrow</relative>
-						<relative type="-1">Yesterday</relative>
 					</field>
 					<field type="weekday">
 						<displayName>Day of the Week</displayName>
@@ -771,7 +862,6 @@
 						<era type="0">AM</era>
 						<!-- HY = Anno Mundi
 							 = -180799862400000 milliseconds since 1/1/1970 AD
-							 See: http://dev.icu-project.org/cgi-bin/viewcvs.cgi/*checkout*/icu/source/i18n/hebrwcal.cpp
 						-->
 					</eraAbbr>
 					<eraNarrow>
@@ -931,7 +1021,6 @@
 						<era type="0">AH</era>
 						<!-- Anno Hijri,  =  7/16/622 AD
 							 = -42521587200000.0 millis since 1/1/1970
-							 See: http://dev.icu-project.org/cgi-bin/viewcvs.cgi/*checkout*/icu/source/i18n/islamcal.cpp
 						-->
 					</eraAbbr>
 					<eraNarrow>
@@ -970,7 +1059,6 @@
 					<eraAbbr>
 						<!-- These eras are numbered according to the data used
 							 by the ICU Japanese Calendar.
-							 http://dev.icu-project.org/cgi-bin/viewcvs.cgi/*checkout*/icu/source/i18n/japancal.cpp
 							 search for 'ERAS ='
 						-->
 						<era type="0">Taika</era>
@@ -1221,22 +1309,22 @@
 					<default choice="medium"/>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, MMMM d, y G</pattern>
+							<pattern>EEEE, G y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>MMMM d, y G</pattern>
+							<pattern>G y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>MMM d, y G</pattern>
+							<pattern>G y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>M/d/yy</pattern>
+							<pattern>G yy-MM-dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1244,25 +1332,44 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<default choice="medium"/>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{1} {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<!-- The following are copied from gregorian (previously included via alias) -->
 						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">yyyy GGG</dateFormatItem>
-						<dateFormatItem id="yM">GGGGG yy-MM</dateFormatItem>
-						<dateFormatItem id="yMMM">GGGGG yy MMM</dateFormatItem>
-						<dateFormatItem id="yQ">GGGGG yy Q</dateFormatItem>
+						<dateFormatItem id="yyyy">yy GGG</dateFormatItem>
+						<dateFormatItem id="yyyyM">GGGGG yy-MM</dateFormatItem>
+						<dateFormatItem id="yyyyMd">GGGGG yy-MM-dd</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">GGGGG yy MMM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">GGGGG yy MMM d</dateFormatItem>
+						<dateFormatItem id="yyyyQ">GGGGG yy Q</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Day">{0} ({2}: {1})</appendItem>
@@ -1409,7 +1516,43 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
 				</timeFormats>
 				<dateTimeFormats>
-					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+					<dateTimeFormatLength>
+						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/dateTimeFormatLength"/>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="Md">M/d</dateFormatItem>
+						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyyy">G y</dateFormatItem>
+						<dateFormatItem id="yyyyM">G y/M</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, G y/M/d</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM, G y</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE, MMM d, G y</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Q G y</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ G y</dateFormatItem>
+					</availableFormats>
+					<appendItems>
+						<appendItem request="Day">{0} ({2}: {1})</appendItem>
+						<appendItem request="Day-Of-Week">{0} {1}</appendItem>
+						<appendItem request="Era">{0} {1}</appendItem>
+						<appendItem request="Hour">{0} ({2}: {1})</appendItem>
+						<appendItem request="Minute">{0} ({2}: {1})</appendItem>
+						<appendItem request="Month">{0} ({2}: {1})</appendItem>
+						<appendItem request="Quarter">{0} ({2}: {1})</appendItem>
+						<appendItem request="Second">{0} ({2}: {1})</appendItem>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+						<appendItem request="Week">{0} ({2}: {1})</appendItem>
+						<appendItem request="Year">{0} {1}</appendItem>
+					</appendItems>
+					<intervalFormats>
+						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/intervalFormats"/>
+					</intervalFormats>
 				</dateTimeFormats>
 			</calendar>
 		</calendars>
@@ -1417,6 +1560,7 @@
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<hoursFormat>{0}/{1}</hoursFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
+			<gmtZeroFormat>GMT</gmtZeroFormat>
 			<regionFormat>{0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<abbreviationFallback choice="standard"/>
@@ -1645,6 +1789,7 @@
 			<metazone type="Bangladesh">
 				<short>
 					<standard>BDT</standard>
+					<daylight>BDST</daylight>
 				</short>
 			</metazone>
 			<metazone type="Bering">
@@ -1836,11 +1981,6 @@
 					<daylight>FRUST</daylight>
 				</short>
 			</metazone>
-			<metazone type="GMT">
-				<short>
-					<standard>GMT</standard>
-				</short>
-			</metazone>
 			<metazone type="Galapagos">
 				<short>
 					<standard>GALT</standard>
@@ -1860,6 +2000,11 @@
 			<metazone type="Gilbert_Islands">
 				<short>
 					<standard>GILT</standard>
+				</short>
+			</metazone>
+			<metazone type="GMT">
+				<short>
+					<standard>GMT</standard>
 				</short>
 			</metazone>
 			<metazone type="Greenland_Central">
@@ -2319,6 +2464,12 @@
 					<standard>TAHT</standard>
 				</short>
 			</metazone>
+			<metazone type="Taipei">
+				<short>
+					<standard>CST (TW)</standard>
+					<daylight>CDT (TW)</daylight>
+				</short>
+			</metazone>
 			<metazone type="Tajikistan">
 				<short>
 					<standard>TJT</standard>
@@ -2457,6 +2608,7 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
 		<symbols>
 			<decimal>.</decimal>
 			<group>,</group>
@@ -2513,33 +2665,497 @@
 			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
+			<currency type="AFN">
+				<symbol>Af</symbol>
+			</currency>
+			<currency type="ANG">
+				<symbol>NAf.</symbol>
+			</currency>
+			<currency type="AOA">
+				<symbol>Kz</symbol>
+			</currency>
+			<currency type="ARA">
+				<symbol>₳</symbol>
+			</currency>
+			<currency type="ARL">
+				<symbol>$L</symbol>
+			</currency>
+			<currency type="ARM">
+				<symbol>m$n</symbol>
+			</currency>
+			<currency type="ARS">
+				<symbol>AR$</symbol>
+			</currency>
+			<currency type="AUD">
+				<symbol>AU$</symbol>
+			</currency>
+			<currency type="AWG">
+				<symbol>Afl.</symbol>
+			</currency>
+			<currency type="AZN">
+				<symbol>man.</symbol>
+			</currency>
+			<currency type="BAM">
+				<symbol>KM</symbol>
+			</currency>
+			<currency type="BBD">
+				<symbol>Bds$</symbol>
+			</currency>
+			<currency type="BDT">
+				<symbol>Tk</symbol>
+			</currency>
+			<currency type="BEF">
+				<symbol>BF</symbol>
+			</currency>
+			<currency type="BHD">
+				<symbol>BD</symbol>
+			</currency>
+			<currency type="BIF">
+				<symbol>FBu</symbol>
+			</currency>
+			<currency type="BMD">
+				<symbol>BD$</symbol>
+			</currency>
+			<currency type="BND">
+				<symbol>BN$</symbol>
+			</currency>
+			<currency type="BOB">
+				<symbol>Bs</symbol>
+			</currency>
+			<currency type="BOP">
+				<symbol>$b.</symbol>
+			</currency>
 			<currency type="BRL">
-				<displayName>BRL</displayName>
 				<symbol>R$</symbol>
 			</currency>
+			<currency type="BSD">
+				<symbol>BS$</symbol>
+			</currency>
+			<currency type="BTN">
+				<symbol>Nu.</symbol>
+			</currency>
+			<currency type="BWP">
+				<symbol>BWP</symbol>
+			</currency>
+			<currency type="BZD">
+				<symbol>BZ$</symbol>
+			</currency>
+			<currency type="CAD">
+				<symbol>CA$</symbol>
+			</currency>
+			<currency type="CDF">
+				<symbol>CDF</symbol>
+			</currency>
+			<currency type="CHF">
+				<symbol>Fr.</symbol>
+			</currency>
+			<currency type="CLE">
+				<symbol>Eº</symbol>
+			</currency>
+			<currency type="CLP">
+				<symbol>CL$</symbol>
+			</currency>
+			<currency type="CNY">
+				<symbol>CN¥</symbol>
+			</currency>
+			<currency type="COP">
+				<symbol>CO$</symbol>
+			</currency>
+			<currency type="CRC">
+				<symbol>₡</symbol>
+			</currency>
+			<currency type="CUC">
+				<symbol>CUC$</symbol>
+			</currency>
+			<currency type="CUP">
+				<symbol>CU$</symbol>
+			</currency>
+			<currency type="CVE">
+				<symbol>CV$</symbol>
+			</currency>
+			<currency type="CYP">
+				<symbol>CY£</symbol>
+			</currency>
+			<currency type="CZK">
+				<symbol>Kč</symbol>
+			</currency>
+			<currency type="DEM">
+				<symbol>DM</symbol>
+			</currency>
+			<currency type="DJF">
+				<symbol>Fdj</symbol>
+			</currency>
+			<currency type="DKK">
+				<symbol>Dkr</symbol>
+			</currency>
+			<currency type="DOP">
+				<symbol>RD$</symbol>
+			</currency>
+			<currency type="DZD">
+				<symbol>DA</symbol>
+			</currency>
+			<currency type="EEK">
+				<symbol>Ekr</symbol>
+			</currency>
+			<currency type="EGP">
+				<symbol>EG£</symbol>
+			</currency>
+			<currency type="ERN">
+				<symbol>Nfk</symbol>
+			</currency>
+			<currency type="ESP">
+				<symbol>Pts</symbol>
+			</currency>
+			<currency type="ETB">
+				<symbol>Br</symbol>
+			</currency>
 			<currency type="EUR">
-				<displayName>EUR</displayName>
 				<symbol>€</symbol>
 			</currency>
+			<currency type="FIM">
+				<symbol>mk</symbol>
+			</currency>
+			<currency type="FJD">
+				<symbol>FJ$</symbol>
+			</currency>
+			<currency type="FKP">
+				<symbol>FK£</symbol>
+			</currency>
+			<currency type="FRF">
+				<symbol>₣</symbol>
+			</currency>
 			<currency type="GBP">
-				<displayName>GBP</displayName>
-				<symbol>UK£</symbol>
+				<symbol>£</symbol>
+			</currency>
+			<currency type="GHC">
+				<symbol>₵</symbol>
+			</currency>
+			<currency type="GHS">
+				<symbol>GH₵</symbol>
+			</currency>
+			<currency type="GIP">
+				<symbol>GI£</symbol>
+			</currency>
+			<currency type="GMD">
+				<symbol>GMD</symbol>
+			</currency>
+			<currency type="GNF">
+				<symbol>FG</symbol>
+			</currency>
+			<currency type="GRD">
+				<symbol>₯</symbol>
+			</currency>
+			<currency type="GTQ">
+				<symbol>GTQ</symbol>
+			</currency>
+			<currency type="GYD">
+				<symbol>GY$</symbol>
+			</currency>
+			<currency type="HKD">
+				<symbol>HK$</symbol>
+			</currency>
+			<currency type="HNL">
+				<symbol>HNL</symbol>
+			</currency>
+			<currency type="HRK">
+				<symbol>kn</symbol>
+			</currency>
+			<currency type="HTG">
+				<symbol>HTG</symbol>
+			</currency>
+			<currency type="HUF">
+				<symbol>Ft</symbol>
+			</currency>
+			<currency type="IDR">
+				<symbol>Rp</symbol>
+			</currency>
+			<currency type="IEP">
+				<symbol>IR£</symbol>
+			</currency>
+			<currency type="ILP">
+				<symbol>I£</symbol>
+			</currency>
+			<currency type="ILS">
+				<symbol>₪</symbol>
 			</currency>
 			<currency type="INR">
-				<displayName>INR</displayName>
-				<symbol choice="true">0≤Rs.|1≤Re.|1&lt;Rs.</symbol>
+				<symbol>Rs</symbol>
+			</currency>
+			<currency type="ISK">
+				<symbol>Ikr</symbol>
 			</currency>
 			<currency type="ITL">
-				<displayName>ITL</displayName>
 				<symbol>IT₤</symbol>
 			</currency>
+			<currency type="JMD">
+				<symbol>J$</symbol>
+			</currency>
+			<currency type="JOD">
+				<symbol>JD</symbol>
+			</currency>
 			<currency type="JPY">
-				<displayName>JPY</displayName>
 				<symbol>JP¥</symbol>
 			</currency>
+			<currency type="KES">
+				<symbol>Ksh</symbol>
+			</currency>
+			<currency type="KMF">
+				<symbol>CF</symbol>
+			</currency>
+			<currency type="KRW">
+				<symbol>₩</symbol>
+			</currency>
+			<currency type="KWD">
+				<symbol>KD</symbol>
+			</currency>
+			<currency type="KYD">
+				<symbol>KY$</symbol>
+			</currency>
+			<currency type="LAK">
+				<symbol>₭</symbol>
+			</currency>
+			<currency type="LBP">
+				<symbol>LB£</symbol>
+			</currency>
+			<currency type="LKR">
+				<symbol>SLRs</symbol>
+			</currency>
+			<currency type="LRD">
+				<symbol>L$</symbol>
+			</currency>
+			<currency type="LSL">
+				<symbol>LSL</symbol>
+			</currency>
+			<currency type="LTL">
+				<symbol>Lt</symbol>
+			</currency>
+			<currency type="LVL">
+				<symbol>Ls</symbol>
+			</currency>
+			<currency type="LYD">
+				<symbol>LD</symbol>
+			</currency>
+			<currency type="MMK">
+				<symbol>MMK</symbol>
+			</currency>
+			<currency type="MNT">
+				<symbol>₮</symbol>
+			</currency>
+			<currency type="MOP">
+				<symbol>MOP$</symbol>
+			</currency>
+			<currency type="MRO">
+				<symbol>UM</symbol>
+			</currency>
+			<currency type="MTL">
+				<symbol>Lm</symbol>
+			</currency>
+			<currency type="MTP">
+				<symbol>MT£</symbol>
+			</currency>
+			<currency type="MUR">
+				<symbol>MURs</symbol>
+			</currency>
+			<currency type="MXP">
+				<symbol>MX$</symbol>
+			</currency>
+			<currency type="MYR">
+				<symbol>RM</symbol>
+			</currency>
+			<currency type="MZM">
+				<symbol>Mt</symbol>
+			</currency>
+			<currency type="MZN">
+				<symbol>MTn</symbol>
+			</currency>
+			<currency type="NAD">
+				<symbol>N$</symbol>
+			</currency>
+			<currency type="NGN">
+				<symbol>₦</symbol>
+			</currency>
+			<currency type="NIO">
+				<symbol>C$</symbol>
+			</currency>
+			<currency type="NLG">
+				<symbol>fl</symbol>
+			</currency>
+			<currency type="NOK">
+				<symbol>Nkr</symbol>
+			</currency>
+			<currency type="NPR">
+				<symbol>NPRs</symbol>
+			</currency>
+			<currency type="NZD">
+				<symbol>NZ$</symbol>
+			</currency>
+			<currency type="PAB">
+				<symbol>B/.</symbol>
+			</currency>
+			<currency type="PEI">
+				<symbol>I/.</symbol>
+			</currency>
+			<currency type="PEN">
+				<symbol>S/.</symbol>
+			</currency>
+			<currency type="PGK">
+				<symbol>PGK</symbol>
+			</currency>
+			<currency type="PHP">
+				<symbol>₱</symbol>
+			</currency>
+			<currency type="PKR">
+				<symbol>PKRs</symbol>
+			</currency>
+			<currency type="PLN">
+				<symbol>zł</symbol>
+			</currency>
+			<currency type="PTE">
+				<symbol>Esc</symbol>
+			</currency>
+			<currency type="PYG">
+				<symbol>₲</symbol>
+			</currency>
+			<currency type="QAR">
+				<symbol>QR</symbol>
+			</currency>
+			<currency type="RHD">
+				<symbol>RH$</symbol>
+			</currency>
+			<currency type="RON">
+				<symbol>RON</symbol>
+			</currency>
+			<currency type="RSD">
+				<symbol>din.</symbol>
+			</currency>
+			<currency type="SAR">
+				<symbol>SR</symbol>
+			</currency>
+			<currency type="SBD">
+				<symbol>SI$</symbol>
+			</currency>
+			<currency type="SCR">
+				<symbol>SRe</symbol>
+			</currency>
+			<currency type="SDD">
+				<symbol>LSd</symbol>
+			</currency>
+			<currency type="SEK">
+				<symbol>Skr</symbol>
+			</currency>
+			<currency type="SGD">
+				<symbol>S$</symbol>
+			</currency>
+			<currency type="SHP">
+				<symbol>SH£</symbol>
+			</currency>
+			<currency type="SKK">
+				<symbol>Sk</symbol>
+			</currency>
+			<currency type="SLL">
+				<symbol>Le</symbol>
+			</currency>
+			<currency type="SOS">
+				<symbol>Ssh</symbol>
+			</currency>
+			<currency type="SRD">
+				<symbol>SR$</symbol>
+			</currency>
+			<currency type="SRG">
+				<symbol>Sf</symbol>
+			</currency>
+			<currency type="STD">
+				<symbol>Db</symbol>
+			</currency>
+			<currency type="SVC">
+				<symbol>SV₡</symbol>
+			</currency>
+			<currency type="SYP">
+				<symbol>SY£</symbol>
+			</currency>
+			<currency type="SZL">
+				<symbol>SZL</symbol>
+			</currency>
+			<currency type="THB">
+				<symbol>฿</symbol>
+			</currency>
+			<currency type="TMM">
+				<symbol>TMM</symbol>
+			</currency>
+			<currency type="TND">
+				<symbol>DT</symbol>
+			</currency>
+			<currency type="TOP">
+				<symbol>T$</symbol>
+			</currency>
+			<currency type="TRL">
+				<symbol>TRL</symbol>
+			</currency>
+			<currency type="TRY">
+				<symbol>TL</symbol>
+			</currency>
+			<currency type="TTD">
+				<symbol>TT$</symbol>
+			</currency>
+			<currency type="TWD">
+				<symbol>NT$</symbol>
+			</currency>
+			<currency type="TZS">
+				<symbol>TSh</symbol>
+			</currency>
+			<currency type="UAH">
+				<symbol>₴</symbol>
+			</currency>
+			<currency type="UGX">
+				<symbol>USh</symbol>
+			</currency>
 			<currency type="USD">
-				<displayName>USD</displayName>
 				<symbol>US$</symbol>
+			</currency>
+			<currency type="UYU">
+				<symbol>$U</symbol>
+			</currency>
+			<currency type="VEF">
+				<symbol>Bs.F.</symbol>
+			</currency>
+			<currency type="VND">
+				<symbol>₫</symbol>
+			</currency>
+			<currency type="VUV">
+				<symbol>VT</symbol>
+			</currency>
+			<currency type="WST">
+				<symbol>WS$</symbol>
+			</currency>
+			<currency type="XAF">
+				<symbol>FCFA</symbol>
+			</currency>
+			<currency type="XCD">
+				<symbol>EC$</symbol>
+			</currency>
+			<currency type="XOF">
+				<symbol>CFA</symbol>
+			</currency>
+			<currency type="XPF">
+				<symbol>CFPF</symbol>
+			</currency>
+			<currency type="YER">
+				<symbol>YR</symbol>
+			</currency>
+			<currency type="ZAR">
+				<symbol>R</symbol>
+			</currency>
+			<currency type="ZMK">
+				<symbol>ZK</symbol>
+			</currency>
+			<currency type="ZRN">
+				<symbol>NZ</symbol>
+			</currency>
+			<currency type="ZRZ">
+				<symbol>ZRZ</symbol>
+			</currency>
+			<currency type="ZWD">
+				<symbol>Z$</symbol>
 			</currency>
 		</currencies>
 	</numbers>
@@ -2574,94 +3190,4 @@
 		</messages>
 	</posix>
 </ldml>
-<!-- **********************
-  * ABOUT THE OLD COMMENTS
- 
-The following comment block, and similar 'Old Comments' blocks in other files, have been extracted from ICU 3.0 prior to about 20-August-2004. At this time CLDR data was extracted, without comments, from the ICU data.
- The oss.software.ibm.com URL, below, provides access to the original source file in ICU format, via the '(download)' link on that page.
-
- If you are updating these files, please feel free to restructure or remove comments after you have read and understood the original meaning, especially as the information is encoded in proper LDML form (source URL, alternate translation, etc).  
-
- Please do not remove this comment in root.xml until all other 'Old Comments' are gone.
-
- Thank you.
-Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/root.txt?only_with_tag=final-update-LDML
-
-Date        Name        Description
-01/15/2002  grhoten     Synchronized the language and contry codes with ISO standards
-***  Note: do NOT translate or modify (customize) this root locale.
-Instead, put translations in sub locales.
-International Calendars Data.
-NOTE (ICU 3.0) - the format of this data WILL CHANGE in future releases.
-Islamic calendar  - the Religious (Astronomical) variant first
-                "AH" // Anno Hijri
-Civil is identical other than in calculations
-Buddhist calendar data
-                "BE"                             // Buddhist Era  = 543 BC Gregorian
-            DateTimePatterns{ // shorten year, use Era
-                "yy/MM/dd", // Changing this will break binary compatibility.
-                "BCE", // BC
-                "CE"   // AD
-                        "Adar I",       // Leap years only
-            "AM" // Anno Mundi
-                "h:mm:ss a z", // full time pattern
-                "h:mm:ss a z", // long time pattern
-                "h:mm:ss a", // medium time pattern
-                "h:mm a", // short time pattern
-                "EEEE, MMMM d, y G", // full date pattern
-                "MMMM d, y G", // long date pattern
-                "MMM d, y G", // medium date pattern
-                "M/d/yy", // short date pattern
-                "{1} {0}" // date-time pattern
-Japanese calendar data - Eras - see ICU's japancal.cpp for the format
-                "h:mm:ss a z", // full time pattern
-                "h:mm:ss a z", // long time pattern
-                "h:mm:ss a", // medium time pattern
-                "h:mm a", // short time pattern
-TODO Fix the following
-                "EEEE y'x'G-Ml-d", // full date pattern
-                "y'x'G-Ml-d", // long date pattern
-                "y'x'G-Ml-d", // medium date pattern
-                "y'x'G-Ml-d", // short date pattern
-                "{1} {0}" // date-time pattern
-The official list list of ISO-3166 country codes are located at:
-http://www.din.de/gremien/nas/nabd/iso3166ma/codlstp1/en_listp1.html
-        Fallback{""} // this is just to make cloctst not complain and not break the fallback chain..if multilevel fallback is implemented
-CS { "CS" } // TODO: if we allow this, then SP must go away
-Localized display names of currencies, analogous to Countries
-and Languages.  "Common usage" display names are listed here in
-for example, is used to indicate not only USD, but also ARS,
-AUD, BND, CAD, CLP, COP, JDF, ETB, MXN, NZD, and SOS.  Hoever,
-its default meaning in many locales is USD, so we list it here
-and override it in sublocales that use "$" for something else.
-@since ICU 2.2
-        EUR { "\u20AC", "EUR" } // Euro
-        GBP { "\u00A3", "GBP" } // British Pound Sterling
-        INR { "=0#Rs.|1#Re.|1<Rs.", "INR" } // Indian Rupee
-        ITL { "\u20A4", "ITL" } // Italian Lira
-        JPY { "\u00A5", "JPY" } // Japanese Yen
-        USD { "US$",    "USD" } // US Dollar
-If there is a two letter abbreviation (ISO-639-1) for a three letter
-abbreviation (ISO-639-2), the two letter abbreviation must be used.
-Source: http://lcweb.loc.gov/standards/iso639-2/englangn.html
-iw  { "iw"  }
-qaa-qtz is reserved for locale use
-        sh  { "sh"  } // This is deprecated. This will be removed once we can use scripts in locale IDs.
-    MeasurementSystem:int{ 0 } // ISO/Metric system
-the PaperSize units are in mm
-        297, // height
-        210  // width
-        Hans { "Hans" } // Not a formal part of ISO-15924 yet
-        Hant { "Hant" } // Not a formal part of ISO-15924 yet
-keys for collation (traditional may also be used for traditional chinese)
-The values in root must always be capitalized because the signify the values are
-codes not translations
-NY      { "NY" }        // No longer valid variant. Here for backwards compatibility.
-EURO    { "EURO" }      // EURO variant display name
-
-Comments without bases
-
- The following are altered since era should be included with year    - was on: //ldml/dates/calendars/calendar[@type="japanese"]/dateTimeFormats/availableFormats/dateFormatItem[@id="yyMM"]
--->
 

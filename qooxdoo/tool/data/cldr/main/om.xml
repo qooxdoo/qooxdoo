@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.52 $"/>
-		<generation date="$Date: 2008/05/28 15:49:34 $"/>
+		<version number="$Revision: 1.63 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="om"/>
 	</identity>
 	<localeDisplayNames>
@@ -228,17 +228,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, MMMM d, yyyy</pattern>
+							<pattern draft="unconfirmed">EEEE, MMMM d, y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">dd MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd-MMM-yyyy</pattern>
+							<pattern draft="unconfirmed">dd-MMM-y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -250,7 +250,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a v</pattern>
+							<pattern draft="unconfirmed">h:mm:ss a zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -270,17 +270,12 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="unconfirmed">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -308,7 +303,6 @@
 			</currency>
 			<currency type="ETB">
 				<displayName draft="unconfirmed">Itoophiyaa Birrii</displayName>
-				<symbol>$</symbol>
 			</currency>
 			<currency type="EUR">
 				<displayName draft="unconfirmed">Euro</displayName>
@@ -322,9 +316,6 @@
 			<currency type="JPY">
 				<displayName draft="unconfirmed">Japanese Yen</displayName>
 			</currency>
-			<currency type="KES">
-				<symbol>Ksh</symbol>
-			</currency>
 			<currency type="RUB">
 				<displayName draft="unconfirmed">Russian Ruble</displayName>
 			</currency>
@@ -334,21 +325,4 @@
 		</currencies>
 	</numbers>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/om.txt?only_with_tag=final-update-LDML
 
-* Oromo language locale.
-* Contributed by Daniel Yacob <yacob@geez.org>
-* Oromo terms are provided by Mahdi Hamid Muudee of Sagalee Oromoo
-* Publishing Co. Inc and formatted in Posix format locale by Daniel Yacob of
-* the Ge'ez Frontier Foundation.  The Oromo language terms used here
-* are those considered to be canonical in the Oromo language under
-* contemporary and progressive usage adopted by government bureaus
-* across the Oromo region.  Regional synonyms naturally exist for many
-* of the month and day names.
-LanguageLibraryUse { "orm" }
-Currency display names
-        "Latn",  // ISO 15924 Name 
-                "KD",  // KD = Kiristoos Dura = Before Christ
-                "KB",  // KB = Kiristoos Booda = After Christ
--->
