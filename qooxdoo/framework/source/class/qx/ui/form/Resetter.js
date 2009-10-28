@@ -129,13 +129,50 @@ qx.Class.define("qx.ui.form.Resetter",
       // go threw all added items
       for (var i = 0; i < this.__items.length; i++) {
         var item = this.__items[i].item;
-        if (this.__supportsValue(item)) {
-          var init = item.getValue();
-        } else if (this.__supportsSingleSelection(item)) {
-          var init = item.getSelection();
-        }
         // set the new init value for the item
-        this.__items[i].init = init;
+        this.__items[i].init = this.__getCurrentValue(item);
+      }
+    },
+    
+    
+    /**
+     * Takes the current value of the given item and stores this value as init 
+     * value for resetting. 
+     * 
+     * @param item {qx.ui.core.Widget} The item to redefine.
+     */
+    redefineItem : function(item) 
+    {
+      // get the data entry
+      var dataEntry;
+      for (var i = 0; i < this.__items.length; i++) {
+        if (this.__items[i].item === item) {
+          dataEntry = this.__items[i];
+          break;
+        }
+      };
+      
+      // check for the available init value
+      if (dataEntry === undefined) {
+        throw new Error("The given item has not been added.");
+      }
+
+      // set the new init value for the item
+      dataEntry.init = this.__getCurrentValue(dataEntry.item);      
+    },
+    
+    
+    /**
+     * Internel helper top access the value of a given item.
+     * 
+     * @param item {qx.ui.core.Widget} The item to access.
+     */
+    __getCurrentValue : function(item) 
+    {
+      if (this.__supportsValue(item)) {
+        return item.getValue();
+      } else if (this.__supportsSingleSelection(item)) {
+        return item.getSelection();
       }
     },
 
