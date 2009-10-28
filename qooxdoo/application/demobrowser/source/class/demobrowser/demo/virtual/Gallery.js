@@ -47,23 +47,29 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
       this.base(arguments);
 
       // widget window
-      var widgetWin = new demo.WidgetGallery("Gallery (widgets)");
+      var widgetWin = new demobrowser.demo.virtual.WidgetGallery("Gallery (widgets)");
 
       // html window
-      var htmlWin = new demo.HtmlGallery("Gallery (HTML - divs)");
+      var htmlWin = new demobrowser.demo.virtual.HtmlGallery("Gallery (HTML - divs)");
       htmlWin.moveTo(400, 50);
     }
   }
 });
+
+
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
 
 /*
 *****************************************************************************
    ABSTRACT GALLERY
 *****************************************************************************
 */
-
-
-qx.Class.define("demo.AbstractGallery",
+qx.Class.define("demobrowser.demo.virtual.AbstractGallery",
 {
   extend : qx.ui.window.Window,
   type : "abstract",
@@ -179,13 +185,20 @@ qx.Class.define("demo.AbstractGallery",
   }
 });
 
+
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
+
 /*
 *****************************************************************************
-   WIDGET GALLERY
+   GALLERY CELL
 *****************************************************************************
 */
-
-qx.Class.define("gallery.GalleryCell",
+qx.Class.define("demobrowser.demo.virtual.GalleryCell",
 {
   extend : qx.ui.virtual.cell.AbstractWidget,
 
@@ -237,14 +250,26 @@ qx.Class.define("gallery.GalleryCell",
 });
 
 
-qx.Class.define("demo.WidgetGallery",
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
+
+/*
+*****************************************************************************
+   WIDGET GALLERY
+*****************************************************************************
+*/
+qx.Class.define("demobrowser.demo.virtual.WidgetGallery",
 {
-  extend : demo.AbstractGallery,
+  extend : demobrowser.demo.virtual.AbstractGallery,
 
   construct : function(title)
   {
     this.base(arguments, title);
-    this.__cell = new gallery.GalleryCell();
+    this.__cell = new demobrowser.demo.virtual.GalleryCell();
   },
 
   members :
@@ -332,16 +357,22 @@ qx.Class.define("demo.WidgetGallery",
   }
 });
 
+
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
+
 /*
 *****************************************************************************
    HTML GALLERY
 *****************************************************************************
 */
-
-
-qx.Class.define("demo.HtmlGallery",
+qx.Class.define("demobrowser.demo.virtual.HtmlGallery",
 {
-  extend : demo.AbstractGallery,
+  extend : demobrowser.demo.virtual.AbstractGallery,
 
   construct : function(title)
   {

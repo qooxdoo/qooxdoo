@@ -357,13 +357,14 @@ qx.Class.define("demobrowser.TreeDataHandler",
      * @param node {Node} TODOC
      * @return {var} TODOC
      * @lint ignoreUnused(tests)
+     * @lint ignoreUndefined(classloop) TODO: Workaround for bug #2221
      */
     classFromTest : function(node)
     {
       var classname = "";
       var tests = [];
+      
       classloop:
-
       for (var i=0; i<this.tmap.length; i++)
       {
         for (var j=0; j<this.tmap[i].tests.length; j++)

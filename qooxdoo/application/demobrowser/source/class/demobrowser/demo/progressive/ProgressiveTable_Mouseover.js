@@ -75,7 +75,8 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
       progressive.addRenderer("row", rowRenderer);
 
       // Tell the row renderer to use our custom date cell renderer
-      rowRenderer.addRenderer(2, new DateCellRenderer());
+      rowRenderer.addRenderer(2, 
+        new demobrowser.demo.progressive.DateCellRenderer());
 
       this.getRoot().add(progressive, { edge : 50 });
 
@@ -84,12 +85,13 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
   }
 });
 
-/**
+/*
+ * PLEASE NOTE:
  * For demonstration purposes the following class is added to the same file as
  * the application class. For a regular qooxdoo application each class must live
  * in a file of its own. You may neglect any warnings when generating this demo.
  */
-qx.Class.define("DateCellRenderer",
+qx.Class.define("demobrowser.demo.progressive.DateCellRenderer",
 {
   extend     : qx.ui.progressive.renderer.table.cell.Default,
 
@@ -146,8 +148,8 @@ qx.Class.define("DateCellRenderer",
       html.push("celldata='" + cellInfo.cellData.toUTCString() + "' ");
 
       // Create some event handlers
-      html.push("onmouseover='DateCellRenderer.onmouseover(this);' ",
-                "onmouseout='DateCellRenderer.onmouseout(this);' ");
+      html.push("onmouseover='demobrowser.demo.progressive.DateCellRenderer.onmouseover(this);' ",
+                "onmouseout='demobrowser.demo.progressive.DateCellRenderer.onmouseout(this);' ");
 
       return html.join("");
     }

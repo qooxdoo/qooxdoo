@@ -51,30 +51,6 @@ qx.Class.define("demobrowser.demo.test.Table_HeaderRenderer",
     testDefaultRenderer : function()
     {
       var renderer = new qx.ui.table.headerrenderer.Default();
-
-      var cellDataOptions =
-      {
-        name : ["Name"],
-        col : [1],
-        xPos : [2],
-        editable : [true, false],
-        sorted : [true, false],
-        sortedAscending : [true, false]
-      }
-
-      var container = this._getNewHeaderContainer()
-      qx.util.Permutation.permute(cellDataOptions, function(cellData)
-      {
-        var header = renderer.createHeaderCell(cellData);
-        container.add(header);
-        renderer.updateHeaderCell(cellData, header);
-      });
-    },
-
-
-    testDefaultRenderer : function()
-    {
-      var renderer = new qx.ui.table.headerrenderer.Default();
       renderer.setToolTip("tool tip");
 
       var cellDataOptions =

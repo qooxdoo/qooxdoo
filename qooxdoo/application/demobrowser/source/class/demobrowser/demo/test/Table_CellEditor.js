@@ -50,6 +50,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
       this.testSelectBoxEditor();
       this.testPasswordEditor();
       this.testTextfieldEditor();
+      this.testTextfieldEditorDynamic();
     },
 
     _addEditor : function(editorFactory, cellInfo)
@@ -166,7 +167,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
       }, this);
     },
 
-    testTextfieldEditor : function()
+    testTextfieldEditorDynamic : function()
     {
       var cellInfoOptions = {
         value : [true, "Juhu"]

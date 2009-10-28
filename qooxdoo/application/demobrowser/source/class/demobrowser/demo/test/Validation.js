@@ -27,51 +27,8 @@ qx.Class.define("demobrowser.demo.test.Validation",
     {
       this.base(arguments);
 
-      /**
-       * Create a new inline class with 3 properties
-       * 1. a property named 'name' which will be validated with a custom
-       *    validation function namend __validateName
-       * 2. a property named 'age' which uses a number validator from
-       *    qx.util.Validate
-       * 3. a property namend gender which uses a inArray validator from
-       *    qx.util.Validate
-       */
-      qx.Class.define("qx.Person",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-            name : {
-                init:  "My name",
-                validate: "__validateName"
-            },
-
-            age : {
-                init:  18,
-                validate: qx.util.Validate.number()
-            },
-
-            gender : {
-                init: "male",
-                validate: qx.util.Validate.inArray(["male", "female"])
-            }
-        },
-
-        members : {
-          __validateName : function(value) {
-              // if the length is lower than 2
-              if (value.length < 2) {
-                  throw new qx.core.ValidationError("Validation Error: Name " +
-                         "must be longer than one characters. (" + value + ")");
-              }
-          }
-        }
-
-      });
-
       // create a test model
-      var person = new qx.Person();
+      var person = new demobrowser.demo.test.Person();
 
       // create the view to show the results
       var embed = new qx.ui.embed.Html();
@@ -84,15 +41,11 @@ qx.Class.define("demobrowser.demo.test.Validation",
       this.getRoot().add(embed, {left: 10, top: 10});
 
 
-
-
-
       // show the initial porperty values
       embed.setHtml("<b>Initial property values</b><br>");
       embed.setHtml(embed.getHtml() + "name:" + person.getName() + "<br>");
       embed.setHtml(embed.getHtml() + "age:" + person.getAge() + "<br>");
       embed.setHtml(embed.getHtml() + "gender:" + person.getGender() + "<br>");
-
 
 
       // setting the name property
@@ -112,9 +65,6 @@ qx.Class.define("demobrowser.demo.test.Validation",
         embed.setHtml(embed.getHtml() + "<font color='red'>NAME NOT SET</font>"
                       + "<br>old name: " + person.getName() + "<br>");
       }
-
-
-
 
 
       // setting the age property
@@ -137,9 +87,6 @@ qx.Class.define("demobrowser.demo.test.Validation",
         embed.setHtml(embed.getHtml() + "<font color='red'>AGE NOT SET</font>"
                       + "<br>old age: " + person.getAge() + "<br>");
       }
-
-
-
 
 
       // setting the gender property
@@ -166,9 +113,6 @@ qx.Class.define("demobrowser.demo.test.Validation",
 
 
 
-
-
-
       /* ***********************************************
        * DESCRIPTIONS
        * ********************************************* */
@@ -189,3 +133,54 @@ qx.Class.define("demobrowser.demo.test.Validation",
   }
 });
 
+
+
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
+
+/**
+ * Create a new inline class with 3 properties
+ * 1. a property named 'name' which will be validated with a custom
+ *    validation function namend __validateName
+ * 2. a property named 'age' which uses a number validator from
+ *    qx.util.Validate
+ * 3. a property namend gender which uses a inArray validator from
+ *    qx.util.Validate
+ */
+qx.Class.define("demobrowser.demo.test.Person",
+{
+  extend : qx.core.Object,
+
+  properties :
+  {
+      name : {
+          init:  "My name",
+          validate: "__validateName"
+      },
+
+      age : {
+          init:  18,
+          validate: qx.util.Validate.number()
+      },
+
+      gender : {
+          init: "male",
+          validate: qx.util.Validate.inArray(["male", "female"])
+      }
+  },
+
+  members : {
+    __validateName : function(value) {
+        // if the length is lower than 2
+        if (value.length < 2) {
+            throw new qx.core.ValidationError("Validation Error: Name " +
+                   "must be longer than one characters. (" + value + ")");
+        }
+    }
+  }
+
+});
