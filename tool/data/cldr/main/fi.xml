@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.109 $"/>
-		<generation date="$Date: 2008/06/26 03:47:57 $"/>
+		<version number="$Revision: 1.137 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="fi"/>
 	</identity>
 	<localeDisplayNames>
@@ -61,7 +61,6 @@
 			<language type="bg">bulgaria</language>
 			<language type="bh">bihari</language>
 			<language type="bho">bhodžpuri</language>
-			<language type="bho" alt="proposed-x1001" draft="unconfirmed">bhojpuri</language>
 			<language type="bi">bislama</language>
 			<language type="bik">bikol</language>
 			<language type="bin">bini</language>
@@ -116,6 +115,7 @@
 			<language type="dak">dakota</language>
 			<language type="dar">dargi</language>
 			<language type="day">dajakki</language>
+			<language type="day" alt="proposed-x1001" draft="unconfirmed">bidayuh kieli</language>
 			<language type="de">saksa</language>
 			<language type="de_AT">itävallansaksa</language>
 			<language type="de_CH">sveitsinyläsaksa</language>
@@ -189,7 +189,6 @@
 			<language type="grc">muinaiskreikka</language>
 			<language type="gsw">sveitsinsaksa</language>
 			<language type="gu" references="R054">gudžarati</language>
-			<language type="gu" alt="proposed-x1001" draft="unconfirmed">gujarati</language>
 			<language type="gv">manx</language>
 			<language type="gwi">gwitšin</language>
 			<language type="ha">hausa</language>
@@ -312,7 +311,6 @@
 			<language type="mk">makedonia</language>
 			<language type="mkh">mon-khmer-kieli</language>
 			<language type="ml">malajalam</language>
-			<language type="ml" alt="proposed-x1001" draft="unconfirmed">malayalam</language>
 			<language type="mn">mongoli</language>
 			<language type="mnc">mantšu</language>
 			<language type="mni">manipuri</language>
@@ -365,13 +363,11 @@
 			<language type="oj">odžibwa</language>
 			<language type="om">oromo</language>
 			<language type="or">orija</language>
-			<language type="or" alt="proposed-x1001" draft="unconfirmed">oriya</language>
 			<language type="os">osseetti</language>
 			<language type="osa">osage</language>
 			<language type="ota">osmani</language>
 			<language type="oto">otomi-kieli</language>
 			<language type="pa">pandžabi</language>
-			<language type="pa" alt="proposed-x1001" draft="unconfirmed">punjabi</language>
 			<language type="paa">papualaiskieli</language>
 			<language type="pag">pangasinan</language>
 			<language type="pal">pahlavi</language>
@@ -392,7 +388,6 @@
 			<language type="pt_PT">portugalinportugali</language>
 			<language type="qu">ketšua</language>
 			<language type="raj">radžastani</language>
-			<language type="raj" alt="proposed-x1001" draft="unconfirmed">rajastani</language>
 			<language type="rap">rapanui</language>
 			<language type="rar">rarotonga</language>
 			<language type="rm">retoromaani</language>
@@ -423,10 +418,8 @@
 			<language type="sga">muinaisiiri</language>
 			<language type="sgn">viittomakieli</language>
 			<language type="sh">serbokroaatti</language>
-			<language type="sh" alt="proposed-x1001" draft="unconfirmed">serbokroatia</language>
 			<language type="shn">shan</language>
 			<language type="si">sinhali</language>
-			<language type="si" alt="proposed-x1001" draft="unconfirmed">sinhala</language>
 			<language type="sid">sidamo</language>
 			<language type="sio">sioux-kieli</language>
 			<language type="sit">sinotiibetiläinen kieli</language>
@@ -458,7 +451,6 @@
 			<language type="sv">ruotsi</language>
 			<language type="sw">swahili</language>
 			<language type="syc">muinaissyyria</language>
-			<language type="syc" alt="proposed-x1001" draft="unconfirmed">syc</language>
 			<language type="syr">syyria</language>
 			<language type="ta">tamil</language>
 			<language type="tai">thaikieli</language>
@@ -540,13 +532,10 @@
 			<script type="Bali">balilainen</script>
 			<script type="Batk">batakilainen</script>
 			<script type="Beng">bengalilainen</script>
-			<script type="Beng" alt="proposed-x1001" draft="unconfirmed">bengali</script>
 			<script type="Blis">bliss-symbolit</script>
-			<script type="Blis" alt="proposed-x1001" draft="unconfirmed">Bliss-symbolit</script>
 			<script type="Bopo">bopomofo</script>
 			<script type="Brah">brahmi</script>
 			<script type="Brai">braille-pistekirjoitus</script>
-			<script type="Brai" alt="proposed-x1001" draft="unconfirmed">Braille-pistekirjoitus</script>
 			<script type="Bugi">bugilainen</script>
 			<script type="Buhd">buhidilainen</script>
 			<script type="Cakm">chakmalainen</script>
@@ -574,7 +563,6 @@
 			<script type="Goth">goottilainen</script>
 			<script type="Grek">kreikkalainen</script>
 			<script type="Gujr">gudžaratilainen</script>
-			<script type="Gujr" alt="proposed-x1001" draft="unconfirmed">gujarati</script>
 			<script type="Guru">gurmukhi</script>
 			<script type="Hang">hangul</script>
 			<script type="Hani">kiinalainen han</script>
@@ -595,7 +583,6 @@
 			<script type="Khar">kharosthi</script>
 			<script type="Khmr">khmeriläinen</script>
 			<script type="Knda">kannadalainen</script>
-			<script type="Knda" alt="proposed-x1001" draft="unconfirmed">kannada</script>
 			<script type="Kore">korealainen</script>
 			<script type="Kthi">kaithi</script>
 			<script type="Lana">lanna</script>
@@ -614,10 +601,8 @@
 			<script type="Maya">maya-hieroglyfit</script>
 			<script type="Mero">meroiittinen</script>
 			<script type="Mlym">malajalamilainen</script>
-			<script type="Mlym" alt="proposed-x1001" draft="unconfirmed">malayalam</script>
 			<script type="Mong">mongolilainen</script>
 			<script type="Moon">moon-kohokirjoitus</script>
-			<script type="Moon" alt="proposed-x1001" draft="unconfirmed">Moon-kohokirjoitus</script>
 			<script type="Mtei">meitei</script>
 			<script type="Mtei" alt="secondary">meitei mayek</script>
 			<script type="Mymr">burmalainen</script>
@@ -626,7 +611,6 @@
 			<script type="Olck">ol chiki</script>
 			<script type="Orkh">orkhon</script>
 			<script type="Orya">orijalainen</script>
-			<script type="Orya" alt="proposed-x1001" draft="unconfirmed">oriya</script>
 			<script type="Osma">osmanjalainen</script>
 			<script type="Perm">muinaispermiläinen</script>
 			<script type="Phag">phags-pa</script>
@@ -646,7 +630,6 @@
 			<script type="Sgnw">SignWriting</script>
 			<script type="Shaw">shaw’lainen</script>
 			<script type="Sinh">sinhalilainen</script>
-			<script type="Sinh" alt="proposed-x1001" draft="unconfirmed">sinhala</script>
 			<script type="Sund">sundalainen</script>
 			<script type="Sylo">syloti nagri</script>
 			<script type="Syrc">syyrialainen</script>
@@ -657,16 +640,13 @@
 			<script type="Tale">tailelainen</script>
 			<script type="Talu">uusi tailuelainen</script>
 			<script type="Taml">tamililainen</script>
-			<script type="Taml" alt="proposed-x1001" draft="unconfirmed">tamil</script>
 			<script type="Tavt">tai viet</script>
 			<script type="Telu">telugulainen</script>
-			<script type="Telu" alt="proposed-x1001" draft="unconfirmed">telugu</script>
 			<script type="Teng" references="R055">tengwar</script>
 			<script type="Tfng">tifinagh</script>
 			<script type="Tglg">tagalogilainen</script>
 			<script type="Thaa">thaana</script>
 			<script type="Thai">thailainen</script>
-			<script type="Thai" alt="proposed-x1001" draft="unconfirmed">thai</script>
 			<script type="Tibt">tiibetiläinen</script>
 			<script type="Ugar">ugaritilainen</script>
 			<script type="Vaii">vailainen</script>
@@ -974,6 +954,7 @@
 			<variant type="1996">saksan uusi oikeinkirjoitus</variant>
 			<variant type="1606NICT">myöhäiskeskiranska</variant>
 			<variant type="1694ACAD">varhaisnykyranska</variant>
+			<variant type="1959ACAD">valkovenäjän virallinen oikeinkirjoitus</variant>
 			<variant type="AREVELA">itäarmenialainen</variant>
 			<variant type="AREVMDA">länsiarmenialainen</variant>
 			<variant type="BAKU1926">yhtenäistetty turkkilainen latinalainen aakkosto</variant>
@@ -982,24 +963,26 @@
 			<variant type="FONIPA">kansainvälinen foneettinen aakkosto IPA</variant>
 			<variant type="FONUPA">uralilainen foneettinen aakkosto UPA</variant>
 			<variant type="FONUPA" alt="secondary">suomalais-ugrilainen tarkekirjoitus</variant>
+			<variant type="KKCOR">kornin yleiskirjoitus</variant>
 			<variant type="LIPAW">sloveenin resian Lipovazin/Lipovecin alamurre</variant>
 			<variant type="MONOTON">monotoninen kreikka</variant>
 			<variant type="NEDIS">sloveenin natisonen murre</variant>
-			<variant type="NEDIS" alt="proposed-x1001" draft="unconfirmed">sloveenin natisone-murre</variant>
 			<variant type="NJIVA">sloveenin resian Gnivan/Njivan alamurre</variant>
 			<variant type="OSOJS">sloveenin resian Oseaccon/Osojanen alamurre</variant>
+			<variant type="PINYIN">kiinan pinyin-latinaistus</variant>
 			<variant type="POLYTON">polytoninen kreikka</variant>
 			<variant type="POSIX">tietokonemäärittely POSIX</variant>
 			<variant type="REVISED">uudistettu oikeinkirjoitus</variant>
 			<variant type="ROZAJ">sloveenin resian murre</variant>
-			<variant type="ROZAJ" alt="proposed-x1001" draft="unconfirmed">sloveenin resia-murre</variant>
 			<variant type="SAAHO">afarin saho-murre</variant>
 			<variant type="SCOTLAND">skotlanninenglanti</variant>
 			<variant type="SCOUSE">englannin scouse-murre</variant>
 			<variant type="SOLBA">sloveenin resian Stolvizzan/Solbican alamurre</variant>
 			<variant type="TARASK">valkovenäjän taraškevitsa-oikeinkirjoitus</variant>
+			<variant type="UCCOR">kornin yhtenäiskirjoitus</variant>
+			<variant type="UCRCOR">kornin uusittu yhtenäiskirjoitus</variant>
 			<variant type="VALENCIA">katalaanin valencian murre</variant>
-			<variant type="VALENCIA" alt="proposed-x1001" draft="unconfirmed">katalaanin valencia-murre</variant>
+			<variant type="WADEGILE">kiinan Wade-Giles-latinaistus</variant>
 		</variants>
 		<keys>
 			<key type="calendar">kalenteri</key>
@@ -1021,13 +1004,12 @@
 			<type type="phonebook" key="collation">puhelinluettelojärjestys</type>
 			<type type="pinyin" key="collation">pinyin-järjestys</type>
 			<type type="roc" key="calendar">kiinan tasavallan kalenteri 1912–1949</type>
-			<type type="roc" key="calendar" alt="proposed-x1001" draft="unconfirmed">kiinalainen kalenteri</type>
 			<type type="stroke" key="collation">piirtojärjestys</type>
 			<type type="traditional" key="collation">perinteinen järjestys</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US">amerikkalainen</measurementSystemName>
 			<measurementSystemName type="metric">metrinen</measurementSystemName>
+			<measurementSystemName type="US">amerikkalainen</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language">kieli: {0}</codePattern>
@@ -1035,6 +1017,10 @@
 			<codePattern type="territory">alue: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
+	<layout>
+		<inText type="languages">lowercase-words</inText>
+		<inText type="languages" alt="proposed-x1001" draft="unconfirmed">mixed</inText>
+	</layout>
 	<characters>
 		<exemplarCharacters>[a-s š t-z ž å ä ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â ã č ç đ é è ë ǧ ǥ ȟ í ï ǩ ń ñ ŋ ô õ œ ř ŧ ú ü ʒ ǯ æ ø]</exemplarCharacters>
@@ -1047,12 +1033,41 @@
 		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
 		<dateRangePattern>{0}–{1}</dateRangePattern>
 		<calendars>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">tammikuuta</month>
+							<month type="2">helmikuuta</month>
+							<month type="3">maaliskuuta</month>
+							<month type="4">huhtikuuta</month>
+							<month type="5">toukokuuta</month>
+							<month type="6">kesäkuuta</month>
+							<month type="7">heinäkuuta</month>
+							<month type="8">elokuuta</month>
+							<month type="9">syyskuuta</month>
+							<month type="10">lokakuuta</month>
+							<month type="11">marraskuuta</month>
+							<month type="12">joulukuuta</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">tammikuuta</month>
+							<month type="2">helmikuuta</month>
+							<month type="3">maaliskuuta</month>
+							<month type="4">huhtikuuta</month>
+							<month type="5">toukokuuta</month>
+							<month type="6">kesäkuuta</month>
+							<month type="7">heinäkuuta</month>
+							<month type="8">elokuuta</month>
+							<month type="9">syyskuuta</month>
+							<month type="10">lokakuuta</month>
+							<month type="11">marraskuuta</month>
+							<month type="12">joulukuuta</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
 						<monthWidth type="abbreviated">
 							<month type="1">tammi</month>
 							<month type="2">helmi</month>
@@ -1067,34 +1082,6 @@
 							<month type="11">marras</month>
 							<month type="12">joulu</month>
 						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">tammikuuta</month>
-							<month type="1" alt="proposed-x1001" draft="unconfirmed">tammikuu</month>
-							<month type="2">helmikuuta</month>
-							<month type="2" alt="proposed-x1001" draft="unconfirmed">helmikuu</month>
-							<month type="3">maaliskuuta</month>
-							<month type="3" alt="proposed-x1001" draft="unconfirmed">maaliskuu</month>
-							<month type="4">huhtikuuta</month>
-							<month type="4" alt="proposed-x1001" draft="unconfirmed">huhtikuu</month>
-							<month type="5">toukokuuta</month>
-							<month type="5" alt="proposed-x1001" draft="unconfirmed">toukokuu</month>
-							<month type="6">kesäkuuta</month>
-							<month type="6" alt="proposed-x1001" draft="unconfirmed">kesäkuu</month>
-							<month type="7">heinäkuuta</month>
-							<month type="7" alt="proposed-x1001" draft="unconfirmed">heinäkuu</month>
-							<month type="8">elokuuta</month>
-							<month type="8" alt="proposed-x1001" draft="unconfirmed">elokuu</month>
-							<month type="9">syyskuuta</month>
-							<month type="9" alt="proposed-x1001" draft="unconfirmed">syyskuu</month>
-							<month type="10">lokakuuta</month>
-							<month type="10" alt="proposed-x1001" draft="unconfirmed">lokakuu</month>
-							<month type="11">marraskuuta</month>
-							<month type="11" alt="proposed-x1001" draft="unconfirmed">marraskuu</month>
-							<month type="12">joulukuuta</month>
-							<month type="12" alt="proposed-x1001" draft="unconfirmed">joulukuu</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
 						<monthWidth type="narrow">
 							<month type="1">T</month>
 							<month type="2">H</month>
@@ -1108,6 +1095,20 @@
 							<month type="10">L</month>
 							<month type="11">M</month>
 							<month type="12">J</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">tammikuu</month>
+							<month type="2">helmikuu</month>
+							<month type="3">maaliskuu</month>
+							<month type="4">huhtikuu</month>
+							<month type="5">toukokuu</month>
+							<month type="6">kesäkuu</month>
+							<month type="7">heinäkuu</month>
+							<month type="8">elokuu</month>
+							<month type="9">syyskuu</month>
+							<month type="10">lokakuu</month>
+							<month type="11">marraskuu</month>
+							<month type="12">joulukuu</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -1124,19 +1125,12 @@
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">sunnuntaina</day>
-							<day type="sun" alt="proposed-x1001" draft="unconfirmed">sunnuntai</day>
 							<day type="mon">maanantaina</day>
-							<day type="mon" alt="proposed-x1001" draft="unconfirmed">maanantai</day>
 							<day type="tue">tiistaina</day>
-							<day type="tue" alt="proposed-x1001" draft="unconfirmed">tiistai</day>
 							<day type="wed">keskiviikkona</day>
-							<day type="wed" alt="proposed-x1001" draft="unconfirmed">keskiviikko</day>
 							<day type="thu">torstaina</day>
-							<day type="thu" alt="proposed-x1001" draft="unconfirmed">torstai</day>
 							<day type="fri">perjantaina</day>
-							<day type="fri" alt="proposed-x1001" draft="unconfirmed">perjantai</day>
 							<day type="sat">lauantaina</day>
-							<day type="sat" alt="proposed-x1001" draft="unconfirmed">lauantai</day>
 						</dayWidth>
 					</dayContext>
 					<dayContext type="stand-alone">
@@ -1148,6 +1142,15 @@
 							<day type="thu">T</day>
 							<day type="fri">P</day>
 							<day type="sat">L</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">sunnuntai</day>
+							<day type="mon">maanantai</day>
+							<day type="tue">tiistai</day>
+							<day type="wed">keskiviikko</day>
+							<day type="thu">torstai</day>
+							<day type="fri">perjantai</day>
+							<day type="sat">lauantai</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -1190,14 +1193,12 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE d. MMMM yyyy</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">EEEE d. MMMM'ta' yyyy</pattern>
+							<pattern>EEEE d. MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>d. MMMM yyyy</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">d. MMMM'ta' yyyy</pattern>
+							<pattern>d. MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -1214,7 +1215,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>H.mm.ss v</pattern>
+							<pattern>H.mm.ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -1234,184 +1235,121 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern>{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="HHmm">HH.mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH.mm.ss</dateFormatItem>
-						<dateFormatItem id="Hm">H.mm</dateFormatItem>
-						<dateFormatItem id="Hm" alt="proposed-x1001" draft="unconfirmed">H:mm</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
-						<dateFormatItem id="MEd" alt="proposed-x1001" draft="unconfirmed">E, M-d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd" alt="proposed-x1001" draft="unconfirmed">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd" alt="proposed-x1001" draft="unconfirmed">E MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">d. MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMd" alt="proposed-x1001" draft="unconfirmed">d. MMMM'ta'</dateFormatItem>
-						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMd" alt="proposed-x1001" draft="unconfirmed">MMM d</dateFormatItem>
-						<dateFormatItem id="Md">d.M.</dateFormatItem>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="mmss">mm.ss</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d.</dateFormatItem>
+						<dateFormatItem id="HHmmss">HH.mm.ss</dateFormatItem>
+						<dateFormatItem id="hm">h.mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d.M.</dateFormatItem>
+						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
-						<dateFormatItem id="ms" alt="proposed-x1001" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">yyyy</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">L.yyyy</dateFormatItem>
-						<dateFormatItem id="yM" alt="proposed-x1001" draft="unconfirmed">yyyy-M</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE d.M.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd" alt="proposed-x1001" draft="unconfirmed">EEE, yyyy-M-d</dateFormatItem>
-						<dateFormatItem id="yMMM">LLL yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM" alt="proposed-x1001" draft="unconfirmed">yyyy MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d. MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMEd" alt="proposed-x1001" draft="unconfirmed">EEE, yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM">LLLL yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMM" alt="proposed-x1001" draft="unconfirmed">yyyy MMMM</dateFormatItem>
+						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
+						<dateFormatItem id="yMMMMccccd">cccc, d. MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q/yyyy</dateFormatItem>
-						<dateFormatItem id="yQ" alt="proposed-x1001" draft="unconfirmed">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
-						<dateFormatItem id="yQQQ" alt="proposed-x1001" draft="unconfirmed">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">M/yy</dateFormatItem>
-						<dateFormatItem id="yyMM" alt="proposed-x1001" draft="unconfirmed">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMM" alt="proposed-x1002" draft="unconfirmed">MM.yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q/yy</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyM" alt="proposed-x1001" draft="unconfirmed">M.yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMEEEd">EEE d.M.yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">LLLL yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" alt="proposed-x1001" draft="unconfirmed">MMMM yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">QQQQ yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">LLLL y</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0}–{1}</intervalFormatFallback>
-						<intervalFormatFallback alt="proposed-x1001" draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">L.–L.</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">L - L</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M">E d.M. – E d.M.</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">E d.M. - E d.M.</greatestDifference>
-							<greatestDifference id="d">E d. – E d.M</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">E d. - E d.M.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">LLL–LLLL</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">LLL-LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M">E d. MMMM – E d. MMMM</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">E d. MMMM - E d. MMMM</greatestDifference>
-							<greatestDifference id="d">E d. – E d. MMMM</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">E d. - E d. MMMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M">LLL–LLLL</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">LLL-LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M">d. MMMM – d. MMMM</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">d. MMMM - d. MMMM</greatestDifference>
-							<greatestDifference id="d">d.–d. MMMM</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">d. - d. MMMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M">d.M.–d.M.</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">d.M. - d.M.</greatestDifference>
-							<greatestDifference id="d">d.–d.M.</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">d. - d.M.</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d.–d.</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">d. - d.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
 							<greatestDifference id="a">H–H</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">H - H</greatestDifference>
 							<greatestDifference id="h">H–H</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">H - H</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
 							<greatestDifference id="a">H.mm–H.mm</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm</greatestDifference>
 							<greatestDifference id="h">H.mm–H.mm</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm</greatestDifference>
 							<greatestDifference id="m">H.mm–H.mm</greatestDifference>
-							<greatestDifference id="m" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
 							<greatestDifference id="a">H.mm–H.mm v</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm v</greatestDifference>
 							<greatestDifference id="h">H.mm–H.mm v</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm v</greatestDifference>
 							<greatestDifference id="m">H.mm–H.mm v</greatestDifference>
-							<greatestDifference id="m" alt="proposed-x1001" draft="unconfirmed">H.mm - H.mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
 							<greatestDifference id="a">H–H v</greatestDifference>
-							<greatestDifference id="a" alt="proposed-x1001" draft="unconfirmed">H - H v</greatestDifference>
 							<greatestDifference id="h">H–H v</greatestDifference>
-							<greatestDifference id="h" alt="proposed-x1001" draft="unconfirmed">H - H v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">L.–L.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">d.–d.M.</greatestDifference>
+							<greatestDifference id="M">d.M.–d.M.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">E d. – E d.M</greatestDifference>
+							<greatestDifference id="M">E d.M. – E d.M.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">LLL–LLLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">d.–d. MMMM</greatestDifference>
+							<greatestDifference id="M">d. MMMM – d. MMMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">E d. – E d. MMMM</greatestDifference>
+							<greatestDifference id="M">E d. MMMM – E d. MMMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMM">
+							<greatestDifference id="M">LLL–LLLL</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y">y–y</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">y - y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">LLL–LLLL yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">LLL-LLLL yyyy</greatestDifference>
-							<greatestDifference id="y">LLLL yyyy – LLLL yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">LLLL yyyy - LLLL yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M">E d.M.yyyy – E d.M.yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">E d.M.yyyy - E d.M.yyyy</greatestDifference>
-							<greatestDifference id="d">E d.M.yyyy – E d.M.yyyy</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">E d.M.yyyy - E d.M.yyyy</greatestDifference>
-							<greatestDifference id="y">E d.M.yyyy – E d.M.yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">E d.M.yyyy - E d.M.yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">LLL–LLLL yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">LLL-LLLL yyyy</greatestDifference>
-							<greatestDifference id="y">LLLL yyyy – LLLL yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">LLLL yyyy - LLLL yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M">E d. MMMM – E d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">E d. MMMM - E d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="d">E d. – E d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">E d. - E d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="y">E d. MMMM yyyy – E d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">E d. MMMM yyyy - E d. MMMM yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">LLL–LLLL yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">LLL-LLLL yyyy</greatestDifference>
-							<greatestDifference id="y">LLLL yyyy – LLLL yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">LLLL yyyy - LLLL yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M">d. MMMM – d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">d. MMMM - d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="d">d.–d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">d. - d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="y">d. MMMM yyyy – d. MMMM yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">d. MMMM yyyy - d. MMMM yyyy</greatestDifference>
+							<greatestDifference id="M">LLL–LLLL y</greatestDifference>
+							<greatestDifference id="y">LLLL y – LLLL y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="M">d.M.–d.M.yyyy</greatestDifference>
-							<greatestDifference id="M" alt="proposed-x1001" draft="unconfirmed">d.M.yyyy - d.M.yyyy</greatestDifference>
 							<greatestDifference id="d">d.–d.M.yyyy</greatestDifference>
-							<greatestDifference id="d" alt="proposed-x1001" draft="unconfirmed">d.M.yyyy - d.M.yyyy</greatestDifference>
+							<greatestDifference id="M">d.M.–d.M.yyyy</greatestDifference>
 							<greatestDifference id="y">d.M.yyyy–d.M.yyyy</greatestDifference>
-							<greatestDifference id="y" alt="proposed-x1001" draft="unconfirmed">d.M.yyyy - d.M.yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">E d.M.yyyy – E d.M.yyyy</greatestDifference>
+							<greatestDifference id="M">E d.M.yyyy – E d.M.yyyy</greatestDifference>
+							<greatestDifference id="y">E d.M.yyyy – E d.M.yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">LLL–LLLL y</greatestDifference>
+							<greatestDifference id="y">LLLL y – LLLL y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">d.–d. MMMM y</greatestDifference>
+							<greatestDifference id="M">d. MMMM – d. MMMM y</greatestDifference>
+							<greatestDifference id="y">d. MMMM y – d. MMMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">E d. – E d. MMMM y</greatestDifference>
+							<greatestDifference id="M">E d. MMMM – E d. MMMM y</greatestDifference>
+							<greatestDifference id="y">E d. MMMM y – E d. MMMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">LLL–LLLL y</greatestDifference>
+							<greatestDifference id="y">LLLL y – LLLL y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1430,11 +1368,11 @@
 					</field>
 					<field type="day">
 						<displayName>päivä</displayName>
+						<relative type="-2">toissapäivänä</relative>
+						<relative type="-1">eilen</relative>
 						<relative type="0">tänään</relative>
 						<relative type="1">huomenna</relative>
 						<relative type="2">ylihuomenna</relative>
-						<relative type="-1">eilen</relative>
-						<relative type="-2">toissapäivänä</relative>
 					</field>
 					<field type="weekday">
 						<displayName>viikonpäivä</displayName>
@@ -1512,18 +1450,15 @@
 					</monthContext>
 				</months>
 			</calendar>
-			<calendar type="islamic-civil">
-				<months>
-					<alias source="locale" path="../../calendar[@type='islamic']/months"/>
-				</months>
-			</calendar>
 		</calendars>
 		<timeZoneNames>
 			<hourFormat>+H.mm;-H.mm</hourFormat>
-			<hourFormat alt="proposed-x1001" draft="unconfirmed">+HH.mm;-HH.mm</hourFormat>
+			<hourFormat alt="proposed-x1001" draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
 			<gmtFormat>UTC{0}</gmtFormat>
+			<gmtZeroFormat>UTC</gmtZeroFormat>
 			<regionFormat>{0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
+			<fallbackFormat alt="proposed-x1001" draft="unconfirmed">{0} ({1})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>tuntematon</exemplarCity>
 			</zone>
@@ -1551,12 +1486,10 @@
 			</zone>
 			<zone type="America/St_Johns">
 				<exemplarCity>St. Johns</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">St. John's</exemplarCity>
 			</zone>
 			<zone type="Europe/Zurich">
 				<exemplarCity>Zürich</exemplarCity>
 			</zone>
-			<!-- Chile -->
 			<zone type="Pacific/Easter">
 				<exemplarCity>Pääsiäissaari</exemplarCity>
 			</zone>
@@ -1587,7 +1520,6 @@
 			<zone type="Africa/Cairo">
 				<exemplarCity>Kairo</exemplarCity>
 			</zone>
-			<!-- Spain -->
 			<zone type="Atlantic/Canary">
 				<exemplarCity>Kanariansaaret</exemplarCity>
 			</zone>
@@ -1677,7 +1609,6 @@
 			<zone type="Europe/Warsaw">
 				<exemplarCity>Varsova</exemplarCity>
 			</zone>
-			<!-- Portugal -->
 			<zone type="Atlantic/Azores">
 				<exemplarCity>Azorit</exemplarCity>
 			</zone>
@@ -1744,327 +1675,330 @@
 			<zone type="America/St_Thomas">
 				<exemplarCity draft="provisional">Saint Thomas</exemplarCity>
 			</zone>
-			<metazone type="Acre">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Afghanistan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
 			<metazone type="Africa_Central">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard>Keski-Afrikan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Africa_Eastern">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Africa_FarWestern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard>Itä-Afrikan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Africa_Southern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic>Etelä-Afrikan aika</generic>
+					<standard>Etelä-Afrikan normaaliaika</standard>
+				</long>
 			</metazone>
 			<metazone type="Africa_Western">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Aktyubinsk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard>Länsi-Afrikan aika</standard>
+					<daylight>Länsi-Afrikan kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
 					<standard>Alaskan normaaliaika</standard>
 					<daylight>Alaskan kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Almaty">
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Amazon">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Amazonin aika</standard>
+					<daylight draft="unconfirmed">Amazonin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
+					<generic>Yhdysvaltain keskinen aika</generic>
 					<standard>Yhdysvaltain keskinen normaaliaika</standard>
 					<daylight>Yhdysvaltain keskinen kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">CT</generic>
+					<standard draft="unconfirmed">CST</standard>
+					<daylight draft="unconfirmed">CDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
+					<generic>Yhdysvaltain itäinen aika</generic>
 					<standard>Yhdysvaltain itäinen normaaliaika</standard>
 					<daylight>Yhdysvaltain itäinen kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">ET</generic>
+					<standard draft="unconfirmed">EST</standard>
+					<daylight draft="unconfirmed">EDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
+					<generic>Kalliovuorten aika</generic>
 					<standard>Kalliovuorten normaaliaika</standard>
 					<daylight>Kalliovuorten kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">MT</generic>
+					<standard draft="unconfirmed">MST</standard>
+					<daylight draft="unconfirmed">MDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
+					<generic>Yhdysvaltain Tyynenmeren aika</generic>
 					<standard>Yhdysvaltain Tyynenmeren normaaliaika</standard>
 					<daylight>Yhdysvaltain Tyynenmeren kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Anadyr">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Aqtau">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Aqtobe">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">PT</generic>
+					<standard draft="unconfirmed">PST</standard>
+					<daylight draft="unconfirmed">PDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Arabian">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Argentina">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Argentina_Western">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Saudi-Arabian aika</generic>
+					<standard draft="unconfirmed">Saudi-Arabian normaaliaika</standard>
+					<daylight draft="unconfirmed">Saudi-Arabian kesäaika</daylight>
+				</long>
+				<short>
+					<generic draft="unconfirmed">AT (SA)</generic>
+				</short>
 			</metazone>
 			<metazone type="Armenia">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Armenian aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Ašgabatin aika</standard>
+					<daylight draft="unconfirmed">Ašgabatin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
+					<generic>Kanadan Atlantin aika</generic>
 					<standard>Kanadan Atlantin normaaliaika</standard>
 					<daylight>Kanadan Atlantin kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">AT</generic>
+					<standard draft="unconfirmed">AST</standard>
+					<daylight draft="unconfirmed">ADT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Australia_Central">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Keski-Australian aika</generic>
+					<daylight draft="unconfirmed">Keski-Australian kesäaika</daylight>
+				</long>
+				<short>
+					<generic draft="unconfirmed">ACT</generic>
+				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Läntisen Keski-Australian aika</generic>
+					<standard draft="unconfirmed">Läntisen Keski-Australian normaaliaika</standard>
+					<daylight draft="unconfirmed">Läntisen Keski-Australian kesäaika</daylight>
+				</long>
+				<short>
+					<generic draft="unconfirmed">ACWT</generic>
+				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Itä-Australian aika</generic>
+					<standard draft="unconfirmed">Itä-Australian normaaliaika</standard>
+					<daylight draft="unconfirmed">Itä-Australian kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Australia_Western">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Länsi-Australian normaaliaika</standard>
+					<daylight draft="unconfirmed">Länsi-Australian kesäaika</daylight>
+				</long>
+				<short>
+					<generic draft="unconfirmed">AWT</generic>
+				</short>
 			</metazone>
 			<metazone type="Azerbaijan">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Azerbaidžanin aika</standard>
+					<daylight draft="unconfirmed">Azerbaidžanin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Azores">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Azorien aika</standard>
+					<daylight draft="unconfirmed">Azorien kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Baku">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Bakun kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Bangladesh">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Bering">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Bangladeshin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Bhutan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Bolivia">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Bhutanin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Borneo">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Brasilia">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="British">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Borneon aika</standard>
+					<daylight draft="unconfirmed">Borneon kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Brunei">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Brunein aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Chamorro">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Changbai">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Chatham">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Chile">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Kap Verden aika</standard>
+					<daylight draft="unconfirmed">Kap Verden kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
+					<generic draft="unconfirmed">Kiinan aika</generic>
 					<standard>Kiinan normaaliaika</standard>
 					<daylight>Kiinan kesäaika</daylight>
 				</long>
 				<short>
+					<generic draft="unconfirmed">CT</generic>
 					<standard>CST (Kiina)</standard>
 					<daylight>CDT (Kiina)</daylight>
 				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Choibalsan">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Tšoibalsan kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Christmas">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Joulusaaren aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Cocos">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Colombia">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Cook">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Cuba">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Dacca">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Davis">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Dominican">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="DumontDUrville">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Dushanbe">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Dutch_Guiana">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="East_Timor">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Easter">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Ecuador">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Kookossaarten aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
 					<standard>Keski-Euroopan normaaliaika</standard>
 					<daylight>Keski-Euroopan kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<standard draft="unconfirmed">CET</standard>
+					<daylight draft="unconfirmed">CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
 					<standard>Itä-Euroopan normaaliaika</standard>
 					<daylight>Itä-Euroopan kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<standard draft="unconfirmed">EET</standard>
+					<daylight draft="unconfirmed">EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Länsi-Euroopan aika</standard>
+					<daylight draft="unconfirmed">Länsi-Euroopan kesäaika</daylight>
+				</long>
+				<short>
+					<standard draft="unconfirmed">WET</standard>
+					<daylight draft="unconfirmed">WEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Falkland">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Fiji">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="French_Guiana">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Falklandinsaarten kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="French_Southern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Ranskan eteläisten ja antarktisten alueiden aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Frunze">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Biškekin aika</standard>
+					<daylight draft="unconfirmed">Biškekin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<standard draft="unconfirmed">Georgian aika</standard>
+					<daylight draft="unconfirmed">Georgian kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Greenwichin normaaliaika</standard>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Galapagos">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Gambier">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Georgia">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Gilbert_Islands">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Goose_Bay">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Greenland_Central">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Greenland_Eastern">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Greenland_Western">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Guam">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<standard draft="unconfirmed">GMT</standard>
+				</short>
 			</metazone>
 			<metazone type="Gulf">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Guyana">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Arabiemiirikuntien normaaliaika</standard>
+				</long>
+				<short>
+					<generic draft="unconfirmed">GT</generic>
+				</short>
 			</metazone>
 			<metazone type="Hong_Kong">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Hongkongin aika</standard>
+					<daylight draft="unconfirmed">Hongkongin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Hovd">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Hovdin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="India">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Indian_Ocean">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Intian normaaliaika</standard>
+				</long>
 			</metazone>
 			<metazone type="Indochina">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">In</standard>
+				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Keski-Indonesian aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Itä-Indonesian aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Iran">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Irish">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Irkutsk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Länsi-Indonesian aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
@@ -2074,291 +2008,222 @@
 				<short>
 					<standard>IST (Israel)</standard>
 				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Japan">
 				<long>
 					<standard>Japanin normaaliaika</standard>
 					<daylight>Japanin kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kamchatka">
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Karachi">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kashgar">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kizilorda">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Karachin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Korea">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kosrae">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Korean aika</generic>
+					<standard draft="unconfirmed">Korean normaaliaika</standard>
+				</long>
+				<short>
+					<generic draft="unconfirmed">KT</generic>
+				</short>
 			</metazone>
 			<metazone type="Krasnoyarsk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Krasnojarskin aika</standard>
+					<daylight draft="unconfirmed">Krasnojarskin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kwajalein">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Kyrgystan">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Kuybyshevin aika</standard>
+					<daylight draft="unconfirmed">Kuybyshevin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Lanka">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Liberia">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Line_Islands">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Long_Shu">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Sri Lankan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Lord Howen aika</generic>
+					<standard draft="unconfirmed">Lord Howen normaaliaika</standard>
+					<daylight draft="unconfirmed">Lord Howen kesäaika</daylight>
+				</long>
+				<short>
+					<generic draft="unconfirmed">LHT</generic>
+				</short>
 			</metazone>
 			<metazone type="Macau">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Magadan">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Macaon kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Malaya">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Malaysia">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Malaijan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Maldives">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Marquesas">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Marshall_Islands">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Malediivien aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Mauritius">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Mawson">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Mauritiuksen aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Mongolia">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Ulan Batorin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Moscow">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<generic draft="unconfirmed">Moskovan aika</generic>
+					<standard draft="unconfirmed">Moskovan normaaliaika</standard>
+					<daylight draft="unconfirmed">Moskovan kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Myanmar">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Nauru">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Myanmarin aikaMa</standard>
+				</long>
 			</metazone>
 			<metazone type="Nepal">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="New_Caledonia">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Nepalin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="New_Zealand">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Uuden-Seelannin normaaliaika</standard>
+				</long>
+				<short>
+					<generic draft="unconfirmed">NZT</generic>
+				</short>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
 					<standard>Newfoundlandin normaaliaika</standard>
 					<daylight>Newfoundlandin kesäaika</daylight>
 				</long>
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Niue">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Norfolk">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Noronha">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="North_Mariana">
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Novosibirsk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Novosibirskin aika</standard>
+					<daylight draft="unconfirmed">Novosibirskin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Omsk">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Oral">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Omskin aika</standard>
+					<daylight draft="unconfirmed">Omskin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Pakistan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Palau">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Papua_New_Guinea">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Paraguay">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Peru">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Pakistanin aika</standard>
+					<daylight draft="unconfirmed">Pakistanin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Philippines">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Phoenix_Islands">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Pierre_Miquelon">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Pitcairn">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Ponape">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Qyzylorda">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Reunion">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Rothera">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Filippiinien aika</standard>
+					<daylight draft="unconfirmed">Filippiinien kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Sakhalin">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Sahalinin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Samara">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Samarkand">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Samoa">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Seychelles">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Shevchenko">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Singapore">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Solomon">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Samaran aika</standard>
+					<daylight draft="unconfirmed">Samaran kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="South_Georgia">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Suriname">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Sverdlovsk">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Syowa">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Tahiti">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Etelä-Georgian aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Tajikistan">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Tadžikistanin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Tashkent">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Taškentin aika</standard>
+					<daylight draft="unconfirmed">Taškentin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Tbilisi">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Tokelau">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Tonga">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Truk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Tbilisin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Turkey">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<daylight draft="unconfirmed">Turkin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Tuvalu">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Turkmenistanin aika</standard>
+					<daylight draft="unconfirmed">Turkmenistanin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Uralsk">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Uruguay">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Oralin aika</standard>
+					<daylight draft="unconfirmed">Oralin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Urumqi">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Ürümqin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Vanuatu">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Venezuela">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Uzbekistanin aika</standard>
+					<daylight draft="unconfirmed">Uzbekistanin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Vladivostok">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Vladivostokin aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Volgograd">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Vostok">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Wake">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Wallis">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Volgogradin aika</standard>
+					<daylight draft="unconfirmed">Volgogradin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Yakutsk">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Jakutskin aika</standard>
+					<daylight draft="unconfirmed">Jakutskin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Jekaterinburgin aika</standard>
+					<daylight draft="unconfirmed">Jekaterinburgin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Yerevan">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Yukon">
-				<commonlyUsed>false</commonlyUsed>
+				<long>
+					<standard draft="unconfirmed">Jerevanin aika</standard>
+					<daylight draft="unconfirmed">Jerevanin kesäaika</daylight>
+				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -2372,7 +2237,9 @@
 			<patternDigit>#</patternDigit>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
+			<minusSign alt="proposed-x1001" draft="unconfirmed">−</minusSign>
 			<exponential>E</exponential>
+			<exponential alt="proposed-x1001" draft="unconfirmed">×10^</exponential>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>epäluku</nan>
@@ -2410,984 +2277,1377 @@
 		<currencies>
 			<currency type="ADP">
 				<displayName>Andorran peseta</displayName>
+				<displayName count="one">Andorran peseta</displayName>
 				<displayName count="other">Andorran pesetaa</displayName>
 			</currency>
 			<currency type="AED">
 				<displayName>Arabiemiirikuntien dirhami</displayName>
+				<displayName count="one">Arabiemiirikuntien dirhami</displayName>
 				<displayName count="other">Arabiemiirikuntien dirhamia</displayName>
 			</currency>
 			<currency type="AFA">
 				<displayName>Afganistanin afgaani (1927–2002)</displayName>
+				<displayName count="one">Afganistanin afgaani (1927-2002)</displayName>
 				<displayName count="other">Afganistanin afgaania (1927-2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Afganistanin afgaani</displayName>
+				<displayName count="one">Afganistanin afgaani</displayName>
 				<displayName count="other">Afganistanin afgaania</displayName>
+				<symbol>AFN</symbol>
 			</currency>
 			<currency type="ALL">
 				<displayName>Albanian lek</displayName>
+				<displayName count="one">Albanian lek</displayName>
 				<displayName count="other">Albanian lekiä</displayName>
 			</currency>
 			<currency type="AMD">
 				<displayName>Armenian dram</displayName>
+				<displayName count="one">Armenian dram</displayName>
 				<displayName count="other">Armenian dramia</displayName>
 			</currency>
 			<currency type="ANG">
 				<displayName>Alankomaiden Antillien guldeni</displayName>
+				<displayName count="one">Alankomaiden Antillien guldeni</displayName>
 				<displayName count="other">Alankomaiden Antillien guldenia</displayName>
+				<symbol>ANG</symbol>
 			</currency>
 			<currency type="AOA">
 				<displayName>Angolan kwanza</displayName>
+				<displayName count="one">Angolan kwanza</displayName>
 				<displayName count="other">Angolan kwanzaa</displayName>
+				<symbol>AOA</symbol>
 			</currency>
 			<currency type="AOK">
 				<displayName>Angolan kwanza (1977–1990)</displayName>
+				<displayName count="one">Angolan kwanza (1977–1990)</displayName>
 				<displayName count="other">Angolan kwanzaa (1977–1990)</displayName>
 			</currency>
 			<currency type="AON">
 				<displayName>Angolan uusi kwanza (1990–2000)</displayName>
+				<displayName count="one">Angolan uusi kwanza (1990–2000)</displayName>
 				<displayName count="other">Angolan uutta kwanzaa (1990–2000)</displayName>
 			</currency>
 			<currency type="AOR">
 				<displayName>Angolan kwanza reajustado (1995–1999)</displayName>
+				<displayName count="one">Angolan kwanza reajustado (1995–1999)</displayName>
 				<displayName count="other">Angolan kwanza reajustadoa (1995–1999)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>Argentiinan austral</displayName>
+				<displayName count="one">Argentiinan austral</displayName>
 				<displayName count="other">Argentiinan australia</displayName>
+				<symbol>ARA</symbol>
+			</currency>
+			<currency type="ARL">
+				<symbol>ARL</symbol>
+			</currency>
+			<currency type="ARM">
+				<symbol>ARM</symbol>
 			</currency>
 			<currency type="ARP">
 				<displayName>Argentiinan peso (1983–1985)</displayName>
+				<displayName count="one">Argentiinan peso (1983–1985)</displayName>
 				<displayName count="other">Argentiinan pesoa (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>Argentiinan peso</displayName>
+				<displayName count="one">Argentiinan peso</displayName>
 				<displayName count="other">Argentiinan pesoa</displayName>
+				<symbol>ARS</symbol>
 			</currency>
 			<currency type="ATS">
 				<displayName>Itävallan šillinki</displayName>
+				<displayName count="one">Itävallan šillinki</displayName>
 				<displayName count="other">Itävallan šillinkiä</displayName>
 			</currency>
 			<currency type="AUD">
 				<displayName>Australian dollari</displayName>
+				<displayName count="one">Australian dollari</displayName>
 				<displayName count="other">Australian dollaria</displayName>
+				<symbol>AUD</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>Aruban guldeni</displayName>
+				<displayName count="one">Aruban guldeni</displayName>
 				<displayName count="other">Aruban guldenia</displayName>
+				<symbol>AWG</symbol>
 			</currency>
 			<currency type="AZM">
 				<displayName>Azerbaidžanin manat (1993–2006)</displayName>
+				<displayName count="one">Azerbaidžanin manat (1993–2006)</displayName>
 				<displayName count="other">Azerbaidžanin manatia (1993–2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Azerbaidžanin manat</displayName>
+				<displayName count="one">Azerbaidžanin manat</displayName>
 				<displayName count="other">Azerbaidžanin manatia</displayName>
+				<symbol>AZN</symbol>
 			</currency>
 			<currency type="BAD">
 				<displayName>Bosnia-Hertsegovinan dinaari</displayName>
+				<displayName count="one">Bosnia-Hertsegovinan dinaari</displayName>
 				<displayName count="other">Bosnia-Hertsegovinan dinaaria</displayName>
 			</currency>
 			<currency type="BAM">
 				<displayName>Bosnia-Hertsegovinan vaihdettava markka</displayName>
+				<displayName count="one">Bosnia-Hertsegovinan vaihdettava markka</displayName>
 				<displayName count="other">Bosnia-Hertsegovinan vaihdettavaa markkaa</displayName>
+				<symbol>BAM</symbol>
 			</currency>
 			<currency type="BBD">
 				<displayName>Barbadosin dollari</displayName>
+				<displayName count="one">Barbadosin dollari</displayName>
 				<displayName count="other">Barbadosin dollaria</displayName>
+				<symbol>BBD</symbol>
 			</currency>
 			<currency type="BDT">
 				<displayName>Bangladeshin taka</displayName>
+				<displayName count="one">Bangladeshin taka</displayName>
 				<displayName count="other">Bangladeshin takaa</displayName>
+				<symbol>BDT</symbol>
 			</currency>
 			<currency type="BEC">
 				<displayName>Belgian vaihdettava frangi</displayName>
+				<displayName count="one">Belgian vaihdettava frangi</displayName>
 				<displayName count="other">Belgian vaihdettavaa frangia</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Belgian frangi (vaihdettava)</displayName>
 			</currency>
 			<currency type="BEF">
 				<displayName>Belgian frangi</displayName>
+				<displayName count="one">Belgian frangi</displayName>
 				<displayName count="other">Belgian frangia</displayName>
+				<symbol>BEF</symbol>
 			</currency>
 			<currency type="BEL">
 				<displayName>Belgian rahoitusfrangi</displayName>
+				<displayName count="one">Belgian rahoitusfrangi</displayName>
 				<displayName count="other">Belgian rahoitusfrangia</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Belgian frangi (rahoitus)</displayName>
 			</currency>
 			<currency type="BGL">
 				<displayName>Bulgarian kova lev</displayName>
+				<displayName count="one">Bulgarian kova lev</displayName>
 				<displayName count="other">Bulgarian kovaa levaa</displayName>
 			</currency>
 			<currency type="BGN">
 				<displayName>Bulgarian uusi lev</displayName>
+				<displayName count="one">Bulgarian uusi lev</displayName>
 				<displayName count="other">Bulgarian uutta levaa</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>Bahrainin dinaari</displayName>
+				<displayName count="one">Bahrainin dinaari</displayName>
 				<displayName count="other">Bahrainin dinaaria</displayName>
+				<symbol>BHD</symbol>
 			</currency>
 			<currency type="BIF">
 				<displayName>Burundin frangi</displayName>
+				<displayName count="one">Burundin frangi</displayName>
 				<displayName count="other">Burundin frangia</displayName>
+				<symbol>BIF</symbol>
 			</currency>
 			<currency type="BMD">
 				<displayName>Bermudan dollari</displayName>
+				<displayName count="one">Bermudan dollari</displayName>
 				<displayName count="other">Bermudan dollaria</displayName>
+				<symbol>BMD</symbol>
 			</currency>
 			<currency type="BND">
 				<displayName>Brunein dollari</displayName>
+				<displayName count="one">Brunein dollari</displayName>
 				<displayName count="other">Brunein dollaria</displayName>
+				<symbol>BND</symbol>
 			</currency>
 			<currency type="BOB">
 				<displayName>Bolivian boliviano</displayName>
+				<displayName count="one">Bolivian boliviano</displayName>
 				<displayName count="other">Bolivian bolivianoa</displayName>
+				<symbol>BOB</symbol>
 			</currency>
 			<currency type="BOP">
 				<displayName>Bolivian peso</displayName>
+				<displayName count="one">Bolivian peso</displayName>
 				<displayName count="other">Bolivian pesoa</displayName>
+				<symbol>BOP</symbol>
 			</currency>
 			<currency type="BOV">
 				<displayName>Bolivian mvdol</displayName>
+				<displayName count="one">Bolivian mvdol</displayName>
 				<displayName count="other">Bolivian mvdol'ia</displayName>
 			</currency>
 			<currency type="BRB">
 				<displayName>Brasilian uusi cruzeiro (1967–1986)</displayName>
+				<displayName count="one">Brasilian uusi cruzeiro (1967–1986)</displayName>
 				<displayName count="other">Brasilian uutta cruzeiroa (1967–1986)</displayName>
+				<symbol>BRB</symbol>
 			</currency>
 			<currency type="BRC">
 				<displayName>Brasilian cruzado</displayName>
+				<displayName count="one">Brasilian cruzado</displayName>
 				<displayName count="other">Brasilian cruzadoa</displayName>
+				<symbol>BRC</symbol>
 			</currency>
 			<currency type="BRE">
 				<displayName>Brasilian cruzeiro (1990–1993)</displayName>
+				<displayName count="one">Brasilian cruzeiro (1990–1993)</displayName>
 				<displayName count="other">Brasilian cruzeiroa (1990–1993)</displayName>
+				<symbol>BRE</symbol>
 			</currency>
 			<currency type="BRL">
 				<displayName>Brasilian real</displayName>
+				<displayName count="one">Brasilian real</displayName>
 				<displayName count="other">Brasilian realia</displayName>
 				<symbol>BRL</symbol>
 			</currency>
 			<currency type="BRN">
 				<displayName>Brasilian uusi cruzado</displayName>
+				<displayName count="one">Brasilian uusi cruzado</displayName>
 				<displayName count="other">Brasilian uutta cruzadoa</displayName>
+				<symbol>BRN</symbol>
 			</currency>
 			<currency type="BRR">
 				<displayName>Brasilian cruzeiro</displayName>
+				<displayName count="one">Brasilian cruzeiro</displayName>
 				<displayName count="other">Brasilian cruzeiroa</displayName>
+				<symbol>BRR</symbol>
+			</currency>
+			<currency type="BRZ">
+				<symbol>BRZ</symbol>
 			</currency>
 			<currency type="BSD">
 				<displayName>Bahaman dollari</displayName>
+				<displayName count="one">Bahaman dollari</displayName>
 				<displayName count="other">Bahaman dollaria</displayName>
+				<symbol>BSD</symbol>
 			</currency>
 			<currency type="BTN">
 				<displayName>Bhutanin ngultrum</displayName>
+				<displayName count="one">Bhutanin ngultrum</displayName>
 				<displayName count="other">Bhutanin ngultrumia</displayName>
+				<symbol>BTN</symbol>
 			</currency>
 			<currency type="BUK">
 				<displayName>Burman kyat</displayName>
+				<displayName count="one">Burman kyat</displayName>
 				<displayName count="other">Burman kyatia</displayName>
 			</currency>
 			<currency type="BWP">
 				<displayName>Botswanan pula</displayName>
+				<displayName count="one">Botswanan pula</displayName>
 				<displayName count="other">Botswanan pulaa</displayName>
 			</currency>
 			<currency type="BYB">
 				<displayName>Valko-Venäjän uusi rupla (1994–1999)</displayName>
+				<displayName count="one">Valko-Venäjän uusi rupla (1994–1999)</displayName>
 				<displayName count="other">Valko-Venäjän uutta ruplaa (1994–1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Valko-Venäjän rupla</displayName>
+				<displayName count="one">Valko-Venäjän rupla</displayName>
 				<displayName count="other">Valko-Venäjän ruplaa</displayName>
 			</currency>
 			<currency type="BZD">
 				<displayName>Belizen dollari</displayName>
+				<displayName count="one">Belizen dollari</displayName>
 				<displayName count="other">Belizen dollaria</displayName>
+				<symbol>BZD</symbol>
 			</currency>
 			<currency type="CAD">
 				<displayName>Kanadan dollari</displayName>
+				<displayName count="one">Kanadan dollari</displayName>
 				<displayName count="other">Kanadan dollaria</displayName>
+				<symbol>CAD</symbol>
 			</currency>
 			<currency type="CDF">
 				<displayName>Kongon frangi</displayName>
+				<displayName count="one">Kongon frangi</displayName>
 				<displayName count="other">Kongon frangia</displayName>
 			</currency>
 			<currency type="CHE">
 				<displayName>Sveitsin WIR-euro</displayName>
+				<displayName count="one">Sveitsin WIR-euro</displayName>
 				<displayName count="other">Sveitsin WIR-euroa</displayName>
 			</currency>
 			<currency type="CHF">
 				<displayName>Sveitsin frangi</displayName>
+				<displayName count="one">Sveitsin frangi</displayName>
 				<displayName count="other">Sveitsin frangia</displayName>
+				<symbol>CHF</symbol>
 			</currency>
 			<currency type="CHW">
 				<displayName>Sveitsin WIR-frangi</displayName>
+				<displayName count="one">Sveitsin WIR-frangi</displayName>
 				<displayName count="other">Sveitsin WIR-frangia</displayName>
+			</currency>
+			<currency type="CLE">
+				<symbol>CLE</symbol>
 			</currency>
 			<currency type="CLF">
 				<displayName>Chilen unidades de fomento</displayName>
+				<displayName count="one">Chilen unidades de fomento</displayName>
 				<displayName count="other">Chilen unidades de fomentoa</displayName>
 			</currency>
 			<currency type="CLP">
 				<displayName>Chilen peso</displayName>
+				<displayName count="one">Chilen peso</displayName>
 				<displayName count="other">Chilen pesoa</displayName>
+				<symbol>CLP</symbol>
 			</currency>
 			<currency type="CNY">
 				<displayName>Kiinan yuan</displayName>
+				<displayName count="one">Kiinan yuan</displayName>
 				<displayName count="other">Kiinan yuania</displayName>
+				<symbol>CNY</symbol>
 			</currency>
 			<currency type="COP">
 				<displayName>Kolumbian peso</displayName>
+				<displayName count="one">Kolumbian peso</displayName>
 				<displayName count="other">Kolumbian pesoa</displayName>
+				<symbol>COP</symbol>
 			</currency>
 			<currency type="COU">
 				<displayName references="R052">Kolumbian unidad de valor real</displayName>
+				<displayName count="one">Kolumbian unidad de valor real</displayName>
 				<displayName count="other">Kolumbian unidad de valor realia</displayName>
 			</currency>
 			<currency type="CRC">
 				<displayName>Costa Rican colon</displayName>
+				<displayName count="one">Costa Rican colon</displayName>
 				<displayName count="other">Costa Rican colonia</displayName>
+				<symbol>CRC</symbol>
 			</currency>
 			<currency type="CSD">
 				<displayName>Serbian vanha dinaari</displayName>
+				<displayName count="one">Serbian vanha dinaari</displayName>
 				<displayName count="other">Serbian vanhaa dinaaria</displayName>
 			</currency>
 			<currency type="CSK">
 				<displayName>Tšekkoslovakian kova koruna</displayName>
+				<displayName count="one">Tšekkoslovakian kova koruna</displayName>
 				<displayName count="other">Tšekkoslovakian kovaa korunaa</displayName>
+			</currency>
+			<currency type="CUC">
+				<symbol>CUC</symbol>
 			</currency>
 			<currency type="CUP">
 				<displayName>Kuuban peso</displayName>
+				<displayName count="one">Kuuban peso</displayName>
 				<displayName count="other">Kuuban pesoa</displayName>
+				<symbol>CUP</symbol>
 			</currency>
 			<currency type="CVE">
 				<displayName>Kap Verden escudo</displayName>
+				<displayName count="one">Kap Verden escudo</displayName>
 				<displayName count="other">Kap Verden escudoa</displayName>
+				<symbol>CVE</symbol>
 			</currency>
 			<currency type="CYP">
 				<displayName>Kyproksen punta</displayName>
+				<displayName count="one">Kyproksen punta</displayName>
 				<displayName count="other">Kyproksen puntaa</displayName>
+				<symbol>CYP</symbol>
 			</currency>
 			<currency type="CZK">
 				<displayName>Tšekin koruna</displayName>
+				<displayName count="one">Tšekin koruna</displayName>
 				<displayName count="other">Tšekin korunaa</displayName>
+				<symbol>CZK</symbol>
 			</currency>
 			<currency type="DDM">
 				<displayName>Itä-Saksan markka</displayName>
+				<displayName count="one">Itä-Saksan markka</displayName>
 				<displayName count="other">Itä-Saksan markkaa</displayName>
 			</currency>
 			<currency type="DEM">
 				<displayName>Saksan markka</displayName>
+				<displayName count="one">Saksan markka</displayName>
 				<displayName count="other">Saksan markkaa</displayName>
+				<symbol>DEM</symbol>
 			</currency>
 			<currency type="DJF">
 				<displayName>Djiboutin frangi</displayName>
+				<displayName count="one">Djiboutin frangi</displayName>
 				<displayName count="other">Djiboutin frangia</displayName>
+				<symbol>DJF</symbol>
 			</currency>
 			<currency type="DKK">
 				<displayName>Tanskan kruunu</displayName>
+				<displayName count="one">Tanskan kruunu</displayName>
 				<displayName count="other">Tanskan kruunua</displayName>
 				<symbol>Tkr</symbol>
 			</currency>
 			<currency type="DOP">
 				<displayName>Dominikaanisen tasavallan peso</displayName>
+				<displayName count="one">Dominikaanisen tasavallan peso</displayName>
 				<displayName count="other">Dominikaanisen tasavallan pesoa</displayName>
+				<symbol>DOP</symbol>
 			</currency>
 			<currency type="DZD">
 				<displayName>Algerian dinaari</displayName>
+				<displayName count="one">Algerian dinaari</displayName>
 				<displayName count="other">Algerian dinaaria</displayName>
+				<symbol>DZD</symbol>
 			</currency>
 			<currency type="ECS">
 				<displayName>Ecuadorin sucre</displayName>
+				<displayName count="one">Ecuadorin sucre</displayName>
 				<displayName count="other">Ecuadorin sucrea</displayName>
 			</currency>
 			<currency type="ECV">
 				<displayName>Ecuadorin UVC</displayName>
+				<displayName count="one">Ecuadorin UVC</displayName>
 				<displayName count="other">Ecuadorin UVC'ta</displayName>
 			</currency>
 			<currency type="EEK">
 				<displayName>Viron kruunu</displayName>
+				<displayName count="one">Viron kruunu</displayName>
 				<displayName count="other">Viron kruunua</displayName>
+				<symbol>EEK</symbol>
 			</currency>
 			<currency type="EGP">
 				<displayName>Egyptin punta</displayName>
+				<displayName count="one">Egyptin punta</displayName>
 				<displayName count="other">Egyptin puntaa</displayName>
-			</currency>
-			<currency type="EQE">
-				<displayName>Päiväntasaajan Guinean ekwele (1986–1989)</displayName>
-				<displayName count="other">Päiväntasaajan Guinean ekweleä (1986–1989)</displayName>
+				<symbol>EGP</symbol>
 			</currency>
 			<currency type="ERN">
 				<displayName>Eritrean nakfa</displayName>
+				<displayName count="one">Eritrean nakfa</displayName>
 				<displayName count="other">Eritrean nakfaa</displayName>
+				<symbol>ERN</symbol>
 			</currency>
 			<currency type="ESA">
 				<displayName>Espanjan peseta (A-tili)</displayName>
+				<displayName count="one">Espanjan peseta (A-tili)</displayName>
 				<displayName count="other">Espanjan pesetaa (A-tili)</displayName>
 			</currency>
 			<currency type="ESB">
 				<displayName>Espanjan peseta (vaihdettava tili)</displayName>
+				<displayName count="one">Espanjan peseta (vaihdettava tili)</displayName>
 				<displayName count="other">Espanjan pesetaa (vaihdettava tili)</displayName>
 			</currency>
 			<currency type="ESP">
 				<displayName>Espanjan peseta</displayName>
+				<displayName count="one">Espanjan peseta</displayName>
 				<displayName count="other">Espanjan pesetaa</displayName>
+				<symbol>ESP</symbol>
 			</currency>
 			<currency type="ETB">
 				<displayName>Etiopian birr</displayName>
+				<displayName count="one">Etiopian birr</displayName>
 				<displayName count="other">Etiopian birriä</displayName>
+				<symbol>ETB</symbol>
 			</currency>
 			<currency type="EUR">
 				<displayName>euro</displayName>
+				<displayName count="one">euro</displayName>
 				<displayName count="other">euroa</displayName>
 			</currency>
 			<currency type="FIM">
 				<displayName>Suomen markka</displayName>
+				<displayName count="one">Suomen markka</displayName>
 				<displayName count="other">Suomen markkaa</displayName>
-				<symbol>mk</symbol>
 			</currency>
 			<currency type="FJD">
 				<displayName>Fidžin dollari</displayName>
+				<displayName count="one">Fidžin dollari</displayName>
 				<displayName count="other">Fidžin dollaria</displayName>
+				<symbol>FJD</symbol>
 			</currency>
 			<currency type="FKP">
 				<displayName>Falklandinsaarten punta</displayName>
+				<displayName count="one">Falklandinsaarten punta</displayName>
 				<displayName count="other">Falklandinsaarten puntaa</displayName>
+				<symbol>FKP</symbol>
 			</currency>
 			<currency type="FRF">
 				<displayName>Ranskan frangi</displayName>
+				<displayName count="one">Ranskan frangi</displayName>
 				<displayName count="other">Ranskan frangia</displayName>
+				<symbol>FRF</symbol>
 			</currency>
 			<currency type="GBP">
 				<displayName>Englannin punta</displayName>
+				<displayName count="one">Englannin punta</displayName>
 				<displayName count="other">Englannin puntaa</displayName>
-				<symbol>£</symbol>
 			</currency>
 			<currency type="GEK">
 				<displayName>Georgian kuponkilari</displayName>
+				<displayName count="one">Georgian kuponkilari</displayName>
 				<displayName count="other">Georgian kuponkilaria</displayName>
 			</currency>
 			<currency type="GEL">
 				<displayName>Georgian lari</displayName>
+				<displayName count="one">Georgian lari</displayName>
 				<displayName count="other">Georgian laria</displayName>
 			</currency>
 			<currency type="GHC">
 				<displayName>Ghanan cedi (1979–2007)</displayName>
+				<displayName count="one">Ghanan cedi (1979–2007)</displayName>
 				<displayName count="other">Ghanan cediä (1979–2007)</displayName>
+				<symbol>GHC</symbol>
 			</currency>
 			<currency type="GHS">
 				<displayName>Ghanan cedi</displayName>
+				<displayName count="one">Ghanan cedi</displayName>
 				<displayName count="other">Ghanan cediä</displayName>
+				<symbol>GHS</symbol>
 			</currency>
 			<currency type="GIP">
 				<displayName>Gibraltarin punta</displayName>
+				<displayName count="one">Gibraltarin punta</displayName>
 				<displayName count="other">Gibraltarin puntaa</displayName>
+				<symbol>GIP</symbol>
 			</currency>
 			<currency type="GMD">
 				<displayName>Gambian dalasi</displayName>
+				<displayName count="one">Gambian dalasi</displayName>
 				<displayName count="other">Gambian dalasia</displayName>
 			</currency>
 			<currency type="GNF">
 				<displayName>Guinean frangi</displayName>
+				<displayName count="one">Guinean frangi</displayName>
 				<displayName count="other">Guinean frangia</displayName>
+				<symbol>GNF</symbol>
 			</currency>
 			<currency type="GNS">
 				<displayName>Guinean syli</displayName>
+				<displayName count="one">Guinean syli</displayName>
 				<displayName count="other">Guinean syliä</displayName>
 			</currency>
 			<currency type="GQE">
 				<displayName>Päiväntasaajan Guinean ekwele (–1986)</displayName>
+				<displayName count="one">Päiväntasaajan Guinean ekwele (–1986)</displayName>
 				<displayName count="other">Päiväntasaajan Guinean ekweleä (–1986)</displayName>
 			</currency>
 			<currency type="GRD">
 				<displayName>Kreikan drakma</displayName>
+				<displayName count="one">Kreikan drakma</displayName>
 				<displayName count="other">Kreikan drakmaa</displayName>
+				<symbol>GRD</symbol>
 			</currency>
 			<currency type="GTQ">
 				<displayName>Guatemalan quetzal</displayName>
+				<displayName count="one">Guatemalan quetzal</displayName>
 				<displayName count="other">Guatemalan quetzalia</displayName>
 			</currency>
 			<currency type="GWE">
 				<displayName>Portugalin Guinean escudo</displayName>
+				<displayName count="one">Portugalin Guinean escudo</displayName>
 				<displayName count="other">Portugalin Guinean escudoa</displayName>
 			</currency>
 			<currency type="GWP">
 				<displayName>Guinea-Bissaun peso</displayName>
+				<displayName count="one">Guinea-Bissaun peso</displayName>
 				<displayName count="other">Guinea-Bissaun pesoa</displayName>
 			</currency>
 			<currency type="GYD">
 				<displayName>Guyanan dollari</displayName>
+				<displayName count="one">Guyanan dollari</displayName>
 				<displayName count="other">Guyanan dollaria</displayName>
+				<symbol>GYD</symbol>
 			</currency>
 			<currency type="HKD">
 				<displayName>Hongkongin dollari</displayName>
+				<displayName count="one">Hongkongin dollari</displayName>
 				<displayName count="other">Hongkongin dollaria</displayName>
+				<symbol>HKD</symbol>
 			</currency>
 			<currency type="HNL">
 				<displayName>Hondurasin lempira</displayName>
+				<displayName count="one">Hondurasin lempira</displayName>
 				<displayName count="other">Hondurasin lempiraa</displayName>
 			</currency>
 			<currency type="HRD">
 				<displayName>Kroatian dinaari</displayName>
+				<displayName count="one">Kroatian dinaari</displayName>
 				<displayName count="other">Kroatian dinaaria</displayName>
 			</currency>
 			<currency type="HRK">
 				<displayName>Kroatian kuna</displayName>
+				<displayName count="one">Kroatian kuna</displayName>
 				<displayName count="other">Kroatian kunaa</displayName>
+				<symbol>HRK</symbol>
 			</currency>
 			<currency type="HTG">
 				<displayName>Haitin gourde</displayName>
+				<displayName count="one">Haitin gourde</displayName>
 				<displayName count="other">Haitin gourdea</displayName>
 			</currency>
 			<currency type="HUF">
 				<displayName>Unkarin forintti</displayName>
+				<displayName count="one">Unkarin forintti</displayName>
 				<displayName count="other">Unkarin forinttia</displayName>
+				<symbol>HUF</symbol>
 			</currency>
 			<currency type="IDR">
 				<displayName>Indonesian rupia</displayName>
+				<displayName count="one">Indonesian rupia</displayName>
 				<displayName count="other">Indonesian rupiaa</displayName>
+				<symbol>IDR</symbol>
 			</currency>
 			<currency type="IEP">
 				<displayName>Irlannin punta</displayName>
+				<displayName count="one">Irlannin punta</displayName>
 				<displayName count="other">Irlannin puntaa</displayName>
+				<symbol>IEP</symbol>
 			</currency>
 			<currency type="ILP">
 				<displayName>Israelin punta</displayName>
+				<displayName count="one">Israelin punta</displayName>
 				<displayName count="other">Israelin puntaa</displayName>
+				<symbol>ILP</symbol>
+			</currency>
+			<currency type="ILR">
+				<displayName>Israelin vanha sekeli</displayName>
+				<displayName count="one">Israelin vanha sekeli</displayName>
+				<displayName count="other">Israelin vanhaa sekeliä</displayName>
 			</currency>
 			<currency type="ILS">
 				<displayName>Israelin uusi sekeli</displayName>
+				<displayName count="one">Israelin uusi sekeli</displayName>
 				<displayName count="other">Israelin uutta sekeliä</displayName>
+				<symbol>ILS</symbol>
 			</currency>
 			<currency type="INR">
 				<displayName>Intian rupia</displayName>
+				<displayName count="one">Intian rupia</displayName>
 				<displayName count="other">Intian rupiaa</displayName>
 				<symbol>INR</symbol>
 			</currency>
 			<currency type="IQD">
 				<displayName>Irakin dinaari</displayName>
+				<displayName count="one">Irakin dinaari</displayName>
 				<displayName count="other">Irakin dinaaria</displayName>
 			</currency>
 			<currency type="IRR">
 				<displayName>Iranin rial</displayName>
+				<displayName count="one">Iranin rial</displayName>
 				<displayName count="other">Iranin rialia</displayName>
+			</currency>
+			<currency type="ISJ">
+				<displayName>Islannin vanha kruunu</displayName>
+				<displayName count="one">Islannin vanha kruunu</displayName>
+				<displayName count="other">Islannin vanhaa kruunua</displayName>
 			</currency>
 			<currency type="ISK">
 				<displayName>Islannin kruunu</displayName>
+				<displayName count="one">Islannin kruunu</displayName>
 				<displayName count="other">Islannin kruunua</displayName>
+				<symbol>ISK</symbol>
 			</currency>
 			<currency type="ITL">
 				<displayName>Italian liira</displayName>
+				<displayName count="one">Italian liira</displayName>
 				<displayName count="other">Italian liiraa</displayName>
 				<symbol>ITL</symbol>
 			</currency>
 			<currency type="JMD">
 				<displayName>Jamaikan dollari</displayName>
+				<displayName count="one">Jamaikan dollari</displayName>
 				<displayName count="other">Jamaikan dollaria</displayName>
+				<symbol>JMD</symbol>
 			</currency>
 			<currency type="JOD">
 				<displayName>Jordanian dinaari</displayName>
+				<displayName count="one">Jordanian dinaari</displayName>
 				<displayName count="other">Jordanian dinaaria</displayName>
+				<symbol>JOD</symbol>
 			</currency>
 			<currency type="JPY">
 				<displayName>Japanin jeni</displayName>
+				<displayName count="one">Japanin jeni</displayName>
 				<displayName count="other">Japanin jeniä</displayName>
 				<symbol>¥</symbol>
 			</currency>
 			<currency type="KES">
 				<displayName>Kenian šillinki</displayName>
+				<displayName count="one">Kenian šillinki</displayName>
 				<displayName count="other">Kenian šillinkiä</displayName>
+				<symbol>KES</symbol>
 			</currency>
 			<currency type="KGS">
 				<displayName>Kirgisian som</displayName>
+				<displayName count="one">Kirgisian som</displayName>
 				<displayName count="other">Kirgisian somia</displayName>
 			</currency>
 			<currency type="KHR">
 				<displayName>Kambodžan riel</displayName>
+				<displayName count="one">Kambodžan riel</displayName>
 				<displayName count="other">Kambodžan rieliä</displayName>
 			</currency>
 			<currency type="KMF">
 				<displayName>Komorien frangi</displayName>
+				<displayName count="one">Komorien frangi</displayName>
 				<displayName count="other">Komorien frangia</displayName>
+				<symbol>KMF</symbol>
 			</currency>
 			<currency type="KPW">
 				<displayName>Pohjois-Korean won</displayName>
+				<displayName count="one">Pohjois-Korean won</displayName>
 				<displayName count="other">Pohjois-Korean wonia</displayName>
+				<symbol>KPW</symbol>
 			</currency>
 			<currency type="KRW">
 				<displayName>Etelä-Korean won</displayName>
+				<displayName count="one">Etelä-Korean won</displayName>
 				<displayName count="other">Etelä-Korean wonia</displayName>
+				<symbol>KRW</symbol>
 			</currency>
 			<currency type="KWD">
 				<displayName>Kuwaitin dinaari</displayName>
+				<displayName count="one">Kuwaitin dinaari</displayName>
 				<displayName count="other">Kuwaitin dinaaria</displayName>
+				<symbol>KWD</symbol>
 			</currency>
 			<currency type="KYD">
 				<displayName>Caymansaarten dollari</displayName>
+				<displayName count="one">Caymansaarten dollari</displayName>
 				<displayName count="other">Caymansaarten dollaria</displayName>
+				<symbol>KYD</symbol>
 			</currency>
 			<currency type="KZT">
 				<displayName>Kazakstanin tenge</displayName>
+				<displayName count="one">Kazakstanin tenge</displayName>
 				<displayName count="other">Kazakstanin tengeä</displayName>
 			</currency>
 			<currency type="LAK">
 				<displayName>Laosin kip</displayName>
+				<displayName count="one">Laosin kip</displayName>
 				<displayName count="other">Laosin kipiä</displayName>
+				<symbol>LAK</symbol>
 			</currency>
 			<currency type="LBP">
 				<displayName>Libanonin punta</displayName>
+				<displayName count="one">Libanonin punta</displayName>
 				<displayName count="other">Libanonin puntaa</displayName>
+				<symbol>LBP</symbol>
 			</currency>
 			<currency type="LKR">
 				<displayName>Sri Lankan rupia</displayName>
+				<displayName count="one">Sri Lankan rupia</displayName>
 				<displayName count="other">Sri Lankan rupiaa</displayName>
+				<symbol>LKR</symbol>
 			</currency>
 			<currency type="LRD">
 				<displayName>Liberian dollari</displayName>
+				<displayName count="one">Liberian dollari</displayName>
 				<displayName count="other">Liberian dollaria</displayName>
+				<symbol>LRD</symbol>
 			</currency>
 			<currency type="LSL">
 				<displayName>Lesothon loti</displayName>
+				<displayName count="one">Lesothon loti</displayName>
 				<displayName count="other">Lesothon lotia</displayName>
-			</currency>
-			<currency type="LSM">
-				<displayName>Lesothon maloti</displayName>
-				<displayName count="other">Lesothon malotia</displayName>
 			</currency>
 			<currency type="LTL">
 				<displayName>Liettuan liti</displayName>
+				<displayName count="one">Liettuan liti</displayName>
 				<displayName count="other">Liettuan litiä</displayName>
+				<symbol>LTL</symbol>
 			</currency>
 			<currency type="LTT">
 				<displayName>Liettuan talonas</displayName>
+				<displayName count="one">Liettuan talonas</displayName>
 				<displayName count="other">Liettuan talonasia</displayName>
 			</currency>
 			<currency type="LUC">
 				<displayName>Luxemburgin vaihdettava frangi</displayName>
+				<displayName count="one">Luxemburgin vaihdettava frangi</displayName>
 				<displayName count="other">Luxemburgin vaihdettavaa frangia</displayName>
 			</currency>
 			<currency type="LUF">
 				<displayName>Luxemburgin frangi</displayName>
+				<displayName count="one">Luxemburgin frangi</displayName>
 				<displayName count="other">Luxemburgin frangia</displayName>
 			</currency>
 			<currency type="LUL">
 				<displayName>Luxemburgin rahoitusfrangi</displayName>
+				<displayName count="one">Luxemburgin rahoitusfrangi</displayName>
 				<displayName count="other">Luxemburgin rahoitusfrangia</displayName>
 			</currency>
 			<currency type="LVL">
 				<displayName>Latvian lati</displayName>
+				<displayName count="one">Latvian lati</displayName>
 				<displayName count="other">Latvian latia</displayName>
+				<symbol>LVL</symbol>
 			</currency>
 			<currency type="LVR">
 				<displayName>Latvian rupla</displayName>
+				<displayName count="one">Latvian rupla</displayName>
 				<displayName count="other">Latvian ruplaa</displayName>
 			</currency>
 			<currency type="LYD">
 				<displayName>Libyan dinaari</displayName>
+				<displayName count="one">Libyan dinaari</displayName>
 				<displayName count="other">Libyan dinaaria</displayName>
+				<symbol>LYD</symbol>
 			</currency>
 			<currency type="MAD">
 				<displayName>Marokon dirhami</displayName>
+				<displayName count="one">Marokon dirhami</displayName>
 				<displayName count="other">Marokon dirhamia</displayName>
 			</currency>
 			<currency type="MAF">
 				<displayName>Marokon frangi</displayName>
+				<displayName count="one">Marokon frangi</displayName>
 				<displayName count="other">Marokon frangia</displayName>
 			</currency>
 			<currency type="MDL">
 				<displayName>Moldovan leu</displayName>
+				<displayName count="one">Moldovan leu</displayName>
 				<displayName count="other">Moldovan leuta</displayName>
 			</currency>
 			<currency type="MGA">
 				<displayName>Madagaskarin ariary</displayName>
+				<displayName count="one">Madagaskarin ariary</displayName>
 				<displayName count="other">Madagaskarin ariarya</displayName>
 			</currency>
 			<currency type="MGF">
 				<displayName>Madagaskarin frangi</displayName>
+				<displayName count="one">Madagaskarin frangi</displayName>
 				<displayName count="other">Madagaskarin frangia</displayName>
 			</currency>
 			<currency type="MKD">
 				<displayName>Makedonian dinaari</displayName>
+				<displayName count="one">Makedonian dinaari</displayName>
 				<displayName count="other">Makedonian dinaaria</displayName>
 			</currency>
 			<currency type="MLF">
 				<displayName>Malin frangi</displayName>
+				<displayName count="one">Malin frangi</displayName>
 				<displayName count="other">Malin frangia</displayName>
 			</currency>
 			<currency type="MMK">
 				<displayName>Myanmarin kyat</displayName>
+				<displayName count="one">Myanmarin kyat</displayName>
 				<displayName count="other">Myanmarin kyatia</displayName>
 			</currency>
 			<currency type="MNT">
 				<displayName>Mongolian tugrik</displayName>
+				<displayName count="one">Mongolian tugrik</displayName>
 				<displayName count="other">Mongolian tugrikia</displayName>
+				<symbol>MNT</symbol>
 			</currency>
 			<currency type="MOP">
 				<displayName>Macaon pataca</displayName>
+				<displayName count="one">Macaon pataca</displayName>
 				<displayName count="other">Macaon patacaa</displayName>
+				<symbol>MOP</symbol>
 			</currency>
 			<currency type="MRO">
 				<displayName>Mauritanian ouguiya</displayName>
+				<displayName count="one">Mauritanian ouguiya</displayName>
 				<displayName count="other">Mauritanian ouguiyaa</displayName>
+				<symbol>MRO</symbol>
 			</currency>
 			<currency type="MTL">
 				<displayName>Maltan liira</displayName>
+				<displayName count="one">Maltan liira</displayName>
 				<displayName count="other">Maltan liiraa</displayName>
+				<symbol>MTL</symbol>
 			</currency>
 			<currency type="MTP">
 				<displayName>Maltan punta</displayName>
+				<displayName count="one">Maltan punta</displayName>
 				<displayName count="other">Maltan puntaa</displayName>
+				<symbol>MTP</symbol>
 			</currency>
 			<currency type="MUR">
 				<displayName>Mauritiuksen rupia</displayName>
+				<displayName count="one">Mauritiuksen rupia</displayName>
 				<displayName count="other">Mauritiuksen rupiaa</displayName>
+				<symbol>MUR</symbol>
 			</currency>
 			<currency type="MVR">
 				<displayName>Malediivien rufiyaa</displayName>
+				<displayName count="one">Malediivien rufiyaa</displayName>
 				<displayName count="other">Malediivien rufiyaata</displayName>
+				<symbol>MVR</symbol>
 			</currency>
 			<currency type="MWK">
 				<displayName>Malawin kwacha</displayName>
+				<displayName count="one">Malawin kwacha</displayName>
 				<displayName count="other">Malawin kwachaa</displayName>
+				<symbol>MWK</symbol>
 			</currency>
 			<currency type="MXN">
 				<displayName>Meksikon peso</displayName>
+				<displayName count="one">Meksikon peso</displayName>
 				<displayName count="other">Meksikon pesoa</displayName>
 			</currency>
 			<currency type="MXP">
 				<displayName>Meksikon hopeapeso (1861–1992)</displayName>
+				<displayName count="one">Meksikon hopeapeso (1861–1992)</displayName>
 				<displayName count="other">Meksikon hopeapesoa (1861–1992)</displayName>
+				<symbol>MXP</symbol>
 			</currency>
 			<currency type="MXV">
 				<displayName>Meksikon UDI</displayName>
+				<displayName count="one">Meksikon UDI</displayName>
 				<displayName count="other">Meksikon UDI'ta</displayName>
 			</currency>
 			<currency type="MYR">
 				<displayName>Malesian ringgit</displayName>
+				<displayName count="one">Malesian ringgit</displayName>
 				<displayName count="other">Malesian ringgitiä</displayName>
+				<symbol>MYR</symbol>
 			</currency>
 			<currency type="MZE">
 				<displayName>Mosambikin escudo</displayName>
+				<displayName count="one">Mosambikin escudo</displayName>
 				<displayName count="other">Mosambikin escudoa</displayName>
 			</currency>
 			<currency type="MZM">
 				<displayName>Mosambikin metical (1980–2006)</displayName>
+				<displayName count="one">Mosambikin metical (1980–2006)</displayName>
 				<displayName count="other">Mosambikin meticalia (1980–2006)</displayName>
+				<symbol>MZM</symbol>
 			</currency>
 			<currency type="MZN">
 				<displayName>Mosambikin metical</displayName>
+				<displayName count="one">Mosambikin metical</displayName>
 				<displayName count="other">Mosambikin meticalia</displayName>
+				<symbol>MZN</symbol>
 			</currency>
 			<currency type="NAD">
 				<displayName>Namibian dollari</displayName>
+				<displayName count="one">Namibian dollari</displayName>
 				<displayName count="other">Namibian dollaria</displayName>
+				<symbol>NAD</symbol>
 			</currency>
 			<currency type="NGN">
 				<displayName>Nigerian naira</displayName>
+				<displayName count="one">Nigerian naira</displayName>
 				<displayName count="other">Nigerian nairaa</displayName>
+				<symbol>NGN</symbol>
 			</currency>
 			<currency type="NIC">
 				<displayName>Nicaraguan cordoba</displayName>
+				<displayName count="one">Nicaraguan cordoba</displayName>
 				<displayName count="other">Nicaraguan cordobaa</displayName>
 			</currency>
 			<currency type="NIO">
 				<displayName>Nicaraguan kultacordoba</displayName>
+				<displayName count="one">Nicaraguan kultacordoba</displayName>
 				<displayName count="other">Nicaraguan kultacordobaa</displayName>
+				<symbol>NIO</symbol>
 			</currency>
 			<currency type="NLG">
 				<displayName>Alankomaiden guldeni</displayName>
+				<displayName count="one">Alankomaiden guldeni</displayName>
 				<displayName count="other">Alankomaiden guldenia</displayName>
+				<symbol>NLG</symbol>
 			</currency>
 			<currency type="NOK">
 				<displayName>Norjan kruunu</displayName>
+				<displayName count="one">Norjan kruunu</displayName>
 				<displayName count="other">Norjan kruunua</displayName>
-				<symbol>Nkr</symbol>
 			</currency>
 			<currency type="NPR">
 				<displayName>Nepalin rupia</displayName>
+				<displayName count="one">Nepalin rupia</displayName>
 				<displayName count="other">Nepalin rupiaa</displayName>
+				<symbol>NPR</symbol>
 			</currency>
 			<currency type="NZD">
 				<displayName>Uuden-Seelannin dollari</displayName>
+				<displayName count="one">Uuden-Seelannin dollari</displayName>
 				<displayName count="other">Uuden-Seelannin dollaria</displayName>
+				<symbol>NZD</symbol>
 			</currency>
 			<currency type="OMR">
 				<displayName>Omanin rial</displayName>
+				<displayName count="one">Omanin rial</displayName>
 				<displayName count="other">Omanin rialia</displayName>
 			</currency>
 			<currency type="PAB">
 				<displayName>Panaman balboa</displayName>
+				<displayName count="one">Panaman balboa</displayName>
 				<displayName count="other">Panaman balboaa</displayName>
+				<symbol>PAB</symbol>
 			</currency>
 			<currency type="PEI">
 				<displayName>Perun inti</displayName>
+				<displayName count="one">Perun inti</displayName>
 				<displayName count="other">Perun intiä</displayName>
+				<symbol>PEI</symbol>
 			</currency>
 			<currency type="PEN">
 				<displayName>Perun uusi sol</displayName>
+				<displayName count="one">Perun uusi sol</displayName>
 				<displayName count="other">Perun uutta solia</displayName>
+				<symbol>PEN</symbol>
 			</currency>
 			<currency type="PES">
 				<displayName>Perun sol</displayName>
+				<displayName count="one">Perun sol</displayName>
 				<displayName count="other">Perun solia</displayName>
 			</currency>
 			<currency type="PGK">
 				<displayName>Papua-Uuden-Guinean kina</displayName>
+				<displayName count="one">Papua-Uuden-Guinean kina</displayName>
 				<displayName count="other">Papua-Uuden-Guinean kinaa</displayName>
 			</currency>
 			<currency type="PHP">
 				<displayName>Filippiinien peso</displayName>
+				<displayName count="one">Filippiinien peso</displayName>
 				<displayName count="other">Filippiinien pesoa</displayName>
+				<symbol>PHP</symbol>
 			</currency>
 			<currency type="PKR">
 				<displayName>Pakistanin rupia</displayName>
+				<displayName count="one">Pakistanin rupia</displayName>
 				<displayName count="other">Pakistanin rupiaa</displayName>
+				<symbol>PKR</symbol>
 			</currency>
 			<currency type="PLN">
 				<displayName>Puolan zloty</displayName>
+				<displayName count="one">Puolan zloty</displayName>
 				<displayName count="other">Puolan zlotya</displayName>
+				<symbol>PLN</symbol>
 			</currency>
 			<currency type="PLZ">
 				<displayName>Puolan zloty (1950–1995)</displayName>
+				<displayName count="one">Puolan zloty (1950–1995)</displayName>
 				<displayName count="other">Puolan zlotya (1950–1995)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName>Portugalin escudo</displayName>
+				<displayName count="one">Portugalin escudo</displayName>
 				<displayName count="other">Portugalin escudoa</displayName>
+				<symbol>PTE</symbol>
 			</currency>
 			<currency type="PYG">
 				<displayName>Paraguayn guarani</displayName>
+				<displayName count="one">Paraguayn guarani</displayName>
 				<displayName count="other">Paraguayn guarania</displayName>
+				<symbol>PYG</symbol>
 			</currency>
 			<currency type="QAR">
 				<displayName>Qatarin rial</displayName>
+				<displayName count="one">Qatarin rial</displayName>
 				<displayName count="other">Qatarin rialia</displayName>
+				<symbol>QAR</symbol>
 			</currency>
 			<currency type="RHD">
 				<displayName>Rhodesian dollari</displayName>
+				<displayName count="one">Rhodesian dollari</displayName>
 				<displayName count="other">Rhodesian dollaria</displayName>
+				<symbol>RHD</symbol>
 			</currency>
 			<currency type="ROL">
 				<displayName>Romanian vanha leu</displayName>
+				<displayName count="one">Romanian vanha leu</displayName>
 				<displayName count="other">Romanian vanhaa leuta</displayName>
 			</currency>
 			<currency type="RON">
 				<displayName>Romanian uusi leu</displayName>
+				<displayName count="one">Romanian uusi leu</displayName>
 				<displayName count="other">Romanian uutta leuta</displayName>
 			</currency>
 			<currency type="RSD">
 				<displayName>Serbian dinaari</displayName>
+				<displayName count="one">Serbian dinaari</displayName>
 				<displayName count="other">Serbian dinaaria</displayName>
+				<symbol>RSD</symbol>
 			</currency>
 			<currency type="RUB">
 				<displayName>Venäjän rupla</displayName>
+				<displayName count="one">Venäjän rupla</displayName>
 				<displayName count="other">Venäjän ruplaa</displayName>
 			</currency>
 			<currency type="RUR">
 				<displayName>Venäjän rupla (1991–1998)</displayName>
+				<displayName count="one">Venäjän rupla (1991–1998)</displayName>
 				<displayName count="other">Venäjän ruplaa (1991–1998)</displayName>
 			</currency>
 			<currency type="RWF">
 				<displayName>Ruandan frangi</displayName>
+				<displayName count="one">Ruandan frangi</displayName>
 				<displayName count="other">Ruandan frangia</displayName>
+				<symbol>RWF</symbol>
 			</currency>
 			<currency type="SAR">
 				<displayName>Saudi-Arabian rial</displayName>
+				<displayName count="one">Saudi-Arabian rial</displayName>
 				<displayName count="other">Saudi-Arabian rialia</displayName>
+				<symbol>SAR</symbol>
 			</currency>
 			<currency type="SBD">
 				<displayName>Salomonsaarten dollari</displayName>
+				<displayName count="one">Salomonsaarten dollari</displayName>
 				<displayName count="other">Salomonsaarten dollaria</displayName>
+				<symbol>SBD</symbol>
 			</currency>
 			<currency type="SCR">
 				<displayName>Seychellien rupia</displayName>
+				<displayName count="one">Seychellien rupia</displayName>
 				<displayName count="other">Seychellien rupiaa</displayName>
+				<symbol>SCR</symbol>
 			</currency>
 			<currency type="SDD">
 				<displayName>Sudanin dinaari</displayName>
+				<displayName count="one">Sudanin dinaari</displayName>
 				<displayName count="other">Sudanin dinaaria</displayName>
+				<symbol>SDD</symbol>
 			</currency>
 			<currency type="SDG">
 				<displayName>Sudanin punta</displayName>
+				<displayName count="one">Sudanin punta</displayName>
 				<displayName count="other">Sudanin puntaa</displayName>
 			</currency>
 			<currency type="SDP">
 				<displayName>Sudanin punta (1957–1999)</displayName>
+				<displayName count="one">Sudanin punta (1957–1999)</displayName>
 				<displayName count="other">Sudanin puntaa (1957–1999)</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName>Ruotsin kruunu</displayName>
+				<displayName count="one">Ruotsin kruunu</displayName>
 				<displayName count="other">Ruotsin kruunua</displayName>
 				<symbol>Rkr</symbol>
 			</currency>
 			<currency type="SGD">
 				<displayName>Singaporen dollari</displayName>
+				<displayName count="one">Singaporen dollari</displayName>
 				<displayName count="other">Singaporen dollaria</displayName>
+				<symbol>SGD</symbol>
 			</currency>
 			<currency type="SHP">
 				<displayName>Saint Helenan punta</displayName>
+				<displayName count="one">Saint Helenan punta</displayName>
 				<displayName count="other">Saint Helenan puntaa</displayName>
+				<symbol>SHP</symbol>
 			</currency>
 			<currency type="SIT">
 				<displayName>Slovenian tolar</displayName>
+				<displayName count="one">Slovenian tolar</displayName>
 				<displayName count="other">Slovenian tolaria</displayName>
 			</currency>
 			<currency type="SKK">
 				<displayName>Slovakian koruna</displayName>
+				<displayName count="one">Slovakian koruna</displayName>
 				<displayName count="other">Slovakian korunaa</displayName>
+				<symbol>SKK</symbol>
 			</currency>
 			<currency type="SLL">
 				<displayName>Sierra Leonen leone</displayName>
+				<displayName count="one">Sierra Leonen leone</displayName>
 				<displayName count="other">Sierra Leonen leonea</displayName>
+				<symbol>SLL</symbol>
 			</currency>
 			<currency type="SOS">
 				<displayName>Somalian šillinki</displayName>
+				<displayName count="one">Somalian šillinki</displayName>
 				<displayName count="other">Somalian šillinkiä</displayName>
+				<symbol>SOS</symbol>
 			</currency>
 			<currency type="SRD">
 				<displayName references="R052">Surinamin dollari</displayName>
+				<displayName count="one">Surinamin dollari</displayName>
 				<displayName count="other">Surinamin dollaria</displayName>
+				<symbol>SRD</symbol>
 			</currency>
 			<currency type="SRG">
 				<displayName>Surinamin guldeni</displayName>
+				<displayName count="one">Surinamin guldeni</displayName>
 				<displayName count="other">Surinamin guldenia</displayName>
+				<symbol>SRG</symbol>
 			</currency>
 			<currency type="STD">
 				<displayName>São Tomén ja Príncipen dobra</displayName>
+				<displayName count="one">São Tomén ja Príncipen dobra</displayName>
 				<displayName count="other">São Tomén ja Príncipen dobraa</displayName>
+				<symbol>STD</symbol>
 			</currency>
 			<currency type="SUR">
 				<displayName>Neuvostoliiton rupla</displayName>
+				<displayName count="one">Neuvostoliiton rupla</displayName>
 				<displayName count="other">Neuvostoliiton ruplaa</displayName>
 			</currency>
 			<currency type="SVC">
 				<displayName>El Salvadorin colon</displayName>
+				<displayName count="one">El Salvadorin colon</displayName>
 				<displayName count="other">El Salvadorin colonia</displayName>
+				<symbol>SVC</symbol>
 			</currency>
 			<currency type="SYP">
 				<displayName>Syyrian punta</displayName>
+				<displayName count="one">Syyrian punta</displayName>
 				<displayName count="other">Syyrian puntaa</displayName>
+				<symbol>SYP</symbol>
 			</currency>
 			<currency type="SZL">
 				<displayName>Swazimaan lilangeni</displayName>
+				<displayName count="one">Swazimaan lilangeni</displayName>
 				<displayName count="other">Swazimaan lilangenia</displayName>
 			</currency>
 			<currency type="THB">
 				<displayName>Thaimaan baht</displayName>
+				<displayName count="one">Thaimaan baht</displayName>
 				<displayName count="other">Thaimaan bahtia</displayName>
+				<symbol>THB</symbol>
 			</currency>
 			<currency type="TJR">
 				<displayName>Tadžikistanin rupla</displayName>
+				<displayName count="one">Tadžikistanin rupla</displayName>
 				<displayName count="other">Tadžikistanin ruplaa</displayName>
 			</currency>
 			<currency type="TJS">
 				<displayName>Tadžikistanin somoni</displayName>
+				<displayName count="one">Tadžikistanin somoni</displayName>
 				<displayName count="other">Tadžikistanin somonia</displayName>
 			</currency>
 			<currency type="TMM">
 				<displayName>Turkmenistanin manat</displayName>
+				<displayName count="one">Turkmenistanin manat</displayName>
 				<displayName count="other">Turkmenistanin manatia</displayName>
+			</currency>
+			<currency type="TMT">
+				<displayName>Turkmenistanin uusi manat</displayName>
+				<displayName count="one">Turkmenistanin uusi manat</displayName>
+				<displayName count="other">Turkmenistanin uutta manatia</displayName>
 			</currency>
 			<currency type="TND">
 				<displayName>Tunisian dinaari</displayName>
+				<displayName count="one">Tunisian dinaari</displayName>
 				<displayName count="other">Tunisian dinaaria</displayName>
+				<symbol>TND</symbol>
 			</currency>
 			<currency type="TOP">
 				<displayName>Tongan pa’anga</displayName>
+				<displayName count="one">Tongan pa’anga</displayName>
 				<displayName count="other">Tongan pa’angaa</displayName>
+				<symbol>TOP</symbol>
 			</currency>
 			<currency type="TPE">
 				<displayName>Timorin escudo</displayName>
+				<displayName count="one">Timorin escudo</displayName>
 				<displayName count="other">Timorin escudoa</displayName>
 			</currency>
 			<currency type="TRL">
 				<displayName>Turkin vanha liira</displayName>
+				<displayName count="one">Turkin vanha liira</displayName>
 				<displayName count="other">Turkin vanhaa liiraa</displayName>
 			</currency>
 			<currency type="TRY">
 				<displayName>Turkin liira</displayName>
+				<displayName count="one">Turkin liira</displayName>
 				<displayName count="other">Turkin liiraa</displayName>
+				<symbol>TRY</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidadin ja Tobagon dollari</displayName>
+				<displayName count="one">Trinidadin ja Tobagon dollari</displayName>
 				<displayName count="other">Trinidadin ja Tobagon dollaria</displayName>
+				<symbol>TTD</symbol>
 			</currency>
 			<currency type="TWD">
 				<displayName>Taiwanin uusi dollari</displayName>
+				<displayName count="one">Taiwanin uusi dollari</displayName>
 				<displayName count="other">Taiwanin uutta dollaria</displayName>
+				<symbol>TWD</symbol>
 			</currency>
 			<currency type="TZS">
 				<displayName>Tansanian šillinki</displayName>
+				<displayName count="one">Tansanian šillinki</displayName>
 				<displayName count="other">Tansanian šillinkiä</displayName>
+				<symbol>TZS</symbol>
 			</currency>
 			<currency type="UAH">
 				<displayName>Ukrainan hryvnia</displayName>
+				<displayName count="one">Ukrainan hryvnia</displayName>
 				<displayName count="other">Ukrainan hryvniaa</displayName>
+				<symbol>UAH</symbol>
 			</currency>
 			<currency type="UAK">
 				<displayName>Ukrainan karbovanetz</displayName>
+				<displayName count="one">Ukrainan karbovanetz</displayName>
 				<displayName count="other">Ukrainan karbovanetziä</displayName>
 			</currency>
 			<currency type="UGS">
 				<displayName>Ugandan šillinki (1966–1987)</displayName>
+				<displayName count="one">Ugandan šillinki (1966–1987)</displayName>
 				<displayName count="other">Ugandan šillinkiä (1966–1987)</displayName>
 			</currency>
 			<currency type="UGX">
 				<displayName>Ugandan šillinki</displayName>
+				<displayName count="one">Ugandan šillinki</displayName>
 				<displayName count="other">Ugandan šillinkiä</displayName>
+				<symbol>UGX</symbol>
 			</currency>
 			<currency type="USD">
 				<displayName>Yhdysvaltain dollari</displayName>
+				<displayName count="one">Yhdysvaltain dollari</displayName>
 				<displayName count="other">Yhdysvaltain dollaria</displayName>
 				<symbol>$</symbol>
 			</currency>
 			<currency type="USN">
 				<displayName>Yhdysvaltain dollari (seuraava päivä)</displayName>
+				<displayName count="one">Yhdysvaltain dollari (seuraava päivä)</displayName>
 				<displayName count="other">Yhdysvaltain dollaria (seuraava päivä)</displayName>
 			</currency>
 			<currency type="USS">
 				<displayName>Yhdysvaltain dollari (sama päivä)</displayName>
+				<displayName count="one">Yhdysvaltain dollari (sama päivä)</displayName>
 				<displayName count="other">Yhdysvaltain dollaria (sama päivä)</displayName>
 			</currency>
 			<currency type="UYI">
 				<displayName>Uruguayn peso en unidades indexadas</displayName>
+				<displayName count="one">Uruguayn peso en unidades indexadas</displayName>
 				<displayName count="other">Uruguayn pesoa en unidades indexadas</displayName>
 			</currency>
 			<currency type="UYP">
 				<displayName>Uruguayn peso (1975–1993)</displayName>
+				<displayName count="one">Uruguayn peso (1975–1993)</displayName>
 				<displayName count="other">Uruguayn pesoa (1975–1993)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName>Uruguayn peso</displayName>
+				<displayName count="one">Uruguayn peso</displayName>
 				<displayName count="other">Uruguayn pesoa</displayName>
+				<symbol>UYU</symbol>
 			</currency>
 			<currency type="UZS">
 				<displayName>Uzbekistanin som</displayName>
+				<displayName count="one">Uzbekistanin som</displayName>
 				<displayName count="other">Uzbekistanin somia</displayName>
 			</currency>
 			<currency type="VEB">
 				<displayName>Venezuelan bolivar</displayName>
+				<displayName count="one">Venezuelan bolivar</displayName>
 				<displayName count="other">Venezuelan bolivaria</displayName>
+				<symbol>VEB</symbol>
 			</currency>
 			<currency type="VEF">
 				<displayName>Venezuelan bolivar fuerte</displayName>
 				<displayName count="one">Venezuelan bolivar fuerte</displayName>
 				<displayName count="other">Venezuelan bolivar fuertea</displayName>
+				<symbol>VEF</symbol>
 			</currency>
 			<currency type="VND">
 				<displayName>Vietnamin dong</displayName>
+				<displayName count="one">Vietnamin dong</displayName>
 				<displayName count="other">Vietnamin dongia</displayName>
+				<symbol>VND</symbol>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vanuatun vatu</displayName>
+				<displayName count="one">Vanuatun vatu</displayName>
 				<displayName count="other">Vanuatun vatua</displayName>
+				<symbol>VUV</symbol>
 			</currency>
 			<currency type="WST">
 				<displayName>Samoan tala</displayName>
+				<displayName count="one">Samoan tala</displayName>
 				<displayName count="other">Samoan talaa</displayName>
+				<symbol>WST</symbol>
 			</currency>
 			<currency type="XAF">
 				<displayName>CFA-frangi BEAC</displayName>
+				<displayName count="one">CFA-frangi BEAC</displayName>
 				<displayName count="other">CFA-frangia BEAC</displayName>
+				<symbol>XAF</symbol>
 			</currency>
 			<currency type="XAG">
 				<displayName>hopea</displayName>
@@ -3401,42 +3661,52 @@
 			</currency>
 			<currency type="XBA">
 				<displayName>EURCO</displayName>
+				<displayName count="one">EURCO</displayName>
 				<displayName count="other">EURCO'a</displayName>
 			</currency>
 			<currency type="XBB">
 				<displayName>Euroopan rahayksikkö (EMU)</displayName>
+				<displayName count="one">Euroopan rahayksikkö (EMU)</displayName>
 				<displayName count="other">Euroopan rahayksikköä (EMU)</displayName>
 			</currency>
 			<currency type="XBC">
 				<displayName>EUA (XBC)</displayName>
+				<displayName count="one">EUA (XBC)</displayName>
 				<displayName count="other">EUA'ta (XBC)</displayName>
 			</currency>
 			<currency type="XBD">
 				<displayName>EUA (XBD)</displayName>
+				<displayName count="one">EUA (XBD)</displayName>
 				<displayName count="other">EUA'ta (XBD)</displayName>
 			</currency>
 			<currency type="XCD">
 				<displayName>Itä-Karibian dollari</displayName>
+				<displayName count="one">Itä-Karibian dollari</displayName>
 				<displayName count="other">Itä-Karibian dollaria</displayName>
 			</currency>
 			<currency type="XDR">
 				<displayName>erityisnosto-oikeus (SDR)</displayName>
+				<displayName count="one">erityisnosto-oikeus (SDR)</displayName>
 				<displayName count="other">erityisnosto-oikeutta (SDR)</displayName>
 			</currency>
 			<currency type="XEU">
 				<displayName>Euroopan valuuttayksikkö (ECU)</displayName>
+				<displayName count="one">Euroopan valuuttayksikkö (ECU)</displayName>
 				<displayName count="other">Euroopan valuuttayksikköä (ECU)</displayName>
 			</currency>
 			<currency type="XFO">
 				<displayName>Ranskan kultafrangi</displayName>
+				<displayName count="one">Ranskan kultafrangi</displayName>
 				<displayName count="other">Ranskan kultafrangia</displayName>
 			</currency>
 			<currency type="XFU">
 				<displayName>Ranskan UIC-frangi</displayName>
+				<displayName count="one">Ranskan UIC-frangi</displayName>
 				<displayName count="other">Ranskan UIC-frangia</displayName>
 			</currency>
 			<currency type="XOF">
 				<displayName>CFA-frangi BCEAO</displayName>
+				<displayName count="one">CFA-frangi BCEAO</displayName>
 				<displayName count="other">CFA-frangia BCEAO</displayName>
 			</currency>
 			<currency type="XPD">
@@ -3446,6 +3716,7 @@
 			</currency>
 			<currency type="XPF">
 				<displayName>CFP-frangi</displayName>
+				<displayName count="one">CFP-frangi</displayName>
 				<displayName count="other">CFP-frangia</displayName>
 			</currency>
 			<currency type="XPT">
@@ -3460,7 +3731,8 @@
 			</currency>
 			<currency type="XTS">
 				<displayName>testaustarkoitukseen varattu valuuttakoodi</displayName>
-				<displayName count="other">testaustarkoitukseen varattua valuuttakoodi</displayName>
+				<displayName count="one">testaustarkoitukseen varattu valuuttakoodi</displayName>
+				<displayName count="other">testaustarkoitukseen varattua valuuttakoodia</displayName>
 			</currency>
 			<currency type="XXX">
 				<displayName>tuntematon tai virheellinen rahayksikkö</displayName>
@@ -3469,79 +3741,118 @@
 			</currency>
 			<currency type="YDD">
 				<displayName>Jemenin dinaari</displayName>
+				<displayName count="one">Jemenin dinaari</displayName>
 				<displayName count="other">Jemenin dinaaria</displayName>
 			</currency>
 			<currency type="YER">
 				<displayName>Jemenin rial</displayName>
+				<displayName count="one">Jemenin rial</displayName>
 				<displayName count="other">Jemenin rialia</displayName>
+				<symbol>YER</symbol>
 			</currency>
 			<currency type="YUD">
 				<displayName>Jugoslavian kova dinaari</displayName>
+				<displayName count="one">Jugoslavian kova dinaari</displayName>
 				<displayName count="other">Jugoslavian kovaa dinaaria</displayName>
 			</currency>
 			<currency type="YUM">
 				<displayName>Jugoslavian uusi dinaari</displayName>
+				<displayName count="one">Jugoslavian uusi dinaari</displayName>
 				<displayName count="other">Jugoslavian uutta dinaaria</displayName>
 			</currency>
 			<currency type="YUN">
 				<displayName>Jugoslavian vaihdettava dinaari</displayName>
+				<displayName count="one">Jugoslavian vaihdettava dinaari</displayName>
 				<displayName count="other">Jugoslavian vaihdettavaa dinaaria</displayName>
 			</currency>
 			<currency type="ZAL">
 				<displayName>Etelä-Afrikan rahoitusrandi</displayName>
+				<displayName count="one">Etelä-Afrikan rahoitusrandi</displayName>
 				<displayName count="other">Etelä-Afrikan rahoitusrandia</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Etelä-Afrikan randi (rahoitus)</displayName>
 			</currency>
 			<currency type="ZAR">
 				<displayName>Etelä-Afrikan randi</displayName>
+				<displayName count="one">Etelä-Afrikan randi</displayName>
 				<displayName count="other">Etelä-Afrikan randia</displayName>
+				<symbol>ZAR</symbol>
 			</currency>
 			<currency type="ZMK">
 				<displayName>Sambian kwacha</displayName>
+				<displayName count="one">Sambian kwacha</displayName>
 				<displayName count="other">Sambian kwachaa</displayName>
+				<symbol>ZMK</symbol>
 			</currency>
 			<currency type="ZRN">
 				<displayName>Zairen uusi zaire</displayName>
+				<displayName count="one">Zairen uusi zaire</displayName>
 				<displayName count="other">Zairen uutta zairea</displayName>
+				<symbol>ZRN</symbol>
 			</currency>
 			<currency type="ZRZ">
 				<displayName>Zairen zaire</displayName>
+				<displayName count="one">Zairen zaire</displayName>
 				<displayName count="other">Zairen zairea</displayName>
 			</currency>
 			<currency type="ZWD">
 				<displayName>Zimbabwen dollari</displayName>
+				<displayName count="one">Zimbabwen dollari</displayName>
 				<displayName count="other">Zimbabwen dollaria</displayName>
+				<symbol>ZWD</symbol>
+			</currency>
+			<currency type="ZWL">
+				<displayName>Zimbabwen dollari (2009)</displayName>
+				<displayName count="one">Zimbabwen dollari (2009)</displayName>
+				<displayName count="other">Zimbabwen dollaria (2009)</displayName>
+			</currency>
+			<currency type="ZWR">
+				<displayName>Zimbabwen dollari (2008)</displayName>
+				<displayName count="one">Zimbabwen dollari (2008)</displayName>
+				<displayName count="other">Zimbabwen dollaria (2008)</displayName>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
 		<unit type="day">
 			<unitPattern count="one">{0} päivä</unitPattern>
+			<unitPattern count="one" alt="short">{0} pv</unitPattern>
 			<unitPattern count="other">{0} päivää</unitPattern>
+			<unitPattern count="other" alt="short">{0} pv</unitPattern>
 		</unit>
 		<unit type="hour">
 			<unitPattern count="one">{0} tunti</unitPattern>
+			<unitPattern count="one" alt="short">{0} t</unitPattern>
 			<unitPattern count="other">{0} tuntia</unitPattern>
+			<unitPattern count="other" alt="short">{0} t</unitPattern>
 		</unit>
 		<unit type="minute">
 			<unitPattern count="one">{0} minuutti</unitPattern>
+			<unitPattern count="one" alt="short">{0} min</unitPattern>
 			<unitPattern count="other">{0} minuuttia</unitPattern>
+			<unitPattern count="other" alt="short">{0} min</unitPattern>
 		</unit>
 		<unit type="month">
 			<unitPattern count="one">{0} kuukausi</unitPattern>
+			<unitPattern count="one" alt="short">{0} kk</unitPattern>
 			<unitPattern count="other">{0} kuukautta</unitPattern>
+			<unitPattern count="other" alt="short">{0} kk</unitPattern>
 		</unit>
 		<unit type="second">
 			<unitPattern count="one">{0} sekunti</unitPattern>
+			<unitPattern count="one" alt="short">{0} s</unitPattern>
 			<unitPattern count="other">{0} sekuntia</unitPattern>
+			<unitPattern count="other" alt="short">{0} s</unitPattern>
 		</unit>
 		<unit type="week">
 			<unitPattern count="one">{0} viikko</unitPattern>
+			<unitPattern count="one" alt="short">{0} vko</unitPattern>
 			<unitPattern count="other">{0} viikkoa</unitPattern>
+			<unitPattern count="other" alt="short">{0} vko</unitPattern>
 		</unit>
 		<unit type="year">
 			<unitPattern count="one">{0} vuosi</unitPattern>
+			<unitPattern count="one" alt="short">{0} v</unitPattern>
 			<unitPattern count="other">{0} vuotta</unitPattern>
+			<unitPattern count="other" alt="short">{0} v</unitPattern>
 		</unit>
 	</units>
 	<posix>
@@ -3556,60 +3867,4 @@
 		<reference type="R055" uri="http://kontu.merri.net/wiki/Etusivu">KontuWiki</reference>
 	</references>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/fi.txt?only_with_tag=final-update-LDML
-
-eras {
-islamic
- "AH"   // Anno Hid\u017Era (in root)
-AE { "Yhdistyneet Arabiemiraatit" } // Old value
-HK { "Hongknog, erit.hall.alue" } // Old value
-        KP { "Pohjois-Korea" }    // alternate name { "Korean demokraattinen kansantasavalta" }
-        KR { "Korean tasavalta" }    // alternate name { "Etel\u00E4-Korea" }
-MK { "Makedonia (FYR)" } // Old value
-MO { "Macao, erit.hall.alue" } // Old value
-NZ { "Uusi-Seelanti" } // From translation center
-TL { "Timor-Leste" }
-TW { "Kiinan maakunta Taiwan" }
-        ba  { "ba\u0161kiiri" }  // This is not baski
-        bla { "mustajalka" }   // Blackfoot
-ijo { "ijo" }
-luo { "luo" }
-tiv { "tiv" }
-vai { "vai" }
-        vo  { "volap\u00fck" }   // Yes the iso-639 standard uses the umlaut in the English name
-        Hans { "Yksinkertainen han" } // Not a formal part of ISO-15924 yet
-        Hant { "Perinteinen han" } // Not a formal part of ISO-15924 yet
-        Zyyy { "Yleinen" } // This may need to become "undetermined script"
-
-Comments without bases
-
- Kiribati 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Enderbury"]
- Marshall Islands 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Kwajalein"]
- Mali 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Africa/Bamako"]
- Ecuador 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Galapagos"]
- Indonesia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Jakarta"]
- Russia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Europe/Kaliningrad"]
- United States 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Adak"]
- Kazakhstan 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Aqtau"]
- Ukraine 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Europe/Uzhgorod"]
- Brazil 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Eirunepe"]
- Antarctica 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Antarctica/Rothera"]
- Malaysia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Kuala_Lumpur"]
- Canada 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Dawson"]
- Micronesia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Yap"]
- Argentina 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Argentina/Rio_Gallegos"]
- United States Minor Outlying Islands 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Midway"]
- Mexico 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Tijuana"]
- Democratic Republic of the Congo 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Africa/Kinshasa"]
- United Kingdom 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Europe/Belfast"]
- French Polynesia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Tahiti"]
- New Zealand 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Pacific/Chatham"]
- Greenland 	 - was on: /ldml/dates/timeZoneNames/zone[@type="America/Thule"]
- Mongolia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Hovd"]
- Uzbekistan 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Samarkand"]
- Svalbard and Jan Mayen 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Atlantic/Jan_Mayen"]
- Australia 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Australia/Perth"]
- China 	 - was on: /ldml/dates/timeZoneNames/zone[@type="Asia/Kashgar"]
--->
 
