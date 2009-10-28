@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.41 $"/>
-		<generation date="$Date: 2008/05/28 15:49:36 $"/>
+		<version number="$Revision: 1.52 $"/>
+		<generation date="$Date: 2009/06/15 04:15:33 $"/>
 		<language type="sa"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
 			<language type="aa" draft="unconfirmed">अफर</language>
 			<language type="ab" draft="provisional">अब्खासियन्</language>
-			<language type="ace" draft="unconfirmed">अचिनीस्</language>
-			<language type="ach" draft="unconfirmed">अचोलि</language>
+			<language type="ace">अचिनीस्</language>
+			<language type="ach">अचोलि</language>
 			<language type="ada" draft="unconfirmed">अडङ्गमे</language>
 			<language type="af" draft="unconfirmed">अफ्रिक्कान्स्</language>
 			<language type="afa" draft="unconfirmed">आफ्रो एष्यन् भाषा</language>
@@ -22,7 +22,7 @@
 			<language type="ale" draft="unconfirmed">अलियुट्</language>
 			<language type="alg" draft="unconfirmed">अल्गोण्क्यन् भाषा</language>
 			<language type="am" draft="unconfirmed">अंहाऱिक्</language>
-			<language type="anp" draft="unconfirmed">अङ्गिक</language>
+			<language type="anp">अङ्गिक</language>
 			<language type="apa" draft="unconfirmed">अपाचे भाषा</language>
 			<language type="ar" draft="unconfirmed">अऱबिक्</language>
 			<language type="egy" draft="unconfirmed">प्राचीन ईजिप्त्यन्</language>
@@ -54,120 +54,15 @@
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">1</month>
-							<month type="2" draft="unconfirmed">2</month>
-							<month type="3" draft="unconfirmed">3</month>
-							<month type="4" draft="unconfirmed">4</month>
-							<month type="5" draft="unconfirmed">5</month>
-							<month type="6" draft="unconfirmed">6</month>
-							<month type="7" draft="unconfirmed">7</month>
-							<month type="8" draft="unconfirmed">8</month>
-							<month type="9" draft="unconfirmed">9</month>
-							<month type="10" draft="unconfirmed">10</month>
-							<month type="11" draft="unconfirmed">11</month>
-							<month type="12" draft="unconfirmed">12</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">1</month>
-							<month type="2" draft="unconfirmed">2</month>
-							<month type="3" draft="unconfirmed">3</month>
-							<month type="4" draft="unconfirmed">4</month>
-							<month type="5" draft="unconfirmed">5</month>
-							<month type="6" draft="unconfirmed">6</month>
-							<month type="7" draft="unconfirmed">7</month>
-							<month type="8" draft="unconfirmed">8</month>
-							<month type="9" draft="unconfirmed">9</month>
-							<month type="10" draft="unconfirmed">10</month>
-							<month type="11" draft="unconfirmed">11</month>
-							<month type="12" draft="unconfirmed">12</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">1</month>
-							<month type="2" draft="unconfirmed">2</month>
-							<month type="3" draft="unconfirmed">3</month>
-							<month type="4" draft="unconfirmed">4</month>
-							<month type="5" draft="unconfirmed">5</month>
-							<month type="6" draft="unconfirmed">6</month>
-							<month type="7" draft="unconfirmed">7</month>
-							<month type="8" draft="unconfirmed">8</month>
-							<month type="9" draft="unconfirmed">9</month>
-							<month type="10" draft="unconfirmed">10</month>
-							<month type="11" draft="unconfirmed">11</month>
-							<month type="12" draft="unconfirmed">12</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="mon" draft="unconfirmed">2</day>
-							<day type="tue" draft="unconfirmed">3</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="mon" draft="unconfirmed">2</day>
-							<day type="tue" draft="unconfirmed">3</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="mon" draft="unconfirmed">2</day>
-							<day type="tue" draft="unconfirmed">3</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">Q1</quarter>
-							<quarter type="2" draft="unconfirmed">Q2</quarter>
-							<quarter type="3" draft="unconfirmed">Q3</quarter>
-							<quarter type="4" draft="unconfirmed">Q4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">Q1</quarter>
-							<quarter type="2" draft="unconfirmed">Q2</quarter>
-							<quarter type="3" draft="unconfirmed">Q3</quarter>
-							<quarter type="4" draft="unconfirmed">Q4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<am draft="unconfirmed">AM</am>
-				<pm draft="unconfirmed">PM</pm>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">BCE</era>
-						<era type="1" draft="unconfirmed">CE</era>
-					</eraAbbr>
-				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">EEEE d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -184,7 +79,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">hh:mm:ss a v</pattern>
+							<pattern draft="unconfirmed">hh:mm:ss a zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -204,17 +99,12 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="unconfirmed">dd-MM</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyMM" draft="unconfirmed">MM-yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -226,8 +116,10 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>deva</defaultNumberingSystem>
 		<symbols>
-			<nativeZeroDigit draft="unconfirmed">०</nativeZeroDigit>
+			<nativeZeroDigit>0</nativeZeroDigit>
+			<nativeZeroDigit alt="deva">०</nativeZeroDigit>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -252,8 +144,9 @@
 		</currencyFormats>
 		<currencies>
 			<currency type="INR">
-				<symbol draft="unconfirmed">रु</symbol>
+				<symbol>रु</symbol>
 			</currency>
 		</currencies>
 	</numbers>
 </ldml>
+

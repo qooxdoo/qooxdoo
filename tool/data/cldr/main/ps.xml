@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.53 $"/>
-		<generation date="$Date: 2008/06/15 08:09:47 $"/>
+		<version number="$Revision: 1.68 $"/>
+		<generation date="$Date: 2009/06/15 05:50:27 $"/>
 		<language type="ps"/>
 	</identity>
 	<fallback>fa_AF</fallback>
@@ -193,7 +193,7 @@
 		<orientation characters="right-to-left"/>
 	</layout>
 	<characters>
-		<exemplarCharacters>[َ ِ ُ ً ٍ ٌ ّ ْ ٔ ٰ آ ا أ ء ب پ ت ټ ث ج ځ چ څ ح-د ډ ذ ر ړ ز ژ ږ س ش ښ ص-غ ف ق ک ګ ل-ن ڼ ه ة و ؤ ی ي ې ۍ ئ]</exemplarCharacters>
+		<exemplarCharacters>[\u064E \u0650 \u064F \u064B \u064D \u064C \u0651 \u0652 \u0654 \u0670 آ ا أ ء ب پ ت ټ ث ج ځ چ څ ح-د ډ ذ ر ړ ز ژ ږ س ش ښ ص-غ ف ق ک ګ ل-ن ڼ ه ة و ؤ ی ي ې ۍ ئ]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[\u200C \u200D]</exemplarCharacters>
 	</characters>
 	<dates>
@@ -307,17 +307,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE د yyyy د MMMM d</pattern>
+							<pattern>EEEE د y د MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>د yyyy د MMMM d</pattern>
+							<pattern>د y د MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>d MMM yyyy</pattern>
+							<pattern>d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -329,7 +329,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>H:mm:ss (v)</pattern>
+							<pattern>H:mm:ss (zzzz)</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -349,38 +349,19 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="Md" draft="unconfirmed">M/d</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyM" draft="unconfirmed">yyyy/M</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">د yyyy د MMMM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">د y د MMMM</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="persian">
 				<months>
 					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" references="R212">وری</month>
-							<month type="2" references="R212">غویی</month>
-							<month type="3" references="R212">غبرګولی</month>
-							<month type="4" references="R212">چنګاښ</month>
-							<month type="5" references="R212">زمری</month>
-							<month type="6" references="R212">وږی</month>
-							<month type="7" references="R212">تله</month>
-							<month type="8" references="R212">لړم</month>
-							<month type="9" references="R212">لیندۍ</month>
-							<month type="10" references="R212">مرغومی</month>
-							<month type="11" references="R212">سلواغه</month>
-							<month type="12" references="R212">کب</month>
-						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1" references="R212">وری</month>
 							<month type="2" references="R212">غویی</month>
@@ -409,13 +390,19 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>arabext</defaultNumberingSystem>
 		<symbols>
-			<decimal>٫</decimal>
-			<group>٬</group>
-			<percentSign>٪</percentSign>
-			<nativeZeroDigit>۰</nativeZeroDigit>
+			<decimal>,</decimal>
+			<decimal alt="arabext">٫</decimal>
+			<group>.</group>
+			<group alt="arabext">٬</group>
+			<percentSign>%</percentSign>
+			<percentSign alt="arabext">٪</percentSign>
+			<nativeZeroDigit>0</nativeZeroDigit>
+			<nativeZeroDigit alt="arabext">۰</nativeZeroDigit>
 			<minusSign>−</minusSign>
-			<exponential>×۱۰^</exponential>
+			<exponential>E</exponential>
+			<exponential alt="arabext">×۱۰^</exponential>
 		</symbols>
 		<currencyFormats>
 			<currencyFormatLength>
@@ -435,19 +422,4 @@
 		<reference type="R212" uri="http://www.evertype.com/standards/af/">Computer Locale Requirements for Afghanistan</reference>
 	</references>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/ps.txt?only_with_tag=final-update-LDML
-
-Created by Roozbeh Pournader <roozbeh@sharif.edu> and Michael Everson <everson@evertype.com>
-The default clock is 24-hour time. abbreviations for AM/PM are not
-widespread, but forms are given here in case they are required.
-        HU  { "\u0645\u062c\u0627\u0631\u0633\u062a\u0627\u0646" } //also "\u0647\u0646\u06ab\u0631\u064a"
-        IN  { "\u0647\u0646\u062f" } //also "\u0647\u0646\u062f\u0648\u0633\u062a\u0627\u0646"
-        MN  { "\u0645\u063a\u0648\u0644\u0633\u062a\u0627\u0646" } //also "\u0645\u0646\u06ab\u0648\u0644\u06cc\u0627"
-The Afghani symbol doesn't exist in Unicode. So we use the long name
-iw  { "\u0639\u0628\u0631\u064a" }
-                        "\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647", //MoE, MoIC, and PED say "\u0686\u0627\u0631" instead of "\u0686\u0647\u0627\u0631"
-FIXME: check all these with PED.
-                        "\u0645\u06cc", // MoE and PED say "\u0645\u06d0"
--->
 
