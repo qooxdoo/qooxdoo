@@ -67,6 +67,8 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this.initOpenMode();
     this.initRootOpenClose();
+    
+    this.addListener("changeSelection", this._onChangeSelection, this);
   },
 
 
@@ -470,6 +472,26 @@ qx.Class.define("qx.ui.tree.Tree",
 
       treeItem.setOpen(!treeItem.isOpen());
       e.stopPropagation();
+    },
+    
+    
+    /**
+     * Event handler for changeSelection events, which opens all parent folders 
+     * of the selected folders.
+     * 
+     * @param e {qx.event.type.Data} The selection data event.
+     */
+    _onChangeSelection : function(e) {
+      var selection = e.getData();
+      // for every selected folder
+      for (var i = 0; i < selection.length; i++) {
+        var folder = selection[i];
+        // go up all poarents and open them
+        while (folder.getParent() != null) {
+          folder = folder.getParent();
+          folder.setOpen(true);
+        }        
+      }      
     }
   },
 
