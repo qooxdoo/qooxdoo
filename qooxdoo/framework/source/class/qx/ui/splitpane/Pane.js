@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Sets the pane's layout to vertical or horizontal split layout. Depending on the
      * pane's layout the first widget will be the left or top widget, the second one
-     * the bottom or left widget. Adding more than two widgets will overwrite the
+     * the bottom or right widget. Adding more than two widgets will overwrite the
      * existing ones.
      *
      * @param widget {qx.ui.core.Widget} The widget to be inserted into pane.
