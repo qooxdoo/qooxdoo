@@ -160,7 +160,7 @@ class DependencyLoader:
             if verifyDeps:
                 for dep in deps["warn"]:
                     if dep.name not in ignore_names:
-                        self._console.warn("! Unknown class referenced: %s (%s:%s)" % (dep.name, item, dep.line))
+                        self._console.warn("! Unknown global symbol referenced: %s (%s:%s)" % (dep.name, item, dep.line))
 
             # process lists
             try:
