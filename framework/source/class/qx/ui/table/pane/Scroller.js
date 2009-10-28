@@ -1002,14 +1002,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // mouse is in header
       var resizeCol = this._getResizeColumnForPageX(pageX);
-      if (resizeCol != -1) {
+      if (resizeCol != -1) 
+      {
         // The mouse is over a resize region -> Start resizing
         this._startResizeHeader(resizeCol, pageX);
-      } else {
+        e.stop();
+      }
+      else
+      {
         // The mouse is not in a resize region
         var moveCol = this._getColumnForPageX(pageX);
-        if (moveCol != null) {
+        if (moveCol != null) 
+        {
           this._startMoveHeader(moveCol, pageX);
+          e.stop();
         }
       }
     },
@@ -1249,10 +1255,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         this._stopResizeHeader();
         this.__ignoreClick = true;
+        e.stop();
       }
       else if (this.__moveColumn != null)
       {
         this._stopMoveHeader();
+        e.stop();
       }
     },
 
@@ -1298,6 +1306,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           table.getSelectionModel().clearSelection();
         }
       }
+      
+      e.stop();
     },
 
 
