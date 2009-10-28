@@ -139,3 +139,29 @@ def dictToList(d):
     if keys != range(max(keys)+1):  # make sure it's a contiguous, 0-based list
         warn("dict keys: %r" % keys)
     return [d[x] for x in keys]
+
+##
+# get the OS name and version
+
+def getPlatformInfo():
+    import platform
+    osPlatform = platform.system()
+    osVersion = "Unknown version"
+    
+    winVer = platform.win32_ver()
+    macVer = platform.mac_ver()
+    try:
+        linVer = platform.linux_distribution()
+    except AttributeError:
+        linVer = platform.dist()
+    
+    if winVer[0] != "":
+        osVersion = "%s %s %s" % (winVer[0], winVer[1], winVer[2])
+        
+    if macVer[0] != "":
+        osVersion = "%s %s" % (macVer[0], macVer[2])
+    
+    if linVer[0] != "":
+        osVersion = "%s %s" % (linVer[0], linVer[1])
+    
+    return (osPlatform,osVersion)
