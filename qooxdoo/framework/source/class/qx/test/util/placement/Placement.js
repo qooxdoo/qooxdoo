@@ -183,22 +183,22 @@ qx.Class.define("qx.test.util.placement.Placement",
       var offsets = {top: 10, bottom: 20, left: 0, right: 0};
       
       this.assertJsonEquals(
-        {left: 500, top: 170},
+        {left: 500, top: 160},
         qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 500, top: 170},
+        {left: 500, top: 160},
         qx.util.placement.Placement.compute(size, area, target, offsets, "top-left", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 100},
+        {left: 600, top: 110},
         qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 100},
+        {left: 600, top: 110},
         qx.util.placement.Placement.compute(size, area, target, offsets, "right-bottom", "keep-align", "keep-align")
       );
     },
@@ -212,22 +212,22 @@ qx.Class.define("qx.test.util.placement.Placement",
       var offsets = {top: 0, bottom: 0, left: 10, right: 20};
       
       this.assertJsonEquals(
-        {left: 290, top: 500},
+        {left: 280, top: 500},
         qx.util.placement.Placement.compute(size, area, target, offsets, "left-top", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 290, top: 500},
+        {left: 280, top: 500},
         qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 400, top: 550},
+        {left: 380, top: 550},
         qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", "keep-align", "keep-align")
       );
 
       this.assertJsonEquals(
-        {left: 400, top: 550},
+        {left: 380, top: 550},
         qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-right", "keep-align", "keep-align")
       );
     }    

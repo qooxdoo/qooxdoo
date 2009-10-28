@@ -39,22 +39,22 @@ qx.Class.define("qx.test.util.placement.DirectAxis",
       var areaSize = 1000;
       
       this.assertEquals(
-        440,
+        430,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        620,
+        610,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        500,
+        510,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        550,
+        530,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
     }

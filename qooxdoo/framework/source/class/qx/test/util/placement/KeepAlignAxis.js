@@ -39,22 +39,22 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
       var areaSize = 1000;
       
       this.assertEquals(
-        440,
+        430,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        620,
+        610,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        500,
+        510,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        550,
+        530,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
     },
@@ -68,22 +68,22 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
       var areaSize = 1000;
       
       this.assertEquals(
-        220,
+        210,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        220,
+        210,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        30,
+        40,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        30,
+        40,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );      
     },
@@ -97,22 +97,22 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
       var areaSize = 500;
       
       this.assertEquals(
-        40,
+        30,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        40,
+        30,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        150,
+        130,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        150,
+        130,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );      
     },
@@ -126,22 +126,22 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
       var areaSize = 200;
       
       this.assertEquals(
-        120,
+        110,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        120,
+        110,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 
       this.assertEquals(
-        50,
+        60,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
       );
 
       this.assertEquals(
-        50,
+        60,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );      
     }

@@ -40,13 +40,13 @@ qx.Class.define("qx.util.placement.KeepAlignAxis",
 
       if (position == "edge-start" || position == "edge-end") 
       {
-        range1End = target.start - offsets.start;
-        range2Start = target.end + offsets.end;        
+        range1End = target.start - offsets.end;
+        range2Start = target.end + offsets.start;        
       } 
       else
       {
-        range1End = target.end;
-        range2Start = target.start;        
+        range1End = target.end - offsets.end;
+        range2Start = target.start + offsets.start;        
       }
       
       if (range1End > areaSize - range2Start) {

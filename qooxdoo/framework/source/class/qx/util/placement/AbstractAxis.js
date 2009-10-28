@@ -67,16 +67,16 @@ qx.Class.define("qx.util.placement.AbstractAxis",
       switch(position)
       {
         case "edge-start":
-          return target.start - offsets.start - size;
+          return target.start - offsets.end - size;
           
         case "edge-end":
-          return target.end + offsets.end;
+          return target.end + offsets.start;
           
         case "align-start":
-          return target.start;
+          return target.start + offsets.start;
           
         case "align-end":
-          return target.end - size;
+          return target.end - offsets.end - size;
       }
     },
     
