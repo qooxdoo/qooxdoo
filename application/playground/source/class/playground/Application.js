@@ -507,7 +507,7 @@ qx.Class.define("playground.Application",
       var title = this.__decodeSampleId(this.currentSample);
       this.code = 'this.info("' + this.tr("Starting application") +
         (title ? " '" + title + "'": "") +
-        ' ...");\n' + this.code || "" +
+        ' ...");\n' + (this.code || "") +
         'this.info("' + this.tr("Successfully started") + '.");\n';
 
       try
