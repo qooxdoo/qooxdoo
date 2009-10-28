@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <!-- Data donated by Mr.Raymond Doctor, CDAC, Pune, India ! -->
 <ldml>
 	<identity>
-		<version number="$Revision: 1.54 $"/>
-		<generation date="$Date: 2008/06/17 14:12:14 $"/>
+		<version number="$Revision: 1.66 $"/>
+		<generation date="$Date: 2009/06/15 04:15:33 $"/>
 		<language type="ur"/>
 	</identity>
 	<localeDisplayNames>
@@ -349,8 +349,8 @@
 			<type type="traditional" key="collation" draft="unconfirmed">روایتی چھانٹ ترتیب</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">امریکی</measurementSystemName>
 			<measurementSystemName type="metric" draft="unconfirmed">اعشاری</measurementSystemName>
+			<measurementSystemName type="US" draft="unconfirmed">امریکی</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language" draft="unconfirmed">زبان:{0}</codePattern>
@@ -363,7 +363,7 @@
 	</layout>
 	<characters>
 		<exemplarCharacters>[أ ؤ ا آ ب پ ت ٹ ث ج چ ح-د ڈ ذ ر ڑ ز ژ س-غ ف ق ک گ ل-ن ں و ہ ی ء ئ ے ٻ ة ٺ ټ ٽ ه ھ ي]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" draft="unconfirmed">[ؐ ؑ ؓ ؔ َ ِ ُ ٰ ً ّ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" draft="unconfirmed">[\u0610 \u0611 \u0613 \u0614 \u064E \u0650 \u064F \u0670 \u064B \u0651]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -423,17 +423,6 @@
 							<day type="sat">ہفتہ</day>
 						</dayWidth>
 					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="mon" draft="unconfirmed">2</day>
-							<day type="tue" draft="unconfirmed">3</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-					</dayContext>
 				</days>
 				<quarters>
 					<quarterContext type="format">
@@ -448,14 +437,6 @@
 							<quarter type="2">دوسری سہ ماہی</quarter>
 							<quarter type="3">تيسری سہ ماہی</quarter>
 							<quarter type="4">چوتهی سہ ماہی</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1" draft="unconfirmed">1</quarter>
-							<quarter type="2" draft="unconfirmed">2</quarter>
-							<quarter type="3" draft="unconfirmed">3</quarter>
-							<quarter type="4" draft="unconfirmed">4</quarter>
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
@@ -474,17 +455,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, d, MMMM yyyy</pattern>
+							<pattern>EEEE, d, MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>d, MMMM yyyy</pattern>
+							<pattern>d, MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>d, MMM yyyy</pattern>
+							<pattern>d, MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -496,7 +477,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>h:mm:ss a v</pattern>
+							<pattern>h:mm:ss a zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -516,61 +497,30 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d" draft="unconfirmed">د</dateFormatItem>
 						<dateFormatItem id="Hm" draft="unconfirmed">HH:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="unconfirmed">LL</dateFormatItem>
+						<dateFormatItem id="Md" draft="unconfirmed">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="unconfirmed">E, M-d</dateFormatItem>
 						<dateFormatItem id="MMM" draft="unconfirmed">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="unconfirmed">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd" draft="unconfirmed">E MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="unconfirmed">MMM d</dateFormatItem>
-						<dateFormatItem id="Md" draft="unconfirmed">M-d</dateFormatItem>
-						<dateFormatItem id="d" draft="unconfirmed">د</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="unconfirmed">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="unconfirmed">E MMMM d</dateFormatItem>
 						<dateFormatItem id="ms" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="unconfirmed">yyyy</dateFormatItem>
+						<dateFormatItem id="y" draft="unconfirmed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="unconfirmed">yyyy-M</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="unconfirmed">EEE, yyyy-d-M</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="unconfirmed">yyyy MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE, yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="unconfirmed">yyyy MMMM</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="unconfirmed">y MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE, y MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="unconfirmed">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQ" draft="unconfirmed">Q yyyy</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="unconfirmed">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="yQQQ" draft="unconfirmed">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="provisional">yy Q</dateFormatItem>
-						<dateFormatItem id="yyQ" alt="proposed-x1001" draft="unconfirmed">Q yy</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M تا M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M" draft="unconfirmed">E, MM-dd تا E, MM-dd</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, MMM dd – E, MMM dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">LLL-LLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, MMM d – E, MMM d</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, MMM d – E, MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M" draft="unconfirmed">LLLL-LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M" draft="unconfirmed">MMM d تا MMM d</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">MMM d تا d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M" draft="unconfirmed">MM-dd تا MM-dd</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">M/d تا d</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
 						</intervalFormatItem>
@@ -592,6 +542,31 @@
 							<greatestDifference id="a" draft="unconfirmed">h a – h a v</greatestDifference>
 							<greatestDifference id="h" draft="unconfirmed">h تا h a v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="unconfirmed">M تا M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="unconfirmed">M/d تا d</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MM-dd تا MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="unconfirmed">E, MMM dd – E, MMM dd</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, MM-dd تا E, MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M" draft="unconfirmed">LLL-LLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d" draft="unconfirmed">MMM d تا d</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM d تا MMM d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="unconfirmed">E, MMM d – E, MMM d</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, MMM d – E, MMM d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMM">
+							<greatestDifference id="M" draft="unconfirmed">LLLL-LLLL</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="unconfirmed">y تا y</greatestDifference>
 						</intervalFormatItem>
@@ -599,33 +574,33 @@
 							<greatestDifference id="M" draft="unconfirmed">yyyy-MM تا MM</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">yyyy-MM تا yyyy-MM</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="unconfirmed">yyyy-MM-dd تا dd</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">yyyy-MM-dd تا MM-dd</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MM-dd-yyyy تا MM-dd-yyyy</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="d" draft="unconfirmed">E, yyyy-MM-dd تا E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM–MMM yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM–MMM yyyy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM–MMM y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMM–MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d" draft="unconfirmed">MMM d–d, y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM d تا MMM d, y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMM d, y تا MMM d, y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, MMM d – E, MMM d, yyyy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, MMM d – E, MMM d, yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, MMM d, yyyy تا E, MMM d, yyyy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, MMM d – E, MMM d, y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, MMM d – E, MMM d, y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, MMM d, y تا E, MMM d, y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M" draft="unconfirmed">yyyy-MM تا MM</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">yyyy-MM تا yyyy-MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M" draft="unconfirmed">MMM d تا MMM d, yyyy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">MMM d–d, yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM d, yyyy تا MMM d, yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M" draft="unconfirmed">yyyy-MM-dd تا MM-dd</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">yyyy-MM-dd تا dd</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MM-dd-yyyy تا MM-dd-yyyy</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -644,13 +619,13 @@
 					</field>
 					<field type="day">
 						<displayName draft="unconfirmed">دن</displayName>
+						<relative type="-3" draft="unconfirmed">ترسوں</relative>
+						<relative type="-2" draft="unconfirmed">پرسوں</relative>
+						<relative type="-1" draft="contributed">کل</relative>
 						<relative type="0">آج</relative>
 						<relative type="1" draft="contributed">کل</relative>
 						<relative type="2" draft="unconfirmed">پرسوں</relative>
 						<relative type="3" draft="unconfirmed">ترسوں</relative>
-						<relative type="-1" draft="contributed">کل</relative>
-						<relative type="-2" draft="unconfirmed">پرسوں</relative>
-						<relative type="-3" draft="unconfirmed">ترسوں</relative>
 					</field>
 					<field type="weekday">
 						<displayName draft="unconfirmed">ہفتے کا دن</displayName>
@@ -689,16 +664,6 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">پہلی سہ ماہی</quarter>
-							<quarter type="2" draft="unconfirmed">دوسری سہ ماہی</quarter>
-							<quarter type="3" draft="unconfirmed">تيسری سہ ماہی</quarter>
-							<quarter type="4" draft="unconfirmed">چوتهی سہ ماہی</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
 				<eras>
 					<eraNames>
 						<era type="1" draft="unconfirmed">عيسوی سن</era>
@@ -852,10 +817,12 @@
 			<patternDigit draft="unconfirmed">#</patternDigit>
 			<plusSign draft="unconfirmed">+</plusSign>
 			<minusSign draft="unconfirmed">-</minusSign>
-			<exponential draft="unconfirmed">ق</exponential>
+			<exponential draft="unconfirmed">E</exponential>
+			<exponential alt="arab" draft="unconfirmed">ق</exponential>
 			<perMille draft="unconfirmed">‰</perMille>
 			<infinity draft="unconfirmed">∞</infinity>
-			<nan draft="unconfirmed">یہ عدد نہیں</nan>
+			<nan draft="unconfirmed">NaN</nan>
+			<nan alt="arab" draft="unconfirmed">یہ عدد نہیں</nan>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -882,7 +849,6 @@
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>
-					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="one" draft="unconfirmed">‏{0} {1} ‏</unitPattern>
@@ -1051,14 +1017,11 @@
 	<posix>
 		<messages>
 			<yesstr draft="provisional">yes:y</yesstr>
-			<yesstr alt="proposed-x1001" draft="unconfirmed">ہاں</yesstr>
 			<nostr draft="provisional">no:n</nostr>
-			<nostr alt="proposed-x1001" draft="unconfirmed">نہیں</nostr>
 		</messages>
 	</posix>
 </ldml>
 <!-- Comments without bases
-
- needs translation 	 - was on: //ldml/dates/calendars/calendar[@type="gregorian"]/eras/eraAbbr/era[@type="1"][@alt="proposed"] 
+needs translation 	 - was on: //ldml/dates/calendars/calendar[@type="gregorian"]/eras/eraAbbr/era[@type="1"][@alt="proposed"]
 -->
 
