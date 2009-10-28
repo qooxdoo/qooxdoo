@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.59 $"/>
-		<generation date="$Date: 2008/05/28 15:49:33 $"/>
+		<version number="$Revision: 1.73 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="lo"/>
 	</identity>
 	<localeDisplayNames>
@@ -365,7 +365,6 @@
 		<alternateQuotationEnd draft="unconfirmed">&quot;</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<localizedPatternChars draft="unconfirmed">GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
 		<calendars>
 			<calendar type="buddhist">
 				<eras>
@@ -376,17 +375,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEEທີ່ d MMMM G yyyy</pattern>
+							<pattern draft="unconfirmed">EEEEທີ່ d MMMM G y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -395,30 +394,24 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">H ໂມງ mນາທີ ss ວິນາທີ</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">H ໂມງ mນາທີ</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">H:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<default choice="medium"/>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern draft="unconfirmed">{1}, {0}</pattern>
 						</dateTimeFormat>
@@ -526,14 +519,7 @@
 				<am draft="unconfirmed">ກ່ອນທ່ຽງ</am>
 				<pm draft="unconfirmed">ຫລັງທ່ຽງ</pm>
 				<eras>
-					<eraNames>
-						<!-- TODO: Some of this data is probably wrong -->
-						<era type="0" draft="unconfirmed">ປີກ່ອນຄິດສະການທີ່</era>
-						<era type="1" draft="unconfirmed">ຄິດສະການທີ່</era>
-						<!-- missing AD -->
-					</eraNames>
 					<eraAbbr>
-						<!-- TODO: This data is probably wrong -->
 						<era type="0" draft="unconfirmed">ປີກ່ອນຄິດສະການທີ່</era>
 						<era type="1" draft="unconfirmed">ຄ.ສ.</era>
 					</eraAbbr>
@@ -541,17 +527,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEEທີ  d MMMM G yyyy</pattern>
+							<pattern draft="unconfirmed">EEEEທີ d MMMM G y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -563,7 +549,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">Hໂມງ mນາທີ ss ວິນາທີv</pattern>
+							<pattern draft="unconfirmed">Hໂມງ mນາທີ ss ວິນາທີzzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -583,18 +569,33 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="unconfirmed">{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern draft="unconfirmed">{1}, {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="Md" draft="unconfirmed">d/M</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyM" draft="unconfirmed">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -616,11 +617,8 @@
 		<currencies>
 			<currency type="LAK">
 				<displayName draft="unconfirmed">ກີບ</displayName>
-				<symbol draft="unconfirmed">₭</symbol>
 			</currency>
 		</currencies>
 	</numbers>
 </ldml>
-<!-- Locale Data Format
-By Anousak Souphavanh (Anousak at muanglao dot com) 
--->
+
