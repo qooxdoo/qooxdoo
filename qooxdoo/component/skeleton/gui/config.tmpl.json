@@ -15,6 +15,7 @@
     "clean",
     "distclean",
     "fix",
+    "info",
     "inspector",
     "lint",
     "migration",

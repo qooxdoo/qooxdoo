@@ -88,6 +88,11 @@ class Generator(object):
             {
               "type"   : "JClassDepJob"
             },
+            
+            "collect-environment-info" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
             "copy-files" :
             {
@@ -457,7 +462,9 @@ class Generator(object):
         # -- Process simple job triggers
         if simpleTriggers:
             for trigger in simpleTriggers:
-                if trigger == "copy-files":
+                if trigger == "collect-environment-info":
+                    self.runCollectEnvironmentInfo()
+                elif trigger == "copy-files":
                     self.runCopyFiles()
                 elif trigger == "combine-images":
                     self.runImageCombining()
@@ -1051,6 +1058,43 @@ class Generator(object):
                 self._copyResources(res, os.path.dirname(resTarget))
 
         self._console.outdent()
+
+    
+
+    def runCollectEnvironmentInfo(self):
+        letConfig = self._job.get('let',{})      
+        
+        self._console.info("Environment information")
+        self._console.indent()        
+        
+        platformInfo = util.getPlatformInfo()
+        self._console.info("Platform: %s %s" % (platformInfo[0], platformInfo[1]))
+        
+        self._console.info("Python version: %s" % sys.version)
+        
+        if 'QOOXDOO_PATH' in letConfig:
+            qxPath = letConfig['QOOXDOO_PATH']
+            self._console.info("qooxdoo path: %s" % qxPath)
+        
+            versionFile = open(os.path.join(qxPath, "version.txt"))
+            version = versionFile.read()
+            self._console.info("Framework version: %s" % version.strip())
+        
+            #TODO: Improve this check
+            classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
+            self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
+        
+        if 'APPLICATION' in letConfig:
+            appNamespace = letConfig['APPLICATION']
+          
+            buildScriptFile = os.path.join("build", "script", appNamespace + ".js")
+            self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFile) )
+        
+            sourceScriptFile = os.path.join("source", "script", appNamespace + ".js")
+            self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFile) )
+        
+        self._console.outdent()
+            
 
 
     def runCopyFiles(self):
