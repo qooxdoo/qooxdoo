@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.6 $"/>
-		<generation date="$Date: 2008/06/26 03:47:58 $"/>
+		<version number="$Revision: 1.12 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="trv"/>
 	</identity>
 	<localeDisplayNames>
@@ -64,8 +64,8 @@
 			<type type="gregorian" key="calendar" draft="provisional">Jiyax Yisu Thulang</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US" draft="provisional">Snyunaydi</measurementSystemName>
 			<measurementSystemName type="metric" draft="provisional">Snamrika</measurementSystemName>
+			<measurementSystemName type="US" draft="provisional">Snyunaydi</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language" draft="provisional">Kari: {0}</codePattern>
@@ -207,17 +207,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="provisional">EEEE, yyyy MMMM dd</pattern>
+							<pattern draft="provisional">EEEE, y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="provisional">yyyy MMMM d</pattern>
+							<pattern draft="provisional">y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="provisional">yyyy MMM d</pattern>
+							<pattern draft="provisional">y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -229,7 +229,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="provisional">HH:mm:ss v</pattern>
+							<pattern draft="provisional">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -250,25 +250,25 @@
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="d" draft="provisional">d</dateFormatItem>
 						<dateFormatItem id="Hm" draft="provisional">H:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="provisional">L</dateFormatItem>
+						<dateFormatItem id="Md" draft="provisional">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="provisional">E, M-d</dateFormatItem>
 						<dateFormatItem id="MMM" draft="provisional">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="provisional">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd" draft="provisional">E MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="provisional">MMM d</dateFormatItem>
-						<dateFormatItem id="Md" draft="provisional">M-d</dateFormatItem>
-						<dateFormatItem id="d" draft="provisional">d</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="provisional">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="provisional">E MMMM d</dateFormatItem>
 						<dateFormatItem id="ms" draft="provisional">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="provisional">yyyy</dateFormatItem>
+						<dateFormatItem id="y" draft="provisional">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="provisional">yyyy-M</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="provisional">EEE, yyyy-M-d</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="provisional">yyyy MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="provisional">EEE, yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="provisional">yyyy MMMM</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="provisional">y MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="provisional">EEE, y MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="provisional">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQ" draft="provisional">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="provisional">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="yQQQ" draft="provisional">y QQQ</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 				<fields>
@@ -286,9 +286,9 @@
 					</field>
 					<field type="day">
 						<displayName draft="provisional">Jiyax</displayName>
+						<relative type="-1" draft="provisional">Shiga</relative>
 						<relative type="0" draft="provisional">Jiyax sayang</relative>
 						<relative type="1" draft="provisional">Saman</relative>
-						<relative type="-1" draft="provisional">Shiga</relative>
 					</field>
 					<field type="weekday">
 						<displayName draft="provisional">Jiyax quri jiyax iyax sngayan</displayName>
@@ -346,7 +346,7 @@
 				<exemplarCity draft="provisional">Jikan alang Jiciak</exemplarCity>
 			</zone>
 			<zone type="America/Indianapolis">
-				<exemplarCity draft="provisional">Jikan alang  Intiannaporis</exemplarCity>
+				<exemplarCity draft="provisional">Jikan alang Intiannaporis</exemplarCity>
 			</zone>
 			<zone type="America/New_York">
 				<exemplarCity draft="provisional">Jikan alang Niuyue</exemplarCity>

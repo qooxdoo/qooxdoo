@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.70 $"/>
-		<generation date="$Date: 2008/06/17 14:12:14 $"/>
+		<version number="$Revision: 1.86 $"/>
+		<generation date="$Date: 2009/06/15 20:34:50 $"/>
 		<language type="vi"/>
 	</identity>
 	<localeDisplayNames>
@@ -27,7 +27,6 @@
 			<language type="bs" draft="contributed">Tiếng Nam Tư</language>
 			<language type="ca">Tiếng Ca-ta-lăng</language>
 			<language type="cs">Tiếng Séc</language>
-			<language type="cs" alt="proposed-x1001" draft="unconfirmed">Tiếng Tiệp Khắc</language>
 			<language type="cy" draft="contributed">Tiếng Xentơ</language>
 			<language type="da">Tiếng Đan Mạch</language>
 			<language type="de">Tiếng Đức</language>
@@ -49,7 +48,7 @@
 			<language type="gd" draft="contributed">Tiếng Xentơ (Xcốt len)</language>
 			<language type="gl" draft="contributed">Tiếng Galician</language>
 			<language type="gn" draft="contributed">Tiếng Guarani</language>
-			<language type="gu" draft="contributed">Tiếng  Gujarati</language>
+			<language type="gu" draft="contributed">Tiếng Gujarati</language>
 			<language type="he">Tiếng Hê-brơ</language>
 			<language type="hi">Tiếng Hin-đi</language>
 			<language type="hr">Tiếng Crô-a-ti-a</language>
@@ -57,7 +56,6 @@
 			<language type="hy">Tiếng Ác-mê-ni</language>
 			<language type="ia">Tiếng Khoa Học Quốc Tế</language>
 			<language type="id">Tiếng In-đô-nê-xia</language>
-			<language type="ie" draft="contributed">Tiếng Khoa học quốc tế</language>
 			<language type="is">Tiếng Ai-xơ-len</language>
 			<language type="it">Tiếng Ý</language>
 			<language type="ja">Tiếng Nhật</language>
@@ -79,7 +77,6 @@
 			<language type="mn">Tiếng Mông Cổ</language>
 			<language type="mr" draft="contributed">Tiếng Marathi</language>
 			<language type="ms">Tiếng Ma-lay-xi-a</language>
-			<language type="ms" alt="proposed-x1001" draft="unconfirmed">Tiếng Mã Lai</language>
 			<language type="mt" draft="contributed">Tiếng Mantơ</language>
 			<language type="ne">Tiếng Nê-pan</language>
 			<language type="nl">Tiếng Hà Lan</language>
@@ -105,7 +102,6 @@
 			<language type="so">Tiếng Xô-ma-li</language>
 			<language type="sq">Tiếng An-ba-ni</language>
 			<language type="sr">Tiếng Séc-bi</language>
-			<language type="sr" alt="proposed-x1001" draft="unconfirmed">Tiếng Xéc-bi</language>
 			<language type="st" draft="provisional">Tiếng Sesotho</language>
 			<language type="su" draft="contributed">Tiếng Xu đăng</language>
 			<language type="sv">Tiếng Thụy Điển</language>
@@ -140,7 +136,6 @@
 		<territories>
 			<territory type="001" draft="contributed">Thế giới</territory>
 			<territory type="002">Châu Phi</territory>
-			<territory type="002" alt="proposed-x1001" draft="unconfirmed">Phi Châu</territory>
 			<territory type="003" draft="contributed">Bắc Mỹ</territory>
 			<territory type="005" draft="contributed">Nam Mỹ</territory>
 			<territory type="009" draft="contributed">Châu Đại Dương</territory>
@@ -150,7 +145,6 @@
 			<territory type="015" draft="contributed">Bắc Phi</territory>
 			<territory type="017" draft="contributed">Trung Phi</territory>
 			<territory type="018" draft="contributed">Miền Nam Châu Phi</territory>
-			<territory type="018" alt="proposed-x1001" draft="unconfirmed">Nam Phi</territory>
 			<territory type="019" draft="contributed">Châu Mỹ</territory>
 			<territory type="021" draft="contributed">Miền Bắc Châu Mỹ</territory>
 			<territory type="029" draft="contributed">Ca-ri-bê</territory>
@@ -182,7 +176,6 @@
 			<territory type="AQ">Nam Cực</territory>
 			<territory type="AR">Ác-hen-ti-na</territory>
 			<territory type="AS">Đảo Somoa thuộc Mỹ</territory>
-			<territory type="AS" alt="proposed-x1001" draft="unconfirmed">Đảo Xa-mô-a của Mỹ (Samoa)</territory>
 			<territory type="AT">Áo</territory>
 			<territory type="AU">Úc</territory>
 			<territory type="AX">Quần đảo Aland</territory>
@@ -196,7 +189,6 @@
 			<territory type="BH">Ba-ren</territory>
 			<territory type="BI">Bu-run-đi</territory>
 			<territory type="BJ">Bê-nanh</territory>
-			<territory type="BJ" alt="proposed-x1001" draft="unconfirmed">Benin</territory>
 			<territory type="BL" draft="contributed">BL</territory>
 			<territory type="BN">Bru-nây</territory>
 			<territory type="BO">Bô-li-vi-a</territory>
@@ -262,7 +254,6 @@
 			<territory type="GW">Ghi-nê Bít-xao</territory>
 			<territory type="GY">Guy-a-na</territory>
 			<territory type="HK">Đặc khu hành chính Hồng Kông thuộc CHND Trung Hoa</territory>
-			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Hồng Kông</territory>
 			<territory type="HK" alt="short">Hồng Kông</territory>
 			<territory type="HM" draft="contributed">Đảo Heard và Quần đảo McDonald</territory>
 			<territory type="HN">Hôn-đu-rát</territory>
@@ -315,7 +306,6 @@
 			<territory type="MK">Ma-xê-đô-ni-a</territory>
 			<territory type="ML">Ma-li</territory>
 			<territory type="MM">Mi-an-ma</territory>
-			<territory type="MM" alt="proposed-x1001" draft="unconfirmed">Miến Điện</territory>
 			<territory type="MN">Mông Cổ</territory>
 			<territory type="MO" draft="contributed">Đặc khu hành chính Macao thuộc CHND Trung Hoa</territory>
 			<territory type="MO" alt="short" draft="contributed">Macao</territory>
@@ -349,7 +339,6 @@
 			<territory type="PL">Ba Lan</territory>
 			<territory type="PM" draft="contributed">Saint Pierre và Miquelon</territory>
 			<territory type="PS">Lãnh thổ Palestine</territory>
-			<territory type="PS" alt="proposed-x1001" draft="unconfirmed">Palestine</territory>
 			<territory type="PT">Bồ Đào Nha</territory>
 			<territory type="PY">Pa-ra-goay</territory>
 			<territory type="QA">Ca-ta</territory>
@@ -381,14 +370,12 @@
 			<territory type="SZ">Xoa-di-len</territory>
 			<territory type="TC" draft="contributed">Quần Đảo Turk và Caicos</territory>
 			<territory type="TD">Sát</territory>
-			<territory type="TD" alt="proposed-x1001" draft="unconfirmed">Sát (Chad)</territory>
 			<territory type="TF">Thuộc Địa Nam của Pháp</territory>
 			<territory type="TG">Tô-gô</territory>
 			<territory type="TH">Thái Lan</territory>
 			<territory type="TJ">Tát-gi-ki-xtan</territory>
 			<territory type="TK" draft="contributed">Tokelau</territory>
 			<territory type="TL">Đông Ti-mo</territory>
-			<territory type="TL" alt="proposed-x1001" draft="unconfirmed">Ðông Ti-mo</territory>
 			<territory type="TM">Tuốc-mê-ni-xtan</territory>
 			<territory type="TN">Tuy-ni-di</territory>
 			<territory type="TO">Tông-ga</territory>
@@ -430,10 +417,8 @@
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[a à ả ã á ạ ă ằ ẳ ẵ ắ ặ â ầ ẩ ẫ ấ ậ b-d đ e è ẻ ẽ é ẹ ê ề ể ễ ế ệ f-i ì ỉ ĩ í ị j-o ò ỏ õ ó ọ ô ồ ổ ỗ ố ộ ơ ờ ở ỡ ớ ợ p-u ù ủ ũ ú ụ ư ừ ử ữ ứ ự v-y ỳ ỷ ỹ ý ỵ z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[f j w z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a-d đ e-z]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol" alt="proposed-x1001" draft="unconfirmed">[a-z]</exemplarCharacters>
-		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[a à ả ã á ạ ă ằ ẳ ẵ ắ ặ â ầ ẩ ẫ ấ ậ b-d đ e è ẻ ẽ é ẹ ê ề ể ễ ế ệ g-i ì ỉ ĩ í ị k-o ò ỏ õ ó ọ ô ồ ổ ỗ ố ộ ơ ờ ở ỡ ớ ợ p-u ù ủ ũ ú ụ ư ừ ử ữ ứ ự v x y ỳ ỷ ỹ ý ỵ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -475,22 +460,6 @@
 							<month type="12">tháng mười hai</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="contributed">1</month>
-							<month type="2" draft="contributed">2</month>
-							<month type="3" draft="contributed">3</month>
-							<month type="4" draft="contributed">4</month>
-							<month type="5" draft="contributed">5</month>
-							<month type="6" draft="contributed">6</month>
-							<month type="7" draft="contributed">7</month>
-							<month type="8" draft="contributed">8</month>
-							<month type="9" draft="contributed">9</month>
-							<month type="10" draft="contributed">10</month>
-							<month type="11" draft="contributed">11</month>
-							<month type="12" draft="contributed">12</month>
-						</monthWidth>
-					</monthContext>
 				</months>
 				<days>
 					<dayContext type="format">
@@ -513,34 +482,7 @@
 							<day type="sat">Thứ bảy</day>
 						</dayWidth>
 					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="contributed">1</day>
-							<day type="mon" draft="contributed">2</day>
-							<day type="tue" draft="contributed">3</day>
-							<day type="wed" draft="contributed">4</day>
-							<day type="thu" draft="contributed">5</day>
-							<day type="fri" draft="contributed">6</day>
-							<day type="sat" draft="contributed">7</day>
-						</dayWidth>
-					</dayContext>
 				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="contributed">Q1</quarter>
-							<quarter type="2" draft="contributed">Q2</quarter>
-							<quarter type="3" draft="contributed">Q3</quarter>
-							<quarter type="4" draft="contributed">Q4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="contributed">Q1</quarter>
-							<quarter type="2" draft="contributed">Q2</quarter>
-							<quarter type="3" draft="contributed">Q3</quarter>
-							<quarter type="4" draft="contributed">Q4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
 				<am>SA</am>
 				<pm>CH</pm>
 				<eras>
@@ -552,12 +494,12 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, 'ngày' dd MMMM 'năm' yyyy</pattern>
+							<pattern>EEEE, 'ngày' dd MMMM 'năm' y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>'Ngày' dd 'tháng' M 'năm' yyyy</pattern>
+							<pattern>'Ngày' dd 'tháng' M 'năm' y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -574,7 +516,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="contributed">HH:mm:ss v</pattern>
+							<pattern draft="contributed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -594,7 +536,22 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{0} {1}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{0} {1}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{0} {1}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{0} {1}</pattern>
 						</dateTimeFormat>
@@ -603,48 +560,26 @@
 						<dateFormatItem id="H" draft="contributed">H</dateFormatItem>
 						<dateFormatItem id="HHmm" draft="contributed">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss" draft="contributed">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="MEd">E, d-M</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMdd" draft="contributed">dd-MM</dateFormatItem>
 						<dateFormatItem id="Md">d-M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d-M</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="contributed">dd-MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="contributed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, d-M-yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="contributed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyy" draft="contributed">yyyy</dateFormatItem>
+						<dateFormatItem id="yyyy" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yyyyMM" draft="contributed">MM-yyyy</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="contributed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="contributed">'Tháng' M - 'Tháng' M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M" draft="contributed">EEEE, dd/MM - EEEE, dd/MM</greatestDifference>
-							<greatestDifference id="d" draft="contributed">EEEE, dd/MM - EEEE, dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="contributed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M" draft="contributed">EEEE, 'ngày' dd 'tháng' M - EEEE, 'ngày' dd 'tháng' M</greatestDifference>
-							<greatestDifference id="d" draft="contributed">EEEE, 'ngày' dd - EEEE, 'ngày' dd 'tháng' M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M</greatestDifference>
-							<greatestDifference id="d" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M" draft="contributed">dd/MM - dd/MM</greatestDifference>
-							<greatestDifference id="d" draft="contributed">dd/MM - dd/MM</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d" draft="contributed">'Ngày' d-d</greatestDifference>
 						</intervalFormatItem>
@@ -664,6 +599,28 @@
 							<greatestDifference id="a" draft="contributed">HH'h'-HH'h' v</greatestDifference>
 							<greatestDifference id="h" draft="contributed">HH'h'-HH'h' v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="contributed">'Tháng' M - 'Tháng' M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="contributed">dd/MM - dd/MM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">dd/MM - dd/MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="contributed">EEEE, dd/MM - EEEE, dd/MM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">EEEE, dd/MM - EEEE, dd/MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M" draft="contributed">MMM-MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M</greatestDifference>
+							<greatestDifference id="M" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="contributed">EEEE, 'ngày' dd - EEEE, 'ngày' dd 'tháng' M</greatestDifference>
+							<greatestDifference id="M" draft="contributed">EEEE, 'ngày' dd 'tháng' M - EEEE, 'ngày' dd 'tháng' M</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="contributed">y-y</greatestDifference>
 						</intervalFormatItem>
@@ -671,29 +628,29 @@
 							<greatestDifference id="M" draft="contributed">MM/yyyy - MM/yyyy</greatestDifference>
 							<greatestDifference id="y" draft="contributed">MM/yyyy - MM/yyyy</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
+							<greatestDifference id="M" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
+							<greatestDifference id="y" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M" draft="contributed">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</greatestDifference>
 							<greatestDifference id="d" draft="contributed">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</greatestDifference>
+							<greatestDifference id="M" draft="contributed">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</greatestDifference>
 							<greatestDifference id="y" draft="contributed">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="contributed">'Tháng' M - 'Tháng' M 'năm' yyyy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">'Tháng' M 'năm' yyyy - 'Tháng' M 'năm' yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M" draft="contributed">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' yyyy</greatestDifference>
-							<greatestDifference id="d" draft="contributed">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' yyyy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">EEEE, 'ngày' dd MMM 'năm' yyyy - EEEE, 'ngày' dd MMM 'năm' yyyy</greatestDifference>
+							<greatestDifference id="M" draft="contributed">'Tháng' M - 'Tháng' M 'năm' y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">'Tháng' M 'năm' y - 'Tháng' M 'năm' y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M 'năm' yyyy</greatestDifference>
-							<greatestDifference id="d" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M 'năm' yyyy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">'Ngày' dd 'tháng' M 'năm' yyyy - 'Ngày' dd 'tháng' M 'năm' yyyy</greatestDifference>
+							<greatestDifference id="d" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M 'năm' y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">'Ngày' dd 'tháng' M - 'Ngày' dd 'tháng' M 'năm' y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">'Ngày' dd 'tháng' M 'năm' y - 'Ngày' dd 'tháng' M 'năm' y</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="d" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d" draft="contributed">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">EEEE, 'ngày' dd MMM 'năm' y - EEEE, 'ngày' dd MMM 'năm' y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -948,7 +905,6 @@
 			</currency>
 			<currency type="INR">
 				<displayName draft="contributed">Rupi Ấn Độ</displayName>
-				<symbol draft="contributed">0≤Rs.|1≤Re.|1&lt;Rs.</symbol>
 			</currency>
 			<currency type="IQD">
 				<displayName draft="contributed">Dinar I-rắc</displayName>
@@ -1057,8 +1013,6 @@
 			</currency>
 			<currency type="VND">
 				<displayName>đồng</displayName>
-				<symbol>₫</symbol>
-				<symbol alt="proposed-x1001" draft="unconfirmed">đ</symbol>
 			</currency>
 			<currency type="XAU">
 				<displayName draft="contributed">Vàng</displayName>
@@ -1074,24 +1028,31 @@
 	<units>
 		<unit type="day">
 			<unitPattern count="other">{0} ngày</unitPattern>
+			<unitPattern count="other" alt="short">{0} ngày</unitPattern>
 		</unit>
 		<unit type="hour">
 			<unitPattern count="other">{0} giờ</unitPattern>
+			<unitPattern count="other" alt="short">{0} g</unitPattern>
 		</unit>
 		<unit type="minute">
 			<unitPattern count="other">{0} phút</unitPattern>
+			<unitPattern count="other" alt="short">{0} ph</unitPattern>
 		</unit>
 		<unit type="month">
 			<unitPattern count="other">{0} tháng</unitPattern>
+			<unitPattern count="other" alt="short">{0} tháng</unitPattern>
 		</unit>
 		<unit type="second">
 			<unitPattern count="other">{0} giây</unitPattern>
+			<unitPattern count="other" alt="short">{0} s</unitPattern>
 		</unit>
 		<unit type="week">
 			<unitPattern count="other">{0} tuần</unitPattern>
+			<unitPattern count="other" alt="short">{0} tuần</unitPattern>
 		</unit>
 		<unit type="year">
 			<unitPattern count="other">{0} năm</unitPattern>
+			<unitPattern count="other" alt="short">{0} năm</unitPattern>
 		</unit>
 	</units>
 	<posix>
@@ -1101,26 +1062,4 @@
 		</messages>
 	</posix>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/vi.txt?only_with_tag=final-update-LDML
-
-Note many of the country names have dashes in the name. This seems to be correct.
-Translations that are done poorly seem to remove them. This doesn't mean that all the dashes are correct,
-but care should be taken before removing them.
-        AT { "\u00c1o" } // \u00c1o Qu\u1ed1c ?
-        AU { "\u00dac" } // \u00dac \u0110\u1ea1i L\u1ee3i?
-HK { "H\u1ED3ng K\u00F4ng SAR Trung Qu\u1ed1c" }  // "H\u1ED3ng K\u00F4ng" is original form. SAR needs translation.
-        ID { "Nam D\u01b0\u01a1ng" } // or maybe also In-\u0111\u00f4-n\u00ea-xi-a
-        IT { "\u00DD" } // The less frequent form of this country is "I-ta-li-a"
-        KP { "B\u1eafc Tri\u1ec1u Ti\u00ean" } // Alt name?: C\u1ed9ng h\u00f2a D\u00e2n ch\u1ee7 Nh\u00e2n d\u00e2n Tri\u1ec1u Ti\u00ean
-        US { "Hoa K\u1ef3" } // M\u1ef9 = slang abbreviated form of US; Hoa K\u1ef3 = US; H\u1ee3p ch\u00fang qu\u1ed1c Hoa k\u1ef3 = USA 
-        VND { "\u0111", "\u0111\u1ED3ng" } // Vietnamese Dong. More people use \u0111 rather than \u20AB
-The case of the letters may be wrong for languages because Ti\u1EBFng is used.
-Ti\u1EBFng is used in order to clarify some of the names, and ti\u1EBFng means "language".
-Ti\u1EBFng is used to differentiate similar words like English from England and German from Germany,
-which are frequently the same in Vietnamese.
-It is difficult to decide whether Ti\u1EBFng should precede the translation, but it doesn't hurt to keep it there.
-        it { "Ti\u1EBFng \u00DD" } // Just \u00DD seems okay because Ti\u1EBFng is used. \u00DD is sometimes used to mean Italy too.
-        "Latn",  // ISO 15924 Name
--->
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.11 $"/>
-		<generation date="$Date: 2008/06/26 03:47:58 $"/>
+		<version number="$Revision: 1.19 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="to"/>
 	</identity>
 	<localeDisplayNames>
@@ -227,8 +227,8 @@
 			<type type="japanese" key="calendar" draft="unconfirmed">fakasiapani</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">fakaʻamelika</measurementSystemName>
 			<measurementSystemName type="metric" draft="unconfirmed">fakamita</measurementSystemName>
+			<measurementSystemName type="US" draft="unconfirmed">fakaʻamelika</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
@@ -375,17 +375,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">EEEE d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMM yyyy</pattern>
+							<pattern draft="unconfirmed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -397,7 +397,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss v</pattern>
+							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -417,31 +417,26 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d" draft="unconfirmed">d</dateFormatItem>
 						<dateFormatItem id="Hm" draft="unconfirmed">H:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="unconfirmed">L</dateFormatItem>
+						<dateFormatItem id="Md" draft="unconfirmed">d-M</dateFormatItem>
 						<dateFormatItem id="MEd" draft="unconfirmed">E d-M</dateFormatItem>
 						<dateFormatItem id="MMM" draft="unconfirmed">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="unconfirmed">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd" draft="unconfirmed">E d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="unconfirmed">d MMM</dateFormatItem>
-						<dateFormatItem id="Md" draft="unconfirmed">d-M</dateFormatItem>
-						<dateFormatItem id="d" draft="unconfirmed">d</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="unconfirmed">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="unconfirmed">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="unconfirmed">yyyy</dateFormatItem>
+						<dateFormatItem id="y" draft="unconfirmed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="unconfirmed">M-yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="unconfirmed">EEE d-M-yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="unconfirmed">MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE d MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="unconfirmed">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="unconfirmed">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="unconfirmed">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="yQQQ" draft="unconfirmed">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="unconfirmed">MM-yy</dateFormatItem>
 						<dateFormatItem id="yyMMM" draft="unconfirmed">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
@@ -462,11 +457,11 @@
 					</field>
 					<field type="day">
 						<displayName draft="unconfirmed">ʻaho</displayName>
+						<relative type="-2" draft="unconfirmed">ʻaneheafi</relative>
+						<relative type="-1" draft="unconfirmed">ʻaneafi</relative>
 						<relative type="0" draft="unconfirmed">ʻahó ni</relative>
 						<relative type="1" draft="unconfirmed">ʻapongipongi</relative>
 						<relative type="2" draft="unconfirmed">ʻahepongipongi</relative>
-						<relative type="-1" draft="unconfirmed">ʻaneafi</relative>
-						<relative type="-2" draft="unconfirmed">ʻaneheafi</relative>
 					</field>
 					<field type="weekday">
 						<displayName draft="unconfirmed">ʻaho ʻo e uike</displayName>
