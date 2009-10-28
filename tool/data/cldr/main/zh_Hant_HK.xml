@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.67 $"/>
-		<generation date="$Date: 2008/06/17 14:12:11 $"/>
+		<version number="$Revision: 1.78 $"/>
+		<generation date="$Date: 2009/06/15 03:46:23 $"/>
 		<language type="zh"/>
 		<script type="Hant"/>
 		<territory type="HK"/>
@@ -15,12 +15,7 @@
 		</languages>
 		<scripts>
 			<script type="Hang">韓文字母</script>
-			<script type="Kore">韓文</script>
 		</scripts>
-		<territories>
-			<territory type="IT" draft="contributed">意大利</territory>
-			<territory type="TW" draft="contributed">台灣</territory>
-		</territories>
 		<variants>
 			<variant type="1901" draft="contributed">傳統德國拼字法</variant>
 			<variant type="1996" draft="contributed">1996 德國拼字法</variant>
@@ -31,6 +26,10 @@
 			<variant type="SCOTLAND" draft="contributed">蘇格蘭標準英語</variant>
 			<variant type="SOLBA" draft="contributed">Stolvizza/Solbica 方言</variant>
 		</variants>
+		<types>
+			<type type="big5han" key="collation">繁體中文順序 - Big5</type>
+			<type type="gb2312han" key="collation">簡體中文順序 - GB2312</type>
+		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric" draft="contributed">十進制</measurementSystemName>
 		</measurementSystemNames>
@@ -41,7 +40,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="MMMMEd" draft="contributed">M月d日E</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">yyyy年M月d日，E</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">y年M月d日，E</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -49,17 +48,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern references="R698">yyyy年M月d日EEEE</pattern>
+							<pattern references="R698">y年M月d日EEEE</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern references="R698">yyyy年M月d日</pattern>
+							<pattern references="R698">y年M月d日</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>yyyy年M月d日</pattern>
+							<pattern>y年M月d日</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -76,7 +75,12 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1}{0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{1}{0}</pattern>
 						</dateTimeFormat>
@@ -85,14 +89,6 @@
 						<dateFormatItem id="yyyyM" draft="provisional">yyyy/M</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M" draft="unconfirmed">M月d日E至M月d日E</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">M月d日E至d日E</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M" draft="unconfirmed">M月d日至M月d日</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">M月d日至d日</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="h">
 							<greatestDifference id="h" draft="unconfirmed">ah至h時</greatestDifference>
 						</intervalFormatItem>
@@ -105,19 +101,27 @@
 							<greatestDifference id="a" draft="unconfirmed">ah時至ah時v</greatestDifference>
 							<greatestDifference id="h" draft="unconfirmed">ah至h時v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="unconfirmed">M月d日至d日</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">M月d日至M月d日</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="unconfirmed">M月d日E至d日E</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">M月d日E至M月d日E</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yM">
 							<greatestDifference id="M" draft="unconfirmed">yy年M月至M月</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">yy年M月至yy年M月</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M" draft="unconfirmed">yy年M月d日E至M月d日E</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">yy年M月d日E至d日E</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">yy年M月d日E至yy年M月d日E</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="M" draft="unconfirmed">yy年M月d日至M月d日</greatestDifference>
 							<greatestDifference id="d" draft="unconfirmed">yy年M月d日至d日</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">yy年M月d日至M月d日</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">yy年M月d日至yy年M月d日</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d" draft="unconfirmed">yy年M月d日E至d日E</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">yy年M月d日E至M月d日E</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">yy年M月d日E至yy年M月d日E</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -125,10 +129,6 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
-			<group draft="contributed">，</group>
-			<list draft="contributed">；</list>
-		</symbols>
 		<currencyFormats>
 			<currencyFormatLength>
 				<currencyFormat>
@@ -151,6 +151,7 @@
 			</currency>
 			<currency type="HKD">
 				<displayName draft="contributed">港元</displayName>
+				<symbol>$</symbol>
 			</currency>
 			<currency type="ITL">
 				<displayName draft="contributed">意大利里拉</displayName>
@@ -166,6 +167,9 @@
 			</currency>
 			<currency type="TWD">
 				<displayName draft="contributed">新台幣</displayName>
+			</currency>
+			<currency type="USD">
+				<symbol>US$</symbol>
 			</currency>
 		</currencies>
 	</numbers>
