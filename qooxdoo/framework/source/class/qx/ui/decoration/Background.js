@@ -110,7 +110,12 @@ qx.Class.define("qx.ui.decoration.Background",
         return this.__markup;
       }
 
-      var html = this._generateBackgroundMarkup("position:absolute;top:0;left:0");
+      var styles = {
+        position: "absolute",
+        top: 0,
+        left: 0
+      };
+      var html = this._generateBackgroundMarkup(styles);
 
       // Store
       return this.__markup = html;

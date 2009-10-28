@@ -308,27 +308,27 @@ qx.Class.define("qx.ui.decoration.Single",
       var Color = qx.theme.manager.Color.getInstance();
 
       // Styles
-      var styles = "";
+      var styles = {};
 
       // Add borders
       var width = this.getWidthTop();
       if (width > 0) {
-        styles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
+        styles["border-top"] = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop());
       }
 
       var width = this.getWidthRight();
       if (width > 0) {
-        styles += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
+        styles["border-right"] = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight());
       }
 
       var width = this.getWidthBottom();
       if (width > 0) {
-        styles += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
+        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom());
       }
 
       var width = this.getWidthLeft();
       if (width > 0) {
-        styles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
+        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
       }
 
       // Check if valid
@@ -340,7 +340,9 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       // Add basic styles
-      styles += "position:absolute;top:0;left:0;";
+      styles.position = "absolute";
+      styles.top = 0;
+      styles.left = 0;
 
       var html = this._generateBackgroundMarkup(styles);
 

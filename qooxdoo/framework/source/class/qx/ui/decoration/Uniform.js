@@ -149,7 +149,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
       }
 
       // Init styles
-      var styles = "position:absolute;top:0;left:0;";
+      var styles = { 
+        position: "absolute",
+        top: 0,
+        left: 0
+      };
 
       // Check
       var width = this.getWidth();
@@ -162,7 +166,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
       // Add styles
       var Color = qx.theme.manager.Color.getInstance();
-      styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
+      styles.border = width + "px " + this.getStyle() + " " + Color.resolve(this.getColor());
 
       var html = this._generateBackgroundMarkup(styles);
 

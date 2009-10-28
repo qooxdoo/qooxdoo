@@ -375,8 +375,11 @@ qx.Class.define("qx.bom.element.Decoration",
           {
             var data = ResourceManager.getData(source);
             var bg = Background.getStyles(data[4], repeat, data[5], data[6]);
-            for (var key in bg) {
-              style[key] = bg[key];
+            for (var key in bg)
+            {
+              if (style[key] === undefined) {
+                style[key] = bg[key];
+              }
             }
 
             if (width != null && style.width == null && (repeat == "repeat-y" || repeat === "no-repeat")) {
@@ -409,9 +412,12 @@ qx.Class.define("qx.bom.element.Decoration",
               }
             }
 
-            var bg = Background.getStyles(source, repeat);
-            for (var key in bg) {
-              style[key] = bg[key];
+            var bg = Background.getStyles(source, repeat);       
+            for (var key in bg)
+            {
+              if (style[key] === undefined) {
+                style[key] = bg[key];
+              }
             }
 
             if (width != null && style.width == null) {
