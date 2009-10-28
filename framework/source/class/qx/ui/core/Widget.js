@@ -965,6 +965,37 @@ qx.Class.define("qx.ui.core.Widget",
     __updateInsets : null,
 
 
+    /**
+     * Detects whether the move from decorator <code>a</code> to <code>b</code>
+     * results into modified insets.
+     *
+     * @param a {Decorator} Old decorator or <code>null</code>
+     * @param b {Decorator} New decorator or <code>null</code>
+     * @return {Boolean} Whether the insets have been modified
+     */
+    __checkInsetsModified : function(a, b)
+    {
+      if (a == b) {
+        return false;
+      }
+
+      if (a == null || b == null) {
+        return true;
+      }
+
+      var manager = qx.theme.manager.Decoration.getInstance();
+
+      var first = manager.resolve(a).getInsets();
+      var second = manager.resolve(b).getInsets();
+
+      if (first.top != second.top || first.right != second.right || first.bottom != second.bottom || first.left != second.left) {
+        return true;
+      }
+
+      return false;
+    },
+
+
     // overridden
     renderLayout : function(left, top, width, height)
     {
@@ -2282,7 +2313,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Apply change
-      if (qx.ui.decoration.Util.insetsModified(old, value))
+      if (this.__checkInsetsModified(old, value))
       {
         // We have changes to the insets, which means we
         // delegate the resize to the layout system.

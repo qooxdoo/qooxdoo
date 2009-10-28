@@ -508,7 +508,7 @@
              "layout" : "horizontal"
           },
 
-          "${RESPATH}/${MODERN}/inputcheckradio-combined.png":
+          "${RESPATH}/${MODERN}/checkradio-combined.png":
           {
             "prefix" : [ "${RESPATH}" ],
             "input"  :
@@ -518,8 +518,7 @@
                   "files"  :
                   [
                     "${RESPATH}/${MODERN}/form/checkbox*.png",
-                    "${RESPATH}/${MODERN}/form/radiobutton*.png",
-                    "${RESPATH}/${MODERN}/form/input*.png"
+                    "${RESPATH}/${MODERN}/form/radiobutton*.png"
                   ]
                 }
               ],
@@ -745,7 +744,12 @@
                   "prefix" : [ "${RESPATH}" ],
                   "files"  :
                   [
-                    "${RESPATH}/${MODERN}/scrollbar/*.png"
+                    "${RESPATH}/${MODERN}/scrollbar/scrollbar-button-*.png",
+                    "${RESPATH}/${MODERN}/scrollbar/scrollbar-up.png",
+                    "${RESPATH}/${MODERN}/scrollbar/scrollbar-down.png",
+                    "${RESPATH}/${MODERN}/scrollbar/scrollbar-left.png",
+                    "${RESPATH}/${MODERN}/scrollbar/scrollbar-right.png",
+                    "${RESPATH}/${MODERN}/scrollbar/slider-knob-background.png"
                   ]
                 }
               ],
