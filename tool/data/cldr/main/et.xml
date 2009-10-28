@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.78 $"/>
-		<generation date="$Date: 2008/06/15 08:09:47 $"/>
+		<version number="$Revision: 1.95 $"/>
+		<generation date="$Date: 2009/06/15 03:46:26 $"/>
 		<language type="et"/>
 	</identity>
+	<fallback draft="unconfirmed">en fi</fallback>
 	<localeDisplayNames>
 		<languages>
 			<language type="aa">afari</language>
@@ -23,12 +24,14 @@
 			<language type="akk">akadi</language>
 			<language type="ale">aleuudi</language>
 			<language type="alg">algonkini keeled</language>
+			<language type="alg" alt="proposed-x1001" draft="unconfirmed">algonkini keel</language>
 			<language type="alt">altai</language>
 			<language type="am">amhari</language>
 			<language type="an">aragoni</language>
 			<language type="ang">vanainglise</language>
 			<language type="anp">angika</language>
 			<language type="apa">apatši keeled</language>
+			<language type="apa" alt="proposed-x1001" draft="unconfirmed">apatši keel</language>
 			<language type="ar">araabia</language>
 			<language type="arc">aramea</language>
 			<language type="arn">araukaani</language>
@@ -39,6 +42,7 @@
 			<language type="ast">astuuria</language>
 			<language type="ath">atapaski keeled</language>
 			<language type="aus">Austraalia keeled</language>
+			<language type="aus" alt="proposed-x1001" draft="unconfirmed">austraali keel</language>
 			<language type="av">avaari</language>
 			<language type="awa">avadhi</language>
 			<language type="ay">aimara</language>
@@ -46,10 +50,12 @@
 			<language type="ba">baškiiri</language>
 			<language type="bad">banda</language>
 			<language type="bai">bamileke keeled</language>
+			<language type="bai" alt="proposed-x1001" draft="unconfirmed">bamileke keel</language>
 			<language type="bal">belutši</language>
 			<language type="ban">bali</language>
 			<language type="bas">basa</language>
 			<language type="bat">muu balti</language>
+			<language type="bat" alt="proposed-x1001" draft="unconfirmed">balti keel</language>
 			<language type="be">valgevene</language>
 			<language type="bej">bedža</language>
 			<language type="bem">bemba</language>
@@ -75,11 +81,15 @@
 			<language type="ca">katalaani</language>
 			<language type="cad">kado</language>
 			<language type="cai">muu Kesk-Ameerika indiaani</language>
+			<language type="cai" alt="proposed-x1001" draft="unconfirmed">Kesk-Ameerika indiaani keel</language>
 			<language type="car">kariibi</language>
 			<language type="cau">muu Kaukaasia</language>
+			<language type="cau" alt="proposed-x1001" draft="unconfirmed">kaukaasia keel</language>
+			<language type="cch" draft="unconfirmed">atsam</language>
 			<language type="ce">tšetšeeni</language>
 			<language type="ceb">sebu</language>
 			<language type="cel">muu keldi</language>
+			<language type="cel" alt="proposed-x1001" draft="unconfirmed">keldi keel</language>
 			<language type="ch">tšamorro</language>
 			<language type="chb">tšibtša</language>
 			<language type="chg">tšagatai</language>
@@ -94,12 +104,15 @@
 			<language type="co">korsika</language>
 			<language type="cop">kopti</language>
 			<language type="cpe">muud inglispõhjalised kreool- ja pidžinkeeled</language>
+			<language type="cpe" alt="proposed-x1001" draft="unconfirmed">inglispõhjalised kreool/pidžinkeel</language>
 			<language type="cpf">muud prantsuspõhjalised kreool- ja pidžinkeeled</language>
+			<language type="cpf" alt="proposed-x1001" draft="unconfirmed">prantsuspõhjalised kreool/pidžinkeel</language>
 			<language type="cpp">muud portugalipõhjalised kreool- ja pidžinkeeled</language>
-			<language type="cpp" alt="proposed-x1001" draft="unconfirmed">portugalipõhjalised kreool/pidžinkeeled</language>
+			<language type="cpp" alt="proposed-x1001" draft="unconfirmed">portugalipõhjalised kreool/pidžinkeel</language>
 			<language type="cr">krii</language>
 			<language type="crh">krimmitatari</language>
 			<language type="crp">muud kreool- ja pidžinkeeled</language>
+			<language type="crp" alt="proposed-x1001" draft="unconfirmed">kreool/pidžinkeel</language>
 			<language type="cs">tšehhi</language>
 			<language type="csb">kašuubi</language>
 			<language type="cu">kirikuslaavi</language>
@@ -110,6 +123,7 @@
 			<language type="dak">siuu</language>
 			<language type="dar">dargi</language>
 			<language type="day">dajaki</language>
+			<language type="day" alt="proposed-x1001" draft="unconfirmed">bidayuhkeel</language>
 			<language type="de">saksa</language>
 			<language type="del">delavari</language>
 			<language type="den">sleivi</language>
@@ -117,6 +131,7 @@
 			<language type="din">dinka</language>
 			<language type="doi">dogri</language>
 			<language type="dra">muu draviidi keel</language>
+			<language type="dra" alt="proposed-x1001" draft="unconfirmed">draviidi keel</language>
 			<language type="dsb">alamsorbi</language>
 			<language type="dua">duala</language>
 			<language type="dum">keskhollandi</language>
@@ -130,7 +145,7 @@
 			<language type="el">kreeka</language>
 			<language type="elx">eelami</language>
 			<language type="en">inglise</language>
-			<language type="en_US" draft="unconfirmed">inglise keel (US)</language>
+			<language type="en_US" draft="unconfirmed">inglise (USA)</language>
 			<language type="enm">keskinglise</language>
 			<language type="eo">esperanto</language>
 			<language type="es">hispaania</language>
@@ -144,6 +159,7 @@
 			<language type="fi">soome</language>
 			<language type="fil">filipino</language>
 			<language type="fiu">muu soomeugri</language>
+			<language type="fiu" alt="proposed-x1001" draft="unconfirmed">soomeugri keel</language>
 			<language type="fj">fidži</language>
 			<language type="fo">fääri</language>
 			<language type="fon">foni</language>
@@ -160,6 +176,7 @@
 			<language type="gba">gbaja</language>
 			<language type="gd">gaeli</language>
 			<language type="gem">muu germaani</language>
+			<language type="gem" alt="proposed-x1001" draft="unconfirmed">germaani keel</language>
 			<language type="gez">etioopia</language>
 			<language type="gil">kiribati</language>
 			<language type="gl">galeegi</language>
@@ -202,11 +219,14 @@
 			<language type="ik">injupiaki</language>
 			<language type="ilo">iloko</language>
 			<language type="inc">muu India</language>
+			<language type="inc" alt="proposed-x1001" draft="unconfirmed">india keel</language>
 			<language type="ine">muu indoeuroopa</language>
+			<language type="ine" alt="proposed-x1001" draft="unconfirmed">indoeuroopa keel</language>
 			<language type="inh">inguši</language>
 			<language type="io">ido</language>
 			<language type="ira">muu Iraani</language>
 			<language type="iro">irokeesi keeled</language>
+			<language type="iro" alt="proposed-x1001" draft="unconfirmed">irokeesi keel</language>
 			<language type="is">islandi</language>
 			<language type="it">itaalia</language>
 			<language type="iu">inuktituti</language>
@@ -219,13 +239,18 @@
 			<language type="kaa">karakalpaki</language>
 			<language type="kab">kabiili</language>
 			<language type="kac">katšini</language>
+			<language type="kaj" draft="unconfirmed">jju</language>
 			<language type="kam">kamba</language>
 			<language type="kar">kareni</language>
+			<language type="kar" alt="proposed-x1001" draft="unconfirmed">kareni keel</language>
 			<language type="kaw">kaavi</language>
 			<language type="kbd">kabardi-tšerkessi</language>
+			<language type="kcg" draft="unconfirmed">tyap</language>
+			<language type="kfo" draft="unconfirmed">koro</language>
 			<language type="kg">kongo</language>
 			<language type="kha">khasi</language>
 			<language type="khi">muu khoisani</language>
+			<language type="khi" alt="proposed-x1001" draft="unconfirmed">khoisani keel</language>
 			<language type="kho">saki</language>
 			<language type="ki">kikuju</language>
 			<language type="kj">ambo</language>
@@ -276,6 +301,7 @@
 			<language type="mak">makassari</language>
 			<language type="man">malinke</language>
 			<language type="map">austroneesia keeled</language>
+			<language type="map" alt="proposed-x1001" draft="unconfirmed">austroneesia keel</language>
 			<language type="mas">masai</language>
 			<language type="mdf">mokša</language>
 			<language type="mdr">mandari</language>
@@ -289,11 +315,13 @@
 			<language type="mis">üksikkeeled</language>
 			<language type="mk">makedoonia</language>
 			<language type="mkh">muu moni-khmeeri</language>
+			<language type="mkh" alt="proposed-x1001" draft="unconfirmed">moni-khmeeri keel</language>
 			<language type="ml">malajalami</language>
 			<language type="mn">mongoli</language>
 			<language type="mnc">mandžu</language>
 			<language type="mni">manipuri</language>
 			<language type="mno">manobo keeled</language>
+			<language type="mno" alt="proposed-x1001" draft="unconfirmed">manobo keel</language>
 			<language type="mo">moldova</language>
 			<language type="moh">mohoogi</language>
 			<language type="mos">more</language>
@@ -311,6 +339,7 @@
 			<language type="na">nauru</language>
 			<language type="nah">nahua</language>
 			<language type="nai">muu Põhja-Ameerika indiaani</language>
+			<language type="nai" alt="proposed-x1001" draft="unconfirmed">Põhja-Ameerika indiaani keel</language>
 			<language type="nap">napoli</language>
 			<language type="nb">norra bokmål</language>
 			<language type="nd">põhjandebele</language>
@@ -320,6 +349,7 @@
 			<language type="ng">ndonga</language>
 			<language type="nia">niasi</language>
 			<language type="nic">muu Nigeri-Kordofani</language>
+			<language type="nic" alt="proposed-x1001" draft="unconfirmed">Nigeri-Kordofani keel</language>
 			<language type="niu">niue</language>
 			<language type="nl">hollandi</language>
 			<language type="nn">norra nynorsk</language>
@@ -367,7 +397,6 @@
 			<language type="pro">vanaprovansi</language>
 			<language type="ps">puštu</language>
 			<language type="pt">portugali</language>
-			<language type="pt_BR" draft="unconfirmed">portugali (Braziilia)</language>
 			<language type="qu">ketšua</language>
 			<language type="raj">radžastani</language>
 			<language type="rap">rapanui</language>
@@ -389,6 +418,7 @@
 			<language type="sal">sališi keeled</language>
 			<language type="sal" alt="proposed-x1001" draft="unconfirmed">sališi keel</language>
 			<language type="sam">Samaaria aramea</language>
+			<language type="sam" alt="proposed-x1001" draft="unconfirmed">samaaria aramea</language>
 			<language type="sas">sasaki</language>
 			<language type="sat">santali</language>
 			<language type="sc">sardiinia</language>
@@ -432,6 +462,7 @@
 			<language type="srr">sereri</language>
 			<language type="ss">svaasi</language>
 			<language type="ssa">muu Niiluse-Sahara</language>
+			<language type="ssa" alt="proposed-x1001" draft="unconfirmed">Niiluse-Sahara keel</language>
 			<language type="st">lõunasotho</language>
 			<language type="su">sunda</language>
 			<language type="suk">sukuma</language>
@@ -441,7 +472,6 @@
 			<language type="sw">suahiili</language>
 			<language type="syr">süüria</language>
 			<language type="ta">tamili</language>
-			<language type="ta" alt="proposed-x1001" draft="unconfirmed">tamiili</language>
 			<language type="tai">muu tai keel</language>
 			<language type="tai" alt="proposed-x1001" draft="unconfirmed">tai keel</language>
 			<language type="te">telugu</language>
@@ -466,10 +496,12 @@
 			<language type="tr">türgi</language>
 			<language type="ts">tsonga</language>
 			<language type="tsi">tšimši keeled</language>
+			<language type="tsi" alt="proposed-x1001" draft="unconfirmed">tšimši</language>
 			<language type="tt">tatari</language>
 			<language type="tum">tumbuka</language>
 			<language type="tup">tupii keeled</language>
 			<language type="tut">muu Altai</language>
+			<language type="tut" alt="proposed-x1001" draft="unconfirmed">altai keel</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">tvii</language>
 			<language type="ty">tahiti</language>
@@ -937,13 +969,12 @@
 			<type type="traditional" key="collation">traditsiooniline</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US">inglise mõõdustik</measurementSystemName>
 			<measurementSystemName type="metric">meetermõõdustik</measurementSystemName>
+			<measurementSystemName type="metric" alt="proposed-x1001" draft="unconfirmed">SI-ühikud</measurementSystemName>
+			<measurementSystemName type="US">inglise mõõdustik</measurementSystemName>
+			<measurementSystemName type="US" alt="proposed-x1001" draft="unconfirmed">US-ühikud</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
-	<layout>
-		<inText type="languages" draft="unconfirmed">lowercase-words</inText>
-	</layout>
 	<characters>
 		<exemplarCharacters>[a-s š z ž t-w õ ä ö ü x y]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â å ā æ ç é è ê ë ē í ì î ï ī ñ ó ò ŏ ô ø ō œ ß ú ù û ū]</exemplarCharacters>
@@ -952,10 +983,12 @@
 		<quotationStart>„</quotationStart>
 		<quotationEnd>“</quotationEnd>
 		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationStart alt="proposed-x1001" draft="unconfirmed">‚</alternateQuotationStart>
 		<alternateQuotationEnd>‚</alternateQuotationEnd>
+		<alternateQuotationEnd alt="proposed-x1001" draft="unconfirmed">‘</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
+		<dateRangePattern draft="unconfirmed">{0}−{1}</dateRangePattern>
 		<calendars>
 			<calendar type="gregorian">
 				<months>
@@ -1070,12 +1103,12 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, d, MMMM yyyy</pattern>
+							<pattern>EEEE, d, MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>d MMMM yyyy</pattern>
+							<pattern>d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -1092,7 +1125,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>H:mm:ss v</pattern>
+							<pattern>H:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -1112,43 +1145,16 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="unconfirmed">dd.MM</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="unconfirmed">d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyMM" draft="unconfirmed">MM.yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M" draft="unconfirmed">E, dd.MM - E, dd.MM</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, dd.MM - E, dd.MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, d MMM - E, d MMM</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, d - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">d-d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M" draft="unconfirmed">dd.MM - dd.MM</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">dd.MM - dd.MM</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
 						</intervalFormatItem>
@@ -1166,6 +1172,28 @@
 						<intervalFormatItem id="hv">
 							<greatestDifference id="h" draft="unconfirmed">H-H v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="unconfirmed">dd.MM - dd.MM</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">dd.MM - dd.MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="unconfirmed">E, dd.MM - E, dd.MM</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, dd.MM - E, dd.MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d" draft="unconfirmed">d-d MMM</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="unconfirmed">E, d - E, d MMM</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, d MMM - E, d MMM</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
 						</intervalFormatItem>
@@ -1173,29 +1201,29 @@
 							<greatestDifference id="M" draft="unconfirmed">MM.yy - MM.yy</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">MM.yy - MM.yy</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
 							<greatestDifference id="d" draft="unconfirmed">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM yyyy - MMM yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M" draft="unconfirmed">E, d, MMM - E, d, MMM yyyy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">E, d - E, d, MMM yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d, MMM yyyy - E, d, MMM yyyy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM-MMM y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMM y - MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM yyyy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">d-d MMM yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d MMM yyyy - d MMM yyyy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">d-d MMM y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">d MMM y - d MMM y</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">dd.MM.yy - dd.MM.yy</greatestDifference>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d" draft="unconfirmed">E, d - E, d, MMM y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, d, MMM - E, d, MMM y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, d, MMM y - E, d, MMM y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1203,8 +1231,11 @@
 		</calendars>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<hourFormat alt="proposed-x1001" draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat>{0}</regionFormat>
+			<fallbackFormat draft="unconfirmed">{1} ({0})</fallbackFormat>
+			<fallbackFormat alt="proposed-x1002" draft="unconfirmed">{0} ({1})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="unconfirmed">määramata</exemplarCity>
 			</zone>
@@ -1337,6 +1368,16 @@
 		<symbols>
 			<decimal>,</decimal>
 			<group> </group>
+			<list draft="unconfirmed">;</list>
+			<percentSign draft="unconfirmed">%</percentSign>
+			<nativeZeroDigit draft="unconfirmed">0</nativeZeroDigit>
+			<patternDigit draft="unconfirmed">#</patternDigit>
+			<plusSign draft="unconfirmed">+</plusSign>
+			<minusSign draft="unconfirmed">−</minusSign>
+			<exponential draft="unconfirmed">×10^</exponential>
+			<perMille draft="unconfirmed">‰</perMille>
+			<infinity draft="unconfirmed">∞</infinity>
+			<nan draft="unconfirmed">¤¤¤</nan>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -1356,6 +1397,7 @@
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
+					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
@@ -1365,6 +1407,8 @@
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one" draft="unconfirmed">{0} {1}</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -1539,7 +1583,6 @@
 			</currency>
 			<currency type="EUR">
 				<displayName>euro</displayName>
-				<symbol>€</symbol>
 			</currency>
 			<currency type="FIM">
 				<displayName>Soome mark</displayName>
@@ -1555,7 +1598,6 @@
 			</currency>
 			<currency type="GBP">
 				<displayName>Suurbritannia naelsterling</displayName>
-				<symbol>£</symbol>
 			</currency>
 			<currency type="GEL">
 				<displayName>Gruusia lari</displayName>
@@ -1936,7 +1978,6 @@
 			</currency>
 			<currency type="XXX">
 				<displayName>määramata</displayName>
-				<symbol>XXX</symbol>
 			</currency>
 			<currency type="YDD">
 				<displayName>Jeemeni dinaar</displayName>
@@ -1961,6 +2002,36 @@
 			</currency>
 		</currencies>
 	</numbers>
+	<units>
+		<unit type="day">
+			<unitPattern count="one" draft="unconfirmed">{0} ööpäev</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} ööpäeva</unitPattern>
+		</unit>
+		<unit type="hour">
+			<unitPattern count="one" draft="unconfirmed">{0} tund</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} tunniga</unitPattern>
+		</unit>
+		<unit type="minute">
+			<unitPattern count="one" draft="unconfirmed">{0} minut</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} minut</unitPattern>
+		</unit>
+		<unit type="month">
+			<unitPattern count="one" draft="unconfirmed">{0} kuu</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} kuud</unitPattern>
+		</unit>
+		<unit type="second">
+			<unitPattern count="one" draft="unconfirmed">{0} sekund</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} sekundit</unitPattern>
+		</unit>
+		<unit type="week">
+			<unitPattern count="one" draft="unconfirmed">{0} nädal</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} nädalat</unitPattern>
+		</unit>
+		<unit type="year">
+			<unitPattern count="one" draft="unconfirmed">{0} aasta</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} aastat</unitPattern>
+		</unit>
+	</units>
 	<posix>
 		<messages>
 			<yesstr>jah:j</yesstr>
@@ -1971,16 +2042,4 @@
 		<reference type="R044">Bank Of Estonia http://www.eestipank.info/pub/en/majandus/rahasysteem/yldalused</reference>
 	</references>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/et.txt?only_with_tag=final-update-LDML
-
-        KP { "P\u00F5hja-Korea" }    // alternate name { "Korea RDV" }
-        KR { "L\u00F5una-Korea" }    // alternate name { "Korea Vabariik" }
-RE { "R\u00E9union" }
-zh_cn { "Hiina (lihtsustatud)" }
-zh_tw { "Hiina (traditsiooniline)" }
-        "Latn",  // ISO 15924 Name 
-Currency display names
-                1, // "Minimal Days in First Week" is unknown. Root value used instead
--->
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<!-- This is a special purpose locale so that a user can request the C or POSIX
 		 style formatting. This does not include grouping separators in numbers, nor
@@ -11,8 +11,8 @@
 		 being used, and multi-level UCA collation was expected.
 	-->
 	<identity>
-		<version number="$Revision: 1.55 $"/>
-		<generation date="$Date: 2008/06/15 08:09:47 $"/>
+		<version number="$Revision: 1.58 $"/>
+		<generation date="$Date: 2009/05/05 23:06:35 $"/>
 		<language type="en"/>
 		<territory type="US"/>
 		<variant type="POSIX"/>
@@ -52,11 +52,3 @@
 		</currencyFormats>
 	</numbers>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/en_US_POSIX.txt?only_with_tag=final-update-LDML
-
-This is an invariant locale.
-This has been also known as the C locale on Unix or the invariant locale in Windows.
-No grouping separators
--->
-
