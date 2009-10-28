@@ -884,9 +884,12 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       // get the bindings
       var bindings = this.__bindings[object.toHashCode()];
-      // remove every binding with the removeBindingFromObject function
-      for (var i = bindings.length - 1; i >= 0; i--) {
-        this.removeBindingFromObject(object, bindings[i][0]);
+      if (bindings != undefined) 
+      {
+        // remove every binding with the removeBindingFromObject function
+        for (var i = bindings.length - 1; i >= 0; i--) {
+          this.removeBindingFromObject(object, bindings[i][0]);
+        }        
       }
     },
 
