@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.51 $"/>
-		<generation date="$Date: 2008/05/28 15:49:31 $"/>
+		<version number="$Revision: 1.60 $"/>
+		<generation date="$Date: 2009/06/15 03:46:23 $"/>
 		<language type="gv"/>
 	</identity>
 	<localeDisplayNames>
@@ -128,17 +128,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE dd MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">EEEE dd MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM yyyy</pattern>
+							<pattern draft="unconfirmed">dd MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">MMM dd, yyyy</pattern>
+							<pattern draft="unconfirmed">MMM dd, y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -150,7 +150,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss v</pattern>
+							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -170,19 +170,14 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="HHmm" draft="unconfirmed">HH:mm</dateFormatItem>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="unconfirmed">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -203,9 +198,4 @@
 		</currencyFormats>
 	</numbers>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/gv.txt?only_with_tag=final-update-LDML
 
-                "RC", // BC
-                "AD"  // AD
--->

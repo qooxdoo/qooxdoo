@@ -2,9 +2,9 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.13 $"/>
+		<version number="$Revision: 1.3 $"/>
 		<generation date="$Date: 2009/05/05 23:06:36 $"/>
-		<language type="ha"/>
-		<script type="Latn"/>
+		<language type="gsw"/>
+		<territory type="CH"/>
 	</identity>
 </ldml>
