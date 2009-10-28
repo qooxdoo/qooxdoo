@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.table.Table_Window_Editor",
       // Obtain the behavior object to manipulate
       var resizeBehavior = tcm.getBehavior();
 
-      // This uses the set() method to set all attriutes at once; uses flex
+      // This uses the set() method to set all attributes at once; uses flex
       resizeBehavior.set(0, { width:"1*", minWidth:40, maxWidth:80  });
 
       // We could also set them individually:
@@ -91,19 +91,20 @@ qx.Class.define("demobrowser.demo.table.Table_Window_Editor",
       // We'll instead use a modal cell editor.  Its cell editor factory
       // class, ModalCellEditorFactory(), is declared towards the end of
       // this file.
-      tcm.setCellEditorFactory(1, new ModalCellEditorFactory());
+      tcm.setCellEditorFactory(1, new demobrowser.demo.table.ModalCellEditorFactory());
 
       return table;
     }
   }
 });
 
-/**
+/*
+ * PLEASE NOTE:
  * For demonstration purposes the following class is added to the same file as
  * the application class. For a regular qooxdoo application each class must live
  * in a file of its own. You may neglect any warnings when generating this demo.
  */
-qx.Class.define("ModalCellEditorFactory",
+qx.Class.define("demobrowser.demo.table.ModalCellEditorFactory",
 {
   extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,

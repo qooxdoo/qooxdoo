@@ -29,72 +29,13 @@ qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
     {
       this.base(arguments);
 
-
-      // create the custom renderer which aligns the groups horizontally
-      qx.Class.define("demobrowser.form.CustomRenderer", {
-        extend : qx.ui.form.renderer.Single,
-        members : {
-          __column : 0,
-          __maxRow : 0,
-
-          addItems : function(items, names, title) {
-            var row = 0;
-            // add the header
-            if (title != null) {
-              this._add(
-                this._createHeader(title), {
-                  row: row, column: this.__column, colSpan: 2
-                }
-              );
-              row++;
-            }
-
-            // add the items
-            for (var i = 0; i < items.length; i++) {
-              var label = this._createLabel(names[i], items[i]);
-              this._add(label, {row: row, column: this.__column});
-              var item = items[i];
-              label.setBuddy(item);
-              if (item instanceof qx.ui.form.RadioGroup) {
-                item = this._createWidgetForRadioGroup(item);
-              }
-              this._add(item, {row: row, column: this.__column + 1});
-              row++;
-            }
-            this.__column += 2;
-            // save the max row height for the buttons
-            this.__maxRow < row ? this.__maxRow = row : null;
-          },
-
-          addButton : function(button) {
-            if (this._buttonRow == null) {
-              // create button row
-              this._buttonRow = new qx.ui.container.Composite();
-              this._buttonRow.setMarginTop(5);
-              var hbox = new qx.ui.layout.HBox();
-              hbox.setAlignX("right");
-              hbox.setSpacing(5);
-              this._buttonRow.setLayout(hbox);
-              // add the button row
-              this._add(this._buttonRow, {
-                row: this.__maxRow, column: 0, colSpan: this.__column
-              });
-            }
-
-            // add the button
-            this._buttonRow.add(button);
-          }
-        }
-      });
-
-
       // create the form
       var form = new qx.ui.form.Form();
 
       // add the first headline
       form.addGroupHeader("Registration");
 
-      // add usernamne
+      // add user name
       var userName = new qx.ui.form.TextField();
       userName.setRequired(true);
       form.add(userName, "Name");
@@ -134,8 +75,71 @@ qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
       form.addButton(resetButton);
 
       // create the form and add it to the document
-      var formView = new demobrowser.form.CustomRenderer(form);
+      var formView = new demobrowser.demo.ui.CustomRenderer(form);
       this.getRoot().add(formView, {left: 10, top: 10});
+    }
+  }
+});
+
+/*
+ * PLEASE NOTE:
+ * For demonstration purposes the following class is added to the same file as
+ * the application class. For a regular qooxdoo application each class must live
+ * in a file of its own. You may neglect any warnings when generating this demo.
+ */
+// create the custom renderer which aligns the groups horizontally
+qx.Class.define("demobrowser.demo.ui.CustomRenderer", {
+  extend : qx.ui.form.renderer.Single,
+  members : {
+    __column : 0,
+    __maxRow : 0,
+
+    addItems : function(items, names, title) {
+      var row = 0;
+      // add the header
+      if (title != null) {
+        this._add(
+          this._createHeader(title), {
+            row: row, column: this.__column, colSpan: 2
+          }
+        );
+        row++;
+      }
+
+      // add the items
+      for (var i = 0; i < items.length; i++) {
+        var label = this._createLabel(names[i], items[i]);
+        this._add(label, {row: row, column: this.__column});
+        var item = items[i];
+        label.setBuddy(item);
+        if (item instanceof qx.ui.form.RadioGroup) {
+          item = this._createWidgetForRadioGroup(item);
+        }
+        this._add(item, {row: row, column: this.__column + 1});
+        row++;
+      }
+      this.__column += 2;
+      // save the max row height for the buttons
+      this.__maxRow < row ? this.__maxRow = row : null;
+    },
+
+    addButton : function(button) {
+      if (this._buttonRow == null) {
+        // create button row
+        this._buttonRow = new qx.ui.container.Composite();
+        this._buttonRow.setMarginTop(5);
+        var hbox = new qx.ui.layout.HBox();
+        hbox.setAlignX("right");
+        hbox.setSpacing(5);
+        this._buttonRow.setLayout(hbox);
+        // add the button row
+        this._add(this._buttonRow, {
+          row: this.__maxRow, column: 0, colSpan: this.__column
+        });
+      }
+
+      // add the button
+      this._buttonRow.add(button);
     }
   }
 });

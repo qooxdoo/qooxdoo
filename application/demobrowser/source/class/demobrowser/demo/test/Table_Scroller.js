@@ -34,19 +34,21 @@ qx.Class.define("demobrowser.demo.test.Table_Scroller",
     {
       this.base(arguments);
 
-      var table = new demobrowser.demo.table.Scroller.DummyTable();
+      var table = new demobrowser.demo.test.DummyTable();
       this.getRoot().add(table, {left: 10, top: 10});
     }
   }
 });
 
 
-/**
+/*
+ * PLEASE NOTE:
  * For demonstration purposes the following class is added to the same file as
  * the application class. For a regular qooxdoo application each class must live
  * in a file of its own. You may neglect any warnings when generating this demo.
  */
-qx.Class.define("demobrowser.demo.table.Scroller.DummyTable",
+
+qx.Class.define("demobrowser.demo.test.DummyTable",
 {
   extend : qx.ui.container.Composite,
   include : [demobrowser.demo.table.MUtil],

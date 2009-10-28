@@ -439,7 +439,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
      */
     removeAll : function()
     {
-      for (var i=0,j=this.__items.lenth; i<j; i++) {
+      for (var i=0,j=this.__items.length; i<j; i++) {
         this._removeHelper(child);
       }
       this.__items = [];
