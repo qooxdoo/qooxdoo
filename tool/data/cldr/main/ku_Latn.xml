@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.16 $"/>
-		<generation date="$Date: 2008/06/17 14:12:13 $"/>
+		<version number="$Revision: 1.20 $"/>
+		<generation date="$Date: 2009/06/15 03:46:24 $"/>
 		<language type="ku"/>
 		<script type="Latn"/>
 	</identity>
@@ -30,6 +30,9 @@
 			<type type="islamic" key="calendar" draft="unconfirmed">hîcrî</type>
 		</types>
 	</localeDisplayNames>
+	<layout>
+		<orientation/>
+	</layout>
 	<characters>
 		<exemplarCharacters>[a-c ç d e ê f-i î j-s ş t u û v-z]</exemplarCharacters>
 	</characters>
