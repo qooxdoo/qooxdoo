@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.26 $"/>
-		<generation date="$Date: 2008/06/17 14:12:12 $"/>
+		<version number="$Revision: 1.41 $"/>
+		<generation date="$Date: 2009/06/15 04:15:33 $"/>
 		<language type="my"/>
 	</identity>
 	<localeDisplayNames>
@@ -13,8 +13,6 @@
 		<languages>
 			<language type="ang" draft="provisional">အင်္ဂလိပ်စာဟောင်း</language>
 			<language type="ar" draft="provisional">အာရေဗီ</language>
-			<language type="ar" alt="proposed-x1001" draft="unconfirmed">အာရေဗျ</language>
-			<language type="ar" alt="proposed-x1002" draft="unconfirmed">အာရဗီ</language>
 			<language type="art" draft="provisional">အယောင်ဆောင် ဘာသာစကား</language>
 			<language type="ban" draft="provisional">ဘာလီ</language>
 			<language type="bas" draft="provisional">ဘာဆာ</language>
@@ -25,19 +23,12 @@
 			<language type="bo" draft="provisional">တိဘက်</language>
 			<language type="bs" draft="provisional">ဘော့စ်နီးယား</language>
 			<language type="cai" draft="unconfirmed">အလယ်ပိုင်း အမေရိကန် အိန္ဒြိယ ဘာသာစကား</language>
-			<language type="cai" alt="proposed-x1002" draft="unconfirmed">အလယ်ပိုင်း အမေရိကန် အိန္ဒိယ ဘာသာစကား</language>
 			<language type="cau" draft="provisional">ကောက်ကေးရှပ် ဘာသာစကား</language>
 			<language type="ce" draft="provisional">ချေချင်း</language>
 			<language type="chr" draft="provisional">ချာရိုကီ</language>
-			<language type="cpe" alt="proposed-x1001" draft="unconfirmed">အင်္ဂလိပ် အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cpe" alt="proposed-x1002" draft="unconfirmed">အင်္ဂလိပ် အခြေခံ အနောက်အိန္ဒိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cpf" alt="proposed-x1001" draft="unconfirmed">ပြင်သစ် အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cpf" alt="proposed-x1002" draft="unconfirmed">ပြင်သစ် အခြေခံ အနောက်အိန္ဒိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
 			<language type="cpp" draft="provisional">ပေါ်တူဂီ အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cpp" alt="proposed-x1001" draft="unconfirmed">ပေါ်တူဂီ အခြေခံ အနောက်အိန္ဒိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
 			<language type="cr" draft="provisional">ခရီး</language>
 			<language type="crp" draft="unconfirmed">အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="crp" alt="proposed-x1002" draft="unconfirmed">အနောက်အိန္ဒိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
 			<language type="cs" draft="provisional">ချက်</language>
 			<language type="cy" draft="provisional">ဝေလ</language>
 			<language type="da" draft="provisional">ဒိန်းမတ်</language>
@@ -48,7 +39,6 @@
 			<language type="del" draft="provisional">ဒီလာဝဲ</language>
 			<language type="dum" draft="provisional">အလယ်ပိုင်း ဒတ်ချ်</language>
 			<language type="dz" draft="provisional">ဒွန်ကာ</language>
-			<language type="dz" alt="proposed-x1001" draft="unconfirmed">​ဇောင်းခါ</language>
 			<language type="egy" draft="provisional">ရှေးဟောင်း အီဂျစ်</language>
 			<language type="el" draft="provisional">ဂရိ</language>
 			<language type="en" draft="provisional">အင်္ဂလိပ်</language>
@@ -68,7 +58,6 @@
 			<language type="fr_CA" draft="provisional">ကနေဒါ ပြင်သစ်</language>
 			<language type="fr_CH" draft="provisional">ဆွစ် ပြင်သစ်</language>
 			<language type="frm" draft="provisional">အလယ်ပိုင်းပြင်သစ်</language>
-			<language type="frm" alt="proposed-x1001" draft="unconfirmed">အလယ်ပိုင်း ပြင်သစ်</language>
 			<language type="fro" draft="provisional">ပြင်သစ်ဟောင်း</language>
 			<language type="frr" draft="provisional">မြောက်ပိုင်း ဖရီစီရန်</language>
 			<language type="frs" draft="provisional">အရှေ့ပိုင်း ဖရီစီရန်</language>
@@ -76,20 +65,16 @@
 			<language type="ga" draft="provisional">အိုင်းရစ်</language>
 			<language type="gem" draft="provisional">ဂျာမန် အခြေခံဘာသာစကား</language>
 			<language type="gmh" draft="provisional">အလယ်ပိုင်းအမြင့်ဂျာမန်</language>
-			<language type="gmh" alt="proposed-x1001" draft="unconfirmed">အလယ်ပိုင်း အမြင့်ဂျာမန်</language>
 			<language type="grc" draft="provisional">ရှေးဟောင်း ဂရိ</language>
 			<language type="gsw" draft="provisional">ဆွစ် ဂျာမန်</language>
 			<language type="gu" draft="provisional">ဂူဂျာရသီ</language>
 			<language type="haw" draft="provisional">ဟာဝေယံ</language>
-			<language type="haw" alt="proposed-x1001" draft="unconfirmed">ဟာဝေရန်</language>
 			<language type="he" draft="provisional">ဟီးဘရူး</language>
 			<language type="hi" draft="provisional">ဟိန္ဒီ</language>
 			<language type="hr" draft="provisional">ခရိုအေရှန်</language>
 			<language type="hu" draft="provisional">ဟန်ဂေရီ</language>
 			<language type="id" draft="provisional">အင်ဒိုနီးရှား</language>
 			<language type="ii" draft="provisional">စီချွမ် ရီ</language>
-			<language type="inc" alt="proposed-x1001" draft="unconfirmed">အိန္ဒြိယ အခြေခံ ဘာသာစကား</language>
-			<language type="inc" alt="proposed-x1002" draft="unconfirmed">အိန္ဒိယ အခြေခံ ဘာသာစကား</language>
 			<language type="ine" draft="provisional">အင်ဒို ဥရောပ ဘာသာစကား</language>
 			<language type="ira" draft="provisional">အီရန် အခြေခံ ဘာသာစကား</language>
 			<language type="it" draft="provisional">အီတလီ</language>
@@ -115,12 +100,10 @@
 			<language type="mn" draft="provisional">မွန်ဂိုလီးယန်း</language>
 			<language type="mnc" draft="provisional">မန်ချူး</language>
 			<language type="mni" draft="unconfirmed">မနိပူရီ</language>
-			<language type="mni" alt="proposed-x1002" draft="unconfirmed">မဏိပူရ</language>
 			<language type="mno" draft="provisional">မနိုဘို ဘာသာစကား</language>
 			<language type="mr" draft="provisional">မာရသီ</language>
 			<language type="ms" draft="provisional">မလေး</language>
 			<language type="mul" draft="provisional">အကြိမ်များစွာ ဘာသာစကားများ</language>
-			<language type="mul" alt="proposed-x1001" draft="unconfirmed">များစွာ​သော ဘာသာစကားများ</language>
 			<language type="my" draft="provisional">ဗမာ</language>
 			<language type="nds" draft="provisional">အနိမ့် ဂျာမန်</language>
 			<language type="ne" draft="provisional">နီပေါလ်</language>
@@ -139,7 +122,6 @@
 			<language type="ru" draft="provisional">ရုရှ</language>
 			<language type="sa" draft="provisional">သင်္သကရိုက်</language>
 			<language type="sai" draft="provisional">တောင် အမေရိကန် အိန္ဒြိယ ဘာသာစကား</language>
-			<language type="sai" alt="proposed-x1001" draft="unconfirmed">တောင် အမေရိကန် အိန္ဒိယ ဘာသာစကား</language>
 			<language type="sco" draft="provisional">စကော့</language>
 			<language type="sd" draft="provisional">စင်ဒီ</language>
 			<language type="sga" draft="provisional">အိုင်းရစ် ဟောင်း</language>
@@ -177,7 +159,6 @@
 			<script type="Brah" draft="provisional">ဗြဟ္မမီ</script>
 			<script type="Cyrl" draft="provisional">စစ်ရိလစ်</script>
 			<script type="Deva" draft="provisional">ဒီဗနာဂရီ</script>
-			<script type="Deva" alt="proposed-x1001" draft="unconfirmed">ဒေဝနာဂရီ</script>
 			<script type="Ethi" draft="provisional">အီသီယိုးပီးယား</script>
 			<script type="Geor" draft="provisional">ဂျော်ဂျီယန်</script>
 			<script type="Grek" draft="provisional">ဂရိ</script>
@@ -321,7 +302,6 @@
 			<territory type="IE" draft="provisional">အိုင်ယာလန်</territory>
 			<territory type="IL" draft="provisional">အစ္စရေး</territory>
 			<territory type="IN" references="RP2" draft="provisional">အိန္ဒိယ</territory>
-			<territory type="IN" alt="proposed-x1001" draft="unconfirmed">အိန္ဒြိယ</territory>
 			<territory type="IO" draft="provisional">ဗြိတိသျှ အိန္ဒြိယ သမုဒ္ဒရာ ပိုင်နက်</territory>
 			<territory type="IQ" draft="provisional">အီရတ်</territory>
 			<territory type="IR" draft="provisional">အီရန်</territory>
@@ -333,7 +313,6 @@
 			<territory type="JP" draft="provisional">ဂျပန်</territory>
 			<territory type="KE" draft="provisional">ကင်ညာ</territory>
 			<territory type="KG" draft="unconfirmed">ခယ်ကစ်စတန်</territory>
-			<territory type="KG" alt="proposed-x1001" draft="unconfirmed">ခယ်ကစ္စတန်</territory>
 			<territory type="KH" draft="provisional">ကမ္ဘောဒီးယား</territory>
 			<territory type="KP" draft="provisional">မြောက်ကိုရီးယား</territory>
 			<territory type="KR" draft="provisional">တောင်ကိုရီးယား</territory>
@@ -459,8 +438,8 @@
 			<type type="phonebook" key="collation" draft="provisional">ဖုန်းစာအုပ် အစီအစဉ်</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US" draft="provisional">အမေရိကန်စနစ်</measurementSystemName>
 			<measurementSystemName type="metric" draft="provisional">မက်ထရစ်စနစ်</measurementSystemName>
+			<measurementSystemName type="US" draft="provisional">အမေရိကန်စနစ်</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language" draft="provisional">ဘာသာစကား - {0}</codePattern>
@@ -470,10 +449,8 @@
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[က-အ ဣ-ဧ ဩ ဪ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" draft="provisional">[ံ-း ျ-ှ ာ ါ ိ-ဲ ္ ်]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[ံ-း ာ ါ ိ-ဲ ္ ်]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" draft="provisional">[\u1036-း ျ-\u103E ာ ါ \u102D-\u1032 \u1039 \u103A]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a-z]</exemplarCharacters>
-		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[၌-၏ က-ယ ျ ရ ြ လ ဝ ွ သ ဿ ဟ ှ ဠ အ ဣ-ဧ ဩ ဪ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">“</quotationStart>
@@ -483,9 +460,6 @@
 	</delimiters>
 	<dates>
 		<calendars>
-			<calendar type="coptic">
-				<am draft="unconfirmed">နံနက်</am>
-			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -619,18 +593,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="provisional">EEEE, yyyy MMMM dd</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">yyyy MMMM d၊ EEEE</pattern>
+							<pattern draft="provisional">EEEE, y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="provisional">yyyy MMMM d</pattern>
+							<pattern draft="provisional">y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="provisional">yyyy MMM d</pattern>
+							<pattern draft="provisional">y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -642,7 +615,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss v</pattern>
+							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -662,52 +635,30 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="provisional">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d" draft="provisional">d</dateFormatItem>
 						<dateFormatItem id="Hm" draft="provisional">H:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="provisional">L</dateFormatItem>
+						<dateFormatItem id="Md" draft="provisional">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="unconfirmed">E, M-d</dateFormatItem>
 						<dateFormatItem id="MMM" draft="unconfirmed">LLL</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="unconfirmed">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd" draft="unconfirmed">E MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="provisional">MMM d</dateFormatItem>
-						<dateFormatItem id="Md" draft="provisional">M-d</dateFormatItem>
-						<dateFormatItem id="d" draft="provisional">d</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="unconfirmed">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="unconfirmed">E MMMM d</dateFormatItem>
 						<dateFormatItem id="ms" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="provisional">yyyy</dateFormatItem>
+						<dateFormatItem id="y" draft="provisional">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="provisional">yyyy-M</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="unconfirmed">EEE, yyyy-M-d</dateFormatItem>
-						<dateFormatItem id="yMEd" alt="proposed-x1001" draft="unconfirmed">EEE၊ yyyy-M-d</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="provisional">yyyy MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE, yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMEd" alt="proposed-x1001" draft="unconfirmed">EEE၊ yyyy MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="provisional">yyyy MMMM</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="provisional">y MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE, y MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="provisional">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQ" draft="unconfirmed">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="provisional">yyyy QQQ</dateFormatItem>
+						<dateFormatItem id="yQQQ" draft="provisional">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="provisional">Q yy</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="M" draft="unconfirmed">EEEE၊ d/M – EEEE၊ d/M</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">EEEE၊ d/M – EEEE၊ d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="M" draft="unconfirmed">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="M" draft="unconfirmed">d/M – d/M</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">d/M – d/M</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
 						</intervalFormatItem>
@@ -729,27 +680,42 @@
 							<greatestDifference id="a" draft="unconfirmed">HH-HH v</greatestDifference>
 							<greatestDifference id="h" draft="unconfirmed">HH-HH v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="unconfirmed">d/M – d/M</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">d/M – d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="unconfirmed">EEEE၊ d/M – EEEE၊ d/M</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">EEEE၊ d/M – EEEE၊ d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="unconfirmed">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="M" draft="unconfirmed">EEEE၊ d/M/yy – EEEE၊ d/M/yy</greatestDifference>
 							<greatestDifference id="d" draft="unconfirmed">EEEE၊ d/M/yy – EEEE၊ d/M/yy</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">EEEE၊ d/M/yy – EEEE၊ d/M/yy</greatestDifference>
 							<greatestDifference id="y" draft="unconfirmed">EEEE၊ d-M-yyyy – EEEE၊ d-M-yyyy</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="M" draft="unconfirmed">yyyy၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">yyyy၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">yyyy၊ MMM d၊ EEEE – yyyy၊ MMM d၊ EEEE</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M" draft="unconfirmed">yyyy၊ MMM d – MMM d</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">yyyy MMM d – yyyy MMM d</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">y၊ MMM d – MMM d</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">y MMM d – y MMM d</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="M" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="d" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d/M/yy – d/M/yy</greatestDifference>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d" draft="unconfirmed">y၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">y၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">y၊ MMM d၊ EEEE – y၊ MMM d၊ EEEE</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -768,12 +734,11 @@
 					</field>
 					<field type="day">
 						<displayName draft="provisional">ရက်</displayName>
+						<relative type="-2" draft="provisional">တနေ့က</relative>
+						<relative type="-1" draft="provisional">မနေ့က</relative>
 						<relative type="0" draft="provisional">ယနေ့</relative>
 						<relative type="1" draft="provisional">မနက်ဖြန်</relative>
 						<relative type="2" draft="provisional">သဘက်ခါ</relative>
-						<relative type="-1" draft="provisional">မနေ့က</relative>
-						<relative type="-1" alt="proposed-x1001" draft="unconfirmed">မနေ့</relative>
-						<relative type="-2" draft="provisional">တနေ့က</relative>
 					</field>
 					<field type="weekday">
 						<displayName draft="provisional">နေ့</displayName>
@@ -863,16 +828,12 @@
 					<daylight draft="unconfirmed">အနောက်ပိုင်း အာဖရိက နွေရာသီ အချိန်</daylight>
 				</long>
 			</metazone>
-			<metazone type="Alaska">
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
-			</metazone>
 			<metazone type="America_Central">
 				<long>
 					<generic draft="unconfirmed">အလယ်ပိုင်း အမေရိက အချိန်</generic>
 					<standard draft="unconfirmed">အလယ်ပိုင်း အမေရိက စံတော်ချိန်</standard>
 					<daylight draft="unconfirmed">အလယ်ပိုင်း အမေရိက နွေရာသီ အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -880,7 +841,6 @@
 					<standard draft="unconfirmed">အရှေ့ပိုင်း အမေရိက စံတော်ချိန်</standard>
 					<daylight draft="unconfirmed">အရှေ့ပိုင်း အမေရိက အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -888,7 +848,6 @@
 					<standard draft="unconfirmed">အမေရိက တောင် စံတော်ချိန်</standard>
 					<daylight draft="unconfirmed">အမေရိက တောင် နေ့ပိုင်း အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -896,7 +855,6 @@
 					<standard draft="unconfirmed">ပစိဖိတ် စံတော်ချိန်</standard>
 					<daylight draft="unconfirmed">ပစိဖိတ် နေ့ပိုင်း အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Arabian">
 				<long>
@@ -928,7 +886,6 @@
 					<standard draft="unconfirmed">အတ္ထလန်တစ် စံတော်ချိန်</standard>
 					<daylight draft="unconfirmed">အတ္ထလန်တစ် နေ့ပိုင်း အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Australia_Central">
 				<long>
@@ -1056,7 +1013,6 @@
 					<standard draft="unconfirmed">အနောက်ပိုင်း ဥရောပ အချိန်</standard>
 					<daylight draft="unconfirmed">အနောက်ပိုင်း ဥရောပ နွေရာသီ အချိန်</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
@@ -1069,15 +1025,15 @@
 					<standard draft="unconfirmed">ပြင်သစ် ဂီယာနာ အချိန်</standard>
 				</long>
 			</metazone>
-			<metazone type="GMT">
-				<long>
-					<standard draft="unconfirmed">ဂရင်းနစ် စံတော်ချိန်</standard>
-				</long>
-			</metazone>
 			<metazone type="Georgia">
 				<long>
 					<standard draft="unconfirmed">ဂျော်ဂျီယာ အချိန်</standard>
 					<daylight draft="unconfirmed">ဂျော်ဂျီယာ နွေရာသီ အချိန်</daylight>
+				</long>
+			</metazone>
+			<metazone type="GMT">
+				<long>
+					<standard draft="unconfirmed">ဂရင်းနစ် စံတော်ချိန်</standard>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Central">
@@ -1294,11 +1250,14 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem draft="unconfirmed">mymr</defaultNumberingSystem>
 		<symbols>
 			<decimal draft="unconfirmed">.</decimal>
 			<group draft="unconfirmed">,</group>
-			<list draft="unconfirmed">၊</list>
-			<nativeZeroDigit draft="unconfirmed">၀</nativeZeroDigit>
+			<list draft="unconfirmed">;</list>
+			<list alt="mymr" draft="unconfirmed">၊</list>
+			<nativeZeroDigit draft="unconfirmed">0</nativeZeroDigit>
+			<nativeZeroDigit alt="mymr" draft="unconfirmed">၀</nativeZeroDigit>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -1394,7 +1353,6 @@
 			</currency>
 			<currency type="CNY">
 				<displayName draft="provisional">တရုတ် ယွမ်</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">တရုတ် ယွမ်ရူမင်ဘီ</displayName>
 			</currency>
 			<currency type="COP">
 				<displayName draft="provisional">ကိုလံဘီယာ ပီဆို</displayName>
@@ -1482,7 +1440,7 @@
 			</currency>
 			<currency type="MMK">
 				<displayName draft="provisional">မြန်မာ ကျပ်</displayName>
-				<symbol draft="unconfirmed">K</symbol>
+				<symbol>K</symbol>
 			</currency>
 			<currency type="MXN">
 				<displayName draft="provisional">မက္ကဆီကို ပီဆို</displayName>
@@ -1588,7 +1546,6 @@
 			</currency>
 			<currency type="XXX">
 				<displayName draft="provisional">မသိ သို့မဟုတ် မရှိသော ငွေကြေး</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">မသိ (သို့) မရှိသော ငွေကြေး</displayName>
 			</currency>
 			<currency type="ZWD">
 				<displayName draft="provisional">ဇင်ဘာဘွေ ဒေါ်လာ</displayName>

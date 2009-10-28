@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.38 $"/>
-		<generation date="$Date: 2008/06/17 14:12:11 $"/>
+		<version number="$Revision: 1.50 $"/>
+		<generation date="$Date: 2009/06/15 03:46:25 $"/>
 		<language type="ln"/>
 	</identity>
 	<localeDisplayNames>
@@ -254,12 +254,12 @@
 			<type type="gregorian" key="calendar" draft="unconfirmed">manáka ya Gregor</type>
 		</types>
 		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">na míli</measurementSystemName>
 			<measurementSystemName type="metric" draft="unconfirmed">na mɛ́tɛlɛ</measurementSystemName>
+			<measurementSystemName type="US" draft="unconfirmed">na míli</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a á â ǎ b-e é ê ě ɛ {ɛ́} {ɛ̂} {ɛ̌} f g {gb} h i í î ǐ k-m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {nz} o ó ô ǒ ɔ {ɔ́} {ɔ̂} {ɔ̌} p r-u ú û ǔ v w y z]</exemplarCharacters>
+		<exemplarCharacters>[a á â ǎ b-e é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} h i í î ǐ k-m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r-u ú û ǔ v w y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[j q x]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[c f F]</exemplarCharacters>
 	</characters>
@@ -384,17 +384,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, yyyy MMMM dd</pattern>
+							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">yyyy MMMM d</pattern>
+							<pattern draft="unconfirmed">y MMMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">yyyy MMM d</pattern>
+							<pattern draft="unconfirmed">y MMM d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -406,7 +406,7 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss v</pattern>
+							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
@@ -426,11 +426,6 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 					</availableFormats>
@@ -468,11 +463,10 @@
 			</currency>
 			<currency type="CDF">
 				<displayName draft="unconfirmed">falánga kongolé</displayName>
-				<symbol draft="unconfirmed">Fc</symbol>
+				<symbol>F</symbol>
 			</currency>
 			<currency type="CHF">
 				<displayName draft="unconfirmed">Falánga ya Swisi</displayName>
-				<symbol draft="unconfirmed">Fr.</symbol>
 			</currency>
 			<currency type="FRF">
 				<displayName draft="unconfirmed">Falánga ya Falansia</displayName>
@@ -485,7 +479,6 @@
 			</currency>
 			<currency type="XXX">
 				<displayName draft="unconfirmed">mbɔ́ngɔ eyébámí tɛ́</displayName>
-				<symbol draft="unconfirmed">XXX</symbol>
 			</currency>
 		</currencies>
 	</numbers>
