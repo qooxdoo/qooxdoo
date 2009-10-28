@@ -237,7 +237,44 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertException(function() {
         self.__resetter.resetItem(this);
       }, Error);
-    }
+    },
+    
+    
+    testRedefineOneItem : function() 
+    {
+      // set the initla values
+      this.__username.setValue("A");
+      this.__password1.setValue("B");
+      this.__password2.setValue("C");
+      // add the fields to the form manager
+      this.__resetter.add(this.__username);
+      this.__resetter.add(this.__password1);
+      this.__resetter.add(this.__password2);
+      // change the values of the fields
+      this.__username.setValue("a");
+      this.__password1.setValue("b");
+      this.__password2.setValue("c");
+      // redefine the first two items
+      this.__resetter.redefineItem(this.__username);
+      this.__resetter.redefineItem(this.__password1);
+      // change the first two items
+      this.__username.setValue("1");
+      this.__password1.setValue("2");
+      
+      // reset the manager
+      this.__resetter.reset();
+
+      // check if the initial values are reset
+      this.assertEquals("a", this.__username.getValue());
+      this.assertEquals("b", this.__password1.getValue());
+      this.assertEquals("C", this.__password2.getValue());
+      
+      // check for a not added item
+      var self = this;
+      this.assertException(function() {
+        self.__resetter.redefineItem(this);
+      }, Error);
+    }    
 
   }
 });
