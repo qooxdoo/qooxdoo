@@ -258,7 +258,15 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         el.setStyle("resize", "none");
       }
-
+      
+      // IE8 in standard mode needs some extra love here to receive events.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        el.setStyles({
+          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")"
+        });
+      }
+      
       return el;
     },
 
