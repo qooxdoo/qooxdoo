@@ -659,6 +659,30 @@ qx.Class.define("qx.data.controller.Tree",
         this.__boundProperties.push(targetPath);
       }
     },
+    
+    
+    /**
+     * Helper-Method for binding the default properties (label and icon) from 
+     * the model to the target widget.
+     * 
+     * This method should only be called in the
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function
+     * implemented by the {@link #delegate} property.
+     * 
+     * @param modelNode {qx.core.Object} The model node holding the data.
+     * @param treeNode {qx.ui.tree.TreeFolder} The corresponding tree folder
+     *   to the model node.
+     */
+    bindDefaultProperties : function(treeNode, modelNode) 
+    {
+      // label binding
+      this.bindProperty(this.getLabelPath(), "label", this.getLabelOptions(), treeNode, modelNode);
+
+      // icon binding
+      if (this.getIconPath() != null) {
+        this.bindProperty(this.getIconPath(), "icon", this.getIconOptions(), treeNode, modelNode);
+      }      
+    },
 
 
     /**
@@ -702,13 +726,7 @@ qx.Class.define("qx.data.controller.Tree",
 
       // otherwise, try to bind the listItem by default
       } else {
-        // label binding
-        this.bindProperty(this.getLabelPath(), "label", this.getLabelOptions(), treeNode, modelNode);
-
-        // icon binding
-        if (this.getIconPath() != null) {
-          this.bindProperty(this.getIconPath(), "icon", this.getIconOptions(), treeNode, modelNode);
-        }
+        this.bindDefaultProperties(treeNode, modelNode);
       }
     },
 
