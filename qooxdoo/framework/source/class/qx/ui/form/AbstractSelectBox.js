@@ -278,13 +278,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       var popup = this.getChildControl("popup");
 
       if (qx.ui.core.Widget.contains(popup, target)) {
-        return;
+        // needed for ComboBox widget inside an inline application
+        e.preventDefault();
+      } else {
+        this.close();
       }
-
-      this.close();
-
-      // needed for ComboBox widget inside an inline application
-      e.preventDefault();
     },
 
     /**
