@@ -808,6 +808,46 @@ qx.Class.define("qx.test.data.controller.List",
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
     },
+    
+    
+    testDelegateBindDefaultProperties : function() 
+    {
+      this.__setUpString();
+      this.__controller.setModel(null);
+      
+      var delegate = {};
+      delegate.bindItem = function(controller, item, id) {
+        controller.bindDefaultProperties(item, id);
+      }
+      this.__controller.setDelegate(delegate);
+
+      this.__controller.setModel(this.__model);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
+      }   
+    },    
+    
+    
+    testDelegateBindDefaultPropertiesLate : function() 
+    {
+      this.__setUpString();
+
+      var delegate = {};
+      delegate.bindItem = function(controller, item, id) {
+        controller.bindDefaultProperties(item, id);
+      }
+      this.__controller.setDelegate(delegate);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        this.__model.setItem(i, i + "")
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(i + "", label, "Binding " + i + " is wrong!");
+      }   
+    },
 
 
     testSelectionSequence: function() {

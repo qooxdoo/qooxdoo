@@ -69,10 +69,10 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       // 1. Parameter: The data as a qx.data.Array
       // 2. Parameter: The list widget
       // 3. Parameter: The path to the property which should be showed in the label
-      // 4. Parameter: The path to the property which should be showed as an icon
-      // 5. Parameter: The options for the label binding
-      // 6. Parameter: The options for the icon binding including the converter
-      var controller = new qx.data.controller.List(data, list, "name", "emote", null, iconOptions);
+      var controller = new qx.data.controller.List(data, list, "name");
+      controller.setIconOptions(iconOptions);
+      controller.setIconPath("emote");
+
 
       // create the options for the online binding
       var colorOptions = {
@@ -88,13 +88,12 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       // create the delegate to change the bindings
       var delegate = {
         bindItem : function(controller, item, id) {
+          controller.bindDefaultProperties(item, id);
           // 1. Parameter: The property chain to the data source
           // 2. Parameter: the property name to in the target
           // 3. Parameter: the options for the binding
           // 4. Parameter: the current item (comming in as parameter)
           // 5. Parameter: the current id (comming in as parameter)
-          controller.bindProperty("name", "label", null, item, id);
-          controller.bindProperty("emote", "icon", iconOptions, item, id);
           controller.bindProperty("online", "textColor", colorOptions, item, id);
         }
       };

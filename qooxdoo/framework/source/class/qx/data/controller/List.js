@@ -580,18 +580,37 @@ qx.Class.define("qx.data.controller.List",
         delegate.bindItem(this, item, index);
       // otherwise, try to bind the listItem by default
       } else {
-        this.bindProperty(
-          this.getLabelPath(), "label", this.getLabelOptions(), item, index
-        );
-        // if the iconPath is set
-        if (this.getIconPath() != null) {
-          this.bindProperty(
-            this.getIconPath(), "icon", this.getIconOptions(), item, index
-          );
-        }
+        this.bindDefaultProperties(item, index);
       }
     },
 
+
+    /**
+     * Helper-Method for binding the default properties (label and icon) from 
+     * the model to the target widget.
+     * 
+     * This method should only be called in the
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function
+     * implemented by the {@link #delegate} property. 
+     * 
+     * @param item {qx.ui.form.ListItem} The internally created and used
+     *   ListItem.
+     * @param index {number} The index of the ListItem.
+     */
+    bindDefaultProperties : function(item, index) 
+    {
+      this.bindProperty(
+        this.getLabelPath(), "label", this.getLabelOptions(), item, index
+      );
+
+      // if the iconPath is set
+      if (this.getIconPath() != null) {
+        this.bindProperty(
+          this.getIconPath(), "icon", this.getIconOptions(), item, index
+        );
+      }
+    },
+    
 
     /**
      * Helper-Method for binding a given property from the model to the target
@@ -690,7 +709,7 @@ qx.Class.define("qx.data.controller.List",
      */
     __renewBindings: function() {
       // ignore, if no target is set (startup)
-      if (this.getTarget() == null) {
+      if (this.getTarget() == null || this.getModel() == null) {
         return;
       }
 
