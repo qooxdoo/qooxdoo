@@ -203,13 +203,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireInputEvent : function(domEvent, charCode)
     {
-      var focusHandler = this.__manager.getHandler(qx.event.handler.Focus);
-      var target = focusHandler.getActive();
-
-      // Fallback to focused element when active is null or invisible
-      if (!target || target.offsetWidth == 0) {
-        target = focusHandler.getFocus();
-      }
+      var target = this.__getEventTarget();
 
       // Only fire when target is defined and visible
       if (target && target.offsetWidth != 0)
@@ -235,18 +229,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
-      var focusHandler = this.__manager.getHandler(qx.event.handler.Focus);
-      var target = focusHandler.getActive();
-
-      // Fallback to focused element when active is null or invisible
-      if (!target || target.offsetWidth == 0) {
-        target = focusHandler.getFocus();
-      }
-
-      // Fallback to body when focused is null or invisible
-      if (!target || target.offsetWidth == 0) {
-        target = this.__manager.getWindow().document.body;
-      }
+      var target = this.__getEventTarget();
 
       // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
@@ -274,7 +257,28 @@ qx.Class.define("qx.event.handler.Keyboard",
     },
 
 
+    /**
+     * Get the target element for mouse events
+     * 
+     * @return {Element} the event target element
+     */
+    __getEventTarget : function()
+    {
+      var focusHandler = this.__manager.getHandler(qx.event.handler.Focus);
+      var target = focusHandler.getActive();
 
+      // Fallback to focused element when active is null or invisible
+      if (!target || target.offsetWidth == 0) {
+        target = focusHandler.getFocus();
+      }
+
+      // Fallback to body when focused is null or invisible
+      if (!target || target.offsetWidth == 0) {
+        target = this.__manager.getWindow().document.body;
+      }
+      
+      return target;
+    },
 
 
 
@@ -598,14 +602,10 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {
-      if (!keyCode && !charCode) {
-        return;
-      }
-
       var keyIdentifier;
 
       // Use: keyCode
-      if (keyCode)
+      if (keyCode || (!keyCode && !charCode))
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
 
