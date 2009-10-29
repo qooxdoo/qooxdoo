@@ -129,12 +129,12 @@ qx.Class.define("qx.bom.History",
       document.body.appendChild(this.__iframe);
 
       this.__titles = {};
-      this.__state = decodeURIComponent(this.__getHash());
+      this.setState(decodeURIComponent(this.__getHash()));
       this.__locationState = decodeURIComponent(this.__getHash());
 
       this.__waitForIFrame(function()
       {
-        this.__storeState(this.__state);
+        this.__storeState(this.getState());
         this.__startTimer();
       }, this);
     },
@@ -144,7 +144,7 @@ qx.Class.define("qx.bom.History",
       this.base(arguments);
 
       this.__titles = {};
-      this.__state = this.__getState();
+      this.setState(this.__getState());
 
       this.__startTimer();
     }
@@ -189,6 +189,18 @@ qx.Class.define("qx.bom.History",
       check: "Number",
       init : 100,
       apply : "_applyTimeoutInterval"
+    },
+    
+    
+    /**
+     * Property holding the current state of the history.
+     */
+    state : 
+    {
+      check : "String",
+      event : "changeState",
+      nullable : true,
+      apply : "_applyState"
     }
   },
 
@@ -208,9 +220,17 @@ qx.Class.define("qx.bom.History",
 
     __iframe : null,
     __titles : null,
-    __state : null,
     __timer : null,
     __locationState : null,
+
+
+    // property apply
+    _applyState : function(value, old) 
+    {
+      top.location.hash = "#" + encodeURIComponent(value);
+      this.__storeState(value);
+    },
+
 
     /**
      * Adds an entry to the browser history.
@@ -227,20 +247,11 @@ qx.Class.define("qx.bom.History",
         document.title = newTitle;
         this.__titles[state] = newTitle;
       }
-      if (state != this.__state) {
+      
+      if (state != this.getState()) {
         top.location.hash = "#" + encodeURIComponent(state);
         this.__storeState(state);
       }
-    },
-
-
-    /**
-     * Get the current state of the browser history.
-     *
-     * @return {String} The current state
-     */
-    getState : function() {
-      return this.__state;
     },
 
 
@@ -279,7 +290,7 @@ qx.Class.define("qx.bom.History",
      */
     __onHistoryLoad : function(state) 
     {
-      this.__state = state;
+      this.setState(state);
       this.fireDataEvent("request", state);
       if (this.__titles[state] != null) {
         document.title = this.__titles[state];
@@ -297,7 +308,7 @@ qx.Class.define("qx.bom.History",
 
       this.__timer.addListener("interval", function(e) {
         var newHash = this.__getState();
-        if (newHash != this.__state) {
+        if (newHash != this.getState()) {
           this.__onHistoryLoad(newHash);
         }
       }, this);
