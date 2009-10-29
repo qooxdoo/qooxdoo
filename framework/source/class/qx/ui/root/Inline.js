@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Alexander Steitz (aback)
 
 ************************************************************************ */
 
@@ -64,29 +65,17 @@ qx.Class.define("qx.ui.root.Inline",
   {
     // Temporary storage of element to use
     this.__elem = el;
+
     // Avoid any problems with dynamic resizing
     el.style.overflow = "hidden";
+
     // Avoid any problems with broken layout
     el.style.textAlign = "left";
 
     this.__dynX = dynamicX || false;
     this.__dynY = dynamicY || false;
+    this.__initDynamicMode();
 
-    // Check the DOM element for a usable width and height.
-    var elementDimensions = qx.bom.element.Dimension.getSize(el);
-    if (dynamicX && elementDimensions.width < 1) {
-      throw new Error("The root element " + el + " of " + this +
-        " needs a width when its width size should be used!");
-    }
-
-    if (dynamicY && elementDimensions.height < 1) {
-      throw new Error("The root element " + el + " of " + this +
-        " needs a height when its height size should be used!");
-    }
-
-    this.__initDynamic();
-
-    // Base call
     this.base(arguments);
 
     // Use static layout
@@ -115,11 +104,35 @@ qx.Class.define("qx.ui.root.Inline",
 
 
     /**
-     * Initialize resize listener for the root DOM element
+     * Performs several checks for dynamic mode and adds the "resize" listener
      */
-    __initDynamic : function()
+    __initDynamicMode : function()
     {
-      if (this.__dynX || this.__dynY) {
+      if (this.__dynX || this.__dynY)
+      {
+        // Check the DOM element for a usable width and height
+        var elementDimensions = qx.bom.element.Dimension.getSize(this.__elem);
+        
+        if (this.__dynX && elementDimensions.width < 1) {
+          throw new Error("The root element " + this.__elem + " of " + this +
+            " needs a width when its width size should be used!");
+        }    
+        
+        if (this.__dynY)
+        { 
+          if (elementDimensions.height < 1) {
+            throw new Error("The root element " + this.__elem + " of " + this +
+            " needs a height when its height size should be used!");
+          }
+          
+          // check for implicit height. Set the height explicit to prevent that 
+          // the element grows indefinetely
+          if (elementDimensions.height >= 1 &&
+              qx.bom.element.Style.get(this.__elem, "height", 3) == "") {
+            qx.bom.element.Style.set(this.__elem, "height", elementDimensions.height + "px");
+          }
+        }
+
         qx.event.Registration.addListener(this.__elem, "resize", this._onResize, this);
       }
     },
@@ -140,9 +153,7 @@ qx.Class.define("qx.ui.root.Inline",
         // Since the child element is also forced to relative position there
         // is no reason to also apply it here.
         el.style.position = "relative";
-      }
-      else
-      {
+      } else {
         rootEl = el;
       }
 
