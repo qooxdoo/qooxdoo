@@ -725,7 +725,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     testDelegateBindLate: function () {
       var delegate = {
         bindItem : function(controller, item, id) {
-          controller.bindProperty("name", "label", null, item, id);
+          controller.bindDefaultProperties(item, id);          
           controller.bindProperty("color", "textColor", null, item, id);
         }
       };
@@ -752,7 +752,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     testDelegateBindFirst: function () {
       var delegate = {
         bindItem : function(controller, item, id) {
-          controller.bindProperty("name", "label", null, item, id);
+          controller.bindDefaultProperties(item, id);                    
           controller.bindProperty("color", "textColor", null, item, id);
         }
       };
