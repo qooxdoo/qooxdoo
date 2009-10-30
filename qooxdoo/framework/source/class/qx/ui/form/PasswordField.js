@@ -33,16 +33,6 @@ qx.Class.define("qx.ui.form.PasswordField",
       var input = new qx.html.Input("password");
       input.addListener("input", this._onHtmlInput, this);
       return input;
-    },
-    
-    
-    // overridden    
-    _syncPlaceholder : function() 
-    {
-      this.base(arguments);
-      
-      var type = this.hasState("showingPlaceholder") ? "input" : "password";
-      this.getContentElement().setAttribute("type", type);
     }
   }
 });
