@@ -203,6 +203,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       } else {
         return "";
       }
-    },
+    }
   }
 });
