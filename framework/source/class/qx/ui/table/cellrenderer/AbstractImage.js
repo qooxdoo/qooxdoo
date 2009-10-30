@@ -62,9 +62,10 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
   members :
   {
-    __defaultWidth : null,
-    __defaultHeight : null,
+    __defaultWidth : 16,
+    __defaultHeight : 16,
     _insetY : 2,
+    __imageData : null,
 
     /**
      * Identifies the Image to show. This is a template method, which must be
@@ -140,8 +141,8 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       // Detect if the image registry knows this image
       if (ResourceManager.has(source))
       {
-        width = ResourceManager.getImageWidth(source),
-        height = ResourceManager.getImageHeight(source)
+        width = ResourceManager.getImageWidth(source);
+        height = ResourceManager.getImageHeight(source);
       }
       else if (ImageLoader.isLoaded(source))
       {
@@ -159,6 +160,14 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
 
     // overridden
+    createDataCellHtml : function(cellInfo, htmlArr)
+    {
+      this.__imageData = this._getImageInfos(cellInfo);
+      return this.base(arguments, cellInfo, htmlArr);
+    },
+    
+    
+    // overridden
     _getCellClass : function(cellInfo) {
       return this.base(arguments) + " qooxdoo-table-cell-icon";
     },
@@ -167,28 +176,33 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var imageData = this._getImageInfos(cellInfo);
-
       var content = "<div></div>";
 
       // set image
-      if (imageData.url) {
-        var content = qx.bom.element.Decoration.create(imageData.url, "no-repeat", {
-          width: imageData.width + "px",
-          height: imageData.height + "px",
+      if (this.__imageData.url) {
+        var content = qx.bom.element.Decoration.create(this.__imageData.url, "no-repeat", {
+          width: this.__imageData.width + "px",
+          height: this.__imageData.height + "px",
           display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
           verticalAlign: "top",
           position: "static"
         });
       };
 
-      // set tool tip
-      var tooltip = imageData.tooltip;
-      if (tooltip != null) {
-        var content = content.replace("></div>", "title='"+tooltip+"'></div>");
-      }
-
       return content;
-    }
+    },
+    
+    
+    // overridden
+    _getCellAttributes : function(cellInfo)
+    {
+      var tooltip = this.__imageData.tooltip;
+      
+      if (tooltip) {
+        return "title='" + tooltip + "'";
+      } else {
+        return "";
+      }
+    },
   }
 });

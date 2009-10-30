@@ -223,12 +223,14 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
           "icon/16/actions/go-down.png",
           "icon/16/actions/go-up.png",
           "icon/16/actions/go-previous.png",
-          "icon/16/actions/go-next.png"
+          "icon/16/actions/go-next.png",
+          "http://resources.qooxdoo.org/images/logo.gif"
         ],
         styleLeft : [0],
         styleWidth : [width],
         styleHeight : [20],
-        style: [""]
+        style: [""],
+        tooltip: ["", "tooltip"]
       }
 
       var container = this._getNewTableDiv(width)
