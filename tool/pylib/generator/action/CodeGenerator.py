@@ -748,12 +748,13 @@ class CodeGenerator(object):
             return allUris
 
         def loadTemplate(bootCode):
-            if bootCode:
-                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+            if version=="build":
+                #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+                # TODO: test-wise using generic template
+                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
             else:
-                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-            # TODO: test-wise using generic template
-            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+                #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
             template = filetool.read(loaderFile)
 
             return template
@@ -777,9 +778,16 @@ class CodeGenerator(object):
 
         vals.update(globalCodes)
 
-        vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
+        if version=="build":
+            vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
         vals["Boot"] = '"%s"' % boot
-        vals["BootPart"] = bootCode
+        if version == "build":
+            vals["BootPart"] = bootCode
+        else:
+            vals["BootPart"] = ""
+            # fake package data
+            for key, packageId in enumerate(script.packageIdsSorted): 
+                vals["BootPart"] += "qx.$$packageData['%d']={};\n" % key
 
         # Translate part information to JavaScript
         vals["Parts"] = partsMap(script)
@@ -789,14 +797,21 @@ class CodeGenerator(object):
         vals["Uris"] = json.dumpsCode(vals["Uris"])
 
         # Whether boot package is inline
-        vals["BootIsInline"] = json.dumpsCode(self._job.get("packages/loader-with-boot", True))
+        if version == "source":
+            vals["BootIsInline"] = json.dumpsCode(False)
+        else:
+            vals["BootIsInline"] = json.dumpsCode(self._job.get("packages/loader-with-boot", True))
 
         # Package Hashes
+        vals["PackageHashes"] = {}
         if version == "build":  # TODO: this is perliminary, until runSource and the source template is adapted
-            vals["PackageHashes"] = {}
             for key, packageId in enumerate(script.packageIdsSorted):
                 vals["PackageHashes"][key] = script.packages[packageId].hash 
-            vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
+        else:
+            # fake package hashes
+            for key, packageId in enumerate(script.packageIdsSorted):
+                vals["PackageHashes"][key] = key
+        vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
         # Script hook for qx.$$loader.decodeUris() function
         vals["DecodeUrisPlug"] = ""
