@@ -1021,7 +1021,7 @@ class Generator(object):
         resTargetRoot = self._config.absPath(resTargetRoot)
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
         libs          = self._job.get("library", [])
-        resourceFilter= self._resourceHandler.getResourceFilterByAssets(classList)
+        resourceFilter, classMap = self._resourceHandler.getResourceFilterByAssets(classList)
 
         self._console.indent()
         # Copy resources
@@ -1407,7 +1407,7 @@ class Generator(object):
         # targPath *has* to be directory  -- there is now way of telling a
         # non-existing target file from a non-existing target directory :-)
         generator = self
-        generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
+        #generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
         copier = robocopy.PyRobocopier(generator._console)
         copier.parse_args(['-f', '-c', '-s', '-x', '.svn', srcPath, targPath])
         copier.do_work()

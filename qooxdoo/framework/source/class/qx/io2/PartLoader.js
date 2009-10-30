@@ -34,7 +34,7 @@ qx.Class.define("qx.io2.PartLoader",
     this.__packages = [];
     var uris = this._getUris();
     for (var i=0; i<uris.length; i++) {
-      this.__packages.push(new qx.io2.part.Package(uris[i], i==0));
+      this.__packages.push(new qx.io2.part.Package(uris[i], i, i==0));
     };
 
     this.__parts = {};
