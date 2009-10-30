@@ -221,6 +221,8 @@ qx.Class.define("qx.event.handler.Application",
         }
         else if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
+          var self = this;
+
           // Continually check to see if the document is ready
           var timer = function()
           {
@@ -229,7 +231,7 @@ qx.Class.define("qx.event.handler.Application",
               // If IE is used, use the trick by Diego Perini
               // http://javascript.nwbox.com/IEContentLoaded/
               document.documentElement.doScroll("left");
-              this._onNativeLoadWrapped();
+              self._onNativeLoadWrapped();
             }
             catch(error) {
               window.setTimeout(timer, 100);
