@@ -31,6 +31,7 @@ class Part(object):
         self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
         self.packages  = []   # list of packages constituting this part
         self.packageIdsSorted = [] # list of sorted package id's of this part
+        self.no_merge_private_package = False # whether the specific package in this part should be protected from merging
 
     ##
     # returns a list of the packages of this part, as indices into the provided

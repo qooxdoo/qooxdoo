@@ -64,7 +64,7 @@ class CodeGenerator(object):
             fileUri = Path.posifyPath(fileUri)
             return fileUri
 
-        def generateBootScript(script, bootPackage=""):
+        def generateBootScript(globalCodes, script, bootPackage=""):
 
             def packagesOfFiles(fileUri, packages):
                 # returns list of lists, each containing destination file name of the corresp. part
@@ -79,13 +79,9 @@ class CodeGenerator(object):
                     npackages.append((packageFileName,))
                 return npackages
 
+            # ----------------------------------------------------------------------------
             self._console.info("Generating boot script...")
 
-            # For resource list
-            resourceUri = compConf.get('uris/resource', 'resource')
-            resourceUri = Path.posifyPath(resourceUri)
-
-            globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
             if not self._job.get("packages/i18n-with-boot", True):
                 globalCodes = self.writeI18NFiles(globalCodes, script)
                 # remove I18N info from globalCodes, so they don't go into the loader
@@ -101,8 +97,10 @@ class CodeGenerator(object):
             return bootContent
 
 
-        def getPackageData():
-            data = json.dumpsCode({})
+        def getPackageData(package):
+            data = {}
+            data["resources"] = package.resources
+            data = json.dumpsCode(data)
             data += ';\n'
             return data
 
@@ -133,6 +131,9 @@ class CodeGenerator(object):
         scriptUri = compConf.get('uris/script', 'script')
         scriptUri = Path.posifyPath(scriptUri)
         fileUri   = getFileUri(scriptUri)
+        # for resource list
+        resourceUri = compConf.get('uris/resource', 'resource')
+        resourceUri = Path.posifyPath(resourceUri)
 
         # read in compiler options
         optimize = compConf.get("code/optimize", [])
@@ -157,6 +158,8 @@ class CodeGenerator(object):
         self._console.info("Generating packages...")
         self._console.indent()
 
+        globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
+
         bootPackage = ""
         compiledPackages = []
         for packageIndex, packageBitId in enumerate(script.packageIdsSorted):
@@ -165,7 +168,7 @@ class CodeGenerator(object):
 
             # Compile file content
             pkgCode = self._treeCompiler.compileClasses(script.packages[packageBitId].classes, variants, optimize, format)
-            pkgData = getPackageData()
+            pkgData = getPackageData(script.packages[packageBitId])
             hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
             compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
             script.packages[packageBitId].hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
@@ -181,9 +184,9 @@ class CodeGenerator(object):
         outputPackages = []
 
         if self._job.get("packages/loader-with-boot", True):
-            outputPackages.append( generateBootScript(script, compiledPackages[0]) )
+            outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
         else:
-            outputPackages.append( generateBootScript(script) )
+            outputPackages.append( generateBootScript(globalCodes, script) )
             outputPackages.append( compiledPackages[0] )
 
         # copy rest over
@@ -242,7 +245,7 @@ class CodeGenerator(object):
         translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
-        globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
+        globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format)
         if not self._job.get("packages/i18n-with-boot", True):
             globalCodes = self.writeI18NFiles(globalCodes, script)
             # remove I18N info from globalCodes, so they don't go into the loader
@@ -396,7 +399,7 @@ class CodeGenerator(object):
         return newname
 
 
-    def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
+    def generateGlobalCodes(self, script, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
         # generate the global codes like qxlibraries, qxresources, ...
         # and collect them in a common structure
 
@@ -432,7 +435,7 @@ class CodeGenerator(object):
         mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
         globalCodes["Libinfo"]     = mapInfo
 
-        mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        mapInfo = self.generateResourceInfoCode(script, settings, libs, format)
         globalCodes["Resources"]    = mapInfo
 
         locData = mergeTranslationMaps(translationMaps)
@@ -509,20 +512,10 @@ class CodeGenerator(object):
         return qxlibs
 
 
-    def generateResourceInfoCode(self, settings, libs, format=False):
+    def generateResourceInfoCode(self, script, settings, libs, format=False):
         """Pre-calculate image information (e.g. sizes)"""
-        data    = {}
-        resdata = data
-        imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
-        skippatt = re.compile(r'\.(meta|py)$', re.I)
-
-        self._console.info("Analysing assets...")
-        self._console.indent()
-
-        self._imageInfo      = ImageInfo(self._console, self._cache)
 
         # some helper functions
-
         def replaceWithNamespace(imguri, liburi, libns):
             pre,libsfx,imgsfx = Path.getCommonPrefix(liburi, imguri)
             if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
@@ -577,7 +570,7 @@ class CodeGenerator(object):
         # @param combinedImageObject |ImgInfoFmt| an ImgInfoFmt wrapper object for the combined image
         #                             (interesting for the lib and type info)
 
-        def processCombinedImg(data, meta_fname, combinedImageUri, combinedImageShortUri, combinedImageObject):
+        def processCombinedImg(script, data, meta_fname, combinedImageUri, combinedImageShortUri, combinedImageObject):
             # make sure lib and type info for the combined image are present
             assert combinedImageObject.lib, combinedImageObject.type
 
@@ -611,18 +604,46 @@ class CodeGenerator(object):
                 imageObject.mlib     = combinedImageObject.lib
 
                 # and store it in the data structure
-                data[imageShortUri]  = imageObject.flatten()  # this information takes precedence over existing
+                imageFlat            = imageObject.flatten()  # this information takes precedence over existing
+                data[imageShortUri]  = imageFlat
+                addResourceToPackage(script, classToResourceMap, imageShortUri, imageFlat)
 
+            return
+
+        ##
+        # finds the package that needs this resource <assetId> and adds it
+        # TODO: this might be very expensive (lots of lookup's)
+
+        def addResourceToPackage(script, classToResourceMap, assetId, resvalue):
+            classesUsing = set(())
+            for clazz, assetSet in classToResourceMap.items():
+                for assetRex in assetSet:
+                    if assetRex.match(assetId):
+                        classesUsing.add(clazz)
+                        break
+            for package in script.packages.values():
+                if classesUsing.intersection(set(package.classes)):
+                    package.resources[assetId] = resvalue
             return
 
 
         # -- main --------------------------------------------------------------
 
-        resourceFilter= self._resourceHandler.getResourceFilterByAssets(self._classList)
+        resdata = {}
+        imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
+        skippatt = re.compile(r'\.(meta|py)$', re.I)
+
+        self._console.info("Analysing assets...")
+        self._console.indent()
+
+        self._imageInfo      = ImageInfo(self._console, self._cache)
+
+        resourceFilter, classToResourceMap= self._resourceHandler.getResourceFilterByAssets(self._classList)
 
         for lib in libs:
             #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
+            # TODO: scanning for resources should be handled in the LibraryPath class
             resourceList = self._resourceHandler.findAllResources([lib], resourceFilter)
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
@@ -647,7 +668,7 @@ class CodeGenerator(object):
                     # check for a combined image and process the contained images
                     meta_fname = os.path.splitext(imgpath)[0]+'.meta'
                     if os.path.exists(meta_fname):  # add included imgs
-                        processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
+                        processCombinedImg(script, resdata, meta_fname, imguri, assetId, imgfmt)
 
                     # add this image directly
                     # imageInfo = {width, height, filetype}
@@ -656,18 +677,21 @@ class CodeGenerator(object):
                     imgfmt.width, imgfmt.height, imgfmt.type = (
                         imageInfo['width'], imageInfo['height'], imageInfo['type'])
                     # check if img is already registered as part of a combined image
-                    if assetId in data:
+                    if assetId in resdata:
                         x = ImgInfoFmt()
-                        x.fromFlat(data[assetId])
+                        x.fromFlat(resdata[assetId])
                         if x.mappedId:
                             continue  # don't overwrite the combined entry
-                    data[assetId] = imgfmt.flatten()
+                    resvalue = imgfmt.flatten()
 
                 elif skippatt.search(resource[0]):
                     continue
 
                 else:  # handle other resources
-                    resdata[assetId] = lib['namespace']
+                    resvalue = lib['namespace']
+                
+                resdata[assetId] = resvalue
+                addResourceToPackage(script, classToResourceMap, assetId, resvalue)  # register the resource with the package needing it
 
 
         # wpbasti: Image data is not part relevant yet.
@@ -728,6 +752,8 @@ class CodeGenerator(object):
                 loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
             else:
                 loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+            # TODO: test-wise using generic template
+            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
             template = filetool.read(loaderFile)
 
             return template
@@ -750,6 +776,8 @@ class CodeGenerator(object):
             globalCodes[entry] = globalCodes[entry].replace('\\\\\\', '\\').replace(r'\\', '\\')  # " gets tripple escaped, therefore the first .replace()
 
         vals.update(globalCodes)
+
+        vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
         vals["Boot"] = '"%s"' % boot
         vals["BootPart"] = bootCode
 
@@ -759,6 +787,9 @@ class CodeGenerator(object):
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
         vals["Uris"] = json.dumpsCode(vals["Uris"])
+
+        # Whether boot package is inline
+        vals["BootIsInline"] = json.dumpsCode(self._job.get("packages/loader-with-boot", True))
 
         # Package Hashes
         if version == "build":  # TODO: this is perliminary, until runSource and the source template is adapted
@@ -780,6 +811,7 @@ class CodeGenerator(object):
         result = fillTemplate(vals, template)
 
         return result
+
 
     def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
         loader_with_boot = self._job.get("packages/loader-with-boot", True)

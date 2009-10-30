@@ -33,6 +33,7 @@ class Package(object):
         self.classes    = []   # list of classes in this package
         self.part_count = 0    # number of parts using this package
         self.parts      = []   # list of parts using this package
+        self.resources  = {}   # {resourceId: resourceInfo}
 
 
     ##

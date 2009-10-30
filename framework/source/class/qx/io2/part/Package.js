@@ -30,12 +30,13 @@ qx.Class.define("qx.io2.part.Package",
    * @param urls {String[]} A list of script URLs
    * @param loaded {Boolean?false} Whether the package is already loaded.
    */
-  construct : function(urls, loaded)
+  construct : function(urls, id, loaded)
   {
     this.base(arguments);
 
     this.__readyState = loaded ? "complete" : "initialized";
     this.__urls = urls;
+    this.__id   = id;
   },
 
 
@@ -135,9 +136,20 @@ qx.Class.define("qx.io2.part.Package",
       this.__loadScriptList(this.__urls, function()
       {
         this.__readyState = "complete";
+        var packageHash = qx.$$loader.packageHashes[this.__id];
+        this._importPackageData(qx.$$packageData[packageHash]);
         this.fireEvent("load");
       }, this);
-    }
+    },
+
+    /**
+     * Import the data of a package. The function is defined in the loader
+     * script.
+     *
+     * @signature function(packageData)
+     * @param packageData {Map} Map of package data categories ("resources",...)
+     */
+    _importPackageData : qx.$$loader.importPackageData
   },
 
 

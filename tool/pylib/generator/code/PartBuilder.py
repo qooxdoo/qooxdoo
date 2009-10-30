@@ -108,6 +108,8 @@ class PartBuilder(object):
             npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
             if 'expected-load-order' in partsCfg[partId]:
                 npart.collapse_index = partsCfg[partId]['expected-load-order']
+            if 'no-merge-private-package' in partsCfg[partId]:
+                npart.no_merge_private_package = partsCfg[partId]['no-merge-private-package']
             parts[partId]  = npart
             self._console.debug("Part #%s => %s" % (partId, npart.bit_mask))
 
@@ -257,8 +259,17 @@ class PartBuilder(object):
         allPackages = self._sortPackages(packages.keys(), packages)
         allPackages.reverse()
 
+        # make a dict {part.bit_mask: part}
+        allPartBitMasks = {}
+        [allPartBitMasks.setdefault(x.bit_mask, x) for x in parts.values()]
+
         # Test and optimize 'fromId'
         for fromId in allPackages:
+            # possibly protect part-private package from merging
+            if fromId in allPartBitMasks.keys():
+                if allPartBitMasks[fromId].no_merge_private_package:
+                    self._console.debug("Skipping private package #%s" % (fromId,))
+                    continue
             fromPackage = packages[fromId]
             packageSize = self._computePackageSize(fromPackage, variants) / 1024
             self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
@@ -379,7 +390,11 @@ class PartBuilder(object):
             #    package = packages[packId]
             for package in part.packages:
                 if isUnique(package.id, collapse_group):
-                    uniques[package.id] = package
+                    if (package.id == part.bit_mask and  # possibly protect "private" package
+                        part.no_merge_private_package):
+                        pass
+                    else:
+                        uniques[package.id] = package
             return uniques
 
         getUniquePackages.key = 'unique'

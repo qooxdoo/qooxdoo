@@ -108,8 +108,10 @@ class ResourceHandler(object):
         # of the <classes> needs it
 
         if not self._resList:
-            self._resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+            self._resList, self._assetsOfClass = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
             self._resList = [re.compile(x) for x in self._resList]  # convert to regexp's
+            for classId in self._assetsOfClass:
+                self._assetsOfClass[classId] = set(re.compile(x) for x in self._assetsOfClass[classId])
 
         def filter(respath):
             respath = Path.posifyPath(respath)
@@ -119,7 +121,7 @@ class ResourceHandler(object):
                     return True
             return False
 
-        return filter
+        return filter, self._assetsOfClass
 
 
     def getResourceFilterByFilepath(self, filepatt=None, inversep=lambda x: x):
@@ -145,11 +147,13 @@ class ResourceHandler(object):
     def _getResourcelistFromClasslist(self, classList):
         """Return a consolidated list of resource fileId's of all classes in classList;
            handles meta info."""
-        result = []
+        result   = []  # list of needed resourceIds
+        classMap = {}  # map of resourceIds per class {classId : set(resourceIds)}
 
         self._genobj._console.info("Compiling resource list...")
         self._genobj._console.indent()
         for clazz in classList:
+            classMap[clazz] = set(())
             classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
             iresult  = []
             for res in classRes:
@@ -162,13 +166,14 @@ class ResourceHandler(object):
                 else:
                     expres = [res]
                 for r in expres:
+                    classMap[clazz].add(r)
                     if r not in result + iresult:
                         iresult.append(r)
             self._genobj._console.debug("%s: %s" % (clazz, repr(iresult)))
             result.extend(iresult)
 
         self._genobj._console.outdent()
-        return result
+        return result, classMap
 
 
     # wpbasti: Isn't this something for the config class?
