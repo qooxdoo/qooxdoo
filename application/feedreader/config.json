@@ -31,7 +31,6 @@
     {
       "packages" : 
       {
-        "loader-with-boot" : false,
         "parts" : 
         {
           "boot": 
