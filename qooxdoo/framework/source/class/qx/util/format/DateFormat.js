@@ -19,7 +19,8 @@
 ************************************************************************ */
 
 /**
- * A formatter and parser for dates
+ * A formatter and parser for dates, see 
+ * http://search.cpan.org/~drolsky/DateTime-0.50/lib/DateTime.pm#CLDR_Patterns
  */
 qx.Class.define("qx.util.format.DateFormat",
 {
@@ -294,8 +295,13 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'Y': // Year (which must be 4 digits)
               if (wildcardSize == 2) {
                 replacement = this.__fillNumber(fullYear % 100, 2);
-              } else if (wildcardSize == 4) {
-                replacement = fullYear;
+              } else {
+                replacement = fullYear + "";
+                if (wildcardSize > replacement.length) {
+                  for (var i = replacement.length; i < wildcardSize; i++) {
+                    replacement = "0" + replacement;
+                  };                  
+                }
               }
 
               break;
@@ -872,9 +878,8 @@ qx.Class.define("qx.util.format.DateFormat",
 
       this.__parseRules.push(
       {
-        pattern     : "yyyy", //Year (2 or 4 digits)
-        regex       : "(\\d\\d(\\d\\d)?)",
-        groups      : 2,
+        pattern     : "y",
+        regex       : "(\\d+)",
         manipulator : yearManipulator
       });
 
@@ -884,6 +889,34 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(\\d\\d)",
         manipulator : yearManipulator
       });
+      
+      this.__parseRules.push(
+      {
+        pattern     : "yyy",
+        regex       : "(\\d\\d(\\d)+)",
+        manipulator : yearManipulator
+      });
+      
+      this.__parseRules.push(
+      {
+        pattern     : "yyyy",
+        regex       : "(\\d\\d\\d(\\d)+)",
+        manipulator : yearManipulator
+      });
+      
+      this.__parseRules.push(
+      {
+        pattern     : "yyyyy",
+        regex       : "(\\d\\d\\d\\d(\\d)+)",
+        manipulator : yearManipulator
+      });
+      
+      this.__parseRules.push(
+      {
+        pattern     : "yyyyyy",
+        regex       : "(\\d\\d\\d\\d\\d(\\d)+)",
+        manipulator : yearManipulator
+      });            
 
       this.__parseRules.push(
       {
