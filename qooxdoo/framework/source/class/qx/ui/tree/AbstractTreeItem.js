@@ -569,6 +569,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       return this.__childrenContainer;
     },
+    
+    
+    /**
+     * Whether the tree item has a children container
+     * 
+     * @return {Boolean} Whether it has a children container
+     */
+    hasChildrenContainer : function() {
+      return this.__childrenContainer;
+    },
 
 
     /**
@@ -842,7 +852,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
         var container = this.getChildrenContainer();
 
-        if (treeItem.hasChildren()) {
+        if (treeItem.hasChildrenContainer()) {
           container.remove(treeItem.getChildrenContainer());
         }
         qx.lang.Array.remove(this.__children, treeItem);
