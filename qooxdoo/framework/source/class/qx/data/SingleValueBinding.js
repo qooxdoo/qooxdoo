@@ -869,7 +869,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *
      * @param object {qx.core.Object} The object of which the bindings should be
      *   removed.
-     * @throws {qx.core.AssertionErrro} If the object is not in the internal
+     * @throws {qx.core.AssertionError} If the object is not in the internal
      *   registry of the bindings.
      * @throws {Error} If one of the bindings listed internally can not be
      *   removed.
