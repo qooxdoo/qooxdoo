@@ -220,7 +220,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         this._tableModel.setData(sresult);
 
         // Clear old selection
-        this._table.clearSelection();
+        this._table.resetSelection();
 
       }
     },
