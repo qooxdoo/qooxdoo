@@ -36,8 +36,13 @@ qx.$$loader = {
     for (var i=0; i<compressedUris.length; i++)
     {
       var uri = compressedUris[i].split(":");
-      var prefix = libs[uri[0]].sourceUri;
-      var euri = prefix + "/" + uri[1];
+      var euri;
+      if (uri.length==2 && uri[0] in libs) {
+        var prefix = libs[uri[0]].sourceUri;
+        euri = prefix + "/" + uri[1];
+      } else {
+        euri = compressedUris[i];
+      }
       %{DecodeUrisPlug}
       uris.push(euri);
     }
