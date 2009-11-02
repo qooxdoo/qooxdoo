@@ -3050,6 +3050,16 @@ qx.Class.define("qx.ui.core.Widget",
           // Remove tabIndex
           this._applyFocusable(false, true);
         }
+
+        // Remove draggable
+        if (this.isDraggable()) {
+          this._applyDraggable(false, true);
+        }
+        
+        // Remove droppable
+        if (this.isDroppable()) {
+          this._applyDroppable(false, true);
+        }
       }
       else
       {
@@ -3058,6 +3068,16 @@ qx.Class.define("qx.ui.core.Widget",
         // Re-add tabIndex
         if (this.isFocusable()) {
           this._applyFocusable(true, false);
+        }
+
+        // Re-add draggable
+        if (this.isDraggable()) {
+          this._applyDraggable(true, false);
+        }
+        
+        // Re-add droppable
+        if (this.isDroppable()) {
+          this._applyDroppable(true, false);
         }
       }
     },
@@ -3167,6 +3187,10 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDraggable : function(value, old)
     {
+      if (!this.isEnabled() && value === true) {
+        value = false;
+      }
+
       // Force cursor creation
       qx.ui.core.DragDropCursor.getInstance();
 
@@ -3194,6 +3218,10 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDroppable : function(value, old)
     {
+      if (!this.isEnabled() && value === true) {
+        value = false;
+      }
+
       // Sync DOM attribute
       this.getContainerElement().setAttribute("qxDroppable", value ? "on" : null);
     },
