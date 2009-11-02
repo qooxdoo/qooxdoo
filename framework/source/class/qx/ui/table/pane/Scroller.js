@@ -1303,7 +1303,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
 
           tableModel.sortByColumn(col, ascending);
-          table.getSelectionModel().clearSelection();
+          table.getSelectionModel().resetSelection();
         }
       }
       

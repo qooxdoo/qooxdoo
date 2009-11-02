@@ -1491,10 +1491,25 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * Resets (clears) the current selection
+     */
+    resetSelection : function() {
+      this.getSelectionModel().resetSelection();
+    },
+
+
+    /**
      * Clears the current selection
+     * 
+     * @deprecated Use 'resetSelection' instead.
      */
     clearSelection : function() {
-      this.getSelectionModel().clearSelection();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead."
+      );
+
+      this.resetSelection();
     },
 
 
