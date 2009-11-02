@@ -813,7 +813,7 @@ qx.Class.define("inspector.property.PropertyList", {
         // it the value is null
         if (value == null) {
           // delete the selection of the combobox
-          box.clearSelection();
+          box.resetSelection();
         } else {
           // search for the selected item
           for (var i = 0; i < box.getChildren().length; i++) {

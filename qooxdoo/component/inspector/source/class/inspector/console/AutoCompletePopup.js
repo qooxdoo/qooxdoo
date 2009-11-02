@@ -241,7 +241,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       }
 
       if (data.length < 1) {
-        this._table.getSelectionModel().clearSelection();
+        this._table.resetSelection();
       }
 
        // load the data
