@@ -810,7 +810,7 @@ class CodeGenerator(object):
         else:
             # fake package hashes
             for key, packageId in enumerate(script.packageIdsSorted):
-                vals["PackageHashes"][key] = key
+                vals["PackageHashes"][key] = "%d" % key
         vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
         # Script hook for qx.$$loader.decodeUris() function
