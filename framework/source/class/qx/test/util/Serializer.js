@@ -252,7 +252,154 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals('{"foo":"foo","bar":"bar","goo":{"mi":"moo","la":"lili"}}', qx.util.Serializer.toJson(model));
       
       model.dispose();
-    }
+    },
 
+    //
+    // toNativeObject tests
+    //
+
+
+    testNativeObjectFlat : function() {
+      this.__model.setData1("a");
+      this.__model.setData2(10.456);
+      this.__model.setData3(true);
+      this.assertJsonEquals(
+        {
+          "data1" : "a",
+          "data2" : 10.456,
+          "data3" : true
+        },
+        this.__s.toNativeObject(this.__model));
+    },
+
+
+    testNativeObjectExp : function() {
+      var date = new Date();
+      this.__model.setData1(date);
+      this.__model.setData2(/[0]/);
+      this.__model.setData3(45e12);
+      this.assertJsonEquals(
+        {
+          "data1" : date,
+          "data2" : /[0]/,
+          "data3" : 45e12
+        },
+        this.__s.toNativeObject(this.__model));
+    },
+
+
+    testNativeObjectDeep2 : function() {
+      var model = new qx.test.SerializModel();
+      model.setData1("a");
+      model.setData2(11);
+      model.setData3(false);
+
+      this.__model.setData1(model);
+      this.__model.setData3(null);
+      this.assertJsonEquals(
+        {
+          "data1" :
+          {
+            "data1" : "a",
+            "data2" : 11,
+            "data3" : false
+          },
+          "data2" : null,
+          "data3" : null
+        },
+        this.__s.toNativeObject(this.__model));
+
+      model.dispose();
+    },
+
+
+    testNativeObjectArray : function() {
+      this.__model.setData1([12, 1]);
+      this.__model.setData2(["a", "b"]);
+      this.__model.setData3([true, false]);
+      this.assertJsonEquals(
+        {
+          "data1" : [12,1],
+          "data2" : ["a","b"],
+          "data3" : [true,false]
+        },
+        this.__s.toNativeObject(this.__model));
+    },
+
+    testNativeObjectDataArray : function() {
+      this.__model.setData1(new qx.data.Array([12, 1]));
+      this.__model.setData2(new qx.data.Array(["a", "b"]));
+      this.__model.setData3(new qx.data.Array([true, false]));
+      this.assertJsonEquals(
+        {
+          "data1" : [12,1],
+          "data2" : ["a","b"],
+          "data3" : [true,false]
+        },
+        this.__s.toNativeObject(this.__model));
+
+      this.__model.getData1().dispose();
+      this.__model.getData2().dispose();
+      this.__model.getData3().dispose();
+    },
+
+    testNativeObjectBig : function() {
+      var model = new qx.ui.core.Widget();
+      this.__s.toNativeObject(model);
+      model.dispose();
+    },
+
+
+    testNativeObjectEmpty : function() {
+      this.__model.setData1(new qx.data.Array());
+      this.__model.setData2([]);
+      this.__model.setData3(this);
+      this.assertJsonEquals(
+        {
+          "data1" : [],
+          "data2" : [],
+          "data3" : {}
+        },
+        this.__s.toNativeObject(this.__model));
+
+      this.__model.getData1().dispose();
+    },
+
+
+    testNativeObjectEscape : function() {
+      this.__model.setData1("''");
+      this.__model.setData2('""');
+      this.__model.setData3("\b\t\n\f\r\\");
+      this.assertJsonEquals(
+        {
+          "data1" : "''",
+          "data2" : '""',
+          "data3" : "\b\t\n\f\r\\"
+        },
+        this.__s.toNativeObject(this.__model));
+    },
+
+    testNativeObjectQxSerializer : function()
+    {
+      var qxSerializer = function(object) {
+        if (object instanceof qx.ui.form.ListItem) {
+          return object.getLabel();
+        }
+      }
+
+      var item = new qx.ui.form.ListItem("a");
+      this.__model.setData1(item);
+      this.__model.setData2(10.456);
+      this.__model.setData3(true);
+      this.assertJsonEquals(
+        {
+          "data1" : "a",
+          "data2" : 10.456,
+          "data3" : true
+        },
+        this.__s.toNativeObject(this.__model, qxSerializer));
+
+      item.dispose();
+    }
   }
 });
