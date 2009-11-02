@@ -134,9 +134,9 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       part = new qx.ui.toolbar.Part();
       bar.add(part);
 
-      button = new qx.ui.toolbar.Button("Clear Selection");
+      button = new qx.ui.toolbar.Button("Reset Selection");
       button.addListener("execute", function(evt) {
-        this._table.clearSelection();
+        this._table.resetSelection();
       }, this);
       part.add(button);
 

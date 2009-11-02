@@ -52,7 +52,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     {
       return {
         isSelectedIndex : function(index) { return index == 0; },
-        clearSelection : function() {}
+        resetSelection : function() {}
       };
     },
 
