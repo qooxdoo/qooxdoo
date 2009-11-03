@@ -65,6 +65,9 @@ qx.Class.define("qx.html.Blocker",
         backgroundRepeat: "repeat"
       });
     }
+
+    this.addListener("appear", this.__refreshCursor, this);
+    this.addListener("disappear", this.__refreshCursor, this);
   },
   
   members :
@@ -76,6 +79,17 @@ qx.Class.define("qx.html.Blocker",
      */
     _stopPropagation : function(e) {
       e.stopPropagation();
+    },
+
+
+    /**
+     * Refreshes the curser by setting it to <code>null</code> and then to the
+     * old value.
+     */
+    __refreshCursor : function() {
+      var currentCursor = this.getStyle("cursor");
+      this.setStyle("cursor", null, true);
+      this.setStyle("cursor", currentCursor, true);
     }
   }
 });
