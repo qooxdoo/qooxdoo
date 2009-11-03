@@ -148,11 +148,38 @@ qx.Class.define("qx.ui.root.Inline",
         var rootEl = document.createElement("div");
         el.appendChild(rootEl);
 
-        // IE6 needs to have this style property to be set otherwise
-        // the whole layout will break on resize - see Bug #2035
-        // Since the child element is also forced to relative position there
-        // is no reason to also apply it here.
-        el.style.position = "relative";
+        // If any of the ancestor elements has a position "relative" it is 
+        // necessary for IE6 to apply this style also to the root element to 
+        // avoid any problems when resizing the browser window (see Bug #2035) 
+        if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+            qx.bom.client.Engine.VERSION == 6)
+        {
+          var bodyElement = qx.dom.Node.getBodyElement(el);
+          var ancestorElement;
+          var position;
+          var isPositionRelative = false;            
+          
+          var ancestors = qx.dom.Hierarchy.getAncestors(el);
+          for (var i=0, j=ancestors.length; i<j; i++)
+          {
+            ancestorElement = ancestors[i];              
+            if (ancestorElement != bodyElement)
+            {
+              position = qx.bom.element.Style.get(ancestorElement, "position");
+              if (position == "relative")
+              {
+                isPositionRelative = true;
+                break;
+              }
+            } else {
+              break;
+            }              
+          }
+
+          if (isPositionRelative) {
+            el.style.position = "relative";
+          }
+        }
       } else {
         rootEl = el;
       }
