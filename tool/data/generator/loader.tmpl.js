@@ -25,6 +25,7 @@ qx.$$packageData = {};
 qx.$$loader = {
   parts : %{Parts},
   uris : %{Uris},
+  urisBefore : %{UrisBefore},
   packageHashes : %{PackageHashes},
   boot : %{Boot},
   bootIsInline : %{BootIsInline},
@@ -108,6 +109,9 @@ qx.$$loader.signalStartup = function () {
 
 qx.$$loader.init = function(){
   var l=qx.$$loader;
+  if (l.urisBefore.length>0){
+    loadScriptList(l.urisBefore, function(){return;});
+  }
   var bootPackageHash=l.packageHashes[l.parts[l.boot][0]];
   if (l.bootIsInline){
     l.importPackageData(qx.$$packageData[bootPackageHash]);

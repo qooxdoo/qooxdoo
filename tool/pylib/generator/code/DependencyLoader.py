@@ -472,18 +472,25 @@ class DependencyLoader:
             myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
             if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
                 context = ''
-            # filter out ... = position (lvals) - Nope! (qx.ui.form.ListItem.prototype.setValue = function(..){...};)
+
+            # filter out ... = position (lvals) - Nope! (qx.ui.form.ListItem.prototype.setValue = 
+            # function(..){...};)
             #elif (node.hasParentContext("assignment/left")):
             #    context = ''
+
             # check name in 'new ...' position
             elif (node.hasParentContext("instantiation/*/*/operand")):
                 context = 'new'
+
             # check name in call position
             elif (node.hasParentContext("call/operand")):
                 context = 'call'
+
             # check name in "'extend' : ..." position
-            elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend'):
+            elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') in ['extend']): #, 'include']):
+                #print "-- found context: %s" % node.parent.parent.get('key')
                 context = 'extend'
+
             return context
 
         def isInterestingIdentifier(assembled):

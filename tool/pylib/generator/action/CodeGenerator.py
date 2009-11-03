@@ -796,6 +796,14 @@ class CodeGenerator(object):
         vals["Uris"] = packageUrisToJS(packages, version)
         vals["Uris"] = json.dumpsCode(vals["Uris"])
 
+        # Add potential extra scripts
+        vals["UrisBefore"] = []
+        if self._job.get("add-script", False):
+            additional_scripts = self._job.get("add-script",[])
+            for additional_script in additional_scripts:
+                vals["UrisBefore"].append(additional_script["uri"])
+        vals["UrisBefore"] = json.dumpsCode(vals["UrisBefore"])
+
         # Whether boot package is inline
         if version == "source":
             vals["BootIsInline"] = json.dumpsCode(False)
