@@ -256,6 +256,7 @@ class CodeGenerator(object):
         #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
         plugCodeFile = self._job.get("compile-source/decode-uris-plug", False)
         self._console.info("Generating boot loader...")
+        #print "-- packageIdsSorted: %r" % script.packageIdsSorted
         sourceContent = self.generateBootCode(parts, packagesArray, boot, script, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
 
         # Construct file name

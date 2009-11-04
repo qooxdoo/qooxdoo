@@ -35,7 +35,7 @@ class Script(object):
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
 
     ##
-    # return old-style array of arrays in self.packageIdsSorted order
+    # return old-style array of arrays of classIds in self.packageIdsSorted order
     def packagesArraySorted(self):
         assert self.packageIdsSorted
         assert self.packages is not None

@@ -868,10 +868,11 @@ class Generator(object):
                     oPackageId = packageId
                     self._console.outdent()
                     self._console.outdent()
+                    self._console.outdent()
                     self._console.info("Package %s" % packageId)
                     self._console.indent()
                     for partId in parts:
-                        if packageId in parts[partId]:
+                        if packageId in (x.id for x in parts[partId].packages):
                             self._console.info("Part %s" % partId)
                     self._console.indent()
                     self._console.indent()
