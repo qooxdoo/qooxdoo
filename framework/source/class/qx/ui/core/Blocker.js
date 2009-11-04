@@ -104,9 +104,9 @@ qx.Class.define("qx.ui.core.Blocker",
   members :
   {
     __blocker : null,
-    __isBlocked : null,
+    __blockerCount : 0,
     __contentBlocker : null,
-    __isContentBlocked : null,
+    __contentBlockerCount : 0,
 
     __activeElements  : null,
     __focusElements   : null,
@@ -316,21 +316,20 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     block : function()
     {
-      if (this.__isBlocked) {
-        return;
+      this.__blockerCount++;
+      if (this.__blockerCount < 2)
+      {
+        this._backupActiveWidget();
+
+        var blocker = this.getBlockerElement();
+        blocker.include();
+        blocker.activate();
+
+        blocker.addListener("deactivate", this.__activateBlockerElement, this);
+        blocker.addListener("keypress", this.__stopTabEvent, this);
+        blocker.addListener("keydown", this.__stopTabEvent, this); 
+        blocker.addListener("keyup", this.__stopTabEvent, this);
       }
-      this.__isBlocked = true;
-
-      this._backupActiveWidget();
-
-      var blocker = this.getBlockerElement();
-      blocker.include();
-      blocker.activate();
-
-      blocker.addListener("deactivate", this.__activateBlockerElement, this);
-      blocker.addListener("keypress", this.__stopTabEvent, this);
-      blocker.addListener("keydown", this.__stopTabEvent, this); 
-      blocker.addListener("keyup", this.__stopTabEvent, this);
     },
 
 
@@ -340,7 +339,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * @return {Boolean} Whether the widget is blocked.
      */
     isBlocked : function() {
-      return !!this.__isBlocked;
+      return this.__blockerCount > 0;
     },
 
 
@@ -349,19 +348,22 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     unblock : function()
     {
-      if (!this.__isBlocked) {
+      if (!this.isBlocked()){
         return;
       }
-      this.__isBlocked = false;
 
-      this._restoreActiveWidget();
+      this.__blockerCount--;
+      if (this.__blockerCount < 1)
+      {
+        this._restoreActiveWidget();
 
-      var blocker = this.getBlockerElement();
-      blocker.removeListener("deactivate", this.__activateBlockerElement, this);
-      blocker.removeListener("keypress", this.__stopTabEvent, this);
-      blocker.removeListener("keydown", this.__stopTabEvent, this); 
-      blocker.removeListener("keyup", this.__stopTabEvent, this);
-      blocker.exclude();
+        var blocker = this.getBlockerElement();
+        blocker.removeListener("deactivate", this.__activateBlockerElement, this);
+        blocker.removeListener("keypress", this.__stopTabEvent, this);
+        blocker.removeListener("keydown", this.__stopTabEvent, this); 
+        blocker.removeListener("keyup", this.__stopTabEvent, this);
+        blocker.exclude();
+      }
     },
 
 
@@ -408,26 +410,25 @@ qx.Class.define("qx.ui.core.Blocker",
       var blocker = this.getContentBlockerElement();
       blocker.setStyle("zIndex", zIndex);
 
-      if (this.__isContentBlocked) {
-        return;
-      }
-      this.__isContentBlocked = true;
-
-      blocker.include();
-
-      if (this._isPageRoot)
+      this.__contentBlockerCount++;
+      if (this.__contentBlockerCount < 2)
       {
-        // to block interaction we need to cover the HTML page with a div as well.
-        // we do so by placing a div parallel to the page root with a slightly
-        // lower zIndex and keep the size of this div in sync with the body
-        // size.
-        if (!this.__timer)
+        blocker.include();
+
+        if (this._isPageRoot)
         {
-          this.__timer = new qx.event.Timer(300);
-          this.__timer.addListener("interval", this.__syncBlocker, this);
+          // to block interaction we need to cover the HTML page with a div as well.
+          // we do so by placing a div parallel to the page root with a slightly
+          // lower zIndex and keep the size of this div in sync with the body
+          // size.
+          if (!this.__timer)
+          {
+            this.__timer = new qx.event.Timer(300);
+            this.__timer.addListener("interval", this.__syncBlocker, this);
+          }
+          this.__timer.start();
+          this.__syncBlocker();
         }
-        this.__timer.start();
-        this.__syncBlocker();
       }
     },
 
@@ -438,7 +439,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * @return {Boolean} Whether the content is blocked
      */
     isContentBlocked : function() {
-      return !!this.__isContentBlocked;
+      return this.__contentBlockerCount > 0;
     },
 
 
@@ -447,15 +448,18 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     unblockContent : function()
     {
-      if (!this.__isContentBlocked) {
+      if (!this.isContentBlocked()) {
         return;
       }
-      this.__isContentBlocked = false;
 
-      this.getContentBlockerElement().exclude();
+      this.__contentBlockerCount--;
+      if (this.__contentBlockerCount < 1)
+      {
+        this.getContentBlockerElement().exclude();
 
-      if (this._isPageRoot) {
-        this.__timer.stop();
+        if (this._isPageRoot) {
+          this.__timer.stop();
+        }
       }
     },
 
