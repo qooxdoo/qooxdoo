@@ -40,6 +40,9 @@ class PartBuilder(object):
         self._compiler  = compiler
 
 
+    ##
+    # interface method
+
     def getPackages(self, partIncludes, smartExclude, jobContext, script):
         # Get config settings
         jobConfig                 = jobContext["jobconf"]
@@ -85,6 +88,9 @@ class PartBuilder(object):
         #script.parts    = resultParts
         #script.packages = resultClasses
 
+        if True: #self._console.getLevel() < self._console._levels["info"]: # - not working!
+            self.verifyParts(script.parts, script)
+
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
         # {Array} resultClasses[packageId] = [class1, class2]
@@ -92,6 +98,28 @@ class PartBuilder(object):
         return resultParts, script
 
 
+    def verifyParts(self, partsMap, script):
+        self._console.info("Verifying Parts...")
+        self._console.indent()
+        for part in partsMap.values():
+            self._console.info("Verifying part: %s" % part.name)
+            self._console.indent()
+            # get set of current classes in this part
+            classSet = set()
+            for package in part.packages:
+                classSet.update(package.classes)
+            # check individual class deps are fullfilled in part
+            # alternative: check part.deps against classSet
+            for classId in classSet:
+                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants)
+                loadDeps    = set(x.name for x in classDeps['load'])
+                missingDeps = loadDeps.difference(classSet)
+                if missingDeps:  # there is a load dep not in the part
+                    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
+            self._console.outdent()
+
+        self._console.outdent()
+        return
     ##
     # create the set of parts, each part with a unique single-bit bit mask
     # @returns {Map} parts = { partName : Part() }
@@ -543,14 +571,15 @@ class PartBuilder(object):
         packageIds.reverse()
 
         self._console.debug("")
-        self._console.debug("Package summary")
+        self._console.debug("Package summary : %d packages" % len(packageIds))
         self._console.indent()
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
+            #self._console.debug("%r" % packages[packageId].classes)
         self._console.outdent()
 
         self._console.debug("")
-        self._console.debug("Part summary")
+        self._console.debug("Part summary : %d parts" % len(parts))
         self._console.indent()
         for part in parts.values():
             self._console.debug("Part #%s packages(%d): %s" % (part.name, len(part.packages), ", ".join('#'+str(x.id) for x in part.packages)))
