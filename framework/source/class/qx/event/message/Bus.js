@@ -163,8 +163,7 @@ qx.Class.define("qx.event.message.Bus",
       else
       {
         // create a subscription
-        sub[message] = [
-        {
+        sub[message] = [ {
           subscriber : subscriber,
           context    : context || null
         } ];
@@ -188,7 +187,7 @@ qx.Class.define("qx.event.message.Bus",
     {
       var sub = this.getSubscriptions();
 
-      if (!sub[message] || sub[message].length == 0) {
+      if (!sub[message] || sub[message].length === 0) {
         return false;
       }
 
@@ -196,7 +195,7 @@ qx.Class.define("qx.event.message.Bus",
       {
         for (var i=0; i<sub[message].length; i++)
         {
-          if (sub[message][i].subscriber == subscriber && sub[message][i].context == (context || null)) {
+          if (sub[message][i].subscriber === subscriber && sub[message][i].context === (context || null)) {
             return true;
           }
         }
@@ -221,28 +220,28 @@ qx.Class.define("qx.event.message.Bus",
      */
     unsubscribe : function(message, subscriber, context)
     {
-      var sub = this.getSubscriptions();
-
-      if (!sub[message]) {
-        return false;
-      }
-
-      if (subscriber)
-      {
-        for (var i=0; i<sub[message].length; i++)
-        {
-          if (sub[message][i].subscriber == subscriber && sub[message][i].context == (context || null))
-          {
-            sub[message].splice(i, 1);
-            return true;
-          }
-        }
-      }
-
-      sub[message] = null;
-      return true;
+       var sub = this.getSubscriptions();
+       var subscrList = sub[message];
+       if (subscrList) {
+           if (! context) {
+               context = null;
+           }
+           var i = subscrList.length;
+           var subscription;
+           do {
+               subscription = subscrList[--i];
+               if (subscription.subscriber === subscriber && subscription.context === context) {
+                   subscrList.splice(i, 1);
+                   if (subscrList.length === 0) {
+                       sub[message] = null;
+                       delete sub[message];
+                   }
+                   return true;
+               }
+           } while (i);
+       }
+       return false;
     },
-
 
     /**
      * dispatch message and call subscribed functions
@@ -269,7 +268,7 @@ qx.Class.define("qx.event.message.Bus",
         if (pos > -1)
         {
           // use of wildcard
-          if (pos == 1 || key.substr(0, pos) == msgName.substr(0, pos))
+          if (pos === 0 || key.substr(0, pos) === msgName.substr(0, pos))
           {
             this.__callSubscribers(sub[key], msg);
           }
@@ -277,7 +276,7 @@ qx.Class.define("qx.event.message.Bus",
         else
         {
           // exact match
-          if (key == msgName)
+          if (key === msgName)
           {
             this.__callSubscribers(sub[msgName], msg);            
             return true;
