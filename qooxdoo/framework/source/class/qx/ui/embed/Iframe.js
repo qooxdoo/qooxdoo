@@ -71,6 +71,16 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.__blockerElement = this._createBlockerElement();
     this.getContainerElement().add(this.__blockerElement);
+
+    if (qx.core.Variant.isSet("qx.client", "gecko"))
+    {
+      this.addListenerOnce("appear", function(e)
+      {
+        var element = this.getContainerElement().getDomElement();
+        qx.bom.Event.addNativeListener(element, "DOMNodeInserted", this._onDOMNodeInserted);
+      });
+      this._onDOMNodeInserted = qx.lang.Function.listener(this._syncSourceAfterDOMMove, this);
+    }
   },
 
 
@@ -304,10 +314,32 @@ qx.Class.define("qx.ui.embed.Iframe",
       },
 
       "default" : function() {}
-    })
+    }),
+
+
+    /**
+     * Checks if the iframe element is out of sync. This can happen in Firefox 
+     * if the iframe is moved around and the source is changed right after.
+     * The root cause is that Firefox is reloading the iframe when its position
+     * in DOM has changed.
+     */
+    _syncSourceAfterDOMMove : function()
+    {
+      var iframeDomElement = this.getContentElement().getDomElement();
+      var iframeSource = iframeDomElement.src;
+
+      // remove trailing "/"
+      if (iframeSource.charAt(iframeSource.length-1) == "/") {
+        iframeSource = iframeSource.substring(0, iframeSource.length-1);
+      }
+
+      if (iframeSource != this.getSource())
+      {
+        qx.bom.Iframe.getWindow(iframeDomElement).stop();
+        iframeDomElement.src = this.getSource();
+      }
+    }
   },
-
-
 
 
   /*
