@@ -886,35 +886,35 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__parseRules.push(
       {
         pattern     : "yy",
-        regex       : "(\\d\\d)",
+        regex       : "(\\d\\d+)",
         manipulator : yearManipulator
       });
       
       this.__parseRules.push(
       {
         pattern     : "yyy",
-        regex       : "(\\d\\d(\\d)+)",
+        regex       : "(\\d\\d\\d+)",
         manipulator : yearManipulator
       });
       
       this.__parseRules.push(
       {
         pattern     : "yyyy",
-        regex       : "(\\d\\d\\d(\\d)+)",
+        regex       : "(\\d\\d\\d\\d+)",
         manipulator : yearManipulator
       });
       
       this.__parseRules.push(
       {
         pattern     : "yyyyy",
-        regex       : "(\\d\\d\\d\\d(\\d)+)",
+        regex       : "(\\d\\d\\d\\d\\d+)",
         manipulator : yearManipulator
       });
       
       this.__parseRules.push(
       {
         pattern     : "yyyyyy",
-        regex       : "(\\d\\d\\d\\d\\d(\\d)+)",
+        regex       : "(\\d\\d\\d\\d\\d\\d+)",
         manipulator : yearManipulator
       });            
 
