@@ -50,7 +50,7 @@ CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --sa
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = demobrowser feedreader portal playground
+APPLICATIONS = feedreader portal playground demobrowser
 COMPONENTS = apiviewer testrunner inspector
 FRAMEWORK_TARGETS = api test
 
