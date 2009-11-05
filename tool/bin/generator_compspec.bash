@@ -26,6 +26,11 @@
 #  Source this file in your Bash (e.g. in .bashrc). Then, in a skeleton style app
 #  type "./generate.py <TAB><TAB>" to get an overview of the available generator
 #  targets, or to complete a target after a few characters.
+#
+# CAVEATS
+#  - It's slow (mainly due to the initial generate.py invokation that parses
+#    all relevant config files)
+#  - It currently only works without a -c <conf_file> argument.
 ##
 
 shopt -s extglob
@@ -34,8 +39,7 @@ _generator_targets () {
    COMPREPLY=( $( ./generate.py x 2>/dev/null |
                   grep "^  - "|
                   grep -v "::" |
-                  sed 's/^  - //'|
-                  sed 's/^\([^ ][^ ]*\) .*$/\1/'|
+                  sed 's/^  - \([^ ][^ ]*\)\b.*$/\1/'|
                   grep "^${COMP_WORDS[$COMP_CWORD]}"|
                   sort
                 ) )
