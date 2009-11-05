@@ -73,8 +73,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     // property apply
-    _applyBlockerOpacity : function(value, old)
-    {
+    _applyBlockerOpacity : function(value, old) {
       this.__blocker.setOpacity(value);
     },
 
@@ -82,8 +81,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * Block all events from this widget by placing a transparent overlay widget,
      * which receives all events, exactly over the widget.
      */
-    block : function()
-    {
+    block : function() {
       this.__blocker.block();
     },
 
@@ -99,11 +97,21 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Unblock the widget blocked by {@link #block}
+     * Unblock the widget blocked by {@link #block}, but it takes care of 
+     * the amount of {@link #block} calls. The blocker is only removed if 
+     * the numer of {@link #unblock} calls is identical to {@link #block} calls.
      */
-    unblock : function()
-    {
+    unblock : function() {
       this.__blocker.unblock();
+    },
+
+
+    /**
+     * Unblock the widget blocked by {@link #block}, but it doesn't take care of 
+     * the amount of {@link #block} calls. The blocker is directly removed.
+     */
+    forceUnblock : function() {
+      this.__blocker.forceUnblock();
     },
 
 
@@ -113,8 +121,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * @param zIndex {zIndex} All child widgets with a zIndex below this value
      *     will be blocked
      */
-    blockContent : function(zIndex)
-    {
+    blockContent : function(zIndex) {
       this.__blocker.blockContent(zIndex);
     },
 
@@ -130,11 +137,23 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Remove the content blocker.
+     * Unblock the content blocked by {@link #blockContent}, but it takes care of 
+     * the amount of {@link #blockContent} calls. The blocker is only removed if 
+     * the numer of {@link #unblockContent} calls is identical to 
+     * {@link #blockContent} calls.
      */
-    unblockContent : function()
-    {
+    unblockContent : function() {
       this.__blocker.unblockContent();
+    },
+
+
+    /**
+     * Unblock the content blocked by {@link #blockContent}, but it doesn't take
+     * care of the amount of {@link #blockContent} calls. The blocker is 
+     * directly removed.
+     */
+    forceUnblockContent : function() {
+      this.__blocker.forceUnblockContent();
     },
 
     

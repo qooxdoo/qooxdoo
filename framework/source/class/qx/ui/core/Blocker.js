@@ -344,7 +344,9 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Unblock the widget blocked by {@link #block}
+     * Unblock the widget blocked by {@link #block}, but it takes care of 
+     * the amount of {@link #block} calls. The blocker is only removed if 
+     * the numer of {@link #unblock} calls is identical to {@link #block} calls.
      */
     unblock : function()
     {
@@ -353,17 +355,40 @@ qx.Class.define("qx.ui.core.Blocker",
       }
 
       this.__blockerCount--;
-      if (this.__blockerCount < 1)
-      {
-        this._restoreActiveWidget();
-
-        var blocker = this.getBlockerElement();
-        blocker.removeListener("deactivate", this.__activateBlockerElement, this);
-        blocker.removeListener("keypress", this.__stopTabEvent, this);
-        blocker.removeListener("keydown", this.__stopTabEvent, this); 
-        blocker.removeListener("keyup", this.__stopTabEvent, this);
-        blocker.exclude();
+      if (this.__blockerCount < 1) {
+        this.__unblock();
       }
+    },
+
+
+    /**
+     * Unblock the widget blocked by {@link #block}, but it doesn't take care of 
+     * the amount of {@link #block} calls. The blocker is directly removed.
+     */
+    forceUnblock : function()
+    {
+      if (!this.isBlocked()){
+        return;
+      }
+      
+      this.__blockerCount = 0;
+      this.__unblock();
+    },
+
+
+    /**
+     * Unblock the widget blocked by {@link #block}.
+     */
+    __unblock : function()
+    {
+      this._restoreActiveWidget();
+
+      var blocker = this.getBlockerElement();
+      blocker.removeListener("deactivate", this.__activateBlockerElement, this);
+      blocker.removeListener("keypress", this.__stopTabEvent, this);
+      blocker.removeListener("keydown", this.__stopTabEvent, this); 
+      blocker.removeListener("keyup", this.__stopTabEvent, this);
+      blocker.exclude();
     },
 
 
@@ -444,7 +469,10 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Remove the content blocker.
+     * Unblock the content blocked by {@link #blockContent}, but it takes care of 
+     * the amount of {@link #blockContent} calls. The blocker is only removed if 
+     * the numer of {@link #unblockContent} calls is identical to 
+     * {@link #blockContent} calls.
      */
     unblockContent : function()
     {
@@ -453,13 +481,37 @@ qx.Class.define("qx.ui.core.Blocker",
       }
 
       this.__contentBlockerCount--;
-      if (this.__contentBlockerCount < 1)
-      {
-        this.getContentBlockerElement().exclude();
+      if (this.__contentBlockerCount < 1) {
+        this.__unblockContent();
+      }
+    },
 
-        if (this._isPageRoot) {
-          this.__timer.stop();
-        }
+
+    /**
+     * Unblock the content blocked by {@link #blockContent}, but it doesn't take
+     * care of the amount of {@link #blockContent} calls. The blocker is 
+     * directly removed.
+     */
+    forceUnblockContent : function()
+    {
+      if (!this.isContentBlocked()) {
+        return;
+      }
+      
+      this.__contentBlockerCount = 0;
+      this.__unblockContent();
+    },
+
+
+    /**
+     * Unblock the content blocked by {@link #blockContent}.
+     */
+    __unblockContent : function()
+    {
+     this.getContentBlockerElement().exclude();
+
+      if (this._isPageRoot) {
+        this.__timer.stop();
       }
     },
 
