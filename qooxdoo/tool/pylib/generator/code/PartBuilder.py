@@ -102,7 +102,7 @@ class PartBuilder(object):
         self._console.info("Verifying Parts...")
         self._console.indent()
         for part in partsMap.values():
-            self._console.info("Verifying part: %s" % part.name)
+            self._console.info("Verifying: %s" % part.name)
             self._console.indent()
             # get set of current classes in this part
             classSet = set()
@@ -237,12 +237,29 @@ class PartBuilder(object):
 
         # Sorting packages of parts
         for part in parts.values():
-            part.packageIdsSorted = self._sortPackages([x.id for x in part.packages], packages)
-            # re-map sorting to part.packages
-            packObjs = []
-            for pkgId in part.packageIdsSorted:
-                packObjs.append(packages[pkgId])
-            part.packages = packObjs
+            #part.packageIdsSorted = self._sortPackages([x.id for x in part.packages], packages)
+            ## re-map sorting to part.packages
+            #packObjs = []
+            #for pkgId in part.packageIdsSorted:
+            #    packObjs.append(packages[pkgId])
+            #part.packages = packObjs
+            self._sortPartPackages(part)
+
+        # Register dependencies between Packages
+        for package in packages.values():
+            # get all direct deps of this package
+            allDeps = set(())
+            for classId in package.classes:
+                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants)
+                loadDeps    = set(x.name for x in classDeps['load'])
+                allDeps.update(loadDeps)
+
+            # record the other packages in which these dependencies are located
+            for classId in allDeps:
+                for otherpackage in packages.values():
+                    if otherpackage != package and classId in otherpackage.classes:
+                        #print "-- package %s adding dependent package %s" % (package.id, otherpackage.id)
+                        package.packageDeps.add(otherpackage)
          
         return packages
 
@@ -311,21 +328,13 @@ class PartBuilder(object):
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
             self._mergePackage(fromPackage, parts, packages)
+            self._removePackageFromPackages(fromPackage, packages)
 
             self._console.outdent()
 
         self._console.outdent()
         self._console.outdent()
 
-
-
-    def _sortPackages(self, packageIds, packages):
-        def keyFunc (pkgId):
-            return packages[pkgId].part_count
-
-        packageIds.sort(key=keyFunc, reverse=True)
-
-        return packageIds
 
 
     def _getPreviousCommonPackage(self, searchPackage, parts, packages):
@@ -453,7 +462,8 @@ class PartBuilder(object):
                     if package.id in selected_packages:
                         mergedPackage, targetPackage = self._mergePackage(package, parts, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
-                            del packages[package.id]  # since we didn't pass in the whole packages struct to _mergePackage
+                            #del packages[package.id]
+                            self._removePackageFromPackages(package, packages)  # since we didn't pass in the whole packages struct to _mergePackage
                             curr_targets.add(targetPackage)
 
             seen_targets.update(curr_targets)
@@ -487,6 +497,20 @@ class PartBuilder(object):
 
 
     def _mergePackage(self, fromPackage, parts, packages, seen_targets=None):
+
+        def updatePartDependencies(part, packageDeps):
+            for package in packageDeps:
+                if package not in part.packages:
+                    # add package
+                    #print "-- adding dependent package %s to part %s (because of package %s)" % (package.id, part.name, toPackage.id)
+                    part.packages.append(package)
+                    # sort packages
+                    self._sortPartPackages(part)
+                    #print "-- part %s packages after sorting: %r" % (part.name, [x.id for x in part.packages])
+                    # recurse
+                    updatePartDependencies(part, package.packageDeps)
+            return
+
         # find toPackage
         toPackage = None
         for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
@@ -501,19 +525,36 @@ class PartBuilder(object):
             return None, None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
 
-        # Update part information
-        for part in parts.values():
-            #if fromPackage.id in part.packages:
-            if fromPackage in part.packages:
-                part.packages.remove(fromPackage)
-
         # Merging package content
         toPackage.classes.extend(fromPackage.classes)
-        del packages[fromPackage.id]
+        toPackage.packageDeps.update(fromPackage.packageDeps.difference(set((toPackage,)))) # make sure toPackage is not included
+
+        # Update part information
+        for part in parts.values():
+            # remove the merged package
+            if fromPackage in part.packages:
+                #print "-- removing package %s from part %s" % (fromPackage.id, part.name)
+                part.packages.remove(fromPackage)
+            # check additional dependencies
+            if toPackage in part.packages:
+                # this could be a part method
+                #print "-- removed package %s has deps: %r" % (fromPackage.id, [x.id for x in fromPackage.packageDeps])
+                updatePartDependencies(part, fromPackage.packageDeps)
+
+        # remove of fromPackage from packages list is easier handled in the caller
         
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
 
 
+    def _removePackageFromPackages(self, delPackage, packages):
+        del packages[delPackage.id]
+        # remove from all packageDeps
+        #print "-- packages: %r" % [x for x in packages.keys()]
+        for package in packages.values():
+            #print "-- removing dependency %s from package %s" % (delPackage.id, package.id)
+            package.packageDeps.difference_update(set((delPackage,)))
+
+        return
 
     def _getFinalPartData(self, script):
         packages   = script.packages
@@ -528,6 +569,16 @@ class PartBuilder(object):
                         resultParts[partId] = [toId]
                     else:
                         resultParts[partId].append(toId)
+
+        # re-sort part packages, to clean up ordering issues from merging
+        # - (the issue here is that part packages are only re-sorted during merges
+        #   when actually new packages are added to the part, but *not* when existing
+        #   packages receive a merge package whos package dependencies are already
+        #   fullfilled in the part; still package dependencies among the existing
+        #   packages might change so a re-sorting is necessary to support proper
+        #   load order)
+        for part in script.parts.values():
+            self._sortPartPackages(part)
 
         return resultParts
 
@@ -562,6 +613,67 @@ class PartBuilder(object):
 
 
 
+    def _sortPartPackages(self, part):
+        part.packages = self._sortPackages1(part.packages)
+        #part.packages = list(reversed(self._sortPackagesTopological(part.packages)))
+        part.packageIdsSorted = [x.id for x in part.packages]
+        return
+
+
+    def _sortPackages(self, packageIds, packages):  # packages: {pkgId : Package}
+        def keyFunc (pkgId):
+            return packages[pkgId].part_count
+
+        packageIds.sort(key=keyFunc, reverse=True)
+
+        return packageIds
+
+
+    def _sortPackages1(self, packages):  # packages: [Package]
+        def cmpFunc (x, y):
+            if x.part_count != y.part_count:
+                return cmp(x.part_count, y.part_count)
+            else:
+                if x in y.packageDeps:  # y needs x, so x is "larger" (must be earlier)
+                    return 1
+                elif y in x.packageDeps: # other way round
+                    return -1
+                else:
+                    return 0
+
+        #packages.sort(key=lambda x: x.part_count, reverse=True)
+        packages.sort(cmp=cmpFunc, reverse=True)
+        return packages
+
+
+    ##
+    # <currently not used>
+
+    def _sortPackagesTopological(self, packages): # packages : [Package]
+
+        import graph
+        
+        # create graph object
+        gr = graph.digraph()
+
+        # add classes as nodes
+        gr.add_nodes(packages)
+
+        # for each load dependency add a directed edge
+        for package in packages:
+            for dep in package.packageDeps:
+                gr.add_edge(package, dep)
+
+        # cycle check?
+        cycle_nodes = gr.find_cycle()
+        if cycle_nodes:
+            raise RuntimeError("Detected circular dependencies between packages: %r" % cycle_nodes)
+
+        packageList = gr.topological_sorting()
+
+        return packageList
+
+
     def _printPartStats(self, script):
         packages = script.packages
         parts    = script.parts
@@ -576,6 +688,7 @@ class PartBuilder(object):
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
             #self._console.debug("%r" % packages[packageId].classes)
+            self._console.debug("Package #%s depends on these packages: %r" % (packageId, [x.id for x in packages[packageId].packageDeps]))
         self._console.outdent()
 
         self._console.debug("")

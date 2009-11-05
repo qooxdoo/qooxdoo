@@ -34,6 +34,7 @@ class Package(object):
         self.part_count = 0    # number of parts using this package
         self.parts      = []   # list of parts using this package
         self.resources  = {}   # {resourceId: resourceInfo}
+        self.packageDeps= set(()) # set packages this package depends on
 
 
     ##
