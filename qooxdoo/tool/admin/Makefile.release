@@ -208,8 +208,11 @@ build-components:
 build-framework:
 	@for TARGET in $(FRAMEWORK_TARGETS); do ( cd framework && $(CMD_GENERATOR) $$TARGET ) || exit 1; done
 
-source:
+source: source-apps source-components
+source-apps:
 	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
+
+source-components:
 	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 
 
