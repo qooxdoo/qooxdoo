@@ -133,31 +133,21 @@ qx.Class.define("qx.event.handler.Mouse",
 
 
     // interface implementation
-    registerEvent : qx.core.Variant.select("qx.client",
-    {
-      "webkit" : function(target, type, capture)
-      {
-        // The iPhone requires that the mouse events are at least once
-        // registered directly at the element
-        // http://www.quirksmode.org/blog/archives/2008/08/iphone_events.html
-        if (qx.bom.client.System.IPHONE)
-        {
-          var listener = qx.lang.Function.returnNull;
-          target["on" + type] = listener;
-          target["on" + type] = undefined;
-        }
-      },
-
-      "default" : qx.lang.Function.returnNull
-    }),
-
-
+    // The iPhone requires for attaching mouse events natively to every element which 
+    // should react on mouse events. As of version 3.0 it also requires to keep the 
+    // listeners as long as the event should work. In 2.0 it was enough to attach the
+    // listener once.
+    registerEvent : qx.bom.client.System.IPHONE ?
+      function(target, type, capture) {
+        target["on" + type] = qx.lang.Function.returnNull;
+      } : qx.lang.Function.returnNull,
+      
+      
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
-      // Nothing needs to be done here
-    },
-
-
+    unregisterEvent : qx.bom.client.System.IPHONE ?
+      function(target, type, capture) {
+        target["on" + type] = undefined;
+      } : qx.lang.Function.returnNull,      
 
 
 
