@@ -66,6 +66,21 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertFalse(this.__blocker.isBlocked());
     },
 
+    testForceUnblock : function()
+    {
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked());
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked());
+
+      this.__blocker.forceUnblock();
+      this.flush();
+      this.assertFalse(this.__blocker.isBlocked());
+    },
+
     testContentBlocker : function()
     {
       this.__blocker.blockContent(100);
@@ -92,6 +107,21 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertTrue(this.__blocker.isContentBlocked());
 
       this.__blocker.unblockContent();
+      this.flush();
+      this.assertFalse(this.__blocker.isContentBlocked());
+    },
+
+    testForceUnblockContent : function()
+    {
+      this.__blocker.blockContent(100);
+      this.flush();
+      this.assertTrue(this.__blocker.isContentBlocked());
+
+      this.__blocker.blockContent(100);
+      this.flush();
+      this.assertTrue(this.__blocker.isContentBlocked());
+
+      this.__blocker.forceUnblockContent();
       this.flush();
       this.assertFalse(this.__blocker.isContentBlocked());
     }
