@@ -305,9 +305,22 @@ qx.Class.define("qx.test.data.controller.Form",
 
 
     testModelCreation : function() {
+      // set some initial values in the form
+      this.__tf1.setValue("A");
+      this.__tf2.setValue("B");
+      this.__cb.setValue(true);
+
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
+      
+      // check if the model and the form still have the initial value
+      this.assertEquals("A", this.__tf1.getValue());
+      this.assertEquals("B", this.__tf2.getValue());
+      this.assertTrue(this.__cb.getValue());
+      this.assertEquals("A", model.getTf1());
+      this.assertEquals("B", model.getTf2());
+      this.assertTrue(model.getCb());
 
       // set values in the form
       this.__tf1.setValue("1");
@@ -354,6 +367,7 @@ qx.Class.define("qx.test.data.controller.Form",
       i2.setModel("2");
       selectBox.add(i1);
       selectBox.add(i2);
+      selectBox.setSelection([i1]);
 
       // add the selectBox to the form
       this.__form.add(selectBox, "sb");
@@ -361,6 +375,9 @@ qx.Class.define("qx.test.data.controller.Form",
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
+      
+      // check the init value of the model selection
+      this.assertEquals("1", model.getSb());
 
       // set the selection
       selectBox.setSelection([i1]);

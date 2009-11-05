@@ -160,7 +160,13 @@ qx.Class.define("qx.data.controller.Form",
       var items = target.getItems();
       var data = {};
       for (var name in items) {
-        data[name] = null;
+        // check if the target is a selection
+        var clazz = items[name].constructor;
+        if (qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection)) {
+          data[name] = items[name].getModelSelection();
+        } else {
+          data[name] = items[name].getValue();
+        }
       }
 
       var model = qx.data.marshal.Json.createModel(data, includeBubbleEvents);
