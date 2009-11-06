@@ -323,6 +323,8 @@ qx.Class.define("qx.event.handler.DragDrop",
      *
      * @param type {String} Event type
      * @param target {Object} Target to fire on
+     * @param relatedTarget {Object} Related target, i.e. drag or drop target 
+     *    depending on the drag event
      * @param cancelable {Boolean} Whether the event is cancelable
      * @param original {qx.event.type.Mouse} Original mouse event
      */

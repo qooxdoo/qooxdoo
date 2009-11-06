@@ -62,6 +62,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
   members:
   {
+    __registration : null,
     __captureElement : null,
     __containerCapture : true,
     __window : null,

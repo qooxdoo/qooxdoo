@@ -28,7 +28,8 @@ qx.Class.define("qx.io2.part.Package",
 
   /**
    * @param urls {String[]} A list of script URLs
-   * @param loaded {Boolean?false} Whether the package is already loaded.
+   * @param id {var} Unique package hash key
+   * @param loaded {Boolean?false} Whether the package is already loaded
    */
   construct : function(urls, id, loaded)
   {
@@ -50,6 +51,7 @@ qx.Class.define("qx.io2.part.Package",
   members :
   {
 
+    __id : null,
     __urls : null,
     __readyState : null,
 
@@ -122,8 +124,8 @@ qx.Class.define("qx.io2.part.Package",
 
 
     /**
-     * Load the part's script URL's in the correct order. A {@link #load} event
-     * if fired once all scrips are loaded.
+     * Load the part's script URLs in the correct order. A {@link #load} event
+     * if fired once all scripts are loaded.
      */
     load : function()
     {

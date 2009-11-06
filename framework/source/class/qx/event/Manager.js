@@ -106,7 +106,9 @@ qx.Bootstrap.define("qx.event.Manager",
 
   members :
   {
+    __registration : null,
     __listeners : null,
+
     __dispatchers : null,
     __disposeWrapper : null,
 
