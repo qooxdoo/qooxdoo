@@ -86,6 +86,9 @@ class ImageClipping(object):
             allfiles.extend(glob.glob(file))
         #self._console.debug("Combining the following images: %r" % allfiles)
         for file in allfiles:
+            if not os.path.exists(file):
+                self._console.warn("Non-existing file spec, skipping: %s" % file)
+                continue
             clips.append(file)
             imginfo = self._imageInfo.getImageInfo(file, file)
             width, height = imginfo['width'], imginfo['height']
