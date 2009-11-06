@@ -425,7 +425,7 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * {int[]} The number of columns per meta column. If the last array entry is -1,
+     * {Integer[]} The number of columns per meta column. If the last array entry is -1,
      * this meta column will get the remaining columns.
      */
     metaColumnCounts :

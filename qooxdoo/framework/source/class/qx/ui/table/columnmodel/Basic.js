@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * visX (the visible x position of the column, int). visX is missing for
      * hidden columns.
      *
-     * @return {Map} the "column to x postion" map.
+     * @return {Map} the "column to x position" map.
      */
     _getColToXPosMap : function()
     {
@@ -537,7 +537,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Reorders all columns to new overall positions. Will fire one "orderChanged" event
      * without data afterwards
      *
-     * @param newPositions {int[]} Array mapping the index of a column in table model to its wanted overall
+     * @param newPositions {Integer[]} Array mapping the index of a column in table model to its wanted overall
      *                            position on screen (both zero based). If the table models holds 
      *                            col0, col1, col2 and col3 and you give [1,3,2,0], the new column order 
      *                            will be col3, col0, col2, col1

@@ -75,7 +75,9 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   members :
   {
-    /** @lint ignoreReferenceField(__defaultStates) */
+    /**
+     * @lint ignoreReferenceField(__defaultStates)
+     */
     __defaultStates : {},
     __styleCache : null,
     __aliasMap : null,
