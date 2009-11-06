@@ -1203,11 +1203,16 @@ class Generator(object):
                 if prefix:
                     prefix = self._config.absPath(prefix)
                 for filepatt in group['files']:
+                    num_files = 0
                     for file in glob.glob(self._config.absPath(filepatt)):  # resolve file globs - TODO: can be removed in generator.action.ImageClipping
                         imgObject        = ImgInfoFmt()
                         imgObject.prefix = [prefix, altprefix]
                         self._console.debug("adding image %s" % file)
-                        imgDict[file]  = imgObject
+                        imgDict[file]    = imgObject
+                        num_files       += 1
+                    if num_files == 0:
+                        raise ValueError("Non-existing file spec: %s" % filepatt)
+                        #self._console.warn("Non-existing file spec: %s" % filepatt)
 
             return imgDict
 
