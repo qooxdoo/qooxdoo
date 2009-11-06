@@ -30,18 +30,30 @@
 # CAVEATS
 #  - It's slow (mainly due to the initial generate.py invokation that parses
 #    all relevant config files)
-#  - It currently only works without a -c <conf_file> argument.
 ##
 
 shopt -s extglob
 
+# function to extract targets
 _generator_targets () {
-   COMPREPLY=( $( ./generate.py x 2>/dev/null |
-                  grep "^  - "|
-                  grep -v "::" |
-                  sed 's/^  - \([^ ][^ ]*\)\b.*$/\1/'|
-                  grep "^${COMP_WORDS[$COMP_CWORD]}"|
+
+  # check for config file option
+  local confOpt=
+  for i in $(seq 0 $((${#COMP_WORDS[@]} - 1)))
+  do
+    if [ "${COMP_WORDS[$i]}" == "-c" ]
+    then
+      confOpt="-c ${COMP_WORDS[$(($i + 1))]}"
+      break
+    fi
+  done
+
+  COMPREPLY=( $( ./generate.py ${confOpt} x 2>/dev/null |  # generate raw target list
+                  grep "^  - "|                            # targets start wit "  - "
+                  grep -v "::" |                           # filter imported targets
+                  sed 's/^  - \([^ ][^ ]*\)\b.*$/\1/'|     # strip everything but the target name
+                  grep "^${COMP_WORDS[$COMP_CWORD]}"|      # match against beginning of current CWORD
                   sort
                 ) )
 }
-complete -F _generator_targets generator.py generate.py
+complete -o bashdefault -o default -F _generator_targets generator.py generate.py gen
