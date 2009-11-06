@@ -330,11 +330,40 @@ qx.Class.define("qx.io.remote.RequestQueue",
       // on the current type of the event ( completed|aborted|timeout|failed )
       var request = e.getTarget().getRequest();
       var requestHandler = "_on" + e.getType();
-      if (request[requestHandler]) {
-        request[requestHandler](e);
-      }
 
-      this._remove(e.getTarget());
+      // It's possible that the request handler can fail, possibly due to
+      // being sent garbage data. We want to prevent that from crashing
+      // the program, but instead  display an error, and, importantly
+      // (regardless of error) remove the request from the queue.
+      try
+      {
+        if (request[requestHandler])
+        {
+          request[requestHandler](e);
+        }
+      }
+      catch(e)
+      {
+        this.error("Request " + request + " handler " + requestHandler +
+                   " threw an error.");
+
+        // Issue an "aborted" event so the application gets notified.
+        // If that too fails, or if there's no "aborted" handler, ignore it.
+        try
+        {
+          if (request["aborted"])
+          {
+            request["aborted"](e);
+          }
+        }
+        catch(e)
+        {
+        }
+      }
+      finally
+      {
+        this._remove(e.getTarget());
+      }
     },
 
 
