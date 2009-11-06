@@ -45,12 +45,28 @@ qx.Bootstrap.define("qx.core.Assert",
      *    <code>true</code>.
      * @param comment {String} Message to be shown if the assertion fails. This
      *    message is provided by the user.
-     * @param msg {String} Fail message defined in the calling assertion
+     * @param msgvarargs {var} any number of parts of a message to show if assertion 
+     *                         triggers. Each will be converted to a string and all
+     *                         parts will be concatenated. E. g. instead of 
+     *                         "Got invalid value " + this.__toString(val) + "!!!!!"
+     *                         use
+     *                         "Got invalid value ", val, "!!!!!"
+     *                         (much better performance)
+     *                          
      */
-    __assert : function(condition, comment, msg)
+    __assert : function(condition, comment, msgvarargs)
     {
       if (!condition)
       {
+        
+        // Build up message from message varargs. It's not really important 
+        // how long this takes as it is done only when assertion is triggered
+        var msg = "";
+        for (var i=2, l=arguments.length; i<l; i++)
+        {
+          msg = msg + this.__toString(arguments[i]);
+        }
+        
         var errorMsg = "Assertion error! " + comment + ": " + msg;
         if (this.__logError) {
           qx.log.Logger.error(errorMsg);
@@ -86,8 +102,10 @@ qx.Bootstrap.define("qx.core.Assert",
       else if (qx.lang.Type.isArray(value) && value.length > 10)
       {
         stringValue = "Array[" + value.length + "]";
-      }
-      else
+      } else if ((value instanceof Object) && (value.toString == null))
+      {
+        stringValue = qx.util.Json.stringify(value);
+      } else
       {
         try {
           stringValue = value.toString();
@@ -129,7 +147,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertTrue : function(value, msg) {
-      this.__assert(value === true, msg || "", "Called assertTrue with '" + this.__toString(value) + "'");
+      this.__assert(value === true, msg || "", "Called assertTrue with '", value, "'");
     },
 
 
@@ -141,7 +159,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertFalse : function(value, msg) {
-      this.__assert(value === false, msg || "", "Called assertFalse with '" + this.__toString(value) + "'");
+      this.__assert(value === false, msg || "", "Called assertFalse with '", value, "'");
     },
 
 
@@ -158,8 +176,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         expected == found,
         msg || "",
-        "Expected '" + this.__toString(expected) +
-        "' but found '" + this.__toString(found) + "'!"
+        "Expected '", expected,
+        "' but found '", found, "'!"
       );
     },
 
@@ -176,8 +194,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         expected != found,
         msg || "",
-        "Expected '" + this.__toString(expected) +
-        "' to be not equal with '" + this.__toString(found) + "'!"
+        "Expected '",expected, 
+        "' to be not equal with '", found, "'!"
       );
     },
 
@@ -194,8 +212,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         expected === found,
         msg || "",
-        "Expected '" + this.__toString(expected) +
-        "' (identical) but found '" + this.__toString(found) + "'!"
+        "Expected '", expected,
+        "' (identical) but found '", found, "'!"
       );
     },
 
@@ -213,8 +231,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         expected !== found,
         msg || "",
-        "Expected '" + this.__toString(expected) +
-        "' to be not identical with '" + this.__toString(found) + "'!"
+        "Expected '", expected,
+        "' to be not identical with '", found, "'!"
       );
     },
 
@@ -230,7 +248,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value !== undefined,
         msg || "",
-        "Expected value not to be undefined but found " + this.__toString(value) + "!"
+        "Expected value not to be undefined but found ", value, "!"
       );
     },
 
@@ -246,7 +264,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value === undefined,
         msg || "",
-        "Expected value to be undefined but found " + this.__toString(value) + "!"
+        "Expected value to be undefined but found ", value, "!"
       );
     },
 
@@ -262,7 +280,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value !== null,
         msg || "",
-        "Expected value not to be null but found " + this.__toString(value) + "!"
+        "Expected value not to be null but found ", value, "!"
       );
     },
 
@@ -277,7 +295,7 @@ qx.Bootstrap.define("qx.core.Assert",
     {
       this.__assert(value === null,
         msg || "",
-        "Expected value to be null but found " + this.__toString(value) + "!"
+        "Expected value to be null but found ", value, "!"
       );
     },
 
@@ -316,7 +334,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         str.search(re) >= 0 ? true : false,
         msg || "",
-        "The String '" + str + "' does not match the regular expression '" + re.toString() + "'!"
+        "The String '", str, "' does not match the regular expression '", re.toString(), "'!"
       );
     },
 
@@ -335,8 +353,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         (argCount >= minCount && argCount <= maxCount),
         msg || "",
-        "Wrong number of arguments given. Expected '" + minCount + "' to '" +
-        maxCount + "' arguments but found '" + arguments.length + "' arguments."
+        "Wrong number of arguments given. Expected '", minCount, "' to '",
+        maxCount, "' arguments but found '", arguments.length, "' arguments."
       )
     },
 
@@ -366,7 +384,7 @@ qx.Bootstrap.define("qx.core.Assert",
       var id = obj.addListener(event, listener, obj);
 
       invokeFunc.call();
-      this.__assert(called === true, msg || "", "Event (" + event + ") not fired.");
+      this.__assert(called === true, msg || "", "Event (", event, ") not fired.");
 
       obj.removeListenerById(id);
     },
@@ -390,7 +408,7 @@ qx.Bootstrap.define("qx.core.Assert",
       var id = obj.addListener(event, listener, obj);
 
       invokeFunc.call();
-      this.__assert(called === false, msg || "", "Event (" + event + ") was fired.");
+      this.__assert(called === false, msg || "", "Event (", event, ") was fired.");
 
       obj.removeListenerById(id);
     },
@@ -426,7 +444,7 @@ qx.Bootstrap.define("qx.core.Assert",
       }
 
       this.__assert(error instanceof exception, msg || "",
-        "The raised exception does not have the expected type! " + exception);
+        "The raised exception does not have the expected type! ", exception);
 
       if (re) {
         this.assertMatch(error.toString(), re, msg);
@@ -446,9 +464,9 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         array.indexOf(value) !== -1,
         msg || "",
-        "The value '" + this.__toString(value) +
-        "' must have any of the values defined in the array '"
-        + this.__toString(array) + "'"
+        "The value '", value,
+        "' must have any of the values defined in the array '",
+        array, "'"
       );
     },
 
@@ -484,8 +502,8 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         map[value] !== undefined,
         msg || "",
-        "The value '" + this.__toString(value) + "' must must be a key of the map '"
-        + qx.util.Json.stringify(map) + "'"
+        "The value '", value, "' must must be a key of the map '",
+        map, "'"
       );
     },
 
@@ -501,7 +519,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isFunction(value),
         msg || "",
-        "Expected value to be typeof function but found " + this.__toString(value) + "!"
+        "Expected value to be typeof function but found ", value, "!"
       );
     },
 
@@ -516,7 +534,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isString(value),
         msg || "",
-        "Expected value to be a string but found " + this.__toString(value) + "!"
+        "Expected value to be a string but found ", value, "!"
       );
     },
 
@@ -532,7 +550,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isBoolean(value),
         msg || "",
-        "Expected value to be a boolean but found " + this.__toString(value) + "!"
+        "Expected value to be a boolean but found ", value, "!"
       );
     },
 
@@ -548,7 +566,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isNumber(value) && isFinite(value),
         msg || "",
-        "Expected value to be a number but found " + this.__toString(value) + "!"
+        "Expected value to be a number but found ", value, "!"
       );
     },
 
@@ -564,7 +582,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isNumber(value) && isFinite(value) && value >= 0,
         msg || "",
-        "Expected value to be a number >= 0 but found " + this.__toString(value) + "!"
+        "Expected value to be a number >= 0 but found ", value, "!"
       );
     },
 
@@ -584,7 +602,7 @@ qx.Bootstrap.define("qx.core.Assert",
           value % 1 === 0
         ),
         msg || "",
-        "Expected value to be an integer but found " + this.__toString(value) + "!"
+        "Expected value to be an integer but found ", value, "!"
       );
     },
 
@@ -605,7 +623,7 @@ qx.Bootstrap.define("qx.core.Assert",
           value >= 0
         ),
         msg || "",
-        "Expected value to be an integer >= 0 but found " + this.__toString(value) + "!"
+        "Expected value to be an integer >= 0 but found ", value, "!"
       );
     },
 
@@ -639,7 +657,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value !== null && (qx.lang.Type.isObject(value) || typeof value === "object"),
         msg || "",
-        "Expected value to be typeof object but found " + this.__toString(value) + "!"
+        "Expected value to be typeof object but found ", (value), "!"
       );
     },
 
@@ -655,7 +673,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isArray(value),
         msg || "",
-        "Expected value to be an array but found " + this.__toString(value) + "!"
+        "Expected value to be an array but found ", value, "!"
       );
     },
 
@@ -672,7 +690,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isObject(value),
         msg || "",
-        "Expected value to be a map but found " + this.__toString(value) + "!"
+        "Expected value to be a map but found ", value, "!"
       );
     },
 
@@ -688,7 +706,7 @@ qx.Bootstrap.define("qx.core.Assert",
      this.__assert(
        qx.lang.Type.isRegExp(value),
        msg || "",
-       "Expected value to be a regular expression but found " + this.__toString(value) + "!"
+       "Expected value to be a regular expression but found ", value, "!"
      );
    },
 
@@ -710,7 +728,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         typeof(value) === type,
         msg || "",
-        "Expected value to be typeof '" + type + "' but found " + this.__toString(value) + "!"
+        "Expected value to be typeof '", type, "' but found ", value, "!"
       );
     },
 
@@ -729,7 +747,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value instanceof clazz,
         msg || "",
-        "Expected value to be instanceof '" + className + "' but found " + this.__toString(value) + "!"
+        "Expected value to be instanceof '", className, "' but found ", value, "!"
       );
     },
 
@@ -745,7 +763,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.Class.implementsInterface(value, iface),
         msg || "",
-        "Expected object '" + this.__toString(value) + "' to implement the interface '" + iface + "'!"
+        "Expected object '", value, "' to implement the interface '", iface, "'!"
       );
     },
 
@@ -773,20 +791,19 @@ qx.Bootstrap.define("qx.core.Assert",
         this.__assert(
           false,
           msg || "",
-          qx.lang.String.format(
-              "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3', which cannot be converted to a CSS color!",
-              [expected, expectedRgb.join(","), this.__toString(value)]
-            )
+          "Expected value to be the CSS color '", expected, 
+          "' (rgb(", expectedRgb.join(","), 
+          ")), but found value '", value, "', which cannot be converted to a CSS color!"
         );
       }
 
       this.__assert(
         expectedRgb[0] == valueRgb[0] && expectedRgb[1] == valueRgb[1] && expectedRgb[2] == valueRgb[2],
         msg || "",
-        qx.lang.String.format(
-          "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3' (rgb(%4))!",
-          [this.__toString(expected), expectedRgb.join(","), this.__toString(value), valueRgb.join(",")]
-        )
+          "Expected value to be the CSS color '", expectedRgb,
+          "' (rgb(", expectedRgb.join(","),
+          ")), but found value '", value, 
+          "' (rgb(", valueRgb.join(","), "))!"
       );
     },
 
@@ -802,10 +819,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         qx.dom.Node.isElement(value),
         msg || "",
-        qx.lang.String.format(
-          "Expected value to be a DOM element but found  '%1'!",
-          [this.__toString(value)]
-        )
+        "Expected value to be a DOM element but found  '", value, "'!"
       );
     },
 
@@ -821,7 +835,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value instanceof qx.core.Object,
         msg || "",
-        "Expected value to be a qooxdoo object but found " + this.__toString(value) + "!"
+        "Expected value to be a qooxdoo object but found ", value, "!"
       );
     },
 
@@ -837,7 +851,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         value instanceof qx.ui.core.Widget,
         msg || "",
-        "Expected value to be a qooxdoo widget but found " + this.__toString(value) + "!"
+        "Expected value to be a qooxdoo widget but found ", value, "!"
       );
     }
   }
