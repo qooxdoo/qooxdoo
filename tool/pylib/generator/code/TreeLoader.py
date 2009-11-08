@@ -20,13 +20,15 @@ class TreeLoader:
         else:
             cacheId = "tree-%s" % filePath
 
-        tree = self._cache.read(cacheId, filePath)
+        tradeSpaceForSpeed = True  # cache Trees in memory
+
+        tree = self._cache.read(cacheId, filePath, memory=tradeSpaceForSpeed)
         if tree != None:
             return tree
 
         # Lookup for unoptimized tree
         if variants != None:
-            tree = self._cache.read("tree-%s" % fileId, filePath)
+            tree = self._cache.read("tree-%s" % fileId, filePath, memory=tradeSpaceForSpeed)
 
         # Tree still undefined?, create it!
         if tree == None:
@@ -57,6 +59,6 @@ class TreeLoader:
         self._console.outdent()
 
         # Store result into cache
-        self._cache.write(cacheId, tree)
+        self._cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return tree
