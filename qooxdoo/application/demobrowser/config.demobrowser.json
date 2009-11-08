@@ -1,0 +1,310 @@
+{
+  "name"    : "Demobrowser - config.json",
+
+  "include" :
+  [
+    {
+      "path" : "./config.demo.json",
+      "as"   : "demos"
+
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" : 
+      [ 
+        "common",
+        "source", 
+        "source-script", 
+        "build",
+        "build-script",
+        "build-files",
+        "build-resources"
+      ]
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "build",
+    "build-data",
+    "build-demo-jobs",
+    "build-demos",
+    "build-files",
+    "build-resources",
+    "build-script",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "publish",
+    "source",
+    "source-data",
+    "source-demo-jobs",
+    "source-demos",
+    "source-script",
+    "test",
+    "test-source",
+    "translation",
+    "migration"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "demobrowser",
+    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
+    "TEST_INCLUDE"   : "${APPLICATION}.*",
+    "CACHE"        : "${TMPDIR}/cache",
+    "QOOXDOO_PATH" : "../..",
+    "THEME"        : "demobrowser.Theme",
+    "PYTHON"       : "python"
+  },
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "desc"    : "common settings for Demobrowser jobs",
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+
+        {
+          "manifest" : "Manifest.json"
+        }
+      ],
+
+      "include" :
+      [
+        "${APPLICATION}.Application",
+        "${THEME}"
+      ],
+
+      "settings" :
+      {
+        "qx.version" : "${QOOXDOO_VERSION}",
+        "qx.application" : "${APPLICATION}.Application",
+        "qx.theme" : "${THEME}"
+      },
+
+      // the next is in since resource copying is done here for the demos as well
+      "asset-let" :
+      {
+        "qx.icontheme" : ["Tango", "Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
+      "cache" :
+      {
+        "compile" : "${CACHE}"
+      }
+    },
+
+
+    "source-script" :
+    {
+      "desc"    : "create includer script of Demobrowser",
+
+      "extend" : ["common"],
+
+      "compile-source" :
+      {
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"
+      }
+    },
+
+
+    "source" :
+    {
+      "desc"    : "create source version of Demobrowser",
+
+      "run" :
+      [
+        "source-script",
+        "source-data",
+        "source-demo-jobs",
+        "source-demos"
+      ]
+    },
+
+
+    "source-data" :
+    {
+      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
+
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON} tool/gendata.py ./source/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "source-demo-jobs" :
+    {
+      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
+
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON} tool/genjson.py source/script"
+      }
+    },
+
+
+    "source-demos" :
+    {
+      "desc"    : "create source version for each demo",
+
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json source"
+      }
+    },
+
+
+    "build-script" :
+    {
+      "desc"    : "create build script of Demobrowser",
+
+      "extend" : ["common"],
+
+      "compile-dist" :
+      {
+        "paths" :
+        {
+          "file": "./build/script/${APPLICATION}.js"
+        },
+        "code"  :
+        {
+          "format" : true,
+          "optimize" : ["basecalls", "variables", "privates", "strings"]
+        }
+      }
+    },
+
+
+    "build-files" :
+    {
+      "desc"    : "copy files of Demobrowser to build dir",
+
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "demo"
+        ],
+
+        "target" : "build"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "desc"    : "copy necessary resources for Demobrowser/demos to build dir",
+
+      "extend" : ["common"],
+
+      "include" :
+      [
+        "qx.theme.Classic",
+        "qx.theme.Modern",
+        "demobrowser.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
+
+    "build-data" :
+    {
+      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
+
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON} tool/gendata.py ./build/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "build-demo-jobs" :
+    {
+      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
+
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON} tool/genjson.py build/script"
+      }
+    },
+
+
+    "build-demos" :
+    {
+      "desc"    : "create build version for each demo",
+
+      "extend" : ["demos::build"]
+    },
+
+
+    // putting it all together ...
+    "build" :
+    {
+      "desc"    : "create build version of Demobrowser",
+
+      "run" :
+      [
+        "build-resources",
+        "build-files",
+        "build-script",
+        "build-demos"
+      ]
+    },
+
+
+    // Debug Jobs
+
+    "debug-dependencies" :
+    {
+      "desc"    : "extension job for debugging dependencies",
+
+      "extend" : ["common"],
+      "include" : ["demobrowser.demo.io.HttpRequest_1"],
+      "debug" :
+      {
+        "dependencies" : "on"
+      }
+    },
+
+    "debug-privates" :
+    {
+      "desc"    : "extension job for debugging privates",
+
+      "extend" : ["common"],
+      "debug" :
+      {
+        "privates" : "on"
+      }
+    }
+  }
+}
