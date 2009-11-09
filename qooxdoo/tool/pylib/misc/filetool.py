@@ -24,11 +24,6 @@ import textutil
 
 VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$')
 
-if sys.platform == "win32":
-    import msvcrt
-else:
-    import fcntl
-
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
         filePath = filePath + ".gz"
