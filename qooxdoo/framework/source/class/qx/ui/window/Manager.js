@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     syncWidget : function()
     {
-      this.__desktop.unblockContent();
+      this.__desktop.forceUnblockContent();
 
       var windows = this.__desktop.getWindows();
       var zIndex = this._minZIndex - 1;
