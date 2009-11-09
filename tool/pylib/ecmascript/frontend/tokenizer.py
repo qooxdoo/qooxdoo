@@ -268,10 +268,10 @@ def parseStream(content, uniqueId=""):
     try:
         all = R_ALL.findall(content)
     except RuntimeError:
-        print "Could not parse file %s" % uniqueId
-        print "Generally this means that there is a syntactial problem with your source-code."
-        print "Please omit the usage of nested comments like '/* foo /* bar */'."
-        sys.exit(1)
+        msg  = "Could not parse file %s" % uniqueId
+        msg += "\nGenerally this means that there is a syntactial problem with your source-code."
+        msg += "\nPlease omit the usage of nested comments like '/* foo /* bar */'."
+        raise RuntimeError(msg)
 
     # print "      * structuring..."
 
