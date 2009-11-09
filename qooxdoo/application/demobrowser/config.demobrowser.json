@@ -1,5 +1,5 @@
 {
-  "name"    : "Demobrowser - config.json",
+  "name"    : "config.demobrowser.json - does the actual compile jobs, needs a generated config.demo.json",
 
   "include" :
   [
@@ -7,59 +7,15 @@
       "path" : "./config.demo.json",
       "as"   : "demos"
 
-    },
-    {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" : 
-      [ 
-        "common",
-        "source", 
-        "source-script", 
-        "build",
-        "build-script",
-        "build-files",
-        "build-resources"
-      ]
     }
-  ],
-
-  "export" :
-  [
-    "api",
-    "build",
-    "build-data",
-    "build-demo-jobs",
-    "build-demos",
-    "build-files",
-    "build-resources",
-    "build-script",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "inspector",
-    "lint",
-    "publish",
-    "source",
-    "source-data",
-    "source-demo-jobs",
-    "source-demos",
-    "source-script",
-    "test",
-    "test-source",
-    "translation",
-    "migration"
   ],
 
   "let" :
   {
     "APPLICATION"  : "demobrowser",
-    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
-    "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "${TMPDIR}/cache",
     "QOOXDOO_PATH" : "../..",
-    "THEME"        : "demobrowser.Theme",
-    "PYTHON"       : "python"
+    "THEME"        : "demobrowser.Theme"
   },
 
   "jobs" :
@@ -120,6 +76,14 @@
     },
 
 
+    "source-demos" :
+    {
+      "desc"    : "create source version for each demo",
+
+      "extend" : ["demos::source"]
+    },
+
+
     "source" :
     {
       "desc"    : "create source version of Demobrowser",
@@ -127,49 +91,8 @@
       "run" :
       [
         "source-script",
-        "source-data",
-        "source-demo-jobs",
         "source-demos"
       ]
-    },
-
-
-    "source-data" :
-    {
-      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} tool/gendata.py ./source/script/demodata.js ./source/demo"
-      }
-    },
-
-
-    "source-demo-jobs" :
-    {
-      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} tool/genjson.py source/script"
-      }
-    },
-
-
-    "source-demos" :
-    {
-      "desc"    : "create source version for each demo",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json source"
-      }
     },
 
 
@@ -233,32 +156,6 @@
     },
 
 
-    "build-data" :
-    {
-      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} tool/gendata.py ./build/script/demodata.js ./source/demo"
-      }
-    },
-
-
-    "build-demo-jobs" :
-    {
-      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} tool/genjson.py build/script"
-      }
-    },
-
-
     "build-demos" :
     {
       "desc"    : "create build version for each demo",
@@ -267,7 +164,6 @@
     },
 
 
-    // putting it all together ...
     "build" :
     {
       "desc"    : "create build version of Demobrowser",
@@ -281,8 +177,7 @@
       ]
     },
 
-
-    // Debug Jobs
+    // -- Debug jobs ----------------------------------------------------------
 
     "debug-dependencies" :
     {
