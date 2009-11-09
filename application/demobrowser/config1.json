@@ -1,6 +1,12 @@
 {
   "name"    : "Demobrowser - config.json",
 
+  /*
+   * Main Demobrowser config file; runs external Python processes, to generate data
+   * and dynamic config file for demos; the actual compile jobs are delegated to 
+   * config.demobrowser.json, which includes the generated config.demo.json.
+   */
+
   "include" :
   [
     {
@@ -24,10 +30,6 @@
     "build",
     "build-data",
     "build-demo-jobs",
-    "build-demos",
-    "build-files",
-    "build-resources",
-    "build-script",
     "clean",
     "distclean",
     "fix",
@@ -38,8 +40,6 @@
     "source",
     "source-data",
     "source-demo-jobs",
-    "source-demos",
-    "source-script",
     "test",
     "test-source",
     "translation",
@@ -100,34 +100,7 @@
       }
     },
 
-
-    "source-script" :
-    {
-      "desc"    : "create includer script of Demobrowser",
-
-      "extend" : ["common"],
-
-      "compile-source" :
-      {
-        "file" : "./source/script/${APPLICATION}.js",
-        "root" : "source"
-      }
-    },
-
-
-    "source" :
-    {
-      "desc"    : "create source version of Demobrowser",
-
-      "run" :
-      [
-        "source-script",
-        "source-data",
-        "source-demo-jobs",
-        "source-demos"
-      ]
-    },
-
+    // -- Source jobs ----------------------------------------------------------
 
     "source-data" :
     {
@@ -155,78 +128,35 @@
     },
 
 
-    "source-demos" :
+    "source-demobrowser" :
     {
-      "desc"    : "create source version for each demo",
+      //"desc"    : "creates a configuration file (config.demo.json) for the available demos",
 
       "extend" : ["common"],
 
       "shell" :
       {
-        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json source"
+        "command" : "${PYTHON} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source"
       }
     },
 
 
-    "build-script" :
+    "source" :
     {
-      "desc"    : "create build script of Demobrowser",
+      "desc"    : "create source version of Demobrowser",
 
-      "extend" : ["common"],
-
-      "compile-dist" :
-      {
-        "paths" :
-        {
-          "file": "./build/script/${APPLICATION}.js"
-        },
-        "code"  :
-        {
-          "format" : true,
-          "optimize" : ["basecalls", "variables", "privates", "strings"]
-        }
-      }
-    },
-
-
-    "build-files" :
-    {
-      "desc"    : "copy files of Demobrowser to build dir",
-
-      "extend" : ["common"],
-
-      "copy-files" :
-      {
-        "files" :
-        [
-          "index.html",
-          "demo"
-        ],
-
-        "target" : "build"
-      }
-    },
-
-
-    "build-resources":
-    {
-      "desc"    : "copy necessary resources for Demobrowser/demos to build dir",
-
-      "extend" : ["common"],
-
-      "include" :
+      "run" :
       [
-        "qx.theme.Classic",
-        "qx.theme.Modern",
-        "demobrowser.*"
-      ],
-
-      "copy-resources" :
-      {
-        "target" : "build"
-      }
+        // preparations
+        "source-data",
+        "source-demo-jobs",
+        // do the compiling with a different config
+        "source-demobrowser"
+      ]
     },
 
+
+    // -- Build jobs -----------------------------------------------------------
 
     "build-data" :
     {
@@ -254,67 +184,30 @@
     },
 
 
-    "build-demos" :
-    {
-      "desc"    : "create build version for each demo",
-
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json build"
-      }
-    },
-
     "build-demobrowser" :
     {
       "extend" : ["common"],
 
       "shell" :
       {
-        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demobrowser.json build"
+        "command" : "${PYTHON} ${QOOXDOO_PATH}/tool/bin/generator.py -c ./config.demobrowser.json build"
       }
       
     },
 
 
-    // putting it all together ...
     "build" :
     {
       "desc"    : "create build version of Demobrowser",
 
       "run" :
       [
+        // preparations
         "build-data",
         "build-demo-jobs",
+        // do the compiling with a different config
         "build-demobrowser"
       ]
-    },
-
-
-    // Debug Jobs
-
-    "debug-dependencies" :
-    {
-      "desc"    : "extension job for debugging dependencies",
-
-      "extend" : ["common"],
-      "include" : ["demobrowser.demo.io.HttpRequest_1"],
-      "debug" :
-      {
-        "dependencies" : "on"
-      }
-    },
-
-    "debug-privates" :
-    {
-      "desc"    : "extension job for debugging privates",
-
-      "extend" : ["common"],
-      "debug" :
-      {
-        "privates" : "on"
-      }
     }
   }
 }
