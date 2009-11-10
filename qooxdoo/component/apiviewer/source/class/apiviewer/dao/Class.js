@@ -760,5 +760,32 @@ qx.Class.define("apiviewer.dao.Class",
       return true;
     }
 
+  },
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_see",
+                        "_superInterfaces",
+                        "_superMixins",
+                        "_events",
+                        "_statics",
+                        "_properties",
+                        "_constants",
+                        "_appearances",
+                        "_members",
+                        "_package"
+                        
+                        
+                        
+    );
+    this._disposeObjects("_constructor");
   }
+  
 });

@@ -106,6 +106,19 @@ qx.Class.define("apiviewer.dao.Method",
       return true;
     }
 
+  },
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_params");
+    this._disposeObjects("_return");
   }
 
 });

@@ -72,6 +72,18 @@ qx.Class.define("apiviewer.dao.Param", {
       return this._docNode.attributes.defaultValue;
     }
 
+  },
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_method");
   }
 
 });
