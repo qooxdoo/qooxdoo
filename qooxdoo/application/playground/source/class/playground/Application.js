@@ -896,5 +896,31 @@ qx.Class.define("playground.Application",
 
       return toolbar;
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeMap("__widgets");
+    this._disposeMap("__sampleContainer");
+    this._disposeFields("__labelDeco", "logelem", "__history", "__playApp");
+    this._disposeObjects("mainsplit", 
+                         "container", 
+                         "textarea", 
+                         "playarea", 
+                         "playAreaCaption",
+                         "dummy",
+                         "logArea",
+                         "logappender",
+                         "stack",
+                         "__playRoot",
+                         "editor");
   }
 });
