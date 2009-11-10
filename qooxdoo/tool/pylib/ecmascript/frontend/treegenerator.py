@@ -310,8 +310,10 @@ def createSyntaxTree (tokenArr):
 
 
 
-def readExpression (stream):
-    return readStatement(stream, True)
+def readExpression (stream, **kwargs):
+    if not 'inStatementList' in kwargs:
+        kwargs['inStatementList'] = True
+    return readStatement(stream, True, **kwargs)
 
 
 
@@ -350,6 +352,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         if item and commentsChild != None:
             variable.removeChild(commentsChild)
             item.addChild(commentsChild, 0)
+
     elif stream.currIsType("reserved", "FUNCTION"):
         item = createItemNode("function", stream)
         stream.next(item)
@@ -546,7 +549,9 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             raiseSyntaxException(stream.curr(), expectedDesc)
 
     # check whether this is an operation
-    if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("reserved", MULTI_PROTECTED_OPERATORS) or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore()):
+    if (stream.currIsType("token", MULTI_TOKEN_OPERATORS) 
+    or stream.currIsType("reserved", MULTI_PROTECTED_OPERATORS) 
+    or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore())):
         # its an operation -> We've already parsed the first operand (in item)
         parsedItem = item
 
@@ -590,14 +595,33 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
 
     # check whether this is a combined statement, e.g. "bla(), i++"
-    if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
-    #[BUG #2599] if not inStatementList and stream.currIsType("token", "COMMA"):
-        statementList = createItemNode("statementList", stream)
-        statementList.addChild(item)
-        while stream.currIsType("token", "COMMA"):
-            stream.next(statementList)
-            statementList.addChild(readStatement(stream, False, False, True))
-        item = statementList
+    #if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
+    #[BUG #2599]:
+    #if not inStatementList and stream.currIsType("token", "COMMA"):
+    #    statementList = createItemNode("statementList", stream)
+    #    statementList.addChild(item)
+    #    while stream.currIsType("token", "COMMA"):
+    #        stream.next(statementList)
+    #        statementList.addChild(readStatement(stream, False, False, True))
+    #    item = statementList
+    if stream.currIsType("token", "COMMA"):
+        if not expressionMode:
+            if not inStatementList:
+                statementList = createItemNode("statementList", stream)
+                statementList.addChild(item)
+                while stream.currIsType("token", "COMMA"):
+                    stream.next(statementList)
+                    statementList.addChild(readStatement(stream, False, False, True))
+                item = statementList
+        else: # expressionMode
+            if not inStatementList: #and False:
+                statementList = createItemNode("statementList", stream)
+                statementList.addChild(item)
+                while stream.currIsType("token", "COMMA"):
+                    stream.next(statementList)
+                    statementList.addChild(readStatement(stream, True, False, True))
+                item = statementList
+            
 
     # go over the optional semicolon
     if not expressionMode and overrunSemicolon and stream.currIsType("token", "SEMICOLON"):
@@ -725,6 +749,8 @@ def readParamList (node, stream):
     # This means that all comments following are after item
     stream.next(params, True)
 
+    return
+
 
 ##
 # Parses a block of source code. Most work is delegated to stream.next() and
@@ -828,7 +854,8 @@ def readInstantiation(stream):
 
     # Could be a simple variable or a just-in-time function declaration (closure)
     # Read this as expression
-    stmnt = readStatement(stream, True, False)
+    #stmnt = readStatement(stream, True, False)
+    stmnt = readStatement(stream, True, False, True)
     item.addListChild("expression", stmnt)
 
     return item
