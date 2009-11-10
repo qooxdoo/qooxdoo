@@ -286,14 +286,20 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     console = Log(options.logfile, "info")
 
     if not options.namespace:
-        options.namespace = options.name.lower()
+        if R_ILLEGAL_NS_CHAR.search(options.name):
+            convertedName = R_ILLEGAL_NS_CHAR.sub("_", options.name)
+            console.log("WARNING: Converted illegal characters in name (from %s to %s)" % (options.name, convertedName))
+            options.name = convertedName
+            options.namespace = convertedName.lower()
+        else:
+            options.namespace = options.name.lower()
+        
     else:
         options.namespace = options.namespace.decode('utf-8')
-
-    if R_ILLEGAL_NS_CHAR.search(options.namespace):
-        convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
-        console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
-        options.namespace = convertedNamespace
+        if R_ILLEGAL_NS_CHAR.search(options.namespace):
+            convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
+            console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
+            options.namespace = convertedNamespace
 
     getQxVersion()
     createApplication(options)
