@@ -178,5 +178,17 @@ qx.Class.define("apiviewer.ui.LegendView",
   members :
   {
     __legend : null
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeMap("__legend");
   }
 });

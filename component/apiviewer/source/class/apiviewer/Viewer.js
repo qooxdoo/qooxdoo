@@ -318,7 +318,7 @@ qx.Class.define("apiviewer.Viewer",
 
   destruct : function()
   {
-    this._disposeFields("_classTreeNodeHash");
-    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer");
+    this._disposeFields("_classTreeNodeHash", "__toggleGroup");
+    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer", "_searchView");
   }
 });
