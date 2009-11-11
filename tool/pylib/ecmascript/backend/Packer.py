@@ -55,6 +55,10 @@ class Packer(object):
                 if node.parent.type in ["array", "params", "statementList"]:
                     if not node.isLastChild(True):
                         str += Packer.comma(str)
+                    else:
+                        # close the last child of a file/block-level statementList with semicolon
+                        if node.parent.type == "statementList" and node.parent.parent.type in ["file", "block"]:
+                            str += Packer.semicolon(str)
 
                 # Semicolon handling
                 elif node.type in ["group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
