@@ -374,14 +374,6 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             readParamList(item, stream)
             item = readObjectOperation(stream, item)
     elif stream.currIsType("reserved", "VOID"):
-        #stream.next(item)
-        #item = createItemNode("void", stream)
-        #stream.next(item)
-        #item.addChild(readStatement(stream, expressionMode))
-        #stream.expectCurrType("token", "RP")
-        #stream.next(item, True)
-        #item = readObjectOperation(stream, item)
-        ## [BUG #2599] ported this from TYPEOF operator
         item = createItemNode("void", stream)
         item.set("left", True)
         stream.next(item)
@@ -595,33 +587,17 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
 
     # check whether this is a combined statement, e.g. "bla(), i++"
-    #if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
-    #[BUG #2599]:
-    #if not inStatementList and stream.currIsType("token", "COMMA"):
-    #    statementList = createItemNode("statementList", stream)
-    #    statementList.addChild(item)
-    #    while stream.currIsType("token", "COMMA"):
-    #        stream.next(statementList)
-    #        statementList.addChild(readStatement(stream, False, False, True))
-    #    item = statementList
     if stream.currIsType("token", "COMMA"):
-        if not expressionMode:
-            if not inStatementList:
-                statementList = createItemNode("statementList", stream)
-                statementList.addChild(item)
-                while stream.currIsType("token", "COMMA"):
-                    stream.next(statementList)
-                    statementList.addChild(readStatement(stream, False, False, True))
-                item = statementList
-        else: # expressionMode
-            if not inStatementList: #and False:
-                statementList = createItemNode("statementList", stream)
-                statementList.addChild(item)
-                while stream.currIsType("token", "COMMA"):
-                    stream.next(statementList)
+        if not inStatementList:  # only create a list node if this is the beginning
+            statementList = createItemNode("statementList", stream)
+            statementList.addChild(item)
+            while stream.currIsType("token", "COMMA"):
+                stream.next(statementList)
+                if expressionMode:
                     statementList.addChild(readStatement(stream, True, False, True))
-                item = statementList
-            
+                else:
+                    statementList.addChild(readStatement(stream, False, False, True))
+            item = statementList
 
     # go over the optional semicolon
     if not expressionMode and overrunSemicolon and stream.currIsType("token", "SEMICOLON"):
@@ -854,7 +830,6 @@ def readInstantiation(stream):
 
     # Could be a simple variable or a just-in-time function declaration (closure)
     # Read this as expression
-    #stmnt = readStatement(stream, True, False)
     stmnt = readStatement(stream, True, False, True)
     item.addListChild("expression", stmnt)
 
