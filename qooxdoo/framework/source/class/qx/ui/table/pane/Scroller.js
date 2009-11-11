@@ -174,7 +174,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
 
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent",
+    
+    /** Dispatched when a sortable header was clicked */
+    "beforeSort" : : "qx.event.type.Data"
   },
 
 
@@ -1301,9 +1304,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // Sort that column
           var sortCol = tableModel.getSortColumnIndex();
           var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
+          
+          var data = {
+            column : col,
+            ascending : ascending
+          };
 
-          tableModel.sortByColumn(col, ascending);
-          table.getSelectionModel().resetSelection();
+          if (this.fireDataEvent("beforeSort", data))
+          {
+            tableModel.sortByColumn(col, ascending);
+            table.getSelectionModel().resetSelection();
+          }
         }
       }
       
@@ -2129,26 +2140,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       //this.__updateContentPlanned = true;
       this._updateContent();
-    },
-
-
-    /**
-     * Whether the next click on the header should be ignored.
-     * 
-     * @param ignore {Boolean} flag to set.
-     */
-    _setIgnoreHeaderClick : function(ignore)
-    {
-      this.__ignoreClick = ignore;
-    },
-
-
-    /**
-     * Returns if the next click on the header should be ignored.
-     */
-    _getIgnoreHeaderClick : function()
-    {
-      return this.__ignoreClick;
     },
 
 
