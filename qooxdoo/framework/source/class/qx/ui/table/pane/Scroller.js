@@ -2133,6 +2133,26 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
+     * Whether the next click on the header should be ignored.
+     * 
+     * @param ignore {Boolean} flag to set.
+     */
+    _setIgnoreHeaderClick : function(ignore)
+    {
+      this.__ignoreClick = ignore;
+    },
+
+
+    /**
+     * Returns if the next click on the header should be ignored.
+     */
+    _getIgnoreHeaderClick : function()
+    {
+      return this.__ignoreClick;
+    },
+
+
+    /**
      * Timer event handler. Periodically checks whether a table update is
      * required. The update interval is controlled by the {@link #scrollTimeout}
      * property.
