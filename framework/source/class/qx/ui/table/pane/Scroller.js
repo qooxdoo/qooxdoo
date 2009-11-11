@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "cellContextmenu" : "qx.ui.table.pane.CellEvent",
     
     /** Dispatched when a sortable header was clicked */
-    "beforeSort" : : "qx.event.type.Data"
+    "beforeSort" : "qx.event.type.Data"
   },
 
 
