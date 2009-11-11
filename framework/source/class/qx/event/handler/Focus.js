@@ -947,14 +947,7 @@ qx.Class.define("qx.event.handler.Focus",
           target.unselectable = "off";
         }
 
-        // Bug fix for bug #2602
-        var focusedElement = this.getFocus();
-        if (focusedElement && target != focusedElement &&
-            focusedElement.nodeName.toLowerCase() === "input") {
-          target = focusedElement;
-        }
-
-        this.tryActivate(target);
+        this.tryActivate(this.__fixFocus(target));
       },
 
       "gecko" : function(e)
@@ -974,10 +967,35 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "webkit|opera" : function(e) {
-        this.tryActivate(e.target);
+        this.tryActivate(this.__fixFocus(e.target));
       },
 
       "default" : null
+    })),
+
+
+    /**
+     * Fix for bug #2602.
+     * @param target {Element} target element from mouse up event
+     * @return {Element} Element to activate;
+     */
+    __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    {
+      "mshtml|webkit" : function(target)
+      {
+        var focusedElement = this.getFocus();
+        if (focusedElement && target != focusedElement &&
+            (focusedElement.nodeName.toLowerCase() === "input" ||
+            focusedElement.nodeName.toLowerCase() === "textarea")) {
+          target = focusedElement;
+        }
+            
+        return target;
+      },
+      
+      "default" : function(target) {
+        return target;
+      }
     })),
 
 
