@@ -107,50 +107,21 @@ qx.Class.define("qx.bom.History",
   /**
    * @signature function()
    */
-  construct : qx.core.Variant.select("qx.client",
+  construct : function()
   {
+    this.base(arguments);
 
-    "mshtml" : function()
-    {
-      this.base(arguments);
+    this.__titles = {};
+    this.__location = window.location;
 
-      this.__iframe = document.createElement("iframe");
-      this.__iframe.style.visibility = "hidden";
-      this.__iframe.style.position = "absolute";
-      this.__iframe.style.left = "-1000px";
-      this.__iframe.style.top = "-1000px";
+    this.__setInitialState();
 
-      /*
-       * IMPORTANT NOTE FOR IE:
-       * Setting the source before adding the iframe to the document.
-       * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
-       */
-      this.__iframe.src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
-      document.body.appendChild(this.__iframe);
-
-      this.__titles = {};
-      this.setState(decodeURIComponent(this.__getHash()));
-      this.__locationState = decodeURIComponent(this.__getHash());
-
-      this.__waitForIFrame(function()
-      {
-        this.__storeState(this.getState());
-        this.__startTimer();
-      }, this);
-    },
-
-    "default" : function()
-    {
-      this.base(arguments);
-
-      this.__titles = {};
-      this.setState(this.__getState());
-
-      this.__startTimer();
+    if (qx.bom.History.supportsHashChangeEvent()) {
+      this.__initHashChangeEvent();
+    } else {
+      this.__initTimer();
     }
-  }),
-
-
+  },
 
 
   /*
@@ -168,8 +139,29 @@ qx.Class.define("qx.bom.History",
   },
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
 
+  statics :
+  {
+
+    /**
+     * @return {Boolean}
+     */
+    supportsHashChangeEvent : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : qx.lang.Function.returnFalse,
+
+      "default" : function () {
+        return "onhashchange" in window;
+      }
+    })
+
+  },
 
 
   /*
@@ -190,8 +182,8 @@ qx.Class.define("qx.bom.History",
       init : 100,
       apply : "_applyTimeoutInterval"
     },
-    
-    
+
+
     /**
      * Property holding the current state of the history.
      */
@@ -203,8 +195,6 @@ qx.Class.define("qx.bom.History",
       apply : "_applyState"
     }
   },
-
-
 
 
 
@@ -222,13 +212,131 @@ qx.Class.define("qx.bom.History",
     __titles : null,
     __timer : null,
     __locationState : null,
+    __location : null,
+    __checkOnHashChange : null,
+
+
+    /**
+     * @return {void}
+     */
+    __initHashChangeEvent : function ()
+    {
+      this.__checkOnHashChange = qx.lang.Function.bind(this._checkOnHashChange, this);
+
+      qx.bom.Event.addNativeListener(window, "hashchange", this.__checkOnHashChange);
+
+      this.__initIframe();
+    },
+
+
+    /**
+     * @return {void}
+     */
+    __initTimer : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        this.__initIframe(function () {
+          this.__startTimer();
+        });
+      },
+  
+      "default" : function() {
+        this.__startTimer();
+      }
+    }),
+
+
+    /**
+     * @return {void}
+     */
+    __setInitialState : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var hash = this.__getHash();
+        this.setState(hash);
+        this.__locationState = hash;
+      },
+  
+      "default" : function() {
+        this.setState(this.__getState());
+      }
+    }),
+
+
+    /**
+     * @return {void}
+     */
+    __initIframe : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(handler)
+      {
+        this.__iframe = this._createIframe();
+        document.body.appendChild(this.__iframe);
+
+        this.__waitForIFrame(function()
+        {
+          this.__writeStateToIframe(this.getState());
+
+          if (handler) {
+            handler.call(this);
+          }
+        }, this);
+      },
+
+      "default" : qx.lang.Function.empty
+    }),
+
+
+    /**
+     * @param value {String}
+     * @return {String}
+     */
+    _encode : function (value) {
+      return encodeURIComponent(value);
+    },
+
+
+    /**
+     * @param value {String}
+     * @return {String}
+     */
+    _decode : function (value) {
+      return decodeURIComponent(value);
+    },
+
+
+    /**
+     * IMPORTANT NOTE FOR IE:
+     * Setting the source before adding the iframe to the document.
+     * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
+     * 
+     * @return {IframeElement}
+     */
+    _createIframe : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function ()
+      {
+        var iframe = qx.bom.Iframe.create({
+          src : qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html")
+        });
+
+        iframe.style.visibility = "hidden";
+        iframe.style.position = "absolute";
+        iframe.style.left = "-1000px";
+        iframe.style.top = "-1000px";
+
+        return iframe;
+      },
+
+      "default" : qx.lang.Function.returnNull
+    }),
 
 
     // property apply
-    _applyState : function(value, old) 
-    {
-      top.location.hash = "#" + encodeURIComponent(value);
-      this.__storeState(value);
+    _applyState : function(value, old) {
+      this.__writeStateToIframe(value);
     },
 
 
@@ -243,15 +351,18 @@ qx.Class.define("qx.bom.History",
      */
     addToHistory : function(state, newTitle)
     {
-      if (newTitle != null) {
-        document.title = newTitle;
+      if (!qx.lang.Type.isString(state)) {
+        state = state + "";
+      }
+
+      if (qx.lang.Type.isString(newTitle))
+      {
+        this.__setTitle(newTitle);
         this.__titles[state] = newTitle;
       }
-      
-      if (state != this.getState()) {
-        top.location.hash = "#" + encodeURIComponent(state);
-        this.__storeState(state);
-      }
+
+      this.setState(state);
+      this.__setHash(state);
     },
 
 
@@ -278,8 +389,11 @@ qx.Class.define("qx.bom.History",
      *
      * @param newInterval {Integer} new timeout interval
      */
-    _applyTimeoutInterval : function(value) {
-      this.__timer.setInterval(value);
+    _applyTimeoutInterval : function(value)
+    {
+      if (this.__timer) {
+        this.__timer.setInterval(value);
+      }
     },
 
 
@@ -290,10 +404,15 @@ qx.Class.define("qx.bom.History",
      */
     __onHistoryLoad : function(state) 
     {
+      if (!state) {
+        state = "";
+      }
+
       this.setState(state);
       this.fireDataEvent("request", state);
+
       if (this.__titles[state] != null) {
-        document.title = this.__titles[state];
+        this.__setTitle(this.__titles[state]);
       }
     },
 
@@ -305,29 +424,95 @@ qx.Class.define("qx.bom.History",
     __startTimer : function()
     {
       this.__timer = new qx.event.Timer(this.getTimeoutInterval());
-
-      this.__timer.addListener("interval", function(e) {
-        var newHash = this.__getState();
-        if (newHash != this.getState()) {
-          this.__onHistoryLoad(newHash);
-        }
-      }, this);
-
+      this.__timer.addListener("interval", this._checkOnHashChange, this);
       this.__timer.start();
     },
 
 
     /**
-     * Returns the fragment identifier of the top window URL
+     * @param e {qx.event.type.Event}
+     * @return {void}
+     */
+    _checkOnHashChange : function(e)
+    {
+      var currentState = this.__getState();
+
+      if (currentState != this.getState()) {
+        this.__onHistoryLoad(currentState);
+      }
+    },
+
+
+    /**
+     * sets the window title
+     *
+     * @return value {String}
+     */
+    __setTitle : function (value) {
+      document.title = value || "";
+    },
+
+
+    /**
+     * sets the fragment identifier of the top window URL
+     *
+     * @return value {String} the fragment identifier
+     */
+    __setHash : function (value) {
+      this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
+    },
+
+
+    /**
+     * Returns the fragment identifier of the top window URL. For gecko browsers we 
+     * have to use a regular expression to avoid encoding problems.
      *
      * @return {String} the fragment identifier
      */
-    __getHash : function()
+    __getHash : qx.core.Variant.select("qx.client",
     {
-      var href = top.location.href;
-      var idx = href.indexOf( "#" );
-      return idx >= 0 ? href.substring(idx+1) : "";
-    },
+      "gecko" : function()
+      {
+        var hash = /#(.*)$/.exec(this.__location.href);
+        return hash && hash[1] ? this._decode(hash[1]) : "";
+      },
+
+      "default" : function () {
+        return this._decode(this.__location.hash.substr(1)) || "";
+      }
+    }),
+
+
+    /**
+     * @param locationState {String}
+     * @return {Boolean}
+     */
+    __isCurrentLocationState : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function (locationState) {
+        return locationState != this.__locationState;
+      },
+
+      "default" : qx.lang.Function.returnFalse
+    }),
+
+
+    /**
+     * @param locationState {String}
+     * @return {String}
+     */
+    __storeLocationState : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function (locationState)
+      {
+        this.__locationState = locationState;
+        this.__storeState(locationState);
+
+        return locationState;
+      },
+
+      "default" : qx.lang.Function.empty
+    }),
 
 
     /**
@@ -341,24 +526,60 @@ qx.Class.define("qx.bom.History",
       {
         // the location only changes if the user manually changes the fragment
         // identifier.
-        var locationState = decodeURIComponent(this.__getHash());
-        if (locationState != this.__locationState)
-        {
-          this.__locationState = locationState;
-          this.__storeState(locationState);
-          return locationState;
+        // TODO: check for IE8, same problems like other IE?
+        var locationState = this.__getHash();
+
+        if (!this.__isCurrentLocationState(locationState)) {
+          return this.__storeLocationState();
         }
 
-        var doc = this.__iframe.contentWindow.document;
-        var elem = doc.getElementById("state");
-        var iframeState = elem ? decodeURIComponent(elem.innerText) : "";
-
-        return iframeState;
+        return this.__getStateFromIframe() || "";
       },
 
       "default" : function() {
-        return decodeURIComponent(this.__getHash());
+        return this.__getHash();
       }
+    }),
+
+
+    /**
+     * @return {String}
+     */
+    __getStateFromIframe : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var doc = this.__iframe.contentWindow.document;
+        var elem = doc.getElementById("state");
+
+        return elem ? this._decode(elem.innerText) : "";
+      },
+
+      "default" : qx.lang.Function.returnNull
+    }),
+
+
+    /**
+     * @param state {String}
+     * @return {void}
+     */
+    __writeStateToIframe : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(state)
+      {
+        try
+        {
+          var doc = this.__iframe.contentWindow.document;
+          doc.open();
+          doc.write('<html><body><div id="state">' + this._encode(state) + '</div></body></html>');
+          doc.close();
+        }
+        catch (ex) {
+          return;
+        }
+      },
+
+      "default" : qx.lang.Function.empty
     }),
 
 
@@ -366,36 +587,15 @@ qx.Class.define("qx.bom.History",
      * Save a state into the browser history.
      *
      * @param state {String} state to save
-     * @return {Boolean} Whether the state could be saved. This function may
-     *   fail on the Internet Explorer if the hidden IFrame is not yet fully
-     *   loaded.
+     * @return {void}
      */
     __storeState : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(state)
-      {
-        var html = '<html><body><div id="state">' + encodeURIComponent(state) + '</div></body></html>';
-        try
-        {
-          var doc = this.__iframe.contentWindow.document;
-          doc.open();
-          doc.write(html);
-          doc.close();
-        } catch (ex) {
-          return false;
-        }
-        return true;
+      "mshtml" : function(state) {
+        this.__writeStateToIframe(state);
       },
 
-      "default" : function(state)
-      {
-        // Opera needs to update the location, after the current thread has
-        // finished to remember the history
-        qx.event.Timer.once(function() {
-          top.location.hash = "#" + encodeURIComponent(state);
-        }, this, 0);
-        return true;
-      }
+      "default" : qx.lang.Function.empty
     }),
 
 
@@ -408,22 +608,31 @@ qx.Class.define("qx.bom.History",
      */
     __waitForIFrame : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(callback, context)
+      "mshtml" : function(callback, context, retry)
       {
-        if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document ) {
-            // Check again in 10 msec...
-            qx.event.Timer.once(function() {
-              this.__waitForIFrame(callback, context);
-            }, this, 10);
-            return;
+        if (typeof retry === "undefined") {
+          retry = 0;
         }
+
+        if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
+        {
+          if (retry > 20) {
+            throw new Error("can't initialize iframe");
+          }
+
+          qx.event.Timer.once(function() {
+            this.__waitForIFrame(callback, context, ++retry);
+          }, this, 10);
+
+          return;
+        }
+
         callback.call(context || window);
       },
 
       "default" : null
     })
   },
-
 
 
 
@@ -436,8 +645,15 @@ qx.Class.define("qx.bom.History",
 
   destruct : function()
   {
-    this.__timer.stop();
+    if (this.__timer) {
+      this.__timer.stop();
+    }
+
+    if (qx.bom.History.supportsHashChangeEvent()) {
+      qx.bom.Event.removeNativeListener(window, "hashchange", this.__checkOnHashChange);
+    }
+
     this._disposeObjects("__timer");
-    this._disposeFields("__iframe", "__titles");
+    this._disposeFields("__iframe", "__titles", "__location", "__checkOnHashChange");
   }
 });
