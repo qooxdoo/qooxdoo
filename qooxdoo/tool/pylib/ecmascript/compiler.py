@@ -21,7 +21,7 @@
 
 import sys, string, re
 from ecmascript.frontend import comment
-from ecmascript.backend import pretty as prettyM, compile as compileM
+from ecmascript.backend import pretty as prettyM
 from ecmascript.backend.Packer import Packer
 
 def compile(node, opts, enableBreaks=False, enableVerbose=False):
@@ -52,7 +52,6 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
         comment.fill(node)
         result = prettyM.prettyNode(node, opts, result)
     else:
-        #result = compileM.compileNode(node, opts, result)
         packer = Packer()
         result = packer.serializeNode(node, opts, result, enableBreaks)
 
