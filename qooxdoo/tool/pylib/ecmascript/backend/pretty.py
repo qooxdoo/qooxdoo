@@ -1530,7 +1530,7 @@ def _prettyNode(node,optns, result):
     if node.hasParent() and not node.type in ["comment", "commentsBefore", "commentsAfter"]:
 
         # Add comma dividers between statements in these parents
-        if node.parent.type in ["array", "params", "statementList"]:
+        if node.parent.type in ["array", "params", "expressionList"]:
             if not node.isLastChild(True):
                 comma()
 
