@@ -855,7 +855,7 @@ def readLoop(stream):
             # Read the optional first statement
             first = createItemNode("first", stream)
             item.addChild(first)
-            first.addChild(readStatement(stream, False, False))
+            first.addChild(readStatement(stream, expressionMode=False, overrunSemicolon=False))
             stream.comment(first, True)
 
         if stream.currIsType("token", "SEMICOLON"):
@@ -867,7 +867,7 @@ def readLoop(stream):
                 # Read the optional second expression
                 second = createItemNode("second", stream)
                 item.addChild(second)
-                second.addChild(readExpression(stream))
+                second.addChild(readStatement(stream, expressionMode=True, inStatementList=False))
                 stream.comment(second, True)
 
             stream.expectCurrType("token", "SEMICOLON")
@@ -877,7 +877,7 @@ def readLoop(stream):
                 # Read the optional third statement
                 third = createItemNode("third", stream)
                 item.addChild(third)
-                third.addChild(readStatement(stream, False, False))
+                third.addChild(readStatement(stream, expressionMode=False, overrunSemicolon=False))
                 stream.comment(third, True)
 
         elif stream.currIsType("token", "RP"):
