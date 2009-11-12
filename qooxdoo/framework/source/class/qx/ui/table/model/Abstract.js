@@ -72,6 +72,10 @@ qx.Class.define("qx.ui.table.model.Abstract",
     __internalChange : null,
 
 
+    /**
+     * TODOC
+     * @throws {Error} An error if this method is called.
+     */
     getRowCount : function() {
       throw new Error("getRowCount is abstract");
     },
@@ -102,6 +106,10 @@ qx.Class.define("qx.ui.table.model.Abstract",
     prefetchRows : function(firstRowIndex, lastRowIndex) {
     },
 
+    /**
+     * TODOC
+     * @throws {Error} An error if this method is called.
+     */
     getValue : function(columnIndex, rowIndex) {
       throw new Error("getValue is abstract");
     },
@@ -110,6 +118,10 @@ qx.Class.define("qx.ui.table.model.Abstract",
       return this.getValue(this.getColumnIndexById(columnId), rowIndex);
     },
 
+    /**
+     * TODOC
+     * @throws {Error} An error if this method is called.
+     */
     setValue : function(columnIndex, rowIndex, value) {
       throw new Error("setValue is abstract");
     },
@@ -178,7 +190,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @param columnNameArr {String[]} the names of the columns.
      * @return {void}
-     * @throws TODOC
+     * @throws {Error} If the amount of given columns is different from the table.
      * @see #setColumnIds
      */
     setColumnNamesByIndex : function(columnNameArr)
@@ -233,6 +245,8 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *   have already been set. If ID values have already been set, they will
      *   continue to be used if no ID values are explicitly provided here.
      *
+     * @throws {Error} If the amount of given columns is different from the table.
+     * 
      * @return {void}
      */
     setColumns : function(columnNameArr, columnIdArr)

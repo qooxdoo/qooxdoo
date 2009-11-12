@@ -284,7 +284,7 @@ qx.Class.define("qx.util.format.NumberFormat",
      *
      * @param str {String} the string to parse.
      * @return {Double} the number.
-     * @throws TODOC
+     * @throws {Error} If the number string does not match the number format.
      */
     parse : function(str)
     {

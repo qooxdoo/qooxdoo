@@ -50,6 +50,7 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
     /**
      * Get the number of data elements currently available.
      *
+     * @throws {Error} An error if this method is called.
      * @return {Integer}
      */
     getElementCount : function()
@@ -60,6 +61,7 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
     /**
      * Get the next available element from the data model.
      *
+     * @throws {Error} An error if this method is called.
      * @return {Object}
      *   The returned object must provide at least the following members:
      *   <dl>

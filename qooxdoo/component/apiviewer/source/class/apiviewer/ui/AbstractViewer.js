@@ -251,7 +251,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _applyDocNode : function(classNode)
     {
-
       this.__classNode = classNode;
 
       if (!this._titleElem)
