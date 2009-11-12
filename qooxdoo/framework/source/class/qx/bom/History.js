@@ -183,6 +183,16 @@ qx.Class.define("qx.bom.History",
       apply : "_applyTimeoutInterval"
     },
 
+    /**
+     * Property holding the current title
+     */
+    title : 
+    {
+      check : "String",
+      event : "changeTitle",
+      nullable : true,
+      apply    : "_applyTitle"
+    },
 
     /**
      * Property holding the current state of the history.
@@ -192,7 +202,7 @@ qx.Class.define("qx.bom.History",
       check : "String",
       event : "changeState",
       nullable : true,
-      apply : "_applyState"
+      apply    : "_applyState"
     }
   },
 
@@ -214,6 +224,7 @@ qx.Class.define("qx.bom.History",
     __locationState : null,
     __location : null,
     __checkOnHashChange : null,
+    __iframeReady : false,
 
 
     /**
@@ -307,6 +318,21 @@ qx.Class.define("qx.bom.History",
     },
 
 
+    // property apply
+    _applyState : function (state) {
+      this.__setHash(state);
+    },
+
+
+    // property apply
+    _applyTitle : function (title)
+    {
+      if (title != null) {
+        document.title = title || "";
+      }
+    },
+
+
     /**
      * IMPORTANT NOTE FOR IE:
      * Setting the source before adding the iframe to the document.
@@ -334,12 +360,6 @@ qx.Class.define("qx.bom.History",
     }),
 
 
-    // property apply
-    _applyState : function(value, old) {
-      this.__writeStateToIframe(value);
-    },
-
-
     /**
      * Adds an entry to the browser history.
      *
@@ -357,12 +377,12 @@ qx.Class.define("qx.bom.History",
 
       if (qx.lang.Type.isString(newTitle))
       {
-        this.__setTitle(newTitle);
+        this.setTitle(newTitle);
         this.__titles[state] = newTitle;
       }
 
       this.setState(state);
-      this.__setHash(state);
+      this.__storeState(state);
     },
 
 
@@ -412,7 +432,7 @@ qx.Class.define("qx.bom.History",
       this.fireDataEvent("request", state);
 
       if (this.__titles[state] != null) {
-        this.__setTitle(this.__titles[state]);
+        this.setTitle(this.__titles[state]);
       }
     },
 
@@ -444,22 +464,18 @@ qx.Class.define("qx.bom.History",
 
 
     /**
-     * sets the window title
-     *
-     * @return value {String}
-     */
-    __setTitle : function (value) {
-      document.title = value || "";
-    },
-
-
-    /**
      * sets the fragment identifier of the top window URL
      *
      * @return value {String} the fragment identifier
      */
-    __setHash : function (value) {
-      this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
+    __setHash : function (value)
+    {
+      if (this.__getState() != value)
+      {
+        qx.event.Timer.once(function() {
+          this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
+        }, this, 0);
+      }
     },
 
 
@@ -549,6 +565,10 @@ qx.Class.define("qx.bom.History",
     {
       "mshtml" : function()
       {
+        if (!this.__iframeReady) {
+          return "";
+        }
+
         var doc = this.__iframe.contentWindow.document;
         var elem = doc.getElementById("state");
 
@@ -575,7 +595,7 @@ qx.Class.define("qx.bom.History",
           doc.close();
         }
         catch (ex) {
-          return;
+          // ignore
         }
       },
 
@@ -627,6 +647,7 @@ qx.Class.define("qx.bom.History",
           return;
         }
 
+        this.__iframeReady = true;
         callback.call(context || window);
       },
 
