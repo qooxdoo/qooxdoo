@@ -749,13 +749,23 @@ class CodeGenerator(object):
             return allUris
 
         def loadTemplate(bootCode):
-            if version=="build":
-                #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
-                # TODO: test-wise using generic template
-                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+            # try custom loader templates
+            if version == "build":
+                loaderFile = self._job.get("compile-dist/paths/loader-template", None)
             else:
-                #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+                loaderFile = self._job.get("compile-source/loader-template", None)
+            if not loaderFile:
+                # use default templates
+                if version=="build":
+                    #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+                    # TODO: test-wise using generic template
+                    loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+                else:
+                    #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+                    loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+            else:
+                print "-- loading custom template %s" % loaderFile
+            
             template = filetool.read(loaderFile)
 
             return template
