@@ -31,7 +31,6 @@ qx.Class.define("qx.ui.table.model.Simple",
 
     this.__rowArr = [];
     this.__sortColumnIndex = -1;
-    this.__sortAscending;
 
     // Array of objects, each with property "ascending" and "descending"
     this.__sortMethods = [];
