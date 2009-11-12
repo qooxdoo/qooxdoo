@@ -320,7 +320,7 @@ qx.Class.define("qx.bom.History",
 
     // property apply
     _applyState : function (state) {
-      this.__setHash(state);
+      //this.__setHash(state);
     },
 
 
@@ -381,8 +381,9 @@ qx.Class.define("qx.bom.History",
         this.__titles[state] = newTitle;
       }
 
-      this.setState(state);
       this.__storeState(state);
+
+      //this.setState(state);
     },
 
 
@@ -428,6 +429,7 @@ qx.Class.define("qx.bom.History",
         state = "";
       }
 
+      this.info("__onHistoryLoad("+state+","+this.getState()+")");
       this.setState(state);
       this.fireDataEvent("request", state);
 
@@ -472,9 +474,8 @@ qx.Class.define("qx.bom.History",
     {
       if (this.__getState() != value)
       {
-        qx.event.Timer.once(function() {
-          this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
-        }, this, 0);
+        this.info("__setHash("+value+")");
+        this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
       }
     },
 
@@ -546,6 +547,7 @@ qx.Class.define("qx.bom.History",
         var locationState = this.__getHash();
 
         if (!this.__isCurrentLocationState(locationState)) {
+        	this.info("__storeLocationState("+locationState+")");
           return this.__storeLocationState();
         }
 
@@ -611,11 +613,27 @@ qx.Class.define("qx.bom.History",
      */
     __storeState : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(state) {
+      "mshtml" : function(state)
+      {
+        this.__setHash(state);
         this.__writeStateToIframe(state);
+        this.setState(state);
       },
 
-      "default" : qx.lang.Function.empty
+      "opera" : function (state)
+      {
+        qx.core.Timer.once(function()
+        {
+          this.__setHash(state);
+          this.setState(state);
+        }, this, 0);
+      },
+
+      "default" : function (state)
+      {
+        this.__setHash(state);
+        this.setState(state);
+      }
     }),
 
 
