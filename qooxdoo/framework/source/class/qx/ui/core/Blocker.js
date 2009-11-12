@@ -56,6 +56,7 @@ qx.Class.define("qx.ui.core.Blocker",
     
     this.__activeElements = [];
     this.__focusElements = [];
+    this.__contentBlockerCount = [];
   },
 
   /*
@@ -106,7 +107,7 @@ qx.Class.define("qx.ui.core.Blocker",
     __blocker : null,
     __blockerCount : 0,
     __contentBlocker : null,
-    __contentBlockerCount : 0,
+    __contentBlockerCount : null,
 
     __activeElements  : null,
     __focusElements   : null,
@@ -435,8 +436,8 @@ qx.Class.define("qx.ui.core.Blocker",
       var blocker = this.getContentBlockerElement();
       blocker.setStyle("zIndex", zIndex);
 
-      this.__contentBlockerCount++;
-      if (this.__contentBlockerCount < 2)
+      this.__contentBlockerCount.push(zIndex);
+      if (this.__contentBlockerCount.length < 2)
       {
         blocker.include();
 
@@ -464,7 +465,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * @return {Boolean} Whether the content is blocked
      */
     isContentBlocked : function() {
-      return this.__contentBlockerCount > 0;
+      return this.__contentBlockerCount.length > 0;
     },
 
 
@@ -480,8 +481,12 @@ qx.Class.define("qx.ui.core.Blocker",
         return;
       }
 
-      this.__contentBlockerCount--;
-      if (this.__contentBlockerCount < 1) {
+      this.__contentBlockerCount.pop();
+      var zIndex = this.__contentBlockerCount[this.__contentBlockerCount.length - 1];
+      var contentBlocker = this.getContentBlockerElement();
+      contentBlocker.setStyle("zIndex", zIndex);
+
+      if (this.__contentBlockerCount.length < 1) {
         this.__unblockContent();
       }
     },
@@ -498,7 +503,10 @@ qx.Class.define("qx.ui.core.Blocker",
         return;
       }
       
-      this.__contentBlockerCount = 0;
+      this.__contentBlockerCount = [];
+      var contentBlocker = this.getContentBlockerElement();
+      contentBlocker.setStyle("zIndex", null);
+
       this.__unblockContent();
     },
 
