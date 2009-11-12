@@ -28,6 +28,8 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.base(arguments);
 
       this.__blocker = new qx.ui.core.Blocker(this.getRoot());
+      this.__blocker.setColor("green");
+      this.__blocker.setOpacity(0.5);
     },
 
     tearDown : function() {
@@ -38,92 +40,153 @@ qx.Class.define("qx.test.ui.core.Blocker",
 
     testBlocker : function()
     {
+      var blockerElement = this.__blocker.getBlockerElement();
+
       this.__blocker.block();
       this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
 
       this.__blocker.unblock();
       this.flush();
-      this.assertFalse(this.__blocker.isBlocked());
+      this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
-    testBlockerTwice : function()
+    testBlockerThrice : function()
     {
-      this.__blocker.block();
-      this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      var blockerElement = this.__blocker.getBlockerElement();
 
       this.__blocker.block();
       this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
 
       this.__blocker.unblock();
       this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
 
       this.__blocker.unblock();
       this.flush();
-      this.assertFalse(this.__blocker.isBlocked());
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      this.__blocker.unblock();
+      this.flush();
+      this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
     testForceUnblock : function()
     {
-      this.__blocker.block();
-      this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      var blockerElement = this.__blocker.getBlockerElement();
 
       this.__blocker.block();
       this.flush();
-      this.assertTrue(this.__blocker.isBlocked());
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
 
       this.__blocker.forceUnblock();
       this.flush();
-      this.assertFalse(this.__blocker.isBlocked());
+      this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
     testContentBlocker : function()
     {
+      var blockerElement = this.__blocker.getContentBlockerElement();
+
       this.__blocker.blockContent(100);
       this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(100, blockerElement.getStyle("zIndex"));
 
       this.__blocker.unblockContent();
       this.flush();
-      this.assertFalse(this.__blocker.isContentBlocked());
+      this.assertFalse(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
+      this.assertUndefined(blockerElement.getStyle("zIndex"));
     },
 
-    testContentBlockerTwice : function()
+    testContentBlockerThrice : function()
     {
-      this.__blocker.blockContent(100);
-      this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      var blockerElement = this.__blocker.getContentBlockerElement();
 
       this.__blocker.blockContent(100);
       this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(100, blockerElement.getStyle("zIndex"));
+
+      this.__blocker.blockContent(200);
+      this.flush();
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(200, blockerElement.getStyle("zIndex"));
+
+      this.__blocker.blockContent(300);
+      this.flush();
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(300, blockerElement.getStyle("zIndex"));
 
       this.__blocker.unblockContent();
       this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(200, blockerElement.getStyle("zIndex"));
 
       this.__blocker.unblockContent();
       this.flush();
-      this.assertFalse(this.__blocker.isContentBlocked());
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(100, blockerElement.getStyle("zIndex"));
+
+      this.__blocker.unblockContent();
+      this.flush();
+      this.assertFalse(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
+      this.assertUndefined(blockerElement.getStyle("zIndex"));
     },
 
     testForceUnblockContent : function()
     {
-      this.__blocker.blockContent(100);
-      this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      var blockerElement = this.__blocker.getContentBlockerElement();
 
       this.__blocker.blockContent(100);
       this.flush();
-      this.assertTrue(this.__blocker.isContentBlocked());
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(100, blockerElement.getStyle("zIndex"));
+
+      this.__blocker.blockContent(200);
+      this.flush();
+      this.assertTrue(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+      this.assertEquals(200, blockerElement.getStyle("zIndex"));
 
       this.__blocker.forceUnblockContent();
       this.flush();
-      this.assertFalse(this.__blocker.isContentBlocked());
+      this.assertFalse(this.__blocker.isContentBlocked(), "isContentBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
+      this.assertUndefined(blockerElement.getStyle("zIndex"));
     }
   }
 });
