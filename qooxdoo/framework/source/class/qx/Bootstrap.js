@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.Bootstrap",
   statics :
   {
     /** Timestamp of qooxdoo based application startup */
-    LOADSTART : new Date,
+    LOADSTART : qx.$$start || new Date(),
 
 
     /**
