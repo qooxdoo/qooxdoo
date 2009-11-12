@@ -31,7 +31,7 @@ class Script(object):
         self.variants   = []
         self.parts      = {}   # parts defined by the configuration (if any)
         self.packages   = {}   # .js files for this application / library
-        self.boot       = None
+        self.boot       = "boot"
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
 
     ##

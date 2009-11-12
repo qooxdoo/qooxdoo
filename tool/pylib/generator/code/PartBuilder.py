@@ -76,6 +76,13 @@ class PartBuilder(object):
         # Collapse parts by package size
         self.collapsePartsBySize(script, minPackageSize, minPackageSizeForUnshared)
 
+        # Size collapsing might introduce new dependencies to the boot part
+        # try to assure a single package
+        if len(script.parts[script.boot].packages) > 1:
+            quickCollapseConfig = { 0 : set((script.parts[script.boot],))}
+            self.collapsePartsByOrder(script, quickCollapseConfig)
+            assert len(script.parts[script.boot].packages) == 1
+
         self._printPartStats(script)
 
         # Post process results
@@ -327,7 +334,7 @@ class PartBuilder(object):
             # assert: the package is shared and smaller than minPackageSize
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
-            self._mergePackage(fromPackage, parts, packages)
+            self._mergePackage(script, fromPackage, parts, packages)
             self._removePackageFromPackages(fromPackage, packages)
 
             self._console.outdent()
@@ -382,7 +389,7 @@ class PartBuilder(object):
     # to avoid merging all packages into one "monster" package that all parts
     # share eventually.
 
-    def collapsePartsByOrder(self, script):
+    def collapsePartsByOrder(self, script, collapse_groups=None):
         
         def getCollapseGroupsOrdered(parts, packages):
             # returns dict of parts grouped by collapse index
@@ -460,7 +467,7 @@ class PartBuilder(object):
                 #    package = packages[packId]
                 for package in reversed(part.packages):   # start with "smallest" package
                     if package.id in selected_packages:
-                        mergedPackage, targetPackage = self._mergePackage(package, parts, selected_packages, seen_targets)
+                        mergedPackage, targetPackage = self._mergePackage(script, package, parts, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
                             #del packages[package.id]
                             self._removePackageFromPackages(package, packages)  # since we didn't pass in the whole packages struct to _mergePackage
@@ -479,7 +486,8 @@ class PartBuilder(object):
         self._console.info("Collapsing parts by collapse order...")
         self._console.indent()
 
-        collapse_groups = getCollapseGroupsOrdered(parts, packages)
+        if collapse_groups == None:
+            collapse_groups = getCollapseGroupsOrdered(parts, packages)
         seen_targets    = set(())
 
         for collidx in sorted(collapse_groups.keys()): # go through groups in load order
@@ -496,7 +504,7 @@ class PartBuilder(object):
         return
 
 
-    def _mergePackage(self, fromPackage, parts, packages, seen_targets=None):
+    def _mergePackage(self, script, fromPackage, parts, packages, seen_targets=None):
 
         def updatePartDependencies(part, packageDeps):
             for package in packageDeps:
@@ -511,6 +519,19 @@ class PartBuilder(object):
                     updatePartDependencies(part, package.packageDeps)
             return
 
+        def mergeContAndDeps(fromPackage, toPackage):
+            # Merging package content
+            toPackage.classes.extend(fromPackage.classes)
+            # Merging package dependencies
+            depsDelta = fromPackage.packageDeps.difference(set((toPackage,))) # make sure toPackage is not included
+            self._console.debug("Adding packages dependencies to target package: %r" % ([x.id for x in depsDelta],))
+            toPackage.packageDeps.update(depsDelta)
+            toPackage.packageDeps.difference_update(set((fromPackage,))) # remove potential dependency to fromPackage
+            self._console.debug("Target package #%s now depends on: %r" % (toPackage.id, [x.id for x in toPackage.packageDeps]))
+            return toPackage
+
+        # ----------------------------------------------------------------------
+
         # find toPackage
         toPackage = None
         for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
@@ -524,10 +545,10 @@ class PartBuilder(object):
         if toPackage == None:
             return None, None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
+        self._console.indent()
 
-        # Merging package content
-        toPackage.classes.extend(fromPackage.classes)
-        toPackage.packageDeps.update(fromPackage.packageDeps.difference(set((toPackage,)))) # make sure toPackage is not included
+        # Merge package content and dependencies
+        toPackage = mergeContAndDeps(fromPackage, toPackage)
 
         # Update part information
         for part in parts.values():
@@ -541,8 +562,17 @@ class PartBuilder(object):
                 #print "-- removed package %s has deps: %r" % (fromPackage.id, [x.id for x in fromPackage.packageDeps])
                 updatePartDependencies(part, fromPackage.packageDeps)
 
+        # Update package dependencies
+        # TODO: part of this code duplicates - and improves - stuff done in self._removePackageFromPackages!
+        for package in script.packages.values():
+            if fromPackage in package.packageDeps:
+                # replace fromPackage with toPackage
+                package.packageDeps.difference_update(set((fromPackage,)))
+                package.packageDeps.update(set((toPackage,)))
+
         # remove of fromPackage from packages list is easier handled in the caller
         
+        self._console.outdent()
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
 
 
@@ -687,7 +717,7 @@ class PartBuilder(object):
         self._console.indent()
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
-            #self._console.debug("%r" % packages[packageId].classes)
+            self._console.debug("%r" % packages[packageId].classes)
             self._console.debug("Package #%s depends on these packages: %r" % (packageId, [x.id for x in packages[packageId].packageDeps]))
         self._console.outdent()
 
