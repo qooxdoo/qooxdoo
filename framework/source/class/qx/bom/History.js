@@ -201,8 +201,7 @@ qx.Class.define("qx.bom.History",
     {
       check : "String",
       event : "changeState",
-      nullable : true,
-      apply    : "_applyState"
+      nullable : true
     }
   },
 
@@ -319,12 +318,6 @@ qx.Class.define("qx.bom.History",
 
 
     // property apply
-    _applyState : function (state) {
-      //this.__setHash(state);
-    },
-
-
-    // property apply
     _applyTitle : function (title)
     {
       if (title != null) {
@@ -382,8 +375,6 @@ qx.Class.define("qx.bom.History",
       }
 
       this.__storeState(state);
-
-      //this.setState(state);
     },
 
 
@@ -429,7 +420,6 @@ qx.Class.define("qx.bom.History",
         state = "";
       }
 
-      this.info("__onHistoryLoad("+state+","+this.getState()+")");
       this.setState(state);
       this.fireDataEvent("request", state);
 
@@ -472,9 +462,7 @@ qx.Class.define("qx.bom.History",
      */
     __setHash : function (value)
     {
-      if (this.__getState() != value)
-      {
-        this.info("__setHash("+value+")");
+      if (this.__getState() != value) {
         this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
       }
     },
@@ -547,7 +535,6 @@ qx.Class.define("qx.bom.History",
         var locationState = this.__getHash();
 
         if (!this.__isCurrentLocationState(locationState)) {
-        	this.info("__storeLocationState("+locationState+")");
           return this.__storeLocationState();
         }
 
