@@ -497,6 +497,10 @@ qx.Class.define("playground.Application",
           ch[i].destroy();
         }
       }
+      
+      var layout = root.getLayout();
+      root.setLayout(new qx.ui.layout.Canvas());
+      layout.dispose();
 
       if (this.showSyntaxHighlighting && this.editor) {
           this.code = this.editor.getCode() || this.textarea.getValue();
