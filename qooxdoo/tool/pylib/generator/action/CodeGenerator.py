@@ -763,8 +763,6 @@ class CodeGenerator(object):
                 else:
                     #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
                     loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
-            else:
-                print "-- loading custom template %s" % loaderFile
             
             template = filetool.read(loaderFile)
 
