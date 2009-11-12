@@ -440,7 +440,7 @@ qx.Class.define("qx.util.format.DateFormat",
      *
      * @param dateStr {String} the date to parse.
      * @return {Date} the parsed date.
-     * @throws If the format is not well formed or if the date string does not
+     * @throws {Error} If the format is not well formed or if the date string does not
      *       match to the format.
      */
     parse : function(dateStr)
@@ -677,7 +677,7 @@ qx.Class.define("qx.util.format.DateFormat",
      * (in compiled and uncompiled form) and the used rules.
      *
      * @return {Map} the parse feed.
-     * @throws TODOC
+     * @throws {Error} If the date format is malformed.
      */
     __initParseFeed : function()
     {

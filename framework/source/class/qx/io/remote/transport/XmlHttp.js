@@ -644,7 +644,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * be made available to the caller.
      *
      * @return {String} Content of the response as XML
-     * @throws TODOC
+     * @throws {Error} If an error within the response occurs.
      */
     getResponseXml : function()
     {

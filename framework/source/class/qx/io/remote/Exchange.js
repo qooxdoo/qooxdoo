@@ -137,7 +137,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * checks for the supported ones.
      *
      * @return {void}
-     * @throws an error if no supported transport type is available
+     * @throws {Error} an error if no supported transport type is available
      */
     initTypes : function()
     {
@@ -239,7 +239,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vReadyState {String} readystate of the request
      * @param vIsLocal {Boolean} whether the request is a local one
      * @return {Boolean | var} Returns boolean value depending on the status code
-     * @throws TODOC
      */
     wasSuccessful : function(vStatusCode, vReadyState, vIsLocal)
     {
