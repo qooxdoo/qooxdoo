@@ -211,6 +211,19 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     */
 
     /**
+     * An alias for getSelection() that allows the form validator to work. The
+     * form validator requires a getValue() method.
+     *
+     * @return {qx.ui.core.Widget}
+     *   The selected item
+     */
+    getValue : function()
+    {
+      return this.getSelection()[0];
+    },
+      
+
+    /**
      * Returns an array of currently selected items.
      *
      * @return {qx.ui.core.Widget[]} List of items.
