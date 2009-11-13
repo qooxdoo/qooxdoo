@@ -125,11 +125,8 @@ qx.Class.define("qx.ui.form.renderer.Single",
       }
 
       // Create the label. Append a colon only if there's text to display.
-      var label =
-        new qx.ui.basic.Label(name + required +
-                              (name.length > 0 || required.length > 0
-                               ? " :"
-                               : ""));
+      var colon = name.length > 0 || item.getRequired() ? " :" : "";
+      var label = new qx.ui.basic.Label(name + required + colon);
       label.setRich(true);
       return label;
     },
