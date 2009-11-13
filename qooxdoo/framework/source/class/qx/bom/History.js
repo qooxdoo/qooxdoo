@@ -265,6 +265,7 @@ qx.Class.define("qx.bom.History",
       "mshtml" : function()
       {
         var hash = this.__getHash();
+
         this.setState(hash);
         this.__locationState = hash;
       },
@@ -451,14 +452,36 @@ qx.Class.define("qx.bom.History",
      * @param e {qx.event.type.Event}
      * @return {void}
      */
-    _checkOnHashChange : function(e)
+    _checkOnHashChange : qx.core.Variant.select("qx.client",
     {
-      var currentState = this.__getState();
+      "mshtml" : function(e)
+      {
+        // the location only changes if the user manually changes the fragment
+        // identifier.
+        // TODO: check for IE8, same problems like other IE?
+        var currentState  = null;
+        var locationState = this.__getHash();
 
-      if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
-        this.__onHistoryLoad(currentState);
+        if (!this.__isCurrentLocationState(locationState)) {
+          currentState = this.__storeLocationState(locationState);
+        } else {
+          currentState = this.__getState();
+        }
+
+        if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
+          this.__onHistoryLoad(currentState);
+        }
+      },
+
+      "default" : function (e)
+      {
+        var currentState = this.__getState();
+
+        if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
+          this.__onHistoryLoad(currentState);
+        }
       }
-    },
+    }),
 
 
     /**
@@ -468,8 +491,10 @@ qx.Class.define("qx.bom.History",
      */
     __setHash : function (value)
     {
-      if (this.__getState() != value) {
+      if (qx.lang.Type.isString(value) && this.__getState() != value)
+      {
         this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
+        this.__locationState = value;
       }
     },
 
@@ -511,7 +536,7 @@ qx.Class.define("qx.bom.History",
     __isCurrentLocationState : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function (locationState) {
-        return locationState != this.__locationState;
+        return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
       },
 
       "default" : qx.lang.Function.returnFalse
@@ -527,12 +552,12 @@ qx.Class.define("qx.bom.History",
       "mshtml" : function (locationState)
       {
         this.__locationState = locationState;
-        this.__storeState(locationState);
+        this.__writeStateToIframe(state);
 
         return locationState;
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : qx.lang.Function.returnNull
     }),
 
 
@@ -543,18 +568,8 @@ qx.Class.define("qx.bom.History",
      */
     __getState : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function()
-      {
-        // the location only changes if the user manually changes the fragment
-        // identifier.
-        // TODO: check for IE8, same problems like other IE?
-        var locationState = this.__getHash();
-
-        if (!this.__isCurrentLocationState(locationState)) {
-          return this.__storeLocationState();
-        }
-
-        return this.__getStateFromIframe() || "";
+      "mshtml" : function() {
+        return this.__getStateFromIframe();
       },
 
       "default" : function() {
@@ -620,6 +635,7 @@ qx.Class.define("qx.bom.History",
       {
         this.__setHash(state);
         this.__writeStateToIframe(state);
+
         this.setState(state);
       },
 
