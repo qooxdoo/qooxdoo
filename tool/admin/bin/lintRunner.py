@@ -64,6 +64,7 @@ class QxLint:
 
     print("Parsing Lint output")  
     data = self.parseLog(log)
+    self.data = data
   
     categories = len(data)
     messages = 0
@@ -91,9 +92,6 @@ class QxLint:
       print("Generating HTML output")
       html = self.createHtml(data)
       self.sendReport(html,options.workdir,repr(messages))
-    else:
-      json = self.getJson(data)
-      print(json)
 
 
   def runLint(self, workdir):
