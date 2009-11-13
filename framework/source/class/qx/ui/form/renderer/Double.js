@@ -131,7 +131,10 @@ qx.Class.define("qx.ui.form.renderer.Double",
       if (item.getRequired()) {
        required = " <span style='color:red'>*</span> ";
       }
-      var label =  new qx.ui.basic.Label(name + required + " :");
+      
+      // Create the label. Append a colon only if there's text to display.
+      var colon = name.length > 0 || item.getRequired() ? " :" : "";
+      var label = new qx.ui.basic.Label(name + required + colon);      
       label.setRich(true);
       return label;
     },
