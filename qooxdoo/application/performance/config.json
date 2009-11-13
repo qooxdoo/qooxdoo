@@ -37,41 +37,24 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/cache",
     "ROOT"         : "."
-  }
+  },
 
   // You only need to edit the remainder of this file, if you want to customize
   // specific jobs, or add own job definitions.
 
-  /*
+
   "jobs" :
   {
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    "libraries" : 
-    {
-      "library" :
-      [
-        {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
-        }
-      ]
-    },
-
     // If you want to tweak a job setting, see the following sample where
     // the "format" feature of the "build-script" job is overridden.
     // To see a list of available jobs, invoke 'generate.py x'.
-    "build-script" :
+    "testrunner::source-tests-in-build-path" :
     {
-      "compile-dist" : 
+      "variants" :
       {
-        "code" :
-        {
-          "format" : false
-        }
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
       }
     }
   }
-  */
 }
