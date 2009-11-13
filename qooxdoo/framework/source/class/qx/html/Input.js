@@ -116,11 +116,15 @@ qx.Class.define("qx.html.Input",
         this.__enabled = value;
 
         if (!value) {
-          this.setStyle("userModify", "read-only");
-          this.setStyle("userSelect", "none");
+          this.setStyles({
+            "userModify": "read-only",
+            "userSelect": "none"
+          });
         } else {
-          this.setStyle("userModify", null);
-          this.setStyle("userSelect", this.__selectable ? null : "none");
+          this.setStyles({
+            "userModify": null,
+            "userSelect": this.__selectable ? null : "none"
+          });
         }
       },
 

@@ -146,10 +146,12 @@ qx.Class.define("qx.ui.embed.Iframe",
       var pixel = "px";
       var insets = this.getInsets();
 
-      this.__blockerElement.setStyle("left", insets.left + pixel);
-      this.__blockerElement.setStyle("top", insets.top + pixel);
-      this.__blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
-      this.__blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
+      this.__blockerElement.setStyles({
+        "left": insets.left + pixel,
+        "top": insets.top + pixel,
+        "width": (width - insets.left - insets.right) + pixel,
+        "height": (height - insets.top - insets.bottom) + pixel
+      });
     },
 
 
@@ -177,9 +179,11 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       var el = new qx.html.Element("div");
 
-      el.setStyle("zIndex", 20);
-      el.setStyle("position", "absolute");
-      el.setStyle("display", "none");
+      el.setStyles({
+        "zIndex": 20,
+        "position": "absolute",
+        "display": "none"
+      });
 
       // IE needs some extra love here to convince it to block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))

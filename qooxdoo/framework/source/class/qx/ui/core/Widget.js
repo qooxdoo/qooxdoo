@@ -1587,13 +1587,10 @@ qx.Class.define("qx.ui.core.Widget",
         el.setAttribute("qxType", "container");
       }
 
-      el.setStyle("position", "absolute");
-
-      // TODO
-      // What was the reason for this (wpbasti)?
-      // Seems that it at least fixes issue with the SplitPane
-      // where the slider is not visible during dragging it around.
-      el.setStyle("zIndex", 0);
+      el.setStyles({
+        "position": "absolute",
+        "zIndex": 0
+      });
 
       // Store "weak" reference to the widget in the DOM element.
       el.setAttribute("$$widget", this.toHashCode());
@@ -1620,8 +1617,10 @@ qx.Class.define("qx.ui.core.Widget",
         el.setAttribute("qxType", "content");
       }
 
-      el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 10);
+      el.setStyles({
+        "position": "absolute",
+        "zIndex": 10
+      });
 
       return el;
     },
@@ -1639,8 +1638,10 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = new qx.html.Element("div");
 
-      el.setStyle("overflowX", "hidden");
-      el.setStyle("overflowY", "hidden");
+      el.setStyles({
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      });
 
       return el;
     },
