@@ -51,7 +51,7 @@ class ShellCmd(object):
         return p.wait()
 
 
-    def execute_piped(cmd):
+    def execute_piped(self, cmd):
         p = subprocess.Popen(cmd, shell=True,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
