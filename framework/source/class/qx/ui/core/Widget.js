@@ -1011,19 +1011,25 @@ qx.Class.define("qx.ui.core.Widget",
       var content = this.getContentElement();
       var inner = changes.size || this.__updateInsets;
       var pixel = "px";
+      
+      var containerStyles = {};
 
       // Move container to new position
       if (changes.position)
       {
-        container.setStyle("left", left + pixel);
-        container.setStyle("top", top + pixel);
+        containerStyles.left = left + pixel;
+        containerStyles.top = top + pixel;
       }
 
       // Update container size
       if (changes.size)
       {
-        container.setStyle("width", width + pixel);
-        container.setStyle("height", height + pixel);
+        containerStyles.width = width + pixel;
+        containerStyles.height = height + pixel;        
+      }
+      
+      if (changes.position || changes.size) {
+        container.setStyles(containerStyles);
       }
 
       if (inner || changes.local || changes.margin)
@@ -1036,16 +1042,22 @@ qx.Class.define("qx.ui.core.Widget",
         innerHeight = innerHeight < 0 ? 0 : innerHeight;
       }
 
+      var contentStyles = {};
+      
       if (this.__updateInsets)
       {
-        content.setStyle("left", insets.left + pixel);
-        content.setStyle("top", insets.top + pixel);
+        contentStyles.left = insets.left + pixel;
+        contentStyles.top = insets.top + pixel;
       }
 
       if (inner)
       {
-        content.setStyle("width", innerWidth + pixel);
-        content.setStyle("height", innerHeight + pixel);
+        contentStyles.width = innerWidth + pixel;
+        contentStyles.height = innerHeight + pixel;
+      }
+      
+      if (inner || this.__updateInsets) {
+        content.setStyles(contentStyles);
       }
 
       if (changes.size)

@@ -2115,10 +2115,67 @@ qx.Class.define("qx.html.Element",
      */
     setStyles : function(map, direct)
     {
-      for (var key in map) {
-        this.setStyle(key, map[key], direct);
+      // inline calls to "set" because this method is very 
+      // performance critical!
+      
+      var Style = qx.bom.element.Style;
+      
+      if (!this.__styleValues) {
+        this.__styleValues = {};
       }
-
+      
+      if (this.__element)
+      {
+        // Dynamically create if needed
+        if (!this.__styleJobs) {
+          this.__styleJobs = {};
+        }
+        
+        for (var key in map) 
+        {
+          var value = map[key];
+          if (this.__styleValues[key] == value) {
+            continue;
+          }
+          
+          if (value == null) {
+            delete this.__styleValues[key];
+          } else {
+            this.__styleValues[key] = value;
+          }
+          
+          // Omit queuing in direct mode
+          if (direct)
+          {
+            Style.setStyle(this.__element, key, value);
+            continue;
+          }
+          
+          // Store job info
+          this.__styleJobs[key] = true;
+        }
+        
+        // Register modification
+        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+      else 
+      {
+        for (var key in map) 
+        {
+          var value = map[key];
+          if (this.__styleValues[key] == value) {
+            continue;
+          }
+          
+          if (value == null) {
+            delete this.__styleValues[key];
+          } else {
+            this.__styleValues[key] = value;
+          }
+        }        
+      }
+      
       return this;
     },
 
