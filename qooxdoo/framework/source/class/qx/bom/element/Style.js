@@ -144,17 +144,25 @@ qx.Class.define("qx.bom.element.Style",
       // Whether a special class is available for the processing of this style.
       special :
       {
-        clip : 1,
-        cursor : 1,
-        opacity : 1,
-        boxSizing : 1,
-        overflowX : 1,
-        overflowY : 1
+        clip : qx.bom.element.Clip,
+        cursor : qx.bom.element.Cursor,
+        opacity : qx.bom.element.Opacity,
+        boxSizing : qx.bom.element.BoxSizing,
+        overflowX : {
+          set : qx.lang.Function.bind(qx.bom.element.Overflow.setX, qx.bom.element.Overflow),
+          get : qx.lang.Function.bind(qx.bom.element.Overflow.getX, qx.bom.element.Overflow),
+          reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetX, qx.bom.element.Overflow),
+          compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileX, qx.bom.element.Overflow)
+        },
+        overflowY : {
+          set : qx.lang.Function.bind(qx.bom.element.Overflow.setY, qx.bom.element.Overflow),
+          get : qx.lang.Function.bind(qx.bom.element.Overflow.getY, qx.bom.element.Overflow),
+          reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetY, qx.bom.element.Overflow),
+          compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileY, qx.bom.element.Overflow)
+        }
       }
     },
-
-
-
+      
 
     /*
     ---------------------------------------------------------------------------
@@ -195,34 +203,8 @@ qx.Class.define("qx.bom.element.Style",
         name = names[name] || name;
 
         // process special properties
-        if (special[name])
-        {
-          switch(name)
-          {
-            case "clip":
-              html.push(qx.bom.element.Clip.compile(value));
-              break;
-
-            case "cursor":
-              html.push(qx.bom.element.Cursor.compile(value));
-              break;
-
-            case "opacity":
-              html.push(qx.bom.element.Opacity.compile(value));
-              break;
-
-            case "boxSizing":
-              html.push(qx.bom.element.BoxSizing.compile(value));
-              break;
-
-            case "overflowX":
-              html.push(qx.bom.element.Overflow.compileX(value));
-              break;
-
-            case "overflowY":
-              html.push(qx.bom.element.Overflow.compileY(value));
-              break;
-          }
+        if (special[name]) {
+          html.push(special[name].compile(value));          
         }
         else
         {
@@ -340,32 +322,11 @@ qx.Class.define("qx.bom.element.Style",
       // special handling for specific properties
       // through this good working switch this part costs nothing when
       // processing non-smart properties
-      if (smart!==false && hints.special[name])
-      {
-        switch(name)
-        {
-          case "clip":
-            return qx.bom.element.Clip.set(element, value);
-
-          case "cursor":
-            return qx.bom.element.Cursor.set(element, value);
-
-          case "opacity":
-            return qx.bom.element.Opacity.set(element, value);
-
-          case "boxSizing":
-            return qx.bom.element.BoxSizing.set(element, value);
-
-          case "overflowX":
-            return qx.bom.element.Overflow.setX(element, value);
-
-          case "overflowY":
-            return qx.bom.element.Overflow.setY(element, value);
-        }
+      if (smart!==false && hints.special[name]) {
+        return hints.special[name].set(element, value);
+      } else {
+        element.style[name] = value !== null ? value : "";
       }
-
-      // apply style
-      element.style[name] = value !== null ? value : "";
     },
 
 
@@ -413,32 +374,11 @@ qx.Class.define("qx.bom.element.Style",
       name = hints.styleNames[name] || name;
 
       // special handling for specific properties
-      if (smart!==false && hints.special[name])
-      {
-        switch(name)
-        {
-          case "clip":
-            return qx.bom.element.Clip.reset(element);
-
-          case "cursor":
-            return qx.bom.element.Cursor.reset(element);
-
-          case "opacity":
-            return qx.bom.element.Opacity.reset(element);
-
-          case "boxSizing":
-            return qx.bom.element.BoxSizing.reset(element);
-
-          case "overflowX":
-            return qx.bom.element.Overflow.resetX(element);
-
-          case "overflowY":
-            return qx.bom.element.Overflow.resetY(element);
-        }
+      if (smart!==false && hints.special[name]) {
+        return hints.special[name].reset(element);
+      } else {
+        element.style[name] = "";
       }
-
-      // apply style
-      element.style[name] = "";
     },
 
 
@@ -478,28 +418,8 @@ qx.Class.define("qx.bom.element.Style",
         name = hints.styleNames[name] || name;
 
         // special handling
-        if (smart!==false && hints.special[name])
-        {
-          switch(name)
-          {
-            case "clip":
-              return qx.bom.element.Clip.get(element, mode);
-
-            case "cursor":
-              return qx.bom.element.Cursor.get(element, mode);
-
-            case "opacity":
-              return qx.bom.element.Opacity.get(element, mode);
-
-            case "boxSizing":
-              return qx.bom.element.BoxSizing.get(element, mode);
-
-            case "overflowX":
-              return qx.bom.element.Overflow.getX(element, mode);
-
-            case "overflowY":
-              return qx.bom.element.Overflow.getY(element, mode);
-          }
+        if (smart!==false && hints.special[name]) {
+          return hints.special[name].get(element, mode);
         }
 
         // if the element is not inserted into the document "currentStyle"
@@ -565,28 +485,8 @@ qx.Class.define("qx.bom.element.Style",
         name = hints.styleNames[name] || name;
 
         // special handling
-        if (smart!==false && hints.special[name])
-        {
-          switch(name)
-          {
-            case "clip":
-              return qx.bom.element.Clip.get(element, mode);
-
-            case "cursor":
-              return qx.bom.element.Cursor.get(element, mode);
-
-            case "opacity":
-              return qx.bom.element.Opacity.get(element, mode);
-
-            case "boxSizing":
-              return qx.bom.element.BoxSizing.get(element, mode);
-
-            case "overflowX":
-              return qx.bom.element.Overflow.getX(element, mode);
-
-            case "overflowY":
-              return qx.bom.element.Overflow.getY(element, mode);
-          }
+        if (smart!==false && hints.special[name]) {
+          return hints.special[name].get(element, mode);
         }
 
         // switch to right mode
