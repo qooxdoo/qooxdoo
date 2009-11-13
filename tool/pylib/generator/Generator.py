@@ -1063,7 +1063,7 @@ class Generator(object):
     
 
     def runCollectEnvironmentInfo(self):
-        letConfig = self._job.get('let',{})      
+        letConfig = self._job.get('let',{})
         
         self._console.info("Environment information")
         self._console.indent()        
@@ -1084,15 +1084,27 @@ class Generator(object):
             #TODO: Improve this check
             classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
             self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
+
+        try:
+            console.indent()
+            expandedjobs = self._config.resolveExtendsAndRuns(["build-script", "source-script"])
+            self._config.includeSystemDefaults(expandedjobs)
+            self._config.resolveMacros(expandedjobs)
+            console.outdent()
+        except Exception:
+            pass
         
-        if 'APPLICATION' in letConfig:
-            appNamespace = letConfig['APPLICATION']
+        if expandedjobs:
           
-            buildScriptFile = os.path.join("build", "script", appNamespace + ".js")
-            self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFile) )
-        
-            sourceScriptFile = os.path.join("source", "script", appNamespace + ".js")
-            self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFile) )
+            buildScriptFile =  expandedjobs[0].get("compile-dist/paths/file", None)
+            if buildScriptFile:
+                buildScriptFilePath = self._config.absPath(buildScriptFile)
+                self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFilePath) )
+            
+            sourceScriptFile =  expandedjobs[1].get("compile-source/file", None)
+            if sourceScriptFile:
+                sourceScriptFilePath = self._config.absPath(sourceScriptFile)
+                self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
         
         self._console.outdent()
             
