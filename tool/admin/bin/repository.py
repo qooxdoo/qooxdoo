@@ -70,6 +70,7 @@ class Repository:
             lib = Library(self, name, [])
             libraries[name] = lib
             console.outdent()
+    console.info("Found %s libraries." %len(libraries))
     return libraries
   
   def buildAllDemos(self):
@@ -123,6 +124,8 @@ class LibraryVersion:
     self.library = library
     self.dir = versionDir
     self.versionPath = os.path.join(self.library.repository.dir, self.library.dir, self.dir)
+    self.manifest = self.getManifest()
+    self.svnRevision = self.getSvnRevision()
     self.hasSourceDir = False
     self.hasDemoDir = False
     self.demoVariants = self.getDemoVariants()
@@ -159,8 +162,19 @@ class LibraryVersion:
     except:
       raise RuntimeError, "Manifest file %s not found" %manifestPath
     
-    self.manifest = json.load(manifestFile)
-    return self.manifest
+    manifest = json.load(manifestFile)
+    return manifest
+  
+  def getDemoManifest(self, demoVariant = "default"):
+    manifestPath = os.path.join(self.versionPath, "demo", demoVariant, "Manifest.json")
+    
+    try:
+      manifestFile = open(manifestPath)
+    except:
+      raise RuntimeError, "Manifest file %s not found" %manifestPath
+    
+    manifest = json.load(manifestFile)
+    return manifest
   
   def getLintResult(self):
     try:
@@ -194,8 +208,8 @@ class LibraryVersion:
     if rcode > 0:
       raise RuntimeError, "Error while retrieving SVN version: " + errout
     
-    self.svnRevision = output.rstrip('\n')
-    return self.svnRevision
+    svnRevision = output.rstrip('\n')
+    return svnRevision
   
   def getDemoVariants(self):
     if not self.hasDemoDir:
