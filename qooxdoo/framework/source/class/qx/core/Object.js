@@ -890,7 +890,7 @@ qx.Class.define("qx.core.Object",
     qx.core.ObjectRegistry.unregister(this);
 
     // Cleanup user data
-    this._disposeFields("__userData");
+    this.__userData = null;
 
     // Cleanup properties
     // TODO: Is this really needed for non DOM/JS links?

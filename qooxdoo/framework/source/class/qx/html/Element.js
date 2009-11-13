@@ -2672,8 +2672,10 @@ qx.Class.define("qx.html.Element",
     }
 
     this._disposeArray("__children");
-    this._disposeFields("__attribValues", "__styleValues", "__eventValues",
-      "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs",
-      "__element", "__parent", "__lazyScrollIntoViewX", "__lazyScrollIntoViewY");
+    
+    this.__attribValues = this.__styleValues = this.__eventValues = 
+      this.__propertyValues = this.__attribJobs = this.__styleJobs = 
+      this.__propertyJobs = this.__element = this.__parent = 
+      this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
   }
 });
