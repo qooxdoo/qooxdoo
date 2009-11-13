@@ -380,7 +380,7 @@ qx.Class.define("qx.io.remote.Rpc",
      *   whether a new session should be requested
      *
      * @return {var} TODOC
-     * @throws TODOC
+     * @throws {Error} An error.
      */
     _callInternal : function(args, callType, refreshSession)
     {

@@ -280,7 +280,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return false;
     },
 
-    // overridden
+    /**
+     * overridden
+     * @throws {Error} If one tries to sort the gree by column
+     */ 
     sortByColumn : function(columnIndex, ascending)
     {
       throw new Error("Trees can not be sorted by column");
@@ -339,7 +342,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return this._rowArr[rowIndex];
     },
 
-    // overridden
+    /**
+     * overridden
+     * @throws {Error} if the row index is out of bounds.
+     */ 
     getValue : function(columnIndex, rowIndex)
     {
       if (rowIndex < 0 || rowIndex >= this._rowArr.length)
@@ -454,7 +460,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {Integer} The node id of the newly-added node.
      *
-     * @throws TODOC
+     * @throws {Error} If one tries to add a child to a non-existent parent.
+     * @throws {Error} If one tries to add a node to a leaf.
      */
     _addNode : function(parentNodeId,
                         label,
@@ -619,6 +626,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   If <i>true</i> then remove the node identified by <i>nodeId</i> as
      *   well as all of the children.
      *
+     * @throws {Error} If the node object or id is not valid.
+     *
      * @return {void}
      */
     prune : function(nodeReference, bSelfAlso)
@@ -681,6 +690,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   represented either by the node object, or the node id (as would have
      *   been returned by addBranch(), addLeaf(), etc.)
      *
+     * @throws {Error} If the node object or id is not valid.
+     * @throws {Error} If one tries to add a child to a non-existent parent.
+     * @throws {Error} If one tries to add a node to a leaf.
      * @return {Void}
      */
     move : function(moveNodeReference,
@@ -762,7 +774,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the parameter has the wrong type.
      */
     setData : function(nodeArr)
     {
@@ -1005,6 +1017,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   {@link #SimpleTreeDataModel}.  Each property value will be assigned
      *   to the corresponding property of the node specified by nodeId.
      *
+     * @throws {Error} If the node object or id is not valid.
      * @return {void}
      */
     setState : function(nodeReference, attributes)
