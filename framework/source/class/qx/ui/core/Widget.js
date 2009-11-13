@@ -3974,7 +3974,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       
       this.clearSeparators();
-      this._disposeFields("__decoratorElement", "__shadowElement", "__separators");
+      this.__decoratorElement = this.__shadowElement = this.__separators = null;
     }
     else
     {
@@ -3990,11 +3990,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // Cleanup map of appearance states
-    this._disposeFields(
-      "__states",
-      "__childControls"
-    );
+    this.__states = this.__childControls = null;
 
+    
     // Dispose layout manager and HTML elements
     this._disposeObjects(
       "__layoutManager",

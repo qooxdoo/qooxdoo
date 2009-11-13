@@ -112,6 +112,6 @@ qx.Class.define("qx.html.Decorator",
   
   
   destruct : function() {
-    this._disposeFields("__decorator");
+    this.__decorator = null;
   }
 });

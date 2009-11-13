@@ -1004,12 +1004,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   destruct : function()
   {
-    this._disposeFields(
-      "$$parent",
-      "$$subparent",
-      "__layoutProperties",
-      "__computedLayout",
-      "__userBounds",
-      "__sizeHint");
+    this.$$parent = this.$$subparent = this.__layoutProperties = 
+      this.__computedLayout = this.__userBounds = this.__sizeHint = null;
   }
 });
