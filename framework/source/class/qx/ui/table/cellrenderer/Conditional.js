@@ -127,6 +127,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
+     * @throws {Error} If the condition can not be recognized or value is null.
      */
     addNumericCondition : function(condition, value1, align, color, style, weight, target)
     {
@@ -167,7 +168,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
      * @return {void}
-     * @throws TODOC
+     * @throws {Error} If the condition can not be recognized or value is null.
      */
     addBetweenCondition : function(condition, value1, value2, align, color, style, weight, target)
     {
@@ -203,6 +204,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
+     * @throws {Error} If the regex is null.
      */
     addRegex : function(regex, align, color, style, weight, target)
     {

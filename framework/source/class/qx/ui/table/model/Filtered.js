@@ -83,7 +83,8 @@ qx.Class.define("qx.ui.table.model.Filtered",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the filter can not recognized or one of the values
+     * is null.
      */
     addBetweenFilter : function(filter, value1, value2, target)
     {
@@ -118,7 +119,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the filter can not recognized or the target is null.
      */
     addNumericFilter : function(filter, value1, target)
     {
@@ -154,7 +155,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the regex is not valid.
      */
     addRegex : function(regex, target, ignorecase)
     {
@@ -187,7 +188,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the regex is null.
      */
     addNotRegex : function(regex, target, ignorecase)
     {

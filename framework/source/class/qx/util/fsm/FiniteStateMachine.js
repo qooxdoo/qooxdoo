@@ -286,7 +286,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the given state is not an instanceof of qx.util.fsm.State.
+     * @throws {Error} If the given state already exists.
      */
     addState : function(state)
     {
@@ -338,7 +339,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * @return {Object}
      *   The old state object if it was not disposed; otherwise null.
      *
-     * @throws TODOC
+     * @throws {Error} If the given state is not an instanceof of qx.util.fsm.State.
      */
     replaceState : function(state, bDispose)
     {
@@ -557,7 +558,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * state added to the finite state machine.
      *
      * @return {void}
-     * @throws TODOC
+     * @throws {Error} If the machine stared with not available state.
      */
     start : function()
     {
@@ -628,7 +629,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @return {void}
      *
-     * @throws TODOC
+     * @throws {Error} If the saved-state stack is full.
      */
     pushState : function(state)
     {
@@ -864,7 +865,11 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *   Whether the event should be disposed.  If it was blocked, we've
      *   pushed it back onto the event queue, and it should not be disposed.
      *
-     * @throws TODOC
+     * @throws {Error} If the explicit transitions does not exist.
+     * @throws {Error} If the transition returns an invalid value.
+     * @throws {Error} If the next step will transit to an nonexistent state.
+     * @throws {Error} If the state stack is empty and the next state is POP_STATE_STACK
+     * @throws {Error} If the next state is invalid.
      */
     __run : function(event)
     {
