@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       } 
       else
       {
-        if (!listItem.isRich()) {
+        if (listItem && !listItem.isRich()) {
           label = qx.bom.String.escape(label);
         }
         atom.setLabel(label);
