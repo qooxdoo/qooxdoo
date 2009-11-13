@@ -752,11 +752,8 @@ qx.Class.define("qx.html.Element",
       if (data)
       {
         var Style = qx.bom.element.Style;
-        if (fromMarkup)
-        {
-          for (var key in data) {
-            Style.set(elem, key, data[key]);
-          }
+        if (fromMarkup) {
+          Style.setStyles(elem, data);
         }
         else
         {
@@ -834,19 +831,8 @@ qx.Class.define("qx.html.Element",
       if (jobs)
       {
         var data = this.__styleValues;
-        if (data)
-        {
-          var value;
-          for (var key in jobs)
-          {
-            value = data[key];
-
-            if (value !== undefined) {
-              Style.set(elem, key, value);
-            } else {
-              Style.reset(elem, key);
-            }
-          }
+        if (data) {
+          Style.setStyles(elem, data);
         }
 
         this.__styleJobs = null;

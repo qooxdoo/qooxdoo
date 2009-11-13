@@ -350,9 +350,36 @@ qx.Class.define("qx.bom.element.Style",
           qx.core.Assert.assertBoolean(smart, "Invalid argument 'smart'");
         }
       }
-
-      for (var name in styles) {
-        this.set(element, name, styles[name], smart);
+      
+      // inline calls to "set" and "reset" because this method is very 
+      // performance critical!
+      var hints = this.__hints;
+      var styleNames = hints.styleNames;
+      var special = hints.special;
+      
+      var style = element.style;
+      
+      for (var key in styles)
+      {
+        var value = styles[key];
+        var name = styleNames[key] || key;
+        
+        if (value === undefined)
+        {
+          if (smart!==false && special[name]) {
+            special[name].reset(element);
+          } else {
+            style[name] = "";
+          }
+        }
+        else 
+        {
+          if (smart!==false && special[name]) {
+            special[name].set(element, value);            
+          } else {
+            style[name] = value !== null ? value : "";
+          }
+        }
       }
     },
 
