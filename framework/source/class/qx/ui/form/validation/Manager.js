@@ -212,7 +212,13 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     __validateRequired : function(formItem) {
       if (formItem.getRequired()) {
-        var validatorResult = !!formItem.getValue();
+        // if its a widget supporting the selection
+        if (this.__supportsSingleSelection(formItem)) {
+          var validatorResult = !!formItem.getSelection()[0];
+        // otherwise, a value should be supplied
+        } else {
+          var validatorResult = !!formItem.getValue();
+        }
         formItem.setValid(validatorResult);
         formItem.setInvalidMessage("This field is required");
         return validatorResult;
