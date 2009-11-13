@@ -129,6 +129,7 @@ class LibraryVersion:
     self.hasSourceDir = False
     self.hasDemoDir = False
     self.demoVariants = self.getDemoVariants()
+    self.demoBuildStatus = {}
     # TODO self.hasTestDir = False
     self.hasReadmeFile = False
     self.hasGenerator = False
@@ -227,7 +228,7 @@ class LibraryVersion:
   def buildDemo(self, demoVariant = "default"):
     if not self.hasDemoDir:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
-      return    
+      return
     
     cmd = "python " + os.path.join(self.versionPath, "demo", demoVariant, "generate.py") + " build" 
     console.info("Building demo variant %s for library %s version %s" %(demoVariant, self.library.dir, self.dir) )
@@ -236,7 +237,15 @@ class LibraryVersion:
     console.outdent()
     rcode, output, errout = shell.execute_piped(cmd)
     
+    demoBuildStatus = {
+      "svnRevision" : self.getSvnRevision()
+    }
+    
     if rcode > 0:
       console.error(errout)
+      demoBuildStatus["buildError"] = errout
     else:
       console.info("Demo built successfully.")
+      demoBuildStatus["buildError"] = None
+      
+    self.demoBuildStatus = demoBuildStatus
