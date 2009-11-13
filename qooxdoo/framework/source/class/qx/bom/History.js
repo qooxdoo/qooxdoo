@@ -609,7 +609,7 @@ qx.Class.define("qx.bom.History",
 
       "opera" : function (state)
       {
-        qx.core.Timer.once(function()
+        qx.event.Timer.once(function()
         {
           this.__setHash(state);
           this.setState(state);
