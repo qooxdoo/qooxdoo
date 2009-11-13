@@ -303,8 +303,13 @@ qx.Class.define("qx.bom.History",
      * @param value {String}
      * @return {String}
      */
-    _encode : function (value) {
-      return encodeURIComponent(value);
+    _encode : function (value)
+    {
+      if (qx.lang.Type.isString(value)) {
+        return encodeURIComponent(value);
+      }
+
+      return "";
     },
 
 
@@ -312,8 +317,13 @@ qx.Class.define("qx.bom.History",
      * @param value {String}
      * @return {String}
      */
-    _decode : function (value) {
-      return decodeURIComponent(value);
+    _decode : function (value)
+    {
+      if (qx.lang.Type.isString(value)) {
+        return decodeURIComponent(value);
+      }
+
+      return "";
     },
 
 
@@ -416,10 +426,6 @@ qx.Class.define("qx.bom.History",
      */
     __onHistoryLoad : function(state) 
     {
-      if (!state) {
-        state = "";
-      }
-
       this.setState(state);
       this.fireDataEvent("request", state);
 
@@ -449,7 +455,7 @@ qx.Class.define("qx.bom.History",
     {
       var currentState = this.__getState();
 
-      if (currentState != this.getState()) {
+      if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
         this.__onHistoryLoad(currentState);
       }
     },
@@ -482,8 +488,18 @@ qx.Class.define("qx.bom.History",
         return hash && hash[1] ? this._decode(hash[1]) : "";
       },
 
-      "default" : function () {
-        return this._decode(this.__location.hash.substr(1)) || "";
+      "default" : function ()
+      {
+        var hash = this.__location.hash;
+
+        if (hash)
+        {
+          var state = hash.substr(1);
+
+          return state ? this._decode(state) : "";
+        }
+
+        return "";
       }
     }),
 
