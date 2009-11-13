@@ -129,7 +129,7 @@ qx.Class.define("qx.bom.element.Style",
         })
       },
 
-      // Mshtml has propertiery pixel* properties for locations and dimensions
+      // Mshtml has proprietary pixel* properties for locations and dimensions
       // which return the pixel value. Used by getComputed() in mshtml variant.
       mshtmlPixel :
       {

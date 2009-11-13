@@ -831,8 +831,14 @@ qx.Class.define("qx.html.Element",
       if (jobs)
       {
         var data = this.__styleValues;
-        if (data) {
-          Style.setStyles(elem, data);
+        if (data)
+        {
+          var styles = {};
+          for (var key in jobs) {
+            styles[key] = data[key]
+          }
+            
+          Style.setStyles(elem, styles);
         }
 
         this.__styleJobs = null;
