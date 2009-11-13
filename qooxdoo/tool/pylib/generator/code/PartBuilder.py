@@ -294,8 +294,6 @@ class PartBuilder(object):
         if minPackageSize == None or minPackageSize == 0:
             return
 
-        packages  = script.packages
-        parts     = script.parts
         variants  = script.variants
         self._console.debug("")
         self._console.info("Collapsing parts by package sizes...")
@@ -308,12 +306,12 @@ class PartBuilder(object):
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
-        allPackages = self._sortPackages(packages.keys(), packages)
+        allPackages = self._sortPackages(script.packages.keys(), script.packages)
         allPackages.reverse()
 
         # make a dict {part.bit_mask: part}
         allPartBitMasks = {}
-        [allPartBitMasks.setdefault(x.bit_mask, x) for x in parts.values()]
+        [allPartBitMasks.setdefault(x.bit_mask, x) for x in script.parts.values()]
 
         # Test and optimize 'fromId'
         for fromId in allPackages:
@@ -322,7 +320,7 @@ class PartBuilder(object):
                 if allPartBitMasks[fromId].no_merge_private_package:
                     self._console.debug("Skipping private package #%s" % (fromId,))
                     continue
-            fromPackage = packages[fromId]
+            fromPackage = script.packages[fromId]
             packageSize = self._computePackageSize(fromPackage, variants) / 1024
             self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
             # check selectablility
@@ -334,8 +332,8 @@ class PartBuilder(object):
             # assert: the package is shared and smaller than minPackageSize
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
-            self._mergePackage(script, fromPackage, parts, packages)
-            self._removePackageFromPackages(fromPackage, packages)
+            self._mergePackage(fromPackage, script, script.packages)
+            del script.packages[fromPackage.id]
 
             self._console.outdent()
 
@@ -415,7 +413,7 @@ class PartBuilder(object):
         def isUnique(package, collapse_group):
             seen = 0
             for part in collapse_group:
-                if package in part.packageIdsSorted:
+                if package in part.packages:
                     seen += 1
                     if seen > 1:
                         return False
@@ -424,16 +422,14 @@ class PartBuilder(object):
         def isCommon(package, collapse_group):
             seen = 0
             for part in collapse_group:
-                if package in part.packageIdsSorted:
+                if package in part.packages:
                     seen += 1
             return seen == len(collapse_group)
 
         def getUniquePackages(part, collapse_group, packages):
             uniques = {}
-            #for packId in part.packages:
-            #    package = packages[packId]
             for package in part.packages:
-                if isUnique(package.id, collapse_group):
+                if isUnique(package, collapse_group):
                     if (package.id == part.bit_mask and  # possibly protect "private" package
                         part.no_merge_private_package):
                         pass
@@ -445,37 +441,32 @@ class PartBuilder(object):
 
         def getCommonPackages(part, collapse_group, packages):
             commons = {}
-            #for packId in part.packages:
-            #    package = packages[packId]
             for package in part.packages:
-                if isCommon(package.id, collapse_group):
+                if isCommon(package, collapse_group):
                     commons[package.id] = package
             return commons
 
         getCommonPackages.key = 'common'
 
 
-        def mergeGroupPackages(selectFunc, collapse_group, parts, packages, seen_targets):
+        def mergeGroupPackages(selectFunc, collapse_group, script, seen_targets):
             self._console.debug("collapsing %s packages..." % selectFunc.key)
             self._console.indent()
             curr_targets = set(())
 
             for part in collapse_group:
-                selected_packages = selectFunc(part, collapse_group, packages)
+                selected_packages = selectFunc(part, collapse_group, script.packages)
                 #print "xxx selecteds: %r" % selected_packages
-                #for packId in reversed(part.packages):   # start with "smallest" package
-                #    package = packages[packId]
                 for package in reversed(part.packages):   # start with "smallest" package
                     if package.id in selected_packages:
-                        mergedPackage, targetPackage = self._mergePackage(script, package, parts, selected_packages, seen_targets)
+                        mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
-                            #del packages[package.id]
-                            self._removePackageFromPackages(package, packages)  # since we didn't pass in the whole packages struct to _mergePackage
+                            del script.packages[mergedPackage.id]
                             curr_targets.add(targetPackage)
 
             seen_targets.update(curr_targets)
             self._console.outdent()
-            return parts, packages
+            return script.parts, script.packages
         
         # ---------------------------------------------------------------------
 
@@ -495,8 +486,8 @@ class PartBuilder(object):
             self._console.debug("Collapse group %d %r" % (collidx, [x.name for x in collgrp]))
             self._console.indent()
 
-            parts, packages = mergeGroupPackages(getUniquePackages, collgrp, parts, packages, seen_targets)
-            parts, packages = mergeGroupPackages(getCommonPackages, collgrp, parts, packages, seen_targets)
+            parts, packages = mergeGroupPackages(getUniquePackages, collgrp, script, seen_targets)
+            parts, packages = mergeGroupPackages(getCommonPackages, collgrp, script, seen_targets)
 
             self._console.outdent()
 
@@ -504,7 +495,7 @@ class PartBuilder(object):
         return
 
 
-    def _mergePackage(self, script, fromPackage, parts, packages, seen_targets=None):
+    def _mergePackage(self, fromPackage, script, packages, seen_targets=None):
 
         def updatePartDependencies(part, packageDeps):
             for package in packageDeps:
@@ -534,7 +525,7 @@ class PartBuilder(object):
 
         # find toPackage
         toPackage = None
-        for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
+        for toPackage in self._getPreviousCommonPackage(fromPackage, script.parts, packages):
             if toPackage == None:
                 break
             elif seen_targets != None:
@@ -550,41 +541,30 @@ class PartBuilder(object):
         # Merge package content and dependencies
         toPackage = mergeContAndDeps(fromPackage, toPackage)
 
-        # Update part information
-        for part in parts.values():
-            # remove the merged package
-            if fromPackage in part.packages:
-                #print "-- removing package %s from part %s" % (fromPackage.id, part.name)
-                part.packages.remove(fromPackage)
-            # check additional dependencies
-            if toPackage in part.packages:
-                # this could be a part method
-                #print "-- removed package %s has deps: %r" % (fromPackage.id, [x.id for x in fromPackage.packageDeps])
-                updatePartDependencies(part, fromPackage.packageDeps)
-
         # Update package dependencies
-        # TODO: part of this code duplicates - and improves - stuff done in self._removePackageFromPackages!
         for package in script.packages.values():
             if fromPackage in package.packageDeps:
                 # replace fromPackage with toPackage
                 package.packageDeps.difference_update(set((fromPackage,)))
                 package.packageDeps.update(set((toPackage,)))
 
+        # Update part information
+        for part in script.parts.values():
+            # remove the merged package
+            if fromPackage in part.packages:
+                # we can simply remove the package, as we know the target package is also there
+                part.packages.remove(fromPackage)
+            # check additional dependencies for all parts
+            if toPackage in part.packages:
+                # this could be a part method
+                # if the toPackage is in part, we might need to add additional packages that toPackage now depends on
+                updatePartDependencies(part, fromPackage.packageDeps)
+
         # remove of fromPackage from packages list is easier handled in the caller
         
         self._console.outdent()
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
 
-
-    def _removePackageFromPackages(self, delPackage, packages):
-        del packages[delPackage.id]
-        # remove from all packageDeps
-        #print "-- packages: %r" % [x for x in packages.keys()]
-        for package in packages.values():
-            #print "-- removing dependency %s from package %s" % (delPackage.id, package.id)
-            package.packageDeps.difference_update(set((delPackage,)))
-
-        return
 
     def _getFinalPartData(self, script):
         packages   = script.packages

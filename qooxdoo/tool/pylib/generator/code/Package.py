@@ -37,6 +37,9 @@ class Package(object):
         self.packageDeps= set(()) # set packages this package depends on
 
 
+    def __repr__(self):
+        return "<%s:%r>" % (self.__class__.__name__, self.id)
+
     ##
     # return the package as string, so it can be saved in a file and used
     # implements the package format:
