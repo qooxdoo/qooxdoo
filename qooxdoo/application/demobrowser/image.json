@@ -1,0 +1,44 @@
+{
+  // IMAGE CLIPPING AND COMBINING JOBS
+  "jobs" :
+  {
+    
+    "image-combine" :
+    {
+      "desc" : "Demobrowser image combining",
+
+      "let" :
+      {
+        "RESPATH" : "./source/resource"
+      },
+   
+      "cache" :
+      {
+        // path to your cache folder
+        "compile" : "../../cache"
+      },
+
+      "combine-images" :
+      {
+        "images" :
+        {
+          "${RESPATH}/demobrowser/demo/test/combined/thumbs.png" :
+          {
+            "prefix": [ "${RESPATH}" ],
+            "input" :
+            [
+              {
+                "prefix": [ "${RESPATH}" ],
+                "files" :
+                [
+                  "${RESPATH}/demobrowser/demo/test/*_thumb.png"
+                ]
+              }
+            ],
+            "layout" : "horizontal"
+          }
+        }
+      }
+    }
+  }  
+}
