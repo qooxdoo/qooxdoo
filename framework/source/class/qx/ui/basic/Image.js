@@ -289,8 +289,10 @@ qx.Class.define("qx.ui.basic.Image",
       
       var element = new qx.html.Image(tagName);
       element.setScale(scale);
-      element.setStyle("overflowX", "hidden");
-      element.setStyle("overflowY", "hidden");
+      element.setStyles({
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      });
       
       return element;
     },
