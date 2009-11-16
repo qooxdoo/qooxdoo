@@ -473,6 +473,6 @@ qx.Class.define("qx.ui.basic.Label",
       }
     }
 
-    this._disposeFields("__font", "__buddyEnabledBinding");
+    this.__font = this.__buddyEnabledBinding = null;
   }
 });

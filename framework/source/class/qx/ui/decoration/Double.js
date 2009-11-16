@@ -316,6 +316,6 @@ qx.Class.define("qx.ui.decoration.Double",
   */
 
   destruct : function() {
-    this._disposeFields("__ownMarkup", "__insets");
+    this.__ownMarkup = this.__insets = null;
   }
 });

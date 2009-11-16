@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.core.EventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("__manager");
+    this.__manager = null;
   },
 
 

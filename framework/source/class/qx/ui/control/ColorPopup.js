@@ -491,6 +491,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
   destruct : function()
   {
     this._disposeObjects("__colorSelectorWindow", "__colorSelector");
-    this._disposeFields("_tables", "__boxes");
+    this._tables = this.__boxes = null;
   }
 });

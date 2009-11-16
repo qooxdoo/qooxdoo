@@ -432,6 +432,6 @@ qx.Class.define("qx.ui.decoration.Single",
   */
 
   destruct : function() {
-    this._disposeFields("__markup", "__insets");
+    this.__markup = this.__insets = null;
   }
 });

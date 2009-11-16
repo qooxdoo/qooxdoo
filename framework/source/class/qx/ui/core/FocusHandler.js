@@ -612,7 +612,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
   destruct : function()
   {
     this._disposeMap("__roots");
-    this._disposeFields("__focusedChild",
-      "__activeChild", "__currentRoot");
+    this.__focusedChild = this.__activeChild = this.__currentRoot = null;
   }
 });

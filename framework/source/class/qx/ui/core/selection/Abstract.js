@@ -1825,7 +1825,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   destruct : function()
   {
     this._disposeObjects("__scrollTimer");
-    this._disposeFields("__selection", "__mouseDownOnSelected",
-      "__anchorItem", "__leadItem");
+    this.__selection = this.__mouseDownOnSelected = this.__anchorItem = null;
+    this.__leadItem = null;
   }
 });

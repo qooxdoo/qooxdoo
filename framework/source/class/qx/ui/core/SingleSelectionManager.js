@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     if (this.__selectionProvider.toHashCode) {
       this._disposeObjects("__selectionProvider");
     } else {
-      this._disposeFields("__selectionProvider");
+      this.__selectionProvider = null;
     }
 
     this._disposeObjects("__selected");
