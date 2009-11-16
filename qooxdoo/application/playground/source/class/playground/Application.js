@@ -914,7 +914,7 @@ qx.Class.define("playground.Application",
   {
     this._disposeMap("__widgets");
     this._disposeMap("__sampleContainer");
-    this._disposeFields("__labelDeco", "logelem", "__history", "__playApp");
+    this.__labelDeco = this.logelem = this.__history = this.__playApp = null;
     this._disposeObjects("mainsplit", 
                          "container", 
                          "textarea", 

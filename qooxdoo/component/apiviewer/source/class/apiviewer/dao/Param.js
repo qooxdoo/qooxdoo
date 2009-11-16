@@ -81,9 +81,8 @@ qx.Class.define("apiviewer.dao.Param", {
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("_method");
+  destruct : function() {
+    this._method = null;
   }
 
 });

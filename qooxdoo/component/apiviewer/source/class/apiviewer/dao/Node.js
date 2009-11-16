@@ -237,8 +237,7 @@ qx.Class.define("apiviewer.dao.Node", {
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("_docNode", "_errors");
+  destruct : function() {
+    this._docNode = this._errors = null;
   }
 });

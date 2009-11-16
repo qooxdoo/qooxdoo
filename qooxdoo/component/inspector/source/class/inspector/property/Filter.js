@@ -283,6 +283,6 @@ qx.Class.define("inspector.property.Filter", {
   *****************************************************************************
   */
   destruct : function() {
-    this._disposeFields("_tests", "_categories", "_properties", "_classnames");
+    this._tests = this._categories = this._properties = this._classnames = null;
   }
 });

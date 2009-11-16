@@ -202,7 +202,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
   destruct : function()
   {
-    this._disposeFields("_docTree", "_classTreeNodeHash");
+    this._docTree = this._classTreeNodeHash = null;
     this._disposeObjects("__root")
   }
 });

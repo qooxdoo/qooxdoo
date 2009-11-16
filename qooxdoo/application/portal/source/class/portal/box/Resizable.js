@@ -410,6 +410,7 @@ qx.Class.define("portal.box.Resizable",
       qx.event.Registration.removeListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
     }
 
-    this._disposeFields("__box", "__options", "__element", "__handles", "__capturedElement", "___elementProperties");
+    this.__box = this.__options = this.__element = this.__handles = 
+      this.__capturedElement = this.___elementProperties = null;
   }
 });

@@ -68,8 +68,7 @@ qx.Class.define("demobrowser.demo.bom.Window",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__urls");
+  destruct : function() {
+    this.__urls = null;
   }
 });

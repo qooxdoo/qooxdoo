@@ -1536,12 +1536,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   destruct : function ()
   {
-    this._disposeFields(
-      "widgets",
-      "tests",
-      "tree",
-      "frameWindow"
-    );
+    this.widgets = this.tests = this.tree = this.frameWindow = null;
     this._disposeObjects(
       "mainsplit",
       "left",

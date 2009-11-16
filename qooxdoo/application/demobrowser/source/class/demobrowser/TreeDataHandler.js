@@ -475,7 +475,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
 
   destruct : function()
   {
-    this._disposeFields("tmap");
+    this.tmap = null;
     this._disposeObjects("ttree");
   }
 });

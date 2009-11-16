@@ -248,7 +248,7 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
   *****************************************************************************
   */
   destruct : function() {
-    this._disposeFields("_controller", "_filter");
+    this._controller = this._filter = null;
   }
 });
 

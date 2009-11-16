@@ -125,6 +125,6 @@ qx.Class.define("demobrowser.demo.ui.Placement",
   },
 
   destruct : function() {
-    this._disposeFields("__positions");
+    this.__positions = null;
   }
 });

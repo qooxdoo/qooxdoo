@@ -626,8 +626,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("_titleElem", "_classDescElem", "_markedElement");
+  destruct : function() {
+    this._titleElem = this._classDescElem = this._markedElement = null;
   }
 });

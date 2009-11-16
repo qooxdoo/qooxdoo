@@ -155,8 +155,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("_pool", "__rowData");
+  destruct : function() {
+    this._pool = this.__rowData = null;
   }
 });

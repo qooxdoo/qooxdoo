@@ -564,7 +564,7 @@ qx.Class.define("feedreader.Application",
 
   destruct : function()
   {
-    this._disposeFields("__commands");
+    this.__commands = null;
     this._disposeObjects("__toolBarView", "__listView", "__articleView", "__treeView",
         "__feedFolder", "__horizontalSplitPane", "__verticalSplitPane", "__header",
         "__staticFeedFolder", "__userFeedFolder", "__treeController", "__listController");

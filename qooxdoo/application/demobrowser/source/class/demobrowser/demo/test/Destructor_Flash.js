@@ -95,8 +95,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__data");
+  destruct : function() {
+    this.__data = null;
   }
 });

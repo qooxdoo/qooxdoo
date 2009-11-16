@@ -126,8 +126,7 @@ qx.Class.define("demobrowser.demo.bom.Selection",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("_input", "_textArea");
+  destruct : function() {
+    this._input = this._textArea = null;
   }
 });

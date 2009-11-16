@@ -1174,8 +1174,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("_titleElement", "_bodyElement");
+  destruct : function() {
+    this._titleElement = this._bodyElement = null;
   }
 });
