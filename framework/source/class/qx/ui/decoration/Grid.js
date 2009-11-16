@@ -343,6 +343,6 @@ qx.Class.define("qx.ui.decoration.Grid",
   */
 
   destruct : function() {
-    this.__markup = this.__images = this.__edges = this.__insets = null;
+    this.__markup = this.__images = this.__edges = null;
   }
 });

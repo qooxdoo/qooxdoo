@@ -233,9 +233,5 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
       return imageData;
     }
-  },
-
-  destruct : function() {
-    this.__imageBlank = null;
   }
 });

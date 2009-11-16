@@ -532,8 +532,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     }
 
-    this.__name = this.__colors = this.__renderers = this.__progressive = null;
-    this.__columnWidths = null;
+    this.__colors = this.__renderers = this.__progressive = 
+      this.__columnWidths = null;
 
 
     this._disposeObjects(

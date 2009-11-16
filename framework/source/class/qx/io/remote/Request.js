@@ -1016,7 +1016,7 @@ qx.Class.define("qx.io.remote.Request",
   destruct : function()
   {
     this.setTransport(null);
-    this.__requestHeaders = this.__urlParameters = this.__dataParameters = null;
-    this.__formFields = null;
+    this.__requestHeaders = this.__urlParameters = this.__dataParameters = 
+      this.__formFields = null;
   }
 });

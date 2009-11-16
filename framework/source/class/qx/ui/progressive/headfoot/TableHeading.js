@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
   destruct : function()
   {
-    this.__columnWidths = this.__bCalculateWidths = this.__labels = null;
+    this.__columnWidths = this.__labels = null;
 
     this._disposeObjects(
       "_layout");

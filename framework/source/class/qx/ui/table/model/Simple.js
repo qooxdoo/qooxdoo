@@ -677,7 +677,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   destruct : function()
   {
-    this.__rowArr = this.__editableColArr = this.__sortMethods = null;
-    this.__sortableColArr = null;
+    this.__rowArr = this.__editableColArr = this.__sortMethods = 
+      this.__sortableColArr = null;
   }
 });

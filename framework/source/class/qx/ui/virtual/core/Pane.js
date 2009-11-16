@@ -950,7 +950,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   {
     this._disposeArray("__layers");
     this._disposeObjects("__rowConfig", "__columnConfig", "__layerContainer");
-    this.__layerWindow = this.__jobs = this.__columnSizes = null;
-    this.__rowSizes = null;
+    this.__layerWindow = this.__jobs = this.__columnSizes =
+      this.__rowSizes = null;
   }
 });
