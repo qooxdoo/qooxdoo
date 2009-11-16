@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.ui.FormRendererPlaceholder",
       userName.setRequired(true);
       form.add(userName, "Name");
       // add password
-      var password = new qx.ui.form.TextField();
+      var password = new qx.ui.form.PasswordField();
       password.setRequired(true);
       form.add(password, "Password");
 
