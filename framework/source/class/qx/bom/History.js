@@ -552,7 +552,7 @@ qx.Class.define("qx.bom.History",
       "mshtml" : function (locationState)
       {
         this.__locationState = locationState;
-        this.__writeStateToIframe(state);
+        this.__writeStateToIframe(locationState);
 
         return locationState;
       },
