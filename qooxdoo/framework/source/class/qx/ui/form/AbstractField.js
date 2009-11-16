@@ -58,7 +58,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
     }
 
-    this.getContentElement().addListener("change", this._onChangeContent, this);
+    this.getContentElement().getChildren()[0].addListener(
+      "change", this._onChangeContent, this
+    );
 
     // assign the placeholder text after the appearance has been applied
     this.addListener("syncAppearance", this._syncPlaceholder, this);
@@ -200,6 +202,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   members :
   {
     __nullValue : true,
+    __placeholder : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -209,7 +212,10 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // overridden
     getFocusElement : function() {
-      return this.getContentElement();
+      var el = this.getContentElement();
+      if (el) {
+        return el.getChildren()[0];
+      }
     },
 
 
@@ -225,9 +231,74 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     // overridden
+    renderLayout : function(left, top, width, height)
+    {
+      var updateInsets = this._updateInsets;
+      var changes = this.base(arguments, left, top, width, height);
+
+      // Directly return if superclass has detected that no
+      // changes needs to be applied
+      if (!changes) {
+        return;
+      }
+      
+      var inner = changes.size || updateInsets;
+      var pixel = "px";
+      
+      if (inner || changes.local || changes.margin)
+      {
+        var insets = this.getInsets();
+        var innerWidth = width - insets.left - insets.right;
+        var innerHeight = height - insets.top - insets.bottom;
+        // ensure that the width and height never get negative
+        innerWidth = innerWidth < 0 ? 0 : innerWidth;
+        innerHeight = innerHeight < 0 ? 0 : innerHeight;
+      }
+
+      var input = this.getContentElement().getChildren()[0];
+
+      if (updateInsets)
+      {
+        // render the placeholder
+        this.__placeholder.setStyle("left", insets.left + pixel);
+        this.__placeholder.setStyle("top", insets.top + pixel); 
+      }
+
+      if (inner)
+      {
+        this.__placeholder.setStyle("width", innerWidth + pixel);
+        this.__placeholder.setStyle("height", innerHeight + pixel);
+        input.setStyle("width", innerWidth + pixel);
+        input.setStyle("height", innerHeight + pixel);
+      }
+    },
+
+
+    // overridden
     _createContentElement : function()
     {
+      // create the wrapping div
+      var div = new qx.html.Element("div");
+      
+      // create and add the input element
       var el = this._createInputElement();
+      div.add(el);
+      
+      // create the placeholder
+      this.__placeholder = new qx.html.Label();
+      // Apply styles
+      el.setStyles(
+      {
+        "border": "none",
+        "padding": 0,
+        "margin": 0,
+        "display" : "block",
+        "background" : "transparent",
+        "outline": "none",
+        "appearance": "none",
+        "position": "absolute"        
+      });    
+      div.add(this.__placeholder);
 
       // initialize the html input
       el.setSelectable(this.getSelectable());
@@ -267,7 +338,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         });
       }
       
-      return el;
+      return div;
     },
 
 
@@ -276,7 +347,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments, value, old);
 
-      this.getContentElement().setEnabled(value);
+      this.getContentElement().getChildren()[0].setEnabled(value);
 
       if (value) {
         this._showPlaceholder();
@@ -321,7 +392,10 @@ qx.Class.define("qx.ui.form.AbstractField",
       {
         styles = qx.bom.Font.getDefaultStyles()
       }
-      this.getContentElement().setStyles(styles);
+      // apply the font to the content element
+      this.getContentElement().getChildren()[0].setStyles(styles);
+      // apply the font to the placeholder
+      this.__placeholder.setStyles(styles);
 
       // Compute text size
       if (value) {
@@ -339,9 +413,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyTextColor : function(value, old)
     {
       if (value) {
-        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
+        this.getContentElement().getChildren()[0].setStyle(
+          "color", qx.theme.manager.Color.getInstance().resolve(value)
+        );
+        this.__placeholder.setStyle(
+          "color", qx.theme.manager.Color.getInstance().resolve(value)
+        );        
       } else {
-        this.getContentElement().removeStyle("color");
+        this.getContentElement().getChildren()[0].removeStyle("color");
+        this.__placeholder.removeStyle("color");        
       }
     },
 
@@ -398,7 +478,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         {
           fireEvents = false;
           value = filteredValue;
-          this.getContentElement().setValue(value);
+          this.getContentElement().getChildren()[0].setValue(value);
         }
       }
 
@@ -406,7 +486,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (value.length > this.getMaxLength())
       {
         var fireEvents = false;
-        this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
+        this.getContentElement().getChildren()[0].setValue(
+          value.substr(0, this.getMaxLength())
+        );
       }
 
       // fire the events, if necessary
@@ -452,7 +534,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       if (qx.lang.Type.isString(value))
       {
-        var elem = this.getContentElement();
+        var elem = this.getContentElement().getChildren()[0];
         if (value.length > this.getMaxLength()) {
           value = value.substr(0, this.getMaxLength());
         }
@@ -478,8 +560,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null} The current value
      */
     getValue : function() {
-      var showingPlaceholder = this.hasState("showingPlaceholder");
-      var value = showingPlaceholder ? "" : this.getContentElement().getValue();
+      var value = this.getContentElement().getChildren()[0].getValue();
       return this.__nullValue ? null : value;
     },
 
@@ -519,7 +600,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null}
      */
     getTextSelection : function() {
-      return this.getContentElement().getTextSelection();
+      return this.getContentElement().getChildren()[0].getTextSelection();
     },
 
 
@@ -531,7 +612,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {Integer|null}
      */
     getTextSelectionLength : function() {
-      return this.getContentElement().getTextSelectionLength();
+      return this.getContentElement().getChildren()[0].getTextSelectionLength();
     },
 
 
@@ -547,7 +628,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     setTextSelection : function(start, end) {
-      this.getContentElement().setTextSelection(start, end);
+      this.getContentElement().getChildren()[0].setTextSelection(start, end);
     },
 
 
@@ -559,7 +640,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     clearTextSelection : function() {
-      this.getContentElement().clearTextSelection();
+      this.getContentElement().getChildren()[0].clearTextSelection();
     },
 
 
@@ -613,7 +694,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.getContentElement().setValue("");
+        this.__placeholder.setStyle("visibility", "hidden");
         this.removeState("showingPlaceholder");
       }
     },
@@ -625,7 +706,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _syncPlaceholder : function ()
     {
       if (this.hasState("showingPlaceholder")) {
-        this.getContentElement().setValue(this.getPlaceholder());
+        this.__placeholder.setStyle("visibility", "visible");
       }
     },
 
@@ -638,6 +719,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // property apply
     _applyPlaceholder : function(value, old) {
+      this.__placeholder.setValue(value);
       if (value != null) {
         this.addListener("focusin", this._removePlaceholder, this);
         this.addListener("focusout", this._showPlaceholder, this);
@@ -652,14 +734,14 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // property apply
     _applyTextAlign : function(value, old) {
-      this.getContentElement().setStyle("textAlign", value);
+      this.getContentElement().getChildren()[0].setStyle("textAlign", value);
     },
 
 
     // property apply
     _applyReadOnly : function(value, old)
     {
-      var element = this.getContentElement();
+      var element = this.getContentElement().getChildren()[0];
 
       element.setAttribute("readOnly", value);
 

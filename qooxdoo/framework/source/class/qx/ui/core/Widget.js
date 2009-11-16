@@ -962,7 +962,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** {Boolean} Whether insets have changed and must be updated */
-    __updateInsets : null,
+    _updateInsets : null,
 
 
     /**
@@ -1009,7 +1009,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var container = this.getContainerElement();
       var content = this.getContentElement();
-      var inner = changes.size || this.__updateInsets;
+      var inner = changes.size || this._updateInsets;
       var pixel = "px";
       
       var containerStyles = {};
@@ -1044,7 +1044,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var contentStyles = {};
       
-      if (this.__updateInsets)
+      if (this._updateInsets)
       {
         contentStyles.left = insets.left + pixel;
         contentStyles.top = insets.top + pixel;
@@ -1072,7 +1072,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (changes.size || this.__updateInsets)
+      if (changes.size || this._updateInsets)
       {
         if (this.__decoratorElement) {
           this.__decoratorElement.resize(width, height);
@@ -1111,7 +1111,9 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Cleanup flags
-      delete this.__updateInsets;
+      delete this._updateInsets;
+      
+      return changes;
     },
 
 
@@ -2204,7 +2206,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyPadding : function(value, old, name)
     {
-      this.__updateInsets = true;
+      this._updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -2330,7 +2332,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         // We have changes to the insets, which means we
         // delegate the resize to the layout system.
-        this.__updateInsets = true;
+        this._updateInsets = true;
         qx.ui.core.queue.Layout.add(this);
       }
       else if (value)

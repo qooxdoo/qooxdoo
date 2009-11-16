@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
     // property apply
     _applyWrap : function(value, old) {
-      this.getContentElement().setWrap(value);
+      this.getContentElement().getChildren()[0].setWrap(value);
     },
 
     /*
