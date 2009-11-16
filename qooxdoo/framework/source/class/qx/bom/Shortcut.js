@@ -464,6 +464,6 @@ qx.Class.define("qx.bom.Shortcut",
     // this will remove the event listener
     this.setEnabled(false);
 
-    this._disposeFields("__modifier", "__key");
+    this.__modifier = this.__key = null;
   }
 });

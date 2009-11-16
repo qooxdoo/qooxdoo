@@ -712,6 +712,7 @@ qx.Class.define("qx.bom.History",
     }
 
     this._disposeObjects("__timer");
-    this._disposeFields("__iframe", "__titles", "__location", "__checkOnHashChange");
+    this.__iframe = this.__titles = this.__location = null;
+    this.__checkOnHashChange = null;
   }
 });
