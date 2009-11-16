@@ -653,6 +653,6 @@ qx.Class.define("qx.io2.HttpRequest",
   destruct : function()
   {
     this._disposeObjects("__req");
-    this._disposeFields("__headers");
+    this.__headers = null;
   }
 });
