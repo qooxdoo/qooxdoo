@@ -445,6 +445,6 @@ qx.Class.define("qx.locale.Manager",
   */
 
   destruct : function() {
-    this._disposeFields("__translations", "__locales");
+    this.__translations = this.__locales = null;
   }
 });

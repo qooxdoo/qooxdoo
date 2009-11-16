@@ -163,8 +163,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("layer");
+  destruct : function() {
+    this.layer = null;
   }
 });

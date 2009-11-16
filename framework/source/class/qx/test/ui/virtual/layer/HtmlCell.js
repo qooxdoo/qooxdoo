@@ -60,8 +60,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__cellRenderer");
+  destruct : function() {
+    this.__cellRenderer = null;
   }
 });

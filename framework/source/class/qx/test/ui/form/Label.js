@@ -198,8 +198,7 @@ qx.Class.define("qx.test.ui.form.Label",
 
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__label", "__formWidget");
+  destruct : function() {
+    this.__label = this.__formWidget = null;
   }
 });

@@ -218,8 +218,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("scroller");
+  destruct : function() {
+    this.scroller = null;
   }
 });

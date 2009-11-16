@@ -144,8 +144,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__cellRenderer");
+  destruct : function() {
+    this.__cellRenderer = null;
   }
 });

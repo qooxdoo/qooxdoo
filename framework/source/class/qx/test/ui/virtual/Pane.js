@@ -806,8 +806,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("pane");
+  destruct : function() {
+    this.pane = null;
   }
 });

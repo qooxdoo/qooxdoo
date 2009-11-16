@@ -69,8 +69,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__cellRenderer");
+  destruct : function() {
+    this.__cellRenderer = null;
   }
 });
