@@ -105,6 +105,6 @@ qx.Class.define("qx.util.DeferredCall",
   destruct : function(callback, context)
   {
     this.cancel();
-    this._disposeFields("__context", "__callback", "__manager");
+    this.__context = this.__callback = this.__manager = null;
   }
 });

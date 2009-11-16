@@ -319,6 +319,6 @@ qx.Class.define("qx.theme.manager.Appearance",
   */
 
   destruct : function() {
-    this._disposeFields("__styleCache", "__aliasMap");
+    this.__styleCache = this.__aliasMap = null;
   }
 });

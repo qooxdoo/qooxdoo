@@ -167,6 +167,6 @@ qx.Class.define("qx.util.AliasManager",
   */
 
   destruct : function() {
-    this._disposeFields("__aliases");
+    this.__aliases = null;
   }
 });

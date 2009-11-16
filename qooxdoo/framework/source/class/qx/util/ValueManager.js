@@ -121,6 +121,6 @@ qx.Class.define("qx.util.ValueManager",
   */
 
   destruct : function() {
-    this._disposeFields("_dynamic");
+    this._dynamic = null;
   }
 });
