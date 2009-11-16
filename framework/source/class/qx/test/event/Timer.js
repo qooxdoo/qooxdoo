@@ -23,6 +23,11 @@ qx.Class.define("qx.test.event.Timer",
 
   members :
   {
+    tearDown : function () 
+    {
+      qx.event.GlobalError.setErrorHandler(null);
+    },
+    
     testGlobalErrorHandling : function()
     {
       var fail = function() {
