@@ -332,8 +332,7 @@ qx.Class.define("qx.data.controller.Object",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__bindings", "__targets");
+  destruct : function() {
+    this.__bindings = this.__targets = null;
   }
 });

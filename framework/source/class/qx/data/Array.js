@@ -706,8 +706,7 @@ qx.Class.define("qx.data.Array",
    *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__array");
+  destruct : function() {
+    this.__array = null;
   }
 });
