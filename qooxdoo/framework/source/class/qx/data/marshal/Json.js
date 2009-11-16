@@ -263,8 +263,7 @@ qx.Class.define("qx.data.marshal.Json",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__delegate");
+  destruct : function() {
+    this.__delegate = null;
   }
 });

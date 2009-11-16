@@ -829,7 +829,7 @@ qx.Class.define("qx.data.controller.Tree",
    */
 
    destruct : function() {
-     this._disposeFields("__bindings", "__childrenRef");
+     this.__bindings = this.__childrenRef = null;
      this._disposeArray("__boundProperties");
    }
 });

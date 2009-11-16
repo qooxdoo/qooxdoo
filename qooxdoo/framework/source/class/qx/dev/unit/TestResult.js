@@ -210,6 +210,6 @@ qx.Class.define("qx.dev.unit.TestResult",
   },
 
   destruct : function() {
-    this._disposeFields("__timeout");
+    this.__timeout = null;
   }
 });
