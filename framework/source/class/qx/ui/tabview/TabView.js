@@ -536,6 +536,6 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   destruct : function() {
     this._disposeObjects("__radioGroup");
-    this._disposeFields("__barPositionToState");
+    this.__barPositionToState = null;
   }
 });

@@ -723,12 +723,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__am",
-      "__rm",
-      "__tm",
-      "BLANK");
+  destruct : function() {
+    this.__am = this.__rm = this.__tm = this.BLANK = null;
   }
 });

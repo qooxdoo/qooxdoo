@@ -230,8 +230,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("_pane", "_delegate");
+  destruct : function() {
+    this._pane = this._delegate = null;
   }
 });

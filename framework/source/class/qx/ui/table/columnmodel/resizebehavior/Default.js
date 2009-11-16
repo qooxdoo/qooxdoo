@@ -573,7 +573,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
   destruct : function()
   {
-    this._disposeFields("__resizeColumnData", "__layoutChildren");
+    this.__resizeColumnData = this.__layoutChildren = null;
     this._disposeObjects("__layout", "__deferredComputeColumnsFlexWidth");
   }
 });

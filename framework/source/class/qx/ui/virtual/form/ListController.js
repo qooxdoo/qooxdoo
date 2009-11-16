@@ -541,8 +541,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
   },
 
 
-  destruct : function()
-  {
-    this._disposeFields("__lookupTable");
+  destruct : function() {
+    this.__lookupTable = null;
   }
 });

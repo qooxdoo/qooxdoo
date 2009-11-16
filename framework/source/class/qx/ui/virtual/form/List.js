@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.virtual.form.List",
   
   destruct : function()
   {
-    this._disposeFields("_delegate", "__defaultCellRenderer");
+    this._delegate = this.__defaultCellRenderer = null;
     this._disposeObjects("__manager", "__cellLayer");
   }
 });

@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     }
 
     this._disposeObjects("_spanManager", "_cellLayer");
-    this._disposeFields("_cellProvider", "__spacerPool", "_cells", "_bounds",
-      "_spanMap");
+    this._cellProvider = this.__spacerPool = this._cells = null;
+    this._bounds = this._spanMap = null;
   }
 });

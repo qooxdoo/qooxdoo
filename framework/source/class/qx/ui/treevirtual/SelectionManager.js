@@ -269,8 +269,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__table");
+  destruct : function() {
+    this.__table = null;
   }
 });

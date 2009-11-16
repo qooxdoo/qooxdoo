@@ -278,6 +278,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
 
   destruct : function() {
-    this._disposeFields("__columnIdArr", "__columnNameArr", "__columnIndexMap");
+    this.__columnIdArr = this.__columnNameArr = this.__columnIndexMap = null;
   }
 });

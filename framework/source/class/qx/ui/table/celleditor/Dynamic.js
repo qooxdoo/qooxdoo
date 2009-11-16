@@ -138,8 +138,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__cellEditorFactory");
+  destruct : function() {
+    this.__cellEditorFactory = null;
   }
 });

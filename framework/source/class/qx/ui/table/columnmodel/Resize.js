@@ -402,8 +402,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__table");
+  destruct : function() {
+    this.__table = null;
   }
 });

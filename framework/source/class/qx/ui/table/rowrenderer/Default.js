@@ -217,6 +217,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this._disposeFields("__colors", "__fontStyle", "__fontStyleString");
+    this.__colors = this.__fontStyle = this.__fontStyleString = null;
   }
 });

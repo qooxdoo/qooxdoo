@@ -206,8 +206,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__customColors", "__decorators");
+  destruct : function() {
+    this.__customColors = this.__decorators = null;
   }
 });

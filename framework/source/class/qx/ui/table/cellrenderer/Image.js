@@ -94,8 +94,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__am");
+  destruct : function() {
+    this.__am = null;
   }
 });

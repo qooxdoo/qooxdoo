@@ -97,6 +97,6 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
 
 
   destruct : function() {
-    this._disposeFields("__stylesheet", "__classes", "__styles");
+    this.__stylesheet = this.__classes = this.__styles = null;
   }
 });
