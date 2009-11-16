@@ -193,9 +193,8 @@ qx.Class.define("testrunner.runner.TestResultView",
   },
 
 
-  destruct : function ()
-  {
-    this._disposeFields("_testResults");
+  destruct : function () {
+    this._testResults = null;
   }
 
 });

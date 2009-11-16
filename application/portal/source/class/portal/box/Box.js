@@ -263,6 +263,6 @@ qx.Class.define("portal.box.Box",
   destruct : function()
   {
     this.resetElement();
-    this._disposeFields("__boxData", "__resizableComponent", "__draggableComponent");
+    this.__boxData = this.__resizableComponent = this.__draggableComponent = null;
   }
 });

@@ -180,7 +180,7 @@ qx.Class.define("demobrowser.demo.virtual.AbstractGallery",
 
   destruct : function()
   {
-    this._disposeFields("items");
+    this.items = null;
     this._disposeObjects("manager");
   }
 });

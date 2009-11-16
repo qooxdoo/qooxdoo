@@ -200,9 +200,8 @@ qx.Class.define("apiviewer.dao.Package", {
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("_package", "_classes", "_functions", "_packages");
+  destruct : function() {
+    this._package = this._classes = this._functions = this._packages = null;
   }
 
 });

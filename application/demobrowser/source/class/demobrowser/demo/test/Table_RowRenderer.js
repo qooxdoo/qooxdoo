@@ -118,8 +118,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("tableMock");
+  destruct : function() {
+    this.tableMock = null;
   }
 });

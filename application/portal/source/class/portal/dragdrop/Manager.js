@@ -447,6 +447,7 @@ qx.Class.define("portal.dragdrop.Manager",
    * ******************************************************/
   destruct : function()
   {
-    this._disposeFields("__activeBoxInfo", "__positions", "__currentGroupBox", "__currentBoxElement", "__ghost", "__groupBoxInfos");
+    this.__activeBoxInfo = this.__positions = this.__currentGroupBox =
+      this.__currentBoxElement = this.__ghost = this.__groupBoxInfos = null;
   }
 });

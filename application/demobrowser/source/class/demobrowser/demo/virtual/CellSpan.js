@@ -152,6 +152,6 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
   destruct : function()
   {
     this._disposeObjects("__cellRenderer");
-    this._disposeFields("_pool");
+    this._pool = null;
   }
 });

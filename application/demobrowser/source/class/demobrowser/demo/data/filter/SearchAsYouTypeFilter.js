@@ -78,8 +78,7 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__controller");
+  destruct : function() {
+    this.__controller = null;
   }
 });

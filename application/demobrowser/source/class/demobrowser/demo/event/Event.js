@@ -143,8 +143,7 @@ qx.Class.define("demobrowser.demo.event.Event",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("_juhu", "_inner");
+  destruct : function() {
+    this._juhu = this._inner = null;
   }
 });

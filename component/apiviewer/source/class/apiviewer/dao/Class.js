@@ -771,20 +771,9 @@ qx.Class.define("apiviewer.dao.Class",
 
   destruct : function()
   {
-    this._disposeFields("_see",
-                        "_superInterfaces",
-                        "_superMixins",
-                        "_events",
-                        "_statics",
-                        "_properties",
-                        "_constants",
-                        "_appearances",
-                        "_members",
-                        "_package"
-                        
-                        
-                        
-    );
+    this._see = this._superInterfaces = this._superMixins = this._events =
+      this._statics = this._properties = this._constants = this._appearances =
+      this._members = this._package = null;
     this._disposeObjects("_constructor");
   }
   

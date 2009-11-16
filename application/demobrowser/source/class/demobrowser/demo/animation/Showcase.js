@@ -439,7 +439,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase",
 
   destruct : function()
   {
-    this._disposeFields("_demoElement", "_demoImage");
+    this._demoElement = this._demoImage = null;
     this._disposeArray("_vBoxes");
   }
 });

@@ -237,8 +237,7 @@ qx.Class.define("portal.box.Manager",
   /* ******************************************************
    *    DESTRUCT
    * ******************************************************/
-  destruct : function()
-  {
-    this._disposeFields("__members", "__groupBoxes", "__boxLookup");
+  destruct : function() {
+    this.__members = this.__groupBoxes = this.__boxLookup = null;
   }
 });

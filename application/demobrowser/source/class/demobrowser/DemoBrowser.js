@@ -1240,7 +1240,11 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   destruct : function()
   {
-    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "logelem");
-    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution');
+    this.widgets = this.tests = this._sampleToTreeNodeMap = this.tree =
+      this.logelem = null;
+    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar", 
+      "f1", "f2", "_history", "logappender", '_cmdObjectSummary', 
+      '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', 
+      '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });

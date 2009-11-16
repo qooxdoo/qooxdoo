@@ -96,8 +96,7 @@ qx.Class.define("demobrowser.demo.event.EventDemo",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__logDiv", "__logs");
+  destruct : function() {
+    this.__logDiv = this.__logs = null;
   }
 });

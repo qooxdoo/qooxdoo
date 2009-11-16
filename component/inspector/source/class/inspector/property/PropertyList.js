@@ -918,7 +918,7 @@ qx.Class.define("inspector.property.PropertyList", {
   *****************************************************************************
   */
   destruct : function() {
-    this._disposeFields("_propertyRows", "_comboBoxPopups", "_colorPopup",
-                        "_colorFields", "_oldPropertyListPool");
+    this._propertyRows = this._comboBoxPopups = this._colorPopup =
+      this._colorFields = this._oldPropertyListPool = null;
   }
 });

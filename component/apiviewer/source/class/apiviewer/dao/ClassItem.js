@@ -231,6 +231,7 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
   destruct : function()
   {
-    this._disposeFields("_class", "_itemDocNode", "_requiredBy", "_see", "_types");
+    this._class = this._itemDocNode = this._requiredBy = this._see = 
+      this._types = null;
   }
 });

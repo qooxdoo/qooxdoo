@@ -344,8 +344,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
   },
 
 
-  destruct : function()
-  {
-    this._disposeFields("_properties");
+  destruct : function() {
+    this._properties = null;
   }
 });

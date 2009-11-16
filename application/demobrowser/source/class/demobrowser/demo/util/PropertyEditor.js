@@ -299,6 +299,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
   destruct : function()
   {
-    this._disposeFields("_pane", "_editorGroups", "_widgetIndicator", "_layoutControls");
+    this._pane = this._editorGroups = this._widgetIndicator = 
+      this._layoutControls = null;
   }
 });

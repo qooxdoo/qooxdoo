@@ -117,7 +117,7 @@ qx.Class.define("apiviewer.dao.Method",
 
   destruct : function()
   {
-    this._disposeFields("_params");
+    this._params = null;
     this._disposeObjects("_return");
   }
 
