@@ -268,6 +268,6 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
   */
 
   destruct : function() {
-    this.__markup = this.__insets = this.__images = this.__edges = null;
+    this.__markup = this.__images = this.__edges = null;
   }
 });

@@ -305,6 +305,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
    */
 
    destruct : function() {
-     this.__markup = this.__insets = null;
+     this.__markup = null;
    }
 });

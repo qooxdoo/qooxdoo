@@ -463,10 +463,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     }
   },
 
-  destruct : function()
-  {
+  destruct : function() {
     this.__numericAllowed = this.__betweenAllowed = this.__conditions = null;
-    this.__defaultTextAlign = this.__defaultColor = null;
-    this.__defaultFontStyle = this.__defaultFontWeight = null;
   }
 });

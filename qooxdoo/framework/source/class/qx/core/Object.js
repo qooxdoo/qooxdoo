@@ -798,9 +798,15 @@ qx.Class.define("qx.core.Object",
      * Disconnects given fields from instance.
      *
      * @param varargs {arguments} List of fields to dispose
-     * @return {void}
+     * @deprecated Performance: Don't use '_disposeFields' - instead
+     *      assign directly to <code>null</code>
      */
     _disposeFields : function(varargs) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Don't use '_disposeFields' - instead assign directly to 'null'"
+      );
+      
       qx.util.DisposeUtil.disposeFields(this, arguments);
     },
 

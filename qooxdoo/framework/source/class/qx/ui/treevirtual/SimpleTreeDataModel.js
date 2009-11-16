@@ -1219,7 +1219,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   destruct : function()
   {
-    this._rowArr = this._nodeArr = this._nodeRowMap = this._treeColumn = null;
-    this._selections = this.__tree = null;
+    this._rowArr = this._nodeArr = this._nodeRowMap = this._selections = 
+      this.__tree = null;
   }
 });

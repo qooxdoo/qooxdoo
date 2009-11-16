@@ -29,10 +29,16 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the fields
      * @param arr {Array} List of fields to dispose
-     * @return {void}
+     * @deprecated Performance: Don't use 'disposeFields' - instead
+     *      assign directly to <code>null</code>
      */
     disposeFields : function(obj, arr)
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Don't use 'disposeFields' - instead assign directly to 'null'"
+      );
+      
       var name;
 
       for (var i=0, l=arr.length; i<l; i++)

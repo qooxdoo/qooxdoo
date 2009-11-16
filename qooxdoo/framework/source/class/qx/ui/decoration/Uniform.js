@@ -256,6 +256,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
   */
 
   destruct : function() {
-    this.__markup = this.__insets = null;
+    this.__markup = null;
   }
 });

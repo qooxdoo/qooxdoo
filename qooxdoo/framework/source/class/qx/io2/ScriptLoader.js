@@ -204,7 +204,7 @@ qx.Class.define("qx.io2.ScriptLoader",
 
   destruct : function()
   {
-    this.__elem = this.__oneventWrapped = this.__callback = null;
-    this.__context = null;
+    this.__elem = this.__oneventWrapped = this.__callback = 
+      this.__context = null;
   }
 });

@@ -662,9 +662,8 @@ qx.Class.define("qx.event.handler.DragDrop",
   destruct : function()
   {
     // Clear fields
-    this.__dragTarget = this.__dropTarget = this.__manager = null;
-    this.__root = this.__types = this.__actions = this.__keys = null;
-    this.__cache = null;
+    this.__dragTarget = this.__dropTarget = this.__manager = this.__root =
+      this.__types = this.__actions = this.__keys = this.__cache = null;
   },
 
 
