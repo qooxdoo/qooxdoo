@@ -520,6 +520,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   {
     this._disposeArray("__active");
     this._disposeObjects("__timer");
-    this._disposeFields("__queue");
+    this.__queue = null;
   }
 });

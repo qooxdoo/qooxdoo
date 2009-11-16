@@ -630,6 +630,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       document.body.removeChild(this.__form);
     }
 
-    this._disposeFields("__frame", "__form");
+    this.__frame = this.__form = null;
   }
 });

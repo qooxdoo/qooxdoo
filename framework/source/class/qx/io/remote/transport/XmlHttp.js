@@ -939,6 +939,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
     }
 
-    this._disposeFields("__request");
+    this.__request = null;
   }
 });

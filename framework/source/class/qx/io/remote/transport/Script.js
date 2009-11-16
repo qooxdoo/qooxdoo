@@ -433,6 +433,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       document.body.removeChild(this.__element);
     }
 
-    this._disposeFields("__element", "_responseContent");
+    this.__element = this._responseContent = null;
   }
 });
