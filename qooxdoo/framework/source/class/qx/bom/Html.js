@@ -212,6 +212,8 @@ qx.Class.define("qx.bom.Html",
           ret.push(obj);
         } else if (obj instanceof qx.type.BaseArray) {
           ret.push.apply(ret, Array.prototype.slice.call(obj, 0));
+        } else if (obj.toElement) {
+          ret.push(obj.toElement());
         } else {
           ret.push.apply(ret, obj);
         }

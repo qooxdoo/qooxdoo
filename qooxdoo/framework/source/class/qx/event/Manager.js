@@ -552,11 +552,12 @@ qx.Bootstrap.define("qx.event.Manager",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
         qx.log.Logger.warn(
           this,
           "There is no event handler for the event '" + type +
-          "' on target '" + target.classname + "'!"
+          "' on target '" + target + "'!"
         );
       }
     },
@@ -749,7 +750,7 @@ qx.Bootstrap.define("qx.event.Manager",
         qx.log.Logger.warn(
           this,
           "There is no event handler for the event '" + type +
-          "' on target '" + target.classname + "'!"
+          "' on target '" + target + "'!"
         );
       }
     },
