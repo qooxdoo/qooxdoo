@@ -413,6 +413,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
     // Dispose timers
     this._disposeObjects("__showTimer", "__hideTimer", "__sharedToolTip");
-    this._disposeFields("__mousePosition");
+    this.__mousePosition = null;
   }
 });

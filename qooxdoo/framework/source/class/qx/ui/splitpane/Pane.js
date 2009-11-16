@@ -651,8 +651,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
   },
 
 
-  destruct : function()
-  {
-    this._disposeFields("__children");
+  destruct : function() {
+    this.__children = null;
   }
 });

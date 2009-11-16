@@ -428,8 +428,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("customSizes", "__ranges");
+  destruct : function() {
+    this.customSizes = this.__ranges = null;
   }
 });

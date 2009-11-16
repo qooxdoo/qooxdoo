@@ -427,9 +427,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     this._rowConfig.removeListener("change", this._onRowConfigChange, this);
     this._columnConfig.removeListener("change", this._onColumnConfigChange, this);
 
-    this._disposeFields(
-      "_cells", "_sorted", "_rowPos", "_columnPos",
-      "_rowConfig", "_columnConfig"
-    );
+    this._cells = this._sorted = this._rowPos = this._columnPos = null;
+    this._rowConfig = this._columnConfig = null;
   }
 });

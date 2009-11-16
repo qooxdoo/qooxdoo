@@ -131,8 +131,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("_cellProvider");
+  destruct : function() {
+    this._cellProvider = null;
   }
 });

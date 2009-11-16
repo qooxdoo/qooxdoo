@@ -144,6 +144,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   */
 
   destruct : function() {
-    this._disposeFields("__aliasManager");
+    this.__aliasManager = null;
   }
 });

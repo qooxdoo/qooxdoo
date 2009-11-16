@@ -685,6 +685,6 @@ qx.Class.define("qx.ui.table.selection.Model",
   */
 
   destruct : function() {
-    this._disposeFields("__selectedRangeArr");
+    this.__selectedRangeArr = null;
   }
 });

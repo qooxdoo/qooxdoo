@@ -143,8 +143,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__contextMenuHandler");
+  destruct : function() {
+    this.__contextMenuHandler = null;
   }
 });

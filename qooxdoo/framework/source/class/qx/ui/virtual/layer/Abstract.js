@@ -263,8 +263,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__jobs", "__arguments", "__rowSizes", "__columnSizes");
+  destruct : function() {
+    this.__jobs = this.__arguments = this.__rowSizes = this.__columnSizes = null;
   }
 });

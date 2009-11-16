@@ -675,7 +675,9 @@ qx.Class.define("qx.ui.table.model.Simple",
   },
 
 
-  destruct : function() {
-    this._disposeFields("__rowArr", "__editableColArr", "__sortMethods", "__sortableColArr");
+  destruct : function()
+  {
+    this.__rowArr = this.__editableColArr = this.__sortMethods = null;
+    this.__sortableColArr = null;
   }
 });

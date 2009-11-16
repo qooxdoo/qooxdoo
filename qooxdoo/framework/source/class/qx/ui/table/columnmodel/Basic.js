@@ -605,10 +605,8 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr[i].editorFactory.dispose();
     }
 
-    this._disposeFields(
-      "__overallColumnArr", "__visibleColumnArr",
-      "__columnDataArr", "__colToXPosMap"
-    );
+    this.__overallColumnArr = this.__visibleColumnArr = null;
+    this.__columnDataArr = this.__colToXPosMap = null;
 
     this._disposeObjects(
       "__headerRenderer",

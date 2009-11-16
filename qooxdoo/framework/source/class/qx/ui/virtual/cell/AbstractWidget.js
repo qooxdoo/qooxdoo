@@ -94,8 +94,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__pool");
+  destruct : function() {
+    this.__pool = null;
   }
 })

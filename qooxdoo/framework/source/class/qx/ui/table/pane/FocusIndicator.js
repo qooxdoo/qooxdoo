@@ -125,10 +125,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
     }
   },
 
-  destruct : function ()
-  {
-     this._disposeFields(
-       "__scroller"
-     );
+  destruct : function () {
+     this.__scroller = null;
   }
 });

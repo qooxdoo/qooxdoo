@@ -507,8 +507,8 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
 
   destruct : function() {
-    this._disposeFields("__stylesheet", "__userStyles", "__themeStyles",
-      "__userPaddings", "__themePaddings", "__states", "__themeValues",
-      "__themableProperties");
+    this.__stylesheet = this.__userStyles = this.__themeStyles = null;
+    this.__userPaddings = this.__themePaddings = this.__states = null;
+    this.__themeValues = this.__themableProperties = null;
   }
 });

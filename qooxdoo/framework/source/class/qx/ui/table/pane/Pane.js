@@ -732,6 +732,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
   */
 
   destruct : function() {
-    this._disposeFields("__tableContainer", "__paneScroller", "__rowCache");
+    this.__tableContainer = this.__paneScroller = this.__rowCache = null;
   }
 });

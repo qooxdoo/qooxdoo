@@ -367,8 +367,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("numericAllowed", "betweenAllowed", "conditions");
+  destruct : function() {
+    this.numericAllowed = this.betweenAllowed = this.conditions = null;
   }
 });

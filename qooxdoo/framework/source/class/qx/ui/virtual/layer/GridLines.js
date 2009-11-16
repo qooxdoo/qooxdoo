@@ -288,8 +288,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__lineColors", "__lineSizes");
+  destruct : function() {
+    this.__lineColors = this.__lineSizes = null;
   }
 });

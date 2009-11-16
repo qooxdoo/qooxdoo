@@ -415,11 +415,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
   destruct : function()
   {
-    this._disposeFields(
-      "__fullArr",
-      "numericAllowed",
-      "betweenAllowed",
-      "Filters"
-    );
+    this.__fullArr = this.numericAllowed = this.betweenAllowed = null;
+    this.Filters = null;
   }
 });

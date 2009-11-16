@@ -915,8 +915,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__sortableColArr", "__editableColArr", "__rowBlockCache");
+  destruct : function() {
+    this.__sortableColArr = this.__editableColArr = this.__rowBlockCache = null;
   }
 });
