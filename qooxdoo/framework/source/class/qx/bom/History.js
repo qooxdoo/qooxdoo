@@ -79,6 +79,10 @@
  *
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
+ * 
+ * This class is an abstract template class. Concrete implementations have to
+ * provide implementations for the {@link #_readState} and {@link #_writeState}
+ * methods. 
  *
  * Browser history support is currently available for Internet Explorer 6/7,
  * Firefox, Opera 9 and WebKit. Safari 2 and older are not yet supported.
@@ -92,8 +96,8 @@
  */
 qx.Class.define("qx.bom.History",
 {
-  type : "singleton",
   extend : qx.core.Object,
+  type : "abstract",
 
 
 
@@ -104,23 +108,14 @@ qx.Class.define("qx.bom.History",
   *****************************************************************************
   */
 
-  /**
-   * @signature function()
-   */
   construct : function()
   {
     this.base(arguments);
 
+    this._baseUrl = window.location.href.split('#')[0] + '#';
+    
     this.__titles = {};
-    this.__location = window.location;
-
-    this.__setInitialState();
-
-    if (qx.bom.History.supportsHashChangeEvent()) {
-      this.__initHashChangeEvent();
-    } else {
-      this.__initTimer();
-    }
+    this._setInitialState();        
   },
 
 
@@ -148,19 +143,31 @@ qx.Class.define("qx.bom.History",
 
   statics :
   {
-
     /**
-     * @return {Boolean}
+     * {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
-    supportsHashChangeEvent : qx.core.Variant.select("qx.client",
+    SUPPORTS_HASH_CHANGE_EVENT : "onhashchange" in window,
+    
+    
+    /**
+     * Get the singleton instance of the history manager.
+     * 
+     * @return {History}
+     */
+    getInstance : function()
     {
-      "mshtml" : qx.lang.Function.returnFalse,
-
-      "default" : function () {
-        return "onhashchange" in window;
+      if (!this.$$instance)
+      {
+        if (this.SUPPORTS_HASH_CHANGE_EVENT) {
+          this.$$instance = new qx.bom.NativeHistory();
+        } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          this.$$instance = new qx.bom.IframeHistory();
+        } else {
+          this.$$instance = new qx.bom.NativeHistory();
+        }
       }
-    })
-
+      return this.$$instance;
+    }
   },
 
 
@@ -175,6 +182,9 @@ qx.Class.define("qx.bom.History",
     /**
      * Interval for the timer, which periodically checks the browser history state
      * in milliseconds.
+     * 
+     * @deprecated This property has been deprecated. The history manager now
+     *     uses {@link qx.event.Idle} for polling.
      */
     timeoutInterval :
     {
@@ -216,93 +226,22 @@ qx.Class.define("qx.bom.History",
 
   members :
   {
-
-    __iframe : null,
-    __titles : null,
-    __timer : null,
-    __locationState : null,
-    __location : null,
-    __checkOnHashChange : null,
-    __iframeReady : false,
+    __titles : null,    
 
 
     /**
-     * @return {void}
+     * Populates the 'state' property with the initial state value
      */
-    __initHashChangeEvent : function ()
-    {
-      this.__checkOnHashChange = qx.lang.Function.bind(this._checkOnHashChange, this);
-
-      qx.bom.Event.addNativeListener(window, "hashchange", this.__checkOnHashChange);
-
-      this.__initIframe();
+    _setInitialState : function() {
+      this.setState(this._readState());
     },
 
 
     /**
-     * @return {void}
-     */
-    __initTimer : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        this.__initIframe(function () {
-          this.__startTimer();
-        });
-      },
-  
-      "default" : function() {
-        this.__startTimer();
-      }
-    }),
-
-
-    /**
-     * @return {void}
-     */
-    __setInitialState : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        var hash = this.__getHash();
-
-        this.setState(hash);
-        this.__locationState = hash;
-      },
-  
-      "default" : function() {
-        this.setState(this.__getState());
-      }
-    }),
-
-
-    /**
-     * @return {void}
-     */
-    __initIframe : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(handler)
-      {
-        this.__iframe = this._createIframe();
-        document.body.appendChild(this.__iframe);
-
-        this.__waitForIFrame(function()
-        {
-          this.__writeStateToIframe(this.getState());
-
-          if (handler) {
-            handler.call(this);
-          }
-        }, this);
-      },
-
-      "default" : qx.lang.Function.empty
-    }),
-
-
-    /**
-     * @param value {String}
-     * @return {String}
+     * Encodes the state value into a format suitable as fragment identifier.
+     * 
+     * @param value {String} The string to encode
+     * @return {String} The encoded string
      */
     _encode : function (value)
     {
@@ -315,8 +254,10 @@ qx.Class.define("qx.bom.History",
 
 
     /**
-     * @param value {String}
-     * @return {String}
+     * Decodes a fragment identifier into a string
+     * 
+     * @param value {String} The fragment identifier
+     * @return {String} The decoded fragment identifier
      */
     _decode : function (value)
     {
@@ -338,33 +279,6 @@ qx.Class.define("qx.bom.History",
 
 
     /**
-     * IMPORTANT NOTE FOR IE:
-     * Setting the source before adding the iframe to the document.
-     * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
-     * 
-     * @return {IframeElement}
-     */
-    _createIframe : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function ()
-      {
-        var iframe = qx.bom.Iframe.create({
-          src : qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html")
-        });
-
-        iframe.style.visibility = "hidden";
-        iframe.style.position = "absolute";
-        iframe.style.left = "-1000px";
-        iframe.style.top = "-1000px";
-
-        return iframe;
-      },
-
-      "default" : qx.lang.Function.returnNull
-    }),
-
-
-    /**
      * Adds an entry to the browser history.
      *
      * @param state {String} a string representing the state of the
@@ -374,7 +288,7 @@ qx.Class.define("qx.bom.History",
      *          is done. This title should represent the new state of the application.
      */
     addToHistory : function(state, newTitle)
-    {
+    {      
       if (!qx.lang.Type.isString(state)) {
         state = state + "";
       }
@@ -385,7 +299,9 @@ qx.Class.define("qx.bom.History",
         this.__titles[state] = newTitle;
       }
 
-      this.__storeState(state);
+      if (this.getState() !== state) {
+        this._writeState(state);
+      }
     },
 
 
@@ -408,24 +324,11 @@ qx.Class.define("qx.bom.History",
 
 
     /**
-     * Apply the interval of the timer.
-     *
-     * @param newInterval {Integer} new timeout interval
-     */
-    _applyTimeoutInterval : function(value)
-    {
-      if (this.__timer) {
-        this.__timer.setInterval(value);
-      }
-    },
-
-
-    /**
-     * called on changes to the history using the browser buttons
+     * Called on changes to the history using the browser buttons.
      *
      * @param state {String} new state of the history
      */
-    __onHistoryLoad : function(state) 
+    _onHistoryLoad : function(state) 
     {
       this.setState(state);
       this.fireDataEvent("request", state);
@@ -434,67 +337,41 @@ qx.Class.define("qx.bom.History",
         this.setTitle(this.__titles[state]);
       }
     },
-
-
+    
+    
     /**
-     * Starts the timer polling for updates to the history IFrame on IE
-     * or the fragment identifier on other browsers.
+     * Browser dependent function to read the current state of the history
+     *
+     * @return {String} current state of the browser history
      */
-    __startTimer : function()
-    {
-      this.__timer = new qx.event.Timer(this.getTimeoutInterval());
-      this.__timer.addListener("interval", this._checkOnHashChange, this);
-      this.__timer.start();
+    _readState : function() {
+      throw new Error("Abstract method call");
+    },
+
+    
+    /**
+     * Save a state into the browser history.
+     *
+     * @param state {String} state to save
+     * @return {void}
+     */
+    _writeState :function() {
+      throw new Error("Abstract method call");
     },
 
 
     /**
-     * @param e {qx.event.type.Event}
-     * @return {void}
-     */
-    _checkOnHashChange : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(e)
-      {
-        // the location only changes if the user manually changes the fragment
-        // identifier.
-        // TODO: check for IE8, same problems like other IE?
-        var currentState  = null;
-        var locationState = this.__getHash();
-
-        if (!this.__isCurrentLocationState(locationState)) {
-          currentState = this.__storeLocationState(locationState);
-        } else {
-          currentState = this.__getState();
-        }
-
-        if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
-          this.__onHistoryLoad(currentState);
-        }
-      },
-
-      "default" : function (e)
-      {
-        var currentState = this.__getState();
-
-        if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
-          this.__onHistoryLoad(currentState);
-        }
-      }
-    }),
-
-
-    /**
-     * sets the fragment identifier of the top window URL
+     * Sets the fragment identifier of the window URL
      *
      * @return value {String} the fragment identifier
      */
-    __setHash : function (value)
+    _setHash : function (value)
     {
-      if (qx.lang.Type.isString(value) && this.__getState() != value)
-      {
-        this.__location.hash = value && value.length > 0 ? "#" + this._encode(value) : "";
-        this.__locationState = value;
+      var url = this._baseUrl + (value || "");
+      var loc = window.location;
+      
+      if (url != loc.href) {
+        loc.href = url;
       }
     },
 
@@ -505,214 +382,20 @@ qx.Class.define("qx.bom.History",
      *
      * @return {String} the fragment identifier
      */
-    __getHash : qx.core.Variant.select("qx.client",
+    _getHash : function()
     {
-      "gecko" : function()
-      {
-        var hash = /#(.*)$/.exec(this.__location.href);
-        return hash && hash[1] ? this._decode(hash[1]) : "";
-      },
-
-      "default" : function ()
-      {
-        var hash = this.__location.hash;
-
-        if (hash)
-        {
-          var state = hash.substr(1);
-
-          return state ? this._decode(state) : "";
-        }
-
-        return "";
-      }
-    }),
-
-
-    /**
-     * @param locationState {String}
-     * @return {Boolean}
-     */
-    __isCurrentLocationState : qx.core.Variant.select("qx.client",
+      var hash = /#(.*)$/.exec(window.location.href);
+      return hash && hash[1] ? this._decode(hash[1]) : "";
+    },
+    
+    
+    // property apply
+    _applyTimeoutInterval : function(value)
     {
-      "mshtml" : function (locationState) {
-        return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
-      },
-
-      "default" : qx.lang.Function.returnFalse
-    }),
-
-
-    /**
-     * @param locationState {String}
-     * @return {String}
-     */
-    __storeLocationState : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function (locationState)
-      {
-        this.__locationState = locationState;
-        this.__writeStateToIframe(locationState);
-
-        return locationState;
-      },
-
-      "default" : qx.lang.Function.returnNull
-    }),
-
-
-    /**
-     * Browser dependent function to read the current state of the history
-     *
-     * @return {String} current state of the browser history
-     */
-    __getState : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function() {
-        return this.__getStateFromIframe();
-      },
-
-      "default" : function() {
-        return this.__getHash();
-      }
-    }),
-
-
-    /**
-     * @return {String}
-     */
-    __getStateFromIframe : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        if (!this.__iframeReady) {
-          return "";
-        }
-
-        var doc = this.__iframe.contentWindow.document;
-        var elem = doc.getElementById("state");
-
-        return elem ? this._decode(elem.innerText) : "";
-      },
-
-      "default" : qx.lang.Function.returnNull
-    }),
-
-
-    /**
-     * @param state {String}
-     * @return {void}
-     */
-    __writeStateToIframe : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(state)
-      {
-        try
-        {
-          var doc = this.__iframe.contentWindow.document;
-          doc.open();
-          doc.write('<html><body><div id="state">' + this._encode(state) + '</div></body></html>');
-          doc.close();
-        }
-        catch (ex) {
-          // ignore
-        }
-      },
-
-      "default" : qx.lang.Function.empty
-    }),
-
-
-    /**
-     * Save a state into the browser history.
-     *
-     * @param state {String} state to save
-     * @return {void}
-     */
-    __storeState : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(state)
-      {
-        this.__setHash(state);
-        this.__writeStateToIframe(state);
-
-        this.setState(state);
-      },
-
-      "opera" : function (state)
-      {
-        qx.event.Timer.once(function()
-        {
-          this.__setHash(state);
-          this.setState(state);
-        }, this, 0);
-      },
-
-      "default" : function (state)
-      {
-        this.__setHash(state);
-        this.setState(state);
-      }
-    }),
-
-
-    /**
-     * Waits for the IFrame being loaded. Once the IFrame is loaded
-     * the callback is called with the provided context.
-     *
-     * @param callback {Function} This function will be called once the iframe is loaded
-     * @param context {Object?window} The context for the callback.
-     */
-    __waitForIFrame : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(callback, context, retry)
-      {
-        if (typeof retry === "undefined") {
-          retry = 0;
-        }
-
-        if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
-        {
-          if (retry > 20) {
-            throw new Error("can't initialize iframe");
-          }
-
-          qx.event.Timer.once(function() {
-            this.__waitForIFrame(callback, context, ++retry);
-          }, this, 10);
-
-          return;
-        }
-
-        this.__iframeReady = true;
-        callback.call(context || window);
-      },
-
-      "default" : null
-    })
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    if (this.__timer) {
-      this.__timer.stop();
-    }
-
-    if (qx.bom.History.supportsHashChangeEvent()) {
-      qx.bom.Event.removeNativeListener(window, "hashchange", this.__checkOnHashChange);
-    }
-
-    this._disposeObjects("__timer");
-    this.__iframe = this.__titles = this.__location = null;
-    this.__checkOnHashChange = null;
+       qx.log.Logger.deprecatedMethodWarning(
+         "The property 'timeoutInterval' has been deprected. The history manager" +
+         "now uses 'qx.event.Idle' for polling."
+       );
+    }    
   }
 });
