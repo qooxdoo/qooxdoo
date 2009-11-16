@@ -32,6 +32,11 @@ qx.Class.define("qx.test.event.GlobalError",
       this.calledParams = [];
       this.errorHandler.setErrorHandler(this.onError, this);
     },
+    
+    tearDown : function () 
+    {
+      this.errorHandler.setErrorHandler(null);
+    },
 
 
     onError : function(ex)
