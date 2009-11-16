@@ -126,10 +126,7 @@ qx.Class.define("qx.application.AbstractGui",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__root"
-    );
+  destruct : function() {
+    this.__root = null;
   }
 });
