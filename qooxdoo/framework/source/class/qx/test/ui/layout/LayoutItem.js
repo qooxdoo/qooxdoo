@@ -286,6 +286,6 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
   },
 
   destruct : function() {
-    this._disposeFields("bounds", "__layout", "__children");
+    this.bounds = this.__layout = this.__children = null;
   }
 })

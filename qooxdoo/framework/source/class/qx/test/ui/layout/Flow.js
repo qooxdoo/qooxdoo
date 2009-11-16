@@ -526,6 +526,6 @@ qx.Class.define("qx.test.ui.layout.Flow",
   },
 
   destruct : function() {
-    this._disposeFields("root");
+    this.root = null;
   }
 });

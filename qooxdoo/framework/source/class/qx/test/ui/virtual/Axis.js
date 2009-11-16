@@ -425,8 +425,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
 
   },
 
-  destruct : function()
-  {
-    this._disposeFields("axis");
+  destruct : function() {
+    this.axis = null;
   }
 });

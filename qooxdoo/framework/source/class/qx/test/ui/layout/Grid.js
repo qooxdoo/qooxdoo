@@ -213,6 +213,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
   },
 
   destruct : function() {
-    this._disposeFields("_gridWidget", "_gridLayout");
+    this._gridWidget = this._gridLayout = null;
   }
 });

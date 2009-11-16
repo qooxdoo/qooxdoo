@@ -146,6 +146,6 @@ qx.Class.define("qx.log.appender.Element",
   */
 
   destruct : function() {
-    this._disposeFields("__element");
+    this.__element = null;
   }
 });

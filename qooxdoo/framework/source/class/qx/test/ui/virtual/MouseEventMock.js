@@ -39,8 +39,7 @@ qx.Class.define("qx.test.ui.virtual.MouseEventMock",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__config");
+  destruct : function() {
+    this.__config = null;
   }
 });
