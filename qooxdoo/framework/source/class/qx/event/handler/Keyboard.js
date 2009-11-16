@@ -848,7 +848,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   destruct : function()
   {
     this._stopKeyObserver();
-    this._disposeFields("__manager", "__window", "__root", "__lastUpDownType");
+    this.__manager = this.__window = this.__root = this.__lastUpDownType = null;
   },
 
 

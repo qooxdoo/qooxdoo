@@ -220,7 +220,7 @@ qx.Class.define("qx.event.handler.Window",
   destruct : function()
   {
     this._stopWindowObserver();
-    this._disposeFields("_manager", "_window");
+    this._manager = this._window = null;
   },
 
 

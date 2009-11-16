@@ -132,8 +132,7 @@ qx.Class.define("qx.html.Canvas",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__canvas");
+  destruct : function() {
+    this.__canvas = null;
   }
 });

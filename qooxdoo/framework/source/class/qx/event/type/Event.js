@@ -416,6 +416,7 @@ qx.Class.define("qx.event.type.Event",
   */
 
   destruct : function() {
-    this._disposeFields("_target", "_currentTarget", "_relatedTarget", "_originalTarget");
+    this._target = this._currentTarget = this._relatedTarget = null;
+    this._originalTarget = null;
   }
 });

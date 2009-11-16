@@ -204,7 +204,7 @@ qx.Class.define("qx.event.handler.Appear",
 
   destruct : function()
   {
-    this._disposeFields("__manager", "__targets");
+    this.__manager = this.__targets = null;
 
     // Deregister
     delete qx.event.handler.Appear.__instances[this.$$hash];

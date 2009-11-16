@@ -1206,8 +1206,8 @@ qx.Class.define("qx.event.handler.Focus",
   destruct : function()
   {
     this._stopObserver();
-    this._disposeFields("_manager", "_window", "_document", "_root", "_body",
-      "__mouseActive");
+    this._manager = this._window = this._document = this._root = null;
+    this._body = this.__mouseActive = null;
   },
 
 

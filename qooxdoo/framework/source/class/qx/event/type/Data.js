@@ -116,6 +116,6 @@ qx.Class.define("qx.event.type.Data",
   */
 
   destruct : function() {
-    this._disposeFields("__data", "__old");
+    this.__data = this.__old = null;
   }
 });

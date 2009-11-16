@@ -193,7 +193,7 @@ qx.Class.define("qx.event.handler.ElementResize",
 
   destruct : function()
   {
-    this._disposeFields("__manager", "__elements");
+    this.__manager = this.__elements = null;
     this._disposeObjects("__timer");
   },
 

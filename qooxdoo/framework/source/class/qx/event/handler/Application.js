@@ -332,7 +332,7 @@ qx.Class.define("qx.event.handler.Application",
   destruct : function() {
     this._stopObserver();
 
-    this._disposeFields("_window");
+    this._window = null;
   },
 
 

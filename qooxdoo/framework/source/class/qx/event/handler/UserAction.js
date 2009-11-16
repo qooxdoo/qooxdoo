@@ -124,7 +124,7 @@ qx.Class.define("qx.event.handler.UserAction",
   */
 
   destruct : function() {
-    this._disposeFields("__manager", "__window");
+    this.__manager = this.__window = null;
   },
 
 

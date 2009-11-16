@@ -547,7 +547,8 @@ qx.Class.define("qx.event.handler.Mouse",
     this._stopMoveObserver();
     this._stopWheelObserver();
 
-    this._disposeFields("__manager", "__window", "__root", "__lastMouseDownTarget");
+    this.__manager = this.__window = this.__root = null;
+    this.__lastMouseDownTarget = null;
   },
 
 

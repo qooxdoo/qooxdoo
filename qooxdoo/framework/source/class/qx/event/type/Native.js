@@ -145,6 +145,6 @@ qx.Class.define("qx.event.type.Native",
   */
 
   destruct : function() {
-    this._disposeFields("_native", "_returnValue");
+    this._native = this._returnValue = null;
   }
 });
