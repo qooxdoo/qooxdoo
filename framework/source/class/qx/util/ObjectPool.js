@@ -50,7 +50,7 @@ qx.Class.define("qx.util.ObjectPool",
 
     this.__pool = {};
 
-    if (size !== undefined) {
+    if (size != null) {
       this.setSize(size);
     }
   },
@@ -80,8 +80,7 @@ qx.Class.define("qx.util.ObjectPool",
     size :
     {
       check : "Integer",
-      init : null,
-      nullable : true
+      init : Infinity
     }
   },
 
@@ -96,8 +95,9 @@ qx.Class.define("qx.util.ObjectPool",
 
   members :
   {
-
+    /** {Map} Stores arrays of instances for all managed classes */
     __pool : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -172,10 +172,16 @@ qx.Class.define("qx.util.ObjectPool",
       }
 
       // Check to see whether the pool for this type is already full
-      var size = this.getSize() || Infinity;
-      if (pool.length > size)
+      if (pool.length > this.getSize())
       {
-        obj.dispose();
+        // Use enhanced destroy() method instead of simple dispose
+        // when available to work together with queues etc.
+        if (obj.destroy) {
+          obj.destroy();
+        } else {
+          obj.dispose();
+        }
+        
         return;
       }
 
