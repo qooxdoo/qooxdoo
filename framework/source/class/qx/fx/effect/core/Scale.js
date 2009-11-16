@@ -326,9 +326,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     this._disposeFields("__dims", "__originalStyle", "__fontTypes");
+   destruct : function() {
+     this.__dims = this.__originalStyle = this.__fontTypes = null;
    }
 
 });

@@ -148,7 +148,7 @@ qx.Class.define("qx.fx.queue.Queue",
   */
 
   destruct : function() {
-    this._disposeFields("__effects");
+    this.__effects = null;
   }
 
 });

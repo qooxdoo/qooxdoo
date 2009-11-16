@@ -537,9 +537,8 @@ qx.Class.define("qx.fx.Base",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__element", "__state");
+  destruct : function() {
+    this.__element = this.__state = null;
   }
 
 });

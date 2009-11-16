@@ -189,7 +189,7 @@ qx.Class.define("qx.event.handler.Element",
       qx.bom.Event.removeNativeListener(entry.element, entry.type, entry.listener);
     }
 
-    this._disposeFields("_manager", "_registeredEvents");
+    this._manager = this._registeredEvents = null;
   },
 
 

@@ -256,7 +256,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
 
   destruct : function() {
-    this._disposeFields("__captureElement", "__window", "__registration");
+    this.__captureElement = this.__window = this.__registration = null;
   },
 
 

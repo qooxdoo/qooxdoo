@@ -247,6 +247,6 @@ qx.Class.define("qx.html.Flash",
       qx.bom.Flash.destroy(this.__flash);
     }
 
-    this._disposeFields("__params", "__variables", "__attributes");
+    this.__params = this.__variables = this.__attributes = null;
   }
 });

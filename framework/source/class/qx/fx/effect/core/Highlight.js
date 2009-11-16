@@ -179,9 +179,8 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__startColor", "__endColor", "__deltaColor");
+  destruct : function() {
+    this.__startColor = this.__endColor = this.__deltaColor = null;
   }
 
 });

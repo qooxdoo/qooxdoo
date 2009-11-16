@@ -107,7 +107,7 @@ qx.Class.define("qx.event.Idle",
       this.__timer.stop();
     }
 
-    this._disposeFields("__timer");
+    this.__timer = null;
   }
 
 });

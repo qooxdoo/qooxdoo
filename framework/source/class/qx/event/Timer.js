@@ -304,6 +304,6 @@ qx.Class.define("qx.event.Timer",
       window.clearInterval(this.__intervalHandler);
     }
 
-    this._disposeFields("__intervalHandler", "__oninterval");
+    this.__intervalHandler = this.__oninterval = null;
   }
 });
