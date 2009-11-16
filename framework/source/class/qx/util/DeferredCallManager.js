@@ -157,6 +157,6 @@ qx.Class.define("qx.util.DeferredCallManager",
     if (this.__timeoutId != null) {
       window.clearTimeout(this.__timeoutId);
     }
-    this._disposeFields("__timeoutWrapper", "__calls");
+    this.__timeoutWrapper = this.__calls = null;
   }
 });

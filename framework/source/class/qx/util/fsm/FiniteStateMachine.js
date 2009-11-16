@@ -1229,7 +1229,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
   {
     this._disposeArray("__eventQueue");
     this._disposeArray("__blockedEvents");
-    this._disposeFields("__savedStates",
-                        "__states");
+    this.__savedStates = this.__states = null;
   }
 });
