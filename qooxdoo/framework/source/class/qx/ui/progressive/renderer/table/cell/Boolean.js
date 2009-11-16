@@ -178,9 +178,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__iconUrlTrue",
-                        "__iconUrlFalse");
+  destruct : function() {
+    this.__iconUrlTrue = this.__iconUrlFalse = null;
   }
 });

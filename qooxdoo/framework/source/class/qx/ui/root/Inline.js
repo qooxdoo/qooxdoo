@@ -271,6 +271,6 @@ qx.Class.define("qx.ui.root.Inline",
   destruct : function()
   {
     qx.event.Registration.removeListener(this.__elem, "resize", this._onResize, this);
-    this._disposeFields("__elem");
+    this.__elem = null;
   }
 });

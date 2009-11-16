@@ -164,6 +164,6 @@ qx.Class.define("qx.ui.root.Application",
   */
 
   destruct : function() {
-    this._disposeFields("__window", "__doc");
+    this.__window = this.__doc = null;
   }
 });

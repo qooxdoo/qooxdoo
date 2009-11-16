@@ -409,6 +409,6 @@ qx.Class.define("qx.ui.form.SelectBox",
 
 
   destruct : function() {
-    this._disposeFields("__preSelectedItem");
+    this.__preSelectedItem = null;
   }
 });

@@ -934,11 +934,7 @@ qx.Class.define("qx.ui.layout.Dock",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__edges",
-      "__children"
-    );
+  destruct : function() {
+    this.__edges = this.__children = null;
   }
 });

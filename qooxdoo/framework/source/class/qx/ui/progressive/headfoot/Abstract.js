@@ -57,9 +57,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__progressive");
+  destruct : function() {
+    this.__progressive = null;
   }
 });

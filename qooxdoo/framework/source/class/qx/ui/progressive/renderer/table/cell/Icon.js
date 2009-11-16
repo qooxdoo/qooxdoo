@@ -235,8 +235,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__imageBlank");
+  destruct : function() {
+    this.__imageBlank = null;
   }
 });
