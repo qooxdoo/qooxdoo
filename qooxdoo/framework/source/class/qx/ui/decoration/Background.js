@@ -170,6 +170,6 @@ qx.Class.define("qx.ui.decoration.Background",
    */
 
    destruct : function() {
-     this._disposeFields("__markup", "__insets");
+     this.__markup = this.__insets = null;
    }
 });

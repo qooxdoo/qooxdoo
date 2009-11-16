@@ -166,6 +166,6 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       }
     }
 
-    this._disposeFields("__pool");
+    this.__pool = null;
   }
 });

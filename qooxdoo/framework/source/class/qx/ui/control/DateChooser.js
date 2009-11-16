@@ -735,6 +735,6 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
     }
 
-    this._disposeFields("__weekdayLabelArr", "__dayLabelArr", "__weekLabelArr");
+    this.__weekdayLabelArr = this.__dayLabelArr = this.__weekLabelArr = null;
   }
 });

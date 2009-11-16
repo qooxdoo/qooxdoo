@@ -573,6 +573,7 @@ qx.Class.define("qx.ui.core.Blocker",
       this._widget.removeListener("resize", this.__onResize, this);
     }
     this._disposeObjects("__contentBlocker", "__blocker", "__timer");
-    this._disposeFields("__oldAnonymous", "__activeElements", "__focusElements", "_widget");
+    this.__oldAnonymous = this.__activeElements = this.__focusElements = null;
+    this._widget = null;
   }
 });

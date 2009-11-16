@@ -535,6 +535,6 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
   destruct : function()
   {
     this._stopIframeObserver();
-    this._disposeFields("__iframeObserverId", "__iframeSize");
+    this.__iframeObserverId = this.__iframeSize = null;
   }
 })
