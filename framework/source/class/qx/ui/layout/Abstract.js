@@ -257,6 +257,6 @@ qx.Class.define("qx.ui.layout.Abstract",
   */
 
   destruct : function() {
-    this._disposeFields("__widget", "__sizeHint");
+    this.__widget = this.__sizeHint = null;
   }
 });

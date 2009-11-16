@@ -537,12 +537,7 @@ qx.Class.define("qx.ui.layout.HBox",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__widths",
-      "__flexs",
-      "__children"
-    );
+  destruct : function() {
+    this.__widths = this.__flexs = this.__children = null;
   }
 });

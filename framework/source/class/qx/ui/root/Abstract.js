@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.root.Abstract",
   */
 
   destruct : function() {
-    this._disposeFields("__globalCursorStyleSheet");
+    this.__globalCursorStyleSheet = null;
   },
 
 

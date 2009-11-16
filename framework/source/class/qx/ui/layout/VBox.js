@@ -537,12 +537,7 @@ qx.Class.define("qx.ui.layout.VBox",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "__heights",
-      "__flexs",
-      "__children"
-    );
+  destruct : function() {
+    this.__heights = this.__flexs = this.__children = null;
   }
 });

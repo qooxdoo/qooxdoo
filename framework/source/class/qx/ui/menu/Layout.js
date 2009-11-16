@@ -188,8 +188,7 @@ qx.Class.define("qx.ui.menu.Layout",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
-    this._disposeFields("__columnSizes");
+  destruct : function() {
+    this.__columnSizes = null;
   }
 });

@@ -1381,9 +1381,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
   destruct : function()
   {
-    this._disposeFields(
-      "__grid", "__rowData", "__colData", "__colSpans", "__rowSpans",
-      "__colWidths", "__rowHeights"
-    );
+    this.__grid = this.__rowData = this.__colData = this.__colSpans = null;
+    this.__rowSpans = this.__colWidths = this.__rowHeights = null;
   }
 });

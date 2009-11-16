@@ -465,12 +465,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
   destruct : function()
   {
-    this._disposeFields("__numericAllowed",
-                        "__betweenAllowed",
-                        "__conditions",
-                        "__defaultTextAlign",
-                        "__defaultColor",
-                        "__defaultFontStyle",
-                        "__defaultFontWeight");
+    this.__numericAllowed = this.__betweenAllowed = this.__conditions = null;
+    this.__defaultTextAlign = this.__defaultColor = null;
+    this.__defaultFontStyle = this.__defaultFontWeight = null;
   }
 });

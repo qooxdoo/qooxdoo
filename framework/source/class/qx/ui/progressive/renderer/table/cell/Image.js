@@ -117,9 +117,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
     }
   },
 
-  destruct : function()
-  {
-    this._disposeFields("__imageWidth",
-                        "__imageHeight");
+  destruct : function() {
+    this.__imageWidth = this.__imageHeight = null;
   }
 });

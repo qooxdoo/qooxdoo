@@ -178,6 +178,6 @@ qx.Class.define("qx.ui.root.Page",
   */
 
   destruct : function() {
-    this._disposeFields("__doc");
+    this.__doc = null;
   }
 });

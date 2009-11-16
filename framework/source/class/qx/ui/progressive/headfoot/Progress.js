@@ -160,9 +160,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
   destruct : function()
   {
-    this._disposeFields(
-      "__colors",
-      "__progressive");
+    this.__colors = this.__progressive = null;
 
     this._disposeObjects(
       "__progressBar",
