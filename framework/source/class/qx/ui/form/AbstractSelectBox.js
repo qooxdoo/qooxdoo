@@ -267,6 +267,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       }
     },
 
+
     /**
      * Close the pop-up if the mousewheel event isn't on the pup-up window.
      *
@@ -284,6 +285,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         this.close();
       }
     },
+
 
     /**
      * Updates list minimum size.
