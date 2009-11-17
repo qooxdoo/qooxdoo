@@ -90,7 +90,7 @@ qx.Class.define("qx.bom.NativeHistory",
      * @return {String} current state of the browser history
      */
     _readState : function() {
-      return this._getHash();
+      return this._decode(this._getHash());
     },
 
     
@@ -106,12 +106,12 @@ qx.Class.define("qx.bom.NativeHistory",
       {
         qx.event.Timer.once(function()
         {
-          this._setHash(state);
+          this._setHash(this._encode(state));
         }, this, 0);
       },
 
       "default" : function (state) {
-        this._setHash(state);
+        this._setHash(this._encode(state));
       }
     })    
   },

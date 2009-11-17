@@ -59,7 +59,7 @@ qx.Class.define("qx.bom.IframeHistory",
     _setHash : function(value)
     {
       this.base(arguments, value);
-      this.__locationState = value;
+      this.__locationState = this._encode(value);
     },
     
     
@@ -71,7 +71,7 @@ qx.Class.define("qx.bom.IframeHistory",
     _readState : function() 
     {
       if (!this.__iframeReady) {
-        return this._getHash();
+        return this._decode(this._getHash());
       }
 
       var doc = this.__iframe.contentWindow.document;
@@ -89,6 +89,8 @@ qx.Class.define("qx.bom.IframeHistory",
      */
     _writeState : function(state)
     {
+      var state = this._encode(state);
+      
       this._setHash(state);
       this.__locationState = state;
       
@@ -144,10 +146,10 @@ qx.Class.define("qx.bom.IframeHistory",
      */
     __storeLocationState : function (locationState)
     {      
-      this.__locationState = locationState;
+      this.__locationState = this._encode(locationState);
       this._writeState(locationState);
 
-      return locationState;
+      return this.__locationState;
     },
     
     
