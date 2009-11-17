@@ -75,6 +75,7 @@ Arguments:
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
+    parser.add_option("-m", "--macro", dest="letmacros", action="map", type="string", default={}, help="set global 'let' macros")
     
     # wpbasti: TODO: Add option to insert arbitrary number of macros values
     # Could also be an good replacement for the four in the following listed options
@@ -112,7 +113,7 @@ Arguments:
     console.info(u"Jobs: %s" % ", ".join(options.jobs))
 
     # Load configuration
-    config = Config(console, options.config)
+    config = Config(console, options.config, **options.letmacros)
 
     # Resolve "include"-Keys
     console.info("Resolving config includes...")

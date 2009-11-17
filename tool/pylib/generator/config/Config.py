@@ -35,7 +35,7 @@ class Config:
 
     global console
 
-    def __init__(self, console_, data, path=""):
+    def __init__(self, console_, data, path="", **letKwargs):
         global console
         # init members
         self._console  = console_
@@ -60,6 +60,13 @@ class Config:
         # make sure there is at least an empty jobs map (for later filling)
         if isinstance(self._data, types.DictType) and Lang.JOBS_KEY not in self._data:
             self._data[Lang.JOBS_KEY] = {}
+            
+        # incorporate let macros from letkwargs
+        if letKwargs:
+            if not Lang.LET_KEY in self._data:
+                self._data[Lang.LET_KEY] = {}
+            self._data[Lang.LET_KEY].update(letKwargs)
+                
 
         # expand macros for some top-level keys
         if Lang.LET_KEY in self._data:
