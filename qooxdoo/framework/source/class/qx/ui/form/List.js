@@ -386,12 +386,15 @@ qx.Class.define("qx.ui.form.List",
      * Find an item by its {@link #qx.ui.form.ListItem~getLabel}.
      *
      * @param search {String} A label or any item
+     * @param ignoreCase {Boolean?true} description
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    findItem : function(search)
+    findItem : function(search, ignoreCase)
     {
       // lowercase search
-      search = search.toLowerCase();
+      if (ignoreCase !== false) {
+        search = search.toLowerCase();
+      };        
 
       // get all items of the list
       var items = this.getChildren();
@@ -402,10 +405,16 @@ qx.Class.define("qx.ui.form.List",
       {
         item = items[i];
 
-        if (
-          (item.getLabel() != null) &&
-          (item.getLabel().toLowerCase() == search)
-        ) {
+        // get the label (consider ignoreCase and its default value (true))
+        var label;
+        if (item.getLabel() != null) {
+          label = item.getLabel();
+          if (ignoreCase !== false) {
+            label = label.toLowerCase();
+          }
+        }
+
+        if (label == search) {
           return item;
         }
       }
