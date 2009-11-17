@@ -385,7 +385,7 @@ qx.Class.define("qx.bom.History",
     _getHash : function()
     {
       var hash = /#(.*)$/.exec(window.location.href);
-      return hash && hash[1] ? this._decode(hash[1]) : "";
+      return hash && hash[1] ? hash[1] : "";
     },
     
     
