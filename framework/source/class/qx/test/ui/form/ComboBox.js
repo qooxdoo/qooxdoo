@@ -57,6 +57,11 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.assertIdentical(item, list.getSelection()[0],
         "The wrong item selected in pop-up list!");
 
+      // check if the combobox is case sensitive #3024
+      combobox.setValue("item 2");
+      this.assertEquals("item 2", combobox.getValue());
+      this.assertEquals(0, list.getSelection().length);
+
       this.getRoot().removeAll();
       combobox.dispose();
       this.flush();

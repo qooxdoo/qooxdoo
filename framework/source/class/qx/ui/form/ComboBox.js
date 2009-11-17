@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var list = this.getChildControl("list");
       if (value != null) {
         // Select item when possible
-        var item = list.findItem(value);
+        var item = list.findItem(value, false);
         if (item) {
           list.setSelection([item]);
         } else {
