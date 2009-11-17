@@ -95,7 +95,9 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     __lookupTable : null,
     
-    /** @lint ignoreReferenceField(_validDelegates) */
+    /** 
+     * @lint ignoreReferenceField(_validDelegates) 
+     */
     _validDelegates : ["sorter", "filter"],
 
     /*

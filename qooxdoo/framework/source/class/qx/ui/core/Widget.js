@@ -1056,7 +1056,7 @@ qx.Class.define("qx.ui.core.Widget",
         contentStyles.height = innerHeight + pixel;
       }
       
-      if (inner || this.__updateInsets) {
+      if (inner || this._updateInsets) {
         content.setStyles(contentStyles);
       }
 
