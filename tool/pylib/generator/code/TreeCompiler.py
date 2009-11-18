@@ -269,7 +269,7 @@ class TreeCompiler:
 
         if len(optimize) > 0:
             # Protect original before optimizing
-            tree = copy.deepcopy(tree)
+            #tree = copy.deepcopy(tree)  # not! - it costs a lot of time and doesn't seem necessary at the moment (Bug#3073)
 
             self._console.debug("Optimizing tree: %s..." % fileId)
             self._console.indent()
