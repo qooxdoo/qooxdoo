@@ -160,6 +160,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     __window : null,
     __root : null,
     __lastUpDownType : null,
+    __lastKeyCode : null,
     __inputListeners : null,
     __onKeyPressWrapper : null,
 
@@ -452,7 +453,9 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       },
 
-      "opera" : function(domEvent) {
+      "opera" : function(domEvent)
+      {
+        this.__lastKeyCode = domEvent.keyCode;
         this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
       }
     })),
@@ -572,11 +575,27 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "opera" : function(domEvent)
       {
-        if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
-          this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
-        } else {
-          this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+        var keyCode = domEvent.keyCode;
+        var type = domEvent.type;
+
+        // Some keys are identified differently for key up/down and keypress
+        // (e.g. "v" gets identified as "F7").
+        // So we store the last key up/down keycode and compare it to the
+        // current keycode.
+        // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=603
+        if(keyCode != this.__lastKeyCode)
+        {
+          this._idealKeyHandler(0, this.__lastKeyCode, type, domEvent);
         }
+        else
+        {
+          if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
+            this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
+          } else {
+            this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+          }
+        }
+
       }
     })),
 
@@ -848,7 +867,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   destruct : function()
   {
     this._stopKeyObserver();
-    this.__manager = this.__window = this.__root = this.__lastUpDownType = null;
+    this.__lastKeyCode = this.__manager = this.__window = this.__root = this.__lastUpDownType = null;
   },
 
 
