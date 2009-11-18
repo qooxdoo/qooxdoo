@@ -77,7 +77,8 @@ qx.Class.define("qx.dev.unit.TestCase",
       this.getTestResult().run(
         this.getTestFunc(),
         deferredFunction || qx.lang.Function.empty,
-        self || this
+        self || this,
+        true
       );
     }
   }
