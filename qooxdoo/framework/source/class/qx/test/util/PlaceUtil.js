@@ -178,22 +178,22 @@ qx.Class.define("qx.test.util.PlaceUtil",
       var offsets = {top: 10, bottom: 20, left: 0, right: 0};
       
       this.assertJsonEquals(
-        {left: 500, top: 170},
+        {left: 500, top: 160},
         qx.util.PlaceUtil.compute(size, area, target, "bottom-left", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 500, top: 170},
+        {left: 500, top: 160},
         qx.util.PlaceUtil.compute(size, area, target, "top-left", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 100},
+        {left: 600, top: 110},
         qx.util.PlaceUtil.compute(size, area, target, "right-top", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 100},
+        {left: 600, top: 110},
         qx.util.PlaceUtil.compute(size, area, target, "right-bottom", "keep-align", offsets)
       );
     },
@@ -207,22 +207,22 @@ qx.Class.define("qx.test.util.PlaceUtil",
       var offsets = {top: 0, bottom: 0, left: 10, right: 20};
       
       this.assertJsonEquals(
-        {left: 290, top: 500},
+        {left: 280, top: 500},
         qx.util.PlaceUtil.compute(size, area, target, "left-top", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 290, top: 500},
+        {left: 280, top: 500},
         qx.util.PlaceUtil.compute(size, area, target, "right-top", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 400, top: 550},
+        {left: 380, top: 550},
         qx.util.PlaceUtil.compute(size, area, target, "bottom-left", "keep-align", offsets)
       );
 
       this.assertJsonEquals(
-        {left: 400, top: 550},
+        {left: 380, top: 550},
         qx.util.PlaceUtil.compute(size, area, target, "bottom-right", "keep-align", offsets)
       );
     }    
