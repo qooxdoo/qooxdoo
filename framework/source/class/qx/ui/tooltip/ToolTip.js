@@ -58,6 +58,8 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     if (icon != null) {
       this.setIcon(icon);
     }
+
+    this.addListener("mouseover", this._onMouseOver, this);
   },
 
 
@@ -160,6 +162,14 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     },
 
 
+    /**
+     * Listener method for "mouseover" event
+     *
+     * @param e {qx.event.type.Event} Mouse event
+     */
+    _onMouseOver : function(e) {
+      this.hide();
+    },
 
 
     /*
