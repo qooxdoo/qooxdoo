@@ -26,7 +26,7 @@
  *
  * See the description of the {@link #define} method how a mixin is defined.
  */
-qx.Class.define("qx.Mixin",
+qx.Bootstrap.define("qx.Mixin",
 {
   statics :
   {

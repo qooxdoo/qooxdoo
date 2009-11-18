@@ -138,6 +138,8 @@ qx.Bootstrap = {
 
     // Store class reference in global class registry
     qx.Bootstrap.$$registry[name] = config.statics;
+    
+    return clazz;
   }
 };
 
@@ -190,7 +192,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @signature function(name, config)
      * @param name {String} Name of the class
      * @param config {Map ? null} Class definition structure.
-     * @return {void}
+     * @return {Class} The defined class
      */
     define : qx.Bootstrap.define,
 

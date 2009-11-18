@@ -30,7 +30,7 @@
  * See the description of the {@link #define} method how an interface is
  * defined.
  */
-qx.Class.define("qx.Interface",
+qx.Bootstrap.define("qx.Interface",
 {
   statics :
   {

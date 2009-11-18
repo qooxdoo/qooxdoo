@@ -44,7 +44,7 @@
 
 qx.Class.define("qx.dev.unit.TestClass",
 {
-  extend : qx.dev.unit.TestSuite,
+  extend : qx.dev.unit.AbstractTestSuite,
 
 
 
