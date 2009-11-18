@@ -19,7 +19,7 @@
 
 qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
   type : "abstract",
 
   
@@ -30,7 +30,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
     },
     
     tearDown : function() {
-      throw new Error("Abstract method call!");
+      this.flush();
     },
     
 
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       this.assertInstance(editor, qx.ui.core.Widget);
       this.assertEquals("", editor.getValue());
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       var editor = this.factory.createCellEditor(this._getCellInfo("juhu"));
       this.assertEquals("juhu", editor.getValue());
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -66,7 +66,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       editor.setValue("Kinners");
       this.assertEquals("Kinners", this.factory.getCellEditorValue(editor));
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -101,7 +101,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       this.assertEquals(-12.5, this.factory.getCellEditorValue(editor));
       this.assertNumber(this.factory.getCellEditorValue(editor));
       
-      editor.dispose();
+      editor.destroy();
     }
   }
 });
