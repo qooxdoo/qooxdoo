@@ -149,8 +149,8 @@ qx.Bootstrap.define("qx.core.Setting",
     {
       if (window.qxsettings)
       {
-        for (var key in qxsettings) {
-          this.set(key, qxsettings[key]);
+        for (var key in window.qxsettings) {
+          this.set(key, window.qxsettings[key]);
         }
 
         window.qxsettings = undefined;

@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
     {
       var engine = "unknown";
       var version = "0.0.0";
-      var agent = navigator.userAgent;
+      var agent = window.navigator.userAgent;
       var unknownEngine = false;
       var unknownVersion = false;
 
@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = "9.6.0";
         }
       }
-      else if (navigator.userAgent.indexOf("AppleWebKit/") != -1)
+      else if (window.navigator.userAgent.indexOf("AppleWebKit/") != -1)
       {
         engine = "webkit";
         this.WEBKIT = true;
@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = "525.26";
         }
       }
-      else if (window.controllers && navigator.product === "Gecko")
+      else if (window.controllers && window.navigator.product === "Gecko")
       {
         engine = "gecko";
         this.GECKO = true;
@@ -147,7 +147,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = "1.9.0.0";
         }
       }
-      else if (navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
+      else if (window.navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
       {
         engine = "mshtml";
         version = RegExp.$1;
@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           engine = "gecko";
           this.GECKO = true;
 
-          alert("Unsupported client: " + agent
+          window.alert("Unsupported client: " + agent
             + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }

@@ -24,7 +24,7 @@
  * It has a comment and a fail message as members. The toString method returns
  * the comment and the fail message separated by a colon.
  */
-qx.Class.define("qx.type.BaseError",
+qx.Bootstrap.define("qx.type.BaseError",
 {
   extend : Error,
 
