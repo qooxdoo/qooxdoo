@@ -62,24 +62,20 @@ def main():
 
 Arguments:
   job,...               a list of jobs (like 'source' or 'copy-files',
-                        without the quotes) to perform
-  ?                     use '?' to get a list of all available jobs
-                        from the configuration file'''
+                        without the quotes) to run
+  x                     use 'x' (or some undefined job name) to get a 
+                        list of all available jobs from the configuration file'''
     parser.set_usage(usage_str)
 
 
     # Common options
     parser.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
-    #parser.add_option("-j", "--jobs", action="extend", dest="jobs", type="string", default=[], help="List of jobs to run")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
-    parser.add_option("-m", "--macro", dest="letmacros", action="map", type="string", default={}, help="set global 'let' macros")
+    parser.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
     
-    # wpbasti: TODO: Add option to insert arbitrary number of macros values
-    # Could also be an good replacement for the four in the following listed options
-
     # Dynamic options (currently not supported)
     #parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
     #parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
