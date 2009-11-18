@@ -22,6 +22,7 @@
 ################################################################################
 
 from optparse import *
+from misc import json
 
 ##
 # This is a modified version from the docs, e.g. doc/2.4.4/lib/optparse-adding-new-actions.html
@@ -40,7 +41,11 @@ class ExtendAction(Option):
         elif action == "map":
             keyval = value.split(":")
             if len(keyval) == 2 and len(keyval[0]) > 0:
-                values.ensure_value(dest, {})[keyval[0]] = keyval[1]
+                if keyval[1][0] in ["[", "{"]: # decode a Json value
+                    val = json.loads(keyval[1])
+                else:
+                    val = keyval[1]
+                values.ensure_value(dest, {})[keyval[0]] = val
             else:
                 raise OptionValueError("Value has to be of the form '<key>:<val>': %s" % value)
         else:
