@@ -595,6 +595,30 @@ qx.Class.define("qx.ui.core.LayoutItem",
         hint.height = hint.maxHeight;
       }
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (hint.minWidth > hint.maxWidth) {
+          this.warn(
+            "The size hint of '" + this + "' has a conflict: The computed minWidth is larger than the computed maxWidth." +
+            "\nwidth: " + this.getWidth() +
+            "\nminWidth: " + this.getMinWidth() +
+            "\nmaxWidth: " + this.getMaxWidth() +
+            "\nallowGrowX: " + this.getAllowGrowX() +
+            "\nallowShrinkX: " + this.getAllowShrinkX()
+          );
+        }
+        if (hint.minHeight > hint.maxHeight) {
+          this.warn(
+            "The size hint of '" + this + "' has a conflict: The computed minHeight is larger than the computed maxHeight." +
+            "\nheight: " + this.getHeight() +
+            "\nminHeight: " + this.getMinHeight() +
+            "\nmaxHeight: " + this.getMaxHeight() +
+            "\nallowGrowY: " + this.getAllowGrowY() +
+            "\nallowShrinkY: " + this.getAllowShrinkY()
+          );
+        }        
+      }
+      
       // Finally return
       return hint;
     },

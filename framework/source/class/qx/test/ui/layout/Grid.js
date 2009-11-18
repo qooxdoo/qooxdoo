@@ -209,6 +209,28 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertSize(b, 290, 40);
       this.assertSize(c, 70, 150);
       this.assertSize(d, 290, 150);
+    },
+    
+    
+    testCellMinSize : function()
+    {
+      var a = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        minWidth: 200,
+        minHeight: 200
+      });
+      var b = new qx.test.ui.layout.LayoutItem(100, 50);
+      var c = new qx.test.ui.layout.LayoutItem(100, 50);
+      var d = new qx.test.ui.layout.LayoutItem(100, 50);
+
+      this._gridWidget.add(a, {row: 0, column: 0});
+      this._gridWidget.add(b, {row: 0, column: 1});
+      this._gridWidget.add(c, {row: 1, column: 0});
+      this._gridWidget.add(d, {row: 1, column: 1});
+
+      this.assertSize(a, 200, 200);
+      this.assertSize(b, 100, 200);
+      this.assertSize(c, 200, 50);
+      this.assertSize(d, 100, 50);      
     }
   },
 
