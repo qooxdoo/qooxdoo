@@ -229,9 +229,11 @@ qx.Class.define("qx.event.handler.Application",
             try
             {
               // If IE is used, use the trick by Diego Perini
-              // http://javascript.nwbox.com/IEContentLoaded/
+              // http://javascript.nwbox.com/IEContentLoaded/         
               document.documentElement.doScroll("left");
-              self._onNativeLoadWrapped();
+              if (document.body) {
+                self._onNativeLoadWrapped();
+              }
             }
             catch(error) {
               window.setTimeout(timer, 100);
