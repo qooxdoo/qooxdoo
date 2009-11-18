@@ -155,7 +155,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
       // If old tooltip existing, hide it and clear widget binding
       if (old)
       {
-        old.exclude();
+        if (!old.isDisposed()) {
+          old.exclude();
+        }
 
         this.__showTimer.stop();
         this.__hideTimer.stop();
@@ -199,7 +201,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __onShowInterval : function(e)
     {
       var current = this.getCurrent();
-      if (current)
+      if (current && !current.isDisposed())
       {
         this.__hideTimer.startWith(current.getHideTimeout());
 
@@ -224,7 +226,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __onHideInterval : function(e)
     {
       var current = this.getCurrent();
-      if (current) {
+      if (current && !current.isDisposed()) {
         current.exclude();
       }
 
