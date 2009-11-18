@@ -22,12 +22,12 @@
 
 import os, sys, re, types, string, copy
 import simplejson
-from generator.config.Job import Job
 from generator.config.Manifest import Manifest
 from generator.config.Lang import Lang
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from misc.NameSpace import NameSpace
+# see late imports at the bottom of this file
 
 console = None
 
@@ -760,3 +760,5 @@ class Let(object):
         return sub
 
 
+# Late imports, for cross-importing
+from generator.config.Job import Job

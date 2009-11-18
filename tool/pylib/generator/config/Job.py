@@ -25,6 +25,7 @@ import simplejson
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Lang
 from generator.config.Defaults import Defaults
+from generator.config.Config import Let
 
 console = None
 
@@ -95,10 +96,15 @@ class Job(object):
         self.includeGlobalLet() # make sure potential global let is included first
 
         if self.hasFeature("extend"):
+            # prepare a Let object for potential macro expansion
+            letObj = Let(self.get(Lang.LET_KEY, {}))
+            letObj.expandMacrosInLet()              # do self-expansion of macros
             # loop through 'extend' entries
             extends = self.getFeature("extend")
             self._console.indent()
             for entry in extends:
+                # make best effort on macro expansion
+                entry = letObj.expandMacros(entry)
                 # cyclic check: have we seen this already?
                 if entry in entryTrace:
                     raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
@@ -150,8 +156,16 @@ class Job(object):
         if not job.hasFeature("run"):
             return [job]
         else:
+            # prepare a Let object for potential macro expansion
+            letObj = Let(self.get(Lang.LET_KEY, {}))
+            letObj.expandMacrosInLet()              # do self-expansion of macros
+
             for subjob in job.getFeature("run"):
                 
+                # make best effort on macro expansion
+                if isinstance(subjob, types.StringTypes):
+                    subjob = letObj.expandMacros(subjob)
+                # get job object
                 subjobObj = self._getJob(subjob, config)
                 if not subjobObj:
                     raise RuntimeError, "No such job: \"%s\"" % subjob
