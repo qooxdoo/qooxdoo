@@ -1399,19 +1399,5 @@ qx.Bootstrap.define("qx.core.Property",
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     }
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "qx.propertyDebugLevel" : 0
   }
 });
