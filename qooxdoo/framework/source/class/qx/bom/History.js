@@ -393,6 +393,7 @@ qx.Class.define("qx.bom.History",
     _applyTimeoutInterval : function(value)
     {
        qx.log.Logger.deprecatedMethodWarning(
+         arguments.callee,
          "The property 'timeoutInterval' has been deprected. The history manager" +
          "now uses 'qx.event.Idle' for polling."
        );
