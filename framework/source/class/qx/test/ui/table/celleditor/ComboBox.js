@@ -27,9 +27,13 @@ qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
       this.factory = new qx.ui.table.celleditor.ComboBox();
     },
     
-    tearDown : function() {
+    
+    tearDown : function()
+    {
+      this.base(arguments);
       this.factory.dispose();
     },
+    
     
     _getCellInfo : function(value) {
       return {
@@ -63,7 +67,7 @@ qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
       
       this.assertEquals("banane", this.factory.getCellEditorValue(editor));
       
-      editor.dispose();
+      editor.destroy();
     }
   }
 });

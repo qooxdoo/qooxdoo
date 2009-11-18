@@ -19,16 +19,19 @@
 
 qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
 
   
   members :
   {
-    setUp : function() {
+    setUp : function() 
+    {
       this.factory = new qx.ui.table.celleditor.SelectBox();
     },
     
-    tearDown : function() {
+    tearDown : function() 
+    {
+      this.base(arguments);
       this.factory.dispose();
     },
     
@@ -61,7 +64,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       this.assertInstance(editor, qx.ui.core.Widget);
       this.assertEquals(0, editor.getSelection().length);
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -72,7 +75,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       
       this.assertEquals("juhu", editor.getSelection()[0].getLabel());
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -84,7 +87,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       editor.setSelection([editor.getChildren()[1]]);
       this.assertEquals("kinners", this.factory.getCellEditorValue(editor));
       
-      editor.dispose();
+      editor.destroy();
     },
     
     
@@ -122,7 +125,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       this.assertEquals(-12.5, this.factory.getCellEditorValue(editor));
       this.assertNumber(this.factory.getCellEditorValue(editor));
       
-      editor.dispose();
+      editor.destroy();
     }
   }
 });
