@@ -58,6 +58,13 @@ qx.Class.define("qx.data.store.Jsonp",
     // overridden
     _createRequest: function(url) {
       var loader = new qx.io2.ScriptLoader();
+      
+      // check for the request configuration hook
+      var del = this._delegate;
+      if (del && qx.lang.Type.isFunction(del.configureRequest)) {
+        this._delegate.configureRequest(loader);
+      }      
+      
       var prefix = url.indexOf("?") == -1 ? "?" : "&";
       url += prefix + this.getCallbackParam() + "=";
       var id = parseInt(this.toHashCode(), 36);
