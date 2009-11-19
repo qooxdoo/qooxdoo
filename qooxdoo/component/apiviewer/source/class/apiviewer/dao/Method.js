@@ -31,9 +31,12 @@ qx.Class.define("apiviewer.dao.Method",
 
     getName : function()
     {
-      if (this.isConstructor()) {
+      if (this.isConstructor())
+      {
         return "construct"
-      } else {
+      }
+      else
+      {
         return this._docNode.attributes.name;
       }
     },
@@ -61,9 +64,12 @@ qx.Class.define("apiviewer.dao.Method",
 
     getParams : function()
     {
-      if (this._params != null) {
+      if (this._params != null)
+      {
         return this._params;
-      } else {
+      }
+      else
+      {
         var paramsNode = apiviewer.TreeUtil.getChild(this.getDocNode().getNode(), "params");
         this._params = paramsNode ? this._createNodeList(paramsNode, apiviewer.dao.Param, this.getClass(), this) : [];
         return this._params;
@@ -72,12 +78,29 @@ qx.Class.define("apiviewer.dao.Method",
 
     getReturn : function()
     {
-      if (this._return != null) {
+      if (this._return != null)
+      {
         return this._return;
-      } else {
+      }
+      else
+      {
         var returnNode = apiviewer.TreeUtil.getChild(this.getDocNode().getNode(), "return");
         this._return = returnNode ? new apiviewer.dao.Param(returnNode, this.getClass(), this) : "";
         return this._return;
+      }
+    },
+
+    getThrows : function()
+    {
+      if (this._throws != null)
+      {
+        return this._throws;
+      }
+      else
+      {
+        var throwsNode = apiviewer.TreeUtil.getChild(this.getDocNode().getNode(), "throws");
+        this._throws = throwsNode ? this._createNodeList(throwsNode, apiviewer.dao.ThrowsEntry, this.getClass(), this) : [];
+        return this._throws;
       }
     },
 
@@ -96,15 +119,18 @@ qx.Class.define("apiviewer.dao.Method",
 
     _addChildNode : function(node)
     {
-      switch (node.type) {
+      switch (node.type)
+      {
         case "params":
         case "return":
+        case "throws":
           break;
         default:
           return this.base(arguments, node);
       }
       return true;
     }
+
 
   },
   

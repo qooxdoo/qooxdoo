@@ -477,8 +477,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       this.__note = new qx.ui.popup.Popup(new qx.ui.layout.Canvas).set({
         autoHide : false,
-        width : 170,
-        offsetTop : 10
+        width : 170
       });
       var hintText = this.tr("Hint: You can use regular expressions in the search field.");
       var hint = new qx.ui.basic.Label(hintText);

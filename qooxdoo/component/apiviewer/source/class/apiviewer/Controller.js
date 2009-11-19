@@ -92,7 +92,7 @@ qx.Class.define("apiviewer.Controller",
         var loadEnd = new Date();
 
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+          // this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
         }
 
         var content = evt.getContent();
@@ -102,7 +102,7 @@ qx.Class.define("apiviewer.Controller",
         var end = new Date();
 
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+          // this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
         }
 
         // give the browser a chance to update its UI before doing more
@@ -229,7 +229,7 @@ qx.Class.define("apiviewer.Controller",
       var end = new Date();
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
+        // this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
       }
 
       var start = new Date();
@@ -237,7 +237,7 @@ qx.Class.define("apiviewer.Controller",
       var end = new Date();
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
+        // this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
       }
 
       return true;
