@@ -160,7 +160,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
         }
 
         // Add return value
-        var returnNode = method.getDocNode().getReturn()
+        var returnNode = method.getDocNode().getReturn();
         if (returnNode)
         {
           var desc = returnNode.getDescription();
@@ -183,6 +183,36 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
             ),
             '</div>'
           );
+        }
+
+
+        // Add throws
+        var throwsEntries = method.getDocNode().getThrows();
+        if (throwsEntries.length > 0)
+        {
+          textHtml.add('<div class="item-detail-headline">', "Throws:", '</div>');
+
+          for (var i=0; i<throwsEntries.length; i++)
+          {
+            var throwsEntry = throwsEntries[i];
+            var throwsEntryType = throwsEntry.getType() ? throwsEntry.getType() : throwsEntry.getDefaultType();
+
+            textHtml.add('<div class="item-detail-text">');
+
+            textHtml.add(
+              '<span class="parameter-type">',
+              apiviewer.ui.panels.InfoPanel.createItemLinkHtml(throwsEntryType),
+              '</span>'
+            );
+
+            var desc = throwsEntry.getDescription();
+
+            if (desc) {
+              textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, docClass));
+            }
+
+            textHtml.add('</div>');
+          }
         }
 
         textHtml.add(apiviewer.ui.panels.InfoPanel.createAccessHtml(method));
@@ -216,6 +246,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
         node.getOverriddenFrom() != null ||
         node.getRequiredBy().length > 0 ||
         docNode.getParams().length > 0 ||
+        docNode.getThrows().length > 0 ||
         hasReturn ||
         node.getSee().length > 0 ||
         node.getErrors().length > 0 ||
