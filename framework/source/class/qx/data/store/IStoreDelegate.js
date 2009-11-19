@@ -87,6 +87,15 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * @param data {Object} The data received by the request.
      * @return {Object} The manipulated data.
      */
-    manipulateData : function(data) {}    
+    manipulateData : function(data) {},
+    
+    
+    /**
+     * This method can change the settings on the used request by the store.
+     * 
+     * @param request {var} The created request, depending on the implementation
+     *   of the data store.
+     */
+    configureRequest : function(request) {}
   }
 });
