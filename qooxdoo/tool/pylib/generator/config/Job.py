@@ -104,7 +104,9 @@ class Job(object):
             self._console.indent()
             for entry in extends:
                 # make best effort on macro expansion
-                entry = letObj.expandMacros(entry)
+                if isinstance(entry, types.StringTypes):
+                    if entry.find('${') > -1:
+                        entry = letObj.expandMacros(entry)
                 # cyclic check: have we seen this already?
                 if entry in entryTrace:
                     raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
@@ -164,7 +166,8 @@ class Job(object):
                 
                 # make best effort on macro expansion
                 if isinstance(subjob, types.StringTypes):
-                    subjob = letObj.expandMacros(subjob)
+                    if subjob.find('${') > -1:
+                        subjob = letObj.expandMacros(subjob)
                 # get job object
                 subjobObj = self._getJob(subjob, config)
                 if not subjobObj:
