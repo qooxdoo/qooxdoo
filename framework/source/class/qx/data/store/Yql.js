@@ -29,13 +29,15 @@ qx.Class.define("qx.data.store.Yql",
 
   /**
    * @param query {String} The query for YQL.
+   * @param delegate {Object?} The delegate containing one of the methods
+   *   specified in {@link qx.data.store.IStoreDelegate}.
    */
-  construct : function(query)
+  construct : function(query, delegate)
   {
     var url = "http://query.yahooapis.com/v1/public/yql?q=" + 
     encodeURIComponent(query) + 
     "&format=json&diagnostics=false&" + 
     "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-    this.base(arguments, url, "callback");
+    this.base(arguments, url, delegate, "callback");
   }
 });
