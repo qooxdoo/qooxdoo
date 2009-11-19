@@ -1204,6 +1204,15 @@ qx.Class.define("qx.ui.core.Widget",
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (minWidth !== null && maxWidth !== null) {
+          this.assert(minWidth <= maxWidth, "minWidth is larger than maxWidth!");
+        }
+        if (minHeight !== null && maxHeight !== null) {
+          this.assert(minHeight <= maxHeight, "minHeight is larger than maxHeight!");
+        }
+      }
 
       // Ask content
       var contentHint = this._getContentHint();
