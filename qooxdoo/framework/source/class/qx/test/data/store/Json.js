@@ -29,6 +29,10 @@ qx.Class.define("qx.test.data.store.Json",
 
   members :
   {
+    __store : null,
+    __data : null,
+    __propertyNames : null,
+
 
     setUp : function()
     {
@@ -328,7 +332,33 @@ qx.Class.define("qx.test.data.store.Json",
       }, 100);
 
       this.wait();
-    }
+    },
+    
+    
+    testManipulatePrimitive: function() {
+      var manipulated = false;
+      var delegate = {manipulateData : function(data) {
+        manipulated = true;
+        return data;
+      }};
+      this.__store.dispose();
+      this.__store = new qx.data.store.Json(null, delegate);     
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          // check if the method has been called
+          this.assertTrue(manipulated);
+        }, this);
+      }, this);
+
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
+      var self = this;
+      window.setTimeout(function(){
+        self.__store.setUrl(url);
+      }, 100);
+
+      this.wait();
+    }  
 
   }
 });

@@ -30,13 +30,15 @@ qx.Class.define("qx.data.store.Jsonp",
   
   /**
    * @param url {String?} URL of the web service.
+   * @param delegate {Object?} The delegate containing one of the methods
+   *   specified in {@link qx.data.store.IStoreDelegate}.
    * @param callbackParam {String?} The name of the callback param for JSON-P
    */
-  construct : function(url, callbackParam) {
+  construct : function(url, delegate, callbackParam) {
     if (callbackParam != undefined) {
       this.setCallbackParam(callbackParam);
     }
-    this.base(arguments, url);    
+    this.base(arguments, url, delegate);    
   },
   
   
@@ -57,7 +59,7 @@ qx.Class.define("qx.data.store.Jsonp",
     _createRequest: function(url) {
       var loader = new qx.io2.ScriptLoader();
       var prefix = url.indexOf("?") == -1 ? "?" : "&";
-      url += prefix +  + "=";
+      url += prefix + this.getCallbackParam() + "=";
       var id = parseInt(this.toHashCode(), 36);
       
       qx.data.store.Jsonp[id] = this;
@@ -88,6 +90,12 @@ qx.Class.define("qx.data.store.Jsonp",
       if (data == undefined) {
         this.setState("failed");
         return;
+      }
+
+      // check for the data manipulation hook
+      var del = this._delegate;
+      if (del && qx.lang.Type.isFunction(del.manipulateData)) {
+        data = this._delegate.manipulateData(data);
       }
 
       // create the class

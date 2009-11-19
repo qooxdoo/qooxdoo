@@ -77,6 +77,16 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      *   given in the parameter. If <code>null</code> will be returned, no mixin
      *   will be included.
      */
-    getModelMixins : function(properties) {}
+    getModelMixins : function(properties) {},
+    
+    
+    /**
+     * This method manipulates the data from the request and returns the 
+     * manipulated data.
+     * 
+     * @param data {Object} The data received by the request.
+     * @return {Object} The manipulated data.
+     */
+    manipulateData : function(data) {}    
   }
 });

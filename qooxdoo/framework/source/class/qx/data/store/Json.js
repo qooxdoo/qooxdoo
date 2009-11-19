@@ -38,15 +38,17 @@ qx.Class.define("qx.data.store.Json",
 
   /**
    * @param url {String|null} The url where to find the data.
-   * @param delegate {Object} The delegate containing one of the methods
+   * @param delegate {Object?} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
    */
   construct : function(url, delegate)
   {
     this.base(arguments);
 
-    // store the marshaler
+
+    // store the marshaler and the delegate
     this._marshaler = new qx.data.marshal.Json(delegate);
+    this._delegate = delegate;
 
     if (url != null) {
       this.setUrl(url);
@@ -105,6 +107,7 @@ qx.Class.define("qx.data.store.Json",
   {
     // private members
     __request : null,
+    _delegate : null,
 
     // apply function
     _applyUrl: function(value, old) {
@@ -148,6 +151,13 @@ qx.Class.define("qx.data.store.Json",
     __requestCompleteHandler : function(ev)
     {
         var data = ev.getContent();
+        
+        // check for the data manipulation hook
+        var del = this._delegate;
+        if (del && qx.lang.Type.isFunction(del.manipulateData)) {
+          data = this._delegate.manipulateData(data);
+        }
+        
         // create the class
         this._marshaler.toClass(data, true);
         // set the initial data
@@ -178,5 +188,6 @@ qx.Class.define("qx.data.store.Json",
   destruct : function()
   {
     this._disposeObjects("_marshaler", "__request");
+    this._delegate = null;
   }
 });
