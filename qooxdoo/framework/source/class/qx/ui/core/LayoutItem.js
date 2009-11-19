@@ -566,58 +566,38 @@ qx.Class.define("qx.ui.core.LayoutItem",
         hint.height = this.__computedHeightForWidth;
       }
 
-      // Support shrink
-      if (!this.getAllowShrinkX()) {
-        hint.minWidth = Math.max(hint.minWidth, hint.width);
-      } else if (hint.minWidth > hint.width && this.getAllowGrowX()) {
+      
+      // normalize width
+      if (hint.minWidth > hint.width) {
         hint.width = hint.minWidth;
       }
-
-      if (!this.getAllowShrinkY()) {
-        hint.minHeight = Math.max(hint.minHeight, hint.height);
-      }
-      if (hint.minHeight > hint.height && this.getAllowGrowY()) {
-        hint.height = hint.minHeight;
-      }
-
-      // Support grow
-      if (!this.getAllowGrowX()) {
-        hint.maxWidth = Math.min(hint.maxWidth, hint.width);
-      }
-      if (hint.width > hint.maxWidth) {
+      if (hint.maxWidth < hint.width) {
         hint.width = hint.maxWidth;
       }
-
-      if (!this.getAllowGrowY()) {
-        hint.maxHeight = Math.min(hint.maxHeight, hint.height);
+      
+      if (!this.getAllowGrowX()) {
+        hint.maxWidth = hint.width;
       }
-      if (hint.height > hint.maxHeight) {
+      if (!this.getAllowShrinkX()) {
+        hint.minWidth = hint.width;
+      }
+      
+      
+      // normalize height
+      if (hint.minHeight > hint.height) {
+        hint.height = hint.minHeight;
+      }
+      if (hint.maxHeight < hint.height) {
         hint.height = hint.maxHeight;
       }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (hint.minWidth > hint.maxWidth) {
-          this.warn(
-            "The size hint of '" + this + "' has a conflict: The computed minWidth is larger than the computed maxWidth." +
-            "\nwidth: " + this.getWidth() +
-            "\nminWidth: " + this.getMinWidth() +
-            "\nmaxWidth: " + this.getMaxWidth() +
-            "\nallowGrowX: " + this.getAllowGrowX() +
-            "\nallowShrinkX: " + this.getAllowShrinkX()
-          );
-        }
-        if (hint.minHeight > hint.maxHeight) {
-          this.warn(
-            "The size hint of '" + this + "' has a conflict: The computed minHeight is larger than the computed maxHeight." +
-            "\nheight: " + this.getHeight() +
-            "\nminHeight: " + this.getMinHeight() +
-            "\nmaxHeight: " + this.getMaxHeight() +
-            "\nallowGrowY: " + this.getAllowGrowY() +
-            "\nallowShrinkY: " + this.getAllowShrinkY()
-          );
-        }        
+      
+      if (!this.getAllowGrowY()) {
+        hint.maxHeight = hint.height;
       }
+      if (!this.getAllowShrinkY()) {
+        hint.minHeight = hint.height;
+      }
+      
       
       // Finally return
       return hint;
