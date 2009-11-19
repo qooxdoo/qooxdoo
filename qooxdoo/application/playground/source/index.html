@@ -313,6 +313,25 @@ slider2.bind("value", slider1, "value");
 </textarea>
 
 <!-- ********************************************************************** -->
+
+<textarea class="qx_samples" title="YQL Binding">var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
+
+var delegate = {manipulateData : function(data) {
+  return data.query.results.item;
+}};
+
+var store = new qx.data.store.Yql(query, delegate);
+
+var list = new qx.ui.form.List();
+list.setWidth(250);
+this.getRoot().add(list);
+
+var controller = new qx.data.controller.List(null, list, "title");
+
+store.bind("model", controller, "model");
+</textarea>
+
+
   <script type="text/javascript" src="script/playground.js"></script>
 </body>
 </html>
