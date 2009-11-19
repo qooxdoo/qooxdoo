@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
     }
 
-    this.getContentElement().getChildren()[0].addListener(
+    this.getContentElement().addListener(
       "change", this._onChangeContent, this
     );
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     getFocusElement : function() {
       var el = this.getContentElement();
       if (el) {
-        return el.getChildren()[0];
+        return el;
       }
     },
 
@@ -255,37 +255,37 @@ qx.Class.define("qx.ui.form.AbstractField",
         innerHeight = innerHeight < 0 ? 0 : innerHeight;
       }
 
-      var input = this.getContentElement().getChildren()[0];
+      var input = this.getContentElement();
 
       if (updateInsets)
       {
         // render the placeholder
-        this.__placeholder.setStyle("left", insets.left + pixel);
-        this.__placeholder.setStyle("top", insets.top + pixel); 
+        this.__getPlaceholderElement().setStyles({
+          "left": insets.left + pixel,
+          "top": insets.top + pixel
+        }); 
       }
 
       if (inner)
       {
-        this.__placeholder.setStyle("width", innerWidth + pixel);
-        this.__placeholder.setStyle("height", innerHeight + pixel);
-        input.setStyle("width", innerWidth + pixel);
-        input.setStyle("height", innerHeight + pixel);
+        this.__getPlaceholderElement().setStyles({
+          "width": innerWidth + pixel,
+          "height": innerHeight + pixel
+        });
+        input.setStyles({
+          "width": innerWidth + pixel,
+          "height": innerHeight + pixel
+        });
       }
     },
 
 
     // overridden
     _createContentElement : function()
-    {
-      // create the wrapping div
-      var div = new qx.html.Element("div");
-      
+    {  
       // create and add the input element
       var el = this._createInputElement();
-      div.add(el);
       
-      // create the placeholder
-      this.__placeholder = new qx.html.Label();
       // Apply styles
       el.setStyles(
       {
@@ -296,9 +296,9 @@ qx.Class.define("qx.ui.form.AbstractField",
         "background" : "transparent",
         "outline": "none",
         "appearance": "none",
-        "position": "absolute"        
-      });    
-      div.add(this.__placeholder);
+        "position": "absolute",
+        "autoComplete": "off"             
+      });
 
       // initialize the html input
       el.setSelectable(this.getSelectable());
@@ -311,19 +311,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
         el.setAttribute("spellcheck", "false");
       }
-
-      // Apply styles
-      el.setStyles(
-      {
-        "border": "none",
-        "padding": 0,
-        "margin": 0,
-        "display" : "block",
-        "background" : "transparent",
-        "outline": "none",
-        "appearance": "none",
-        "autoComplete": "off"
-      });
 
       // Block resize handle in Safari
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
@@ -338,7 +325,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         });
       }
       
-      return div;
+      return el;
     },
 
 
@@ -347,7 +334,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments, value, old);
 
-      this.getContentElement().getChildren()[0].setEnabled(value);
+      this.getContentElement().setEnabled(value);
 
       if (value) {
         this._showPlaceholder();
@@ -393,9 +380,9 @@ qx.Class.define("qx.ui.form.AbstractField",
         styles = qx.bom.Font.getDefaultStyles()
       }
       // apply the font to the content element
-      this.getContentElement().getChildren()[0].setStyles(styles);
+      this.getContentElement().setStyles(styles);
       // apply the font to the placeholder
-      this.__placeholder.setStyles(styles);
+      this.__getPlaceholderElement().setStyles(styles);
 
       // Compute text size
       if (value) {
@@ -413,15 +400,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyTextColor : function(value, old)
     {
       if (value) {
-        this.getContentElement().getChildren()[0].setStyle(
+        this.getContentElement().setStyle(
           "color", qx.theme.manager.Color.getInstance().resolve(value)
         );
-        this.__placeholder.setStyle(
+        this.__getPlaceholderElement().setStyle(
           "color", qx.theme.manager.Color.getInstance().resolve(value)
         );        
       } else {
-        this.getContentElement().getChildren()[0].removeStyle("color");
-        this.__placeholder.removeStyle("color");        
+        this.getContentElement().removeStyle("color");
+        this.__getPlaceholderElement().removeStyle("color");        
       }
     },
 
@@ -478,7 +465,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         {
           fireEvents = false;
           value = filteredValue;
-          this.getContentElement().getChildren()[0].setValue(value);
+          this.getContentElement().setValue(value);
         }
       }
 
@@ -486,7 +473,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (value.length > this.getMaxLength())
       {
         var fireEvents = false;
-        this.getContentElement().getChildren()[0].setValue(
+        this.getContentElement().setValue(
           value.substr(0, this.getMaxLength())
         );
       }
@@ -534,7 +521,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       if (qx.lang.Type.isString(value))
       {
-        var elem = this.getContentElement().getChildren()[0];
+        var elem = this.getContentElement();
         if (value.length > this.getMaxLength()) {
           value = value.substr(0, this.getMaxLength());
         }
@@ -560,7 +547,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null} The current value
      */
     getValue : function() {
-      var value = this.getContentElement().getChildren()[0].getValue();
+      var value = this.getContentElement().getValue();
       return this.__nullValue ? null : value;
     },
 
@@ -600,7 +587,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null}
      */
     getTextSelection : function() {
-      return this.getContentElement().getChildren()[0].getTextSelection();
+      return this.getContentElement().getTextSelection();
     },
 
 
@@ -612,7 +599,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {Integer|null}
      */
     getTextSelectionLength : function() {
-      return this.getContentElement().getChildren()[0].getTextSelectionLength();
+      return this.getContentElement().getTextSelectionLength();
     },
 
 
@@ -628,7 +615,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     setTextSelection : function(start, end) {
-      this.getContentElement().getChildren()[0].setTextSelection(start, end);
+      this.getContentElement().setTextSelection(start, end);
     },
 
 
@@ -640,7 +627,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     clearTextSelection : function() {
-      this.getContentElement().getChildren()[0].clearTextSelection();
+      this.getContentElement().clearTextSelection();
     },
 
 
@@ -694,7 +681,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.__placeholder.setStyle("visibility", "hidden");
+        this.__getPlaceholderElement().setStyle("visibility", "hidden");
         this.removeState("showingPlaceholder");
       }
     },
@@ -706,8 +693,27 @@ qx.Class.define("qx.ui.form.AbstractField",
     _syncPlaceholder : function ()
     {
       if (this.hasState("showingPlaceholder")) {
-        this.__placeholder.setStyle("visibility", "visible");
+        this.__getPlaceholderElement().setStyle("visibility", "visible");
       }
+    },
+    
+    
+    /**
+     * Returns the placeholder label and creates it if necessary.
+     */
+    __getPlaceholderElement : function() 
+    {
+      if (this.__placeholder == null) {
+        // create the placeholder
+        this.__placeholder = new qx.html.Label();
+        this.__placeholder.setStyles({
+          "visibility" : "hidden",
+          "zIndex" : 6,
+          "position" : "absolute"
+        });
+        this.getContainerElement().add(this.__placeholder);
+      }
+      return this.__placeholder;
     },
 
 
@@ -719,7 +725,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // property apply
     _applyPlaceholder : function(value, old) {
-      this.__placeholder.setValue(value);
+      this.__getPlaceholderElement().setValue(value);
       if (value != null) {
         this.addListener("focusin", this._removePlaceholder, this);
         this.addListener("focusout", this._showPlaceholder, this);
@@ -734,14 +740,14 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // property apply
     _applyTextAlign : function(value, old) {
-      this.getContentElement().getChildren()[0].setStyle("textAlign", value);
+      this.getContentElement().setStyle("textAlign", value);
     },
 
 
     // property apply
     _applyReadOnly : function(value, old)
     {
-      var element = this.getContentElement().getChildren()[0];
+      var element = this.getContentElement();
 
       element.setAttribute("readOnly", value);
 

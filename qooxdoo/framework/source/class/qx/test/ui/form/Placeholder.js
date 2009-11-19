@@ -27,6 +27,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       var widget = new clazz();
       widget.setValue("affe");
       widget.setPlaceholder("aaa");
+      this.getRoot().add(widget);
+      this.flush();
+      
       this.assertEquals("affe", this.__getVisibleValueOf(widget), "placeholder visible");
       this.assertEquals("affe", widget.getValue(), "Wrong value returned.");
       this.assertFalse(this.__isPlaceholderVisible(widget));
@@ -150,25 +153,25 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
     __getVisibleValueOf: function(widget) {
       if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-        return widget.getContentElement().getChildren()[0].getValue();
+        return widget.getContentElement().getValue();
       } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
-        return widget.getChildControl("textfield").getContentElement().getChildren()[0].getValue();
+        return widget.getChildControl("textfield").getContentElement().getValue();
       }
     },
     
     __getPlaceholderValueOf: function(widget) {
       if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-        return widget.getContentElement().getChildren()[1].getValue();
+        return widget.getContainerElement().getChildren()[1].getValue();
       } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
-        return widget.getChildControl("textfield").getContentElement().getChildren()[1].getValue();
+        return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getValue();
       }      
     },
     
     __isPlaceholderVisible: function(widget) {
       if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-        return widget.getContentElement().getChildren()[1].getStyle("visibility") == "visible";
+        return widget.getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
       } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
-        return widget.getChildControl("textfield").getContentElement().getChildren()[1].getStyle("visibility") == "visible";;
+        return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
       }
     },
 
