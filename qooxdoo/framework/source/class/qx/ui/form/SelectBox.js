@@ -113,7 +113,6 @@ qx.Class.define("qx.ui.form.SelectBox",
           control = new qx.ui.basic.Atom(" ");
           control.setCenter(false);
           control.setAnonymous(true);
-          control.setRich(true);
 
           this._add(control, {flex:1});
           break;
@@ -181,21 +180,16 @@ qx.Class.define("qx.ui.form.SelectBox",
       var atom = this.getChildControl("atom");
 
       var label = listItem ? listItem.getLabel() : "";
+      var format = this.getFormat();
+      if (format != null) {
+        label = format.call(this, listItem);
+      }
+
       // check for translation
       if (label && label.translate) {
         label = label.translate();
       }
-
-      if(label == null) {
-        atom.resetLabel();
-      } 
-      else
-      {
-        if (listItem && !listItem.isRich()) {
-          label = qx.bom.String.escape(label);
-        }
-        atom.setLabel(label);
-      }
+      label == null ? atom.resetLabel() : atom.setLabel(label);
 
       var icon = listItem ? listItem.getIcon() : "";
       icon == null ? atom.resetIcon() : atom.setIcon(icon);

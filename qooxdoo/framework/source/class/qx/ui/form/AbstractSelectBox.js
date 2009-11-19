@@ -98,6 +98,19 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       apply : "_applyMaxListHeight",
       nullable: true,
       init : 200
+    },
+    
+    /**
+     * Formatter which format the value from the selected <code>ListItem</code>. 
+     * Uses the default formatter {@link #_defaultFormat}.
+     */
+    format :
+    {
+      check : "Function",
+      init : function(item) {
+        return this._defaultFormat(item);
+      },
+      nullable : true
     }
   },
 
@@ -218,6 +231,33 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      FORMAT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Return the formatted label text from the <code>ListItem</code>.
+     * The formatter removes all HTML tags and converts all HTML entities
+     * to string characters when the rich property is <code>true</code>.
+     *
+     * @param item {ListItem} The list item to format.
+     * @return {String} The formatted text.
+     */
+    _defaultFormat : function(item)
+    {
+      var valueLabel = item ? item.getLabel() : "";
+      var rich = item ? item.getRich() : false;
+
+      if (rich) {
+        valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
+        valueLabel = qx.bom.String.unescape(valueLabel);
+      }
+
+      return valueLabel;
+    },
 
 
     /*

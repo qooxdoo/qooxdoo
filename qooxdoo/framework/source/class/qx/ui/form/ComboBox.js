@@ -77,18 +77,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       init : "combobox"
     },
 
-    /**
-     * Formatter to format <code>TextField</code> value when <code>ListItem</code>
-     * is selected. Uses the default formatter {@link qx.ui.form.ComboBox#__defaultFormat}.
-     */
-    format :
-    {
-      check : "Function",
-      init : function(item) {
-        return this.__defaultFormat(item);
-      },
-      nullable : true
-    },
 
     /**
      * String value which will be shown as a hint if the field is all of:
@@ -388,31 +376,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.fireDataEvent("changeValue", value, e.getOldData());
     },
 
-    /*
-    ---------------------------------------------------------------------------
-      FORMAT HANDLING
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Return the formatted label text from the <code>ListItem</code>.
-     * The formatter removes all HTML tags and converts all HTML entities
-     * to string characters when the rich property is <code>true</code>.
-     *
-     * @param item {ListItem} The list item to format.
-     * @return {String} The formatted text.
-     */
-    __defaultFormat : function(item)
-    {
-      var valueLabel = item ? item.getLabel() : "";
-      var rich = item ? item.getRich() : false;
-
-      if (rich) {
-        valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
-        valueLabel = qx.bom.String.unescape(valueLabel);
-      }
-
-      return valueLabel;
-    },
 
     /*
     ---------------------------------------------------------------------------
