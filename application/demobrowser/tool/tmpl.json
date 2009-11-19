@@ -54,15 +54,15 @@
     {
       "extend" : ["common-XXX"],
 
-      "let"    : {"THEME" : "qx.theme.Classic"},
+      "let"    : {"DTHEME" : "qx.theme.Classic"},
 
-      "include" : ["${THEME}"],
+      "include" : ["${DTHEME}"],
 
-      "settings" : {"qx.theme": "${THEME}"},
+      "settings" : {"qx.theme": "${DTHEME}"},
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-${THEME}.js",
+        "file" : "source/script/YYY-${DTHEME}.js",
         "locales" : "${LOCALES}",
         "root" : "source/demo/yyy"
       }
@@ -72,15 +72,15 @@
     {
       "extend" : ["common-XXX"],
 
-      "let"    : {"THEME" : "qx.theme.Modern"},
+      "let"    : {"DTHEME" : "qx.theme.Modern"},
 
-      "include" : ["${THEME}"],
+      "include" : ["${DTHEME}"],
 
-      "settings" : {"qx.theme": "${THEME}"},
+      "settings" : {"qx.theme": "${DTHEME}"},
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-${THEME}.js",
+        "file" : "source/script/YYY-${DTHEME}.js",
         "locales" : "${LOCALES}",
         "root" : "source/demo/yyy"
       }
@@ -95,11 +95,11 @@
     {
       "extend" : ["common-XXX"],
 
-      "let"    : {"THEME" : "qx.theme.Classic"},
+      "let"    : {"DTHEME" : "qx.theme.Classic"},
 
-      "include" : ["${THEME}"],
+      "include" : ["${DTHEME}"],
 
-      "settings" : {"qx.theme": "${THEME}"},
+      "settings" : {"qx.theme": "${DTHEME}"},
 
       "variants" :
       {
@@ -111,7 +111,7 @@
       {
         "paths" :
         {
-          "file" : "build/script/YYY-${THEME}.js"
+          "file" : "build/script/YYY-${DTHEME}.js"
         },
         "uris" :
         {
@@ -131,11 +131,11 @@
     {
       "extend" : ["common-XXX"],
 
-      "let"    : {"THEME" : "qx.theme.Modern"},
+      "let"    : {"DTHEME" : "qx.theme.Modern"},
 
-      "include" : ["${THEME}"],
+      "include" : ["${DTHEME}"],
 
-      "settings" : {"qx.theme": "${THEME}"},
+      "settings" : {"qx.theme": "${DTHEME}"},
 
       "variants" :
       {
@@ -147,7 +147,7 @@
       {
         "paths" :
         {
-          "file" : "build/script/YYY-${THEME}.js"
+          "file" : "build/script/YYY-${DTHEME}.js"
         },
         "uris" :
         {
