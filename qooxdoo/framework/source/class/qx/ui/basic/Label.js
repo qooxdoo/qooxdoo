@@ -109,6 +109,20 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    /** 
+     * Controls whether text wrap is activated or not. But please note, that
+     * this property works only in combination with the property {@link #rich}.
+     * The {@link #wrap} has only an effect if the {@link #rich} property is
+     * set to <code>true</code>, otherwise {@link #wrap} has no effect.
+     */
+    wrap :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyWrap"
+    },
+
+
     /**
      * Contains the HTML or text content. Interpretation depends on the value
      * of {@link #rich}. In text mode entities and other HTML special content
@@ -239,7 +253,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     // overridden
     _hasHeightForWidth : function() {
-      return this.getRich();
+      return this.getRich() && this.getWrap();
     },
 
 
@@ -277,7 +291,7 @@ qx.Class.define("qx.ui.basic.Label",
     // overridden
     _getContentHeightForWidth : function(width)
     {
-      if (!this.getRich()) {
+      if (!this.getRich() && !this.getWrap()) {
         return null;
       }
       return this.__computeContentSize(width).height;
@@ -412,6 +426,18 @@ qx.Class.define("qx.ui.basic.Label",
 
       // Update layout
       qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    // property apply
+     _applyWrap : function(value, old)
+    {
+      if (value && !this.isRich())
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.warn("Only rich labels support wrap.");
+        }
+      }
     },
 
 
