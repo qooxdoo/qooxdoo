@@ -863,7 +863,11 @@ qx.Class.define("qx.event.handler.Focus",
             // Unselectable may keep the current selection which
             // is not what we like when changing the focus element.
             // So we clear it
-            document.selection.empty();
+            try {
+              document.selection.empty();
+            } catch (e) {
+              // ignore 'Unknown runtime error'
+            }
 
             // The unselectable attribute stops focussing as well.
             // Do this manually.
