@@ -97,8 +97,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       {
         if (qx.lang.Type.isString(styles))
         {
-          throw new Error("Wrong type for parameter 'styles'.");
           qx.log.Logger.deprecatedWarning(arguments.callee, "Please provide a map for the 'styles' parameter");
+          throw new Error("Wrong type for parameter 'styles'.");
         }
       }
 

@@ -82,8 +82,6 @@ qx.Class.define("qx.bom.Selection",
         {
           return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).toString();
         }
-
-        return null;
       }
     }),
 
@@ -144,8 +142,6 @@ qx.Class.define("qx.bom.Selection",
         } else {
           return qx.bom.Selection.get(node).length;
         }
-
-        return null;
       }
     }),
 
