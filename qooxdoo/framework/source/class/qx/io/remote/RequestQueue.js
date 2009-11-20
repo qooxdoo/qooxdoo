@@ -342,10 +342,13 @@ qx.Class.define("qx.io.remote.RequestQueue",
           request[requestHandler](e);
         }
       }
-      catch(e)
+      catch(ex)
       {
-        this.error("Request " + request + " handler " + requestHandler +
-                   " threw an error.");
+        this.error(
+          "Request " + request + " handler " + requestHandler + " threw an error: " + ex +
+          "\nStack Trace:\n" + 
+          qx.dev.StackTrace.getStackTraceFromError(ex)
+        );
 
         // Issue an "aborted" event so the application gets notified.
         // If that too fails, or if there's no "aborted" handler, ignore it.
@@ -353,7 +356,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         {
           if (request["aborted"])
           {
-            request["aborted"](e);
+            request["aborted"](ex);
           }
         }
         catch(e)
