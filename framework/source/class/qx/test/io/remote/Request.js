@@ -225,6 +225,42 @@ qx.Class.define("qx.test.io.remote.Request",
         that.assertTrue(asynchronousRequestFinished);
         that.assertTrue(synchronousRequestFinished);
       });
+    },
+
+    testAbortedOnException : function()
+    {
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+        return;
+      }
+
+      if (this.buggyBrowser) {
+        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
+        return;
+      }
+
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      var request = new qx.io.remote.Request(url, "GET", "text/plain");
+      request.addListener("failed", this.responseError, this);
+      request.addListener("timeout", this.responseError, this);
+
+      request.addListener("completed", function(e)
+      {
+        throw new Error("Expected exception.");
+      }, this);
+
+      request.addListener("aborted", function(e)
+      {
+        this.resume(function()
+        {
+          this.assertEquals(request, e.getTarget());
+          request.dispose();
+        }, this);
+      }, this);
+
+      request.send();
+
+      this.wait(2000);
     }
   }
 });
