@@ -813,9 +813,8 @@ class Generator(object):
 
             def addNodes(gr, st_nodes):
                 # rather gr.add_nodes(st), go through indiviudal nodes for coloring
-                if depsLogConf.get("dot/compiled-class-size", True):
-                    useCompiledSize = True
-                    optimize        = depsLogConf.get("dot/optimize", [])
+                useCompiledSize = depsLogConf.get("dot/compiled-class-size", True)
+                optimize        = depsLogConf.get("dot/optimize", [])
                 for cid in st_nodes:
                     if cid == None:  # None is introduced in st
                         continue
