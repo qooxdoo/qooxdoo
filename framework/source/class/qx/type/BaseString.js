@@ -65,13 +65,26 @@ qx.Class.define("qx.type.BaseString",
      * This method is usually called internally by JavaScript and not
      * explicitly in code.
      *
-     * @signature function()
      * @return {String} A new string containing the string value.
      */
     toString : function() {
       return this.__txt;
     },
 
+    
+    /**
+     * The valueOf method of String returns the primitive value of a String 
+     * object as a string data type. This value is equivalent to String.toString.
+     * 
+     * This method is usually called internally by JavaScript and not explicitly
+     * in code.
+     * 
+     * @return {String} value of the string.
+     */
+    valueOf : function() {
+      return this.__txt;
+    },
+    
 
     /**
      *  Returns the specified character from a string.
@@ -370,7 +383,7 @@ qx.Class.define("qx.type.BaseString",
      if (qx.core.Variant.isSet("qx.debug", "on")) {
        qx.Class.include(statics, qx.core.MAssert);
      }
-
+    
      var mappedFunctions = [
        'charAt',
        'charCodeAt',
@@ -390,13 +403,9 @@ qx.Class.define("qx.type.BaseString",
        'toLocaleUpperCase'
      ];
 
-
-
-     members.valueOf = members.toString;
      for (var i=0, l=mappedFunctions.length; i<l; i++) {
        members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
      }
-
    }
 
 });

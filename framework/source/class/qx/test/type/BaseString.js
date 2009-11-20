@@ -24,6 +24,12 @@ qx.Class.define("qx.test.type.BaseString",
 
   members :
   {
+    testToString : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("Juhu", s);      
+    },
+  
     testUpperCase : function()
     {
       var s = new qx.type.BaseString("Juhu");
