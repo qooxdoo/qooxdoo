@@ -365,6 +365,11 @@ qx.Class.define("playground.Application",
 
           this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
 
+          // create the sheet for the codemirror iframe
+          var sheet = qx.bom.Stylesheet.createElement(
+            ".code-mirror-iframe {position: absolute; z-index: 11}"
+          );
+
           this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
           {
             content            : this.textarea.getValue(),
@@ -375,7 +380,8 @@ qx.Class.define("playground.Application",
             continuousScanning : false,
             width              : width + "px",
             height             : height + "px",
-            autoMatchParens    : true
+            autoMatchParens    : true,
+            iframeClass : "code-mirror-iframe"
           });
 
           var splitter = this.mainsplit.getChildControl("splitter");
