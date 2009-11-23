@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * Abstract Icon cell renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Abstract Icon cell renderer.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 {

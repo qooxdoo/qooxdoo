@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /**
- * Table Cell Renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Table Cell Renderer for Progressive.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 {

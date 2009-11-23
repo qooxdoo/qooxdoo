@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Abstract renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Abstract renderer for Progressive.
  */
 qx.Class.define("qx.ui.progressive.renderer.Abstract",
 {
