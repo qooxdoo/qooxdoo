@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * <h3>EXPERIMENTAL</h3>
- *
  * This is a util class resposnible for serializing qooxdoo objects.
  */
 qx.Class.define("qx.util.Serializer",
