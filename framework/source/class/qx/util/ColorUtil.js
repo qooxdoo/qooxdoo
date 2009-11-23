@@ -524,7 +524,7 @@ qx.Class.define("qx.util.ColorUtil",
      * Convert HSB colors to RGB
      *
      * @param hsb {Number[]} an array with hue, saturation and brightness
-     * @return {Array} an array with red, green, blue
+     * @return {Integer[]} an array with red, green, blue
      */
     hsbToRgb : function(hsb)
     {
@@ -605,7 +605,7 @@ qx.Class.define("qx.util.ColorUtil",
         }
       }
 
-      return rgb;
+      return return [rgb.red, rgb.blue, rgb.green];
     },
 
 
