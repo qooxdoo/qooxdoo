@@ -204,5 +204,16 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
         return "";
       }
     }
-  }
+  },
+ 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  
+  destruct : function()
+  {
+    this.__imageData = null;    
+  } 
 });
