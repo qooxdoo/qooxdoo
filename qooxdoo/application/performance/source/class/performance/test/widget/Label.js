@@ -4,9 +4,9 @@ qx.Class.define("performance.test.widget.Label",
   
   members :
   {
-    CREATE_ITERATIONS : 500,
-    RESIZE_ITERATIONS : 250,
-    DISPOSE_ITERATIONS : 500,
+    CREATE_ITERATIONS : 100,
+    RESIZE_ITERATIONS : 25,
+    DISPOSE_ITERATIONS : 100,
 
     _createWidget : function() {
       return new qx.ui.basic.Label("juhu");

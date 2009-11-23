@@ -29,10 +29,9 @@ qx.Class.define("performance.test.element.Element",
     },
     
   
-    CREATE_ITERATIONS : 3000,
-    RESIZE_ITERATIONS : 1000,
-    DISPOSE_ITERATIONS : 3000,
-    
+    CREATE_ITERATIONS : 1000,
+    RESIZE_ITERATIONS : 500,
+    DISPOSE_ITERATIONS : 1000,
   
     _createElement : function() {
       return new qx.html.Element("div");
