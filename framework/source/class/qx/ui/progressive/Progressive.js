@@ -191,7 +191,18 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     flushWidgetQueueAfterBatch :
     {
-      init : false    }
+      init : false
+    },
+
+    /**
+     * Delay between rendering elements. Zero is normally adequate, but
+     * there are times that the user wants more time between rendering
+     * some elements.
+     */
+    interElementTimeout :
+    {
+      init  : 0
+    }
   },
 
 
@@ -422,7 +433,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
                           {
                             this.__renderElementBatch(state);
                           },
-                          this, 0);
+                          this,
+                          this.getInterElementTimeout());
     },
 
 
