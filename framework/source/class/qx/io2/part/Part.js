@@ -121,8 +121,6 @@ qx.Class.define("qx.io2.part.Part",
         this.addListenerOnce("load", callback, self);
       }
 
-      this.__readyState = "loading";
-
       var onLoad = function() {
         this.load();
       }
