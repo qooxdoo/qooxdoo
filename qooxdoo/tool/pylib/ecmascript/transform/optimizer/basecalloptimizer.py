@@ -41,40 +41,42 @@ def patch(node):
       
     if (not "members" in classMap):
         return 0
-        
-    this_base_vars = treeutil.findVariable(classMap["members"], "this.base")
-    for var in this_base_vars:
-        if var.parent.type == "operand" and var.parent.parent.type == "call":
-            call = var.parent.parent
-            try:
-                firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-            except tree.NodeAccessException:
-                continue
+    
+    members = classMap["members"]
+    for member in classMap["members"]:
+        this_base_vars = treeutil.findVariable(members[member], "this.base")
+        for var in this_base_vars:
+            if var.parent.type == "operand" and var.parent.parent.type == "call":
+                call = var.parent.parent
+                try:
+                    firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
+                except tree.NodeAccessException:
+                    continue
 
-            if firstArgName != "arguments":
-                continue
+                if firstArgName != "arguments":
+                    continue
 
-            newCall = treeutil.compileString("arguments.callee.base.call(this)")
-            newCall.replaceChild(newCall.getChild("params"), call.getChild("params"))
-            treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")
-            call.parent.replaceChild(call, newCall)
-            patchCount += 1
+                newCall = treeutil.compileString("arguments.callee.base.call(this)")
+                newCall.replaceChild(newCall.getChild("params"), call.getChild("params"))
+                treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")
+                call.parent.replaceChild(call, newCall)
+                patchCount += 1
 
-    this_self_vars = treeutil.findVariable(node, "this.self")
-    for var in this_self_vars:
-        if var.parent.type == "operand" and var.parent.parent.type == "call":
-            call = var.parent.parent
-            try:
-                firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-            except tree.NodeAccessException:
-                continue
+        this_self_vars = treeutil.findVariable(members[member], "this.self")
+        for var in this_self_vars:
+            if var.parent.type == "operand" and var.parent.parent.type == "call":
+                call = var.parent.parent
+                try:
+                    firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
+                except tree.NodeAccessException:
+                    continue
 
-            if firstArgName != "arguments":
-                continue
+                if firstArgName != "arguments":
+                    continue
 
-            newCall = treeutil.compileString("arguments.callee.self")
-            call.parent.replaceChild(call, newCall)
-            patchCount += 1
+                newCall = treeutil.compileString("arguments.callee.self")
+                call.parent.replaceChild(call, newCall)
+                patchCount += 1
 
     return patchCount
 
@@ -112,7 +114,7 @@ if __name__ == "__main__":
       },
       members : {
         foo : function() {
-          this.base(arguments)
+          return this.base(arguments)
         }
       }
     })"""
