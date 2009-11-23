@@ -20,6 +20,7 @@
 
 from ecmascript.frontend import tree
 
+ATOMS = ["string", "number", "identifier"]
 
 SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]
 
@@ -540,10 +541,12 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
                 expectedDesc = "statement"
             raiseSyntaxException(stream.curr(), expectedDesc)
 
+    advanced = False # currently unused - I wanted to use this to detect recursive processing, but it somehow doesn't work
     # check whether this is an operation
     if (stream.currIsType("token", MULTI_TOKEN_OPERATORS) 
     or stream.currIsType("reserved", MULTI_PROTECTED_OPERATORS) 
     or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore())):
+        advanced = True
         # its an operation -> We've already parsed the first operand (in item)
         parsedItem = item
 
@@ -588,6 +591,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
     # check whether this is a combined statement, e.g. "bla(), i++"
     if stream.currIsType("token", "COMMA"):
+        advanced = True
         if not inStatementList:  # only create a list node if this is the beginning
             expressionList = createItemNode("expressionList", stream)
             expressionList.addChild(item)
@@ -600,8 +604,14 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             item = expressionList
 
     # go over the optional semicolon
-    if not expressionMode and overrunSemicolon and stream.currIsType("token", "SEMICOLON"):
+    if  stream.currIsType("token", "SEMICOLON") and not expressionMode and overrunSemicolon:
+        advanced = True
         stream.next(item, True)
+
+    #if expressionMode and not advanced: # we have an item but couldn't use the next token in stream
+    if expressionMode and stream.currType() in ATOMS : # we have an item but couldn't use the next token in stream
+        # must be an invalid expression
+        raiseSyntaxException(stream.curr(), "operator or terminator")
 
 
     item.set("eolBefore", eolBefore)
