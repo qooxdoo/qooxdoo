@@ -382,7 +382,8 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     elif stream.currIsType("token", "LP"):
         igroup = createItemNode("group", stream)
         stream.next(igroup)
-        igroup.addChild(readStatement(stream, expressionMode))
+        #igroup.addChild(readStatement(stream, expressionMode))
+        igroup.addChild(readExpression(stream, ))
         stream.expectCurrType("token", "RP")
         stream.next(igroup, True)
         oper = readObjectOperation(stream, igroup)
@@ -437,7 +438,8 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         item = readMap(stream)
         if stream.currIsType("token", "LB"):
             item = readObjectOperation(stream, item)
-    elif expressionMode and stream.currIsType("token", "LB"):
+    #elif expressionMode and stream.currIsType("token", "LB"):
+    elif stream.currIsType("token", "LB"):
         item = readArray(stream)
         if stream.currIsType("token", "LB"):
             item = readObjectOperation(stream, item)
