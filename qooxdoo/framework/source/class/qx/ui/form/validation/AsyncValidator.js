@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * This class is responsible for validation in all asynchronous cases and
  * should always be used with {@link qx.ui.form.validation.Manager}.
  *

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * Abstract rendere for {@link qx.ui.form.Form}. This abstract rendere should
  * be the superclass of all form renderer. It takes the form, which is 
  * supplied as constructor parameter and configures itself. So if you need to

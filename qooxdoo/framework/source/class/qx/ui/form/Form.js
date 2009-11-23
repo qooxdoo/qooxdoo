@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * The form object is responsible for managing form items. For that, it takes
  * advantage of two existing qooxdoo classes.
  * The {@link qx.ui.form.Resetter} is used for resetting and the

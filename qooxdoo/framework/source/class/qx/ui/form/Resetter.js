@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * The resetter is responsible for managing a set of items and resetting this
  * items on a {@link #reset} call. It can halnde all form items supplying a
  * value property and all widgets implementing the single selection linke list

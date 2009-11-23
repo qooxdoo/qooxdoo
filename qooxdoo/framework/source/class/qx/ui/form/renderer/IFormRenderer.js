@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * This interface defines the necessary features a form rendere should have.
  * Keep in mind that all renderes has to be widgets.
  */
