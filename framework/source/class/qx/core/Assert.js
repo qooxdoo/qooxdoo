@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.core.Assert",
       // Build up message from message varargs. It's not really important 
       // how long this takes as it is done only when assertion is triggered
       var msg = "";
-      for (var i=2, l=arguments.length; i<l; i++)
+      for (var i=1, l=arguments.length; i<l; i++)
       {
         msg = msg + this.__toString(arguments[i]);
       }
