@@ -589,9 +589,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var tabelModel = this.getTable().getTableModel();
       var modelRowCount = 0;
 
-      if (tabelModel != null) {
-        modelRowCount = tabelModel.getRowCount();
-      }
+      modelRowCount = tabelModel.getRowCount();
 
       // don't handle this special case here
       if (firstRow + rowCount > modelRowCount) {
@@ -674,9 +672,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var rowCount = this.getVisibleRowCount();
       var modelRowCount = 0;
 
-      if (tableModel != null) {
-        modelRowCount = tableModel.getRowCount();
-      }
+      modelRowCount = tableModel.getRowCount();
 
       if (firstRow + rowCount > modelRowCount) {
         rowCount = Math.max(0, modelRowCount - firstRow);

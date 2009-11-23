@@ -167,14 +167,7 @@ qx.Class.define("qx.ui.table.Table",
     // Create the models
     this.__selectionManager = this.getNewSelectionManager()(this);
     this.setSelectionModel(this.getNewSelectionModel()(this));
-    this.setTableColumnModel(this.getNewTableColumnModel()(this));
-
-    // If a table model was provided...
-    if (tableModel != null)
-    {
-      // ... then save it.
-      this.setTableModel(tableModel);
-    }
+    this.setTableModel(tableModel || this.getEmptyTableModel());
 
     // create the main meta column
     this.setMetaColumnCounts([ -1 ]);
@@ -345,22 +338,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "qx.ui.table.ITableModel",
       apply : "_applyTableModel",
-      event : "changeTableModel",
-      nullable : true
-    },
-
-
-    /**
-     * The table column model.
-     *
-     * Note that is is not possible to change the table column model once it
-     * is set.
-     */
-    tableColumnModel :
-    {
-      check : "qx.ui.table.columnmodel.Basic",
-      apply : "_applyTableColumnModel",
-      event : "changeTableColumnModel"
+      event : "changeTableModel"
     },
 
 
@@ -655,6 +633,9 @@ qx.Class.define("qx.ui.table.Table",
     __internalChange : null,
 
     __columnMenuButtons : null,
+    __columnModel : null,
+    __emptyTableModel : null,
+    
 
 
     // overridden
@@ -713,11 +694,6 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applyRowHeight : function(value, old)
     {
-      if (! this.getTableModel())
-      {
-        return;
-      }
-
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
@@ -736,6 +712,24 @@ qx.Class.define("qx.ui.table.Table",
       }
     },
 
+    
+    /**
+     * Get an empty table model instance to use for this table. Use this table
+     * to configure the table with no table model.
+     * 
+     * @return {qx.ui.table.ITableModel} The empty table model
+     */
+    getEmptyTableModel : function() 
+    {
+      if (!this.__emptyTableModel)
+      {
+        this.__emptyTableModel = new qx.ui.table.model.Simple();
+        this.__emptyTableModel.setColumns([]);
+        this.__emptyTableModel.setData([]);
+      }
+      return this.__emptyTableModel;
+    },
+    
 
     // property modifier
     _applyTableModel : function(value, old)
@@ -776,36 +770,36 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    // property modifier
-    _applyTableColumnModel : function(value, old)
+    /**
+     * Get the The table column model.
+     * 
+     * @return {qx.ui.table.columnmodel.Basic} The table's column model
+     */
+    getTableColumnModel : function()
     {
-      if (old != null) {
-        throw new Error("The table column model can only be set once per table.");
-      }
-
-      value.addListener("visibilityChanged", this._onColVisibilityChanged, this);
-      value.addListener("widthChanged", this._onColWidthChanged, this);
-      value.addListener("orderChanged", this._onColOrderChanged, this);
-
-      // Get the current table model
-      var tm = this.getTableModel();
-
-      // If one is already in effect...
-      if (tm)
+      if (!this.__columnModel)
       {
-        // ... then initialize this new table column model now.
-        value.init(tm.getColumnCount(), this);
-      }
+        var columnModel = this.__columnModel = this.getNewTableColumnModel()(this)
 
-      // Reset the table column model in each table pane model
-      var scrollerArr = this._getPaneScrollerArr();
-
-      for (var i=0; i<scrollerArr.length; i++)
-      {
-        var paneScroller = scrollerArr[i];
-        var paneModel = paneScroller.getTablePaneModel();
-        paneModel.setTableColumnModel(value);
+        columnModel.addListener("visibilityChanged", this._onColVisibilityChanged, this);
+        columnModel.addListener("widthChanged", this._onColWidthChanged, this);
+        columnModel.addListener("orderChanged", this._onColOrderChanged, this);
+  
+        // Get the current table model
+        var tableModel = this.getTableModel();
+        columnModel.init(tableModel.getColumnCount(), this);
+  
+        // Reset the table column model in each table pane model
+        var scrollerArr = this._getPaneScrollerArr();
+  
+        for (var i=0; i<scrollerArr.length; i++)
+        {
+          var paneScroller = scrollerArr[i];
+          var paneModel = paneScroller.getTablePaneModel();
+          paneModel.setTableColumnModel(columnModel);
+        }
       }
+      return this.__columnModel;
     },
 
 
@@ -1770,7 +1764,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       var tableModel = this.getTableModel();
 
-      if (this.getStatusBarVisible() && tableModel)
+      if (this.getStatusBarVisible())
       {
         var selectedRowCount = this.getSelectionModel().getSelectedCount();
         var rowCount = tableModel.getRowCount();
@@ -2050,7 +2044,10 @@ qx.Class.define("qx.ui.table.Table",
 
     this._cleanUpMetaColumns(0);
     this.getTableColumnModel().dispose();
-    this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__scrollerParent");
+    this._disposeObjects(
+      "__selectionManager", "__scrollerParent",
+      "__emptyTableModel", "__emptyTableModel"
+    );
     this._disposeMap("__columnMenuButtons");
   }
 });
