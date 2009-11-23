@@ -176,6 +176,13 @@ qx.Class.define("qx.ui.core.queue.Manager",
       }
       catch (e) 
       {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.log.Logger.error(
+            "Error while layout flush: " + e + "\n" +
+            "Stack trace: \n" +
+            qx.dev.StackTrace.getStackTraceFromError(e)
+          );
+        }
         self.__scheduled = false;
         self.__inFlush = false;
         self.__retries += 1;
