@@ -173,6 +173,18 @@ qx.Bootstrap.define("qx.lang.String",
 
 
     /**
+     * Returns a string, which repeats a string 'length' times
+     *
+     * @param str {String} string used to repeat
+     * @param times {Integer} the number of repetitions
+     * @return {String} repeated string
+     */
+    repeat : function(str, times) {
+      return length >= 0 ? new Array(times + 1).join(str) : "";
+    },    
+    
+    
+    /**
      * Pad a string up to a given length. Padding characters are added to the left of the string.
      *
      * @param str {String} the string to pad
@@ -182,17 +194,18 @@ qx.Bootstrap.define("qx.lang.String",
      */
     pad : function(str, length, ch)
     {
-      if (typeof ch === "undefined") {
-        ch = "0";
+      var padLength = length - str.length;
+      if (padLength > 0)
+      {
+        if (typeof ch === "undefined") {
+          ch = "0";
+        }
+        return this.repeat(ch, padLength) + str;
       }
-
-      var temp = "";
-
-      for (var i=str.length; i<length; i++) {
-        temp += ch;
+      else
+      {
+        return str;
       }
-
-      return temp + str;
     },
 
 
