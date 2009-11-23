@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Table Cell Html Renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Table Cell Html Renderer.
  *
  *  Renderer the specified HTML in the cell.
  */

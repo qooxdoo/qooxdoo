@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Data Model for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Data Model for Progressive renderer.
  */
 qx.Class.define("qx.ui.progressive.model.Abstract",
 {

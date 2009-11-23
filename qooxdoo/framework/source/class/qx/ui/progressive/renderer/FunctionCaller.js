@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Function "renderer" for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Function "renderer" for Progressive.
  * This is a renderer that simply calls the function provided by the data
  * element.
  */

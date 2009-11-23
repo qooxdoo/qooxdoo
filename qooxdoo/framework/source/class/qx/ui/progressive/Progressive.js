@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * <i>Progressive</i>.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * <i>Progressive</i>.
  *
  * Follow progressive instructions provided by a data model.  A variable
  * number of instructions are executed at one time, after which control is

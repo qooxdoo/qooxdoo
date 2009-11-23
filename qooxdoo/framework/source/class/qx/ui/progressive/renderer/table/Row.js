@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Table Row renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Table Row renderer for Progressive.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.Row",
 {
