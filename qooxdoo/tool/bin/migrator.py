@@ -744,10 +744,10 @@ def main():
 NOTE:    To apply only the necessary changes to your project, we
          need to know the qooxdoo version it currently works with.
 
-Please enter your current qooxdoo version [0.7.3] : """)
+Please enter your current qooxdoo version [0.8.3] : """)
 
         if choice == "":
-            options.from_version = "0.7.3"
+            options.from_version = "0.8.3"
         elif re.match(r'\d\.\d(\.\d)?', choice):
             options.from_version = choice
 
