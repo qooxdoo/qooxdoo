@@ -702,11 +702,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var tableModel = this.getTable().getTableModel();
-      var rowCount = 0;
-
-      if (tableModel != null) {
-        rowCount = tableModel.getRowCount();
-      }
+      var rowCount = tableModel.getRowCount();
 
       if (this.getTable().getKeepFirstVisibleRowComplete()) {
         rowCount += 1;
@@ -1936,9 +1932,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         var tableModel = this.getTable().getTableModel();
         var rowCount = 0;
-        if(tableModel != null) {
-          rowCount = tableModel.getRowCount();
-        }
+        rowCount = tableModel.getRowCount();
 
         return (row < rowCount) ? row : null;
       }
@@ -2057,10 +2051,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var tableModel = this.getTable().getTableModel();
-      var rowCount = 0;
-      if (tableModel != null) {
-        rowCount = tableModel.getRowCount();
-      }
+      var rowCount = tableModel.getRowCount();
 
       // Get the (virtual) width and height of the pane
       var paneWidth = this.getTablePaneModel().getTotalWidth();
