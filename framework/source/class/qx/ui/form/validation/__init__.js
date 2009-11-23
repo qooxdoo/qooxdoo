@@ -1,6 +1,4 @@
 /*
- * <h3>EXPERIMENTAL!</h3>
- *
  * The *qx.ui.form.validation* namespace contains all classes necessary for 
  * validation. 
  * 

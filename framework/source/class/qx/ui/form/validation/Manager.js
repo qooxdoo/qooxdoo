@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 /**
- * <h3>EXPERIMENTAL!</h3>
- *
  * This validation manager is responsible for validation of forms.
  */
 qx.Class.define("qx.ui.form.validation.Manager",
