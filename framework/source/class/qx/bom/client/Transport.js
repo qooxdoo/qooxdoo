@@ -51,21 +51,26 @@ qx.Class.define("qx.bom.client.Transport",
       var Engine = qx.bom.client.Engine;
 
       // Parse version numbers.
-      // Maybe this stuff should be moved to qx.bom.client.Engine?
+      var versionParts = Engine.FULLVERSION.split(".");
+      var versionMain = 0;
+      var versionMajor = 0;
+      var versionMinor = 0;
 
-      // Parse 3+ parts version number
-      var versionParts = /([^.]*)\.([^.]*)\.([^.]*).*/.exec(Engine.FULLVERSION);
-      var versionMinor;
-      if (versionParts){
-        versionMinor = versionParts[3];
-      } else {
-        // Parse 2 parts version number
-        versionParts = /([^.]*)\.([^.]*).*/.exec(Engine.FULLVERSION);
-        versionMinor = 0;
+      // Main number
+      if (versionParts[0]) {
+        versionMain = versionParts[0];
       }
-      var versionMain = versionParts[1];
-      var versionMajor = versionParts[2];
 
+      // Major number
+      if (versionParts[1]) {
+        versionMajor = versionParts[1];
+      }
+
+      // Minor number
+      if (versionParts[2]) {
+        versionMinor = versionParts[2];
+      }
+      
       // IE 8 gives the max number of connections in a property
       // see http://msdn.microsoft.com/en-us/library/cc197013(VS.85).aspx
       if (window.maxConnectionsPerServer){
