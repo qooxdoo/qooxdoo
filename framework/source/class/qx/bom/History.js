@@ -400,5 +400,11 @@ qx.Class.define("qx.bom.History",
          "now uses 'qx.event.Idle' for polling."
        );
     }    
-  }
+  },
+  
+  
+  destruct : function()
+  {
+    this.__titles = null;
+  }   
 });
