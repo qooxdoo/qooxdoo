@@ -16,6 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
 /**
  * This store uses the {@link qx.data.store.Jsonp} store to query Yahoo's 
  * YQL service. (http://developer.yahoo.com/yql/)

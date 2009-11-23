@@ -1,5 +1,3 @@
 /**
- * EXPERIMENTAL!
- * 
  * Data binding classes.
  */

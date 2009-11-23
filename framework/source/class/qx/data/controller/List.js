@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL!
- *
  * <h2>List Controller</h2>
  *
  * *General idea*

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * This class is responsible for converting json data to class instances
  * including the creation of the classes.
  */

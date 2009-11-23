@@ -16,6 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
 /**
  * This class offers a set of default conversion methods and whole options
  * packs for {@link qx.data.SingleValueBinding}. The binding offers a conversion
