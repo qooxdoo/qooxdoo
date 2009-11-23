@@ -313,7 +313,7 @@ def createSyntaxTree (tokenArr):
 
 def readExpression (stream, **kwargs):
     if not 'inStatementList' in kwargs:
-        kwargs['inStatementList'] = True
+        kwargs['inStatementList'] = True  # this means: allow list expressions .. , ..
     return readStatement(stream, True, **kwargs)
 
 
@@ -382,8 +382,8 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     elif stream.currIsType("token", "LP"):
         igroup = createItemNode("group", stream)
         stream.next(igroup)
-        #igroup.addChild(readStatement(stream, expressionMode))
-        igroup.addChild(readExpression(stream, ))
+        igroup.addChild(readStatement(stream, expressionMode))
+        #igroup.addChild(readExpression(stream, ))   # -- should be like this, but it doesn't work!?
         stream.expectCurrType("token", "RP")
         stream.next(igroup, True)
         oper = readObjectOperation(stream, igroup)
@@ -436,7 +436,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.next(item, True)
     elif expressionMode and stream.currIsType("token", "LC"):
         item = readMap(stream)
-        if stream.currIsType("token", "LB"):
+        if stream.currIsType("token", "LB") or stream.currIsType("token", "DOT"):  # {...}[] or {...}.___
             item = readObjectOperation(stream, item)
     #elif expressionMode and stream.currIsType("token", "LB"):
     elif stream.currIsType("token", "LB"):
