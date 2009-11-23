@@ -357,12 +357,12 @@ qx.Class.define("qx.io.remote.RequestQueue",
         {
           if (request["_onaborted"])
           {
-            var e = qx.event.Registration.createEvent("aborted",
+            var event = qx.event.Registration.createEvent("aborted",
                                                       qx.event.type.Event);
-            request["_onaborted"](e);
+            request["_onaborted"](event);
           }
         }
-        catch(e)
+        catch(ex)
         {
         }
       }
