@@ -80,7 +80,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
 
-      if (DateFormat._dateInstance == null || DateFormat.__format != format) {
+      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
         DateFormat._dateTimeInstance = new DateFormat();
       }
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
-      if (DateFormat._dateInstance == null || DateFormat.__format != format) {
+      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
         DateFormat._dateInstance = new DateFormat(format);
       }
 
