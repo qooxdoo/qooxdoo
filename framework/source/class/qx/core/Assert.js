@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertTrue : function(value, msg) {
-      value === true || this.__fail(msg || "", "Called assertTrue with '", value, "'");
+      (value === true) || this.__fail(msg || "", "Called assertTrue with '", value, "'");
     },
 
 
@@ -153,7 +153,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertFalse : function(value, msg) {
-      value === false || this.__fail(msg || "", "Called assertFalse with '", value, "'");
+      (value === false) || this.__fail(msg || "", "Called assertFalse with '", value, "'");
     },
 
 
