@@ -1179,9 +1179,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
         default:
           var vRgb = qx.util.ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), this.getBrightness()]);
 
-          this.setRed(vRgb.red);
-          this.setGreen(vRgb.green);
-          this.setBlue(vRgb.blue);
+          this.setRed(vRgb[0]);
+          this.setGreen(vRgb[1]);
+          this.setBlue(vRgb[2]);
       }
     },
 
@@ -1228,7 +1228,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     {
       var ColorUtil = qx.util.ColorUtil;
       var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
-      var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
+      var helpRgbString = ColorUtil.rgbToRgbString(helpRgb)
       this.getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
 
