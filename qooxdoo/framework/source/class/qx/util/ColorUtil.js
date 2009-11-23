@@ -605,7 +605,7 @@ qx.Class.define("qx.util.ColorUtil",
         }
       }
 
-      return return [rgb.red, rgb.blue, rgb.green];
+      return [rgb.red, rgb.blue, rgb.green];
     },
 
 
