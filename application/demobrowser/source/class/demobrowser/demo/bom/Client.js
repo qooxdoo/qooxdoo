@@ -32,6 +32,8 @@ qx.Class.define("demobrowser.demo.bom.Client",
 
       var classes = [
         qx.bom.client.Engine,
+        qx.bom.client.Browser,
+        qx.bom.client.Version,
         qx.bom.client.System,
         qx.bom.client.Platform,
         qx.bom.client.Feature,
