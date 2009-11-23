@@ -871,7 +871,11 @@ qx.Class.define("qx.event.handler.Focus",
 
             // The unselectable attribute stops focussing as well.
             // Do this manually.
+            try {
             focusTarget.focus();
+            } catch (e) {
+              // ignore "Can't move focus of this control" error
+            }
           }
         }
         else
