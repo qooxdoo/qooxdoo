@@ -366,7 +366,7 @@ qx.Class.define("playground.Application",
           this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
 
           // create the sheet for the codemirror iframe
-          var sheet = qx.bom.Stylesheet.createElement(
+          qx.bom.Stylesheet.createElement(
             ".code-mirror-iframe {position: absolute; z-index: 11}"
           );
 
