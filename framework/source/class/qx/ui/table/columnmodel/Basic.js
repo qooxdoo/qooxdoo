@@ -583,7 +583,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       if (qx.core.Variant.isSet("qx.debug", "on")) 
       {
         this.assertInteger(fromOverXPos, "Invalid argument 'fromOverXPos'.");
-        this.assertInteger(fromOverXPos, "Invalid argument 'fromOverXPos'.");
+        this.assertInteger(toOverXPos, "Invalid argument 'toOverXPos'.");
       }
       
       this.__internalChange = true;
