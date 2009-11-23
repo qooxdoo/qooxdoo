@@ -370,12 +370,14 @@ class CodeGenerator(object):
            one'''
 
         if 'uri' in lib:
-            libBaseUri = OsPath(lib['uri'])
+            #libBaseUri = OsPath(lib['uri'])
+            libBaseUri = Uri(lib['uri'])
         elif appRoot:
-            libBaseUri = OsPath(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
+            #libBaseUri = OsPath(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
+            libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
         else:
             raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
-        libBaseUri = Uri(libBaseUri.toUri())
+        #libBaseUri = Uri(libBaseUri.toUri())
 
         if rType in lib:
             libInternalPath = OsPath(lib[rType])
