@@ -85,7 +85,7 @@ qx.Class.define("feedreader.io.FeedLoader",
       req.addListener("completed", this.__createOnLoaded(feed), this);
       var failHandler = qx.lang.Function.bind(this.__onFail, this, feed);
       req.addListener("timeout", failHandler, this);
-      req.addListener("fail", failHandler, this);
+      req.addListener("failed", failHandler, this);
 
       // And finally send the request
       req.send();
