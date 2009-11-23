@@ -36,16 +36,6 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.addListener("timeout", this.responseError, this);
 
       this.resourceBase = qx.util.AliasManager.getInstance().resolve("qx/test/");
-
-      // These tests will always fail in FF1.5 due to the behavior
-      // described in qooxdoo bug #2529, so they will be skipped.
-      this.buggyBrowser = false;
-      var engineString = qx.bom.client.Engine.FULLVERSION;
-      var engineFloat = parseFloat(engineString);
-      if ( qx.bom.client.Engine.GECKO && engineString.indexOf("1.8.0") == 0 ) {
-        this.buggyBrowser = true;
-        this.warn("Tests skipped in FF 1.5, see bug #2529");
-      }
     },
 
 
@@ -61,13 +51,11 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
 
       qx.event.Timer.once(function() {
         this.resume(function() {
-          if (!this.buggyBrowser) {
-            this.fail(
-              "Response error: " + type + " " +
-              request.getStatusCode() + " " +
-              request.getStatusText()
-            );
-          }
+          this.fail(
+            "Response error: " + type + " " +
+            request.getStatusCode() + " " +
+            request.getStatusText()
+          );
         }, this);
       }, this);
     },
@@ -101,10 +89,6 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setRequestHeader("juhu", "kinners");
 
       this.request.addListener("completed", function(e) { this.resume(function() {
-        if (this.buggyBrowser) {
-          this.fail("Test succeeded in FF 1.5, exemption can be removed!");
-          return;
-        }
         var response = qx.util.Json.parse(this.request.getResponseText().toLowerCase());
         this.assertEquals("kinners", response["juhu"]);
         this.assertEquals("bar", response["foo"]);
@@ -128,10 +112,6 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
       this.request.addListener("completed", function(e) { this.resume(function() {
-        if (this.buggyBrowser) {
-          this.fail("Test succeeded in FF 1.5, exemption can be removed!");
-          return;
-        }
         var juhu = this.request.getResponseHeader("juhu") || this.request.getResponseHeader("Juhu");
         this.assertEquals("kinners", juhu);
       }, this); }, this);
