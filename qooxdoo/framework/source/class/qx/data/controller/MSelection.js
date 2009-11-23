@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Mixin for the selection in the data binding controller.
  * It contains an selection property which can be manipulated.
  * Remember to call the method {@link #_addChangeTargetListener} on every

@@ -1,5 +1,3 @@
 /**
- * EXPERIMENTAL!
- * 
- * Data binding classes.
+ * Data binding stores, responsible for feting data.
  */

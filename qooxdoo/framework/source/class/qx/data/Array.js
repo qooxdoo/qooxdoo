@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The data array is a special array used in the data binding context of
  * qooxdoo. It does not extend the native array of JavaScript but its a wrapper
  * for it. All the native methods are included in the implementation and it

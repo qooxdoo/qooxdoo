@@ -18,9 +18,6 @@
 ************************************************************************ */
 
 /**
- *
- * EXPERIMENTAL!
- *
  * This interface defines a data structure compatible with the data binding
  * controllers.
  * It defines a minimum of functionality which the controller need to work.

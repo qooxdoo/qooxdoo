@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!!!
- *
  * The data binding package is still under development so there will be changes
  * to the API. This Features is for texting purpose only.
  */

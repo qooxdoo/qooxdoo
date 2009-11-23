@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 /**
- * EXPERIMENTAL!
- *
  * Defines the methods neede by every marshaler which should work with the
  * qooxdoo data stores.
  */

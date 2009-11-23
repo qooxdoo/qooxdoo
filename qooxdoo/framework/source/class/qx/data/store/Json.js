@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The json data store is responsible for fetching data from a url. The type
  * of the data has to be json.
  *

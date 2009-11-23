@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Mixin used for the bubling events. If you want to use this in your own model
  * classes, be sure that every property will call the
  * {@link #_applyEventPropagation} function on every change.
