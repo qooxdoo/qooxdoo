@@ -23,25 +23,73 @@ qx.Class.define("qx.test.ui.table.Dispose",
 
   members :
   {
-    testSimple : function()
+    createModel : function()
     {
+      var tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);
+      tableModel.setData(this.createRandomRows(200));
+      
+      return tableModel;
+    },
+    
+    
+    createRandomRows : function(rowCount)
+    {
+      var rowData = [];
+      var now = new Date().getTime();
+      var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+      var nextId = 0;
+      for (var row = 0; row < rowCount; row++) {
+        var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+        rowData.push([ nextId++, Math.random() * 10000, date, (Math.random() > 0.5) ]);
+      }
+      return rowData;
+    },
+      
+    
+    testSimple : function()
+    {  
       this.assertDestroy(function()
       {
-        // table model
-        var tableModel = new qx.ui.table.model.Simple();
-        tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);
-        tableModel.setData([[]]);
-
         // table
-        var table = new qx.ui.table.Table(tableModel);
+        var model = this.createModel()
+        var table = new qx.ui.table.Table(model);
 
         this.getRoot().add(table);
         this.flush();
 
         table.destroy();
-        tableModel.dispose();
+        model.dispose();
       }, this, "Dispose simple table");
-    }
+    },
+    
 
+    changeModel : function(table)
+    {
+      var model = table.getTableModel();
+      table.setTableModel(this.createModel());
+      model.dispose();
+    },
+    
+    
+    testChangeModel : function()
+    {
+      this.assertDestroy(function()
+      {
+        // table
+        var table = new qx.ui.table.Table(this.createModel());
+
+        this.changeModel(table);
+        
+        this.getRoot().add(table);
+        this.flush();
+
+        this.changeModel(table);
+
+        var model = table.getTableModel();
+        table.destroy();
+        model.dispose();
+      }, this, "Dispose table with changed model");      
+    }
   }
 });

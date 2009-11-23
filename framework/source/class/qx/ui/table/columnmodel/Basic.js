@@ -146,9 +146,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr = [];
 
       var width = qx.ui.table.columnmodel.Basic.DEFAULT_WIDTH;
-      var headerRenderer = this.__headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER();
-      var dataRenderer = this.__dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER();
-      var editorFactory = this.__editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY();
+      var headerRenderer = this.__headerRenderer ||  (this.__headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER());
+      var dataRenderer = this.__dataRenderer || (this.__dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER());
+      var editorFactory = this.__editorFactory || (this.__editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY());
       this.__overallColumnArr = [];
       this.__visibleColumnArr = [];
 
