@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.manager.setLocale("de_QX");
       this.assertEquals("Umschalt+A", command.toString());
       this.assertEquals("Umschalt+A", menuButton.getChildControl("shortcut").getValue());
-      menuButton.destroy();
+      menuButton.dispose();
       command.dispose();
     },
 
