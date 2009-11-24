@@ -26,64 +26,6 @@ from ecmascript.frontend import treeutil
 def patch(node):
     patchCount = 0
 
-    classDefine = treeutil.findQxDefine(node)
-    if not classDefine:
-        return 0
-    
-    classMap = treeutil.getClassMap(classDefine);    
-    if not "extend" in classMap:
-        return 0
-      
-    superClass = treeutil.assembleVariable(classMap["extend"])[0];
-
-    if "construct" in classMap:
-        pathCount = optimizeConstruct(classMap["construct"], superClass)
-      
-    if (not "members" in classMap):
-        return 0
-    
-    members = classMap["members"]
-    for member in classMap["members"]:
-        this_base_vars = treeutil.findVariable(members[member], "this.base")
-        for var in this_base_vars:
-            if var.parent.type == "operand" and var.parent.parent.type == "call":
-                call = var.parent.parent
-                try:
-                    firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-                except tree.NodeAccessException:
-                    continue
-
-                if firstArgName != "arguments":
-                    continue
-
-                newCall = treeutil.compileString("arguments.callee.base.call(this)")
-                newCall.replaceChild(newCall.getChild("params"), call.getChild("params"))
-                treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")
-                call.parent.replaceChild(call, newCall)
-                patchCount += 1
-
-        this_self_vars = treeutil.findVariable(members[member], "this.self")
-        for var in this_self_vars:
-            if var.parent.type == "operand" and var.parent.parent.type == "call":
-                call = var.parent.parent
-                try:
-                    firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-                except tree.NodeAccessException:
-                    continue
-
-                if firstArgName != "arguments":
-                    continue
-
-                newCall = treeutil.compileString("arguments.callee.self")
-                call.parent.replaceChild(call, newCall)
-                patchCount += 1
-
-    return patchCount
-
-
-def optimizeConstruct(node, superClass):
-    patchCount = 0
-    
     this_base_vars = treeutil.findVariable(node, "this.base")
     for var in this_base_vars:
         if var.parent.type == "operand" and var.parent.parent.type == "call":
@@ -96,9 +38,25 @@ def optimizeConstruct(node, superClass):
             if firstArgName != "arguments":
                 continue
 
-            newCall = treeutil.compileString("%s.call(this)" % superClass)
+            newCall = treeutil.compileString("arguments.callee.base.call(this)")
             newCall.replaceChild(newCall.getChild("params"), call.getChild("params"))
             treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")
+            call.parent.replaceChild(call, newCall)
+            patchCount += 1
+
+    this_self_vars = treeutil.findVariable(node, "this.self")
+    for var in this_self_vars:
+        if var.parent.type == "operand" and var.parent.parent.type == "call":
+            call = var.parent.parent
+            try:
+                firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
+            except tree.NodeAccessException:
+                continue
+
+            if firstArgName != "arguments":
+                continue
+
+            newCall = treeutil.compileString("arguments.callee.self")
             call.parent.replaceChild(call, newCall)
             patchCount += 1
 
@@ -106,22 +64,3 @@ def optimizeConstruct(node, superClass):
 
 
 
-if __name__ == "__main__":
-    cls = """qx.Class.define("qx.Car", {
-      extend: qx.core.Object,
-      construct : function() {
-        this.base(arguments, "2")
-      },
-      members : {
-        foo : function() {
-          return this.base(arguments)
-        }
-      }
-    })"""
-    
-    node = treeutil.compileString(cls)
-    patch(node)
-    
-    print node.toJavascript()
-    
-    
