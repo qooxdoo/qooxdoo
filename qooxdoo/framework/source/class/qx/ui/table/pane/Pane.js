@@ -670,9 +670,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var firstRow = this.getFirstVisibleRow();
 
       var rowCount = this.getVisibleRowCount();
-      var modelRowCount = 0;
-
-      modelRowCount = tableModel.getRowCount();
+      var modelRowCount = tableModel.getRowCount();
 
       if (firstRow + rowCount > modelRowCount) {
         rowCount = Math.max(0, modelRowCount - firstRow);
