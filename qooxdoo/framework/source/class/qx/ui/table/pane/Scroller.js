@@ -99,10 +99,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.addListener("disappear", this._onDisappear, this);
 
     // Set up wrapper if required
-    if (!this.__onintervalWrapper) {
-      this.__onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-    }
-
+    //if (!this.__onintervalWrapper) {
+    //  this.__onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+    //}
+    
+    this.__timer = new qx.event.Timer();
+    this.__timer.addListener("interval", this._oninterval, this);
     this.initScrollTimeout();
   },
 
@@ -2097,13 +2099,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _startInterval : function (timeout)
     {
-      // stops the current one
-      this._stopInterval();
-
-      // Set up new timer if interval is non-zero
-      if (timeout) {
-        this.__updateInterval = window.setInterval(this.__onintervalWrapper, timeout);
-      }
+      this.__timer.setInterval(timeout);
+      this.__timer.start();
     },
 
 
@@ -2112,12 +2109,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _stopInterval : function ()
     {
-      // Clear old timer if it's present
-      if (this.__updateInterval)
-      {
-        window.clearInterval(this.__updateInterval);
-        this.__updateInterval = null;
-      }
+      this.__timer.stop();
     },
 
 
@@ -2244,6 +2236,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__lastMouseDownCell = this.__topRightWidget = this.__table = null;
     this._disposeObjects("__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "__top");
+                         "__header", "__tablePane", "__top", "__timer");
   }
 });
