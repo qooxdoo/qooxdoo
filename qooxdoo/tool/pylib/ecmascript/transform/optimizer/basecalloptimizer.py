@@ -63,4 +63,22 @@ def patch(node):
     return patchCount
 
 
+if __name__ == "__main__":
+    cls = """qx.Class.define("qx.Car", {
+      extend: qx.core.Object,
+      construct : function() {
+        this.base(arguments, "2")
+      },
+      members : {
+        foo : function() {
+          return this.base(arguments)
+        }
+      }
+    })"""
+    
+    node = treeutil.compileString(cls)
+    patch(node)
+    
+    print node.toJavascript()
+
 
