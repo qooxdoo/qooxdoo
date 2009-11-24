@@ -62,7 +62,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         }
 
         // Get the data model
-        var dm = this.getTableModel();
+        var tableModel = this.getTableModel();
 
         // Create a context menu for this tree.
         this._contextMenu = new qx.ui.menu.Menu();
@@ -78,7 +78,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         var bShowContextMenu = contextMenuHandler(col,
                                               e.getRow(),
                                               this,
-                                              dm,
+                                              tableModel,
                                               this._contextMenu);
 
         // If we were told not to display the context menu...

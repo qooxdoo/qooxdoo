@@ -1931,8 +1931,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var row = Math.floor(tableY / rowHeight);
 
         var tableModel = this.getTable().getTableModel();
-        var rowCount = 0;
-        rowCount = tableModel.getRowCount();
+        var rowCount = tableModel.getRowCount();
 
         return (row < rowCount) ? row : null;
       }
