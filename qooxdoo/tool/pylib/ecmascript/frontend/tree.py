@@ -551,7 +551,7 @@ class Node:
         return nodeToJsonString(self, prefix, childPrefix, newLine)
 
     def toJavascript(self):
-        from ecmascript import compiler
+        import compiler
         def options(): pass
         options.prettyPrint =  True
         options.prettypIndentString = "  "
