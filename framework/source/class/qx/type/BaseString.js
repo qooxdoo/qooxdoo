@@ -70,21 +70,7 @@ qx.Class.define("qx.type.BaseString",
     toString : function() {
       return this.__txt;
     },
-
-    
-    /**
-     * The valueOf method of String returns the primitive value of a String 
-     * object as a string data type. This value is equivalent to String.toString.
-     * 
-     * This method is usually called internally by JavaScript and not explicitly
-     * in code.
-     * 
-     * @return {String} value of the string.
-     */
-    valueOf : function() {
-      return this.__txt;
-    },
-    
+  
 
     /**
      *  Returns the specified character from a string.
@@ -99,20 +85,21 @@ qx.Class.define("qx.type.BaseString",
      *   of the string.
      * @return {String} The character.
      */
-     charAt : null,
+    charAt : null,
 
-     /**
-      * Returns the primitive value of a String object.
-      *
-      * The valueOf method of String returns the primitive value of a String
-      * object as a string data type.
-      * This method is usually called internally by JavaScript and not
-      * explicitly in code.
-      *
-      * @signature function()
-      * @return {String} A new string containing the primitive value.
-      */
-     valueOf : null,
+     
+    /**
+     * Returns the primitive value of a String object.
+     *
+     * The valueOf method of String returns the primitive value of a String
+     * object as a string data type.
+     * This method is usually called internally by JavaScript and not
+     * explicitly in code.
+     *
+     * @signature function()
+     * @return {String} A new string containing the primitive value.
+     */
+    valueOf : null,
 
 
     /**
@@ -403,6 +390,13 @@ qx.Class.define("qx.type.BaseString",
        'toLocaleUpperCase'
      ];
 
+     // feature/bug detection:
+     // Some older Firefox version (<2) break if valueOf is overridden
+     members.valueOf = members.toString;
+     if (new statics("").valueOf() == null) {
+       delete members.valueOf;
+     }
+     
      for (var i=0, l=mappedFunctions.length; i<l; i++) {
        members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
      }
