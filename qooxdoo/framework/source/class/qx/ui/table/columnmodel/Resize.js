@@ -129,6 +129,8 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       if (this.getBehavior() == null) {
         this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
+      
+      this.getBehavior().setTableColumnModel(this);
 
       // Save the table so we can get at its features, as necessary.
       this.__table = table;
