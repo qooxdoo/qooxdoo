@@ -369,7 +369,7 @@ qx.Class.define("qx.bom.History",
      */
     _setHash : function (value)
     {
-      var url = this._baseUrl + (value || "");
+      var url = this._baseUrl + (value || "");
       var loc = window.location;
 
       if (url != loc.href) {

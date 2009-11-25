@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
       var cellEditor = this._createEditor();
 
       cellEditor.originalValue = cellInfo.value;
-      if (cellInfo.value === null || cellInfo.value === undefined) {
+      if (cellInfo.value === null || cellInfo.value === undefined) {
         cellInfo.value = "";
       }
       cellEditor.setValue("" + cellInfo.value);

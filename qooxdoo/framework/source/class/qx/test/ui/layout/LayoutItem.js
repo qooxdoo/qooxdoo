@@ -249,7 +249,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
 
     getLayoutChildren : function()
     {
-      var children = this.__children || [];
+      var children = this.__children || [];
       var layoutChildren = [];
 
       for (var i=0; i<children.length; i++)

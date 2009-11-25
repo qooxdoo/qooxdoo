@@ -480,7 +480,7 @@ qx.Class.define("qx.test.data.controller.Form",
         return "X" + data;
       }};
       var model2tf = {converter : function(data) {
-        return data && data.substring(1);
+        return data && data.substring(1);
       }};
       c.addBindingOptions("tf1", model2tf, tf2model);
 

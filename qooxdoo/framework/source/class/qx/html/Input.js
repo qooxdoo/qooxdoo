@@ -115,7 +115,7 @@ qx.Class.define("qx.html.Input",
       {
         this.__enabled = value;
 
-        if (!value) {
+        if (!value) {
           this.setStyles({
             "userModify": "read-only",
             "userSelect": "none"

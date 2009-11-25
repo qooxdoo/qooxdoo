@@ -64,7 +64,7 @@ qx.Class.define("qx.util.PlaceUtil",
       }
 
       var mode = smart ? "keep-align" : "direct"
-      var offsets = offsets || this.__defaultOffsets;
+      var offsets = offsets || this.__defaultOffsets;
 
       return qx.util.placement.Placement.compute(
         size, area, target, offsets,

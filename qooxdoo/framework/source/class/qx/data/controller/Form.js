@@ -48,9 +48,9 @@ qx.Class.define("qx.data.controller.Form",
   extend : qx.core.Object,
 
   /**
-   * @param model {qx.core.Object | null} The model to bind the target to. The
+   * @param model {qx.core.Object | null} The model to bind the target to. The
    *   given object will be set as {@link #model} property.
-   * @param target {qx.ui.form.Form | null} The form which contains the form
+   * @param target {qx.ui.form.Form | null} The form which contains the form
    *   items. The given form will be set as {@link #target} property.
    */
   construct : function(model, target)

@@ -24,7 +24,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
   {
     __testGetSingle : function(widget, children)
     {
-      var children = children || widget.getChildren();
+      var children = children || widget.getChildren();
 
       // check the model selection
       widget.setSelection([children[0]]);
@@ -37,7 +37,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
     __testGetMulti : function(widget, children)
     {
-      var children = children || widget.getChildren();
+      var children = children || widget.getChildren();
 
       // check the model selection
       widget.setSelection([children[0]]);
@@ -51,7 +51,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
     __testSetSingle : function(widget, children)
     {
-      var children = children || widget.getChildren();
+      var children = children || widget.getChildren();
 
       // check the set selection
       widget.setModelSelection([2]);
@@ -64,7 +64,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
     __testSetMulti : function(widget, children)
     {
-      var children = children || widget.getChildren();
+      var children = children || widget.getChildren();
 
       // check the set selection
       widget.setModelSelection([2]);
