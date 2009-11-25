@@ -41,7 +41,8 @@ def convertUnix2Dos(content):
 def convertUnix2Mac(content):
     return content.replace("\n", "\r")
 
-
+def normalizeWhiteSpace(content):
+    return content.replace(ur"\ufeff", " ")
 
 
 def any2Unix(content):

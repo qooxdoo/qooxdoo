@@ -1370,7 +1370,7 @@ class Generator(object):
             filePath   = classEntry['path']
             fileEncoding = classEntry['encoding']
             fileContent  = filetool.read(filePath, fileEncoding)
-            fixedContent = textutil.removeTrailingSpaces(textutil.tab2Space(textutil.any2Unix(fileContent), 2))
+            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(textutil.any2Unix(fileContent), 2)))
             if fixedContent != fileContent:
                 self._console.debug("modifying file: %s" % filePath)
             filetool.save(filePath, fixedContent, fileEncoding)
