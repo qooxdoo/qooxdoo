@@ -119,7 +119,9 @@ qx.Class.define("qx.test.lang.Function",
         throw new Error("fail");
       };
 
-      var onError = function() { this.resume(function() {}); };
+      var onError = function() { this.resume(function() {
+        qx.event.GlobalError.setErrorHandler(null, null);
+      })};
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       var delayed = qx.lang.Function.create(fail, {
