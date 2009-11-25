@@ -42,7 +42,7 @@ def convertUnix2Mac(content):
     return content.replace("\n", "\r")
 
 def normalizeWhiteSpace(content):
-    return content.replace(ur"\ufeff", " ")
+    return content.replace(ur"\u00A0", " ")
 
 
 def any2Unix(content):
@@ -118,7 +118,7 @@ def toRegExp(text):
 
 
 def main():
-    allowed = ["any2Dos", "any2Mac", "any2Unix", "convertDos2Mac", "convertDos2Unix", "convertMac2Dos", "convertMac2Unix", "convertUnix2Dos", "convertUnix2Mac", "spaces2Tab", "tab2Space"]
+    allowed = ["any2Dos", "any2Mac", "any2Unix", "convertDos2Mac", "convertDos2Unix", "convertMac2Dos", "convertMac2Unix", "convertUnix2Dos", "convertUnix2Mac", "spaces2Tab", "tab2Space", "removeTrailingSpaces", "normalizeWhiteSpace"]
     
     parser = optparse.OptionParser()
 
