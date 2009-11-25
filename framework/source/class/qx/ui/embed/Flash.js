@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.embed.Flash",
     _applyLiveConnect : function(value, old) {
       this.__flashParamHelper("swLiveConnect", value);
     },
-    
+
     /*
     ---------------------------------------------------------------------------
      HELPER METHODS

@@ -305,7 +305,7 @@ qx.Class.define("qx.locale.Manager",
         catalog[localeCode] = translationMap;
       }
     },
- 
+
 
     /**
      * Translate a message using the current locale and apply format string to the arguments.

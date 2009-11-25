@@ -42,7 +42,7 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * {Map} Default attributes for creation {@link #create}.
      */
-    DEFAULT_ATTRIBUTES : 
+    DEFAULT_ATTRIBUTES :
     {
       onload : "qx.event.handler.Iframe.onevent(this)",
       frameBorder: 0,
@@ -54,7 +54,7 @@ qx.Class.define("qx.bom.Iframe",
       border: 0,
       allowTransparency: true
     },
-    
+
     /**
      * Creates an DOM element.
      *
@@ -70,7 +70,7 @@ qx.Class.define("qx.bom.Iframe",
       // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.clone(attributes) : {};
       var initValues = qx.bom.Iframe.DEFAULT_ATTRIBUTES;
-            
+
       for (var key in initValues)
       {
         if (attributes[key] == null) {

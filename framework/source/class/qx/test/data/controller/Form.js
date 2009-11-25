@@ -313,7 +313,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
-      
+
       // check if the model and the form still have the initial value
       this.assertEquals("A", this.__tf1.getValue());
       this.assertEquals("B", this.__tf2.getValue());
@@ -375,7 +375,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
-      
+
       // check the init value of the model selection
       this.assertEquals("1", model.getSb());
 
@@ -468,9 +468,9 @@ qx.Class.define("qx.test.data.controller.Form",
       i1.destroy();
       selectBox.destroy();
     },
-    
-    
-    testOptions : function() 
+
+
+    testOptions : function()
     {
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
@@ -509,7 +509,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
 
       // distroy the objects
-      c.dispose();      
+      c.dispose();
     }
 
   }

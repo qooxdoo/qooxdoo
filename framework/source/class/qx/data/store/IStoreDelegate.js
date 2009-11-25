@@ -76,21 +76,21 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      *   will be included.
      */
     getModelMixins : function(properties) {},
-    
-    
+
+
     /**
-     * This method manipulates the data from the request and returns the 
+     * This method manipulates the data from the request and returns the
      * manipulated data.
-     * 
+     *
      * @param data {Object} The data received by the request.
      * @return {Object} The manipulated data.
      */
     manipulateData : function(data) {},
-    
-    
+
+
     /**
      * This method can change the settings on the used request by the store.
-     * 
+     *
      * @param request {var} The created request, depending on the implementation
      *   of the data store.
      */

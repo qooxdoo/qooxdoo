@@ -70,7 +70,7 @@ qx.Class.define("qx.bom.client.Transport",
       if (versionParts[2]) {
         versionMinor = versionParts[2];
       }
-      
+
       // IE 8 gives the max number of connections in a property
       // see http://msdn.microsoft.com/en-us/library/cc197013(VS.85).aspx
       if (window.maxConnectionsPerServer){

@@ -566,7 +566,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         hint.height = this.__computedHeightForWidth;
       }
 
-      
+
       // normalize width
       if (hint.minWidth > hint.width) {
         hint.width = hint.minWidth;
@@ -574,15 +574,15 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (hint.maxWidth < hint.width) {
         hint.width = hint.maxWidth;
       }
-      
+
       if (!this.getAllowGrowX()) {
         hint.maxWidth = hint.width;
       }
       if (!this.getAllowShrinkX()) {
         hint.minWidth = hint.width;
       }
-      
-      
+
+
       // normalize height
       if (hint.minHeight > hint.height) {
         hint.height = hint.minHeight;
@@ -590,15 +590,15 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (hint.maxHeight < hint.height) {
         hint.height = hint.maxHeight;
       }
-      
+
       if (!this.getAllowGrowY()) {
         hint.maxHeight = hint.height;
       }
       if (!this.getAllowShrinkY()) {
         hint.minHeight = hint.height;
       }
-      
-      
+
+
       // Finally return
       return hint;
     },
@@ -778,7 +778,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     /**
      * {Map} Empty storage pool
-     * 
+     *
      * @lint ignoreReferenceField(__emptyProperties)
      */
     __emptyProperties : {},
@@ -1008,7 +1008,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   destruct : function()
   {
-    this.$$parent = this.$$subparent = this.__layoutProperties = 
+    this.$$parent = this.$$subparent = this.__layoutProperties =
       this.__computedLayout = this.__userBounds = this.__sizeHint = null;
   }
 });

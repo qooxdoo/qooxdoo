@@ -231,7 +231,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "atom",
       include : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -240,7 +240,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :
@@ -1899,10 +1899,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "menu/slidebar" : "menu-slidebar",
-    
+
     "menu-slidebar" : "widget",
-    
-    "menu-slidebar-button" : 
+
+    "menu-slidebar-button" :
     {
       style : function(states)
       {
@@ -1913,11 +1913,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "menu-slidebar/button-backward" :
     {
       include : "menu-slidebar-button",
-      
+
       style : function(states)
       {
         return {
@@ -1925,11 +1925,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "menu-slidebar/button-forward" :
     {
       include : "menu-slidebar-button",
-      
+
       style : function(states)
       {
         return {
@@ -1937,7 +1937,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "menu-separator" :
     {
       style : function(states)

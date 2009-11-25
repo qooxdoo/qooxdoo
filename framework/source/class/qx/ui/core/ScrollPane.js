@@ -20,7 +20,7 @@
 
 /**
  * This class has been moved to {@link qx.ui.core.scroll.ScrollPane}
- * 
+ *
  * @deprecated This class has been moved to qx.ui.core.scroll.ScrollPane
  */
 qx.Class.define("qx.ui.core.ScrollPane",

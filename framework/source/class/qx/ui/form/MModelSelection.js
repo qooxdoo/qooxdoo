@@ -24,43 +24,43 @@
  */
 qx.Mixin.define("qx.ui.form.MModelSelection",
 {
-  
-  construct : function() {   
-    // create the selection array 
+
+  construct : function() {
+    // create the selection array
     this.__modelSelection = new qx.data.Array();
-    
+
     // listen to the changes
     this.__modelSelection.addListener("change", this.__onModelSelectionArrayChange, this);
     this.addListener("changeSelection", this.__onModelSelectionChange, this);
   },
-  
-  
-  events : 
+
+
+  events :
   {
     /**
-     * Pseudo event. It will never be fired becasue the array itself can not 
+     * Pseudo event. It will never be fired becasue the array itself can not
      * be changed. But the event description is needed for the data binding.
-     */ 
+     */
     changeModelSelection : "qx.event.type.Data"
   },
-  
-  
+
+
   members :
-  {    
-    
+  {
+
     __modelSelection : null,
     __inSelectionChange : false,
-        
-    
+
+
     /**
-     * Handler for the selection change of the including class e.g. SelectBox, 
+     * Handler for the selection change of the including class e.g. SelectBox,
      * List, ...
      * It sets the new modelSelection via {@link #setModelSelection}.
      */
     __onModelSelectionChange : function() {
       if (this.__inSelectionChange) {
         return;
-      }      
+      }
       var data = this.getSelection();
 
       // create the array with the modes inside
@@ -70,14 +70,14 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         // fallback if getModel is not implemented
         var model = item.getModel ? item.getModel() : null;
         if (model !== null) {
-          modelSelection.push(model);          
+          modelSelection.push(model);
         }
       };
-          
+
       this.setModelSelection(modelSelection);
     },
-       
-    
+
+
     /**
      * Listener for the change of the internal model selection data array.
      */
@@ -101,16 +101,16 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       }
       this.setSelection(itemSelection);
       this.__inSelectionChange = false;
-      
+
       // check if the setting has worked
       var currentSelection = this.getSelection();
       if (!qx.lang.Array.equals(currentSelection, itemSelection)) {
         // if not, set the actual selection
         this.__onModelSelectionChange();
-      }      
+      }
     },
 
-    
+
     /**
      * Returns always an array of the models of the selected items. If no
      * item is selected or no model is given, the array will be empty.
@@ -136,16 +136,16 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
     setModelSelection : function(modelSelection)
     {
       // check for null values
-      if (!modelSelection) 
+      if (!modelSelection)
       {
         this.__modelSelection.removeAll();
         return;
       }
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertArray(modelSelection, "Please use an array as parameter.");
       }
-            
+
       // add the first two parameter
       modelSelection.unshift(this.__modelSelection.getLength()); // remove index
       modelSelection.unshift(0);  // start index
@@ -154,7 +154,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       returnArray.dispose();
     }
   },
-  
+
   destruct : function() {
     this._disposeObjects("__modelSelection");
   }

@@ -46,7 +46,7 @@ qx.Class.define("qx.html.Blocker",
       opacity : opacity || 0,
       backgroundColor : backgroundColor
     });
-    
+
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("click", this._stopPropagation, this);
@@ -69,12 +69,12 @@ qx.Class.define("qx.html.Blocker",
     this.addListener("appear", this.__refreshCursor, this);
     this.addListener("disappear", this.__refreshCursor, this);
   },
-  
+
   members :
   {
     /**
      * Stop the event propagation from the passed event.
-     * 
+     *
      * @param e {qx.event.type.Mouse} mouse event to stop propagation.
      */
     _stopPropagation : function(e) {

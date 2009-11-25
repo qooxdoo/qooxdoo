@@ -26,18 +26,18 @@ qx.Class.define("qx.dev.unit.AbstractTestSuite",
   extend : qx.core.Object,
   type : "abstract",
 
-  
+
   construct : function()
   {
     this.base(arguments);
     this._tests = [];
   },
-  
-  
+
+
   members :
   {
     _tests : null,
-    
+
 
     /**
      * Add a single function to test
@@ -86,7 +86,7 @@ qx.Class.define("qx.dev.unit.AbstractTestSuite",
         (this._tests[i]).run(testResult);
       }
     },
-    
+
 
     /**
      * Get a list of all test methods in the suite

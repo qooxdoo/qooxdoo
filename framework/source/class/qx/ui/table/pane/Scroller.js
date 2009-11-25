@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     //if (!this.__onintervalWrapper) {
     //  this.__onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
     //}
-    
+
     this.__timer = new qx.event.Timer();
     this.__timer.addListener("interval", this._oninterval, this);
     this.initScrollTimeout();
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
     "cellContextmenu" : "qx.ui.table.pane.CellEvent",
-    
+
     /** Dispatched when a sortable header was clicked */
     "beforeSort" : "qx.event.type.Data"
   },
@@ -1005,7 +1005,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // mouse is in header
       var resizeCol = this._getResizeColumnForPageX(pageX);
-      if (resizeCol != -1) 
+      if (resizeCol != -1)
       {
         // The mouse is over a resize region -> Start resizing
         this._startResizeHeader(resizeCol, pageX);
@@ -1015,7 +1015,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         // The mouse is not in a resize region
         var moveCol = this._getColumnForPageX(pageX);
-        if (moveCol != null) 
+        if (moveCol != null)
         {
           this._startMoveHeader(moveCol, pageX);
           e.stop();
@@ -1304,7 +1304,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // Sort that column
           var sortCol = tableModel.getSortColumnIndex();
           var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
-          
+
           var data = {
             column : col,
             ascending : ascending
@@ -1317,7 +1317,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           }
         }
       }
-      
+
       e.stop();
     },
 

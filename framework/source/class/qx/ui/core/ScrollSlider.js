@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * This class has been moved to {@link qx.ui.core.scroll.ScrollSlider} 
- * 
+ * This class has been moved to {@link qx.ui.core.scroll.ScrollSlider}
+ *
  * @deprecated This class has been moved to qx.ui.core.scroll.ScrollSlider
  */
 qx.Class.define("qx.ui.core.ScrollSlider",

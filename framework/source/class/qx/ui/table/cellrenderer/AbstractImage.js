@@ -165,8 +165,8 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       this.__imageData = this._getImageInfos(cellInfo);
       return this.base(arguments, cellInfo, htmlArr);
     },
-    
-    
+
+
     // overridden
     _getCellClass : function(cellInfo) {
       return this.base(arguments) + " qooxdoo-table-cell-icon";
@@ -191,13 +191,13 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
       return content;
     },
-    
-    
+
+
     // overridden
     _getCellAttributes : function(cellInfo)
     {
       var tooltip = this.__imageData.tooltip;
-      
+
       if (tooltip) {
         return "title='" + tooltip + "'";
       } else {
@@ -205,15 +205,15 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       }
     }
   },
- 
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-  
+
   destruct : function()
   {
-    this.__imageData = null;    
-  } 
+    this.__imageData = null;
+  }
 });

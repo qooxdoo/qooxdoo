@@ -322,9 +322,9 @@ qx.Class.define("qx.test.Property",
       b = new qx.test.B();
       b.setEnabled(true);
     },
-    
-    
-    testPropertyNamedClassname : function() 
+
+
+    testPropertyNamedClassname : function()
     {
       qx.Class.define("qx.test.clName", {
         extend : qx.core.Object,
@@ -332,13 +332,13 @@ qx.Class.define("qx.test.Property",
           classname : {}
         }
       });
-      
+
       delete qx.test.clName;
     },
-    
-    
-    testWrongPropertyDefinitions : function() 
-    { 
+
+
+    testWrongPropertyDefinitions : function()
+    {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         // date
         this.assertException(function() {
@@ -348,7 +348,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-              
+
         // array
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -357,7 +357,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-                
+
         // qooxdoo class
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -366,7 +366,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-      
+
         // RegExp
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -375,7 +375,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-        
+
         // null
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -384,7 +384,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-        
+
         // boolean
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -393,7 +393,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-        
+
         // number
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
@@ -402,7 +402,7 @@ qx.Class.define("qx.test.Property",
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
-      } 
+      }
     }
   }
 });

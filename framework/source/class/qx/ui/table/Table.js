@@ -310,11 +310,11 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Whether the widget contains content which may be selected by the user.
-     * 
-     * If the value set to <code>true</code> the native browser selection can 
-     * be used for text selection. But it is normally useful for 
+     *
+     * If the value set to <code>true</code> the native browser selection can
+     * be used for text selection. But it is normally useful for
      * forms fields, longer texts/documents, editors, etc.
-     * 
+     *
      * Note: This has no effect on Table!
      */
     selectable :
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.table.Table",
     __columnMenuButtons : null,
     __columnModel : null,
     __emptyTableModel : null,
-    
+
 
 
     // overridden
@@ -712,14 +712,14 @@ qx.Class.define("qx.ui.table.Table",
       }
     },
 
-    
+
     /**
      * Get an empty table model instance to use for this table. Use this table
      * to configure the table with no table model.
-     * 
+     *
      * @return {qx.ui.table.ITableModel} The empty table model
      */
-    getEmptyTableModel : function() 
+    getEmptyTableModel : function()
     {
       if (!this.__emptyTableModel)
       {
@@ -729,7 +729,7 @@ qx.Class.define("qx.ui.table.Table",
       }
       return this.__emptyTableModel;
     },
-    
+
 
     // property modifier
     _applyTableModel : function(value, old)
@@ -772,7 +772,7 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Get the The table column model.
-     * 
+     *
      * @return {qx.ui.table.columnmodel.Basic} The table's column model
      */
     getTableColumnModel : function()
@@ -784,14 +784,14 @@ qx.Class.define("qx.ui.table.Table",
         columnModel.addListener("visibilityChanged", this._onColVisibilityChanged, this);
         columnModel.addListener("widthChanged", this._onColWidthChanged, this);
         columnModel.addListener("orderChanged", this._onColOrderChanged, this);
-  
+
         // Get the current table model
         var tableModel = this.getTableModel();
         columnModel.init(tableModel.getColumnCount(), this);
-  
+
         // Reset the table column model in each table pane model
         var scrollerArr = this._getPaneScrollerArr();
-  
+
         for (var i=0; i<scrollerArr.length; i++)
         {
           var paneScroller = scrollerArr[i];
@@ -1494,7 +1494,7 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Clears the current selection
-     * 
+     *
      * @deprecated Use 'resetSelection' instead.
      */
     clearSelection : function() {

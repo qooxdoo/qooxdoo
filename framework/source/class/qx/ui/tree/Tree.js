@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this.initOpenMode();
     this.initRootOpenClose();
-    
+
     this.addListener("changeSelection", this._onChangeSelection, this);
   },
 
@@ -312,8 +312,8 @@ qx.Class.define("qx.ui.tree.Tree",
      *     should be returned as well.
      * @param stayInSameNestLevel {Boolean?false} if true, only the same nest level
      *                                            will be searched
-     *                                             
-     *                            
+     *
+     *
      * @return {AbstractTreeItem?null} The item before the given item. May be
      *     <code>null</code> if the item is the first item.
      */
@@ -473,12 +473,12 @@ qx.Class.define("qx.ui.tree.Tree",
       treeItem.setOpen(!treeItem.isOpen());
       e.stopPropagation();
     },
-    
-    
+
+
     /**
-     * Event handler for changeSelection events, which opens all parent folders 
+     * Event handler for changeSelection events, which opens all parent folders
      * of the selected folders.
-     * 
+     *
      * @param e {qx.event.type.Data} The selection data event.
      */
     _onChangeSelection : function(e) {
@@ -490,8 +490,8 @@ qx.Class.define("qx.ui.tree.Tree",
         while (folder.getParent() != null) {
           folder = folder.getParent();
           folder.setOpen(true);
-        }        
-      }      
+        }
+      }
     }
   },
 

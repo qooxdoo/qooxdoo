@@ -34,8 +34,8 @@ qx.Class.define("qx.ui.form.renderer.Double",
     layout.setColumnAlign(2, "left", "top");
     layout.setColumnAlign(3, "left", "top");
     this._setLayout(layout);
-    
-    this.base(arguments, form);    
+
+    this.base(arguments, form);
   },
 
 
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
         var label = this._createLabel(names[i], items[i]);
         this._add(label, {row: this._row, column: (i * 2) % 4});
         var item = items[i];
-        label.setBuddy(item);        
+        label.setBuddy(item);
         this._add(item, {row: this._row, column: ((i * 2) % 4) + 1});
         if (i % 2 == 1) {
           this._row++;
@@ -129,10 +129,10 @@ qx.Class.define("qx.ui.form.renderer.Double",
       if (item.getRequired()) {
        required = " <span style='color:red'>*</span> ";
       }
-      
+
       // Create the label. Append a colon only if there's text to display.
       var colon = name.length > 0 || item.getRequired() ? " :" : "";
-      var label = new qx.ui.basic.Label(name + required + colon);      
+      var label = new qx.ui.basic.Label(name + required + colon);
       label.setRich(true);
       return label;
     },

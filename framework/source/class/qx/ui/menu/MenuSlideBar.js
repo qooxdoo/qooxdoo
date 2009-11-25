@@ -19,18 +19,18 @@
 
 /**
  * The MenuSlideBar is used to scroll menus if they don't fit on the screen.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.ui.menu.MenuSlideBar",
 {
   extend : qx.ui.container.SlideBar,
-  
+
   construct : function()
   {
     this.base(arguments, "vertical");
   },
-  
+
   properties :
   {
     appearance :
@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.menu.MenuSlideBar",
       init : "menu-slidebar"
     }
   },
-  
+
   members :
   {
     // overridden

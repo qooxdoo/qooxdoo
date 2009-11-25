@@ -99,8 +99,8 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
       this.SSL = window.location.protocol === "https:";
     },
-    
-    
+
+
     /**
      * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
      *

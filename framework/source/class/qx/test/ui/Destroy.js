@@ -374,8 +374,8 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.destroy();
       }, this, "Dispose tree");
     },
-    
-    
+
+
     testRadioGroup : function()
     {
       this.assertDestroy(function()
@@ -384,12 +384,12 @@ qx.Class.define("qx.test.ui.Destroy",
           new qx.ui.form.RadioButton("one"),
           new qx.ui.form.RadioButton("two")
         );
-        
+
         group.dispose();
       });
     },
-    
-    
+
+
     testRadioButtonGroup : function()
     {
       this.assertDestroy(function()
@@ -397,7 +397,7 @@ qx.Class.define("qx.test.ui.Destroy",
         var group = new qx.ui.form.RadioButtonGroup(new qx.ui.layout.HBox());
         group.add(new qx.ui.form.RadioButton("one"));
         group.add(new qx.ui.form.RadioButton("two"));
-        
+
         group.destroy();
       });
     },

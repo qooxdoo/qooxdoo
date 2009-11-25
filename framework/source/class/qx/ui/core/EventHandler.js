@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
     /**
      * {Map} Supported focus event types
-     * 
+     *
      * @lint ignoreReferenceField(__focusEvents)
      */
     __focusEvents :
@@ -133,8 +133,8 @@ qx.Class.define("qx.ui.core.EventHandler",
     },
 
 
-    /** 
-     * {Map} Map of events which should be fired independently from being disabled 
+    /**
+     * {Map} Map of events which should be fired independently from being disabled
      *
      * @lint ignoreReferenceField(__ignoreDisabled)
      */

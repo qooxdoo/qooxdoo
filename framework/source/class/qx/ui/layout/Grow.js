@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.layout.Grow",
 
         neededWidth = Math.max(neededWidth, size.width);
         neededHeight = Math.max(neededHeight, size.height);
-        
+
         minWidth = Math.max(minWidth, size.minWidth);
         minHeight = Math.max(minHeight, size.minHeight);
 
@@ -146,10 +146,10 @@ qx.Class.define("qx.ui.layout.Grow",
       return {
         width : neededWidth,
         height : neededHeight,
-        
+
         minWidth : minWidth,
         minHeight : minHeight,
-        
+
         maxWidth : maxWidth,
         maxHeight : maxHeight
       };

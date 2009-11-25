@@ -84,13 +84,13 @@ qx.Class.define("qx.util.Template",
     */
 
     // property apply
-    _applyContent : function(value, old) 
+    _applyContent : function(value, old)
     {
       if (value) {
         this.run = new Function("values", "return ['" + value.replace(this.__reg, this.__replace) + "'].join('')");
       } else {
         delete this.run;
-      }      
+      }
     },
 
 

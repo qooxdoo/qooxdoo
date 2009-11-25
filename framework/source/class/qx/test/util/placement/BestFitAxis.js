@@ -26,18 +26,18 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
     setUp : function() {
       this.axis = new qx.util.placement.BestFitAxis();
     },
-    
+
     tearDown : function() {
       this.axis.dispose();
     },
-    
+
     testEnoughSpace : function()
     {
       var size = 50;
       var target = {start: 500, end: 600};
-      var offsets = {start: 10, end: 20}; 
+      var offsets = {start: 10, end: 20};
       var areaSize = 1000;
-      
+
       this.assertEquals(
         430,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
@@ -58,15 +58,15 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
     },
-    
-    
+
+
     testNotEnoughSpaceStart : function()
     {
       var size = 250;
       var target = {start: 30, end: 200};
-      var offsets = {start: 10, end: 20}; 
+      var offsets = {start: 10, end: 20};
       var areaSize = 1000;
-      
+
       this.assertEquals(
         0,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
@@ -85,17 +85,17 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       this.assertEquals(
         0,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
-      );      
+      );
     },
-    
-    
+
+
     testNotEnoughSpaceEnd : function()
     {
       var size = 250;
       var target = {start: 300, end: 400};
-      var offsets = {start: 10, end: 20}; 
+      var offsets = {start: 10, end: 20};
       var areaSize = 500;
-      
+
       this.assertEquals(
         30,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
@@ -114,17 +114,17 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       this.assertEquals(
         130,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
-      );      
+      );
     },
-    
-    
+
+
     testNotEnoughSpaceBothSides : function()
     {
       var size = 250;
       var target = {start: 50, end: 100};
-      var offsets = {start: 10, end: 20}; 
+      var offsets = {start: 10, end: 20};
       var areaSize = 150;
-      
+
       this.assertEquals(
         -100,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
@@ -143,7 +143,7 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       this.assertEquals(
         -100,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
-      );      
+      );
     }
   }
 });

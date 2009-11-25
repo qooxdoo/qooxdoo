@@ -256,12 +256,12 @@ qx.Class.define("qx.util.Serializer",
       } else if (qx.lang.Type.isObject(object)) {
         result += "{";
         for (var key in object) {
-          result += '"' + key + '":' + 
+          result += '"' + key + '":' +
                     qx.util.Serializer.toJson(object[key], qxSerializer) + ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
-        }        
+        }
         return result + "}";
 
       // strings

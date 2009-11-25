@@ -234,8 +234,8 @@ qx.Class.define("qx.data.Array",
      * Returns a new array with the values specified by the parameter.
      *
      * @param from {Number} The start index.
-     * @param to {Number?null} The end index. If omitted, slice extracts to the 
-     *   end of the array. 
+     * @param to {Number?null} The end index. If omitted, slice extracts to the
+     *   end of the array.
      *
      * @return {qx.data.Array} A new array containing the given range of values.
      */
@@ -519,15 +519,15 @@ qx.Class.define("qx.data.Array",
       for (var i = 0; i < this.__array.length; i++) {
         this._applyEventPropagation(null, this.__array[i], i);
       }
-      
+
       // store the old data
       var oldLength = this.getLength();
       var items = this.__array.concat();
-      
+
       // change the length
       this.__array.length = 0;
       this.__updateLength();
-      
+
       // fire the change event
       this.fireDataEvent("change",
         {
@@ -536,7 +536,7 @@ qx.Class.define("qx.data.Array",
           type: "remove",
           items: items
         }, null
-      );      
+      );
     },
 
 
@@ -663,16 +663,16 @@ qx.Class.define("qx.data.Array",
 
       return result === undefined ? null : result;
     },
-    
-    
+
+
     /**
      * Invokes the given function for every item in the array.
-     * 
-     * @param callback {Function} The function which will be call for every 
+     *
+     * @param callback {Function} The function which will be call for every
      *   item in the array.
      * @param context {var} The context in which the callback will be invoked.
      */
-    forEach : function(callback, context) 
+    forEach : function(callback, context)
     {
       for (var i = 0; i < this.__array.length; i++) {
         callback.call(context, this.__array[i]);

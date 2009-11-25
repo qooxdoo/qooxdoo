@@ -37,11 +37,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
     /** {Map} Internal data structure for the current job list */
     __jobs : {},
-    
-    
+
+
     /** {Integer} Counts how often a flush failed due to exceptions */
     __retries : 0,
-    
+
     /** {Integer} Maximum number of flush retries */
     MAX_RETRIES : 10,
 
@@ -102,35 +102,35 @@ qx.Class.define("qx.ui.core.queue.Manager",
             delete jobs.widget;
             qx.ui.core.queue.Widget.flush();
           }
-  
+
           if (jobs.visibility)
           {
             delete jobs.visibility;
             qx.ui.core.queue.Visibility.flush();
           }
-  
+
           if (jobs.appearance)
           {
             delete jobs.appearance;
             qx.ui.core.queue.Appearance.flush();
           }
-  
+
           // Defer layout as long as possible
           if (jobs.widget || jobs.visibility || jobs.appearance) {
             continue;
           }
-  
+
           if (jobs.layout)
           {
             delete jobs.layout;
             qx.ui.core.queue.Layout.flush();
           }
-  
+
           // Defer element as long as possible
           if (jobs.widget || jobs.visibility || jobs.appearance || jobs.layout) {
             continue;
           }
-  
+
           if (jobs.element)
           {
             delete jobs.element;
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           }
         }
       }, function() {
-        self.__scheduled = false;        
+        self.__scheduled = false;
       });
 
       self.__executeAndRescheduleOnError(function()
@@ -152,29 +152,29 @@ qx.Class.define("qx.ui.core.queue.Manager",
         // Clear flag
         self.__inFlush = false;
       });
-      
+
       // flush succeeded successfully. Reset retries
       self.__retries = 0;
     },
-    
-    
+
+
     /**
-     * Executes the callback code. If the callback throws an error the current 
+     * Executes the callback code. If the callback throws an error the current
      * flush is cleaned up and rescheduled. The finally code is called after the
      * callback even if it has thrown an exception.
-     * 
+     *
      * @param callback {Function} the callback function
      * @param finallyCode {Function} function to be called in the finally block
      */
     __executeAndRescheduleOnError : function(callback, finallyCode)
     {
       var self = qx.ui.core.queue.Manager;
-      
+
       try
       {
         callback();
       }
-      catch (e) 
+      catch (e)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.log.Logger.error(
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         self.__scheduled = false;
         self.__inFlush = false;
         self.__retries += 1;
-        
+
         if (self.__retries <= self.MAX_RETRIES) {
           self.scheduleFlush();
         } else {
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
             " due to exceptions in user code. The application has to be reloaded!"
           );
         }
-        
+
         throw e;
       }
       finally

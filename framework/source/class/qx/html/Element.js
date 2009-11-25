@@ -837,7 +837,7 @@ qx.Class.define("qx.html.Element",
           for (var key in jobs) {
             styles[key] = data[key]
           }
-            
+
           Style.setStyles(elem, styles);
         }
 
@@ -1838,22 +1838,22 @@ qx.Class.define("qx.html.Element",
       this.addListener("scroll", this.__onScroll, this);
     },
 
-    
+
     /**
      * Re-enables browser-native scrolling
      */
     enableScrolling : function() {
       this.removeListener("scroll", this.__onScroll, this);
     },
-    
-    
+
+
     __inScroll : null,
-    
+
     /**
      * Handler for the scroll-event
      *
      * @param e {qx.event.type.Native} scroll-event
-     */ 
+     */
     __onScroll : function(e)
     {
       if (!this.__inScroll)
@@ -1864,7 +1864,7 @@ qx.Class.define("qx.html.Element",
         delete this.__inScroll;
       }
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -2029,8 +2029,8 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Captures all mouse events to this element
-     * 
-     * @param containerCapture {Boolean?true} If true all events originating in 
+     *
+     * @param containerCapture {Boolean?true} If true all events originating in
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */
@@ -2121,67 +2121,67 @@ qx.Class.define("qx.html.Element",
      */
     setStyles : function(map, direct)
     {
-      // inline calls to "set" because this method is very 
+      // inline calls to "set" because this method is very
       // performance critical!
-      
+
       var Style = qx.bom.element.Style;
-      
+
       if (!this.__styleValues) {
         this.__styleValues = {};
       }
-      
+
       if (this.__element)
       {
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
         }
-        
-        for (var key in map) 
+
+        for (var key in map)
         {
           var value = map[key];
           if (this.__styleValues[key] == value) {
             continue;
           }
-          
+
           if (value == null) {
             delete this.__styleValues[key];
           } else {
             this.__styleValues[key] = value;
           }
-          
+
           // Omit queuing in direct mode
           if (direct)
           {
             Style.setStyle(this.__element, key, value);
             continue;
           }
-          
+
           // Store job info
           this.__styleJobs[key] = true;
         }
-        
+
         // Register modification
         qx.html.Element._modified[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
-      else 
+      else
       {
-        for (var key in map) 
+        for (var key in map)
         {
           var value = map[key];
           if (this.__styleValues[key] == value) {
             continue;
           }
-          
+
           if (value == null) {
             delete this.__styleValues[key];
           } else {
             this.__styleValues[key] = value;
           }
-        }        
+        }
       }
-      
+
       return this;
     },
 
@@ -2672,10 +2672,10 @@ qx.Class.define("qx.html.Element",
     }
 
     this._disposeArray("__children");
-    
-    this.__attribValues = this.__styleValues = this.__eventValues = 
-      this.__propertyValues = this.__attribJobs = this.__styleJobs = 
-      this.__propertyJobs = this.__element = this.__parent = 
+
+    this.__attribValues = this.__styleValues = this.__eventValues =
+      this.__propertyValues = this.__attribJobs = this.__styleJobs =
+      this.__propertyJobs = this.__element = this.__parent =
       this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
   }
 });

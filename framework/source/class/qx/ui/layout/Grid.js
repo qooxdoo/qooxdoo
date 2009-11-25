@@ -228,8 +228,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
         if (grid[row] && grid[row][column]) {
           throw new Error(
-            "Cannot add widget '" + child + "'!. " + 
-            "There is already a widget '" + grid[row][column] + 
+            "Cannot add widget '" + child + "'!. " +
+            "There is already a widget '" + grid[row][column] +
             "' in this cell (" + row + ", " + column + ")"
           );
         }
@@ -1381,7 +1381,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
   destruct : function()
   {
-    this.__grid = this.__rowData = this.__colData = this.__colSpans = 
+    this.__grid = this.__rowData = this.__colData = this.__colSpans =
       this.__rowSpans = this.__colWidths = this.__rowHeights = null;
   }
 });

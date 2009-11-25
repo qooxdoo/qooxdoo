@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * Checks if the iframe element is out of sync. This can happen in Firefox 
+     * Checks if the iframe element is out of sync. This can happen in Firefox
      * if the iframe is moved around and the source is changed right after.
      * The root cause is that Firefox is reloading the iframe when its position
      * in DOM has changed.

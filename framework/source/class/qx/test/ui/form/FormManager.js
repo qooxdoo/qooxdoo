@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       construct : function(form) {
         this.groups = [];
         this.buttons = [];
-        
+
         this.base(arguments, form);
       },
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(view.groups[0].names[0], "TF1");
       this.assertEquals(view.groups[0].names[1], "TF2");
     },
-    
+
 
     testAddTwoWithValidator : function() {
       // add the widgets
@@ -313,17 +313,17 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
       tf3.destroy();
     },
-    
-    
-    testRedefineResetter : function() 
+
+
+    testRedefineResetter : function()
     {
       // just call the method and check if its not throwing an error
       // all other stuff is tested in the resetter unit tests
       this.__form.redefineResetter();
     },
-    
-    
-    testSingleRenderer : function() 
+
+
+    testSingleRenderer : function()
     {
       var b1 = new qx.ui.form.Button();
 
@@ -335,10 +335,10 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // just check if the rendere is created without an error
       new qx.ui.form.renderer.Single(this.__form);
 
-      b1.dispose();      
+      b1.dispose();
     },
-    
-    testSinglePlaceholderRenderer : function() 
+
+    testSinglePlaceholderRenderer : function()
     {
       var b1 = new qx.ui.form.Button();
 
@@ -350,10 +350,10 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // just check if the rendere is created without an error
       new qx.ui.form.renderer.SinglePlaceholder(this.__form);
 
-      b1.dispose();      
+      b1.dispose();
     },
-    
-    testDoubleRenderer : function() 
+
+    testDoubleRenderer : function()
     {
       var b1 = new qx.ui.form.Button();
 
@@ -365,7 +365,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // just check if the rendere is created without an error
       new qx.ui.form.renderer.Double(this.__form);
 
-      b1.dispose();      
+      b1.dispose();
     }
 
   }

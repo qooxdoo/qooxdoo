@@ -256,7 +256,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       } else {
         this.setDomPosition(coords.parentLeft, coords.parentTop);
       }
-      
+
       e.stopPropagation();
     },
 
@@ -305,7 +305,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (this.getUseMoveFrame()) {
         this.__getMoveFrame().exclude();
       }
-      
+
       e.stopPropagation();
     },
 

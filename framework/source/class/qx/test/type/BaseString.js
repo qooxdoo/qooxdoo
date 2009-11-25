@@ -27,29 +27,29 @@ qx.Class.define("qx.test.type.BaseString",
     testToString : function()
     {
       var s = new qx.type.BaseString("Juhu");
-      this.assertEquals("Juhu", s);      
+      this.assertEquals("Juhu", s);
     },
-    
-    
+
+
     testValueOf : function() {
       var s = new qx.type.BaseString("Juhu");
-      this.assertEquals("Juhu".valueOf(), s.valueOf());          
+      this.assertEquals("Juhu".valueOf(), s.valueOf());
     },
-    
-  
+
+
     testUpperCase : function()
     {
       var s = new qx.type.BaseString("Juhu");
       this.assertEquals("JUHU", s.toUpperCase());
     },
 
-    
+
     testIndexOf : function()
     {
       var s = new qx.type.BaseString("Juhu");
       this.assertEquals(1, s.indexOf("u"));
     },
-    
+
 
     testPlusOperator : function()
     {

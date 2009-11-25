@@ -452,21 +452,21 @@ qx.Class.define("qx.data.controller.List",
         }
       }
     },
-    
-    
+
+
     /**
-     * Helper method which removes and adds the change listener of the 
+     * Helper method which removes and adds the change listener of the
      * controller to the model. This is sometimes necessary to ensure that the
      * listener of the controller ist executed as last listener of the chain.
      */
     __moveChangeListenerAtTheEnd : function() {
       var model = this.getModel();
-      // it can be that the bindings has been resetted without the model so 
+      // it can be that the bindings has been resetted without the model so
       // maybe there is no model in some scenarios
       if (model != null) {
         model.removeListenerById(this.__changeModelListenerId);
         this.__changeModelListenerId =
-          model.addListener("change", this.__changeModel, this);        
+          model.addListener("change", this.__changeModel, this);
       }
 
     },
@@ -535,16 +535,16 @@ qx.Class.define("qx.data.controller.List",
       oldItem.destroy();
       this._endSelectionModification();
     },
-    
-    
+
+
     /**
      * Returns all models currently visible by the list. This method is only
      * useful if you use the filter via the {@link #delegate}.
-     * 
-     * @return {qx.data.Array} A new data array containiner all the models 
+     *
+     * @return {qx.data.Array} A new data array containiner all the models
      *   which representation items are currently visible.
      */
-    getVisibleModels : function() 
+    getVisibleModels : function()
     {
       var visibleModels = [];
       var target = this.getTarget();
@@ -552,7 +552,7 @@ qx.Class.define("qx.data.controller.List",
         var items = target.getChildren();
         for (var i = 0; i < items.length; i++) {
           visibleModels.push(items[i].getModel());
-        };        
+        };
       }
 
       return new qx.data.Array(visibleModels);
@@ -584,18 +584,18 @@ qx.Class.define("qx.data.controller.List",
 
 
     /**
-     * Helper-Method for binding the default properties (label and icon) from 
+     * Helper-Method for binding the default properties (label and icon) from
      * the model to the target widget.
-     * 
+     *
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
-     * implemented by the {@link #delegate} property. 
-     * 
+     * implemented by the {@link #delegate} property.
+     *
      * @param item {qx.ui.form.ListItem} The internally created and used
      *   ListItem.
      * @param index {number} The index of the ListItem.
      */
-    bindDefaultProperties : function(item, index) 
+    bindDefaultProperties : function(item, index)
     {
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
@@ -608,7 +608,7 @@ qx.Class.define("qx.data.controller.List",
         );
       }
     },
-    
+
 
     /**
      * Helper-Method for binding a given property from the model to the target
@@ -719,8 +719,8 @@ qx.Class.define("qx.data.controller.List",
         // add the new binding
         this._bindListItem(items[i], this.__lookup(i));
       }
-      
-      // move the controllers change handlder for the model to the end of the 
+
+      // move the controllers change handlder for the model to the end of the
       // listeners queue
       this.__moveChangeListenerAtTheEnd();
     },
@@ -813,11 +813,11 @@ qx.Class.define("qx.data.controller.List",
      */
     _setFilter: function(value, old) {
       // update the filter if it has been removed
-      if ((value == null || value.filter == null) && 
-          (old != null && old.filter != null)) {        
+      if ((value == null || value.filter == null) &&
+          (old != null && old.filter != null)) {
         this.__removeFilter();
       }
-      
+
       // check if it is necessary to do anything
       if (
         this.getTarget() == null ||
@@ -828,7 +828,7 @@ qx.Class.define("qx.data.controller.List",
         return;
       }
       // if yes, continue
-      
+
       this._startSelectionModification();
 
       // remove all bindings
@@ -862,32 +862,32 @@ qx.Class.define("qx.data.controller.List",
       for (var i = 0; i < listItems.length; i++) {
         this._bindListItem(listItems[i], this.__lookup(i));
       }
-      
-      // move the controllers change handlder for the model to the end of the 
+
+      // move the controllers change handlder for the model to the end of the
       // listeners queue
       this.__moveChangeListenerAtTheEnd();
-      
+
       this._endSelectionModification();
       this._updateSelection();
     },
-    
-    
+
+
     /**
-     * Theis helper is repsonsible for removing the filter and setting the 
+     * Theis helper is repsonsible for removing the filter and setting the
      * controller to a valid state without a filtering.
      */
-    __removeFilter : function() 
+    __removeFilter : function()
     {
       // renew the index lookup table
       this.__buildUpLookupTable();
       // check for the new length
-      this.__changeModelLength();     
+      this.__changeModelLength();
       // renew the bindings
       this.__renewBindings();
 
       // need a asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
-      qx.ui.core.queue.Widget.add(this);          
+      qx.ui.core.queue.Widget.add(this);
     },
 
 

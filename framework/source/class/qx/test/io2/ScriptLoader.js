@@ -32,26 +32,26 @@ qx.Class.define("qx.test.io2.ScriptLoader",
     setUp : function() {
       this.loader = new qx.io2.ScriptLoader();
     },
-    
-    
+
+
     tearDown : function() {
       this.loader.dispose();
     },
-    
-  
+
+
     testLoadError : function()
     {
       // Opera will fire no event at all
       if (qx.bom.client.Engine.OPERA) {
         return;
       }
-      
+
       this.loader.load("http://qooxdoo.org/foo.js", function(status)
       {
         this.resume(function()
         {
           var isSafari3 = qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 530;
-          
+
           if (qx.bom.client.Engine.MSHTML || isSafari3) {
             // Error state does not work in IE!
             this.assertEquals("success", status);
@@ -60,29 +60,29 @@ qx.Class.define("qx.test.io2.ScriptLoader",
           }
         }, this);
       }, this);
-      
+
       this.wait();
     },
-    
-    
+
+
     testLoadWithoutCallback : function()
     {
       window.SCRIPT_LOADED = false;
-      
+
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/script.js");
       this.loader.load(url);
-      
+
       var pollTimer = new qx.event.Timer(20);
       var start = new Date();
-      pollTimer.addListener("interval", function() 
+      pollTimer.addListener("interval", function()
       {
-        if (window.SCRIPT_LOADED) 
+        if (window.SCRIPT_LOADED)
         {
           pollTimer.stop();
           this.resume();
         }
-        
-        if (new Date() - start > 4000) 
+
+        if (new Date() - start > 4000)
         {
           pollTimer.stop();
           this.resume(function() {
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.io2.ScriptLoader",
         }
       }, this);
       pollTimer.start();
-      
+
       this.wait(5000);
     }
   }

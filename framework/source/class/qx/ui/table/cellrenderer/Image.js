@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
       } else {
         imageHints.url = this.__am.resolve(cellInfo.value);
       }
-      
+
       imageHints.tooltip = cellInfo.tooltip;
 
       return imageHints;

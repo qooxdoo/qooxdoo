@@ -20,11 +20,11 @@
 /**
  * Timer, which accelerates after each interval. The initial delay and the
  * interval time can be set using the properties {@link #firstInterval}
- * and {@link #interval}. The {@link interval} events will be fired with 
+ * and {@link #interval}. The {@link interval} events will be fired with
  * decreasing interval times while the timer is running, until the {@link #minimum}
  * is reached. The {@link #decrease} property sets the amount of milliseconds
  * which will decreased after every firing.
- * 
+ *
  * This class is e.g. used in the {@link qx.ui.form.RepeadButton} and
  * {@link qx.ui.form.HoverButton} widgets.
  */
@@ -35,7 +35,7 @@ qx.Class.define("qx.event.AcceleratingTimer",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__timer = new qx.event.Timer(this.getInterval());
     this.__timer.addListener("interval", this._onInterval, this);
   },
@@ -83,7 +83,7 @@ qx.Class.define("qx.event.AcceleratingTimer",
     {
       check : "Integer",
       init  : 2
-    }    
+    }
   },
 
 
@@ -93,49 +93,49 @@ qx.Class.define("qx.event.AcceleratingTimer",
     __currentInterval : null,
 
     /**
-     * Reset and start the timer. 
+     * Reset and start the timer.
      */
     start : function()
     {
       this.__timer.setInterval(this.getFirstInterval());
       this.__timer.start();
     },
-    
-    
+
+
     /**
      * Stop the timer
      */
-    stop : function() 
+    stop : function()
     {
       this.__timer.stop();
       this.__currentInterval = null;
     },
-    
-    
+
+
     /**
      * Interval event handler
      */
     _onInterval : function()
     {
       this.__timer.stop();
-      
+
       if (this.__currentInterval == null) {
         this.__currentInterval = this.getInterval();
       }
-      
+
       this.__currentInterval = Math.max(
-        this.getMinimum(), 
+        this.getMinimum(),
         this.__currentInterval - this.getDecrease()
       );
-      
+
       this.__timer.setInterval(this.__currentInterval);
       this.__timer.start();
-      
+
       this.fireEvent("interval");
-    }    
+    }
   },
-  
-  
+
+
   destruct : function() {
     this._disposeObjects("__timer");
   }

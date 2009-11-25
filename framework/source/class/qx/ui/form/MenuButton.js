@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.form.MenuButton",
       {
         value.addListener("changeVisibility", this._onMenuChange, this);
         value.setOpener(this);
-        
+
         value.removeState("submenu");
         value.removeState("contextmenu");
       }

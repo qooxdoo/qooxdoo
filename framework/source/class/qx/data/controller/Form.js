@@ -100,40 +100,40 @@ qx.Class.define("qx.data.controller.Form",
 
 
     /**
-     * The form controller uses for setting up the bindings the fundamental 
-     * binding layer, the {@link qx.data.SingleValueBinding}. To achieve a 
-     * binding in both directions, two bindings are neede. With this method, 
+     * The form controller uses for setting up the bindings the fundamental
+     * binding layer, the {@link qx.data.SingleValueBinding}. To achieve a
+     * binding in both directions, two bindings are neede. With this method,
      * you have the oppertunity to set the options used for the bindings.
-     * 
-     * @param name {String} The name of the form item for which the options 
+     *
+     * @param name {String} The name of the form item for which the options
      *   should be used.
-     * @param model2target {Map} Options map used for the binding from model 
+     * @param model2target {Map} Options map used for the binding from model
      *   to target. The possible options can be found in the
      *   {@link qx.data.SingleValueBinding} class.
      * @param target2model {Map} Optiosn map used for the binding from target
      *   to model. The possible options can be found in the
      *   {@link qx.data.SingleValueBinding} class.
      */
-    addBindingOptions : function(name, model2target, target2model) 
+    addBindingOptions : function(name, model2target, target2model)
     {
       this.__bindingOptions[name] = [model2target, target2model];
-      
+
       // return if not both, model and target are given
       if (this.getModel() == null || this.getTarget() == null) {
         return;
       }
-      
+
       // renew the affected binding
       var item = this.getTarget().getItems()[name];
-      var targetProperty = 
+      var targetProperty =
         this.__isModelSelectable(item) ? "modelSelection[0]" : "value";
-      
+
       // remove the binding
       this.__objectController.removeTarget(item, targetProperty, name);
       // set up the new binding with the options
       this.__objectController.addTarget(
         item, targetProperty, name, true, model2target, target2model
-      );      
+      );
     },
 
 
@@ -229,12 +229,12 @@ qx.Class.define("qx.data.controller.Form",
       // connect all items
       for (var name in items) {
         var item = items[name];
-        var targetProperty = 
+        var targetProperty =
           this.__isModelSelectable(item) ? "modelSelection[0]" : "value";
         var options = this.__bindingOptions[name];
 
         if (options == null) {
-          this.__objectController.addTarget(item, targetProperty, name, true);          
+          this.__objectController.addTarget(item, targetProperty, name, true);
         } else {
           this.__objectController.addTarget(
             item, targetProperty, name, true, options[0], options[1]
@@ -262,8 +262,8 @@ qx.Class.define("qx.data.controller.Form",
       // disconnect all items
       for (var name in items) {
         var item = items[name];
-        var targetProperty = 
-          this.__isModelSelectable(item) ? "modelSelection[0]" : "value";        
+        var targetProperty =
+          this.__isModelSelectable(item) ? "modelSelection[0]" : "value";
         this.__objectController.removeTarget(item, targetProperty, name);
       }
     },

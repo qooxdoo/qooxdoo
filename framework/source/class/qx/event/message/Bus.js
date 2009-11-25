@@ -278,18 +278,18 @@ qx.Class.define("qx.event.message.Bus",
           // exact match
           if (key === msgName)
           {
-            this.__callSubscribers(sub[msgName], msg);            
+            this.__callSubscribers(sub[msgName], msg);
             return true;
           }
         }
       }
     },
-    
-    
+
+
     /**
      * Call subscribers with passed message.
-     * 
-     * @param subscribers {Map} subscribers to call 
+     *
+     * @param subscribers {Map} subscribers to call
      * @param msg {qx.event.message.Message} message for subscribers
      */
     __callSubscribers : function(subscribers, msg)
@@ -307,7 +307,7 @@ qx.Class.define("qx.event.message.Bus",
             subscribers.splice(i, 1);
             i--;
           }
-          else 
+          else
           {
             subscriber.call(context, msg);
           }

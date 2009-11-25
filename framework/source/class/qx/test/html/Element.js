@@ -866,9 +866,9 @@ qx.Class.define("qx.test.html.Element",
       var el = new qx.html.Element("input");
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
-      
+
       qx.html.Element.flush();
-      
+
       qx.bom.Selection.set(el.getDomElement(), 0, 4);
       this.assertEquals(el.getTextSelection(), "vani");
 
@@ -884,10 +884,10 @@ qx.Class.define("qx.test.html.Element",
       this._doc.add(el);
 
       qx.html.Element.flush();
-      
+
       qx.bom.Selection.set(el.getDomElement(), 0, 4);
       this.assertEquals(el.getTextSelection(), "vani");
-          
+
       el.setTextSelection(2, 5);
       this.assertEquals(el.getTextSelection(), "nil");
 
@@ -900,15 +900,15 @@ qx.Class.define("qx.test.html.Element",
       var el = new qx.html.Element("input");
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
-      
+
       qx.html.Element.flush();
 
       qx.bom.Selection.set(el.getDomElement(), 0, 2);
       this.assertEquals(el.getTextSelection(), "va");
-          
+
       el.clearTextSelection();
       this.assertEquals(el.getTextSelection(), "");
-  
+
       el.clearTextSelection();
       qx.html.Element.flush();
     },
@@ -918,12 +918,12 @@ qx.Class.define("qx.test.html.Element",
       var el = new qx.html.Element("input");
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
-      
+
       qx.html.Element.flush();
-      
+
       qx.bom.Selection.set(el.getDomElement(), 0);
       this.assertEquals(el.getTextSelection(), "vanillebaer");
-        
+
       el.clearTextSelection();
       qx.html.Element.flush();
     }

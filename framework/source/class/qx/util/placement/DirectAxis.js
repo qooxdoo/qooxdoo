@@ -24,7 +24,7 @@
 qx.Class.define("qx.util.placement.DirectAxis",
 {
   extend : qx.util.placement.AbstractAxis,
-  
+
   members :
   {
     //overridden

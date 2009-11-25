@@ -106,7 +106,7 @@ qx.Class.define("qx.bom.Viewport",
       "opera" : function(win) {
         if (qx.bom.client.Engine.VERSION < 9.5) {
           return (win||window).document.body.clientWidth;
-        } 
+        }
         else
         {
           var doc = (win||window).document;
@@ -167,7 +167,7 @@ qx.Class.define("qx.bom.Viewport",
       "opera" : function(win) {
         if (qx.bom.client.Engine.VERSION < 9.5) {
           return (win||window).document.body.clientHeight;
-        } 
+        }
         else
         {
           var doc = (win||window).document;

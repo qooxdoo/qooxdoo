@@ -602,7 +602,7 @@ qx.Class.define("qx.ui.core.Widget",
     blockToolTip :
     {
       check : "Boolean",
-      init : false      
+      init : false
     },
 
 
@@ -745,9 +745,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Whether the widget contains content which may be selected by the user.
-     * 
-     * If the value set to <code>true</code> the native browser selection can 
-     * be used for text selection. But it is normally useful for 
+     *
+     * If the value set to <code>true</code> the native browser selection can
+     * be used for text selection. But it is normally useful for
      * forms fields, longer texts/documents, editors, etc.
      */
     selectable :
@@ -1011,7 +1011,7 @@ qx.Class.define("qx.ui.core.Widget",
       var content = this.getContentElement();
       var inner = changes.size || this._updateInsets;
       var pixel = "px";
-      
+
       var containerStyles = {};
 
       // Move container to new position
@@ -1025,9 +1025,9 @@ qx.Class.define("qx.ui.core.Widget",
       if (changes.size)
       {
         containerStyles.width = width + pixel;
-        containerStyles.height = height + pixel;        
+        containerStyles.height = height + pixel;
       }
-      
+
       if (changes.position || changes.size) {
         container.setStyles(containerStyles);
       }
@@ -1043,7 +1043,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var contentStyles = {};
-      
+
       if (this._updateInsets)
       {
         contentStyles.left = insets.left + pixel;
@@ -1055,7 +1055,7 @@ qx.Class.define("qx.ui.core.Widget",
         contentStyles.width = innerWidth + pixel;
         contentStyles.height = innerHeight + pixel;
       }
-      
+
       if (inner || this._updateInsets) {
         content.setStyles(contentStyles);
       }
@@ -1112,7 +1112,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Cleanup flags
       delete this._updateInsets;
-      
+
       return changes;
     },
 
@@ -1554,7 +1554,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} true, if the widget is currently on the screen
      */
-    isSeeable : function() 
+    isSeeable : function()
     {
       // if the element is already rendered, a check for the offsetWidth is enough
       var element = this.getContainerElement().getDomElement();
@@ -1799,7 +1799,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * {Array} Placeholder for children list in empty widgets.
      *     Mainly to keep instance number low.
-     *     
+     *
      * @lint ignoreReferenceField(__emptyChildren)
      */
     __emptyChildren : [],
@@ -2186,8 +2186,8 @@ qx.Class.define("qx.ui.core.Widget",
      * mouse button is clicked. If the widgets becomes the capturing widget the
      * {@link #capture} event is fired. Once it looses capture mode the
      * {@link #losecapture} event is fired.
-     * 
-     * @param containerCapture {Boolean?true} If true all events originating in 
+     *
+     * @param containerCapture {Boolean?true} If true all events originating in
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */
@@ -2427,11 +2427,11 @@ qx.Class.define("qx.ui.core.Widget",
           return;
         }
         var manager = qx.locale.Manager.getInstance();
-        this.__toolTipTextListenerId = manager.addListener("changeLocale", 
+        this.__toolTipTextListenerId = manager.addListener("changeLocale",
           function() {
             if (value && value.translate) {
               this.setToolTipText(value.translate());
-            }          
+            }
           }
         , this);
       }
@@ -3079,7 +3079,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (this.isDraggable()) {
           this._applyDraggable(false, true);
         }
-        
+
         // Remove droppable
         if (this.isDroppable()) {
           this._applyDroppable(false, true);
@@ -3098,7 +3098,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (this.isDraggable()) {
           this._applyDraggable(true, false);
         }
-        
+
         // Re-add droppable
         if (this.isDroppable()) {
           this._applyDroppable(true, false);
@@ -3166,7 +3166,7 @@ qx.Class.define("qx.ui.core.Widget",
       // don't open any other contextmenus
       e.stop();
     },
-    
+
 
     /**
      * Event listener for <code>beforeContextmenuOpen</code> event
@@ -3945,14 +3945,14 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (qx.core.Variant.isSet("qx.dynlocale", "on"))
       {
-        if (this.__toolTipTextListenerId) 
+        if (this.__toolTipTextListenerId)
         {
           qx.locale.Manager.getInstance().removeListenerById(
             this.__toolTipTextListenerId
           );
         }
       }
-      
+
       // Remove widget pointer from DOM
       this.getContainerElement().setAttribute("$$widget", null, true);
 
@@ -3971,7 +3971,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var clazz = qx.ui.core.Widget;
       var container = this.getContainerElement();
-      
+
       if (this.__decoratorElement)
       {
         container.remove(this.__decoratorElement);
@@ -3983,7 +3983,7 @@ qx.Class.define("qx.ui.core.Widget",
         container.remove(this.__shadowElement);
         clazz.__decoratorPool.poolDecorator(this.__shadowElement);
       }
-      
+
       this.clearSeparators();
       this.__decoratorElement = this.__shadowElement = this.__separators = null;
     }
@@ -3995,7 +3995,7 @@ qx.Class.define("qx.ui.core.Widget",
         "__shadowElement"
       );
     }
-    
+
     // Clear children array
     this._disposeArray("__widgetChildren");
 
@@ -4003,7 +4003,7 @@ qx.Class.define("qx.ui.core.Widget",
     // Cleanup map of appearance states
     this.__states = this.__childControls = null;
 
-    
+
     // Dispose layout manager and HTML elements
     this._disposeObjects(
       "__layoutManager",

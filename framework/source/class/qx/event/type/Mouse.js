@@ -51,13 +51,13 @@ qx.Class.define("qx.event.type.Mouse",
 
       return this;
     },
-    
-    
+
+
     // overridden
     _cloneNativeEvent : function(nativeEvent, clone)
     {
       var clone = this.base(arguments, nativeEvent, clone);
-      
+
       clone.button = nativeEvent.button;
       clone.clientX = nativeEvent.clientX;
       clone.clientY = nativeEvent.clientY;
@@ -68,10 +68,10 @@ qx.Class.define("qx.event.type.Mouse",
       clone.wheelDelta = nativeEvent.wheelDelta;
       clone.detail = nativeEvent.detail;
       clone.srcElement = nativeEvent.srcElement;
-      
+
       return clone;
     },
-    
+
 
 
     /** {Map} Contains the button ID to identifier data. */

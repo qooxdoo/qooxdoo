@@ -24,7 +24,7 @@
  * buttons or menu entries.
  */
 qx.Mixin.define("qx.ui.core.MExecutable",
-{  
+{
   /*
   *****************************************************************************
      EVENTS
@@ -71,14 +71,14 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   members :
   {
     __executableBindingIds : null,
-    
+
     /**
      * {Map} Set of properties, which will by synced from the command to the
      *    including widget
-     *    
+     *
      * @lint ignoreReferenceField(_bindableProperties)
-     */ 
-    _bindableProperties : 
+     */
+    _bindableProperties :
     [
       "enabled",
       "label",
@@ -87,8 +87,8 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       "value",
       "menu"
     ],
-    
-    
+
+
     /**
      * Initiate the execute action.
      */
@@ -113,14 +113,14 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       }
       for (var i = 0; i < this._bindableProperties.length; i++) {
         var property = this._bindableProperties[i];
-        
+
         // remove the old binding
-        if (old != null && ids[property] != null) 
+        if (old != null && ids[property] != null)
         {
           old.removeBinding(ids[property]);
           ids[property] = null;
         }
-        
+
         // add the new binding
         if (value != null && qx.Class.hasProperty(this.constructor, property)) {
           // handle the init value (dont sync the initial null)
@@ -138,8 +138,8 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       }
     }
   },
-  
-  
+
+
   destruct : function() {
     this.__executableBindingIds = null;
   }

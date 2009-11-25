@@ -216,7 +216,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     resetSelection : function() {
       this.__manager.clearSelection();
     },
-    
+
 
     /**
      * Replaces current selection with the given items.
@@ -239,7 +239,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       } else {
         var currentSelection = this.getSelection();
         if (!qx.lang.Array.equals(currentSelection, items)) {
-          this.__manager.replaceSelection(items);          
+          this.__manager.replaceSelection(items);
         }
       }
     },

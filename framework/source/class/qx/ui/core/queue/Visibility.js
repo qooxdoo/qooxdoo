@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       {
         var widget = queue[hash];
         delete queue[hash];
-        
+
         // Only update when not already updated by another widget
         if (data[hash] == null) {
           this.__computeVisible(widget);

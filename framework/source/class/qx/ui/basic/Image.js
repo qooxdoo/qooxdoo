@@ -233,9 +233,9 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * Returns the current mode if set. Otherwise checks the current source and 
+     * Returns the current mode if set. Otherwise checks the current source and
      * the current scaling to determine the current mode.
-     * 
+     *
      * @return {String} current internal mode
      */
     __getMode : function()
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.basic.Image",
         if (source != null) {
           isPng = qx.lang.String.endsWith(source, ".png");
         }
-        
+
         if (this.getScale() && isPng && qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
           this.__mode = "alphaScaled";
         } else if (this.getScale()) {
@@ -256,14 +256,14 @@ qx.Class.define("qx.ui.basic.Image",
           this.__mode = "nonScaled";
         }
       }
-      
+
       return this.__mode;
     },
 
 
     /**
      * Creates a contentElement suitable for the current mode
-     * 
+     *
      * @param mode {String} internal mode
      * @return {qx.html.Image} suitable image content element
      */
@@ -286,31 +286,31 @@ qx.Class.define("qx.ui.basic.Image",
         scale = true;
         tagName = "img";
       }
-      
+
       var element = new qx.html.Image(tagName);
       element.setScale(scale);
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden"
       });
-      
+
       return element;
     },
 
 
     /**
      * Returns a contentElement suitable for the current mode
-     * 
+     *
      * @return {qx.html.Image} suitable image contentElement
      */
     __getSuitableContentElement : function()
     {
       var mode = this.__getMode();
-      
+
       if (this.__contentElements[mode] == null) {
         this.__contentElements[mode] = this.__createSuitableContentElement(mode);
       }
-      
+
       return this.__contentElements[mode];
     },
 
@@ -324,15 +324,15 @@ qx.Class.define("qx.ui.basic.Image",
     _styleSource : function()
     {
       var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
-      
+
       if (!source)
       {
         this.getContentElement().resetSource();
         return;
       }
-      
+
       this.__checkForContentElementSwitch(source);
-      
+
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
         this.__setManagedImage(this.getContentElement(), source);
@@ -347,17 +347,17 @@ qx.Class.define("qx.ui.basic.Image",
     /**
      * Checks if the current content element is capable to display the image
      * with the current settings (scaling, alpha PNG)
-     * 
+     *
      * @param source {String} source of the image
      * @return {void}
      */
     __checkForContentElementSwitch : qx.core.Variant.select("qx.client",
-    { 
-      "mshtml" : function(source) 
+    {
+      "mshtml" : function(source)
       {
         var alphaImageLoader = qx.bom.element.Decoration.isAlphaImageLoaderEnabled();
         var isPng = qx.lang.String.endsWith(source, ".png");
-        
+
         if (alphaImageLoader && isPng)
         {
           if (this.getScale() && this.__getMode() != "alphaScaled") {
@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.basic.Image",
 
         this.__checkForContentElementReplacement(this.__getSuitableContentElement());
       },
-      
+
       "default" : function(source)
       {
         if (this.getScale() && this.__getMode() != "scaled") {
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.basic.Image",
         } else if (!this.getScale() && this.__getMode("nonScaled")) {
           this.__setMode("nonScaled");
         }
-        
+
         this.__checkForContentElementReplacement(this.__getSuitableContentElement());
       }
     }),
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     /**
      * Checks the current child and replaces it if necessary
-     * 
+     *
      * @param elementToAdd {qx.html.Image} content element to add
      * @return {void}
      */
@@ -401,14 +401,14 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var container = this.getContainerElement();
       var currentContentElement = container.getChild(0);
-      
+
       if (currentContentElement != elementToAdd)
       {
         if (currentContentElement != null)
         {
           var pixel = "px";
           var styles = {};
-          
+
           var innerSize = this.getInnerSize();
           if (innerSize != null)
           {
@@ -419,11 +419,11 @@ qx.Class.define("qx.ui.basic.Image",
           var insets = this.getInsets();
           styles.left = insets.left + pixel;
           styles.top = insets.top + pixel;
-          
+
           elementToAdd.setStyles(styles, true);
           elementToAdd.setSelectable(this.getSelectable());
-        } 
-        
+        }
+
         container.removeAt(0);
         container.addAt(elementToAdd, 0);
       }
@@ -575,8 +575,8 @@ qx.Class.define("qx.ui.basic.Image",
       }
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      DESTRUCTOR

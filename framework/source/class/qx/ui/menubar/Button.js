@@ -110,11 +110,11 @@ qx.Class.define("qx.ui.menubar.Button",
       return null;
     },
 
-    
+
     // overridden
     open : function(selectFirst) {
       this.base(arguments, selectFirst);
-      
+
       var menubar = this.getMenuBar();
       menubar._setAllowMenuOpenHover(true);
     },
@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.menubar.Button",
 
           // Set it again, because hideAll remove it.
           menubar._setAllowMenuOpenHover(true);
-          
+
           // Then show the attached menu
           if (this.isEnabled()) {
             this.open();

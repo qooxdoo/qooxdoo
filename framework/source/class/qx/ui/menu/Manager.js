@@ -639,7 +639,7 @@ qx.Class.define("qx.ui.menu.Manager",
         // Get previous button, fallback to end if first arrived
         var prevButton = null;
         var length =  buttons.length;
-        for (var i = 1; i <= length; i++) 
+        for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index - i + length) % length];
           if(button.isEnabled()) {
@@ -746,7 +746,7 @@ qx.Class.define("qx.ui.menu.Manager",
         // Get next button, fallback to first if end arrived
         var nextButton = null;
         var length =  buttons.length;
-        for (var i = 1; i <= length; i++) 
+        for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index + i) % length];
           if(button.isEnabled()) {

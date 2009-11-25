@@ -1086,7 +1086,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Auto select based on new cursor position
       this._autoSelect();
-      
+
       event.stopPropagation();
     },
 

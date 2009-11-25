@@ -20,15 +20,15 @@
 /**
  * The HoverButton is an {@link qx.ui.basic.Atom}, which fires repeatedly
  * execute events while the mouse is over the widget.
- * 
+ *
  * The rate at which the execute event is fired accelerates is the mouse keeps
  * inside of the widget. The initial delay and the interval time can be set using
- * the properties {@link #firstInterval} and {@link #interval}. The 
+ * the properties {@link #firstInterval} and {@link #interval}. The
  * {@link execute} events will be fired in a shorter amount of time if the mouse
  * remains over the widget, until the min {@link #minTimer} is reached.
  * The {@link #timerDecrease} property sets the amount of milliseconds which will
  * decreased after every firing.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -64,17 +64,17 @@ qx.Class.define("qx.ui.form.HoverButton",
   construct : function(label, icon)
   {
     this.base(arguments, label, icon);
-    
+
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
-    
+
     this.__timer = new qx.event.AcceleratingTimer();
     this.__timer.addListener("interval", this._onInterval, this);
   },
-  
-  
+
+
   properties :
-  {   
+  {
     // overridden
     appearance :
     {
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.form.HoverButton",
       check : "Integer",
       init  : 200
     },
-    
+
     /** This configures the minimum value for the timer interval. */
     minTimer :
     {
@@ -115,18 +115,18 @@ qx.Class.define("qx.ui.form.HoverButton",
     {
       check : "Integer",
       init  : 2
-    }    
+    }
   },
 
 
   members :
   {
     __timer : null,
-    
-    
+
+
     /**
      * Start timer on mouse over
-     * 
+     *
      * @param e {qx.event.type.Mouse} The mouse event
      */
     _onMouseOver : function(e)
@@ -134,21 +134,21 @@ qx.Class.define("qx.ui.form.HoverButton",
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
       }
-      
+
       this.__timer.set({
         interval: this.getInterval(),
         firstInterval: this.getFirstInterval(),
         minimum: this.getMinTimer(),
         decrease: this.getTimerDecrease()
       }).start();
-      
+
       this.addState("hovered");
     },
-    
-    
+
+
     /**
      * Stop timer on mouse out
-     * 
+     *
      * @param e {qx.event.type.Mouse} The mouse event
      */
     _onMouseOut : function(e)
@@ -160,8 +160,8 @@ qx.Class.define("qx.ui.form.HoverButton",
         return;
       }
     },
-    
-    
+
+
     /**
      * Fire execute event on timer interval event
      */
@@ -175,9 +175,9 @@ qx.Class.define("qx.ui.form.HoverButton",
       }
     }
   },
-  
-  
+
+
   destruct : function() {
     this._disposeObjects("__timer");
-  }  
+  }
 });

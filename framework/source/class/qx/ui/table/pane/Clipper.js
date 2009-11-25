@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.table.pane.Clipper",
 {
   extend : qx.ui.container.Composite,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments, new qx.ui.layout.Grow());
     this.setMinWidth(0);

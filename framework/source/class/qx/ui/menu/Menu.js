@@ -29,9 +29,9 @@
 qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.core.Widget,
-  
-  include : [ 
-    qx.ui.core.MPlacement, 
+
+  include : [
+    qx.ui.core.MPlacement,
     qx.ui.core.MChildrenHandling
   ],
 
@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.menu.Menu",
     // Register mouse listeners
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
-    
+
     // add resize listener
     this.addListener("resize", this._onResize, this);
     root.addListener("resize", this._onResize, this);
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /** {qx.ui.core.Blocker} blocker for background blocking */
     _blocker : null,
-    
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.menu.Menu",
         this.placeToWidget(this.getOpener());
         this.__updateSlideBar();
         this.show();
-        
+
         this._placementTarget = this.getOpener();
       } else {
         this.warn("The menu instance needs a configured 'opener' widget!");
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /**
      * Opens the menu at the mouse cursor position
-     * 
+     *
      * @param e {qx.event.type.Mouse}  Mouse event to align to
      */
     openAtMouse : function(e)
@@ -298,14 +298,14 @@ qx.Class.define("qx.ui.menu.Menu",
       this.placeToMouse(e);
       this.__updateSlideBar();
       this.show();
-      
+
       this._placementTarget = {
         left: e.getDocumentLeft(),
         top: e.getDocumentTop()
       };
     },
-    
-    
+
+
     /**
      * Opens the menu in relation to the given point
      *
@@ -317,11 +317,11 @@ qx.Class.define("qx.ui.menu.Menu",
       this.placeToPoint(point);
       this.__updateSlideBar();
       this.show();
-      
+
       this._placementTarget = point;
-    },    
-    
-    
+    },
+
+
     /**
      * Convenience method to add a separator to the menu
      */
@@ -342,20 +342,20 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /**
      * Return all selectable menu items.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} selectable widgets
      */
     getSelectables : function() {
       var result = [];
       var children = this.getChildren();
-      
+
       for (var i = 0; i < children.length; i++)
       {
         if (children[i].isEnabled()) {
           result.push(children[i]);
         }
       }
-      
+
       return result;
     },
 
@@ -423,11 +423,11 @@ qx.Class.define("qx.ui.menu.Menu",
         this.resetOpenedButton();
         this.resetSelectedButton();
       }
-      
+
       this.__updateBlockerVisibility();
     },
-    
-    
+
+
     /**
      * Updates the blocker's visibility
      */
@@ -439,20 +439,20 @@ qx.Class.define("qx.ui.menu.Menu",
           var zIndex = this.getZIndex();
           this._blocker.blockContent(zIndex - 1);
         }
-      } 
-      else 
+      }
+      else
       {
         if (this._blocker.isContentBlocked()) {
           this._blocker.unblockContent();
         }
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Get the parent menu. Returns <code>null</code> if the menu doesn't have a
      * parent menu.
-     * 
+     *
      * @return {Menu|null} The parent menu.
      */
     getParentMenu : function()
@@ -461,11 +461,11 @@ qx.Class.define("qx.ui.menu.Menu",
       if (!widget || !(widget instanceof qx.ui.menu.AbstractButton)) {
         return null;
       }
-      
+
       while (widget && !(widget instanceof qx.ui.menu.Menu)) {
         widget = widget.getLayoutParent();
       }
-      return widget;     
+      return widget;
     },
 
 
@@ -506,50 +506,50 @@ qx.Class.define("qx.ui.menu.Menu",
       this._blocker.setOpacity(value);
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
     SCROLLING SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     // overridden
     _createChildControlImpl : function(id)
     {
       var control;
-    
+
       switch(id)
       {
         case "slidebar":
           var control = new qx.ui.menu.MenuSlideBar();
-          
+
           var layout = this._getLayout();
           this._setLayout(new qx.ui.layout.Grow());
-          
+
           var slidebarLayout = control.getLayout();
           control.setLayout(layout);
           slidebarLayout.dispose();
-          
+
           var children = qx.lang.Array.clone(this.getChildren());
           for (var i=0; i<children.length; i++) {
             control.add(children[i]);
           }
-          
+
           this.removeListener("resize", this._onResize, this);
           control.getChildrenContainer().addListener("resize", this._onResize, this);
-          
+
           this.add(control);
-          
+
         break;
       }
-      
+
       return control || this.base(arguments, id);
     },
-         
-    
+
+
     /**
      * Get the menu layout manager
-     * 
+     *
      * @return {Layout} The menu layout manager
      */
     _getMenuLayout : function()
@@ -561,10 +561,10 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
-    
+
     /**
      * Get the menu bounds
-     * 
+     *
      * @return {Map} The menu bounds
      */
     _getMenuBounds : function()
@@ -575,19 +575,19 @@ qx.Class.define("qx.ui.menu.Menu",
         return this.getBounds();
       }
     },
-    
-    
+
+
     /**
-     * Computes the size of the menu. This method is used by the 
+     * Computes the size of the menu. This method is used by the
      * {@link qx.ui.core.MPlacement} mixin.
      */
     _computePlacementSize : function() {
       return this._getMenuBounds();
     },
-    
-    
+
+
     /**
-     * Updates the visibility of the slidebar based on the menu's current size 
+     * Updates the visibility of the slidebar based on the menu's current size
      * and position.
      */
     __updateSlideBar : function()
@@ -598,11 +598,11 @@ qx.Class.define("qx.ui.menu.Menu",
         this.addListenerOnce("resize", this.__updateSlideBar, this)
         return;
       }
-      
+
       var rootHeight = this.getLayoutParent().getBounds().height;
       var top = this.getLayoutProperties().top;
       var left = this.getLayoutProperties().left;
-      
+
       // Adding the slidebar must be deferred because this call can happen
       // during the layout flush, which make it impossible to move existing
       // layout to the slidebar
@@ -613,7 +613,7 @@ qx.Class.define("qx.ui.menu.Menu",
           this.moveTo(left, 0);
         });
       }
-      else if (top + menuBounds.height > rootHeight) 
+      else if (top + menuBounds.height > rootHeight)
       {
         this._assertSlideBar(function() {
           this.setHeight(rootHeight - top);
@@ -624,12 +624,12 @@ qx.Class.define("qx.ui.menu.Menu",
         this.setHeight(null);
       }
     },
-    
-    
+
+
     /**
      * Schedules the addition of the slidebar and calls the given callback
      * after the slidebar has been added.
-     * 
+     *
      * @param callback {Function} the callback to call
      */
     _assertSlideBar : function(callback)
@@ -637,12 +637,12 @@ qx.Class.define("qx.ui.menu.Menu",
       if (this.hasChildControl("slidebar")) {
         return callback.call(this);
       }
-      
+
       this.__onAfterSlideBarAdd = callback;
       qx.ui.core.queue.Widget.add(this);
     },
-    
-    
+
+
     // overridden
     syncWidget : function()
     {
@@ -653,8 +653,8 @@ qx.Class.define("qx.ui.menu.Menu",
         delete this.__onAfterSlideBarAdd;
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
@@ -666,7 +666,7 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onResize : function()
     {
-      if (this.isVisible()) 
+      if (this.isVisible())
       {
         var target = this._placementTarget;
         if (!target) {
@@ -674,15 +674,15 @@ qx.Class.define("qx.ui.menu.Menu",
         } else if (target instanceof qx.ui.core.Widget) {
           this.placeToWidget(target);
         } else if (target.top !== undefined) {
-          this.placeToPoint(target);  
+          this.placeToPoint(target);
         } else {
           throw new Error("Unknown target: " + target);
         }
         this.__updateSlideBar();
       }
     },
-    
-    
+
+
     /**
      * Event listener for mouseover event.
      *
@@ -708,7 +708,7 @@ qx.Class.define("qx.ui.menu.Menu",
         if (subMenu)
         {
           subMenu.setOpener(target);
-          
+
           // Finally schedule for opening
           mgr.scheduleOpen(subMenu);
 

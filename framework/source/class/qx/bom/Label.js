@@ -335,15 +335,15 @@ qx.Class.define("qx.bom.Label",
       }
       return size;
     },
-        
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED STUFF
     ---------------------------------------------------------------------------
     */
     /**
-     * Old set method for the label's content. Please use the setValue method 
+     * Old set method for the label's content. Please use the setValue method
      * instead.
      *
      * @param element {Element} DOM element to modify.

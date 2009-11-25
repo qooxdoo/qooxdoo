@@ -23,12 +23,12 @@
 qx.Class.define("qx.util.placement.AbstractAxis",
 {
   extend : qx.core.Object,
-  
+
   members :
   {
     /**
      * Computes the start of the object on the axis
-     * 
+     *
      * @param size {Integer} Size of the object to align
      * @param target {Map} Location of the object to align the object to. This map
      *   should have the keys <code>start</code> and <code>end</code>.
@@ -47,12 +47,12 @@ qx.Class.define("qx.util.placement.AbstractAxis",
     computeStart : function(size, target, offsets, areaSize, position) {
       throw new Error("abstract method call!");
     },
-    
-    
+
+
     /**
      * Computes the start of the object by taking only the attachment and
      * alignment into account. The object by be not fully visible.
-     * 
+     *
      * @param size {Integer} Size of the object to align
      * @param target {Map} Location of the object to align the object to. This map
      *   should have the keys <code>start</code> and <code>end</code>.
@@ -61,30 +61,30 @@ qx.Class.define("qx.util.placement.AbstractAxis",
      * @param position {String} Accepts the same values as the <code> position</code>
      *   argument of {@link #computeStart}.
      * @return {Integer} The computed start position of the object.
-     */    
+     */
     _moveToEdgeAndAlign : function(size, target, offsets, position)
     {
       switch(position)
       {
         case "edge-start":
           return target.start - offsets.end - size;
-          
+
         case "edge-end":
           return target.end + offsets.start;
-          
+
         case "align-start":
           return target.start + offsets.start;
-          
+
         case "align-end":
           return target.end - offsets.end - size;
       }
     },
-    
-    
+
+
     /**
      * Whether the object specified by <code>start</code> and <code>size</code>
      * is completely inside of the axis' range..
-     * 
+     *
      * @param start {Integer} Computed start position of the object
      * @param size {Integer} Size of the object
      * @param areaSize {Integer} The size of the axis

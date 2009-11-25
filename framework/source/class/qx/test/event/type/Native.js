@@ -21,20 +21,20 @@
 qx.Class.define("qx.test.event.type.Native",
 {
   extend : qx.dev.unit.TestCase,
-  
-  
+
+
   members :
   {
     testClone : function()
     {
       var domEvent = {}
       var event = new qx.event.type.Native().init(domEvent, document.body, document.body, true, true);
-      
+
       var clone = event.clone();
-      
+
       // simulate native event disposal
       qx.lang.Object.empty(domEvent);
-      
+
       clone.preventDefault();
     }
   }

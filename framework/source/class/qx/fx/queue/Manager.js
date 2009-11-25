@@ -41,8 +41,8 @@ qx.Class.define("qx.fx.queue.Manager",
 {
   extend : qx.core.Object,
   type : "singleton",
-  
-  construct : function() 
+
+  construct : function()
   {
     this.base(arguments);
     this.__instances = {};
@@ -56,8 +56,8 @@ qx.Class.define("qx.fx.queue.Manager",
 
   members :
   {
-    __instances : null, 
-    
+    __instances : null,
+
     /**
      * Returns existing queue by name or creates a new queue object and returns it.
      * @param queueName {String} Name of queue.

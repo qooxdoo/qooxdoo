@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.menu.Button",
           return;
         }
       }
-      
+
       qx.ui.menu.Manager.getInstance().hideAll();
     },
 

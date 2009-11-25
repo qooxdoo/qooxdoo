@@ -51,7 +51,7 @@ qx.Class.define("qx.event.Timer",
     if (interval != null) {
       this.setInterval(interval);
     }
-    
+
     // don't use qx.lang.Function.bind because this function would add a
     // disposed check, which could break the functionality. In IE the handler
     // may get called after "clearInterval" (i.e. after the timer is disposed)
@@ -293,7 +293,7 @@ qx.Class.define("qx.event.Timer",
       if (this.$$disposed) {
         return;
       }
-      
+
       if (this.getEnabled()) {
         this.fireEvent("interval");
       }

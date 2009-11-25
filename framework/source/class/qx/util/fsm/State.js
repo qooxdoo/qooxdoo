@@ -145,10 +145,10 @@ qx.Class.define("qx.util.fsm.State",
    *     this.getUserData("<propertyName>") during the state's onentry and
    *     onexit functions.
    *   </pre>
-   * 
+   *
    * @throws {Error} If the state info is not a valid object.
    * @throws {Error} If the events object is not provided in new state info.
-   * 
+   *
    */
   construct : function(stateName, stateInfo)
   {

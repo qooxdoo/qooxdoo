@@ -27,7 +27,7 @@ qx.Class.define("qx.test.event.dispatch.TestingHandler",
     canHandleEvent : function() {
       return true;
     },
-    
+
     registerEvent : function() {},
     unregisterEvent : function() {}
   }

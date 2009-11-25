@@ -97,8 +97,8 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Unblock the widget blocked by {@link #block}, but it takes care of 
-     * the amount of {@link #block} calls. The blocker is only removed if 
+     * Unblock the widget blocked by {@link #block}, but it takes care of
+     * the amount of {@link #block} calls. The blocker is only removed if
      * the numer of {@link #unblock} calls is identical to {@link #block} calls.
      */
     unblock : function() {
@@ -107,7 +107,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Unblock the widget blocked by {@link #block}, but it doesn't take care of 
+     * Unblock the widget blocked by {@link #block}, but it doesn't take care of
      * the amount of {@link #block} calls. The blocker is directly removed.
      */
     forceUnblock : function() {
@@ -137,9 +137,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Unblock the content blocked by {@link #blockContent}, but it takes care of 
-     * the amount of {@link #blockContent} calls. The blocker is only removed if 
-     * the numer of {@link #unblockContent} calls is identical to 
+     * Unblock the content blocked by {@link #blockContent}, but it takes care of
+     * the amount of {@link #blockContent} calls. The blocker is only removed if
+     * the numer of {@link #unblockContent} calls is identical to
      * {@link #blockContent} calls.
      */
     unblockContent : function() {
@@ -149,17 +149,17 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
     /**
      * Unblock the content blocked by {@link #blockContent}, but it doesn't take
-     * care of the amount of {@link #blockContent} calls. The blocker is 
+     * care of the amount of {@link #blockContent} calls. The blocker is
      * directly removed.
      */
     forceUnblockContent : function() {
       this.__blocker.forceUnblockContent();
     },
 
-    
+
     /**
      * Get/create the content blocker element
-     * 
+     *
      * @deprecated Use 'getBlocker().getContentBlockerElement()' instead. (for 0.9)
      *
      * @return {qx.html.Element} The blocker element
@@ -167,17 +167,17 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     _getContentBlocker : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, 
+        arguments.callee,
         "Use 'getBlocker().getContentBlockerElement()' instead."
       );
-      
+
       return this.__blocker.getContentBlockerElement();
     },
-    
-    
+
+
     /**
      * Get/create the blocker element
-     * 
+     *
      * @deprecated Use 'getBlocker().getBlockerElement()' instead. (for 0.9)
      *
      * @return {qx.html.Element} The blocker element
@@ -185,17 +185,17 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     _getBlocker : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, 
+        arguments.callee,
         "Use 'getBlocker().getBlockerElement()' instead."
       );
-      
+
       return this.__blocker.getBlockerElement();
     },
-    
-    
+
+
     /**
      * Get the blocker
-     * 
+     *
      * @return {qx.ui.core.Blocker} The blocker
      */
     getBlocker : function() {

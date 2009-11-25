@@ -91,18 +91,18 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
         this.setColumn(scroller._getColumnForPageX(this.getDocumentLeft()));
       }
     },
-     
-     
+
+
     // overridden
     clone : function(embryo)
     {
       var clone = this.base(arguments, embryo);
-  
+
       clone.set({
         row: this.getRow(),
         column: this.getColumn()
       });
-        
+
       return clone;
     }
   }

@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * overridden
      * @throws {Error} If one tries to sort the gree by column
-     */ 
+     */
     sortByColumn : function(columnIndex, ascending)
     {
       throw new Error("Trees can not be sorted by column");
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * overridden
      * @throws {Error} if the row index is out of bounds.
-     */ 
+     */
     getValue : function(columnIndex, rowIndex)
     {
       if (rowIndex < 0 || rowIndex >= this._rowArr.length)
@@ -1219,7 +1219,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   destruct : function()
   {
-    this._rowArr = this._nodeArr = this._nodeRowMap = this._selections = 
+    this._rowArr = this._nodeArr = this._nodeRowMap = this._selections =
       this.__tree = null;
   }
 });

@@ -28,11 +28,11 @@ qx.Class.define("qx.test.ui.table.Dispose",
       var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);
       tableModel.setData(this.createRandomRows(200));
-      
+
       return tableModel;
     },
-    
-    
+
+
     createRandomRows : function(rowCount)
     {
       var rowData = [];
@@ -45,10 +45,10 @@ qx.Class.define("qx.test.ui.table.Dispose",
       }
       return rowData;
     },
-      
-    
+
+
     testSimple : function()
-    {  
+    {
       this.assertDestroy(function()
       {
         // table
@@ -62,7 +62,7 @@ qx.Class.define("qx.test.ui.table.Dispose",
         model.dispose();
       }, this, "Dispose simple table");
     },
-    
+
 
     changeModel : function(table)
     {
@@ -70,8 +70,8 @@ qx.Class.define("qx.test.ui.table.Dispose",
       table.setTableModel(this.createModel());
       model.dispose();
     },
-    
-    
+
+
     testChangeModel : function()
     {
       this.assertDestroy(function()
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.table.Dispose",
         var table = new qx.ui.table.Table(this.createModel());
 
         this.changeModel(table);
-        
+
         this.getRoot().add(table);
         this.flush();
 
@@ -89,7 +89,7 @@ qx.Class.define("qx.test.ui.table.Dispose",
         var model = table.getTableModel();
         table.destroy();
         model.dispose();
-      }, this, "Dispose table with changed model");      
+      }, this, "Dispose table with changed model");
     }
   }
 });

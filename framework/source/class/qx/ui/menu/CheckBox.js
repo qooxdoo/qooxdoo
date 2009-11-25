@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
     /** Whether the button is checked */
     value :
     {
-      check : "Boolean",      
+      check : "Boolean",
       init : false,
       apply : "_applyValue",
       event : "changeValue",

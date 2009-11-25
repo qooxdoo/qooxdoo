@@ -40,8 +40,8 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("2-1", Str.format("%2-%1", [ "1", "2" ]));
     },
 
-    
-    
+
+
     testRepeat: function()
     {
       this.assertEquals("", qx.lang.String.repeat("1", 0));
@@ -49,7 +49,7 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("123123123", qx.lang.String.repeat("123", 3));
       this.assertEquals("üüüü", qx.lang.String.repeat("ü", 4));
     },
-    
+
 
     testPad : function()
     {
