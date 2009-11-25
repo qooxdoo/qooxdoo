@@ -52,7 +52,7 @@ qx.Class.define("qx.test.io2.ScriptLoader",
         {
           var isSafari3 = qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 530;
 
-          if (qx.bom.client.Engine.MSHTML || isSafari3) {
+          if (qx.bom.client.Engine.MSHTML || isSafari3) {
             // Error state does not work in IE!
             this.assertEquals("success", status);
           } else {

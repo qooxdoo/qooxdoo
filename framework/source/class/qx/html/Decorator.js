@@ -35,7 +35,7 @@ qx.Class.define("qx.html.Decorator",
   {
     this.base(arguments);
     this.__decorator = decorator;
-    this.__id = decoratorId || decorator.toHashCode();
+    this.__id = decoratorId || decorator.toHashCode();
 
     this.setStyles({
       position: "absolute",

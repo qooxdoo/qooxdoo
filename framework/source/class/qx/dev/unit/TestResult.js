@@ -156,7 +156,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       try {
-        testFunction.call(self || window);
+        testFunction.call(self || window);
       }
       catch(ex)
       {

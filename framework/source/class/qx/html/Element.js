@@ -1978,7 +1978,7 @@ qx.Class.define("qx.html.Element",
       actions.push({
         type: action,
         element: this,
-        args: args || []
+        args: args || []
       });
       qx.html.Element._scheduleFlush("element");
     },

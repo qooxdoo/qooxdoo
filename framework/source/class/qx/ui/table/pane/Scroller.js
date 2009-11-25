@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __top : null,
 
     __timer : null,
-    
+
 
     /**
      * The right inset of the pane. The right inset is the maximum of the

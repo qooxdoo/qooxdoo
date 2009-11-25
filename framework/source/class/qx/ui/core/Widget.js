@@ -1028,7 +1028,7 @@ qx.Class.define("qx.ui.core.Widget",
         containerStyles.height = height + pixel;
       }
 
-      if (changes.position || changes.size) {
+      if (changes.position || changes.size) {
         container.setStyles(containerStyles);
       }
 

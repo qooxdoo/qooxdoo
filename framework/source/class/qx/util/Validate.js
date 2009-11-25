@@ -121,7 +121,7 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", "'" + (value || "") + "' is not an email address."
+          "Validation Error", "'" + (value || "") + "' is not an email address."
         );
       }
     },

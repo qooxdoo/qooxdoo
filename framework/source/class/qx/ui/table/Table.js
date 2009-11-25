@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.table.Table",
     // Create the models
     this.__selectionManager = this.getNewSelectionManager()(this);
     this.setSelectionModel(this.getNewSelectionModel()(this));
-    this.setTableModel(tableModel || this.getEmptyTableModel());
+    this.setTableModel(tableModel || this.getEmptyTableModel());
 
     // create the main meta column
     this.setMetaColumnCounts([ -1 ]);

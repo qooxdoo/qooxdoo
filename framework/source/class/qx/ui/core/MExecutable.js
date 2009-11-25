@@ -129,7 +129,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
             var selfPropertyValue = this.get(property)
           }
           // set up the binding
-          ids[property] = value.bind(property, this, property);
+          ids[property] = value.bind(property, this, property);
           // reapply the former value
           if (selfPropertyValue) {
             this.set(property, selfPropertyValue);

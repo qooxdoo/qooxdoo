@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       }
 
       // replace null values
-      if (value === null || value === undefined) {
+      if (value === null || value === undefined) {
         value = "";
       }
 
