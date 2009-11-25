@@ -98,7 +98,7 @@ qx.Class.define("qx.bom.IframeHistory",
       {
         var doc = this.__iframe.contentWindow.document;
         doc.open();
-        doc.write('<html><body><div id="state">' + this._encode(state) + '</div></body></html>');
+        doc.write('<html><body><div id="state">' + state + '</div></body></html>');
         doc.close();
       }
       catch (ex) {
