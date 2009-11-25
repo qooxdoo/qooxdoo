@@ -127,13 +127,13 @@ qx.Class.define("qx.data.store.Json",
       this.__request = new qx.io.remote.Request(
         url, "GET", "application/json"
       );
-      
+
       // check for the request configuration hook
       var del = this._delegate;
       if (del && qx.lang.Type.isFunction(del.configureRequest)) {
         this._delegate.configureRequest(this.__request);
-      }      
-      
+      }
+
       this.__request.addListener(
         "completed", this.__requestCompleteHandler, this
       );
@@ -156,13 +156,13 @@ qx.Class.define("qx.data.store.Json",
     __requestCompleteHandler : function(ev)
     {
         var data = ev.getContent();
-        
+
         // check for the data manipulation hook
         var del = this._delegate;
         if (del && qx.lang.Type.isFunction(del.manipulateData)) {
           data = this._delegate.manipulateData(data);
         }
-        
+
         // create the class
         this._marshaler.toClass(data, true);
         // set the initial data

@@ -369,8 +369,8 @@ qx.Class.define("qx.ui.virtual.form.List",
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     }
   },
-  
-  
+
+
   destruct : function()
   {
     this._delegate = this.__defaultCellRenderer = null;

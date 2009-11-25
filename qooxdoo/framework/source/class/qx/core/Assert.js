@@ -43,25 +43,25 @@ qx.Bootstrap.define("qx.core.Assert",
      *
      * @param comment {String} Message to be shown if the assertion fails. This
      *    message is provided by the user.
-     * @param msgvarargs {var} any number of parts of a message to show if assertion 
+     * @param msgvarargs {var} any number of parts of a message to show if assertion
      *                         triggers. Each will be converted to a string and all
-     *                         parts will be concatenated. E. g. instead of 
+     *                         parts will be concatenated. E. g. instead of
      *                         "Got invalid value " + this.__toString(val) + "!!!!!"
      *                         use
      *                         "Got invalid value ", val, "!!!!!"
      *                         (much better performance)
-     *                          
+     *
      */
     __fail : function(comment, msgvarargs)
     {
-      // Build up message from message varargs. It's not really important 
+      // Build up message from message varargs. It's not really important
       // how long this takes as it is done only when assertion is triggered
       var msg = "";
       for (var i=1, l=arguments.length; i<l; i++)
       {
         msg = msg + this.__toString(arguments[i]);
       }
-      
+
       var errorMsg = "Assertion error! " + comment + ": " + msg;
       if (this.__logError) {
         qx.log.Logger.error(errorMsg);
@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.core.Assert",
     {
         expected != found || this.__fail(
         msg || "",
-        "Expected '",expected, 
+        "Expected '",expected,
         "' to be not equal with '", found, "'!"
       );
     },
@@ -626,7 +626,7 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertObject : function(value, msg)
     {
-      var condition = value !== null && 
+      var condition = value !== null &&
         (qx.lang.Type.isObject(value) || typeof value === "object");
       condition || this.__fail(
         msg || "",
@@ -757,8 +757,8 @@ qx.Bootstrap.define("qx.core.Assert",
       {
         this.__fail(
           msg || "",
-          "Expected value to be the CSS color '", expected, 
-          "' (rgb(", expectedRgb.join(","), 
+          "Expected value to be the CSS color '", expected,
+          "' (rgb(", expectedRgb.join(","),
           ")), but found value '", value, "', which cannot be converted to a CSS color!"
         );
       }
@@ -768,7 +768,7 @@ qx.Bootstrap.define("qx.core.Assert",
         msg || "",
           "Expected value to be the CSS color '", expectedRgb,
           "' (rgb(", expectedRgb.join(","),
-          ")), but found value '", value, 
+          ")), but found value '", value,
           "' (rgb(", valueRgb.join(","), "))!"
       );
     },

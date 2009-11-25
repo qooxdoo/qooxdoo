@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
   members :
   {
     __offset : 2,
-    
+
     // overridden
     _createChildControlImpl : function(id)
     {

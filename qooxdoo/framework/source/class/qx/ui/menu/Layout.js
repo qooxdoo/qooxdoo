@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.menu.Layout",
       }
 
       var height = this.base(arguments).height;
-      
+
       // Build hint
       return {
         minHeight: height,

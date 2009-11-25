@@ -79,8 +79,8 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       c3.destroy();
       parent.destroy();
     },
-    
-    
+
+
     testRemoveNonChild : function()
     {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
@@ -92,7 +92,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
       w1.destroy();
       parent.destroy();
-    },    
+    },
 
 
     testRemoveAt : function()

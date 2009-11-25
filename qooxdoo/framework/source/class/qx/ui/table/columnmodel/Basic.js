@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(colCount, "Invalid argument 'colCount'.");
       }
-      
+
       this.__columnDataArr = [];
 
       var width = qx.ui.table.columnmodel.Basic.DEFAULT_WIDTH;
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnWidth : function(col, width)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInteger(width, "Invalid argument 'width'.");
@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {Integer} the width of the column in pixels.
      */
-    getColumnWidth : function(col) 
+    getColumnWidth : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
@@ -251,7 +251,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setHeaderCellRenderer : function(col, renderer)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.IHeaderRenderer, "Invalid argument 'renderer'.");
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.IHeaderRenderer} the header renderer of the column.
      */
-    getHeaderCellRenderer : function(col) 
+    getHeaderCellRenderer : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
@@ -291,12 +291,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setDataCellRenderer : function(col, renderer)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
       }
-      
+
       var oldRenderer = this.__columnDataArr[col].headerRenderer;
       if (oldRenderer !== this.__dataRenderer) {
         oldRenderer.dispose();
@@ -312,12 +312,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.ICellRenderer} the data renderer of the column.
      */
-    getDataCellRenderer : function(col) 
+    getDataCellRenderer : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
-      
+
       return this.__columnDataArr[col].dataRenderer;
     },
 
@@ -331,12 +331,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setCellEditorFactory : function(col, factory)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(factory, qx.ui.table.ICellEditorFactory, "Invalid argument 'factory'.");
       }
-      
+
       var oldRenderer = this.__columnDataArr[col].headerRenderer;
       if (oldRenderer !== this.__editorFactory) {
         oldRenderer.dispose();
@@ -352,12 +352,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.ICellEditorFactory} the cell editor factory of the column.
      */
-    getCellEditorFactory : function(col) 
+    getCellEditorFactory : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
-      
+
       return this.__columnDataArr[col].editorFactory;
     },
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(visXPos, "Invalid argument 'visXPos'.");
       }
-      
+
       return this.__visibleColumnArr[visXPos];
     },
 
@@ -427,12 +427,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {Integer} the visible x position of the column.
      */
-    getVisibleX : function(col) 
+    getVisibleX : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
-      
+
       return this._getColToXPosMap()[col].visX;
     },
 
@@ -453,12 +453,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param overXPos {Integer} the overall x position of the column.
      * @return {Integer} the model index of the column.
      */
-    getOverallColumnAtX : function(overXPos) 
+    getOverallColumnAtX : function(overXPos)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(overXPos, "Invalid argument 'overXPos'.");
       }
-      
+
       return this.__overallColumnArr[overXPos];
     },
 
@@ -474,7 +474,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
-      
+
       return this._getColToXPosMap()[col].overX;
     },
 
@@ -485,12 +485,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {Boolean} whether the column is visible.
      */
-    isColumnVisible : function(col) 
+    isColumnVisible : function(col)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
-      
+
       return (this._getColToXPosMap()[col].visX != null);
     },
 
@@ -504,12 +504,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnVisible : function(col, visible)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertBoolean(visible, "Invalid argument 'visible'.");
       }
-      
+
       if (visible != this.isColumnVisible(col))
       {
         if (visible)
@@ -580,12 +580,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInteger(fromOverXPos, "Invalid argument 'fromOverXPos'.");
         this.assertInteger(toOverXPos, "Invalid argument 'toOverXPos'.");
       }
-      
+
       this.__internalChange = true;
 
       var col = this.__overallColumnArr[fromOverXPos];
@@ -617,14 +617,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.fireDataEvent("orderChanged", data);
     },
 
-    
+
     /**
      * Reorders all columns to new overall positions. Will fire one "orderChanged" event
      * without data afterwards
      *
      * @param newPositions {Integer[]} Array mapping the index of a column in table model to its wanted overall
-     *                            position on screen (both zero based). If the table models holds 
-     *                            col0, col1, col2 and col3 and you give [1,3,2,0], the new column order 
+     *                            position on screen (both zero based). If the table models holds
+     *                            col0, col1, col2 and col3 and you give [1,3,2,0], the new column order
      *                            will be col3, col0, col2, col1
      */
     setColumnsOrder : function(newPositions)
@@ -632,11 +632,11 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertArray(newPositions, "Invalid argument 'newPositions'.");
       }
-      
+
       if (newPositions.length == this.__overallColumnArr.length)
       {
         this.__internalChange = true;
-        
+
         // Go through each column an switch visible ones to invisible. Reason is unknown,
         // this just mimicks the behaviour of moveColumn. Possibly useful because setting
         // a column visible later updates a map with its screen coords.
@@ -650,12 +650,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           }
         }
 
-        // Store new position values 
+        // Store new position values
         this.__overallColumnArr = qx.lang.Array.clone(newPositions);
-  
+
         // Invalidate the __colToXPosMap
         this.__colToXPosMap = null;
-        
+
         // Go through each column an switch invisible ones back to visible
         for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
           if (isVisible[colIdx]) {
@@ -663,14 +663,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           }
         }
         this.__internalChange = false;
-        
+
         // Inform the listeners. Do not add data as all known listeners in qooxdoo
         // only take this event to mean "total repaint necesscary". Fabian will look
         // after deprecating the data part of the orderChanged - event
         this.fireEvent("orderChanged");
-        
+
       } else {
-        throw new Error("setColumnsOrder: Invalid number of column positions given, expected " 
+        throw new Error("setColumnsOrder: Invalid number of column positions given, expected "
                         + this.__overallColumnArr.length + ", got " + newPositions.length);
       }
     }
@@ -694,7 +694,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr[i].editorFactory.dispose();
     }
 
-    this.__overallColumnArr = this.__visibleColumnArr = 
+    this.__overallColumnArr = this.__visibleColumnArr =
       this.__columnDataArr = this.__colToXPosMap = null;
 
     this._disposeObjects(

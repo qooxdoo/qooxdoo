@@ -20,7 +20,7 @@
 
 /**
  * This class has been moved to {@link qx.ui.core.scroll.ScrollBar}
- * 
+ *
  * @deprecated This class has been moved to qx.ui.core.scroll.ScrollBar
  */
 qx.Class.define("qx.ui.core.ScrollBar",

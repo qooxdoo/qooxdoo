@@ -106,7 +106,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
   {
     /**
      * {Map} Maps property names of content padding to the setter of the padding
-     * 
+     *
      * @lint ignoreReferenceField(__contentPaddingSetter)
      */
     __contentPaddingSetter :
@@ -117,10 +117,10 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
       contentPaddingLeft : "setPaddingLeft"
     },
 
-    
-    /** 
+
+    /**
      * {Map} Maps property names of content padding to the resetter of the padding
-     * 
+     *
      * @lint ignoreReferenceField(__contentPaddingResetter)
      */
     __contentPaddingResetter :
@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
       contentPaddingLeft : "resetPaddingLeft"
     },
 
-    
+
     // property apply
     _applyContentPadding : function(value, old, name)
     {

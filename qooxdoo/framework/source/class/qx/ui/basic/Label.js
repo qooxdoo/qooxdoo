@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /** 
+    /**
      * Controls whether text wrap is activated or not. But please note, that
      * this property works only in combination with the property {@link #rich}.
      * The {@link #wrap} has only an effect if the {@link #rich} property is
@@ -329,10 +329,10 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    /** 
+    /**
      * {Map} Internal fallback of label size when no font is defined
-     * 
-     * @lint ignoreReferenceField(__contentSize) 
+     *
+     * @lint ignoreReferenceField(__contentSize)
      */
     __contentSize :
     {

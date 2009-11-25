@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A formatter and parser for dates, see 
+ * A formatter and parser for dates, see
  * http://search.cpan.org/~drolsky/DateTime-0.50/lib/DateTime.pm#CLDR_Patterns
  */
 qx.Class.define("qx.util.format.DateFormat",
@@ -300,7 +300,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 if (wildcardSize > replacement.length) {
                   for (var i = replacement.length; i < wildcardSize; i++) {
                     replacement = "0" + replacement;
-                  };                  
+                  };
                 }
               }
 
@@ -890,34 +890,34 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(\\d\\d+)",
         manipulator : yearManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "yyy",
         regex       : "(\\d\\d\\d+)",
         manipulator : yearManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "yyyy",
         regex       : "(\\d\\d\\d\\d+)",
         manipulator : yearManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "yyyyy",
         regex       : "(\\d\\d\\d\\d\\d+)",
         manipulator : yearManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "yyyyyy",
         regex       : "(\\d\\d\\d\\d\\d\\d+)",
         manipulator : yearManipulator
-      });            
+      });
 
       rules.push(
       {

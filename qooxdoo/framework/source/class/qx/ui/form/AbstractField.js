@@ -241,10 +241,10 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (!changes) {
         return;
       }
-      
+
       var inner = changes.size || updateInsets;
       var pixel = "px";
-      
+
       if (inner || changes.local || changes.margin)
       {
         var insets = this.getInsets();
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__getPlaceholderElement().setStyles({
           "left": insets.left + pixel,
           "top": insets.top + pixel
-        }); 
+        });
       }
 
       if (inner)
@@ -282,10 +282,10 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // overridden
     _createContentElement : function()
-    {  
+    {
       // create and add the input element
       var el = this._createInputElement();
-      
+
       // Apply styles
       el.setStyles(
       {
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         "outline": "none",
         "appearance": "none",
         "position": "absolute",
-        "autoComplete": "off"             
+        "autoComplete": "off"
       });
 
       // initialize the html input
@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         el.setStyle("resize", "none");
       }
-      
+
       // IE8 in standard mode needs some extra love here to receive events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.form.AbstractField",
           backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")"
         });
       }
-      
+
       return el;
     },
 
@@ -405,10 +405,10 @@ qx.Class.define("qx.ui.form.AbstractField",
         );
         this.__getPlaceholderElement().setStyle(
           "color", qx.theme.manager.Color.getInstance().resolve(value)
-        );        
+        );
       } else {
         this.getContentElement().removeStyle("color");
-        this.__getPlaceholderElement().removeStyle("color");        
+        this.__getPlaceholderElement().removeStyle("color");
       }
     },
 
@@ -696,12 +696,12 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__getPlaceholderElement().setStyle("visibility", "visible");
       }
     },
-    
-    
+
+
     /**
      * Returns the placeholder label and creates it if necessary.
      */
-    __getPlaceholderElement : function() 
+    __getPlaceholderElement : function()
     {
       if (this.__placeholder == null) {
         // create the placeholder
@@ -764,15 +764,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     }
 
   },
-  
+
 
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-  destruct : function() 
+  destruct : function()
   {
     this.__placeholder = null;
-  }  
+  }
 });

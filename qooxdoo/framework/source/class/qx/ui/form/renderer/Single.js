@@ -32,8 +32,8 @@ qx.Class.define("qx.ui.form.renderer.Single",
     layout.setColumnFlex(0, 1);
     layout.setColumnAlign(0, "right", "top");
     this._setLayout(layout);
-    
-    this.base(arguments, form);    
+
+    this.base(arguments, form);
   },
 
 

@@ -25,15 +25,15 @@
 qx.Class.define("qx.util.placement.Placement",
 {
   extend : qx.core.Object,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.__defaultAxis = new qx.util.placement.DirectAxis();
   },
-  
-  
-  properties : 
+
+
+  properties :
   {
     /**
      * The axis object to use for the horizontal placement
@@ -41,14 +41,14 @@ qx.Class.define("qx.util.placement.Placement",
     axisX : {
       check: "qx.util.placement.AbstractAxis"
     },
-    
+
     /**
      * The axis object to use for the vertical placement
      */
     axisY : {
       check: "qx.util.placement.AbstractAxis"
     },
-    
+
     /**
      * Specify to which edge of the target object, the object should be attached
      */
@@ -56,7 +56,7 @@ qx.Class.define("qx.util.placement.Placement",
       check: ["top", "right", "bottom", "left"],
       init: "top"
     },
-    
+
     /**
      * Specify with which edge of the target object, the object should be aligned
      */
@@ -65,8 +65,8 @@ qx.Class.define("qx.util.placement.Placement",
       init: "right"
     }
   },
-  
-  
+
+
   statics :
   {
     __instance : null,
@@ -99,39 +99,39 @@ qx.Class.define("qx.util.placement.Placement",
      *   target edges and that that is aligned with a target edge.</li>
      *   <li>best-fit</li>: If parts of the object are outside of the visible
      *   area it is moved into the view port ignoring any offset, and position
-     *   values. 
-     *   </ul> 
+     *   values.
+     *   </ul>
      * @param modeY {String} Vertical placement mode. Accepts the same values as
      *   the 'modeX' argument.
      * @return {Map} A map with the final location stored in the keys
      *   <code>left</code> and <code>top</code>.
-     */    
-    compute: function(size, area, target, offsets, position, modeX, modeY) 
+     */
+    compute: function(size, area, target, offsets, position, modeX, modeY)
     {
       this.__instance = this.__instance || new qx.util.placement.Placement();
-      
+
       var splitted = position.split("-");
       var edge = splitted[0];
       var align = splitted[1];
-      
+
       this.__instance.set({
         axisX: this.__getAxis(modeX),
         axisY: this.__getAxis(modeY),
         edge: edge,
         align: align
       });
-      
-      return this.__instance.compute(size, area, target, offsets);      
+
+      return this.__instance.compute(size, area, target, offsets);
     },
-    
-    
+
+
     __direct : null,
     __keepAlign : null,
     __bestFit : null,
-    
+
     /**
      * Get the axis instance for the given mode
-     * 
+     *
      * @param mode {String} One of <code>direct</code>, <code>keep-align</code> or
      *   <code>best-fit</code>
      * @return {qx.util.placement.AbstractAxis}
@@ -143,22 +143,22 @@ qx.Class.define("qx.util.placement.Placement",
         case "direct":
           this.__direct = this.__direct || new qx.util.placement.DirectAxis();
           return this.__direct;
-          
+
         case "keep-align":
-          this.__keepAlign = this.__keepAlign || new qx.util.placement.KeepAlignAxis(); 
+          this.__keepAlign = this.__keepAlign || new qx.util.placement.KeepAlignAxis();
           return this.__keepAlign;
 
         case "best-fit":
-          this.__bestFit = this.__bestFit || new qx.util.placement.BestFitAxis(); 
+          this.__bestFit = this.__bestFit || new qx.util.placement.BestFitAxis();
           return this.__bestFit;
-          
+
         default:
           throw new Error("Invalid 'mode' argument!'");
       }
-    }        
+    }
   },
-  
-  
+
+
   members :
   {
     __defaultAxis : null,
@@ -180,19 +180,19 @@ qx.Class.define("qx.util.placement.Placement",
      *   <code>right</code> and <code>bottom</code>.
      * @return {Map} A map with the final location stored in the keys
      *   <code>left</code> and <code>top</code>.
-     */     
-    compute : function(size, area, target, offsets) 
+     */
+    compute : function(size, area, target, offsets)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertObject(size, "size");
         this.assertNumber(size.width, "size.width");
         this.assertNumber(size.height, "size.height");
-        
+
         this.assertObject(area, "area");
         this.assertNumber(area.width, "area.width");
         this.assertNumber(area.height, "area.height");
-        
+
         this.assertObject(target, "target");
         this.assertNumber(target.top, "target.top");
         this.assertNumber(target.right, "target.right");
@@ -205,7 +205,7 @@ qx.Class.define("qx.util.placement.Placement",
         this.assertNumber(offsets.bottom, "offsets.bottom");
         this.assertNumber(offsets.left, "offsets.left");
       }
-    
+
       var axisX = this.getAxisX() || this.__defaultAxis;
       var left = axisX.computeStart(
         size.width,
@@ -223,24 +223,24 @@ qx.Class.define("qx.util.placement.Placement",
         area.height,
         this.__getPositionY()
       );
-        
+
       return {
         left: left,
         top: top
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Get the position value for the horizontal axis
-     * 
+     *
      * @return {String} the position
      */
-    __getPositionX : function() 
+    __getPositionX : function()
     {
       var edge = this.getEdge();
       var align = this.getAlign();
-      
+
       if (edge == "left") {
         return "edge-start";
       } else if (edge == "right") {
@@ -249,13 +249,13 @@ qx.Class.define("qx.util.placement.Placement",
         return "align-start";
       } else if (align == "right") {
         return "align-end";
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Get the position value for the vertical axis
-     * 
+     *
      * @return {String} the position
      */
     __getPositionY : function()
@@ -272,7 +272,7 @@ qx.Class.define("qx.util.placement.Placement",
       } else if (align == "bottom") {
         return "align-end";
       }
-    }    
+    }
   },
 
 

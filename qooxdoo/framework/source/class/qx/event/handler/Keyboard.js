@@ -260,7 +260,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
     /**
      * Get the target element for mouse events
-     * 
+     *
      * @return {Element} the event target element
      */
     __getEventTarget : function()
@@ -277,7 +277,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       if (!target || target.offsetWidth == 0) {
         target = this.__manager.getWindow().document.body;
       }
-      
+
       return target;
     },
 
@@ -652,9 +652,9 @@ qx.Class.define("qx.event.handler.Keyboard",
     ---------------------------------------------------------------------------
     */
 
-    /** 
+    /**
      * {Map} maps the charcodes of special printable keys to key identifiers
-     * 
+     *
      * @lint ignoreReferenceField(_specialCharCodeMap)
      */
     _specialCharCodeMap :
@@ -668,10 +668,10 @@ qx.Class.define("qx.event.handler.Keyboard",
       27 : "Escape",      // The Escape (Esc) key.
       32 : "Space"        // The Space (Spacebar) key.
     },
-    
 
-    /** 
-     * {Map} maps the keycodes of non printable keys to key identifiers 
+
+    /**
+     * {Map} maps the keycodes of non printable keys to key identifiers
      *
      * @lint ignoreReferenceField(_keyCodeToIdentifierMap)
      */
@@ -718,9 +718,9 @@ qx.Class.define("qx.event.handler.Keyboard",
        93 : "Apps"          // The Application key (Windows Context Menu)
     },
 
-    
-    /** 
-     * {Map} maps the keycodes of the numpad keys to the right charcodes 
+
+    /**
+     * {Map} maps the keycodes of the numpad keys to the right charcodes
      *
      * @lint ignoreReferenceField(_numpadToCharCode)
      */

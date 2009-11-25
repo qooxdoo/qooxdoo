@@ -113,10 +113,10 @@ qx.Class.define("qx.test.locale.Locale",
       cars = cars.translate();
       this.assertEquals("5 Autos", cars);
     },
-    
-    
-    testMacCtrl : function() 
-    {              
+
+
+    testMacCtrl : function()
+    {
       // check if the translation is working
       this.assertEquals("Links", qx.locale.Key.getKeyName("short", "Left", "de_DE"));
       // is the localized version

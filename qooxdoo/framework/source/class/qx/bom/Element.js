@@ -276,7 +276,7 @@ qx.Class.define("qx.bom.Element",
      * Captures the given element
      *
      * @param element {Element} DOM element to capture
-     * @param containerCapture {Boolean?true} If true all events originating in 
+     * @param containerCapture {Boolean?true} If true all events originating in
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */

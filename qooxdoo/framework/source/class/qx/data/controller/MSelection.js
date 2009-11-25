@@ -140,10 +140,10 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // if the selection is not empty
       if (targetSelection.length > 0) {
         // remove all items without firing an event
-        selection.toArray().splice(0, this.getSelection().getLength());        
+        selection.toArray().splice(0, this.getSelection().getLength());
       } else {
         // remove all with firing an event
-        selection.splice(0, this.getSelection().getLength());        
+        selection.splice(0, this.getSelection().getLength());
       }
 
       // go through the target selection
@@ -151,9 +151,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // get the fitting item
         var item = targetSelection[i].getModel();
         if (i + 1 == targetSelection.length) {
-          selection.push(item);          
+          selection.push(item);
         } else {
-          selection.toArray().push(item);          
+          selection.toArray().push(item);
         }
       }
 
@@ -212,7 +212,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
           var model = this.getSelection().getItem(i);
           var selectable = this.__getSelectableForModel(model);
           if (selectable != null) {
-            targetSelection.push(selectable);            
+            targetSelection.push(selectable);
           }
         }
         this.getTarget().setSelection(targetSelection);
@@ -290,14 +290,14 @@ qx.Mixin.define("qx.data.controller.MSelection",
         this.getTarget().setSelection([selectable]);
       }
     },
-    
-    
+
+
     /**
      * Returns the list item storing the given model in its model property.
-     * 
+     *
      * @param model {var} The representing model of a selectable.
      */
-    __getSelectableForModel : function(model) 
+    __getSelectableForModel : function(model)
     {
       // get all list items
       var children = this.getTarget().getSelectables();

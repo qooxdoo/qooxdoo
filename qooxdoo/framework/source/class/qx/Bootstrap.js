@@ -138,7 +138,7 @@ qx.Bootstrap = {
 
     // Store class reference in global class registry
     qx.Bootstrap.$$registry[name] = config.statics;
-    
+
     return clazz;
   }
 };

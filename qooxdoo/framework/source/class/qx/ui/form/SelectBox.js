@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.form.SelectBox",
           list.setSelection(this.getSelection());
         }
       } else {
-        // ensure that the list is never biger that the max list height and 
+        // ensure that the list is never biger that the max list height and
         // the available space in the viewport
         var distance = popup.getLayoutLocation(this);
         var viewPortHeight = qx.bom.Viewport.getHeight();
@@ -399,13 +399,13 @@ qx.Class.define("qx.ui.form.SelectBox",
         var toTop = distance.top;
         var toBottom = viewPortHeight - distance.bottom;
         var availableHeigth = toTop > toBottom ? toTop : toBottom;
-        
+
         var maxListHeight = this.getMaxListHeight();
         var list = this.getChildControl("list")
         if (maxListHeight == null || maxListHeight > availableHeigth) {
           list.setMaxHeight(availableHeigth);
         } else if (maxListHeight < availableHeigth) {
-          list.setMaxHeight(maxListHeight);          
+          list.setMaxHeight(maxListHeight);
         }
       }
     }

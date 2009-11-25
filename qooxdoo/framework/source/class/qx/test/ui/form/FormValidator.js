@@ -101,14 +101,14 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertFalse(this.__manager.getValid());
       this.assertFalse(this.__username.getValid());
     },
-    
-    
+
+
     testSyncSelfContained1NotNullRadioButtonGroup: function() {
       var rbg = new qx.ui.form.RadioButtonGroup();
       rbg.setRequired(true);
       rbg.getRadioGroup().setAllowEmptySelection(true);
       var rb1 = new qx.ui.form.RadioButton("a");
-      var rb2 = new qx.ui.form.RadioButton("b");      
+      var rb2 = new qx.ui.form.RadioButton("b");
       rbg.add(rb1);
       rbg.add(rb2);
       this.__manager.add(rbg);
@@ -125,7 +125,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertTrue(this.__manager.validate());
       this.assertTrue(this.__manager.getValid());
       this.assertTrue(rbg.getValid());
-    },    
+    },
 
 
     testSyncSelfContained1NotNullEvents: function(attributes) {

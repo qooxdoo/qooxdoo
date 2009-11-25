@@ -26,18 +26,18 @@ qx.Class.define("qx.test.util.placement.DirectAxis",
     setUp : function() {
       this.axis = new qx.util.placement.DirectAxis();
     },
-    
+
     tearDown : function() {
       this.axis.dispose();
     },
-    
+
     testEnoughSpace : function()
     {
       var size = 50;
       var target = {start: 500, end: 600};
-      var offsets = {start: 10, end: 20}; 
+      var offsets = {start: 10, end: 20};
       var areaSize = 1000;
-      
+
       this.assertEquals(
         430,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")

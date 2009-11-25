@@ -94,7 +94,7 @@ qx.Class.define("qx.test.Class",
           getWheels : function() {
             return this.self(arguments).WHEELS;
           },
-          
+
           getMaxSpeed : function()
           {
             // call base in non overridden method
@@ -110,7 +110,7 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("brrr start", bmw.startEngine());
       this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
-      
+
       if (this.isDebugOn())
       {
         this.assertException(function() {
@@ -184,10 +184,10 @@ qx.Class.define("qx.test.Class",
         }, Error, new RegExp("The class .* is a singleton"));
       };
     },
-    
+
     /* disabled acc. to state of bug #1433
     testMissingExtendKey : function()
-    {            
+    {
       // missing "extend" key should cause an exception
       if (this.isDebugOn())
       {
@@ -199,7 +199,7 @@ qx.Class.define("qx.test.Class",
             ]
           });
         }, Error, new RegExp('.*has to extend at least.*'));
-      }  
+      }
     },
     */
 

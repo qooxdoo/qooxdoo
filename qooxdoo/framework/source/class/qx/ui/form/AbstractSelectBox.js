@@ -99,9 +99,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       nullable: true,
       init : 200
     },
-    
+
     /**
-     * Formatter which format the value from the selected <code>ListItem</code>. 
+     * Formatter which format the value from the selected <code>ListItem</code>.
      * Uses the default formatter {@link #_defaultFormat}.
      */
     format :
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Handler for the blur event of the current widget.
-     * 
+     *
      * @param e {qx.event.type.Focus} The blur event.
      */
     _onBlur : function(e)

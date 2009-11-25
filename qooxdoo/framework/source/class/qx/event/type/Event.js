@@ -416,7 +416,7 @@ qx.Class.define("qx.event.type.Event",
   */
 
   destruct : function() {
-    this._target = this._currentTarget = this._relatedTarget = 
+    this._target = this._currentTarget = this._relatedTarget =
       this._originalTarget = null;
   }
 });

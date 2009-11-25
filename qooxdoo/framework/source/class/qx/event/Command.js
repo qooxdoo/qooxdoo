@@ -21,7 +21,7 @@
  * instead.
  * @deprecated for 0.9
  */
-qx.Class.define("qx.event.Command", 
+qx.Class.define("qx.event.Command",
 {
   extend : qx.ui.core.Command,
 
@@ -40,10 +40,10 @@ qx.Class.define("qx.event.Command",
     qx.log.Logger.deprecatedMethodWarning(
       arguments.callee,
       "Please use qx.ui.core.Command instead."
-    );    
+    );
   },
-  
-  members : 
+
+  members :
   {
     /**
      * Checks whether the given key event matches the command's shortcut
@@ -51,13 +51,13 @@ qx.Class.define("qx.event.Command",
      * @deprecated for 0.9
      * @param e {qx.event.type.KeySequence} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
-     */    
-    matchesKeyEvent : function(e) 
+     */
+    matchesKeyEvent : function(e)
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
         "This message will be made private."
-      );      
+      );
       return this._shortcut.matchesKeyEvent(e);
     }
   }

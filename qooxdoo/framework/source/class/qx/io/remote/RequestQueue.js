@@ -143,10 +143,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * Get a list of active queued requests, each one wrapped in an instance of 
+     * Get a list of active queued requests, each one wrapped in an instance of
      * {@link qx.io.remote.Exchange}
-     * 
-     * @return {Exchange[]} The list of active queued requests, each one 
+     *
+     * @return {Exchange[]} The list of active queued requests, each one
      *   wrapped in an instance of {@link qx.io.remote.Exchange}
      */
     getActiveQueue : function() {

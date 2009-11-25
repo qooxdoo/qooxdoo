@@ -57,18 +57,18 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.base(arguments);
 
     this.addState("native");
-    
+
     this.getContentElement().addListener("scroll", this._onScroll, this);
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
-    
+
     if (qx.core.Variant.isSet("qx.client", "opera")) {
       this.addListener("appear", this._onAppear, this);
     }
-    
+
     this.getContentElement().add(this._getScrollPaneElement());
-    
+
     // Configure orientation
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       event : "scroll"
     },
 
-    
+
     /**
      * Step size for each click on the up/down or left/right buttons.
      */
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       init : 20
     },
 
-    
+
     // interface implementation
     knobFactor :
     {
@@ -139,10 +139,10 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
   {
     __isHorizontal : null,
     __scrollPaneElement : null,
-    
+
     /**
      * Get the scroll pane html element.
-     * 
+     *
      * @return {qx.html.Element} The element
      */
     _getScrollPaneElement : function()
@@ -152,23 +152,23 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       }
       return this.__scrollPaneElement;
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
     ---------------------------------------------------------------------------
     */
-    
+
     // overridden
     renderLayout : function(left, top, width, height)
     {
       var changes = this.base(arguments, left, top, width, height);
-      
+
       this._updateScrollBar();
       return changes;
     },
-      
-    
+
+
     // overridden
     _getContentHint : function()
     {
@@ -176,22 +176,22 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       return {
         width: this.__isHorizontal ? 100 : scrollbarWidth,
         maxWidth: this.__isHorizontal ? null : scrollbarWidth,
-        minWidth: this.__isHorizontal ? null : scrollbarWidth,            
+        minWidth: this.__isHorizontal ? null : scrollbarWidth,
         height: this.__isHorizontal ? scrollbarWidth : 100,
-        maxHeight: this.__isHorizontal ? scrollbarWidth : null,                    
-        minHeight: this.__isHorizontal ? scrollbarWidth : null                    
+        maxHeight: this.__isHorizontal ? scrollbarWidth : null,
+        minHeight: this.__isHorizontal ? scrollbarWidth : null
       }
     },
-    
-    
+
+
     // overridden
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
       this._updateScrollBar();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -205,10 +205,10 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
 
     // property apply
-    _applyPosition : function(value) 
+    _applyPosition : function(value)
     {
-      var content = this.getContentElement();      
-      
+      var content = this.getContentElement();
+
       if (this.__isHorizontal) {
         content.scrollToX(value)
       } else {
@@ -228,44 +228,44 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         allowGrowY : !isHorizontal,
         allowShrinkY : !isHorizontal
       });
-      
+
       if (isHorizontal) {
         this.replaceState("vertical", "horizontal");
       } else {
         this.replaceState("horizontal", "vertical");
       }
-      
+
       this.getContentElement().setStyles({
         overflowX: isHorizontal ? "scroll" : "hidden",
         overflowY: isHorizontal ? "hidden" : "scroll"
       });
-      
+
       // Update layout
       qx.ui.core.queue.Layout.add(this);
     },
 
-    
+
     /**
      * Update the scroll bar according to its current size, max value and
-     * enabled state. 
+     * enabled state.
      */
     _updateScrollBar : function()
     {
       var isHorizontal = this.__isHorizontal;
-      
+
       var bounds = this.getBounds();
       if (!bounds) {
         return;
       }
-      
-      if (this.isEnabled()) 
+
+      if (this.isEnabled())
       {
         var containerSize = isHorizontal ? bounds.width : bounds.height;
         var innerSize = this.getMaximum() + containerSize;
       } else {
         innerSize = 0;
-      }     
-      
+      }
+
       // Scrollbars don't work properly in IE if the element with overflow has
       // excatly the size of the scrollbar. Thus we move the element one pixel
       // out of the view and increase the size by one.
@@ -275,22 +275,22 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         this.getContentElement().setStyles({
           left: isHorizontal ? "0" : "-1px",
           top: isHorizontal ? "-1px" : "0",
-          width: (isHorizontal ? bounds.width : bounds.width + 1) + "px", 
-          height: (isHorizontal ? bounds.height + 1 : bounds.height) + "px" 
+          width: (isHorizontal ? bounds.width : bounds.width + 1) + "px",
+          height: (isHorizontal ? bounds.height + 1 : bounds.height) + "px"
         });
       }
-      
+
       this._getScrollPaneElement().setStyles({
         left: 0,
         top: 0,
-        width: (isHorizontal ? innerSize : 1) + "px", 
-        height: (isHorizontal ? 1 : innerSize) + "px" 
+        width: (isHorizontal ? innerSize : 1) + "px",
+        height: (isHorizontal ? 1 : innerSize) + "px"
       });
-      
+
       this.scrollTo(this.getPosition());
     },
-    
-    
+
+
     // interface implementation
     scrollTo : function(position) {
       this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
@@ -309,21 +309,21 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       var size = this.getSingleStep();
       this.scrollBy(steps * size);
     },
-    
-    
+
+
     /**
      * Scroll event handler
-     * 
+     *
      * @param e {qx.event.type.Event} the scroll event
      */
-    _onScroll : function(e) 
+    _onScroll : function(e)
     {
-      var container = this.getContentElement();      
-      var position = this.__isHorizontal ? container.getScrollX() : container.getScrollY(); 
+      var container = this.getContentElement();
+      var position = this.__isHorizontal ? container.getScrollX() : container.getScrollY();
       this.setPosition(position);
     },
 
-    
+
     /**
      * Listener for appear.
      * Scrolls to the correct position to fix a rendering bug in Opera.
@@ -333,19 +333,19 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     _onAppear : function(e) {
       this.scrollTo(this.getPosition());
     },
-    
-    
+
+
     /**
      * Stops propagation on the given even
-     * 
+     *
      * @param e {qx.event.type.Event} the event
      */
     _stopPropagation : function(e) {
       e.stopPropagation();
     }
   },
-  
-  
+
+
   destruct : function() {
     this._disposeObjects("__scrollPaneElement");
   }

@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.window.Desktop",
     this.base(arguments);
 
     this.getContentElement().disableScrolling();
-    
+
     this._setLayout(new qx.ui.layout.Canvas());
     this.setWindowManager(windowManager);
   }

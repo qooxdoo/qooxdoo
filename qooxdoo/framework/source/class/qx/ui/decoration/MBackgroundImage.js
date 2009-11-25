@@ -106,19 +106,19 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var image = this.getBackgroundImage();
       var repeat = this.getBackgroundRepeat();
-      
+
       var top = this.getBackgroundPositionY();
       if (top == null) {
         top = 0;
       }
-      
+
       var left = this.getBackgroundPositionX();
       if (left == null) {
         left = 0;
       }
-      
+
       styles.backgroundPosition = left + " " + top;
-      
+
       // Support for images
       if (image)
       {
@@ -150,7 +150,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
           markup = '<div style="' + qx.bom.element.Style.compile(styles) + '"></div>';
         }
       }
-      
+
       return markup;
     },
 

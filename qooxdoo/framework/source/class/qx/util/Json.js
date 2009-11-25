@@ -441,7 +441,7 @@ qx.Class.define("qx.util.Json",
      * @lint ignoreDeprecated(eval)
      *
      * @param text {String} JSON string
-     * @param validate {Boolean ? true} <code>true</code> if the passed JSON string 
+     * @param validate {Boolean ? true} <code>true</code> if the passed JSON string
      *    should be validated, <code>false</code> otherwise.
      * @return {Object|null} Returns the object
      * @throws an error if the text could not be parsed or evaluated
@@ -456,13 +456,13 @@ qx.Class.define("qx.util.Json",
       if (qx.core.Setting.get("qx.jsonDebugging")) {
         qx.log.Logger.debug(this, "JSON response: " + text);
       }
-      
+
       if (validate) {
         if (/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, ""))) {
           throw new Error("Could not parse JSON string!");
         }
       }
-      
+
       try {
         var result = (text && text.length > 0) ? eval('(' + text + ')') : null;
         return result;
@@ -488,7 +488,7 @@ qx.Class.define("qx.util.Json",
         arguments.callee,
         "Use 'parse' instead!"
       );
-      
+
       return qx.util.Json.parse(text, false);
     }
   },

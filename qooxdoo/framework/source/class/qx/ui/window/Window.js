@@ -681,7 +681,7 @@ qx.Class.define("qx.ui.window.Window",
           if (!this.isVisible()) {
             this.open();
           }
-          
+
           // store current dimension and location
           var props = this.getLayoutProperties();
           this.__restoredLeft = props.left === undefined ? 0 : props.left;
@@ -731,7 +731,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Restore the window to <code>"normal"</code>, if it is 
+     * Restore the window to <code>"normal"</code>, if it is
      * <code>"maximized"</code> or <code>"minimized"</code>.
      */
     restore : function()

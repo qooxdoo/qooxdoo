@@ -181,9 +181,9 @@ qx.Bootstrap.define("qx.lang.String",
      */
     repeat : function(str, times) {
       return length >= 0 ? new Array(times + 1).join(str) : "";
-    },    
-    
-    
+    },
+
+
     /**
      * Pad a string up to a given length. Padding characters are added to the left of the string.
      *

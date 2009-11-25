@@ -28,7 +28,7 @@
  * amount of time if the mouse button is hold, until the min {@link #minTimer}
  * is reached. The {@link #timerDecrease} property sets the amount of milliseconds
  * which will decreased after every firing.
- * 
+ *
  * <pre class='javascript'>
  *   var button = new qx.ui.form.RepeatButton("Hello World");
  *

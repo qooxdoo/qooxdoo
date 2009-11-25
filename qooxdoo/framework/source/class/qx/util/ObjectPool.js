@@ -181,7 +181,7 @@ qx.Class.define("qx.util.ObjectPool",
         } else {
           obj.dispose();
         }
-        
+
         return;
       }
 

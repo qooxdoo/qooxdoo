@@ -16,59 +16,59 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
-     
+
 ************************************************************************ */
 
 if (qx.core.Variant.isSet("qx.client", "mshtml")) {
 
 /**
  * Implements an iFrame based history manager for IE6/7.
- * 
+ *
  * Creates a hidden iFrame and uses document.write to store entries in the
  * history browser's stack.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.bom.IframeHistory",
 {
   extend : qx.bom.History,
-  
-  
+
+
   construct : function()
   {
     this.base(arguments);
     this.__initTimer();
   },
-  
-  
+
+
   members :
   {
     __iframe : null,
     __iframeReady : false,
     __locationState : null,
-    
-    
+
+
     // overridden
     _setInitialState : function()
     {
-      this.base(arguments);      
+      this.base(arguments);
       this.__locationState = this._getHash();
-    },  
-    
-    
+    },
+
+
     _setHash : function(value)
     {
       this.base(arguments, value);
       this.__locationState = this._encode(value);
     },
-    
-    
+
+
     /**
      * Get state from the iframe
      *
      * @return {String} current state of the browser history
      */
-    _readState : function() 
+    _readState : function()
     {
       if (!this.__iframeReady) {
         return this._decode(this._getHash());
@@ -80,7 +80,7 @@ qx.Class.define("qx.bom.IframeHistory",
       return elem ? this._decode(elem.innerText) : "";
     },
 
-    
+
     /**
      * Store state to the iframe
      *
@@ -90,10 +90,10 @@ qx.Class.define("qx.bom.IframeHistory",
     _writeState : function(state)
     {
       var state = this._encode(state);
-      
+
       this._setHash(state);
       this.__locationState = state;
-      
+
       try
       {
         var doc = this.__iframe.contentWindow.document;
@@ -105,8 +105,8 @@ qx.Class.define("qx.bom.IframeHistory",
         // ignore
       }
     },
-    
-    
+
+
     /**
      * Initialize the polling timer
      */
@@ -116,8 +116,8 @@ qx.Class.define("qx.bom.IframeHistory",
         qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
       });
     },
-    
-    
+
+
     /**
      * Hash change listener.
      */
@@ -137,22 +137,22 @@ qx.Class.define("qx.bom.IframeHistory",
       if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
         this._onHistoryLoad(currentState);
       }
-    },    
-    
-    
+    },
+
+
     /**
      * @param locationState {String}
      * @return {String}
      */
     __storeLocationState : function (locationState)
-    {      
+    {
       this.__locationState = this._encode(locationState);
       this._writeState(locationState);
 
       return this.__locationState;
     },
-    
-    
+
+
     /**
      * @param locationState {String}
      * @return {Boolean}
@@ -160,8 +160,8 @@ qx.Class.define("qx.bom.IframeHistory",
     __isCurrentLocationState : function (locationState) {
       return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
     },
-    
-    
+
+
     /**
      * @return {void}
      */
@@ -179,13 +179,13 @@ qx.Class.define("qx.bom.IframeHistory",
         }
       }, this);
     },
-    
-    
+
+
     /**
      * IMPORTANT NOTE FOR IE:
      * Setting the source before adding the iframe to the document.
      * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
-     * 
+     *
      * @return {IframeElement}
      */
     __createIframe : function ()
@@ -201,8 +201,8 @@ qx.Class.define("qx.bom.IframeHistory",
 
       return iframe;
     },
-    
-    
+
+
     /**
      * Waits for the IFrame being loaded. Once the IFrame is loaded
      * the callback is called with the provided context.
@@ -231,15 +231,15 @@ qx.Class.define("qx.bom.IframeHistory",
 
       this.__iframeReady = true;
       callback.call(context || window);
-    }    
+    }
   },
-  
-  
+
+
   destruct : function()
   {
     this.__iframe = null;
-    qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);    
-  }  
+    qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
+  }
 });
 
 } // variant select

@@ -20,42 +20,42 @@
 /**
  * This class is responsible for creating and maintaining {@link qx.html.Element}
  * instances. It pools decorator elements for reuse.
- * 
+ *
  *  @internal
  */
 qx.Class.define("qx.ui.core.DecoratorFactory",
 {
   extend : qx.core.Object,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
     this.__pool = {};
   },
-  
-  
+
+
   statics :
   {
     MAX_SIZE: 15,
     __NO_POOL_ID: "$$nopool$$"
   },
-  
-  
+
+
   members :
   {
-    __pool : null, 
-  
-    
+    __pool : null,
+
+
     /**
      * Get a decorator element configured with the given decorator.
-     * 
+     *
      * @param decorator {qx.ui.decoration.IDecorator} The decorator to use
      * @return {qx.html.Decorator} The configured decorator element
      */
     getDecoratorElement : function(decorator)
     {
       var clazz = qx.ui.core.DecoratorFactory;
-      
+
       if (qx.lang.Type.isString(decorator))
       {
         var id = decorator;
@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
         var id = clazz.__NO_POOL_ID;
         decoratorInstance = decorator;
       }
-      
+
       var pool = this.__pool;
       if (pool[id] && pool[id].length > 0) {
         var element = pool[id].pop();
@@ -76,11 +76,11 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       element.$$pooled = false;
       return element;
     },
-    
-    
+
+
     /**
      * Pool or dispose the given decorator element
-     * 
+     *
      * @param decoratorElement {qx.html.Decorator} the decorator element to pool
      */
     poolDecorator : function(decoratorElement)
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       if (!decoratorElement || decoratorElement.$$pooled) {
         return;
       }
-      
+
       var clazz = qx.ui.core.DecoratorFactory;
       var id = decoratorElement.getId();
       if (id == clazz.__NO_POOL_ID)
@@ -96,12 +96,12 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
         decoratorElement.dispose();
         return;
       }
-      
+
       var pool = this.__pool;
       if (!pool[id]) {
         pool[id] = []
       }
-      
+
       if (pool[id].length > clazz.MAX_SIZE) {
         decoratorElement.dispose();
       } else {
@@ -109,13 +109,13 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
         pool[id].push(decoratorElement);
       }
     },
-    
-    
+
+
     /**
      * Creates an element which may be used for a
      * decoration render to fill.
      *
-     * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing 
+     * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing
      *     the decorator interface
      * @param id {String?} An optional id for the decorator
      * @return {qx.html.Decorator} The element to be used for decorations/shadows
@@ -130,15 +130,15 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
 
       return element;
     },
-    
-    
+
+
     toString : qx.core.Variant.select("qx.debug",
-    { 
+    {
       "on" : function()
       {
         var keys = 0;
         var elements = 0;
-        
+
         for (var key in this.__pool) {
           keys += 1;
           elements += this.__pool[key].length;
@@ -148,14 +148,14 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
           "keys: ", keys, ", elements: ", elements
         ].join("");
       },
-      
+
       "off" : function() {
         return this.base(arguments);
       }
     })
   },
 
-  
+
   destruct : function()
   {
     if (!qx.core.ObjectRegistry.inShutDown)

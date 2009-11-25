@@ -120,16 +120,16 @@ qx.Class.define("qx.dev.unit.TestResult",
       if(!this.__timeout) {
         this.__timeout = {};
       }
-      
+
       if (resume && !this.__timeout[test.getFullName()]) {
         this.__timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
         this.__createError("failure", qxEx, test);
         return;
       }
-      
+
       this.fireDataEvent("startTest", test);
-      
+
       if (this.__timeout[test.getFullName()])
       {
         this.__timeout[test.getFullName()].stop();
@@ -163,12 +163,12 @@ qx.Class.define("qx.dev.unit.TestResult",
         var error = true;
         if (ex instanceof qx.dev.unit.AsyncWrapper)
         {
-          
+
           if (this.__timeout[test.getFullName()]) {
             // Do nothing if there's already a timeout for this test
             return;
           }
-          
+
           if (ex.getDelay()) {
             var that = this;
             var defaultTimeoutFunction = function() {

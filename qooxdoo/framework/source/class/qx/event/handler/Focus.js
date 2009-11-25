@@ -997,10 +997,10 @@ qx.Class.define("qx.event.handler.Focus",
             focusedElement.nodeName.toLowerCase() === "textarea")) {
           target = focusedElement;
         }
-            
+
         return target;
       },
-      
+
       "default" : function(target) {
         return target;
       }
@@ -1214,7 +1214,7 @@ qx.Class.define("qx.event.handler.Focus",
   destruct : function()
   {
     this._stopObserver();
-    this._manager = this._window = this._document = this._root = this._body = 
+    this._manager = this._window = this._document = this._root = this._body =
       this.__mouseActive = null;
   },
 

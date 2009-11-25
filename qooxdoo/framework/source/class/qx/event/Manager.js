@@ -552,7 +552,7 @@ qx.Bootstrap.define("qx.event.Manager",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.Logger.warn(
           this,

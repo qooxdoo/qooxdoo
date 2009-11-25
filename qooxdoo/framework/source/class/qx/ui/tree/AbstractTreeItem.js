@@ -569,11 +569,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       return this.__childrenContainer;
     },
-    
-    
+
+
     /**
      * Whether the tree item has a children container
-     * 
+     *
      * @return {Boolean} Whether it has a children container
      */
     hasChildrenContainer : function() {

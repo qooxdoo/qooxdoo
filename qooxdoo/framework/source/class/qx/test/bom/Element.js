@@ -78,12 +78,12 @@ qx.Class.define("qx.test.bom.Element",
           this.info("Element focused.");
         }, this);
       },this);
-      
+
       var self = this;
       window.setTimeout(function(){
         qx.bom.Element.focus(self._el);
-      }, 100);      
-      
+      }, 100);
+
       this.wait();
     },
 
@@ -94,13 +94,13 @@ qx.Class.define("qx.test.bom.Element",
           this.info("Element blurred.");
         }, this);
       },this);
-      
+
       var self = this;
       window.setTimeout(function(){
         qx.bom.Element.focus(self._el);
         qx.bom.Element.blur(self._el);
-      }, 100);      
-      
+      }, 100);
+
       this.wait();
     },
 

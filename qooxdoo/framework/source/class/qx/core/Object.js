@@ -129,7 +129,7 @@ qx.Class.define("qx.core.Object",
           "Cannot call super class. Method is not derived: " + qx.lang.Function.getName(args.callee)
         );
       }
-      
+
       if (arguments.length === 1) {
         return args.callee.base.call(this);
       } else {
@@ -806,7 +806,7 @@ qx.Class.define("qx.core.Object",
         arguments.callee,
         "Don't use '_disposeFields' - instead assign directly to 'null'"
       );
-      
+
       qx.util.DisposeUtil.disposeFields(this, arguments);
     },
 

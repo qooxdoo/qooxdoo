@@ -70,7 +70,7 @@ qx.Class.define("qx.type.BaseString",
     toString : function() {
       return this.__txt;
     },
-  
+
 
     /**
      *  Returns the specified character from a string.
@@ -87,7 +87,7 @@ qx.Class.define("qx.type.BaseString",
      */
     charAt : null,
 
-     
+
     /**
      * Returns the primitive value of a String object.
      *
@@ -370,7 +370,7 @@ qx.Class.define("qx.type.BaseString",
      if (qx.core.Variant.isSet("qx.debug", "on")) {
        qx.Class.include(statics, qx.core.MAssert);
      }
-    
+
      var mappedFunctions = [
        'charAt',
        'charCodeAt',
@@ -396,7 +396,7 @@ qx.Class.define("qx.type.BaseString",
      if (new statics("").valueOf() == null) {
        delete members.valueOf;
      }
-     
+
      for (var i=0, l=mappedFunctions.length; i<l; i++) {
        members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
      }

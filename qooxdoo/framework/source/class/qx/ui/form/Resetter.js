@@ -72,15 +72,15 @@ qx.Class.define("qx.ui.form.Resetter",
         this.__setItem(dataEntry.item, dataEntry.init);
       }
     },
-    
-    
+
+
     /**
-     * Resets a single given item. The item has to be added to the resetter 
+     * Resets a single given item. The item has to be added to the resetter
      * instance before. Otherwise, an error is thrown.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The widget, which should be resetted.
      */
-    resetItem : function(item) 
+    resetItem : function(item)
     {
       // get the init value
       var init;
@@ -91,36 +91,36 @@ qx.Class.define("qx.ui.form.Resetter",
           break;
         }
       };
-      
+
       // check for the available init value
       if (init === undefined) {
         throw new Error("The given item has not been added.");
       }
-      
+
       this.__setItem(item, init);
     },
-    
-    
+
+
     /**
-     * Internal helper for setting an item to a given init value. It checks 
+     * Internal helper for setting an item to a given init value. It checks
      * for the supported APIs and uses the fitting API.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The item to reset.
      * @param init {var} The value to set.
      */
-    __setItem : function(item, init) 
+    __setItem : function(item, init)
     {
       // set the init value
       if (this.__supportsValue(item)) {
         item.setValue(init);
       } else if (this.__supportsSingleSelection(item)) {
         item.setSelection(init)
-      }      
+      }
     },
-    
-    
+
+
     /**
-     * Takes the current values of all added items and uses these values as 
+     * Takes the current values of all added items and uses these values as
      * init values for resetting.
      */
     redefine: function() {
@@ -131,15 +131,15 @@ qx.Class.define("qx.ui.form.Resetter",
         this.__items[i].init = this.__getCurrentValue(item);
       }
     },
-    
-    
+
+
     /**
-     * Takes the current value of the given item and stores this value as init 
-     * value for resetting. 
-     * 
+     * Takes the current value of the given item and stores this value as init
+     * value for resetting.
+     *
      * @param item {qx.ui.core.Widget} The item to redefine.
      */
-    redefineItem : function(item) 
+    redefineItem : function(item)
     {
       // get the data entry
       var dataEntry;
@@ -149,23 +149,23 @@ qx.Class.define("qx.ui.form.Resetter",
           break;
         }
       };
-      
+
       // check for the available init value
       if (dataEntry === undefined) {
         throw new Error("The given item has not been added.");
       }
 
       // set the new init value for the item
-      dataEntry.init = this.__getCurrentValue(dataEntry.item);      
+      dataEntry.init = this.__getCurrentValue(dataEntry.item);
     },
-    
-    
+
+
     /**
      * Internel helper top access the value of a given item.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The item to access.
      */
-    __getCurrentValue : function(item) 
+    __getCurrentValue : function(item)
     {
       if (this.__supportsValue(item)) {
         return item.getValue();

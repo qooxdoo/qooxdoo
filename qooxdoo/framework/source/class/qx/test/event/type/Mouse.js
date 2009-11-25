@@ -21,8 +21,8 @@
 qx.Class.define("qx.test.event.type.Mouse",
 {
   extend : qx.dev.unit.TestCase,
-  
-  
+
+
   members :
   {
     testClone : function()
@@ -39,9 +39,9 @@ qx.Class.define("qx.test.event.type.Mouse",
         wheelDelta: 20,
         detail: 20
       }
-      
+
       var event = new qx.event.type.Mouse().init(domEvent, document.body, document.body, true, true);
-      
+
       var reference = {
         button: event.getButton(),
         viewportLeft: event.getViewportLeft(),
@@ -52,12 +52,12 @@ qx.Class.define("qx.test.event.type.Mouse",
         screenTop: event.getScreenTop(),
         wheel: event.getWheelDelta()
       };
-            
+
       var clone = event.clone();
-      
+
       // simulate native event disposal
       qx.lang.Object.empty(domEvent);
-      
+
       this.assertEquals(reference.button, clone.getButton());
       this.assertEquals(reference.viewportLeft, clone.getViewportLeft());
       this.assertEquals(reference.viewportTop, clone.getViewportTop());

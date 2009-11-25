@@ -112,20 +112,20 @@ qx.Class.define("qx.ui.root.Inline",
       {
         // Check the DOM element for a usable width and height
         var elementDimensions = qx.bom.element.Dimension.getSize(this.__elem);
-        
+
         if (this.__dynX && elementDimensions.width < 1) {
           throw new Error("The root element " + this.__elem + " of " + this +
             " needs a width when its width size should be used!");
-        }    
-        
+        }
+
         if (this.__dynY)
-        { 
+        {
           if (elementDimensions.height < 1) {
             throw new Error("The root element " + this.__elem + " of " + this +
             " needs a height when its height size should be used!");
           }
-          
-          // check for implicit height. Set the height explicit to prevent that 
+
+          // check for implicit height. Set the height explicit to prevent that
           // the element grows indefinetely
           if (elementDimensions.height >= 1 &&
               qx.bom.element.Style.get(this.__elem, "height", 3) == "") {
@@ -148,21 +148,21 @@ qx.Class.define("qx.ui.root.Inline",
         var rootEl = document.createElement("div");
         el.appendChild(rootEl);
 
-        // If any of the ancestor elements has a position "relative" it is 
-        // necessary for IE6 to apply this style also to the root element to 
-        // avoid any problems when resizing the browser window (see Bug #2035) 
-        if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+        // If any of the ancestor elements has a position "relative" it is
+        // necessary for IE6 to apply this style also to the root element to
+        // avoid any problems when resizing the browser window (see Bug #2035)
+        if (qx.core.Variant.isSet("qx.client", "mshtml") &&
             qx.bom.client.Engine.VERSION == 6)
         {
           var bodyElement = qx.dom.Node.getBodyElement(el);
           var ancestorElement;
           var position;
-          var isPositionRelative = false;            
-          
+          var isPositionRelative = false;
+
           var ancestors = qx.dom.Hierarchy.getAncestors(el);
           for (var i=0, j=ancestors.length; i<j; i++)
           {
-            ancestorElement = ancestors[i];              
+            ancestorElement = ancestors[i];
             if (ancestorElement != bodyElement)
             {
               position = qx.bom.element.Style.get(ancestorElement, "position");
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.root.Inline",
               }
             } else {
               break;
-            }              
+            }
           }
 
           if (isPositionRelative) {

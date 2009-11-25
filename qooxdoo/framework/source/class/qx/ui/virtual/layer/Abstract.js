@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       {
         this._updateLayerData();
       }
-      
+
       if (this.__jobs.fullUpdate || this.__jobs.updateLayerWindow)
       {
         var args = this.__arguments;

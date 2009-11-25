@@ -26,8 +26,8 @@ qx.Class.define("qx.test.ui.table.celleditor.TextField",
     setUp : function() {
       this.factory = new qx.ui.table.celleditor.TextField();
     },
-    
-    tearDown : function() 
+
+    tearDown : function()
     {
       this.base(arguments);
       this.factory.dispose();

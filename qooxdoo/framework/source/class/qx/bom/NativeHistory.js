@@ -16,13 +16,13 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
-     
+
 ************************************************************************ */
 
 /**
- * Default history manager implementation. Either polls for URL fragment 
+ * Default history manager implementation. Either polls for URL fragment
  * identifier (hash) changes or uses the native "hashchange" event.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.bom.NativeHistory",
@@ -31,16 +31,16 @@ qx.Class.define("qx.bom.NativeHistory",
 
   construct : function()
   {
-    this.base(arguments);    
+    this.base(arguments);
     this.__attachListeners();
   },
-  
-  
+
+
   members :
   {
     __checkOnHashChange : null,
-    
-    
+
+
     /**
      * Attach hash change listeners
      */
@@ -54,10 +54,10 @@ qx.Class.define("qx.bom.NativeHistory",
       else
       {
         qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Remove hash change listeners
      */
@@ -67,10 +67,10 @@ qx.Class.define("qx.bom.NativeHistory",
         qx.bom.Event.removeNativeListener(window, "hashchange", this.__checkOnHashChange);
       } else {
         qx.event.Idle.getInstance().removeListener("interval", this.__onHashChange, this);
-      }          
+      }
     },
-    
-    
+
+
     /**
      * hash change event handler
      */
@@ -82,8 +82,8 @@ qx.Class.define("qx.bom.NativeHistory",
         this._onHistoryLoad(currentState);
       }
     },
-    
-    
+
+
     /**
      * Browser dependent function to read the current state of the history
      *
@@ -93,7 +93,7 @@ qx.Class.define("qx.bom.NativeHistory",
       return this._decode(this._getHash());
     },
 
-    
+
     /**
      * Save a state into the browser history.
      *
@@ -113,11 +113,11 @@ qx.Class.define("qx.bom.NativeHistory",
       "default" : function (state) {
         this._setHash(this._encode(state));
       }
-    })    
+    })
   },
-  
-  
+
+
   destruct : function() {
-    this.__detatchListeners();    
+    this.__detatchListeners();
   }
 });

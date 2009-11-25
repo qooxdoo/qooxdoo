@@ -270,8 +270,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       return this.__radioGroup.getSelectables();
     }
   },
-  
-  
+
+
   destruct : function()
   {
     this._disposeObjects("__radioGroup");

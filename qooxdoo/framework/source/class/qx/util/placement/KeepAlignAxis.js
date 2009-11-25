@@ -25,7 +25,7 @@
 qx.Class.define("qx.util.placement.KeepAlignAxis",
 {
   extend : qx.util.placement.AbstractAxis,
-  
+
   members :
   {
     //overridden
@@ -33,29 +33,29 @@ qx.Class.define("qx.util.placement.KeepAlignAxis",
     {
       var start = this._moveToEdgeAndAlign(size, target, offsets, position);
       var range1End, range2Start;
-      
+
       if (this._isInRange(start, size, areaSize)) {
         return start;
       }
 
-      if (position == "edge-start" || position == "edge-end") 
+      if (position == "edge-start" || position == "edge-end")
       {
         range1End = target.start - offsets.end;
-        range2Start = target.end + offsets.start;        
-      } 
+        range2Start = target.end + offsets.start;
+      }
       else
       {
         range1End = target.end - offsets.end;
-        range2Start = target.start + offsets.start;        
+        range2Start = target.start + offsets.start;
       }
-      
+
       if (range1End > areaSize - range2Start) {
         start = range1End - size;
       } else {
         start = range2Start;
       }
-      
-      return start;      
+
+      return start;
     }
   }
 });

@@ -206,7 +206,7 @@ qx.Class.define("qx.bom.element.Decoration",
         style.WebkitUserDrag = "none";
       }
 
-      var format = qx.util.ResourceManager.getInstance().getImageFormat(source) || 
+      var format = qx.util.ResourceManager.getInstance().getImageFormat(source) ||
                    qx.io2.ImageLoader.getFormat(source);
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -214,12 +214,12 @@ qx.Class.define("qx.bom.element.Decoration",
           qx.log.Logger.warn("ImageLoader: Not recognized format of external image '" + source + "'!");
         }
       }
-      
+
       var result;
 
       // Enable AlphaImageLoader in IE6/IE7/IE8
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png") {
-        result = this.__processAlphaFix(style, repeat, source);        
+        result = this.__processAlphaFix(style, repeat, source);
       }
       else
       {
@@ -232,14 +232,14 @@ qx.Class.define("qx.bom.element.Decoration",
           result = this.__processRepeats(style, repeat, source);
         }
       }
-      
+
       return result;
     },
-    
-    
+
+
     /**
      * Normalize the given width and height values
-     * 
+     *
      * @param style {Map} style information
      * @param width {Integer?null} width as number or null
      * @param height {Integer?null} height as number or null
@@ -253,13 +253,13 @@ qx.Class.define("qx.bom.element.Decoration",
       if (style.height == null && height != null) {
         style.height = height + "px";
       }
-      
+
       return style;
     },
-    
-    
+
+
     /**
-     * Returns the dimension of the image by calling  
+     * Returns the dimension of the image by calling
      * {@link qx.util.ResourceManager} or {@link qx.io2.ImageLoader}
      * depending on if the image is a managed one.
      * 
@@ -268,41 +268,41 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     __getDimension : function(source)
     {
-      var width = qx.util.ResourceManager.getInstance().getImageWidth(source) || 
+      var width = qx.util.ResourceManager.getInstance().getImageWidth(source) ||
                   qx.io2.ImageLoader.getWidth(source);
       var height = qx.util.ResourceManager.getInstance().getImageHeight(source) ||
                    qx.io2.ImageLoader.getHeight(source);
-      
+
       return {
         width: width,
         height: height
       };
     },
-    
-    
+
+
     /**
      * Get all styles for IE browser which need to load the image
      * with the help of the AlphaImageLoader
-     * 
+     *
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     * 
+     *
      * @return {Map} style infos
      */
     __processAlphaFix : function(style, repeat, source)
     {
       var dimension = this.__getDimension(source);
       style = this.__normalizeWidthHeight(style, dimension.width, dimension.height);
-      
+
       var sizingMethod = repeat == "no-repeat" ? "crop" : "scale";
       var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
                    qx.util.ResourceManager.getInstance().toUri(source) +
                    "', sizingMethod='" + sizingMethod + "')";
-      
+
       style.filter = filter;
       style.backgroundImage = style.backgroundRepeat = "";
-      
+
       return {
         style : style
       };
@@ -311,18 +311,18 @@ qx.Class.define("qx.bom.element.Decoration",
 
     /**
      * Process scaled images.
-     * 
+     *
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     * 
+     *
      * @return {Map} image URI and style infos
      */
     __processScale : function(style, repeat, source)
     {
       var uri = qx.util.ResourceManager.getInstance().toUri(source);
       var dimension = this.__getDimension(source);
-      
+
       style = this.__normalizeWidthHeight(style, dimension.width, dimension.height);
 
       return {
@@ -335,11 +335,11 @@ qx.Class.define("qx.bom.element.Decoration",
     /**
      * Process images which are either scaled horizontally or
      * vertically.
-     * 
+     *
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     * 
+     *
      * @return {Map} image URI and style infos
      */
     __processScaleXScaleY : function(style, repeat, source)
@@ -347,18 +347,18 @@ qx.Class.define("qx.bom.element.Decoration",
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var clipped = ResourceManager.isClippedImage(source);
       var dimension = this.__getDimension(source);
-      
+
       if (clipped)
       {
         var data = ResourceManager.getData(source);
         var uri = ResourceManager.toUri(data[4]);
-        
+
         if (repeat === "scale-x") {
           style = this.__getStylesForClippedScaleX(style, data, dimension.height);
         } else {
           style = this.__getStylesForClippedScaleY(style, data, dimension.width);
         }
-        
+
         return {
           src : uri,
           style : style
@@ -390,22 +390,22 @@ qx.Class.define("qx.bom.element.Decoration",
         };
       }
     },
-    
-    
+
+
     /**
      * Generates the style infos for horizontally scaled clipped images.
-     *  
+     *
      * @param style {Map} style infos
      * @param data {Array} image data retrieved from the {@link qx.util.ResourceManager}
      * @param height {Integer} image height
-     * 
+     *
      * @return {Map} style infos and image URI
      */
     __getStylesForClippedScaleX : function(style, data, height)
     {
       // Use clipped image (multi-images on x-axis)
       var imageHeight = qx.util.ResourceManager.getInstance().getImageHeight(data[4]);
-      
+
       // Add size and clipping
       style.clip = {top: -data[6], height: height};
       style.height = imageHeight + "px";
@@ -425,11 +425,11 @@ qx.Class.define("qx.bom.element.Decoration",
 
     /**
      * Generates the style infos for vertically scaled clipped images.
-     *  
+     *
      * @param style {Map} style infos
      * @param data {Array} image data retrieved from the {@link qx.util.ResourceManager}
      * @param width {Integer} image width
-     * 
+     *
      * @return {Map} style infos and image URI
      */
     __getStylesForClippedScaleY : function(style, data, width)
@@ -452,22 +452,22 @@ qx.Class.define("qx.bom.element.Decoration",
 
       return style;
     },
-    
-    
+
+
     /**
      * Process repeated images.
-     * 
+     *
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     * 
+     *
      * @return {Map} image URI and style infos
      */
     __processRepeats : function(style, repeat, source)
     {
       var clipped = qx.util.ResourceManager.getInstance().isClippedImage(source);
       var dimension = this.__getDimension(source);
-      
+
       // Double axis repeats cannot be clipped
       if (clipped && repeat !== "repeat")
       {
@@ -507,14 +507,14 @@ qx.Class.define("qx.bom.element.Decoration",
       }
     },
 
-    
+
     /**
      * Generate all style infos for single repeated images
-     * 
+     *
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     * 
+     *
      * @return {Map} style infos
      */
     __getStylesForSingleRepeat : function(style, source, repeat)
@@ -526,19 +526,19 @@ qx.Class.define("qx.bom.element.Decoration",
       if (style.backgroundPosition)
       {
         var backgroundPosition = style.backgroundPosition.split(" ");
-        
+
         left = parseInt(backgroundPosition[0]);
         if (isNaN(left)) {
           left = backgroundPosition[0];
         }
-        
+
         top = parseInt(backgroundPosition[1]);
         if (isNaN(top)) {
           top = backgroundPosition[1];
         }
       }
 
-      var bg = qx.bom.element.Background.getStyles(source, repeat, left, top);       
+      var bg = qx.bom.element.Background.getStyles(source, repeat, left, top);
       for (var key in bg) {
         style[key] = bg[key];
       }
@@ -553,11 +553,11 @@ qx.Class.define("qx.bom.element.Decoration",
 
       return style;
     },
-    
-    
+
+
     /**
      * Output a warning if the image can be clipped.
-     * 
+     *
      * @param source {String} image source
      */
     __checkForPotentialClippedImage : function(source)
@@ -583,7 +583,7 @@ qx.Class.define("qx.bom.element.Decoration",
       "mshtml" : function() {
         return qx.bom.element.Decoration.__enableAlphaFix;
       },
-      
+
       "default" : function() {
         return false;
       }

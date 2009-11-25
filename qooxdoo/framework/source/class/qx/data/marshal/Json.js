@@ -248,7 +248,7 @@ qx.Class.define("qx.data.marshal.Json",
 
         // go threw all element in the data
         for (var key in data) {
-          var propertyName = key.replace("-", "");          
+          var propertyName = key.replace("-", "");
           model["set" + qx.lang.String.firstUp(propertyName)](this.toModel(data[key]));
         }
         return model;

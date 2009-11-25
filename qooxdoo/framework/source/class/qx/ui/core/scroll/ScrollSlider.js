@@ -21,7 +21,7 @@
 /**
  * Minimal modified version of the {@link qx.ui.form.Slider} to be
  * used by {@link qx.ui.core.scroll.ScrollBar}.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.ui.core.scroll.ScrollSlider",

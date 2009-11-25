@@ -30,7 +30,7 @@ qx.Mixin.define("qx.ui.core.scroll.MScrollBarFactory",
     /**
      * Creates a new scrollbar. This can either be a styled qooxdoo scrollbar
      * or a native browser scrollbar.
-     * 
+     *
      * @param orientation {String?"horizontal"} The initial scroll bar orientation
      * @return {qx.ui.core.scroll.IScrollBar} The scrollbar instance
      */

@@ -139,13 +139,13 @@ qx.Class.define("qx.ui.form.Form",
       this.__resetter.reset();
       this.__validationManager.reset();
     },
-    
-    
+
+
     /**
-     * Redefines the values used for resetting. It calls 
+     * Redefines the values used for resetting. It calls
      * {@link qx.ui.form.Resetter#redefine} to get that.
      */
-    redefineResetter : function() 
+    redefineResetter : function()
     {
       this.__resetter.redefine();
     },
@@ -189,23 +189,23 @@ qx.Class.define("qx.ui.form.Form",
      * Accessor mehtod for the renderer which returns all added items in a
      * array containing a map of all items:
      * {title: title, items: [], labels: [], names: []}
-     * 
+     *
      * @return {Array} An array contining all necessary data for the renderer.
      * @internal
      */
-    getGroups : function() 
+    getGroups : function()
     {
       return this.__groups;
     },
-    
-    
+
+
     /**
      * Accessor mehtod for the renderer which returns all added buttons in an
      * array.
      * @return {Array} An array containing all added buttons.
      * @internal
      */
-    getButtons : function() 
+    getButtons : function()
     {
       return this.__buttons;
     },
@@ -220,8 +220,8 @@ qx.Class.define("qx.ui.form.Form",
      *   used. If no rendere is given, the default renderer
      *   ({@link qx.ui.form.renderer.Single}) will be used.
      * @return {qx.ui.form.renderer.IFormRenderer} Instance of the renderer.
-     * 
-     * @deprecated Create the renderer and add the form as constructor 
+     *
+     * @deprecated Create the renderer and add the form as constructor
      *   parameter instead.
      */
     createView : function(rendererClass) {

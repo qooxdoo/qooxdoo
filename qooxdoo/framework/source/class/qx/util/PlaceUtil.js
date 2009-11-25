@@ -21,7 +21,7 @@
 /**
  * Contains methods to compute a position for any object which should
  * be positioned to any other object.
- * 
+ *
  * @deprecated Please use {@link qx.util.placement.Placement}
  */
 qx.Class.define("qx.util.PlaceUtil",
@@ -31,7 +31,7 @@ qx.Class.define("qx.util.PlaceUtil",
     /**
      * DOM and widget independent method to compute the location
      * of a object to make it relative to any other object.
-     * 
+     *
      * @deprecated Please use {@link qx.util.placement.Placement#compute}
      *
      * @param size {Map} With the keys <code>width</code> and <code>height</code>
@@ -62,16 +62,16 @@ qx.Class.define("qx.util.PlaceUtil",
           "Please use 'qx.util.placement.Placement.compute'"
         );
       }
-  
+
       var mode = smart ? "keep-align" : "direct"
       var offsets = offsets || this.__defaultOffsets;
-           
+
       return qx.util.placement.Placement.compute(
         size, area, target, offsets,
         position, mode, mode
       );
     },
-    
+
     __defaultOffsets : {
       left: 0,
       top: 0,

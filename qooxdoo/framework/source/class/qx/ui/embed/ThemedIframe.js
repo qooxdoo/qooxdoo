@@ -241,10 +241,10 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
      */
     _onMouseWheel : function(e)
     {
-      var showY = 
+      var showY =
         this._isChildControlVisible("scrollbar-y") &&
         this.getChildControl("scrollbar-y").isEnabled();
-      
+
       if (!showY) {
         return;
       }

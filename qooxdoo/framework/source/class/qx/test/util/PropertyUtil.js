@@ -79,8 +79,8 @@ qx.Class.define("qx.test.util.PropertyUtil",
       this.assertNull(this.button.getIcon());
       this.assertUndefined(Prop.getThemeValue(this.button, "icon"));
     },
-    
-    testGetProperties : function() 
+
+    testGetProperties : function()
     {
       qx.Class.define("qx.test.propA", {
         extend : qx.core.Object,
@@ -88,22 +88,22 @@ qx.Class.define("qx.test.util.PropertyUtil",
           a : {}
         }
       });
-      
+
       qx.Class.define("qx.test.propB", {
         extend : qx.test.propA,
         properties : {
           b : {}
         }
       });
-      
+
       // check getProperties
       this.assertKeyInMap("a", qx.util.PropertyUtil.getProperties(qx.test.propA));
       this.assertKeyInMap("b", qx.util.PropertyUtil.getProperties(qx.test.propB));
-      
+
       // check getAllProperties
       this.assertKeyInMap("a", qx.util.PropertyUtil.getAllProperties(qx.test.propB));
-      this.assertKeyInMap("b", qx.util.PropertyUtil.getAllProperties(qx.test.propB));         
-      
+      this.assertKeyInMap("b", qx.util.PropertyUtil.getAllProperties(qx.test.propB));
+
       delete qx.test.propB;
       delete qx.test.propA;
     }

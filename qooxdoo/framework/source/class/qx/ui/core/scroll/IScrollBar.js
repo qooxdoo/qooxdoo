@@ -22,13 +22,13 @@
  */
 qx.Interface.define("qx.ui.core.scroll.IScrollBar",
 {
-  events : 
+  events :
   {
     /** Fired if the user scroll */
     "scroll" : "qx.event.type.Data"
   },
-  
-  
+
+
   properties :
   {
     /**

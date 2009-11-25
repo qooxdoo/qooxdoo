@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *   continue to be used if no ID values are explicitly provided here.
      *
      * @throws {Error} If the amount of given columns is different from the table.
-     * 
+     *
      * @return {void}
      */
     setColumns : function(columnNameArr, columnIdArr)

@@ -144,9 +144,9 @@ qx.Class.define("qx.test.ui.form.Resetter",
       textarea.dispose();
       slider.dispose();
     },
-    
-    
-    testRedefine : function() 
+
+
+    testRedefine : function()
     {
       // set the initla values
       this.__username.setValue("A");
@@ -173,11 +173,11 @@ qx.Class.define("qx.test.ui.form.Resetter",
       // check if the initial values are reset
       this.assertEquals("a", this.__username.getValue());
       this.assertEquals("b", this.__password1.getValue());
-      this.assertEquals("c", this.__password2.getValue());      
+      this.assertEquals("c", this.__password2.getValue());
     },
-    
-    
-    testRefineSelection : function() 
+
+
+    testRefineSelection : function()
     {
       var box = new qx.ui.form.SelectBox();
       var item1 = new qx.ui.form.ListItem("1");
@@ -193,7 +193,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       box.setSelection([item1]);
       // check the new selection
       this.assertEquals(item1, box.getSelection()[0]);
-  
+
       // redefine the manager
       this.__resetter.redefine();
       // change the selection
@@ -206,10 +206,10 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
       item2.dispose();
       item1.dispose();
-      box.dispose();      
+      box.dispose();
     },
-    
-    testResetOneItem : function() 
+
+    testResetOneItem : function()
     {
       // set the initla values
       this.__username.setValue("A");
@@ -225,22 +225,22 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.__password2.setValue("c");
       // reset the first two items
       this.__resetter.resetItem(this.__username);
-      this.__resetter.resetItem(this.__password1);      
+      this.__resetter.resetItem(this.__password1);
 
       // check if the initial values are reset
       this.assertEquals("A", this.__username.getValue());
       this.assertEquals("B", this.__password1.getValue());
       this.assertEquals("c", this.__password2.getValue());
-      
+
       // check for a not added item
       var self = this;
       this.assertException(function() {
         self.__resetter.resetItem(this);
       }, Error);
     },
-    
-    
-    testRedefineOneItem : function() 
+
+
+    testRedefineOneItem : function()
     {
       // set the initla values
       this.__username.setValue("A");
@@ -260,7 +260,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       // change the first two items
       this.__username.setValue("1");
       this.__password1.setValue("2");
-      
+
       // reset the manager
       this.__resetter.reset();
 
@@ -268,13 +268,13 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("a", this.__username.getValue());
       this.assertEquals("b", this.__password1.getValue());
       this.assertEquals("C", this.__password2.getValue());
-      
+
       // check for a not added item
       var self = this;
       this.assertException(function() {
         self.__resetter.redefineItem(this);
       }, Error);
-    }    
+    }
 
   }
 });

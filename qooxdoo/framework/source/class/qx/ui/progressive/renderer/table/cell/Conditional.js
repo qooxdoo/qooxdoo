@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * @param target {String}
      *   The text value of the column to compare against. If this is null,
      *   comparisons will be against the contents of this cell.
-     * 
+     *
      * @throws {Error} If the condition can not be recognized or the value
      * is null.
      */
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * @param target {String}
      *   The text value of the column to compare against. If this is null,
      *   comparisons will be against the contents of this cell.
-     * 
+     *
      * @throws {Error} If the regex is null.
      */
     addRegex : function(regex, align, color, style, weight, target)

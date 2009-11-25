@@ -162,7 +162,7 @@ qx.Class.define("qx.bom.element.Style",
         }
       }
     },
-      
+
 
     /*
     ---------------------------------------------------------------------------
@@ -204,7 +204,7 @@ qx.Class.define("qx.bom.element.Style",
 
         // process special properties
         if (special[name]) {
-          html.push(special[name].compile(value));          
+          html.push(special[name].compile(value));
         }
         else
         {
@@ -350,20 +350,20 @@ qx.Class.define("qx.bom.element.Style",
           qx.core.Assert.assertBoolean(smart, "Invalid argument 'smart'");
         }
       }
-      
-      // inline calls to "set" and "reset" because this method is very 
+
+      // inline calls to "set" and "reset" because this method is very
       // performance critical!
       var hints = this.__hints;
       var styleNames = hints.styleNames;
       var special = hints.special;
-      
+
       var style = element.style;
-      
+
       for (var key in styles)
       {
         var value = styles[key];
         var name = styleNames[key] || key;
-        
+
         if (value === undefined)
         {
           if (smart!==false && special[name]) {
@@ -372,10 +372,10 @@ qx.Class.define("qx.bom.element.Style",
             style[name] = "";
           }
         }
-        else 
+        else
         {
           if (smart!==false && special[name]) {
-            special[name].set(element, value);            
+            special[name].set(element, value);
           } else {
             style[name] = value !== null ? value : "";
           }

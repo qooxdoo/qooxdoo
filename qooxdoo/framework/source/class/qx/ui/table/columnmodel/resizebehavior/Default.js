@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     // samantics of flex and percent are exectly the same as in the widget code.
     this.__layout = new qx.ui.layout.HBox();
     this.__layout.connectToWidget(this);
-    
+
     this.__deferredComputeColumnsFlexWidth = new qx.util.DeferredCall(
       this._computeColumnsFlexWidth, this
     );
@@ -114,14 +114,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       check : "Boolean",
       init  : false
     },
-    
+
     /**
      * The table column model in use.  Of particular interest is the method
      * <i>getTable</i> which is a reference to the table widget.  This allows
      * access to any other features of the table, for use in calculating widths
      * of columns.
      */
-    tableColumnModel : 
+    tableColumnModel :
     {
       check : "qx.ui.table.columnmodel.Resize"
     }
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *   representing a flex width (e.g. "1*").
      *
      * @param flex {Integer?0} Optional flex value of the column
-     * 
+     *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       return this.__layoutChildren;
     },
 
-    
+
     /**
      * Computes the width of all flexible children.
      *
@@ -367,8 +367,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       if (width === null) {
         return;
       }
-      
-      var tableColumnModel = this.getTableColumnModel();      
+
+      var tableColumnModel = this.getTableColumnModel();
       var visibleColumns = tableColumnModel.getVisibleColumns();
       var visibleColumnsLength = visibleColumns.length;
       var colData = this.__resizeColumnData;
@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       if (visibleColumnsLength === 0) {
         return;
       }
-      
+
       // Create an array of the visible columns
       var columns = [ ];
       for (i=0; i<visibleColumnsLength; i++)
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
       this.__layoutChildren = columns;
       this.__clearLayoutCaches();
-      
+
       // Use a horizontal box layout to determine the available width.
       this.__layout.renderLayout(width, 100);
 
@@ -408,10 +408,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var children = this.__layoutChildren;
       for (var i=0,l=children.length; i<l; i++) {
         children[i].invalidateLayoutCache();
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Extend the visible column to right of the column which just changed
      * width, to fill any available space within the inner width of the table.
@@ -431,7 +431,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     _extendNextColumn : function(event)
     {
       var tableColumnModel = this.getTableColumnModel();
-      
+
       // Event data properties: col, oldWidth, newWidth
       var data = event.getData();
 
@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     _extendLastColumn : function(event)
     {
       var tableColumnModel = this.getTableColumnModel();
-      
+
       // Event data properties: col, visible
       var data = event.getData();
 
@@ -553,7 +553,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
     /**
      * Returns an array of the resizing information of a column.
-     * 
+     *
      * @return {qx.ui.core.ColumnData[]} array of the resizing information of a column.
      */
     _getResizeColumnData : function()

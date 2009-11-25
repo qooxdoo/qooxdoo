@@ -241,12 +241,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "hover-button" :
     {
       alias : "atom",
       include : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -668,7 +668,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states["native"]) {
           return {};
         }
-        
+
         return {
           width     : states.horizontal ? undefined : 16,
           height    : states.horizontal ? 16 : undefined,
@@ -2069,7 +2069,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
 
         if (states.submenu)
-        {          
+        {
           result.position = "right-top";
           result.offset = [-2, -3];
         }
@@ -2077,12 +2077,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return result;
       }
     },
-    
+
     "menu/slidebar" : "menu-slidebar",
-    
+
     "menu-slidebar" : "widget",
-    
-    "menu-slidebar-button" : 
+
+    "menu-slidebar-button" :
     {
       style : function(states)
       {
@@ -2093,11 +2093,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "menu-slidebar/button-backward" :
     {
       include : "menu-slidebar-button",
-      
+
       style : function(states)
       {
         return {
@@ -2109,7 +2109,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "menu-slidebar/button-forward" :
     {
       include : "menu-slidebar-button",
-      
+
       style : function(states)
       {
         return {

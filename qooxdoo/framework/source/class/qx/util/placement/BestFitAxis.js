@@ -25,26 +25,26 @@
 qx.Class.define("qx.util.placement.BestFitAxis",
 {
   extend : qx.util.placement.AbstractAxis,
-  
+
   members :
   {
     // overridden
     computeStart : function(size, target, offsets, areaSize, position)
     {
-      var start = this._moveToEdgeAndAlign(size, target, offsets, position);      
-      
+      var start = this._moveToEdgeAndAlign(size, target, offsets, position);
+
       if (this._isInRange(start, size, areaSize)) {
         return start;
-      }      
-      
+      }
+
       if (start < 0) {
         start = Math.min(0, areaSize-size);
       }
-      
+
       if (start + size > areaSize) {
         start = Math.max(0, areaSize - size);
       }
-      
+
       return start;
     }
   }

@@ -111,8 +111,8 @@ qx.Class.define("qx.bom.Shortcut",
       apply : "_applyShortcut",
       nullable : true
     },
-    
-    
+
+
     /**
      * Whether the execute event should be fired repeatedly if the user keep
      * the keys pressed.
@@ -170,8 +170,8 @@ qx.Class.define("qx.bom.Shortcut",
         event.stop();
       }
     },
-    
-    
+
+
     /**
      * Key press event handler.
      *
@@ -179,7 +179,7 @@ qx.Class.define("qx.bom.Shortcut",
      */
     __onKeyPress : function(event)
     {
-      if (this.getEnabled() && this.__matchesKeyEvent(event)) 
+      if (this.getEnabled() && this.__matchesKeyEvent(event))
       {
         if (this.isAutoRepeat()) {
           this.execute(event.getTarget());

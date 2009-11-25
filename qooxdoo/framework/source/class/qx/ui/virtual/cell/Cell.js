@@ -508,8 +508,8 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   destruct : function()
   {
-    this.__stylesheet = this.__userStyles = this.__themeStyles = 
-      this.__userPaddings = this.__themePaddings = this.__states = 
+    this.__stylesheet = this.__userStyles = this.__themeStyles =
+      this.__userPaddings = this.__themePaddings = this.__states =
       this.__themeValues = this.__themableProperties = null;
   }
 });

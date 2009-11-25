@@ -229,7 +229,7 @@ qx.Class.define("qx.event.handler.Application",
             try
             {
               // If IE is used, use the trick by Diego Perini
-              // http://javascript.nwbox.com/IEContentLoaded/         
+              // http://javascript.nwbox.com/IEContentLoaded/
               document.documentElement.doScroll("left");
               if (document.body) {
                 self._onNativeLoadWrapped();
@@ -306,7 +306,7 @@ qx.Class.define("qx.event.handler.Application",
           // Fire user event
           qx.event.Registration.fireEvent(this._window, "shutdown");
         }
-        catch (e) 
+        catch (e)
         {
           // IE doesn't execute the "finally" block if no "catch" block is present
           throw e;

@@ -22,7 +22,7 @@
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
  */
-qx.Class.define("qx.ui.core.Command", 
+qx.Class.define("qx.ui.core.Command",
 {
   extend : qx.core.Object,
 
@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.core.Command",
   {
     this.base(arguments);
     this._shortcut = new qx.bom.Shortcut(shortcut);
-    
+
     this._shortcut.addListener("execute", this.execute, this);
   },
 
@@ -46,12 +46,12 @@ qx.Class.define("qx.ui.core.Command",
   events :
   {
     /**
-     * Fired when the command is executed. Sets the "data" property of the 
+     * Fired when the command is executed. Sets the "data" property of the
      * event to the object that issued the command.
      */
     "execute" : "qx.event.type.Data"
   },
-  
+
 
   properties :
   {
@@ -72,51 +72,51 @@ qx.Class.define("qx.ui.core.Command",
       apply : "_applyShortcut",
       nullable : true
     },
-    
-    
+
+
     /** The label, which will be set in all connected widgets (if available) */
-    label : 
+    label :
     {
       check : "String",
       nullable : true,
       event : "changeLabel"
     },
-    
-    
+
+
     /** The icon, which will be set in all connected widgets (if available) */
-    icon : 
+    icon :
     {
       check : "String",
       nullable : true,
       event : "changeIcon"
     },
-    
-    
-    /** 
-     * The tooltip text, which will be set in all connected 
+
+
+    /**
+     * The tooltip text, which will be set in all connected
      * widgets (if available)
      */
-    toolTipText : 
+    toolTipText :
     {
       check : "String",
       nullable : true,
       event : "changeToolTipText"
     },
-    
-    
+
+
     /** The value of the connected widgets */
-    value : 
+    value :
     {
       nullable : true,
-      event : "changeValue"      
+      event : "changeValue"
     },
-    
-    
+
+
     /** The menu, which will be set in all connected widgets (if available) */
     menu :
     {
       check : "qx.ui.menu.Menu",
-      nullable : true,      
+      nullable : true,
       event : "changeMenu"
     }
   },
@@ -125,42 +125,42 @@ qx.Class.define("qx.ui.core.Command",
   members :
   {
     _shortcut : null,
-    
+
     // property apply
     _applyEnabled : function(value) {
       this._shortcut.setEnabled(value);
     },
-    
-    
+
+
     // property apply
     _applyShortcut : function(value) {
       this._shortcut.setShortcut(value);
     },
-    
-    
+
+
     /**
      * Fire the "execute" event on this command.
      *
      * @param target {Object} Object which issued the execute event
-     */    
-    execute : function(target) 
+     */
+    execute : function(target)
     {
       this.fireDataEvent("execute", target);
     },
-    
-    
+
+
     /**
      * Returns the used shortcut as string using the currently selected locale.
      *
      * @return {String} shortcut
      */
-    toString : function() 
+    toString : function()
     {
       return this._shortcut.toString();
     }
   },
-  
-  
+
+
   destruct : function()
   {
     this._disposeObjects("_shortcut");

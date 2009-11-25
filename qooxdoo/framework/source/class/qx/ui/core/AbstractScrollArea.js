@@ -20,7 +20,7 @@
 
 /**
  * This class has been moved to {@link qx.ui.core.scroll.AbstractScrollArea}
- * 
+ *
  * @deprecated This class has been moved to qx.ui.core.scroll.AbstractScrollArea
  */
 qx.Class.define("qx.ui.core.AbstractScrollArea",

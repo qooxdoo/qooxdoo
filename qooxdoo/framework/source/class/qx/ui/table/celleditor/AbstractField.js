@@ -48,19 +48,19 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
   {
     /**
      * Factory to create the editor widget
-     * 
+     *
      * @return {qx.ui.core.Widget} The editor widget
      */
     _createEditor : function() {
       throw new Error("Abstract method call!");
     },
-    
-    
+
+
     // interface implementation
     createCellEditor : function(cellInfo)
     {
       var cellEditor = this._createEditor();
-      
+
       cellEditor.originalValue = cellInfo.value;
       if (cellInfo.value === null || cellInfo.value === undefined) {
         cellInfo.value = "";
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
       return cellEditor;
     },
 
-    
+
     // interface implementation
     getCellEditorValue : function(cellEditor)
     {

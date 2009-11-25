@@ -83,7 +83,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
-     * 
+     *
      * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
      *   properties instead.
      */
@@ -94,12 +94,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true,
       apply : "_applySmart"
     },
-    
+
     /**
      * Selects the algorithm to place the widget horizontally. <code>direct</code>
      * uses {@link qx.util.placement.DirectAxis}, <code>keep-align</code>
      * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
-     * uses {@link qx.util.placement.BestFitAxis}. 
+     * uses {@link qx.util.placement.BestFitAxis}.
      */
     placementModeX :
     {
@@ -107,7 +107,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       init : "keep-align",
       themeable : true
     },
-    
+
     /**
      * Selects the algorithm to place the widget vertically. <code>direct</code>
      * uses {@link qx.util.placement.DirectAxis}, <code>keep-align</code>
@@ -166,8 +166,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   members :
   {
     __updater : null,
-    
-    
+
+
     // property apply
     _applySmart : function(value, old)
     {
@@ -185,7 +185,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         placementModeY: mode
       });
     },
-    
+
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does,
@@ -394,7 +394,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
     /**
      * Returns the placement offsets as a map
-     * 
+     *
      * @return {Map} The placement offsets
      */
     _getPlacementOffsets : function()
@@ -406,29 +406,29 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         bottom : this.getOffsetBottom()
       }
     },
-    
-    
+
+
     /**
      * Get the size of the object to place. The callback will be called with
      * the size as first argument. This methods works asynchronously.
-     * 
+     *
      * The size of the object to place is the size of the widget. If a widget
      * including this mixin needs a different size it can implement the method
      * <code>_computePlacementSize</code>, which returns the size.
-     * 
+     *
      *  @param callback {Function} This function will be called with the size as
      *    first argument
      */
     __getPlacementSize : function(callback)
     {
       var size = null;
-      
+
       if (this._computePlacementSize) {
         var size = this._computePlacementSize();
       } else if (this.isVisible()) {
         var size = this.getBounds();
       }
-      
+
       if (size == null)
       {
         this.addListenerOnce("appear", function() {
@@ -438,8 +438,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         callback.call(this, size);
       }
     },
-    
-    
+
+
     /**
      * Internal method to read specific this properties and
      * apply the results to the this afterwards.
@@ -453,21 +453,21 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       this.__getPlacementSize(function(size)
       {
         var result = qx.util.placement.Placement.compute(
-          size, 
-          this.getLayoutParent().getBounds(), 
-          coords, 
-          this._getPlacementOffsets(), 
+          size,
+          this.getLayoutParent().getBounds(),
+          coords,
+          this._getPlacementOffsets(),
           this.getPosition(),
           this.getPlacementModeX(),
           this.getPlacementModeY()
         );
-        
+
         this.moveTo(result.left, result.top);
       });
     }
   },
-  
-  
+
+
   destruct : function()
   {
     if (this.__updater) {

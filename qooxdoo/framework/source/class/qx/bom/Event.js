@@ -100,12 +100,12 @@ qx.Bootstrap.define("qx.bom.Event",
           return e.toElement;
         }
       },
-      
+
       "gecko" : function(e)
       {
         // In Firefox the related target of mouse events is sometimes an
         // anonymous div inside of a text area, which raises an exception if
-        // the nodeType is read. This is why the try/catch block is needed.        
+        // the nodeType is read. This is why the try/catch block is needed.
         try {
           e.relatedTarget && e.relatedTarget.nodeType;
         } catch (e) {

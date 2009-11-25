@@ -79,10 +79,10 @@
  *
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
- * 
+ *
  * This class is an abstract template class. Concrete implementations have to
  * provide implementations for the {@link #_readState} and {@link #_writeState}
- * methods. 
+ * methods.
  *
  * Browser history support is currently available for Internet Explorer 6/7,
  * Firefox, Opera 9 and WebKit. Safari 2 and older are not yet supported.
@@ -113,9 +113,9 @@ qx.Class.define("qx.bom.History",
     this.base(arguments);
 
     this._baseUrl = window.location.href.split('#')[0] + '#';
-    
+
     this.__titles = {};
-    this._setInitialState();        
+    this._setInitialState();
   },
 
 
@@ -146,14 +146,14 @@ qx.Class.define("qx.bom.History",
     /**
      * {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
-    SUPPORTS_HASH_CHANGE_EVENT : 
+    SUPPORTS_HASH_CHANGE_EVENT :
       (qx.bom.client.Engine.MSHTML && document.documentMode >= 8) ||
       (!qx.bom.client.Engine.MSHTML && document.documentMode && "onhashchange" in window),
-    
-    
+
+
     /**
      * Get the singleton instance of the history manager.
-     * 
+     *
      * @return {History}
      */
     getInstance : function()
@@ -184,7 +184,7 @@ qx.Class.define("qx.bom.History",
     /**
      * Interval for the timer, which periodically checks the browser history state
      * in milliseconds.
-     * 
+     *
      * @deprecated This property has been deprecated. The history manager now
      *     uses {@link qx.event.Idle} for polling.
      */
@@ -198,7 +198,7 @@ qx.Class.define("qx.bom.History",
     /**
      * Property holding the current title
      */
-    title : 
+    title :
     {
       check : "String",
       event : "changeTitle",
@@ -209,7 +209,7 @@ qx.Class.define("qx.bom.History",
     /**
      * Property holding the current state of the history.
      */
-    state : 
+    state :
     {
       check : "String",
       event : "changeState",
@@ -228,7 +228,7 @@ qx.Class.define("qx.bom.History",
 
   members :
   {
-    __titles : null,    
+    __titles : null,
 
 
     /**
@@ -241,7 +241,7 @@ qx.Class.define("qx.bom.History",
 
     /**
      * Encodes the state value into a format suitable as fragment identifier.
-     * 
+     *
      * @param value {String} The string to encode
      * @return {String} The encoded string
      */
@@ -257,7 +257,7 @@ qx.Class.define("qx.bom.History",
 
     /**
      * Decodes a fragment identifier into a string
-     * 
+     *
      * @param value {String} The fragment identifier
      * @return {String} The decoded fragment identifier
      */
@@ -290,7 +290,7 @@ qx.Class.define("qx.bom.History",
      *          is done. This title should represent the new state of the application.
      */
     addToHistory : function(state, newTitle)
-    {      
+    {
       if (!qx.lang.Type.isString(state)) {
         state = state + "";
       }
@@ -330,7 +330,7 @@ qx.Class.define("qx.bom.History",
      *
      * @param state {String} new state of the history
      */
-    _onHistoryLoad : function(state) 
+    _onHistoryLoad : function(state)
     {
       this.setState(state);
       this.fireDataEvent("request", state);
@@ -339,8 +339,8 @@ qx.Class.define("qx.bom.History",
         this.setTitle(this.__titles[state]);
       }
     },
-    
-    
+
+
     /**
      * Browser dependent function to read the current state of the history
      *
@@ -350,7 +350,7 @@ qx.Class.define("qx.bom.History",
       throw new Error("Abstract method call");
     },
 
-    
+
     /**
      * Save a state into the browser history.
      *
@@ -371,7 +371,7 @@ qx.Class.define("qx.bom.History",
     {
       var url = this._baseUrl + (value || "");
       var loc = window.location;
-      
+
       if (url != loc.href) {
         loc.href = url;
       }
@@ -379,7 +379,7 @@ qx.Class.define("qx.bom.History",
 
 
     /**
-     * Returns the fragment identifier of the top window URL. For gecko browsers we 
+     * Returns the fragment identifier of the top window URL. For gecko browsers we
      * have to use a regular expression to avoid encoding problems.
      *
      * @return {String} the fragment identifier
@@ -389,8 +389,8 @@ qx.Class.define("qx.bom.History",
       var hash = /#(.*)$/.exec(window.location.href);
       return hash && hash[1] ? hash[1] : "";
     },
-    
-    
+
+
     // property apply
     _applyTimeoutInterval : function(value)
     {
@@ -399,12 +399,12 @@ qx.Class.define("qx.bom.History",
          "The property 'timeoutInterval' has been deprected. The history manager" +
          "now uses 'qx.event.Idle' for polling."
        );
-    }    
+    }
   },
-  
-  
+
+
   destruct : function()
   {
     this.__titles = null;
-  }   
+  }
 });

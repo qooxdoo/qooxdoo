@@ -117,9 +117,9 @@ qx.Class.define("qx.ui.container.SlideBar",
       init : "horizontal",
       apply : "_applyOrientation"
     },
-    
+
     /** The number of pixels to scroll if the buttons are pressed */
-    scrollStep : 
+    scrollStep :
     {
       check : "Integer",
       init : 15,
@@ -247,8 +247,8 @@ qx.Class.define("qx.ui.container.SlideBar",
         pane.scrollToY(value);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.container.SlideBar",
 
     /**
      * Scolls pane on mousewheel events
-     * 
+     *
      * @param e {qx.event.type.Mouse} the mouse event
      */
     _onMouseWheel : function(e)
@@ -321,16 +321,16 @@ qx.Class.define("qx.ui.container.SlideBar",
       // Stop bubbling and native event
       e.stop();
     },
-    
-    
+
+
     /**
      * Update arrow enabled state after scrolling
      */
     _onScroll : function() {
       this._updateArrowsEnabled();
     },
-    
-    
+
+
     /**
      * Listener for resize event. This event is fired after the
      * first flush of the element which leads to another queuing
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.container.SlideBar",
         this._hideArrows();
       }
     },
-    
+
 
     /**
      * Scroll handler for left scrolling
@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     _updateArrowsEnabled : function()
     {
       var pane = this.getChildControl("scrollpane");
-      
+
       if (this.getOrientation() === "horizontal")
       {
         var position = pane.getScrollX();
@@ -421,12 +421,12 @@ qx.Class.define("qx.ui.container.SlideBar",
         var position = pane.getScrollY();
         var max = pane.getScrollMaxY();
       }
-      
+
       this.getChildControl("button-backward").setEnabled(position > 0);
       this.getChildControl("button-forward").setEnabled(position < max);
     },
 
-    
+
     /**
      * Show the arrows (Called from resize event)
      *

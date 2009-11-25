@@ -24,11 +24,11 @@ qx.Class.define("qx.test.bom.Iframe",
   members :
   {
     __iframe: null,
-    
+
     tearDown : function() {
       this.__iframe = null;
     },
-    
+
     testCreate : function()
     {
       this.__iframe = qx.bom.Iframe.create();
@@ -39,13 +39,13 @@ qx.Class.define("qx.test.bom.Iframe",
     {
       var attributes = qx.lang.Object.clone(qx.bom.Iframe.DEFAULT_ATTRIBUTES);
       attributes.allowTransparency = false;
-      
+
       this.__iframe = qx.bom.Iframe.create(attributes);
-      
+
       this.__testAttributes(attributes);
     },
-    
-    __testAttributes : function(attributes) 
+
+    __testAttributes : function(attributes)
     {
       // do not test 'onload' on IE, this returns always 'undefined'
       // http://tobielangel.com/2007/1/11/attribute-nightmare-in-ie/
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.bom.Iframe",
       }
 
       for(var key in attributes) {
-        this.assertEquals(attributes[key], 
+        this.assertEquals(attributes[key],
           qx.bom.element.Attribute.get(this.__iframe, key),
           "Wrong value on attribute '" + key + "'");
       }

@@ -116,8 +116,8 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
         {
           // We have no tooltip yet -> Create one
           widgetToolTip = new qx.ui.tooltip.ToolTip(this.getToolTip());
-          cellWidget.setToolTip(widgetToolTip);                   
-          // Link disposer to cellwidget to prevent memory leak 
+          cellWidget.setToolTip(widgetToolTip);
+          // Link disposer to cellwidget to prevent memory leak
           qx.util.DisposeUtil.disposeTriggeredBy(widgetToolTip, cellWidget);
         }
         else

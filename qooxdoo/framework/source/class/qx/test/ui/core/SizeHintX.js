@@ -30,13 +30,13 @@ qx.Class.define("qx.test.ui.core.SizeHintX",
       this.assertEquals(size, hint.width, "width");
       this.assertEquals(max, hint.maxWidth, "max width");
     },
-    
-    
+
+
     getDefaultSize : function() {
       return 100;
     },
-    
-    
+
+
     setSize : function(min, size, max)
     {
       this.widget.set({
@@ -45,10 +45,10 @@ qx.Class.define("qx.test.ui.core.SizeHintX",
         maxWidth: max
       });
     },
-    
-    
+
+
     setStretching : function(allowShrink, allowGrow) {
       this.widget.setAllowStretchX(allowGrow, allowShrink);
-    }    
+    }
   }
 });

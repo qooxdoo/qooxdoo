@@ -60,14 +60,14 @@ qx.Class.define("qx.test.data.store.Jsonp",
     needsPHPWarning : function() {
       this.warn("This test can only be run from a web server with PHP support.");
     },
-    
+
 
     testWholePrimitive: function() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       this.__store.addListener("loaded", function() {
         this.resume(function() {
           var model = this.__store.getModel();
@@ -86,23 +86,23 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.wait();
     },
-    
-    
+
+
     testManipulatePrimitive: function() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       var manipulated = false;
       var delegate = {manipulateData : function(data) {
         manipulated = true;
         return data;
       }};
-      
+
       this.__store.dispose();
       this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
-      
+
       this.__store.addListener("loaded", function() {
         this.resume(function() {
           this.assertTrue(manipulated);
@@ -117,14 +117,14 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.wait();
     },
-    
-    
+
+
     testConfigureRequestPrimitive: function() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       var configured = false;
       var self = this;
       var delegate = {configureRequest : function(request) {
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }};
       this.__store.dispose();
       this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
-      
+
       this.__store.addListener("loaded", function() {
         this.resume(function() {
           this.assertTrue(configured);
@@ -147,6 +147,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }, 100);
 
       this.wait();
-    }    
+    }
   }
 });

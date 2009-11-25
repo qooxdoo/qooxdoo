@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Enable session
       this.__activeDragSession = true;
       e.getCurrentTarget().capture();
-      
+
       e.stop();
     },
 
@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         } else {
           slider.setDomTop(pos);
         }
-        
+
         e.stop();
       }
       else
@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Update the cursor
       // Needed in cases where the splitter has not been moved
       this.__updateCursor();
-      
+
       e.stop();
     },
 
@@ -639,7 +639,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     /**
      * Sets the last mouse position.
-     * 
+     *
      * @param x {Integer} the x position of the mouse cursor.
      * @param y {Integer} the y position of the mouse cursor.
      */

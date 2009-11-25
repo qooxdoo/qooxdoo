@@ -20,13 +20,13 @@
 /**
  * An element preconfigured with a decorator. The decorator cannot be changed
  * after creation. This class is used to render the backgrounds, shadows and
- * separators in widgets.  
+ * separators in widgets.
  */
 
 qx.Class.define("qx.html.Decorator",
 {
   extend : qx.html.Element,
-  
+
   /**
    * @param decorator {qx.ui.decoration.IDecorator} The decorator to use
    * @param decoratorId {String?} An optional id for the decorator.
@@ -36,42 +36,42 @@ qx.Class.define("qx.html.Decorator",
     this.base(arguments);
     this.__decorator = decorator;
     this.__id = decoratorId || decorator.toHashCode();
-    
+
     this.setStyles({
       position: "absolute",
       top: 0,
       left: 0
     });
-    
-    this.useMarkup(decorator.getMarkup());    
+
+    this.useMarkup(decorator.getMarkup());
   },
-  
-  
+
+
   members :
   {
     __id : null,
     __decorator : null,
-    
+
     /**
      * Get the decorator's id
-     * 
+     *
      * @return {String} the id
      */
     getId : function() {
       return this.__id;
     },
-    
-    
+
+
     /**
      * Get the decorator
-     * 
+     *
      * @return {qx.ui.decoration.IDecorator} the decorator used
      */
     getDecorator : function() {
       return this.__decorator;
     },
-    
-    
+
+
     /**
      * Resizes the element respecting the configured borders
      * to the given width and height. Should automatically
@@ -84,8 +84,8 @@ qx.Class.define("qx.html.Decorator",
     resize : function(width, height) {
       this.__decorator.resize(this.getDomElement(), width, height);
     },
-    
-    
+
+
     /**
      * Applies the given background color to the element
      * or fallback to the background color defined
@@ -96,8 +96,8 @@ qx.Class.define("qx.html.Decorator",
     tint : function(color) {
       this.__decorator.tint(this.getDomElement(), color);
     },
-    
-    
+
+
     /**
      * Get the amount of space, the decoration needs for its border on each
      * side.
@@ -109,8 +109,8 @@ qx.Class.define("qx.html.Decorator",
       return this.__decorator.getInsets();
     }
   },
-  
-  
+
+
   destruct : function() {
     this.__decorator = null;
   }
