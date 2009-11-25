@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * A table column model that automagically resizes columns based on a
+ * A table column model that automatically resizes columns based on a
  * selected behavior.
  *
  * @see qx.ui.table.columnmodel.Basic
