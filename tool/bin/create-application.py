@@ -31,10 +31,27 @@ from misc import Path
 SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
-APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
+APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
+R_SHORT_DESC      = re.compile(r'(?m)^short:: (.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
 QOOXDOO_VERSION   = ''  # will be filled later
+
+
+def getAppInfos():
+    appInfos = {}
+    for dir in APP_DIRS:
+        readme = os.path.join(SKELETON_DIR, dir, "readme.txt")
+        appinfo = ""
+        if os.path.isfile(readme):
+            cont = open(readme, "r").read()
+            mo   = R_SHORT_DESC.search(cont)
+            if mo:
+                appinfo = mo.group(1)
+        appInfos[dir] = appinfo
+    return appInfos
+
+APP_INFOS = getAppInfos()
 
 
 def getQxVersion():
@@ -250,13 +267,9 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     )
     parser.add_option(
         "-t", "--type", dest="type", metavar="TYPE", default="gui",
-        help="Type of the application to create, one of: "+str(APP_TYPES)+"." +
-          "'gui' builds a standard qooxdoo GUI application, " +
-          "'inline' builds a inline qooxdoo GUI application, " +
-          "'migration' should " +
-          "be used to migrate qooxdoo 0.7 applications and " +
-          "'bom' can be used " +
-          "to build low-level qooxdoo applications. (Default: %default)"
+        help="Type of the application to create, one of: "+str(map(str, APP_INFOS.keys()))+"." +
+          str(", ".join(["'%s' %s" % (x, y) for x,y in APP_INFOS.items()])) +
+          ". (Default: %default)"
      )
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="LOGFILE",
