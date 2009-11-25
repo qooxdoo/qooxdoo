@@ -263,7 +263,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * {@link qx.util.ResourceManager} or {@link qx.io2.ImageLoader}
      * depending on if the image is a managed one.
      * 
-     * @param sourc {String} image source 
+     * @param source {String} image source 
      * @return {Map} dimension of image
      */
     __getDimension : function(source)
