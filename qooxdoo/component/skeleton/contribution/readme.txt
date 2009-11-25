@@ -7,4 +7,4 @@ will use this and expand it into a self-contained qooxdoo application which
 can then be further extended. Please refer to the script and other documentation
 for further information.
 
-short:: is a qooxdoo-contrib style qooxdoo application
+short:: is a qooxdoo-contrib style qooxdoo application or library
