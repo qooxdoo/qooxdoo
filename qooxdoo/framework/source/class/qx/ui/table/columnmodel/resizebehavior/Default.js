@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     // samantics of flex and percent are exectly the same as in the widget code.
     this.__layout = new qx.ui.layout.HBox();
     this.__layout.connectToWidget(this);
-    
+
     this.__deferredComputeColumnsFlexWidth = new qx.util.DeferredCall(
       this._computeColumnsFlexWidth, this
     );
@@ -114,24 +114,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       check : "Boolean",
       init  : false
     },
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     /**
      * The table column model in use.  Of particular interest is the method
      * <i>getTable</i> which is a reference to the table widget.  This allows
      * access to any other features of the table, for use in calculating widths
      * of columns.
      */
-<<<<<<< HEAD
     tableColumnModel :
-=======
-    tableColumnModel : 
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     {
       check : "qx.ui.table.columnmodel.Resize"
     }
@@ -182,12 +172,7 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       }
 
       // Set the new width
-<<<<<<< HEAD
       this.__resizeColumnData[col].setColumnWidth(width, flex);
-=======
-      this.__resizeColumnData[col].setColumnWidth(width);
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       this.__deferredComputeColumnsFlexWidth.schedule();
     },
 
@@ -368,25 +353,15 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       return this.__layoutChildren;
     },
 
-    
+
     /**
-<<<<<<< HEAD
      * Computes the width of all flexible children.
-=======
-     * Computes the width of all flexible children (based loosely on the
-     * method of the same name in HorizontalBoxLayoutImpl).
-     *
-     * @param event {qx.event.type.Event}
-     *   The event object.
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
      *
      * @return {void}
      */
     _computeColumnsFlexWidth : function()
     {
       this.__deferredComputeColumnsFlexWidth.cancel();
-<<<<<<< HEAD
       var width = this._getAvailableWidth();
 
       if (width === null) {
@@ -394,11 +369,6 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       }
 
       var tableColumnModel = this.getTableColumnModel();
-=======
-      
-      var tableColumnModel = this.getTableColumnModel();      
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       var visibleColumns = tableColumnModel.getVisibleColumns();
       var visibleColumnsLength = visibleColumns.length;
       var colData = this.__resizeColumnData;
@@ -418,11 +388,6 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       this.__clearLayoutCaches();
 
       // Use a horizontal box layout to determine the available width.
-<<<<<<< HEAD
-=======
-      var width = this._getAvailableWidth();
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       this.__layout.renderLayout(width, 100);
 
       // Now that we've calculated the width, set it.
@@ -466,12 +431,7 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     _extendNextColumn : function(event)
     {
       var tableColumnModel = this.getTableColumnModel();
-<<<<<<< HEAD
 
-=======
-      
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       // Event data properties: col, oldWidth, newWidth
       var data = event.getData();
 
@@ -543,12 +503,7 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     _extendLastColumn : function(event)
     {
       var tableColumnModel = this.getTableColumnModel();
-<<<<<<< HEAD
 
-=======
-      
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       // Event data properties: col, visible
       var data = event.getData();
 
@@ -618,12 +573,7 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
 
   destruct : function()
   {
-<<<<<<< HEAD
     this.__resizeColumnData = this.__layoutChildren = null;
-=======
-    this._disposeFields("__resizeColumnData");
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     this._disposeObjects("__layout", "__deferredComputeColumnsFlexWidth");
   }
 });
