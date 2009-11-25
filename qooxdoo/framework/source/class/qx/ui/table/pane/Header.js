@@ -270,7 +270,10 @@ qx.Class.define("qx.ui.table.pane.Header",
       for (var x=0; x<colCount; x++)
       {
         var col = paneModel.getColumnAtX(x);
-
+        if (col === undefined) {
+          continue;
+        }
+        
         var colWidth = columnModel.getColumnWidth(col);
 
         // TODO: Get real cell renderer

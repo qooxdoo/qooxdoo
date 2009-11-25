@@ -548,8 +548,8 @@ qx.Class.define("qx.ui.table.Table",
     newTableColumnModel :
     {
       check : "Function",
-      init : function(obj) {
-        return new qx.ui.table.columnmodel.Basic(obj);
+      init : function(table) {
+        return new qx.ui.table.columnmodel.Basic(table);
       }
     },
 
