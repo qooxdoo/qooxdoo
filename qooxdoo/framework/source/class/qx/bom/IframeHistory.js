@@ -120,6 +120,8 @@ qx.Class.define("qx.bom.IframeHistory",
 
     /**
      * Hash change listener.
+     *
+     * @param e {qx.event.type.Event} event instance
      */
     __onHashChange : function(e)
     {
@@ -141,7 +143,9 @@ qx.Class.define("qx.bom.IframeHistory",
 
 
     /**
-     * @param locationState {String}
+     * Stores the given location state.
+     *
+     * @param locationState {String} location state
      * @return {String}
      */
     __storeLocationState : function (locationState)
@@ -154,7 +158,9 @@ qx.Class.define("qx.bom.IframeHistory",
 
 
     /**
-     * @param locationState {String}
+     * Checks whether the given location state is the current one.
+     *
+     * @param locationState {String} location state to check 
      * @return {Boolean}
      */
     __isCurrentLocationState : function (locationState) {
@@ -163,6 +169,9 @@ qx.Class.define("qx.bom.IframeHistory",
 
 
     /**
+     * Initializes the iframe
+     *
+     * @param handler {Function?null} if given this callback is executed after iframe is ready to use
      * @return {void}
      */
     __initIframe : function(handler)
@@ -209,6 +218,7 @@ qx.Class.define("qx.bom.IframeHistory",
      *
      * @param callback {Function} This function will be called once the iframe is loaded
      * @param context {Object?window} The context for the callback.
+     * @param retry {Integer} number of tries to initialize the iframe 
      */
     __waitForIFrame : function(callback, context, retry)
     {

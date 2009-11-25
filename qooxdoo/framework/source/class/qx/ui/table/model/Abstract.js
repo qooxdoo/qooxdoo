@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
 
     /**
-     * TODOC
+     * Abstract method
      * @throws {Error} An error if this method is called.
      */
     getRowCount : function() {
@@ -107,7 +107,11 @@ qx.Class.define("qx.ui.table.model.Abstract",
     },
 
     /**
-     * TODOC
+     * Abstract method
+     * 
+     * @param columnIndex {Integer} the index of the column
+     * @param rowIndex {Integer} the index of the row
+     *
      * @throws {Error} An error if this method is called.
      */
     getValue : function(columnIndex, rowIndex) {
@@ -119,7 +123,12 @@ qx.Class.define("qx.ui.table.model.Abstract",
     },
 
     /**
-     * TODOC
+     * Abstract method
+     *
+     * @param columnIndex {Integer} index of the column
+     * @param rowIndex {Integer} index of the row
+     * @param value {Var} Value to be set
+     *
      * @throws {Error} An error if this method is called.
      */
     setValue : function(columnIndex, rowIndex, value) {
