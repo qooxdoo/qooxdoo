@@ -354,10 +354,9 @@ qx.Class.define("qx.bom.History",
     /**
      * Save a state into the browser history.
      *
-     * @param state {String} state to save
      * @return {void}
      */
-    _writeState :function() {
+    _writeState : function() {
       throw new Error("Abstract method call");
     },
 
@@ -365,7 +364,7 @@ qx.Class.define("qx.bom.History",
     /**
      * Sets the fragment identifier of the window URL
      *
-     * @return value {String} the fragment identifier
+     * @param value {String} the fragment identifier
      */
     _setHash : function (value)
     {
