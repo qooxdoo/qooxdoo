@@ -241,9 +241,9 @@ qx.Class.define("feedreader.Application",
       this.__listController.getSelection().addListener(
         "change" , this._listControllerChange, this
       );
-      // register a handler for the change of the trr selection
-      this.__treeController.getSelection().addListener(
-        "change", this._treeControllerChange, this
+      // register a handler for the change of the model of the list
+      this.__listController.addListener(
+        "changeModel", this._treeControllerChange, this
       );
 
       // binding for showing the loading image in the list
@@ -320,10 +320,6 @@ qx.Class.define("feedreader.Application",
      * Event handler for a change of the selection of the tree.
      */
     _treeControllerChange : function(ev) {
-      // only act if something new is selected
-      if (ev.getData().type != "add") {
-        return;
-      }
       // get the selected feed
       var feed = this.__treeController.getSelection().getItem(0);
       // restore the last selected feed
