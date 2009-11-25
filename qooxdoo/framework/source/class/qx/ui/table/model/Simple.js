@@ -360,6 +360,20 @@ qx.Class.define("qx.ui.table.model.Simple",
 
 
     /**
+     * Returns the sortMethod(s) for a table column.
+     *
+     * @param columnIndex {Integer} The index of the column or which the sort
+     *   methods are being  provided.
+     *
+     * @return {Function|Map} either a function or a map (ascending/descending)
+     *   for the specified column. See {@link #setSortMethods} for details.
+     */
+    getSortMethods : function(columnIndex) {
+      return this.__sortMethods[columnIndex];
+    },
+
+
+    /**
      * Clears the sorting.
      */
     clearSorting : function()
