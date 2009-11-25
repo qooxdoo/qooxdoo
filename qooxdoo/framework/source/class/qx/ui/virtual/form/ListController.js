@@ -340,6 +340,13 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     _applyModel: function(value, old)
     {
+      if (old != null)
+      {
+        old.removeListenerById(this.__changeLengthListenerId);
+        old.removeListenerById(this.__changeListenerId);
+        old.removeListenerById(this.__changeBubbleListenerId);
+      }
+
       if (value != null)
       {
         this.__buildUpLookupTable();
@@ -355,13 +362,6 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         this.__changeBubbleListenerId = value.addListener(
           "changeBubble", this._onChangeBubbleModel, this
         );
-      }
-
-      if (old != null)
-      {
-        old.removeListenerById(this.__changeLengthListenerId);
-        old.removeListenerById(this.__changeListenerId);
-        old.removeListenerById(this.__changeBubbleListenerId);
       }
 
       if (this.getTarget() != null) {
