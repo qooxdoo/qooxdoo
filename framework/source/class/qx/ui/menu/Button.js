@@ -44,9 +44,6 @@ qx.Class.define("qx.ui.menu.Button",
   {
     this.base(arguments);
 
-    // Add command listener
-    this.addListener("changeCommand", this._onChangeCommand, this);
-
     // Initialize with incoming arguments
     if (label != null) {
       this.setLabel(label);
@@ -101,46 +98,6 @@ qx.Class.define("qx.ui.menu.Button",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Event listener for command changes. Updates the text of the shortcut.
-     *
-     * @param e {qx.event.type.Data} Property change event
-     */
-    _onChangeCommand : function(e)
-    {
-      var command = e.getData();
-
-      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
-      {
-        var oldCommand = e.getOldData();
-        if (!oldCommand) {
-          qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
-        }
-        if (!command) {
-          qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
-        }
-      }
-
-      var cmdString = command != null ? command.toString() : "";
-      this.getChildControl("shortcut").setValue(cmdString);
-    },
-
-
-    /**
-     * Update command string on locale changes
-     */
-    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
-    {
-      "on" : function(e) {
-        var command = this.getCommand();
-        if (command != null) {
-          this.getChildControl("shortcut").setValue(command.toString());
-        }
-      },
-
-      "off" : null
-    }),
-
 
     // overridden
     _onMouseUp : function(e)
@@ -162,19 +119,6 @@ qx.Class.define("qx.ui.menu.Button",
     // overridden
     _onKeyPress : function(e) {
       this.execute();
-    }
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }
 });
