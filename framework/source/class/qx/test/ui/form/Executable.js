@@ -24,7 +24,11 @@ qx.Class.define("qx.test.ui.form.Executable",
   {
     __test: function(widget) {
       // check if the interface is implemented
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IExecutable), "Interface is not implemented.");
+      this.assertTrue(
+        qx.Class.hasInterface(
+          widget.constructor, qx.ui.form.IExecutable
+        ), "Interface is not implemented."
+      );
 
       var command = new qx.ui.core.Command();
 
@@ -37,14 +41,36 @@ qx.Class.define("qx.test.ui.form.Executable",
         widget.execute();
       }, function(e) {
         // do nothing
-      }, "Execute event on the widget is wrong!");
+      }, "Execute event on the widget is wrong! (1)");
 
       this.assertEventFired(command, "execute", function() {
         widget.execute();
       }, function(e) {
         // do nothing
-      }, "Execute event on the command is wrong!");
-
+      }, "Execute event on the command is wrong! (2)");
+      
+      this.assertEventFired(command, "execute", function() {
+        command.execute();
+      }, function(e) {
+        // do nothing
+      }, "Execute event on the command is wrong! (3)");      
+      
+      this.assertEventFired(widget, "execute", function() {
+        command.execute();
+      }, function(e) {
+        // do nothing
+      }, "Execute event on the widget is wrong! (4)");
+      
+      // test removing of the command
+      widget.setCommand(null);
+      
+      // check if the listener has been removed
+      this.assertEventNotFired(widget, "execute", function() {
+        command.execute();
+      }, function(e) {
+        // do nothing
+      }, "Execute event on the widget is wrong! (5)");
+      
       command.dispose();
       widget.destroy();
     },

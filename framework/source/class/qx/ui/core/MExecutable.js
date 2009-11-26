@@ -71,7 +71,10 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   members :
   {
     __executableBindingIds : null,
-
+    __semaphore : false,
+    __executeListenerId : null,
+    
+        
     /**
      * {Map} Set of properties, which will by synced from the command to the
      *    including widget
@@ -97,16 +100,42 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       var cmd = this.getCommand();
 
       if (cmd) {
+        this.__semaphore = true;
         cmd.execute(this);
       }
 
       this.fireEvent("execute");
+    },
+    
+    
+    /**
+     * Handler for the execute event of the command.
+     * 
+     * @param e {qx.event.type.Event} The execute event of the command.
+     */
+    __onCommandExecute : function(e) {
+      if (this.__semaphore) {
+        this.__semaphore = false;
+        return;
+      }
+      this.execute();
     },
 
 
     // property apply
     _applyCommand : function(value, old)
     {
+      // execute forwarding
+      if (old != null) {
+        old.removeListenerById(this.__executeListenerId);
+      }
+      if (value != null) {
+        this.__executeListenerId = value.addListener(
+          "execute", this.__onCommandExecute, this
+        );
+      }      
+      
+      // binding stuff
       var ids = this.__executableBindingIds;
       if (ids == null) {
         this.__executableBindingIds = ids = {};
