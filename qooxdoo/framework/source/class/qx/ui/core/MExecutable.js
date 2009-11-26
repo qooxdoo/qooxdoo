@@ -100,8 +100,12 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       var cmd = this.getCommand();
 
       if (cmd) {
-        this.__semaphore = true;
-        cmd.execute(this);
+        if (this.__semaphore) {
+          this.__semaphore = false;
+        } else {
+          this.__semaphore = true;
+          cmd.execute(this);          
+        }
       }
 
       this.fireEvent("execute");
@@ -118,6 +122,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         this.__semaphore = false;
         return;
       }
+      this.__semaphore = true;
       this.execute();
     },
 
@@ -133,7 +138,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         this.__executeListenerId = value.addListener(
           "execute", this.__onCommandExecute, this
         );
-      }      
+      }
       
       // binding stuff
       var ids = this.__executableBindingIds;
