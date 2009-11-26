@@ -58,6 +58,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
     if (menu != null) {
       this.setMenu(menu);
     }
+    
+    this.addListener("execute", this._onExecute, this);
   },
 
 
@@ -107,13 +109,23 @@ qx.Class.define("qx.ui.menu.CheckBox",
         this.addState("checked") :
         this.removeState("checked");
     },
+    
+    
+    /**
+     * Handler for the execute event.
+     * 
+     * @param e {qx.event.type.Event} The execute event.
+     */
+    _onExecute : function(e) {
+      this.toggleValue();
+    },
 
 
     // overridden
     _onMouseUp : function(e)
     {
       if (e.isLeftPressed()) {
-        this.toggleValue();
+        this.execute();
       }
       qx.ui.menu.Manager.getInstance().hideAll();
     },
@@ -121,7 +133,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
     // overridden
     _onKeyPress : function(e) {
-      this.toggleValue();
+      this.execute();
     }
   }
 });
