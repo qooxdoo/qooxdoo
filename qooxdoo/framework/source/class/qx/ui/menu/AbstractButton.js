@@ -30,7 +30,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
   type : "abstract",
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -47,9 +46,10 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     // Add listeners
     this.addListener("mouseup", this._onMouseUp);
     this.addListener("keypress", this._onKeyPress);
+
+    // Add command listener
+    this.addListener("changeCommand", this._onChangeCommand, this);
   },
-
-
 
 
   /*
@@ -92,9 +92,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       nullable : true
     }
   },
-
-
-
 
 
   /*
@@ -201,7 +198,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
@@ -227,6 +223,46 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       // pass
     },
 
+
+    /**
+     * Event listener for command changes. Updates the text of the shortcut.
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
+    _onChangeCommand : function(e)
+    {
+      var command = e.getData();
+
+      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      {
+        var oldCommand = e.getOldData();
+        if (!oldCommand) {
+          qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+        }
+        if (!command) {
+          qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+        }
+      }
+
+      var cmdString = command != null ? command.toString() : "";
+      this.getChildControl("shortcut").setValue(cmdString);
+    },
+
+
+    /**
+     * Update command string on locale changes
+     */
+    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    {
+      "on" : function(e) {
+        var command = this.getCommand();
+        if (command != null) {
+          this.getChildControl("shortcut").setValue(command.toString());
+        }
+      },
+
+      "off" : null
+    }),
 
 
     /*
@@ -279,21 +315,24 @@ qx.Class.define("qx.ui.menu.AbstractButton",
   },
 
 
-
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     if (this.getMenu())
-     {
-       if (!qx.core.ObjectRegistry.inShutDown) {
-         this.getMenu().destroy();
-       }
-     }
-   }
+  destruct : function()
+  {
+    if (this.getMenu())
+    {
+      if (!qx.core.ObjectRegistry.inShutDown) {
+        this.getMenu().destroy();
+      }
+    }
+
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
+  }
 });
 
