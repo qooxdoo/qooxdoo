@@ -63,6 +63,9 @@ qx.Class.define("qx.ui.form.ToggleButton",
     // register keyboard events
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
+
+    // register execute event
+    this.addListener("execute", this._onExecute, this);
   },
 
 
@@ -119,6 +122,16 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _applyValue : function(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
+    },
+
+
+    /**
+     * Handler for the execute event.
+     * 
+     * @param e {qx.event.type.Event} The execute event.
+     */
+    _onExecute : function(e) {
+      this.toggleValue();
     },
 
 
@@ -224,7 +237,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (this.hasState("abandoned")) {
         this.removeState("abandoned");
       } else if (this.hasState("pressed")) {
-        this.setValue(!this.getValue());
         this.execute();
       }
 
@@ -274,7 +286,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
         case "Enter":
         case "Space":
           this.removeState("abandoned");
-          this.setValue(!this.getValue());
           this.execute();
 
           this.removeState("pressed");
