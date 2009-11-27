@@ -20,7 +20,7 @@
 
 ##
 # doc__init__.py  - runs over a directory tree and adds missing
-#                   package doc files ("__init__.py"), using the
+#                   package doc files ("__init__.js"), using the
 #                   relative path as a package name
 #
 # usage: cd framework/source/class; doc__init__.py qx
