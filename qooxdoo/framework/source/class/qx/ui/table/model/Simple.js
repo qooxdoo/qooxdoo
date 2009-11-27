@@ -365,8 +365,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} The index of the column or which the sort
      *   methods are being  provided.
      *
-     * @return {Function|Map} either a function or a map (ascending/descending)
-     *   for the specified column. See {@link #setSortMethods} for details.
+     * @return {Map} a map with the two properties "ascending"
+     *   and "descending" for the specified column.
+     *   The property value of each is a comparator function, as described
+     *   in {@link #setSortMethods}. 
      */
     getSortMethods : function(columnIndex) {
       return this.__sortMethods[columnIndex];
