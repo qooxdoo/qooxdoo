@@ -49,11 +49,6 @@ qx.Class.define("inspector.console.ConsoleView",
     // html embed
     this._content = new qx.ui.embed.Html("");
     this._content.setOverflowY("scroll");
-    // wait until the dom element is created
-    this.addListenerOnce("appear", function() {
-      // set the id for the dom element
-      this._content.getContentElement().getDomElement().id = "consoleViewHtmlEmbed";
-    }, this);
     this._add(this._content, {flex: 1});
 
     // inputfield
@@ -107,21 +102,10 @@ qx.Class.define("inspector.console.ConsoleView",
       // store the new filter
       this._filter = filter;
 
-      // TODO remove cross browser code!
-      // check for the browser variants
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        // get all children in a gecko browser
-        var children = document.getElementById("consoleViewHtmlEmbed").childNodes;
-      } else if (qx.core.Variant.isSet("qx.client", "opera|webkit|mshtml")) {
-        // get all children in opera, ie and safari
-        var children = document.getElementById("consoleViewHtmlEmbed").childNodes[0].childNodes;
-      } else {
-        // dont do anything because the browser is not known
-        return;
-      }
-
       // try to filter
       try {
+        var children = this._content.getContentElement().getDomElement().childNodes;
+
         // create a regexp object for filtering
         var regExp = new RegExp(this._filter);
         // go threw all children
@@ -136,17 +120,12 @@ qx.Class.define("inspector.console.ConsoleView",
           }
 
           // test if the current content fits the filter
-          if (regExp.test(content)) {
-            // if there is a style attribute
-            if (children[i].style != undefined) {
-              // set the current child visible
-              children[i].style.display = "";
-            }
-          } else {
-            // if the child has a style attribute
-            if (children[i].style != undefined) {
-              // hide the current child
-              children[i].style.display = "none";
+          if (qx.dom.Node.isElement(children[i]))
+          {
+            if (regExp.test(content)) {
+              qx.bom.element.Style.set(children[i], "display", null);
+            } else {
+              qx.bom.element.Style.set(children[i], "display", "none");
             }
           }
         }
