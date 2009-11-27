@@ -192,7 +192,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
       toggleButton.dispose();
       menuCheckBox.dispose();
-      menuCheckBox.dispose();
+      menuRadioButton.dispose();
     },
 
 
