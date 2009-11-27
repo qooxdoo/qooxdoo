@@ -68,7 +68,7 @@ qx.Class.define("inspector.console.ConsoleView",
     // TODO Blue arrows at the beginning
     leadingLabel.setFont(font);
     inputComposite.add(leadingLabel);
-    this._inputTextField = new qx.ui.form.TextField();
+    this._inputTextField = new qx.ui.form.TextField("");
     this._inputTextField.setLiveUpdate(true);
     this._inputTextField.setDecorator(null);
     this._inputTextField.setFont(font);
