@@ -958,6 +958,143 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check that it has not been scrolled
       this.assertEquals(40, this.__list.getScrollY());
-    }
+    },
+    
+    
+    testBug1947: function() {
+      qx.Class.define("qx.demo.Kid",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          name :
+          {
+            check : "String",
+            event : "changeName",
+            init : null
+          }
+        }
+      });
+
+      qx.Class.define("qx.demo.Parent",
+      {
+        extend : qx.core.Object,
+        construct : function()
+        {
+          this.base(arguments);
+          this.setKid(new qx.demo.Kid());
+        },
+
+        properties :
+        {
+          name :
+          {
+            check : "String",
+            event : "changeName",
+            init : null
+          },
+          kid :
+          {
+            check : "qx.demo.Kid",
+            event : "changeKid"
+          }
+        }
+      });
+
+      var parentA = new qx.demo.Parent()
+      parentA.setName("parentA");
+      parentA.getKid().setName("kidA");
+      var parentB = new qx.demo.Parent();
+      parentB.setName("parentB");
+      parentB.getKid().setName("kidB");
+      var parents = new qx.data.Array();
+      parents.push(parentA);
+      parents.push(parentB);
+
+      var list = new qx.ui.form.List();
+      var ctrl = new qx.data.controller.List(parents, list, "name");
+
+      var label = new qx.ui.basic.Label();
+      label.setDecorator("main");
+
+      ctrl.bind("selection[0].Kid.Name", label, "value");
+
+      ctrl.getSelection().push(parentA);
+    },
+
+
+    testBug1988: function() {
+      qx.Class.define("qx.demo.Kid",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          name :
+          {
+            check : "String",
+            event : "changeName",
+            init : null,
+            nullable : true
+          }
+        }
+      });
+
+      qx.Class.define("qx.demo.Parent",
+      {
+        extend : qx.core.Object,
+        construct : function()
+        {
+          this.base(arguments);
+          this.setKid(new qx.demo.Kid());
+        },
+
+        properties :
+        {
+          name :
+          {
+            check : "String",
+            event : "changeName",
+            init : null
+          },
+          kid :
+          {
+            check : "qx.demo.Kid",
+            event : "changeKid"
+          }
+        }
+      });
+
+      var parentA = new qx.demo.Parent()
+      parentA.setName("parentA");
+      parentA.getKid().setName("kidA");
+
+
+      var parentB = new qx.demo.Parent();
+      parentB.setName("parentB");
+      //parentB.getKid().setName("kidB");
+
+
+      var parents = new qx.data.Array();
+      parents.push(parentA);
+      parents.push(parentB);
+
+      var list = new qx.ui.form.List();
+      var ctrl = new qx.data.controller.List(parents, list, "name");
+
+      var label = new qx.ui.basic.Label();
+
+      ctrl.bind("selection[0].kid.name", label, "value");
+
+      // select the first child of the list
+      list.addToSelection(list.getChildren()[0]);
+      // check the label
+      this.assertEquals("kidA", label.getValue(), "Wrong name in the label.");
+
+      // select the second label
+      list.addToSelection(list.getChildren()[1]);
+      this.assertNull(label.getValue(), "Label has not been reseted.");
+    }    
   }
 });
