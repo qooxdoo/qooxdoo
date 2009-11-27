@@ -26,9 +26,43 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
   construct : function() {
     this.base(arguments);
 
+    qx.Class.define("qx.test.TextFieldDummy", {
+      extend : qx.core.Object,
+      properties : {
+        appearance : {
+          check : "String",
+          event : "changeAppearance",
+          init : ""
+        },
+        enabled : {
+          check : "Boolean",
+          event : "changeEnabled",
+          init : true
+        },
+        zIndex : {
+          check : "Integer",
+          event : "changeZIndex",
+          nullable : true
+        },
+        floatt : {
+          event : "changeFloatt"
+        },
+        value : {
+          check : "String",
+          event : "changeValue",
+          init: ""
+        },
+        backgroundColor : {
+          check : "String",
+          event : "changeBackgroundColor",
+          init : ""
+        }
+      }
+    });
+
     // create the widgets
-    this.__a = new qx.ui.form.TextField();
-    this.__b = new qx.ui.form.TextField();
+    this.__a = new qx.test.TextFieldDummy();
+    this.__b = new qx.test.TextFieldDummy();
   },
 
 
@@ -43,11 +77,11 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.__a.setAppearance("affe");
       this.assertEquals("affe", this.__b.getAppearance(), "String binding does not work!");
 
-      var affe = new qx.ui.form.TextField()
+      var affe = new qx.test.TextFieldDummy()
       affe.setAppearance("Jonny");
       qx.data.SingleValueBinding.bind(affe, "appearance", this.__b, "appearance");
       this.assertEquals("Jonny", this.__b.getAppearance(), "String binding does not work!");
-      affe.destroy();
+      affe.dispose();
     },
 
 
@@ -128,8 +162,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals("true", this.__b.getAppearance(), "Boolean --> String does not work!");
 
       // string to float
-      var s = new qx.ui.form.Slider();
-      qx.data.SingleValueBinding.bind(s, "value", this.__b, "appearance");
+      var s = new qx.test.TextFieldDummy();
+      qx.data.SingleValueBinding.bind(s, "floatt", this.__b, "appearance");
       s.setValue(13.5);
       this.assertEquals("13.5", this.__b.getAppearance(), "Float --> String does not work!");
 
@@ -337,11 +371,11 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.__a.setAppearance("affe");
       this.assertEquals("affe", this.__b.getAppearance(), "String binding does not work!");
 
-      var affe = new qx.ui.form.TextField()
+      var affe = new qx.test.TextFieldDummy()
       affe.setAppearance("Jonny");
       qx.data.SingleValueBinding.bind(affe, "appearance", this.__b, "appearance");
       this.assertEquals("Jonny", this.__b.getAppearance(), "String binding does not work!");
-      affe.destroy();
+      affe.dispose();
     },
 
 

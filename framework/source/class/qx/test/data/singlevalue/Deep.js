@@ -26,6 +26,17 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
   construct : function() {
     this.base(arguments);
 
+    qx.Class.define("qx.test.TextFieldDummy", {
+      extend : qx.core.Object,
+      properties : {
+        value : {
+          check : "String",
+          event : "changeValue",
+          init: ""
+        }
+      }
+    });
+
     // define a test class
     qx.Class.define("qx.test.MultiBinding",
     {
@@ -84,20 +95,20 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     {
       this.__a = new qx.test.MultiBinding().set({
         name: "a",
-        lab: new qx.ui.basic.Label(""),
+        lab: new qx.test.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
       this.__b1 = new qx.test.MultiBinding().set({
         name: "b1",
-        lab: new qx.ui.basic.Label(""),
+        lab: new qx.test.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
       this.__b2 = new qx.test.MultiBinding().set({
         name: "b2",
-        lab: new qx.ui.basic.Label(""),
+        lab: new qx.test.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
-      this.__label = new qx.ui.basic.Label();
+      this.__label = new qx.test.TextFieldDummy();
 
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
@@ -345,7 +356,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     testDeepTargetChange : function() 
     {
       var oldLabel = this.__b1.getLab();
-      var newLabel = new qx.ui.basic.Label("x");
+      var newLabel = new qx.test.TextFieldDummy("x");
       
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.value");
 
@@ -356,8 +367,8 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.assertEquals("a", oldLabel.getValue());
       this.assertEquals("l", this.__b1.getLab().getValue());
       
-      newLabel.destroy();
-      oldLabel.destroy();
+      newLabel.dispose();
+      oldLabel.dispose();
     },
     
     testDeepTargetChange3 : function() 
@@ -557,142 +568,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.__label.setValue("456");
       this.assertEquals("456", this.__a.getName());
       this.assertEquals("123", this.__b1.getName());
-    },    
-    
-
-    testBug1947: function() {
-      qx.Class.define("qx.demo.Kid",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          name :
-          {
-            check : "String",
-            event : "changeName",
-            init : null
-          }
-        }
-      });
-
-      qx.Class.define("qx.demo.Parent",
-      {
-        extend : qx.core.Object,
-        construct : function()
-        {
-          this.base(arguments);
-          this.setKid(new qx.demo.Kid());
-        },
-
-        properties :
-        {
-          name :
-          {
-            check : "String",
-            event : "changeName",
-            init : null
-          },
-          kid :
-          {
-            check : "qx.demo.Kid",
-            event : "changeKid"
-          }
-        }
-      });
-
-      var parentA = new qx.demo.Parent()
-      parentA.setName("parentA");
-      parentA.getKid().setName("kidA");
-      var parentB = new qx.demo.Parent();
-      parentB.setName("parentB");
-      parentB.getKid().setName("kidB");
-      var parents = new qx.data.Array();
-      parents.push(parentA);
-      parents.push(parentB);
-
-      var list = new qx.ui.form.List();
-      var ctrl = new qx.data.controller.List(parents, list, "name");
-
-      var label = new qx.ui.basic.Label();
-      label.setDecorator("main");
-
-      ctrl.bind("selection[0].Kid.Name", label, "value");
-
-      ctrl.getSelection().push(parentA);
-    },
-
-    testBug1988: function() {
-      qx.Class.define("qx.demo.Kid",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          name :
-          {
-            check : "String",
-            event : "changeName",
-            init : null,
-            nullable : true
-          }
-        }
-      });
-
-      qx.Class.define("qx.demo.Parent",
-      {
-        extend : qx.core.Object,
-        construct : function()
-        {
-          this.base(arguments);
-          this.setKid(new qx.demo.Kid());
-        },
-
-        properties :
-        {
-          name :
-          {
-            check : "String",
-            event : "changeName",
-            init : null
-          },
-          kid :
-          {
-            check : "qx.demo.Kid",
-            event : "changeKid"
-          }
-        }
-      });
-
-      var parentA = new qx.demo.Parent()
-      parentA.setName("parentA");
-      parentA.getKid().setName("kidA");
-
-
-      var parentB = new qx.demo.Parent();
-      parentB.setName("parentB");
-      //parentB.getKid().setName("kidB");
-
-
-      var parents = new qx.data.Array();
-      parents.push(parentA);
-      parents.push(parentB);
-
-      var list = new qx.ui.form.List();
-      var ctrl = new qx.data.controller.List(parents, list, "name");
-
-      var label = new qx.ui.basic.Label();
-
-      ctrl.bind("selection[0].kid.name", label, "value");
-
-      // select the first child of the list
-      list.addToSelection(list.getChildren()[0]);
-      // check the label
-      this.assertEquals("kidA", label.getValue(), "Wrong name in the label.");
-
-      // select the second label
-      list.addToSelection(list.getChildren()[1]);
-      this.assertNull(label.getValue(), "Label has not been reseted.");
     }
 
   }
