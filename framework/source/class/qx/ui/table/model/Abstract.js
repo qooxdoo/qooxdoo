@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
     },
 
     setValueById : function(columnId, rowIndex, value) {
-      return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
+      this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
     },
 
     // overridden
