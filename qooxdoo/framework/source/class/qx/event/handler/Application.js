@@ -90,6 +90,7 @@ qx.Class.define("qx.event.handler.Application",
     IGNORE_CAN_HANDLE : true,
 
 
+    /** {Boolean} Flag to indicate that all scripts are fully loaded */
     __scriptLoaded : false,
 
     /**
@@ -170,10 +171,27 @@ qx.Class.define("qx.event.handler.Application",
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && clazz.__scriptLoaded)
       {
-        this.__isReady = true;
-
-        // Fire user event
-        qx.event.Registration.fireEvent(this._window, "ready");
+        // If qx is loaded within a frame IE the document is ready before
+        // the "ready" listener can be added. To avoid any startup issue check
+        // for the availibility of the "ready" listener before firing the event.
+        // So at last the native "load" will trigger the "ready" event.
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          if (qx.event.Registration.hasListener(this._window, "ready"))
+          {
+            this.__isReady = true;
+    
+            // Fire user event
+            qx.event.Registration.fireEvent(this._window, "ready");
+          }
+        } 
+        else
+        {
+          this.__isReady = true;
+    
+          // Fire user event
+          qx.event.Registration.fireEvent(this._window, "ready");
+        }
       }
     },
 
@@ -183,8 +201,7 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @return {Boolean} ready status
      */
-    isApplicationReady : function()
-    {
+    isApplicationReady : function() {
       return this.__isReady;
     },
 
