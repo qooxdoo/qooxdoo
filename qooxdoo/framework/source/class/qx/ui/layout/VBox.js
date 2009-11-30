@@ -248,6 +248,9 @@ qx.Class.define("qx.ui.layout.VBox",
         {
           flexs[i] = props.flex;
           enableFlex = true;
+        } else {
+          // reset (in case the index of the children changed: BUG #3131)
+          flexs[i] = 0;
         }
       }
 
