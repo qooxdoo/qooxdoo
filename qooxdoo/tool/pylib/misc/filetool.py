@@ -133,15 +133,6 @@ def root():
     
     root = os.path.abspath(toolfolder)
 
-    # Try to remove bytecode
-    if modulepath.endswith(".py"):
-        modulepath = modulepath[:-2] + "pyc"
-        
-    try:
-        os.remove(modulepath)
-    except OSError:
-        pass
-    
     return root
 
 
