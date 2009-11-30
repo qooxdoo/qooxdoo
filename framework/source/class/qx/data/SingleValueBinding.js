@@ -19,7 +19,7 @@
 
 /**
  * The data binding package is still under development so there will be changes
- * to the API. This Features is for texting purpose only.
+ * to the API. This Features is for testing purpose only.
  */
 qx.Class.define("qx.data.SingleValueBinding",
 {
@@ -102,7 +102,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bind: function(
+    bind : function(
       sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
@@ -225,7 +225,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *
      * @param context {Map} The current context for the listener.
      */
-    __chainListener: function(context) {
+    __chainListener : function(context)
+    {
 
       // invoke the onUpdate method
       if (context.options && context.options.onUpdate) {
@@ -510,7 +511,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param propertyname {String} The name of the property.
      * @return {String} The name of the corresponding property.
      */
-    __getEventNameForProperty: function(source, propertyname) {
+    __getEventNameForProperty : function(source, propertyname)
+    {
       // get the current event Name from the property definition
       var eventName = this.__getEventForProperty(source, propertyname);
       // if no event name could be found
@@ -542,7 +544,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetPropertyChain {String} The names of the properties,
      *   separated with a dot.
      */
-    __resetTargetValue: function(targetObject, targetPropertyChain) {
+    __resetTargetValue : function(targetObject, targetPropertyChain) 
+    {
       // get the last target object of the chain
       var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
       if (target != null) {
@@ -576,7 +579,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   separated with a dot.
      * @param value {var} The value to set.
      */
-    __setTargetValue: function(targetObject, targetPropertyChain, value) {
+    __setTargetValue : function(targetObject, targetPropertyChain, value)
+    {
       // get the last target object of the chain
       var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
       if (target != null) {
@@ -619,7 +623,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @return {qx.core.Object | null} The object on which the last property
      *   should be set.
      */
-    __getTargetFromChain: function(targetObject, targetPropertyChain) {
+    __getTargetFromChain : function(targetObject, targetPropertyChain)
+    {
       var properties = targetPropertyChain.split(".");
       var target = targetObject;
       // ignore the last property
@@ -665,7 +670,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param sourceObject {qx.core.Object} The shource object of the binding (
      *   used for the onUpdate callback).
      */
-    __setInitialValue: function(value, targetObject, targetPropertyChain, options, sourceObject)
+    __setInitialValue : function(value, targetObject, targetPropertyChain, options, sourceObject)
     {
       // first convert the initial value
       value = this.__convertValue(
