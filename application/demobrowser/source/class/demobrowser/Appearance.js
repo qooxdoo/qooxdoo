@@ -13,7 +13,7 @@ qx.Theme.define("demobrowser.Appearance",
       style : function()
       {
         return {
-          width : 250,
+          width : 270,
           decorator : "main"
         };
       }
