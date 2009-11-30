@@ -20,6 +20,8 @@
 ************************************************************************ */
 
 /**
+ * Abstract base class for image cell renderer.
+ * 
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.AbstractImage",
@@ -87,6 +89,25 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
     },
 
 
+    /**
+     * Compute image meta data
+     * 
+     * @param imageData {Object|String} Either a string containing the image URL
+     *   or a map, which describes the image. Map keys:
+     *   <ul>
+     *     <li>url (required)</li>
+     *     <li>width</li>
+     *     <li>height</li>
+     *     <li>tooltip</li>
+     *   </ul>
+     * @return {Object} A map describing the image. Map keys:
+     *   <ul>
+     *     <li>url</li>
+     *     <li>width</li>
+     *     <li>height</li>
+     *     <li>tooltip (optional)</li>
+     *   </ul>  
+     */
     __createImage : function(imageData)
     {
       if (typeof(imageData) == "string") {
@@ -116,7 +137,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      * implements by sub classes.
      *
      * @abstract
-     * @param value {var} TODO
+     * @param value {var} The cell's data value
      * @return {Map} A map having the following attributes:
      *           <ul>
      *           <li>"url": (type string) must be the URL of the image to show.</li>
@@ -130,6 +151,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
     },
 
 
+    // overridden
     getContent : function(value, states)
     {
       if (value === null) {

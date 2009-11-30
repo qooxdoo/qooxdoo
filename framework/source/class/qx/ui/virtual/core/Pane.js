@@ -668,7 +668,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * Converts a mouse event into a cell event and fires the cell event if the
      * mouse is over a cell.
      *
-     * @param e {qx.event.type.Mouse}
+     * @param e {qx.event.type.Mouse} The mouse event
      * @param cellEventType {String} The name of the cell event to fire
      */
     __handleMouseCellEvent : function(e, cellEventType)

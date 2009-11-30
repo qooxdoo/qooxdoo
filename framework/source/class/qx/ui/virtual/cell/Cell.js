@@ -185,8 +185,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
+    /** {Array} List of all non CSS themable properties */
     __themableProperties : null,
+    
+    /** {String} Unique key over the current set of states */
     __statesKey : null,
+    
     __states : null,
 
     __themeValues : null,
@@ -199,7 +203,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     __isThemed : false,
     __stylesheet : null,
 
-
+    
+    /**
+     * Collect all themable properties, which are not CSS properties
+     */
     __initializeThemableProperties : function()
     {
       var PropertyUtil = qx.util.PropertyUtil;
@@ -221,6 +228,11 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Get a list of all properties, which should be applied as CSS styles.
+     * 
+     * @return {Array} List of property names
+     */
     _getCssProperties : function()
     {
       return [
@@ -239,6 +251,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Compute the value of the given property
+     * 
+     * @param propertyName {String} Name of the property
+     * @return {var} The Property value
+     */
     _getValue : function(propertyName)
     {
       if (this.__isThemed) {
@@ -254,7 +272,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
      * theme values. User values will be applied as inline styles, while theme
      * values are stored in a stylesheet.
      *
-     * @param name {String} The property name
+     * @param propertyName {String} The property name
      * @param styles {String} String with computed CSS styles
      */
     _storeStyle : function(propertyName, styles)
@@ -357,6 +375,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     getCellProperties : function(value, states)
     {
       this.__setStates(states);
@@ -370,11 +389,13 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    // overridden
     getAttributes : function(value, states) {
       return "";
     },
 
 
+    // overridden
     getContent : function(value, states) {
       return value;
     },
@@ -388,9 +409,14 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Set the cell states and set the correct CSS class for the given state
+     * combination
+     * 
+     * @param states {Object} A map containing the cell's state names as map keys.
+     */
     __setStates : function(states)
     {
-
       // Avoid errors if no states are set
       if (!states) {
         states = {};
@@ -418,6 +444,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Remove the themed value from all CSS properties
+     */
     __clearThemedPropertyValues : function()
     {
       var PropertyUtil = qx.util.PropertyUtil;
@@ -428,6 +457,11 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Set the new themed value for all CSS properties given the set of states
+     * 
+     * @param states {Object} A map containing the cell's state names as map keys.
+     */
     __updateThemeableProperties : function(states)
     {
       this.__themeStyles = {};
@@ -449,6 +483,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Compute a CSS class for the current values of all CSS properties
+     */
     __computeCssClassForStates : function()
     {
       var styleString = qx.lang.Object.getValues(this.__themeStyles).join(";");
@@ -456,6 +493,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Cache the themed values for the current state combination
+     */
     __cacheThemedValues : function()
     {
       var properties = this.__themableProperties;
@@ -474,6 +514,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
 
 
+    /**
+     * Apply the themed values to the properties
+     */
     __applyThemeValues : function()
     {
       var PropertyUtil = qx.util.PropertyUtil;
