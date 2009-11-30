@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/**
+ * The default list item renderer.
+ * 
+ * This cell renderer will use a standard {@link qx.ui.form.ListItem} widget to 
+ * render the cell
+ */
 qx.Class.define("qx.ui.virtual.form.ListItemCell",
 {
   extend : qx.ui.virtual.cell.AbstractWidget,
@@ -24,11 +30,13 @@ qx.Class.define("qx.ui.virtual.form.ListItemCell",
 
   members :
   {
+    // overridden
     _createWidget : function() {
       return new qx.ui.form.ListItem();
     },
 
 
+    // overridden
     updateData : function(widget, data) {
       widget.setLabel(data);
     }

@@ -19,12 +19,20 @@
 ************************************************************************ */
 
 /**
+ * Date cell renderer.
+ * 
+ * Renders a date according to the configured date formatter.
+ * 
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Date",
 {
   extend : qx.ui.virtual.cell.Cell,
 
+  /**
+   * @param dateFormat {qx.util.format.DateFormat|null} optional date formatter
+   *   to use
+   */
   construct : function(dateFormat)
   {
     this.base(arguments);
@@ -38,21 +46,16 @@ qx.Class.define("qx.ui.virtual.cell.Date",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-
+    // overridden
     appearance:
     {
       refine : true,
       init : "cell-date"
     },
 
+    /** The date format used to render the cell */
     dateFormat:
     {
       check : "qx.util.format.DateFormat",
@@ -61,26 +64,11 @@ qx.Class.define("qx.ui.virtual.cell.Date",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-
   members :
   {
-
-    /*
-    ---------------------------------------------------------------------------
-      IMPLEMENT CELL API
-    ---------------------------------------------------------------------------
-    */
-
+    // overridden
     getContent : function(value, states) {
       return value ? this.getDateFormat().format(value): "";
     }
-
   }
-
 });

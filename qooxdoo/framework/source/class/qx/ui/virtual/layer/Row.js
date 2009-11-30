@@ -167,6 +167,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     },
 
 
+    /**
+     * Whether the row with the given index is currently rendered (i.e. in the
+     * layer's view port).
+     * 
+     * @param index {Integer} The row's index
+     * @return {Boolean} Whether the row is rendered
+     */    
     __isRowRendered : function(index)
     {
       var firstRow = this.getFirstRow();
