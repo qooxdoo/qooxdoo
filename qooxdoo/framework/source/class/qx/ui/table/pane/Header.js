@@ -233,7 +233,8 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Returns whether the column move feedback is currently shown.
      *
-     * @return {var} TODOC
+     * @return {Boolean} <code>true</code> whether the column move feedback is 
+     *    currently shown, <code>false</code> otherwise.
      */
     isShowingColumnMoveFeedback : function() {
       return this.__moveFeedback != null;
