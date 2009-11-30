@@ -26,17 +26,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
   construct : function() {
     this.base(arguments);
 
-    qx.Class.define("qx.test.TextFieldDummy", {
-      extend : qx.core.Object,
-      properties : {
-        value : {
-          check : "String",
-          event : "changeValue",
-          init: ""
-        }
-      }
-    });
-
     // define a test class
     qx.Class.define("qx.test.MultiBinding",
     {
@@ -95,20 +84,20 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     {
       this.__a = new qx.test.MultiBinding().set({
         name: "a",
-        lab: new qx.test.TextFieldDummy(""),
+        lab: new qx.test.data.singlevalue.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
       this.__b1 = new qx.test.MultiBinding().set({
         name: "b1",
-        lab: new qx.test.TextFieldDummy(""),
+        lab: new qx.test.data.singlevalue.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
       this.__b2 = new qx.test.MultiBinding().set({
         name: "b2",
-        lab: new qx.test.TextFieldDummy(""),
+        lab: new qx.test.data.singlevalue.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
-      this.__label = new qx.test.TextFieldDummy();
+      this.__label = new qx.test.data.singlevalue.TextFieldDummy();
 
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
@@ -356,7 +345,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     testDeepTargetChange : function() 
     {
       var oldLabel = this.__b1.getLab();
-      var newLabel = new qx.test.TextFieldDummy("x");
+      var newLabel = new qx.test.data.singlevalue.TextFieldDummy("x");
       
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.value");
 

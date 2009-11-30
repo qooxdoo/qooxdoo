@@ -26,17 +26,6 @@ qx.Class.define("qx.test.data.singlevalue.Array",
   construct : function() {
     this.base(arguments);
 
-    qx.Class.define("qx.test.TextFieldDummy", {
-      extend : qx.core.Object,
-      properties : {
-        value : {
-          check : "String",
-          event : "changeValue",
-          init: null
-        }
-      }
-    });
-
     // define a test class
     qx.Class.define("qx.test.data.singlevalue.Array_MultiBinding",
     {
@@ -105,7 +94,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
         name: "b2",
         children: new qx.data.Array()
       });
-      this.__label = new qx.test.TextFieldDummy();
+      this.__label = new qx.test.data.singlevalue.TextFieldDummy();
 
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
