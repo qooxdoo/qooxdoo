@@ -319,8 +319,8 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     {
       try
       {
-        var body = this._getIframeElement().getBody();
-        body.style.overflow = "hidden";
+        var docElement = this._getIframeElement().getDocument().documentElement;
+        docElement.style.overflow = "hidden";
       } catch (e) {
         this._disableScollbars();
       }
@@ -408,8 +408,8 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       {
         var doc = this._getIframeElement().getDocument();
         var frameSize = {
-          width: qx.bom.element.Dimension.getWidth(doc.body),
-          height: qx.bom.element.Dimension.getHeight(doc.body)
+          width: qx.bom.element.Dimension.getContentWidth(doc.body),
+          height: qx.bom.element.Dimension.getContentHeight(doc.body)
         }
         return frameSize;
       }
