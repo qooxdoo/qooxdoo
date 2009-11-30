@@ -230,14 +230,10 @@ qx.Class.define("portal.box.Box",
      */
     __addContent : function()
     {
-      var text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. "+
-                 "Sed molestie volutpat lorem. Donec consequat magna ut ipsum. "+
-                 "Integer enim ligula, placerat et, posuere sit amet, tempor "+
-                 "at, justo. Sed aliquam aliquam orci. Sed in purus. Aliquam "+
-                 "erat volutpat. Praesent lorem arcu, cursus vel, congue vitae, "+
-                 "accumsan sit amet, nibh. Nam ut est. Nullam ultricies congue "+
-                 "orci. Morbi nulla. Donec quis ipsum.";
-
+      var text = "This is a demo application showing the low-level capabilities." +
+                 " It does contain no UI widget code at all.";
+      text = text + "<br/><br/>" + text + "<br/><br/>" + text;
+      
       var box = qx.bom.Element.create("div", { "class" : "box_content" });
       box.innerHTML = text;
 
