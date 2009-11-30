@@ -855,6 +855,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var items = this.__tree.getRoot().getItems(true, true);
       
       var showing = 0;
+      var count = 0;
       for (var i = 0; i < items.length; i++) {
         var folder = items[i];
         var parent = folder.getParent();
@@ -870,6 +871,8 @@ qx.Class.define("demobrowser.DemoBrowser",
             }
           };          
         }
+
+        if (folder.getChildren().length == 0) count++;
 
         if (inTags || !folder.getLabel().search(searchRegExp) ||
             !parent.getLabel().search(searchRegExp))
@@ -899,7 +902,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       
       // update the status
-      this.__status.setValue(showing + "/" + items.length);
+      this.__status.setValue(showing + "/" + count);
     },
 
 
