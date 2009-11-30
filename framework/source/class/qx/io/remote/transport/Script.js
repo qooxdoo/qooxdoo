@@ -330,7 +330,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
      *
-     * @return {string} TODOC
+     * @return {String} always an empty string.
      */
     getStatusText : function() {
       return "";
