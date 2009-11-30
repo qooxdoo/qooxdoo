@@ -22,6 +22,7 @@
 #tag(list controller)
 #tag(object controller)
 #tag(store)
+#tag(showcase)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.data.Twitter",

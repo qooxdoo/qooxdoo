@@ -23,7 +23,6 @@
 #tag(databinding)
 #tag(list controller)
 
-
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.data.Finder",
