@@ -22,6 +22,8 @@
 
 #asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
+#tag(showcase)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.ui.DragDrop",

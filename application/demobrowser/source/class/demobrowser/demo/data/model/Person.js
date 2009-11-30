@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.data.model.Person",
 
   members : {
     toString: function() {
-      return "Person: " + this.getName();
+      return this.getName() + " is " + (this.getOnline() ? "online": "offline");
     }
   }
 

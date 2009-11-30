@@ -21,6 +21,7 @@
 #tag(databinding)
 #tag(store)
 #tag(list controller) 
+#tag(showcase)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.data.Flickr",

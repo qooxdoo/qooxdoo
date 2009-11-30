@@ -25,6 +25,8 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
 #asset(qx/icon/${qx.icontheme}/16/categories/internet.png)
 
+#tag(showcase)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.showcase.Browser",
