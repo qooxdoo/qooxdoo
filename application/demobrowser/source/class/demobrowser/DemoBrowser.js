@@ -421,7 +421,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __makeDemoView : function()
     {
-      var iframe = new qx.ui.embed.Iframe();
+      var iframe = new qx.ui.embed.Iframe().set({
+        nativeContextMenu: true
+      });
       iframe.addListener("load", this.__ehIframeLoaded, this);
       this.__iframe = iframe;
 
