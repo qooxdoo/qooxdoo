@@ -18,6 +18,11 @@
 ************************************************************************ */
 
 /**
+ * Behavior to support pre-rendering of invisible areas of a virtual scroller.
+ * If applied to a scroller it will start a timer and increase the rendered area
+ * of the scroller after a certain period of time. Subsequent scrolling will not
+ * have to render this pre-computated area again.  
+ * 
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.behavior.Prefetch",
@@ -31,6 +36,17 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
   *****************************************************************************
   */
 
+  /**
+   * @param scroller {qx.ui.virtual.core.Scroller} The scroller to prefetch
+   * @param minLeft {Integer} minimim pixels to prefetch left to the view port
+   * @param maxLeft {Integer} maximum pixels to prefetch left to the view port
+   * @param minRight {Integer} minimim pixels to prefetch right to the view port
+   * @param maxRight {Integer} maximum pixels to prefetch right to the view port
+   * @param minAbove {Integer} minimim pixels to prefetch above the view port
+   * @param maxAbove {Integer} maximum pixels to prefetch above the view port
+   * @param minBelow {Integer} minimim pixels to prefetch below the view port
+   * @param maxBelow {Integer} maximum pixels to prefetch below the view port
+   */
   construct : function(
     scroller,
     minLeft, maxLeft, minRight, maxRight,
@@ -59,6 +75,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
    properties :
    {
+    /** {qx.ui.virtual.core.Scroller} The scroller to prefetch */
      scroller :
      {
        check : "qx.ui.virtual.core.Scroller",
@@ -67,6 +84,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
        apply : "_applyScroller"
      },
 
+     /** {Integer} Polling interval */
      interval :
      {
        check : "Integer",
@@ -84,41 +102,60 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
   members :
   {
+    __prefetchX : null,
+    __prefetchY : null,
+    __timer : null,
+    __onScrollXId : null,
+    __onScrollYId : null,
 
-      __prefetchX : null,
-      __prefetchY : null,
-      __timer : null,
-      __onScrollXId : null,
-      __onScrollYId : null,
-
-     setPrefetchX : function(minLeft, maxLeft, minRight, maxRight) {
-       this.__prefetchX = [minLeft, maxLeft, minRight, maxRight];
-     },
-
-
-     setPrefetchY : function(minAbove, maxAbove, minBelow, maxBelow) {
-       this.__prefetchY = [minAbove, maxAbove, minBelow, maxBelow];
-     },
-
-
-     _onInterval : function()
-     {
-       var px = this.__prefetchX;
-       if (px[1] && px[3])
-       {
-         this.getScroller().getPane().prefetchX(px[0], px[1], px[2], px[3]);
-         qx.ui.core.queue.Manager.flush();
-       }
-
-       var py = this.__prefetchY;
-       if (py[1] && py[3])
-       {
-         this.getScroller().getPane().prefetchY(py[0], py[1], py[2], py[3]);
-         qx.ui.core.queue.Manager.flush();
-       }
-     },
+    /**
+     * Configure horizontal prefetching
+     * 
+     * @param minLeft {Integer} minimim pixels to prefetch left to the view port
+     * @param maxLeft {Integer} maximum pixels to prefetch left to the view port
+     * @param minRight {Integer} minimim pixels to prefetch right to the view port
+     * @param maxRight {Integer} maximum pixels to prefetch right to the view port
+     */
+    setPrefetchX : function(minLeft, maxLeft, minRight, maxRight) {
+      this.__prefetchX = [minLeft, maxLeft, minRight, maxRight];
+    },
 
 
+    /**
+     * Configure vertical prefetching
+     * 
+     * @param minAbove {Integer} minimim pixels to prefetch above the view port
+     * @param maxAbove {Integer} maximum pixels to prefetch above the view port
+     * @param minBelow {Integer} minimim pixels to prefetch below the view port
+     * @param maxBelow {Integer} maximum pixels to prefetch below the view port
+     */
+    setPrefetchY : function(minAbove, maxAbove, minBelow, maxBelow) {
+      this.__prefetchY = [minAbove, maxAbove, minBelow, maxBelow];
+    },
+
+
+    /**
+     * Update prefetching
+     */
+    _onInterval : function()
+    {
+      var px = this.__prefetchX;
+      if (px[1] && px[3])
+      {
+        this.getScroller().getPane().prefetchX(px[0], px[1], px[2], px[3]);
+        qx.ui.core.queue.Manager.flush();
+      }
+
+      var py = this.__prefetchY;
+      if (py[1] && py[3])
+      {
+        this.getScroller().getPane().prefetchY(py[0], py[1], py[2], py[3]);
+        qx.ui.core.queue.Manager.flush();
+      }
+    },
+
+
+    // property apply
     _applyScroller : function(value, old)
     {
       if (old)
@@ -168,6 +205,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
     },
 
 
+    // property apply
     _applyInterval : function(value, old) {
       this.__timer.setInterval(value);
     }

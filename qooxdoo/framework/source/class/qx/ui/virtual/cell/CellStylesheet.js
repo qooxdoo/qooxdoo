@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * Singleton wrapper for the stylesheet containing the CSS rules for HTML cells.
+ * 
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
@@ -52,22 +54,45 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     this.__styles = {}
   },
 
+  
   members :
   {
     __stylesheet : null,
     __classes : null,
     __styles : null,
 
+    
+    /**
+     * Get the DOM stylesheet element
+     * 
+     * @return {Stylesheet} The DOM stylesheet element
+     */
     getStylesheet : function() {
       return this.__stylesheet;
     },
 
 
+    /**
+     * Get the CSS class stored under the given key
+     * 
+     * @param key {String} The key under which the class name is stored 
+     * @return {String|null} The CSS class stored under the given key or 
+     *   <code>null</code>.
+     */
     getCssClass : function(key) {
-      return this.__classes[key];
+      return this.__classes[key] || null;
     },
 
 
+    /**
+     * Dynamically create a CSS rule for the given style string. The selector is
+     * a unique class name, which is returned. The class is stored under the
+     * given key name and can be queried using {@link #getCssClass}.
+     * 
+     * @param key {String} The key under which the class name should be stored
+     * @param styleString {String} A compiled string of CSS rules.
+     * @return {String} The CSS class name.
+     */
     computeClassForStyles : function(key, styleString)
     {
       var cssClass = this.__styles[styleString];
@@ -93,6 +118,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
       return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);
     },
     __classCounter : 0
+    
   },
 
 
