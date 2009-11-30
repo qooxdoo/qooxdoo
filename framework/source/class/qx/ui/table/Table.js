@@ -1940,7 +1940,7 @@ qx.Class.define("qx.ui.table.Table",
      * Creates a handler for a check box of the column visibility menu.
      *
      * @param col {Integer} the model index of column to create the handler for.
-     * @return {Function} TODOC
+     * @return {Function} The created event handler.
      */
     _createColumnVisibilityCheckBoxHandler : function(col)
     {

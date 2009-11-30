@@ -260,7 +260,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnId {String} The ID of the column.
      * @param rowIndex {Integer} The index of the row.
      * @param value {var} The new value.
-     * @return {var} TODOC
      */
     setValueById : function(columnId, rowIndex, value) {}
   }
