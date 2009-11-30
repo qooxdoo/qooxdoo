@@ -150,10 +150,10 @@ qx.Class.define("qx.bom.IframeHistory",
      */
     __storeLocationState : function (locationState)
     {
-      this.__locationState = this._encode(locationState);
+      locationState = this._decode(locationState);
       this._writeState(locationState);
 
-      return this.__locationState;
+      return locationState;
     },
 
 
