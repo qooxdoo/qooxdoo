@@ -53,7 +53,6 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isArray([]));
       this.assertTrue(Type.isArray(new Array()));
       this.assertTrue(Type.isArray(new qx.type.BaseArray()));
-      this.assertTrue(Type.isArray(new qx.bom.Collection()));
 
       this.assertFalse(Type.isArray());
       this.assertFalse(Type.isArray(function() {}));
