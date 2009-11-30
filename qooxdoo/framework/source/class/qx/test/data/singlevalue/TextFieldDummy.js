@@ -20,6 +20,14 @@
 qx.Class.define("qx.test.data.singlevalue.TextFieldDummy", 
 {
   extend : qx.core.Object,
+  
+  construct : function(value) {
+    this.base(arguments);
+    if (value != null) {
+      this.setValue(value);
+    }
+  },
+  
   properties : {
     appearance : {
       check : "String",
