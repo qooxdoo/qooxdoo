@@ -270,7 +270,8 @@ qx.Class.define("qx.util.fsm.State",
      * @param value {Object}
      *   The property value which is being validated
      *
-     * @return {var} TODOC
+     * @return {Function}
+     *   Function that implements calls to each of the requested automatic actions
      *
      * @throws {Error} If the value has an invalid type.
      * @throws {Error} If the function type is not an array.

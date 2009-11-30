@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.util.StringEscape",
      *
      * @param str {String} string to unescape
      * @param entitiesToCharCode {Map} charcode to entity map
-     * @return {var} TODOC
+     * @return {String} unescaped string
      */
     unescape : function(str, entitiesToCharCode)
     {
