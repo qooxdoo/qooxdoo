@@ -157,6 +157,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns the selection context. One of <code>click</code>,
      * <code>quick</code>, <code>drag</code> or <code>key</code> or
      * <code>null</code>.
+     * 
+     * @return {String} One of <code>click</code>, <code>quick</code>,
+     *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
     getSelectionContext : function() {
       return this.__selectionContext;
