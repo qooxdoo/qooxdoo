@@ -24,6 +24,7 @@
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
+#asset(qx/icon/Tango/16/actions/edit-find.png) 
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
@@ -92,20 +93,36 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setLayout(new qx.ui.layout.VBox(3));
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
+
+    // search    
+    var searchComposlite = new qx.ui.container.Composite();
+    searchComposlite.setLayout(new qx.ui.layout.HBox(3));
+    searchComposlite.setAppearance("textfield");
+    leftComposite.add(searchComposlite);
     
-    // search
-    var searchTextField = new qx.ui.form.TextField();
-    searchTextField.setLiveUpdate(true);
-    searchTextField.setPlaceholder("Search...");
-    searchTextField.addListener("changeValue", function(e) {
+    var searchIcon = new qx.ui.basic.Image("icon/16/actions/edit-find.png");
+    searchComposlite.add(searchIcon);
+    
+    this.__searchTextField = new qx.ui.form.TextField();
+    this.__searchTextField.setLiveUpdate(true);
+    this.__searchTextField.setAppearance("widget");
+    this.__searchTextField.setPlaceholder("Search...");
+    this.__searchTextField.addListener("changeValue", function(e) {
       this.filter(e.getData());
     }, this);    
-    leftComposite.add(searchTextField);
+    searchComposlite.add(this.__searchTextField, {flex: 1});
+    
+    // create the status of the tree
+    this.__status = new qx.ui.basic.Label("");
+    this.__status.setAppearance("widget");
+    this.__status.setWidth(80);
+    this.__status.setTextAlign("right");
+    searchComposlite.add(this.__status);
+            
+    mainsplit.add(infosplit, 1);    
     
     this.__tree = this.__makeTree();
     leftComposite.add(this.__tree, {flex: 1});
-        
-    mainsplit.add(infosplit, 1);
 
     var demoView = this.__makeDemoView();
     infosplit.add(demoView, 2);
@@ -204,6 +221,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     __logSync : null,
     __logDone : null,
     __tree : null,
+    __status : null,
+    __searchTextField : null,
 
     __makeCommands : function()
     {
@@ -835,6 +854,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
       var items = this.__tree.getRoot().getItems(true, true);
       
+      var showing = 0;
       for (var i = 0; i < items.length; i++) {
         var folder = items[i];
         var parent = folder.getParent();
@@ -854,13 +874,32 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (inTags || !folder.getLabel().search(searchRegExp) ||
             !parent.getLabel().search(searchRegExp))
         {
+          showing++;
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
         } else {
           folder.exclude();
         }
-      }      
+      }
+      
+      // special case for the empty sting
+      if (term == "") {
+        var folders = this.__tree.getRoot().getItems(false, true);
+        var selection = this.__tree.getSelection();
+
+        // close all folders
+        for (var i = 0; i < folders.length; i++) {
+          // don't close the current selected
+          if (folders[i] == selection[0] || folders[i] == selection[0].getParent()) {
+            continue;
+          }
+          folders[i].setOpen(false);
+        }
+      }
+      
+      // update the status
+      this.__status.setValue(showing + "/" + items.length);
     },
 
 
@@ -981,6 +1020,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
+          this.__searchTextField.setValue("showcase");
         },
         this, 0);
       },
