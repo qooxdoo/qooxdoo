@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} repeated string
      */
     repeat : function(str, times) {
-      return length >= 0 ? new Array(times + 1).join(str) : "";
+      return str.length >= 0 ? new Array(times + 1).join(str) : "";
     },
 
 
@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} paddded string
      */
     pad : function(str, length, ch)
-    {
+    {      
       var padLength = length - str.length;
       if (padLength > 0)
       {
