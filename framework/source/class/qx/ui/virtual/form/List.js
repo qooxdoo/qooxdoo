@@ -18,19 +18,20 @@
 ************************************************************************ */
 
 /**
+ * Experimental virtual list widget. 
+ * 
+ * This widget can either use HTML or widget cell renderer.
+ * 
  * EXPERIMENTAL!
  */
-
-
 qx.Class.define("qx.ui.virtual.form.List",
 {
   extend : qx.ui.virtual.core.Scroller,
 
 
-  construct : function(useHtmlCells)
+  construct : function()
   {
     this.base(arguments, 0, 1, 20, 100);
-    this._useHtmlCells = useHtmlCells;
 
     qx.ui.core.queue.Widget.add(this);
 
@@ -44,12 +45,15 @@ qx.Class.define("qx.ui.virtual.form.List",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "virtual-list"
     },
 
+    
+    /** The number of rows in the list */
     rowCount :
     {
       check : "Integer",
@@ -58,6 +62,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       apply : "_applyRowCount"
     },
 
+    /** The row height */
     rowHeight :
     {
       check : "Integer",
@@ -67,15 +72,17 @@ qx.Class.define("qx.ui.virtual.form.List",
       themeable : true
     },
 
+    /** Whether to display grid lines */
     showGridLines :
     {
       check : "Boolean",
       event : "changeShowGridLines",
       init : false,
-      apply : "_changeShowGridLines",
+      apply : "_applyShowGridLines",
       themeable : true
     },
 
+    /** Whether to use widgets to render the cells. */ 
     useWidgetCells :
     {
       check : "Boolean",
@@ -84,6 +91,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       themeable : true
     },
 
+    /** The cell renderer to use */
     cellRenderer :
     {
       event : "changeCellRenderer",
@@ -91,6 +99,11 @@ qx.Class.define("qx.ui.virtual.form.List",
       themeable : true
     },
 
+    /**
+     * List delegate to customize the widget. The delegate can implement any
+     * subset of the methods defined in the {@link qx.ui.virtual.form.IListDelegate}
+     * interface.
+     */
     delegate :
     {
       check : "Object",
@@ -109,6 +122,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     __cellLayer : null,
     __useWidgetCells : null,
 
+    /**
+     * Initialize the widget cell layer
+     */
     _initWidgetLayer : function()
     {
       var self = this;
@@ -153,6 +169,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Initialize the HTML cell layer
+     */
     _initHtmlLayer : function()
     {
       var self = this;
@@ -180,6 +199,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Initialize the selection manager
+     */
     _initSelectionManager : function()
     {
       var self = this;
@@ -208,6 +230,11 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Get the selection manager
+     * 
+     * @return {qx.ui.virtual.selection.Row} The selection manager
+     */
     getSelectionManager : function() {
       return this.__manager;
     },
@@ -235,6 +262,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Update the displayed list data
+     */
     update : function()
     {
       if (this.__cellLayer) {
@@ -243,17 +273,20 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    // property apply
     _applyRowCount : function(value, old) {
       this.getPane().getRowConfig().setItemCount(value);
     },
 
 
+    // property apply
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
 
 
-    _changeShowGridLines : function(value, old)
+    // property apply
+    _applyShowGridLines : function(value, old)
     {
       if (value) {
         this._showChildControl("grid-lines");
@@ -263,11 +296,13 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    // property apply
     _applyDelegate : function(value, old) {
       this._delegate = value || {};
     },
 
 
+    // property apply
     _applyUseWidgetCells : function(value, old)
     {
 
@@ -281,6 +316,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    // property apply
     _applyCellRenderer : function(value, old)
     {
       this.__defaultCellRenderer = value;
@@ -290,11 +326,25 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Get the cell data of the given row
+     * 
+     * @param row {Integer} the row index
+     * @return {var} The data associated with the row. This can be anything
+     *   ranging from a simple string to complex domain objects.
+     */
     _getCellData : function(row) {
       return this._delegate.getCellData ? this._delegate.getCellData(row) : null;
     },
 
 
+    /**
+     * Get the cell renderer for the given row.
+     * 
+     * @param row {Integer} The row index
+     * @return {qx.ui.virtual.cell.IWidgetCell|qx.ui.virtual.cell.ICell} Either
+     *   a widget or HTML cell renderer depending on the list's configuration.
+     */
     _getCellRenderer : function(row)
     {
       return this._delegate.getCellRenderer ?
@@ -303,6 +353,14 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Visualize selection (HTML mode)
+     * 
+     * @param item {var} Item to modify
+     * @param type {String} Any of <code>selected</code>, <code>anchor</code>
+     *    or <code>lead</code>
+     * @param wasAdded {Boolean} Whether the given style should be added or removed.
+     */
     _styleHtmlSelectable : function(item, type, wasAdded)
     {
       if (type !== "selected") {
@@ -318,6 +376,14 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Visualize selection (widget mode)
+     * 
+     * @param item {var} Item to modify
+     * @param type {String} Any of <code>selected</code>, <code>anchor</code>
+     *    or <code>lead</code>
+     * @param wasAdded {Boolean} Whether the given style should be added or removed.
+     */
     _styleWidgetSelectable : function(item, type, wasAdded)
     {
       if (type !== "selected") {
@@ -349,6 +415,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    // overridden
     syncWidget : function()
     {
       if (this.__useWidgetCells !== null) {
@@ -365,6 +432,11 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    /**
+     * Resize event handler
+     * 
+     * @param e {qx.event.type.Data} The resizeevent object
+     */
     _onResize : function(e) {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     }

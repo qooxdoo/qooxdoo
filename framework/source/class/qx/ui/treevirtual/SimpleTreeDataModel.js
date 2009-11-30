@@ -280,9 +280,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return false;
     },
 
+
     /**
-     * overridden
-     * @throws {Error} If one tries to sort the gree by column
+     * Sorts the model by a column.
+     *
+     * @param columnIndex {Integer} the column to sort by.
+     * @param ascending {Boolean} whether to sort ascending.
+     * @throws {Error} If one tries to sort the tree by column
      */
     sortByColumn : function(columnIndex, ascending)
     {
@@ -342,9 +346,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return this._rowArr[rowIndex];
     },
 
+    
     /**
-     * overridden
+     * Returns a cell value by column index.
+     *
      * @throws {Error} if the row index is out of bounds.
+     * @param columnIndex {Integer} the index of the column.
+     * @param rowIndex {Integer} the index of the row.
+     * @return {var} The value of the cell.
+     * @see #getValueById
      */
     getValue : function(columnIndex, rowIndex)
     {

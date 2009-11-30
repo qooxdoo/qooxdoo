@@ -19,12 +19,21 @@
 ************************************************************************ */
 
 /**
+ * Number cell renderer.
+ * 
+ * Renders the call using the configured number formatter.
+ * 
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Number",
 {
   extend : qx.ui.virtual.cell.Cell,
 
+  
+  /**
+   * @param numberFormat {qx.util.format.NumberFormat|null} Optional number
+   *   format to use.
+   */
   construct : function(numberFormat)
   {
     this.base(arguments);
@@ -35,20 +44,16 @@ qx.Class.define("qx.ui.virtual.cell.Number",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
+    /** The number format used to render the cell */
     numberFormat :
     {
       check : "qx.util.format.NumberFormat",
       init : qx.util.format.NumberFormat.getInstance()
     },
 
+    // overridden
     appearance:
     {
       refine : true,
@@ -57,20 +62,9 @@ qx.Class.define("qx.ui.virtual.cell.Number",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      IMPLEMENT CELL API
-    ---------------------------------------------------------------------------
-    */
-
+    // overridden
     getContent : function(value, states) {
       return value !== null ? this.getNumberFormat().format(value) : "";
     }

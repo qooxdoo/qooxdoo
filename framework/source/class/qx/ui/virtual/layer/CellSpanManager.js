@@ -225,6 +225,14 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
 
 
+    /**
+     * Return the intersection of two maps as an array. The objects intersect if
+     * they have the same keys.
+     * 
+     * @param setA {Object} The first map
+     * @param setB {Object} The second map
+     * @return {String[]} An array keys found in both maps
+     */
     __intersectionAsArray : function(setA, setB)
     {
       var intersection = [];
@@ -371,7 +379,6 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      * @param cells {Map[]} Array of cell descriptions as returned by
      *     {@link findCellsInWindow}.
      * @param firstRow {PositiveInteger} first visible row
-     * @param lastRow {PositiveInteger} last visible row
      * @param firstColumn {PositiveInteger} first visible column
      * @param rowCount {PositiveInteger} number of rows in the window
      * @param columnCount {PositiveInteger} number of columns in the window
