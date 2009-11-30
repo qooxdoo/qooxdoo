@@ -336,7 +336,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
     testBubbleEventsDepth2: function() {
       this.__data = eval("({a: {b: 10, c: 20}})");
-      // first create the classes befor setting the data
+      // first create the classes before setting the data
       this.__marshaler.toClass(this.__data, true);
       // set the data
       var model = this.__marshaler.toModel(this.__data);

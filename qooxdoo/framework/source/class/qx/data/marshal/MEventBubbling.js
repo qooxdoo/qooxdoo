@@ -25,7 +25,8 @@
 qx.Mixin.define("qx.data.marshal.MEventBubbling",
 {
 
-  events : {
+  events :
+  {
     /**
      * The change event which will be fired on every change in the model no
      * matter what property changes. This event bubbles so the root model will
@@ -43,7 +44,8 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
   },
 
 
-  members : {
+  members : 
+  {
     /**
      * Apply function for every property created with the
      * {@link qx.data.marshal.Json} marshaler. It fires and
@@ -54,7 +56,8 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param old {var} The old value of the property.
      * @param name {String} The name of the changed property.
      */
-    _applyEventPropagation: function(value, old, name) {
+    _applyEventPropagation : function(value, old, name)
+    {
       this.fireDataEvent("changeBubble", {value: value, name: name, old: old});
 
       this._registerEventChaining(value, old, name);
@@ -70,7 +73,8 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param old {var} The old value of the property.
      * @param name {String} The name of the changed property.
      */
-    _registerEventChaining: function(value, old, name) {
+    _registerEventChaining : function(value, old, name)
+    {
       // if the child supports chaining
       if ((value instanceof qx.core.Object)
         && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
@@ -98,7 +102,8 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param e {qx.event.type.Data} The date event fired by the property
      *   change.
      */
-    __changePropertyListener: function(name, e) {
+    __changePropertyListener : function(name, e)
+    {
       var data = e.getData();
       var value = data.value;
       var old = data.old;
