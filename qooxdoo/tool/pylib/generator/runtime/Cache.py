@@ -27,12 +27,58 @@ from misc.securehash import sha_construct
 memcache = {}
 
 class Cache:
+
+    _check_file = u".cache_check_file"
+
     def __init__(self, path, context):
         self._path         = path
         self._check_path(self._path)
         self._console      = context['console']
         self._locked_files = set(())
         context['interruptRegistry'].register(self._unlock_files)
+        # invalidate on tool change
+        check_file = os.path.join(path, self._check_file)
+        if context['jobconf'].get("cache/invalidate-on-tool-change", False):
+            if self._checkToolsNewer(path, check_file, context):
+                context['console'].info("Cleaning compile cache, as tool chain is newer")
+                self._cleanCompileCache()  # will also remove checkFile
+        # assure check_file
+        if not os.path.isfile(check_file):
+            os.mknod(check_file, 0666)
+
+    ##
+    # predicate to check for files in the 'tool' path that are newer than the
+    # cache check file
+
+    def _checkToolsNewer(self, path, checkFile, context):
+        if not os.path.isfile(checkFile):
+            return True
+        checkFileMTime = os.stat(checkFile).st_mtime
+        # find youngst tool file
+        qooxdoo_path = context['config'].get("let/QOOXDOO_PATH", None)
+        if not qooxdoo_path:
+            raise RuntimeError("Cannot check changes to tool chain without QOOXDOO_PATH config macro")
+        toolCheck, toolCheckMTime = filetool.findYoungest(os.path.join(qooxdoo_path, "tool"))
+        # compare
+        if checkFileMTime < toolCheckMTime:
+            return True
+        else:
+            return False
+        
+
+    ##
+    # delete the files in the compile cache
+
+    def _cleanCompileCache(self):
+        self._check_path(self._path)
+        for f in os.listdir(self._path):   # currently, just delete the files in the top-level dir
+            file = os.path.join(self._path, f)
+            if os.path.isfile(file):
+                os.unlink(file)
+
+
+    ##
+    # make sure there is a cache directory to work with (no r/w test currently)
 
     def _check_path(self, path):
         if not os.path.exists(path):
@@ -43,14 +89,20 @@ class Cache:
             # defer read/write access to the first call of read()/write()
             pass
 
+    ##
+    # clean up lock files interrupt handler
+
     def _unlock_files(self):
-        # this is for an interrupt handler
         for file in self._locked_files:
             try:
                 filetool.unlock(file)
                 self._console.debug("Cleaned up lock for file: %r" % file)
             except: # file might not exists since adding to _lock_files and actually locking is not atomic
                 pass   # no sense to do much fancy in an interrupt handler
+
+
+    ##
+    # create a file name from a cacheId
 
     def filename(self, cacheId):
         cacheId = cacheId.encode('utf-8')

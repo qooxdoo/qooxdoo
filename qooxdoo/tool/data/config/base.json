@@ -8,6 +8,12 @@
     "QOOXDOO_PATH" : "../../..",
     //"CACHE"        : "cache",
     "CACHE"        : "${TMPDIR}/cache",
+    "CACHE_KEY"    : 
+    {
+      "compile"      : "${CACHE}",
+      "downloads"    : "${CACHE}/downloads",
+      "invalidate-on-tool-change" : true
+    },
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
@@ -31,10 +37,7 @@
         }
       ],
 
-      "cache" :
-      {
-        "compile" :  "${CACHE}"
-      }
+      "cache" : "${CACHE_KEY}"
     },
 
 
@@ -66,11 +69,7 @@
         "${APPLICATION_MAIN_CLASS}"
       ],
 
-      "cache" :
-      {
-        "compile"   :  "${CACHE}",
-        "downloads" :  "${CACHE}/downloads"
-      },
+      "cache" : "${CACHE_KEY}",
 
       "settings" :
       {
@@ -174,7 +173,7 @@
         }
       ],
 
-      "cache"  : { "compile" : "${CACHE}" },
+      "cache"  : "${CACHE_KEY}",
 
       "include": ["qx.*"],
       "exclude": ["=qx.test.*"],
@@ -391,7 +390,7 @@
     {
       "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
 
-      "cache"   : { "compile" : "${CACHE}" },    // this is to check cache lock
+      "cache"   : "${CACHE_KEY}",    // this is to check cache lock
 
       "clean-files" :
       {
