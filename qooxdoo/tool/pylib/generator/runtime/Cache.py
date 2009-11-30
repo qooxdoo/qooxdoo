@@ -44,7 +44,8 @@ class Cache:
                 self._cleanCompileCache()  # will also remove checkFile
         # assure check_file
         if not os.path.isfile(check_file):
-            os.mknod(check_file, 0666)
+            #os.mknod(check_file, 0666)
+            os.close(os.open(check_file, os.O_CREAT|os.O_RDWR, 0666))
 
     ##
     # predicate to check for files in the 'tool' path that are newer than the
