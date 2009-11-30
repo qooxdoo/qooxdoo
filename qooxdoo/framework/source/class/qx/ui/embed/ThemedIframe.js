@@ -319,8 +319,9 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     {
       try
       {
-        var docElement = this._getIframeElement().getDocument().documentElement;
-        docElement.style.overflow = "hidden";
+        var doc = this._getIframeElement().getDocument();
+        doc.documentElement.style.overflow = "hidden";
+        doc.body.style.overflow = "hidden";        
       } catch (e) {
         this._disableScollbars();
       }
