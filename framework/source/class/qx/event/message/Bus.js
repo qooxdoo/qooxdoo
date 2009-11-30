@@ -34,7 +34,9 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * gets the hash map of message subscriptions
      *
-     * @return {Object} TODOC
+     * @return {Map} with registered subscriptions. The key is the 
+     *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
+     *    context: {Object|null}}</code>.
      */
     getSubscriptions : function() {
       return this.getInstance().getSubscriptions();
@@ -90,7 +92,8 @@ qx.Class.define("qx.event.message.Bus",
      * dispatch message and call subscribed functions
      *
      * @param msg {qx.event.message.Message|String} message which is being dispatched
-     * @return {boolean} TODOC
+     * @return {Boolean} <code>true</code> if the message was dispatched, 
+     *    <code>false</code> otherwise.
      */
     dispatch : function(msg)
     {
@@ -117,7 +120,9 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * gets the hash map of message subscriptions
      *
-     * @return {Object} TODOC
+     * @return {Map} with registered subscriptions. The key is the 
+     *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
+     *    context: {Object|null}}</code>.
      */
     getSubscriptions : function() {
       return this.__subscriptions;
@@ -247,7 +252,8 @@ qx.Class.define("qx.event.message.Bus",
      * dispatch message and call subscribed functions
      *
      * @param msg {qx.event.message.Message|String} message which is being dispatched
-     * @return {boolean} TODOC
+     * @return {Boolean} <code>true</code> if the message was dispatched, 
+     *    <code>false</code> otherwise.
      */
     dispatch : function(msg)
     {
@@ -260,6 +266,7 @@ qx.Class.define("qx.event.message.Bus",
 
       var sub = this.getSubscriptions();
       var msgName = msg.getName();
+      var dispatched = false;
 
       for (var key in sub)
       {
@@ -271,6 +278,7 @@ qx.Class.define("qx.event.message.Bus",
           if (pos === 0 || key.substr(0, pos) === msgName.substr(0, pos))
           {
             this.__callSubscribers(sub[key], msg);
+            dispatched = true;
           }
         }
         else
@@ -279,10 +287,12 @@ qx.Class.define("qx.event.message.Bus",
           if (key === msgName)
           {
             this.__callSubscribers(sub[msgName], msg);
-            return true;
+            dispatched = true;
           }
         }
       }
+
+      return dispatched;
     },
 
 
