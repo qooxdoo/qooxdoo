@@ -25,7 +25,7 @@
 
   #content{
     margin: 20px;
-    width: 400px;
+    width: 600px;
   }
 
   h1{
@@ -52,13 +52,107 @@
     font-size: 12px;
     margin: 6px 0;
   }
+
+	a{
+		text-decoration: none;
+		color: #134275;
+	}
+	
+	img{
+		border: 1px #134275 solid;
+	}
+	
+	.tableCell{
+		padding-right: 20px;
+		text-align: center;
+		padding-top: 10px;
+	}
   </style>
+	
+	<script type="text/javascript" charset="utf-8">
+		function openDemo(hash) {
+			window.top.location.hash = hash;
+		}
+	</script>
+	
 </head>
 <body>
   <div id="content">
     <h1>Welcome</h1>
 
-    <p>Please use the tree to the left to choose samples.</p>
+    <p>Please use the tree to the left to choose samples or choose one of our highlights.</p>
+		
+		<table>
+			<tbody>
+				<tr>
+					<td class="tableCell">
+						<a href="javascript:openDemo('showcase~Form.html')">
+							<img src="../resource/demobrowser/welcome/form.png">
+							<br>Form
+						</a>
+					</td>
+					<td class="tableCell">
+						<a href="javascript:openDemo('table~Table.html')">
+							<img src="../resource/demobrowser/welcome/Table.png">
+							<br>Table
+						</a>
+					</td>
+					<td class="tableCell">
+						<a href="javascript:openDemo('layout~Grid_Animated.html')">
+							<img src="../resource/demobrowser/welcome/grid.png">
+							<br>Grid Layout
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="tableCell">
+						<a href="javascript:openDemo('ui~FormValidator.html')">
+							<img src="../resource/demobrowser/welcome/validation.png">
+							<br>From Validation
+						</a>
+					</td>					
+					<td class="tableCell">
+						<a href="javascript:openDemo('showcase~Localization.html')">
+						  <img src="../resource/demobrowser/welcome/localization.png">
+						  <br>Localization
+						</a>
+					</td>
+					<td class="tableCell">
+						<a href="javascript:openDemo('data~Twitter.html')">
+							<img src="../resource/demobrowser/welcome/Twitter.png">
+						  <br>Twitter
+						</a>
+					</td>
+				</tr>			
+			</tbody>
+		</table>
+		
+		<br><br>
+		<p>Or take a look at out other application.</p>
+		<table>
+			<tbody>
+				<tr>
+					<td class="tableCell">
+						<a href="http://demo.qooxdoo.org/current/playground" target="_blank">
+							<img src="../resource/demobrowser/welcome/playground.png">
+						  <br>Playground							
+						</a>
+					</td>
+					<td class="tableCell">
+						<a href="http://demo.qooxdoo.org/current/feedreader" target="_blank">
+							<img src="../resource/demobrowser/welcome/feedreader.png">
+						  <br>Feedreader
+						</a>
+					</td>
+					<td class="tableCell">
+						<a href="http://demo.qooxdoo.org/current/portal" target="_blank">
+							<img src="../resource/demobrowser/welcome/portal.png">
+						  <br>Portal
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
     
   </div>
 </body>
