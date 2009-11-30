@@ -874,7 +874,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (inTags || !folder.getLabel().search(searchRegExp) ||
             !parent.getLabel().search(searchRegExp))
         {
-          showing++;
+          if (folder.getChildren().length == 0) showing++;
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
