@@ -335,7 +335,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     {
       var iframeSize = this.__iframeSize;
       var paneSize = this.getChildControl("iframe").getBounds();
-      var innerSize = this.getInnerSize();
+      var innerSize = this.getChildControl("iframe").getInnerSize();
 
       if (!iframeSize || !innerSize || !innerSize) {
         return;
@@ -406,10 +406,10 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     {
       try
       {
-        var doc = this._getIframeElement().getDocument();
+        var win = this._getIframeElement().getWindow();
         var frameSize = {
-          width: qx.bom.element.Dimension.getContentWidth(doc.body),
-          height: qx.bom.element.Dimension.getContentHeight(doc.body)
+          width: qx.bom.Document.getWidth(win),
+          height: qx.bom.Document.getHeight(win)
         }
         return frameSize;
       }
@@ -469,7 +469,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
         bar.setMaximum(1000000)
         bar.set({
           position: Math.min(bar.getPosition(), contentSize),
-          maximum: contentSize,
+          maximum: contentSize - containerSize,
           knobFactor: containerSize / contentSize,
           enabled: true
         });
