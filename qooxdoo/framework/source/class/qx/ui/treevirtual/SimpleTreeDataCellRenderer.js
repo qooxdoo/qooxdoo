@@ -599,7 +599,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *   If <i>false</i>, then the left-most tree line wiill be displayed
      *   just like all of the other tree lines.
      *
-     * @return {var} TODOC
+     * @return {Map} map of image properties.
      */
     _getIndentSymbol : function(column,
                                 node,

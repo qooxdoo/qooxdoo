@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Return the data model for this tree.
      *
-     * @return {var} TODOC
+     * @return {qx.ui.table.ITableModel} The data model.
      */
     getDataModel : function()
     {
