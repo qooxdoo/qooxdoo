@@ -379,7 +379,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param refreshSession {Boolean}
      *   whether a new session should be requested
      *
-     * @return {var} TODOC
+     * @return {var} the method call reference.
      * @throws {Error} An error.
      */
     _callInternal : function(args, callType, refreshSession)

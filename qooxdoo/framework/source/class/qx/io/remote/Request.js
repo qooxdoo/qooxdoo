@@ -661,12 +661,7 @@ qx.Class.define("qx.io.remote.Request",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyState : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -678,12 +673,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyProhibitCaching : function(value, old)
     {
       if (! value)
@@ -718,12 +708,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyMethod : function(value, old)
     {
       if (value === "POST") {
@@ -741,12 +726,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyResponseType : function(value, old) {
       this.setRequestHeader("X-Qooxdoo-Response-Type", value);
     },
@@ -975,7 +955,8 @@ qx.Class.define("qx.io.remote.Request",
      * Get a form field in the POST request.
      *
      * @param vId {String} Identifier of the form field to get.
-     * @return {var} TODOC
+     * @return {String|null} Value of form field or <code>null</code> if no value
+     *    exists for the passed identifier.
      */
     getFormField : function(vId) {
       return this.__formFields[vId] || null;
