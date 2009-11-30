@@ -227,7 +227,19 @@ qx.Bootstrap.define("qx.dom.Node",
     },
 
 
+    /**
+     * @param node {Node}
+     * @param nodeName {String}
+     * @return {Boolean}
+     */
+    isNodeName : function (node, nodeName)
+    {
+      if(!nodeName || !node || !node.nodeName) {
+        return false;
+      }
 
+      return !!(nodeName.toLowerCase() == qx.dom.Node.getName(node));
+    },
 
 
 
@@ -236,6 +248,21 @@ qx.Bootstrap.define("qx.dom.Node",
       UTILITIES
     ---------------------------------------------------------------------------
     */
+
+
+    /**
+     * @param node {Node}
+     * @return {String}
+     */
+    getName : function (node)
+    {
+      if(!node || !node.nodeName) {
+        return null;
+      }
+
+      return node.nodeName.toLowerCase();
+    },
+
 
     /**
      * Returns the text content of an node where the node may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
