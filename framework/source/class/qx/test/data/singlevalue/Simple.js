@@ -23,20 +23,22 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 {
   extend : qx.dev.unit.TestCase,
 
-  construct : function()
-  {
-    this.base(arguments);
-
-    // create the widgets
-    this.__a = new qx.test.data.singlevalue.TextFieldDummy();
-    this.__b = new qx.test.data.singlevalue.TextFieldDummy();
-  },
-
-
   members :
   {
     __a : null,
     __b: null,
+    
+    setUp : function() {
+      // create the widgets
+      this.__a = new qx.test.data.singlevalue.TextFieldDummy();
+      this.__b = new qx.test.data.singlevalue.TextFieldDummy();      
+    },
+    
+    tearDown : function() {
+      this.__a.dispose();
+      this.__b.dispose();
+      qx.data.SingleValueBinding.removeAllBindings();
+    },
 
     testStringPropertyBinding : function()
     {
