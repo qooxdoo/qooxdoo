@@ -215,6 +215,21 @@ qx.Bootstrap.define("qx.bom.Event",
 
         return !target.dispatchEvent(evt);
       }
+    },
+
+
+    /** 
+     * Whether the given target supports the given event type.
+     *
+     * Useful for testing for support of new features like
+     * touch events, gesture events, orientation change, on/offline, etc.
+     * 
+     * @param target {var} Any valid target e.g. window, dom node, etc.
+     * @param type {String} Type of the event e.g. click, mousedown
+     * @return {Boolean} Whether the given event is supported
+     */
+    supportsEvent : function(target, type) {
+      return target.hasOwnProperty("on" + type);
     }
   }
 });
