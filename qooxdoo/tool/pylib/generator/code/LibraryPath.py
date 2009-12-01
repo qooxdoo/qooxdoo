@@ -67,7 +67,7 @@ class LibraryPath:
         return d
 
     #_codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
-    _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']((?u).*)["\']', re.M)
+    _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile("[^\.\w]")
     _ignoredDirectories = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"
@@ -106,7 +106,7 @@ class LibraryPath:
         for item in self._codeExpr.findall(fileContent):
             illegal = self._illegalIdentifierExpr.search(item[1])
             if illegal:
-                raise ValueError, "Item name %s contains illegal character \"%s\"" % (item[1],illegal.group(0))            
+                raise ValueError, "Item name '%s' contains illegal character '%s'" % (item[1],illegal.group(0))
             return item[1]
 
         return None
