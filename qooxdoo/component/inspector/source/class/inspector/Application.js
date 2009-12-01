@@ -106,47 +106,46 @@ qx.Class.define("inspector.Application",
 
       this.__createToolbar();
 
-      // create the iFrame
-      this._iFrame = new qx.ui.embed.Iframe("..");
-      this._iFrame.setDecorator(null);
-      this._container.add(this._iFrame, {flex : 1});
-
-      this._iFrame.addListener("load", this.__onLoad, this);
-
-      this._loading = true;
-
-      // get the url out of a cookie
+      var startUrl = "..";
       var cookieUrl = qx.bom.Cookie.get("url");
-      if (cookieUrl == undefined || cookieUrl == "")
-      {
-        //cookieUrl = "Please enter an url here!";
-        cookieUrl = "..";
+      if (cookieUrl == undefined || cookieUrl == "") {
+        cookieUrl = startUrl;
       }
 
       if (window.qxinspector != undefined && qxinspector.local)
       {
         this._urlTextField.setVisibility("hidden");
-        this._urlTextField.setValue("index.html");
+        startUrl = "index.html";
+      } 
+      else {
+        startUrl = cookieUrl;
       }
-      else
-      {
-        this._urlTextField.setValue(cookieUrl);
-      }
+
+      // create the iFrame
+      this._loading = true;
+      this._iFrame = new qx.ui.embed.Iframe(startUrl);
+      this._iFrame.setDecorator(null);
+      this._container.add(this._iFrame, {flex : 1});
+
+      this._iFrame.addListener("load", this.__onLoad, this);
+      this._urlTextField.setValue(startUrl);
     },
 
     __onLoad : function() {
       this.__checkCount = 0;
       this.__initInspector();
 
-      if (window.qxinspector == undefined)
-      {
-        try {
-          this._urlTextField.setValue(this._iFrame.getWindow().location.pathname);
-        } catch (ex) {}
+      var iFrameSource = this._iFrame.getSource();
+      try {
+        iFrameSource = this._iFrame.getWindow().location.pathname;
+      } catch (ex) {}
+
+      if (window.qxinspector == undefined) {
+        this._urlTextField.setValue(iFrameSource);
       }
 
       // save the url in a cookie
-      qx.bom.Cookie.set("url", this._iFrame.getSource(), 7);
+      qx.bom.Cookie.set("url", iFrameSource, 7);
     },
 
     __initInspector : function()
@@ -377,13 +376,23 @@ qx.Class.define("inspector.Application",
     },
 
 
-    _reloadIframe: function() {
+    _reloadIframe: function(e) {
       this._toolbar.setEnabled(false);
       this._loading = true;
-      if (this._iFrame.getSource() != this._urlTextField.getValue()) {
+
+      var iFrameSource = this._iFrame.getSource();
+      try {
+        iFrameSource = this._iFrame.getWindow().location.pathname;
+      } catch (ex) {}
+      
+      if (iFrameSource != this._urlTextField.getValue()) {
         this._iFrame.setSource(this._urlTextField.getValue());
-      } else {
-        this._iFrame.reload();
+      }
+      else
+      {
+        if (e.getType() == "execute") {
+          this._iFrame.reload();
+        }
       }
     },
 
