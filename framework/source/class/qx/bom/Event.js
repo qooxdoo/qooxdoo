@@ -62,8 +62,17 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     removeNativeListener : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(target, type, listener) {
-        target.detachEvent("on" + type, listener);
+      "mshtml" : function(target, type, listener) 
+      {
+        try {
+          target.detachEvent("on" + type, listener);
+	}
+        catch(e)
+        {
+          if(e.number !== -2146828218) {
+            throw e;
+          };
+        }
       },
 
       "default" : function(target, type, listener) {

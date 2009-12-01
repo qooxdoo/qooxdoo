@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.event.Manager",
   {
     // Assign window object
     this.__window = win;
+    this.__windowId = qx.core.ObjectRegistry.toHashCode(win);
     this.__registration = registration;
 
     // Register to the page unload event.
@@ -131,6 +132,11 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     getWindow : function() {
       return this.__window;
+    },
+
+ 
+    getWindowId : function() {                                                                   
+      return this.__windowId;                                                                    
     },
 
 
