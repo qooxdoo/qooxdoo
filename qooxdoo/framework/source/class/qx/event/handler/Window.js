@@ -185,6 +185,8 @@ qx.Class.define("qx.event.handler.Window",
       try {
         var doc = win.document;
       } catch (e) {
+        // IE7 sometimes dispatches "unload" events on protected windows
+        // Ignore these events        
         return;
       }
 

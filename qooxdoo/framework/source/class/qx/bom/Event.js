@@ -66,9 +66,11 @@ qx.Bootstrap.define("qx.bom.Event",
       {
         try {
           target.detachEvent("on" + type, listener);
-	}
+	      }
         catch(e)
         {
+          // IE7 sometimes dispatches "unload" events on protected windows
+          // Ignore the "permission denied" errors.
           if(e.number !== -2146828218) {
             throw e;
           };
