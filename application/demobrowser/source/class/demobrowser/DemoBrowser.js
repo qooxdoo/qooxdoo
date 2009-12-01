@@ -872,12 +872,16 @@ qx.Class.define("demobrowser.DemoBrowser",
           };          
         }
 
-        if (folder.getChildren().length == 0) count++;
+        if (folder.getChildren().length == 0) {
+          count++;
+        }
 
         if (inTags || !folder.getLabel().search(searchRegExp) ||
             !parent.getLabel().search(searchRegExp))
         {
-          if (folder.getChildren().length == 0) showing++;
+          if (folder.getChildren().length == 0) {
+            showing++;
+          }
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
