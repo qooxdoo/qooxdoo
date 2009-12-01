@@ -29,6 +29,7 @@
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
 #asset(qx/icon/Tango/22/actions/edit-clear.png)
+#asset(qx/icon/Tango/22/actions/application-exit.png)
 
 #asset(qx/icon/Tango/22/apps/utilities-color-chooser.png)
 #asset(qx/icon/Tango/22/apps/office-spreadsheet.png)
@@ -223,6 +224,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     __tree : null,
     __status : null,
     __searchTextField : null,
+    __playgroundButton : null,
+    __currentJSCode : null,
+    
+    defaultUrl : "demo/welcome.html",
+    playgroundUrl : "http://demo.qooxdoo.org/current/playground/",
+            
 
     __makeCommands : function()
     {
@@ -270,6 +277,31 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sampUrl = this.__iframe.getWindow().location.href;
       window.open(sampUrl, "_blank");
     },
+    
+    
+    __setCurrentJSCode : function(code) {
+      var playable = !!code;
+      
+      var currentTags = this.__tree.getSelection()[0].getUserData("tags");
+      if (currentTags) {
+        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground"); 
+      }
+      this.__playgroundButton.setEnabled(playable);
+      this.__currentJSCode = code;
+    },
+    
+    
+    __toPlayground : function() {    
+      if (this.__currentJSCode) {
+        var code = this.__currentJSCode;
+        var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
+        var url = this.playgroundUrl + "#" + encodeURIComponent(codeJson);
+        window.open(url, "_blank");
+      } else {
+        alert(this.tr("Could not open the Playground."));
+      }
+    },
+
 
     /**
      * TODOC
@@ -348,6 +380,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
       this._navPart.add(sobutt);
+      
+      // -- to playground
+      var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
+      playgroundButton.addListener("execute", this.__toPlayground, this);
+      playgroundButton.setToolTipText("Open demo in the playground");
+      playgroundButton.setEnabled(false);
+      this.__playgroundButton = playgroundButton;
+      this._navPart.add(playgroundButton);
 
 
 
@@ -821,7 +861,13 @@ qx.Class.define("demobrowser.DemoBrowser",
           // Register to logger
           this.logappender.$$id = null;
           this.logappender.clear();
-          fwindow.qx.log.Logger.register(this.logappender);
+          
+          try {
+            fwindow.qx.log.Logger.register(this.logappender);            
+          } catch (e) {
+            // if the logger is not available, ignore it
+            return;
+          }
 
           // update state on example change
           this._history.addToHistory(this._currentSample.replace("/", "~"), document.title);
@@ -962,6 +1008,10 @@ qx.Class.define("demobrowser.DemoBrowser",
           reqJSFile.setProhibitCaching(false);
           reqJSFile.addListener("completed", function(evt2) {
             var jsCode = evt2.getContent();
+            
+            // store the current visible code
+            this.__setCurrentJSCode(jsCode);
+            
             if (jsCode) {
               // set the javascript code to the javascript page
               this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
@@ -1272,10 +1322,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.add(version);
 
       return header;
-    },
-
-
-    defaultUrl : "demo/welcome.html"
+    }
   },
 
 
