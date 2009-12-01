@@ -28,6 +28,8 @@
 #asset(qx/icon/${qx.icontheme}/16/emotes/face-smile.png)
 #asset(qx/icon/${qx.icontheme}/16/emotes/face-sad.png)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.test.Table_CellRenderer",

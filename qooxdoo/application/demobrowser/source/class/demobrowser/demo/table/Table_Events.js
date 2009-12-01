@@ -24,6 +24,8 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/edit-copy.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/edit-paste.png)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 /**

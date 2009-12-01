@@ -23,6 +23,8 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.table.Table_Resize_Columns",

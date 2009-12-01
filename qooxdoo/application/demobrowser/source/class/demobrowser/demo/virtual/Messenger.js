@@ -23,6 +23,7 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/list-add.png)
  
 #tag(showcase)
+#tag(noPlayground)
 
 ************************************************************************ */
 

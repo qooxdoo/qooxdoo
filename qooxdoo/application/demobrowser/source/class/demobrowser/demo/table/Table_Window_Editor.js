@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#tag(noPlayground)
+
+************************************************************************ */
+
 /**
  * This table example shows how to use a modal window for a cell editor.
  * Although this is a very simple one, cell editors using modal windows

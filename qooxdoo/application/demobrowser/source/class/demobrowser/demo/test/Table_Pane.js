@@ -22,6 +22,8 @@
 
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.test.Table_Pane",

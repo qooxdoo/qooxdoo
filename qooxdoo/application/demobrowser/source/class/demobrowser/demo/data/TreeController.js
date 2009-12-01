@@ -20,6 +20,7 @@
 
 #tag(databinding)
 #tag(tree controller)
+#tag(noPlayground)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.data.TreeController",

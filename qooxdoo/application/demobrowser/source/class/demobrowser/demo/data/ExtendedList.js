@@ -23,6 +23,7 @@
 #tag(databinding)
 #tag(list controller)
 #tag(delegate)
+#tag(noPlayground)
 
 ************************************************************************ */
 

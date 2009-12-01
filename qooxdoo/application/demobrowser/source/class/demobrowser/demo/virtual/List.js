@@ -25,6 +25,8 @@
 #asset(qx/icon/${qx.icontheme}/48/places/folder.png)
 #asset(qx/icon/${qx.icontheme}/48/devices/*)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.virtual.List",

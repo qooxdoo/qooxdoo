@@ -22,6 +22,8 @@
 #asset(qx/icon/${qx.icontheme}/16/apps/office-spreadsheet.png)
 #asset(qx/icon/${qx.icontheme}/32/status/dialog-information.png)
 
+#tag(noPlayground)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.table.TableDemo",
