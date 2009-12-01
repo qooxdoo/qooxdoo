@@ -182,7 +182,12 @@ qx.Class.define("qx.event.handler.Window",
       }
 
       var win = this._window;
-      var doc = win.document;
+      try {
+        var doc = win.document;
+      } catch (e) {
+        return;
+      }
+
       var html = doc.documentElement;
 
       // At least Safari 3.1 and Opera 9.2.x have a bubbling scroll event

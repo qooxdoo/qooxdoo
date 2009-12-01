@@ -504,13 +504,11 @@ qx.Class.define("qx.event.handler.Focus",
 
       "mshtml" : function()
       {
-        this._document.detachEvent("onmousedown", this.__onNativeMouseDownWrapper);
-        this._document.detachEvent("onmouseup", this.__onNativeMouseUpWrapper);
-
-        this._document.detachEvent("onfocusin", this.__onNativeFocusInWrapper);
-        this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
-
-        this._document.detachEvent("onselectstart", this.__onNativeSelectStartWrapper);
+        qx.bom.Event.removeNativeListener(this._document, "onmousedown", this.__onNativeMouseDownWrapper);
+        qx.bom.Event.removeNativeListener(this._document, "onmouseup", this.__onNativeMouseUpWrapper);
+        qx.bom.Event.removeNativeListener(this._document, "onfocusin", this.__onNativeFocusInWrapper);
+        qx.bom.Event.removeNativeListener(this._document, "onfocusout", this.__onNativeFocusOutWrapper);
+        qx.bom.Event.removeNativeListener(this._document, "onselectstart", this.__onNativeSelectStartWrapper);
       },
 
       "webkit" : function()

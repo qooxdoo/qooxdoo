@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     removeManager : function(mgr)
     {
-      var id = qx.core.ObjectRegistry.toHashCode(mgr.getWindow());
+      var id = mgr.getWindowId();  
       delete this.__managers[id];
     },
 
