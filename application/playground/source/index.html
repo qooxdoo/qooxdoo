@@ -333,6 +333,41 @@ tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
 tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 </textarea>
 
+<!-- ********************************************************************** -->
+
+<textarea class="qx_samples" title="Tree">// create the tree
+var tree = new qx.ui.tree.Tree();
+tree.set({
+  width: 150,
+  height: 300
+});
+this.getRoot().add(tree, {left: 10, top: 10});
+
+
+// create and set the tree root
+var root = new qx.ui.tree.TreeFolder("Desktop");
+tree.setRoot(root);
+
+// create some subitems
+var f1 = new qx.ui.tree.TreeFolder("Logos");
+var f2 = new qx.ui.tree.TreeFolder("TODO");
+var f3 = new qx.ui.tree.TreeFile("jsmag_js9.pdf");
+f3.setIcon("icon/22/mimetypes/text-html.png");
+root.add(f1, f2, f3);
+
+// create a third layer
+var f11 = new qx.ui.tree.TreeFile("Logo1.png");
+f11.setIcon("icon/22/mimetypes/media-image.png");
+var f12 = new qx.ui.tree.TreeFile("Logo2.png");
+f12.setIcon("icon/22/mimetypes/media-image.png");
+var f13 = new qx.ui.tree.TreeFile("Logo3.png");
+f13.setIcon("icon/22/mimetypes/media-image.png");
+f1.add(f11, f12, f13);
+
+// open the folders
+root.setOpen(true);
+f1.setOpen(true);
+</textarea>
 
 <!-- ********************************************************************** -->
 
