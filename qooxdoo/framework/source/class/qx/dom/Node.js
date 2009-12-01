@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.dom.Node",
         return false;
       }
 
-      return !!(nodeName.toLowerCase() == qx.dom.Node.getName(node));
+      return nodeName.toLowerCase() == qx.dom.Node.getName(node);
     },
 
 
