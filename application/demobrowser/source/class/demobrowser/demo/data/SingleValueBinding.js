@@ -20,6 +20,7 @@
 
 #tag(databinding)
 #tag(single value binding)
+#tag(noPlayground)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.data.SingleValueBinding",

@@ -21,6 +21,7 @@
 #tag(databinding)
 #tag(tree controller)
 #tag(delegate)
+#tag(noPlayground)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.data.ExtendedTree",
