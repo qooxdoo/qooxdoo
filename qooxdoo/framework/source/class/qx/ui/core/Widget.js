@@ -3981,7 +3981,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (this.__shadowElement)
       {
         container.remove(this.__shadowElement);
-        clazz.__decoratorPool.poolDecorator(this.__shadowElement);
+        clazz.__shadowPool.poolDecorator(this.__shadowElement);
       }
 
       this.clearSeparators();
