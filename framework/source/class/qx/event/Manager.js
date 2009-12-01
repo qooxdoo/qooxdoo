@@ -116,6 +116,7 @@ qx.Bootstrap.define("qx.event.Manager",
     __handlers : null,
     __handlerCache : null,
     __window : null,
+    __windowId : null,
 
 
     /*
@@ -135,6 +136,11 @@ qx.Bootstrap.define("qx.event.Manager",
     },
 
  
+    /**
+     * Get the hashcode of the manager's window
+     * 
+     * @return {String} The window's hashcode
+     */
     getWindowId : function() {                                                                   
       return this.__windowId;                                                                    
     },
