@@ -56,10 +56,7 @@ class Cache:
             return True
         checkFileMTime = os.stat(checkFile).st_mtime
         # find youngst tool file
-        qooxdoo_path = context['config'].get("let/QOOXDOO_PATH", None)
-        if not qooxdoo_path:
-            raise RuntimeError("Cannot check changes to tool chain without QOOXDOO_PATH config macro")
-        toolCheck, toolCheckMTime = filetool.findYoungest(os.path.join(qooxdoo_path, "tool"))
+        _, toolCheckMTime = filetool.findYoungest(os.path.dirname(filetool.root()))
         # compare
         if checkFileMTime < toolCheckMTime:
             return True
