@@ -17,11 +17,6 @@
 
 ************************************************************************ */
 
-/*
-#require qx.locale.data.de_DE
-#require qx.locale.data.fr_FR
-*/
-
 qx.Class.define("qx.test.util.DateFormat",
 {
   extend : qx.dev.unit.TestCase,
