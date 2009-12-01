@@ -173,29 +173,21 @@ qx.Class.define("apiviewer.Viewer",
       var part = new qx.ui.toolbar.Part;
       toolbar.add(part);
 
-      var viewMenu = new qx.ui.menu.Menu;
-
-      var expandBtn = new qx.ui.menu.CheckBox(this.tr("Expand properties"));
+      var expandBtn = new qx.ui.toolbar.RadioButton(this.tr("Properties"), "apiviewer/image/property18.gif");
       expandBtn.setId("btn_expand");
-      viewMenu.add(expandBtn);
+      part.add(expandBtn);
 
-      viewMenu.addSeparator();
-
-      var inheritBtn = new qx.ui.menu.CheckBox(this.tr("Show Inherited"));
+      var inheritBtn = new qx.ui.toolbar.RadioButton(this.tr("Inherited"), "apiviewer/image/method_public_inherited18.gif");
       inheritBtn.setId("btn_inherited");
-      viewMenu.add(inheritBtn);
+      part.add(inheritBtn);
 
-      var protectedBtn = new qx.ui.menu.CheckBox(this.tr("Show Protected"));
+      var protectedBtn = new qx.ui.toolbar.RadioButton(this.tr("Protected"), "apiviewer/image/method_protected18.gif");
       protectedBtn.setId("btn_protected");
-      viewMenu.add(protectedBtn);
+      part.add(protectedBtn);
 
-      var privateBtn = new qx.ui.menu.CheckBox(this.tr("Show Private"));
+      var privateBtn = new qx.ui.toolbar.RadioButton(this.tr("Private"), "apiviewer/image/method_private18.gif");
       privateBtn.setId("btn_private");
-      viewMenu.add(privateBtn);
-
-      var viewButton = new qx.ui.toolbar.MenuButton(this.tr("View"), "icon/22/apps/utilities-graphics-viewer.png");
-      viewButton.setMenu(viewMenu);
-      part.add(viewButton);
+      part.add(privateBtn);
 
       return toolbar;
     },
