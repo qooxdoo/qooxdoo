@@ -343,7 +343,9 @@ qx.Class.define("apiviewer.Controller",
             return;
           }
         } else {
-          this._classViewer.getContainerElement().scrollToY(0);
+          qx.event.Timer.once(function(e) {
+            this._classViewer.getContentElement().scrollToY(0);
+          }, this, 0);
         }
         this._updateHistory(fullItemName);
 
