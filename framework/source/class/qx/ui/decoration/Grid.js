@@ -214,11 +214,8 @@ qx.Class.define("qx.ui.decoration.Grid",
         // have rounding issues when working with odd dimensions:
         // right and bottom positioned elements are rendered with a
         // one pixel negative offset which results into some ugly
-        // render effects. We use the margin to correct this here
-        // as all other options conflict with styles applied by the
-        // the decoration class.
-        if (qx.bom.client.Engine.VERSION < 7 ||
-          (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8))
+        // render effects.
+        if (qx.bom.client.Feature.QUIRKS_MODE)
         {
           if (width%2==1)
           {

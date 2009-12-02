@@ -199,6 +199,23 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
         var innerHeight = height - edges.top - edges.bottom;
         element.childNodes[1].style.height = innerHeight + "px";
       }
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Internet Explorer as of version 6 or version 7 in quirks mode
+        // have rounding issues when working with odd dimensions:
+        // right and bottom positioned elements are rendered with a
+        // one pixel negative offset which results into some ugly
+        // render effects.
+        if (qx.bom.client.Feature.QUIRKS_MODE)
+        {
+          if (this._isHorizontal) {
+            element.childNodes[2].style.marginRight = (width%2 == 1) ? "-1px" : "0";
+          } else {
+            element.childNodes[2].style.marginBottom = (height%2 == 1) ? "-1px" : "0";
+          }
+        }
+      }
     },
 
 
