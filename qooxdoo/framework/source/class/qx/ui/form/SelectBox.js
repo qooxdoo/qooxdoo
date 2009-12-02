@@ -96,7 +96,6 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -177,8 +176,29 @@ qx.Class.define("qx.ui.form.SelectBox",
         list.setSelection([listItem]);
       }
 
-      var atom = this.getChildControl("atom");
+      this.__updateIcon();
+      this.__updateLabel();
+    },
 
+
+    /**
+     * Sets the icon inside the list to match the selected ListItem.
+     */
+    __updateIcon : function()
+    {
+      var listItem = this.getChildControl("list").getSelection()[0];
+      var atom = this.getChildControl("atom");
+      var icon = listItem ? listItem.getIcon() : "";
+      icon == null ? atom.resetIcon() : atom.setIcon(icon);
+    },
+
+    /**
+     * Sets the label inside the list to match the selected ListItem.
+     */
+    __updateLabel : function()
+    {
+      var listItem = this.getChildControl("list").getSelection()[0];
+      var atom = this.getChildControl("atom");
       var label = listItem ? listItem.getLabel() : "";
       var format = this.getFormat();
       if (format != null) {
@@ -190,9 +210,6 @@ qx.Class.define("qx.ui.form.SelectBox",
         label = label.translate();
       }
       label == null ? atom.resetLabel() : atom.setLabel(label);
-
-      var icon = listItem ? listItem.getIcon() : "";
-      icon == null ? atom.resetIcon() : atom.setIcon(icon);
     },
 
 
@@ -350,6 +367,16 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onListChangeSelection : function(e)
     {
       var current = e.getData();
+      var old = e.getOldData();
+
+      // Remove old listeners for icon and label changes.
+      if (old && old.length > 0)
+      {
+        old[0].removeListener("changeIcon", this.__updateIcon, this);
+        old[0].removeListener("changeLabel", this.__updateLabel, this);
+      }
+
+
       if (current.length > 0)
       {
         // Ignore quick context (e.g. mouseover)
@@ -366,6 +393,10 @@ qx.Class.define("qx.ui.form.SelectBox",
         {
           this.setSelection([current[0]]);
           this.__preSelectedItem = null;
+
+          // Add listeners for icon and label changes
+          current[0].addListener("changeIcon", this.__updateIcon, this);
+          current[0].addListener("changeLabel", this.__updateLabel, this);
         }
       }
       else
@@ -409,6 +440,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
       }
     }
+
   },
 
 
