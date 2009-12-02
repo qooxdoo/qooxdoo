@@ -100,7 +100,8 @@ qx.Class.define("qx.ui.basic.Atom",
       apply : "_applyLabel",
       nullable : true,
       dispose : true,
-      check : "String"
+      check : "String",
+      event : "changeLabel"
     },
 
 
@@ -124,7 +125,8 @@ qx.Class.define("qx.ui.basic.Atom",
       check : "String",
       apply : "_applyIcon",
       nullable : true,
-      themeable : true
+      themeable : true,
+      event : "changeIcon"
     },
 
 
