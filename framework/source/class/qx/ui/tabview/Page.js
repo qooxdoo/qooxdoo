@@ -199,8 +199,6 @@ qx.Class.define("qx.ui.tabview.Page",
 
           control.setUserData("page", this);
           control.addListener("close", this._onButtonClose, this);
-
-          this._add(control);
           break;
       }
 
