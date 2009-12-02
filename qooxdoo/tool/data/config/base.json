@@ -12,7 +12,7 @@
     {
       "compile"      : "${CACHE}",
       "downloads"    : "${CACHE}/downloads",
-      "invalidate-on-tool-change" : true
+      "invalidate-on-tool-change" : false
     },
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
