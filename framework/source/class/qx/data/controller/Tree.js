@@ -760,7 +760,10 @@ qx.Class.define("qx.data.controller.Tree",
      * @param old {Object} The old delegate.
      */
     _setConfigureItem: function(value, old) {
-      if (value != null && value.configureItem != null && this.getTarget() != null) {
+      if (
+        value != null && value.configureItem != null && 
+        this.getTarget() != null && this.getModel() != null
+      ) {
         var children = this.getTarget().getRoot().getItems(true, true, false);
         for (var i = 0; i < children.length; i++) {
           value.configureItem(children[i]);
