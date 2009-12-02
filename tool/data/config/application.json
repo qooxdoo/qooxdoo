@@ -147,11 +147,12 @@
 
     "test-inline" :
     {
-      "let" : {
+      "extend" : ["test"],
+      
+      "let" : 
+      {
         "TESTS_SCRIPT" : "tests-inline.js"
       },
-      
-      "extend" : ["test"],
       
       "include" : ["testrunner.TestLoaderInline", "${TEST_INCLUDE}", "${QXTHEME}"]
     },
@@ -159,11 +160,12 @@
 
     "test-native" :
     {
-      "let" : {
+      "extend" : ["test"],
+      
+      "let" : 
+      {
         "TESTS_SCRIPT" : "tests-native.js"
       },
-      
-      "extend" : ["test"],
       
       "include" : ["testrunner.TestLoaderNative", "${TEST_INCLUDE}", "${QXTHEME}"]
     },
