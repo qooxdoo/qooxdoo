@@ -3,3 +3,4 @@
 \bqx\.ui\.core\.ScrollBar\b=qx.ui.core.scroll.ScrollBar
 \bqx\.ui\.core\.ScrollPane\b=qx.ui.core.scroll.ScrollPane
 \bqx\.ui\.core\.ScrollSlider\b=qx.ui.core.scroll.ScrollSlider
+\bqx\.util\.PlaceUtil\.compute\b=qx.util.placement.Placement.compute
