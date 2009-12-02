@@ -4,3 +4,5 @@
 \bqx\.ui\.core\.ScrollPane\b=qx.ui.core.scroll.ScrollPane
 \bqx\.ui\.core\.ScrollSlider\b=qx.ui.core.scroll.ScrollSlider
 \bqx\.util\.PlaceUtil\.compute\b=qx.util.placement.Placement.compute
+\bqx\.ui\.table\.ITableModel\.EVENT_TYPE_DATA_CHANGED\b="dataChanged"
+\bqx\.ui\.table\.ITableModel\.EVENT_TYPE_META_DATA_CHANGED\b="metaDataChanged"
