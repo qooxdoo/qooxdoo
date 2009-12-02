@@ -163,7 +163,7 @@ qx.Class.define("qx.event.handler.Mouse",
      * Fire a mouse event with the given parameters
      *
      * @param domEvent {Event} DOM event
-     * @param type {String} type og the event
+     * @param type {String} type of the event
      * @param target {Element} event target
      */
     __fireEvent : function(domEvent, type, target)
