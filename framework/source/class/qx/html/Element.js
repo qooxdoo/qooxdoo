@@ -2105,7 +2105,7 @@ qx.Class.define("qx.html.Element",
           // Omit queuing in direct mode
           if (direct)
           {
-            Style.setStyle(this.__element, key, value);
+            Style.set(this.__element, key, value);
             continue;
           }
 
