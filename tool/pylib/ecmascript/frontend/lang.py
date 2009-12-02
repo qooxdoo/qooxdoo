@@ -249,3 +249,31 @@ PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 IDENTIFIER_CHARS  = r'(?u)[\.\w$]'
 IDENTIFIER_REGEXP = r'%s+' % IDENTIFIER_CHARS
 #IDENTIFIER_REGEXP = re.compile(r'[\.\w$-]+', re.U)
+
+##
+# Re-creating some Unicode information here, as it is not provided by Python
+
+
+# source: http://www.fileformat.info/info/unicode/category/Zs/list.htm
+#UNICODE_CATEGORY_Zs = ur'''(?ux)
+#    [
+#        \u0020  # SPACE
+#        \u00A0  # NO-BREAK SPACE
+#        \u1680  # OGHAM SPACE MARK
+#        #\u180E # MONGOLIAN VOWEL SEPARATOR  -- not included, as it is not matched by '(?u)\s'
+#        \u2000  # EN QUAD
+#        \u2001  # EM QUAD
+#        \u2002  # EN SPACE
+#        \u2003  # EM SPACE
+#        \u2004  # THREE PER EM SPACE
+#        \u2005  # FOUR PER EM SPACE
+#        \u2006  # SIX PER EM SPACE
+#        \u2007  # FIGURE SPACE
+#        \u2008  # PUNCTUATION SPACE
+#        \u2009  # THIN SPACE
+#        \u200A  # HAIR SPACE
+#        \u202F  # NARROW NO BREAK SPACE
+#        \u205F  # MEDIUM MATHEMATICAL SPACE
+#        \u3000  # IDEOGRAPHIC SPACE
+#    ]'''
+UNICODE_CATEGORY_Zs = ur'''(?u)[\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000]'''

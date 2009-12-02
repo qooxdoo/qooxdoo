@@ -20,6 +20,7 @@
 
 import sys, string, re, optparse, codecs
 import filetool
+from ecmascript.frontend import lang
 
 
 
@@ -41,8 +42,12 @@ def convertUnix2Dos(content):
 def convertUnix2Mac(content):
     return content.replace("\n", "\r")
 
+
+unicode_white_space_regex = re.compile(lang.UNICODE_CATEGORY_Zs)
+
 def normalizeWhiteSpace(content):
-    return content.replace(ur"\u00A0", " ")
+    #return content.replace(ur"\u00A0", " ")
+    return unicode_white_space_regex.sub(" ", content)
 
 
 def any2Unix(content):
@@ -106,15 +111,6 @@ def removeTrailingSpaces(content):
 
 def toRegExp(text):
     return re.compile("^(" + text.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$")
-
-
-
-
-
-
-
-
-
 
 
 def main():
