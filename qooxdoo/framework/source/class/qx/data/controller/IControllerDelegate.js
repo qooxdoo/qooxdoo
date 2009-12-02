@@ -61,22 +61,22 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      *
      * @return {qx.ui.core.Widget} A new created widget.
      */
-    createItem: function() {},
+    createItem : function() {},
 
 
     /**
      * Sets up the binding for the given item and index.
      *
      * For every property you want to bind, use
-     * {@link qx.data.controller.List#_bindProperty} like this:
+     * {@link qx.data.controller.List#bindProperty} like this:
      * <code>
-     * controller.bindProperty("paht.in.the.model", "label", options, item, id);
+     * controller.bindProperty("path.in.the.model", "label", options, item, id);
      * </code>
      *
      * @param controller {var} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {number} The id for the binding.
      */
-    bindItem: function(controller, item, id) {}
+    bindItem : function(controller, item, id) {}
   }
 });

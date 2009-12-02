@@ -24,7 +24,7 @@
  * The rate at which the execute event is fired accelerates is the mouse keeps
  * inside of the widget. The initial delay and the interval time can be set using
  * the properties {@link #firstInterval} and {@link #interval}. The
- * {@link execute} events will be fired in a shorter amount of time if the mouse
+ * {@link #execute} events will be fired in a shorter amount of time if the mouse
  * remains over the widget, until the min {@link #minTimer} is reached.
  * The {@link #timerDecrease} property sets the amount of milliseconds which will
  * decreased after every firing.

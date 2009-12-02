@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * Shows a whole meta column. This includes a {@link TablePaneHeader},
- * a {@link TablePane} and the needed scroll bars. This class handles the
+ * Shows a whole meta column. This includes a {@link Header},
+ * a {@link Pane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
  *
  * @appearance table-focus-indicator {qx.ui.core.Widget}

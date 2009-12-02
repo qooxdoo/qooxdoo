@@ -31,7 +31,7 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * <ul>
      * <li>rowData (var): contains the row data for the row.
      *   The kind of this object depends on the table model, see
-     *   {@link TableModel#getRowData()}</li>
+     *   {@link ITableModel#getRowData()}</li>
      * <li>row (int): the model index of the row.</li>
      * <li>selected (boolean): whether a cell in this row is selected.</li>
      * <li>focusedRow (boolean): whether the focused cell is in this row.</li>

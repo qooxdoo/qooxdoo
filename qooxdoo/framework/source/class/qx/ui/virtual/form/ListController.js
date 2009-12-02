@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Delegation object, which can have one ore more functions defined by the
-     * {@link #IControllerDelegate} interface.
+     * {@link qx.data.controller.IControllerDelegate} interface.
      */
     delegate :
     {

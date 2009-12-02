@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Assertion errors are thrown if an assertion in {@link qx.core.Assertion}
+ * Assertion errors are thrown if an assertion in {@link qx.core.Assert}
  * fails.
  */
 qx.Class.define("qx.core.AssertionError",
