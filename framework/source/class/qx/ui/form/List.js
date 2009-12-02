@@ -75,9 +75,6 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("keypress", this._onKeyPress);
     this.addListener("keyinput", this._onKeyInput);
 
-    // Add selection change listener
-    this.addListener("changeSelection", this._onChangeSelection);
-
     // initialize the search string
     this.__pressedString = "";
   },
@@ -287,18 +284,6 @@ qx.Class.define("qx.ui.form.List",
       }
 
       return false;
-    },
-
-    /**
-     * Reacts on change event to fire a changeValue event with the
-     * value given through {@link #getValue}.
-     */
-    _onChangeSelection : function()
-    {
-      // Check for listeners first because getValue() is quite cpu intensive
-      if (this.hasListener("changeValue")) {
-        this.fireDataEvent("changeValue", this.getValue());
-      }
     },
 
 
