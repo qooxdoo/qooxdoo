@@ -619,7 +619,12 @@ class QxTest:
         
         if sendReport:
           dummyLogFile = self.getDummyLog(appConf)
-          logFormatted = self.formatLog(dummyLogFile, reportFile)
+          
+          ignore = None
+          if "ignoreLogEntries" in appConf:
+            ignore = appConf["ignoreLogEntries"]
+          
+          logFormatted = self.formatLog(dummyLogFile, reportFile, ignore)
           if logFormatted:
             self.sendReport(appConf['appName'], reportFile)
           else:
@@ -756,10 +761,18 @@ class QxTest:
       if (self.sim):
         self.log("SIMULATION: Formatting log and sending report.\n")
       else:
-        if getReportFrom == 'testLog':
-          self.formatLog(logFile, reportFile)
+        
+        ignore = None
+        if "ignoreLogEntries" in browser:
+          ignore = browser["ignoreLogEntries"]
         else:
-          self.formatLog(None, reportFile)
+          if "ignoreLogEntries" in appConf:
+            ignore = appConf["ignoreLogEntries"]
+        
+        if getReportFrom == 'testLog':
+          self.formatLog(logFile, reportFile, ignore)
+        else:
+          self.formatLog(None, reportFile, ignore)
 
         self.sendReport(appConf['appName'], reportFile)
         
@@ -1010,13 +1023,14 @@ class QxTest:
   # exist or is empty.
   #  
   # @param inputfile {str} Path to the log file to be formatted. 
-  def formatLog(self, inputfile=None, reportfile=None):
+  def formatLog(self, inputfile=None, reportfile=None, ignore=None):
     from logFormatter import QxLogFormat
 
     class FormatterOpts:
-      def __init__(self,logfile,htmlfile):
+      def __init__(self,logfile,htmlfile,ignore=None):
         self.logfile = logfile
         self.htmlfile = htmlfile
+        self.ignore = ignore
 
     if not inputfile:
       if 'seleniumLog' in self.seleniumConf:
@@ -1034,13 +1048,14 @@ class QxTest:
       self.log("ERROR: No log file to work with")
       return False
 
-    options = FormatterOpts(inputfile, reportfile)
+    options = FormatterOpts(inputfile, reportfile, ignore)
 
     if (self.sim):
       self.log("SIMULATION: Formatting log file " + inputfile)
     else:
       self.log("Formatting log file " + inputfile)  
       logformat = QxLogFormat(options)
+      logformat.writeHtmlReport()
 
     return True
 
