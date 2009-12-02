@@ -265,11 +265,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
   }
 });
 // @deprecated warnings
-qx.log.Logger.deprecatedKonstantWarning(
+qx.log.Logger.deprecatedConstantWarning(
   qx.ui.table.ITableModel, "EVENT_TYPE_DATA_CHANGED",
   "New code should not use this. Instead, use the text string literally."
 );
-qx.log.Logger.deprecatedKonstantWarning(
+qx.log.Logger.deprecatedConstantWarning(
   qx.ui.table.ITableModel, "EVENT_TYPE_META_DATA_CHANGED", 
   "New code should not use this. Instead, use the text string literally."
 );

@@ -22,7 +22,7 @@ qx.Class.define("qx.test.log.Logger",
   extend : qx.dev.unit.TestCase,
   
   statics : {
-    TEST_KONSTANT: "abc"
+    TEST_CONSTANT: "abc"
   },
 
   members :
@@ -53,11 +53,11 @@ qx.Class.define("qx.test.log.Logger",
     testKonstantDeprecation : function() 
     {
       // call the method to see if its not throwing an error
-      qx.log.Logger.deprecatedKonstantWarning(
-        qx.test.log.Logger, "TEST_KONSTANT"
+      qx.log.Logger.deprecatedConstantWarning(
+        qx.test.log.Logger, "TEST_CONSTANT"
       );
       
-      this.assertEquals("abc", qx.test.log.Logger.TEST_KONSTANT);
+      this.assertEquals("abc", qx.test.log.Logger.TEST_CONSTANT);
     },
 
 
