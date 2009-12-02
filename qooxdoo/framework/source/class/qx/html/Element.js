@@ -240,34 +240,7 @@ qx.Class.define("qx.html.Element",
 
 
       // Process visibility list
-      var visibility = this._visibility;
-
-      // IE, at least version 7.0, has issues when hiding cascaded
-      // elements (settings them to display=none). In this case we must
-      // be sure to hide them from inner to outer.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        // Build list
-        var list = [];
-        for (var hc in visibility) {
-          list.push(visibility[hc]);
-        }
-
-        // Only makes sense when at least one item should be modified
-        if (list.length > 1)
-        {
-          // Sort list
-          list.sort(this._mshtmlVisibilitySort);
-
-          // Rebuild map structure from list
-          visibility = this._visibility = {};
-          for (var i=0; i<list.length; i++)
-          {
-            obj = list[i];
-            visibility[obj.$$hash] = obj;
-          }
-        }
-      }
+      var visibility = this._visibility;    
 
       for (var hc in visibility)
       {
@@ -281,6 +254,14 @@ qx.Class.define("qx.html.Element",
         }
 
         obj.__element.style.display = obj.__visible ? "" : "none";
+        // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+        {
+          if (!(document.documentMode >= 8)) {
+            obj.__element.style.visibility = obj.__visible ? "visible" : "hidden";            
+          }
+        }        
+        
         delete visibility[hc];
       }
 
