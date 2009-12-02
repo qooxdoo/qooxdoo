@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This static class contains a set of default validators.
  * These validators are listed twice
  * <ul>
