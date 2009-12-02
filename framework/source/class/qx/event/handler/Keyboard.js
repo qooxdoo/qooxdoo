@@ -231,6 +231,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
       var target = this.__getEventTarget();
+      var keyCode = domEvent.keyCode;
 
       // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
@@ -243,7 +244,6 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (type == "keydown" && event.getDefaultPrevented())
         {
           // some key press events are already emulated. Ignore these events.
-          var keyCode = domEvent.keyCode;
           if (!(this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9)) {
             this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
           }
