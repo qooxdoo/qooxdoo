@@ -172,7 +172,19 @@ qx.Class.define("qx.test.ui.core.Widget",
       var w = new qx.ui.core.Widget();
       this.assertFalse(w.isSeeable());
       w.destroy();
+    },
+    
+    
+    testGetShadowElement : function()
+    {
+      var w = new qx.ui.core.Widget();
+      this.assertNull(w.getShadowElement());
+      
+      w.setShadow("shadow-window");
+      this.assertInstance(w.getShadowElement(), qx.html.Decorator);
+      this.assertEquals("shadow-window", w.getShadowElement().getId());
+      
+      w.destroy();      
     }
-
   }
 });
