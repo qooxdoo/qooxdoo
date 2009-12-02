@@ -11,9 +11,13 @@ class QxLogFormat:
 
     self.totalErrors = 0
     self.failedTests = 0
+    
+    ignoreList = None
+    if self.options.ignore:
+      ignoreList = self.options.ignore
 
     logEntries = self.getEntriesFromLogFile(options.logfile)
-    self.htmlReport = self.getHtmlReport(logEntries)
+    self.htmlReport = self.getHtmlReport(logEntries,ignoreList)
 
   
   def getEntriesFromLogFile(self,logFile):
@@ -43,19 +47,30 @@ class QxLogFormat:
     return logs
     
 
-  def getFormattedEntries(self, logs):
+  def getFormattedEntries(self, logs, ignoreList=[]):
     logHtml = ""
     for k in sorted(logs.iterkeys()):
       logHtml += '<div id="t_' + k + '">'
       
       for lineIndex, line in enumerate(logs[k]):
         line = unicode(line, errors='replace')
-        # Only log the last "Last demo loaded" line for Demobrowser runs.
-        if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
-          if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
+        
+        # Check if the log entry matches one of the ignore patterns
+        writeLine = True
+        for reString in ignoreList:
+          ignoreReg = re.compile(reString)
+          if ignoreReg.search(line):
+            writeLine = False
+            if "level-error" in line or "level-warn" in line:
+              self.totalErrors = self.totalErrors - 1
+        
+        if writeLine:
+          # Only log the last "Last demo loaded" line for Demobrowser runs.
+          if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
+            if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
+              logHtml += '  ' + line
+          else:
             logHtml += '  ' + line
-        else:
-          logHtml += '  ' + line
       
       logHtml += '</div>'
   
@@ -66,14 +81,14 @@ class QxLogFormat:
     return logHtml  
 
   
-  def writeHtmlReport(self,htmlReport):
+  def writeHtmlReport(self):
     print("Writing HTML to file " + self.options.htmlfile)
     html = codecs.open(self.options.htmlfile, "w", "utf-8")
-    html.write(htmlReport)
+    html.write(self.htmlReport)
     html.close
   
 
-  def getHtmlReport(self,logs):
+  def getHtmlReport(self,logs,ignoreList=None):
     htmlHeader = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>qooxdoo Test Report</title><style type="text/css">
@@ -81,8 +96,9 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
 </style></head><body>'''
     htmlFooter = '  </body></html>\n'   
     
+    entryHtml = self.getFormattedEntries(logs,ignoreList)
     tableHtml = self.getHeaderTable(logs)
-    entryHtml = self.getFormattedEntries(logs)
+    
     return htmlHeader + tableHtml + entryHtml + htmlFooter 
     
   
@@ -147,11 +163,9 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
       errors = errorre.search(entry)
       if (errors):
         print("Found " + errors.group(1) + " errors")
-        totalTestErrors = errors.group(1)
-        self.totalErrors += int(totalTestErrors)
-        if (totalTestErrors == "0"):
-          cellCol = '#00FF00'
-        totalTestErrors += " warnings/errors"
+        self.totalErrors += int(errors.group(1))
+        if (self.totalErrors == 0):
+          cellCol = '#00FF00' 
       else:
         self.failedTests += 1
   
@@ -162,13 +176,12 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
       except socket.gaierror:
         host = '172.17.12.142'
   
-  
       tableBody += '<td><a href="#t_' + k + '">' + appName + '</a></td>'
       tableBody += '<td>' + browserName + ' on ' + platform + '</td>'
       tableBody += '<td>' + host + '</td>'
       tableBody += '<td>' + dateString + '</td>'
       tableBody += '<td>' + timeString + '</td>'
-      tableBody += '<td style="align:center; background-color: ' + cellCol + '">' + totalTestErrors + '</td>'
+      tableBody += '<td style="align:center; background-color: ' + cellCol + '">' + repr(self.totalErrors) + ' warnings/errors</td>'
       tableBody += '</tr>'
   
     return tableHeader + tableBody + "</table>"    
@@ -240,6 +253,11 @@ def getComputedConf():
     "-o", "--output-file", dest="htmlfile", default="selenium-report.html", type="string",
     help="HTML file to create."
   )
+  
+  parser.add_option(
+    "-f", "--ignore-list", dest="ignore", default=None, type="string",
+    help="Comma-separated list of regex patterns. Any log entries matching a pattern will not be included in the report."
+  )
 
   (options, args) = parser.parse_args()
 
@@ -249,7 +267,10 @@ def getComputedConf():
 if __name__ == "__main__":
   try:
     rc = 0
-    (options,args) = getComputedConf()  
+    (options,args) = getComputedConf()
+    if options.ignore:
+      ignoreList = options.ignore.split(",")
+      options.ignore = ignoreList  
     logformat = QxLogFormat(options)
   except KeyboardInterrupt:
     print
