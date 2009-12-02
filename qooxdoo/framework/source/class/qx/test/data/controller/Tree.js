@@ -662,6 +662,30 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
     },
+    
+    
+    testDelegateConfigureLate : function() 
+    {
+      // clear up the setup
+      this.__controller.setModel(null);
+      
+      var controller = new qx.data.controller.Tree(null, this.__tree, "children", "name"); 
+
+      var delegate = { 
+        configureItem: function(item) {
+          item.setUserData("a", true);
+        } 
+      }; 
+
+      controller.setDelegate(delegate); 
+      controller.setModel(this.__model); 
+
+      // check the initial Labels
+      this.assertTrue(this.__tree.getRoot().getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");      
+    },    
 
 
     testDelegateCreateLate: function () {
