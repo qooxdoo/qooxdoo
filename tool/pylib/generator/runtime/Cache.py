@@ -32,20 +32,29 @@ class Cache:
 
     def __init__(self, path, context):
         self._path         = path
-        self._check_path(self._path)
         self._console      = context['console']
+        self._console.info("Initializing cache...")
+        self._console.indent()
+        self._check_path(self._path)
         self._locked_files = set(())
         context['interruptRegistry'].register(self._unlock_files)
-        # invalidate on tool change
+        # check tool chain
         check_file = os.path.join(path, self._check_file)
-        if context['jobconf'].get("cache/invalidate-on-tool-change", False):
-            if self._checkToolsNewer(path, check_file, context):
-                context['console'].info("Cleaning compile cache, as tool chain is newer")
+        self._toolChainIsNewer = self._checkToolsNewer(path, check_file, context)
+        if self._toolChainIsNewer:
+            if context['jobconf'].get("cache/invalidate-on-tool-change", False):
+                self._console.info("Cleaning compile cache, as tool chain is newer")
                 self._cleanCompileCache()  # will also remove checkFile
+            else:
+                self._console.warn("! Detected newer tool chain; you might want to clear the cache.")
+            # something like: context['interruptRegistry'].register(self._warn_toolchain)
         # assure check_file
         if not os.path.isfile(check_file):
             #os.mknod(check_file, 0666)
-            os.close(os.open(check_file, os.O_CREAT|os.O_RDWR, 0666))
+            os.close(os.open(check_file, os.O_CREAT|os.O_RDWR, 0666))  # portable form of os.mknod
+
+        self._console.outdent()
+        return
 
     ##
     # predicate to check for files in the 'tool' path that are newer than the
@@ -97,6 +106,14 @@ class Cache:
                 self._console.debug("Cleaned up lock for file: %r" % file)
             except: # file might not exists since adding to _lock_files and actually locking is not atomic
                 pass   # no sense to do much fancy in an interrupt handler
+
+
+    ##
+    # warn about newer tool chain interrupt handler
+
+    def _warn_toolchain(self):
+        if self._toolChainIsNewer:
+            self._console.warn("Detected newer tool chain; you might want to run 'generate.py distclean', then re-run this job.")
 
 
     ##
