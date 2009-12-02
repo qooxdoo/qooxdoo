@@ -126,35 +126,6 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Sorts elements by their cascading level
-     *
-     * @signature function(a, b)
-     * @param a {Element} DOM element 1
-     * @param b {Element} DOM element 2
-     */
-    _mshtmlVisibilitySort : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(a, b)
-      {
-        var al = a.__element;
-        var bl = b.__element;
-
-        if (al.contains(bl)) {
-          return 1;
-        }
-
-        if (bl.contains(al)) {
-          return -1;
-        }
-
-        return 0;
-      },
-
-      "default" : null
-    }),
-
-
-    /**
      * Flush the global modified list
      */
     flush : function()
