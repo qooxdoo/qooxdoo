@@ -20,12 +20,12 @@
 /**
  * Timer, which accelerates after each interval. The initial delay and the
  * interval time can be set using the properties {@link #firstInterval}
- * and {@link #interval}. The {@link interval} events will be fired with
+ * and {@link #interval}. The {@link #interval} events will be fired with
  * decreasing interval times while the timer is running, until the {@link #minimum}
  * is reached. The {@link #decrease} property sets the amount of milliseconds
  * which will decreased after every firing.
  *
- * This class is e.g. used in the {@link qx.ui.form.RepeadButton} and
+ * This class is e.g. used in the {@link qx.ui.form.RepeatButton} and
  * {@link qx.ui.form.HoverButton} widgets.
  */
 qx.Class.define("qx.event.AcceleratingTimer",

@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
 
     /**
-     * Implementing classes have to call {@link _onRowCountLoaded()} when the
+     * Implementing classes have to call {@link #_onRowCountLoaded} when the
      * server response arrived. That method has to be called! Even when there
      * was an error.
      *
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets the row count.
      *
-     * Has to be called by {@link _loadRowCount()}.
+     * Has to be called by {@link #_loadRowCount}.
      *
      * @param rowCount {Integer} the number of rows in this model or null if loading.
      * @return {void}
@@ -486,7 +486,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Loads some row data from the server.
      *
-     * Implementing classes have to call {@link _onRowDataLoaded()} when the server
+     * Implementing classes have to call {@link #_onRowDataLoaded} when the server
      * response arrived. That method has to be called! Even when there was an error.
      *
      * @abstract
@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets row data.
      *
-     * Has to be called by {@link _loadRowData()}.
+     * Has to be called by {@link #_loadRowData}.
      *
      * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
      * @return {void}

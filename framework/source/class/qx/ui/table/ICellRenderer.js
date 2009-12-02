@@ -33,7 +33,7 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      * <li>value (var): the cell's value.</li>
      * <li>rowData (var): contains the row data for the row, the cell belongs to.
      *   The kind of this object depends on the table model, see
-     *   {@link TableModel#getRowData()}</li>
+     *   {@link qx.ui.table.ITableModel#getRowData}</li>
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
      * <li>table (qx.ui.table.Table): the table the cell belongs to.</li>

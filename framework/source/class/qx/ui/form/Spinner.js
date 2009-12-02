@@ -399,9 +399,10 @@ qx.Class.define("qx.ui.form.Spinner",
      * Check whether the value being applied is allowed.
      *
      * If you override this to change the allowed type, you will also
-     * want to override {@link #_applyValue}, {@link #_applyMin}, {@link #_applyMax},
-     * {@link #countUp}, {@link #_countDown}, and {@link #_onTextChange} methods as
-     * those cater specifically to numeric values.
+     * want to override {@link #_applyValue}, {@link #_applyMinimum}, 
+     * {@link #_applyMaximum}, {@link #_countUp}, {@link #_countDown}, and 
+     * {@link #_onTextChange} methods as those cater specifically to numeric 
+     * values.
      *
      * @param value {Any}
      *   The value being set

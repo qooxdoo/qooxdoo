@@ -21,10 +21,10 @@
 ************************************************************************ */
 
 /**
- * The RepeatButton is a special button, which fires repeatedly {@link execute}
+ * The RepeatButton is a special button, which fires repeatedly {@link #execute}
  * events, while the mouse button is pressed on the button. The initial delay
  * and the interval time can be set using the properties {@link #firstInterval}
- * and {@link #interval}. The {@link execute} events will be fired in a shorter
+ * and {@link #interval}. The {@link #execute} events will be fired in a shorter
  * amount of time if the mouse button is hold, until the min {@link #minTimer}
  * is reached. The {@link #timerDecrease} property sets the amount of milliseconds
  * which will decreased after every firing.

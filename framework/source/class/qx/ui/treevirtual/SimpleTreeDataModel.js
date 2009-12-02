@@ -1000,7 +1000,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @param nodeId {Integer}
      *   A node identifier, as previously returned by {@link #addBranch} or
-     *   {@link addLeaf}.
+     *   {@link #addLeaf}.
      *
      * @param columnIndex {Integer}
      *   The column number to which the provided data applies
@@ -1024,7 +1024,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param attributes {Map}
      *   Each property name in the map may correspond to the property names of
      *   a node which are specified as <i>USER-PROVIDED ATTRIBUTES</i> in
-     *   {@link #SimpleTreeDataModel}.  Each property value will be assigned
+     *   {@link SimpleTreeDataModel}.  Each property value will be assigned
      *   to the corresponding property of the node specified by nodeId.
      *
      * @throws {Error} If the node object or id is not valid.

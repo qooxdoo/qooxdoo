@@ -120,7 +120,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * @param id {String} Id of the corresponding transport object,
      *     which is passed as an URL parameter to the server an
      * @param content {String} This string is passed to the content property
-     *     of the {@link #Response} object.
+     *     of the {@link qx.io.remote.Response} object.
      */
     _requestFinished : qx.event.GlobalError.observeMethod(function(id, content)
     {

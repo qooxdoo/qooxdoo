@@ -394,7 +394,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
     /**
      * Add an event listener to any valid target. The event listener is passed an
-     * instance of {@link Event} containing all relevant information
+     * instance of {@link qx.event.type.Event} containing all relevant information
      * about the event as parameter.
      *
      * @param target {Object} Any valid event target

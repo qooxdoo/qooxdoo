@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * All event dispatcher must implement this interface. Event dispatcher must
+ * All event dispatchers must implement this interface. Event dispatchers must
  * register themselves at the event Manager using
- * {@link qx.event.Manager#addDispatcher}.
+ * {@link qx.event.Registration#addDispatcher}.
  */
 qx.Interface.define("qx.event.IEventDispatcher",
 {

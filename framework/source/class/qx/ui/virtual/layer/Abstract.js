@@ -27,7 +27,7 @@
  * and {@link #updateLayerData} and only performs the absolute necessary
  * actions. Concrete implementation of this class must at least implement
  * the {@link #_fullUpdate} method. Additionally the two methods
- * {@link #_updateLayerWindow} and {@link _updateLayerData} may be implemented
+ * {@link #_updateLayerWindow} and {@link #_updateLayerData} may be implemented
  * to increase the performance.
  */
 qx.Class.define("qx.ui.virtual.layer.Abstract",

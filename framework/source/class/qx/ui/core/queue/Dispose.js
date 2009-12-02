@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
     /**
      * Flushes the dispose queue.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @return {void}
      */

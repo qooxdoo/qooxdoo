@@ -31,7 +31,7 @@ qx.Class.define("qx.util.PropertyUtil",
      * Get the property map of the given class
      *
      * @param clazz {Class} a qooxdoo class
-     * @return {Map} The properties map as defined in {@link qx.Class.define}.
+     * @return {Map} The properties map as defined in {@link qx.Class#define}.
      */
     getProperties : function(clazz) {
       return clazz.$$properties;
@@ -43,7 +43,7 @@ qx.Class.define("qx.util.PropertyUtil",
      * superclasses!
      *
      * @param clazz {Class} a qooxdoo class
-     * @return {Map} The properties map as defined in {@link qx.Class.define}.
+     * @return {Map} The properties map as defined in {@link qx.Class#define}.
      */
     getAllProperties : function(clazz)
     {

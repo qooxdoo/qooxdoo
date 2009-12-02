@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.form.List",
     },
 
     /**
-     * Find an item by its {@link #qx.ui.form.ListItem~getLabel}.
+     * Find an item by its {@link qx.ui.form.ListItem#getLabel}.
      *
      * @param search {String} A label or any item
      * @param ignoreCase {Boolean?true} description
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.form.List",
       var items = this.getChildren();
       var item;
 
-      // go threw all items
+      // go through all items
       for (var i=0, l=items.length; i<l; i++)
       {
         item = items[i];

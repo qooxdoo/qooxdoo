@@ -738,7 +738,7 @@ qx.Bootstrap.define("qx.core.Assert",
     /**
      * Assert that the value represents the given CSS color value. This method
      * parses the color strings and compares the RGB values. It is able to
-     * parse values supported by {@link qx.util.ColorUtil.stringToRgb}.
+     * parse values supported by {@link qx.util.ColorUtil#stringToRgb}.
      *
      *  @param expected {String} The expected color
      *  @param value {String} The value to check

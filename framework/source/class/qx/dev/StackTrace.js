@@ -31,9 +31,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * Browser compatibility:
      * <ul>
      *   <li> Mozilla combines the output of {@link #getStackTraceFromError}
-     *        and {@link getStackTraceFromCaller} and thus generates the richest trace.
+     *        and {@link #getStackTraceFromCaller} and thus generates the richest trace.
      *   </li>
-     *   <li> Internet Explorer and WebKit always use {@link getStackTraceFromCaller}</li>
+     *   <li> Internet Explorer and WebKit always use {@link #getStackTraceFromCaller}</li>
      *   <li> Opera is able to return file/class names and line numbers.</li>
      * </ul>
      *

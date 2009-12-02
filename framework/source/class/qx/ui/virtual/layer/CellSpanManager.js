@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
 
 
     /**
-     * Get the bounds of a list of cells as returned by {@link findCellsInWindow}
+     * Get the bounds of a list of cells as returned by {@link #findCellsInWindow}
      *
      * @param cells {Map[]} Array of cell descriptions
      * @param firstVisibleRow {Map} The pane's first visible row
@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      * is covered by a spanning cell.
      *
      * @param cells {Map[]} Array of cell descriptions as returned by
-     *     {@link findCellsInWindow}.
+     *     {@link #findCellsInWindow}.
      * @param firstRow {PositiveInteger} first visible row
      * @param firstColumn {PositiveInteger} first visible column
      * @param rowCount {PositiveInteger} number of rows in the window

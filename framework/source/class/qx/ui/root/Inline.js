@@ -37,7 +37,7 @@
  * This class uses {@link qx.ui.layout.Basic} as default layout. The layout
  * can be changed using the {@link #setLayout} method.
  *
- * To position popups and tooltips please have a look at {@link qx.ui.layout.Page}.
+ * To position popups and tooltips please have a look at {@link qx.ui.root.Page}.
  */
 qx.Class.define("qx.ui.root.Inline",
 {
