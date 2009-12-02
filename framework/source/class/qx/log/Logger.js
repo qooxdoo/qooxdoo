@@ -311,6 +311,36 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
+     * Prints a konstant deprecation warning and a stacktrace if the setting 
+     * <code>qx.debug</code> is set to <code>on</code> AND the browser supports
+     * __defineGetter__!
+     * 
+     * @param clazz {Class} The class the constant is attached to.
+     * @param konstant {String} The name of the constant as string.
+     * @param msg {String} Optional message to be printed.
+     */
+    deprecatedKonstantWarning : function(clazz, konstant, msg) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // check if __defineGetter__ is available
+        if (clazz.__defineGetter__) {
+          var self = this;
+          var konstantValue = clazz[konstant];
+          clazz.__defineGetter__(konstant, function() { 
+            self.warn(
+              "The konstant '"+ konstant + "' is deprecated: " +
+              (msg || "Please consult the API documentation for alternatives.")
+            );
+            self.trace();
+            return konstantValue;
+          });
+        }
+      }
+    },
+
+
+    /**
      * Deletes the current buffer. Does not influence message handling of the
      * connected appenders.
      *
