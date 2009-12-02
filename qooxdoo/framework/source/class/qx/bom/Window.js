@@ -13,20 +13,43 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Alexander Back (aback)
+     * Alexander Steitz (aback)
 
 ************************************************************************ */
 
 /**
  * Includes library functions to work with browser windows
- */
-qx.Class.define("qx.bom.Window",
-{
-  statics :
-  {
-     __availableOptions :
+ */                                                       
+qx.Class.define("qx.bom.Window",                          
+{            
+  statics :                                               
+  {                                                       
+    /** Internal blocker instance for all browsers which need an additional
+     * blocker for modal windows because they do not support it natively.
+     */
+    __blocker : null,
+    
+    /** Window handle which is currently blocked. */
+    __blockerWindow : null,
+
+    /** Timer instance to poll for unblocking if the modale window was closed */
+    __timer : null,
+    
+    /** Supported options and their mapping to window options */
+    __modalOptions :
     {
-      top        : 1,
+      "top"      : "dialogTop",
+      left       : "dialogLeft",
+      width      : "dialogWidth",
+      height     : "dialogHeight",
+      scrollbars : "scroll",
+      resizable  : "resizable"
+    },
+
+    /** Supported options for modeless windows */
+    __modelessOptions :
+    {
+      "top"      : 1,
       left       : 1,
       width      : 1,
       height     : 1,
@@ -41,9 +64,27 @@ qx.Class.define("qx.bom.Window",
 
 
     /**
+     * Whether the browser can open native modal window.
+     * 
+     * @return {Boolean} Capability of open modal windows
+     */
+    __isCapableToOpenModalWindows : function() {
+      return window.showModalDialog != null;
+    },
+
+
+    /**
      * Opens a native window with the given options.
-     *
-     * Native windows can have the following options:
+     * 
+     * Modal windows can have the following options:
+     *   - top
+     *   - left
+     *   - width
+     *   - height
+     *   - scrollbars
+     *   - resizable
+     *   
+     * Modeless windows have the following options:
      *   - top
      *   - left
      *   - width
@@ -62,9 +103,10 @@ qx.Class.define("qx.bom.Window",
      * @param url {String} URL of the window
      * @param name {String} Name of the window
      * @param options {Map} Window options
+     * @param modal {Boolean} Whether the window should be opened modal
      * @return {win} native window object
      */
-    open : function(url, name, options)
+    open : function(url, name, options, modal)
     {
       if (url == null) {
         url = "javascript:/";
@@ -73,31 +115,111 @@ qx.Class.define("qx.bom.Window",
       if (name == null) {
         name = "qxNativeWindow" + new Date().getTime();
       }
+      
+      var configurationString = this.__generateConfigurationString(options, modal);
 
-      var configuration = [];
-      var value;
-      var availableOptions = this.__availableOptions;
-      var Type = qx.lang.Type;
-
-      for (var key in options)
+      if (modal)
       {
-        if (availableOptions[key])
-        {
-          if (Type.isBoolean(options[key])) {
-            value = key + "=" + (options[key] ? "yes" : "no");
-          } else {
-            value = key + "=" + options[key];
-          }
-
-          configuration.push(value);
+        if (this.__isCapableToOpenModalWindows()) {
+          return window.showModalDialog(url, null, configurationString);
         }
         else
         {
-          qx.log.Logger.warn("Option '" + key + "' is not supported for native windows.");
-        }
-      }
+          if (this.__blocker == null) {
+            this.__blocker = new qx.bom.Blocker;
+          }
+          this.__blocker.block();
 
-      return window.open(url, name, configuration.join(","));
+          if (this.__timer == null)
+          {
+            this.__timer = new qx.event.Timer(200);
+            this.__timer.addListener("interval", this.__checkForUnblocking, this);
+            this.__timer.start();
+          } else {
+            this.__timer.restart();
+          }
+
+          this.__blockerWindow = window.open(url, name, configurationString);
+          return this.__blockerWindow;
+        }
+      } else {
+        return window.open(url, name, configurationString);
+      }
+    },
+
+
+    /**
+     * Returns the given config as string for direct use for the "window.open" method
+     * 
+     * @param options {Array} Array with all configuration options
+     * @param modal {Boolean} whether the config should be for a modal window
+     * 
+     * @return {String} configuration as string representation
+     */
+    __generateConfigurationString : function(options, modal)
+    {
+      var configurationString;
+      var value;
+      var configuration = [];
+      
+      if (modal && this.__isCapableToOpenModalWindows())
+      {
+        for (var key in options)
+        {
+          if (qx.bom.Window.__modalOptions[key])
+          {
+            var suffix = "";
+            if (key != "scrollbars" && key != "resizable") {
+              suffix = "px";
+            }
+            
+            value = qx.bom.Window.__modalOptions[key] + ":" + options[key] + suffix;
+            configuration.push(value);
+          }
+          else {
+            qx.log.Logger.warn("Option '" + key + "' is not supported for modal windows.");
+          }
+        }
+
+        configurationString = configuration.join(";");
+      }
+      else
+      {
+        for (var key in options)
+        {
+          if (qx.bom.Window.__modelessOptions[key])
+          {
+            if (qx.lang.Type.isBoolean(options[key])) {
+              value = key + "=" + options[key] ? "yes" : "no";
+            }
+            else {
+              value = key + "=" + options[key];
+            }
+            configuration.push(value);
+          }
+          else {
+            qx.log.Logger.warn("Option '" + key + "' is not supported for native windows.");
+          }
+        }
+        
+        configurationString = configuration.join(",");
+      }
+      
+      return configurationString;
+    },
+
+
+    /**
+     * Interval method which checks if the native window was closed to also
+     * stop the associated timer. 
+     */
+    __checkForUnblocking : function()
+    {
+      if (this.isClosed(this.__blockerWindow))
+      {
+        this.__blocker.unblock();
+        this.__timer.stop(); 
+      }
     },
 
 

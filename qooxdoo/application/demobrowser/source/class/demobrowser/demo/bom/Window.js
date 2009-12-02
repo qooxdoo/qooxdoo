@@ -59,6 +59,32 @@ qx.Class.define("demobrowser.demo.bom.Window",
       {
         alert(qx.bom.Window.isClosed(this.window1));
       }, this);
+
+
+      var button3 = qx.bom.Input.create("button");
+      qx.bom.Input.setValue(button3, "Open Native Modal Window");
+      document.body.appendChild(button3);
+
+
+      qx.event.Registration.addListener(button3, "click", function(e)
+      {
+        var options = { width: 400,
+                        height: 200,
+                        top: 200,
+                        left: 100,
+                        scrollbars : false };
+
+        this.window2 = qx.bom.Window.open(this.__urls[1], "window2", options, true);
+      }, this);
+
+      var button4 = qx.bom.Input.create("button");
+      qx.bom.Input.setValue(button4, "Modal Window closed?");
+      document.body.appendChild(button4);
+
+      qx.event.Registration.addListener(button4, "click", function(e)
+      {
+        alert(qx.bom.Window.isClosed(this.window2));
+      }, this);
     }
   },
 
