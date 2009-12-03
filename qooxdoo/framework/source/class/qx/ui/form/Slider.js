@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * The minimum slider value (may be negative). This value must be smaller
-     * than {@link #max}.
+     * than {@link #maximum}.
      */
     minimum :
     {
@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * The maximum slider value (may be negative). This value must be larger
-     * than {@link #min}.
+     * than {@link #minimum}.
      */
     maximum :
     {

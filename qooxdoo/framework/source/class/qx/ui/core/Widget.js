@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.core.Widget",
      * getter. This event gets repeated if the user keeps pressing the key(s).
      *
      * The unicode code of the pressed key can be read using
-     * {@link qx.event.type.KeyInput#getKeyCode}.
+     * {@link qx.event.type.KeyInput#getCharCode}.
      */
     keyinput : "qx.event.type.KeyInput",
 
@@ -288,8 +288,8 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fired during the drag. Contains the current mouse coordinates
-     * using {@link #qx.event.type.Drag#getDocumentLeft} and
-     * {@link #qx.event.type.Drag#getDocumentTop}
+     * using {@link qx.event.type.Drag#getDocumentLeft} and
+     * {@link qx.event.type.Drag#getDocumentTop}
      *
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
@@ -320,7 +320,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Fired when the drop was successfully done and the target widget
      * is now asking for data. The listener should transfer the data,
      * respecting the selected action, to the event. This can be done using
-     * the event's {@link #qx.event.type.Drag#addData} method.
+     * the event's {@link qx.event.type.Drag#addData} method.
      */
     droprequest : "qx.event.type.Drag"
   },
@@ -698,7 +698,7 @@ qx.Class.define("qx.ui.core.Widget",
      * will never get focused. The focus keeps at the currently
      * focused widget.
      *
-     * This only works for widgets which are not {@link focusable}.
+     * This only works for widgets which are not {@link #focusable}.
      *
      * This is mainly useful for widget authors. Please use with caution!
      */
@@ -3321,7 +3321,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event handler which is executed when the widget receives the focus.
      *
-     * This method is used by the {@link #qx.ui.core.FocusHandler} to
+     * This method is used by the {@link qx.ui.core.FocusHandler} to
      * apply states etc. to a focused widget.
      *
      * @internal
@@ -3335,7 +3335,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event handler which is executed when the widget lost the focus.
      *
-     * This method is used by the {@link #qx.ui.core.FocusHandler} to
+     * This method is used by the {@link qx.ui.core.FocusHandler} to
      * remove states etc. from a previously focused widget.
      *
      * @internal

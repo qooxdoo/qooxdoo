@@ -21,7 +21,7 @@
  * The scroll bar widget wraps the native browser scroll bars as a qooxdoo widget.
  * It can be uses instead of the styled qooxdoo scroll bars.
  *
- * Scroll bars are used by the {@link qx.ui.container.Scoll} container. Usually
+ * Scroll bars are used by the {@link qx.ui.container.Scroll} container. Usually
  * a scroll bar is not used directly.
  *
  * *Example*

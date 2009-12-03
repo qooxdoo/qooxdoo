@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      * Determines the styles to apply to the cell
      *
      * @param cellInfo {Map} cellInfo of the cell
-     *     See {@link #createDataCellHtml}.
+     *     See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Integer} the sum of any of the STYLEFLAGS defined below
      */
     _getStyleFlags : function(cellInfo)

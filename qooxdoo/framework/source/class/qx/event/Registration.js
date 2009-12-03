@@ -109,7 +109,7 @@ qx.Bootstrap.define("qx.event.Registration",
 
     /**
      * Add an event listener to a DOM target. The event listener is passed an
-     * instance of {@link Event} containing all relevant information
+     * instance of {@link qx.event.type.Event} containing all relevant information
      * about the event as parameter.
      *
      * @param target {Object} Any valid event target
@@ -407,7 +407,7 @@ qx.Bootstrap.define("qx.event.Registration",
      * Register an event dispatcher.
      *
      * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
-     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
+     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link #PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
      * @return {void}
      * @throws an error if the dispatcher does not have the IEventHandler interface.

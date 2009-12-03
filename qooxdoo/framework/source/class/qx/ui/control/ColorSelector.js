@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * The value of the ColorSelector is a string containing the HEX value of
      * the currently selected color. Take a look at
-     * {@link qx.util.ColorUtil.stringToRgb} to see what kind of input the
+     * {@link qx.util.ColorUtil#stringToRgb} to see what kind of input the
      * method can handle.
      *
      * @param value {String} The value of a color.

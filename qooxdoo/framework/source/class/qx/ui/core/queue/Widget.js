@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
     /**
      * Flushes the widget queue.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @return {void}
      */

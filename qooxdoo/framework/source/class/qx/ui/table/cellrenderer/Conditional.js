@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * that apply to that value.
      *
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Map}
      */
     _getCellStyle : function(cellInfo)
