@@ -23,43 +23,48 @@ import os, sys, time
 import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
+from generator.action.ActionLib import ActionLib
 
-memcache = {}
+memcache  = {}
+actionLib = None
+check_file = u".cache_check_file"
 
 class Cache:
 
-    _check_file = u".cache_check_file"
 
     def __init__(self, path, context):
+        global actionLib
+        self._cache_revision = 20891   # Change this to the current qooxdoo svn revision when existing caches need clearing
         self._path           = path
         self._context        = context
-        self._console        = context['console']
-        self._cache_revision = 20891   # Change this to the current qooxdoo svn revision when existing caches need clearing
+        self._console        = self._context['console']
+        self._downloads      = self._context['jobconf'].get("cache/downloads")
+        self._check_file     = os.path.join(self._path, check_file)
+        actionLib            = ActionLib(self._context['config'], self._console)
         self._console.info("Initializing cache...")
         self._console.indent()
         self._check_path(self._path)
         self._locked_files   = set(())
         self._context['interruptRegistry'].register(self._unlock_files)
-        self._assureCacheIsValid(path)  # checks and pot. clears existing cache
+        self._assureCacheIsValid()  # checks and pot. clears existing cache
         self._console.outdent()
         return
 
 
-    def _assureCacheIsValid(self, path):
-        check_file = os.path.join(path, self._check_file)
-        self._toolChainIsNewer = self._checkToolsNewer(path, check_file, self._context)
+    def _assureCacheIsValid(self, ):
+        self._toolChainIsNewer = self._checkToolsNewer()
         if self._toolChainIsNewer:
             if self._context['jobconf'].get("cache/invalidate-on-tool-change", False):
                 self._console.info("Cleaning compile cache, as tool chain is newer")
-                self._cleanCompileCache()  # will also remove checkFile
-                self._update_checkfile(check_file)
+                self.cleanCompileCache()  # will also remove checkFile
             else:
                 self._console.warn("! Detected newer tool chain; you might want to clear the cache.")
+        self._update_checkfile()
         return
 
 
-    def _update_checkfile(self, check_file):
-        fd  = os.open(check_file, os.O_CREAT|os.O_RDWR, 0666)  # open or create
+    def _update_checkfile(self, ):
+        fd  = os.open(self._check_file, os.O_CREAT|os.O_RDWR, 0666)  # open or create
         numbytes = os.write(fd, str(self._cache_revision))
         os.close(fd)
         if numbytes < 1:
@@ -73,10 +78,10 @@ class Cache:
         return
 
 
-    def _checkToolsNewer(self, path, checkFile, context):
-        if not os.path.isfile(checkFile):
+    def _checkToolsNewer(self, ):
+        if not os.path.isfile(self._check_file):
             return True  # check file not existent
-        cacheRevision = open(checkFile, "r").read()
+        cacheRevision = open(self._check_file, "r").read()
         try:
             cacheRevision = int(cacheRevision)
         except:
@@ -107,12 +112,21 @@ class Cache:
     ##
     # delete the files in the compile cache
 
-    def _cleanCompileCache(self):
+    def cleanCompileCache(self):
         self._check_path(self._path)
+        self._console.info("Deleting compile cache")
         for f in os.listdir(self._path):   # currently, just delete the files in the top-level dir
             file = os.path.join(self._path, f)
             if os.path.isfile(file):
                 os.unlink(file)
+        self._update_checkfile()
+
+
+    def cleanDownloadCache(self):
+        if self._downloads:
+            actionLib.clean({"Deleting download cache" : [self._downloads]})
+        else:
+            self._console.warn("Cannot clean download cache - no path information!")
 
 
     ##
@@ -121,6 +135,7 @@ class Cache:
     def _check_path(self, path):
         if not os.path.exists(path):
             filetool.directory(path)
+            self._update_checkfile()
         elif not os.path.isdir(path):
             raise RuntimeError, "The cache path is not a directory: %s" % path
         else: # it's an existing directory

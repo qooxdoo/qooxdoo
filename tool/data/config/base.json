@@ -367,6 +367,8 @@
     {
       "desc"    : "remove local cache and generated .js files (source/build)",
 
+      "cache"   : "${CACHE_KEY}",
+
       "clean-files" :
       {
         "Cleaning up build" :
@@ -377,11 +379,13 @@
         "Cleaning up source" :
         [
           "${ROOT}/source/script/${APPLICATION}.js"
-        ],
-        "Deleting local cache" :
+        ]
+        /*
+        ,"Deleting local cache" :
         [
           "${ROOT}/cache"
         ]
+        */
       }
     },
 
@@ -390,7 +394,7 @@
     {
       "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
 
-      "cache"   : "${CACHE_KEY}",    // this is to check cache lock
+      "cache"   : "${CACHE_KEY}", 
 
       "clean-files" :
       {
@@ -413,11 +417,13 @@
         "Deleting inspector folder" :
         [
           "${ROOT}/inspector"
-        ],
-        "Deleting cache" :
+        ]
+        /*
+        ,"Deleting cache" :
         [
           "${CACHE}"
         ]
+        */
       }
     },
 

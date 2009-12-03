@@ -1292,6 +1292,8 @@ class Generator(object):
         self._console.info("Cleaning up files...")
         self._console.indent()
 
+        self._cache.cleanCompileCache()
+        self._cache.cleanDownloadCache()
         self._actionLib.clean(self._job.get('clean-files'))
 
         self._console.outdent()
