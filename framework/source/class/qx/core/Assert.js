@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#optional(qx.ui.core.Widget)
+#optional(qx.util.ColorUtil)
 
 ************************************************************************ */
 
@@ -746,7 +746,10 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertCssColor : function(expected, value, msg)
     {
-      var ColorUtil = qx.util.ColorUtil;
+      var ColorUtil = qx.Class.getByName("qx.util.ColorUtil");
+      if (!ColorUtil) {
+        throw new Error("qx.util.ColorUtil not available! Your code must have a dependency on 'qx.util.ColorUtil'");
+      }
 
       var expectedRgb = ColorUtil.stringToRgb(expected);
       try
@@ -782,7 +785,8 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertElement : function(value, msg)
     {
-      qx.dom.Node.isElement(value) || this.__fail(
+      // see qx.dom.Node.isElement
+      !!(value && value.nodeType === 1) || this.__fail(
         msg || "",
         "Expected value to be a DOM element but found  '", value, "'!"
       );
@@ -797,7 +801,7 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertQxObject : function(value, msg)
     {
-      value instanceof qx.core.Object || this.__fail(
+      this.__isQxInstance(value, "qx.core.Object") || this.__fail(
         msg || "",
         "Expected value to be a qooxdoo object but found ", value, "!"
       );
@@ -812,10 +816,33 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertQxWidget : function(value, msg)
     {
-      value instanceof qx.ui.core.Widget || this.__fail(
+      this.__isQxInstance(value, "qx.ui.core.Widget") || this.__fail(
         msg || "",
         "Expected value to be a qooxdoo widget but found ", value, "!"
       );
+    },
+    
+    
+    /**
+     * Internal herlper for checking the instance of a qooxdoo object using the 
+     * classname.
+     * 
+     * @param object {var} The object to check.
+     * @param classname {String} The classname of the class as string.
+     */
+    __isQxInstance : function(object, classname) 
+    {
+      if (!object) {
+        return false;
+      }
+      var clazz = object.constructor;
+      while(clazz) {
+        if (clazz.classname === classname) {
+          return true;
+        }
+        clazz = clazz.superclass;
+      }
+      return false;
     }
   }
 });
