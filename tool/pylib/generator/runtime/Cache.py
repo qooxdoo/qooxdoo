@@ -34,7 +34,7 @@ class Cache:
         self._path           = path
         self._context        = context
         self._console        = context['console']
-        self._cache_revision = 20878   # Change this to the current qooxdoo svn revision when existing caches need clearing
+        self._cache_revision = 20891   # Change this to the current qooxdoo svn revision when existing caches need clearing
         self._console.info("Initializing cache...")
         self._console.indent()
         self._check_path(self._path)
