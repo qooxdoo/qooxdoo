@@ -207,8 +207,10 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
         // right and bottom positioned elements are rendered with a
         // one pixel negative offset which results into some ugly
         // render effects.
-        if (qx.bom.client.Feature.QUIRKS_MODE)
-        {
+        if (
+          qx.bom.client.Engine.VERSION < 7 ||
+          (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8)
+        ) {
           if (this._isHorizontal) {
             element.childNodes[2].style.marginRight = (width%2 == 1) ? "-1px" : "0";
           } else {
