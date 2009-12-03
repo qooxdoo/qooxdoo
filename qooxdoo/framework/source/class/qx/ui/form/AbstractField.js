@@ -604,6 +604,26 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     /**
+     * Returns the start of the text selection
+     * 
+     * @return {Integer|null} Start of selection or null if not available
+     */
+    getTextSelectionStart : function() {
+      return this.getContentElement().getTextSelectionStart();
+    },
+
+
+    /**
+     * Returns the end of the text selection
+     * 
+     * @return {Integer|null} End of selection or null if not available
+     */
+    getTextSelectionEnd : function() {
+      return this.getContentElement().getTextSelectionEnd();
+    },
+
+
+    /**
      * Set the selection to the given start and end (zero-based).
      * If no end value is given the selection will extend to the
      * end of the textfield's content.

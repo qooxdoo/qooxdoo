@@ -74,13 +74,10 @@ qx.Class.define("qx.bom.Selection",
       // suitable for gecko, opera and webkit
       "default" : function(node)
       {
-        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
-        {
+        if (this.__isInputOrTextarea(node)) {
           return node.value.substring(node.selectionStart, node.selectionEnd);
-        }
-        else
-        {
-          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).toString();
+        } else {
+          return this.getSelectionObject(qx.dom.Node.getDocument(node)).toString();
         }
       }
     }),
@@ -97,7 +94,7 @@ qx.Class.define("qx.bom.Selection",
     {
       "mshtml" : function(node)
       {
-        var selectedValue = qx.bom.Selection.get(node);
+        var selectedValue = this.get(node);
         // get the selected part and split it by linebreaks
         var split = qx.util.StringSplit.split(selectedValue, /\r\n/);
 
@@ -111,17 +108,17 @@ qx.Class.define("qx.bom.Selection",
       {
         var selectedValue, selectedLength, split;
 
-        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
+        if (this.__isInputOrTextarea(node))
         {
           var start = node.selectionStart;
-          var end   = node.selectionEnd;
+          var end = node.selectionEnd;
 
-          selectedValue  = node.value.substring(start, end);
+          selectedValue = node.value.substring(start, end);
           selectedLength = end - start;
         }
         else
         {
-          selectedValue  = qx.bom.Selection.get(node);
+          selectedValue = qx.bom.Selection.get(node);
           selectedLength = selectedValue.length;
         }
 
@@ -137,13 +134,234 @@ qx.Class.define("qx.bom.Selection",
       // suitable for gecko and webkit
       "default" : function(node)
       {
-        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea")) {
+        if (this.__isInputOrTextarea(node)) {
           return node.selectionEnd - node.selectionStart;
         } else {
-          return qx.bom.Selection.get(node).length;
+          return this.get(node).length;
         }
       }
     }),
+    
+    
+    /**
+     * Returns the start of the selection
+     * 
+     * @signature function(node)
+     * @param node {Node} node to check for
+     * @return {Integer} start of current selection or "-1" if the current 
+     *                   selection is not within the given node
+     */
+    getStart : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(node)
+      {
+        if (this.__isInputOrTextarea(node))
+        {
+          var documentRange = qx.bom.Range.get();
+          
+          // Check if the document.selection is the text range inside the input element
+          if (!node.contains(documentRange.parentElement())) {
+            return -1;
+          }
+
+          var range = qx.bom.Range.get(node);
+          var len = node.value.length;
+
+          // Synchronize range start and end points
+          range.moveToBookmark(documentRange.getBookmark());
+          range.moveEnd('character', len);
+
+          return len - range.text.length;
+        }
+        else
+        {
+          var range = qx.bom.Range.get(node);
+          var parentElement = range.parentElement();
+          
+          // get a range which holds the text of the parent element
+          var elementRange = qx.bom.Range.get();
+          elementRange.moveToElementText(parentElement);
+
+          // Move end points of full range so it starts at the user selection
+          // and ends at the end of the element text.
+          var bodyRange = qx.bom.Range.get(qx.dom.Node.getBodyElement(node));
+          bodyRange.setEndPoint("StartToStart", range);
+          bodyRange.setEndPoint("EndToEnd", elementRange);
+          
+          // selection is at beginning
+          if (elementRange.compareEndPoints("StartToStart", bodyRange) == 0) {
+            return 0;
+          }
+
+          var moved;
+          var steps = 0;
+          while (true)
+          {
+            moved = bodyRange.moveStart("character", -1);
+            
+            // Starting points of both ranges are equal
+            if (elementRange.compareEndPoints("StartToStart", bodyRange) == 0) {
+              break;
+            }
+            
+            // Moving had no effect -> range is at begin of body
+            if (moved == 0) {
+              break;
+            } else {
+              steps++;
+            }
+          }
+          
+          return ++steps;
+        }
+      },
+      
+      "gecko|webkit" : function(node)
+      {
+        if (this.__isInputOrTextarea(node)) {
+          return node.selectionStart;
+        } 
+        else 
+        {
+          var documentElement = qx.dom.Node.getDocument(node);
+          var documentSelection = this.getSelectionObject(documentElement);
+          
+          // gecko and webkit do differ how the user selected the text
+          // "left-to-right" or "right-to-left"
+          if (documentSelection.anchorOffset < documentSelection.focusOffset) {
+            return documentSelection.anchorOffset;
+          } else {
+            return documentSelection.focusOffset;
+          }
+        }
+      },
+      
+      "default" : function(node)
+      {
+        if (this.__isInputOrTextarea(node)) {
+          return node.selectionStart;
+        } else {
+          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).anchorOffset; 
+        }
+      }
+    }),
+    
+    
+    /**
+     * Returns the end of the selection
+     * 
+     * @signature function(node)
+     * @param node {Node} node to check
+     * @return {Integer} end of current selection
+     */    
+    getEnd : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(node)
+      {
+        if (this.__isInputOrTextarea(node))
+        {
+          var documentRange = qx.bom.Range.get();
+
+          // Check if the document.selection is the text range inside the input element
+          if (!node.contains(documentRange.parentElement())) {
+            return -1;
+          }
+
+          var range = qx.bom.Range.get(node);
+          var len = node.value.length;
+
+          // Synchronize range start and end points
+          range.moveToBookmark(documentRange.getBookmark());
+          range.moveStart('character', -len);
+          
+          return range.text.length;
+        }
+        else
+        {
+          var range = qx.bom.Range.get(node);
+          var parentElement = range.parentElement();
+          
+          // get a range which holds the text of the parent element
+          var elementRange = qx.bom.Range.get();
+          elementRange.moveToElementText(parentElement);
+          var len = elementRange.text.length;
+
+          // Move end points of full range so it ends at the user selection
+          // and starts at the start of the element text.
+          var bodyRange = qx.bom.Range.get(qx.dom.Node.getBodyElement(node));
+          bodyRange.setEndPoint("EndToEnd", range);
+          bodyRange.setEndPoint("StartToStart", elementRange);
+          
+          // selection is at beginning
+          if (elementRange.compareEndPoints("EndToEnd", bodyRange) == 0) {
+            return len-1;
+          }
+          
+          var moved;
+          var steps = 0;
+          while (true)
+          {
+            moved = bodyRange.moveEnd("character", 1);
+
+            // Ending points of both ranges are equal
+            if (elementRange.compareEndPoints("EndToEnd", bodyRange) == 0) {
+              break;
+            }
+
+            // Moving had no effect -> range is at begin of body
+            if (moved == 0) {
+              break;
+            } else {
+              steps++;
+            }
+          }
+
+          return len - (++steps);
+        }
+      },
+      
+      "gecko|webkit" : function(node)
+      {
+        if (this.__isInputOrTextarea(node)) {
+          return node.selectionEnd;
+        } 
+        else 
+        {
+          var documentElement = qx.dom.Node.getDocument(node);
+          var documentSelection = this.getSelectionObject(documentElement);
+          
+          // gecko and webkit do differ how the user selected the text
+          // "left-to-right" or "right-to-left"
+          if (documentSelection.focusOffset > documentSelection.anchorOffset) {
+            return documentSelection.focusOffset;
+          } else {
+            return documentSelection.anchorOffset;
+          }
+        }
+      },
+      
+      "default" : function(node)
+      {
+        if (this.__isInputOrTextarea(node)) {
+          return node.selectionEnd;
+        } else {
+          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).focusOffset; 
+        }
+      }
+    }),
+    
+    
+    /**
+     * Utility method to check for an input or textarea element
+     * 
+     * @param node {node} node to check
+     * @return {Boolean} Whether the given nodt is an input or textarea element
+     */
+    __isInputOrTextarea : function(node) {
+      return qx.dom.Node.isElement(node) && 
+            (node.nodeName.toLowerCase() == "input" || 
+             node.nodeName.toLowerCase() == "textarea");
+    },
 
 
     /**

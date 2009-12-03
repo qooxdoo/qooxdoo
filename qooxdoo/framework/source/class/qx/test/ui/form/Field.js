@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
     },
 
-    testSelectAllBeforeFlush : function()
+    testSelectTextAllBeforeFlush : function()
     {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
@@ -45,7 +45,7 @@ qx.Class.define("qx.test.ui.form.Field",
     },
 
 
-    testSelectAllAfterFlush : function()
+    testSelectAllTextAfterFlush : function()
     {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
@@ -64,7 +64,7 @@ qx.Class.define("qx.test.ui.form.Field",
     },
 
 
-    testClearSelectionBeforeFlush : function()
+    testClearTextSelectionBeforeFlush : function()
     {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
@@ -84,7 +84,7 @@ qx.Class.define("qx.test.ui.form.Field",
     },
 
 
-    testClearSelectionAfterFlush : function()
+    testClearTextSelectionAfterFlush : function()
     {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
@@ -98,6 +98,45 @@ qx.Class.define("qx.test.ui.form.Field",
         textfield.selectAllText();
         textfield.clearTextSelection()
         self.assertEquals("", textfield.getTextSelection());
+        textfield.destroy();
+      });
+    },
+
+
+    testGetTextSelectionStartEndAfterFlush : function()
+    {
+      var textfield = new qx.ui.form.TextField("affe");
+      this.getRoot().add(textfield);
+
+      textfield.focus();
+      this.flush();
+
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(1000, function() {
+        textfield.setTextSelection(1, 2);
+        self.assertEquals(1, textfield.getTextSelectionStart());
+        self.assertEquals(2, textfield.getTextSelectionEnd());
+        textfield.destroy();
+      });
+    },
+    
+    
+    testGetTextSelectionStartEndBeforeFlush : function()
+    {
+      var textfield = new qx.ui.form.TextField("affe");
+      this.getRoot().add(textfield);
+
+      textfield.focus();
+      textfield.setTextSelection(2, 3);
+      
+      this.flush();
+
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(100, function() {
+        self.assertEquals(2, textfield.getTextSelectionStart());
+        self.assertEquals(3, textfield.getTextSelectionEnd());
         textfield.destroy();
       });
     }

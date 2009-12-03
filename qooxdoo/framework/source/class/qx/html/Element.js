@@ -1863,6 +1863,44 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Get the start of the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {Integer|null}
+     */
+    getTextSelectionStart : function()
+    {
+      var el = this.__element;
+      if (el) {
+        return qx.bom.Selection.getStart(el);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Get the end of the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {Integer|null}
+     */
+    getTextSelectionEnd : function()
+    {
+      var el = this.__element;
+      if (el) {
+        return qx.bom.Selection.getEnd(el);
+      }
+
+      return null;
+    },
+
+
+    /**
      * Set the selection of the element with the given start and end value.
      * If no end value is passed the selection will extend to the end.
      *
