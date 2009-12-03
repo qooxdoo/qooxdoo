@@ -393,11 +393,11 @@ qx.Class.define("qx.ui.form.SelectBox",
         {
           this.setSelection([current[0]]);
           this.__preSelectedItem = null;
-
-          // Add listeners for icon and label changes
-          current[0].addListener("changeIcon", this.__updateIcon, this);
-          current[0].addListener("changeLabel", this.__updateLabel, this);
         }
+
+        // Add listeners for icon and label changes
+        current[0].addListener("changeIcon", this.__updateIcon, this);
+        current[0].addListener("changeLabel", this.__updateLabel, this);
       }
       else
       {
