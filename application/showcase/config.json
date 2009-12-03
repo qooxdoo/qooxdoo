@@ -1,0 +1,50 @@
+{
+  "name"    : "showcase",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "showcase",
+    "QOOXDOO_PATH" : "../..",
+    "QXTHEME"      : "showcase.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : "."
+  },
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "packages" : 
+      {
+        "parts" : 
+        {
+          "boot": 
+          {
+            "include" : ["${QXTHEME}", "showcase.Application"]
+          },
+          "theme": 
+          {
+            "include" : ["showcase.page.theme.Content"]
+          },
+          "table": 
+          {
+            "include" : ["showcase.page.table.Content"]
+          }
+        },
+        "sizes" : 
+        {
+          "min-package" : 10
+        } 
+      }
+    }
+  }
+}
