@@ -476,8 +476,8 @@ qx.Class.define("qx.test.data.controller.Tree",
     testLabelOptions: function() {
       // create the options
       var options = {
-        converter: function(data) {
-          return data + " AFFE";
+        converter: function(data, model) {
+          return data + model.getName2();
         }
       };
 
@@ -486,18 +486,19 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__controller.setLabelOptions(options);
 
       // test the converter
-      this.assertEquals("root AFFE", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
-      this.assertEquals("a AFFE", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
-      this.assertEquals("b AFFE", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
-      this.assertEquals("c AFFE", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
+      this.assertEquals("rootroot2", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("aa2", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("bb2", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("cc2", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
     },
+    
 
     testIconOptions: function() {
       // create the options
       var options = {
-        converter: function(data) {
+        converter: function(data, model) {
           if (data != null) {
-             return data + " AFFE";
+             return data + model.getName();
           }
           return null;
         }
@@ -510,9 +511,9 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       // test the converter
       this.assertNull(this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
-      this.assertEquals("icon a AFFE", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
-      this.assertEquals("icon b AFFE", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
-      this.assertEquals("icon c AFFE", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");
+      this.assertEquals("icon aa", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
+      this.assertEquals("icon bb", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
+      this.assertEquals("icon cc", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");
     },
 
 
