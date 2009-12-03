@@ -9,7 +9,7 @@ class QxLogFormat:
       print("Couldn't open Selenium server log file, quitting...")
       sys.exit(1)
 
-    self.totalErrors = 0
+    self.totalErrorsInReport = 0
     self.failedTests = 0
     
     ignoreList = None
@@ -63,8 +63,8 @@ class QxLogFormat:
             if ignoreReg.search(line):
               writeLine = False
               if "level-error" in line or "level-warn" in line:
-                self.totalErrors = self.totalErrors - 1
-        
+                self.totalErrorsInReport -= 1
+
         if writeLine:
           # Only log the last "Last demo loaded" line for Demobrowser runs.
           if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
@@ -77,7 +77,7 @@ class QxLogFormat:
   
     if (self.failedTests > 0):
       logHtml += '<p class="failedtests">' + str(self.failedTests) + ' Test runs didn\'t finish correctly!</p>'
-    logHtml += '<p class="totalerrors">Total errors in report: ' + repr(self.totalErrors) + '</p>'
+    logHtml += '<p class="totalerrors">Total errors in report: ' + repr(self.totalErrorsInReport) + '</p>'
     
     return logHtml  
 
@@ -97,10 +97,10 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
 </style></head><body>'''
     htmlFooter = '  </body></html>\n'   
     
-    entryHtml = self.getFormattedEntries(logs,ignoreList)
     tableHtml = self.getHeaderTable(logs)
+    entryHtml = self.getFormattedEntries(logs,ignoreList)
     
-    return htmlHeader + tableHtml + entryHtml + htmlFooter 
+    return htmlHeader + tableHtml + entryHtml + "\n" + htmlFooter 
     
   
   def getHeaderTable(self,logs):
@@ -160,12 +160,13 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
   
       # if there is no "...with warnings or errors..." line in the log output,
       # assume the test didn't finish correctly.
-      totalTestErrors = ""
+      errorsInTest = 0
       errors = errorre.search(entry)
       if (errors):
         print("Found " + errors.group(1) + " errors")
-        self.totalErrors += int(errors.group(1))
-        if (self.totalErrors == 0):
+        self.totalErrorsInReport += int(errors.group(1))
+        errorsInTest += int(errors.group(1))
+        if (errorsInTest == 0):
           cellCol = '#00FF00' 
       else:
         self.failedTests += 1
@@ -182,7 +183,7 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
       tableBody += '<td>' + host + '</td>'
       tableBody += '<td>' + dateString + '</td>'
       tableBody += '<td>' + timeString + '</td>'
-      tableBody += '<td style="align:center; background-color: ' + cellCol + '">' + repr(self.totalErrors) + ' warnings/errors</td>'
+      tableBody += '<td style="align:center; background-color: ' + cellCol + '">' + repr(errorsInTest) + ' warnings/errors</td>'
       tableBody += '</tr>'
   
     return tableHeader + tableBody + "</table>"    
