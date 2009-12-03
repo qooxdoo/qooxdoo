@@ -43,6 +43,7 @@ qx.Class.define("qx.test.io2.ScriptLoader",
     {
       // Opera will fire no event at all
       if (qx.bom.client.Engine.OPERA) {
+        this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
 
