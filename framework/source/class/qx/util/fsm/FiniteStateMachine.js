@@ -21,7 +21,7 @@
  * A finite state machine.
  *
  * See {@link qx.util.fsm.State} for details on creating States,
- * and {@link qx.util.fsm.Transitions} for details on creating
+ * and {@link qx.util.fsm.Transition} for details on creating
  * transitions between states.
  */
 qx.Class.define("qx.util.fsm.FiniteStateMachine",
@@ -507,7 +507,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
     /**
      * Retrieve the list of objects which have registered, via {@link
-     * addObject} as being members of the specified group.
+     * #addObject} as being members of the specified group.
      *
      *
      * @param groupName {String}

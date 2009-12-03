@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
     /**
      * Apply method for applying the legend position. It calls the
-     * {@link _repositionFrame} method.
+     * {@link #_repositionFrame} method.
      */
     _applyLegendPosition: function(e)
     {
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
     /**
      * Repositions the frame of the group box dependent on the
-     * {@link legendPosition} property.
+     * {@link #legendPosition} property.
      */
     _repositionFrame: function()
     {

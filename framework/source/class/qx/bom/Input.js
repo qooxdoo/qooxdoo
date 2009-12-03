@@ -121,7 +121,7 @@ qx.Class.define("qx.bom.Input",
      * and checkboxes or radiobuttons (for convenience).
      *
      * Please note: To modify the value attribute of a checkbox or
-     * radiobutton use {@link qx.bom.element.Attribute.set} instead.
+     * radiobutton use {@link qx.bom.element.Attribute#set} instead.
      *
      * @param element {Element} element to update
      * @param value {String|Number|Array} the value to apply

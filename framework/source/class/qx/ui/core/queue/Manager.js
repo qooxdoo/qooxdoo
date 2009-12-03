@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
     /**
      * Flush all layout queues in the correct order. This function is called
-     * deferred if {@link scheduleFlush} is called.
+     * deferred if {@link #scheduleFlush} is called.
      *
      * @return {void}
      */
