@@ -47,7 +47,7 @@ class QxLogFormat:
     return logs
     
 
-  def getFormattedEntries(self, logs, ignoreList=[]):
+  def getFormattedEntries(self, logs, ignoreList=None):
     logHtml = ""
     for k in sorted(logs.iterkeys()):
       logHtml += '<div id="t_' + k + '">'
@@ -57,12 +57,13 @@ class QxLogFormat:
         
         # Check if the log entry matches one of the ignore patterns
         writeLine = True
-        for reString in ignoreList:
-          ignoreReg = re.compile(reString)
-          if ignoreReg.search(line):
-            writeLine = False
-            if "level-error" in line or "level-warn" in line:
-              self.totalErrors = self.totalErrors - 1
+        if ignoreList:
+          for reString in ignoreList:
+            ignoreReg = re.compile(reString)
+            if ignoreReg.search(line):
+              writeLine = False
+              if "level-error" in line or "level-warn" in line:
+                self.totalErrors = self.totalErrors - 1
         
         if writeLine:
           # Only log the last "Last demo loaded" line for Demobrowser runs.
