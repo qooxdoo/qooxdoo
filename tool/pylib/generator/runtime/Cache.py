@@ -31,36 +31,67 @@ class Cache:
     _check_file = u".cache_check_file"
 
     def __init__(self, path, context):
-        self._path         = path
-        self._console      = context['console']
+        self._path           = path
+        self._context        = context
+        self._console        = context['console']
+        self._cache_revision = 20878   # Change this to the current qooxdoo svn revision when existing caches need clearing
         self._console.info("Initializing cache...")
         self._console.indent()
         self._check_path(self._path)
-        self._locked_files = set(())
-        context['interruptRegistry'].register(self._unlock_files)
-        # check tool chain
+        self._locked_files   = set(())
+        self._context['interruptRegistry'].register(self._unlock_files)
+        self._assureCacheIsValid(path)  # checks and pot. clears existing cache
+        self._console.outdent()
+        return
+
+
+    def _assureCacheIsValid(self, path):
         check_file = os.path.join(path, self._check_file)
-        self._toolChainIsNewer = self._checkToolsNewer(path, check_file, context)
+        self._toolChainIsNewer = self._checkToolsNewer(path, check_file, self._context)
         if self._toolChainIsNewer:
-            if context['jobconf'].get("cache/invalidate-on-tool-change", False):
+            if self._context['jobconf'].get("cache/invalidate-on-tool-change", False):
                 self._console.info("Cleaning compile cache, as tool chain is newer")
                 self._cleanCompileCache()  # will also remove checkFile
+                self._update_checkfile(check_file)
             else:
                 self._console.warn("! Detected newer tool chain; you might want to clear the cache.")
-            # something like: context['interruptRegistry'].register(self._warn_toolchain)
-        # assure check_file
+        return
+
+
+    def _update_checkfile(self, check_file):
+        fd  = os.open(check_file, os.O_CREAT|os.O_RDWR, 0666)  # open or create
+        numbytes = os.write(fd, str(self._cache_revision))
+        os.close(fd)
+        if numbytes < 1:
+            raise IOError("Cannot write cache check file '%s'" % check_file)
+        return
+
+    def _update_checkfile_1(self, check_file):
         if not os.path.isfile(check_file):
             #os.mknod(check_file, 0666)
             os.close(os.open(check_file, os.O_CREAT|os.O_RDWR, 0666))  # portable form of os.mknod
-
-        self._console.outdent()
         return
+
+
+    def _checkToolsNewer(self, path, checkFile, context):
+        if not os.path.isfile(checkFile):
+            return True  # check file not existent
+        cacheRevision = open(checkFile, "r").read()
+        try:
+            cacheRevision = int(cacheRevision)
+        except:
+            return True  # doesn't contain a valid int
+        if self._cache_revision > cacheRevision:
+            return True  # current caches rev is lower than that of the Cache class
+        else:
+            return False
+
 
     ##
     # predicate to check for files in the 'tool' path that are newer than the
     # cache check file
 
-    def _checkToolsNewer(self, path, checkFile, context):
+    def _checkToolsNewer_1(self, path, checkFile, context):
         if not os.path.isfile(checkFile):
             return True
         checkFileMTime = os.stat(checkFile).st_mtime
