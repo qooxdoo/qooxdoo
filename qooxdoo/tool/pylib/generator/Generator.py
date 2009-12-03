@@ -1286,14 +1286,26 @@ class Generator(object):
 
 
     def runClean(self):
+
+        def isLocalPath(path):
+            return self._config.absPath(path).startswith(self._config.absPath(self._job.get("let/ROOT")))
+
         if not self._job.get('clean-files', False):
             return
 
         self._console.info("Cleaning up files...")
         self._console.indent()
 
-        self._cache.cleanCompileCache()
-        self._cache.cleanDownloadCache()
+        #print "-- cache: %s; root: %s" % (self._config.absPath(self._job.get("cache/compile")), self._config.absPath(self._job.get("let/ROOT")))
+
+        if (self._job.name == "clean" and not isLocalPath(self._job.get("cache/compile"))): # "clean" with non-local caches
+            pass
+        else:
+            self._cache.cleanCompileCache()
+        if (self._job.name == "clean" and not isLocalPath(self._job.get("cache/downloads"))): # "clean" with non-local caches
+            pass
+        else:
+            self._cache.cleanDownloadCache()
         self._actionLib.clean(self._job.get('clean-files'))
 
         self._console.outdent()
