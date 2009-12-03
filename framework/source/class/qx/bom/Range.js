@@ -82,6 +82,10 @@ qx.Class.define("qx.bom.Range",
         }
         else
         {
+          if (node == null) {
+            node = window;
+          }
+
           // need to pass the document node to work with multi-documents
           return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
         }

@@ -97,13 +97,29 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       controls.add(btnSend1);
 
 
-      var btnSend2 = new qx.ui.form.Button("Send selection");
-      btnSend2.setFocusable(false);
-      btnSend2.setKeepFocus(true);
-      btnSend2.addListener("execute", function() {
-        this.debug("Sending selection: " + input1.getSelection());
+      var btnSendTextSelection = new qx.ui.form.Button("Send selection");
+      btnSendTextSelection.setFocusable(false);
+      btnSendTextSelection.setKeepFocus(true);
+      btnSendTextSelection.addListener("execute", function() {
+        this.debug("Sending selection: " + input1.getTextSelection());
       });
-      controls.add(btnSend2);
+      controls.add(btnSendTextSelection);
+      
+      var btnSendTextSelectionStart = new qx.ui.form.Button("Send start of selection");
+      btnSendTextSelectionStart.setFocusable(false);
+      btnSendTextSelectionStart.setKeepFocus(true);
+      btnSendTextSelectionStart.addListener("execute", function() {
+        this.debug("Sending selection: " + input1.getTextSelectionStart());
+      });
+      controls.add(btnSendTextSelectionStart);
+      
+      var btnSendTextSelectionEnd = new qx.ui.form.Button("Send end of selection");
+      btnSendTextSelectionEnd.setFocusable(false);
+      btnSendTextSelectionEnd.setKeepFocus(true);
+      btnSendTextSelectionEnd.addListener("execute", function() {
+        this.debug("Sending selection: " + input1.getTextSelectionEnd());
+      });
+      controls.add(btnSendTextSelectionEnd);
 
 
       this.getRoot().add(controls, {left:200, top:0});
