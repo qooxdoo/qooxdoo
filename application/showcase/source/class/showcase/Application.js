@@ -52,6 +52,7 @@ qx.Class.define("showcase.Application",
     __contentContainer : null,
     __listLoadImage : null,
     __content : null,
+    __effect : null,
     
     
     main : function()
@@ -105,11 +106,7 @@ qx.Class.define("showcase.Application",
       pages.push(
         new showcase.page.form.Page(),
         new showcase.page.table.Page(),
-        new showcase.page.theme.Page(),
-        new showcase.page.table.Page(),
-        new showcase.page.table.Page(),
-        new showcase.page.table.Page(),
-        new showcase.page.table.Page()
+        new showcase.page.theme.Page()
       );
       
       var listController = new qx.data.controller.List(pages, list, "name");
@@ -159,6 +156,7 @@ qx.Class.define("showcase.Application",
       if (this.getSelectedPage() !== page) {
         if (page.getReadyState() == "complete") {
           this.__content.remove(page.getContent().getView());
+          this.__cancelFade();
         }
       }
     },
@@ -169,9 +167,43 @@ qx.Class.define("showcase.Application",
       page.load(function(page)
       {
         if (this.getSelectedPage() == page) {
-          this.__content.add(page.getContent().getView(), {edge: 0});
+          var view = page.getContent().getView();
+          this.__content.add(view, {edge: 0});
+           
+          this.__fadeIn(view);
         }
       }, this);
+    },
+    
+    
+    __cancelFade : function() 
+    {
+      if (this.__effect) {
+        this.__effect.cancel();
+        this.__effect.dispose();
+        this.__effect = null;
+      }
+    },
+    
+    
+    __fadeIn : function(view) 
+    {
+      view.getContentElement().setStyle("display", "none");
+      qx.ui.core.queue.Manager.flush();
+      
+      this.__cancelFade();
+      
+      var element = view.getContentElement().getDomElement();
+      this.__effect = new qx.fx.effect.core.Fade(element);
+      this.__effect.set({
+        from: 0,
+        to: 1
+      });
+      this.__effect.addListenerOnce("update", function() {
+        view.getContentElement().setStyle("display", "block");
+      }, this);
+      
+      this.__effect.start();
     }
   }
 });
