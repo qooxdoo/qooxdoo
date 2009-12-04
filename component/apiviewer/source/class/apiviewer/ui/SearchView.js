@@ -380,7 +380,7 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _load : function()
     {
-      var url = "./script/apiindex.js";
+      var url = "./script/apiindex.json";
       var req = new qx.io.remote.Request(url);
 
       req.setAsynchronous(true);

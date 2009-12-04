@@ -22,9 +22,9 @@
 import sys, os
 
 from misc import filetool
+from misc import json
 from ecmascript.backend import api
 from ecmascript.frontend import tree
-import simplejson
 
 
 
@@ -127,8 +127,9 @@ class ApiLoader:
         self._console.info("Saving data...", False)
         self._console.indent()
 
-        packages = api.packagesToJsonString(docTree, "", "", "")
-        filetool.save(os.path.join(apiPath, "apidata.js"), packages)
+        packageData = api.getPackageData(docTree)
+        packageJson = json.dumps(packageData)
+        filetool.save(os.path.join(apiPath, "apidata.json"), packageJson)
         
         length = 0
         for classData in api.classNodeIterator(docTree):
@@ -138,14 +139,15 @@ class ApiLoader:
         for classData in api.classNodeIterator(docTree):
             pos += 1
             self._console.progress(pos, length)
-            classContent = tree.nodeToJsonString(classData, "", "", "")
-            fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
-            filetool.save(fileName, classContent)
+            nodeData = tree.getNodeData(classData)
+            nodeJson = json.dumps(nodeData)
+            fileName = os.path.join(apiPath, classData.get("fullName") + ".json")
+            filetool.save(fileName, nodeJson)
             
         self._console.outdent()
             
         self._console.info("Saving index...")
-        filetool.save(os.path.join(apiPath, "apiindex.js"), indexContent)            
+        filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
 
         self._console.outdent()
         self._console.info("Done")
@@ -291,7 +293,7 @@ class ApiLoader:
         index = { "__types__" : types,
                   "__fullNames__" : fullNames,
                   "__index__" : indexs }
-        asString = simplejson.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
+        asString = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
 
         return asString
 
