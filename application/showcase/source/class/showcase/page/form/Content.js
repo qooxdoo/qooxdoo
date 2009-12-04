@@ -17,11 +17,28 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Theme.define("showcase.theme.Color",
+qx.Class.define("showcase.page.form.Content",
 {
-  extend : qx.theme.modern.Color,
-
-  colors :
-  {
+  extend : showcase.AbstractContent,
+  
+  
+  construct : function(page) {
+    this.base(arguments, page);
+    
+    this.setView(this.__createView());
+  },
+  
+  
+  members : {
+    __createView : function() 
+    {
+      var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
+      
+      var win = new qx.ui.window.Window("depp");
+      view.add(win);
+      win.open();
+      
+      return view;
+    }
   }
 });

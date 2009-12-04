@@ -38,7 +38,11 @@
           "table": 
           {
             "include" : ["showcase.page.table.Content"]
-          }
+          },
+          "form": 
+          {
+            "include" : ["showcase.page.form.Content"]
+          }          
         },
         "sizes" : 
         {

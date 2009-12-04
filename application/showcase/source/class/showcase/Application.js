@@ -1,10 +1,20 @@
 /* ************************************************************************
 
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
    Copyright:
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Martin Wittemann (martinwittemann)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -38,61 +48,75 @@ qx.Class.define("showcase.Application",
 
   members :
   {
+    __stack : null,
+    __contentContainer : null,
+    __listLoadImage : null,
+    __content : null,
+    
+    
     main : function()
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var cssUrl = qx.util.AliasManager.getInstance().resolve(
+        "showcase/css/showcase.css"
+      );
+      qx.bom.Stylesheet.includeFile(cssUrl);
+
+      var grid = new qx.ui.layout.Grid();
+      grid.setColumnFlex(0, 1);
+      grid.setRowFlex(1, 1);
+      var row = 0;
+      var container = new qx.ui.container.Composite(grid);
       this.getRoot().add(container, {edge: 0});
                   
       var list = new qx.ui.form.List(true).set({
         appearance: "header",
         height: null
       });
-      container.add(list);      
-           
-      var grid = new qx.ui.layout.Grid();
-      grid.setColumnFlex(0, 1);
-      grid.setRowFlex(0, 1);
-      grid.setRowFlex(1, 0);
-      var contentContainer = this.__contentContainer = new qx.ui.container.Composite(grid);
-      contentContainer.setAppearance("content-container");
-      container.add(contentContainer, {flex: 1});
-      
-      var stack = this.__stack = new qx.ui.container.Stack();
-      contentContainer.add(stack, {row: 0, column: 0, rowSpan: 2});
+      container.add(list, {row: row++, column: 0, colSpan: 2});               
+                 
+      this.__stack = new qx.ui.container.Stack();
+      this.__stack.setAppearance("stack");
+      container.add(this.__stack, {row: row, column: 0});
       
       this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
       var loadImage = new qx.ui.basic.Image("showcase/images/loading66.gif");
       loadImage.setAlignY("middle");
       this.__listLoadImage.add(loadImage);
-      stack.add(this.__listLoadImage);
-            
+      this.__stack.add(this.__listLoadImage);
+        
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-      stack.add(this.__content);
+      this.__stack.add(this.__content);
       
-      this.__descriptionBox = new qx.ui.groupbox.GroupBox("Description").set({
+      var descriptionBox = new qx.ui.container.Scroll().set({
         appearance: "description-box",
         layout: new qx.ui.layout.Canvas()
       });
-      contentContainer.add(this.__descriptionBox, {row: 0, column: 1});
+      container.add(descriptionBox, {row: row++, column: 1});
       
-      this.__description = new qx.ui.basic.Label().set({
-        rich: true
+      var description = new qx.ui.basic.Label().set({
+        rich: true,
+        selectable: true
       });
-      this.__descriptionBox.add(this.__description, {edge: 0});
+      descriptionBox.add(description, {edge: 0});
       
       var pages = new qx.data.Array();
       pages.push(
-        new showcase.Page(new showcase.page.theme.Description()),
-        new showcase.Page(new showcase.page.table.Description())
+        new showcase.page.form.Page(),
+        new showcase.page.table.Page(),
+        new showcase.page.theme.Page(),
+        new showcase.page.table.Page(),
+        new showcase.page.table.Page(),
+        new showcase.page.table.Page(),
+        new showcase.page.table.Page()
       );
       
-      var listController = new qx.data.controller.List(pages, list, "description.name");
-      listController.setIconPath("description.icon");      
+      var listController = new qx.data.controller.List(pages, list, "name");
+      listController.setIconPath("icon");      
       listController.getSelection().setItem(0, pages.getItem(0));
       listController.bind("selection[0]", this, "selectedPage");
-      listController.bind("selection[0].description.description", this.__description, "value");
+      listController.bind("selection[0].description", description, "value");
 
       listController.bind("selection[0].readyState", this, "showLoadIndicator", {
         converter: function(value) {
