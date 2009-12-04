@@ -2465,6 +2465,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       VIRTUAL WIDGETS
     ---------------------------------------------------------------------------
     */
+    "virtual-list" : "list",
+    "virtual-list/row-layer" : "row-layer",
 
     "row-layer" : "widget",
     "column-layer" : "widget",
