@@ -67,11 +67,11 @@ class QxLogFormat:
 
         if writeLine:
           # Only log the last "Last demo loaded" line for Demobrowser runs.
-          if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
-            if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
-              logHtml += '  ' + line
-          else:
-            logHtml += '  ' + line
+          #if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
+          #  if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
+          #    logHtml += '  ' + line
+          #else:
+          logHtml += '  ' + line
       
       logHtml += '</div>'
   
