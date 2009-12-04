@@ -1296,6 +1296,7 @@ class Generator(object):
         self._console.info("Cleaning up files...")
         self._console.indent()
 
+        # Handle caches
         #print "-- cache: %s; root: %s" % (self._config.absPath(self._job.get("cache/compile")), self._config.absPath(self._job.get("let/ROOT")))
 
         if (self._job.name == "clean" and not isLocalPath(self._job.get("cache/compile"))): # "clean" with non-local caches
@@ -1306,6 +1307,7 @@ class Generator(object):
             pass
         else:
             self._cache.cleanDownloadCache()
+        # Clean up other files
         self._actionLib.clean(self._job.get('clean-files'))
 
         self._console.outdent()

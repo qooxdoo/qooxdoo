@@ -27,6 +27,9 @@ from generator.config.Config import Config
 from generator.runtime.Log import Log
 from generator.runtime.InterruptRegistry import InterruptRegistry
 
+#import warnings
+#warnings.filterwarnings("error") # turn warnings into errors - e.g. for UnicodeWarning
+
 ## TODO: The next on is a hack, and should be removed once all string handling is
 ## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
 ## when working on string handling in other parts of the generator

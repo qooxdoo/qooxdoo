@@ -245,10 +245,9 @@ SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "TH
 SPACE_AFTER_USAGE = ["RETURN", "FUNCTION"]
 PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 
-#IDENTIFIER_REGEXP = r'[\.a-zA-Z0-9_-]+'
-IDENTIFIER_CHARS  = r'(?u)[\.\w$]'
-IDENTIFIER_REGEXP = r'%s+' % IDENTIFIER_CHARS
-#IDENTIFIER_REGEXP = re.compile(r'[\.\w$-]+', re.U)
+IDENTIFIER_CHARS          = r'(?u)[\.\w$]'
+IDENTIFIER_ILLEGAL_CHARS  = r'(?u)[^\.\w$]'
+IDENTIFIER_REGEXP         = r'%s+' % IDENTIFIER_CHARS
 
 ##
 # Re-creating some Unicode information here, as it is not provided by Python
