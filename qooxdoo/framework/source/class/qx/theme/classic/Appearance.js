@@ -2477,7 +2477,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor: states.selected ?
             "table-row-background-selected" :
             "table-row-background-even",
-          textColor: states.selected ? "text-selected" : "text-label",
+          textColor: states.selected ? "text-selected" : "text",
           padding: [3, 6]
         }
       }
