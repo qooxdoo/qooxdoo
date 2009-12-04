@@ -45,7 +45,7 @@
  *
  * * If you want to bind a list like widget, use {@link qx.data.controller.List}
  * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
- * * If you want to bin a form widget, use {@link qx.data.controller.Form}
+ * * If you want to bind a form widget, use {@link qx.data.controller.Form}
  */
 qx.Class.define("qx.data.controller.Object",
 {
