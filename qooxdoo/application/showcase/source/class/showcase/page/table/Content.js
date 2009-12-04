@@ -1,17 +1,173 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (martinwittemann)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/16/*)
+
+************************************************************************ */
 qx.Class.define("showcase.page.table.Content",
 {
   extend : showcase.AbstractContent,
   
+  construct : function(page) {
+    this.base(arguments, page);
+    
+    this.setView(this.__createView());
+  },
+  
+  
+  statics : {
+    saveResult: function(result) {
+      this.__result = result;
+    }
+  },
+    
+  
   members :
   {
-    getView : function()
+    __createView : function() 
     {
-      var table = qx.ui.table.Table;
-  
-      return this._view || (this._view = new qx.ui.core.Widget().set({
-        decorator: "main",
-        backgroundColor: "yellow"
-      }));
+      var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
+      
+      var win = new qx.ui.window.Window();
+      win.set({
+        showClose: false,
+        showMinimize: false,
+        contentPadding: 0
+      });
+      
+      this._addWindowContent(win);
+      
+      view.add(win);
+      win.moveTo(30, 20);
+      win.open();
+      
+      return view;
+    },
+    
+    
+    
+    _addWindowContent : function(win) {
+      // Create the initial data
+      var rowData = [[0, "loading ...", "loading ...", 0, false]];
+
+      // table model
+      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([ "Chart Pos.", "Title", "Artist", "Year", "Exlicit" ]);
+      tableModel.setData(rowData);
+      tableModel.setColumnEditable(1, true);
+      tableModel.setColumnEditable(2, true);
+      tableModel.setColumnSortable(3, false);
+
+      var custom =
+      {
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
+
+      // table
+      var table = new qx.ui.table.Table(tableModel, custom);
+
+      table.set({
+        width: 600,
+        height: 400,
+        decorator : null,
+        headerCellHeight : null
+      });
+
+      table.getSelectionModel().setSelectionMode(
+        qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
+      );
+
+      var tcm = table.getTableColumnModel();
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());      
+      tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Number());
+      tcm.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
+
+      tcm.setHeaderCellRenderer(1, 
+        new qx.ui.table.headerrenderer.Icon(
+          "icon/16/mimetypes/media-audio.png", "Title"
+        )
+      );
+      tcm.setHeaderCellRenderer(3, 
+        new qx.ui.table.headerrenderer.Icon(
+          "icon/16/apps/office-calendar.png", "Year"
+        )
+      );
+      tcm.setHeaderCellRenderer(4, 
+        new qx.ui.table.headerrenderer.Icon(
+          "icon/16/status/dialog-warning.png", "Explicit"
+        )
+      );      
+
+
+
+      // Obtain the behavior object to manipulate
+      var resizeBehavior = tcm.getBehavior();
+
+      // This uses the set() method to set all attriutes at once; uses flex
+      resizeBehavior.set(1, {width: "2*", minWidth: 60});
+      resizeBehavior.set(2, {width: "1*", minWidth: 60});
+      
+      // We could also set them individually:
+      resizeBehavior.setWidth(0, 70);
+      resizeBehavior.setWidth(3, 60);
+      resizeBehavior.setWidth(4, 70);
+
+      win.setCaption("Popular Music Tracks");
+      win.setLayout(new qx.ui.layout.Grow());
+      win.add(table);
+      
+      this._loadData(tableModel);    
+    },
+    
+    
+    
+    _loadData : function(tableModel) 
+    {
+      var query = "select * from music.track.popular";
+      var url = "http://query.yahooapis.com/v1/public/yql?q=" +
+      encodeURIComponent(query) +
+      "&format=json&diagnostics=false&" +
+      "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=" + 
+      "showcase.page.table.Content.saveResult";
+      
+      var loader = new qx.io2.ScriptLoader();
+      loader.load(url, function() {
+        var result = showcase.page.table.Content.__result;
+
+        var rows = [];
+        var rawData = result.query.results.Track;
+        for (var i = 0; i < rawData.length; i++) {
+          var row = [];
+          row.push(parseInt(rawData[i].ItemInfo.ChartPosition["this"]));
+          row.push(rawData[i].title);
+          row.push(rawData[i].Artist.name);
+          row.push(parseInt(rawData[i].releaseYear));
+          row.push(rawData[i].explicit !== "0");
+          rows.push(row);
+        };
+        tableModel.setData(rows);
+      });
     }
   }
 });

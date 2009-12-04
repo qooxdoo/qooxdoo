@@ -17,28 +17,44 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("showcase.page.theme.Content",
+
+qx.Class.define("showcase.page.AbstractDesktopContent",
 {
   extend : showcase.AbstractContent,
   
-  
-  construct : function(page) {
+  construct : function(page) 
+  {
     this.base(arguments, page);
     
     this.setView(this.__createView());
   },
+
   
-  
-  members : {
+  members :
+  {
     __createView : function() 
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
       
-      var win = new qx.ui.window.Window("depp");
+      var win = new qx.ui.window.Window();
+      win.set({
+        showClose: false,
+        showMinimize: false,
+        contentPadding: 0
+      });
+      
+      this._addWindowContent(win);
+      
       view.add(win);
+      win.moveTo(30, 20);
       win.open();
       
       return view;
-    }
+    },
+    
+    
+    _addWindowContent : function(win) {
+      throw new Error("Abstract method call!");
+    }  
   }
 });
