@@ -81,5 +81,20 @@ qx.Class.define("qx.ui.form.ListItem",
       refine : true,
       init : "listitem"
     }
+  },
+  
+  
+  members :
+  {
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates)
+     */
+    _forwardStates :
+    {
+      focused : true,
+      hovered : true,
+      selected : true
+    }    
   }
 });
