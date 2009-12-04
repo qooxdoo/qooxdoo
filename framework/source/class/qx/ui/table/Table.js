@@ -371,7 +371,8 @@ qx.Class.define("qx.ui.table.Table",
       check : "Integer",
       init : 16,
       apply : "_applyHeaderCellHeight",
-      event : "changeHeaderCellHeight"
+      event : "changeHeaderCellHeight",
+      nullable : true
     },
 
 
