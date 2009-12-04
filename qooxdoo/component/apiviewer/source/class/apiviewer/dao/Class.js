@@ -117,7 +117,7 @@ qx.Class.define("apiviewer.dao.Class",
 
     isLoaded : function()
     {
-      return this._docNode.attributes.externalRef != "true";
+      return this._docNode.attributes.externalRef != true;
     },
 
 

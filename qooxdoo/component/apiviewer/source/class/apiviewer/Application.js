@@ -76,7 +76,7 @@ qx.Class.define("apiviewer.Application",
       this.base(arguments);
 
       // Finally load the data
-      this.controller.load("script/apidata.js");
+      this.controller.load("script/apidata.json");
     }
   },
 
