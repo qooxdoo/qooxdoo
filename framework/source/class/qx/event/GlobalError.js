@@ -21,7 +21,7 @@
  * The GlobalError class stores a reference to a global error handler function.
  *
  *  This function is called for each uncatched JavaScript exception. To enable
- *  global error handling the setting <code>qx.globalErrorHandling</code> bust
+ *  global error handling the setting <code>qx.globalErrorHandling</code> must
  *  be enabled and a error handler must be registered.
  *  Further each JavaScript "entry point" must be wrapped with a call to
  *  {@link qx.event.GlobalError#observeMethod}.
