@@ -40,6 +40,7 @@ qx.Class.define("showcase.page.table.Page",
         "Table",
         this.__descriptionText,
         this.__features,
+        this.__manual,        
         this.__demos,
         this.__api
       )
@@ -74,7 +75,12 @@ qx.Class.define("showcase.page.table.Page",
       "Cell Renderer" : "Custom cell renderer like the boolean cell renderer can be configured.",
       "Header Renderer" : "Custom header renderer like in the “explicit” column can be used."
     },
-        
+    
+    
+    __manual : {
+      "remote_table_model" : "Remote table model"
+    },
+            
     
     __descriptionText : "The table is a very powerful widget. It is “virtual” " + 
       "in that the table data can be of any length (e.g. hundreds of thousands" + 
