@@ -70,6 +70,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
         var decorator = this.getBackground(row);
         if (decorator)
         {
+          console.info(decorator)
           decorations.push({
             childIndex: childIndex,
             decorator: decorator,
@@ -160,6 +161,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     // overridden
     setBackground : function(index, decorator)
     {
+      console.info(arguments)
       this.base(arguments, index, decorator);
       if (this.__isRowRendered(index)) {
         this.updateLayerData();

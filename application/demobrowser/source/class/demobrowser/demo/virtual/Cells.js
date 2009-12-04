@@ -234,8 +234,11 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       var embed = new qx.ui.embed.Html().set({
         width: width,
         height: height,
-        decorator : states.selected ? "selected" : "main"
+        decorator : states.selected ? null : "main"
       });
+//      decorator : states.selected ? "selected" : "main"
+
+
       var cellProperties = cell.getCellProperties(value, states);
       var insets = cellProperties.insets;
 
