@@ -652,11 +652,29 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     return asString
 
 
+def getNodeData(node):
+    data = {
+      "type" : node.type
+    }
+
+    if node.hasAttributes():
+        data["attributes"] = {}
+        for key in node.attributes:
+            data["attributes"][key] = node.attributes[key]
+
+    if node.hasChildren():
+        data["children"] = []
+
+        for child in node.children:
+            data["children"].append(getNodeData(child))
+
+    return data
+
+
 def escapeXmlChars(text, inAttribute, encoding="utf-8"):
     if isinstance(text, basestring):
-        text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        if inAttribute:
-            text = text.replace("\"", "&quot;")
+        # http://www.w3.org/TR/xml/#dt-escape
+        text = text.replace("\"", "&quot;").replace("'", "&apos;").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     elif isinstance(text, bool):
         text = str(text).lower()
     else:
@@ -667,7 +685,8 @@ def escapeXmlChars(text, inAttribute, encoding="utf-8"):
 
 def escapeJsonChars(text):
     if isinstance(text, basestring):
-        text = text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+        # http://tools.ietf.org/html/rfc4627#section-2.5
+        text = text.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t').replace('\b', '\\b').replace('\f', '\\f').replace('/', '\\/')
     elif isinstance(text, bool):
         text = str(text).lower()
     else:

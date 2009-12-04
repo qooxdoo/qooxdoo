@@ -169,7 +169,7 @@ def handleClassDefinition(docTree, item, variant):
             handleStatics(valueItem, classNode)
 
         elif key == "properties":
-        	handleProperties(valueItem, classNode)
+            handleProperties(valueItem, classNode)
 
         elif key == "members":
             handleMembers(valueItem, classNode)
@@ -1472,6 +1472,31 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
     asString += '}'
 
     return asString
+
+
+def getPackageData(node):
+    data = {
+      "type" : node.type
+    } 
+
+    if node.type == "class":
+        node.set("externalRef", True)
+
+    if node.hasAttributes():
+        data["attributes"] = {}
+        for key in node.attributes:
+            data["attributes"][key] = node.attributes[key]
+
+    if node.type == "class":
+        node.remove("externalRef")
+
+    if node.hasChildren() and node.type != "class":
+        data["children"] = []
+
+        for child in node.children:
+            data["children"].append(getPackageData(child))
+
+    return data
 
 
 def packagesToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
