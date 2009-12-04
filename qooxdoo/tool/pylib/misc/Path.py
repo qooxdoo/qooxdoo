@@ -96,17 +96,10 @@ def _getCommonPrefixS(p1, p2):  # String-based
 
 
 def getCommonPrefixS(p1, p2):  # String-based
-    if isinstance(p1, types.UnicodeType):
-        p1 = p1.encode('utf-8')
-    if isinstance(p1, types.UnicodeType):
-        p2 = p2.encode('utf-8')
     p1, p2 = map(os.path.normpath, (p1, p2))
-    p = [p1, p2]
     # undo normpath abnormalities
-    if p1=='.':
-        p1=''
-    if p2=='.':
-        p2=''
+    if p1=='.': p1=''
+    if p2=='.': p2=''
     pre,sfx1,sfx2 = _getCommonPrefixS(p1, p2)
 
     # fix surrounding os.sep's
@@ -120,24 +113,19 @@ def getCommonPrefixS(p1, p2):  # String-based
         if len(sfx2)>1 and sfx2.startswith(os.sep): # clear leading '/'
             sfx2 = sfx2[len(os.sep):]
 
-    for elem in pre,sfx1,sfx2:
-        if isinstance(elem, types.StringTypes):
-            elem = elem.decode('utf-8')
+    #for elem in pre,sfx1,sfx2:
+    #    if isinstance(elem, types.StringTypes):
+    #        elem = elem.decode('utf-8')
 
     return pre,sfx1,sfx2
 
 
 def getCommonSuffixS(p1, p2):  # String-based
     'use getCommonPrefixS, but with reversed arguments and return values'
-    p1 = p1.encode('utf-8')
-    p2 = p2.encode('utf-8')
     p1, p2 = map(os.path.normpath, (p1, p2))
-    p = [p1, p2]
     # undo normpath abnormalities
-    if p1=='.':
-        p1=''
-    if p2=='.':
-        p2=''
+    if p1=='.': p1=''
+    if p2=='.': p2=''
 
     p1r = p1[::-1]  # this is string reverse in Python
     p2r = p2[::-1]
@@ -158,8 +146,8 @@ def getCommonSuffixS(p1, p2):  # String-based
     if len(pre2)>1 and pre2.endswith(os.sep):
         pre2 = pre2[:-len(os.sep)]
 
-    #return pre1, pre2, sfx
-    return pre1.decode('utf-8'),pre2.decode('utf-8'),sfx.decode('utf-8')
+    return pre1, pre2, sfx
+    #return pre1.decode('utf-8'),pre2.decode('utf-8'),sfx.decode('utf-8')
 
 # -- array-based versions ----------------------------------------------------
 
@@ -325,6 +313,7 @@ def _testCS():
         assert x == t[1], "%r != %r" % (x, t[1])
         
 
+# -- Path-like Classes --------------------------------------------------------
 
 class BasePath(object):
 

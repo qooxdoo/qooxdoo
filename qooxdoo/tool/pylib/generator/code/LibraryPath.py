@@ -66,11 +66,10 @@ class LibraryPath:
         del d['_console']
         return d
 
-    #_codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
     _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
-    _illegalIdentifierExpr = re.compile("[^\.\w]")
-    _ignoredDirectories = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
-    _docFilename = "__init__.js"
+    _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
+    _ignoredDirectories    = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
+    _docFilename           = "__init__.js"
 
 
     def getClasses(self):
