@@ -3887,7 +3887,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      CLONE/SERIALIZE SUPPORT
+      CLONE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -3905,36 +3905,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       return clone;
-    },
-
-
-    // overridden
-    serialize : function()
-    {
-      var result = this.base(arguments);
-
-      if (this.getChildren)
-      {
-        var children = this.getChildren();
-        if (children.length > 0)
-        {
-          result.children = [];
-          for (var i=0, l=children.length; i<l; i++) {
-            result.children.push(children[i].serialize());
-          }
-        }
-      }
-
-      if (this.getLayout)
-      {
-        var layout = this.getLayout();
-        if (layout) {
-          result.layout = layout.serialize();
-        }
-      }
-
-      return result;
     }
+
   },
 
 
