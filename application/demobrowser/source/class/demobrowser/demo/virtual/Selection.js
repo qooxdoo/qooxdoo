@@ -228,9 +228,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            rowLayer.setDecorator(item, "selected");
+            rowLayer.setDecorator("selected");
           } else {
-            rowLayer.setDecorator(item, null);
+            rowLayer.setDecorator(null);
           }
           cellLayer.updateLayerData();
         }
@@ -280,9 +280,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            columnLayer.setDecorator(item, "selected");
+            columnLayer.setDecorator("selected");
           } else {
-            columnLayer.setDecorator(item, null);
+            columnLayer.setDecorator(null);
           }
           cellLayer.updateLayerData();
         }
