@@ -25,9 +25,10 @@ qx.Class.define("showcase.page.DescriptionBuilder",
       qx.core.Setting.get("qx.version") + "/demobrowser/",
     _apiPrefix : "http://demo.qooxdoo.org/" + 
       qx.core.Setting.get("qx.version") +"/apiviewer/",
+    _manualPrefix : "http://qooxdoo.org/documentation/1.0/",
       
       
-    build : function(header, text, features, demos, api) 
+    build : function(header, text, features, manual, demos, api) 
     {
       var description = [];
       description.push(
@@ -36,6 +37,8 @@ qx.Class.define("showcase.page.DescriptionBuilder",
         "<p>", text, "</p>",
         "<h2>Features</h2>",
         this.__makeList(features),
+        "<h2>Documentation</h2>",
+        this.__makeLinkList(this._manualPrefix, manual),        
         "<h2>Demos</h2>",
         this.__makeLinkList(this._demoPrefix, demos),
         "<h2>Api</h2>",
@@ -71,6 +74,6 @@ qx.Class.define("showcase.page.DescriptionBuilder",
       };
       list.push("</ul>");
       return list.join("");
-    }    
+    }
   }
 });
