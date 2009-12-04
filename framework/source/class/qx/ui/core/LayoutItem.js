@@ -965,7 +965,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     /*
     ---------------------------------------------------------------------------
-      CLONE/SERIALIZE SUPPORT
+      CLONE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -980,20 +980,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       return clone;
-    },
-
-
-    // overridden
-    serialize : function()
-    {
-      var result = this.base(arguments);
-
-      var props = this.__layoutProperties;
-      if (props) {
-        result.layoutProperties = qx.lang.Object.clone(props);
-      }
-
-      return result;
     }
   },
 
