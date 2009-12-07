@@ -607,6 +607,10 @@ class Generator(object):
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
         self._apiLoader.storeApi(classList, apiPath)
+        
+        verify = self._job.get("api/verify", [])
+        if "links" in verify:
+            self._apiLoader.verifyLinks(classList, apiPath)
 
         return
 
