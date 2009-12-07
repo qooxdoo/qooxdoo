@@ -202,8 +202,8 @@ qx.Class.define("qx.ui.layout.Grid",
       var colSpans = [];
       var rowSpans = [];
 
-      var maxRowIndex = 0;
-      var maxColIndex = 0;
+      var maxRowIndex = -1;
+      var maxColIndex = -1;
 
       var children = this._getLayoutChildren();
 
@@ -464,6 +464,36 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var row = this.__grid[row] || {};
       return row[column] ||  null;
+    },
+    
+    
+    /**
+     * Get the number of rows in the grid layout.
+     * 
+     * @return {Integer} The number of rows in the layout
+     */
+    getRowCount : function()
+    {
+      if (this._invalidChildrenCache) {
+        this.__buildGrid();
+      }
+
+      return this.__maxRowIndex + 1;
+    },
+    
+    
+    /**
+     * Get the number of columns in the grid layout.
+     * 
+     * @return {Integer} The number of columns in the layout
+     */
+    getColumnCount : function()
+    {
+      if (this._invalidChildrenCache) {
+        this.__buildGrid();
+      }
+      
+      return this.__maxColIndex + 1;
     },
 
 
