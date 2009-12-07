@@ -36,8 +36,7 @@ qx.Class.define("qx.util.format.DateFormat",
   */
 
   /**
-   * @param format {String} The format to use. If null, the
-   *    {@link #DEFAULT_DATE_TIME__format} is used.
+   * @param format {String} The format to use. If null, the format is used.
    * @param locale {String} optional locale to be used
    */
   construct : function(format, locale)
@@ -70,7 +69,7 @@ qx.Class.define("qx.util.format.DateFormat",
   {
     /**
      * Returns a <code>DateFomat</code> instance that uses the
-     * {@link #DEFAULT_DATE_TIME__format}.
+     * format.
      *
      * @return {String} the date/time instance.
      */
@@ -89,8 +88,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
 
     /**
-     * Returns a <code>DateFomat</code> instance that uses the
-     * {@link #DEFAULT_DATE__format}.
+     * Returns a <code>DateFomat</code> instance that uses the format.
      *
      * @return {String} the date instance.
      */
