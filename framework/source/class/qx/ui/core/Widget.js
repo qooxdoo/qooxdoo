@@ -2311,7 +2311,10 @@ qx.Class.define("qx.ui.core.Widget",
       var container = this.getContainerElement();
 
       // Create protector
-      if (!this.__protectorElement) {
+
+      // if the browser supports pointer events the decorator will never receive
+      // any mouse events so the protector is not required.
+      if (!this.__protectorElement && !qx.bom.client.Feature.CSS_POINTER_EVENTS) {
         this._createProtectorElement();
       }
 
@@ -2364,7 +2367,7 @@ qx.Class.define("qx.ui.core.Widget",
           elem.resize(bounds.width, bounds.height);
 
           // Update protector element
-          this.__protectorElement.setStyles({
+          this.__protectorElement && this.__protectorElement.setStyles({
             width : bounds.width + "px",
             height : bounds.height + "px"
           });
