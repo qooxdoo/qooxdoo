@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
      *   </li>
      *   <li>
      *     Dates areformated in the default format of
-     *     {@link qx.util.format.DateFormat.getDateInstance().format}.
+     *     {@link qx.util.format.DateFormat}.
      *   </li>
      *   <li>
      *     Any type not otherwise handled, including String values, are
