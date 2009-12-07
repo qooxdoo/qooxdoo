@@ -397,6 +397,39 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
       this.assertEquals("parentC", this.__list.getChildren()[1].getLabel(), "Wrong name of the parent.");
       this.assertEquals(parentC, this.__list.getChildren()[1].getModel(), "Wrong model stored after the splice.");
+    },
+    
+    testModelProperty : function() 
+    {
+      // create the controller
+      this.__controller = new qx.data.controller.List(null, this.__list, "name");
+
+      // filter only the first item
+      var delegate = {};
+      delegate.filter = function(data) {
+        return data.getName() == "name0" || data.getName() == "name2" ? false : true;
+      }
+      delegate.bindItem = function() {};
+      // set the filter
+      this.__controller.setDelegate(delegate);
+      this.__controller.setModel(this.__model);
+      
+      this.assertEquals(3, this.__list.getChildren().length);
+
+      // check the binding
+      this.assertEquals(this.__model.getItem(1), this.__list.getChildren()[0].getModel());
+      this.assertEquals(this.__model.getItem(3), this.__list.getChildren()[1].getModel());
+      this.assertEquals(this.__model.getItem(4), this.__list.getChildren()[2].getModel());
+      
+      // add another item
+      var item = new qx.test.ListWithObject().set({
+        name: "name5",
+        icon: "icon5"
+      });
+      this.__model.push(item);
+      this.assertEquals(this.__model.getItem(5), this.__list.getChildren()[3].getModel());
+      
+      item.dispose();
     }
 
   }
