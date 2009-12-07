@@ -42,7 +42,11 @@
           "form": 
           {
             "include" : ["showcase.page.form.Content"]
-          }          
+          },
+          "data": 
+          {
+            "include" : ["showcase.page.databinding.Content"]
+          }
         },
         "sizes" : 
         {
