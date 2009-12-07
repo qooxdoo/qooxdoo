@@ -35,8 +35,27 @@ qx.Class.define("showcase.page.theme.Page",
       name: "Theming",
       part: "theme",
       icon: "showcase/theme/icon.png",
-      description: "<h1>Theming</h1> bla bla bla",
-      contentClass: "showcase.page.theme.Content"
+      contentClass: "showcase.page.theme.Content",
+      description: showcase.page.DescriptionBuilder.build(
+        "Theming",
+        this.__descriptionText,
+        this.__features,
+        this.__manual,
+        null,
+        null
+      )
     });
+  },
+  
+  members :
+  {
+    __descriptionText : "",
+    
+    __manual : {
+      "ui_theming": "Theming",
+      "ui_appearance": "Appearance",
+      "ui_custom_themes": "Custom themes",
+      "ui_decorators": "Decorators",
+    }
   }
 });
