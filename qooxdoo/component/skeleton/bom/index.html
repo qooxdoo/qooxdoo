@@ -11,8 +11,8 @@
   <div id="logger"></div>
       
   <script type="text/javascript" charset="utf-8">
-	// register callback
-    qx.bom.Lifecycle.onReady(onReady, window);
+	  // register callback
+    qx.event.Registration.addListener(window, "ready", onReady);
 
     // executed when the application/scripts are loaded 
     function onReady()
@@ -29,7 +29,7 @@
 
       // indicate startup
 	    logger.innerHTML += "Application ready ..."; 
-	  
+
 	    qx.bom.Element.addListener(document.body, "keydown", function(e) {
 	      logger.innerHTML += e.getKeyIdentifier() + "<br>";
 	      e.preventDefault(); 
