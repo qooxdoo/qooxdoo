@@ -26,7 +26,10 @@
 import simplejson as json
 
 dumps = json.dumps
+dump = json.dump
 loads = json.loads
+load = json.load
+
 
 ##
 # default compact encoding to serialize JS code
