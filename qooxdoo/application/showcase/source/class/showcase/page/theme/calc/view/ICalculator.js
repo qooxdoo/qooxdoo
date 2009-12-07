@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,19 +13,26 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Martin Wittemann (martinwittemann)
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Theme.define("showcase.theme.Color",
-{
-  extend : qx.theme.modern.Color,
 
-  include : [
-    showcase.page.theme.calc.theme.Color
-  ],
+qx.Interface.define("showcase.page.theme.calc.view.ICalculator",
+{
+  events : {
+    "buttonPress" : "qx.event.type.Data"
+  },
   
-  colors :
+  properties : 
   {
+    display : {},
+    
+    memory : {
+      check : "Boolean"
+    },
+    
+    operation : {
+      check : "String"
+    }    
   }
 });

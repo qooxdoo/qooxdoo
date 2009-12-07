@@ -29,14 +29,29 @@ qx.Class.define("showcase.page.theme.Content",
   },
   
   
-  members : {
+  members :
+  {
     __createView : function() 
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
       
-      var win = new qx.ui.window.Window("depp");
-      view.add(win);
-      win.open();
+      var calc = new showcase.page.theme.calc.view.Calculator(true);     
+      view.add(calc);
+      calc.moveTo(60, 40);
+      calc.open();      
+   
+      var model = new showcase.page.theme.calc.Model();
+      var presenter = new showcase.page.theme.calc.Presenter(calc, model);
+
+      
+      var calc = new showcase.page.theme.calc.view.Calculator(false);
+      
+      view.add(calc);
+      calc.moveTo(360, 40);
+      calc.open();      
+      
+      var model = new showcase.page.theme.calc.Model();
+      var presenter = new showcase.page.theme.calc.Presenter(calc, model);
       
       return view;
     }
