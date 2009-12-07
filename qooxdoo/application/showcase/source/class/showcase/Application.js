@@ -104,7 +104,8 @@ qx.Class.define("showcase.Application",
         new showcase.page.theme.Page(),
         new showcase.page.form.Page(),
         new showcase.page.table.Page(),
-        new showcase.page.databinding.Page()
+        new showcase.page.databinding.Page(),
+        new showcase.page.animation.Page()
       );
       
       var listController = new qx.data.controller.List(pages, list, "name");

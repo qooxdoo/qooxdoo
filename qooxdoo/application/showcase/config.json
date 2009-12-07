@@ -46,6 +46,10 @@
           "data": 
           {
             "include" : ["showcase.page.databinding.Content"]
+          },
+          "animation": 
+          {
+            "include" : ["showcase.page.animation.Content"]
           }
         },
         "sizes" : 
