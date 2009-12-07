@@ -340,6 +340,8 @@ qx.Class.define("apiviewer.Controller",
           {
             this.error("Unknown item of class '"+ className +"': " + itemName);
             alert("Unknown item of class '"+ className +"': " + itemName);
+
+            this._updateHistory(className);
             return;
           }
         } else {
