@@ -572,7 +572,7 @@ qx.Class.define("qx.ui.core.Widget",
      * The text of the widget's tooltip. This text can contain HTML markup.
      * The text is displayed using a shared tooltip instance. If the tooltip
      * must be customized beyond the text and an icon {@link #toolTipIcon}, the
-     * {@link #tooltip} property has to be used
+     * {@link #toolTip} property has to be used
      */
     toolTipText :
     {
@@ -586,7 +586,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
     * The icon URI of the widget's tooltip. This icon is displayed using a shared
     * tooltip instance. If the tooltip must be customized beyond the tooltip text
-    * {@link #toolTipText} and the icon, the {@link #tooltip} property has to be
+    * {@link #toolTipText} and the icon, the {@link #toolTip} property has to be
     * used.
     */
     toolTipIcon :

@@ -153,7 +153,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
 
 
     /**
-     * Overrides the method {@link qx.core.Widget#_afterAddChild}
+     * Overrides the method {@link qx.ui.core.Widget#_afterAddChild}
      *
      * @param win {qx.core.Widget} added widget
      */
@@ -188,7 +188,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
 
 
     /**
-     * Overrides the method {@link qx.core.Widget#_afterRemoveChild}
+     * Overrides the method {@link qx.ui.core.Widget#_afterRemoveChild}
      *
      * @param win {qx.core.Widget} removed widget
      */
