@@ -51,8 +51,7 @@ qx.Class.define("qx.ui.form.DateField",
     this.base(arguments);
 
     // create a default date format
-    var currentDateFormat = qx.locale.Date.getDateFormat("medium").toString();
-    this.setDateFormat(new qx.util.format.DateFormat(currentDateFormat));
+    this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
   },
 
 
@@ -77,11 +76,48 @@ qx.Class.define("qx.ui.form.DateField",
     dateFormat :
     {
       check : "qx.util.format.DateFormat",
-      apply : "_applyDateFormat",
-      dispose : true
+      apply : "_applyDateFormat"
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    __dateFormat : null,
+    __formatter : null,
+    
+    /**
+     * Get the shared default date formatter
+     * 
+     * @return {qx.util.format.DateFormat} The shared date formatter
+     */
+    getDefaultDateFormatter : function()
+    {
+      var format = qx.locale.Date.getDateFormat("medium").toString();
+      if (format == this.__dateFormat) {
+        return this.__formatter;
+      }
+      
+      if (this.__formatter) {
+        this.__formatter.dispsoe();
+      }
+      
+      this.__formatter = new qx.util.format.DateFormat(format);
+      this.__dateFormat = format;
+      
+      return this.__formatter;
+    }
+    
+  },
+  
 
 
 
@@ -321,7 +357,8 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @return {Boolean} True, if the textfield of the DateField is empty.
      */
-    isEmpty: function() {
+    isEmpty: function()
+    {
       var value = this.getChildControl("textfield").getValue();
       return value == null || value == "";
     }
