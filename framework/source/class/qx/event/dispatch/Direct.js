@@ -88,6 +88,30 @@ qx.Class.define("qx.event.dispatch.Direct",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (target instanceof qx.core.Object)
+        {
+          var expectedEventClassName = qx.Class.getEventType(target.constructor, type);
+          var expectedEventClass = qx.Class.getByName(expectedEventClassName);
+          if (!expectedEventClass) 
+          {
+            this.error(
+              "The event type '" + type + "' declared ind the class '" +
+              target.constructor + " is not an available class': " +
+              expectedEventClassName
+            );
+          } 
+          else if (!(event instanceof expectedEventClass))
+          {
+            this.error(
+              "Expected event type to be instanceof '" + expectedEventClassName +
+              "' but found '" + event.classname + "'"
+            );
+          }
+        }
+      } 
+      
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var listeners = this._manager.getListeners(target, type, false);
