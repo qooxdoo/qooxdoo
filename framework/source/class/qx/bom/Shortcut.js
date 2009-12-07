@@ -54,17 +54,6 @@ qx.Class.define("qx.bom.Shortcut",
       this.setShortcut(shortcut);
     }
 
-    // OSX warning for Alt key combinations
-    if (qx.core.Variant.isSet("qx.debug", "on"))
-    {
-      if (this.__modifier.Alt && this.__key && this.__key.length == 1)
-      {
-        if ((this.__key >= "A" && this.__key <= "Z") || (this.__key >= "0" && this.__key <= "9")) {
-          this.warn("A shortcut containing Alt and a letter or number will not work under OS X!");
-        }
-      }
-    }
-
     this.initEnabled();
   },
 
