@@ -47,10 +47,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
     updateData : function(widget, data)
     {
       widget.setLabel(data.getName() + " (" + data.getItemCount() + ")");
+      var extension = qx.core.Setting.get("qx.theme") == "qx.theme.Classic" ? "gif" : "png";
       if (data.isOpen()) {
-        widget.setIcon("decoration/arrows/down-invert.png");
+        widget.setIcon("decoration/arrows/down-invert." + extension);
       } else {
-        widget.setIcon("decoration/arrows/right-invert.png");
+        widget.setIcon("decoration/arrows/right-invert." + extension);
       }
     }
   }
