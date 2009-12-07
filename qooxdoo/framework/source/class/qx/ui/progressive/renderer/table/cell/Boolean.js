@@ -59,6 +59,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
      */
     allowToggle :
     {
+      check : "Boolean",
       init : false
     }
   },
