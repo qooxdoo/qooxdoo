@@ -55,7 +55,7 @@ qx.Class.define("showcase.page.theme.Page",
       "ui_theming": "Theming",
       "ui_appearance": "Appearance",
       "ui_custom_themes": "Custom themes",
-      "ui_decorators": "Decorators",
+      "ui_decorators": "Decorators"
     }
   }
 });
