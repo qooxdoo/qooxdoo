@@ -510,7 +510,7 @@ qx.Class.define("qx.data.controller.List",
       // create a new ListItem
       var listItem = this._createItem();
       // store the corresponding model element
-      listItem.setModel(this.getModel().getItem(this.__lookup(index)) || null);
+      listItem.setModel(this.getModel().getItem(index) || null);
       // set up the binding
       this._bindListItem(listItem, index);
       // add the ListItem to the target
