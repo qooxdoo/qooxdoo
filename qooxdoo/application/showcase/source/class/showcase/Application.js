@@ -71,10 +71,7 @@ qx.Class.define("showcase.Application",
       var container = new qx.ui.container.Composite(grid);
       this.getRoot().add(container, {edge: 0});
                   
-      var list = new qx.ui.form.List(true).set({
-        appearance: "header",
-        height: null
-      });
+      var list = new showcase.ui.PreviewList();
       container.add(list, {row: row++, column: 0, colSpan: 2});               
                  
       this.__stack = new qx.ui.container.Stack();
@@ -104,9 +101,9 @@ qx.Class.define("showcase.Application",
       
       var pages = new qx.data.Array();
       pages.push(
+        new showcase.page.theme.Page(),
         new showcase.page.form.Page(),
-        new showcase.page.table.Page(),
-        new showcase.page.theme.Page()
+        new showcase.page.table.Page()
       );
       
       var listController = new qx.data.controller.List(pages, list, "name");
