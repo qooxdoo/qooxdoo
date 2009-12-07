@@ -455,7 +455,7 @@ qx.Bootstrap.define("qx.Class",
      *
      * @param clazz {Class} class to check
      * @param name {String} name of the event
-     * @return {Map|null} Event type of the given event.
+     * @return {String|null} Event type of the given event.
      */
     getEventType : function(clazz, name)
     {
