@@ -38,7 +38,7 @@ qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
      * Returns whether the given item is selectable. The type of the item
      * depends on the concrete selection manager implementation. The
      * {@link Row} and {@link Column} selection manager use row/column indexes
-     * as items. The {@link Cell} uses cells as items. Cells are represented by
+     * as items. The {@link qx.ui.virtual.cell.Cell} uses cells as items. Cells are represented by
      * a map containing <code>row</code> and <code>column</code> keys.
      *
      * If this method is not implemented by the delegate all items are selectable.
