@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os
+import sys, os, re
 
 from misc import filetool
 from misc import json
@@ -299,3 +299,156 @@ class ApiLoader:
 
 
 
+    def verifyLinks(self, include, apiPath):
+        self._console.info("Verifying links...")
+        import re
+        self._linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
+        
+        self._console.indent()
+        self._console.info("Loading class docs...")
+        targets = []
+        links = []
+        mixinUsage = {}
+        
+        # Open APIdata files and get the needed information
+        dirwalker   = os.walk(apiPath)
+        files = []
+        for (path, dirlist, filelist) in dirwalker:
+            for file in filelist:
+                if file[-5:] == ".json" and not "apiindex" in file:
+                    files.append(os.path.join(path,file))
+        
+        for file in files:
+            classDocFile = open(file)
+            doc = json.load(classDocFile)
+
+            try:
+                fullName = doc["attributes"]["fullName"]
+            except KeyError:
+                fullName = "doctree"
+            (classTargets,classLinks,classMixinUsage) = self._getDocNodes(doc, fullName)
+            targets += classTargets
+            links += classLinks
+            mixinUsage.update(classMixinUsage)
+        
+        # Get mixin members and add them to the classes that use them
+        newTargets = []
+        for clazz in mixinUsage:
+            mixinList = mixinUsage[clazz]
+            for mixin in mixinList:
+                for target in targets:
+                    if mixin + "#" in target:
+                        memberName = target[target.find("#"):]
+                        newTargets.append(clazz + memberName)
+        targets += newTargets            
+        
+        self._console.outdent()
+        self._console.info("Checking links...")
+        self._console.indent()  
+        
+        self._checkLinks(links,targets)
+        
+        self._console.outdent()
+        self._console.info("Finished checking links")
+        
+
+    def _getDocNodes(self,node, packageName = "", className = "", itemName = "", paramName = "", parentNodeType = ""):
+        targets = []
+        links = []
+        mixinUsage = {}
+        
+        nodeType = node["type"]
+          
+        if nodeType == "package":
+            packageName = node["attributes"]["fullName"]
+            if packageName not in targets:
+                targets.append(packageName)
+        
+        elif nodeType == "class":
+            packageName = node["attributes"]["packageName"]
+            className = node["attributes"]["name"]            
+            fullName = "%s.%s" %(packageName,className)
+            targets.append(fullName)
+            if packageName not in targets:
+                targets.append(packageName)
+            
+            if "mixins" in node["attributes"]:
+                mixinUsage[fullName] = node["attributes"]["mixins"].split(",")
+        
+        elif nodeType in ["event", "property", "method", "constant"]:
+            itemName = node["attributes"]["name"]        
+            targets.append("%s.%s#%s" %(packageName,className,itemName))
+        
+        elif nodeType in ["param"]:
+            paramName = node["attributes"]["name"]
+            pass
+          
+        elif nodeType == "desc":
+            if "@link" in node["attributes"]["text"]:
+                match = self._linkRegExp.findall(node["attributes"]["text"])
+                if match:
+                    internalLinks = []
+                    for link in match:
+                        if not "<a" in link:
+                            internalLinks.append(link)
+                    
+                    if len(internalLinks) > 0:
+                      link = {
+                          "nodeType" : parentNodeType,
+                          "packageName" : packageName,
+                          "className" : className,
+                          "itemName" : itemName,
+                          "paramName" : paramName,
+                          "links" : internalLinks
+                      }
+      
+                      links.append(link)
+        
+        if "children" in node:
+            for child in node["children"]:
+                (childTargets,childLinks,childMixinUsage) = self._getDocNodes(child, packageName, className, itemName, paramName, nodeType)
+                targets += childTargets
+                links += childLinks
+                mixinUsage.update(childMixinUsage)
+        
+        return(targets,links,mixinUsage)
+
+
+    def _checkLinks(self,links,targets):    
+        namespaceReg = re.compile("(.*?)\.[\w\d_\-]+$")
+        
+        for link in links:
+            for ref in link["links"]:              
+                # Remove parentheses from method references
+                if ref[-2:] == "()":
+                    ref = ref[:-2]
+                # Get the target's full name for members (starting with '#')
+                if ref[0] == "#":
+                    ref = "%s.%s%s" %(link["packageName"],link["className"],ref)
+                
+                # Class references with no namespace point to the current namespace
+                elif not "." in ref:
+                    ref = link["packageName"] + "." + ref                     
+                            
+                if ref not in targets:
+                    nodeType = link["nodeType"]
+                    if nodeType == "package":
+                        #TODO: Fix this
+                        linkNode = link["packageName"]
+                    elif nodeType == "class":
+                        linkNode = "%s.%s" %(link["packageName"],link["className"]) 
+                    elif nodeType == "param":
+                        if link["itemName"] == "ctor":
+                            nodeType = ""
+                            linkNode = "the constructor parameter %s of %s.%s" %(link["paramName"],link["packageName"],link["className"])
+                        else:
+                            nodeType = "parameter"
+                            linkNode = "%s.%s#%s %s" %(link["packageName"],link["className"],link["itemName"],link["paramName"])
+                    elif link["itemName"] == "ctor":
+                        nodeType = "constructor"
+                        linkNode = "%s.%s" %(link["packageName"],link["className"]) 
+                    else:
+                        linkNode = "%s.%s#%s" %(link["packageName"],link["className"],link["itemName"])
+                    
+                    self._console.info("The %s documentation for %s contains a broken link to %s" %(nodeType,linkNode,ref))
+            
