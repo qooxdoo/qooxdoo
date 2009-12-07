@@ -26,12 +26,16 @@
 
       "include" : 
       [
-        "qx.bom.Lifecycle",
-        "qx.bom.Element",
-        "qx.bom.element.*",
-        "qx.dom.*",
-        "qx.event.handler.Keyboard",
-        "qx.event.handler.Mouse"
+        "qx.bom.Collection",
+        "qx.bom.Request",
+        "qx.bom.element.Background"
+      ],
+      
+      "exclude" :
+      [
+        "qx.data.SingleValueBinding",
+        "qx.event.type.Drag",
+        "qx.event.handler.DragDrop"
       ],
 
       "variants" :
