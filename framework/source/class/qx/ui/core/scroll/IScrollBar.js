@@ -94,7 +94,7 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
 
 
     /**
-     * Scrolls by the given number of steps following the value of {@link #stepSize}.
+     * Scrolls by the given number of steps.
      *
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
