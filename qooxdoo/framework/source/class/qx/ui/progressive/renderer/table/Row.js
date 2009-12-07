@@ -369,6 +369,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     /**
      * This method is required by the box layout. If returns an array of items
      * to relayout.
+     * @return {Array} Array of column data.
      */
     getLayoutChildren : function()
     {
