@@ -59,7 +59,7 @@ def findQxDefine(rootNode):
         except tree.NodeAccessException:
             return None
 
-        if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define"]:
+        if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define", "qx.Theme.define"]:
             if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
                 return rootNode.parent.parent
 
