@@ -107,7 +107,6 @@ qx.Class.define("qx.ui.form.SplitButton",
     {
       apply : "_applyLabel",
       nullable : true,
-      dispose : true,
       check : "String"
     },
 
