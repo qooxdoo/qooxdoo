@@ -86,6 +86,6 @@ qx.Class.define("showcase.page.table.Page",
       "in that the table data can be of any length (e.g. hundreds of thousands" + 
       " of rows or more) yet only the rows which are actually being viewed are" +
       " rendered. The data you currently see is fetched from a YQL service and " + 
-      "with that always up to date."; 
+      "with that always up to date."
   }
 });
