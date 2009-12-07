@@ -85,6 +85,7 @@ qx.Class.define("showcase.page.table.Page",
     __descriptionText : "The table is a very powerful widget. It is “virtual” " + 
       "in that the table data can be of any length (e.g. hundreds of thousands" + 
       " of rows or more) yet only the rows which are actually being viewed are" +
-      " rendered."
+      " rendered. The data you currently see is fetched from a YQL service and " + 
+      "with that always up to date."; 
   }
 });
