@@ -50,7 +50,7 @@
  *     {@link qx.ui.tree.Tree}); {@link qx.ui.table}
  *
  *   * <b>Effects:</b>
- *     {@link qx.fx qx.fx (outside this package)}; {@link popup} (containing {@link qx.ui.popup.ToolTip ToolTips});
+ *     {@link qx.fx qx.fx (outside this package)}; {@link popup}; {@link qx.ui.tooltip.ToolTip ToolTips}
  *
  *   * <b>Making it all work:</b>
  *     {@link qx.event};
