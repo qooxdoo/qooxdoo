@@ -100,7 +100,8 @@ class Config:
         try:
             data = simplejson.loads(jsonstr)
         except ValueError, e:
-            e.args = (e.message + "\nFile: %s" % fname,)
+            #e.args = (e.message + "\nFile: %s" % fname,)
+            e.args = (e.args[0] + "\nFile: %s" % fname,) + e.args[1:]
             raise e
             
         obj.close()
