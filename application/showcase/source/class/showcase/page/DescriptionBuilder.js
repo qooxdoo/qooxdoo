@@ -34,17 +34,37 @@ qx.Class.define("showcase.page.DescriptionBuilder",
       description.push(
         "<div id='description'>",
         "<h1>", header, "</h1>",
-        "<p>", text, "</p>",
-        "<h2>Features</h2>",
-        this.__makeList(features),
-        "<h2>Documentation</h2>",
-        this.__makeLinkList(this._manualPrefix, manual),        
-        "<h2>Demos</h2>",
-        this.__makeLinkList(this._demoPrefix, demos),
-        "<h2>Api</h2>",
-        this.__makeLinkList(this._apiPrefix, api),
-        "</div>"
+        "<p>", text, "</p>"
       );
+      if (features) {
+        description.push("<h2>Features</h2>", this.__makeList(features));
+      }
+      
+      if (manual)
+      {
+        description.push(
+          "<h2>Documentation</h2>",
+          this.__makeLinkList(this._manualPrefix, manual)
+        )
+      }
+      
+      if (demos)
+      {
+        description.push(
+          "<h2>Demos</h2>",
+          this.__makeLinkList(this._demoPrefix, demos)
+        )
+      }
+      
+      if (api)
+      {
+        description.push(
+          "<h2>Api</h2>",
+          this.__makeLinkList(this._apiPrefix, api)
+        )
+      }
+      
+      description.push("</div>");
       return description.join("");
     },
     
