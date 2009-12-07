@@ -37,13 +37,19 @@ qx.Class.define("qx.html.Decorator",
     this.__decorator = decorator;
     this.__id = decoratorId || decorator.toHashCode();
 
-    this.setStyles({
+    this.useMarkup(decorator.getMarkup());
+
+    var styles = {
       position: "absolute",
       top: 0,
-      left: 0
-    });
+      left: 0,
+    }
 
-    this.useMarkup(decorator.getMarkup());
+    if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
+      styles.pointerEvents = "none"
+    }
+    
+    this.setStyles(styles);
   },
 
 

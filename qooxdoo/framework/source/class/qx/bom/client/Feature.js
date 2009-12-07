@@ -57,22 +57,25 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     SVG : false,
 
     /** {Boolean} Flag to detect if the client supports Canvas graphics */
-    CANVAS : false,
+    CANVAS : !!window.CanvasRenderingContext2D,
 
     /** {Boolean} Flag to detect if the client supports VML graphics */
     VML : false,
 
     /** {Boolean} Flag to detect if the client supports XPATH queries */
-    XPATH : false,
+    XPATH : !!document.evaluate,
 
     /** {Boolean} Flag to detect if is an AIR client */
-    AIR : false,
+    AIR : navigator.userAgent.indexOf("adobeair") !== -1,
 
     /** {Boolean} Flag to detect if is a Gears client */
-    GEARS : false,
+    GEARS : !!(window.google && window.google.gears),
 
     /** {Boolean} Flag to detect if the client runs in SSL mode */
-    SSL : false,
+    SSL : window.location.protocol === "https:",
+    
+    /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
+    CSS_POINTER_EVENTS : "pointerEvents" in document.documentElement.style,
 
 
     /**
@@ -89,15 +92,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
-      this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
-
-      this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
-      this.GEARS = !!(window.google && window.google.gears);
-
-      this.XPATH = !!document.evaluate;
-
-      this.SSL = window.location.protocol === "https:";
     },
 
 
