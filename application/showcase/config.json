@@ -49,6 +49,159 @@
           "min-package" : 10
         } 
       }
-    }
+    },
+    
+    
+    "common-image" :
+    {
+      "let" :
+      {
+        "SOURCE" : "source/resource/source",
+        "THEME_PATH" : "source/resource/showcase/theme",
+        "THEME_PREFIX" : "source/resource",
+        "DEST" : "../showcase/theme"
+      }
+    },
+
+
+    "image-clipping" :
+    {
+      "extend" : ["common-image"],
+
+      "slice-images" :
+      {
+        "images" :
+        {          
+          "${SOURCE}/button.png" :
+          {
+            "prefix" : "${DEST}/button",
+            "border-width" : 6
+          },
+        
+          "${SOURCE}/button-pressed.png" :
+          {
+            "prefix" : "${DEST}/button-pressed",
+            "border-width" : 6
+          },
+          
+          "${SOURCE}/display.png" :
+          {
+            "prefix" : "${DEST}/display",
+            "border-width" : 6
+          },
+          
+          "${SOURCE}/window.png" :
+          {
+            "prefix" : "${DEST}/window",
+            "border-width" : 10
+          }  
+        }       
+      }
+    },
+
+
+    "image-combine" :
+    {
+      "extend" : ["common-image"],
+
+      "combine-images" :
+      {
+        "images" :
+        {
+          "${THEME_PATH}/button-combined-tb.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/button-[tb]*.png",
+                "${THEME_PATH}/button-pressed-[tb]*.png"
+               ]
+            }],
+            "layout" : "vertical"
+          },
+          
+
+          "${THEME_PATH}/button-combined-lr.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/button-[lr].png",
+                "${THEME_PATH}/button-pressed-[lr].png"
+               ]
+            }],
+            "layout" : "horizontal"
+          },
+          
+          
+          "${THEME_PATH}/display-combined-tb.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/display-[tb]*.png"
+               ]
+            }],
+            "layout" : "vertical"
+          },
+          
+          "${THEME_PATH}/display-combined-lr.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/display-[lr].png"
+               ]
+            }],
+            "layout" : "horizontal"
+          },
+          
+
+          "${THEME_PATH}/window-combined-tb.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/window-[tb]*.png"
+               ]
+            }],
+            "layout" : "vertical"
+          },
+          
+          "${THEME_PATH}/window-combined-lr.png":
+          {
+            "prefix" : ["${THEME_PREFIX}"],
+            "input"  :
+            [{
+              "prefix" : ["${THEME_PREFIX}"],
+              "files": [ 
+                "${THEME_PATH}/window-[lr].png"
+               ]
+            }],
+            "layout" : "horizontal"
+          }                  
+        }
+      }
+    },
+    
+    // putting it all together ...
+    "image" :
+    {
+      "run" :
+      [
+        "image-clipping",
+        "image-combine"      
+      ]
+    }    
   }
 }

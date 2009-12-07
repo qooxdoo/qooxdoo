@@ -21,6 +21,11 @@ qx.Theme.define("showcase.theme.Appearance",
 {
   extend : qx.theme.modern.Appearance,
 
+  include : [
+    showcase.page.theme.calc.theme.appearance.Black,
+    showcase.page.theme.calc.theme.appearance.Modern
+  ],
+
   appearances :
   {
     "root" : 
@@ -73,7 +78,7 @@ qx.Theme.define("showcase.theme.Appearance",
     },
     
     
-    "header":
+    "preview-list":
     {    
       style : function(states)
       {
@@ -84,15 +89,16 @@ qx.Theme.define("showcase.theme.Appearance",
             backgroundImage : "showcase/images/headerback.png"
           }),
           shadow : "shadow-window",
-          zIndex : 111
+          zIndex : 111,
+          padding: 5
         };
       }
     },
     
-    "header/scrollbar-x/slider" : "widget",
-    "header/scrollbar-x" : "widget",
+    "preview-list/scrollbar-x/slider" : "widget",
+    "preview-list/scrollbar-x" : "widget",
     
-    "header/scrollbar-x/button" : 
+    "preview-list/scrollbar-x/button" : 
     {
       style : function(states)
       {
@@ -103,17 +109,17 @@ qx.Theme.define("showcase.theme.Appearance",
       }
     },
     
-    "header/scrollbar-x/button-begin" : "header/scrollbar-x/button",
-    "header/scrollbar-x/button-end" : "header/scrollbar-x/button",
+    "preview-list/scrollbar-x/button-begin" : "preview-list/scrollbar-x/button",
+    "preview-list/scrollbar-x/button-end" : "preview-list/scrollbar-x/button",
     
-    "header/scrollbar-x/slider/knob" : 
+    "preview-list/scrollbar-x/slider/knob" : 
     {
       style : function(states)
       {
         return {
           decorator: new qx.ui.decoration.HBox("showcase/images/tag-hor.png"),
-          height: 12,
-          marginBottom: 5
+          opacity: states.hovered ? 0.8 : 0.4,
+          height: 12
         };
       }
     },

@@ -20,6 +20,10 @@
 qx.Theme.define("showcase.theme.Decoration",
 {
   extend : qx.theme.modern.Decoration,
+  
+  include : [
+    showcase.page.theme.calc.theme.Decoration
+  ],
 
   decorations :
   {
