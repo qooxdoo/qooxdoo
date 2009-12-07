@@ -31,7 +31,6 @@ qx.Class.define("qx.test.core.PropertyHelper",
 
   properties :
   {
-
     // protection
     publicProp : { nullable : true },
 
@@ -112,11 +111,6 @@ qx.Class.define("qx.test.core.PropertyHelper",
     {
       init      : 100,
       themeable : true
-    },
-    
-    disposeProp :
-    {
-      dispose : true
     }
   },
 
