@@ -439,11 +439,7 @@ class DependencyLoader:
         else:
             fcnScope  = script.getScope(scopeNode)
         #assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
-        # TODO: remove try-catch
-        try:
-            varDef = script.getVariableDefinition(idString, fcnScope)
-        except Exception:
-            import pydb; pydb.debugger()
+        varDef = script.getVariableDefinition(idString, fcnScope)
         if varDef:
             return True
         return False
