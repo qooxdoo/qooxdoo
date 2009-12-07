@@ -281,7 +281,7 @@ qx.Class.define("qx.test.core.Property",
         }
       });
   
-      a = new qx.test.A();
+      var a = new qx.test.A();
   
       qx.Interface.define("qx.test.IForm",
       {
@@ -296,7 +296,7 @@ qx.Class.define("qx.test.core.Property",
         implement : qx.test.IForm
       });
   
-      b = new qx.test.B();
+      var b = new qx.test.B();
       b.setEnabled(true);
     },
   
@@ -311,17 +311,6 @@ qx.Class.define("qx.test.core.Property",
       });
   
       delete qx.test.clName;
-    },
-    
-    
-    testDispose : function()
-    {
-      var obj = new qx.test.core.PropertyHelper();
-      var disposable = new qx.core.Object();
-      obj.setDisposeProp(disposable);
-      
-      obj.dispose();
-      this.assert(disposable.isDisposed());
     },
   
   
