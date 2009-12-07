@@ -54,9 +54,14 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       this.runTest("testNumberCell");
       this.runTest("testDateCell");
       this.runTest("testHtmlCell");
-      this.runTest("testImageCell");
-      this.runTest("testBooleanCell");
-      this.runTest("testBooleanCellCustomImage");
+
+      // TODO: This does not work in Classic!
+      if(qx.core.Setting.get("qx.theme") == "qx.theme.Modern")
+      {
+        this.runTest("testImageCell");
+        this.runTest("testBooleanCell");
+        this.runTest("testBooleanCellCustomImage");
+      }
 
       this.getRoot().add(this.topContainer, {edge : 5});
     },
