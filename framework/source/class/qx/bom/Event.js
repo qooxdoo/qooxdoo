@@ -15,6 +15,47 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Alexander Steitz (aback)
+
+
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * Juriy Zaytsev
+     http://thinkweb2.com/projects/prototype/detecting-event-support-without-browser-sniffing/
+     
+     Copyright (c) 2009 Juriy Zaytsev
+     
+     Licence:
+       BSD: http://github.com/kangax/iseventsupported/blob/master/LICENSE
+       
+     ----------------------------------------------------------------------
+
+     http://github.com/kangax/iseventsupported/blob/master/LICENSE
+     
+     Copyright (c) 2009 Juriy Zaytsev
+ 
+     Permission is hereby granted, free of charge, to any person
+     obtaining a copy of this software and associated documentation
+     files (the "Software"), to deal in the Software without
+     restriction, including without limitation the rights to use,
+     copy, modify, merge, publish, distribute, sublicense, and/or sell
+     copies of the Software, and to permit persons to whom the
+     Software is furnished to do so, subject to the following
+     conditions:
+ 
+     The above copyright notice and this permission notice shall be
+     included in all copies or substantial portions of the Software.
+ 
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+     OTHER DEALINGS IN THE SOFTWARE.
 
 ************************************************************************ */
 
@@ -235,12 +276,34 @@ qx.Bootstrap.define("qx.bom.Event",
      * Useful for testing for support of new features like
      * touch events, gesture events, orientation change, on/offline, etc.
      * 
+     * @signature function(target, type)
      * @param target {var} Any valid target e.g. window, dom node, etc.
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
-    supportsEvent : function(target, type) {
-      return target.hasOwnProperty("on" + type);
+    supportsEvent : qx.core.Variant.isSet("qx.client",
+    {
+      "webkit" : function(target, type) {
+        return target.hasOwnProperty("on" + type);
+      },
+      
+      "default" : function(target, type)
+      {
+        var eventName = "on" + type;
+        var tagName = target.nodeName.toLowerCase();
+
+        var element = qx.dom.Node.getDocument(target).createElement(tagName);
+
+        var supportsEvent = (eventName in element);
+        if (!supportsEvent && element.setAttribute)
+        {
+          element.setAttribute(eventName, "return;");
+          supportsEvent = typeof element[eventName] == "function"; 
+        }
+        element = null;
+        
+        return supportsEvent;
+      }
     }
   }
 });
