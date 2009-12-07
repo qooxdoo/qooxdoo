@@ -531,7 +531,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjects("__resizeFrame");
+  destruct : function()
+  {
+    if (!qx.core.ObjectRegistry.inShutDown)) 
+    {
+      this.__resizeFrame.destroy();
+      this.__resizeFrame = null;
+    }
   }
 });
