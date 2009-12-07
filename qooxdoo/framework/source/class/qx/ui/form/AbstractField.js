@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   */
 
   /**
-   * @param value {String} initial text value of the input field ({@link #value}).
+   * @param value {String} initial text value of the input field ({@link #setValue}).
    */
   construct : function(value)
   {
