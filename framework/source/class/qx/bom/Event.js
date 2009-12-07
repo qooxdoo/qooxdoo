@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
-    supportsEvent : qx.core.Variant.isSet("qx.client",
+    supportsEvent : qx.core.Variant.select("qx.client",
     {
       "webkit" : function(target, type) {
         return target.hasOwnProperty("on" + type);
@@ -304,6 +304,6 @@ qx.Bootstrap.define("qx.bom.Event",
         
         return supportsEvent;
       }
-    }
+    })
   }
 });
