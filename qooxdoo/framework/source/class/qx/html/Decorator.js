@@ -42,7 +42,7 @@ qx.Class.define("qx.html.Decorator",
     var styles = {
       position: "absolute",
       top: 0,
-      left: 0,
+      left: 0
     }
 
     if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
