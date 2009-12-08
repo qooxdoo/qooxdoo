@@ -170,6 +170,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     /** The data model. */
     dataModel :
     {
+      check : "qx.ui.progressive.model.Abstract",
       apply : "_applyDataModel"
     },
 
@@ -181,6 +182,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     batchSize :
     {
+      check : "Integer",
       init  : 20
     },
 
@@ -191,6 +193,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     flushWidgetQueueAfterBatch :
     {
+      check : "Boolean",
       init : false
     },
 
@@ -201,6 +204,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     interElementTimeout :
     {
+      check: "Integer",
       init  : 0
     }
   },
@@ -218,6 +222,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     /**
      * Return the structure object
+     * 
+     * @return {qx.ui.progressive.structure.Abstract} The structure object
      */
     getStructure : function()
     {
@@ -233,7 +239,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param renderer {qx.ui.progressive.renderer.Abstract}
      *   Renderer object used if the data model references the specified name.
      *
-     * @return {Void}
+     * @return {void}
      */
     addRenderer : function(name, renderer)
     {
