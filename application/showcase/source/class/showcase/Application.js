@@ -188,10 +188,11 @@ qx.Class.define("showcase.Application",
     
     __fadeIn : function(view) 
     {
-      qx.event.Timer.once(function() {
-        view.getContentElement().setStyle("display", "none", true);
-        this.__cancelFade();
       
+      view.getContentElement().setStyle("display", "none", true);
+      this.__cancelFade();
+      
+      qx.event.Timer.once(function() {
         var element = view.getContentElement().getDomElement();
         this.__effect = new qx.fx.effect.core.Fade(element);
         this.__effect.set({
@@ -201,7 +202,7 @@ qx.Class.define("showcase.Application",
         this.__effect.addListenerOnce("update", function() {
           view.getContentElement().setStyle("display", "block");
         }, this);
-      
+
         this.__effect.start();
       }, this, 0);
     }
