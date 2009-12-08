@@ -2047,7 +2047,8 @@ qx.Class.define("qx.ui.table.Table",
     this.getTableColumnModel().dispose();
     this._disposeObjects(
       "__selectionManager", "__scrollerParent",
-      "__emptyTableModel", "__emptyTableModel"
+      "__emptyTableModel", "__emptyTableModel",
+      "__columnModel"
     );
     this._disposeMap("__columnMenuButtons");
   }

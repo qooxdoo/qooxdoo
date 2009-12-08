@@ -450,5 +450,11 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       }
     }
 
+  },
+  
+  destruct : function()
+  {
+    this._iFrameWindow = null;
+    this._disposeObjects("_reloadButton", "_structureToggle", "_tree");
   }
 });

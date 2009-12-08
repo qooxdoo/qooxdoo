@@ -511,5 +511,11 @@ qx.Class.define("inspector.console.DomView",
       return returnString.get();
     }
 
+  },
+  
+  destruct : function()
+  {
+    this._console = this._breadCrumb = null;
+    this._disposeObjects("_htmlEmbed");
   }
 });

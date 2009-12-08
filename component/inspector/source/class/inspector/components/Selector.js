@@ -221,5 +221,12 @@ qx.Class.define("inspector.components.Selector",
       this._highlightOverlay.show();
     }
 
+  },
+  
+  destruct : function()
+  {
+    this._iFrameWindow = this._addedWidgets = this._root = null;
+    this._disposeObjects("_catchClickLayer", "_highlightDecorator",
+      "_highlightOverlay");
   }
 });
