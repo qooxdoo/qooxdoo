@@ -120,6 +120,8 @@ class CodeGenerator(object):
         self._variants     = variants
 
         compConf = self._job.get("compile-dist") or self._job.get("compile-options")
+        if self._job.get("compile-dist"):
+            self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-dist'")
         compConf = ExtMap(compConf)
 
         # - Evaluate job config ---------------------
@@ -227,6 +229,7 @@ class CodeGenerator(object):
 
         compConf   = self._job.get("compile-source")
         if compConf:                  # translate old to new config
+            self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-source'")
             compConf  = mapCompileConfig(compConf)
         else:
             compConf  = self._job.get("compile-options")
