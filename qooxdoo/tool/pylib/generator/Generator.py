@@ -114,6 +114,11 @@ class Generator(object):
               "type"   : "JClassDepJob"
             },
 
+            "compile" :
+            {
+              "type" : "JCompileJob",
+            },
+
             "compile-source" :
             {
               "type" : "JCompileJob",
