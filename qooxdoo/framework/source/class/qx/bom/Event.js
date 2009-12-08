@@ -292,16 +292,21 @@ qx.Bootstrap.define("qx.bom.Event",
         var eventName = "on" + type;
         var tagName = target.nodeName.toLowerCase();
 
-        var element = qx.dom.Node.getDocument(target).createElement(tagName);
+        var supportsEvent = (eventName in target);
 
-        var supportsEvent = (eventName in element);
-        if (!supportsEvent && element.setAttribute)
+        if (!supportsEvent)
         {
-          element.setAttribute(eventName, "return;");
-          supportsEvent = typeof element[eventName] == "function"; 
+          supportsEvent = typeof target[eventName] == "function";
+
+          if (!supportsEvent && target.setAttribute)
+          {
+            target.setAttribute(eventName, "return;");
+            supportsEvent = typeof target[eventName] == "function";
+
+            target.removeAttribute(eventName);
+          }
         }
-        element = null;
-        
+
         return supportsEvent;
       }
     })
