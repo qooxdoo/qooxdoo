@@ -23,7 +23,7 @@ qx.Theme.define("showcase.theme.Font",
 
   fonts :
   {
-    "bold" :
+    "legend" :
     {
       size : qx.bom.client.System.WINVISTA ? 15 : 14,
       lineHeight : 1.4,

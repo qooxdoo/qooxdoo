@@ -67,7 +67,7 @@ qx.Theme.define("showcase.theme.Appearance",
         return {
           textColor: states.selected ? "#444444" : "#F3FFD1",
           padding: [6, 15],
-          decorator: states.selected ? "pane" : null,
+          decorator: states.selected ? "group" : null,
           font: qx.bom.Font.fromConfig({
             size: 20,
             family: ["Trebuchet MS", "Lucida Grande", "Verdana", "sans-serif"],
@@ -86,7 +86,8 @@ qx.Theme.define("showcase.theme.Appearance",
           backgroundColor: "#134275",
           decorator : new qx.ui.decoration.Single().set({
             bottom: [1, "solid", "black"],
-            backgroundImage : "showcase/images/headerback.png"
+            backgroundImage : "showcase/images/headerback.png",
+            backgroundRepeat : "scale"
           }),
           shadow : "shadow-window",
           zIndex : 111,
@@ -118,7 +119,7 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           decorator: new qx.ui.decoration.HBox("showcase/images/tag-hor.png"),
-          opacity: states.hovered ? 0.8 : 0.4,
+          opacity: states.hovered ? 1 : 0.6,
           height: 12
         };
       }
@@ -180,6 +181,21 @@ qx.Theme.define("showcase.theme.Appearance",
           })
         };
       }
-    }   
+    },
+    
+    
+    "groupbox/legend" :
+    {      
+      alias : "atom",
+      
+      style : function(states)
+      {
+        return {
+          padding   : [1, 0, 1, 4],
+          textColor : states.invalid ? "invalid" : "text-title",
+          font      : "legend"
+        };
+      }
+    }      
   }
 });
