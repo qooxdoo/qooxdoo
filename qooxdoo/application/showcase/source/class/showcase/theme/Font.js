@@ -23,5 +23,14 @@ qx.Theme.define("showcase.theme.Font",
 
   fonts :
   {
+    "bold" :
+    {
+      size : qx.bom.client.System.WINVISTA ? 15 : 14,
+      lineHeight : 1.4,
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        [ "Tahoma", "Liberation Sans", "Arial" ],
+      bold : true
+    }
   }
 });

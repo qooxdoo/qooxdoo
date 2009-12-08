@@ -49,24 +49,27 @@ qx.Class.define("showcase.page.dragdrop.Page",
   
   members : 
   {
-    __demos : {
-      "#data~SingleValueBinding.html" : "Single Value Binding Demo"
-    },
-
-    __api : {
-      "#qx.data" : "Main Data Binding API Documentation"
+    __descriptionText : "TODO",
+    
+    __tryThis : {
+      
     },
     
     __features : {
       "Loading Data" : "The data is loaded from twitter via JSONP."
+    },    
+
+    __demos : {
+      "#ui~DragDrop.html" : "Drag &amp; Drop"
     },
-    
     
     __manual : {
-      "data_binding" : "Data Binding Concepts"
-    },
-            
-    
-    __descriptionText : "TODO"
+      "ui_dragdrop" : "Drag &amp; Drop"
+    },    
+
+    __api : {
+      "#qx.ui.core.Widget~drag" : "Drag event in Widget",
+      "#qx.ui.core.DragDropCursor" : "Drag &amp; Drop Cursor"
+    }
   }
 });
