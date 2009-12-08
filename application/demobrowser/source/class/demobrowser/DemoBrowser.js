@@ -1077,7 +1077,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
-          this.__searchTextField.setValue("showcase");
         },
         this, 0);
       },
