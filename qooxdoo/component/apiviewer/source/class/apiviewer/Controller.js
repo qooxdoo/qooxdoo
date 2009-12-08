@@ -109,20 +109,22 @@ qx.Class.define("apiviewer.Controller",
         qx.event.Timer.once(function() {
           this.__setDocTree(treeData);
 
-          // Handle bookmarks
-          var state = this._history.getState();
-          if (state)
+          qx.event.Timer.once(function()
           {
-            qx.event.Timer.once(function() {
+            // Handle bookmarks
+            var state = this._history.getState();
+            if (state)
+            {
               this.__selectItem(this.__decodeState(state));
-            }, this, 0);
-          }
-
-          this._detailLoader.setHtml(
-            '<div style="padding:10px;"><h1><small>' +
-            qx.core.Setting.get("apiviewer.title") +
-            '</small>API Documentation</h1></div>'
-          );
+            }
+            else
+            {
+              // Load the first package if nothing is selected.
+              var firstPackage = this.__getFirstPackage(treeData);
+              var fullName = firstPackage.attributes.fullName;
+              this.__selectItem(fullName);
+            }
+          }, this, 0);
 
         }, this, 0);
       }, this);
@@ -362,7 +364,24 @@ qx.Class.define("apiviewer.Controller",
 
     __decodeState : function(encodedState) {
       return encodedState.replace(/(.*)~(.*)/g, "$1#$2")
+    },
+
+    /**
+     * Gets the first package in the documentation tree.
+     *
+     * @param docTree {apiviewer.dao.Package} root node of the documentation
+     * tree
+     * @return {apiviewer.dao.Package} First package.
+     */
+    __getFirstPackage : function(tree)
+    {
+       if(tree.type && tree.type == "package") {
+         return tree;
+       } else {
+         return this.__getFirstPackage(tree.children[0]);
+       }
     }
+
   },
 
 
