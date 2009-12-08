@@ -1344,8 +1344,20 @@ class Generator(object):
 
 
     def runMigration(self, libs):
+        
+        def checkConfigFiles():
+            keyset = set(self._config.findKey(r'compile-dist|compile-source', "rel"))
+            for key in keyset:
+                self._console.warn("! DeprecationWarning: You are using deprecated config key '%s'" % key)
+            return
+
         if not self._job.get('migrate-files', False):
             return
+
+        self._console.info("Checking configuration files...")
+        self._console.indent()
+        checkConfigFiles()
+        self._console.outdent()
 
         self._console.info("Migrating Javascript source code to most recent qooxdoo version...")
         self._console.indent()
@@ -1353,8 +1365,7 @@ class Generator(object):
         migSettings     = self._job.get('migrate-files')
         self._shellCmd  = ShellCmd()
 
-        qxPath      = self._job.get('let',{})['QOOXDOO_PATH']
-        migratorCmd = os.path.join(qxPath, 'tool', "bin", "migrator.py")
+        migratorCmd = os.path.join(os.path.dirname(filetool.root()), "bin", "migrator.py")
 
         libPaths = []
         for lib in libs:

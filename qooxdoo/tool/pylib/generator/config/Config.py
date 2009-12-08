@@ -640,6 +640,33 @@ class Config:
             return p.decode('utf-8')
 
 
+    def findKey(self, keyPatt, mode):
+        '''iterator for keys matching keyPatt; yields key (mode=="rel") or key path (mode=="abs")'''
+        if mode not in ("rel", "abs"):
+            raise ValueError("mode must be one of (rel|abs)")
+        keyRegex = re.compile(keyPatt)
+
+        for path, key in self.walk(self._data, "."):
+            if keyRegex.match(key):    
+                if mode=="rel":
+                    yield key
+                else:
+                    if path:
+                        yield "/".join((path, key))
+                    else:
+                        yield key
+        return
+
+    def walk(self, data, path):
+        if isinstance(data, Job):
+            data = data.getData()
+        if isinstance(data, types.DictType):
+            for child in data.keys():
+                yield path, child
+                for path1, key in self.walk(data[child], "/".join((path, child))):
+                    yield path1, key
+
+
 
 class Let(object):
     '''Class representing a map with macros (typically under the 'let' key)'''
