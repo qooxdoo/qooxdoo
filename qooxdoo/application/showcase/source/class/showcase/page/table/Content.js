@@ -151,7 +151,7 @@ qx.Class.define("showcase.page.table.Content",
       "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=" + 
       "showcase.page.table.Content.saveResult";
       
-      var loader = new qx.io2.ScriptLoader();
+      var loader = new qx.io.ScriptLoader();
       loader.load(url, function() {
         var result = showcase.page.table.Content.__result;
 

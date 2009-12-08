@@ -91,7 +91,7 @@ qx.Class.define("showcase.Page",
       else
       {
         this.setReadyState("loading");
-        qx.io2.PartLoader.require(this.getPart(), function() {
+        qx.io.PartLoader.require(this.getPart(), function() {
           this._initializeContent();
           this.setReadyState("complete");
           callback.call(context, this);
