@@ -82,7 +82,8 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
-    testFireDataEvent: function() {
+    testFireDataEvent: function()
+    {
       var self = this;
       var data = [];
       data.push({value: "a", old: "b"});
