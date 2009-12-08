@@ -883,10 +883,11 @@ qx.Bootstrap.define("qx.core.Property",
      * Emit code to apply the "validate" and "transform" config keys.
      * 
      * @param code {String[]} String array to append the code to
+     * @param clazz {Class} the class which originally defined the property
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
      */
-    __emitIncomingValueTransformation : function(code, config, name)
+    __emitIncomingValueTransformation : function(code, clazz, config, name)
     {
       // Call user-provided transform method, if one is provided.  Transform
       // method should either throw an error or return the new value.
