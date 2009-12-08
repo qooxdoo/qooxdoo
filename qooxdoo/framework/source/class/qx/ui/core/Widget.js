@@ -1452,7 +1452,7 @@ qx.Class.define("qx.ui.core.Widget",
      * through the layout process.
      *
      * This function is guaranteed to return a correct value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     * during a {@link #resize} or {@link #move} event dispatch.
      *
      * @return {Map} The widget inner dimension in pixel (if the layout is
      *    valid). Contains the keys <code>width</code> and <code>height</code>.
