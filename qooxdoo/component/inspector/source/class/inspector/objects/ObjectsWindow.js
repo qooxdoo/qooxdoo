@@ -207,5 +207,12 @@ qx.Class.define("inspector.objects.ObjectsWindow",
       return null;
     }
 
+  },
+  
+  destruct : function()
+  {
+    this._currentModel = this._iFrameWindow = null;
+    this._disposeObjects("_reloadButton", "_filterTextField", "_model",
+      "_table", "_modelRadio");
   }
 });

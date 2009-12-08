@@ -146,5 +146,11 @@ qx.Class.define("inspector.console.ConsoleWindow",
       this._domView.clear();
     }
 
+  },
+  
+  destruct : function()
+  {
+    this._disposeObjects("_clearButton", "_consoleButton", "_domButton",
+      "_findField", "_stack", "_consoleView", "_domView");
   }
 });

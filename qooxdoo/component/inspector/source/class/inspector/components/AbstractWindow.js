@@ -70,5 +70,9 @@ qx.Class.define("inspector.components.AbstractWindow",
       // throw an exception if the method is called on the abstract class
       throw new Error("Abstract method call (setInitSizeAndPosition) in 'AbstractWindow'!");
     }
+  },
+  
+  destruct : function() {
+    this._disposeObjects("_toolbar");
   }
 });

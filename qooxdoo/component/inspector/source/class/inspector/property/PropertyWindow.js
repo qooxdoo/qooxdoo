@@ -631,5 +631,14 @@ qx.Class.define("inspector.property.PropertyWindow",
         this._propertyList.switchInheritedStatus(this._showInherited);
       }
     }
+  },
+  
+  destruct : function()
+  {
+    this._qxObject = null;
+    this._disposeObjects("_filter", "_menu", "_inheritedButton",
+      "_groupButton", "_reloadButton", "_setNullButton",
+      "_setPropertyToDefaultButton", "_highlightCurrentPropertyButton",
+      "_gotoSelectedPropertyButton", "_propertyList");
   }
 });

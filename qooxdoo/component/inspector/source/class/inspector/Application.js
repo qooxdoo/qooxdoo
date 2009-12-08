@@ -540,5 +540,15 @@ qx.Class.define("inspector.Application",
     getExcludes: function() {
       return this._selector.getAddedWidgets();
     }
+  },
+  
+  destruct : function()
+  {
+    this._loadedWindow = null;
+    this._disposeObjects("_container", "_toolbar", "_objectsButton",
+      "_widgetsButton", "_propertyButton", "_consoleButton",
+      "_inspectButton", "_selectedWidgetLabel", "_urlTextField",
+      "_reloadButton", "_iFrame", "_selector", "_objectsWindow",
+      "_widgetsWindow", "_consoleWindow", "_propertyWindow");
   }
 });

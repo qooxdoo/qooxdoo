@@ -274,5 +274,11 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       }
       return null;
     }
+   },
+   
+   destruct : function()
+   {
+     this._controller = null;
+     this._disposeObjects("_tableModel", "_table");
    }
 });
