@@ -856,10 +856,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator;
+        if (states.dragover) {
+          decorator = states.selected ? "selected-dragover" : "dragover";
+        } else {
+          decorator = states.selected ? "selected" : undefined;
+        }
+        
         return {
-          padding   : 4,
+          padding   : states.dragover ? [4, 4, 2, 4] : 4,
           textColor : states.selected ? "text-selected" : undefined,
-          decorator : states.selected ? "selected" : undefined
+          decorator : decorator
         };
       }
     },

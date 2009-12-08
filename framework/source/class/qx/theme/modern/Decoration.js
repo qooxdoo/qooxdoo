@@ -66,6 +66,28 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
+    
+    "selected-dragover" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        backgroundImage  : "decoration/selection.png",
+        backgroundRepeat : "scale",
+        bottom: [2, "solid", "#33508D"]
+      }
+    }, 
+    
+    "dragover" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        bottom: [2, "solid", "#33508D"]
+      }
+    },       
 
     "pane" :
     {
