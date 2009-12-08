@@ -94,7 +94,8 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       focused : true,
       hovered : true,
-      selected : true
+      selected : true,
+      dragover : true
     }    
   }
 });
