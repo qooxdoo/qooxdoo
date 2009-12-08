@@ -20,7 +20,7 @@
 ################################################################################
 
 import os, sys, string, types, re, zlib
-import urllib, urlparse, optparse
+import urllib, urlparse, optparse, pprint
 import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.Lang import Lang
@@ -106,7 +106,7 @@ class CodeGenerator(object):
 
         # ----------------------------------------------------------------------
 
-        if not self._job.get("compile-dist", False):
+        if not (self._job.get("compile-dist", False) or self._job.get("compile/type")=="build"):
             return
 
         packages   = script.packagesArraySorted()
@@ -119,7 +119,8 @@ class CodeGenerator(object):
         self._classList    = classList
         self._variants     = variants
 
-        compConf = ExtMap(self._job.get("compile-dist"))
+        compConf = self._job.get("compile-dist") or self._job.get("compile-options")
+        compConf = ExtMap(compConf)
 
         # - Evaluate job config ---------------------
         # read in base file name
@@ -200,11 +201,36 @@ class CodeGenerator(object):
 
     def runSource(self, script, libs, classes):
 
-        if not self._job.get("compile-source/file"):
+        def mapCompileConfig(oldConf):
+            newConf = ExtMap({})
+            if 'file' in oldConf:
+                newConf.set("paths/file", oldConf['file'])
+            if 'root' in oldConf:
+                newConf.set("paths/app-root", oldConf['root'])
+            if 'locales' in oldConf:
+                newConf.set("code/locales", oldConf['locales'])
+            if 'gzip' in oldConf:
+                newConf.set("path/gzip", oldConf['gzip'])
+            if 'decode-uris-plug'in oldConf:
+                newConf.set("code/decode-uris-plug", oldConf['decode-uris-plug'])
+            if 'loader-template' in oldConf:
+                newConf.set("paths/loader-template", oldConf['loader-template'])
+            return newConf.getData()
+
+        # - Main ---------------------------------------------------------------
+
+        if not (self._job.get("compile-source/file") or self._job.get("compile/type")=="source"):
             return
 
         self._console.info("Generate source version...")
         self._console.indent()
+
+        compConf   = self._job.get("compile-source")
+        if compConf:                  # translate old to new config
+            compConf  = mapCompileConfig(compConf)
+        else:
+            compConf  = self._job.get("compile-options")
+        compConf   = ExtMap(compConf)
 
         packages   = script.packagesArraySorted()
         parts      = script.parts
@@ -220,18 +246,18 @@ class CodeGenerator(object):
         packagesArray = script.packagesArraySorted()
 
         # Read in base file name
-        filePath = self._job.get("compile-source/file")
+        filePath = compConf.get("paths/file")
         #if variants:
         #    filePath = self._makeVariantsName(filePath, variants)
         filePath = self._config.absPath(filePath)
         script.baseScriptPath = filePath
 
         # Whether the code should be formatted
-        format = self._job.get("compile-source/format", False)
-        script.scriptCompress = self._job.get("compile-source/gzip", False)
+        format = compConf.get("code/format", False)
+        script.scriptCompress = compConf.get("paths/gzip", False)
 
         # The place where the app HTML ("index.html") lives
-        self.approot = self._config.absPath(self._job.get("compile-source/root", ""))
+        self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
 
         # Read in settings
         settings = self.getSettings()
@@ -241,7 +267,7 @@ class CodeGenerator(object):
         libs = self._job.get("library", [])
 
         # Get translation maps
-        locales = self._job.get("compile-source/locales", [])
+        locales = compConf.get("code/locales", [])
         translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
@@ -254,7 +280,7 @@ class CodeGenerator(object):
         else:
             globalCodes["I18N"]         = {}  # make a fake entry
         #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
-        plugCodeFile = self._job.get("compile-source/decode-uris-plug", False)
+        plugCodeFile = compConf.get("code/decode-uris-plug", False)
         self._console.info("Generating boot loader...")
         #print "-- packageIdsSorted: %r" % script.packageIdsSorted
         sourceContent = self.generateBootCode(parts, packagesArray, boot, script, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
@@ -265,7 +291,7 @@ class CodeGenerator(object):
         # Save result file
         filetool.save(resolvedFilePath, sourceContent)
 
-        if self._job.get("compile-source/gzip"):
+        if compConf.get("paths/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
         self._console.outdent()
