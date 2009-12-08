@@ -19,7 +19,7 @@
 
 qx.Class.define("qx.test.ui.virtual.MouseEventMock",
 {
-  extend : qx.event.type.Event,
+  extend : qx.event.type.Mouse,
 
   construct : function(type, config)
   {
