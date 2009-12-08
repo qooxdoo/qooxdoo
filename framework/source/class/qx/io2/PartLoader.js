@@ -56,7 +56,7 @@ qx.Class.define("qx.io2.PartLoader",
      * is instantiated by calling the constructor with no arguments. All 
      * following calls will return this instance.
      * 
-     * @return {qx.io2.PartLoader} The singleton instance of this class.
+     * @return {qx.io.PartLoader} The singleton instance of this class.
      * 
      * @deprecated Use 'qx.io.PartLoader.getInstance' instead.
      */
