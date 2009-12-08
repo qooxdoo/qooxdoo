@@ -50,26 +50,29 @@ qx.Class.define("showcase.page.dragdrop.Page",
   
   members : 
   {
-    __descriptionText : "TODO",
+    __descriptionText : "Those two list widgets simulate a shopping system. " +
+      "The left list contains all items to shop and the right list shows the " + 
+      "shopping cart. The main idea of this demo is to show the drag &amp; drop " + 
+      "feature.",
     
     __tryThis : {
-      
+      "Drag" : "Try to move an item to the cart.",
+      "Reorder" : "You can reorder both lists.",
+      "Move" : "You can also move items back to the shop."      
     },
     
-    __features : {
-      "Loading Data" : "The data is loaded from twitter via JSONP."
-    },    
+    __features : null,
 
     __manual : {
       "ui_dragdrop" : "Drag &amp; Drop"
     },
     
     __demos : {
-      "#ui~DragDrop.html" : "Drag &amp; Drop"
+      "#ui~DragDrop.html" : "Drag &amp; Drop with lists"
     },  
 
     __api : {
-      "#qx.ui.core.Widget~drag" : "Drag event in Widget",
+      "#qx.ui.core.Widget~drag" : "Drag event in the Widget",
       "#qx.ui.core.DragDropCursor" : "Drag &amp; Drop Cursor"
     }
   }

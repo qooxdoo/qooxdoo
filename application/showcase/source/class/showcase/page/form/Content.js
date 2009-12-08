@@ -141,7 +141,7 @@ qx.Class.define("showcase.page.form.Content",
 
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
       buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      buttonGroupBox.setWidth(210);
+      buttonGroupBox.setWidth(250);
       view.add(buttonGroupBox, {left: 330, top: 10});
 
       // button
@@ -194,7 +194,7 @@ qx.Class.define("showcase.page.form.Content",
 
       var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
       booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      booleanGroupBox.setWidth(210);
+      booleanGroupBox.setWidth(250);
       view.add(booleanGroupBox, {left: 330, top: 210});
 
       // check box
@@ -217,7 +217,7 @@ qx.Class.define("showcase.page.form.Content",
 
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      numberGroupBox.setWidth(210);
+      numberGroupBox.setWidth(250);
       view.add(numberGroupBox, {left: 330, top: 310});
 
       // spinner

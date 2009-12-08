@@ -40,7 +40,7 @@ qx.Class.define("showcase.page.databinding.Content",
       
       // create and add the list
       var list = new qx.ui.form.List();
-      view.add(list, {left: 10, top: 135});
+      view.add(list, {left: 10, top: 135, bottom: 5});
       list.setWidth(300);
 
       // create the controller
@@ -101,8 +101,8 @@ qx.Class.define("showcase.page.databinding.Content",
        * ********************************************* */
       // details for the current selected tweet
       var detailsBox = new qx.ui.groupbox.GroupBox("Details");
-      view.add(detailsBox, {left: 320, top: 116});
-      detailsBox.setWidth(300);
+      view.add(detailsBox, {left: 320, top: 116, bottom: 5});
+      detailsBox.setWidth(270);
       detailsBox.setHeight(220);
 
       detailsBox.setLayout(new qx.ui.layout.Grid(0, 5));

@@ -55,12 +55,14 @@ qx.Class.define("showcase.page.form.Page",
       "widgets. The widgets are grouped by ther purpose.",
       
     __tryThis : {
-      
+      "Lists" : "Open the select box to see the list list of selectables.",
+      "Placeholder" : "The placeholder disappears if you start to enter text in a textfield.",
+      "Repeat" : "Hold the repeat button to see the number on it rise.",
+      "Menu" : "Open the menu button to see a menu."
     },
     
     __features : {
       "Complete" : "Complete set of form widgets.",
-      "Placeholder" : "Text input widgets offer a placeholder.",
       "Keyboard navigation" : "Try to cycle through the widgety by using the tab key."
     },
     
