@@ -416,7 +416,6 @@
                 "prefix" : [ "${RESPATH}" ],
                 "files"  :
                 [
-                  "${RESPATH}/${MODERN}/form/tooltip-error-*-[tb]*.png",
                   "${RESPATH}/${MODERN}/form/tooltip-error-[tb]*.png"
                 ]
               }
@@ -433,7 +432,6 @@
                 "prefix" : [ "${RESPATH}" ],
                 "files"  :
                 [
-                  "${RESPATH}/${MODERN}/form/tooltip-error-*-[lr].png",
                   "${RESPATH}/${MODERN}/form/tooltip-error-[lr].png"
                 ]
               }
