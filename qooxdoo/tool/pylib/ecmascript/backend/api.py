@@ -338,7 +338,7 @@ def handleStatics(item, classNode):
 
 
         # Constant
-        elif key.isupper():
+        else:
             handleConstantDefinition(keyvalue, classNode)
 
 
@@ -761,9 +761,6 @@ def handleConstantDefinition(item, classNode):
         # This is a constant definition of a map-style class (like qx.Const)
         name = item.get("key")
         valueNode = item.getChild("value")
-
-    if not name.isupper():
-        return
 
     node = tree.Node("constant")
     node.set("name", name)
