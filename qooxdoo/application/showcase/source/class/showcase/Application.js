@@ -101,6 +101,7 @@ qx.Class.define("showcase.Application",
       
       var pages = new qx.data.Array();
       pages.push(
+        new showcase.page.dragdrop.Page(),
         new showcase.page.theme.Page(),
         new showcase.page.form.Page(),
         new showcase.page.table.Page(),
@@ -187,22 +188,22 @@ qx.Class.define("showcase.Application",
     
     __fadeIn : function(view) 
     {
-      view.getContentElement().setStyle("display", "none");
-      qx.ui.core.queue.Manager.flush();
+      qx.event.Timer.once(function() {
+        view.getContentElement().setStyle("display", "none", true);
+        this.__cancelFade();
       
-      this.__cancelFade();
+        var element = view.getContentElement().getDomElement();
+        this.__effect = new qx.fx.effect.core.Fade(element);
+        this.__effect.set({
+          from: 0,
+          to: 1
+        });
+        this.__effect.addListenerOnce("update", function() {
+          view.getContentElement().setStyle("display", "block");
+        }, this);
       
-      var element = view.getContentElement().getDomElement();
-      this.__effect = new qx.fx.effect.core.Fade(element);
-      this.__effect.set({
-        from: 0,
-        to: 1
-      });
-      this.__effect.addListenerOnce("update", function() {
-        view.getContentElement().setStyle("display", "block");
-      }, this);
-      
-      this.__effect.start();
+        this.__effect.start();
+      }, this, 0);
     }
   }
 });

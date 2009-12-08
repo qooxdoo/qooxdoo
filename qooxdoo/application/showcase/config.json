@@ -50,7 +50,11 @@
           "animation": 
           {
             "include" : ["showcase.page.animation.Content"]
-          }
+          },
+          "dragdrop": 
+          {
+            "include" : ["showcase.page.dragdrop.Content"]
+          }          
         },
         "sizes" : 
         {
