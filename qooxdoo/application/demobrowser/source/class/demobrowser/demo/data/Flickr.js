@@ -161,7 +161,7 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
     },
 
     _createRequest: function(url) {
-      var loader = new qx.io2.ScriptLoader();
+      var loader = new qx.io.ScriptLoader();
       this.setState("receiving");
       url += "&method=flickr.photos.search&api_key=63a8042eead205f7e0040f488c02afd9&format=json";
       loader.load(url, function(data) {

@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
 
-      var ImageLoader = qx.io2.ImageLoader;
+      var ImageLoader = qx.io.ImageLoader;
 
       var am = qx.util.AliasManager.getInstance();
       var rm = qx.util.ResourceManager.getInstance();

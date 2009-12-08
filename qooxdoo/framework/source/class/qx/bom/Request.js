@@ -55,7 +55,7 @@
  * specification by the W3C at http://www.w3.org/TR/XMLHttpRequest/.
  *
  * For an higher level implementation with additional comfort please have a look
- * at {@link qx.io2.HttpRequest}.
+ * at {@link qx.io.HttpRequest}.
  */
 qx.Bootstrap.define("qx.bom.Request",
 {

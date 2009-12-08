@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
         ++this.__loadCount;
 
         // Pre-load the image.  Call doLoad() when images is loaded.
-        qx.io2.ImageLoader.load(
+        qx.io.ImageLoader.load(
           source,
           function(source, entry)
           {

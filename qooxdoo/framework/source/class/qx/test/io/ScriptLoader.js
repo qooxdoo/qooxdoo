@@ -23,14 +23,14 @@ Authors:
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io2.ScriptLoader",
+qx.Class.define("qx.test.io.ScriptLoader",
 {
   extend : qx.dev.unit.TestCase,
 
   members :
   {
     setUp : function() {
-      this.loader = new qx.io2.ScriptLoader();
+      this.loader = new qx.io.ScriptLoader();
     },
 
 

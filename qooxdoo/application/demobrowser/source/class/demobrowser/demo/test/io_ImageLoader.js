@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.test.io2_ImageLoader",
+qx.Class.define("demobrowser.demo.test.io_ImageLoader",
 {
   extend : qx.application.Native,
 
@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.test.io2_ImageLoader",
     {
       this.base(arguments);
 
-      qx.io2.ImageLoader.load("http://resources.qooxdoo.org/images/logo.gif", function(source, data)
+      qx.io.ImageLoader.load("http://resources.qooxdoo.org/images/logo.gif", function(source, data)
       {
         qx.log.Logger.debug("Image loaded (" + data.width + "x" + data.height + ")");
 

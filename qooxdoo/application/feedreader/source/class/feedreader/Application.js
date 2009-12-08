@@ -85,7 +85,7 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
-      qx.io2.PartLoader.getInstance().addListener("partLoaded", function(e) {
+      qx.io.PartLoader.getInstance().addListener("partLoaded", function(e) {
         this.debug("part loaded: " + e.getData().getName());
       }, this);
 
@@ -500,7 +500,7 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
-      qx.io2.PartLoader.require(["settings"], function()
+      qx.io.PartLoader.require(["settings"], function()
       {
         // if the window is not created
         if (!this.__prefWindow)
@@ -532,7 +532,7 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      qx.io2.PartLoader.require(["addfeed"], function()
+      qx.io.PartLoader.require(["addfeed"], function()
       {
         // if the window is not created
         if (!this.__addFeedWindow)

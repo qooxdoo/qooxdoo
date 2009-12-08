@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,50 +13,36 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
 /**
- * The ImageLoader can preload and manage loaded image resources. It easily
- * handles multiple requests and support callbacks for successful and failed
- * requests.
+ * This class has been moved to {@link qx.io.ImageLoader}
  *
- * After loading of an image the dimension of the image is stored as long
- * as the application is running. This is quite useful for in-memory layouting.
- *
- * Use {@link #load} to preload your own images.
+ * @deprecated This class has been moved to 'qx.io.ImageLoader'
  */
 qx.Bootstrap.define("qx.io2.ImageLoader",
 {
   statics :
   {
-    /** {Map} Internal data structure to cache image sizes */
-    __data : {},
-
-
-    /** {Map} Default image size */
-    __defaultSize :
-    {
-      width : null,
-      height : null
-    },
-
-    /** {Array} Known image types */
-    __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
-
-
     /**
      * Whether the given image has previously been loaded using the
      * {@link #load} method.
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loaded
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.isLoaded' instead.
      */
     isLoaded : function(source)
     {
-      var entry = this.__data[source];
-      return !!(entry && entry.loaded);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.isLoaded' instead."
+      );
+      
+      return qx.io.ImageLoader.isLoaded(source);
     },
 
 
@@ -66,11 +52,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image loading failed
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.isFailed' instead.
      */
     isFailed : function(source)
     {
-      var entry = this.__data[source];
-      return !!(entry && entry.failed);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.isFailed' instead."
+      );
+      
+      return qx.io.ImageLoader.isFailed(source);
     },
 
 
@@ -79,11 +71,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loading in the moment.
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.isLoading' instead.
      */
     isLoading : function(source)
     {
-      var entry = this.__data[source];
-      return !!(entry && entry.loading);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.isLoading' instead."
+      );
+      
+      return qx.io.ImageLoader.isLoading(source);
     },
 
 
@@ -92,11 +90,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {String ? null} The format of the image or <code>null</code>
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.getFormat' instead.
      */
     getFormat : function(source)
     {
-      var entry = this.__data[source];
-      return entry ? entry.format : null;
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.getFormat' instead."
+      );
+      
+      return qx.io.ImageLoader.getFormat(source);
     },
 
 
@@ -106,10 +110,16 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {Map} The dimension of the image. If the image is not yet loaded,
      *    the dimensions are given as nullxnull pixel.
+     *    
+     * @deprecated Use 'qx.io.ImageLoader.getSize' instead.
      */
     getSize : function(source) {
-      var entry = this.__data[source];
-      return entry ? { width: entry.width, height: entry.height } : this.__defaultSize;
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.getSize' instead."
+      );
+      
+      return qx.io.ImageLoader.getSize(source);
     },
 
 
@@ -118,11 +128,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} The width or <code>null</code> when the image is not loaded
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.getWidth' instead.
      */
     getWidth : function(source)
     {
-      var entry = this.__data[source];
-      return entry ? entry.width : null;
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.getWidth' instead."
+      );
+      
+      return qx.io.ImageLoader.getWidth(source);
     },
 
 
@@ -131,11 +147,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} The height or <code>null</code> when the image is not loaded
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.getHeight' instead.
      */
     getHeight : function(source)
     {
-      var entry = this.__data[source];
-      return entry ? entry.height : null;
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.getHeight' instead."
+      );
+      
+      return qx.io.ImageLoader.getHeight(source);
     },
 
 
@@ -148,143 +170,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to load
      * @param callback {Function} Callback function to execute
      * @param context {Object} Context in which the given callback should be executed
-     * @return {void}
+     * 
+     * @deprecated Use 'qx.io.ImageLoader.load' instead.
      */
     load : function(source, callback, context)
     {
-      // Shorthand
-      var entry = this.__data[source];
-
-      if (!entry) {
-        entry = this.__data[source] = {};
-      }
-
-      // Normalize context
-      if (callback && !context) {
-        context = window;
-      }
-
-      // Already known image source
-      if (entry.loaded || entry.loading || entry.failed)
-      {
-        if (callback)
-        {
-          if (entry.loading) {
-            entry.callbacks.push(callback, context);
-          } else {
-            callback.call(context, source, entry);
-          }
-        }
-      }
-      else
-      {
-        // Updating entry
-        entry.loading = true;
-        entry.callbacks = [];
-
-        if (callback) {
-          entry.callbacks.push(callback, context);
-        }
-
-        // Create image element
-        var el = new Image();
-
-        // Create common callback routine
-        var boundCallback = qx.lang.Function.listener(this.__onload, this, el, source);
-
-        // Assign callback to element
-        el.onload = boundCallback;
-        el.onerror = boundCallback;
-
-        // Start loading of image
-        el.src = source;
-      }
-    },
-
-
-    /**
-     * Internal event listener for all load/error events.
-     *
-     * @signature function(event, element, source)
-     *
-     * @param event {Event} Native event object
-     * @param element {Element} DOM element which represents the image
-     * @param source {String} The image source loaded
-     */
-    __onload : qx.event.GlobalError.observeMethod(function(event, element, source)
-    {
-      // Shorthand
-      var entry = this.__data[source];
-
-      // Store dimensions
-      if (event.type === "load")
-      {
-        entry.loaded = true;
-        entry.width = this.__getWidth(element);
-        entry.height = this.__getHeight(element);
-
-        // try to determine the image format
-        var result = this.__knownImageTypesRegExp.exec(source);
-        if (result != null)
-        {
-          entry.format = result[1];
-        }
-      }
-      else
-      {
-        entry.failed = true;
-      }
-
-      // Cleanup listeners
-      element.onload = element.onerror = null;
-
-      // Cache callbacks
-      var callbacks = entry.callbacks;
-
-      // Cleanup entry
-      delete entry.loading;
-      delete entry.callbacks;
-
-      // Execute callbacks
-      for (var i=0, l=callbacks.length; i<l; i+=2) {
-        callbacks[i].call(callbacks[i+1], source, entry);
-      }
-    }),
-
-
-    /**
-     * Returns the natural width of the given image element.
-     *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image width
-     */
-    __getWidth : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(element) {
-        return element.naturalWidth;
-      },
-
-      "default" : function(element) {
-        return element.width;
-      }
-    }),
-
-
-    /**
-     * Returns the natural height of the given image element.
-     *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image height
-     */
-    __getHeight : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(element) {
-        return element.naturalHeight;
-      },
-
-      "default" : function(element) {
-        return element.height;
-      }
-    })
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'qx.io.ImageLoader.load' instead."
+      );
+      
+      qx.io.ImageLoader.load(source, callback, context);
+    }
   }
 });

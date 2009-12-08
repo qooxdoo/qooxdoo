@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.basic.Image",
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
         this.__setManagedImage(this.getContentElement(), source);
-      } else if (qx.io2.ImageLoader.isLoaded(source)) {
+      } else if (qx.io.ImageLoader.isLoaded(source)) {
         this.__setUnmanagedImage(this.getContentElement(), source);
       } else {
         this.__loadUnmanagedImage(this.getContentElement(), source);
@@ -479,7 +479,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __setUnmanagedImage : function(el, source)
     {
-      var ImageLoader = qx.io2.ImageLoader;
+      var ImageLoader = qx.io.ImageLoader;
 
       // Apply source
       el.setSource(source);
@@ -500,7 +500,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __loadUnmanagedImage : function(el, source)
     {
-      var ImageLoader = qx.io2.ImageLoader;
+      var ImageLoader = qx.io.ImageLoader;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
