@@ -36,8 +36,9 @@ qx.Class.define("showcase.page.animation.Page",
       icon: "showcase/animation/icon.png",
       contentClass: "showcase.page.animation.Content",
       description: showcase.page.DescriptionBuilder.build(
-        "qooxdoo Animation",
+        "Animation",
         this.__descriptionText,
+        this.__tryThis,
         this.__features,
         this.__manual,        
         this.__demos,
@@ -48,6 +49,26 @@ qx.Class.define("showcase.page.animation.Page",
   
   members : 
   {
+     __descriptionText : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+     
+     __tryThis : {
+       
+     },
+     
+     __features : {
+       "Loading Data" : "The data is loaded from twitter via JSONP.",
+       "Binding" : "A binding connects the model to the list view.",
+       "Master Detail" : "Clicking on a tweet in the list shows the details.",
+       "Friends" : "The friends buttons lets you show your following list.",
+       "Configure" : "Enter your username to see your recent tweets."
+     },
+     
+     __manual : {
+       "qooxdoo_animation#usuage" : "Animation Usuage",
+       "qooxdoo_animation#queueing_effecs" : "Queueing effecs",
+       "qooxdoo_animation#writing_own_effects" : "Writing own effects"
+     },
+     
     __demos : {
       "#animation~Showcase.html" : "Animation Showcase",
       "#animation~Save_Dialog.html" : "Save Dialog Sample",
@@ -57,24 +78,6 @@ qx.Class.define("showcase.page.animation.Page",
     __api : {
       "#qx.fx.Base" : "Base Effect API Documentation",
       "#qx.fx.Transition" : "Transition Functions Documentation"
-    },
-    
-    __features : {
-      "Loading Data" : "The data is loaded from twitter via JSONP.",
-      "Binding" : "A binding connects the model to the list view.",
-      "Master Detail" : "Clicking on a tweet in the list shows the details.",
-      "Friends" : "The friends buttons lets you show your following list.",
-      "Configure" : "Enter your username to see your recent tweets."
-    },
-    
-    
-    __manual : {
-      "qooxdoo_animation#usuage" : "Animation Usuage",
-      "qooxdoo_animation#queueing_effecs" : "Queueing effecs",
-      "qooxdoo_animation#writing_own_effects" : "Writing own effects"
-    },
-            
-    
-    __descriptionText : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }          
   }
 });

@@ -28,7 +28,7 @@ qx.Class.define("showcase.page.DescriptionBuilder",
     _manualPrefix : "http://qooxdoo.org/documentation/1.0/",
       
       
-    build : function(header, text, features, manual, demos, api) 
+    build : function(header, text, tryThis, features, manual, demos, api) 
     {
       var description = [];
       description.push(
@@ -36,6 +36,11 @@ qx.Class.define("showcase.page.DescriptionBuilder",
         "<h1>", header, "</h1>",
         "<p>", text, "</p>"
       );
+      
+      if (tryThis) {
+        description.push("<h2>Try This</h2>", this.__makeList(tryThis));
+      }      
+      
       if (features) {
         description.push("<h2>Features</h2>", this.__makeList(features));
       }
