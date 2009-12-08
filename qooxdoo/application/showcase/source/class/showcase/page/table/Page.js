@@ -57,14 +57,14 @@ qx.Class.define("showcase.page.table.Page",
       "with that always up to date.",
     
     __tryThis : {
-      
-    },
-    
-    __features : {
       "Sorting" : "Click on the column header sorts the column.",
       "Reordering" : "Drag the column header to reorder.",
       "Resizing" : "Drag the column header separator to resize the columns.",
       "Hide Columns" : "Use the column menu at the upper right.",
+      "Resize" : "Resize the window to see the table resize."
+    },
+    
+    __features : {
       "Cell Renderer" : "Custom cell renderer like the boolean cell renderer can be configured.",
       "Header Renderer" : "Custom header renderer like in the “explicit” column can be used."
     },

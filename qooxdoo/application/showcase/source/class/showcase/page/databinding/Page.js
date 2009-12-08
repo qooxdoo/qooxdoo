@@ -58,15 +58,14 @@ qx.Class.define("showcase.page.databinding.Page",
       "right beside the list.",
       
     __tryThis : {
-      
+      "Master Detail" : "Clicking on a tweet in the list shows the details.",
+      "Friends" : "The friends buttons lets you show your following list.",
+      "Configure" : "Enter your username to see your recent tweets."      
     },
     
     __features : {
       "Loading Data" : "The data is loaded from twitter via JSONP.",
-      "Binding" : "A binding connects the model to the list view.",
-      "Master Detail" : "Clicking on a tweet in the list shows the details.",
-      "Friends" : "The friends buttons lets you show your following list.",
-      "Configure" : "Enter your username to see your recent tweets."
+      "Binding" : "A binding connects the model to the list view."
     },
     
     __manual : {

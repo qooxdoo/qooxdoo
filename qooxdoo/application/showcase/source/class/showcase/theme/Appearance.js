@@ -52,7 +52,8 @@ qx.Theme.define("showcase.theme.Appearance",
           iconPosition: "top",
           padding: [10, 10, 6, 10],
           gap: 7,
-          decorator: null
+          decorator: null,
+          cursor: "pointer"
         };
       }
     },

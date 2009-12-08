@@ -51,7 +51,8 @@ qx.Class.define("showcase.page.table.Content",
       win.set({
         showClose: false,
         showMinimize: false,
-        contentPadding: 0
+        contentPadding: 0,
+        width: 540
       });
       
       this._addWindowContent(win);
