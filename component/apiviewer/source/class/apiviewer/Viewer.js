@@ -175,6 +175,7 @@ qx.Class.define("apiviewer.Viewer",
 
       var expandBtn = new qx.ui.toolbar.RadioButton(this.tr("Properties"), "apiviewer/image/property18.gif");
       expandBtn.setId("btn_expand");
+      expandBtn.setValue(true);
       part.add(expandBtn);
 
       var inheritBtn = new qx.ui.toolbar.RadioButton(this.tr("Inherited"), "apiviewer/image/method_public_inherited18.gif");
