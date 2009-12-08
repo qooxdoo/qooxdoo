@@ -202,7 +202,7 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
   members :
   {
     _createRequest: function(url) {
-      var loader = new qx.io2.ScriptLoader();
+      var loader = new qx.io.ScriptLoader();
       url += "?callback=demobrowser.demo.data.store.Twitter.saveResult";
       loader.load(url, function(data) {
         this.__loaded();

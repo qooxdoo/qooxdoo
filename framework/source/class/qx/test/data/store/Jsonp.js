@@ -129,7 +129,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       var self = this;
       var delegate = {configureRequest : function(request) {
         configured = true;
-        self.assertTrue(request instanceof qx.io2.ScriptLoader);
+        self.assertTrue(request instanceof qx.io.ScriptLoader);
       }};
       this.__store.dispose();
       this.__store = new qx.data.store.Jsonp(null, delegate, "callback");

@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     __getImageSize : function(source)
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      var ImageLoader = qx.io2.ImageLoader;
+      var ImageLoader = qx.io.ImageLoader;
       var width, height;
 
       // Detect if the image registry knows this image

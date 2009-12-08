@@ -1324,7 +1324,7 @@
         if (scripts)
         {
           var script;
-          var Loader = qx.io2.ScriptLoader;
+          var Loader = qx.io.ScriptLoader;
           var Func = qx.lang.Function;
 
           for (var i=0, l=scripts.length; i<l; i++)

@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io2.ImageLoader",
+qx.Class.define("qx.test.io.ImageLoader",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -40,14 +40,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testLoadImageSuccess : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertTrue(qx.io2.ImageLoader.isLoaded(this.__imageSource));
+          this.assertTrue(qx.io.ImageLoader.isLoaded(this.__imageSource));
         }, self);
       }, this, 2000);
 
@@ -58,14 +58,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testLoadImageFailure : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__wrongImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__wrongImageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertTrue(qx.io2.ImageLoader.isFailed(this.__imageSource));
+          this.assertTrue(qx.io.ImageLoader.isFailed(this.__imageSource));
         }, self);
       }, this, 2000);
 
@@ -75,14 +75,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testImageWidth : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io2.ImageLoader.getWidth(this.__imageSource), 192);
+          this.assertEquals(qx.io.ImageLoader.getWidth(this.__imageSource), 192);
         }, self);
       }, this, 2000);
 
@@ -92,14 +92,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testImageHeight : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io2.ImageLoader.getHeight(this.__imageSource), 10);
+          this.assertEquals(qx.io.ImageLoader.getHeight(this.__imageSource), 10);
         }, self);
       }, this, 2000);
 
@@ -109,14 +109,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testImageSize : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          var size = qx.io2.ImageLoader.getSize(this.__imageSource);
+          var size = qx.io.ImageLoader.getSize(this.__imageSource);
           this.assertEquals(size.width, 192);
           this.assertEquals(size.height, 10);
         }, self);
@@ -128,14 +128,14 @@ qx.Class.define("qx.test.io2.ImageLoader",
     testImageFormat : function()
     {
       this.__imageSource = null;
-      qx.io2.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         this.__imageSource = source;
       }, this);
 
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io2.ImageLoader.getFormat(this.__imageSource), "gif");
+          this.assertEquals(qx.io.ImageLoader.getFormat(this.__imageSource), "gif");
         }, self);
       }, this, 2000);
 

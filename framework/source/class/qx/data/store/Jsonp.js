@@ -57,7 +57,7 @@ qx.Class.define("qx.data.store.Jsonp",
   {
     // overridden
     _createRequest: function(url) {
-      var loader = new qx.io2.ScriptLoader();
+      var loader = new qx.io.ScriptLoader();
 
       // check for the request configuration hook
       var del = this._delegate;

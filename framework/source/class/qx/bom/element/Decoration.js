@@ -210,7 +210,7 @@ qx.Class.define("qx.bom.element.Decoration",
       }
 
       var format = qx.util.ResourceManager.getInstance().getImageFormat(source) ||
-                   qx.io2.ImageLoader.getFormat(source);
+                   qx.io.ImageLoader.getFormat(source);
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (source != null && format == null) {
@@ -263,7 +263,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
     /**
      * Returns the dimension of the image by calling
-     * {@link qx.util.ResourceManager} or {@link qx.io2.ImageLoader}
+     * {@link qx.util.ResourceManager} or {@link qx.io.ImageLoader}
      * depending on if the image is a managed one.
      *
      * @param source {String} image source
@@ -272,9 +272,9 @@ qx.Class.define("qx.bom.element.Decoration",
     __getDimension : function(source)
     {
       var width = qx.util.ResourceManager.getInstance().getImageWidth(source) ||
-                  qx.io2.ImageLoader.getWidth(source);
+                  qx.io.ImageLoader.getWidth(source);
       var height = qx.util.ResourceManager.getInstance().getImageHeight(source) ||
-                   qx.io2.ImageLoader.getHeight(source);
+                   qx.io.ImageLoader.getHeight(source);
 
       return {
         width: width,

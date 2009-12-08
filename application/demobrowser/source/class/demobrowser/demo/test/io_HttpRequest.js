@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.test.io2_HttpRequest",
+qx.Class.define("demobrowser.demo.test.io_HttpRequest",
 {
   extend : qx.application.Native,
 
@@ -31,9 +31,9 @@ qx.Class.define("demobrowser.demo.test.io2_HttpRequest",
       var el = document.getElementById("content");
       el.value = "Loading...";
 
-      var req = new qx.io2.HttpRequest;
+      var req = new qx.io.HttpRequest;
 
-      req.setUrl("io2_HttpRequest.html");
+      req.setUrl("io_HttpRequest.html");
 
       req.addListener("change", function(e)
       {
