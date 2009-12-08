@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      *
      * @param cellInfo {Map} A map containing the information about the cell to
      *          create. This map has the same structure as in
-     *          {@link DataCellRenderer#createDataCell}.
+     *          {@link DataCellRenderer#createDataCellHtml}.
      * @return {String} the formatted value.
      */
     _formatValue : function(cellInfo)
