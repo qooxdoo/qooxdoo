@@ -533,7 +533,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   destruct : function()
   {
-    if (!qx.core.ObjectRegistry.inShutDown)
+    if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown)
     {
       this.__resizeFrame.destroy();
       this.__resizeFrame = null;
