@@ -261,7 +261,7 @@ qx.Class.define("qx.bom.Input",
         element.wrap = wrap ? "soft" : "off";
       },
 
-      "gecko" : function(element, wrap)
+      "gecko|webkit" : function(element, wrap)
       {
         var wrapValue = wrap ? "soft" : "off";
         var styleValue = wrap ? "" : "auto";
