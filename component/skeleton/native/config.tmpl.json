@@ -1,0 +1,96 @@
+{
+  "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "API_EXCLUDE"  : ["qx.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${Cache}",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "=include" :
+      [
+        "$${APPLICATION}.Application"
+      ],
+      
+      "exclude" :
+      [
+        "qx.theme.*"
+      ],
+      
+      "=settings" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.application" : "$${APPLICATION}.Application"
+      }
+    }
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json; if you are
+    // using a contrib: library, it will be downloaded into the path specified
+    // by the 'cache/downloads' config key
+    /*
+    "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+        }
+      ]
+    },
+    */
+
+    // If you want to tweak a job setting, see the following sample where
+    // the "format" feature of the "build-script" job is overridden.
+    // To see a list of available jobs, invoke 'generate.py x'.
+    /*
+    "build-script" :
+    {
+      "compile-dist" : 
+      {
+        "code" :
+        {
+          "format" : false
+        }
+      }
+    }
+    */
+  }
+}
