@@ -527,7 +527,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * <ul>
      * <li>User value: Value defined by the widget user, using the size properties</li>
      *
-     * <li>Layout value: The value computed by {@link #_getContentHint}</li>
+     * <li>Layout value: The value computed by {@link qx.ui.core.Widget#_getContentHint}</li>
      * </ul>
      *
      * <h3>Algorithm</h3>

@@ -41,7 +41,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
    *
    * @param orientation {String} The orientation of the split pane control.
    * Allowed values are "horizontal" (default) and "vertical".
-   * This is the same type as used in {@link qx.ui.layout.HBox#orientation}.
    */
   construct : function(orientation)
   {
