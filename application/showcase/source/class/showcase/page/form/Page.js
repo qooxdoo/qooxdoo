@@ -39,6 +39,7 @@ qx.Class.define("showcase.page.form.Page",
       description: showcase.page.DescriptionBuilder.build(
         "Form",
         this.__descriptionText,
+        this.__tryThis,
         this.__features,
         this.__manual,
         this.__demos,
@@ -48,8 +49,25 @@ qx.Class.define("showcase.page.form.Page",
   },
   
   
-  members : 
+  members :
   {
+    __descriptionText : "This form demo shows the complete set of form " + 
+      "widgets. The widgets are grouped by ther purpose.",
+      
+    __tryThis : {
+      
+    },
+    
+    __features : {
+      "Complete" : "Complete set of form widgets.",
+      "Placeholder" : "Text input widgets offer a placeholder.",
+      "Keyboard navigation" : "Try to cycle through the widgety by using the tab key."
+    },
+    
+    __manual : {
+      "ui_form_handling": "Form handling"
+    },    
+      
     __demos : {
       "#ui~FormRenderer.html" : "Default form renderer",
       "#ui~FormRendererCustom.html" : "Custom form renderer",
@@ -66,20 +84,6 @@ qx.Class.define("showcase.page.form.Page",
       "#qx.ui.form" : "The form namespace",
       "#qx.ui.form.renderer" : "Form renderer",
       "#qx.data.controller.Form" : "Form controller for binding"
-    },
-    
-    __features : {
-      "Complete" : "Complete set of form widgets.",
-      "Placeholder" : "Text input widgets offer a placeholder.",
-      "Keyboard navigation" : "Try to cycle through the widgety by using the tab key."
-    },
-    
-    __manual : {
-      "ui_form_handling": "Form handling"
-    },
-        
-    
-    __descriptionText : "This form demo shows the complete set of form " + 
-      "widgets. The widgets are grouped by ther purpose."
+    }  
   }  
 });

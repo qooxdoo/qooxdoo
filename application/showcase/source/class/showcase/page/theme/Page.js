@@ -39,6 +39,7 @@ qx.Class.define("showcase.page.theme.Page",
       description: showcase.page.DescriptionBuilder.build(
         "Theming",
         this.__descriptionText,
+        null,
         this.__features,
         this.__manual,
         null,

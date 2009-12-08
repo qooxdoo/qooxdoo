@@ -39,6 +39,7 @@ qx.Class.define("showcase.page.dragdrop.Page",
       description: showcase.page.DescriptionBuilder.build(
         "Drag &amp; Drop",
         this.__descriptionText,
+        this.__tryThis,
         this.__features,
         this.__manual,        
         this.__demos,
@@ -59,13 +60,13 @@ qx.Class.define("showcase.page.dragdrop.Page",
       "Loading Data" : "The data is loaded from twitter via JSONP."
     },    
 
-    __demos : {
-      "#ui~DragDrop.html" : "Drag &amp; Drop"
-    },
-    
     __manual : {
       "ui_dragdrop" : "Drag &amp; Drop"
-    },    
+    },
+    
+    __demos : {
+      "#ui~DragDrop.html" : "Drag &amp; Drop"
+    },  
 
     __api : {
       "#qx.ui.core.Widget~drag" : "Drag event in Widget",

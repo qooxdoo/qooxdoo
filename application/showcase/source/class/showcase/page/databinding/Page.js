@@ -39,6 +39,7 @@ qx.Class.define("showcase.page.databinding.Page",
       description: showcase.page.DescriptionBuilder.build(
         "Data Binding",
         this.__descriptionText,
+        this.__tryThis,
         this.__features,
         this.__manual,        
         this.__demos,
@@ -49,6 +50,32 @@ qx.Class.define("showcase.page.databinding.Page",
   
   members : 
   {
+    __descriptionText : "The twitter demo illustrates the usage of data " + 
+      "binding. twitter offers a REST / JSONP API for fetching the data, " + 
+      "which is a perfect match for data binding. It fetches the data and " + 
+      "binds the result to the list. A click on a tweet will invoke a " + 
+      "second binding which shows the selected tweet in the detail view " + 
+      "right beside the list.",
+      
+    __tryThis : {
+      
+    },
+    
+    __features : {
+      "Loading Data" : "The data is loaded from twitter via JSONP.",
+      "Binding" : "A binding connects the model to the list view.",
+      "Master Detail" : "Clicking on a tweet in the list shows the details.",
+      "Friends" : "The friends buttons lets you show your following list.",
+      "Configure" : "Enter your username to see your recent tweets."
+    },
+    
+    __manual : {
+      "data_binding" : "Data Binding Concepts",
+      "data_binding/single_value_binding" : "Fundamental Layer",
+      "data_binding/controller" : "Controller",
+      "data_binding/stores" : "Data Stores"
+    },
+    
     __demos : {
       "#data~SingleValueBinding.html" : "Single Value Binding Demo",
       "#data~ListControllerWith3Widgets.html" : "List Binding Demo",
@@ -62,30 +89,6 @@ qx.Class.define("showcase.page.databinding.Page",
       "#qx.data.store.Jsonp" : "JSONP Data Store",
       "#qx.data.controller.List" : "List Controller",
       "#qx.data.controller.Object" : "Object Controller"
-    },
-    
-    __features : {
-      "Loading Data" : "The data is loaded from twitter via JSONP.",
-      "Binding" : "A binding connects the model to the list view.",
-      "Master Detail" : "Clicking on a tweet in the list shows the details.",
-      "Friends" : "The friends buttons lets you show your following list.",
-      "Configure" : "Enter your username to see your recent tweets."
-    },
-    
-    
-    __manual : {
-      "data_binding" : "Data Binding Concepts",
-      "data_binding/single_value_binding" : "Fundamental Layer",
-      "data_binding/controller" : "Controller",
-      "data_binding/stores" : "Data Stores"
-    },
-            
-    
-    __descriptionText : "The twitter demo illustrates the usage of data " + 
-      "binding. twitter offers a REST / JSONP API for fetching the data, " + 
-      "which is a perfect match for data binding. It fetches the data and " + 
-      "binds the result to the list. A click on a tweet will invoke a " + 
-      "second binding which shows the selected tweet in the detail view " + 
-      "right beside the list."
+    }
   }
 });
