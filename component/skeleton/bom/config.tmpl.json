@@ -44,7 +44,7 @@
         "qx.aspects" : ["off"]
       },
 
-      "compile-dist" :
+      "compile-options" :
       {
         "paths" :
         {
@@ -60,7 +60,9 @@
           "format"   : true,
           "optimize" : [ "variables", "basecalls", "privates", "strings" ]
         }
-      }
+      },
+      
+      "compile" : { "type" : "build" }
     }
   }
 }

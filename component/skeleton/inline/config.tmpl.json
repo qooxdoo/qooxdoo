@@ -64,7 +64,7 @@
     // To see a list of available jobs, invoke 'generate.py x'.
     "build-script" :
     {
-      "compile-dist" : 
+      "compile-options" : 
       {
         "code" :
         {
