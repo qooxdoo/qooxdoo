@@ -173,7 +173,6 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /**
      * Creates a namespace and assigns the given object to it.
-     * Lightweight version of {@link qx.Class#createNamespace} only used during bootstrap phase.
      *
      * @internal
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
