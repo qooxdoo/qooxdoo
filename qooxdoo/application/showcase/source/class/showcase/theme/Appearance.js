@@ -166,16 +166,14 @@ qx.Theme.define("showcase.theme.Appearance",
     },
     
     "description-box" :
-    {      
-      alias : "scrollarea",
-      
+    {  
       style : function(states)
       {
         return {
           width: 300,
           zIndex: 122,
           shadow: "shadow-window",
-          contentPadding: 7,
+          padding: 7,
           decorator: new qx.ui.decoration.Background().set({
             backgroundImage : "showcase/images/contentbackground.gif",
             backgroundRepeat : "repeat-y"            

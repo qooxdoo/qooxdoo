@@ -26,7 +26,7 @@
 
 qx.Class.define("showcase.Application",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Inline,
 
   properties :
   {
@@ -77,8 +77,15 @@ qx.Class.define("showcase.Application",
       grid.setColumnFlex(0, 1);
       grid.setRowFlex(1, 1);
       var row = 0;
-      var container = new qx.ui.container.Composite(grid);
-      this.getRoot().add(container, {edge: 0});
+      var htmlElement = document.getElementById("showcase");
+      var container = new qx.ui.root.Inline(htmlElement, false, false);     
+      container.set({
+        layout: grid,
+        width: 900,
+        minHeight: 650,
+        allowGrowX: false,
+        height: null
+      });
                   
       var list = new showcase.ui.PreviewList();
       container.add(list, {row: row++, column: 0, colSpan: 2});               
@@ -96,14 +103,17 @@ qx.Class.define("showcase.Application",
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__stack.add(this.__content);
       
-      var descriptionBox = new qx.ui.container.Scroll().set({
-        appearance: "description-box"
+      var descriptionBox = new qx.ui.container.Composite().set({
+        appearance: "description-box",
+        layout: new qx.ui.layout.Basic()
       });
       container.add(descriptionBox, {row: row++, column: 1});
       
       var description = new qx.ui.basic.Label().set({
         rich: true,
-        selectable: true
+        selectable: true,
+        width: 300,
+        allowGrowX: false
       });
       descriptionBox.add(description);
       
