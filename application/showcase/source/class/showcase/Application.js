@@ -59,6 +59,15 @@ qx.Class.define("showcase.Application",
     {
       this.base(arguments);
 
+      // Enable logging in debug variant
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // support native logging capabilities, e.g. Firebug for Firefox
+        qx.log.appender.Native;
+        // support additional cross-browser console. Press F7 to toggle visibility
+        qx.log.appender.Console;
+      }      
+      
       var cssUrl = qx.util.AliasManager.getInstance().resolve(
         "showcase/css/showcase.css"
       );
@@ -88,8 +97,7 @@ qx.Class.define("showcase.Application",
       this.__stack.add(this.__content);
       
       var descriptionBox = new qx.ui.container.Scroll().set({
-        appearance: "description-box",
-        layout: new qx.ui.layout.Canvas()
+        appearance: "description-box"
       });
       container.add(descriptionBox, {row: row++, column: 1});
       
@@ -97,7 +105,7 @@ qx.Class.define("showcase.Application",
         rich: true,
         selectable: true
       });
-      descriptionBox.add(description, {edge: 0});
+      descriptionBox.add(description);
       
       var pages = new qx.data.Array();
       pages.push(
