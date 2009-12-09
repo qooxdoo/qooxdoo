@@ -271,7 +271,7 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
-    /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
+    /** Contains names of inheritable properties, filled by {@link qx.Class#define} */
     $$inheritable : {},
 
 
