@@ -290,7 +290,6 @@ qx.Bootstrap.define("qx.bom.Event",
       "default" : function(target, type)
       {
         var eventName = "on" + type;
-        var tagName = target.nodeName.toLowerCase();
 
         var supportsEvent = (eventName in target);
 
