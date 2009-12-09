@@ -56,7 +56,7 @@
  * </pre>
  *
  * @param cellInfo {Map} The information about the cell.
- *          See {@link #createDataCellHtml}.
+ *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
  * @return {String}
  */
 qx.Class.define("qx.ui.table.cellrenderer.Replace",

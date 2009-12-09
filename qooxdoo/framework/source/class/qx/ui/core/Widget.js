@@ -3790,7 +3790,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Use with caution! This may be used for animations, drag&drop
      * or other cases where high performance location manipulation
-     * is important. Otherwise please use {@link #setUserBounds} instead.
+     * is important. Otherwise please use {@link qx.ui.core.LayoutItem#setUserBounds} instead.
      *
      * @param value {Integer} Left position
      * @return {void}
@@ -3812,7 +3812,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Use with caution! This may be used for animations, drag&drop
      * or other cases where high performance location manipulation
-     * is important. Otherwise please use {@link #setUserBounds} instead.
+     * is important. Otherwise please use {@link qx.ui.core.LayoutItem#setUserBounds} instead.
      *
      * @param value {Integer} Top position
      * @return {void}
@@ -3834,7 +3834,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Use with caution! This may be used for animations, drag&drop
      * or other cases where high performance location manipulation
-     * is important. Otherwise please use {@link #setUserBounds} instead.
+     * is important. Otherwise please use {@link qx.ui.core.LayoutItem#setUserBounds} instead.
      *
      * @param left {Integer} Left position
      * @param top {Integer} Top position

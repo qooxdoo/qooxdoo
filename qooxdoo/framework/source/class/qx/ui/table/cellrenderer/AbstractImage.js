@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *
      * @abstract
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Map} A map having the following attributes:
      *           <ul>
      *           <li>"url": (type string) must be the URL of the image to show.</li>
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * Retrieves the image infos.
      *
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Map} Map with an "url" attribute (type string)
      *                 holding the URL of the image to show
      *                 and a "tooltip" attribute

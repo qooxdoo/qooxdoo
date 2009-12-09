@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.form.List",
     },
 
     /**
-     * Find an item by its {@link qx.ui.form.ListItem#getLabel}.
+     * Find an item by its {@link qx.ui.basic.Atom#getLabel}.
      *
      * @param search {String} A label or any item
      * @param ignoreCase {Boolean?true} description

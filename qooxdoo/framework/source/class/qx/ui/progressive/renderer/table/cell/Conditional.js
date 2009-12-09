@@ -304,7 +304,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      *
      *
      * @param cellInfo {Map}
-     *   The information about the cell.  See {@link #createDataCellHtml}.
+     *   The information about the cell.  See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      *
      * @return {Map}
      */
