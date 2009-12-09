@@ -76,7 +76,7 @@
         "qx.debug" : ["off"]
       },
 
-      "compile-dist" :
+      "compile-options" :
       {
         "paths"  :
         {
@@ -93,7 +93,9 @@
           "locales"  : "${LOCALES}",
           "optimize" : "${OPTIMIZE}"
         }
-      }
+      },
+      
+      "compile" : { "type" : "build" }
     },
 
 
