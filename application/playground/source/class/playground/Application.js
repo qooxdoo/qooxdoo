@@ -357,6 +357,7 @@ qx.Class.define("playground.Application",
         wrap      : false,
         font      : qx.bom.Font.fromString("14px monospace"),
         decorator : null,
+        backgroundColor: "white",
         padding   : [0,0,0,5]
       });
 
@@ -394,7 +395,7 @@ qx.Class.define("playground.Application",
             width              : width + "px",
             height             : height + "px",
             autoMatchParens    : true,
-            iframeClass : "code-mirror-iframe",
+            iframeClass        : "code-mirror-iframe",
             lineNumbers        : false,
             initCallback       : function(editor) {
               var lineOffset = parseInt(editor.frame.parentNode.style.marginLeft) || 0;
