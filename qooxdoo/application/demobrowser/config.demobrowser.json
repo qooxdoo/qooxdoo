@@ -106,7 +106,7 @@
 
       "extend" : ["common"],
 
-      "compile-dist" :
+      "compile-options" :
       {
         "paths" :
         {
@@ -117,7 +117,9 @@
           "format" : true,
           "optimize" : ["basecalls", "variables", "privates", "strings"]
         }
-      }
+      },
+
+      "compile" : { "type" : "build" }
     },
 
 

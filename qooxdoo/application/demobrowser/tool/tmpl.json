@@ -73,15 +73,6 @@
 
       "settings" : {"qx.theme": "${DTHEME}"},
 
-      /*
-      "compile-source" :
-      {
-        "file" : "source/script/YYY-${DTHEME}.js",
-        "locales" : "${LOCALES}",
-        "root" : "source/demo/yyy"
-      }
-      */
-      
       "compile" : { "type" : "source" }
     },
 
@@ -95,39 +86,11 @@
 
       "settings" : {"qx.theme": "${DTHEME}"},
 
-      /*
-      "compile-source" :
-      {
-        "file" : "source/script/YYY-${DTHEME}.js",
-        "locales" : "${LOCALES}",
-        "root" : "source/demo/yyy"
-      }
-      */
-
       "compile" : { "type" : "source" }
     },
 
     "build-XXX" :
     {
-        "run" : ["build-XXX-Classic", "build-XXX-Modern"]
-    },
-
-    "build-XXX-Classic" :
-    {
-      "extend" : ["common-XXX"],
-
-      "let"    : {"DTHEME" : "qx.theme.Classic"},
-
-      "include" : ["${DTHEME}"],
-
-      "settings" : {"qx.theme": "${DTHEME}"},
-
-      "variants" :
-      {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"]
-      },
-
       "compile-options" :
       {
         "paths" :
@@ -147,6 +110,25 @@
         }
       },
       
+      "run" : ["build-XXX-Classic", "build-XXX-Modern"]
+    },
+
+    "build-XXX-Classic" :
+    {
+      "extend" : ["common-XXX"],
+
+      "let"    : {"DTHEME" : "qx.theme.Classic"},
+
+      "include" : ["${DTHEME}"],
+
+      "settings" : {"qx.theme": "${DTHEME}"},
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
+      },
+
       "compile" : { "type" : "build" }
     },
 
@@ -166,22 +148,5 @@
         "qx.aspects" : ["off"]
       },
 
-      "compile-dist" :
-      {
-        "paths" :
-        {
-          "file" : "build/script/YYY-${DTHEME}.js"
-        },
-        "uris" :
-        {
-          "script"  : "../../script",
-          "resource" : "../../resource"
-        },
-        "code" :
-        {
-          "format"  : true,
-          "locales" : "${LOCALES}",
-          "optimize" : [ "variables", "basecalls", "strings", "privates" ]
-        }
-      }
+      "compile" : { "type" : "build" }
     }
