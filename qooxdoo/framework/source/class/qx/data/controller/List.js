@@ -88,6 +88,7 @@ qx.Class.define("qx.data.controller.List",
     // register for bound target properties and onUpdate methods
     // from the binding options
     this.__boundProperties = [];
+    this.__boundPropertiesReverse = [];
     this.__onUpdate = {};
 
     if (labelPath != null) {
@@ -207,6 +208,7 @@ qx.Class.define("qx.data.controller.List",
     __lookupTable : null,
     __onUpdate : null,
     __boundProperties : null,
+    __boundPropertiesReverse : null,
 
 
     /*
@@ -654,7 +656,39 @@ qx.Class.define("qx.data.controller.List",
         this.__boundProperties.push(targetProperty);
       }
     },
-
+    
+    
+    /**
+     * Helper-Method for binding a given property from the target widget to 
+     * the model.
+     * This method should only be called in the
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function
+     * implemented by the {@link #delegate} property.
+     *
+     * @param targetPath {String | null} The name of the property in the target.
+     * @param sourcePath {String} The path to the property in the model.
+     * @param options {Map | null} The options to use for the binding.
+     * @param sourceWidget {qx.ui.core.Widget} The source widget.
+     * @param index {Number} The index of the current binding.
+     */
+    bindPropertyReverse: function(
+      targetPath, sourcePath, options, sourceWidget, index
+    ) {
+      // build up the path for the binding
+      var targetBindPath = "model[" + index + "]";
+      if (targetPath != null && targetPath != "") {
+        targetBindPath += "." + targetPath;
+      }
+      // create the binding
+      var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
+      sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
+      
+      // save the bound property
+      if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
+        this.__boundPropertiesReverse.push(targetPath);
+      }      
+    },
+    
 
     /**
      * Method which will be called on the invoke of every binding. It takes
@@ -699,6 +733,16 @@ qx.Class.define("qx.data.controller.List",
           this.removeBinding(id);
         }
       }
+      // go through all reverse bound properties
+      for (var i = 0; i < this.__boundPropertiesReverse.length; i++) {
+        // get the binding id and remove it, if possible
+        var id = item.getUserData(
+          this.__boundPropertiesReverse[i] + "ReverseBindingId"
+        );
+        if (id != null) {
+          item.removeBinding(id);
+        }
+      };
     },
 
 
