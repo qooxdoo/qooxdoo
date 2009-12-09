@@ -47,13 +47,12 @@ qx.Class.define("qx.ui.menu.Manager",
     // Create data structure
     this.__objects = [];
 
-    var root = qx.core.Init.getApplication().getRoot();
     var el = document.body;
     var Registration = qx.event.Registration;
 
-    // React on mousedown/mouseup events
-    root.addListener("mousedown", this._onMouseDown, this, true);
-
+    // React on mousedown/mouseup events, but on native, to support inline applications
+    Registration.addListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
+    
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
     Registration.addListener(el, "keyup", this._onKeyUpDown, this, true);
@@ -417,6 +416,16 @@ qx.Class.define("qx.ui.menu.Manager",
     _onMouseDown : function(e)
     {
       var target = e.getTarget();
+      target = qx.ui.core.Widget.getWidgetByElement(target);
+
+      // If the target is 'null' the click appears on a DOM element witch is not
+      // a widget. This happens normally with a inline application, when the user
+      // clicks not in the inline application. In this case all all currently 
+      // open menus should be closed.
+      if (target == null) {
+        this.hideAll();
+        return;
+      }
 
       // If the target is the one which has opened the current menu
       // we ignore the mousedown to let the button process the event
@@ -826,10 +835,9 @@ qx.Class.define("qx.ui.menu.Manager",
   {
     var Registration = qx.event.Registration;
     var el = document.body;
-    var root = qx.core.Init.getApplication().getRoot();
 
     // React on mousedown/mouseup events
-    root.removeListener("mousedown", this._onMouseDown, this, true);
+    Registration.removeListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
 
     // React on keypress events
     Registration.removeListener(el, "keydown", this._onKeyUpDown, this, true);
