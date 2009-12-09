@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2008-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -64,9 +64,12 @@ qx.Class.define("playground.Application",
 
     __history : null,
     
+    __currentStandalone: null,
+    
     // flag used for the warning for IE
     __ignoreSaveFaults : false,
 
+    __errorMsg: qx.locale.Manager.tr("Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"),
 
     /**
      * This method contains the initial application code and gets called
@@ -145,6 +148,7 @@ qx.Class.define("playground.Application",
       });
 
       this.__playApp = this.clone();
+      playground.Application.__PLAYROOT = this.__playRoot;
 
       this.__playApp.getRoot = function() {
         return self.__playRoot;
@@ -162,9 +166,12 @@ qx.Class.define("playground.Application",
       this.__attachOpenApiViewer();
       this.__attachOpenManual();
       this.__attachOpenLog();
+    },
 
+    finalize: function()
+    {
       // Back button and bookmark support
-      this.__initBookmarkSupport();
+      this.__initBookmarkSupport();      
     },
 
     /**
@@ -180,7 +187,8 @@ qx.Class.define("playground.Application",
 
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
-      if (state && this.__sampleContainer[state] != undefined) {
+      if (state && this.__sampleContainer[state] != undefined)
+      {
         this.textarea.setValue(this.__sampleContainer[state]);
         if (this.editor != undefined) {
           this.editor.setCode(this.__sampleContainer[state]);
@@ -191,14 +199,17 @@ qx.Class.define("playground.Application",
         this.playAreaCaption.setValue(this.__decodeSampleId(title));
 
       // if there is a state given
-      } else if (state != "") {
+      } 
+      else if (state != "")
+      {
         var title = this.tr("Custom Code");
         this.currentSample = "";
         
         try {
           var data = qx.util.Json.parse(state);
-          var code = decodeURIComponent(data.code);
+          var code = decodeURIComponent(data.code).replace(/%0D/g, "");
           this.textarea.setValue(code);
+          this.__widgets["toolbar.runButton"].execute();
         } catch (e) {
           title = this.tr("Unreadable Custom Code");
           var errorMessage = "Unable to read the URL parameter.";
@@ -208,9 +219,9 @@ qx.Class.define("playground.Application",
           }
           alert(errorMessage);
         }
-        this.__widgets["toolbar.runButton"].execute();        
-
-      } else {
+      }
+      else
+      {
         state = qx.lang.Object.getKeys(this.__sampleContainer)[0];
         this.currentSample = state;
         this.textarea.setValue(this.__sampleContainer[state]);
@@ -234,7 +245,7 @@ qx.Class.define("playground.Application",
           this.__history.addToHistory(state, this.__updateTitle(newName));
         } else {
           var data = qx.util.Json.parse(state);
-          var code = decodeURIComponent(data.code);
+          var code = decodeURIComponent(data.code).replace(/%0D/g, "");
           if (this.showSyntaxHighlighting) {
             if (code != this.editor.getCode()) {
               this.editor.setCode(code);
@@ -365,6 +376,8 @@ qx.Class.define("playground.Application",
 
           this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
 
+          var that = this;
+          
           // create the sheet for the codemirror iframe
           qx.bom.Stylesheet.createElement(
             ".code-mirror-iframe {position: absolute; z-index: 11}"
@@ -381,7 +394,13 @@ qx.Class.define("playground.Application",
             width              : width + "px",
             height             : height + "px",
             autoMatchParens    : true,
-            iframeClass : "code-mirror-iframe"
+            iframeClass : "code-mirror-iframe",
+            lineNumbers        : false,
+            initCallback       : function(editor) {
+              var lineOffset = parseInt(editor.frame.parentNode.style.marginLeft) || 0;
+              editor.frame.style.width = (that.textarea.getBounds().width - lineOffset) + "px";
+              editor.frame.style.height = that.textarea.getBounds().height + "px";
+            }
           });
 
           var splitter = this.mainsplit.getChildControl("splitter");
@@ -401,7 +420,8 @@ qx.Class.define("playground.Application",
           // to achieve auto-resize, the editor sets the size of the container element
           this.textarea.addListener("resize", function()
           {
-            this.editor.frame.style.width = this.textarea.getBounds().width + "px";
+            var lineOffset = parseInt(this.editor.frame.parentNode.style.marginLeft) || 0;
+            this.editor.frame.style.width = (this.textarea.getBounds().width - lineOffset) + "px";
             this.editor.frame.style.height = this.textarea.getBounds().height + "px";
           },
           this);
@@ -508,6 +528,9 @@ qx.Class.define("playground.Application",
       root.setLayout(new qx.ui.layout.Canvas());
       layout.dispose();
 
+      var reg = qx.Class.$$registry;
+      delete reg[this.__currentStandalone];
+
       if (this.showSyntaxHighlighting && this.editor) {
           this.code = this.editor.getCode() || this.textarea.getValue();
       } else {
@@ -517,7 +540,8 @@ qx.Class.define("playground.Application",
       var title = this.__decodeSampleId(this.currentSample);
       this.code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
-        ' ...");\n' + (this.code || "") +
+        ' ...");\n' + 
+        ((this.code + ";") || "") +
         'this.info("' + this.tr("Successfully started").toString() + '.");\n';
 
       try
@@ -537,13 +561,19 @@ qx.Class.define("playground.Application",
       catch(ex)
       {
         var exc = ex;
-        alert(
-          this.tr("Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||").replace(/\|/g, "\n") +
-          exc
-        );
+        alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
       }
 
-
+      for( var name in reg )
+      {
+        if(this.__isStandaloneApp(name))
+        {
+          this.__currentStandalone = name;
+          this.__executeStandaloneApp(name);
+          continue;
+        }
+      } 
+      
       if (exc)
       {
         this.error(exc);
@@ -554,7 +584,58 @@ qx.Class.define("playground.Application",
       this.__fetchLog();
     },
 
+    
+    /**
+     * Determines whether the class (given by name) exists in the object 
+     * registry and is a qooxdoo standalone application class
+     *
+     * @param name {String} Name of the class to examine
+     * @return {Boolean} Whether it is a registered standalone application class
+     */
+    __isStandaloneApp : function(name)
+    {
+      if (name === "playground.Application") {
+        return false;
+      }
+      
+      var clazz = qx.Class.$$registry[name];
+      
+      if( clazz && clazz.superclass && 
+          clazz.superclass.classname === "qx.application.Standalone")
+      {
+        return true;
+      } else {
+        return false;
+      }
+    },
 
+
+    /**
+     * Execute the class (given by name) as a standalone app
+     *
+     * @param name {String} Name of the application class to execute
+     * @return {void}
+     */
+    __executeStandaloneApp : function(name)
+    {
+      qx.application.Standalone.prototype._createRootWidget = function() {
+        return playground.Application.__PLAYROOT; };
+
+      var app = new qx.Class.$$registry[name];
+
+      try
+      {
+        app.main();
+        qx.ui.core.queue.Manager.flush();
+      }
+      catch(ex)
+      {
+        var exc = ex;
+        alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
+      }
+    },
+    
+    
     /**
      * Generates a menu to select the samples.
      *
@@ -715,6 +796,7 @@ qx.Class.define("playground.Application",
    /**
     * Toggle editor
     *
+    * @param e {Event} the toggle button event
     * @return {void}
     */
    __toggleEditor : function(e)
@@ -931,6 +1013,7 @@ qx.Class.define("playground.Application",
                          "logappender",
                          "stack",
                          "__playRoot",
+                         "__currentStandalone",
                          "editor");
   }
 });
