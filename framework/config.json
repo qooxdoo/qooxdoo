@@ -84,7 +84,7 @@
         }
       },
       
-      "compile" : { "type" : "build" }
+      "compile" : { "type" : "build" },
 
       "copy-resources" :
       {
