@@ -103,7 +103,7 @@
     {
       "extend"  : ["inspector::build-script"],
 
-      "compile-dist": 
+      "compile-options": 
       {
         "uris" : 
         { 

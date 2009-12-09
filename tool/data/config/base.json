@@ -93,15 +93,6 @@
 
       "extend" : ["common"],
 
-      /*
-      "compile-source" :
-      {
-        "file" : "${ROOT}/source/script/${APPLICATION}.js",
-        "locales" : "${LOCALES}",
-        "root" : "source"
-      }
-      */
-
       "compile-options" :
       {
         "paths" :
@@ -146,15 +137,21 @@
       [
         "qx.test.*"
       ],
-      /*
-      */
 
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "${ROOT}/source/script/${APPLICATION}.js",
-        "locales" : "${LOCALES}",
-        "root" : "source"
-      }
+        "paths" :
+        {
+          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "app-root" : "source"
+        },
+        "code" :
+        {
+          "locales" : "${LOCALES}"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
     },
 
 
@@ -168,6 +165,7 @@
       ]
     },
 
+    /*
     "source-hybrid" :
     {
       "desc"    : "create a hybrid source version (application as source, framework compiled)",
@@ -257,6 +255,7 @@
         "root" : "source"
       }
     },
+    */
 
     // -- build jobs ---------------------------------------------------
 
