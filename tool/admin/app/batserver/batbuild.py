@@ -190,7 +190,7 @@ def svn_checkout(target,revision):
     return rc
 
 def make(target):
-    rc = invoke_external("make -f tool/Makefile.release %s" % target)
+    rc = invoke_external("make -f tool/release/Makefile.release %s" % target)
     return rc
 
 def copy_archives(target):
