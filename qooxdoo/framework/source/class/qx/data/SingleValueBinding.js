@@ -26,11 +26,11 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
-    /* Static debug flag to enable log messages on every invoke of a listener */
+    /** Static debug flag to enable log messages on every invoke of a listener */
     DEBUG_ON: false,
 
 
-    /* internal reference for all bindings */
+    /** internal reference for all bindings */
     __bindings: {},
 
 
