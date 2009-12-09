@@ -69,44 +69,44 @@ qx.Class.define("demobrowser.demo.widget.Tree_Columns",
       var te1_2_2 = this.configureTreeItem(new qx.ui.tree.TreeFile(), "Documents (D:)", "icon/16/devices/drive-harddisk.png");
       te1_2.add(te1_2_1, te1_2_2);
 
-      var te2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Inbox");
-      var te2_1 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Presets");
-      var te2_2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Sent");
-      var te2_3 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/16/places/user-trash.png");
-      var te2_4 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Data");
-      var te2_5 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Edit");
-      var te2_5_1 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Chat");
-      var te2_5_2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Pustefix");
-      var te2_5_3 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "TINC");
-      var te2_5_3_1 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Announce");
-      var te2_5_3_2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Devel");
+      var te2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Inbox");
+      var te2_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Presets");
+      var te2_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Sent");
+      var te2_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/16/places/user-trash.png");
+      var te2_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Data");
+      var te2_5 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Edit");
+      var te2_5_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Chat");
+      var te2_5_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Pustefix");
+      var te2_5_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "TINC");
+      var te2_5_3_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Announce");
+      var te2_5_3_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Devel");
       te2_5_3.add(te2_5_3_1, te2_5_3_2);
       te2_5.add(te2_5_1, te2_5_2, te2_5_3);
 
-      var te2_6 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Lists");
-      var te2_6_1 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Relations");
-      var te2_6_2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Company");
-      var te2_6_3 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Questions");
-      var te2_6_4 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Internal");
-      var te2_6_5 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Products");
-      var te2_6_6 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Press");
-      var te2_6_7 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Development");
-      var te2_6_8 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Competition");
+      var te2_6 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Lists");
+      var te2_6_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Relations");
+      var te2_6_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Company");
+      var te2_6_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Questions");
+      var te2_6_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Internal");
+      var te2_6_5 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Products");
+      var te2_6_6 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Press");
+      var te2_6_7 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Development");
+      var te2_6_8 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Competition");
       te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
 
-      var te2_7 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Personal");
-      var te2_7_1 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Bugs");
-      var te2_7_2 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Family");
-      var te2_7_3 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Projects");
-      var te2_7_4 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Holiday");
+      var te2_7 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Personal");
+      var te2_7_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Bugs");
+      var te2_7_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Family");
+      var te2_7_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Projects");
+      var te2_7_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Holiday");
       te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
 
-      var te2_8 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Big");
+      var te2_8 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Big");
       for (var i=0;i<50; i++) {
-        te2_8.add(new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Item " + i));
+        te2_8.add(this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Item " + i));
       };
 
-      var te2_9 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Spam");
+      var te2_9 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Spam");
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
       root.add(te2);
