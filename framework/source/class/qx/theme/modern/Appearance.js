@@ -2770,7 +2770,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
     "cell-atom" : "cell",
     "cell-date" : "cell",
-    "cell-html" : "cell"
+    "cell-html" : "cell",
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HTMLAREA
+    ---------------------------------------------------------------------------
+    */
+
+    "htmlarea" :
+    {
+      "include" : "widget",
+      
+      style : function(states)
+      {
+        return {
+          backgroundColor : "white"
+        }
+      }
+    }
   }
 });
