@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
      * Overridden; called whenever the cell updates.
      *
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
+     *          See {@link qx.ui.table.cellrenderer.Default#createDataCellHtml}.
      * @return {String}
      */
     _getContentHtml : function(cellInfo)
