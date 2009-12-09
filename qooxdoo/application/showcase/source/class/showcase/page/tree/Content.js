@@ -157,7 +157,7 @@ qx.Class.define("showcase.page.tree.Content",
         height: 500,
         decorator: null,
         selectionMode : "multi",
-        dragSelection: true,        
+        dragSelection: true        
       });
 
       win.add(tree);
