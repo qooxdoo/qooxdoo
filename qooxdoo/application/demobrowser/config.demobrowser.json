@@ -68,11 +68,15 @@
 
       "extend" : ["common"],
 
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "./source/script/${APPLICATION}.js",
-        "root" : "source"
-      }
+        "paths"  :
+        {
+          "file" : "./source/script/${APPLICATION}.js",
+          "app-root" : "source"
+        }
+      },
+      "compile" : { "type" : "source" }
     },
 
 
