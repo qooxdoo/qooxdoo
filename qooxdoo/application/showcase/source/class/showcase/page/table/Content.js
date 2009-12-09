@@ -25,7 +25,7 @@
 ************************************************************************ */
 qx.Class.define("showcase.page.table.Content",
 {
-  extend : showcase.AbstractContent,
+  extend : showcase.page.AbstractDesktopContent,
   
   construct : function(page) {
     this.base(arguments, page);
@@ -43,29 +43,6 @@ qx.Class.define("showcase.page.table.Content",
   
   members :
   {
-    __createView : function() 
-    {
-      var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
-      
-      var win = new qx.ui.window.Window();
-      win.set({
-        showClose: false,
-        showMinimize: false,
-        contentPadding: 0,
-        width: 540
-      });
-      
-      this._addWindowContent(win);
-      
-      view.add(win);
-      win.moveTo(30, 20);
-      win.open();
-      
-      return view;
-    },
-    
-    
-    
     _addWindowContent : function(win) {
       // Create the initial data
       var rowData = [[0, "loading ...", "loading ...", 0, false]];
@@ -89,7 +66,7 @@ qx.Class.define("showcase.page.table.Content",
       var table = new qx.ui.table.Table(tableModel, custom);
 
       table.set({
-        width: 600,
+        width: 540,
         height: 400,
         decorator : null,
         headerCellHeight : null
