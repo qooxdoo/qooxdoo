@@ -37,7 +37,7 @@ qx.Class.define("qx.event.type.Native",
      * @param relatedTarget {Object?null} The related event target
      * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.
      *     If the event is bubbling, the bubbling can be stopped using
-     *     {@link #stopPropagation}
+     *     {@link qx.event.type.Event#stopPropagation}
      * @param cancelable {Boolean?false} Whether or not an event can have its default
      *     action prevented. The default action can either be the browser's
      *     default action of a native event (e.g. open the context menu on a

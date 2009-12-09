@@ -501,7 +501,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * Get a map of the cell's alignment. For vertical alignment the row alignment
      * takes precedence over the column alignment. For horizontal alignment it is
      * the over way round. If an alignment is set on the cell widget using
-     * {@link qx.ui.layout.Abstract#setLayoutProperties}, this alignment takes
+     * {@link qx.ui.core.LayoutItem#setLayoutProperties}, this alignment takes
      * always precedence over row or column alignment.
      *
      * @param row {Integer} The cell's row index

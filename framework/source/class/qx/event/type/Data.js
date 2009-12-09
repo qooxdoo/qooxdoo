@@ -50,7 +50,7 @@ qx.Class.define("qx.event.type.Data",
      *     default action of a native event (e.g. open the context menu on a
      *     right click) or the default action of a qooxdoo class (e.g. close
      *     the window widget). The default action can be prevented by calling
-     *     {@link #preventDefault}
+     *     {@link qx.event.type.Event#preventDefault}
      * @return {qx.event.type.Data} the initialized instance.
      */
     init : function(data, old, cancelable)
