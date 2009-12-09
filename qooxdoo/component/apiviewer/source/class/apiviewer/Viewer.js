@@ -152,14 +152,17 @@ qx.Class.define("apiviewer.Viewer",
       var showPackages = new qx.ui.toolbar.RadioButton(this.tr("Content"), "icon/22/apps/utilities-dictionary.png");
       showPackages.setUserData("value", "packages");
       showPackages.setValue(true);
+      showPackages.setToolTipText(this.tr("Show/hide the packages."));
       part.add(showPackages);
 
       var showSearch = new qx.ui.toolbar.RadioButton(this.tr("Search"), "icon/22/actions/edit-find.png");
       showSearch.setUserData("value", "search");
+      showSearch.setToolTipText(this.tr("Search for packages, classes and members."));
       part.add(showSearch);
 
       var showLegend = new qx.ui.toolbar.RadioButton(this.tr("Legend"), "icon/22/apps/utilities-help.png");
       showLegend.setUserData("value", "legend");
+      showLegend.setToolTipText(this.tr("Show/hide the legend."));
       part.add(showLegend);
 
       var group = new qx.ui.form.RadioGroup(showPackages, showSearch, showLegend);
@@ -176,18 +179,22 @@ qx.Class.define("apiviewer.Viewer",
       var expandBtn = new qx.ui.toolbar.RadioButton(this.tr("Properties"), "apiviewer/image/property18.gif");
       expandBtn.setId("btn_expand");
       expandBtn.setValue(true);
+      expandBtn.setToolTipText(this.tr("Show/hide all generated property methods."));
       part.add(expandBtn);
 
       var inheritBtn = new qx.ui.toolbar.RadioButton(this.tr("Inherited"), "apiviewer/image/method_public_inherited18.gif");
       inheritBtn.setId("btn_inherited");
+      inheritBtn.setToolTipText(this.tr("Show/hide inherited members of the current class."));
       part.add(inheritBtn);
 
       var protectedBtn = new qx.ui.toolbar.RadioButton(this.tr("Protected"), "apiviewer/image/method_protected18.gif");
       protectedBtn.setId("btn_protected");
+      protectedBtn.setToolTipText(this.tr("Show/hide protected members of the current class."));
       part.add(protectedBtn);
 
       var privateBtn = new qx.ui.toolbar.RadioButton(this.tr("Private"), "apiviewer/image/method_private18.gif");
       privateBtn.setId("btn_private");
+      privateBtn.setToolTipText(this.tr("Show/hide private members of the current class."));
       part.add(privateBtn);
 
       return toolbar;
