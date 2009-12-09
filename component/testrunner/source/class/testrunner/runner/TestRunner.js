@@ -1078,6 +1078,11 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.widgets["toolbar.runbutton"].setVisibility("visible");
             that.widgets["toolbar.stopbutton"].setVisibility("excluded");
           }
+          
+          // Flush the test application's dispose queue to prevent tests 
+          // influencing each other
+          this.iframe.getWindow().qx.ui.core.queue.Dispose.flush();
+          
         },
         that);
 
