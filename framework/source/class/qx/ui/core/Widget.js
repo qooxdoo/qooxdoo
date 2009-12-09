@@ -1168,9 +1168,10 @@ qx.Class.define("qx.ui.core.Widget",
       elem.resize(bounds.width, bounds.height);
 
       // Move
-      var style = elem.getDomElement().style;
-      style.left = bounds.left + "px";
-      style.top = bounds.top + "px";
+      elem.setStyles({
+        left : bounds.left + "px",
+        top : bounds.top + "px"
+      });
 
       // Remember element
       if (!this.__separators) {
