@@ -54,21 +54,29 @@
     "source-without-root" :
     {
       "extend" : ["common", "framework-with-uri", "library-with-uri"],
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "./source.js"
-      }
+        "paths" : 
+        {
+          "file" : "./source.js"
+        }
+      },
+      "compile" : { "type" : "source" }
     },
     "source-with-root" :
     {
       "extend" : ["common", "framework-without-uri", "library-without-uri"],
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "./source.js",
-        //"root" : "."
-        "root" : "/my/absolute/approot"
-        //"root" : "../../my/relative/approot"
-      }
+        "paths" :
+        {
+          "file" : "./source.js",
+          //"app-root" : "."
+          "app-root" : "/my/absolute/approot"
+          //"app-root" : "../../my/relative/approot"
+        }
+      },
+      "compile" : { "type" : "source" }      
     },
 
     "build-with-root" :
