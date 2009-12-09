@@ -17,7 +17,7 @@
 
 #description h2 {
   color: rgb(131, 179, 0);
-  font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
+  padding: 10px 0px 5px 0px;
   font-size: 15px;
   font-weight: bold;
 }
@@ -27,7 +27,6 @@
   line-height: 130%;
   margin: 10px 0 4px 0;
   color: rgb(16, 66, 117);
-  font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
   font-weight: bold;
 }
 

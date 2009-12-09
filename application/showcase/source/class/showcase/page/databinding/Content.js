@@ -110,7 +110,7 @@ qx.Class.define("showcase.page.databinding.Content",
       detailsBox.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Message: "), {row: 2, column: 0});
-      detailsBox.add(new qx.ui.basic.Label("Postet with: "), {row: 3, column: 0});
+      detailsBox.add(new qx.ui.basic.Label("Posted with: "), {row: 3, column: 0});
 
       var name = new qx.ui.basic.Label();
       detailsBox.add(name, {row: 0, column: 1});
