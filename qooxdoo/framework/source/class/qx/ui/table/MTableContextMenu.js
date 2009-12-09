@@ -56,8 +56,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
 
         // If there's no context menu handler for this column, we have nothing
         // to do.
-        if (contextMenuHandler == null)
-        {
+        if (contextMenuHandler == null) {
           return;
         }
 
@@ -68,18 +67,18 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         this._contextMenu = new qx.ui.menu.Menu();
 
         // Don't display context menus from the context menu
-        this._contextMenu.addListener("contextmenu",
-                                      function(e)
-                                      {
-                                        e.preventDefault();
-                                      });
+        this._contextMenu.addListener("contextmenu", function(e) {
+          e.preventDefault();
+        });
 
         // Call the context menu handler for this column.
-        var bShowContextMenu = contextMenuHandler(col,
-                                              e.getRow(),
-                                              this,
-                                              tableModel,
-                                              this._contextMenu);
+        var bShowContextMenu = contextMenuHandler(
+          col,
+          e.getRow(),
+          this,
+          tableModel,
+          this._contextMenu
+        );
 
         // If we were told not to display the context menu...
         if (! bShowContextMenu)
@@ -112,7 +111,14 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
      *
      * @param handler {Function}
      *   The function to call when a context menu request originates in the
-     *   specified column.
+     *   specified column. The handler is called with the following arguments:
+     *   <ul>
+     *     <li><b>column</b>: (Integer) The number of the column in which the right click was issued</li>
+     *     <li><b>row</b>: (Integer) The number of the row in which the right click was issued</li>
+     *     <li><b>table</b>: {@link qx.ui.table.Table} The table in which the right click was issued</li>
+     *     <li><b>dataModel</b>: {@link qx.ui.table.model.Abstract} Complete data model of the table</li>
+     *     <li><b>contextMenu</b>: {qx.ui.menu.Menu} Menu in which buttons can be added to implement this context menu</li>
+     *   </ul>
      *
      * @return {void}
      */
@@ -127,9 +133,10 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
      * @param col {Integer}
      *   The column number for which the context menu handler is requested
      *
-     * @return
+     * @return {Function}
      *   The handler function which has been registered for the specified
-     *   column.
+     *   column. The arguments of the handler is documented in 
+     *   {@link #setContextMenuHandler}.
      */
     getContextMenuHandler : function(col)
     {

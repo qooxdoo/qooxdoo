@@ -68,6 +68,8 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      * Get the desktop's window manager. Each desktop must have a window manager.
      * If none is configured the default window manager {@link qx.ui.window.Window#DEFAULT_MANAGER_CLASS}
      * is used.
+     * 
+     * @return {qx.ui.window.IWindowManager} The desktop's window manager
      */
     getWindowManager : function()
     {

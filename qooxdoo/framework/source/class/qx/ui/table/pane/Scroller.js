@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * The right inset of the pane. The right inset is the maximum of the
      * top right widget width and the scrollbar width (if visible).
      *
-     * @retuen {Integer} The right inset of the pane
+     * @return {Integer} The right inset of the pane
      */
     getPaneInsetRight : function()
     {
