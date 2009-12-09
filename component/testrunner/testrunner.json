@@ -97,11 +97,16 @@
     {
       "extend" : ["common"],
 
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "./source/script/${APPLICATION}.js",
-        "root" : "source"  // the root dir of your app, where the HTML lives
-      }
+        "paths" :
+        {
+          "file" : "./source/script/${APPLICATION}.js",
+          "app-root" : "source"  // the root dir of your app, where the HTML lives
+        }
+      },
+      
+      "compile" : { "type" : "source" }
     },
 
 
@@ -109,11 +114,17 @@
     {
       "extend" : ["common-tests"],
 
-      "compile-source" :
+      "compile-options" :
       {
-        "file" : "./source/script/${TESTS_SCRIPT}",
-        "locales" : "${LOCALES}",
-        "root" : "source/html"
+        "paths" : 
+        {
+          "file" : "./source/script/${TESTS_SCRIPT}",
+          "app-root" : "source/html"
+        },
+        "code" : 
+        {
+          "locales" : "${LOCALES}"
+        }
       }
     },
 
@@ -172,7 +183,7 @@
     {
       "extend" : ["common"],
 
-      "compile-dist" :
+      "compile-options" :
       {
         "paths" :
         {
@@ -182,7 +193,9 @@
         {
           "optimize" : ["variables", "basecalls", "privates", "strings"]
         }
-      }
+      },
+      
+      "compile" : { "type" : "build" }
     },
 
 
@@ -195,7 +208,7 @@
         "qx.debug" : ["off"]
       },
 
-      "compile-dist" :
+      "compile-options" :
       {
         "paths" :
         {
@@ -212,7 +225,10 @@
           ,"optimize" : ["variables", "basecalls", "privates", "strings"]
           ,"format" : true
         }
-      }
+      },
+      
+      "compile" : { "type" : "build" }
+      
     },
 
 
@@ -233,12 +249,20 @@
     {
       "extend" : ["common-tests"],
 
-      "compile-source" :
+      "compile-options" :
       {
-        "file"    : "${BUILD_PATH}/script/tests-source.js",
-        "locales" : "${LOCALES}",
-        "root"    : "${BUILD_PATH}/html"
-      }
+        "paths" :
+        {
+          "file"    : "${BUILD_PATH}/script/tests-source.js",
+          "app-root"    : "${BUILD_PATH}/html"
+        },
+        "code" :
+        {
+          "locales" : "${LOCALES}"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
     },
 
     "build-with-tests-source" :
