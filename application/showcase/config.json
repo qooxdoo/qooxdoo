@@ -54,7 +54,11 @@
           "dragdrop": 
           {
             "include" : ["showcase.page.dragdrop.Content"]
-          }          
+          },
+          "tree": 
+          {
+            "include" : ["showcase.page.tree.Content"]
+          }                 
         },
         "sizes" : 
         {
