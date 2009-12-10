@@ -523,31 +523,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
-     *
-     * @param value {Boolean} for positioning
-     * 
-     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
-     *   properties instead.
-     */
-    initSmart : function(value)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.core.Assert.assertBoolean(value, "Invalid attribute 'value'.");
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee,
-          "The property 'smart' is deprecated. Please us the properties " +
-          "'placementModeX' and 'placementModeY' instead."
-        );
-      }
-
-      this.setSmart(value);
-    },
-
-
-    /**
-     * Whether the widget should be positioned in an
-     * optimal way i.e. try to keep it visible.
      * 
      * @return {Boolean} <code>true</code> if it should positioned optimal,
      *    <code>false</code> otherwise.
