@@ -1093,6 +1093,7 @@ class Generator(object):
             classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
             self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
 
+        self._console.info("Looking for generated versions...")
         try:
             console.indent()
             expandedjobs = self._config.resolveExtendsAndRuns(["build-script", "source-script"])
