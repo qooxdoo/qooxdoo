@@ -58,7 +58,11 @@
           "tree": 
           {
             "include" : ["showcase.page.tree.Content"]
-          }                 
+          },
+          "htmleditor": 
+          {
+            "include" : ["showcase.page.htmleditor.Content"]
+          }                     
         },
         "sizes" : 
         {
