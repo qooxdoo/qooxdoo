@@ -55,6 +55,7 @@ class QxTest:
       'testReportDir'       : '../../reports',      
       'seleniumClientDriverJar' : 'selenium-java-client-driver.jar',      
       'rhinoJar'            : '../../rhino/current/js.jar',
+      'javaBin'             : 'java',
       'classPathSeparator'  : ';', 
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
       'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs',
@@ -170,8 +171,8 @@ class QxTest:
   # @param single {bool} Start the server with the -singleWindow option 
   def startSeleniumServer(self, single=False, version=None):
     seleniumVersion = version or self.seleniumConf["seleniumVersion"]
-    
-    cmd = "java -jar " + self.seleniumConf["seleniumDir"] + "/" 
+    cmd = self.testConf["javaBin"]
+    cmd += " -jar " + self.seleniumConf["seleniumDir"] + "/" 
     cmd += seleniumVersion + "/"
     cmd += self.seleniumConf["seleniumJar"]
 
@@ -796,7 +797,7 @@ class QxTest:
   # @return {str} The shell command
   def getStartCmd(self, aut, browser, options, simulationScript=None, seleniumVersion=None):
     path = self.seleniumConf["seleniumDir"] + "/" + seleniumVersion
-    cmd = "java"
+    cmd = self.testConf["javaBin"]
 
     if ('seleniumClientDriverJar' in self.testConf or 'rhinoJar' in self.testConf):
       cmd += " -cp "
