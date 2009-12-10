@@ -510,11 +510,11 @@ qx.Class.define("qx.io.HttpRequest",
       // Read url
       var url = this.getUrl();
 
-      // Open request
-      req.open(this.getMethod(), url, this.getAsync(), username, password);
-
       // Add timeout
       req.timeout = this.getTimeout();
+
+      // Open request
+      req.open(this.getMethod(), url, this.getAsync(), username, password);      
 
       // Add cache control hint
       if (!this.getCache()) {
