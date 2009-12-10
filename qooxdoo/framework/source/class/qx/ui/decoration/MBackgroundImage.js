@@ -90,6 +90,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      *
      * @param styles {String} CSS styles as string
      * @return {String} The generated HTML fragment
+     * 
+     * @deprecated Please provide a map for the 'styles' parameter.
      */
     _generateBackgroundMarkup: function(styles)
     {

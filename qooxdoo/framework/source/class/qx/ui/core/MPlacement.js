@@ -81,21 +81,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     },
 
     /**
-     * Whether the widget should be positioned in an
-     * optimal way i.e. try to keep it visible.
-     *
-     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
-     *   properties instead.
-     */
-    smart :
-    {
-      check : "Boolean",
-      init : true,
-      themeable : true,
-      apply : "_applySmart"
-    },
-
-    /**
      * Selects the algorithm to place the widget horizontally. <code>direct</code>
      * uses {@link qx.util.placement.DirectAxis}, <code>keep-align</code>
      * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
@@ -166,25 +151,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   members :
   {
     __updater : null,
-
-
-    // property apply
-    _applySmart : function(value, old)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee,
-          "The property 'smart' is deprecated. Please us the properties " +
-          "'placementModeX' and 'placementModeY' instead."
-        );
-      }
-      var mode = value ? "keep-align" : "direct";
-      this.set({
-        placementModeX: mode,
-        placementModeY: mode
-      });
-    },
 
 
     /**
@@ -464,6 +430,164 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
         this.moveTo(result.left, result.top);
       });
+    },
+
+
+    /*
+    ***************************************************************************
+       Deprecations for old property 'smart'
+    ***************************************************************************
+    */
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     *
+     * @param value {Boolean} for positioning
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    setSmart : function(value)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertBoolean(value, "Invalid attribute 'value'.");
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      var mode = value ? "keep-align" : "direct";
+      this.set({
+        placementModeX: mode,
+        placementModeY: mode
+      });
+    },
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     * 
+     * @return {Boolean} <code>true</code> if it should positioned optimal,
+     *    <code>false</code> otherwise.
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    getSmart : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      var placementModeX = this.getPlacementModeX() == "keep-align" ? true : false;
+      var placementModeY = this.getPlacementModeY() == "keep-align" ? true : false;
+
+      return placementModeX && placementModeY;
+    },
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     *
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    resetSmart : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      this.resetPlacementModeX();
+      this.resetPlacementModeY();
+    },
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     *
+     * @param value {Boolean} for positioning
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    initSmart : function(value)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertBoolean(value, "Invalid attribute 'value'.");
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      this.setSmart(value);
+    },
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     * 
+     * @return {Boolean} <code>true</code> if it should positioned optimal,
+     *    <code>false</code> otherwise.
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    isSmart : function() {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      return this.getSmart();
+    },
+
+
+    /**
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
+     */
+    toggleSmart : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+
+      this.setSmart(!this.getSmart());
     }
   },
 
