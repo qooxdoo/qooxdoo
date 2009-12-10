@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       });
       this.__container.setLayout(new qx.ui.layout.VBox());
 
-      document.add(this.__container, {left:40, top:40});
+      doc.add(this.__container, {left:40, top:40});
 
 
       /* Close button */
@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       });
       this.__dialog.setLayout(layout2);
 
-      document.add(this.__dialog, {
+      doc.add(this.__dialog, {
         left:65,
         top:125
       });
