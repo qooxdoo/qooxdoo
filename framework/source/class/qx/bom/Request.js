@@ -5,7 +5,9 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2009 Sebastian Werner, http://sebastian-werner.net
+
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -57,8 +59,11 @@
  * For an higher level implementation with additional comfort please have a look
  * at {@link qx.io.HttpRequest}.
  */
-qx.Bootstrap.define("qx.bom.Request",
+qx.Class.define("qx.bom.Request",
 {
+  extend : qx.core.Object,
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -67,6 +72,8 @@ qx.Bootstrap.define("qx.bom.Request",
 
   construct : function()
   {
+    this.base(arguments);
+
     this.__headers = {};
     this.__xmlhttp = this.__createNative();
   },
@@ -217,13 +224,17 @@ qx.Bootstrap.define("qx.bom.Request",
      *
      * @param method {String} The HTTP method to use. Valid values: GET, POST, PUT, HEAD and DELETE.
      * @param url {String} The URL to open
-     * @param async {Boolean?false} Whether the request should be asynchronous
+     * @param async {Boolean?true} Whether the request should be asynchronous. Default is <code>true</code>
      * @param username {String?null} Optional user name
      * @param password {String?null} Optional password
      * @return {void}
      */
     open : function(method, url, async, username, password)
     {
+      if (async == null) {
+        async = true;
+      }
+
       // Save async parameter for fixing Gecko bug with missing readystatechange in synchronous requests
       this.__async = async;
 
@@ -235,7 +246,13 @@ qx.Bootstrap.define("qx.bom.Request",
       this.__xmlhttp.onreadystatechange = this.__stateListener;
 
       // Natively open request
-      this.__xmlhttp.open(method, url, async, username, password);
+      if (arguments.length > 4) {
+        this.__xmlhttp.open(method, url, async, username, password);
+      } else if (arguments.length > 3) {
+        this.__xmlhttp.open(method, url, async, username);
+      } else {
+        this.__xmlhttp.open(method, url, async);
+      }
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
       if (qx.core.Variant.isSet("qx.client", "gecko"))
@@ -334,6 +351,9 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Call listener
       this.onabort();
+
+      // Cleanup listeners etc.
+      this.dispose();
     },
 
 
@@ -382,7 +402,7 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Cleanup native object when done
       if (this.readyState == qx.bom.Request.DONE) {
-        this.__cleanTransport();
+        this.dispose();
       }
     }),
 
@@ -394,11 +414,14 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     __onNativeTimeout : qx.event.GlobalError.observeMethod(function()
     {
-      // Fire user visible event
-      this.ontimeout();
-    
       // Execute abort helper
       this.__abortHelper();
+
+      // Fire user visible event
+      this.ontimeout();
+
+      // Cleanup listeners etc.
+      this.dispose();
     }),
 
 
@@ -522,9 +545,6 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Natively abort request
       this.__xmlhttp.abort();
-
-      // Cleanup listeners etc.
-      this.__cleanTransport();
     },
 
 
@@ -619,8 +639,8 @@ qx.Bootstrap.define("qx.bom.Request",
         }
       }
 
-      // Check if there is no error in document
-      else if (doc && doc.documentElement && doc.documentElement.tagName == "parsererror") {
+      // Check if there is a document and no error in document
+      else if (!doc.documentElement || doc.documentElement.tagName == "parsererror") {
         return null;
       }
 
@@ -667,39 +687,24 @@ qx.Bootstrap.define("qx.bom.Request",
       if (!this.status && location.protocol === "file:") {
         this.status = 204;
       }
-    },
-
-
-    /**
-     * Cleans up the native transport object and some other internal stuff.
-     *
-     * @return {void}
-     */
-    __cleanTransport : function()
-    {
-      // Clear timeout handle
-      if (this.__timeoutHandle) {
-        window.clearTimeout(this.__timeoutHandle);
-      }
-
-      // BUGFIX: IE - memory leak (on-page leak)
-      if (this.__xmlhttp) {
-        this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
-      }
-
-      // Remove user listeners
-      delete this.onreadystatechange;
-      delete this.ontimeout;
-      delete this.onload;
-      delete this.onerror;
-      delete this.onabort;
-
-      // Delete private properties
-      delete this.__timeoutHandle;
-      delete this.__stateListener;
-      delete this.__timeoutListener;
-      delete this.__xmlhttp;
-      delete this.__headers;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+ 
+  destruct : function()
+  {
+    // Memory leak protection
+    if (this.__xmlhttp) {
+      this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
+    }
+    
+    // Clear fields
+    this._disposeFields("onreadystatechange", "onload", "onerror", "onabort");
+    this._disposeFields("__stateListener", "__xmlhttp", "__headers");
   }
 });
