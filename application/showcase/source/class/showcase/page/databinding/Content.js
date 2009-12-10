@@ -111,6 +111,7 @@ qx.Class.define("showcase.page.databinding.Content",
       view.add(detailsBox, {left: 320, top: 116, bottom: 5});
       detailsBox.setWidth(270);
       detailsBox.setHeight(220);
+      detailsBox.setAllowGrowY(false);
 
       detailsBox.setLayout(new qx.ui.layout.Grid(0, 5));
 
