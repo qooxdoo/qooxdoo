@@ -1127,6 +1127,7 @@ class Generator(object):
                     isDir = os.path.isdir(compDir)
                     self._console.info("Existing directory: %s" % isDir)
                     if isDir:
+                        self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
                         self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
                     self._console.outdent()
                 if 'downloads' in cacheCfg:
