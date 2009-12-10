@@ -1044,7 +1044,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      __addToUndoStack : function(changeInfo)
      {
        if (qx.core.Variant.isSet("qx.debug", "on") &&
-           qx.core.Setting.get("htmlarea.debug") == "on")
+           qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on")
        {
          this.debug("ADD TO UNDO STACK");
          this.debug(changeInfo.actionType + " " + changeInfo.command + " " + changeInfo.value);
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     __addToRedoStack : function(changeInfo)
     {
       if (qx.core.Variant.isSet("qx.debug", "on") &&
-          qx.core.Setting.get("htmlarea.debug") == "on")
+          qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on")
       {
         this.debug("ADD TO REDO STACK");
         this.debug(changeInfo.actionType + " " + changeInfo.command + " " + changeInfo.value);
