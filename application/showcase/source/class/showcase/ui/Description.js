@@ -28,6 +28,7 @@ qx.Class.define("showcase.ui.Description",
     this.__loadCss();
     
     this.setRich(true);
+    this.setSelectable(true);
   },
   
   properties :
@@ -45,12 +46,6 @@ qx.Class.define("showcase.ui.Description",
     },
     
     allowGrowY : 
-    {
-      refine: true,
-      init: true
-    },    
-    
-    selectable : 
     {
       refine: true,
       init: true
