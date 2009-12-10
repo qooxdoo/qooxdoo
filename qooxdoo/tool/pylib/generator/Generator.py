@@ -1104,15 +1104,41 @@ class Generator(object):
         
         if expandedjobs:
           
-            buildScriptFile =  expandedjobs[0].get("compile-dist/paths/file", None)
+            # check for build loader
+            buildScriptFile =  expandedjobs[0].get("compile-options/paths/file", None)
             if buildScriptFile:
                 buildScriptFilePath = self._config.absPath(buildScriptFile)
                 self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFilePath) )
             
-            sourceScriptFile =  expandedjobs[1].get("compile-source/file", None)
+            # check for source loader
+            sourceScriptFile =  expandedjobs[1].get("compile-options/paths/file", None)
             if sourceScriptFile:
                 sourceScriptFilePath = self._config.absPath(sourceScriptFile)
                 self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
+
+            # check cache path
+            cacheCfg = expandedjobs[0].get("cache", None)
+            if cacheCfg:
+                if 'compile' in cacheCfg:
+                    compDir = cacheCfg['compile']
+                    self._console.info("Compile cache path is: %s" % compDir )
+                    self._console.indent()
+                    isDir = os.path.isdir(compDir)
+                    self._console.info("Existing directory: %s" % isDir)
+                    if isDir:
+                        self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
+                    self._console.outdent()
+                if 'downloads' in cacheCfg:
+                    downDir = cacheCfg['downloads']
+                    self._console.info("Download cache path is: %s" % downDir )
+                    self._console.indent()
+                    isDir = os.path.isdir(downDir)
+                    self._console.info("Existing directory: %s" % isDir)
+                    if isDir:
+                        self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
+                    self._console.outdent()
+                    
+
         
         self._console.outdent()
             
