@@ -17,6 +17,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+
 qx.Class.define("showcase.Page",
 {
   extend: qx.core.Object,
