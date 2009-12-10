@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.theme.Page",
   members :
   {
     __descriptionText : 
-      "Qooxdoo provides a powerful theming system, which is build on a custom " +
+      "qooxdoo provides a powerful theming system, which is build on a custom " +
       "JSON like declarative syntax. Unlike CSS this syntax doesn't have any " +
       "cross browser issues and allows to style any widget property. It is " +
       "possible to create completely different themes without touching the " +

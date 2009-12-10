@@ -47,7 +47,7 @@ qx.Class.define("showcase.page.theme.Content",
       var calc = new showcase.page.theme.calc.view.Calculator(false);
       
       view.add(calc);
-      calc.moveTo(360, 40);
+      calc.moveTo(340, 40);
       calc.open();      
       
       var model = new showcase.page.theme.calc.Model();

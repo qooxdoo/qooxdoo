@@ -32,7 +32,11 @@ qx.Class.define("showcase.page.form.Content",
   members : {
     __createView : function() 
     {
-      var view = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      var grid = new qx.ui.layout.Grid(20, 5);
+      grid.setColumnFlex(0, 1);
+      grid.setColumnFlex(1, 1); 
+      var view = new qx.ui.container.Composite(grid);
+      view.setPadding(10);
       var tabIndex = 1;
       /** **************************************
        * TEXT INPUT
@@ -41,7 +45,7 @@ qx.Class.define("showcase.page.form.Content",
       var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
       textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       textGroupBox.setWidth(290);
-      view.add(textGroupBox, {left: 20, top: 10});
+      view.add(textGroupBox, {row: 0, column: 0});
 
       // text field
       var textField = new qx.ui.form.TextField();
@@ -98,7 +102,7 @@ qx.Class.define("showcase.page.form.Content",
       var selectionGroupBox = new qx.ui.groupbox.GroupBox("Selection");
       selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       selectionGroupBox.setWidth(290);
-      view.add(selectionGroupBox, {left: 20, top: 250});
+      view.add(selectionGroupBox, {row:1, column: 0, rowSpan: 2});
 
       // select box
       var selectBox = new qx.ui.form.SelectBox();
@@ -142,7 +146,7 @@ qx.Class.define("showcase.page.form.Content",
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
       buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       buttonGroupBox.setWidth(250);
-      view.add(buttonGroupBox, {left: 330, top: 10});
+      view.add(buttonGroupBox, {row: 0, column: 1});
 
       // button
       var button = new qx.ui.form.Button("Button");
@@ -195,7 +199,7 @@ qx.Class.define("showcase.page.form.Content",
       var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
       booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       booleanGroupBox.setWidth(250);
-      view.add(booleanGroupBox, {left: 330, top: 210});
+      view.add(booleanGroupBox, {row:1, column: 1});
 
       // check box
       var checkBox = new qx.ui.form.CheckBox("CheckBox");
@@ -218,7 +222,7 @@ qx.Class.define("showcase.page.form.Content",
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       numberGroupBox.setWidth(250);
-      view.add(numberGroupBox, {left: 330, top: 310});
+      view.add(numberGroupBox, {row: 2, column: 1});
 
       // spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);

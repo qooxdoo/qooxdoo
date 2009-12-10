@@ -57,7 +57,7 @@ qx.Class.define("showcase.page.databinding.Content",
       }
 
       // fetch some data from Twitter
-      var url = "http://twitter.com/statuses/user_timeline/wittemann.json";
+      var url = "http://twitter.com/statuses/user_timeline/1and1.json";
       var store = new qx.data.store.Jsonp(url, null, "callback");
 
       // connect the store and the controller
@@ -68,18 +68,24 @@ qx.Class.define("showcase.page.databinding.Content",
       /* ***********************************************
        * CONTROLS
        * ********************************************* */
+       var controlsBox = new qx.ui.container.Composite(new qx.ui.layout.HBox(5));
+       controlsBox.set({
+         width: 300
+       });
        var friendsButton = new qx.ui.form.Button("Friends");
-       view.add(friendsButton, {left: 10, top: 105});
+       controlsBox.add(friendsButton);
        friendsButton.addListener("execute", function() {
          store.setUrl("http://twitter.com/statuses/friends_timeline.json");
        }, this);
 
+       controlsBox.add(new qx.ui.core.Spacer(), {flex: 1});
+
        // create the user textfield and button
-       var userName = new qx.ui.form.TextField("wittemann");
+       var userName = new qx.ui.form.TextField("1and1");
        userName.setPlaceholder("username");
-       view.add(userName, {left: 161, top: 106});
+       controlsBox.add(userName);
        var userButton = new qx.ui.form.Button("Show");
-       view.add(userButton, {left: 261, top: 105});
+       controlsBox.add(userButton);
        userButton.addListener("execute", function() {
          var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json"
          if (store.getUrl() == url) {
@@ -93,6 +99,7 @@ qx.Class.define("showcase.page.databinding.Content",
            userButton.execute();
          }
        }, this);
+       view.add(controlsBox, {left: 10, top: 105});
        
 
 
