@@ -50,8 +50,8 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           iconPosition: "top",
-          padding: [10, 10, 6, 10],
-          gap: 7,
+          padding: [-10, -6, 8, -6],
+          gap: -20,
           decorator: null,
           cursor: "pointer"
         };
