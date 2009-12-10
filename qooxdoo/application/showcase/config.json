@@ -14,7 +14,7 @@
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "showcase.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*"],
-    "LOCALES"      : [ "en" ],
+    "LOCALES"      : [ "en", "de", "es", "nl" ],
     "CACHE"        : "${TMPDIR}/cache",
     "ROOT"         : "."
   },
@@ -62,7 +62,11 @@
           "htmleditor": 
           {
             "include" : ["showcase.page.htmleditor.Content"]
-          }                     
+          },
+          "i18n": 
+          {
+            "include" : ["showcase.page.i18n.Content"]
+          }
         },
         "sizes" : 
         {
