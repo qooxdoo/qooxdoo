@@ -165,7 +165,7 @@ qx.Theme.define("showcase.theme.Appearance",
       }
     },
     
-    "description-box" :
+    "description" :
     {  
       style : function(states)
       {

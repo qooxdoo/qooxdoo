@@ -103,19 +103,8 @@ qx.Class.define("showcase.Application",
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__stack.add(this.__content);
       
-      var descriptionBox = new qx.ui.container.Composite().set({
-        appearance: "description-box",
-        layout: new qx.ui.layout.Basic()
-      });
-      container.add(descriptionBox, {row: row++, column: 1});
-      
-      var description = new qx.ui.basic.Label().set({
-        rich: true,
-        selectable: true,
-        width: 300,
-        allowGrowX: false
-      });
-      descriptionBox.add(description);
+      var description = new showcase.ui.Description();
+      container.add(description, {row: row++, column: 1});
       
       var pages = new qx.data.Array();
       pages.push(
