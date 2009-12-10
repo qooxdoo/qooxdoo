@@ -59,21 +59,21 @@ qx.Class.define("showcase.page.htmleditor.Content",
       this.__htmlArea.set({
         width: 540, 
         height: 370,
-        allowGrowX: false
+        margin: 5
       });
       
       var vb = new qx.ui.layout.VBox(0);
       var vbContainer = new qx.ui.container.Composite(vb).set({
         width: 540, 
         height: 370,
-        allowGrowX: false     
+        backgroundColor: "white"
       });
 
       var toolbar = this.__setupToolbar();
       
       // Add toolbar and HtmlArea widget
       vbContainer.add(toolbar);
-      vbContainer.add(this.__htmlArea);      
+      vbContainer.add(this.__htmlArea, {flex: 1});      
 
       win.add(vbContainer, {edge: 0});     
     },

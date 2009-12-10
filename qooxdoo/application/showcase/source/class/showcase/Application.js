@@ -53,7 +53,7 @@ qx.Class.define("showcase.Application",
     __listLoadImage : null,
     __content : null,
     __effect : null,
-    
+    __description : null,
     
     main : function()
     {
@@ -91,39 +91,52 @@ qx.Class.define("showcase.Application",
       container.add(list, {row: row++, column: 0, colSpan: 2});               
                  
       this.__stack = new qx.ui.container.Stack();
-      this.__stack.setAppearance("stack");
+      this.__stack.set({
+        appearance: "stack",
+        maxWidth: 600,
+        allowGrowX: false
+      });
       container.add(this.__stack, {row: row, column: 0});
       
-      this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
-      var loadImage = new qx.ui.basic.Image("showcase/images/loading66.gif");
-      loadImage.setAlignY("middle");
-      this.__listLoadImage.add(loadImage);
+      var startPage = new qx.ui.basic.Image("showcase/images/welcome.png").set({
+        allowGrowX: true,
+        allowGrowY: true,
+        allowShrinkX: true,
+        padding: [5, 0, 0, 180]
+      });
+      this.__stack.add(startPage);
+      
+      this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      var loadImage = new qx.ui.basic.Image("showcase/images/loading66.gif").set({
+        marginLeft: -33
+      });
+      this.__listLoadImage.add(loadImage, {left: "50%", top: 200});
       this.__stack.add(this.__listLoadImage);
         
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__stack.add(this.__content);
       
-      var description = new showcase.ui.Description();
-      container.add(description, {row: row++, column: 1});
+      this.__description = new showcase.ui.Description();
+      container.add(this.__description, {row: row++, column: 1});
+      this.__description.exclude();
       
       var pages = new qx.data.Array();
       pages.push(
-        new showcase.page.htmleditor.Page(),
-        new showcase.page.i18n.Page(),
-        new showcase.page.tree.Page(),
-        new showcase.page.dragdrop.Page(),
-        new showcase.page.theme.Page(),
-        new showcase.page.form.Page(),
         new showcase.page.table.Page(),
+        new showcase.page.form.Page(),
+        new showcase.page.tree.Page(),
         new showcase.page.databinding.Page(),
+        new showcase.page.theme.Page(),
+        new showcase.page.i18n.Page(),
+        new showcase.page.dragdrop.Page(),
+        new showcase.page.htmleditor.Page(),
         new showcase.page.animation.Page()
       );
       
       var listController = new qx.data.controller.List(pages, list, "name");
       listController.setIconPath("icon");      
-      listController.getSelection().setItem(0, pages.getItem(0));
       listController.bind("selection[0]", this, "selectedPage");
-      listController.bind("selection[0].description", description, "value");
+      listController.bind("selection[0].description", this.__description, "value");
 
       listController.bind("selection[0].readyState", this, "showLoadIndicator", {
         converter: function(value) {
@@ -165,7 +178,7 @@ qx.Class.define("showcase.Application",
     {
       if (this.getSelectedPage() !== page) {
         if (page.getReadyState() == "complete") {
-          this.__content.remove(page.getContent().getView());
+          page.getContent().getView().hide();
           this.__cancelFade();
         }
       }
@@ -174,12 +187,16 @@ qx.Class.define("showcase.Application",
     
     _showPage : function(page)
     {
+      this.__description.show();
+
       page.load(function(page)
       {
         if (this.getSelectedPage() == page) {
           var view = page.getContent().getView();
+
           this.__content.add(view, {edge: 0});
-           
+          view.show();
+                     
           this.__fadeIn(view);
         }
       }, this);
