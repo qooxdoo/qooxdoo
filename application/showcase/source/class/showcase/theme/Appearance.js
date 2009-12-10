@@ -71,8 +71,7 @@ qx.Theme.define("showcase.theme.Appearance",
           decorator: states.selected ? "group" : null,
           font: qx.bom.Font.fromConfig({
             size: 20,
-            family: ["Trebuchet MS", "Lucida Grande", "Verdana", "sans-serif"],
-            bold: true
+            family: ["Trebuchet MS", "Lucida Grande", "Verdana", "sans-serif"]
           })
         };
       }
