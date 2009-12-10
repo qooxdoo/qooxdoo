@@ -24,6 +24,7 @@ import urllib, urlparse, optparse, pprint
 import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.Lang import Lang
+from generator.config.Library import Library
 from ecmascript import compiler
 from misc import filetool, json, Path
 from misc.ExtMap import ExtMap
@@ -269,6 +270,13 @@ class CodeGenerator(object):
 
         # Get resource list
         libs = self._job.get("library", [])
+        # add an 'output' lib
+        #outputLib = Library({})
+        #outputLib.namespace = "__out__"
+        #outputLib.path = os.path.dirname(filePath)  # this is fake
+        #outputLib.scriptUri = compConf.get("uris/script", None) or os.path.dirname(filePath)
+        #outputLib.resourceUri = compConf.get("uris/resource", None) or os.path.dirname(filePath) # this is fake too
+        #libs.append(outputLib.getMap())
 
         # Get translation maps
         locales = compConf.get("code/locales", [])
@@ -400,10 +408,8 @@ class CodeGenerator(object):
            one'''
 
         if 'uri' in lib:
-            #libBaseUri = OsPath(lib['uri'])
             libBaseUri = Uri(lib['uri'])
         elif appRoot:
-            #libBaseUri = OsPath(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
             libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
         else:
             raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
@@ -465,7 +471,14 @@ class CodeGenerator(object):
         variantInfo = self.generateVariantsCode(variants)
         globalCodes["Variants"]    = variantInfo
 
-        mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
+        mapInfo = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
+        # add synthetic output lib
+        if scriptUri:
+            out_sourceUri = scriptUri
+        else:
+            out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
+            out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
+        mapInfo['__out__'] = { 'sourceUri': out_sourceUri }
         globalCodes["Libinfo"]     = mapInfo
 
         mapInfo = self.generateResourceInfoCode(script, settings, libs, format)
@@ -757,7 +770,7 @@ class CodeGenerator(object):
 
             return result
 
-        def packageUrisToJS(packages, version):
+        def packageUrisToJS(packages, version, namespace=None):
             # Translate URI data to JavaScript
             
             allUris = []
@@ -768,7 +781,8 @@ class CodeGenerator(object):
                     if version == "build":
                         # TODO: gosh, the next is an ugly hack!
                         #namespace  = self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
-                        namespace  = self.getAppName()  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        if not namespace:
+                            namespace  = self.getAppName()  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                         relpath    = OsPath(fileId)
                     else:
                         namespace  = self._classes[fileId]["namespace"]
@@ -807,7 +821,7 @@ class CodeGenerator(object):
         # fix uris in globalCodes['I18N']['uris']
         if 'uris' in globalCodes['I18N']:
             for code in globalCodes['I18N']['uris']:
-                globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build")[0][0]
+                globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build", "__out__")[0][0]
         # stringify data in globalCodes
         for entry in globalCodes:
             globalCodes[entry] = json.dumpsCode(globalCodes[entry])
