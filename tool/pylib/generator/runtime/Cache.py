@@ -79,17 +79,28 @@ class Cache:
 
 
     def _checkToolsNewer(self, ):
-        if not os.path.isfile(self._check_file):
-            return True  # check file not existent
-        cacheRevision = open(self._check_file, "r").read()
-        try:
-            cacheRevision = int(cacheRevision)
-        except:
-            return True  # doesn't contain a valid int
-        if self._cache_revision > cacheRevision:
+        cacheRevision = self.getCacheFileVersion()
+        if not cacheRevision:
+            return True
+        elif self._cache_revision > cacheRevision:
             return True  # current caches rev is lower than that of the Cache class
         else:
             return False
+
+
+    ##
+    # returns the number in the check file on disk, if existent, None otherwise
+
+    def getCacheFileVersion(self):
+        if not os.path.isfile(self._check_file):
+            return None
+        else:
+            cacheRevision = open(self._check_file, "r").read()
+            try:
+                cacheRevision = int(cacheRevision)
+            except:
+                return None
+            return cacheRevision
 
 
     ##
