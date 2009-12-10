@@ -1118,7 +1118,7 @@ class Generator(object):
                 self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
 
             # check cache path
-            cacheCfg = expandedjobs[0].get("cache", None)
+            cacheCfg = expandedjobs[0].get("cache", None)  # TODO: this might be better taken from self._cache?!
             if cacheCfg:
                 if 'compile' in cacheCfg:
                     compDir = cacheCfg['compile']
