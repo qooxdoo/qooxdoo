@@ -40,12 +40,10 @@ class LibraryPath:
         self._path = self._config.get("path", "")
 
         if self._path == "":
-            self._console.error("Missing path information!")
-            sys.exit(1)
+            raise ValueError("Missing path information!")
 
         if not os.path.exists(self._path):
-            self._console.error("Path does not exist: %s" % self._path)
-            sys.exit(1)
+            raise ValueError("Path does not exist: %s" % self._path)
 
         self._uri = self._config.get("uri", self._path)
         self._encoding = self._config.get("encoding", "utf-8")
@@ -113,8 +111,7 @@ class LibraryPath:
 
     def _detectNamespace(self, path):
         if not os.path.exists(path):
-            self._console.error("The given path does not contains a class folder: %s" % path)
-            sys.exit(1)
+            raise ValueError("The given path does not contains a class folder: %s" % path)
 
         ns = None
         files = os.listdir(path)
@@ -126,14 +123,12 @@ class LibraryPath:
             full = os.path.join(path, entry)
             if os.path.isdir(full):
                 if ns != None:
-                    self._console.error("Multi namespaces per library are not supported!")
-                    sys.exit(1)
+                    raise ValueError("Multi namespaces per library are not supported!")
 
                 ns = entry
 
         if ns == None:
-            self._console.error("Namespace could not be detected!")
-            sys.exit(1)
+            raise ValueError("Namespace could not be detected!")
 
         self._console.debug("Detected namespace: %s" % ns)
         self._namespace = ns
@@ -150,8 +145,7 @@ class LibraryPath:
 
     def _scanClassPath(self, path, uri, encoding):
         if not os.path.exists(path):
-            self._console.error("The given path does not contains a class folder: %s" % path)
-            sys.exit(1)
+            raise ValueError("The given path does not contains a class folder: %s" % path)
 
         self._console.debug("Scanning class folder...")
 
@@ -223,7 +217,7 @@ class LibraryPath:
                     self._console.error("Classname: %s" % fileCodeId)
                     self._console.error("Path: %s" % fileRel)
                     self._console.outdent()
-                    sys.exit(1)
+                    raise RuntimeError()
 
                 # Store file data
                 self._console.debug("Adding class %s" % filePathId)
@@ -246,8 +240,7 @@ class LibraryPath:
 
     def _scanTranslationPath(self, path):
         if not os.path.exists(path):
-            self._console.error("The given path does not contain a translation folder: %s" % path)
-            sys.exit(1)
+            raise ValueError("The given path does not contain a translation folder: %s" % path)
 
         self._console.debug("Scanning translation folder...")
 
