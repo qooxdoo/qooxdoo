@@ -551,8 +551,8 @@ class Generator(object):
         if "log" in jobTriggers:
             optimize = config.get("log/dependencies/dot/optimize", [])
             self._treeCompiler.setOptimize(optimize)
-        if "compile-dist" in jobTriggers:  # let the compile-dist settings win
-            optimize = config.get("compile-dist/code/optimize", [])
+        if "compile-dist" or "compile-options" in jobTriggers:  # let the compile-dist settings win
+            optimize = config.get("compile-dist/code/optimize", []) or config.get("compile-options/code/optimize", [])
             self._treeCompiler.setOptimize(optimize)
 
         # Iterate through variant sets

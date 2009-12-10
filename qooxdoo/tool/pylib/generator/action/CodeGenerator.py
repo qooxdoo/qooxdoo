@@ -91,8 +91,9 @@ class CodeGenerator(object):
                 globalCodes["I18N"]         = {}  # make a fake entry
 
             filesPackages = packagesOfFiles(fileUri, packages)
-            plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
-            bootContent = self.generateBootCode(parts, filesPackages, boot, script, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
+            #plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
+            plugCodeFile = compConf.get("code/decode-uris-plug", False)
+            bootContent = self.generateBootCode(parts, filesPackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
 
             return bootContent
 
@@ -286,7 +287,7 @@ class CodeGenerator(object):
         plugCodeFile = compConf.get("code/decode-uris-plug", False)
         self._console.info("Generating boot loader...")
         #print "-- packageIdsSorted: %r" % script.packageIdsSorted
-        sourceContent = self.generateBootCode(parts, packagesArray, boot, script, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
+        sourceContent = self.generateBootCode(parts, packagesArray, boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -733,7 +734,7 @@ class CodeGenerator(object):
         return resdata
 
 
-    def generateBootCode(self, parts, packages, boot, script, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
+    def generateBootCode(self, parts, packages, boot, script, compConf, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
 
         def partsMap(script):
@@ -781,10 +782,7 @@ class CodeGenerator(object):
 
         def loadTemplate(bootCode):
             # try custom loader templates
-            if version == "build":
-                loaderFile = self._job.get("compile-dist/paths/loader-template", None)
-            else:
-                loaderFile = self._job.get("compile-source/loader-template", None)
+            loaderFile = compConf.get("paths/loader-template", None)
             if not loaderFile:
                 # use default templates
                 if version=="build":
