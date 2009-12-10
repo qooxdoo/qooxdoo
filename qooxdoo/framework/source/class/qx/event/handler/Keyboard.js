@@ -244,7 +244,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (type == "keydown" && event.getDefaultPrevented())
         {
           // some key press events are already emulated. Ignore these events.
-          if (!(this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9)) {
+          if (!this._isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
             this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
           }
         }
@@ -367,7 +367,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (type == "keydown")
         {
           // non-printable, backspace or tab
-          if (this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9) {
+          if (this._isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
             this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
           }
         }
@@ -442,7 +442,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           if (type == "keydown")
           {
             // non-printable, backspace or tab
-            if (this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9) {
+            if (this._isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
               this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
             }
           }
@@ -668,6 +668,28 @@ qx.Class.define("qx.event.handler.Keyboard",
       27 : "Escape",      // The Escape (Esc) key.
       32 : "Space"        // The Space (Spacebar) key.
     },
+
+
+    /**
+     * {Map} maps the charcodes of special keys for key press emulation
+     *
+     * @lint ignoreReferenceField(_emulateKeyPress)
+     */
+    _emulateKeyPress : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : {
+        8: true,
+        9: true
+      },
+      
+      "webkit" : {
+        8: true,
+        9: true,
+        27: true
+      },
+      
+      "default" : {}
+    }),
 
 
     /**
