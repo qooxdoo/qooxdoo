@@ -46,6 +46,10 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
 
   members :
   {
+    __htmlArea : null,
+    __editorComponent : null,
+    
+    
     /**
      * Main method - application start point
      */
@@ -243,6 +247,7 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
                      "Arial Black", "Courier New", "Courier", "Georgia",
                      "Impact", "Comic Sans MS", "Lucida Console" ];
 
+      var entry;
       for (var i=0, j=entries.length;i<j;i++)
       {
         entry = new qx.ui.form.ListItem(entries[i]);

@@ -48,6 +48,12 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
 
   members :
   {
+    __container : null,
+    __buttonContainer : null,
+    __htmlAreaContainer : null,
+    __htmlArea : null,
+    __widget : null,
+    
     /**
      * Main method - application start point
      *
@@ -101,43 +107,69 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     * 
     * *********************************************
     */
+   
+   /**
+    * Handler for "font-size" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */
    __fontSizeHandler : function(e)
    {
-     result = window.prompt("FontSize: ", "");
+     var result = window.prompt("FontSize: ", "");
      this.setFontSize(parseInt(result));
    },
-    
+   
+   /**
+    * Handler for "font-color" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */
    __fontColorHandler : function(e)
    {
-     result = window.prompt("Color (Hex): ", "#");
+     var result = window.prompt("Color (Hex): ", "#");
      this.setTextColor(result);
    },
-    
+   
+   /**
+    * Handler for "text-background-color" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */
    __textBackgroundColorHandler : function(e)
    {
-     result = window.prompt("BgColor (Hex): ", "#");
+     var result = window.prompt("BgColor (Hex): ", "#");
      this.setTextBackgroundColor(result);
    },
-    
+   
+   /**
+    * Handler for "insert image" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */ 
    __insertImageHandler : function(e)
    {
      this.__widget.style.display = "none";
      return;
      
-     attributes = { src    : qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/icons/htmlarea/qooxdoo_logo.png"),
+     var attributes = { src    : qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/icons/htmlarea/qooxdoo_logo.png"),
                         border : 0,
                         title  : "qooxdoo logo",
-                        alt    : "qooxdoo logo" },
+                        alt    : "qooxdoo logo" };
      
      this.insertImage(attributes);
    },
-    
+   
+   /**
+    * Handler for "insert table" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */ 
    __insertTableHandler : function(e)
    {
      this.__widget.style.display = "block";
      return;
      
-     table = "<table border='1'>" + 
+     var table = "<table border='1'>" + 
                    "<tbody>" +
                      "<tr>" +
                        "<td>First Row, First cell</td>" +
@@ -152,13 +184,22 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      this.insertHtml(table);
    },
    
+   /**
+    * Handler for "insert link" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */
    __insertLinkHandler : function(e)
     {
       var result = window.prompt("Link: ", "http://");
       this.insertHyperLink(result);
     },
     
-    
+   /**
+    * Handler for "insert HTML" button
+    * 
+    * @param e {qx.event.type.Event} event instance
+    */
     __insertHTMLHandler : function(e)
     {
       var result = window.prompt("HTML Code:", "");
@@ -171,7 +212,12 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     *  
     * ***************************************
     */
-  
+   
+   /**
+    * Creates the selectbox for the "font-family"
+    * 
+    * @return {Element} DOM element which holds the combobox
+    */
    __fontFamilyToolbarEntry : function()
    {
      var container = qx.bom.Element.create("div");
@@ -194,6 +240,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                     "Impact", "Comic Sans MS", "Lucida Console" ];
 
      var htmlString;
+     var entry;
      for (var i=0, j=entries.length;i<j;i++)
      {
        htmlString = "<option qxKeepFocus='on' qxSelectable='off'" + 
@@ -225,7 +272,12 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     
      return container;
    }, 
-  
+   
+   /**
+    * Creates the selectbox for the "font-sizes"
+    * 
+    * @return {Element} DOM element which holds the combobox
+    */
    __fontSizeToolbarEntry : function()
    {
      var container = qx.bom.Element.create("div");
@@ -244,7 +296,8 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      listItem = qx.bom.Collection.html("<option value=''></option>");
      qx.dom.Element.insertEnd(listItem[0], button);
     
-     var entry, htmlString;
+     var entry;
+     var htmlString;
      for (var i=1;i<=7;i++)
      {
        htmlString = "<option qxKeepFocus='on' qxSelectable='off' " + 
@@ -277,7 +330,9 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      return container;
    },
    
-   
+   /**
+    * Creates the toolbar
+    */
    __setupToolbar : function()
    {
      var toolbarEntries = [

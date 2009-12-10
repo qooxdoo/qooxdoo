@@ -766,6 +766,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     __documentSkeletonParts : null,
     __savedRange : null,
     __fireCursorContextOnNextInput : false,
+    __mouseUpOnBody : false,
 
 
     /**
@@ -1705,7 +1706,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     _handleKeyUp : function(e)
     {
       var keyIdentifier = e.getKeyIdentifier().toLowerCase();
-      var isShiftPressed = e.isShiftPressed();
       var isCtrlPressed = e.isCtrlPressed();
       this.__currentEvent = e;
 
