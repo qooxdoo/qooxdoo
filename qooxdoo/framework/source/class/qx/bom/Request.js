@@ -101,7 +101,6 @@ qx.Bootstrap.define("qx.bom.Request",
 
   members :
   {
-
     __async : null,
     __stateListener : null,
     __xmlhttp : null,
@@ -228,23 +227,12 @@ qx.Bootstrap.define("qx.bom.Request",
       // Save async parameter for fixing Gecko bug with missing readystatechange in synchronous requests
       this.__async = async;
 
-      // Prepare and register native listeners
+      // Prepare listeners
       this.__stateListener = qx.lang.Function.bind(this.__onNativeReadyStateChange, this);
-      this.__xmlhttp.onreadystatechange = this.__stateListener;
-
       this.__timeoutListener = qx.lang.Function.bind(this.__onNativeTimeout, this);
 
-      // setting "ontimeout" is not possible in IE
-      if (!qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        this.__xmlhttp.ontimeout = this.__timeoutListener;
-      }
-
-      // Store timeout to request
-      // Currently only supported by IE8 beta
-      if (this.timeout != null && this.timeout > 0) {
-        this.__xmlhttp.timeout = this.timeout;
-      }
+      // Register native listeners
+      this.__xmlhttp.onreadystatechange = this.__stateListener;
 
       // Natively open request
       this.__xmlhttp.open(method, url, async, username, password);
@@ -406,11 +394,11 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     __onNativeTimeout : qx.event.GlobalError.observeMethod(function()
     {
-      // Execute abort helper
-      this.__abortHelper();
-
       // Fire user visible event
       this.ontimeout();
+    
+      // Execute abort helper
+      this.__abortHelper();
     }),
 
 
@@ -695,8 +683,7 @@ qx.Bootstrap.define("qx.bom.Request",
       }
 
       // BUGFIX: IE - memory leak (on-page leak)
-      if (this.__xmlhttp)
-      {
+      if (this.__xmlhttp) {
         this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
       }
 
