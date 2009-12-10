@@ -182,20 +182,6 @@ qx.Class.define("qx.bom.History",
   properties :
   {
     /**
-     * Interval for the timer, which periodically checks the browser history state
-     * in milliseconds.
-     *
-     * @deprecated This property has been deprecated. The history manager now
-     *     uses {@link qx.event.Idle} for polling.
-     */
-    timeoutInterval :
-    {
-      check: "Number",
-      init : 100,
-      apply : "_applyTimeoutInterval"
-    },
-
-    /**
      * Property holding the current title
      */
     title :
@@ -390,14 +376,99 @@ qx.Class.define("qx.bom.History",
     },
 
 
-    // property apply
-    _applyTimeoutInterval : function(value)
+    /*
+    ***************************************************************************
+       Deprecations for old property 'timeoutInterval'
+    ***************************************************************************
+    */
+
+
+    /**
+     * Interval for the timer, which periodically checks the browser history state
+     * in milliseconds.
+     *
+     * @param value {Number} interval in milliseconds.
+     * 
+     * @deprecated This property has been deprecated. The history manager now
+     *     uses {@link qx.event.Idle} for polling.
+     */
+    setTimeoutInterval : function(value)
     {
-       qx.log.Logger.deprecatedMethodWarning(
-         arguments.callee,
-         "The property 'timeoutInterval' has been deprected. The history manager" +
-         "now uses 'qx.event.Idle' for polling."
-       );
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertNumber(value, "Invalid attribute 'value'.");
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'timeoutInterval' has been deprected. The history manager" +
+            "now uses 'qx.event.Idle' for polling."
+        );
+      }
+    },
+
+
+    /**
+     * Interval for the timer, which periodically checks the browser history state
+     * in milliseconds.
+     *
+     * @return {Number} interval in milliseconds.
+     * 
+     * @deprecated This property has been deprecated. The history manager now
+     *     uses {@link qx.event.Idle} for polling.
+     */
+    getTimeoutInterval : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'timeoutInterval' has been deprected. The history manager" +
+            "now uses 'qx.event.Idle' for polling."
+        );
+      }
+      return 100;
+    },
+
+
+    /**
+     * Interval for the timer, which periodically checks the browser history state
+     * in milliseconds.
+     *
+     * @deprecated This property has been deprecated. The history manager now
+     *     uses {@link qx.event.Idle} for polling.
+     */
+    resetTimeoutInterval : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'timeoutInterval' has been deprected. The history manager" +
+            "now uses 'qx.event.Idle' for polling."
+        );
+      }
+    },
+
+
+    /**
+     * Interval for the timer, which periodically checks the browser history state
+     * in milliseconds.
+     *
+     * @param value {Number} interval in milliseconds.
+     * 
+     * @deprecated This property has been deprecated. The history manager now
+     *     uses {@link qx.event.Idle} for polling.
+     */
+    initTimeoutInterval : function(value)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertNumber(value, "Invalid attribute 'value'.");
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'timeoutInterval' has been deprected. The history manager" +
+            "now uses 'qx.event.Idle' for polling."
+        );
+      }
     }
   },
 
