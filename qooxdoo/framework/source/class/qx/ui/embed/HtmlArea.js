@@ -299,6 +299,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     __editorComponent: null,
     __postPonedProperties: null,
     __blockerElement : null,
+    __initValues : null,
 
 
     /*
