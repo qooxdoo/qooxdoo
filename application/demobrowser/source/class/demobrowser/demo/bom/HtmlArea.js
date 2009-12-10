@@ -148,9 +148,6 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     */ 
    __insertImageHandler : function(e)
    {
-     this.__widget.style.display = "none";
-     return;
-     
      var attributes = { src    : qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/icons/htmlarea/qooxdoo_logo.png"),
                         border : 0,
                         title  : "qooxdoo logo",
@@ -166,9 +163,6 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     */ 
    __insertTableHandler : function(e)
    {
-     this.__widget.style.display = "block";
-     return;
-     
      var table = "<table border='1'>" + 
                    "<tbody>" +
                      "<tr>" +
