@@ -72,7 +72,8 @@ qx.Theme.define("showcase.theme.Appearance",
           font: qx.bom.Font.fromConfig({
             size: 20,
             family: ["Trebuchet MS", "Lucida Grande", "Verdana", "sans-serif"]
-          })
+          }),
+          zIndex: 50
         };
       }
     },
