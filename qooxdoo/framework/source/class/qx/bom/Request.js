@@ -704,7 +704,12 @@ qx.Class.define("qx.bom.Request",
     }
     
     // Clear fields
-    this._disposeFields("onreadystatechange", "onload", "onerror", "onabort");
-    this._disposeFields("__stateListener", "__xmlhttp", "__headers");
+    this.onreadystatechange = null;
+    this.onload = null;
+    this.onerror = null;
+    this.onabort = null;
+    this.__stateListener = null;
+    this.__xmlhttp = null;
+    this.__headers = null;
   }
 });
