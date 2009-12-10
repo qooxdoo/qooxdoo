@@ -1421,7 +1421,7 @@ class Generator(object):
 
         self._console.outdent()
 
-        # Fixing PNG files
+        # Fixing PNG files -- currently just a stub!
         if fixsettings.get("fix-png", False):
             self._console.info("Fixing PNGs...")
             self._console.indent()
