@@ -95,7 +95,11 @@ qx.Class.define("showcase.ui.Description",
         
         "#description li {",
         "  color: #444444;",
-        "}"      
+        "}",
+        
+        "#i18n td {",
+        "  font-size: 10px;",
+        "}"
       ];
       qx.bom.Stylesheet.createElement(code.join("\n"));
     }

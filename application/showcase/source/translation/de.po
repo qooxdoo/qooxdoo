@@ -1,0 +1,139 @@
+# German
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo showcase\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-08 21:17+0200\n"
+"PO-Revision-Date: 2007-01-23 17:46+0100\n"
+"Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: showcase/page/i18n/Content.js:97
+msgid "Form Elements"
+msgstr "Formular Widgets"
+
+#: showcase/page/i18n/Content.js:107
+msgid "Choose a locale:"
+msgstr "Lokalisierung wählen:"
+
+#: showcase/page/i18n/Content.js:133
+msgid "Localized ComboBox:"
+msgstr "Lokalisierte ComboBox:"
+
+#: showcase/page/i18n/Content.js:136 showcase/page/i18n/Content.js:171
+msgid "Cut"
+msgstr "Aussschneiden"
+
+#: showcase/page/i18n/Content.js:137 showcase/page/i18n/Content.js:173
+msgid "Paste"
+msgstr "Einfügen"
+
+#: showcase/page/i18n/Content.js:138 showcase/page/i18n/Content.js:172
+msgid "Copy"
+msgstr "Kopieren"
+
+#: showcase/page/i18n/Content.js:145
+msgid "A date:"
+msgstr "Datum:"
+
+#: showcase/page/i18n/Content.js:168
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: showcase/page/i18n/Content.js:169
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: showcase/page/i18n/Content.js:174
+msgid "Delete"
+msgstr "Löschen"
+
+#: showcase/page/i18n/Content.js:175
+msgid "Select All"
+msgstr "Alles auswählen"
+
+#: showcase/page/i18n/Content.js:177
+msgid "Search"
+msgstr "Suchen"
+
+#: showcase/page/i18n/Content.js:178
+msgid "Search Again"
+msgstr "Weiter suchen"
+
+#: showcase/page/i18n/Content.js:180
+msgid "Command Menu (keyboard shortcuts)"
+msgstr "Command-Menü (Tastenkürzel)"
+
+#: showcase/page/i18n/Content.js:189
+msgid "Locale Information"
+msgstr "Lokalisierungsinformationen"
+
+#: showcase/page/i18n/Content.js:222
+msgid "Locale:"
+msgstr "Sprachkennung:"
+
+#: showcase/page/i18n/Content.js:225
+msgid "Territory code:"
+msgstr "Landeskennung:"
+
+#: showcase/page/i18n/Content.js:228
+msgid "Date format short:"
+msgstr "kurzes Zeitformat:"
+
+#: showcase/page/i18n/Content.js:230
+msgid "Date short:"
+msgstr "Zeit (kurz):"
+
+#: showcase/page/i18n/Content.js:233
+msgid "Date format medium:"
+msgstr "Mittellanges Datumsformat:"
+
+#: showcase/page/i18n/Content.js:235
+msgid "Date medium:"
+msgstr "Mittellanges Datum:"
+
+#: showcase/page/i18n/Content.js:238
+msgid "Date format long:"
+msgstr "Langes Datumsformat:"
+
+#: showcase/page/i18n/Content.js:240
+msgid "Date long:"
+msgstr "Langes Datum:"
+
+#: showcase/page/i18n/Content.js:243
+msgid "Date format full:"
+msgstr "Vollständiges Datumsformat:"
+
+#: showcase/page/i18n/Content.js:245
+msgid "Date full:"
+msgstr "Vollständiges Datum:"
+
+#: showcase/page/i18n/Content.js:248
+msgid "Time format short:"
+msgstr "kurzes Zeitformat:"
+
+#: showcase/page/i18n/Content.js:250
+msgid "Time short:"
+msgstr "Zeit (kurz):"
+
+#: showcase/page/i18n/Content.js:253
+msgid "Time format long:"
+msgstr "Langes Zeitformat:"
+
+#: showcase/page/i18n/Content.js:255
+msgid "Time long:"
+msgstr "Zeit (lang):"
+
+#: showcase/page/i18n/Content.js:258
+msgid "Week start:"
+msgstr "Wochenanfang:"
+
+#: showcase/page/i18n/Content.js:261
+msgid "Format of %1:"
+msgstr "Format von %1:"

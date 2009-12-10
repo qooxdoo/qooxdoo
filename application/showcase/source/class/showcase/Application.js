@@ -109,6 +109,7 @@ qx.Class.define("showcase.Application",
       var pages = new qx.data.Array();
       pages.push(
         new showcase.page.htmleditor.Page(),
+        new showcase.page.i18n.Page(),
         new showcase.page.tree.Page(),
         new showcase.page.dragdrop.Page(),
         new showcase.page.theme.Page(),
