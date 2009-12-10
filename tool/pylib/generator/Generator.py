@@ -1391,12 +1391,20 @@ class Generator(object):
 
 
     def runFix(self, classes):
+
+        def fixPng():
+            return
+
+        # - Main ---------------------------------------------------------------
+
         if not isinstance(self._job.get("fix-files", False), types.DictType):
             return
 
+        fixsettings = ExtMap(self._job.get("fix-files"))
+
+        # Fixing JS source files
         self._console.info("Fixing whitespace in source files...")
         self._console.indent()
-        fixsettings = ExtMap(self._job.get("fix-files"))
 
         self._console.info("Fixing files: ", False)
         numClasses = len(classes)
@@ -1412,6 +1420,15 @@ class Generator(object):
             filetool.save(filePath, fixedContent, fileEncoding)
 
         self._console.outdent()
+
+        # Fixing PNG files
+        if fixsettings.get("fix-png", False):
+            self._console.info("Fixing PNGs...")
+            self._console.indent()
+            fixPng()
+            self._console.outdent()
+
+        return
 
 
     def _splitIncludeExcludeList(self, data):
