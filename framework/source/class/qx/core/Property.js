@@ -752,7 +752,7 @@ qx.Bootstrap.define("qx.core.Property",
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
 
       if (incomingValue) {
-        this.__emitIncomingValueTransformation(code, config, name);
+        this.__emitIncomingValueTransformation(code, clazz, config, name);
       }
 
       if (hasCallback) {
