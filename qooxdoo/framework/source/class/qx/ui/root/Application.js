@@ -28,6 +28,8 @@
  * This is the root widget for qooxdoo applications with an
  * "application" like behaviour. The widget will span the whole viewport
  * and the document body will have no scrollbars.
+ * 
+ * The root widget does not support paddings and decorators with insets.
  *
  * If you want to enhance HTML pages with qooxdoo widgets please use
  * {@link qx.ui.root.Page} eventually in combination with
@@ -151,6 +153,31 @@ qx.Class.define("qx.ui.root.Application",
         height : height,
         maxHeight : height
       };
+    },
+    
+    
+    // overridden
+    _applyPadding : function(value, old, name)
+    {
+      if (value && (name == "paddingTop" || name == "paddingLeft")) {
+        throw new Error("The root widget does not support 'left', or 'top' paddings!");        
+      }
+      this.base(arguments, value, old, name);
+    },
+    
+    
+    // overridden
+    _applyDecorator : function(value, old)
+    {
+      this.base(arguments, value, old);
+      if (!value) {
+        return;
+      }
+      
+      var insets = this.getDecoratorElement().getInsets();
+      if (insets.left || insets.top) {
+        throw new Error("The root widget does not support decorators with 'left', or 'top' insets!");
+      }
     }
   },
 

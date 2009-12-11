@@ -108,7 +108,7 @@ qx.Class.define("qx.html.Decorator",
      * Get the amount of space, the decoration needs for its border on each
      * side.
      *
-     * @return {Map} the desired insed a map with the keys <code>top</code>,
+     * @return {Map} the desired insets. A map with the keys <code>top</code>,
      *     <code>right</code>, <code>bottom</code>, <code>left</code>.
      */
     getInsets : function() {
