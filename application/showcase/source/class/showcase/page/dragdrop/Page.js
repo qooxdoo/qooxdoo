@@ -50,13 +50,13 @@ qx.Class.define("showcase.page.dragdrop.Page",
   
   members : 
   {
-    __descriptionText : "Those two list widgets simulate a shopping system. " +
-      "The left list contains all items to shop and the right list shows the " + 
-      "shopping cart. The main idea of this demo is to show the drag &amp; drop " + 
-      "feature.",
+    __descriptionText : "These two list widgets simulate a shopping system. " +
+    "The list on the left contains all available items while the list on the " +
+    "right displays the shopping cart. The main idea of this demo is to " +
+    "illustrate the drag & drop feature.",
     
     __tryThis : {
-      "Drag" : "Try to move an item to the cart.",
+      "Drag" : "Try moving an item to the cart.",
       "Reorder" : "You can reorder both lists.",
       "Move" : "You can also move items back to the shop."      
     },

@@ -51,21 +51,21 @@ qx.Class.define("showcase.page.htmleditor.Page",
   
   members :
   {
-    __descriptionText : "The HtmlArea provides basic cross-browser HTML " + 
-      "capabilities and is available as low-level and as a widget component. " + 
-      "It offers events to easily implement a toolbar as supplement.. The UI " + 
-      "controls of tis toolbar are used to easily interact with the HTML " + 
-      "editing component.",
+    __descriptionText : "The HtmlArea provides basic cross-browser HTML " +
+    "capabilities and is available both as a low-level component and as a " +
+    "widget. It offers events, allowing easy implementation of a toolbar " +
+    "supplement. The UI controls of this toolbar are used to easily interact " +
+    "with the HTML editing component.",
       
     __tryThis : {
       "Text Formatting" : "Format some text with underline, bold, italic, ...",
       "Alignment" : "Align the text on the right side.",
-      "Lists" : "Insert a numberd or bullet point list.",
-      "Redo/Undo" : "Try to revert your canges using the undo button."
+      "Lists" : "Insert a numbered or bullet point list.",
+      "Redo/Undo" : "Try reverting your changes by using the undo button."
     },
     
     __features : {
-      "Inserting" : "You can insert table, images, Hyperlinks, ..."
+      "Inserting" : "You can insert HTML tables, images, hyperlinks, ..."
     },
     
     __manual : {

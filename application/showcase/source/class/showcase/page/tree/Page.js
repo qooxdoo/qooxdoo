@@ -51,20 +51,20 @@ qx.Class.define("showcase.page.tree.Page",
   
   members :
   {
-    __descriptionText : "Those two tree views show some hierachical data " + 
-      "including folders, icons and labels. The tree in the right window " + 
-      " has some additional infomation attached to each item.",
+    __descriptionText : "The two tree views display some hierarchical data " +
+    "including folders, icons and labels. The tree in the right window has " +
+    "some additional infomation attached to each item.",
       
     __tryThis : {
-      "Expand" : "Try to expand some folders using the arrow icon of a double click.",
-      "Resize" : "Resize the window to see the tree show scrollbars.",
-      "Selection" : "Select more than one item by holding shift for example."
+      "Expand" : "Try expanding some folders by using the arrow icon or double clicking.",
+      "Resize" : "Resize the window to make the tree scrollbars appear.",
+      "Selection" : "Select multiple items, e.g. by holding the Shift key."
     },
     
     __features : {
-      "Configurable" : "Each tree item has a configurable text and icon.",
-      "Scrolling" : "Tree shows scrollbars if necessary.",
-      "Multi Columns" : "Tree folders can have addition information in separate columns."
+      "Configurable" : "Each tree item has a configurable label and icon.",
+      "Scrolling" : "Tree displays scrollbars if necessary.",
+      "Multi Columns" : "Tree folders can display additional information in separate columns."
     },
     
     __manual : {

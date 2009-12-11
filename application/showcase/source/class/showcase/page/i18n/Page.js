@@ -53,29 +53,29 @@ qx.Class.define("showcase.page.i18n.Page",
   {
     __descriptionText : 
       'I18N stands for <em>"Internationalization"</em>, a word that starts with' +
-      'an "I" and ends with an "N" and has roughly 18 characters in between. ' +
-      "It's all about making a system support different natural languages and " +
-      "locales in its user interface. qooxdoo has full translation support and " +
-      "knows about locale information of virtually every country in the world.",
+      ' an "I" and ends with an "N" and has roughly 18 characters in between. ' +
+      "It's all about making a system support different natural languages and" +
+      " locales in its user interface. qooxdoo has full translation support " +
+      "and knows the locale information of virtually every country in the world.",
       
     __tryThis : {
       "Change the language": 
         "Hit one of the flag buttons on the top to change " +
-        "the language. All labels on the page will be translated including " +
-        "labels in standard qooxdoo widgets like the calendar.,",
+        "the language. All labels on the page will be translated, including " +
+        "labels in standard qooxdoo widgets like the calendar.",
       "Change the country": 
         "The first select box on the left lets you change the country code. " +
         "The country code defines things like date or number formats. Try " +
         "changing the country code from <em>United States</em> to " +
-        "<em>Great Britan</em>. You will see that e.g. the start of the week " +
-        "will change from sunday to monday.",
+        "<em>Great Britain</em>. You will see that e.g. the start of the week " +
+        "changes from sunday to monday.",
       "Open the command menu":
-        "The command menu button at the lower left opens a popup menu. Even the " +
+        "The command menu button in the lower left opens a popup menu. Even the " +
         "keyboard shortcuts are localized."
     },
     
     __features : {
-      "Standard based translation" : 
+      "Standards based translation" : 
         "Translation data is extracted into standard <em>.po</em> " +
       	"files, which are used by the <em>gettext</em> tools. There is a rich " +
       	"set of open source tools to process the translation files.",
