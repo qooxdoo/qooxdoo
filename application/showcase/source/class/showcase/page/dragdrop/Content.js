@@ -30,7 +30,7 @@ qx.Class.define("showcase.page.dragdrop.Content",
   construct : function(page) {
     this.base(arguments, page);
     
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
     
   
@@ -40,7 +40,7 @@ qx.Class.define("showcase.page.dragdrop.Content",
     __dragoverItem : null,
     
     
-    __createView : function() 
+    _createView : function() 
     {
       var layout = new qx.ui.layout.Grid();
       layout.setRowFlex(1, 1);

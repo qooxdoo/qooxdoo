@@ -41,8 +41,6 @@ qx.Class.define("showcase.page.tree.Content",
   construct : function(page) {
     this.base(arguments, page);
     
-    this.setView(this.__createView());
-    
     var win = this.__addSecondWindow();
     this.getView().add(win);
     win.moveTo(260, 20);

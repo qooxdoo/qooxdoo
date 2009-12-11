@@ -25,13 +25,13 @@ qx.Class.define("showcase.page.theme.Content",
   construct : function(page) {
     this.base(arguments, page);
     
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
   
   
   members :
   {
-    __createView : function() 
+    _createView : function() 
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
       
