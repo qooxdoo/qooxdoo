@@ -20,21 +20,25 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/*)
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-audio.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+#asset(qx/icon/${qx.icontheme}/16/status/dialog-warning.png)
 
 ************************************************************************ */
+
 qx.Class.define("showcase.page.table.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
   
-  construct : function(page) {
+  construct : function(page) 
+  {
     this.base(arguments, page);
-    
     this.setView(this._createView());
   },
   
   
-  statics : {
+  statics :
+  {
     saveResult: function(result) {
       this._result = result;
     }
@@ -43,7 +47,8 @@ qx.Class.define("showcase.page.table.Content",
   
   members :
   {
-    _addWindowContent : function(win) {
+    _addWindowContent : function(win)
+    {
       // Create the initial data
       var rowData = [[0, "loading ...", "loading ...", 0, false]];
 
@@ -98,7 +103,6 @@ qx.Class.define("showcase.page.table.Content",
       );      
 
 
-
       // Obtain the behavior object to manipulate
       var resizeBehavior = tcm.getBehavior();
 
@@ -119,7 +123,6 @@ qx.Class.define("showcase.page.table.Content",
     },
     
     
-    
     _loadData : function(tableModel) 
     {
       var query = "select * from music.track.popular";
@@ -131,7 +134,7 @@ qx.Class.define("showcase.page.table.Content",
       
       var loader = new qx.io.ScriptLoader();
       loader.load(url, function() {
-        var result = showcase.page.table.Content.__result;
+        var result = showcase.page.table.Content._result;
 
         var rows = [];
         var rawData = result.query.results.Track;

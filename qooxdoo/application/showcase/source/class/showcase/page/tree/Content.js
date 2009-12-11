@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/places/*)
-#asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-image.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/office-chart.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-mail.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/document-send.png)
