@@ -42,7 +42,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
     }
 
     // create a default selection array
-    this.setSelection(new qx.data.Array());
+    if (this.getSelection() == null) {
+      this.setSelection(new qx.data.Array());      
+    }
   },
 
 
@@ -128,7 +130,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * If the selection in the target has changed, the selected model objects
      * will be found and added to the selection array.
      */
-    __changeTargetSelection: function() {
+    _changeTargetSelection: function() {
       // if __changeSelectionArray is currently working, do nothing
       if (this._inSelectionModification() || this.getTarget() == null) {
         return;
@@ -137,10 +139,14 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // get both selections
       var targetSelection = this.getTarget().getSelection();
       var selection = this.getSelection();
+      if (selection == null) {
+        selection = new qx.data.Array();
+        this.setSelection(selection);
+      }
       // if the selection is not empty
       if (targetSelection.length > 0) {
         // remove all items without firing an event
-        selection.toArray().splice(0, this.getSelection().getLength());
+        selection.toArray().splice(0, selection.getLength());
       } else {
         // remove all with firing an event
         selection.splice(0, this.getSelection().getLength());
@@ -180,15 +186,17 @@ qx.Mixin.define("qx.data.controller.MSelection",
         old.removeListenerById(this.__selectionListenerId);
       }
 
-      // if a selection API is supported
-      if (
-        this.__targetSupportsMultiSelection()
-        || this.__targetSupportsSingleSelection()
-      ) {
-        // add a new selection listener
-        this.__selectionListenerId = value.addListener(
-          "changeSelection", this.__changeTargetSelection, this
-        );
+      if (value != null) {
+        // if a selection API is supported
+        if (
+          this.__targetSupportsMultiSelection()
+          || this.__targetSupportsSingleSelection()
+        ) {
+          // add a new selection listener
+          this.__selectionListenerId = value.addListener(
+            "changeSelection", this._changeTargetSelection, this
+          );
+        }        
       }
     },
 
@@ -242,6 +250,8 @@ qx.Mixin.define("qx.data.controller.MSelection",
         this.__selectItem(
           this.getSelection().getItem(this.getSelection().length - 1)
         );
+        // remove the other items from the selection data array
+        this.getSelection().splice(0, this.getSelection().getLength() - 1);
       }
 
       // reset the changing flag
