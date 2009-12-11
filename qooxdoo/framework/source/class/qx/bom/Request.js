@@ -346,6 +346,11 @@ qx.Class.define("qx.bom.Request",
      */
     abort : function()
     {
+      // Clear timeout for all aborted requests
+      if (this.__timeoutHandle) {
+        window.clearTimeout(this.__timeoutHandle);
+      }
+
       // Execute abort helper
       this.__abortHelper();
 
@@ -395,6 +400,11 @@ qx.Class.define("qx.bom.Request",
 
         // Return now
         return;
+      }
+
+      // Clear timeout before firing event
+      if (this.readyState == qx.bom.Request.DONE && this.__timeoutHandle) {
+        window.clearTimeout(this.__timeoutHandle);
       }
 
       // Fire real state change
@@ -698,18 +708,23 @@ qx.Class.define("qx.bom.Request",
  
   destruct : function()
   {
-    // Memory leak protection
-    if (this.__xmlhttp) {
-      this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
+    // Stop timeout first
+    if (this.__timeoutHandle) 
+    {
+      window.clearTimeout(this.__timeoutHandle);
+      this.__timeoutHandle = null;
     }
-    
+
+    // Memory leak protection
+    if (this.__xmlhttp)
+    {
+      this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
+      this.__xmlhttp = null;
+    }
+
     // Clear fields
-    this.onreadystatechange = null;
-    this.onload = null;
-    this.onerror = null;
-    this.onabort = null;
+    this.onreadystatechange = this.onload = this.onerror = this.onabort = null;
     this.__stateListener = null;
-    this.__xmlhttp = null;
     this.__headers = null;
   }
 });
