@@ -441,7 +441,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     removeAll : function()
     {
       for (var i=0,j=this.__items.length; i<j; i++) {
-        this._removeHelper(child);
+        this._removeHelper(this.__items[i]);
       }
       this.__items = [];
     },
@@ -532,7 +532,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     removeAt : function(index)
     {
       this.__items.splice(index, 1);
-      this._removeHelper(child);
+      this._removeHelper(this.__items[index]);
     },
 
 
