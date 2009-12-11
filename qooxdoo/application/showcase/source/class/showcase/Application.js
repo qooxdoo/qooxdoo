@@ -67,12 +67,9 @@ qx.Class.define("showcase.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }      
-      
-      var cssUrl = qx.util.AliasManager.getInstance().resolve(
-        "showcase/css/showcase.css"
-      );
-      qx.bom.Stylesheet.includeFile(cssUrl);
 
+      qx.locale.Manager.getInstance().setLocale("en_US");
+      
       var grid = new qx.ui.layout.Grid();
       grid.setColumnFlex(0, 1);
       grid.setRowFlex(1, 1);
