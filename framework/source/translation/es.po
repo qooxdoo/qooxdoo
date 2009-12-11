@@ -40,7 +40,7 @@ msgstr "Ctrl"
 
 #: qx/locale/Key.js:86
 msgid "key_short_Control_Mac"
-msgstr ""
+msgstr "Ctrl"
 
 #: qx/locale/Key.js:87
 msgid "key_short_Alt"
