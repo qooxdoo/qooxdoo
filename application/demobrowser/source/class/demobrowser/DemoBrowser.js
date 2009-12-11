@@ -107,7 +107,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__searchTextField = new qx.ui.form.TextField();
     this.__searchTextField.setLiveUpdate(true);
     this.__searchTextField.setAppearance("widget");
-    this.__searchTextField.setPlaceholder("Search...");
+    this.__searchTextField.setPlaceholder("Filter...");
     this.__searchTextField.addListener("changeValue", function(e) {
       this.filter(e.getData());
     }, this);    
