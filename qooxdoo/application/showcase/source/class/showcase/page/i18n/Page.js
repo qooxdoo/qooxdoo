@@ -66,7 +66,7 @@ qx.Class.define("showcase.page.i18n.Page",
       "Change the country": 
         "The first select box on the left lets you change the country code. " +
         "The country code defines things like date or number formats. Try " +
-        "changing the country code from <em>United States<em> to " +
+        "changing the country code from <em>United States</em> to " +
         "<em>Great Britan</em>. You will see that e.g. the start of the week " +
         "will change from monday to sunday.",
       "Open the command menu":
