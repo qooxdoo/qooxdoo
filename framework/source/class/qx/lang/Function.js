@@ -245,7 +245,7 @@ qx.Bootstrap.define("qx.lang.Function",
           {
             qx.core.Assert.assertFalse(
               options.self.isDisposed(),
-              "Trying to call a bound function with a disposed object as context."
+              "Trying to call a bound function with a disposed object as context: " + options.self.toString() + " :: " + qx.lang.Function.getName(func)
             );
           }
         }
