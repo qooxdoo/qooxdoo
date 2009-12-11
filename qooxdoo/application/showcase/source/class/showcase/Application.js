@@ -129,8 +129,7 @@ qx.Class.define("showcase.Application",
         new showcase.page.theme.Page(),
         new showcase.page.i18n.Page(),
         new showcase.page.dragdrop.Page(),
-        new showcase.page.htmleditor.Page(),
-        new showcase.page.animation.Page()
+        new showcase.page.htmleditor.Page()
       );
       
       var listController = new qx.data.controller.List(pages, list, "name");
