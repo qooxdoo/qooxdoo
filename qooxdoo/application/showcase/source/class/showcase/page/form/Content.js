@@ -25,12 +25,12 @@ qx.Class.define("showcase.page.form.Content",
   construct : function(page) {
     this.base(arguments, page);
     
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
   
   
   members : {
-    __createView : function() 
+    _createView : function() 
     {
       var grid = new qx.ui.layout.Grid(20, 5);
       grid.setColumnFlex(0, 1);

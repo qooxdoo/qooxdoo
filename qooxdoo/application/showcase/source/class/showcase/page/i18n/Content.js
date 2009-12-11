@@ -26,13 +26,13 @@ qx.Class.define("showcase.page.i18n.Content",
   construct : function(page)
   {
     this.base(arguments, page);
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
   
 
   members : 
   {
-    __createView : function() 
+    _createView : function() 
     {
       var layout = new qx.ui.layout.Grid(10, 10);
       layout.setRowFlex(1, 1);
@@ -134,8 +134,8 @@ qx.Class.define("showcase.page.i18n.Content",
       controls.add(new qx.ui.basic.Label(this.tr("Territory code:")), {row: 0, column: 0});
       var country = new qx.ui.form.SelectBox();
       var controller = new qx.data.controller.List(null, country, "name");
-      
       this.__controller.bind("selection[0].countries", controller, "model");
+      
       this.__controller.bind("selection[0].selected", controller, "selection[0]");
       controller.bind("selection[0]", this.__controller, "selection[0].selected");      
       

@@ -51,7 +51,11 @@ qx.Class.define("showcase.page.htmleditor.Page",
   
   members :
   {
-    __descriptionText : "TODO",
+    __descriptionText : "The HtmlArea provides basic cross-browser HTML " + 
+    "capabilities and is available as low-level and as a widget component. " + 
+    "It offers events to easily implement a toolbar as supplement.. The UI " + 
+    "controls of tis toolbar are used to easily interact with the HTML " + 
+    "editing component.",
       
     __tryThis : {
       "Lists" : "Open the select box to see the list list of selectables."

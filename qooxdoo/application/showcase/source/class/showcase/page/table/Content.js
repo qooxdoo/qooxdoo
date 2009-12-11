@@ -30,13 +30,13 @@ qx.Class.define("showcase.page.table.Content",
   construct : function(page) {
     this.base(arguments, page);
     
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
   
   
   statics : {
     saveResult: function(result) {
-      this.__result = result;
+      this._result = result;
     }
   },
     

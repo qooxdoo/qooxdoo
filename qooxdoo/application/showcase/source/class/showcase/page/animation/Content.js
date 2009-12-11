@@ -24,7 +24,7 @@ qx.Class.define("showcase.page.animation.Content",
   construct : function(page) {
     this.base(arguments, page);
 
-    this.setView(this.__createView());
+    this.setView(this._createView());
   },
     
   
@@ -45,7 +45,7 @@ qx.Class.define("showcase.page.animation.Content",
     },
 
 
-    __createView : function() 
+    _createView : function() 
     {
       var view = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
