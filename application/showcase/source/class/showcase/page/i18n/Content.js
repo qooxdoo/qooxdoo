@@ -34,8 +34,7 @@ qx.Class.define("showcase.page.i18n.Content",
   {
     _createView : function() 
     {
-      var layout = new qx.ui.layout.Grid(10, 10);
-      layout.setRowFlex(1, 1);
+      var layout = new qx.ui.layout.Grid(10, 15);
       layout.setColumnFlex(0, 1);
       layout.setColumnFlex(1, 1);
       var container = new qx.ui.container.Composite(layout).set({
