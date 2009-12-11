@@ -51,11 +51,11 @@ qx.Class.define("showcase.page.theme.Page",
   members :
   {
     __descriptionText : 
-      "qooxdoo provides a powerful theming system, which is build on a custom " +
-      "JSON like declarative syntax. Unlike CSS this syntax doesn't have any " +
-      "cross browser issues and allows to style any widget property. It is " +
-      "possible to create completely different themes without touching the " +
-      "application code</p>" +
+      "qooxdoo provides a powerful theming system built on a custom JSON-like " +
+      "declarative syntax. Unlike CSS this syntax doesn't have any cross " +
+      "browser issues and allows styling of any widget property. It is " +
+      "possible to create entirely different themes without touching the " +
+      "application code." +
       "<p> The two calculators on this page share exactly the same application " +
       "and UI code and differ only in their theme.",
     
@@ -63,7 +63,7 @@ qx.Class.define("showcase.page.theme.Page",
       "States" : "Widgets can have states like <code>selected</code> or " + 
         "<code>hovered</code>, which can be used by the theme to style the widgets.",
       "Decorators" : "Any HTML code can be used to style the background of a " + 
-        "widget independent from its content. Qooxdoo comes with a rich set of " +
+        "widget independent of its content. Qooxdoo comes with a rich set of " +
         "pre-defined decorators."
     },
     
@@ -79,7 +79,7 @@ qx.Class.define("showcase.page.theme.Page",
     },
     
     __api : {
-      "#qx.theme": "This namespace contains the theme managers and the two standard themes.."
+      "#qx.theme": "This namespace contains the theme managers and the two standard themes."
     }
   }
 });
