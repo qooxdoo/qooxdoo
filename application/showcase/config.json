@@ -14,7 +14,7 @@
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "showcase.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*"],
-    "LOCALES"      : [ "en", "de", "es", "nl" ],
+    "LOCALES"      : [ "en", "en_GB", "en_US", "de", "de_DE", "de_AT", "es", "es_ES", "es_MX" ],
     "CACHE"        : "${TMPDIR}/cache",
     "ROOT"         : "."
   },
