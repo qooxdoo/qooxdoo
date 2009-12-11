@@ -41,7 +41,10 @@ qx.Class.define("showcase.page.databinding.Content",
       // create and add the list
       var list = new qx.ui.form.List();
       view.add(list, {left: 10, top: 135, bottom: 5});
-      list.setWidth(300);
+      list.set({
+        width: 300,
+        maxHeight: 400
+      });
 
       // create the controller
       var controller = new qx.data.controller.List(null, list);
