@@ -503,6 +503,39 @@ qx.Class.define("qx.test.data.controller.List",
       // test for the selection
       this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection is wrong.");
     },
+    
+    
+    testSelectionWithModelChangeSelectBox: function() {
+      this.__data = ["a", "b", "c", "d", "e"];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+
+      var selectBox = new qx.ui.form.SelectBox();
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, selectBox);      
+      
+      // first object is selected (one selection mode)
+      
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), selectBox.getSelection()[0].getModel());
+      this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
+
+      // change the model
+      this.__controller.setModel(new qx.data.Array(["x", "y", "z"]));
+
+      // test for the first selected item (one selection)
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
+      this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection does not work.");
+
+      // select an item
+      this.__controller.getSelection().push("y");
+
+      // test for the selection
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");      
+      this.assertEquals("y", this.__controller.getSelection().getItem(0), "Selection is wrong.");
+      
+      selectBox.dispose();
+    },    
 
 
     testFilterApply: function() {
@@ -1095,6 +1128,6 @@ qx.Class.define("qx.test.data.controller.List",
       // select the second label
       list.addToSelection(list.getChildren()[1]);
       this.assertNull(label.getValue(), "Label has not been reseted.");
-    }    
+    }
   }
 });

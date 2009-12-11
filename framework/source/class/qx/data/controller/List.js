@@ -315,6 +315,11 @@ qx.Class.define("qx.data.controller.List",
           old.removeListenerById(this.__changeModelListenerId);
         }
       }
+      
+      // erase the selection if there is something selected
+      if (this.getSelection() != undefined && this.getSelection().length > 0) {
+        this.getSelection().splice(0, this.getSelection().length);
+      }      
 
       // if a model is set
       if (value != null) {
@@ -332,7 +337,6 @@ qx.Class.define("qx.data.controller.List",
         // if there is a target
         if (this.getTarget() != null) {
           // update the model references to the models
-
           var model = this.getModel();
           var children = this.getTarget().getChildren();
           for (var i = 0, l = this.__lookupTable.length; i < l; i++) {
@@ -341,11 +345,9 @@ qx.Class.define("qx.data.controller.List",
             listItem.setModel(modelNode);
           }
         }
-      }
-
-      // erase the selection if there is something selected
-      if (this.getSelection() != undefined && this.getSelection().length > 0) {
-        this.getSelection().splice(0, this.getSelection().length);
+        // as we changed only the labels of the items, the changeselection of 
+        // the target my be missing so we invoke it here
+        this._changeTargetSelection();
       }
     },
 
@@ -360,6 +362,9 @@ qx.Class.define("qx.data.controller.List",
      * @param old {qx.ui.core.Widget|null} The old target.
      */
     _applyTarget: function(value, old) {
+      // add a listener for the target change
+      this._addChangeTargetListener(value, old);
+      
       // if there was an old target
       if (old != undefined) {
         // remove all element of the old target
@@ -375,8 +380,6 @@ qx.Class.define("qx.data.controller.List",
             this.__addItem(this.__lookup(i));
           }
         }
-        // add a listener for the target change
-        this._addChangeTargetListener(value, old);
       }
     },
 
