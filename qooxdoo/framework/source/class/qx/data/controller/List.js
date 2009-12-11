@@ -986,5 +986,6 @@ qx.Class.define("qx.data.controller.List",
 
    destruct : function() {
      this.__lookupTable = this.__onUpdate = this.__boundProperties = null;
+     this.__boundPropertiesReverse = null;
    }
 });
