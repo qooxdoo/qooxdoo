@@ -363,19 +363,19 @@ qx.Class.define("showcase.page.htmleditor.Content",
     
     
     debugRadio : function(e) {
-      this.debug("Change selection: " + e.getData()[0].getLabel());
+      alert("This command is not yet implemented!");
     },
 
     debugCommand : function(e) {
-      this.debug("Execute command: " + this.getShortcut());
+      alert("This command is not yet implemented!");
     },
 
     debugButton : function(e) {
-      this.debug("Execute button: " + this.getLabel());
+      alert("This command is not yet implemented!");
     },
 
     debugCheckBox : function(e) {
-      this.debug("Change checked: " + this.getLabel() + " = " + e.getData());
+      alert("This command is not yet implemented!");
     },
     
     
@@ -452,10 +452,7 @@ qx.Class.define("showcase.page.htmleditor.Content",
       var printButton = new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png");
       var exitButton = new qx.ui.menu.Button("Exit", "icon/16/actions/application-exit.png");
 
-      newButton.addListener("execute", this.debugButton);
-      openButton.addListener("execute", this.debugButton);
       closeButton.addListener("execute", this.debugButton);
-      saveButton.addListener("execute", this.debugButton);
       saveAsButton.addListener("execute", this.debugButton);
       printButton.addListener("execute", this.debugButton);
       exitButton.addListener("execute", this.debugButton);
@@ -480,12 +477,6 @@ qx.Class.define("showcase.page.htmleditor.Content",
       var cutButton = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", this._cutCommand);
       var copyButton = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", this._copyCommand);
       var pasteButton = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", this._pasteCommand);
-
-      undoButton.addListener("execute", this.debugButton);
-      redoButton.addListener("execute", this.debugButton);
-      cutButton.addListener("execute", this.debugButton);
-      copyButton.addListener("execute", this.debugButton);
-      pasteButton.addListener("execute", this.debugButton);
 
       menu.add(undoButton);
       menu.add(redoButton);
