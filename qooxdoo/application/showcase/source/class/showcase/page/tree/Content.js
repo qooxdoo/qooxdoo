@@ -63,7 +63,7 @@ qx.Class.define("showcase.page.tree.Content",
         height : 400,
         selectionMode : "multi",
         decorator: null,
-        backgroundColor: "#DBE5EA"
+        backgroundColor: "rgb(228,228,228)"
       });
       win.add(tree);
 
@@ -155,7 +155,7 @@ qx.Class.define("showcase.page.tree.Content",
         height: 500,
         decorator: null,
         selectionMode : "multi",
-        backgroundColor: "#DBE5EA"
+        backgroundColor: "rgb(228,228,228)"
       });
 
       win.add(tree);
