@@ -29,7 +29,7 @@ qx.Class.define("showcase.page.i18n.Content",
     this.setView(this.__createView());
   },
   
-  
+
   members : 
   {
     __createView : function() 
@@ -56,50 +56,73 @@ qx.Class.define("showcase.page.i18n.Content",
         alignX: "center"
       }));
       
-      var locales = [
-        "en",
-        "es",
-        "de"
-      ];
-      
-      var localeManager = qx.locale.Manager.getInstance();
-      var currentLocale = localeManager.getLocale();
-
-      
-      for (var i=0; i<locales.length; i++)
-      {
-        var locale = locales[i];
-        var icon = "showcase/i18n/" + locale + ".png";
-        var button = new qx.ui.form.RadioButton(null);
-        button.setIcon(icon);
-        button.setUserData("locale", locale);
-        button.setAppearance("button");
-        group.add(button);
-        
-        if (locale == currentLocale) {
-          group.setSelection([button]);
+      var locales = this.__locales = qx.data.marshal.Json.createModel([
+        {
+          language: "en",
+          selected: null,
+          countries: [
+            {code: "US", name: "United States"},
+            {code: "GB", name: "Great Britan"}
+          ]
+        },
+        {
+          language: "es",
+          selected: null,
+          countries: [
+            {code: "ES", name: "Spain"},
+            {code: "MX", name: "Mexico"}
+          ]
+        },
+        {
+          language: "de",
+          selected: null,
+          countries: [
+            {code: "DE", name: "Germany"},
+            {code: "AT", name: "Austria"}
+          ]
         }
+      ]);
+      
+      for (var i=0; i<locales.getLength(); i++) {
+        locales.getItem(i).setSelected(locales.getItem(i).getCountries().getItem(0));
       }
       
-      group.addListener("changeSelection", function(e) {
-        var locale = e.getData()[0].getUserData("locale");
-        qx.locale.Manager.getInstance().setLocale(locale);
-      });       
+      var controller = new qx.data.controller.List(null, group, "language");
+      this.__controller = controller;
+      controller.setDelegate({
+        createItem : function() {
+          return new qx.ui.form.RadioButton().set({
+            show: "icon",
+            appearance: "button"
+          });
+        }
+      });
+      controller.setIconPath("language");
+      controller.setIconOptions({
+        converter : function(value) {
+          return "showcase/i18n/" + value + ".png";
+        }
+      });
+      controller.setModel(locales);
+      controller.getSelection().push(locales.getItem(0));
       
-      if (group.getSelection().length == 0) {
-        group.setSelection([group.getChildren[0]]);
-      }
+      this.__controller.bind("selection[0].selected.code", this, "locale");
       
       return group;
     },
     
     
+    setLocale : function(value) 
+    {
+      console.log("locale", value);
+    },
+    
+
     __createControls : function()
     {
       var grid = new qx.ui.layout.Grid(10,10);
       grid.setColumnFlex(0, 1);
       grid.setColumnFlex(1, 1);
-      grid.setRowFlex(3, 1);
       grid.setColumnAlign(0, "right", "middle");
 
       var controls = new qx.ui.groupbox.GroupBox(this.tr("Form Elements")).set({
@@ -108,7 +131,17 @@ qx.Class.define("showcase.page.i18n.Content",
       });
       controls.setLayout(grid);
 
-      controls.add(new qx.ui.basic.Label(this.tr("Localized ComboBox:")), {row:1,column:0});
+      controls.add(new qx.ui.basic.Label(this.tr("Territory code:")), {row: 0, column: 0});
+      var country = new qx.ui.form.SelectBox();
+      var controller = new qx.data.controller.List(null, country, "name");
+      
+      this.__controller.bind("selection[0].countries", controller, "model");
+      this.__controller.bind("selection[0].selected", controller, "selection[0]");
+      controller.bind("selection[0]", this.__controller, "selection[0].selected");      
+      
+      controls.add(country, {row: 0, column: 1});
+      
+      controls.add(new qx.ui.basic.Label(this.tr("Localized ComboBox:")), {row: 1, column: 0});
 
       var s2 = new qx.ui.form.ComboBox();
       s2.add(new qx.ui.form.ListItem(this.tr("Cut")));
