@@ -49,18 +49,16 @@ qx.Class.define("showcase.page.animation.Page",
   
   members : 
   {
-     __descriptionText : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+     __descriptionText : "qooxdoo Animation is a low level animation layer. An effect changes one or more attributes of a DOM element in the given time either linear or using a transition function. Effects can be stacked in a queue and orderd by assigning a startup delay.",
      
      __tryThis : {
-       
+       "Click Cancel" : "To see the Fade effect"
      },
      
      __features : {
-       "Loading Data" : "The data is loaded from twitter via JSONP.",
-       "Binding" : "A binding connects the model to the list view.",
-       "Master Detail" : "Clicking on a tweet in the list shows the details.",
-       "Friends" : "The friends buttons lets you show your following list.",
-       "Configure" : "Enter your username to see your recent tweets."
+       "14 effects" : "Perfect for your needs.",
+       "effect queue" : "Order and queue effects",
+       "Highly expandable" : "Writing custom effects was never so easy."
      },
      
      __manual : {
