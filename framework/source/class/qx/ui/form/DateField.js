@@ -52,6 +52,14 @@ qx.Class.define("qx.ui.form.DateField",
 
     // create a default date format
     this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
+    
+    // listen for locale changes
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) 
+    {
+      qx.locale.Manager.getInstance().addListener("changeLocale", function() {
+        this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
+      }, this);
+    }
   },
 
 
@@ -102,12 +110,13 @@ qx.Class.define("qx.ui.form.DateField",
     getDefaultDateFormatter : function()
     {
       var format = qx.locale.Date.getDateFormat("medium").toString();
+      
       if (format == this.__dateFormat) {
         return this.__formatter;
       }
       
       if (this.__formatter) {
-        this.__formatter.dispsoe();
+        this.__formatter.dispose();
       }
       
       this.__formatter = new qx.util.format.DateFormat(format);
@@ -115,7 +124,6 @@ qx.Class.define("qx.ui.form.DateField",
       
       return this.__formatter;
     }
-    
   },
   
 
