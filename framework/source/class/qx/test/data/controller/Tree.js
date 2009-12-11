@@ -803,6 +803,42 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.setColor("black");
       this.assertEquals("black", tree.getRoot().getTextColor(), "Root node has a wrong name");
     },
+    
+    
+    testDelegateBindPropertyReverse: function () {
+      var delegate = {
+        bindItem : function(controller, item, id) {
+          controller.bindProperty("name", "appearance", null, item, id);
+          controller.bindPropertyReverse("name", "appearance", null, item, id);
+          controller.bindPropertyReverse("color", "backgroundColor", null, item, id);          
+        }
+      };
+      this.__controller.setDelegate(delegate);
+
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getAppearance(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getAppearance(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getAppearance(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getAppearance(), "Third node has a wrong name");
+
+      // check the reverse binding
+      this.__tree.getRoot().setAppearance("ROOT");
+      this.assertEquals("ROOT", this.__model.getName(), "Reverse binding not ok!");
+      this.__tree.getRoot().getChildren()[0].setBackgroundColor("#123456");
+      this.assertEquals("#123456", this.__a.getColor(), "Reverse binding not ok!");
+      
+      // invoke a removing and setting of the bindings with the new bindItem
+      delegate.bindItem = function(controller, item, id) {
+        controller.bindProperty("name", "appearance", null, item, id);
+      }      
+      this.__controller.setDelegate(null);
+      this.__controller.setDelegate(delegate);
+      
+      this.__tree.getRoot().setAppearance("123");
+      this.assertEquals("ROOT", this.__model.getName(), "Removing not ok");
+      this.__tree.getRoot().getChildren()[0].setBackgroundColor("#654321");
+      this.assertEquals("#123456", this.__a.getColor(), "Removing not ok");      
+    },    
 
 
     testDelegateAddItem: function() {

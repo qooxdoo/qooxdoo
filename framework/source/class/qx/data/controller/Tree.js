@@ -650,12 +650,65 @@ qx.Class.define("qx.data.controller.Tree",
         this.__bindings[targetPath] = {};
       }
       // store the binding reference
-      this.__bindings[targetPath][modelNode.toHashCode()] = {id: id, treeNode: targetWidget};
+      var storage = this.__bindings[targetPath];
+      if (storage[modelNode.toHashCode()]) {
+        storage[modelNode.toHashCode()].reverseId = id;
+      } else {
+        storage[modelNode.toHashCode()] = {
+          id: id, 
+          reverseId: null,
+          treeNode: targetWidget
+        };
+      }      
 
       // save the bound property
       if (!qx.lang.Array.contains(this.__boundProperties, targetPath)) {
         this.__boundProperties.push(targetPath);
       }
+    },
+    
+    
+    /**
+     * Helper-Method for binding a given property from the target widget to 
+     * the model.
+     * This method should only be called in the
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function
+     * implemented by the {@link #delegate} property.
+     *
+     * @param targetPath {String} The name of the property in the target
+     *   widget.
+     * @param sourcePath {String | null} The path to the property in the model.
+     * @param options {Map | null} The options to use for the binding.
+     * @param sourceWidget {qx.ui.tree.AbstractTreeItem} The source widget.
+     * @param modelNode {var} The model node which should be bound to the target.
+     */    
+    bindPropertyReverse : function(
+      targetPath, sourcePath, options, sourceWidget, modelNode
+    ) 
+    {
+      // set up the binding
+      var id = sourceWidget.bind(sourcePath, modelNode, targetPath, options);
+
+      // check for the storage for the references
+      if (this.__bindings[sourcePath] == null) {
+        this.__bindings[sourcePath] = {};
+      }
+      // check if there is already a stored item
+      var storage = this.__bindings[sourcePath];
+      if (storage[modelNode.toHashCode()]) {
+        storage[modelNode.toHashCode()].reverseId = id;
+      } else {
+        storage[modelNode.toHashCode()] = {
+          id: null, 
+          reverseId: id,
+          treeNode: sourceWidget
+        };
+      }
+
+      // save the bound property
+      if (!qx.lang.Array.contains(this.__boundProperties, sourcePath)) {
+        this.__boundProperties.push(sourcePath);
+      }      
     },
 
 
@@ -740,7 +793,12 @@ qx.Class.define("qx.data.controller.Tree",
         var property = this.__boundProperties[i];
         var bindingsMap = this.__bindings[property][modelNode.toHashCode()];
         if (bindingsMap != null) {
-          modelNode.removeBinding(bindingsMap.id);
+          if (bindingsMap.id) {
+            modelNode.removeBinding(bindingsMap.id);            
+          }
+          if (bindingsMap.reverseId) {
+            bindingsMap.treeNode.removeBinding(bindingsMap.reverseId);
+          }
           delete this.__bindings[property][modelNode.toHashCode()];
         }
       }
@@ -830,7 +888,6 @@ qx.Class.define("qx.data.controller.Tree",
    */
 
    destruct : function() {
-     this.__bindings = this.__childrenRef = null;
-     this._disposeArray("__boundProperties");
+     this.__bindings = this.__childrenRef = this.__boundProperties = null;
    }
 });
