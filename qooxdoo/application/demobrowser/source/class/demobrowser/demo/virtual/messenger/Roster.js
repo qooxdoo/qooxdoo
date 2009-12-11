@@ -49,7 +49,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     });
     this.getPane().addLayer(this.rowLayer);
 
-    var prefetch = new qx.ui.virtual.behavior.Prefetch(
+    // Creates the prefetch behavior
+    new qx.ui.virtual.behavior.Prefetch(
       this,
       0, 0, 0, 0,
       600, 800, 600, 800

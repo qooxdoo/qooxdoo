@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
       this.base(arguments);
 
       // widget window
-      var widgetWin = new demobrowser.demo.virtual.WidgetGallery("Gallery (widgets)");
+      new demobrowser.demo.virtual.WidgetGallery("Gallery (widgets)");
 
       // html window
       var htmlWin = new demobrowser.demo.virtual.HtmlGallery("Gallery (HTML - divs)");
@@ -283,7 +283,8 @@ qx.Class.define("demobrowser.demo.virtual.WidgetGallery",
       this.layer = new qx.ui.virtual.layer.WidgetCell(this);
       scroller.getPane().addLayer(this.layer);
 
-      var prefetch = new qx.ui.virtual.behavior.Prefetch(
+      // Creates the prefetch behavior
+      new qx.ui.virtual.behavior.Prefetch(
         scroller,
         0, 0, 0, 0,
         200, 300, 600, 800

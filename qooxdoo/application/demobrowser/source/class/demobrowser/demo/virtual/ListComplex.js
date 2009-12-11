@@ -62,7 +62,8 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       scroller.getPane().addLayer(new demobrowser.demo.virtual.DemoLayer);
 
-      var prefetch = new qx.ui.virtual.behavior.Prefetch(
+      // Creates the prefetch behavior
+      new qx.ui.virtual.behavior.Prefetch(
         scroller,
         500, 600, 1000, 1200,
         0, 0, 0, 0
