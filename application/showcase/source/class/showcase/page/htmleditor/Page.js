@@ -52,29 +52,33 @@ qx.Class.define("showcase.page.htmleditor.Page",
   members :
   {
     __descriptionText : "The HtmlArea provides basic cross-browser HTML " + 
-    "capabilities and is available as low-level and as a widget component. " + 
-    "It offers events to easily implement a toolbar as supplement.. The UI " + 
-    "controls of tis toolbar are used to easily interact with the HTML " + 
-    "editing component.",
+      "capabilities and is available as low-level and as a widget component. " + 
+      "It offers events to easily implement a toolbar as supplement.. The UI " + 
+      "controls of tis toolbar are used to easily interact with the HTML " + 
+      "editing component.",
       
     __tryThis : {
-      "Lists" : "Open the select box to see the list list of selectables."
+      "Text Formatting" : "Format some text with underline, bold, italic, ...",
+      "Alignment" : "Align the text on the right side.",
+      "Lists" : "Insert a numberd or bullet point list.",
+      "Redo/Undo" : "Try to revert your canges using the undo button."
     },
     
     __features : {
-      "Complete" : "Complete set of form widgets."
+      "Inserting" : "You can insert table, images, Hyperlinks, ..."
     },
     
     __manual : {
-      "ui_form_handling": "Form handling"
+      "ui_html_editing": "Overview HTML Editing"
     },    
       
     __demos : {
-      "#ui~FormRenderer.html" : "Default form renderer"
+      "#bom~HtmlArea.html" : "Low-Level editor",
+      "#widget~HtmlArea.html" : "Editor widget"
     },
 
     __api : {
-      "#qx.ui.form" : "The form namespace"
+      "#qx.bom.htmlarea" : "HTML Area"
     }  
   }  
 });
