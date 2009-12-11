@@ -112,15 +112,19 @@ qx.Class.define("showcase.page.i18n.Content",
       controller.setModel(locales);
       controller.getSelection().push(locales.getItem(0));
       
-      this.__controller.bind("selection[0].selected.code", this, "locale");
+      this.__controller.bind("selection[0].selected.code", this, "country");
       
       return group;
     },
     
     
-    setLocale : function(value) 
+    setCountry : function(country) 
     {
-      console.log("locale", value);
+      if (country) 
+      {
+        var language = this.__controller.getSelection().getItem(0).getLanguage();
+        qx.locale.Manager.getInstance().setLocale(language + "_" + country);
+      }
     },
     
 

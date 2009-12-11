@@ -68,7 +68,7 @@ qx.Class.define("showcase.page.i18n.Page",
         "The country code defines things like date or number formats. Try " +
         "changing the country code from <em>United States</em> to " +
         "<em>Great Britan</em>. You will see that e.g. the start of the week " +
-        "will change from monday to sunday.",
+        "will change from sunday to monday.",
       "Open the command menu":
         "The command menu button at the lower left opens a popup menu. Even the " +
         "keyboard shortcuts are localized."
