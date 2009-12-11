@@ -29,6 +29,7 @@ FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
 
 CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_NICE = nice -n 10
+export PYTHONPATH = $(CURDIR)/tool/pylib
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_DIR = $(CMD_NICE) mkdir -p
