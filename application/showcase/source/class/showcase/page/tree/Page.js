@@ -58,7 +58,7 @@ qx.Class.define("showcase.page.tree.Page",
     __tryThis : {
       "Expand" : "Try to expand some folders using the arrow icon of a double click.",
       "Resize" : "Resize the window to see the tree show scrollbars.",
-      "Selection" : "Drag from one item to another to create a selection range."
+      "Selection" : "Select more than one item by holding shift for example."
     },
     
     __features : {

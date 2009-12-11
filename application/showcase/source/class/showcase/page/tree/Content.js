@@ -62,7 +62,6 @@ qx.Class.define("showcase.page.tree.Content",
         width : 200,
         height : 400,
         selectionMode : "multi",
-        dragSelection: true,
         decorator: null,
         backgroundColor: "#DBE5EA"
       });
@@ -156,7 +155,6 @@ qx.Class.define("showcase.page.tree.Content",
         height: 500,
         decorator: null,
         selectionMode : "multi",
-        dragSelection: true,
         backgroundColor: "#DBE5EA"
       });
 
