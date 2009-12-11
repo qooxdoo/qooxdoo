@@ -26,13 +26,19 @@ qx.Class.define("showcase.page.animation.Content",
 
     this.setView(this._createView());
   },
-    
-  
+
+
   members :
   {
+
+
+
     __effect : null,
-    __container : null,
     __okButton : null,
+    __showEffect : null,
+    __dialog : null,
+    __hideEffect : null,
+    __container : null,
 
     checkInput : function()
     {
@@ -42,8 +48,36 @@ qx.Class.define("showcase.page.animation.Content",
     __prepareEffect : function()
     {
       this.__effect = new qx.fx.effect.combination.Shake(this.__container.getContainerElement().getDomElement());
+
+      this.__showEffect = new qx.fx.effect.core.Fade(
+        this.__dialog.getContainerElement().getDomElement()
+      ).set({
+        from : 0,
+        to : 1,
+        modifyDisplay : true
+      });
+
+      this.__hideEffect = new qx.fx.effect.core.Fade(
+        this.__dialog.getContainerElement().getDomElement()
+      ).set({
+        from : 1,
+        to : 0,
+        modifyDisplay : true
+      });
+
+      this.__dialog.getContainerElement().getDomElement().style.display = "none";
     },
 
+    showDialog : function()
+    {
+      this.__showEffect.start();
+    },
+
+
+    hideDialog : function()
+    {
+      this.__hideEffect.start();
+    },
 
     _createView : function() 
     {
@@ -60,7 +94,7 @@ qx.Class.define("showcase.page.animation.Content",
       });
       this.__container.setLayout(layout);
 
-      view.add(this.__container, {left: 10, top: 30});
+      view.add(this.__container, {left: 50, top: 50});
 
       /* Labels */
       var labels = ["Name", "Password"];
@@ -78,31 +112,69 @@ qx.Class.define("showcase.page.animation.Content",
       this.__container.add(field1.set({
         allowShrinkX: false,
         paddingTop: 3
-      }), {row: 0, column : 1});
+      }), {row: 0, column : 1, colSpan : 2});
 
       this.__container.add(field2.set({
         allowShrinkX: false,
         paddingTop: 3
-      }), {row: 1, column : 1});
+      }), {row: 1, column : 1, colSpan : 2});
 
-      /* Button */
-      var button1 = this.__okButton =  new qx.ui.form.Button("Login");
-      button1.setAllowStretchX(false);
+      /* Buttons */
+      var okButton = this.__okButton =  new qx.ui.form.Button("OK");
+      var cancelButton = new qx.ui.form.Button("Cancel");
+
+      okButton.setAllowStretchX(false);
 
       this.__container.add(
-        button1,
+        okButton,
         {
           row : 3,
           column : 1
         }
       );
 
+      this.__container.add(
+        cancelButton,
+        {
+          row : 3,
+          column : 2
+        }
+      );
+
       /* Check input on click */
-      button1.addListener("execute", this.checkInput, this);
+      okButton.addListener("execute", this.checkInput, this);
 
-      /* Prepare effect as soon as the container is ready */
-      this.__container.addListener("appear", this.__prepareEffect, this);
+      /* Check input on click */
+      cancelButton.addListener("execute", this.showDialog, this);
 
+      this.__dialog = new qx.ui.groupbox.GroupBox().set({
+        contentPadding: 16,
+        width : 220
+      });
+      this.__dialog.setLayout(new qx.ui.layout.VBox(10));
+
+      /* Labels  */
+      var label1 = new qx.ui.basic.Label('<b "font-size:12pt;">Come on, log in!</b>');
+      var label2 = new qx.ui.basic.Label("You can not continue otherwise.");
+
+      label1.set({
+        rich : true
+      });
+
+      this.__dialog.add(label1);
+      this.__dialog.add(label2);
+
+      var tmp = new qx.ui.form.Button("OK, fine!");
+      tmp.setAllowStretchX(false);
+      this.__dialog.add(tmp);
+
+      /* Hide dialog on click */
+      tmp.addListener("execute", this.hideDialog, this);
+
+      view.add(this.__dialog, {top : 48, left : 40});
+
+      qx.ui.core.queue.Manager.flush();
+      this.__dialog.addListenerOnce("appear", this.__prepareEffect, this);
 
 
       return view;
