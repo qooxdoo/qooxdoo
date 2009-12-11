@@ -30,10 +30,8 @@ qx.Class.define("showcase.page.table.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
   
-  construct : function(page) 
-  {
+  construct : function(page) {
     this.base(arguments, page);
-    this.setView(this._createView());
   },
   
   
