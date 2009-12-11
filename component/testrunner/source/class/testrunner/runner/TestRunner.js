@@ -445,7 +445,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       }, this);
       levelMenu.add(errorButton);
       
-      var self = this;
       var logLevelIconConverter = function(data) {
         return logLevelData[data].icon;
       }
