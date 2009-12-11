@@ -76,6 +76,15 @@
     },
     
     
+    "build-files" :
+    {
+      "copy-files" :
+      {
+        "=files" : ["index.html", "blank.html"]
+      }
+    },
+    
+    
     "common-image" :
     {
       "let" :

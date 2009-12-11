@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/64/devices/*)
-#asset(qx/icon/${qx.icontheme}/64/actions/*)
+#asset(qx/icon/${qx.icontheme}/64/actions/object-flip-horizontal.png)
 
 ************************************************************************ */
 qx.Class.define("showcase.page.dragdrop.Content",

@@ -20,14 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/actions/format-*.png)
-#asset(qx/icon/Oxygen/16/actions/edit-*.png)
-#asset(qx/icon/Oxygen/16/actions/insert-image.png)
-#asset(qx/icon/Oxygen/16/actions/insert-table.png)
-#asset(qx/icon/Oxygen/16/actions/insert-link.png)
-#asset(qx/icon/Oxygen/16/actions/insert-text.png)
-#asset(qx/icon/Oxygen/16/actions/insert-horizontal-rule.png)
-#asset(showcase/htmleditor/*)
+#asset(qx/icon/${qx.icontheme}/16/actions/format-*.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-*.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/insert-image.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/insert-table.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/insert-link.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/insert-text.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/insert-horizontal-rule.png)
 
 ************************************************************************ */
 qx.Class.define("showcase.page.htmleditor.Content",
@@ -292,23 +291,23 @@ qx.Class.define("showcase.page.htmleditor.Content",
     {
       return [
         {
-          bold:                { text: "Format Bold", image: "qx/icon/Oxygen/16/actions/format-text-bold.png", action: this.__htmlArea.setBold },
-          italic:              { text: "Format Italic", image: "qx/icon/Oxygen/16/actions/format-text-italic.png", action: this.__htmlArea.setItalic },
-          underline:           { text: "Format Underline", image: "qx/icon/Oxygen/16/actions/format-text-underline.png", action: this.__htmlArea.setUnderline },
-          strikethrough:       { text: "Format Strikethrough", image: "qx/icon/Oxygen/16/actions/format-text-strikethrough.png", action: this.__htmlArea.setStrikeThrough },
-          removeFormat:        { text: "Remove Format", image: "qx/icon/Oxygen/16/actions/edit-clear.png", action: this.__htmlArea.removeFormat }
+          bold:                { text: "Format Bold", image: "icon/16/actions/format-text-bold.png", action: this.__htmlArea.setBold },
+          italic:              { text: "Format Italic", image: "icon/16/actions/format-text-italic.png", action: this.__htmlArea.setItalic },
+          underline:           { text: "Format Underline", image: "icon/16/actions/format-text-underline.png", action: this.__htmlArea.setUnderline },
+          strikethrough:       { text: "Format Strikethrough", image: "icon/16/actions/format-text-strikethrough.png", action: this.__htmlArea.setStrikeThrough },
+          removeFormat:        { text: "Remove Format", image: "icon/16/actions/edit-clear.png", action: this.__htmlArea.removeFormat }
         },
         
         {
-          alignLeft:           { text: "Align Left", image: "qx/icon/Oxygen/16/actions/format-justify-left.png", action: this.__htmlArea.setJustifyLeft },
-          alignCenter:         { text: "Align Center", image: "qx/icon/Oxygen/16/actions/format-justify-center.png", action: this.__htmlArea.setJustifyCenter },
-          alignRight:          { text: "Align Right", image: "qx/icon/Oxygen/16/actions/format-justify-right.png", action: this.__htmlArea.setJustifyRight },
-          alignJustify:        { text: "Align Justify", image: "qx/icon/Oxygen/16/actions/format-justify-fill.png", action: this.__htmlArea.setJustifyFull }
+          alignLeft:           { text: "Align Left", image: "icon/16/actions/format-justify-left.png", action: this.__htmlArea.setJustifyLeft },
+          alignCenter:         { text: "Align Center", image: "icon/16/actions/format-justify-center.png", action: this.__htmlArea.setJustifyCenter },
+          alignRight:          { text: "Align Right", image: "icon/16/actions/format-justify-right.png", action: this.__htmlArea.setJustifyRight },
+          alignJustify:        { text: "Align Justify", image: "icon/16/actions/format-justify-fill.png", action: this.__htmlArea.setJustifyFull }
         },
           
         {
-          indent:              { text: "Indent More", image: "qx/icon/Oxygen/16/actions/format-indent-more.png", action: this.__htmlArea.insertIndent },
-          outdent:             { text: "Indent Less", image: "qx/icon/Oxygen/16/actions/format-indent-less.png", action: this.__htmlArea.insertOutdent }
+          indent:              { text: "Indent More", image: "icon/16/actions/format-indent-more.png", action: this.__htmlArea.insertIndent },
+          outdent:             { text: "Indent Less", image: "icon/16/actions/format-indent-less.png", action: this.__htmlArea.insertOutdent }
         },
         
         {
@@ -317,8 +316,8 @@ qx.Class.define("showcase.page.htmleditor.Content",
         },
         
         {
-          undo:                { text: "Undo Last Change", image: "qx/icon/Oxygen/16/actions/edit-undo.png", action: this.__htmlArea.undo },
-          redo:                { text: "Redo Last Undo Step", image: "qx/icon/Oxygen/16/actions/edit-redo.png", action: this.__htmlArea.redo }
+          undo:                { text: "Undo Last Change", image: "icon/16/actions/edit-undo.png", action: this.__htmlArea.undo },
+          redo:                { text: "Redo Last Undo Step", image: "icon/16/actions/edit-redo.png", action: this.__htmlArea.redo }
         }
       ];
     },
