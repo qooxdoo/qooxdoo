@@ -11,126 +11,125 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: showcase/page/i18n/Content.js:97
+#: showcase/page/i18n/Content.js:128
 msgid "Form Elements"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:107
-msgid "Choose a locale:"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:133
-msgid "Localized ComboBox:"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:136 showcase/page/i18n/Content.js:171
-msgid "Cut"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:137 showcase/page/i18n/Content.js:173
-msgid "Paste"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:138 showcase/page/i18n/Content.js:172
-msgid "Copy"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:145
-msgid "A date:"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:168
-msgid "Undo"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:169
-msgid "Redo"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:174
-msgid "Delete"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:175
-msgid "Select All"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:177
-msgid "Search"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:178
-msgid "Search Again"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:180
-msgid "Command Menu (keyboard shortcuts)"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:189
-msgid "Locale Information"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:222
-msgid "Locale:"
-msgstr ""
-
-#: showcase/page/i18n/Content.js:225
+#: showcase/page/i18n/Content.js:134 showcase/page/i18n/Content.js:236
 msgid "Territory code:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:228
-msgid "Date format short:"
+#: showcase/page/i18n/Content.js:144
+msgid "Localized ComboBox:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:230
-msgid "Date short:"
+#: showcase/page/i18n/Content.js:147 showcase/page/i18n/Content.js:182
+msgid "Cut"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:148 showcase/page/i18n/Content.js:184
+msgid "Paste"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:149 showcase/page/i18n/Content.js:183
+msgid "Copy"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:156
+msgid "A date:"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:179
+msgid "Undo"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:180
+msgid "Redo"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:185
+msgid "Delete"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:186
+msgid "Select All"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:188
+msgid "Search"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:189
+msgid "Search Again"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:191
+msgid "Command Menu (keyboard shortcuts)"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:200
+msgid "Locale Information"
 msgstr ""
 
 #: showcase/page/i18n/Content.js:233
+msgid "Locale:"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:239
+msgid "Date format short:"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:241
+msgid "Date short:"
+msgstr ""
+
+#: showcase/page/i18n/Content.js:244
 msgid "Date format medium:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:235
+#: showcase/page/i18n/Content.js:246
 msgid "Date medium:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:238
+#: showcase/page/i18n/Content.js:249
 msgid "Date format long:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:240
+#: showcase/page/i18n/Content.js:251
 msgid "Date long:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:243
+#: showcase/page/i18n/Content.js:254
 msgid "Date format full:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:245
+#: showcase/page/i18n/Content.js:256
 msgid "Date full:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:248
+#: showcase/page/i18n/Content.js:259
 msgid "Time format short:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:250
+#: showcase/page/i18n/Content.js:261
 msgid "Time short:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:253
+#: showcase/page/i18n/Content.js:264
 msgid "Time format long:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:255
+#: showcase/page/i18n/Content.js:266
 msgid "Time long:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:258
+#: showcase/page/i18n/Content.js:269
 msgid "Week start:"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:261
+#: showcase/page/i18n/Content.js:272
 msgid "Format of %1:"
 msgstr ""
+
+#~ msgid "Choose a locale:"
+#~ msgstr ""
