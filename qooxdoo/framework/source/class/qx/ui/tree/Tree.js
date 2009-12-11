@@ -486,7 +486,7 @@ qx.Class.define("qx.ui.tree.Tree",
       // for every selected folder
       for (var i = 0; i < selection.length; i++) {
         var folder = selection[i];
-        // go up all poarents and open them
+        // go up all parents and open them
         while (folder.getParent() != null) {
           folder = folder.getParent();
           folder.setOpen(true);
