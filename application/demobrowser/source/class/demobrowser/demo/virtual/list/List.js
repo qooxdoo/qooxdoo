@@ -44,7 +44,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     this.__selectionManager.attachKeyEvents(this);
     this.__selectionManager.attachListEvents(this);
 
-    var prefetch = new qx.ui.virtual.behavior.Prefetch(
+    // Creates the prefetch behavior
+    new qx.ui.virtual.behavior.Prefetch(
       this,
       0, 0, 0, 0,
       400, 600, 400, 600

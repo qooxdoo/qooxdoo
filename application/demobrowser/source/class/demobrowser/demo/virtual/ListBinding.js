@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       this.getRoot().add(selectedList, {left: 500, top: 10});
 
       // create a controller for the selection
-      var selectedController = new qx.ui.virtual.form.ListController(
+      new qx.ui.virtual.form.ListController(
         controller.getSelection(), selectedList
       );
 
@@ -90,7 +90,9 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       });
 
       var buddyModel = demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200);
-      var buddyController = new qx.ui.virtual.form.ListController(buddyModel, buddyList);
+
+      // create a controller
+      new qx.ui.virtual.form.ListController(buddyModel, buddyList);
 
       this.getRoot().add(buddyList, {left: 10, top: 320});
     }

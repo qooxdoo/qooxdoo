@@ -47,9 +47,6 @@ qx.Class.define("demobrowser.demo.test.Destructor",
       this.__timer = new qx.event.Timer(1000);
       this.__timer.addListener("interval", this.runTest, this);
       this.__timer.start();
-
-      // Make global for demo use
-      timer = this.__timer;
     },
 
     runTest : function()
