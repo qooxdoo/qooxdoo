@@ -50,7 +50,7 @@ CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --sa
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = feedreader portal playground demobrowser
+APPLICATIONS = feedreader portal playground demobrowser showcase
 COMPONENTS = apiviewer testrunner inspector
 FRAMEWORK_TARGETS = api test
 
@@ -62,7 +62,7 @@ FRAMEWORK_TARGETS = api test
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer showcase release-sdk-svn-collect release-sdk-archive
 
 release-sdk-info:
 	@echo
@@ -83,6 +83,7 @@ release-sdk-svn-collect:
 	@echo "  * Synchronizing components..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/buildtool/
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/toolbox/
+	@$(CMD_REMOVE) $(RELEASE_SDK)/application/performance/
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
@@ -120,6 +121,23 @@ exec-apiviewer-build:
 
 
 ################################################################################
+# SHOWCASE TARGETS
+################################################################################
+
+info-showcase:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING SHOWCASE"
+	@echo "****************************************************************************"
+
+
+showcase: info-showcase exec-showcase-build
+
+exec-showcase-build:
+	@time ( cd application/showcase && $(CMD_GENERATOR) build ) || exit 1
+  
+  
+################################################################################
 # INSPECTOR TARGETS
 ################################################################################
 
@@ -130,7 +148,7 @@ info-inspector:
 	@echo "****************************************************************************"
 
 
-inspector: exec-inspector-build
+inspector: info-inspector exec-inspector-build
 
 exec-inspector-build:
 	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
