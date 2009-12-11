@@ -44,6 +44,11 @@
         "qx.aspects" : ["off"]
       },
 
+      "settings" :
+      {
+        "qx.globalErrorHandling" : "off"
+      },
+
       "compile-options" :
       {
         "paths" :
