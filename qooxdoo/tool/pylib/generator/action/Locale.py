@@ -271,14 +271,6 @@ class Locale:
                             potentry.msgstr_plural[pos] = otherentry.msgstr_plural[pos]
             return
 
-        # ----------------------------------------------------------------------
-        # Generate POT file to filter PO files
-        self._console.debug("Compiling filter...")
-        pot = self.getPotFile(classList, variants)  # pot file for this package
-
-        if len(pot) == 0:
-            return {}
-
         # Find all influenced namespaces
         libnames = {}
         for classId in classList:
@@ -300,6 +292,14 @@ class Locale:
         blocks = {}
         # loop through locales
         for locale in PoFiles:
+            # ----------------------------------------------------------------------
+            # Generate POT file to filter PO files
+            self._console.debug("Compiling filter...")
+            pot = self.getPotFile(classList, variants)  # pot file for this package
+
+            if len(pot) == 0:
+                return {}
+                
             self._console.debug("Processing translation: %s" % locale)
             self._console.indent()
 
