@@ -278,6 +278,10 @@ qx.Class.define("qx.ui.form.ComboBox",
           label = this.getFormat().call(this, this.__preSelectedItem);
         }
 
+        // check for translation
+        if (label && label.translate) {
+          label = label.translate();
+        }
         this.setValue(label);
         this.__preSelectedItem = null;
       }
@@ -305,6 +309,10 @@ qx.Class.define("qx.ui.form.ComboBox",
             label = this.getFormat().call(this, current[0]);
           }
 
+          // check for translation
+          if (label && label.translate) {
+            label = label.translate();
+          }
           this.setValue(label);
           this.__preSelectedItem = null;
         }
