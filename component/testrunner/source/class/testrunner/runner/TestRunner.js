@@ -187,7 +187,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     logLevel :
     {
       check : ["debug", "info", "warn", "error"],
-      init  : "debug"
+      init  : "debug",
+      event : "changeLogLevel",
+      apply : "_applyLogLevel"
     },
 
     currentTest :
@@ -367,38 +369,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.reloadswitch.setToolTipText(this.tr("Always reload application under test before testing"));
 
       // -- log level menu
-      this.levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
-      var levelMenu = new qx.ui.menu.Menu;
-
-      var debugButton = new qx.ui.menu.Button("Debug", "icon/22/categories/system.png");
-      debugButton.addListener("execute", function(e){
-        this.setLogLevel("debug");
-        this.levelbox.setIcon(e.getTarget().getIcon());
-      }, this);
-      levelMenu.add(debugButton);
-
-      var infoButton = new qx.ui.menu.Button("Information", "icon/22/status/dialog-information.png");
-      infoButton.addListener("execute", function(e){
-        this.setLogLevel("info");
-        this.levelbox.setIcon(e.getTarget().getIcon());
-      }, this);
-      levelMenu.add(infoButton);
-
-      var warnButton = new qx.ui.menu.Button("Warning", "icon/22/status/dialog-warning.png");
-      warnButton.addListener("execute", function(e){
-        this.setLogLevel("warn");
-        this.levelbox.setIcon(e.getTarget().getIcon());
-      }, this);
-      levelMenu.add(warnButton);
-
-      var errorButton = new qx.ui.menu.Button("Error", "icon/22/status/dialog-error.png");
-      errorButton.addListener("execute", function(e){
-        this.setLogLevel("error");
-        this.levelbox.setIcon(e.getTarget().getIcon());
-      }, this);
-      levelMenu.add(errorButton);
-
-      this.levelbox.setMenu(levelMenu);
+      this.levelbox = this.__createLogLevelMenu();
 
       part3.add(this.levelbox);
 
@@ -414,6 +385,76 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       return toolbar;
     },  // makeToolbar
+    
+    /**
+     * TODOC
+     *
+     * @return {var} TODOC
+     */
+    __createLogLevelMenu : function()
+    {
+      var logLevelData = {
+        debug :
+        {
+          label : "Debug",
+          icon : "icon/22/categories/system.png"
+        },
+        info :
+        {
+          label : "Information",
+          icon : "icon/22/status/dialog-information.png"
+        },
+        warn :
+        {
+          label : "Warning",
+          icon : "icon/22/status/dialog-warning.png"
+        },
+        error :
+        {
+          label : "Error",
+          icon : "icon/22/status/dialog-error.png"
+        }
+      };
+      
+      var levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
+      var levelMenu = new qx.ui.menu.Menu();
+      levelbox.setMenu(levelMenu);
+      
+      var debugButton = new qx.ui.menu.Button(logLevelData.debug.label, logLevelData.debug.icon);
+      debugButton.setFont("bold");
+      debugButton.addListener("execute", function(e){
+        this.setLogLevel("debug");
+      }, this);
+      levelMenu.add(debugButton);
+
+      var infoButton = new qx.ui.menu.Button(logLevelData.info.label, logLevelData.info.icon);
+      infoButton.addListener("execute", function(e){
+        this.setLogLevel("info");
+      }, this);
+      levelMenu.add(infoButton);
+
+      var warnButton = new qx.ui.menu.Button(logLevelData.warn.label, logLevelData.warn.icon);
+      warnButton.addListener("execute", function(e){
+        this.setLogLevel("warn");
+      }, this);
+      levelMenu.add(warnButton);
+
+      var errorButton = new qx.ui.menu.Button(logLevelData.error.label, logLevelData.error.icon);
+      errorButton.addListener("execute", function(e){
+        this.setLogLevel("error");
+      }, this);
+      levelMenu.add(errorButton);
+      
+      var self = this;
+      var logLevelIconConverter = function(data) {
+        return logLevelData[data].icon;
+      }
+      
+      var logLevelController = new qx.data.controller.Object(this);
+      logLevelController.addTarget(levelbox, "icon", "logLevel", false, {converter: logLevelIconConverter});
+
+      return levelbox;
+    },
 
 
     /**
@@ -1532,6 +1573,18 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
         logger.unregister(this.logappender);
+      }
+    },
+    
+    _applyLogLevel : function(value, old)
+    {
+      var menuButtons = this.levelbox.getMenu().getChildren();
+      for (var i=0,l=menuButtons.length; i<l; i++) {
+        if (menuButtons[i].getLabel().toLowerCase().indexOf(value) >= 0) {
+          menuButtons[i].setFont("bold");
+        } else {
+          menuButtons[i].setFont("default");
+        }
       }
     },
 
