@@ -183,7 +183,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      *
      * @param child {LayoutItem} the widget to remove
      */
-    remove : function(child) {
+    remove : function(child) 
+    {
       this.__radioGroup.remove(child);
       this._remove(child);
     },
@@ -192,11 +193,12 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Remove all children.
      */
-    removeAll : function() {
+    removeAll : function() 
+    {
       // remove all children from the radio group
       var radioItems = this.__radioGroup.getItems();
       for (var i = 0; i < radioItems.length; i++) {
-        this.__radioGroup.removeAll(radioItems[i]);
+        this.__radioGroup.remove(radioItems[i]);
       }
 
       this._removeAll();
