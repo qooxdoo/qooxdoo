@@ -68,6 +68,7 @@ qx.Theme.define("showcase.theme.Appearance",
         return {
           textColor: states.selected ? "#444444" : "#F3FFD1",
           padding: [6, 15],
+          height: 35,
           decorator: states.selected ? "group" : null,
           font: qx.bom.Font.fromConfig({
             size: 20,
