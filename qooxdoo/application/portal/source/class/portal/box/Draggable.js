@@ -250,6 +250,6 @@ qx.Class.define("portal.box.Draggable",
    *    DESTRUCT
    * ******************************************************/
   destruct : function() {
-    this.__box = this.__handle = this.__element = null;
+    this.__box = this.__handle = this.__element = this.__offsets = null;
   }
 });

@@ -411,6 +411,7 @@ qx.Class.define("portal.box.Resizable",
     }
 
     this.__box = this.__options = this.__element = this.__handles = 
-      this.__capturedElement = this.___elementProperties = null;
+      this.__capturedElement = this.___elementProperties = 
+      this.__mouseMoveData = this.__elementProperties = null;
   }
 });
