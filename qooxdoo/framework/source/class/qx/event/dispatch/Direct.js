@@ -97,7 +97,7 @@ qx.Class.define("qx.event.dispatch.Direct",
           if (!expectedEventClass) 
           {
             this.error(
-              "The event type '" + type + "' declared ind the class '" +
+              "The event type '" + type + "' declared in the class '" +
               target.constructor + " is not an available class': " +
               expectedEventClassName
             );
