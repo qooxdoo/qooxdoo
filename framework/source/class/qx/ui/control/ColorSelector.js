@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
-          control.addListener("mouseup", this._onHueSaturationPaneMouseWheel, this);
+          control.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
           control.add(this.getChildControl("hue-saturation-field"));
           control.add(this.getChildControl("hue-saturation-handle"), {left: 0, top: 256});
           break;
@@ -876,8 +876,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationHandleMouseUp : function(e)
     {
       // Disabling capturing
-      this.getChildControl("hue-saturation-handle").releaseCapture();
-      this.__capture = null;
+      if (this.__capture) 
+      {
+        e.stopPropagation();
+        this.getChildControl("hue-saturation-handle").releaseCapture();
+        this.__capture = null;
+      }
     },
 
 
