@@ -563,6 +563,7 @@ qx.Class.define("feedreader.Application",
     this.__commands = null;
     this._disposeObjects("__toolBarView", "__listView", "__articleView", "__treeView",
         "__feedFolder", "__horizontalSplitPane", "__verticalSplitPane", "__header",
-        "__staticFeedFolder", "__userFeedFolder", "__treeController", "__listController");
+        "__staticFeedFolder", "__userFeedFolder", "__treeController", "__listController",
+        "__prefWindow", "__addFeedWindow");
   }
 });
