@@ -63,7 +63,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/widget/canvas' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/1.0/widget/canvas' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.embed.Canvas",

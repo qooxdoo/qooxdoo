@@ -55,6 +55,6 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/widget/table' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/1.0/widget/table' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
