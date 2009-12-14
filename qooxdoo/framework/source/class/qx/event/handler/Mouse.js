@@ -180,7 +180,7 @@ qx.Class.define("qx.event.handler.Mouse",
         qx.event.Registration.fireEvent(
           target,
           type||domEvent.type,
-          qx.event.type.Mouse,
+          type == "mousewheel" ? qx.event.type.MouseWheel : qx.event.type.Mouse,
           [domEvent, target, null, true, true]
         );
       }

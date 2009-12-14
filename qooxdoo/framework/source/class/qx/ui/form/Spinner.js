@@ -645,8 +645,7 @@ qx.Class.define("qx.ui.form.Spinner",
         this._countUp();
       }
 
-      e.stopPropagation();
-      e.preventDefault();
+      e.stop();
     },
 
 
