@@ -227,7 +227,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Debug flags, composed of the bitmask values in {@link #DebugFlags}.
+     * Debug flags, composed of the bitmask values in DebugFlags constant.
      *
      * Set the debug flags from the application by or-ing together bits, akin
      * to this:
