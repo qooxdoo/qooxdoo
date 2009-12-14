@@ -319,33 +319,27 @@ msgstr "Nächster Monat"
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
-#: qx/ui/table/Table.js:1753
+#: qx/ui/table/Table.js:1778
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: qx/ui/table/Table.js:1755
+#: qx/ui/table/Table.js:1780
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
 msgstr[1] "%1 von %2 Zeilen"
 
-#: qx/ui/table/columnmodel/Resize.js:214
+#: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
 msgstr "Spaltenbreite zurücksetzen"
-
-#~ msgid "Choose a date"
-#~ msgstr "Datum auswählen"
 
 #~ msgid "Case sensitive"
 #~ msgstr "Groß-/Kleinschreibung"
 
-#~ msgid "Search next occurrence"
-#~ msgstr "Weiter suchen"
-
-#~ msgid "Search items in list"
-#~ msgstr "Liste durchsuchen"
+#~ msgid "Choose a date"
+#~ msgstr "Datum auswählen"
 
 #~ msgid "Description"
 #~ msgstr "Beschreibung"
@@ -355,3 +349,9 @@ msgstr "Spaltenbreite zurücksetzen"
 
 #~ msgid "Search"
 #~ msgstr "Suchen"
+
+#~ msgid "Search items in list"
+#~ msgstr "Liste durchsuchen"
+
+#~ msgid "Search next occurrence"
+#~ msgstr "Weiter suchen"

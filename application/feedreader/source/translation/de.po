@@ -20,7 +20,7 @@ msgstr "Vordefinierte Quellen"
 msgid "User Feeds"
 msgstr "Eigene Quellen"
 
-#: feedreader/Application.js:530
+#: feedreader/Application.js:526
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -56,10 +56,6 @@ msgstr "Bitte geben Sie eine URL an."
 msgid "Posts"
 msgstr "Nachrichten"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:87
-msgid "Preferences"
-msgstr "Einstellungen"
-
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Sprache"
@@ -87,6 +83,10 @@ msgstr "Neu laden"
 #: feedreader/view/ToolBar.js:78
 msgid "Reload the feeds. (%1)"
 msgstr "Feeds neu laden. (%1)"
+
+#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+msgid "Preferences"
+msgstr "Einstellungen"
 
 #: feedreader/view/ToolBar.js:89
 msgid "Open preferences window."

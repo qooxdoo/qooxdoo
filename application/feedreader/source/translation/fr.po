@@ -21,7 +21,7 @@ msgstr "Fils statiques"
 msgid "User Feeds"
 msgstr "Fils de l'utilisateur"
 
-#: feedreader/Application.js:530
+#: feedreader/Application.js:526
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
@@ -57,10 +57,6 @@ msgstr "S'il-vous-plaît, entrez une url."
 msgid "Posts"
 msgstr "Messages"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:87
-msgid "Preferences"
-msgstr "Préférences"
-
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Langue"
@@ -88,6 +84,10 @@ msgstr "Rafraichir"
 #: feedreader/view/ToolBar.js:78
 msgid "Reload the feeds. (%1)"
 msgstr "Rafraichir les fils. (%1)"
+
+#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+msgid "Preferences"
+msgstr "Préférences"
 
 #: feedreader/view/ToolBar.js:89
 msgid "Open preferences window."

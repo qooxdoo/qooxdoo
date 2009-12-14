@@ -15,78 +15,94 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: playground/Application.js:314
-msgid "Source Code"
-msgstr "Quelltext"
-
-#: playground/Application.js:444
-msgid "%1 (modified)"
-msgstr "%1 (geändert)"
-
-#: playground/Application.js:488
-msgid "Starting application"
-msgstr "Starte Anwendung"
-
-#: playground/Application.js:490
-msgid "Successfully started"
-msgstr "Anwendung gestartet"
-
-#: playground/Application.js:510
+#: playground/Application.js:72
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"
 msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten, der nicht abgefangen werden konnte. Die Playground-Anwendung muss neu gestartet werden.||Bitte kopieren Sie Ihren Quelltext in die Zwischenablage,|und fügen Sie diesen nach einem Neustart des Playgrounds wieder ein.||"
 
-#: playground/Application.js:572
+#: playground/Application.js:205
+msgid "Custom Code"
+msgstr ""
+
+#: playground/Application.js:214
+msgid "Unreadable Custom Code"
+msgstr ""
+
+#: playground/Application.js:217
+msgid " Your browser has a length restriction of the URL parameter which could have caused the problem."
+msgstr ""
+
+#: playground/Application.js:344
+msgid "Source Code"
+msgstr "Quelltext"
+
+#: playground/Application.js:490
+msgid "%1 (modified)"
+msgstr "%1 (geändert)"
+
+#: playground/Application.js:542
+msgid "Starting application"
+msgstr "Starte Anwendung"
+
+#: playground/Application.js:546
+msgid "Successfully started"
+msgstr "Anwendung gestartet"
+
+#: playground/Application.js:687
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr "Der Quelltext des aktuellen Beispiels wurde verändert.|Bitte wählen Sie OK, um die Änderungen zu verwerfen."
 
-#: playground/Application.js:742 playground/Application.js:852
+#: playground/Application.js:735
+msgid "Could not save your code in the url because it is too much code. Do you want to ignore it?"
+msgstr ""
+
+#: playground/Application.js:863 playground/Application.js:973
 msgid "Log"
 msgstr "Log"
 
-#: playground/Application.js:795
+#: playground/Application.js:916
 msgid "Playground"
 msgstr "Playground"
 
-#: playground/Application.js:798
+#: playground/Application.js:919
 msgid "qooxdoo %1"
 msgstr "qooxdoo %1"
 
-#: playground/Application.js:822
+#: playground/Application.js:943
 msgid "Run"
 msgstr "Ausführen"
 
-#: playground/Application.js:826
+#: playground/Application.js:947
 msgid "Run the source code"
 msgstr "Den Quelltext ausführen"
 
-#: playground/Application.js:829
+#: playground/Application.js:950
 msgid "Samples"
 msgstr "Beispiele"
 
-#: playground/Application.js:832
+#: playground/Application.js:953
 msgid "Select a sample"
 msgstr "Wählen Sie ein Beispiel aus"
 
-#: playground/Application.js:835
+#: playground/Application.js:956
 msgid "Syntax Highlighting"
 msgstr "Syntax Highlighting"
 
-#: playground/Application.js:855
+#: playground/Application.js:976
 msgid "Show log output"
 msgstr "Logausgaben anzeigen"
 
-#: playground/Application.js:858
+#: playground/Application.js:979
 msgid "API Viewer"
 msgstr "API Viewer"
 
-#: playground/Application.js:861
+#: playground/Application.js:982
 msgid "Open the qooxdoo API Viewer"
 msgstr "Öffnet den API-Viewer"
 
-#: playground/Application.js:864
+#: playground/Application.js:985
 msgid "Manual"
 msgstr "Handbuch"
 
-#: playground/Application.js:867
+#: playground/Application.js:988
 msgid "Open the qooxdoo Manual"
 msgstr "Öffnet das Handbuch"

@@ -317,33 +317,27 @@ msgstr "Volgende maand"
 msgid "Next year"
 msgstr "Volgend jaar"
 
-#: qx/ui/table/Table.js:1753
+#: qx/ui/table/Table.js:1778
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "een rij"
 msgstr[1] "%1 rijen"
 
-#: qx/ui/table/Table.js:1755
+#: qx/ui/table/Table.js:1780
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Een van een rij"
 msgstr[1] "%1 van %2 rijen"
 
-#: qx/ui/table/columnmodel/Resize.js:214
+#: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
 msgstr "Kolombreedte herstellen"
-
-#~ msgid "Choose a date"
-#~ msgstr "Datum kiezen"
 
 #~ msgid "Case sensitive"
 #~ msgstr "Hoofdlettergevoelig"
 
-#~ msgid "Search next occurrence"
-#~ msgstr "Verder zoeken"
-
-#~ msgid "Search items in list"
-#~ msgstr "Lijst doorzoeken"
+#~ msgid "Choose a date"
+#~ msgstr "Datum kiezen"
 
 #~ msgid "Description"
 #~ msgstr "Beschrijving"
@@ -353,3 +347,9 @@ msgstr "Kolombreedte herstellen"
 
 #~ msgid "Search"
 #~ msgstr "Zoeken"
+
+#~ msgid "Search items in list"
+#~ msgstr "Lijst doorzoeken"
+
+#~ msgid "Search next occurrence"
+#~ msgstr "Verder zoeken"

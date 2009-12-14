@@ -22,7 +22,7 @@ msgstr "Feeds Estáticos"
 msgid "User Feeds"
 msgstr "Feeds del Usuario"
 
-#: feedreader/Application.js:530
+#: feedreader/Application.js:526
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -58,10 +58,6 @@ msgstr "Por favor ingrese una url"
 msgid "Posts"
 msgstr "Posts"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:87
-msgid "Preferences"
-msgstr "Preferencias"
-
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Lenguaje"
@@ -89,6 +85,10 @@ msgstr "Actualizar"
 #: feedreader/view/ToolBar.js:78
 msgid "Reload the feeds. (%1)"
 msgstr "Recargar los feeds (%1)"
+
+#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+msgid "Preferences"
+msgstr "Preferencias"
 
 #: feedreader/view/ToolBar.js:89
 msgid "Open preferences window."

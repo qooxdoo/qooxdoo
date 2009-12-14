@@ -21,7 +21,7 @@ msgstr ""
 msgid "User Feeds"
 msgstr ""
 
-#: feedreader/Application.js:530
+#: feedreader/Application.js:526
 msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
@@ -57,10 +57,6 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:87
-msgid "Preferences"
-msgstr ""
-
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr ""
@@ -87,6 +83,10 @@ msgstr ""
 
 #: feedreader/view/ToolBar.js:78
 msgid "Reload the feeds. (%1)"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+msgid "Preferences"
 msgstr ""
 
 #: feedreader/view/ToolBar.js:89

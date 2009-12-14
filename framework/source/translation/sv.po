@@ -317,33 +317,27 @@ msgstr "Nästa månad"
 msgid "Next year"
 msgstr "Nästa år"
 
-#: qx/ui/table/Table.js:1753
+#: qx/ui/table/Table.js:1778
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "En rad"
 msgstr[1] "%1 rader"
 
-#: qx/ui/table/Table.js:1755
+#: qx/ui/table/Table.js:1780
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "en av en rad"
 msgstr[1] "%1 of %2 rader"
 
-#: qx/ui/table/columnmodel/Resize.js:214
+#: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
 msgstr "Återställ kolumnbredder"
-
-#~ msgid "Choose a date"
-#~ msgstr "Välj ett datum"
 
 #~ msgid "Case sensitive"
 #~ msgstr "Versalkänslig"
 
-#~ msgid "Search next occurrence"
-#~ msgstr "Sök nästa förekomst"
-
-#~ msgid "Search items in list"
-#~ msgstr "Sök artiklar i en lista"
+#~ msgid "Choose a date"
+#~ msgstr "Välj ett datum"
 
 #~ msgid "Description"
 #~ msgstr "Beskrivning"
@@ -353,3 +347,9 @@ msgstr "Återställ kolumnbredder"
 
 #~ msgid "Search"
 #~ msgstr "Sök"
+
+#~ msgid "Search items in list"
+#~ msgstr "Sök artiklar i en lista"
+
+#~ msgid "Search next occurrence"
+#~ msgstr "Sök nästa förekomst"
