@@ -52,7 +52,7 @@ qx.Class.define("showcase.page.theme.Page",
   {
     __descriptionText : 
       "qooxdoo provides a powerful theming system built on a custom JSON-like " +
-      "declarative syntax. Unlike CSS this syntax doesn't have any cross " +
+      "syntax. Unlike CSS this syntax doesn't have any cross " +
       "browser issues and allows styling of any widget property. It is " +
       "possible to create entirely different themes without touching the " +
       "application code." +
@@ -60,8 +60,8 @@ qx.Class.define("showcase.page.theme.Page",
       "and UI code and differ only in their theme.",
     
     __features : {
-      "States" : "Widgets can have states like <code>selected</code> or " + 
-        "<code>hovered</code>, which can be used by the theme to style the widgets.",
+      "States" : "Widgets can have states like \"selected\" or " + 
+        "\"hovered\", which can be used by the theme to style the widgets.",
       "Decorators" : "Any HTML code can be used to style the background of a " + 
         "widget independent of its content. Qooxdoo comes with a rich set of " +
         "pre-defined decorators."

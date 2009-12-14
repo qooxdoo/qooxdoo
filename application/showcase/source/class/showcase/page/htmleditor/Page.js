@@ -32,12 +32,12 @@ qx.Class.define("showcase.page.htmleditor.Page",
   {
     this.base(arguments);
     this.set({
-      name: "HTML Editor",
+      name: "HTML Area",
       part: "htmleditor",
       icon: "showcase/htmleditor/icon.png",
       contentClass: "showcase.page.htmleditor.Content",
       description: showcase.page.DescriptionBuilder.build(
-        "HTML Editor",
+        "HTML Area",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
@@ -51,10 +51,10 @@ qx.Class.define("showcase.page.htmleditor.Page",
   
   members :
   {
-    __descriptionText : "The HtmlArea provides basic cross-browser HTML " +
-    "capabilities and is available both as a low-level component and as a " +
-    "widget. It offers events, allowing easy implementation of a toolbar " +
-    "supplement. The UI controls of this toolbar are used to easily interact " +
+    __descriptionText : "The HtmlArea, here embedded in an editor window, provides basic" +
+    " cross-browser HTML editing capabilities and is available both as a low-level component" +
+    " and as a widget. It offers events, allowing easy implementation of a toolbar " +
+    "supplement. The UI controls of the toolbar can be used to interact " +
     "with the HTML editing component.",
       
     __tryThis : {

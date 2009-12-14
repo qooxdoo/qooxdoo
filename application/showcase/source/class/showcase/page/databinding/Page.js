@@ -57,13 +57,13 @@ qx.Class.define("showcase.page.databinding.Page",
     "selected tweet in the detail view right beside the list.",
       
     __tryThis : {
-      "Master Detail" : "Clicking a tweet in the list shows the details.",
-      "Friends" : "The friends button displays the list of followers.",
-      "Configure" : "Enter your twitter username to see your recent tweets."      
+      "Detail View" : "Clicking a tweet in the list shows the details.",
+      "Friends" : "The friends button displays the list of followers (Requires credentials).",
+      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\", to see your recent tweets."      
     },
     
     __features : {
-      "Loading Data" : "The data is loaded from twitter via JSONP.",
+      "Loading Data" : "The data is loaded from twitter in real time via JSONP.",
       "Binding" : "A binding connects the model to the list view."
     },
     

@@ -52,11 +52,10 @@ qx.Class.define("showcase.page.i18n.Page",
   members :
   {
     __descriptionText : 
-      'I18N stands for <em>"Internationalization"</em>, a word that starts with' +
-      ' an "I" and ends with an "N" and has roughly 18 characters in between. ' +
-      "It's all about making a system support different natural languages and" +
+      'Internationalization (or \"I18N\" for short) is all about making' +
+      " a system support different natural languages and" +
       " locales in its user interface. qooxdoo has full translation support " +
-      "and knows the locale information of virtually every country in the world.",
+      "and comprises locale information of virtually every country in the world.",
       
     __tryThis : {
       "Change the language": 
@@ -68,7 +67,7 @@ qx.Class.define("showcase.page.i18n.Page",
         "The country code defines things like date or number formats. Try " +
         "changing the country code from <em>United States</em> to " +
         "<em>Great Britain</em>. You will see that e.g. the start of the week " +
-        "changes from sunday to monday.",
+        "changes from Sunday to Monday.",
       "Open the command menu":
         "The command menu button in the lower left opens a popup menu. Even the " +
         "keyboard shortcuts are localized."
@@ -77,15 +76,15 @@ qx.Class.define("showcase.page.i18n.Page",
     __features : {
       "Standards based translation" : 
         "Translation data is extracted into standard <em>.po</em> " +
-      	"files, which are used by the <em>gettext</em> tools. There is a rich " +
-      	"set of open source tools to process the translation files.",
+      	"files, as defined by GNU <em>gettext</em> tools. Many " +
+      	"open source tools can process those translation files.",
       "CLDR" :
         "Localisation data like date and time formats are taken from the " +
-        "<a href=''>Unicode Common Locale Data Repository</a> (CLDR). This " +
-        "guarantees that qooxdoo uses the official data even for the smallest " +
+        "<a href='http://cldr.unicode.org/'>Unicode Common Locale Data Repository</a> (CLDR). This " +
+        "guarantees that qooxdoo uses the standardized data for even the smallest " +
         "countries.", 
       "Live locale switching" : 
-        "All widgets are designed in a way that allows for live locale switching."
+        "All widgets are designed in a way that allows for locale switching in the running application."
     },
     
     __manual : null,    
