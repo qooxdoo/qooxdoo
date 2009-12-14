@@ -27,29 +27,32 @@ qx.Theme.define("qx.theme.modern.Font",
   {
     "default" :
     {
-      size : qx.bom.client.System.WINVISTA ? 12 : 11,
+      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 12 : 11,
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
 
     "bold" :
     {
-      size : qx.bom.client.System.WINVISTA ? 12 : 11,
+      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 12 : 11,
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 
+        [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ],
       bold : true
     },
 
     "small" :
     {
-      size : qx.bom.client.System.WINVISTA ? 11 : 10,
+      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 11 : 10,
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
 
@@ -58,7 +61,8 @@ qx.Theme.define("qx.theme.modern.Font",
       size: 11,
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Console", "Monaco" ] :
-        qx.bom.client.System.WINVISTA ? [ "Consolas" ] :
+        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 
+        [ "Consolas" ] :
         [ "Consolas", "DejaVu Sans Mono", "Courier New", "monospace" ]
     }
   }
