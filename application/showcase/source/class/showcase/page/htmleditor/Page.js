@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.htmleditor.Page",
   
   members :
   {
-    __descriptionText : "The HtmlArea, here embedded in an editor window, provides basic" +
+    __descriptionText : "The HtmlArea, embedded here in an editor window with tool and menu bar, provides basic" +
     " cross-browser HTML editing capabilities and is available both as a low-level component" +
     " and as a widget. It offers events, allowing easy implementation of a toolbar " +
     "supplement. The UI controls of the toolbar can be used to interact " +
