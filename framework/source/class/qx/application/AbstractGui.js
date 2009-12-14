@@ -66,7 +66,7 @@ qx.Class.define("qx.application.AbstractGui",
      * (if the application is a standalone application) layout .
      *
      * The root has the same add method as the configured layout
-     * ({@link qx.ui.layout.Basic#add} or {@link qx.ui.layout.Canvas#add}).
+     * ({@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas}).
      *
      * @return {qx.ui.core.Widget} The application's root widget.
      */
