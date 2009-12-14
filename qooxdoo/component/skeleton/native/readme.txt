@@ -7,4 +7,4 @@ will use this and expand it into a self-contained qooxdoo application which
 can then be further extended. Please refer to the script and other documentation
 for further information.
 
-short:: is a native qooxdoo application including full OO support but no GUI classes.
+short:: is a native qooxdoo application including full OO support but no GUI classes
