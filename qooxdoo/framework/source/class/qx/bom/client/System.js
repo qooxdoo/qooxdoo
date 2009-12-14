@@ -78,6 +78,9 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is Windows Vista */
     WINVISTA : false,
+    
+    /** {Boolean} Flag to detect if the client system is Windows 7 */
+    WIN7 : false,
 
     /** {Boolean} Flag to detect if the client system is Windows CE */
     WINCE : false,
@@ -121,6 +124,7 @@ qx.Bootstrap.define("qx.bom.client.System",
     /** Maps user agent names to system IDs */
     __ids :
     {
+      "Windows NT 6.1" : "win7",
       "Windows NT 6.0" : "winvista",
       "Windows NT 5.2" : "win2003",
       "Windows NT 5.1" : "winxp",
