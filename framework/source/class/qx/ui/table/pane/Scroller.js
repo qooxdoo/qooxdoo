@@ -820,8 +820,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._focusCellAtPagePos(this.__lastMousePageX, this.__lastMousePageY);
       }
       
-      e.stopPropagation();
-      e.preventDefault();
+      e.stop();
     },
 
 

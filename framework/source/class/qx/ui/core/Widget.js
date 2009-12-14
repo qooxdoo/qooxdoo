@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.core.Widget",
     beforeContextmenuOpen : "qx.event.type.Mouse",
 
     /** Fired if the mouse wheel is used over the widget. */
-    mousewheel : "qx.event.type.Mouse",
+    mousewheel : "qx.event.type.MouseWheel",
 
 
 

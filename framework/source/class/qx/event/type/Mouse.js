@@ -264,34 +264,6 @@ qx.Class.define("qx.event.type.Mouse",
      */
     getScreenTop : function() {
       return this._native.screenY;
-    },
-
-
-    /**
-     * Get the amount the wheel has been scrolled
-     *
-     * @return {Integer} Scroll wheel movement
-     */
-    getWheelDelta : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        return -(this._native.wheelDelta / 40);
-      },
-
-      "gecko" : function() {
-        return this._native.detail;
-      },
-
-      "webkit" : function()
-      {
-        // TODO: Change this line as soon as bug #2274 is fixed!
-        if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
-          return -(this._native.wheelDelta / 120);
-        } else {
-          return -(this._native.wheelDelta / 40);
-        }
-      }
-
-    })
+    }
   }
 });
