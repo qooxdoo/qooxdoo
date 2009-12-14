@@ -199,7 +199,8 @@ qx.Class.define("qx.bom.History",
     {
       check : "String",
       event : "changeState",
-      nullable : true
+      nullable : true,
+      apply: "_applyState"
     }
   },
 
@@ -215,6 +216,13 @@ qx.Class.define("qx.bom.History",
   members :
   {
     __titles : null,
+
+
+    // property apply
+    _applyState : function(value, old)
+    {
+      this._writeState(value);
+    },
 
 
     /**
