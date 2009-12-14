@@ -67,7 +67,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * data or not. Can be used to give the user feedback of the loading state
      * of the rows.
      */
-    "paneReloadsData" : "qx.event.type.Data"
+    "paneReloadsData" : "qx.event.type.Data",
+
+    /**
+     * Whenever the content of the table panehas been updated (rendered)
+     * trigger a paneUpdated event. This allows the canvas cellrenderer to act
+     * once the new cells have beeen integrated in the dom.
+     */
+    "paneUpdated" : "qx.event.type.Event"
   },
 
 
@@ -645,6 +652,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._updateRowStyles(this.__focusedRow - rowOffset);
         this._updateRowStyles(this.__focusedRow);
       }
+      this.fireEvent("paneUpdated"); 
     },
 
 
@@ -707,11 +715,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       //this.debug(">>>" + data + "<<<")
       elem.innerHTML = data;
-
       this.setWidth(rowWidth);
 
       this.__lastColCount = colCount;
       this.__lastRowCount = rowCount;
+      this.fireEvent("paneUpdated"); 
     }
 
   },
