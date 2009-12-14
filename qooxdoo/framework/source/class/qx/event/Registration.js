@@ -407,8 +407,10 @@ qx.Bootstrap.define("qx.event.Registration",
      * Register an event dispatcher.
      *
      * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
-     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link #PRIORITY_NORMAL}
-     *       or {@link #PRIORITY_LAST}.
+     * @param priority {Integer} One of
+     * {@link qx.event.Registration#PRIORITY_FIRST},
+     * {@link qx.event.Registration#PRIORITY_NORMAL}
+     *       or {@link qx.event.Registration#PRIORITY_LAST}.
      * @return {void}
      * @throws an error if the dispatcher does not have the IEventHandler interface.
      */
