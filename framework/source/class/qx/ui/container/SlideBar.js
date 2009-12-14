@@ -319,7 +319,8 @@ qx.Class.define("qx.ui.container.SlideBar",
       this.scrollBy(e.getWheelDelta() * this.getScrollStep());
 
       // Stop bubbling and native event
-      e.stop();
+      e.stopPropagation();
+      e.preventDefault();
     },
 
 
