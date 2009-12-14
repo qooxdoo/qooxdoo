@@ -48,7 +48,7 @@ servconf = {
     'downloaddir'   : '/~dwagner/workspace/qooxdoo.trunk/tool/app/batserver/',
     'workpack'      : 'workpack_test.py',
     'reportfile'    : "bat_client_reports.log",
-    'defaultTarget' : 'qooxdoo-0.8-sdk',
+    'defaultTarget' : 'qooxdoo-1.0-sdk',
 }
 
 workpackopts = [
