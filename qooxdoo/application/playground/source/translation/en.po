@@ -11,79 +11,95 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:314
-msgid "Source Code"
-msgstr ""
-
-#: playground/Application.js:444
-msgid "%1 (modified)"
-msgstr ""
-
-#: playground/Application.js:488
-msgid "Starting application"
-msgstr ""
-
-#: playground/Application.js:490
-msgid "Successfully started"
-msgstr ""
-
-#: playground/Application.js:510
+#: playground/Application.js:72
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"
 msgstr ""
 
-#: playground/Application.js:572
+#: playground/Application.js:205
+msgid "Custom Code"
+msgstr ""
+
+#: playground/Application.js:214
+msgid "Unreadable Custom Code"
+msgstr ""
+
+#: playground/Application.js:217
+msgid " Your browser has a length restriction of the URL parameter which could have caused the problem."
+msgstr ""
+
+#: playground/Application.js:344
+msgid "Source Code"
+msgstr ""
+
+#: playground/Application.js:490
+msgid "%1 (modified)"
+msgstr ""
+
+#: playground/Application.js:542
+msgid "Starting application"
+msgstr ""
+
+#: playground/Application.js:546
+msgid "Successfully started"
+msgstr ""
+
+#: playground/Application.js:687
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:742 playground/Application.js:852
+#: playground/Application.js:735
+msgid "Could not save your code in the url because it is too much code. Do you want to ignore it?"
+msgstr ""
+
+#: playground/Application.js:863 playground/Application.js:973
 msgid "Log"
 msgstr ""
 
-#: playground/Application.js:795
+#: playground/Application.js:916
 msgid "Playground"
 msgstr ""
 
-#: playground/Application.js:798
+#: playground/Application.js:919
 msgid "qooxdoo %1"
 msgstr ""
 
-#: playground/Application.js:822
+#: playground/Application.js:943
 msgid "Run"
 msgstr ""
 
-#: playground/Application.js:826
+#: playground/Application.js:947
 msgid "Run the source code"
 msgstr ""
 
-#: playground/Application.js:829
+#: playground/Application.js:950
 msgid "Samples"
 msgstr ""
 
-#: playground/Application.js:832
+#: playground/Application.js:953
 msgid "Select a sample"
 msgstr ""
 
-#: playground/Application.js:835
+#: playground/Application.js:956
 msgid "Syntax Highlighting"
 msgstr ""
 
-#: playground/Application.js:855
+#: playground/Application.js:976
 msgid "Show log output"
 msgstr ""
 
-#: playground/Application.js:858
+#: playground/Application.js:979
 msgid "API Viewer"
 msgstr ""
 
-#: playground/Application.js:861
+#: playground/Application.js:982
 msgid "Open the qooxdoo API Viewer"
 msgstr ""
 
-#: playground/Application.js:864
+#: playground/Application.js:985
 msgid "Manual"
 msgstr ""
 
-#: playground/Application.js:867
+#: playground/Application.js:988
 msgid "Open the qooxdoo Manual"
 msgstr ""
 

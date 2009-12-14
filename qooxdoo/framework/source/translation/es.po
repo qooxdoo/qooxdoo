@@ -319,33 +319,27 @@ msgstr "Mes siguiente"
 msgid "Next year"
 msgstr "Año siguiente"
 
-#: qx/ui/table/Table.js:1753
+#: qx/ui/table/Table.js:1778
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "una fila"
 msgstr[1] "%1 filas"
 
-#: qx/ui/table/Table.js:1755
+#: qx/ui/table/Table.js:1780
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "una de una fila"
 msgstr[1] "%1 de %2 filas"
 
-#: qx/ui/table/columnmodel/Resize.js:214
+#: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
 msgstr "Reestablecer anchos de columnas"
-
-#~ msgid "Choose a date"
-#~ msgstr "Seleccione una fecha"
 
 #~ msgid "Case sensitive"
 #~ msgstr "Sensible a mayúsculas y minúsculas"
 
-#~ msgid "Search next occurrence"
-#~ msgstr "Buscar siguiente"
-
-#~ msgid "Search items in list"
-#~ msgstr "Buscar elementos en la lista"
+#~ msgid "Choose a date"
+#~ msgstr "Seleccione una fecha"
 
 #~ msgid "Description"
 #~ msgstr "Descripción"
@@ -355,3 +349,9 @@ msgstr "Reestablecer anchos de columnas"
 
 #~ msgid "Search"
 #~ msgstr "Buscar"
+
+#~ msgid "Search items in list"
+#~ msgstr "Buscar elementos en la lista"
+
+#~ msgid "Search next occurrence"
+#~ msgstr "Buscar siguiente"
