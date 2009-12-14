@@ -2987,7 +2987,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} Whether the element is tabable.
      */
     isTabable : function() {
-      return this.getContainerElement().getDomElement() && this.isFocusable();
+      return (!!this.getContainerElement().getDomElement()) && this.isFocusable();
     },
 
 

@@ -22,6 +22,25 @@ qx.Class.define("qx.test.ui.core.Widget",
 
   members :
   {
+    testIsTabable : function()
+    {
+      var widget = new qx.ui.core.Widget().set({
+        focusable: true
+      });
+      
+      this.assertFalse(widget.isTabable(), "Non rendered widgets are not tabable");
+      
+      this.getRoot().add(widget);
+      this.flush();
+      this.assertTrue(widget.isTabable(), "Rendered focusable widgets are tabable");
+      
+      widget.setFocusable(false);
+      this.assertFalse(widget.isTabable(), "Non focusable widgets are not tabable");
+      
+      widget.destroy();
+    },
+    
+  
     testIsSeeableDepth0AfterFlush : function()
     {
       var w = new qx.ui.core.Widget();
