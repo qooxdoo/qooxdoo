@@ -143,11 +143,7 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
         "=": new showcase.page.theme.calc.view.Button("=", 4, 3, 2, null, "Enter"),
 
         "0": new showcase.page.theme.calc.view.Button("0", 5, 0, null, 2, "0"),
-        ".": new showcase.page.theme.calc.view.Button(
-          qx.locale.Number.getDecimalSeparator(),
-          5, 2, null, null,
-          qx.locale.Number.getDecimalSeparator()
-        )
+        ".": new showcase.page.theme.calc.view.Button(".", 5, 2, null, null, ".")
       };
       
       if (this._isModern)

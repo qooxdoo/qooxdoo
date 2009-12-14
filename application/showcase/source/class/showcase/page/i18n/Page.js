@@ -87,7 +87,9 @@ qx.Class.define("showcase.page.i18n.Page",
         "All widgets are designed in a way that allows for locale switching in the running application."
     },
     
-    __manual : null,    
+    __manual : {
+      "internationalization" : "Internationalization"
+    },    
       
     __demos : {
       "#showcase~Localization.html" : "Localization demo"
