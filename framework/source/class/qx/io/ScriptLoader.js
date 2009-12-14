@@ -151,8 +151,10 @@ qx.Class.define("qx.io.ScriptLoader",
       delete this.__running;
 
       // Execute user callback
-      if (this.__callback) {
+      if (this.__callback)
+      {
         this.__callback.call(this.__context, status);
+        delete this.__callback;
       }
     },
 
@@ -178,6 +180,18 @@ qx.Class.define("qx.io.ScriptLoader",
         }
       },
 
+      "opera" : function(e)
+      {
+        if (qx.lang.Type.isString(e) || e.type === "error") {
+          return this.__cleanup("fail");
+        } else if (e.type === "load") {
+          return this.__cleanup("success");
+        } else {
+          this.warn("RETURN")
+          return;
+        }
+      },
+
       "default" : function(e)
       {
         if (qx.lang.Type.isString(e) || e.type === "error") {
@@ -185,7 +199,7 @@ qx.Class.define("qx.io.ScriptLoader",
         } else if (e.type === "load") {
           this.__cleanup("success");
         } else if (e.type === "readystatechange" && (e.target.readyState === "complete" || e.target.readyState === "loaded")) {
-         this.__cleanup("success");
+          this.__cleanup("success");
         } else {
           return;
         }
