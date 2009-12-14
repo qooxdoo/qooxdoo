@@ -147,6 +147,24 @@ qx.Class.define("showcase.Application",
           });
         }
       });
+      
+      // history support
+      var history = qx.bom.History.getInstance();
+      listController.bind("selection[0].part", history, "state");
+      
+      var initState = history.getState();
+      if (initState) {
+        var page;
+        for (var i = 0; i < pages.getLength(); i++) {
+          if (pages.getItem(i).getPart() === initState) {
+            page = pages.getItem(i);
+            break;
+          }
+        };
+        if (page) {
+          listController.getSelection().push(page);
+        }
+      }
     },
     
     

@@ -40,7 +40,8 @@ qx.Class.define("showcase.Page",
     },
     
     part : {
-      check: "String"
+      check: "String",
+      event: "changePart"
     },
 
     description : {
