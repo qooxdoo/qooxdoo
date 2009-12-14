@@ -81,10 +81,11 @@ release-sdk-svn-collect:
 	@$(CMD_DIR) `dirname $(RELEASE_SDK)`
 	@$(CMD_SVN) export . $(RELEASE_SDK)
 
-	@echo "  * Synchronizing components..."
+	@echo "  * Synchronizing applications/components..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/buildtool/
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/toolbox/
 	@$(CMD_REMOVE) $(RELEASE_SDK)/application/performance/
+	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
