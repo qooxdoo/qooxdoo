@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.bom.client.Version",
     // Opera, Opera Mobile and Opera Mini (new versions)
     if (/Presto[\s\/]([0-9]+\.[0-9\.]+)/.test(agent))
     {
-      name = "opera";
+      name = "presto";
       version = parseFloat(RegExp.$1, 10);
 
       if (version >= 2.4) {
@@ -129,7 +129,7 @@ qx.Bootstrap.define("qx.bom.client.Version",
     // Operas (older versions - without Presto info)
     else if (/Opera[\s\/]([0-9]+)\.([0-9])/.test(agent))
     {
-      name = "opera";
+      name = "presto";
       version = parseFloat(RegExp.$1 + "." + RegExp.$2, 10);
 
       if (version >= 9.7) {
