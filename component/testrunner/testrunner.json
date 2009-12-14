@@ -125,7 +125,9 @@
         {
           "locales" : "${LOCALES}"
         }
-      }
+      },
+
+      "compile" : { "type" : "source" }
     },
 
 
