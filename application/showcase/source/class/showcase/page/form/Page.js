@@ -52,18 +52,18 @@ qx.Class.define("showcase.page.form.Page",
   members :
   {
     __descriptionText : "This form demo shows the complete set of form " +
-    "widgets. The widgets are grouped by their purpose.",
+    "widgets. The widgets are grouped by type.",
       
     __tryThis : {
-      "Lists" : "Open the select box to see the list of selectables.",
-      "Placeholder" : "The placeholder disappears once you start to type in a text field.",
-      "Repeat" : "Hold the repeat button to see the value increase.",
-      "Menu" : "Click the menu button to open the menu."
+      "Selection" : "Open the select box to see the list of selectables.",
+      "Text" : "The placeholder disappears once you start to type in a text field.",
+      "Buttons" : "Hold the repeat button to see the value increase.",
+      "MenuButton" : "Click the \"MenuButton\" to open the menu."
     },
     
     __features : {
-      "Complete" : "Complete set of form widgets.",
-      "Keyboard navigation" : "Try cycling through the widgets by pressing the tab key."
+      "Widgets" : "Complete set of form widgets.",
+      "Keyboard Navigation" : "Try cycling through the widgets by pressing the tab key."
     },
     
     __manual : {
