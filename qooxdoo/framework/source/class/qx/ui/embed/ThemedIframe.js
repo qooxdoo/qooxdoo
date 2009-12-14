@@ -252,7 +252,8 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       var scrollbar = this.getChildControl("scrollbar-y", true);
       scrollbar.scrollBySteps(e.getWheelDelta());
 
-      e.stop();
+      e.stopPropagation();
+      e.preventDefault();
     },
 
 

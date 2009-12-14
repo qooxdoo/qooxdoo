@@ -829,8 +829,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
      *
      * @param e {qx.event.type.Mouse} Incoming event object
      */
-    _onBrightnessPaneMouseWheel : function(e) {
+    _onBrightnessPaneMouseWheel : function(e)
+    {
       this.setBrightness(qx.lang.Number.limit(this.getBrightness() + e.getWheelDelta(), 0, 100));
+
+      e.stopPropagation();
+      e.preventDefault();
     },
 
 
@@ -927,8 +931,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
      *
      * @param e {qx.event.type.Mouse} Incoming event object
      */
-    _onHueSaturationPaneMouseWheel : function(e) {
+    _onHueSaturationPaneMouseWheel : function(e)
+    {
       this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
+      e.stopPropagation();
+      e.preventDefault();
     },
 
 

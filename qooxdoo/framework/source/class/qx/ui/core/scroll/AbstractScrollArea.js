@@ -435,7 +435,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       }
 
       // Stop bubbling and native event
-      e.stop();
+      e.stopPropagation();
+      e.preventDefault();
     },
 
 
