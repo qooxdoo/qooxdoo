@@ -48,91 +48,87 @@ win.open();
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Webbrowser">this.surfTo = function(url)
+<textarea class="qx_samples" title="Webbrowser">var surfTo = function(url)
 {
   if (url.indexOf("http://") !== 0) {
     url = "http://" + url;
-    this.txtUrl.setValue(url);
+    txtUrl.setValue(url);
   }
 
-  this.iframe.setSource(url);
+  iframe.setSource(url);
 };
   
-this._createBrowser = function()
-{
-  var win = new qx.ui.window.Window(
-    "Web Browser",
-    "icon/16/categories/internet.png"
-  );
 
-  var layout = new qx.ui.layout.VBox();
-  layout.setSeparator("separator-vertical");
-  win.setLayout(layout);
-  win.setShowMinimize(false);
-  win.setAllowClose(false);
-  win.setContentPadding(0);
-  win.open();
+var win = new qx.ui.window.Window(
+  "Web Browser",
+  "icon/16/categories/internet.png"
+);
 
-  var toolbar = new qx.ui.toolbar.ToolBar();
-  win.add(toolbar);
+var layout = new qx.ui.layout.VBox();
+layout.setSeparator("separator-vertical");
+win.setLayout(layout);
+win.setShowMinimize(false);
+win.setAllowClose(false);
+win.setContentPadding(0);
+win.open();
 
-  var btnBack = new qx.ui.toolbar.Button(null, "icon/16/actions/go-previous.png");
-  btnBack.addListener("execute", function(e) {
-     this.iframe.getWindow().history.back();
-  }, this);
-  toolbar.add(btnBack);
+var toolbar = new qx.ui.toolbar.ToolBar();
+win.add(toolbar);
 
-  var btnForward = new qx.ui.toolbar.Button(null, "icon/16/actions/go-next.png");
-  btnForward.addListener("execute", function(e) {
-    this.iframe.getWindow().history.forward();
-  }, this);
-  toolbar.add(btnForward);
+var btnBack = new qx.ui.toolbar.Button(null, "icon/16/actions/go-previous.png");
+btnBack.addListener("execute", function(e) {
+   iframe.getWindow().history.back();
+});
+toolbar.add(btnBack);
 
-  // IE does not allow access to an iframes history object
-  // Firefox applies history changes to the main window
-  // Opera throws a script error when trying to go forward or back
+var btnForward = new qx.ui.toolbar.Button(null, "icon/16/actions/go-next.png");
+btnForward.addListener("execute", function(e) {
+  iframe.getWindow().history.forward();
+});
+toolbar.add(btnForward);
 
-  var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is currently not supported.");
+// IE does not allow access to an iframes history object
+// Firefox applies history changes to the main window
+// Opera throws a script error when trying to go forward or back
 
-  btnForward.setEnabled(false);
-  btnBack.setEnabled(false);
+var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is currently not supported.");
 
-  btnForward.setToolTip(ttIeNote)
-  btnBack.setToolTip(ttIeNote)
+btnForward.setEnabled(false);
+btnBack.setEnabled(false);
 
-  this.txtUrl = new qx.ui.form.TextField().set({
-     marginLeft: 1,
-     value: "http://qooxdoo.org",
-     padding: 2,
-     alignY: "middle"
-  });
-  this.txtUrl.addListener("keypress", function(e) {
-    if (e.getKeyIdentifier() == "Enter") {
-       this.surfTo(this.txtUrl.getValue());
-     }
-  }, this);
-  toolbar.add(this.txtUrl, {flex: 1});
+btnForward.setToolTip(ttIeNote)
+btnBack.setToolTip(ttIeNote)
 
-  btnGo = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
-  btnGo.addListener("execute", function(e) {
-      this.surfTo(this.txtUrl.getValue());
-  }, this);
-  toolbar.add(btnGo);
+var txtUrl = new qx.ui.form.TextField().set({
+   marginLeft: 1,
+   value: "http://qooxdoo.org",
+   padding: 2,
+   alignY: "middle"
+});
+txtUrl.addListener("keypress", function(e) {
+  if (e.getKeyIdentifier() == "Enter") {
+     surfTo(txtUrl.getValue());
+   }
+});
+toolbar.add(txtUrl, {flex: 1});
 
-  this.iframe = new qx.ui.embed.Iframe().set({
-     width: 600,
-     height: 500,
-     minWidth: 200,
-     minHeight: 150,
-     source: this.txtUrl.getValue(),
-     decorator : null
-  });
-  win.add(this.iframe, {flex: 1});
+btnGo = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
+btnGo.addListener("execute", function(e) {
+    surfTo(txtUrl.getValue());
+});
+toolbar.add(btnGo);
 
-  return win;
-};
+var iframe = new qx.ui.embed.Iframe().set({
+   width: 600,
+   height: 500,
+   minWidth: 200,
+   minHeight: 150,
+   source: txtUrl.getValue(),
+   decorator : null
+});
+win.add(iframe, {flex: 1});
 
-this.getRoot().add(this._createBrowser(), {left: 40, top: 30});
+this.getRoot().add(win, {left: 40, top: 30});
 
 </textarea>
 
