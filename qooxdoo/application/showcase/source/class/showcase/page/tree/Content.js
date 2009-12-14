@@ -30,6 +30,7 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/mail-message-new.png)
 #asset(qx/icon/${qx.icontheme}/16/devices/drive-harddisk.png)
 #asset(qx/icon/${qx.icontheme}/16/devices/drive-optical.png)
+#asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
 
 ************************************************************************ */
 
