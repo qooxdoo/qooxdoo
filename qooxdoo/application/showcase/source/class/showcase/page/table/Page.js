@@ -60,13 +60,13 @@ qx.Class.define("showcase.page.table.Page",
       "Sorting" : "Click on the column header to sort the column.",
       "Reordering" : "Drag the column header to reorder.",
       "Resizing" : "Drag the column header separator to resize the columns.",
-      "Hide Columns" : "Use the column menu in the upper right.",
+      "Hide Columns" : "Use the column drop-down menu in the upper right corner.",
       "Resize" : "Resize the window to see the table resize."
     },
     
     __features : {
       "Cell Renderer" : "Custom cell renderers like the boolean cell renderer can be configured.",
-      "Header Renderer" : "Custom header renderers as shown in the “explicit” column can be used."
+      "Header Renderer" : "Custom header renderers as shown in the “Explicit” column can be used."
     },
     
     

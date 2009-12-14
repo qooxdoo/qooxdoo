@@ -52,7 +52,7 @@ qx.Class.define("showcase.page.table.Content",
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([ "Chart Pos.", "Title", "Artist", "Year", "Exlicit" ]);
+      tableModel.setColumns([ "Chart Pos.", "Title", "Artist", "Year", "Explicit" ]);
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
