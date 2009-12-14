@@ -497,7 +497,8 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Font",
       event : "changeFont",
       themeable : true,
-      inheritable : true
+      inheritable : true,
+      dispose : true
     },
 
 
