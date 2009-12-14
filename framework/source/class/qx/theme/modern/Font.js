@@ -31,7 +31,7 @@ qx.Theme.define("qx.theme.modern.Font",
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
         qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-        [ "Tahoma", "Liberation Sans", "Arial" ]
+        [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
 
     "bold" :
@@ -40,7 +40,7 @@ qx.Theme.define("qx.theme.modern.Font",
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
         qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-        [ "Tahoma", "Liberation Sans", "Arial" ],
+        [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ],
       bold : true
     },
 
@@ -50,7 +50,7 @@ qx.Theme.define("qx.theme.modern.Font",
       lineHeight : 1.4,
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
         qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-        [ "Tahoma", "Liberation Sans", "Arial" ]
+        [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
 
     "monospace" :
