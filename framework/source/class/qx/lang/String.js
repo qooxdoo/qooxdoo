@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.lang.String",
      * Returns "i like cookies"
      *
      * @param str {String} the string to clean up
-     * @return Cleaned up string
+     * @return {String} Cleaned up string
      */
     clean: function(str){
       return this.trim(str.replace(/\s+/g, ' '));
@@ -190,7 +190,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @param str {String} the string to pad
      * @param length {Integer} the final length of the string
      * @param ch {String} character used to fill up the string
-     * @return {String} paddded string
+     * @return {String} padded string
      */
     pad : function(str, length, ch)
     {      
@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.lang.String",
 
 
     /**
-     * Strips the String of its <script> tags and anything in between them.
+     * Strips <script> tags including its content from the given string.
      *
      * @param str {String} string containing tags
      * @param exec {Boolean?false} Whether the filtered code should be executed
