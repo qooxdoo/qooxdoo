@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      * This method may be overridden by sub classes.
      *
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link # qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {var} the CSS styles of the main div.
      */
     _getCellStyle : function(cellInfo) {

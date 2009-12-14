@@ -1368,7 +1368,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Called when the iframes is loaded and the HtmlArea is in the "invalid"
-     * state. Re-initializes the HtmlArea and fires the {@link readyAfterInvalid}
+     * state. Re-initializes the HtmlArea and fires the {@link qx.bom.htmlarea.HtmlArea#readyAfterInvalid}
      * event to offer a time moment for the application developer to execute 
      * commands after the re-location.
      * 
