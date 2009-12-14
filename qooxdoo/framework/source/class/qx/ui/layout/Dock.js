@@ -85,7 +85,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/Dock'>
+ * <a href='http://qooxdoo.org/documentation/1.0/layout/Dock'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Dock",

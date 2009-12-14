@@ -42,7 +42,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/widget/Spacer' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/1.0/widget/Spacer' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.core.Spacer",

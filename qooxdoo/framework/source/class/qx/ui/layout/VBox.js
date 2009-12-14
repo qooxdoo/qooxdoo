@@ -76,7 +76,7 @@
  *
  * *External Documentation*
  *
- * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a>
+ * See <a href='http://qooxdoo.org/documentation/1.0/layout/Box'>extended documentation</a>
  * and links to demos for this layout.
  *
  */

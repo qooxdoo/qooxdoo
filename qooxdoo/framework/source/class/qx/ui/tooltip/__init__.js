@@ -18,6 +18,6 @@
   *
   * *External Documentation*
   *
-  * <a href='http://qooxdoo.org/documentation/0.8/widget/tooltip' target='_blank'>
+  * <a href='http://qooxdoo.org/documentation/1.0/widget/tooltip' target='_blank'>
   * Documentation of this widget in the qooxdoo wiki.</a>
   */
