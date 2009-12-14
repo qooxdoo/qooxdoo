@@ -228,8 +228,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __currentJSCode : null,
     
     defaultUrl : "demo/welcome.html",
-    playgroundUrl : "http://demo.qooxdoo.org/current/playground/",
-            
+    playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
 
     __makeCommands : function()
     {
