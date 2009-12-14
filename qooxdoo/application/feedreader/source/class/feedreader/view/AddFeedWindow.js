@@ -148,5 +148,20 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       this.__controller.addFeed(title, url, "user");
       this.close();
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.__commands = null;
+    this._disposeObjects("__controller", "__titleTextfield", "__urlTextfield");
   }
 });
