@@ -239,6 +239,9 @@ qx.Class.define("showcase.page.form.Content",
       numberGroupBox.add(label, {row: 1, column: 0});
       numberGroupBox.add(slider, {row: 1, column: 1});
       
+      slider.bind("value", spinner, "value");
+      spinner.bind("value", slider, "value");
+      
       return view;
     },
     

@@ -116,7 +116,7 @@ qx.Class.define("showcase.page.databinding.Content",
       detailsBox.setHeight(220);
       detailsBox.setAllowGrowY(false);
 
-      detailsBox.setLayout(new qx.ui.layout.Grid(0, 5));
+      detailsBox.setLayout(new qx.ui.layout.Grid(5, 5));
 
       detailsBox.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
@@ -130,6 +130,7 @@ qx.Class.define("showcase.page.databinding.Content",
       var message = new qx.ui.basic.Label();
       message.setRich(true);
       message.setWidth(150);
+      message.setSelectable(true);
       detailsBox.add(message, {row: 2, column: 1});
       var posted = new qx.ui.basic.Label();
       posted.setRich(true);
