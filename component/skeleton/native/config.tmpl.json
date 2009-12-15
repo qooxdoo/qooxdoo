@@ -46,7 +46,7 @@
     {
       "=include" :
       [
-        "$$${APPLICATION}.Application"
+        "$${APPLICATION}.Application"
       ],
       
       "exclude" :
@@ -57,7 +57,7 @@
       "=settings" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$$${APPLICATION}.Application"
+        "qx.application" : "$${APPLICATION}.Application"
       }
     }
     // Uncomment the following entry to add a contrib or library to your
