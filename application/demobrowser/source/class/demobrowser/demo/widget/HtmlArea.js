@@ -56,26 +56,28 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
     main : function()
     {
       this.base(arguments);
-      
-      // include the "htmlArea" appearance manually
-      // because the appearance theme of the HtmlArea *has* to be only the
-      // additional set of appearances which can be used to include it into
-      // other appearances.
-      // If the HtmlArea component would define an appearance theme which
-      // extends e.g. the Modern appearance theme it would clash with applications
-      // which include the HtmlArea and use the Modern appearance theme themselves
-      
+
       // Add log appenders
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;
-        if (qx.bom.client.Engine.MSHTML)
-        {
+        if (qx.bom.client.Engine.MSHTML) {
           qx.log.appender.Console.init();
         }
       }
-
+      
+      var descriptionText = "<h1>HtmlArea UI-level widget</h1>" + 
+                            "<p>This UI-level widget can be used at RIA (Rich " +
+                            "Internet Applications) and inline applications." +
+                            "The UI widget does use the low-level component internally " +
+                            "so code-duplication is avoided.<br/>" +
+                            "As an application developer you can <b>use the same API.</b></p>" +
+                            "<p>You can play around with this widget by hitting the " +
+                            "buttons at the toolbar.</p>";
+      var description = new qx.ui.basic.Label(descriptionText);
+      description.set( { rich: true, marginBottom : 10 });
+      
       var demoContent = '<h1>About</h1><p>qooxdoo (pronounced [ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No <acronym title="HyperText Markup Language">HTML</acronym>, <acronym title="Cascading Style Sheets">CSS</acronym> nor <acronym title="Document Object Model">DOM</acronym> knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art <acronym title="Graphical User Interface">GUI</acronym> toolkit and an advanced client-server communication layer. It is Open Source under an <acronym title="GNU Lesser General Public License">LGPL</acronym>/<acronym title="Eclipse Public License">EPL</acronym> dual <a href="http://qooxdoo.org/license" class="wikilink1" title="license">license</a>.</p>';
       var doc = this.getRoot();
       
@@ -85,12 +87,13 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
       this.__htmlArea = new qx.ui.embed.HtmlArea(demoContent, null, "blank.html");
       this.__htmlArea.set( { width: 600, height: 400, decorator: htmlDecorator } );
       
+      var toolbar = this.__setupToolbar();
+
       var vb = new qx.ui.layout.VBox(0);
       var vbContainer = new qx.ui.container.Composite(vb);
-
-      var toolbar = this.__setupToolbar();
       
-      // Add toolbar and HtmlArea widget
+      // Add description, toolbar and HtmlArea widget
+      vbContainer.add(description);
       vbContainer.add(toolbar);
       vbContainer.add(this.__htmlArea);      
 
