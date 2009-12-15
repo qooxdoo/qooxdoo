@@ -6,3 +6,5 @@
 \bqx\.util\.PlaceUtil\.compute\b=qx.util.placement.Placement.compute
 \bqx\.ui\.table\.ITableModel\.EVENT_TYPE_DATA_CHANGED\b="dataChanged"
 \bqx\.ui\.table\.ITableModel\.EVENT_TYPE_META_DATA_CHANGED\b="metaDataChanged"
+\bqx\.io2\.part\.(\w+)\b=qx.part.\1
+\bqx\.io2\.(\w+)\b=qx.io.\1
