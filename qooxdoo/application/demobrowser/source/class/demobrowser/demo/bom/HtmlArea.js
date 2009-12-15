@@ -77,6 +77,19 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
       this.__container = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__container, { margin: "20px 20px" });
       
+      this.__descriptionContainer = qx.bom.Element.create("div");
+      qx.bom.element.Style.setStyles(this.__descriptionContainer, { width: "840px",
+                                                                    padding: "0px",
+                                                                    margin: "0px" });
+      var description = "<h1>HtmlArea low-level widget</h1>" + 
+                        "<p>This low-level widget can be used separately at " +
+                        "traditional web pages / single-page applications. " + 
+                        "It is the foundation for the UI widget component.</p>" +
+                        "<p><b>No UI-level code</b> is included in this demo." +
+                        "You can play around with this widget by hitting the " +
+                        "buttons at the toolbar.</p>";
+      qx.bom.element.Attribute.set(this.__descriptionContainer, "innerHTML", description);
+      
       this.__buttonContainer = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__buttonContainer, { width: "840px",
                                                                padding: "0px",
@@ -96,8 +109,9 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
       this.__htmlArea = new qx.bom.htmlarea.HtmlArea(this.__htmlAreaContainer, demoContent, null, "blank.html");
       
       this.__setupToolbar();      
-      qx.dom.Element.insertBegin(this.__buttonContainer, this.__container);
       
+      qx.dom.Element.insertBegin(this.__buttonContainer, this.__container);
+      qx.dom.Element.insertBegin(this.__descriptionContainer, this.__container);
       qx.dom.Element.insertBegin(this.__container, document.body);
    },
       
