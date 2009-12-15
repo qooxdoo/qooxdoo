@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
 
       toggleValidButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
-          widgets[i].setInvalidMessage("Invalid (" + i + ")...");
+          widgets[i].setInvalidMessage("Invalid (" + i + ")");
           widgets[i].setValid(!e.getData());
         }
       }, this);
