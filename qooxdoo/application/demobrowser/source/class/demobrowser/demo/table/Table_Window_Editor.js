@@ -138,7 +138,7 @@ qx.Class.define("demobrowser.demo.table.ModalCellEditorFactory",
       cellEditor.addListener("appear", function(e)
       {
         cellEditor.__cellEditor.focus();
-        cellEditor.__cellEditor.setSelection(0, cellEditor.__cellEditor.getValue().length);
+        cellEditor.__cellEditor.setTextSelection(0, cellEditor.__cellEditor.getValue().length);
       });
 
 
