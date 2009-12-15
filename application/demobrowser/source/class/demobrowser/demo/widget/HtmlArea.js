@@ -47,9 +47,8 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
   members :
   {
     __htmlArea : null,
-    __editorComponent : null,
-    
-    
+
+
     /**
      * Main method - application start point
      */
@@ -57,19 +56,9 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
     {
       this.base(arguments);
 
-      // Add log appenders
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.log.appender.Native;
-        qx.log.appender.Console;
-        if (qx.bom.client.Engine.MSHTML) {
-          qx.log.appender.Console.init();
-        }
-      }
-      
       var descriptionText = "<h1>HtmlArea UI-level widget</h1>" + 
                             "<p>This UI-level widget can be used at RIA (Rich " +
-                            "Internet Applications) and inline applications." +
+                            "Internet Applications) and inline applications.<br/>" +
                             "The UI widget does use the low-level component internally " +
                             "so code-duplication is avoided.<br/>" +
                             "As an application developer you can <b>use the same API.</b></p>" +
@@ -138,7 +127,7 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
      */  
     __insertImageHandler : function(e)
     {
-      var attributes = { src    : qx.util.ResourceManager.getInstance().toUri("htmlarea/image/qooxdoo_logo.png"),
+      var attributes = { src    : qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/icons/htmlarea/qooxdoo_logo.png"),
                          border : 0,
                          title  : "qooxdoo logo",
                          alt    : "qooxdoo logo" };
@@ -207,7 +196,7 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
       createLinkWindow.center();
       createLinkWindow.open();
       
-      this.__editorComponent.saveRange();
+      this.saveRange();
     },
     
     
