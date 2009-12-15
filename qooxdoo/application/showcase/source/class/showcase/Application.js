@@ -162,7 +162,9 @@ qx.Class.define("showcase.Application",
           }
         };
         if (page) {
-          listController.getSelection().push(page);
+          // opera requires a flush to scroll the selection into view!
+          qx.ui.core.queue.Manager.flush();
+          listController.getSelection().push(page);            
         }
       }
     },
