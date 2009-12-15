@@ -497,7 +497,7 @@ qx.Class.define("inspector.property.PropertyWindow",
         }
       }
 
-      var apiViewer = window.open(urlString, "qooxdoo API viewer");
+      var apiViewer = window.open(urlString);
       apiViewer.focus();
     },
 
