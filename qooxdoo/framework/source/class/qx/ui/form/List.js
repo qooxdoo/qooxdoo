@@ -394,6 +394,9 @@ qx.Class.define("qx.ui.form.List",
         var label;
         if (item.getLabel() != null) {
           label = item.getLabel();
+          if (label.translate) {
+            label = label.translate();
+          }
           if (ignoreCase !== false) {
             label = label.toLowerCase();
           }
