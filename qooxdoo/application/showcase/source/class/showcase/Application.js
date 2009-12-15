@@ -229,6 +229,10 @@ qx.Class.define("showcase.Application",
     
     __fadeIn : function(view) 
     {
+      // no fades for IE, sorry!
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        return;
+      }
       
       view.getContentElement().setStyle("display", "none", true);
       this.__cancelFade();
