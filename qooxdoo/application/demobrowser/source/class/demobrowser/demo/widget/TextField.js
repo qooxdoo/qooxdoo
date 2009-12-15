@@ -90,6 +90,14 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       controls.add(btnEnabled);
 
 
+      controls.add(new qx.ui.core.Spacer(null, 20));
+
+      var buttonLabelContent = "Use the following buttons to interact with the " +
+                                "<b>first textfield</b> widget.";
+      var buttonLabel = new qx.ui.basic.Label(buttonLabelContent);
+      buttonLabel.setRich(true);
+      controls.add(buttonLabel);
+
       var btnSend1 = new qx.ui.form.Button("Send content");
       btnSend1.addListener("execute", function() {
         this.debug("Sending content: " + input1.getValue());
