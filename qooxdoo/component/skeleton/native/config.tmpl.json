@@ -31,7 +31,7 @@
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
@@ -46,7 +46,7 @@
     {
       "=include" :
       [
-        "$${APPLICATION}.Application"
+        "$$${APPLICATION}.Application"
       ],
       
       "exclude" :
@@ -57,7 +57,7 @@
       "=settings" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$${APPLICATION}.Application"
+        "qx.application" : "$$${APPLICATION}.Application"
       }
     }
     // Uncomment the following entry to add a contrib or library to your

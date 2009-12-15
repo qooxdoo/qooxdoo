@@ -32,7 +32,7 @@
     "APPLICATION"  : "${Namespace}.demo",
     "QOOXDOO_PATH" : "../../${REL_QOOXDOO_PATH}",
     "QXTHEME"      : "${Namespace}.demo.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
