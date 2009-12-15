@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       });
 
       // elastic
-      frame.setSource("http://www.gmx.net");
+      frame.setSource("http://www.w3.org/");
 
       d.add(frame, {
         top : 100,
@@ -63,16 +63,14 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       // radio group
       //-------------
 
-      var rd1 = new qx.ui.form.RadioButton("GMX");
-      rd1.setUserData("url", "http://www.gmx.net");
-      var rd2 = new qx.ui.form.RadioButton("web.de");
-      rd2.setUserData("url", "http://www.web.de");
-      var rd3 = new qx.ui.form.RadioButton("local");
-      rd3.setUserData("url", "../welcome.html");
+      var rd1 = new qx.ui.form.RadioButton("W3C");
+      rd1.setUserData("url", "http://www.w3.org/");
+      var rd2 = new qx.ui.form.RadioButton("local");
+      rd2.setUserData("url", "../welcome.html");
 
       rd1.setValue(true);
 
-      var rbm = new qx.ui.form.RadioGroup(rd1, rd2, rd3);
+      var rbm = new qx.ui.form.RadioGroup(rd1, rd2);
       rbm.addListener("changeSelection", function(e) {
         this.setSource(e.getData()[0].getUserData("url"));
       }, frame);
@@ -84,11 +82,6 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
 
       d.add(rd2, {
         left : 120,
-        top : 48
-      });
-
-      d.add(rd3, {
-        left : 220,
         top : 48
       });
     }
