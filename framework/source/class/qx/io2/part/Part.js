@@ -19,20 +19,20 @@
 ************************************************************************ */
 
 /**
- * This class has been moved to {@link qx.part.Part}
+ * This class has been moved to {@link qx.io.part.Part}
  *
- * @deprecated This class has been moved to 'qx.part.Part'
+ * @deprecated This class has been moved to 'qx.io.part.Part'
  */
 qx.Class.define("qx.io2.part.Part",
 {
-  extend : qx.part.Part,
+  extend : qx.io.part.Part,
 
   /**
    * @param name {String} Name of the part as defined in the config file at
    *    compile time.
    * @param packages {Package[]} List of dependent packages
    * 
-   * @deprecated Use 'qx.part.Part' instead.
+   * @deprecated Use 'qx.io.part.Part' instead.
    */
   construct : function(name, packages)
   {
@@ -40,7 +40,7 @@ qx.Class.define("qx.io2.part.Part",
 
     qx.log.Logger.deprecatedClassWarning(
       qx.io2.part.Part,
-      "This class has been moved to 'qx.part.Part'"
+      "This class has been moved to 'qx.io.part.Part'"
     );
   }
 });

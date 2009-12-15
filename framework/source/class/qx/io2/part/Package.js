@@ -19,13 +19,13 @@
 ************************************************************************ */
 
 /**
- * This class has been moved to {@link qx.part.Package}
+ * This class has been moved to {@link qx.io.part.Package}
  *
- * @deprecated This class has been moved to 'qx.part.Package'
+ * @deprecated This class has been moved to 'qx.io.part.Package'
  */
 qx.Class.define("qx.io2.part.Package",
 {
-  extend : qx.part.Package,
+  extend : qx.io.part.Package,
 
 
   /**
@@ -33,14 +33,14 @@ qx.Class.define("qx.io2.part.Package",
    * @param id {var} Unique package hash key
    * @param loaded {Boolean?false} Whether the package is already loaded
    * 
-   * @deprecated Use 'qx.part.Package' instead.
+   * @deprecated Use 'qx.io.part.Package' instead.
    */
   construct : function(urls, id, loaded)
   {
     this.base(arguments, urls, id, loaded);
     qx.log.Logger.deprecatedClassWarning(
       qx.io2.part.Package,
-      "This class has been moved to 'qx.part.Package'"
+      "This class has been moved to 'qx.io.part.Package'"
     );
   }
 });
