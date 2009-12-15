@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.tree.Tree",
     this.initRootOpenClose();
 
     this.addListener("changeSelection", this._onChangeSelection, this);
+    this.addListener("keypress", this._onKeyPress, this);
   },
 
 
@@ -477,6 +478,36 @@ qx.Class.define("qx.ui.tree.Tree",
         while (folder.getParent() != null) {
           folder = folder.getParent();
           folder.setOpen(true);
+        }
+      }
+    },
+
+
+    /**
+     * Event handler for key press events. Open and close the current selected
+     * item on key left and right press.
+     *
+     * @param e {qx.event.type.KeySequence} key event.
+     */
+    _onKeyPress : function(e)
+    {
+      var item = this._getLeadItem();
+
+      if (item !== null)
+      {
+        switch(e.getKeyIdentifier())
+        {
+          case "Left":
+            if (item.isOpenable() && item.isOpen()) {
+              item.setOpen(false);
+            }
+            break;
+
+          case "Right":
+            if (item.isOpenable() && !item.isOpen()) {
+              item.setOpen(true);
+            }
+            break;
         }
       }
     }

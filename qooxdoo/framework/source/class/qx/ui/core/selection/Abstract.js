@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
       }
 
-      if (this._getLeadItem() == item) {
+      if (this.getLeadItem() == item) {
         this._setLeadItem(null);
       }
 
@@ -477,8 +477,29 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * by the user (clicked on etc.)
      *
      * @return {Object} The lead item or <code>null</code>
+     * 
+     * @deprecated Use public 'getLeadItem' instead.
      */
     _getLeadItem : function() {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "Please use public 'getLeadItem' instead."
+        );
+      }
+      
+      return this.getLeadItem();
+    },
+
+
+    /**
+     * Returns the current lead item. Generally the item which was last modified
+     * by the user (clicked on etc.)
+     *
+     * @return {Object} The lead item or <code>null</code>
+     */
+    getLeadItem : function() {
       return this.__leadItem !== null ? this.__leadItem : null;
     },
 
@@ -1360,7 +1381,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       else if (key === "Space")
       {
-        var lead = this._getLeadItem();
+        var lead = this.getLeadItem();
         if (lead && !isShiftPressed)
         {
           if (isCtrlPressed || mode === "additive") {
@@ -1377,7 +1398,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         if (mode === "single" || mode == "one") {
           current = this._getSelectedItem();
         } else {
-          current = this._getLeadItem();
+          current = this.getLeadItem();
         }
 
         if (current !== null)
