@@ -40,7 +40,7 @@ qx.Class.define("qx.test.event.type.Mouse",
         detail: 20
       }
 
-      var event = new qx.event.type.Mouse().init(domEvent, document.body, document.body, true, true);
+      var event = new qx.event.type.MouseWheel().init(domEvent, document.body, document.body, true, true);
 
       var reference = {
         button: event.getButton(),
