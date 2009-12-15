@@ -56,7 +56,7 @@ qx.Class.define("showcase.page.table.Content",
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
-      tableModel.setColumnSortable(3, false);
+      tableModel.setColumnSortable(3, true);
 
       var custom =
       {
