@@ -26,7 +26,7 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "APPLICATION_MAIN_CLASS" : "$$${APPLICATION}.demo.Demo",
+    "APPLICATION_MAIN_CLASS" : "$${APPLICATION}.demo.Demo",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     //"QXTHEME"      : "${Namespace}.theme.modern.Theme",
     "QXTHEME"      : "qx.theme.Modern",
