@@ -1,12 +1,12 @@
 # translation of de.po to German
-# 
+#
 # Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: you@qooxdoo.org\n"
 "POT-Creation-Date: 2007-10-18 14:00+0100\n"
-"PO-Revision-Date: 2008-12-19 11:31+0100\n"
+"PO-Revision-Date: 2009-12-10 18:58+0100\n"
 "Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,15 @@ msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten, der n
 
 #: playground/Application.js:205
 msgid "Custom Code"
-msgstr ""
+msgstr "Eigener Code"
 
 #: playground/Application.js:214
 msgid "Unreadable Custom Code"
-msgstr ""
+msgstr "Nicht lesbarer eigener Code"
 
 #: playground/Application.js:217
 msgid " Your browser has a length restriction of the URL parameter which could have caused the problem."
-msgstr ""
+msgstr "Die Längenbeschränkung der Browser-URL könnte ein Problem verursacht haben."
 
 #: playground/Application.js:344
 msgid "Source Code"
@@ -53,9 +53,10 @@ msgstr "Der Quelltext des aktuellen Beispiels wurde verändert.|Bitte wählen Si
 
 #: playground/Application.js:735
 msgid "Could not save your code in the url because it is too much code. Do you want to ignore it?"
-msgstr ""
+msgstr "Der Code ist zu groß, um ihn in der URL zu speichern. Soll er ignoriert werden?"
 
-#: playground/Application.js:863 playground/Application.js:973
+#: playground/Application.js:863
+#: playground/Application.js:973
 msgid "Log"
 msgstr "Log"
 
