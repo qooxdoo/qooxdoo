@@ -70,7 +70,9 @@ qx.Class.define("demobrowser.demo.data.model.Node",
     __validateNumber: function(value) {
       // check if its a number
       if(!isNaN(parseFloat(value))) {
-        return;
+        if(/^\d+$/gi.test(value)) {
+          return;
+        }
       }
       throw new qx.core.ValidationError("Validation Error: " + value
         + "is no number (parseFloat says so!).");
