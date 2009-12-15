@@ -106,6 +106,11 @@ qx.Class.define("feedreader.Application",
       this.__treeView.getRoot().getChildren()[0].setOpen(true);
       this.__treeView.getRoot().getChildren()[1].setOpen(true);
       this.__treeView.setHideRoot(true);
+      
+      // preselect the qooxdoo feed      
+      this.__treeController.getSelection().push(
+        this.__staticFeedFolder.getFeeds().getItem(0)
+      );      
     },
 
 
@@ -257,7 +262,6 @@ qx.Class.define("feedreader.Application",
       this.__treeController.bind(
         "selection[0].category", this.__toolBarView.getRemoveButton(), "enabled", options
       );
-
     },
 
 
