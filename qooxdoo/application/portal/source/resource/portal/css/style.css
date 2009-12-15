@@ -1,5 +1,4 @@
-* html body
-{
+* html body {
   text-align: center;
 }
 
@@ -9,12 +8,16 @@ body {
   font-size: 10px;
 }
 
-#qxconsole
-{
+#qxconsole {
   display : none;
 }
 
-.groupBox{
+.groupBoxContainer {
+  width: 950px;
+  position: absolute;
+}
+
+.groupBox {
   background-color: #F1F1F1;
   border: 1px solid #134275;
   float: left;
@@ -30,7 +33,7 @@ body {
 }
 
 #groupBoxRight {
-	width: 400px;
+  width: 400px;
   margin: 0 0 0 100px;
 }
 
@@ -70,7 +73,6 @@ body {
 }
 
 .southHandle {
-  /*border-bottom : 1px solid rgb(255, 0, 0);*/
   border-bottom : 1px solid rgb(69, 117, 165);
   width        : 100%;
   cursor       : s-resize;
@@ -80,7 +82,6 @@ body {
 }
 
 .eastHandle {
-  /*border-right : 1px solid rgb(255, 0, 0);*/
   border-right : 1px solid rgb(69, 117, 165);
   top         : 0;
   width       : 4px;
@@ -90,10 +91,6 @@ body {
 }
 
 southeast {
-  /*
-  border-bottom : 1px solid rgb(255, 0, 0);
-  border-right  : 1px solid rgb(255, 0, 0);
-  */
   border-bottom : 1px solid rgb(69, 117, 165);
   border-right  : 1px solid rgb(69, 117, 165);
   width         : 4px;
