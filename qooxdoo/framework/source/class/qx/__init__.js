@@ -1,5 +1,4 @@
-/** <h3>qooxdoo</h3>
- *
+/**
  * This is the framework's top-level namespace or "package". 
  * 
  * It contains some fundamental classes, while the rest of the  class hierarchy 
