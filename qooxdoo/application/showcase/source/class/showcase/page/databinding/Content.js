@@ -60,7 +60,7 @@ qx.Class.define("showcase.page.databinding.Content",
       }
 
       // fetch some data from Twitter
-      var url = "http://twitter.com/statuses/user_timeline/qooxdoo.json";
+      var url = "http://twitter.com/statuses/user_timeline/1and1.json";
       var store = new qx.data.store.Jsonp(url, null, "callback");
 
       // connect the store and the controller
@@ -84,7 +84,7 @@ qx.Class.define("showcase.page.databinding.Content",
        controlsBox.add(new qx.ui.core.Spacer(), {flex: 1});
 
        // create the user textfield and button
-       var userName = new qx.ui.form.TextField("qooxdoo");
+       var userName = new qx.ui.form.TextField("1and1");
        userName.setPlaceholder("username");
        controlsBox.add(userName);
        var userButton = new qx.ui.form.Button("Show");

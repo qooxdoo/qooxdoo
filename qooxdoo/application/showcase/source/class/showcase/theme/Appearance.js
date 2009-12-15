@@ -196,6 +196,6 @@ qx.Theme.define("showcase.theme.Appearance",
           font      : "legend"
         };
       }
-    }      
+    }  
   }
 });

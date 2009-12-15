@@ -20,17 +20,17 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/*)
-#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-image.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/office-chart.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-mail.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/document-send.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/mail-mark-junk.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/mail-mark-important.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/mail-message-new.png)
-#asset(qx/icon/${qx.icontheme}/16/devices/drive-harddisk.png)
-#asset(qx/icon/${qx.icontheme}/16/devices/drive-optical.png)
-#asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
+#asset(qx/icon/${qx.icontheme}/22/places/*)
+#asset(qx/icon/${qx.icontheme}/22/mimetypes/media-image.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/office-chart.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/document-send.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-junk.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-important.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/mail-message-new.png)
+#asset(qx/icon/${qx.icontheme}/22/devices/drive-harddisk.png)
+#asset(qx/icon/${qx.icontheme}/22/devices/drive-optical.png)
+#asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
 
 ************************************************************************ */
 
@@ -69,13 +69,13 @@ qx.Class.define("showcase.page.tree.Content",
       win.add(tree);
 
       var root = new qx.ui.tree.TreeFolder("Home").set({
-        icon: "icon/16/places/user-home.png"
+        icon: "icon/22/places/user-home.png"
       });
       root.setOpen(true);
       tree.setRoot(root);
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop").set({
-        icon: "icon/16/places/user-desktop.png"
+        icon: "icon/22/places/user-desktop.png"
       });
       te1.setOpen(true)
       root.add(te1);
@@ -83,53 +83,53 @@ qx.Class.define("showcase.page.tree.Content",
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
       var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
       var te1_3 = new qx.ui.tree.TreeFolder("Network").set({
-        icon: "icon/16/places/network-server.png"
+        icon: "icon/22/places/network-server.png"
       });
       var te1_4 = new qx.ui.tree.TreeFolder("Trash").set({
-        icon: "icon/16/places/user-trash.png"
+        icon: "icon/22/places/user-trash.png"
       });
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
 
       var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)").set({
-        icon: "icon/16/devices/drive-harddisk.png"
+        icon: "icon/22/devices/drive-harddisk.png"
       });
       var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)").set({
-        icon: "icon/16/devices/drive-harddisk.png"
+        icon: "icon/22/devices/drive-harddisk.png"
       });
       var te1_2_3 = new qx.ui.tree.TreeFile("DVD (E:)").set({
-        icon: "icon/16/devices/drive-optical.png"
+        icon: "icon/22/devices/drive-optical.png"
       });      
       te1_2.add(te1_2_1, te1_2_2, te1_2_3);
 
 
 
       var te2 = new qx.ui.tree.TreeFolder("Inbox").set({
-        icon: "icon/16/apps/internet-mail.png",
+        icon: "icon/22/apps/internet-mail.png",
         open: true
       });
 
       var te2_1 = new qx.ui.tree.TreeFolder("Junk").set({
-        icon: "icon/16/actions/mail-mark-junk.png"
+        icon: "icon/22/actions/mail-mark-junk.png"
       });
       var te2_2 = new qx.ui.tree.TreeFolder("Sent").set({
-        icon: "icon/16/actions/document-send.png"
+        icon: "icon/22/actions/document-send.png"
       });
       var te2_3 = new qx.ui.tree.TreeFolder("Trash").set({
-        icon: "icon/16/places/user-trash-full.png"
+        icon: "icon/22/places/user-trash-full.png"
       });
 
       for (var i=0; i<30; i++) {
         te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i).set({
-          icon: "icon/16/actions/mail-message-new.png"
+          icon: "icon/22/actions/mail-message-new.png"
         }));
       }
 
       var te2_4 = new qx.ui.tree.TreeFolder("Data").set({
-        icon: "icon/16/apps/office-chart.png"
+        icon: "icon/22/apps/office-chart.png"
       });
       var te2_5 = new qx.ui.tree.TreeFolder("Important").set({
-        icon: "icon/16/actions/mail-mark-important.png"
+        icon: "icon/22/actions/mail-mark-important.png"
       });
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
@@ -161,32 +161,32 @@ qx.Class.define("showcase.page.tree.Content",
 
       win.add(tree);
       
-      var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Home", "icon/16/places/user-home.png");
+      var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Home", "icon/22/places/user-home.png");
       root.setOpen(true);
       tree.setRoot(root);
 
       // One icon for selected and one for unselected states
-      var te1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Desktop", "icon/16/places/user-desktop.png");
+      var te1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Desktop", "icon/22/places/user-desktop.png");
       te1.setOpen(true);
       root.add(te1);
 
       var te1_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Files");
       var te1_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Workspace");
-      var te1_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Network", "icon/16/places/network-server.png");
-      var te1_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/16/places/user-trash-full.png");
+      var te1_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Network", "icon/22/places/network-server.png");
+      var te1_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/22/places/user-trash-full.png");
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
       // One icon specified, and used for both selected unselected states
-      var te1_2_1 = this.configureTreeItem(new qx.ui.tree.TreeFile(), "Windows (C:)", "icon/16/devices/drive-harddisk.png");
-      var te1_2_2 = this.configureTreeItem(new qx.ui.tree.TreeFile(), "Documents (D:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_1 = this.configureTreeItem(new qx.ui.tree.TreeFile(), "Windows (C:)", "icon/22/devices/drive-harddisk.png");
+      var te1_2_2 = this.configureTreeItem(new qx.ui.tree.TreeFile(), "Documents (D:)", "icon/22/devices/drive-harddisk.png");
       te1_2.add(te1_2_1, te1_2_2);
 
-      var te2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Inbox", "icon/16/apps/internet-mail.png");
+      var te2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Inbox", "icon/22/apps/internet-mail.png");
       te2.setOpen(true);
-      var te2_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Junk", "icon/16/actions/mail-mark-junk.png");
-      var te2_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Sent", "icon/16/actions/document-send.png");
-      var te2_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/16/places/user-trash.png");
-      var te2_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Data", "icon/16/apps/office-chart.png");
+      var te2_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Junk", "icon/22/actions/mail-mark-junk.png");
+      var te2_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Sent", "icon/22/actions/document-send.png");
+      var te2_3 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Trash", "icon/22/places/user-trash.png");
+      var te2_4 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Data", "icon/22/apps/office-chart.png");
       var te2_5 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Edit");
       var te2_5_1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Chat");
       var te2_5_2 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Pustefix");
@@ -216,7 +216,7 @@ qx.Class.define("showcase.page.tree.Content",
 
       var te2_8 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Images");
       for (var i=0;i<50; i++) {
-        te2_8.add(this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Vacation" + (i+1), "icon/16/mimetypes/media-image.png"));
+        te2_8.add(this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Vacation" + (i+1), "icon/22/mimetypes/media-image.png"));
       };
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8);
@@ -230,11 +230,11 @@ qx.Class.define("showcase.page.tree.Content",
     {
       // A left-justified icon
       if (Math.floor(Math.random() * 4) == 0) {
-        var img = new qx.ui.basic.Image("icon/16/status/dialog-information.png");
-        img.setWidth(16);
+        var img = new qx.ui.basic.Image("icon/22/status/dialog-information.png");
+        img.setWidth(22);
         treeItem.addWidget(img);
       } else {
-        treeItem.addWidget(new qx.ui.core.Spacer(16, 16));
+        treeItem.addWidget(new qx.ui.core.Spacer(22, 22));
       }
 
       // Here's our indentation and tree-lines
