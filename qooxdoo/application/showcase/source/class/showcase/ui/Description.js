@@ -44,7 +44,13 @@ qx.Class.define("showcase.ui.Description",
       refine: true,
       init: false
     },
-    
+
+    nativeContextMenu :
+    {
+      init : true,
+      refine : true
+    },
+
     allowGrowY : 
     {
       refine: true,
