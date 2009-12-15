@@ -135,6 +135,10 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       if (parentWidget[kids] == undefined) {
         if (kids === "getChildren") {
           kids = "_getChildren";
+
+          if (parentWidget[kids] == undefined) {
+            return;
+          }
         } else {
           return;
         }
