@@ -251,7 +251,8 @@ qx.Class.define("qx.event.handler.Mouse",
       var Event = qx.bom.Event;
       var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
 
-      Event.addNativeListener(this.__window, type, this.__onWheelEventWrapper);
+      var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
+      Event.addNativeListener(target, type, this.__onWheelEventWrapper);
     },
 
 
@@ -310,7 +311,8 @@ qx.Class.define("qx.event.handler.Mouse",
       var Event = qx.bom.Event;
       var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
 
-      Event.removeNativeListener(this.__window, type, this.__onWheelEventWrapper);
+      var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
+      Event.removeNativeListener(target, type, this.__onWheelEventWrapper);
     },
 
 
