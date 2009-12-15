@@ -53,8 +53,9 @@ qx.Class.define("showcase.page.table.Page",
     __descriptionText : "The table is a very powerful widget. It is “virtual” " + 
       "in that the table data can be of any length (e.g. hundreds of thousands" + 
       " of rows or more) yet only the rows which are actually being viewed are" +
-      " rendered. The data you currently see is fetched from a YQL service so " + 
-      "it's always up to date.",
+      " rendered. The data you currently see is fetched from a " + 
+      "<a href='http://developer.yahoo.com/yql/' target='_blank'>YQL</a> " + 
+      "service so it's always up to date.",
     
     __tryThis : {
       "Sorting" : "Click on the column header to sort the column.",
