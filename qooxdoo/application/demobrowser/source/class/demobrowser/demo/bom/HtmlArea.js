@@ -62,18 +62,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     main : function()
     {
       this.base(arguments);
-      
-      // Add log appenders
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.log.appender.Native;
-        qx.log.appender.Console;
-        if (qx.bom.client.Engine.MSHTML)
-        {
-          qx.log.appender.Console.init();
-        }
-      }
-      
+
       this.__container = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__container, { margin: "20px 20px" });
       
@@ -83,9 +72,9 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                                                                     margin: "0px" });
       var description = "<h1>HtmlArea low-level widget</h1>" + 
                         "<p>This low-level widget can be used separately at " +
-                        "traditional web pages / single-page applications. " + 
+                        "traditional web pages / single-page applications.<br/> " + 
                         "It is the foundation for the UI widget component.</p>" +
-                        "<p><b>No UI-level code</b> is included in this demo." +
+                        "<p style='margin-bottom:10px'><b>No UI-level code</b> is included in this demo." +
                         "You can play around with this widget by hitting the " +
                         "buttons at the toolbar.</p>";
       qx.bom.element.Attribute.set(this.__descriptionContainer, "innerHTML", description);
@@ -99,7 +88,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
       
       this.__htmlAreaContainer = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__htmlAreaContainer, { width: "840px", 
-                                                                 height: "400px",
+                                                                 height: "350px",
                                                                  border: "1px solid #AAA",
                                                                  borderTop: "0px",
                                                                  backgroundColor: "white" });
