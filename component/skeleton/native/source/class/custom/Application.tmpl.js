@@ -70,7 +70,6 @@ qx.Class.define("${Namespace}.Application",
 
       qx.bom.Element.addListener(document.body, "keydown", function(e) {
         logger.innerHTML += e.getKeyIdentifier() + "<br>";
-        e.preventDefault(); 
       });
             
     }
