@@ -23,7 +23,7 @@
  * 
  * @internal
  */
-qx.Class.define("qx.part.Package",
+qx.Class.define("qx.io.part.Package",
 {
   extend : qx.core.Object,
 

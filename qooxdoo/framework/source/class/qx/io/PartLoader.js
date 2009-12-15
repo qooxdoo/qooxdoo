@@ -34,7 +34,7 @@ qx.Class.define("qx.io.PartLoader",
     this.__packages = [];
     var uris = this._getUris();
     for (var i=0; i<uris.length; i++) {
-      this.__packages.push(new qx.part.Package(uris[i], i, i==0));
+      this.__packages.push(new qx.io.part.Package(uris[i], i, i==0));
     };
 
     this.__parts = {};
@@ -47,7 +47,7 @@ qx.Class.define("qx.io.PartLoader",
       for (var i=0; i<pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
-      var part = new qx.part.Part(name, packages);
+      var part = new qx.io.part.Part(name, packages);
       part.addListener("load", function(e) {
         this.fireDataEvent("partLoaded", e.getTarget());
       }, this);
