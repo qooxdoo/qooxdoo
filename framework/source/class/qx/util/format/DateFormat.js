@@ -1118,7 +1118,6 @@ qx.Class.define("qx.util.format.DateFormat",
   */
 
   destruct : function() {
-    this.__locale = this.__formatTree = this.__parseFeed =
-      this.__parseRules = null;
+    this.__formatTree = this.__parseFeed = this.__parseRules = null;
   }
 });

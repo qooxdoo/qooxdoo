@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.form.DateField",
         this.__formatter.dispose();
       }
       
-      this.__formatter = new qx.util.format.DateFormat(format);
+      this.__formatter = new qx.util.format.DateFormat(format, qx.locale.Manager.getInstance().getLocale());
       this.__dateFormat = format;
       
       return this.__formatter;
@@ -212,7 +212,8 @@ qx.Class.define("qx.ui.form.DateField",
       try
       {
         var textfield = this.getChildControl("textfield");
-        var currentDate = old.parse(textfield.getValue());
+        var dateStr =textfield.getValue()
+        var currentDate = old.parse(dateStr);
         textfield.setValue(value.format(currentDate));
       }
       catch (ex) {
