@@ -137,15 +137,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
           break;
 
         case "left":
-          if (item.isOpenable() && item.isOpen()) {
-            item.setOpen(false);
-          }
-          break;
-
         case "right":
-          if (item.isOpenable() && !item.isOpen()) {
-            item.setOpen(true);
-          }
           break;
       }
 

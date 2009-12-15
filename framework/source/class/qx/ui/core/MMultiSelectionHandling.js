@@ -310,6 +310,23 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     },
 
 
+    /**
+     * Returns the current lead item. Generally the item which was last modified
+     * by the user (clicked on etc.)
+     *
+     * @return {qx.ui.core.Widget} The lead item or <code>null</code>
+     */
+    _getLeadItem : function() {
+      var mode = this.__manager.getMode();
+      
+      if (mode === "single" || mode === "one") {
+        return this.__manager.getSelectedItem();
+      } else {
+        return this.__manager.getLeadItem();
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
