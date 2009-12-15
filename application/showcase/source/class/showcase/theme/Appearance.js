@@ -121,7 +121,7 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           decorator: new qx.ui.decoration.HBox("showcase/images/tag-hor.png"),
-          opacity: states.hovered ? 1 : 0.6,
+          opacity: qx.bom.client.Engine.MSHTML ? 1 : (states.hovered ? 1 : 0.6),
           height: 12
         };
       }
