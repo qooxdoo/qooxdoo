@@ -402,7 +402,7 @@ qx.Class.define("qx.ui.form.List",
           }
         }
 
-        if (label == search) {
+        if (label.toString() == search.toString()) {
           return item;
         }
       }
