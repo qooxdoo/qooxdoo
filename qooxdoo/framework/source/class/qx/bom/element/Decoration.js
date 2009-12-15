@@ -43,11 +43,13 @@ qx.Class.define("qx.bom.element.Decoration",
 
     /**
      * {Boolean} Whether the alpha image loader is needed.
-     * To prevent any issues reported by Maria Siebert (Thanks Maria) and others
-     * in combination with the opacity filter applied to e.g. disabled icons use
-     * the "disabled" images. This is done by adding a special second image which
-     * is already in a disabled state. In order to make use of this feature 
-     * the image has to follow the convention "-disabled".
+     * We enable this for all IE browser because of issues reported by Maria
+     * Siebert and others in combination with the opacity filter applied
+     * to e.g. disabled icons. Thanks Maria.
+     * 
+     * To prevent these issues use the "disabled" images. This is done by adding
+     * a special second image which is already in a disabled state. In order to 
+     * make use of this feature the image has to follow the convention "-disabled".
      * (e.g. "button.png" -> "button-disabled.png")  
      *
      * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
@@ -57,9 +59,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * this DOM structure to only use DIV elements which do not have a negative 
      * performance impact. See Bug #2185 for details.
      */
-    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
-      ((qx.bom.client.Engine.VERSION == 6) ||
-        (qx.bom.client.Engine.VERSION == 8 && qx.bom.client.Engine.DOCUMENT_MODE == 8)),
+    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml"),
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
