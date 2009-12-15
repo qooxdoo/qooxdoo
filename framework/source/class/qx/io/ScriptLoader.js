@@ -187,7 +187,6 @@ qx.Class.define("qx.io.ScriptLoader",
         } else if (e.type === "load") {
           return this.__cleanup("success");
         } else {
-          this.warn("RETURN")
           return;
         }
       },
