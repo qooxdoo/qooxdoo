@@ -106,6 +106,7 @@ qx.Class.define("inspector.Application",
       this.getRoot().add(this._container, {edge : 0});
 
       this.__createToolbar();
+      this.__setEnabledToolbar(false);
 
       var startUrl = "..";
       var cookieUrl = qx.bom.Cookie.get("url");
@@ -151,13 +152,14 @@ qx.Class.define("inspector.Application",
 
     __initInspector : function()
     {
-      this._toolbar.setEnabled(true);
       this._loadedWindow = this._iFrame.getContentElement().getWindow();
 
+      this.__setEnabledToolbar(false);
       // check if the app is loaded correctly
       if (!this.__checkWorking()) {
         return;
       }
+      this.__setEnabledToolbar(true);
 
       // check for the selector
       if (!this._selector) {
@@ -250,10 +252,6 @@ qx.Class.define("inspector.Application",
           // try to get the root element of the application
           this._loadedWindow.qx.core.Init.getApplication().getRoot();
 
-          // reset the enabled properties of the toolbar stuf
-          this._selectedWidgetLabel.resetEnabled();
-          this._urlTextField.resetEnabled();
-          this._reloadButton.resetEnabled();
           return true;
         } catch (ex) {
           qx.event.Timer.once(this.__initInspector, this, 500);
@@ -261,16 +259,9 @@ qx.Class.define("inspector.Application",
         }
       } catch (ex) {
         // signal that the inspector is not working
-        this._toolbar.setEnabled(false);
         this._selectedWidgetLabel.setValue(
           " Can not access the javascript in the iframe!"
         );
-        // enable the text to make it more visible
-        this._selectedWidgetLabel.setEnabled(true);
-        // enable the url field to give a chance to change the url
-        this._urlTextField.setEnabled(true);
-        // enable the reload button
-        this._reloadButton.setEnabled(true);
         return false;
       }
     },
@@ -297,7 +288,6 @@ qx.Class.define("inspector.Application",
       font.setItalic(true);
       inspectorLabel.setFont(font);
       this._toolbar.add(inspectorLabel);
-      this._toolbar.setEnabled(false);
 
       // add a separator
       this._toolbar.add(new qx.ui.toolbar.Separator());
@@ -379,7 +369,6 @@ qx.Class.define("inspector.Application",
 
 
     _reloadIframe: function(e) {
-      this._toolbar.setEnabled(false);
       this._loading = true;
 
       var iFrameSource = this._iFrame.getSource();
@@ -393,7 +382,11 @@ qx.Class.define("inspector.Application",
       else
       {
         if (e.getType() == "execute") {
-          this._iFrame.reload();
+          if (this._iFrame.getSource != iFrameSource) {
+            this._iFrame.setSource(iFrameSource);
+          } else {
+            this._iFrame.reload();
+          }
         }
       }
     },
@@ -443,6 +436,17 @@ qx.Class.define("inspector.Application",
         qx.bom.Cookie.set(name + "Width", e.getData().width, 7);
         qx.bom.Cookie.set(name + "Height", e.getData().height, 7);
       }, this);
+    },
+
+
+    __setEnabledToolbar : function(value)
+    {
+      this._objectsButton.setEnabled(value);
+      this._widgetsButton.setEnabled(value);
+      this._consoleButton.setEnabled(value);
+      this._propertyButton.setEnabled(value);
+      this._inspectButton.setEnabled(value);
+      this._selectedWidgetLabel.setEnabled(value);
     },
 
 
