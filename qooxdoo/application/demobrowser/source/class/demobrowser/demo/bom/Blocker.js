@@ -30,7 +30,8 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
       var input = qx.bom.Input.create("button", { value: "Block Document for 5s" });
       qx.bom.element.Style.setStyles(input, { position: "absolute",
                                               left: "100px",
-                                              top: "100px" });
+                                              top: "100px",
+                                              width: "200px" });
 
       var blocker = new qx.bom.Blocker;
       blocker.setBlockerOpacity(0.5);
@@ -52,8 +53,9 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
 
       var input2 = qx.bom.Input.create("button", { value: "Block Element for 5s" });
       qx.bom.element.Style.setStyles(input2, { position: "absolute",
-                                              left: "300px",
-                                              top: "100px" });
+                                              left: "320px",
+                                              top: "100px",
+                                              width: "200px" });
 
       var elementToBlock = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(elementToBlock, { position: "absolute",
