@@ -66,8 +66,8 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
       this.__container = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__container, { margin: "20px 20px" });
       
-      this.__descriptionContainer = qx.bom.Element.create("div");
-      qx.bom.element.Style.setStyles(this.__descriptionContainer, { width: "840px",
+      var descriptionContainer = qx.bom.Element.create("div");
+      qx.bom.element.Style.setStyles(descriptionContainer, { width: "840px",
                                                                     padding: "0px",
                                                                     margin: "0px" });
       var description = "<h1>HtmlArea low-level widget</h1>" + 
@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                         "<p style='margin-bottom:10px'><b>No UI-level code</b> is included in this demo." +
                         "You can play around with this widget by hitting the " +
                         "buttons at the toolbar.</p>";
-      qx.bom.element.Attribute.set(this.__descriptionContainer, "innerHTML", description);
+      qx.bom.element.Attribute.set(descriptionContainer, "innerHTML", description);
       
       this.__buttonContainer = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__buttonContainer, { width: "840px",
@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
       this.__setupToolbar();      
       
       qx.dom.Element.insertBegin(this.__buttonContainer, this.__container);
-      qx.dom.Element.insertBegin(this.__descriptionContainer, this.__container);
+      qx.dom.Element.insertBegin(descriptionContainer, this.__container);
       qx.dom.Element.insertBegin(this.__container, document.body);
    },
       
