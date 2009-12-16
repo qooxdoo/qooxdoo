@@ -64,7 +64,7 @@ qx.Class.define("showcase.page.tree.Content",
         selectionMode : "multi",
         dragSelection: true,
         decorator: null,
-        backgroundColor: "rgb(228,228,228)",
+        backgroundColor: "rgb(228,228,228)"
       });
       win.add(tree);
 
