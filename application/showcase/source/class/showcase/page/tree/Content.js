@@ -30,7 +30,6 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/mail-message-new.png)
 #asset(qx/icon/${qx.icontheme}/22/devices/drive-harddisk.png)
 #asset(qx/icon/${qx.icontheme}/22/devices/drive-optical.png)
-#asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
 
 ************************************************************************ */
 
@@ -63,8 +62,9 @@ qx.Class.define("showcase.page.tree.Content",
         width : 200,
         height : 400,
         selectionMode : "multi",
+        dragSelection: true,
         decorator: null,
-        backgroundColor: "rgb(228,228,228)"
+        backgroundColor: "rgb(228,228,228)",
       });
       win.add(tree);
 
@@ -156,6 +156,7 @@ qx.Class.define("showcase.page.tree.Content",
         height: 500,
         decorator: null,
         selectionMode : "multi",
+        dragSelection: true,
         backgroundColor: "rgb(228,228,228)"
       });
 
@@ -228,15 +229,6 @@ qx.Class.define("showcase.page.tree.Content",
     
     configureTreeItem : function(treeItem, vLabel, vIcon)
     {
-      // A left-justified icon
-      if (Math.floor(Math.random() * 4) == 0) {
-        var img = new qx.ui.basic.Image("icon/22/status/dialog-information.png");
-        img.setWidth(22);
-        treeItem.addWidget(img);
-      } else {
-        treeItem.addWidget(new qx.ui.core.Spacer(22, 22));
-      }
-
       // Here's our indentation and tree-lines
       treeItem.addSpacer();
 
