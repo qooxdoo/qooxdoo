@@ -34,7 +34,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * gets the hash map of message subscriptions
      *
-     * @return {Map} with registered subscriptions. The key is the 
+     * @return {Map} with registered subscriptions. The key is the
      *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
      *    context: {Object|null}}</code>.
      */
@@ -92,7 +92,7 @@ qx.Class.define("qx.event.message.Bus",
      * dispatch message and call subscribed functions
      *
      * @param msg {qx.event.message.Message|String} message which is being dispatched
-     * @return {Boolean} <code>true</code> if the message was dispatched, 
+     * @return {Boolean} <code>true</code> if the message was dispatched,
      *    <code>false</code> otherwise.
      */
     dispatch : function(msg)
@@ -120,7 +120,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * gets the hash map of message subscriptions
      *
-     * @return {Map} with registered subscriptions. The key is the 
+     * @return {Map} with registered subscriptions. The key is the
      *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
      *    context: {Object|null}}</code>.
      */
@@ -252,7 +252,7 @@ qx.Class.define("qx.event.message.Bus",
      * dispatch message and call subscribed functions
      *
      * @param msg {qx.event.message.Message|String} message which is being dispatched
-     * @return {Boolean} <code>true</code> if the message was dispatched, 
+     * @return {Boolean} <code>true</code> if the message was dispatched,
      *    <code>false</code> otherwise.
      */
     dispatch : function(msg)

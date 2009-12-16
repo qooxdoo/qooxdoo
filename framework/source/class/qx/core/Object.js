@@ -165,15 +165,15 @@ qx.Class.define("qx.core.Object",
      * property values. Do not configure a parent nor apply the appearance
      * styles directly.
      * The method has some limitation you should know before considering to use
-     * it: 
-     * 
+     * it:
+     *
      * * Objects with mandatory constructor parameters can not be cloned.
-     * * Objects holding its state not only in properties will not have the same 
+     * * Objects holding its state not only in properties will not have the same
      * state!
-     * 
+     *
      *  * The method fails cloning singletons.
-     * 
-     *  * If you have stored other qooxdoo objects in properties, only the 
+     *
+     *  * If you have stored other qooxdoo objects in properties, only the
      * references will be cloned. (flat copy)
      *
      * @return {qx.core.Object} The clone

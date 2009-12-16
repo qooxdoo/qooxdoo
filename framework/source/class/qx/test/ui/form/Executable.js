@@ -48,29 +48,29 @@ qx.Class.define("qx.test.ui.form.Executable",
       }, function(e) {
         // do nothing
       }, "Execute event on the command is wrong! (2)");
-      
+
       this.assertEventFired(command, "execute", function() {
         command.execute();
       }, function(e) {
         // do nothing
-      }, "Execute event on the command is wrong! (3)");      
-      
+      }, "Execute event on the command is wrong! (3)");
+
       this.assertEventFired(widget, "execute", function() {
         command.execute();
       }, function(e) {
         // do nothing
       }, "Execute event on the widget is wrong! (4)");
-      
+
       // test removing of the command
       widget.setCommand(null);
-      
+
       // check if the listener has been removed
       this.assertEventNotFired(widget, "execute", function() {
         command.execute();
       }, function(e) {
         // do nothing
       }, "Execute event on the widget is wrong! (5)");
-      
+
       command.dispose();
       widget.destroy();
     },

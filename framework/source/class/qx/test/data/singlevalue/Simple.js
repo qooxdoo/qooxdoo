@@ -27,13 +27,13 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
   {
     __a : null,
     __b: null,
-    
+
     setUp : function() {
       // create the widgets
       this.__a = new qx.test.data.singlevalue.TextFieldDummy();
-      this.__b = new qx.test.data.singlevalue.TextFieldDummy();      
+      this.__b = new qx.test.data.singlevalue.TextFieldDummy();
     },
-    
+
     tearDown : function() {
       this.__a.dispose();
       this.__b.dispose();
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       // string to float
       var s = new qx.test.data.singlevalue.TextFieldDummy();
       s.setFloatt(0);
-      
+
       qx.data.SingleValueBinding.bind(s, "floatt", this.__b, "appearance");
       s.setFloatt(13.5);
       this.assertEquals("13.5", this.__b.getAppearance(), "Float --> String does not work!");

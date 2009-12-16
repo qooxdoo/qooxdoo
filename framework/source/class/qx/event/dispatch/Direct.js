@@ -94,14 +94,14 @@ qx.Class.define("qx.event.dispatch.Direct",
         {
           var expectedEventClassName = qx.Class.getEventType(target.constructor, type);
           var expectedEventClass = qx.Class.getByName(expectedEventClassName);
-          if (!expectedEventClass) 
+          if (!expectedEventClass)
           {
             this.error(
               "The event type '" + type + "' declared in the class '" +
               target.constructor + " is not an available class': " +
               expectedEventClassName
             );
-          } 
+          }
           else if (!(event instanceof expectedEventClass))
           {
             this.error(
@@ -110,8 +110,8 @@ qx.Class.define("qx.event.dispatch.Direct",
             );
           }
         }
-      } 
-      
+      }
+
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var listeners = this._manager.getListeners(target, type, false);

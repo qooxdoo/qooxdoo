@@ -59,7 +59,7 @@ qx.Class.define("qx.io.PartLoader",
   events :
   {
     /**
-     * Fired if a parts was loaded. The data of the event instance point to the 
+     * Fired if a parts was loaded. The data of the event instance point to the
      * loaded part instance.
      */
     "partLoaded" : "qx.event.type.Data"

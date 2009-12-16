@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     /**
      * Return the intersection of two maps as an array. The objects intersect if
      * they have the same keys.
-     * 
+     *
      * @param setA {Object} The first map
      * @param setB {Object} The second map
      * @return {String[]} An array keys found in both maps

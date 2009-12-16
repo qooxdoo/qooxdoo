@@ -465,11 +465,11 @@ qx.Class.define("qx.ui.layout.Grid",
       var row = this.__grid[row] || {};
       return row[column] ||  null;
     },
-    
-    
+
+
     /**
      * Get the number of rows in the grid layout.
-     * 
+     *
      * @return {Integer} The number of rows in the layout
      */
     getRowCount : function()
@@ -480,11 +480,11 @@ qx.Class.define("qx.ui.layout.Grid",
 
       return this.__maxRowIndex + 1;
     },
-    
-    
+
+
     /**
      * Get the number of columns in the grid layout.
-     * 
+     *
      * @return {Integer} The number of columns in the layout
      */
     getColumnCount : function()
@@ -492,7 +492,7 @@ qx.Class.define("qx.ui.layout.Grid",
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
-      
+
       return this.__maxColIndex + 1;
     },
 

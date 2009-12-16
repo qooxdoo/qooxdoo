@@ -74,14 +74,14 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
 
     /**
      * Renders a cell
-     * 
+     *
      * @param htmlArr {String[]} the output array
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * @param left {Integer} The cell's CSS left position (in pixel) 
+     * @param left {Integer} The cell's CSS left position (in pixel)
      * @param top {Integer} The cell's CSS top position (in pixel)
-     * @param width {Integer} The cell's width 
-     * @param height {Integer} The cell's height 
+     * @param width {Integer} The cell's width
+     * @param height {Integer} The cell's height
      */
     __renderCell : function(htmlArr, row, column, left, top, width, height)
     {

@@ -96,7 +96,7 @@ qx.Class.define("qx.test.core.Object",
       data.push({value: ["a"], old: []});
 
       var emitter = new qx.test.core.EventEmitterDummy();
-      
+
       for (var i = 0; i < data.length; i++) {
         this.assertEventFired(emitter, "eventName", function() {
           emitter.fireDataEvent("eventName", data[i].value, data[i].old);
@@ -106,29 +106,29 @@ qx.Class.define("qx.test.core.Object",
         });
       }
     },
-    
-    
+
+
     testFireEventTypeCheck : function()
     {
       if (!this.isDebugOn()) {
         return;
       }
-      
+
       var emitter = new qx.test.core.EventEmitterDummy();
       emitter.addListener("plain", qx.lang.Function.empty);
       emitter.addListener("error", qx.lang.Function.empty);
       emitter.addListener("data", qx.lang.Function.empty);
-      
+
       // store error logger
       var oldError = qx.log.Logger.error;
       var called = 0;
       qx.log.Logger.error = function(arguments) {
         called += 1;
       }
-      
+
       emitter.fireEvent("plain", qx.event.type.Event);
       this.assertEquals(0, called);
-      
+
       emitter.fireEvent("error", qx.event.type.Event);
       this.assertEquals(1, called);
 
@@ -137,7 +137,7 @@ qx.Class.define("qx.test.core.Object",
 
       emitter.fireEvent("data", qx.event.type.Data);
       this.assertEquals(2, called);
-      
+
       qx.log.Logger.error = oldError;
     }
   }

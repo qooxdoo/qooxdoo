@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {Boolean} Flag to detect if the client runs in SSL mode */
     SSL : window.location.protocol === "https:",
-    
+
     /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
     CSS_POINTER_EVENTS : "pointerEvents" in document.documentElement.style,
 

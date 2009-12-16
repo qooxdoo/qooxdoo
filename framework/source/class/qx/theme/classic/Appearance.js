@@ -2512,7 +2512,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "htmlarea" :
     {
       "include" : "widget",
-      
+
       style : function(states)
       {
         return {

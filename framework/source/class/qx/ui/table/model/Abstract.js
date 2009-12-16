@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
     /**
      * Abstract method
-     * 
+     *
      * @param columnIndex {Integer} the index of the column
      * @param rowIndex {Integer} the index of the row
      *

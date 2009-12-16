@@ -31,7 +31,7 @@ qx.Class.define("qx.io2.part.Part",
    * @param name {String} Name of the part as defined in the config file at
    *    compile time.
    * @param packages {Package[]} List of dependent packages
-   * 
+   *
    * @deprecated Use 'qx.io.part.Part' instead.
    */
   construct : function(name, packages)

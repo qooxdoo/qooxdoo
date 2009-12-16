@@ -20,16 +20,16 @@
 
 /**
  * Number cell renderer.
- * 
+ *
  * Renders the call using the configured number formatter.
- * 
+ *
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Number",
 {
   extend : qx.ui.virtual.cell.Cell,
 
-  
+
   /**
    * @param numberFormat {qx.util.format.NumberFormat|null} Optional number
    *   format to use.

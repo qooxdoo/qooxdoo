@@ -27,7 +27,7 @@
  * {@link qx.ui.layout.Basic}. The widget's layout cannot be changed.
  *
  * The page widget does not support paddings and decorators with insets.
- * 
+ *
  * Note: This widget does not support decorations!
  *
  * If you want to place widgets inside existing DOM elements
@@ -171,18 +171,18 @@ qx.Class.define("qx.ui.root.Page",
     supportsMaximize : function() {
       return false;
     },
-    
-    
+
+
     // overridden
     _applyPadding : function(value, old, name)
     {
-      if (value && (name == "paddingTop" || name == "paddingLeft")) {
-        throw new Error("The root widget does not support 'left', or 'top' paddings!");        
+      if (value && (name == "paddingTop" || name == "paddingLeft")) {
+        throw new Error("The root widget does not support 'left', or 'top' paddings!");
       }
       this.base(arguments, value, old, name);
     },
-    
-    
+
+
     // overridden
     _applyDecorator : function(value, old)
     {
@@ -190,12 +190,12 @@ qx.Class.define("qx.ui.root.Page",
       if (!value) {
         return;
       }
-      
+
       var insets = this.getDecoratorElement().getInsets();
-      if (insets.left || insets.top) {
+      if (insets.left || insets.top) {
         throw new Error("The root widget does not support decorators with 'left', or 'top' insets!");
       }
-    }    
+    }
   },
 
 

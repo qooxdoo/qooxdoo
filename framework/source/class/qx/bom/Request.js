@@ -699,17 +699,17 @@ qx.Class.define("qx.bom.Request",
       }
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
- 
+
   destruct : function()
   {
     // Stop timeout first
-    if (this.__timeoutHandle) 
+    if (this.__timeoutHandle)
     {
       window.clearTimeout(this.__timeoutHandle);
       this.__timeoutHandle = null;

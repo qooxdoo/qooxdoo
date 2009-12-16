@@ -605,7 +605,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Returns the start of the text selection
-     * 
+     *
      * @return {Integer|null} Start of selection or null if not available
      */
     getTextSelectionStart : function() {
@@ -615,7 +615,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Returns the end of the text selection
-     * 
+     *
      * @return {Integer|null} End of selection or null if not available
      */
     getTextSelectionEnd : function() {

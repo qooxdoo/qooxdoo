@@ -48,7 +48,7 @@ qx.Class.define("qx.html.Decorator",
     if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
       styles.pointerEvents = "none"
     }
-    
+
     this.setStyles(styles);
   },
 

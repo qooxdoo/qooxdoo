@@ -180,15 +180,15 @@ qx.Class.define("qx.event.handler.Application",
           if (qx.event.Registration.hasListener(this._window, "ready"))
           {
             this.__isReady = true;
-    
+
             // Fire user event
             qx.event.Registration.fireEvent(this._window, "ready");
           }
-        } 
+        }
         else
         {
           this.__isReady = true;
-    
+
           // Fire user event
           qx.event.Registration.fireEvent(this._window, "ready");
         }

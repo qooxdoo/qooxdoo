@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /**
      * Whether the line with the given index is currently rendered (i.e. in the
      * layer's view port).
-     * 
+     *
      * @param index {Integer} The line's index
      * @return {Boolean} Whether the line is rendered
      */

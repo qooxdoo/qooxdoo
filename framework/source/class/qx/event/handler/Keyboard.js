@@ -681,13 +681,13 @@ qx.Class.define("qx.event.handler.Keyboard",
         8: true,
         9: true
       },
-      
+
       "webkit" : {
         8: true,
         9: true,
         27: true
       },
-      
+
       "default" : {}
     }),
 

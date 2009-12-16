@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // React on mousedown/mouseup events, but on native, to support inline applications
     Registration.addListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
-    
+
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
     Registration.addListener(el, "keyup", this._onKeyUpDown, this, true);
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // If the target is 'null' the click appears on a DOM element witch is not
       // a widget. This happens normally with a inline application, when the user
-      // clicks not in the inline application. In this case all all currently 
+      // clicks not in the inline application. In this case all all currently
       // open menus should be closed.
       if (target == null) {
         this.hideAll();

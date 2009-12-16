@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     /**
      * Handler for the execute event.
-     * 
+     *
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute : function(e) {

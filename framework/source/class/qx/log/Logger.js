@@ -311,15 +311,15 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
-     * Prints a constant deprecation warning and a stacktrace if the setting 
+     * Prints a constant deprecation warning and a stacktrace if the setting
      * <code>qx.debug</code> is set to <code>on</code> AND the browser supports
      * __defineGetter__!
-     * 
+     *
      * @param clazz {Class} The class the constant is attached to.
      * @param constant {String} The name of the constant as string.
      * @param msg {String} Optional message to be printed.
      */
-    deprecatedConstantWarning : function(clazz, constant, msg) 
+    deprecatedConstantWarning : function(clazz, constant, msg)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.log.Logger",
         if (clazz.__defineGetter__) {
           var self = this;
           var constantValue = clazz[constant];
-          clazz.__defineGetter__(constant, function() { 
+          clazz.__defineGetter__(constant, function() {
             self.warn(
               "The constant '"+ constant + "' is deprecated: " +
               (msg || "Please consult the API documentation for alternatives.")

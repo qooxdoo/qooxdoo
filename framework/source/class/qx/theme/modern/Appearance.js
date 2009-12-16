@@ -862,9 +862,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = states.selected ? "selected" : undefined;
         }
-        
+
         return {
-          padding   : states.dragover ? [4, 4, 2, 4] : 4,
+          padding   : states.dragover ? [4, 4, 2, 4] : 4,
           textColor : states.selected ? "text-selected" : undefined,
           decorator : decorator
         };
@@ -2784,7 +2784,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "htmlarea" :
     {
       "include" : "widget",
-      
+
       style : function(states)
       {
         return {

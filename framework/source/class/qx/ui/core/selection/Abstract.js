@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns the selection context. One of <code>click</code>,
      * <code>quick</code>, <code>drag</code> or <code>key</code> or
      * <code>null</code>.
-     * 
+     *
      * @return {String} One of <code>click</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * by the user (clicked on etc.)
      *
      * @return {Object} The lead item or <code>null</code>
-     * 
+     *
      * @deprecated Use public 'getLeadItem' instead.
      */
     _getLeadItem : function() {
@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           "Please use public 'getLeadItem' instead."
         );
       }
-      
+
       return this.getLeadItem();
     },
 

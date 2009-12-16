@@ -44,7 +44,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
   },
 
 
-  members : 
+  members :
   {
     /**
      * Apply function for every property created with the

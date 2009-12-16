@@ -92,7 +92,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     // The cursor context examines if the current text node is formatted in any manner
     // like bold or italic. An event is thrown to e.g. activate/deactivate toolbar buttons.
     // Additionally the mouseup at document level is necessary for gecko and webkit
-    // to reset the focus (see Bug #2896). 
+    // to reset the focus (see Bug #2896).
     this.__handleMouseUpOnBody = qx.lang.Function.bind(this._handleMouseUpOnBody, this);
     this.__handleMouseUpOnDocument = qx.lang.Function.bind(this._handleMouseUpOnDocument, this);
 
@@ -255,7 +255,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     // regex to extract text content from innerHTML
     GetWordsRegExp     : /([^\u0000-\u0040\u005b-\u005f\u007b-\u007f]|['])+/g,
     CleanupWordsRegExp : /[\u0000-\u0040]/gi,
-    
+
     /** Map with infos about hotkey methods */
     hotkeyInfo :
     {
@@ -1294,7 +1294,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       this.__isReady = true;
 
       // replace the commandManager to be sure the stacked commands are
-      // executed at the correct manager 
+      // executed at the correct manager
       this.__commandManager = cm;
       cm.setContentDocument(this._getIframeDocument());
 
@@ -1343,14 +1343,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * Sets the editor for all gecko browsers into the state "invalid" to be 
+     * Sets the editor for all gecko browsers into the state "invalid" to be
      * able to re-initialize the editor with the next load of the iframe.
-     * 
+     *
      * This "invalid" state is necessary whenever the whole HtmlArea high-level
      * widget is moved around to another container.
-     * 
+     *
      * Only implemented for Gecko browser.
-     * 
+     *
      * @signature function()
      */
     invalidateEditor : qx.core.Variant.select("qx.client",
@@ -1369,11 +1369,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Called when the iframes is loaded and the HtmlArea is in the "invalid"
      * state. Re-initializes the HtmlArea and fires the {@link qx.bom.htmlarea.HtmlArea#readyAfterInvalid}
-     * event to offer a time moment for the application developer to execute 
+     * event to offer a time moment for the application developer to execute
      * commands after the re-location.
-     * 
+     *
      * Only implemented for Gecko browser.
-     * 
+     *
      * @signature function()
      */
     __resetEditorToValidState : qx.core.Variant.select("qx.client",
@@ -1382,7 +1382,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       {
         this.__renderContent();
         this.__addListeners();
-        
+
         this.__commandManager.setContentDocument(this._getIframeDocument());
 
         this.setEditable(true);
@@ -1525,8 +1525,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * Helper method to create an object which acts like a command manager 
-     * instance to collect all commands which are executed BEFORE the command 
+     * Helper method to create an object which acts like a command manager
+     * instance to collect all commands which are executed BEFORE the command
      * manager instance is ready.
      *
      * @return {Object} stack command manager object
@@ -1534,20 +1534,20 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     __createStackCommandManager : function()
     {
       if (this.__stackCommandManager == null)
-      { 
+      {
         this.__stackCommandManager = {
           execute : function(command, value)
           {
             this.stackedCommands = true;
             this.commandStack.push( { command : command, value : value } );
           },
-  
+
           commandStack : [],
           stackedCommands : false
         };
       }
       this.__stackCommandManager.stackedCommands = false;
-      
+
       return this.__stackCommandManager;
     },
 
@@ -1560,7 +1560,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     __processStackedCommands : function()
     {
       var manager = this.__stackCommandManager;
-      
+
       if (manager != null && manager.stackedCommands)
       {
         var commandStack = manager.commandStack;
@@ -1714,10 +1714,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         this.debug(e.getType() + " | " + keyIdentifier);
       }
 
-      // This block inserts a linebreak when the key combination "Ctrl+Enter" 
+      // This block inserts a linebreak when the key combination "Ctrl+Enter"
       // was pressed. It is necessary in IE to look after the keypress and the
-      // keyup event. The keypress delivers the "Ctrl" key and the keyup the 
-      // "Enter" key. If the latter occurs right after the first one the 
+      // keyup event. The keypress delivers the "Ctrl" key and the keyup the
+      // "Enter" key. If the latter occurs right after the first one the
       // linebreak gets inserted.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
@@ -1741,7 +1741,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             break;
 
             // The keyUp event of the control key ends the "Ctrl+Enter" session.
-            // So it is supported that the user is pressing this combination 
+            // So it is supported that the user is pressing this combination
             // several times without releasing the "Ctrl" key.
             case "control":
               this.__controlPressed = false;
@@ -1770,18 +1770,18 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
       else if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        if (isCtrlPressed) 
+        if (isCtrlPressed)
         {
           if (this.getInsertLinebreakOnCtrlEnter() && keyIdentifier == "enter")
           {
             this.__insertWebkitLineBreak();
-  
+
             e.preventDefault();
             e.stopPropagation();
-  
+
             this.__startExamineCursorContext();
           }
-          
+
           this.__controlPressed = false;
         }
       }
@@ -1874,7 +1874,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         // for IE it's necessary to NOT look at the cursorcontext right after
         // the "Enter" because the corresponding styles / elements are not yet
         // created.
-        var fireEvent = !(qx.core.Variant.isSet("qx.client", "mshtml") && keyIdentifier == "enter") || 
+        var fireEvent = !(qx.core.Variant.isSet("qx.client", "mshtml") && keyIdentifier == "enter") ||
                         !(qx.core.Variant.isSet("qx.client", "gecko") &&  keyIdentifier == "enter");
 
         if (fireEvent)
@@ -1930,9 +1930,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             }
             else if (qx.core.Variant.isSet("qx.client", "opera"))
             {
-              // To insert a linebreak for Opera it is necessary to work with 
-              // ranges and add the <br> element on node-level. The selection 
-              // of the node afterwards is necessary for Opera to show the 
+              // To insert a linebreak for Opera it is necessary to work with
+              // ranges and add the <br> element on node-level. The selection
+              // of the node afterwards is necessary for Opera to show the
               // cursor correctly.
               var sel = this.getSelection();
               var rng = this.__createRange(sel);
@@ -1953,16 +1953,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             this.__startExamineCursorContext();
           }
 
-          // Special handling for IE when hitting the "Enter" key instead of 
-          // letting the IE insert a <p> insert manually a <br> if the 
+          // Special handling for IE when hitting the "Enter" key instead of
+          // letting the IE insert a <p> insert manually a <br> if the
           // corresponding property is set.
           if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
             if (!this.getInsertParagraphOnLinebreak())
             {
               // Insert a "br" element to force a line break. If the insertion
-              // succeeds stop the key event otherwise let the browser handle 
-              // the linebreak e.g. if the user is currently editing an 
+              // succeeds stop the key event otherwise let the browser handle
+              // the linebreak e.g. if the user is currently editing an
               // (un)ordered list.
               if (this.__commandManager.execute("inserthtml", qx.bom.htmlarea.HtmlArea.simpleLinebreak))
               {
@@ -2013,7 +2013,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
               this.__commandManager.insertParagraphOnLinebreak();
               e.preventDefault();
               e.stopPropagation();
-              
+
               this.__startExamineCursorContext();
               this.__fireCursorContextOnNextInput = true;
             }
@@ -2034,8 +2034,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
         case "up" :
-          // Firefox 2 needs some additional work to select the first line 
-          // completely in case the selection is already on the first line and 
+          // Firefox 2 needs some additional work to select the first line
+          // completely in case the selection is already on the first line and
           // "key up" is pressed.
           if (qx.bom.client.Engine.GECKO && qx.bom.client.Engine.FULLVERSION < 1.9 && isShiftPressed)
           {
@@ -2059,7 +2059,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           break;
 
 
-        // Firefox 2 needs some extra work to move the cursor (and optionally 
+        // Firefox 2 needs some extra work to move the cursor (and optionally
         // select text while moving) to first position in the first line.
         case "home":
           if (qx.bom.client.Engine.GECKO && qx.bom.client.Engine.FULLVERSION < 1.9)
@@ -2093,7 +2093,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                   while(currentItem = elements.iterateNext())
                   {
                     // Skip CSS text nodes
-                    if(currentItem && currentItem.parentNode && 
+                    if(currentItem && currentItem.parentNode &&
                        currentItem.parentNode.tagName != "STYLE")
                     {
                       // Expand selection to first text node and collapse here
@@ -2105,7 +2105,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                           sel.collapseToStart();
                         }
                       } catch(e) {}
-  
+
                       // We have found the correct text node, leave loop here
                       break;
                     }
@@ -2199,7 +2199,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       if (hotkeyInfo[hotkeyIdentifier]) {
         method = hotkeyInfo[hotkeyIdentifier].method;
       }
-      
+
       if (method != null && this[method])
       {
         this[method]();
@@ -2209,7 +2209,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           this.__currentEvent.preventDefault();
           this.__currentEvent.stopPropagation();
         }
-        
+
         if (this.isSelectionCollapsed()) {
           this.__fireCursorContextOnNextInput = true;
         }
@@ -2287,14 +2287,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Checks if the user has performed a selection and released  the mouse
      * button outside of the editor. If so the body element is re-activated
      * to receive the keypress events correctly.
-     * 
+     *
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      * @signature function(e)
      */
     _handleMouseUpOnDocument : qx.core.Variant.select("qx.client", {
       "mshtml" : function(e) {},
-      
+
       "default" : function(e)
       {
         if (!this.__mouseUpOnBody) {
@@ -2986,7 +2986,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Helper method to check if the selection is collapsed
-     * 
+     *
      * @return {Boolean} collapsed status of selection
      */
     isSelectionCollapsed : qx.core.Variant.select("qx.client",
@@ -3352,7 +3352,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       /* TODO: complete disposing */
       var doc = this._getIframeDocument();
       var Registration = qx.event.Registration;
-            
+
       Registration.removeListener(doc.body, "keypress", this._handleKeyPress, this);
       Registration.removeListener(doc.body, "keyup", this._handleKeyUp, this);
       Registration.removeListener(doc.body, "keydown", this._handleKeyDown, this);
@@ -3372,6 +3372,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     this.__handleFocusEvent = this.__handleBlurEvent = this.__handleFocusOutEvent = null;
     this.handleMouseUpOnBody = this.__handleMouseUpOnDocument = this.__documentSkeletonParts = null;
-    this.__iframe = this.__widget = null; 
+    this.__iframe = this.__widget = null;
   }
 });

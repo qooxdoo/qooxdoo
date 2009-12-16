@@ -187,10 +187,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
   {
     /** {Array} List of all non CSS themable properties */
     __themableProperties : null,
-    
+
     /** {String} Unique key over the current set of states */
     __statesKey : null,
-    
+
     __states : null,
 
     __themeValues : null,
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     __isThemed : false,
     __stylesheet : null,
 
-    
+
     /**
      * Collect all themable properties, which are not CSS properties
      */
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
     /**
      * Get a list of all properties, which should be applied as CSS styles.
-     * 
+     *
      * @return {Array} List of property names
      */
     _getCssProperties : function()
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
     /**
      * Compute the value of the given property
-     * 
+     *
      * @param propertyName {String} Name of the property
      * @return {var} The Property value
      */
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     /**
      * Set the cell states and set the correct CSS class for the given state
      * combination
-     * 
+     *
      * @param states {Object} A map containing the cell's state names as map keys.
      */
     __setStates : function(states)
@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
     /**
      * Set the new themed value for all CSS properties given the set of states
-     * 
+     *
      * @param states {Object} A map containing the cell's state names as map keys.
      */
     __updateThemeableProperties : function(states)

@@ -23,10 +23,10 @@
 
 /**
  * Abstract base class for HTML based cell renderer.
- * 
+ *
  * HTML cell renderer are used to construct an HTML string, which is used to
  * render the cell.
- * 
+ *
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Abstract",
@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
   {
     /**
      * Get the css classes for the cell
-     * 
+     *
      * @param value {var} The cell's data value
      * @param states {Object} A map containing the cell's state names as map keys.
      * @return {String} Space separated list of CSS classes
@@ -57,37 +57,37 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
       return "qx-cell";
     },
 
-    
+
     /**
      * Get the element attributes for the cell
-     * 
+     *
      * @param value {var} The cell's data value
      * @param states {Object} A map containing the cell's state names as map keys.
-     * @return {String} Compiled string of cell attributes. e.g. 
-     *   <code>'tabIndex="1" readonly="false"'</code>  
+     * @return {String} Compiled string of cell attributes. e.g.
+     *   <code>'tabIndex="1" readonly="false"'</code>
      */
     getAttributes : function(value, states) {
       return "";
     },
 
-    
+
     /**
      * Get the CSS styles for the cell
-     * 
+     *
      * @param value {var} The cell's data value
      * @param states {Object} A map containing the cell's state names as map keys.
-     * @return {String} Compiled string of CSS styles. e.g. 
-     *   <code>'color="red; padding: 10px'</code>  
+     * @return {String} Compiled string of CSS styles. e.g.
+     *   <code>'color="red; padding: 10px'</code>
      */
     getStyles: function(value, states) {
       return "";
     },
 
-    
+
     /**
-     * Get the cell's insets. Insets are the sum of the cell's padding and 
+     * Get the cell's insets. Insets are the sum of the cell's padding and
      * border width.
-     * 
+     *
      * @param value {var} The cell's data value
      * @param states {Object} A map containing the cell's state names as map keys.
      * @return {Integer[]} An array containing the sum of horizontal insets at index
@@ -97,13 +97,13 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
       return [0, 0];
     },
 
-    
+
     /**
      * Get cell'S HTML content
-     * 
+     *
      * @param value {var} The cell's data value
      * @param states {Object} A map containing the cell's state names as map keys.
-     * @return {String} The cell's content as HTML fragment.  
+     * @return {String} The cell's content as HTML fragment.
      */
     getContent : function(value, states) {
       return value;

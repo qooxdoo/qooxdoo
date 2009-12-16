@@ -38,7 +38,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
           event : "changeChild",
           nullable : true
         },
-        
+
         childWithout : {
           check : "qx.test.MultiBinding",
           nullable : true
@@ -59,7 +59,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
           event: "changeLable"
         }
       },
-      
+
       destruct : function()
       {
         if (this.getLab()) {
@@ -340,220 +340,220 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
-    
-    
-    testDeepTargetChange : function() 
+
+
+    testDeepTargetChange : function()
     {
       var oldLabel = this.__b1.getLab();
       var newLabel = new qx.test.data.singlevalue.TextFieldDummy("x");
-      
+
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.value");
 
       this.__b1.setLab(newLabel);
       this.assertEquals("a", this.__b1.getLab().getValue());
-      
+
       this.__a.setName("l");
       this.assertEquals("a", oldLabel.getValue());
       this.assertEquals("l", this.__b1.getLab().getValue());
-      
+
       newLabel.dispose();
       oldLabel.dispose();
     },
-    
-    testDeepTargetChange3 : function() 
+
+    testDeepTargetChange3 : function()
     {
       // set up the target chain
       this.__a.setChild(this.__b1);
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "child.child.lab.value");
-      
+
       // check the default set
       this.__label.setValue("123");
       this.assertEquals("123", this.__b2.getLab().getValue());
-      
+
       // change the child of __a
       this.__a.setChild(this.__b2);
       this.assertEquals("123", this.__b1.getLab().getValue());
-      
+
       // set another label value
       this.__label.setValue("456");
       this.assertEquals("123", this.__b2.getLab().getValue());
       this.assertEquals("456", this.__b1.getLab().getValue());
     },
-    
-    
-    testDeepTargetChange3Remove : function() 
+
+
+    testDeepTargetChange3Remove : function()
     {
       // set up the target chain
       this.__a.setChild(this.__b1);
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
-      
+
       var id = qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "child.child.lab.value");
-      
+
       // check the default set
       this.__label.setValue("123");
       this.assertEquals("123", this.__b2.getLab().getValue(), "0");
-      
+
       qx.data.SingleValueBinding.removeBindingFromObject(this.__label, id);
-      
+
       // change the child of __a
       this.__a.setChild(this.__b2);
-      this.assertEquals("", this.__b1.getLab().getValue(), "listener still there");      
+      this.assertEquals("", this.__b1.getLab().getValue(), "listener still there");
 
       // set another label value
       this.__label.setValue("456");
       this.assertEquals("123", this.__b2.getLab().getValue(), "1");
       this.assertEquals("", this.__b1.getLab().getValue(), "2");
-    },    
-    
-    
-    testDeepTargetChangeArray : function() 
+    },
+
+
+    testDeepTargetChangeArray : function()
     {
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a,"array[0]");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(0));
-      
+
       var newArray = new qx.data.Array([0, 1, 0]);
       var oldArray = this.__a.getArray();
       this.__a.setArray(newArray);
       this.assertEquals("123", this.__a.getArray().getItem(0), "initial set");
-      
+
       this.__label.setValue("456");
       this.assertEquals("456", newArray.getItem(0));
-      this.assertEquals("123", oldArray.getItem(0));      
-      
+      this.assertEquals("123", oldArray.getItem(0));
+
       oldArray.dispose();
       newArray.dispose();
     },
-    
-    
-    testDeepTargetChangeArrayLast : function() 
+
+
+    testDeepTargetChangeArrayLast : function()
     {
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a,"array[last]");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(2));
-      
+
       var newArray = new qx.data.Array([0, 1, 0]);
       var oldArray = this.__a.getArray();
       this.__a.setArray(newArray);
       this.assertEquals("123", this.__a.getArray().getItem(2), "initial set");
-      
+
       this.__label.setValue("456");
       this.assertEquals("456", newArray.getItem(2));
-      this.assertEquals("123", oldArray.getItem(2));      
-      
+      this.assertEquals("123", oldArray.getItem(2));
+
       oldArray.dispose();
       newArray.dispose();
-    },    
-    
-    
-    testDeepTargetChange3Array : function() 
+    },
+
+
+    testDeepTargetChange3Array : function()
     {
       // set up the target chain
       this.__a.setChild(this.__b1);
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "child.child.array[0]");
-      
+
       // check the default set
       this.__label.setValue("123");
       this.assertEquals("123", this.__b2.getArray().getItem(0));
-      
+
       // change the child of __a
       this.__a.setChild(this.__b2);
       this.assertEquals("123", this.__b1.getArray().getItem(0));
-      
+
       // set another label value
       this.__label.setValue("456");
       this.assertEquals("456", this.__b1.getArray().getItem(0));
       this.assertEquals("123", this.__b2.getArray().getItem(0), "binding still exists");
-    },    
-    
-    
-    testDeepTargetChangeMiddleArray : function() 
+    },
+
+
+    testDeepTargetChangeMiddleArray : function()
     {
-      
+
       var oldArray = this.__a.getArray();
       var array = new qx.data.Array([this.__b1, this.__b2]);
       this.__a.setArray(array);
       oldArray.dispose();
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "array[0].lab.value");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getLab().getValue());
-      
+
       array.reverse();
       this.assertEquals("123", this.__b2.getLab().getValue());
-      
+
       this.__label.setValue("456");
-      this.assertEquals("456", this.__b2.getLab().getValue());      
+      this.assertEquals("456", this.__b2.getLab().getValue());
       this.assertEquals("123", this.__b1.getLab().getValue());
     },
-    
-    
-    testDeepTargetChangeMiddleArrayLast : function() 
+
+
+    testDeepTargetChangeMiddleArrayLast : function()
     {
       var oldArray = this.__a.getArray();
       var array = new qx.data.Array([this.__b2, this.__b1]);
       this.__a.setArray(array);
       oldArray.dispose();
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "array[last].lab.value");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getLab().getValue());
-      
+
       array.reverse();
       this.assertEquals("123", this.__b2.getLab().getValue());
-      
+
       this.__label.setValue("456");
-      this.assertEquals("456", this.__b2.getLab().getValue());      
+      this.assertEquals("456", this.__b2.getLab().getValue());
       this.assertEquals("123", this.__b1.getLab().getValue());
-    },    
-    
-    
-    testDeepTargetChangeWithoutEvent : function() 
+    },
+
+
+    testDeepTargetChangeWithoutEvent : function()
     {
       this.__a.setChildWithout(this.__b1);
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "childWithout.name");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getName());
-      
+
       this.__a.setChildWithout(this.__b2);
       this.assertEquals("b2", this.__b2.getName());
-      
+
       this.__label.setValue("456");
       this.assertEquals("456", this.__b2.getName());
-      this.assertEquals("123", this.__b1.getName());      
+      this.assertEquals("123", this.__b1.getName());
     },
-    
-    
-    testDeepTargetChangeWithoutEvent3 : function() 
+
+
+    testDeepTargetChangeWithoutEvent3 : function()
     {
       this.__a.setChild(this.__b1);
       this.__b1.setChildWithout(this.__b2);
       this.__b2.setChildWithout(this.__b1);
-      
+
       qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "child.childWithout.name");
-      
+
       this.__label.setValue("123");
       this.assertEquals("123", this.__b2.getName());
-      
+
       this.__a.setChild(this.__b2);
       this.assertEquals("123", this.__b1.getName());
-      
+
       this.__b2.setChildWithout(this.__a);
       this.assertEquals("a", this.__a.getName());
-      
+
       this.__label.setValue("456");
       this.assertEquals("456", this.__a.getName());
       this.assertEquals("123", this.__b1.getName());

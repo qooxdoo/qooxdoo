@@ -20,13 +20,13 @@
 qx.Class.define("qx.test.core.InheritanceDummy",
 {
   extend : qx.core.Object,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.children = [];
   },
-  
+
 
   properties :
   {
@@ -56,20 +56,20 @@ qx.Class.define("qx.test.core.InheritanceDummy",
       themeable   : true
     }
   },
-  
+
   members :
   {
-    add : function(child) 
+    add : function(child)
     {
       this.children.push(child);
       child.parent = this;
       qx.core.Property.refresh(child);
     },
-    
+
     _getChildren : function() {
       return this.children;
     },
-    
+
     getLayoutParent : function() {
       return this.parent;
     }

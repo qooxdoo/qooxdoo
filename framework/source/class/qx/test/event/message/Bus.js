@@ -157,11 +157,11 @@ qx.Class.define("qx.test.event.message.Bus",
       function handler() {
          flag = true;
       }
-      
+
       var messageBus = qx.event.message.Bus.getInstance();
       messageBus.subscribe("message", handler, this);
       messageBus.subscribe("massage", handler, this);
-      
+
       this.assertFalse(messageBus.dispatch("trash"), "Message was dispatched");
       this.assertFalse(flag, "Handler was called.");
     }

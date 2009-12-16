@@ -43,7 +43,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
     // create a default selection array
     if (this.getSelection() == null) {
-      this.setSelection(new qx.data.Array());      
+      this.setSelection(new qx.data.Array());
     }
   },
 
@@ -196,7 +196,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
           this.__selectionListenerId = value.addListener(
             "changeSelection", this._changeTargetSelection, this
           );
-        }        
+        }
       }
     },
 

@@ -135,7 +135,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
      *
      * @return {Function}
      *   The handler function which has been registered for the specified
-     *   column. The arguments of the handler is documented in 
+     *   column. The arguments of the handler is documented in
      *   {@link #setContextMenuHandler}.
      */
     getContextMenuHandler : function(col)

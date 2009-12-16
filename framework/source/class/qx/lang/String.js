@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} padded string
      */
     pad : function(str, length, ch)
-    {      
+    {
       var padLength = length - str.length;
       if (padLength > 0)
       {

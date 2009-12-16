@@ -73,8 +73,8 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     __executableBindingIds : null,
     __semaphore : false,
     __executeListenerId : null,
-    
-        
+
+
     /**
      * {Map} Set of properties, which will by synced from the command to the
      *    including widget
@@ -104,17 +104,17 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           this.__semaphore = false;
         } else {
           this.__semaphore = true;
-          cmd.execute(this);          
+          cmd.execute(this);
         }
       }
 
       this.fireEvent("execute");
     },
-    
-    
+
+
     /**
      * Handler for the execute event of the command.
-     * 
+     *
      * @param e {qx.event.type.Event} The execute event of the command.
      */
     __onCommandExecute : function(e) {
@@ -139,7 +139,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           "execute", this.__onCommandExecute, this
         );
       }
-      
+
       // binding stuff
       var ids = this.__executableBindingIds;
       if (ids == null) {

@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.lang.Core",
      *         <code>-1</code> is returned, i.e. the array will not be searched. If negative, it is taken as the
      *         offset from the end of the array. Note that even when the index is negative, the array is still
      *         searched from front to back. If the calculated index is less than 0, the whole array will be searched.
-     * @return {Integer} Returns the first index at which a given element can 
+     * @return {Integer} Returns the first index at which a given element can
      *    be found in the array, or <code>-1</code> if it is not present.
      */
     arrayIndexOf : qx.lang.Object.select(Array.prototype.indexOf ? "native" :"emulated",
@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.lang.Core",
      *         from back to front. If the calculated index is less than 0, -1 is returned,
      *         i.e. the array will not be searched.
      * @return {Integer} Returns the last index at which a given element can be
-     *    found in the array, or <code>-1</code> if it is not present. 
+     *    found in the array, or <code>-1</code> if it is not present.
      */
     arrayLastIndexOf : qx.lang.Object.select(Array.prototype.lastIndexOf ? "native" :"emulated",
     {
@@ -358,9 +358,9 @@ qx.Bootstrap.define("qx.lang.Core",
      *
      * @param callback {Function} Function to test for each element.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-     * @return {Boolean} Returns <code>true</code> whether some element in the 
-     *    array passes the test implemented by the provided function, 
-     *    <code>false</code> otherwise. 
+     * @return {Boolean} Returns <code>true</code> whether some element in the
+     *    array passes the test implemented by the provided function,
+     *    <code>false</code> otherwise.
      */
     arraySome : qx.lang.Object.select(Array.prototype.some ? "native" :"emulated",
     {
@@ -416,7 +416,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * @signature function(callback, obj)
      * @param callback {Function} Function to test for each element.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-     * @return {Boolean} Returns <code>false</code> whether all elements in the 
+     * @return {Boolean} Returns <code>false</code> whether all elements in the
      *    array pass the test implemented by the provided function,
      *    <code>false</code> otherwise.
      */
@@ -452,7 +452,7 @@ qx.Bootstrap.define("qx.lang.Core",
      *       http://lxr.mozilla.org/seamonkey/source/js/src/jsstr.c
      *
      * @signature function()
-     * @return {String} Returns a string with double quotes and escapes all 
+     * @return {String} Returns a string with double quotes and escapes all
      *    double quotes and backslashes within the string.
      */
     stringQuote : qx.lang.Object.select(String.prototype.quote ? "native" :"emulated",

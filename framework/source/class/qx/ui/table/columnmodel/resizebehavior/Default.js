@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     /**
      * This method is required by the box layout. If returns an array of items
      * to relayout.
-     * 
+     *
      * @return {qx.ui.core.ColumnData[]} The list of column data object to layout.
      */
     getLayoutChildren : function() {

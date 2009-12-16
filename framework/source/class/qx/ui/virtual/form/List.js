@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /**
- * Experimental virtual list widget. 
- * 
+ * Experimental virtual list widget.
+ *
  * This widget can either use HTML or widget cell renderer.
- * 
+ *
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.form.List",
@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       init : "virtual-list"
     },
 
-    
+
     /** The number of rows in the list */
     rowCount :
     {
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       themeable : true
     },
 
-    /** Whether to use widgets to render the cells. */ 
+    /** Whether to use widgets to render the cells. */
     useWidgetCells :
     {
       check : "Boolean",
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Get the selection manager
-     * 
+     *
      * @return {qx.ui.virtual.selection.Row} The selection manager
      */
     getSelectionManager : function() {
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Get the cell data of the given row
-     * 
+     *
      * @param row {Integer} the row index
      * @return {var} The data associated with the row. This can be anything
      *   ranging from a simple string to complex domain objects.
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Get the cell renderer for the given row.
-     * 
+     *
      * @param row {Integer} The row index
      * @return {qx.ui.virtual.cell.IWidgetCell|qx.ui.virtual.cell.ICell} Either
      *   a widget or HTML cell renderer depending on the list's configuration.
@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Visualize selection (HTML mode)
-     * 
+     *
      * @param item {var} Item to modify
      * @param type {String} Any of <code>selected</code>, <code>anchor</code>
      *    or <code>lead</code>
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Visualize selection (widget mode)
-     * 
+     *
      * @param item {var} Item to modify
      * @param type {String} Any of <code>selected</code>, <code>anchor</code>
      *    or <code>lead</code>
@@ -434,7 +434,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     /**
      * Resize event handler
-     * 
+     *
      * @param e {qx.event.type.Data} The resizeevent object
      */
     _onResize : function(e) {

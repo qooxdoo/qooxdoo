@@ -29,7 +29,7 @@ qx.Class.define("qx.io2.HttpRequest",
 
   /**
    * @param url {String} URL to load
-   * 
+   *
    * @deprecated Use 'qx.io.HttpRequest' instead.
    */
   construct : function(url)

@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loaded
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.isLoaded' instead.
      */
     isLoaded : function(source)
@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.isLoaded' instead."
       );
-      
+
       return qx.io.ImageLoader.isLoaded(source);
     },
 
@@ -53,7 +53,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image loading failed
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.isFailed' instead.
      */
     isFailed : function(source)
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.isFailed' instead."
       );
-      
+
       return qx.io.ImageLoader.isFailed(source);
     },
 
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loading in the moment.
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.isLoading' instead.
      */
     isLoading : function(source)
@@ -81,7 +81,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.isLoading' instead."
       );
-      
+
       return qx.io.ImageLoader.isLoading(source);
     },
 
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {String ? null} The format of the image or <code>null</code>
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.getFormat' instead.
      */
     getFormat : function(source)
@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.getFormat' instead."
       );
-      
+
       return qx.io.ImageLoader.getFormat(source);
     },
 
@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {Map} The dimension of the image. If the image is not yet loaded,
      *    the dimensions are given as nullxnull pixel.
-     *    
+     *
      * @deprecated Use 'qx.io.ImageLoader.getSize' instead.
      */
     getSize : function(source) {
@@ -119,7 +119,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.getSize' instead."
       );
-      
+
       return qx.io.ImageLoader.getSize(source);
     },
 
@@ -129,7 +129,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} The width or <code>null</code> when the image is not loaded
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.getWidth' instead.
      */
     getWidth : function(source)
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.getWidth' instead."
       );
-      
+
       return qx.io.ImageLoader.getWidth(source);
     },
 
@@ -148,7 +148,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Boolean} The height or <code>null</code> when the image is not loaded
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.getHeight' instead.
      */
     getHeight : function(source)
@@ -157,7 +157,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.getHeight' instead."
       );
-      
+
       return qx.io.ImageLoader.getHeight(source);
     },
 
@@ -171,7 +171,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to load
      * @param callback {Function} Callback function to execute
      * @param context {Object} Context in which the given callback should be executed
-     * 
+     *
      * @deprecated Use 'qx.io.ImageLoader.load' instead.
      */
     load : function(source, callback, context)
@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         arguments.callee,
         "Use 'qx.io.ImageLoader.load' instead."
       );
-      
+
       qx.io.ImageLoader.load(source, callback, context);
     }
   }

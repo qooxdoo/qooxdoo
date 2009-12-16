@@ -874,7 +874,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationHandleMouseUp : function(e)
     {
       // Disabling capturing
-      if (this.__capture) 
+      if (this.__capture)
       {
         e.stopPropagation();
         this.getChildControl("hue-saturation-handle").releaseCapture();
