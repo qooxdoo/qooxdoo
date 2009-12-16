@@ -40,7 +40,6 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
 
     this.initOpen();
 
-    this.addListener("keypress", this._onKeyPress);
     this.addListener("click", this._onClick);
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
@@ -86,26 +85,6 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
     {
       value ? this.addState("opened") : this.removeState("opened");
       this.execute();
-    },
-
-
-    /**
-     * Listener method for "keydown" event.
-     *
-     * Removes "abandoned" and adds "pressed" state
-     * for the keys "Enter" or "Space"
-     *
-     * @param e {qx.event.type.KeySequence} Key event
-     */
-    _onKeyPress : function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
-        case "Enter":
-        case "Space":
-          this.toggleOpen();
-          e.stopPropagation();
-      }
     },
 
 

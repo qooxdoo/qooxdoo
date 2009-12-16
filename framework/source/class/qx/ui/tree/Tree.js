@@ -508,6 +508,13 @@ qx.Class.define("qx.ui.tree.Tree",
               item.setOpen(true);
             }
             break;
+
+          case "Enter":
+          case "Space":
+            if (item.isOpenable()) {
+              item.toggleOpen();
+            }
+            break;
         }
       }
     }
