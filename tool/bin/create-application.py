@@ -170,8 +170,6 @@ def patchSkeleton(dir, framework_dir, options):
         sys.exit(1)
 
     if options.type == "contribution":
-        # TODO: in a final release the following "trunk" would need to be changed 
-        # to an actual version number like "0.8.3"
         relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
         relPath = re.sub(r'\\', "/", relPath)
 
