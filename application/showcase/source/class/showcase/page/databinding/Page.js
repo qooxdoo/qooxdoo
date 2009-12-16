@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.databinding.Page",
   members : 
   {
     __descriptionText : "The twitter demo illustrates the use of data binding. " + 
-    "twitter offers a REST / JSONP API, making it a perfect match for data " +
+    "Twitter offers a REST / JSONP API, making it a perfect match for data " +
     "binding. The demo fetches the data and binds the result to the list. " +
     "Clicking on a tweet will invoke a second binding which displays the " +
     "selected tweet in the detail view right beside the list.",
@@ -59,7 +59,7 @@ qx.Class.define("showcase.page.databinding.Page",
     __tryThis : {
       "Detail View" : "Clicking a tweet in the list shows the details.",
       "Friends" : "The friends button displays the list of followers (Requires credentials).",
-      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\", to see your recent tweets."      
+      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\" to see your recent tweets."      
     },
     
     __features : {
