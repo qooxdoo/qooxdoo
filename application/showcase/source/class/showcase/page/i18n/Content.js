@@ -68,7 +68,7 @@ qx.Class.define("showcase.page.i18n.Content",
           selected: null,
           countries: [
             {code: "US", name: "United States"},
-            {code: "GB", name: "Great Britan"}
+            {code: "GB", name: "Great Britain"}
           ]
         },
         {
