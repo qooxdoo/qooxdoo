@@ -140,7 +140,16 @@ qx.Class.define("showcase.page.databinding.Content",
       var detailsController = new qx.data.controller.Object();
       detailsController.addTarget(name, "value", "user.name");
       detailsController.addTarget(location, "value", "user.location");
-      detailsController.addTarget(message, "value", "text");
+      detailsController.addTarget(message, "value", "text", false, {
+        converter: function(data) {
+          var message = data.split(" ");
+          for (var i = message.length - 1; i >= 0; i--) {
+            if (message[i].indexOf("http") == 0) {
+              message[i] = "<a href='" + message[i] + "' target='_blank'>" + message[i] + "</a>";
+            }
+          };
+          return message.join(" - ");
+        }});
       detailsController.addTarget(posted, "value", "source");
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
         detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});
@@ -157,8 +166,8 @@ qx.Class.define("showcase.page.databinding.Content",
     
     configureItem: function(item) {
       item.setRich(true);
-      item.getChildControl("icon").setWidth(50);
-      item.getChildControl("icon").setHeight(50);
+      item.getChildControl("icon").setWidth(48);
+      item.getChildControl("icon").setHeight(48);
       item.getChildControl("icon").setScale(true);
     }    
   }

@@ -32,12 +32,12 @@ qx.Class.define("showcase.page.htmleditor.Page",
   {
     this.base(arguments);
     this.set({
-      name: "HTML Area",
+      name: "HTML Editor",
       part: "htmleditor",
       icon: "showcase/htmleditor/icon.png",
       contentClass: "showcase.page.htmleditor.Content",
       description: showcase.page.DescriptionBuilder.build(
-        "HTML Area",
+        "HTML Editor",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.htmleditor.Page",
   
   members :
   {
-    __descriptionText : "The HtmlArea, embedded here in a window with menu bar and toolbar, provides basic" +
+    __descriptionText : "The Html Editor, embedded here in a window with menu bar and toolbar, provides basic" +
     " cross-browser HTML editing capabilities and is available both as a low-level component" +
     " and as a qooxdoo widget. It offers events, allowing easy implementation of a toolbar " +
     "supplement. The UI controls of the toolbar can be used to interact " +
@@ -78,7 +78,10 @@ qx.Class.define("showcase.page.htmleditor.Page",
     },
 
     __api : {
-      "#qx.bom.htmlarea" : "HTML Area"
+      "#qx.bom.htmlarea" : "HTML Area",
+      "#qx.ui.toolbar" : "Toolbar",
+      "#qx.ui.menubar" : "MenuBar",
+      "#qx.ui.menu" : "Menu"
     }  
   }  
 });

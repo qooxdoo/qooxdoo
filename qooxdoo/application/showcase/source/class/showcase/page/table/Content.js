@@ -109,9 +109,9 @@ qx.Class.define("showcase.page.table.Content",
       resizeBehavior.set(2, {width: "1*", minWidth: 60});
       
       // We could also set them individually:
-      resizeBehavior.setWidth(0, 70);
-      resizeBehavior.setWidth(3, 60);
-      resizeBehavior.setWidth(4, 70);
+      resizeBehavior.setWidth(0, 80);
+      resizeBehavior.setWidth(3, 70);
+      resizeBehavior.setWidth(4, 85);
 
       win.setCaption("Popular Music Tracks");
       win.setLayout(new qx.ui.layout.Grow());

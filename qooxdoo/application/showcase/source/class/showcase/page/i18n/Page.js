@@ -32,7 +32,7 @@ qx.Class.define("showcase.page.i18n.Page",
   {
     this.base(arguments);
     this.set({
-      name: "i18n",
+      name: "Languages",
       part: "i18n",
       icon: "showcase/i18n/icon.png",
       contentClass: "showcase.page.i18n.Content",
