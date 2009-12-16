@@ -22,7 +22,7 @@ recipient of qooxdoo, you may choose which license to receive the code
 under.
 
 Please make sure you understand the dual license of qooxdoo and the
-rights and obligations that come with it. See the top-level LICENSE.txt
+rights and obligations that come with it. See the top-level license.txt
 file for more details.
 
 For more information please see http://qooxdoo.org/license
@@ -50,7 +50,7 @@ API Reference
 
 You might also want to open the API viewer in a separate browser window,
 which offers the qooxdoo framework API in a convenient way (See the
-top-level 'index.html' file next to the README.txt).
+top-level 'index.html' file next to this readme.txt).
 
 
 Learn more
@@ -58,6 +58,9 @@ Learn more
 
 * About qooxdoo
   http://qooxdoo.org/about
+
+* Online Demos
+  http://demo.qooxdoo.org
 
 * Release notes
   http://qooxdoo.org/about/release_notes
