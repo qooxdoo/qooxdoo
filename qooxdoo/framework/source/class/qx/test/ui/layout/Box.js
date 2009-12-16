@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Box", 
+qx.Class.define("qx.test.ui.layout.Box",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -34,9 +34,9 @@ qx.Class.define("qx.test.ui.layout.Box",
     flush : function() {
       qx.ui.core.queue.Manager.flush();
     },
-    
-    
-    __testExclude : function(layout, test) 
+
+
+    __testExclude : function(layout, test)
     {
       // composite
       var comp = new qx.ui.container.Composite();
@@ -54,13 +54,13 @@ qx.Class.define("qx.test.ui.layout.Box",
       var c2 = new qx.ui.core.Widget();
       c2.setBackgroundColor("#FF6666");
       comp.add(c2, {flex: 1});
-      
+
       // flush and show the first child
       this.flush();
       c1.show();
-      
+
       // flush again to render it
-      this.flush(); 
+      this.flush();
       if (test == "height") {
         var computedHeight = parseInt(c1.getContainerElement().getStyle("height"));
         var height = c1.getSizeHint().height;
@@ -68,23 +68,23 @@ qx.Class.define("qx.test.ui.layout.Box",
       } else if (test == "width") {
         var computedWidth = parseInt(c1.getContainerElement().getStyle("width"));
         var width = c1.getSizeHint().width;
-        this.assertEquals(width, computedWidth, "width");    
+        this.assertEquals(width, computedWidth, "width");
       }
     },
-    
-    
-    testExcludeHBox : function() 
+
+
+    testExcludeHBox : function()
     {
       var layout = new qx.ui.layout.HBox();
       this.__testExclude(layout, "width");
       layout.dispose();
     },
-    
-    testExcludeVBox : function() 
+
+    testExcludeVBox : function()
     {
       var layout = new qx.ui.layout.VBox();
       this.__testExclude(layout, "height");
       layout.dispose();
-    }    
+    }
   }
 });

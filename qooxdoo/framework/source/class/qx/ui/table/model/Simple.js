@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @return {Map} a map with the two properties "ascending"
      *   and "descending" for the specified column.
      *   The property value of each is a comparator function, as described
-     *   in {@link #setSortMethods}. 
+     *   in {@link #setSortMethods}.
      */
     getSortMethods : function(columnIndex) {
       return this.__sortMethods[columnIndex];

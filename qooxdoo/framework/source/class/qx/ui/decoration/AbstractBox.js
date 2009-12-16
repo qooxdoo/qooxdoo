@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
         var innerHeight = height - edges.top - edges.bottom;
         element.childNodes[1].style.height = innerHeight + "px";
       }
-      
+
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // Internet Explorer as of version 6 or version 7 in quirks mode

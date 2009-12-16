@@ -507,7 +507,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Wrapper method for undo execCommand to prevent any exceptions bubbling
      * up to the user.
-     * 
+     *
      * @return {Boolean} Success of execCommand
      */
     __performUndo : function()
@@ -811,7 +811,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Wrapper method for redo execCommand to prevent any exceptions bubbling
      * up to the user.
-     * 
+     *
      * @return {Boolean} Success of execCommand
      */
     __performRedo : function()
@@ -1107,7 +1107,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         case "k":
         case "y":
         case "z":
-          // hitting hotkeys do not mark a content change  
+          // hitting hotkeys do not mark a content change
           if (!isCtrlPressed) {
             this.__markContentChange();
           }
@@ -1119,11 +1119,11 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
           this.__markContentChange();
        }
     },
-    
-    
+
+
     /**
      * A content change which is handled as separate undo step is marked.
-     * 
+     *
      * @return {void}
      */
     __markContentChange : function()
@@ -1132,13 +1132,13 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       {
         this.__contentChange = true;
         this.__undoPossible = true;
-  
+
         // store current content for adding it to undo stack later
         if (qx.core.Variant.isSet("qx.client", "mshtml") ||
             qx.core.Variant.isSet("qx.client", "webkit")) {
           this.__currentContent = this.__doc.body.innerHTML;
         }
-  
+
         this.__fireUndoRedoStateEvent();
       }
     },
@@ -1223,7 +1223,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
             }
           }
         }
-        else if (qx.dom.Node.isNodeName(anchorNode, "td") || 
+        else if (qx.dom.Node.isNodeName(anchorNode, "td") ||
                  qx.dom.Node.isNodeName(anchorNode.parentNode, "td"))
         {
           var tableNode = anchorNode.parentNode;

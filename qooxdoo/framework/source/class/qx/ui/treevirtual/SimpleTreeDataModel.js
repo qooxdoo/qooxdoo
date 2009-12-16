@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return this._rowArr[rowIndex];
     },
 
-    
+
     /**
      * Returns a cell value by column index.
      *

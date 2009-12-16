@@ -743,11 +743,11 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       var code = [];
 
-      var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);      
+      var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);
       var hasCallback = config.apply || config.event || config.inheritable;
 
-      
-      var store = this.__getStore(variant, name); 
+
+      var store = this.__getStore(variant, name);
 
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
 
@@ -789,10 +789,10 @@ qx.Bootstrap.define("qx.core.Property",
         // Refresh children
         // Requires the parent/children interface
         if (config.inheritable && members._getChildren) {
-          this.__emitRefreshChildrenValue(code, name);          
+          this.__emitRefreshChildrenValue(code, name);
         }
       }
-      
+
       // Return value
       if (incomingValue) {
         code.push('return value;');
@@ -800,14 +800,14 @@ qx.Bootstrap.define("qx.core.Property",
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     },
-    
-    
+
+
     /**
      * Get the object to store the value for the given variant
-     * 
+     *
      * @param variant {String} Method variant.
      * @param name {String} name of the property
-     * 
+     *
      * @return {Object} the value store
      */
     __getStore : function(variant, name)
@@ -821,19 +821,19 @@ qx.Bootstrap.define("qx.core.Property",
       } else {
         store = this.$$store.user[name];
       }
-      
+
       return store;
     },
-    
+
 
     /**
      * Emit code to check the arguments pre-conditions
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
      * @param variant {String} Method variant.
-     * @param incomingValue {Boolean} Whether the setter has an incoming value 
+     * @param incomingValue {Boolean} Whether the setter has an incoming value
      */
     __emitSetterPreConditions : function(code, config, name, variant, incomingValue)
     {
@@ -875,13 +875,13 @@ qx.Bootstrap.define("qx.core.Property",
         if (variant === "set") {
           code.push('if(value===undefined)prop.error(this,2,"', name, '","', variant, '",value);');
         }
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Emit code to apply the "validate" and "transform" config keys.
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param clazz {Class} the class which originally defined the property
      * @param config {Object} The property configuration map
@@ -906,13 +906,13 @@ qx.Bootstrap.define("qx.core.Property",
           code.push(clazz.classname, '.$$properties.', name);
           code.push('.validate.call(this, value);');
         }
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Emit code, which returns if the incoming value equals the current value.
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param incomingValue {Boolean} Whether the setter has an incoming value
      * @param store {Object} The data store to use for the incoming value
@@ -921,23 +921,23 @@ qx.Bootstrap.define("qx.core.Property",
     __emitOldNewComparison : function(code, incomingValue, store, variant)
     {
       var resetValue = (
-        variant === "reset" || 
-        variant === "resetThemed" || 
+        variant === "reset" ||
+        variant === "resetThemed" ||
         variant === "resetRuntime"
       );
-      
+
       if (incomingValue) {
         code.push('if(this.', store, '===value)return value;');
       } else if (resetValue) {
         code.push('if(this.', store, '===undefined)return;');
       }
     },
-    
-    
+
+
     /**
      * Emit code, which performs validation of the incoming value according to
      * the "nullable", "check" and "inheritable" config keys.
-     * 
+     *
      * @signature function(code, config, clazz, name, variant)
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
@@ -953,24 +953,24 @@ qx.Bootstrap.define("qx.core.Property",
         if (!config.nullable) {
           code.push('if(value===null)prop.error(this,4,"', name, '","', variant, '",value);');
         }
-    
+
         // Processing check definition
         if (config.check !== undefined)
         {
           code.push('var msg = "Invalid incoming value for property \''+name+'\' of class \'' + clazz.classname + '\'";');
-    
+
           // Accept "null"
           if (config.nullable) {
             code.push('if(value!==null)');
           }
-    
+
           // Inheritable properties always accept "inherit" as value
           if (config.inheritable) {
             code.push('if(value!==inherit)');
           }
-    
+
           code.push('if(');
-    
+
           if (this.__checks[config.check] !== undefined)
           {
             code.push('!(', this.__checks[config.check], ')');
@@ -1000,18 +1000,18 @@ qx.Bootstrap.define("qx.core.Property",
           {
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
-    
+
           code.push(')prop.error(this,5,"', name, '","', variant, '",value);');
         }
       },
-      
+
       "off" : undefined
     }),
 
-    
+
     /**
      * Emit code to store the incoming value
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param name {String} name of the property
      * @param variant {String} Method variant.
@@ -1056,7 +1056,7 @@ qx.Bootstrap.define("qx.core.Property",
     /**
      * Emit code to store the incoming value and compute the "old" and "computed"
      * values.
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
@@ -1331,11 +1331,11 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('}');
       }
     },
-    
-    
+
+
     /**
      * Emit code to store the value of an inheritable property
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
@@ -1361,41 +1361,41 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('delete this.', this.$$store.useinit[name], ';}');
 
       code.push('}');
-  
+
       // Compare old/new computed value
       code.push('if(old===computed)return value;');
-  
+
       // Note: At this point computed can be "inherit" or "undefined".
-  
+
       // Normalize "inherit" to undefined and delete inherited value
       code.push('if(computed===inherit){');
       code.push('computed=undefined;delete this.', this.$$store.inherit[name], ';');
       code.push('}');
-  
+
       // Only delete inherited value
       code.push('else if(computed===undefined)');
       code.push('delete this.', this.$$store.inherit[name], ';');
-  
+
       // Store inherited value
       code.push('else this.', this.$$store.inherit[name], '=computed;');
-  
+
       // Protect against normalization
       code.push('var backup=computed;');
-  
+
       // After storage finally normalize computed and old value
       if (config.init !== undefined && variant !== "init") {
         code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
       } else {
         code.push('if(old===undefined)old=null;');
       }
-      code.push('if(computed===undefined||computed==inherit)computed=null;');      
+      code.push('if(computed===undefined||computed==inherit)computed=null;');
     },
-    
-    
+
+
     /**
      * Emit code to normalize the old and incoming values from undefined to
      * <code>null</code>.
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
@@ -1417,13 +1417,13 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
       } else {
         code.push('if(old===undefined)old=null;');
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Emit code to call the apply method and fire the change event
-     * 
+     *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
@@ -1442,13 +1442,13 @@ qx.Bootstrap.define("qx.core.Property",
           "if(reg.hasListener(this, '", config.event, "')){",
           "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ")}"
         );
-      }      
+      }
     },
-    
-    
+
+
     /**
-     * Emit code to update the inherited values of child objects 
-     * 
+     * Emit code to update the inherited values of child objects
+     *
      * @param code {String[]} String array to append the code to
      * @param name {String} name of the property
      */

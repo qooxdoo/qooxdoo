@@ -232,28 +232,28 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertSize(c, 200, 50);
       this.assertSize(d, 100, 50);
     },
-    
-    
+
+
     testGetRowCount : function()
     {
       this.assertEquals(0, this._gridLayout.getRowCount());
-      
-      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 0});      
+
+      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 0});
       this.assertEquals(1, this._gridLayout.getRowCount());
 
-      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 4, column: 0});      
+      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 4, column: 0});
       this.assertEquals(5, this._gridLayout.getRowCount());
     },
-    
-    
+
+
     testGetColumnCount : function()
     {
       this.assertEquals(0, this._gridLayout.getColumnCount());
-      
-      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 0});      
+
+      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 0});
       this.assertEquals(1, this._gridLayout.getColumnCount());
-      
-      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 4});      
+
+      this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {row: 0, column: 4});
       this.assertEquals(5, this._gridLayout.getColumnCount());
     }
   },

@@ -491,7 +491,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("bb2", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("cc2", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
     },
-    
+
 
     testIconOptions: function() {
       // create the options
@@ -663,30 +663,30 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
     },
-    
-    
-    testDelegateConfigureLate : function() 
+
+
+    testDelegateConfigureLate : function()
     {
       // clear up the setup
       this.__controller.setModel(null);
-      
-      var controller = new qx.data.controller.Tree(null, this.__tree, "children", "name"); 
 
-      var delegate = { 
+      var controller = new qx.data.controller.Tree(null, this.__tree, "children", "name");
+
+      var delegate = {
         configureItem: function(item) {
           item.setUserData("a", true);
-        } 
-      }; 
+        }
+      };
 
-      controller.setDelegate(delegate); 
-      controller.setModel(this.__model); 
+      controller.setDelegate(delegate);
+      controller.setModel(this.__model);
 
       // check the initial Labels
       this.assertTrue(this.__tree.getRoot().getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
-      this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");      
-    },    
+      this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
+    },
 
 
     testDelegateCreateLate: function () {
@@ -803,14 +803,14 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.setColor("black");
       this.assertEquals("black", tree.getRoot().getTextColor(), "Root node has a wrong name");
     },
-    
-    
+
+
     testDelegateBindPropertyReverse: function () {
       var delegate = {
         bindItem : function(controller, item, id) {
           controller.bindProperty("name", "appearance", null, item, id);
           controller.bindPropertyReverse("name", "appearance", null, item, id);
-          controller.bindPropertyReverse("color", "backgroundColor", null, item, id);          
+          controller.bindPropertyReverse("color", "backgroundColor", null, item, id);
         }
       };
       this.__controller.setDelegate(delegate);
@@ -826,19 +826,19 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("ROOT", this.__model.getName(), "Reverse binding not ok!");
       this.__tree.getRoot().getChildren()[0].setBackgroundColor("#123456");
       this.assertEquals("#123456", this.__a.getColor(), "Reverse binding not ok!");
-      
+
       // invoke a removing and setting of the bindings with the new bindItem
       delegate.bindItem = function(controller, item, id) {
         controller.bindProperty("name", "appearance", null, item, id);
-      }      
+      }
       this.__controller.setDelegate(null);
       this.__controller.setDelegate(delegate);
-      
+
       this.__tree.getRoot().setAppearance("123");
       this.assertEquals("ROOT", this.__model.getName(), "Removing not ok");
       this.__tree.getRoot().getChildren()[0].setBackgroundColor("#654321");
-      this.assertEquals("#123456", this.__a.getColor(), "Removing not ok");      
-    },    
+      this.assertEquals("#123456", this.__a.getColor(), "Removing not ok");
+    },
 
 
     testDelegateAddItem: function() {

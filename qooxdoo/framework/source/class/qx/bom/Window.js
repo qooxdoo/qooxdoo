@@ -19,22 +19,22 @@
 
 /**
  * Includes library functions to work with browser windows
- */                                                       
-qx.Class.define("qx.bom.Window",                          
-{            
-  statics :                                               
-  {                                                       
+ */
+qx.Class.define("qx.bom.Window",
+{
+  statics :
+  {
     /** Internal blocker instance for all browsers which need an additional
      * blocker for modal windows because they do not support it natively.
      */
     __blocker : null,
-    
+
     /** Window handle which is currently blocked. */
     __blockerWindow : null,
 
     /** Timer instance to poll for unblocking if the modale window was closed */
     __timer : null,
-    
+
     /** Supported options and their mapping to window options */
     __modalOptions :
     {
@@ -65,7 +65,7 @@ qx.Class.define("qx.bom.Window",
 
     /**
      * Whether the browser can open native modal window.
-     * 
+     *
      * @return {Boolean} Capability of open modal windows
      */
     __isCapableToOpenModalWindows : function() {
@@ -75,7 +75,7 @@ qx.Class.define("qx.bom.Window",
 
     /**
      * Opens a native window with the given options.
-     * 
+     *
      * Modal windows can have the following options:
      *   - top
      *   - left
@@ -83,7 +83,7 @@ qx.Class.define("qx.bom.Window",
      *   - height
      *   - scrollbars
      *   - resizable
-     *   
+     *
      * Modeless windows have the following options:
      *   - top
      *   - left
@@ -115,7 +115,7 @@ qx.Class.define("qx.bom.Window",
       if (name == null) {
         name = "qxNativeWindow" + new Date().getTime();
       }
-      
+
       var configurationString = this.__generateConfigurationString(options, modal);
 
       if (modal)
@@ -150,10 +150,10 @@ qx.Class.define("qx.bom.Window",
 
     /**
      * Returns the given config as string for direct use for the "window.open" method
-     * 
+     *
      * @param options {Array} Array with all configuration options
      * @param modal {Boolean} whether the config should be for a modal window
-     * 
+     *
      * @return {String} configuration as string representation
      */
     __generateConfigurationString : function(options, modal)
@@ -161,7 +161,7 @@ qx.Class.define("qx.bom.Window",
       var configurationString;
       var value;
       var configuration = [];
-      
+
       if (modal && this.__isCapableToOpenModalWindows())
       {
         for (var key in options)
@@ -172,7 +172,7 @@ qx.Class.define("qx.bom.Window",
             if (key != "scrollbars" && key != "resizable") {
               suffix = "px";
             }
-            
+
             value = qx.bom.Window.__modalOptions[key] + ":" + options[key] + suffix;
             configuration.push(value);
           }
@@ -201,24 +201,24 @@ qx.Class.define("qx.bom.Window",
             qx.log.Logger.warn("Option '" + key + "' is not supported for native windows.");
           }
         }
-        
+
         configurationString = configuration.join(",");
       }
-      
+
       return configurationString;
     },
 
 
     /**
      * Interval method which checks if the native window was closed to also
-     * stop the associated timer. 
+     * stop the associated timer.
      */
     __checkForUnblocking : function()
     {
       if (this.isClosed(this.__blockerWindow))
       {
         this.__blocker.unblock();
-        this.__timer.stop(); 
+        this.__timer.stop();
       }
     },
 

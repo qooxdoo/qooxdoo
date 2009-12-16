@@ -652,7 +652,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._updateRowStyles(this.__focusedRow - rowOffset);
         this._updateRowStyles(this.__focusedRow);
       }
-      this.fireEvent("paneUpdated"); 
+      this.fireEvent("paneUpdated");
     },
 
 
@@ -719,7 +719,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       this.__lastColCount = colCount;
       this.__lastRowCount = rowCount;
-      this.fireEvent("paneUpdated"); 
+      this.fireEvent("paneUpdated");
     }
 
   },

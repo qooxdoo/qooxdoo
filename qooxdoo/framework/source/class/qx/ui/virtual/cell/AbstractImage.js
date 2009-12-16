@@ -21,7 +21,7 @@
 
 /**
  * Abstract base class for image cell renderer.
- * 
+ *
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.AbstractImage",
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
     /**
      * Compute image meta data
-     * 
+     *
      * @param imageData {Object|String} Either a string containing the image URL
      *   or a map, which describes the image. Map keys:
      *   <ul>
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      *     <li>width</li>
      *     <li>height</li>
      *     <li>tooltip (optional)</li>
-     *   </ul>  
+     *   </ul>
      */
     __createImage : function(imageData)
     {

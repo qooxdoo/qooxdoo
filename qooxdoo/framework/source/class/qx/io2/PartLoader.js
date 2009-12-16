@@ -38,7 +38,7 @@ qx.Class.define("qx.io2.PartLoader",
      *    config file at compile time.
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
-     * 
+     *
      * @deprecated Use 'qx.io.PartLoader.require' instead.
      */
     require : function(partNames, callback, self)
@@ -46,18 +46,18 @@ qx.Class.define("qx.io2.PartLoader",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
         "Use 'qx.io.PartLoader.require' instead."
-      );      
-      
+      );
+
       qx.io.PartLoader.getInstance().require(partNames, callback, self);
     },
-    
+
     /**
      * Returns a singleton instance of this class. On the first call the class
-     * is instantiated by calling the constructor with no arguments. All 
+     * is instantiated by calling the constructor with no arguments. All
      * following calls will return this instance.
-     * 
+     *
      * @return {qx.io.PartLoader} The singleton instance of this class.
-     * 
+     *
      * @deprecated Use 'qx.io.PartLoader.getInstance' instead.
      */
     getInstance : function()
@@ -66,8 +66,8 @@ qx.Class.define("qx.io2.PartLoader",
         qx.io2.PartLoader,
         "This class has been moved to 'qx.io.PartLoader'"
       );
-      
-      return qx.io.PartLoader.getInstance();     
+
+      return qx.io.PartLoader.getInstance();
     }
   }
 });

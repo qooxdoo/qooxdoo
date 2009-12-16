@@ -53,8 +53,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
     if (menu != null) {
       this.setMenu(menu);
     }
-    
-    this.addListener("execute", this._onExecute, this);    
+
+    this.addListener("execute", this._onExecute, this);
   },
 
 
@@ -126,13 +126,13 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
     /**
      * Handler for the execute event.
-     * 
+     *
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute : function(e) {
       this.setValue(true);
     },
-    
+
 
     // overridden
     _onMouseUp : function(e)

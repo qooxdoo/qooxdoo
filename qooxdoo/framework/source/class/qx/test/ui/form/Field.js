@@ -120,8 +120,8 @@ qx.Class.define("qx.test.ui.form.Field",
         textfield.destroy();
       });
     },
-    
-    
+
+
     testGetTextSelectionStartEndBeforeFlush : function()
     {
       var textfield = new qx.ui.form.TextField("affe");
@@ -129,7 +129,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       textfield.focus();
       textfield.setTextSelection(2, 3);
-      
+
       this.flush();
 
       // test this asynchron because opera 9.x seems to cache the creation of DOM elements

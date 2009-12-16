@@ -19,17 +19,17 @@
 
 /**
  * EXPERIMENTAL!
- * 
- * This controller is responsible for bringing a data array like model to 
+ *
+ * This controller is responsible for bringing a data array like model to
  * a virtual list.
- * 
+ *
  * This code is highly experimental and there will be API changes.
  */
 qx.Class.define("qx.ui.virtual.form.ListController",
 {
   extend : qx.core.Object,
 
-  
+
   /**
    * @param model {qx.data.IListData} The model as array.
    * @param target {qx.ui.virtual.form.List} The virtual list as target.
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       apply: "_applyModel"
     },
 
-    
+
     /**
      * Data array containing the selected model objects. This property can be
      * manipulated directly which means that a push to the selection will also
@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     */
 
     /**
-     * Returns the data in the given row. 
-     * 
+     * Returns the data in the given row.
+     *
      * @param row {Number} index of lookup table
      * @return {var}
      */
@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Returns the row of the given model.
-     * 
+     *
      * @param modelItem {Object} The model to search for.
      * @return {Number} The index of the model.
      */
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Returns the absolute number of rows.
-     * 
+     *
      * @return {Number} length of lookup table
      */
     getRowCount : function()
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Invokes a sorting using the sorter given in the delegate.
-     * 
+     *
      * @param model {qx.data.IListData} The model.
      */
     _runDelegateSorter : function (model)
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Invokes a filtering using the filter given in the delegate.
-     * 
+     *
      * @param model {qx.data.IListData} The model.
      */
     _runDelegateFilter : function (model)
@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Checks, if the given delegate is valid or if a specific method is given.
-     * 
+     *
      * @param delegate {Object} The delegate object.
      * @param specificMethod {String} The name of the mehtod to search for.
      * @return {Boolean} True, if everything was ok.
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Returns the delegate mehtod given my its name.
-     * 
+     *
      * @param method {String} The name of the delegate method.
      * @return {Function|null} The requested method or null, if no method is set.
      */
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Performs a lookup.
-     * 
+     *
      * @param index {Number} The index to look at.
      */
     __lookup: function(index) {
@@ -427,7 +427,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Handler for the changes of the target selection.
-     * 
+     *
      * @param e {qx.event.type.Data} The change event.
      */
     _onChangeSelectionView: function(e) {
@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Handler for the selection changes of the model.
-     * 
+     *
      * @param e {qx.event.type.Data} The change event.
      */
     _onChangeSelectionModel : function(e) {
@@ -447,7 +447,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Handler for the change of the model length.
-     * 
+     *
      * @param e {qx.event.type.Event} The change event.
      */
     _onChangeLengthModel: function(e) {
@@ -458,7 +458,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Handler for changes in the model itself.
-     * 
+     *
      * @param e {qx.event.type.Data} The change event.
      */
     _onChangeModel: function(e)
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Handler for changes in the children of the model.
-     * 
+     *
      * @param e {qx.event.type.Data} The change event.
      */
     _onChangeBubbleModel : function(e)
@@ -494,7 +494,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     */
 
     /**
-     * Internal helper for syncing the selection of the view to the controller 
+     * Internal helper for syncing the selection of the view to the controller
      * selection.
      */
     _syncViewSelectionToModel : function()
@@ -529,7 +529,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
 
     /**
-     * Internal helper for syncing the selection of the controller to the 
+     * Internal helper for syncing the selection of the controller to the
      * selection of the target.
      */
     _syncModelSelectionToView : function()
@@ -575,7 +575,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * Accessor for the row data.
-     * 
+     *
      * @param row {Number} The row to access.
      */
     getCellData: function(row) {

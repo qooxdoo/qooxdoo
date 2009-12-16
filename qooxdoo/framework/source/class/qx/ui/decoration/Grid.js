@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         if (
           qx.bom.client.Engine.VERSION < 7 ||
           (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8)
-        ) 
+        )
         {
           if (width%2==1)
           {

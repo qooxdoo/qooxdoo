@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.virtual.MouseEventMock",
     clone : function() {
       return this;
     },
-    
+
     getDocumentLeft : function() {
       return this.__config.documentLeft || 0;
     },

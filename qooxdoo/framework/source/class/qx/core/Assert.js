@@ -821,16 +821,16 @@ qx.Bootstrap.define("qx.core.Assert",
         "Expected value to be a qooxdoo widget but found ", value, "!"
       );
     },
-    
-    
+
+
     /**
-     * Internal herlper for checking the instance of a qooxdoo object using the 
+     * Internal herlper for checking the instance of a qooxdoo object using the
      * classname.
-     * 
+     *
      * @param object {var} The object to check.
      * @param classname {String} The classname of the class as string.
      */
-    __isQxInstance : function(object, classname) 
+    __isQxInstance : function(object, classname)
     {
       if (!object) {
         return false;

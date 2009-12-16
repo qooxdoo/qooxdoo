@@ -229,7 +229,7 @@ qx.Bootstrap.define("qx.dom.Node",
 
     /**
      * Whether the node has the given node name
-     * 
+     *
      * @param node {Node} the node
      * @param nodeName {String} the node name to check for
      * @return {Boolean} Whether the node has the given node name
@@ -254,7 +254,7 @@ qx.Bootstrap.define("qx.dom.Node",
 
     /**
      * Get the node name as lower case string
-     * 
+     *
      * @param node {Node} the node
      * @return {String} the node name
      */

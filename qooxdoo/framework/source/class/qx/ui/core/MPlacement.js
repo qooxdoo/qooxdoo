@@ -445,7 +445,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * optimal way i.e. try to keep it visible.
      *
      * @param value {Boolean} for positioning
-     * 
+     *
      * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
      *   properties instead.
      */
@@ -472,10 +472,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
-     * 
+     *
      * @return {Boolean} <code>true</code> if it should positioned optimal,
      *    <code>false</code> otherwise.
-     * 
+     *
      * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
      *   properties instead.
      */
@@ -523,10 +523,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
-     * 
+     *
      * @return {Boolean} <code>true</code> if it should positioned optimal,
      *    <code>false</code> otherwise.
-     * 
+     *
      * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
      *   properties instead.
      */
@@ -547,7 +547,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
-     * 
+     *
      * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
      *   properties instead.
      */

@@ -52,9 +52,9 @@ qx.Class.define("qx.ui.form.DateField",
 
     // create a default date format
     this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
-    
+
     // listen for locale changes
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) 
+    if (qx.core.Variant.isSet("qx.dynlocale", "on"))
     {
       qx.locale.Manager.getInstance().addListener("changeLocale", function() {
         this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
@@ -101,31 +101,31 @@ qx.Class.define("qx.ui.form.DateField",
   {
     __dateFormat : null,
     __formatter : null,
-    
+
     /**
      * Get the shared default date formatter
-     * 
+     *
      * @return {qx.util.format.DateFormat} The shared date formatter
      */
     getDefaultDateFormatter : function()
     {
       var format = qx.locale.Date.getDateFormat("medium").toString();
-      
+
       if (format == this.__dateFormat) {
         return this.__formatter;
       }
-      
+
       if (this.__formatter) {
         this.__formatter.dispose();
       }
-      
+
       this.__formatter = new qx.util.format.DateFormat(format, qx.locale.Manager.getInstance().getLocale());
       this.__dateFormat = format;
-      
+
       return this.__formatter;
     }
   },
-  
+
 
 
 

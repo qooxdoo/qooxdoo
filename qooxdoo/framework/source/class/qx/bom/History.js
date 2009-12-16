@@ -396,7 +396,7 @@ qx.Class.define("qx.bom.History",
      * in milliseconds.
      *
      * @param value {Number} interval in milliseconds.
-     * 
+     *
      * @deprecated This property has been deprecated. The history manager now
      *     uses {@link qx.event.Idle} for polling.
      */
@@ -419,7 +419,7 @@ qx.Class.define("qx.bom.History",
      * in milliseconds.
      *
      * @return {Number} interval in milliseconds.
-     * 
+     *
      * @deprecated This property has been deprecated. The history manager now
      *     uses {@link qx.event.Idle} for polling.
      */

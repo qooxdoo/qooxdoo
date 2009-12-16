@@ -211,7 +211,7 @@ qx.Class.define("qx.html.Element",
 
 
       // Process visibility list
-      var visibility = this._visibility;    
+      var visibility = this._visibility;
 
       for (var hc in visibility)
       {
@@ -226,13 +226,13 @@ qx.Class.define("qx.html.Element",
 
         obj.__element.style.display = obj.__visible ? "" : "none";
         // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
           if (!(document.documentMode >= 8)) {
-            obj.__element.style.visibility = obj.__visible ? "visible" : "hidden";            
+            obj.__element.style.visibility = obj.__visible ? "visible" : "hidden";
           }
-        }        
-        
+        }
+
         delete visibility[hc];
       }
 

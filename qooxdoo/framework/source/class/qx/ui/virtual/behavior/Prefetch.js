@@ -21,8 +21,8 @@
  * Behavior to support pre-rendering of invisible areas of a virtual scroller.
  * If applied to a scroller it will start a timer and increase the rendered area
  * of the scroller after a certain period of time. Subsequent scrolling will not
- * have to render this pre-computated area again.  
- * 
+ * have to render this pre-computated area again.
+ *
  * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.behavior.Prefetch",
@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
     /**
      * Configure horizontal prefetching
-     * 
+     *
      * @param minLeft {Integer} minimim pixels to prefetch left to the view port
      * @param maxLeft {Integer} maximum pixels to prefetch left to the view port
      * @param minRight {Integer} minimim pixels to prefetch right to the view port
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
     /**
      * Configure vertical prefetching
-     * 
+     *
      * @param minAbove {Integer} minimim pixels to prefetch above the view port
      * @param maxAbove {Integer} maximum pixels to prefetch above the view port
      * @param minBelow {Integer} minimim pixels to prefetch below the view port

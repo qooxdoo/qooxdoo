@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     /**
      * Return the structure object
-     * 
+     *
      * @return {qx.ui.progressive.structure.Abstract} The structure object
      */
     getStructure : function()

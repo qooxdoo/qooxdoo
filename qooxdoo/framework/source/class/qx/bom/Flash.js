@@ -293,7 +293,7 @@ qx.Class.define("qx.bom.Flash",
           paramsStr += '<param name="' + name + '" value="' + params[name] + '" />';
         }
 
-        // Create element, but set attribute "id" first and not later. 
+        // Create element, but set attribute "id" first and not later.
         if (attributes.id)
         {
           element.innerHTML = '<object id="' + attributes.id + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' + paramsStr + '</object>';

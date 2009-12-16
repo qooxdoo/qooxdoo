@@ -318,7 +318,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      */
     _getLeadItem : function() {
       var mode = this.__manager.getMode();
-      
+
       if (mode === "single" || mode === "one") {
         return this.__manager.getSelectedItem();
       } else {

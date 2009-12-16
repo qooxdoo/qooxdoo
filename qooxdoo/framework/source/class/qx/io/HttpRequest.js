@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * A more comfortable HTTP request object than the native one under
  * {@link qx.bom.Request}.
  *
@@ -514,7 +514,7 @@ qx.Class.define("qx.io.HttpRequest",
       req.timeout = this.getTimeout();
 
       // Open request
-      req.open(this.getMethod(), url, this.getAsync(), username, password);      
+      req.open(this.getMethod(), url, this.getAsync(), username, password);
 
       // Add cache control hint
       if (!this.getCache()) {

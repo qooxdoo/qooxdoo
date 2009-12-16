@@ -19,10 +19,10 @@
 
 /**
  * Delegate to customize a virtual list.
- * 
- * List delegates can choose to implement any subset of the methods defined in 
+ *
+ * List delegates can choose to implement any subset of the methods defined in
  * this interface.
- * 
+ *
  * EXPERIMENTAL!
  */
 qx.Interface.define("qx.ui.virtual.form.IListDelegate",
@@ -31,7 +31,7 @@ qx.Interface.define("qx.ui.virtual.form.IListDelegate",
   {
     /**
      * Get the cell data of the given row
-     * 
+     *
      * @param row {Integer} the row index
      * @return {var} The data associated with the row. This can be anything
      *   ranging from a simple string to complex domain objects.
@@ -40,16 +40,16 @@ qx.Interface.define("qx.ui.virtual.form.IListDelegate",
 
     /**
      * Get the cell renderer for the given row.
-     * 
+     *
      * @param row {Integer} The row index
      * @return {qx.ui.virtual.cell.IWidgetCell|qx.ui.virtual.cell.ICell} Either
      *   a widget or HTML cell renderer depending on the list's configuration.
      */
     getCellRenderer : function(row) {},
-    
+
     /**
      * Whether the given row is selectable
-     * 
+     *
      * @param row {Integer} The row index
      * @return {Boolean} Whether the given row is selectable
      */

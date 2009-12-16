@@ -160,7 +160,7 @@ qx.Class.define("qx.bom.IframeHistory",
     /**
      * Checks whether the given location state is the current one.
      *
-     * @param locationState {String} location state to check 
+     * @param locationState {String} location state to check
      * @return {Boolean}
      */
     __isCurrentLocationState : function (locationState) {
@@ -218,7 +218,7 @@ qx.Class.define("qx.bom.IframeHistory",
      *
      * @param callback {Function} This function will be called once the iframe is loaded
      * @param context {Object?window} The context for the callback.
-     * @param retry {Integer} number of tries to initialize the iframe 
+     * @param retry {Integer} number of tries to initialize the iframe
      */
     __waitForIFrame : function(callback, context, retry)
     {

@@ -32,7 +32,7 @@ qx.Class.define("qx.io2.part.Package",
    * @param urls {String[]} A list of script URLs
    * @param id {var} Unique package hash key
    * @param loaded {Boolean?false} Whether the package is already loaded
-   * 
+   *
    * @deprecated Use 'qx.io.part.Package' instead.
    */
   construct : function(urls, id, loaded)

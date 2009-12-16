@@ -495,14 +495,14 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Listens to DOM changes of the container element to get informed when the
      * HtmlArea is moved to another container.
-     * 
+     *
      * This method is only implemented for Gecko browsers.
      */
     __setupInvalidateListener : function()
     {
       var self = this;
       var element = this.getContainerElement().getDomElement();
-      
+
       qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", qx.event.GlobalError.observeMethod(function(e) {
         self.__editorComponent.invalidateEditor();
       }));

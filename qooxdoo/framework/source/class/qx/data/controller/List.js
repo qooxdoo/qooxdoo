@@ -315,11 +315,11 @@ qx.Class.define("qx.data.controller.List",
           old.removeListenerById(this.__changeModelListenerId);
         }
       }
-      
+
       // erase the selection if there is something selected
       if (this.getSelection() != undefined && this.getSelection().length > 0) {
         this.getSelection().splice(0, this.getSelection().length);
-      }      
+      }
 
       // if a model is set
       if (value != null) {
@@ -345,7 +345,7 @@ qx.Class.define("qx.data.controller.List",
             listItem.setModel(modelNode);
           }
         }
-        // as we changed only the labels of the items, the changeselection of 
+        // as we changed only the labels of the items, the changeselection of
         // the target my be missing so we invoke it here
         this._changeTargetSelection();
       }
@@ -364,7 +364,7 @@ qx.Class.define("qx.data.controller.List",
     _applyTarget: function(value, old) {
       // add a listener for the target change
       this._addChangeTargetListener(value, old);
-      
+
       // if there was an old target
       if (old != undefined) {
         // remove all element of the old target
@@ -659,10 +659,10 @@ qx.Class.define("qx.data.controller.List",
         this.__boundProperties.push(targetProperty);
       }
     },
-    
-    
+
+
     /**
-     * Helper-Method for binding a given property from the target widget to 
+     * Helper-Method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
@@ -685,13 +685,13 @@ qx.Class.define("qx.data.controller.List",
       // create the binding
       var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
       sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
-      
+
       // save the bound property
       if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
         this.__boundPropertiesReverse.push(targetPath);
-      }      
+      }
     },
-    
+
 
     /**
      * Method which will be called on the invoke of every binding. It takes

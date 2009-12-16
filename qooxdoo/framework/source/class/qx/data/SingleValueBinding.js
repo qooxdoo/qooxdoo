@@ -78,7 +78,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   the source property.
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
-     * @param targetPropertyChain {String} The property chain to the target 
+     * @param targetPropertyChain {String} The property chain to the target
      *   object.
      * @param options {Map} A map containing the options.
      *   <li>converter: A converter function which takes two parameters
@@ -205,8 +205,8 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       // create the id map
       var id = {
-        type: "deepBinding", 
-        listenerIds: listenerIds, 
+        type: "deepBinding",
+        listenerIds: listenerIds,
         sources: sources,
         targetListenerIds: targetListenerMap.listenerIds,
         targets: targetListenerMap.targets
@@ -314,15 +314,15 @@ qx.Class.define("qx.data.SingleValueBinding",
 
     /**
      * Internal helper for setting up the listening to the changes on the
-     * target side of the binding. Only works if the target property is a 
+     * target side of the binding. Only works if the target property is a
      * property chain
-     * 
+     *
      * @param sourceObject {qx.core.Object} The source of the binding.
      * @param sourcePropertyChain {String} The property chain which represents
      *   the source property.
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
-     * @param targetPropertyChain {String} The property name of the target 
+     * @param targetPropertyChain {String} The property name of the target
      *   object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
@@ -335,7 +335,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       var propertyNames = targetPropertyChain.split(".");
 
       var arrayIndexValues =
-        this.__checkForArrayInPropertyChain(propertyNames);      
+        this.__checkForArrayInPropertyChain(propertyNames);
       var targets = [];
       var listeners = [];
       var listenerIds = [];
@@ -352,17 +352,17 @@ qx.Class.define("qx.data.SingleValueBinding",
           try {
             eventNames.push(
               this.__getEventNameForProperty(target, propertyNames[i])
-            );            
+            );
           } catch (e) {
-            // if the event names could not be terminated, 
+            // if the event names could not be terminated,
             // just ignore the target chain listening
             break;
           }
         }
-            
+
         // save the current source
-        targets[i] = target;   
-        
+        targets[i] = target;
+
         // create a listener
         var listener = function() {
           // delete all listener after the current one
@@ -376,46 +376,46 @@ qx.Class.define("qx.data.SingleValueBinding",
 
             // remove the listeners
             target.removeListenerById(listenerIds[j]);
-          }   
-          
+          }
+
           // get the current target
           var target = targets[i];
           // add new once after the current one
           for (var j = i + 1; j < propertyNames.length - 1; j++) {
-            
+
             var firstUpPropName = qx.lang.String.firstUp(propertyNames[j - 1]);
             // get and store the new target
             if (arrayIndexValues[j - 1] !== "") {
-              var currentIndex = arrayIndexValues[j - 1] === "last" ? 
+              var currentIndex = arrayIndexValues[j - 1] === "last" ?
                 target.getLength() - 1 : arrayIndexValues[j - 1];
               target = target["get" + firstUpPropName](currentIndex);
             } else {
               target = target["get" + firstUpPropName]();
             }
             targets[j] = target;
-            
+
             // check if a listener already created
             if (listeners[j] == null) {
               // store the listener for further processing
               listeners.push(listener);
             }
-            
+
             // add a new listener
             if (qx.Class.implementsInterface(target, qx.data.IListData)) {
               var eventName = "change";
             } else {
               try {
-                var eventName = 
+                var eventName =
                   qx.data.SingleValueBinding.__getEventNameForProperty(
                     target, propertyNames[j]
-                  );                
+                  );
               } catch (e) {
-                // if the event name could not be terminated, 
+                // if the event name could not be terminated,
                 // ignore the rest
                 break;
               }
             }
-            
+
             listenerIds[j] = target.addListener(eventName, listeners[j]);
            }
 
@@ -429,21 +429,21 @@ qx.Class.define("qx.data.SingleValueBinding",
 
         // add the chaining listener
         listenerIds[i] = target.addListener(eventNames[i], listener);
-        
+
         var firstUpPropName = qx.lang.String.firstUp(propertyNames[i]);
         // get and store the next target
         if (target["get" + firstUpPropName] == null) {
           target = null;
         } else if (arrayIndexValues[i] !== "") {
-          target = target["get" + firstUpPropName](arrayIndexValues[i]);          
+          target = target["get" + firstUpPropName](arrayIndexValues[i]);
         } else {
           target = target["get" + firstUpPropName]();
         }
         if (!target) {
           break;
-        }        
+        }
       }
-      
+
       return {listenerIds: listenerIds, targets: targets};
     },
 
@@ -451,13 +451,13 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * Helper for updating the target. Gets the current set data from the soure
      * and set that on the target.
-     * 
+     *
      * @param sourceObject {qx.core.Object} The source of the binding.
      * @param sourcePropertyChain {String} The property chain which represents
      *   the source property.
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
-     * @param targetPropertyChain {String} The property name of the target 
+     * @param targetPropertyChain {String} The property name of the target
      *   object.
      */
     __updateTarget : function(
@@ -544,7 +544,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetPropertyChain {String} The names of the properties,
      *   separated with a dot.
      */
-    __resetTargetValue : function(targetObject, targetPropertyChain) 
+    __resetTargetValue : function(targetObject, targetPropertyChain)
     {
       // get the last target object of the chain
       var target = this.__getTargetFromChain(targetObject, targetPropertyChain);

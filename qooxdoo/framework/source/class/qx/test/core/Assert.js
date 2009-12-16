@@ -17,122 +17,122 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("qx.test.core.Assert", 
+qx.Class.define("qx.test.core.Assert",
 {
   extend : qx.dev.unit.TestCase,
 
   members :
   {
-    testQxWidget : function() 
+    testQxWidget : function()
     {
       // working widget
       var widget = new qx.ui.core.Widget();
       this.assertQxWidget(widget);
       widget.dispose();
-      
+
       var comp = new qx.ui.container.Composite();
       this.assertQxWidget(comp);
-      comp.dispose();      
-      
+      comp.dispose();
+
       var self = this;
       // not working
       this.assertException(function() {
         self.assertQxWidget(true);
       }, qx.core.AssertionError, null, "1");
-      
+
       this.assertException(function() {
         self.assertQxWidget({});
       }, qx.core.AssertionError, null, "2");
-      
+
       var o = new qx.core.Object();
       this.assertException(function() {
         self.assertQxWidget(o);
       }, qx.core.AssertionError, null, "3");
-      o.dispose(); 
+      o.dispose();
     },
-    
-    
-    testQxObject : function() 
+
+
+    testQxObject : function()
     {
       // working widget
       var o = new qx.core.Object();
       this.assertQxObject(o);
       o.dispose();
-            
+
       var widget = new qx.ui.core.Widget();
       this.assertQxObject(widget);
-      widget.dispose();        
-      
+      widget.dispose();
+
       var self = this;
       // not working
       this.assertException(function() {
         self.assertQxObject(true);
       }, qx.core.AssertionError, null, "1");
-      
+
       this.assertException(function() {
         self.assertQxObject({});
       }, qx.core.AssertionError, null, "2");
-      
+
       this.assertException(function() {
         self.assertQxObject(new qx.type.BaseString());
-      }, qx.core.AssertionError, null, "2");      
+      }, qx.core.AssertionError, null, "2");
     },
-    
-    
-    testCSSColor : function() 
+
+
+    testCSSColor : function()
     {
       // working
       this.assertCssColor("red", "red");
       this.assertCssColor("black", "black");
       this.assertCssColor("aqua", "rgb(0,255,255)");
       this.assertCssColor("rgb(159,123,147)", "rgb(159,123,147)");
-     
+
       var self = this;
       // not working
       this.assertException(function() {
         self.assertCssColor("red", true);
       }, qx.core.AssertionError, null, "1");
-      
+
       this.assertException(function() {
         self.assertCssColor("red", "reed");
       }, qx.core.AssertionError, null, "2");
-      
+
       this.assertException(function() {
         self.assertCssColor("red", "rgb(15,45,56)");
       }, qx.core.AssertionError, null, "3");
-      
+
       // non existing color
       this.assertException(function() {
         self.assertCssColor("grey", "grey");
-      }, Error, null, "4");       
+      }, Error, null, "4");
     },
-    
-    
-    testAssertElement : function() 
+
+
+    testAssertElement : function()
     {
       // working
       this.assertElement(document.body);
       this.assertElement(document.createElement("div"));
-      
+
       var self = this;
-      
+
       // not working
       this.assertException(function() {
         self.assertElement("test");
       }, qx.core.AssertionError, null, "1");
-  
+
       this.assertException(function() {
         self.assertElement({});
       }, qx.core.AssertionError, null, "2");
-      
-      this.assertException(function() {  
+
+      this.assertException(function() {
         self.assertElement(true);
       }, qx.core.AssertionError, null, "2");
-        
+
       this.assertException(function() {
         self.assertElement(window);
       }, qx.core.AssertionError, null, "4");
-        
+
     }
   }
 });

@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 
     /**
      * Get the cell provider for the non spanning cells
-     * 
+     *
      * @return {qx.ui.virtual.core.IWidgetCellProvider} the cell provider
      */
     __getCellProviderForNonSpanningCells : function()

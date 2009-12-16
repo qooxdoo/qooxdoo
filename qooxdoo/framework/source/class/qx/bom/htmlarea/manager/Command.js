@@ -58,8 +58,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      */
     this.__fontSizeNames = [ 10, 12, 16, 18, 24, 32, 48 ];
 
-    // In Gecko-browser hyperlinks which are based on *collapsed* selection are 
-    // inserted as DOM nodes. To keep track of these nodes they are equipped 
+    // In Gecko-browser hyperlinks which are based on *collapsed* selection are
+    // inserted as DOM nodes. To keep track of these nodes they are equipped
     // with an unique id (-> "qx_link" + __hyperLinkId)
     this.__hyperLinkId = 0;
   },
@@ -308,12 +308,12 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         // Body element must have focus before executing command
         this.__doc.body.focus();
 
-        // IE looses the selection if the user clicks on any other element e.g. 
-        // a toolbar item. To manipulate the selected text correctly IE has to 
-        // execute the command on the previously saved Text Range object rather 
+        // IE looses the selection if the user clicks on any other element e.g.
+        // a toolbar item. To manipulate the selected text correctly IE has to
+        // execute the command on the previously saved Text Range object rather
         // than the document object.
         //
-        // Ignore the "SelectAll" command otherwise the range handling would 
+        // Ignore the "SelectAll" command otherwise the range handling would
         // interfere with it.
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
@@ -324,10 +324,10 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
             // editor area
             range.select();
 
-            // If the saved Text Range object contains no text collapse it and 
-            // execute the command at the document object or selected range is 
+            // If the saved Text Range object contains no text collapse it and
+            // execute the command at the document object or selected range is
             // a control range with an image inside.
-            if(((range.text) && (range.text.length > 0)) || 
+            if(((range.text) && (range.text.length > 0)) ||
                ((range.length == 1) && (range.item(0)) && (range.item(0).tagName == "IMG"))) {
               execCommandTarget = range;
             } else {
@@ -847,7 +847,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
              // check if the image is one the same hierarchy level
              // IMPORTANT: if e.g. the user copy-and-pastes a text styled with
              // FONT elements Gecko does add the image inside this font element
-             if (qx.dom.Node.isElement(img.previousSibling) && 
+             if (qx.dom.Node.isElement(img.previousSibling) &&
                  formatElements[qx.dom.Node.getName(img.previousSibling)]) {
                startNode = img.previousSibling;
              }
@@ -1113,7 +1113,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      {
        var htmlText = "<hr />";
 
-       // Gecko needs some extra HTML elements to keep the current style setting 
+       // Gecko needs some extra HTML elements to keep the current style setting
        // after inserting the <hr> tag.
        if (qx.core.Variant.isSet("qx.client", "gecko")) {
          htmlText += this.__generateHelperString();
@@ -1540,8 +1540,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
            // Check if the entire list element has been selected.
            //
-           // Note: If more than one element is selected in IE, they are all 
-           // selected completely. This is a good thing, since IE does not 
+           // Note: If more than one element is selected in IE, they are all
+           // selected completely. This is a good thing, since IE does not
            // support anchorOffset or nodeOffset. :-)
            listEntrySelected = (qx.core.Variant.isSet("qx.client", "mshtml")) ?
                // Element is selected or <body> tag is selected
@@ -1751,7 +1751,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            // Check the left side - stop at a linebreak or a space
            while (left > 0)
            {
-             if (anchor.nodeValue.charCodeAt(left) == 160 || 
+             if (anchor.nodeValue.charCodeAt(left) == 160 ||
                  anchor.nodeValue.charCodeAt(left) == 32) {
                break;
              } else {
@@ -1762,7 +1762,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            // Check the right side - stop at a linebreak or a space
            while (right < anchor.nodeValue.length)
            {
-             if (anchor.nodeValue.charCodeAt(right) == 160 || 
+             if (anchor.nodeValue.charCodeAt(right) == 160 ||
                  anchor.nodeValue.charCodeAt(right) == 32) {
                break;
              } else {
@@ -1836,7 +1836,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        }
 
        // Normalize the url parameter. Especially when doing undo/redo operations
-       // the url *can* be passed in as full CSS like 'url(SOMEURL)' rather than 
+       // the url *can* be passed in as full CSS like 'url(SOMEURL)' rather than
        // just 'SOMEURL'.
        else
        {
@@ -1931,7 +1931,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
     /**
       * Special implementation for webkit browser to set the text-decoration
       * underline. In webkit the apply of text-decoration is different to other
-      * browsers and cannot be performed with an <code>execCommand</code> 
+      * browsers and cannot be performed with an <code>execCommand</code>
       *
       * @param value {String} color info
       * @param commandObject {Object} command infos
@@ -1989,7 +1989,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      /**
       * Special implementation for webkit browser to set the text-decoration
       * strikethrough. In webkit the apply of text-decoration is different to other
-      * browsers and cannot be performed with an <code>execCommand</code> 
+      * browsers and cannot be performed with an <code>execCommand</code>
       *
       * @param value {String} color info
       * @param commandObject {Object} command infos

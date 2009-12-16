@@ -28,7 +28,7 @@ qx.Class.define("qx.test.bom.Event",
       var el = qx.bom.Element.create("div", {name: "vanillebaer"}, window);
       qx.bom.Event.addNativeListener(el, "click", function(e) {
         qx.log.Logger.info("clicked");
-      });      
+      });
       this.assertTrue(qx.bom.Event.supportsEvent(el, "click"));
 
 

@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.form.Slider",
     {
       var direction = e.getWheelDelta() > 0 ? 1 : -1;
       this.slideBy(direction * this.getSingleStep());
-      
+
       e.stop();
     },
 

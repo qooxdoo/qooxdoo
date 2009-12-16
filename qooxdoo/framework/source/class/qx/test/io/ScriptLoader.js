@@ -42,16 +42,16 @@ qx.Class.define("qx.test.io.ScriptLoader",
     testLoad : function()
     {
       window.SCRIPT_LOADED = false;
-      
+
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/script.js");
       this.loader.load(url, function() { this.resume(function() {
         this.assertTrue(window.SCRIPT_LOADED);
       }); }, this);
-      
+
       this.wait(5000);
     },
-    
-    
+
+
     testLoadError : function()
     {
       // Opera will fire no event at all

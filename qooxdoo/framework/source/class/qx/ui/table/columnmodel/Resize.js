@@ -143,13 +143,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
           "columnVisibilityMenuCreateEnd",
           this._addResetColumnWidthButton,
           this
-        );      
-        
+        );
+
         // ... when columns are resized, ...
         this.addListener("widthChanged", this._oncolumnwidthchanged, this );
 
         // ... and when a column visibility changes.
-        this.addListener("visibilityChanged", this._onvisibilitychanged, this); 
+        this.addListener("visibilityChanged", this._onvisibilitychanged, this);
       }
 
       // Set the initial resize behavior

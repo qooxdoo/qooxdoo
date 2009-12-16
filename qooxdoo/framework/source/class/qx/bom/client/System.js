@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is Windows Vista */
     WINVISTA : false,
-    
+
     /** {Boolean} Flag to detect if the client system is Windows 7 */
     WIN7 : false,
 

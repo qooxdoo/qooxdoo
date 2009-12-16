@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Returns whether the column move feedback is currently shown.
      *
-     * @return {Boolean} <code>true</code> whether the column move feedback is 
+     * @return {Boolean} <code>true</code> whether the column move feedback is
      *    currently shown, <code>false</code> otherwise.
      */
     isShowingColumnMoveFeedback : function() {
@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         if (col === undefined) {
           continue;
         }
-        
+
         var colWidth = columnModel.getColumnWidth(col);
 
         // TODO: Get real cell renderer

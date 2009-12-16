@@ -19,8 +19,8 @@
 
 /**
  * The default list item renderer.
- * 
- * This cell renderer will use a standard {@link qx.ui.form.ListItem} widget to 
+ *
+ * This cell renderer will use a standard {@link qx.ui.form.ListItem} widget to
  * render the cell
  */
 qx.Class.define("qx.ui.virtual.form.ListItemCell",

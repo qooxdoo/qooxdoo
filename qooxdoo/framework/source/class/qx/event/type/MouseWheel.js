@@ -28,13 +28,13 @@ qx.Class.define("qx.event.type.MouseWheel",
   members :
   {
     // overridden
-    stop : function() 
+    stop : function()
     {
       this.stopPropagation();
       this.preventDefault();
     },
 
-    
+
     /**
      * Get the amount the wheel has been scrolled
      *

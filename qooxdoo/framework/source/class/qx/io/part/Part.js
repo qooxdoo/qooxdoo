@@ -20,7 +20,7 @@
 /**
  * Wrapper for a part as defined in the config file. This class knows about all
  * packages the part depends on and provides functionality to load the part.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.io.part.Part",

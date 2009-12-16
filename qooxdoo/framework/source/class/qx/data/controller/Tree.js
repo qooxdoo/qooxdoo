@@ -655,21 +655,21 @@ qx.Class.define("qx.data.controller.Tree",
         storage[modelNode.toHashCode()].reverseId = id;
       } else {
         storage[modelNode.toHashCode()] = {
-          id: id, 
+          id: id,
           reverseId: null,
           treeNode: targetWidget
         };
-      }      
+      }
 
       // save the bound property
       if (!qx.lang.Array.contains(this.__boundProperties, targetPath)) {
         this.__boundProperties.push(targetPath);
       }
     },
-    
-    
+
+
     /**
-     * Helper-Method for binding a given property from the target widget to 
+     * Helper-Method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
@@ -681,10 +681,10 @@ qx.Class.define("qx.data.controller.Tree",
      * @param options {Map | null} The options to use for the binding.
      * @param sourceWidget {qx.ui.tree.AbstractTreeItem} The source widget.
      * @param modelNode {var} The model node which should be bound to the target.
-     */    
+     */
     bindPropertyReverse : function(
       targetPath, sourcePath, options, sourceWidget, modelNode
-    ) 
+    )
     {
       // set up the binding
       var id = sourceWidget.bind(sourcePath, modelNode, targetPath, options);
@@ -699,7 +699,7 @@ qx.Class.define("qx.data.controller.Tree",
         storage[modelNode.toHashCode()].reverseId = id;
       } else {
         storage[modelNode.toHashCode()] = {
-          id: null, 
+          id: null,
           reverseId: id,
           treeNode: sourceWidget
         };
@@ -708,7 +708,7 @@ qx.Class.define("qx.data.controller.Tree",
       // save the bound property
       if (!qx.lang.Array.contains(this.__boundProperties, sourcePath)) {
         this.__boundProperties.push(sourcePath);
-      }      
+      }
     },
 
 
@@ -794,7 +794,7 @@ qx.Class.define("qx.data.controller.Tree",
         var bindingsMap = this.__bindings[property][modelNode.toHashCode()];
         if (bindingsMap != null) {
           if (bindingsMap.id) {
-            modelNode.removeBinding(bindingsMap.id);            
+            modelNode.removeBinding(bindingsMap.id);
           }
           if (bindingsMap.reverseId) {
             bindingsMap.treeNode.removeBinding(bindingsMap.reverseId);
@@ -819,7 +819,7 @@ qx.Class.define("qx.data.controller.Tree",
      */
     _setConfigureItem: function(value, old) {
       if (
-        value != null && value.configureItem != null && 
+        value != null && value.configureItem != null &&
         this.getTarget() != null && this.getModel() != null
       ) {
         var children = this.getTarget().getRoot().getItems(true, true, false);

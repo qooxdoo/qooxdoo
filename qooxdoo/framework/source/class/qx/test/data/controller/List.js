@@ -503,8 +503,8 @@ qx.Class.define("qx.test.data.controller.List",
       // test for the selection
       this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection is wrong.");
     },
-    
-    
+
+
     testSelectionWithModelChangeSelectBox: function() {
       this.__data = ["a", "b", "c", "d", "e"];
       // create a new array
@@ -512,10 +512,10 @@ qx.Class.define("qx.test.data.controller.List",
 
       var selectBox = new qx.ui.form.SelectBox();
       // create the controller
-      this.__controller = new qx.data.controller.List(this.__model, selectBox);      
-      
+      this.__controller = new qx.data.controller.List(this.__model, selectBox);
+
       // first object is selected (one selection mode)
-      
+
       // test the selection
       this.assertEquals(this.__model.getItem(0), selectBox.getSelection()[0].getModel());
       this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
@@ -531,11 +531,11 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller.getSelection().push("y");
 
       // test for the selection
-      this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");      
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
       this.assertEquals("y", this.__controller.getSelection().getItem(0), "Selection is wrong.");
-      
+
       selectBox.dispose();
-    },    
+    },
 
 
     testFilterApply: function() {
@@ -992,8 +992,8 @@ qx.Class.define("qx.test.data.controller.List",
       // check that it has not been scrolled
       this.assertEquals(40, this.__list.getScrollY());
     },
-    
-    
+
+
     testBug1947: function() {
       qx.Class.define("qx.demo.Kid",
       {

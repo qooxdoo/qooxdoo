@@ -82,8 +82,8 @@ qx.Class.define("qx.ui.form.ListItem",
       init : "listitem"
     }
   },
-  
-  
+
+
   members :
   {
     // overridden
@@ -96,6 +96,6 @@ qx.Class.define("qx.ui.form.ListItem",
       hovered : true,
       selected : true,
       dragover : true
-    }    
+    }
   }
 });
