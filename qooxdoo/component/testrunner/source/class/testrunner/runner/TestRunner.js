@@ -959,6 +959,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       root1.setOpen(true);
       fulltree.setRoot(root1);
       fulltree.setHideRoot(true);
+      fulltree.setRootOpenClose(true);
 
       buildSubTree(this.widgets["treeview.full"].getRoot(), ttree, 0);
 
