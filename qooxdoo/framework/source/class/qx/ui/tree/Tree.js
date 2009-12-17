@@ -277,12 +277,14 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param treeItem {AbstractTreeItem} The tree item to get the item after
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
+     * @param stayInSameNestLevel {Boolean?false} if true, only the same nest level
+     *                                            will be searched
      * @return {AbstractTreeItem?null} The item after the given item. May be
      *     <code>null</code> if the item is the last item.
      */
-    getNextSiblingOf : function(treeItem, invisible)
+    getNextSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
     {
-      if ((invisible !== false || treeItem.isOpen()) && treeItem.hasChildren()) {
+      if ((invisible !== false || treeItem.isOpen()) && !(stayInSameNestLevel == true) && treeItem.hasChildren()) {
         return treeItem.getChildren()[0];
       }
 
