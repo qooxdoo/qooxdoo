@@ -36,16 +36,9 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   *****************************************************************************
   */
 
-  /**
-   * @param table {qx.ui.table.Table}
-   *   The table which this model is used for. This allows us access to
-   *   other aspects of the table, as the <i>behavior</i> sees fit.
-   */
-  construct : function(table)
+  construct : function()
   {
-    this.base(arguments, table);
-    
-    this.__table = table;
+    this.base(arguments);
 
     // We don't want to recursively call ourself based on our resetting of
     // column sizes.  Track when we're resizing.
@@ -55,33 +48,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     // until then since we won't be able to determine the available width
     // anyway.
     this.__bAppeared = false;
-    
-    
-    // We'll do our column resizing when the table appears, ...
-    table.addListener("appear", this._onappear, this);
-
-    // ... when the inner width of the table changes, ...
-    table.addListener("tableWidthChanged", this._onTableWidthChanged, this);
-
-    // ... when a vertical scroll bar appears or disappears
-    table.addListener(
-      "verticalScrollBarChanged",
-      this._onverticalscrollbarchanged,
-      this
-    );
-
-    // We want to manipulate the button visibility menu
-    table.addListener(
-      "columnVisibilityMenuCreateEnd",
-      this._addResetColumnWidthButton,
-      this
-    );      
-    
-    // ... when columns are resized, ...
-    this.addListener("widthChanged", this._oncolumnwidthchanged, this );
-
-    // ... and when a column visibility changes.
-    this.addListener("visibilityChanged", this._onvisibilitychanged, this);    
   },
 
 
@@ -146,9 +112,15 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     /**
      * Initializes the column model.
      *
-     * @param numColumns {Integer} the number of columns the model should have.
+     * @param numColumns {var} the number of columns the model should have.
+     *
+     * @param table {qx.ui.table.Table}
+     *   The table which this model is used for.  This allows us access to
+     *   other aspects of the table, as the <i>behavior</i> sees fit.
+     *
+     * @return {void}
      */
-    init : function(numColumns)
+    init : function(numColumns, table)
     {
       // Call our superclass
       this.base(arguments, numColumns);
@@ -188,8 +160,49 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
 
+      // Save the table so we can get at its features, as necessary.
+      this.__table = table;
+
+      // We'll do our column resizing when the table appears, ...
+      table.addListener("appear", this._onappear, this);
+
+      // ... when the inner width of the table changes, ...
+      table.addListener(
+        "tableWidthChanged",
+        this._onTableWidthChanged,
+        this
+      );
+
+      // ... when a vertical scroll bar appears or disappears
+      table.addListener(
+        "verticalScrollBarChanged",
+        this._onverticalscrollbarchanged,
+        this
+      );
+
+      // ... when columns are resized, ...
+      this.addListener(
+        "widthChanged",
+        this._oncolumnwidthchanged,
+        this
+      );
+
+      // ... and when a column visibility changes.
+      this.addListener(
+        "visibilityChanged",
+        this._onvisibilitychanged,
+        this
+      );
+
+      // We want to manipulate the button visibility menu
+      this.__table.addListener(
+        "columnVisibilityMenuCreateEnd",
+        this._addResetColumnWidthButton,
+        this
+      );
+
       // Tell the behavior how many columns there are
-      this.getBehavior()._setNumColumns(numColumns);      
+      this.getBehavior()._setNumColumns(numColumns);
     },
 
 

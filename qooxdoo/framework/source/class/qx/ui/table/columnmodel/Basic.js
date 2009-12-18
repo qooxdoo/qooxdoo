@@ -28,10 +28,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   extend : qx.core.Object,
 
 
-  /**
-   * @param table {qx.ui.table.Table} The table which this model is used for.
-   */
-  construct : function(table)
+  construct : function()
   {
     this.base(arguments);
 
