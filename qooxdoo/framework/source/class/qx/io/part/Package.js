@@ -85,7 +85,7 @@ qx.Class.define("qx.io.part.Package",
         }
 
         var loader = new qx.io.ScriptLoader()
-        loader.load(urls.shift() + "?" + (Math.random()+"").substring(2,7), function()
+        loader.load(urls.shift(), function()
         {
           urlsLoaded += 1;
           loader.dispose();
