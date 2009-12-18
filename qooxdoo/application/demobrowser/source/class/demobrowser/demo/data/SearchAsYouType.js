@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       description.setWidth(200);
       description.setValue(
         "<b>Search As You Type List</b><br/>"
-        + "Type a name and the list will show only the fitting results."
+        + "Type a name and the list will show only the matching results (case-sensitive)."
       );
       this.getRoot().add(description, {left: 20, top: 10});
     }
