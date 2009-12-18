@@ -23,7 +23,10 @@
 #use(showcase.page.tree.Content)
 
 ************************************************************************ */
-
+/**
+ * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ *   __features, __manual, __demos, __api)
+ */
 qx.Class.define("showcase.page.tree.Page",
 {
   extend : showcase.Page,

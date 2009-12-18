@@ -361,19 +361,30 @@ qx.Class.define("showcase.page.htmleditor.Content",
       return toolbar;
     },
     
-    
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     debugRadio : function(e) {
       alert("This command is not yet implemented!");
     },
 
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     debugCommand : function(e) {
       alert("This command is not yet implemented!");
     },
-
+    
+    /**
+     * @lint ignoreDeprecated(alert) 
+     */
     debugButton : function(e) {
       alert("This command is not yet implemented!");
     },
 
+    /**
+     * @lint ignoreDeprecated(alert) 
+     */
     debugCheckBox : function(e) {
       alert("This command is not yet implemented!");
     },

@@ -39,6 +39,9 @@ qx.Class.define("showcase.page.i18n.Content",
 
   members : 
   {
+    __locales: null,
+    __controller : null,
+
     _createView : function() 
     {
       var layout = new qx.ui.layout.Grid(10, 15);
