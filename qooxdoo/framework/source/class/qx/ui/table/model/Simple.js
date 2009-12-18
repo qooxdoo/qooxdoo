@@ -65,6 +65,12 @@ qx.Class.define("qx.ui.table.model.Simple",
     {
       var obj1 = row1[arguments.callee.columnIndex];
       var obj2 = row2[arguments.callee.columnIndex];
+      if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
+        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        if (result != null) {
+          return result;
+        }
+      }
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -78,10 +84,17 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorInsensitiveAscending : function(row1, row2)
     {
-      var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
             row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
             row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+
+      if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
+        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        if (result != null) {
+          return result;
+        }
+      } 
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -98,6 +111,12 @@ qx.Class.define("qx.ui.table.model.Simple",
     {
       var obj1 = row1[arguments.callee.columnIndex];
       var obj2 = row2[arguments.callee.columnIndex];
+      if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
+        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        if (result != null) {
+          return result;
+        } 
+      }
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -111,10 +130,16 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorInsensitiveDescending : function(row1, row2)
     {
-      var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
           row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
           row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
+        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;        
+        if (result != null) {
+          return result;
+        }
+      }
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     }
 
