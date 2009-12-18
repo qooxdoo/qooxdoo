@@ -294,5 +294,11 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       button.execute();
       e.stop();
     }    
+  },
+  
+  destruct : function()
+  {
+    this._disposeMap("_buttons");
+    this._disposeArray("_keyIdentifier");
   }
 });

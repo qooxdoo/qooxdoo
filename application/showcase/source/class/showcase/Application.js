@@ -253,5 +253,11 @@ qx.Class.define("showcase.Application",
         this.__effect.start();
       }, this, 0);
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeObjects("__stack", "__listLoadImage", "__content", 
+      "__description", "__effect");
   }
 });

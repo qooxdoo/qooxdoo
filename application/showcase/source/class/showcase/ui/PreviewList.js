@@ -56,5 +56,10 @@ qx.Class.define("showcase.ui.PreviewList",
     _onMouseOut : function() {
       this._knob.removeState("hovered");
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeObjects("_knob");
   }
 });
