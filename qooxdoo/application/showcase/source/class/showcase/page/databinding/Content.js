@@ -42,6 +42,7 @@ qx.Class.define("showcase.page.databinding.Content",
       var list = new qx.ui.form.List();
       view.add(list, {left: 10, top: 135, bottom: 5});
       list.set({
+        selectionMode: "one",
         width: 300,
         maxHeight: 400
       });
