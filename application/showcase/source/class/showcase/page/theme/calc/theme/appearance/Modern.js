@@ -32,7 +32,6 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Modern",
           decorator: "main",
           height : 40,
           padding: 3,
-          marginBottom: 3,
           marginBottom: 10
         }
       }

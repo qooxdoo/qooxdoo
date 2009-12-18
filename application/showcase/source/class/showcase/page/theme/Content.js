@@ -41,7 +41,7 @@ qx.Class.define("showcase.page.theme.Content",
       calc.open();      
    
       var model = new showcase.page.theme.calc.Model();
-      var presenter = new showcase.page.theme.calc.Presenter(calc, model);
+      new showcase.page.theme.calc.Presenter(calc, model);
 
       
       var calc = new showcase.page.theme.calc.view.Calculator(false);
@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.theme.Content",
       calc.open();      
       
       var model = new showcase.page.theme.calc.Model();
-      var presenter = new showcase.page.theme.calc.Presenter(calc, model);
+      new showcase.page.theme.calc.Presenter(calc, model);
       
       return view;
     }

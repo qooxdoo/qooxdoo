@@ -45,7 +45,6 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
     // add display and buttons
     this._initButtons();
     
-    var display = this.getChildControl("display");
     this.add(this.getChildControl("display"));      
     this.add(this._createButtonContainer(), {flex: 1});    
     
