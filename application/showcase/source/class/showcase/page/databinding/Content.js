@@ -148,7 +148,7 @@ qx.Class.define("showcase.page.databinding.Content",
               message[i] = "<a href='" + message[i] + "' target='_blank'>" + message[i] + "</a>";
             }
           };
-          return message.join(" - ");
+          return message.join(" ");
         }});
       detailsController.addTarget(posted, "value", "source");
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
