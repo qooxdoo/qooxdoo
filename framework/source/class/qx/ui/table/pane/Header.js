@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         if (col === undefined) {
           continue;
         }
-
+        
         var colWidth = columnModel.getColumnWidth(col);
 
         // TODO: Get real cell renderer
