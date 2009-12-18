@@ -45,6 +45,8 @@ qx.Class.define("showcase.page.theme.calc.Presenter",
   
   members :
   {
+    MAX_DISPLAY_SIZE: 16,
+    
     _applyViewModel : function(value, old)
     {
       if (old) {
@@ -76,6 +78,8 @@ qx.Class.define("showcase.page.theme.calc.Presenter",
     __bindModel : function() 
     {
       var model = this.getModel();
+      model.setMaxInputLength(this.MAX_DISPLAY_SIZE);
+      
       var view = this.getView();
       
       model.bind("operator", view, "operation");
@@ -105,6 +109,10 @@ qx.Class.define("showcase.page.theme.calc.Presenter",
         
         case "waitForNumber":
           displayValue = model.getValue() + "";
+          if (displayValue.length > this.MAX_DISPLAY_SIZE) {
+            
+            displayValue = model.getValue().toExponential(this.MAX_DISPLAY_SIZE-7);
+          }
           break;
           
         case "error":

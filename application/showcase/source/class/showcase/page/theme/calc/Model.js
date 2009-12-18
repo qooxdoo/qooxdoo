@@ -52,6 +52,12 @@ qx.Class.define("showcase.page.theme.calc.Model",
       event : "changeInput"
     },
     
+    maxInputLength :
+    {
+      check : "Integer",
+      init : 20
+    },
+    
     operator :
     {
       check : ["+", "-", "*", "/"],
@@ -152,6 +158,10 @@ qx.Class.define("showcase.page.theme.calc.Model",
       this.setState("number");
       var input = this.getInput();
       
+      if (input.length >= this.getMaxInputLength()-1) {
+        return;
+      }
+      
       if (digit == "0") 
       {
         if (input !== "0") {
@@ -194,6 +204,10 @@ qx.Class.define("showcase.page.theme.calc.Model",
       this.setState("number");
       var input = this.getInput();
       
+      if (input.length >= this.getMaxInputLength()-1) {
+        return;
+      }
+
       var isFraction = input.indexOf(".") !== -1;
       if (!isFraction) {
         input += ".";
