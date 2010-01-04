@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2010-2010 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -20,14 +20,15 @@
 ################################################################################
 
 ##
-# SourceFile -- Internal representation of a qooxdoo class/file
+# Class -- Internal representation of a qooxdoo class
 ##
 
 import os, sys, re, types, codecs
 
-class SourceFile(object):
+class Class(object):
 
     def __init__(self, id):
+        __slots__       = ('name', 'file', 'source', 'ast', 'scopes', 'translations')
         self.name       = id   # qooxdoo name of class, classId
         self.file       = u''  # file path of this class
         self.source     = u''  # source code of this class
