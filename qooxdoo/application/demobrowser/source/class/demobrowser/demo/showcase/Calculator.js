@@ -21,10 +21,11 @@
 
 #asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
 
-#tag(showcase)
-
 ************************************************************************ */
 
+/**
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.showcase.Calculator",
 {
   extend : qx.application.Standalone,

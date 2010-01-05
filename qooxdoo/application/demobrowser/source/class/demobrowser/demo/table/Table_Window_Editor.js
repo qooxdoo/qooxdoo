@@ -17,18 +17,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
 /**
  * This table example shows how to use a modal window for a cell editor.
  * Although this is a very simple one, cell editors using modal windows
  * can be as sophisticated as one likes, so are useful for when a cell's
  * data is composed of many discrete parts that could be edited
  * individually. In this example, the "A number" column is editable.
+ * 
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Window_Editor",
 {

@@ -20,12 +20,12 @@
 
 #asset(qx/icon/Tango/16/*)
 
-#tag(showcase)
-
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "showcase_i18n"
+ * 
+ * @tag showcase
  */
 qx.Class.define("demobrowser.demo.showcase.Translation",
 {

@@ -30,11 +30,11 @@
 #asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
- 
-#tag(showcase)
 
 ************************************************************************ */
-
+/**
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.widget.Window",
 {
   extend : qx.application.Standalone,

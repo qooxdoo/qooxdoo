@@ -18,12 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.layout.HBox_Reversed",
 {
   extend : demobrowser.demo.util.LayoutApplication,

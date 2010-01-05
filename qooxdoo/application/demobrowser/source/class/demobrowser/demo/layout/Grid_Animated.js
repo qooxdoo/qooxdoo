@@ -18,13 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(showcase)
-#tag(noPlayground)
-
-************************************************************************ */
-
+/**
+ * @tag noPlayground
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.layout.Grid_Animated",
 {
   extend : qx.application.Standalone,

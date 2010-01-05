@@ -20,11 +20,12 @@
 /* ************************************************************************
 
 #asset(demobrowser/demo/data/finder.json)
-#tag(databinding)
-#tag(list controller)
 
 ************************************************************************ */
 
+/**
+ * @tag databinding
+ */
 qx.Class.define("demobrowser.demo.data.Finder",
 {
   extend : qx.application.Standalone,

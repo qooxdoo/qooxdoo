@@ -16,15 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(list controller)
-#tag(object controller)
-#tag(store)
-#tag(showcase)
-
-************************************************************************ */
+/**
+ * @tag showcase
+ * @tag databinding
+ */
 qx.Class.define("demobrowser.demo.data.Twitter",
 {
   extend : qx.application.Standalone,

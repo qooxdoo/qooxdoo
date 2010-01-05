@@ -27,10 +27,11 @@
 
 #asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
 
-#tag(noPlayground)
-
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.test.Table_CellEditor",
 {
   extend : qx.application.Standalone,

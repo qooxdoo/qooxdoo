@@ -16,13 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(tree controller)
-#tag(noPlayground)
-
-************************************************************************ */
+/**
+ * @tag noPlayground
+ * tag databinding
+ */
 qx.Class.define("demobrowser.demo.data.TreeController",
 {
   extend : qx.application.Standalone,

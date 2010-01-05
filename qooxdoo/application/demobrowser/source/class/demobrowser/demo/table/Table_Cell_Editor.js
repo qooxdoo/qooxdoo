@@ -17,15 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
 /**
  * Using the Table, qx.ui.table.cellrenderer.Dynamic, qx.ui.table.celleditor.Dynamic, qx.ui.table.celleditor.ComboBox
  * and cell value validation to build a property editor.
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
 {

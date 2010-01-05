@@ -25,15 +25,15 @@
 #asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 
-#tag(showcase)
-#tag(noPlayground)
-
 ************************************************************************ */
 
 /**
  * A table with virtual scrolling, model-view-controller, renderer,
  * editing, sorting, column resizing, column reordering,
  * column hiding.
+ * 
+ * @tag noPlayground
+ * @tag showcase
  */
 qx.Class.define("demobrowser.demo.table.Table",
 {

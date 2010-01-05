@@ -22,10 +22,11 @@
 
 #asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
-#tag(showcase)
-
 ************************************************************************ */
 
+/**
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.ui.DragDrop",
 {
   extend : qx.application.Standalone,

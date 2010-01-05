@@ -21,13 +21,13 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/actions/list-add.png)
- 
-#tag(showcase)
-#tag(noPlayground)
 
 ************************************************************************ */
 
-
+/**
+ * @tag showcase
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.virtual.Messenger",
 {
   extend : qx.application.Standalone,

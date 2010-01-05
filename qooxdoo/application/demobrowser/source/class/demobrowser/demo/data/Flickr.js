@@ -16,14 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(store)
-#tag(list controller) 
-#tag(showcase)
-
-************************************************************************ */
+/**
+ * @tag databinding
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.data.Flickr",
 {
   extend : qx.application.Standalone,

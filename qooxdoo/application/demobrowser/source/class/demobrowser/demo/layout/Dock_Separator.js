@@ -18,12 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.layout.Dock_Separator",
 {
   extend : demobrowser.demo.util.LayoutApplication,

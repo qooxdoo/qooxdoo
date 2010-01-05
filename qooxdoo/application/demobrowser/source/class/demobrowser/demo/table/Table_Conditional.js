@@ -22,8 +22,6 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
 
-#tag(noPlayground)
-
 ************************************************************************ */
 
 
@@ -31,6 +29,7 @@
  * Table using the ConditionalDataCellRenderer to display values in different
  * ranges using varying colors; and the ImageDataCellRenderer to display
  * varying images.
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Conditional",
 {

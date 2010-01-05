@@ -16,14 +16,12 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(list controller)
-#tag(filter)
-#tag(noPlayground)
-
-************************************************************************ */
+/**
+ * @tag noPlayground
+ * @tag databinding
+ * @tag filter
+ */
 qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 {
   extend : qx.application.Standalone,

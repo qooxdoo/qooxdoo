@@ -25,10 +25,11 @@
 #use(qx.event.handler.Mouse)
 #use(qx.event.handler.Element)
  
-#tag(noPlayground)
-
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.event.Event",
 {
   extend : demobrowser.demo.event.EventDemo,

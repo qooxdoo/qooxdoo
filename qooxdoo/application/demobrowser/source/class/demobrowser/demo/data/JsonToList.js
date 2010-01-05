@@ -21,12 +21,12 @@
 
 #asset(demobrowser/demo/data/list.json)
 #asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
-#tag(databinding)
-#tag(store)
-#tag(list controller)
 
 ************************************************************************ */
 
+/**
+ * @tag databinding
+ */
 qx.Class.define("demobrowser.demo.data.JsonToList",
 {
   extend : qx.application.Standalone,
