@@ -40,6 +40,12 @@ def getTagsFromJsFile(fname):
         if match:
           if match.group(1):
             tags.add(match.group(1));
+        # qx. usage
+        reg = re.compile('(qx\.[^(;\s]*)\(');
+        match = reg.search(line);
+        if match:
+          if match.group(1):
+            tags.add(match.group(1));
     fileH.close()
 
     return tags    
