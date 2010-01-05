@@ -39,6 +39,8 @@ sys.setrecursionlimit(1500)  # due to bug#2922; maybe this can be removed later
 
 interruptRegistry = InterruptRegistry()
 
+qxUserHome = os.path.expanduser(os.path.join("~", ".qooxdoo"))
+
 def interruptCleanup():
     for func in interruptRegistry.Callbacks:
         try:
@@ -55,6 +57,16 @@ def listJobs(console, jobs, config):
             jdesc = " \t -- %s" % (jdesc,)
         console.info(job + jdesc)
     console.outdent()       
+
+def getUserConfig(config):
+    generatorPrefsPath = os.path.join(qxUserHome, "generator.json")
+    if os.path.exists(generatorPrefsPath):
+        # treat the user file like an initial include
+        includes = config.get("include", [])
+        includes.insert(0, {"path": generatorPrefsPath})
+        config.set("include", includes)
+
+    return config
 
 
 def main():
@@ -111,8 +123,11 @@ Arguments:
     console.info(u"Configuration: %s" % options.config)
     console.info(u"Jobs: %s" % ", ".join(options.jobs))
 
-    # Load configuration
+    # Load application configuration
     config = Config(console, options.config, **options.letmacros)
+
+    # Load user configuration (preferences)
+    config = getUserConfig(config)
 
     # Resolve "include"-Keys
     console.info("Resolving config includes...")
