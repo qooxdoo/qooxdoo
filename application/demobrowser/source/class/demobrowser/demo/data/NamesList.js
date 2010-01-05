@@ -20,11 +20,12 @@
 /* ************************************************************************
 
 #asset(demobrowser/demo/data/persons.json)
-#tag(databinding)
-#tag(list controller)
 
 ************************************************************************ */
 
+/**
+ * @tag databinding
+ */ 
 qx.Class.define("demobrowser.demo.data.NamesList",
 {
   extend : qx.application.Standalone,

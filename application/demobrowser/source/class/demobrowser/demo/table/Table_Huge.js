@@ -25,12 +25,11 @@
 #asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 
-#tag(noPlayground)
-
 ************************************************************************ */
 
 /**
  * A really huge table
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Huge",
 {

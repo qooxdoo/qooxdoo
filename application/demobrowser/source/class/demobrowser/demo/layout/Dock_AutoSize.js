@@ -18,14 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
 /**
  * Identical to DockLayout 1 but adds demonstration for spacings.
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.layout.Dock_AutoSize",
 {

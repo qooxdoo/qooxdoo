@@ -18,14 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
 /**
  * This example demonstrates how alignment is supported in the grid.
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
 {

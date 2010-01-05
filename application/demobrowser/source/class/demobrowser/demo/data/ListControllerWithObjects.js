@@ -20,13 +20,14 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/emotes/*)
-#tag(databinding)
-#tag(list controller)
-#tag(delegate)
-#tag(noPlayground)
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ * @tag databinding
+ * tag delegate
+ */
 qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
 {
   extend : qx.application.Standalone,

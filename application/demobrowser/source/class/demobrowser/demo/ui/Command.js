@@ -21,12 +21,11 @@
 
 #asset(qx/icon/${qx.icontheme}/16/actions/*)
 
-#tag(showcase) 
-
 ************************************************************************ */
 
 /**
  * @lint ignoreDeprecated(alert)
+ * @tag showcase
  */
 qx.Class.define("demobrowser.demo.ui.Command", 
 {

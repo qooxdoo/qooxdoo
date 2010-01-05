@@ -23,14 +23,13 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
 
-#tag(noPlayground)
-
 ************************************************************************ */
 
 /**
  * Table using the Filtered data cell renderer that allows for hiding rows
  * client side. You can specify to filter rows based on numeric values or on
  * regex matching.
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Filtered_Model",
 {

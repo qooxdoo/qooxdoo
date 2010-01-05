@@ -16,13 +16,10 @@
      * Martin Wittemann (martinwitemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(showcase)
-
-************************************************************************ */
 /**
  * @lint ignoreDeprecated(alert)
+ * @tag showcase
  */
 qx.Class.define("demobrowser.demo.ui.FormValidator",
 {

@@ -16,13 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(filter)
-#tag(list controller)
-
-************************************************************************ */
+/**
+ * @tag databinding
+ * @tag filter
+ */
 qx.Class.define("demobrowser.demo.data.ListControllerWithFilter",
 {
   extend : qx.application.Standalone,

@@ -18,12 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.layout.VBox_NegativeMargin",
 {
   extend : demobrowser.demo.util.LayoutApplication,

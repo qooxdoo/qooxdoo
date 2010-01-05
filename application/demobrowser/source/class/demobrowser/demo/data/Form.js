@@ -16,18 +16,12 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-
-#tag(databinding)
-#tag(form)
-#tag(object controller)
-#tag(validation)
-#tag(serialization)
-
-************************************************************************ */
 
 /**
  * @lint ignoreDeprecated(alert)
+ * @tag databinding
+ * @tag validation
+ * @tag serialization
  */
 qx.Class.define("demobrowser.demo.data.Form",
 {

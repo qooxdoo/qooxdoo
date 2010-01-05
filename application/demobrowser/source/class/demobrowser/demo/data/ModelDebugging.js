@@ -16,13 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#tag(databinding)
-#tag(debugging)
-#tag(store)
-
-************************************************************************ */
+/**
+ * @tag databinding
+ * @tag debugging
+ */
 qx.Class.define("demobrowser.demo.data.ModelDebugging",
 {
   extend : qx.application.Standalone,

@@ -23,11 +23,11 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/dialog-apply.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
 
-#tag(showcase)
-
 ************************************************************************ */
 
-
+/**
+ * @tag showcase
+ */
 qx.Class.define("demobrowser.demo.showcase.Dialog",
 {
   extend : qx.application.Standalone,

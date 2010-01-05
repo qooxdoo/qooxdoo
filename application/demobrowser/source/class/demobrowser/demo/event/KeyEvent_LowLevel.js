@@ -18,14 +18,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#tag(noPlayground)
-
-************************************************************************ */
 
 /**
  * Keyhandler test converted to use the low level event API.
+ * 
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.event.KeyEvent_LowLevel",
 {

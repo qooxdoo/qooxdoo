@@ -21,13 +21,13 @@
 
 #asset(demobrowser/demo/data/list.json)
 #asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
-#tag(databinding)
-#tag(list controller)
-#tag(store)
-#tag(delegate)
 
 ************************************************************************ */
 
+/**
+ * @tag databinding
+ * @tag delegate
+ */
 qx.Class.define("demobrowser.demo.data.OwnCodeInModel",
 {
   extend : qx.application.Standalone,
