@@ -32,13 +32,14 @@ def fileCheck(fname):
 def getTagsFromJsFile(fname):
     fileH = open(fname,"rU")
 
-    tags = [] 
+    tags = set([]) 
     for line in fileH:
-        reg = re.compile('^#tag\((.*)\)');
+        # tags
+        reg = re.compile('\@tag\s(.*)');
         match = reg.search(line);
         if match:
           if match.group(1):
-            tags.append(match.group(1));
+            tags.add(match.group(1));
     fileH.close()
 
     return tags    
@@ -107,7 +108,7 @@ def main(dist, scan):
       if not firstItem:
         res += ",\n"
 
-      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s", \"tags\":%s}' % (nr, title, item, repr(tags))
+      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s", \"tags\":%s}' % (nr, title, item, repr(list(tags)))
       lastbasename = basename
       firstItem = False
 
