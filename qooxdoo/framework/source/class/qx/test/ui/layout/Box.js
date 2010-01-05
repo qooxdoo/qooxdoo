@@ -24,15 +24,13 @@ qx.Class.define("qx.test.ui.layout.Box",
   members :
   {
     setUp : function() {
+      this.base(arguments);
       this.root = new qx.test.ui.layout.LayoutRoot();
     },
 
     tearDown : function() {
+      this.base(arguments);
       this.root.dispose();
-    },
-
-    flush : function() {
-      qx.ui.core.queue.Manager.flush();
     },
 
 
