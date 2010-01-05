@@ -990,6 +990,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @param e {Event} TODOC
      * @return {void}
+     * @lint ignoreDeprecated(alert)
      */
     runTest : function(e)
     {
@@ -1296,6 +1297,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @param e {Event} TODOC
      * @return {void}
+     * @lint ignoreDeprecated(alert)
      */
     __ehIframeOnLoad : function(e)
     {
