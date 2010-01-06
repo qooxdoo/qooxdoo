@@ -61,7 +61,7 @@ for symb in lang.GLOBALS + QXGLOBALS:
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
 
 
-class DependencyLoader:
+class DependencyLoader(object):
 
     def __init__(self, classes, cache, console, treeLoader, require, use, context):
         self._classes = classes

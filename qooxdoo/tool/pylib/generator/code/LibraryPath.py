@@ -27,7 +27,7 @@ import os, re, sys
 from misc import filetool
 from ecmascript.frontend import lang
 
-class LibraryPath:
+class LibraryPath(object):
     # is called with a "library" entry from the json config
     def __init__(self, libconfig, console):
         self._config = libconfig

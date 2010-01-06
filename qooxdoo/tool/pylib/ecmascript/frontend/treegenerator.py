@@ -43,7 +43,7 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 ##
 # Represents the tokens of a file as a stream.
 #
-class TokenStream:
+class TokenStream(object):
     ##
     # Some nice short description of foo(); this can contain html and
     # {@link #foo Links} to items in the current file.

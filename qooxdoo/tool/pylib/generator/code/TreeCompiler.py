@@ -28,7 +28,7 @@ from ecmascript.transform.optimizer import variableoptimizer, stringoptimizer, b
 from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
 from misc import util
 
-class TreeCompiler:
+class TreeCompiler(object):
     def __init__(self, classes, treeLoader, context):
         self._classes = classes
         self._context = context

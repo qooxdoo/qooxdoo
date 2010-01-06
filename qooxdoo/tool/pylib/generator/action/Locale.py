@@ -50,7 +50,7 @@ def pofileIndexFind(self, msgid):
 polib.POFile.getIdIndex = pofileGetIdIndex
 polib.POFile.indexFind  = pofileIndexFind
 
-class Locale:
+class Locale(object):
     def __init__(self, context, classes, translation, cache, console, treeLoader):
         self._context = context
         self._classes = classes

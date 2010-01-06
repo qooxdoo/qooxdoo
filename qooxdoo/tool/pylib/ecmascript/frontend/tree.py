@@ -60,7 +60,7 @@ class NodeAccessException (Exception):
         self.node = node
 
 
-class Node:
+class Node(object):
     def __init__ (self, type):
         self.type = type
 

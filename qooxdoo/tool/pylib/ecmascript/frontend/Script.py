@@ -1,7 +1,7 @@
 from ecmascript.frontend import treeutil
 from ecmascript.frontend.Scope import Scope, VariableDefinition, VariableUse 
 
-class Script:
+class Script(object):
     def __init__(self, rootNode, filename=""):
         self.root = rootNode
         self.filename = filename

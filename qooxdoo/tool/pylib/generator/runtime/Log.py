@@ -25,7 +25,7 @@
 import sys, codecs
 
 
-class Log:
+class Log(object):
     _indent = 0
     _levels = {
       "debug" : 10,         # STDOUT
