@@ -1,6 +1,6 @@
 from ecmascript.frontend import treeutil
 
-class Scope:
+class Scope(object):
     def __init__(self, node, script):
         self.node = node
         self.script = script
@@ -251,7 +251,7 @@ Function %s(%s):
                     yield (name, use)
 
 
-class VariableDefinition:
+class VariableDefinition(object):
     def __init__(self, name, node, isArgument, scope):
         self.name = name
         self.nodes = [node]
@@ -269,7 +269,7 @@ class VariableDefinition:
         self.nodes.append(node)
 
 
-class VariableUse:
+class VariableUse(object):
     def __init__(self, name, node, scope):
         self.name = name
         self.node = node

@@ -4,7 +4,7 @@ from ecmascript.frontend import tokenizer, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from misc import filetool, util
 
-class TreeLoader:
+class TreeLoader(object):
     def __init__(self, classes, cache, console):
         self._classes = classes
         self._cache = cache

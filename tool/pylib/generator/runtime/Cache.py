@@ -29,7 +29,7 @@ memcache  = {}
 actionLib = None
 check_file = u".cache_check_file"
 
-class Cache:
+class Cache(object):
 
 
     def __init__(self, path, context):

@@ -28,7 +28,7 @@ from ecmascript.frontend import tree
 
 
 
-class ApiLoader:
+class ApiLoader(object):
     def __init__(self, classes, docs, cache, console, treeutil):
         self._classes = classes
         self._docs = docs

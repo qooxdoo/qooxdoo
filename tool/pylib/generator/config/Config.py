@@ -31,7 +31,7 @@ from misc.NameSpace import NameSpace
 
 console = None
 
-class Config:
+class Config(object):
 
     global console
 
