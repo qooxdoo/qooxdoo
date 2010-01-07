@@ -25,12 +25,14 @@ qx.Class.define("qx.test.theme.manager.Icon",
   {
     setUp : function() {
       this.manager = qx.theme.manager.Icon.getInstance();
+      this.__formerTheme = this.manager.getTheme();
     },
 
     tearDown : function()
     {
       qx.test.Theme.themes = null;
-      this.manager.setTheme(null);
+      this.manager.setTheme(this.__formerTheme);
+      this.__formerTheme = null;
     },
 
 

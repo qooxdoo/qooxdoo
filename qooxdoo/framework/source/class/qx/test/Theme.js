@@ -23,10 +23,16 @@ qx.Class.define("qx.test.Theme",
 
   members :
   {
+    setUp : function ()
+    {
+      this.__formerTheme = qx.theme.manager.Decoration.getInstance().getTheme();
+    },
+
     tearDown : function()
     {
       qx.test.Theme.themes = null;
-      qx.theme.manager.Decoration.getInstance().setTheme(null);
+      qx.theme.manager.Decoration.getInstance().setTheme(this.__formerTheme);
+      this.__formerTheme = null;
     },
 
     testExtendTheme : function()
