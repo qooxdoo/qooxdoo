@@ -27,14 +27,15 @@ from generator.action.ActionLib import ActionLib
 
 memcache  = {}
 actionLib = None
-check_file = u".cache_check_file"
+check_file     = u".cache_check_file"
+CACHE_REVISION = 21271   # Change this to the current qooxdoo svn revision when existing caches need clearing
 
 class Cache(object):
 
 
     def __init__(self, path, context):
         global actionLib
-        self._cache_revision = 20891   # Change this to the current qooxdoo svn revision when existing caches need clearing
+        self._cache_revision = CACHE_REVISION
         self._path           = path
         self._context        = context
         self._console        = self._context['console']
