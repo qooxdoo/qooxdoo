@@ -188,7 +188,16 @@ qx.Class.define("qx.util.ResourceManager",
       {
         for (var lib in qx.$$libraries)
         {
-          var resourceUri = qx.$$libraries[lib].resourceUri;
+          var resourceUri;
+          if (qx.$$libraries[lib].resourceUri) {
+            resourceUri = qx.$$libraries[lib].resourceUri;
+          }
+          else
+          {
+            // default for libraries without a resourceUri set
+            statics.__urlPrefix[lib] = "";
+            break;
+          }
 
           // It is valid to to begin a URL with "//" so this case has to
           // be considered. If the to resolved URL begins with "//" the
