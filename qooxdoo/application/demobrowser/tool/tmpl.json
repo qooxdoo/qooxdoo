@@ -47,6 +47,8 @@
 
     "source-XXX" : 
     {
+      "extend" : ["common-XXX", "__all-source__"],
+
       "compile-options" :
       {
         "paths" :
@@ -65,7 +67,6 @@
 
     "source-XXX-Classic" :
     {
-      "extend" : ["common-XXX"],
 
       "let"    : {"DTHEME" : "qx.theme.Classic"},
 
@@ -78,7 +79,6 @@
 
     "source-XXX-Modern" :
     {
-      "extend" : ["common-XXX"],
 
       "let"    : {"DTHEME" : "qx.theme.Modern"},
 
