@@ -80,8 +80,9 @@ def main():
         JSON.write(json_tmpl)
     JSON.write('  "jobs":\n')
     JSON.write('  {\n')
+    # the next two are hooks for additional settings for source and build runs of demos
     JSON.write('    "__all-source__" : {},\n')
-    JSON.write('    "__all-build__" : {},\n')
+    JSON.write('    "__all-build__"  : {},\n')
 
     jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
     json_tmpl = jsontmplf.read()

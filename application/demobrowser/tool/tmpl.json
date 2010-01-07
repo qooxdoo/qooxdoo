@@ -91,6 +91,8 @@
 
     "build-XXX" :
     {
+      "extend" : ["common-XXX", "__all-build__"],
+
       "compile-options" :
       {
         "paths" :
@@ -115,8 +117,6 @@
 
     "build-XXX-Classic" :
     {
-      "extend" : ["common-XXX"],
-
       "let"    : {"DTHEME" : "qx.theme.Classic"},
 
       "include" : ["${DTHEME}"],
@@ -134,8 +134,6 @@
 
     "build-XXX-Modern" :
     {
-      "extend" : ["common-XXX"],
-
       "let"    : {"DTHEME" : "qx.theme.Modern"},
 
       "include" : ["${DTHEME}"],
