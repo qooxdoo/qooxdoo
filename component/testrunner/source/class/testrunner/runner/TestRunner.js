@@ -1226,6 +1226,24 @@ qx.Class.define("testrunner.runner.TestRunner",
       // build list of individual tests to perform
       var tlist = buildList(modelNode);
 
+      // sort the tests to make sure they have always the same order to keep
+      // the dependencies between the tests constant
+      tlist.sort(function(a, b) {
+        if (a[0] > b[0]) {
+          return 1;
+        } else if (a[0] < b[0]) {
+          return -1;
+        } else {
+          if (a[1] > b[1]) {
+            return 1
+          } else if (a[1] < b[1]) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }
+      });
+
       if (this.reloadswitch.getValue())
       {
         // set up pending tests
