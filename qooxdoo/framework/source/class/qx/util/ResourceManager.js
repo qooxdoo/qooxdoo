@@ -208,10 +208,10 @@ qx.Class.define("qx.util.ResourceManager",
           // If the resolved URL begins with "./" the final URL has to be
           // put together using the document.URL property.
           // IMPORTANT: this is only applicable for the source version
-          else if (resourceUri.match(/^\.\//) != null && qx.core.Setting.get("qx.isSource"))
+          else if (resourceUri.match(/^\.\//) != null)
           {
             var url = document.URL;
-            statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/"));
+            statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/") + 1);
           } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
           }
