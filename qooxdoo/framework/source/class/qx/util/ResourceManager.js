@@ -196,7 +196,7 @@ qx.Class.define("qx.util.ResourceManager",
           {
             // default for libraries without a resourceUri set
             statics.__urlPrefix[lib] = "";
-            break;
+            continue;
           }
 
           // It is valid to to begin a URL with "//" so this case has to
