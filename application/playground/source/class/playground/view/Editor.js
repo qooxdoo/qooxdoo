@@ -178,7 +178,7 @@ qx.Class.define("playground.view.Editor",
       }
     },
     
-    
+
     useHighlight : function(value) {
       if (!this.__codeMirror) {
         return;

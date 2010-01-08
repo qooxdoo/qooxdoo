@@ -25,8 +25,8 @@ qx.Class.define("playground.view.Log",
   {    
     var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
-
     this.base(arguments, layout);
+    this.setDecorator("main");
 
     // caption of the log pane
     var caption = new qx.ui.basic.Label(this.tr("Log")).set(
