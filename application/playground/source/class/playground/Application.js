@@ -102,61 +102,18 @@ qx.Class.define("playground.Application",
       // qooxdoo header
       mainContainer.add(new playground.view.Header(), { flex : 0 });
 
-      // qooxdoo toolbar
+      // toolbar
       this.__samples = new playground.Samples();
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
       mainContainer.add(this.__toolbar, { flex : 0 });
 
-      // run
+      // tool listener
       this.__toolbar.addListener("run", this.run, this);
-
-      // sample changes
-      this.__toolbar.addListener("changeSample", function(e) {
-        var  userCode = this.__toolbar.isHighlighted() ?
-                        this.editor.getCode() :
-                        this.textarea.getValue();
-        if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
-        {
-          if (!confirm(this.tr("You changed the code of the current sample.|" + 
-            "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
-          {
-            return ;
-          }
-        }
-
-        var newSample = this.__samples.get(e.getData());
-        // set the new sample data
-        this.textarea.setValue(newSample);
-        if (this.editor != undefined) {
-          this.editor.setCode(newSample);
-        }
-        // run the new sample
-        this.run();
-      }, this);
-      
-      // toggle highliting
-      this.__toolbar.addListener("changeHighlight", function(e) {
-        this.useHighlight(e.getData());
-      }, this);
-      
-      // log
-      this.__toolbar.addListener("changeLog", function(e) {
-        e.getData() ? this.stack.show() : this.stack.exclude();
-      }, this);
-      
-      // api
-      this.__toolbar.addListener("openApi", function() {
-        window.open("http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/apiviewer/");
-      }, this);
-
-      // manual
-      this.__toolbar.addListener("openManual", function() {
-        var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
-        window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
-      }, this);
-
-
-
+      this.__toolbar.addListener("changeSample", this.__onSampleChange, this);
+      this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
+      this.__toolbar.addListener("changeLog", this.__onLogChange, this);
+      this.__toolbar.addListener("openApi", this.__onApiOpen, this);
+      this.__toolbar.addListener("openManual", this.__onManualOpen, this);
 
       // qooxdoo mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -217,6 +174,56 @@ qx.Class.define("playground.Application",
       // Back button and bookmark support
       this.__initBookmarkSupport();      
     },
+
+    
+    // ***************************************************
+    // TOOLBAR HANDLER
+    // ***************************************************
+    
+    __onSampleChange : function(e) {
+      var  userCode = this.__toolbar.isHighlighted() ?
+                      this.editor.getCode() :
+                      this.textarea.getValue();
+      if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
+      {
+        if (!confirm(this.tr("You changed the code of the current sample.|" + 
+          "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
+        {
+          return ;
+        }
+      }
+
+      var newSample = this.__samples.get(e.getData());
+      // set the new sample data
+      this.textarea.setValue(newSample);
+      if (this.editor != undefined) {
+        this.editor.setCode(newSample);
+      }
+      // run the new sample
+      this.run();
+    },
+    
+    __onHighlightChange : function(e) {
+      this.useHighlight(e.getData());
+    },
+
+    __onLogChange : function(e) {
+      e.getData() ? this.stack.show() : this.stack.exclude();
+    },
+    
+    __onApiOpen : function() {
+      window.open(
+        "http://demo.qooxdoo.org/" + 
+        qx.core.Setting.get("qx.version") + 
+        "/apiviewer/"
+      );
+    },
+    
+    __onManualOpen : function() {
+      var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
+      window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
+    },
+
 
     /**
      * Back button and bookmark support
