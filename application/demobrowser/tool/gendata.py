@@ -69,15 +69,12 @@ def getTagsFromJsFile(fname):
 
 
 def createDemoJson():
-    c = {}
-    if len(sys.argv)>1:
-        c['js_target'] = sys.argv[1]
-
     source = ""
     build  = ""
     scategories = {}
     bcategories = {}
 
+    # Pre-processing
     JSON = open(fJSON,"w")
     JSON.write('// This file is dynamically created by the generator!\n')
     JSON.write('{\n')
@@ -95,7 +92,7 @@ def createDemoJson():
     jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
     json_tmpl = jsontmplf.read()
 
-    #for html in htmlfiles(os.path.join('source','demo')):
+    # Process demo html files
     while True:
         html = (yield)
         #print html
@@ -103,7 +100,6 @@ def createDemoJson():
             break
 
         category, name = demoCategoryFromFile(html)
-
         #print ">>> Processing: %s.%s..." % (category, name)
 
         # build classname
@@ -118,13 +114,12 @@ def createDemoJson():
             bcategories[category] = ""
         bcategories[category] += ' "build-%s",' % (simple,)
 
-        #TODO: call copyJsFiles() somewhere
-
         # concat all
         currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",clazz)
         JSON.write("%s," % currcont[:-1])
         JSON.write("\n\n\n")
 
+    # Post-processing
     for category in scategories:
         JSON.write("""  "source-%s" : {
             "run" : [
@@ -163,6 +158,7 @@ def copyJsFiles(destdir):
         os.makedirs(destdir)
     except OSError:
         pass
+
     while True:
         file = (yield)
         if file == None: break
@@ -192,7 +188,6 @@ def createDemoData(destdir):
         # init new demo
         resDemo = {}
         resCatDemos.append(resDemo)
-
 
         # get the tags
         jsitem = demo[0:demo.find("html")] + "js"
@@ -229,8 +224,6 @@ def createDemoData(destdir):
 
 def main(dest, scan):
     dist = os.path.join(dest, demoDataFn)
-    res = ""
-    structurize = False
 
     # Init the various consumers that work on every demo
     dataCreator   = createDemoData(dest) # generator for the demodata.js file
@@ -240,7 +233,7 @@ def main(dest, scan):
     jsFileCopier  = copyJsFiles(dest)    # generator to copy demos' source JS to script dir
     jsFileCopier.send(None)
 
-    firstCategory = True
+    # File iterator - go through the demos' .html files
     for category in os.listdir(scan):
         if category in [".svn", ".DS_Store"]:
           continue
@@ -248,15 +241,6 @@ def main(dest, scan):
         ext = os.path.splitext(category)[1]
         if ext == ".html" or ext == ".js":
           continue
-
-        if not firstCategory:
-          res += "},"
-
-        res += "{"
-        res += "\"classname\":\""+category+"\",\"tests\":[\n"
-
-        firstItem = True
-        lastbasename = None
 
         for item in os.listdir(os.path.join(scan, category)):
             if item == ".svn":
@@ -274,48 +258,8 @@ def main(dest, scan):
             configCreator.send(htmlfile) # process this file name for config.demo.json
             jsFileCopier.send(htmlfile)  # copy demo source file to script dir
 
-            # get the tags
-            jsitem = item[0:item.find("html")] + "js"
-            jsfile = os.path.join(scan, "..", "class", "demobrowser", "demo", category, jsitem)
-            tags = getTagsFromJsFile(jsfile);
 
-            title = item[:item.find(".")]
-
-            if "_" in title:
-              nr = title[title.find("_")+1:]
-              basename = title[:title.find("_")]
-            else:
-              nr = 0
-              basename = title
-
-            title = title.replace("_", " ")
-
-            if structurize:
-              if lastbasename != basename:
-                firstItem = True
-
-                if lastbasename != None:
-                  res += "\n]},\n"
-
-                res += "{"
-                res += "\"classname\":\""+basename+"\",\"desc\":\"Folder %s\",\"tests\":[\n" % basename
-
-            if not firstItem:
-              res += ",\n"
-
-            res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s", \"tags\":%s}' % (nr, title, item, repr(list(tags)))
-            lastbasename = basename
-            firstItem = False
-
-        if structurize:
-          if lastbasename != None:
-            res += "\n]}\n"
-
-        res += "\n]\n"
-        firstCategory = False
-
-    res += "}"
-
+    # Finalize
     dataCreator.send((None, None, None))    # finalize demodata.js
     dataCreator.close()
     configCreator.send(None)  # finalize config.demo.json
@@ -323,18 +267,7 @@ def main(dest, scan):
     jsFileCopier.send(None)   # finalize file copying
     jsFileCopier.close()
 
-    distdir = os.path.dirname(dist)
-
-    if not os.path.exists(distdir):
-      os.makedirs(distdir)
-
-    content = basic % res
-
-    #outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
-    #outputFile.write(content)
-    #outputFile.flush()
-    #outputFile.close()
-
+    return
 
 
 if __name__ == '__main__':
