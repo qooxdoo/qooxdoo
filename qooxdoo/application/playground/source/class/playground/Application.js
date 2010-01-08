@@ -225,6 +225,9 @@ qx.Class.define("playground.Application",
     },
 
 
+    // ***************************************************
+    // HISTORY SUPPORT
+    // ***************************************************
     /**
      * Back button and bookmark support
      * @lint ignoreDeprecated(alert)
@@ -274,6 +277,7 @@ qx.Class.define("playground.Application",
       {
         var name = this.__samples.getNames()[0];
         this.textarea.setValue(this.__samples.get(name));
+        this.run();
       }
 
       this.__history.addListener("request", function(e)
