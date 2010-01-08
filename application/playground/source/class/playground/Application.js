@@ -103,7 +103,7 @@ qx.Class.define("playground.Application",
       //this.__createCommands();
 
       // qooxdoo header
-      mainContainer.add(this.__createHeader(), { flex : 0 });
+      mainContainer.add(new playground.view.Header(), { flex : 0 });
 
       // qooxdoo toolbar
       mainContainer.add(this.__createToolbar(), { flex : 0 });
@@ -898,31 +898,6 @@ qx.Class.define("playground.Application",
       }, this);
 
       return container;
-    },
-
-
-    /**
-     * Creates the application header.
-     *
-     * @return {var} header of the application
-     */
-    __createHeader : function()
-    {
-      var layout = new qx.ui.layout.HBox();
-      var header = new qx.ui.container.Composite(layout);
-      header.setAppearance("app-header");
-
-      // title of the header
-      var title = new qx.ui.basic.Label(this.tr("Playground"));
-
-      // qooxdoo version
-      var version = new qx.ui.basic.Label(this.tr("qooxdoo %1", qx.core.Setting.get("qx.version")));
-
-      header.add(title);
-      header.add(new qx.ui.core.Spacer, { flex : 1 });
-      header.add(version);
-
-      return header;
     },
 
 
