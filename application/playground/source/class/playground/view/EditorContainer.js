@@ -23,7 +23,7 @@
  * This is implemented as a separate class, for instance to easily change the
  * z-index of the iframe blocker.
  */
-qx.Class.define("playground.EditorContainer",
+qx.Class.define("playground.view.EditorContainer",
 {
   extend : qx.ui.container.Composite,
   include : qx.ui.core.MBlocker,
