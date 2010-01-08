@@ -2056,6 +2056,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
               }
             }
           }
+
+          this.__startExamineCursorContext();
           break;
 
 
