@@ -37,8 +37,6 @@ qx.Class.define("playground.Application",
   extend : qx.application.Standalone,
 
 
-
-
   /*
    *****************************************************************************
       MEMBERS
@@ -49,20 +47,15 @@ qx.Class.define("playground.Application",
   {
     // UI Components
     __toolbar : null,
-
+    __log : null,
+    __editor : null, 
+    
     // storage for all samples
     __samples : null,
-
-
 
     // the root of the playarea (inline)
     __playRoot : null,
     __playApp : null,
-
-    // global decoration
-    __labelDeco : null,
-
-    __runSample : null,
 
     __history : null,
     
@@ -71,7 +64,12 @@ qx.Class.define("playground.Application",
     // flag used for the warning for IE
     __ignoreSaveFaults : false,
 
-    __errorMsg: qx.locale.Manager.tr("Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"),
+    __errorMsg: qx.locale.Manager.tr(
+      "Unfortunately, an unrecoverable internal error was caused by your code." + 
+      " This may prevent the playground application to run properly.||Please " + 
+      "copy your code, restart the playground and paste your code.||"
+    ),
+    
 
     /**
      * This method contains the initial application code and gets called
@@ -86,18 +84,12 @@ qx.Class.define("playground.Application",
 
       var self = this;
 
-      var doc = this.getRoot();
-
-      // label decorator
-      var deco = new qx.ui.decoration.Background().set({ backgroundColor : "background-medium" });
-      this.__labelDeco = deco;
-
       // container layout
       var layout = new qx.ui.layout.VBox();
 
       // Main container
       var mainContainer = new qx.ui.container.Composite(layout);
-      doc.add(mainContainer, { edge : 0 });
+      this.getRoot().add(mainContainer, { edge : 0 });
 
       // qooxdoo header
       mainContainer.add(new playground.view.Header(), { flex : 0 });
@@ -115,7 +107,7 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
 
-      // qooxdoo mainsplit, contains the editor and the info splitpane
+      // mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       this.mainsplit = mainsplit;
 
@@ -123,20 +115,38 @@ qx.Class.define("playground.Application",
 
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
-
-      mainsplit.add(this.__createTextArea());
+      
+      // need to split up the creation process
+      this.__editor = new playground.view.Editor();
+      this.__editor.init();
+      this.__editor.addListener("disableHighlighting", function() {
+        this.__toolbar.enableHighlighting(false);
+      });
+      
+      mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
       infosplit.add(this.__createPlayArea(), 2);
+      
+      mainsplit.getChildControl("splitter").addListener("mousedown", function() {
+        this.__editor.block();
+      }, this);
+
+      mainsplit.addListener("losecapture", function() {
+        this.__editor.unblock();
+      }, this);      
 
       this.__log = new playground.view.Log();
 
       // Adds the log console to the stack
-      this.stack = new qx.ui.container.Stack;
+      this.stack = new qx.ui.container.Stack();
       this.stack.setDecorator("main");
       this.stack.add(this.__log);
 
       infosplit.add(this.stack, 1);
       this.stack.exclude();
+
+
+
 
       qx.html.Element.flush();
       var playRootEl = this.dummy.getContainerElement().getDomElement();
@@ -181,9 +191,7 @@ qx.Class.define("playground.Application",
     // ***************************************************
     
     __onSampleChange : function(e) {
-      var  userCode = this.__toolbar.isHighlighted() ?
-                      this.editor.getCode() :
-                      this.textarea.getValue();
+      var userCode = this.__editor.getCode();
       if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
       {
         if (!confirm(this.tr("You changed the code of the current sample.|" + 
@@ -193,18 +201,15 @@ qx.Class.define("playground.Application",
         }
       }
 
-      var newSample = this.__samples.get(e.getData());
       // set the new sample data
-      this.textarea.setValue(newSample);
-      if (this.editor != undefined) {
-        this.editor.setCode(newSample);
-      }
+      var newSample = this.__samples.get(e.getData());
+      this.__editor.setCode(newSample);
       // run the new sample
       this.run();
     },
     
     __onHighlightChange : function(e) {
-      this.useHighlight(e.getData());
+      this.__editor.useHighlight(e.getData());
     },
 
     __onLogChange : function(e) {
@@ -245,10 +250,7 @@ qx.Class.define("playground.Application",
       if (state && this.__samples.isAvailable(name))
       {
         var sample = this.__samples.get(name);
-        this.textarea.setValue(sample);
-        if (this.editor != undefined) {
-          this.editor.setCode(sample);
-        }
+        this.__editor.setCode(sample);
         this.updatePlayground(this.__playRoot);
         this.playAreaCaption.setValue(name);
 
@@ -261,7 +263,7 @@ qx.Class.define("playground.Application",
         try {
           var data = qx.util.Json.parse(state);
           var code = decodeURIComponent(data.code).replace(/%0D/g, "");
-          this.textarea.setValue(code);
+          this.__editor.setCode(code);
           this.run();
         } catch (e) {
           var name = this.tr("Unreadable Custom Code");
@@ -276,7 +278,7 @@ qx.Class.define("playground.Application",
       else
       {
         var name = this.__samples.getNames()[0];
-        this.textarea.setValue(this.__samples.get(name));
+        this.__editor.setCode(this.__samples.get(name));
         this.run();
       }
 
@@ -296,7 +298,7 @@ qx.Class.define("playground.Application",
 
       if (this.__samples.isAvailable(state))
       {
-        this.editor.setCode(this.__samples.get(state));
+        this.__editor.setCode(this.__samples.get(state));
 
         this.updatePlayground(this.__playRoot);
 
@@ -308,16 +310,9 @@ qx.Class.define("playground.Application",
       } else if (state != "") {
         var data = qx.util.Json.parse(state);
         var code = decodeURIComponent(data.code).replace(/%0D/g, "");
-        if (this.__toolbar.isHighlighted()) {
-          if (code != this.editor.getCode()) {
-            this.editor.setCode(code);
-            this.run();
-          }
-        } else {
-          if (code != this.textarea.getValue()) {
-            this.textarea.setValue(code);
-            this.run();
-          }
+        if (code != this.__editor.getCode()) {
+          this.__editor.setCode(code);
+          this.run();
         }
       }
     }, 
@@ -349,7 +344,6 @@ qx.Class.define("playground.Application",
       this.playAreaCaption = new qx.ui.basic.Label().set(
       {
         font       : "bold",
-        decorator  : this.__labelDeco,
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -369,126 +363,6 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Creates an editor for the source code
-     *
-     * @return {var} container of the editor
-     *
-     * @lint ignoreUndefined(CodeMirror)
-     */
-    __createTextArea : function()
-    {
-      var container = new playground.EditorContainer();
-      this.container = container;
-
-      var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
-      {
-        font       : "bold",
-        decorator  : this.__labelDeco,
-        padding    : 5,
-        allowGrowX : true,
-        allowGrowY : true
-      });
-
-      container.add(caption);
-
-      this.textarea = new qx.ui.form.TextArea().set(
-      {
-        wrap      : false,
-        font      : qx.bom.Font.fromString("14px monospace"),
-        decorator : null,
-        backgroundColor: "white",
-        padding   : [0,0,0,5]
-      });
-
-      container.add(this.textarea, { flex : 1 });
-      qx.html.Element.flush();
-
-      if (CodeMirror != undefined)
-      {
-        // this code part uses the CodeMirror library to add a
-        // syntax-highlighting editor as an textarea replacement
-        this.textarea.addListenerOnce("appear", function()
-        {
-          var height = this.textarea.getBounds().height;
-          var width = this.textarea.getBounds().width;
-
-          this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
-
-          var that = this;
-          
-          // create the sheet for the codemirror iframe
-          qx.bom.Stylesheet.createElement(
-            ".code-mirror-iframe {position: absolute; z-index: 11}"
-          );
-
-          this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
-          {
-            content            : this.textarea.getValue(),
-            parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
-            stylesheet         : "resource/playground/css/jscolors.css",
-            path               : "resource/playground/js/",
-            textWrapping       : false,
-            continuousScanning : false,
-            width              : width + "px",
-            height             : height + "px",
-            autoMatchParens    : true,
-            iframeClass        : "code-mirror-iframe",
-            lineNumbers        : false,
-            initCallback       : function(editor) {
-              var lineOffset = parseInt(editor.frame.parentNode.style.marginLeft) || 0;
-              editor.frame.style.width = (that.textarea.getBounds().width - lineOffset) + "px";
-              editor.frame.style.height = that.textarea.getBounds().height + "px";
-            }
-          });
-
-          var splitter = this.mainsplit.getChildControl("splitter");
-          var pane = this.mainsplit;
-
-          splitter.addListener("mousedown", function() {
-            this.container.block();
-          }, this);
-
-          pane.addListener("losecapture", function() {
-            this.container.unblock();
-          }, this);
-
-          this.editor.frame.style.width = this.textarea.getBounds().width + "px";
-          this.editor.frame.style.height = this.textarea.getBounds().height + "px";
-
-          // to achieve auto-resize, the editor sets the size of the container element
-          this.textarea.addListener("resize", function()
-          {
-            var lineOffset = parseInt(this.editor.frame.parentNode.style.marginLeft) || 0;
-            this.editor.frame.style.width = (this.textarea.getBounds().width - lineOffset) + "px";
-            this.editor.frame.style.height = this.textarea.getBounds().height + "px";
-          },
-          this);
-
-          // The protector blocks the editor, therefore it needs to be removed.
-          // This code fragment is a temporary solution, it will be removed once
-          // a better solution is found
-          var protector = this.textarea.getContainerElement().getChildren()[1];
-          if (protector) {
-            protector.getDomElement().parentNode.removeChild(protector.getDomElement());
-          }
-
-        }, this);
-      }
-      else
-      {
-        this.__toolbar.enableHighlighting(false);
-
-        this.editor = {};
-        var self = this;
-        this.editor.setCode = function(code) { self.textarea.setValue.call(self.textarea, code); };
-        this.editor.getCode = function() { return self.textarea.getValue.call(self.textarea); };
-      }
-
-      return container;
-    },
-
-
-    /**
      * Checks, whether the code is changed. If yes, the application name is
      * renamed
      *
@@ -500,7 +374,7 @@ qx.Class.define("playground.Application",
       compareElem1.innerHTML = this.__samples.getCurrent();
 
       var compareElem2 = document.getElementById("compare_div2");
-      compareElem2.innerHTML = this.editor.getCode();
+      compareElem2.innerHTML = this.__editor.getCode();
 
       var label = this.__samples.getCurrentName();
 
@@ -551,11 +425,7 @@ qx.Class.define("playground.Application",
       var reg = qx.Class.$$registry;
       delete reg[this.__currentStandalone];
 
-      if (this.__toolbar.isHighlighted() && this.editor) {
-          this.code = this.editor.getCode() || this.textarea.getValue();
-      } else {
-        this.code = this.textarea.getValue();
-      }
+      this.code = this.__editor.getCode();
 
       var title = this.__samples.getCurrentName();
       this.code = 'this.info("' + this.tr("Starting application").toString() +
@@ -658,15 +528,11 @@ qx.Class.define("playground.Application",
     {
       this.updatePlayground(this.__playRoot);
 
-      if (this.__samples.getCurrent() != "" && this.editor != undefined) {
+      if (this.__samples.getCurrent() != "") {
         this.__isSourceCodeChanged();
       }
       // get the currently set code
-      if (this.__toolbar.isHighlighted()) {
-        var code = this.editor.getCode();
-      } else {
-        var code = this.textarea.getValue();
-      }
+      var code = this.__editor.getCode();
 
       if (escape(code) != escape(this.__samples.getCurrent()).replace(/%0D/g, "")) {
         var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
@@ -678,34 +544,7 @@ qx.Class.define("playground.Application",
         }
         this.__history.addToHistory(codeJson);
       }
-    },
-
-
-   /**
-    * Toggle editor
-    *
-    * @param e {Event} the toggle button event
-    * @return {void}
-    */
-   useHighlight : function(value)
-   {
-      if (!this.editor) {
-        return;
-      }
-
-      if (value) {
-        this.editor.setCode(this.textarea.getValue());
-        this.editor.frame.style.visibility = "visible";
-        this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
-
-        this.__toolbar.isHighlighted() = true;
-        
-      } else {
-        this.textarea.setValue(this.editor.getCode());
-        this.textarea.getContentElement().getDomElement().style.visibility = "visible";
-        this.editor.frame.style.visibility = "hidden";
-      }
-   }
+    }
   },
 
 
@@ -718,7 +557,7 @@ qx.Class.define("playground.Application",
 
   destruct : function()
   {
-    this.__labelDeco = this.__history = this.__playApp = null;
+    this.__history = this.__playApp = null;
     this._disposeObjects("mainsplit", 
                          "container", 
                          "textarea", 

@@ -127,11 +127,6 @@ qx.Class.define("playground.view.Toolbar",
     enableHighlighting : function(value) {
       this.__highlightButton.setEnabled(value);
     },
-    
-    
-    isHighlighted : function() {
-      return this.__highlightButton.getValue();
-    },
         
     
     /**
