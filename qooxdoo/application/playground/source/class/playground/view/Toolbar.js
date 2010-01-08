@@ -33,7 +33,7 @@ qx.Class.define("playground.view.Toolbar",
 
     // run button
     var runButton = new qx.ui.toolbar.Button(
-      this.tr("Run"), "playground/image/media-playback-start.png"
+      this.tr("Run"), "icon/22/actions/media-playback-start.png"
     );
     part1.add(runButton);
     runButton.setToolTipText(this.tr("Run the source code"));
@@ -43,14 +43,16 @@ qx.Class.define("playground.view.Toolbar",
 
     // select sample button
     var selectSampleButton = new qx.ui.toolbar.MenuButton(
-      this.tr("Samples"), "playground/image/document-folder.png"
+      this.tr("Samples"), "icon/22/actions/edit-copy.png"
     );
     part1.add(selectSampleButton);
     selectSampleButton.setToolTipText(this.tr("Select a sample"));
     selectSampleButton.setMenu(this.__createSampleMenu(sampleNames));
 
     // highlighting button
-    this.__highlightButton = new qx.ui.form.ToggleButton(this.tr("Syntax Highlighting"), "icon/16/actions/check-spelling.png");
+    this.__highlightButton = new qx.ui.form.ToggleButton(
+      this.tr("Syntax Highlighting"), "icon/22/actions/check-spelling.png"
+    );
     part1.add(this.__highlightButton);
     this.__highlightButton.setAppearance("toolbar-button");
     this.__highlightButton.addListener("changeValue", function(e) {
@@ -67,7 +69,7 @@ qx.Class.define("playground.view.Toolbar",
 
     // log Check button
     this.__logCheckButton = new qx.ui.toolbar.CheckBox(
-      this.tr("Log"), "playground/image/utilities-log-viewer.png"
+      this.tr("Log"), "icon/22/apps/utilities-log-viewer.png"
     );
     part2.add(this.__logCheckButton);
     this.__logCheckButton.setToolTipText(this.tr("Show log output"));
@@ -77,7 +79,7 @@ qx.Class.define("playground.view.Toolbar",
 
     // api button
     var apiButton = new qx.ui.toolbar.Button(
-      this.tr("API Viewer"), "playground/image/help-contents.png"
+      this.tr("API Viewer"), "icon/22/actions/help-contents.png"
     );
     part2.add(apiButton);
     apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
@@ -87,7 +89,7 @@ qx.Class.define("playground.view.Toolbar",
 
     // help button
     var helpButton = new qx.ui.toolbar.Button(
-      this.tr("Manual"), "playground/image/help-about.png"
+      this.tr("Manual"), "icon/22/actions/help-about.png"
     );
     part2.add(helpButton);
     helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
@@ -143,7 +145,7 @@ qx.Class.define("playground.view.Toolbar",
         var name = sampleNames[i];
         
         var sampleEntryButton = new qx.ui.menu.Button(
-          name, "icon/16/mimetypes/office-document.png"
+          name, "icon/22/actions/edit-paste.png"
         );
         menu.add(sampleEntryButton);
 

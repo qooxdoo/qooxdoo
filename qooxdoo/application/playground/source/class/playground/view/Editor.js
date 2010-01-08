@@ -13,7 +13,13 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Yuecel Beser (ybeser)
+     * Martin Wittemann (martinwittemann)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#ignore(CodeMirror)
 
 ************************************************************************ */
 
