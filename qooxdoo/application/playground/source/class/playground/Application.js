@@ -47,8 +47,13 @@ qx.Class.define("playground.Application",
 
   members :
   {
-    // widget container for the buttons etc.
-    __widgets : null,
+    // UI Components
+    __toolbar : null,
+
+    // storage for all samples
+    __samples : null,
+
+
 
     // the root of the playarea (inline)
     __playRoot : null,
@@ -56,9 +61,6 @@ qx.Class.define("playground.Application",
 
     // global decoration
     __labelDeco : null,
-
-    // Container for the sample codes
-    __sampleContainer : null,
 
     __runSample : null,
 
@@ -82,7 +84,6 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
-      this.__widgets = {};
       this.__sampleContainer = {};
 
       var self = this;
@@ -100,13 +101,64 @@ qx.Class.define("playground.Application",
       var mainContainer = new qx.ui.container.Composite(layout);
       doc.add(mainContainer, { edge : 0 });
 
-      //this.__createCommands();
-
       // qooxdoo header
       mainContainer.add(new playground.view.Header(), { flex : 0 });
 
       // qooxdoo toolbar
-      mainContainer.add(this.__createToolbar(), { flex : 0 });
+      this.__samples = new playground.Samples();
+      this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
+      mainContainer.add(this.__toolbar, { flex : 0 });
+
+      // run
+      this.__toolbar.addListener("run", this.run, this);
+
+      // sample changes
+      this.__toolbar.addListener("changeSample", function(e) {
+        var  userCode = this.__toolbar.isHighlighted() ?
+                        this.editor.getCode() :
+                        this.textarea.getValue();
+        if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
+        {
+          if (!confirm(this.tr("You changed the code of the current sample.|" + 
+            "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
+          {
+            return ;
+          }
+        }
+
+        var newSample = this.__samples.get(e.getData());
+        // set the new sample data
+        this.textarea.setValue(newSample);
+        if (this.editor != undefined) {
+          this.editor.setCode(newSample);
+        }
+        // run the new sample
+        this.run();
+      }, this);
+      
+      // toggle highliting
+      this.__toolbar.addListener("changeHighlight", function(e) {
+        this.useHighlight(e.getData());
+      }, this);
+      
+      // log
+      this.__toolbar.addListener("changeLog", function(e) {
+        e.getData() ? this.stack.show() : this.stack.exclude();
+      }, this);
+      
+      // api
+      this.__toolbar.addListener("openApi", function() {
+        window.open("http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/apiviewer/");
+      }, this);
+
+      // manual
+      this.__toolbar.addListener("openManual", function() {
+        var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
+        window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
+      }, this);
+
+
+
 
       // qooxdoo mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -160,12 +212,6 @@ qx.Class.define("playground.Application",
         self.dummy.setMinWidth(data.width);
         self.dummy.setMinHeight(data.height);
       });
-
-      // Adds the event listener to the buttons
-      this.__attachRunApplication(this.__playRoot);
-      this.__attachOpenApiViewer();
-      this.__attachOpenManual();
-      this.__attachOpenLog();
     },
 
     finalize: function()
@@ -184,34 +230,33 @@ qx.Class.define("playground.Application",
 
       // Handle bookmarks
       var state = this.__history.getState();
+      var name = state.replace(/_/g, " ");
 
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
-      if (state && this.__sampleContainer[state] != undefined)
+      if (state && this.__samples.isAvailable(name))
       {
-        this.textarea.setValue(this.__sampleContainer[state]);
+        var sample = this.__samples.get(name);
+        this.textarea.setValue(sample);
         if (this.editor != undefined) {
-          this.editor.setCode(this.__sampleContainer[state]);
+          this.editor.setCode(sample);
         }
-        this.currentSample = state;
         this.updatePlayground(this.__playRoot);
-        var title = state;
-        this.playAreaCaption.setValue(this.__decodeSampleId(title));
+        this.playAreaCaption.setValue(name);
 
       // if there is a state given
       } 
       else if (state != "")
       {
-        var title = this.tr("Custom Code");
-        this.currentSample = "";
+        var name = this.tr("Custom Code");
         
         try {
           var data = qx.util.Json.parse(state);
           var code = decodeURIComponent(data.code).replace(/%0D/g, "");
           this.textarea.setValue(code);
-          this.__widgets["toolbar.runButton"].execute();
+          this.run();
         } catch (e) {
-          title = this.tr("Unreadable Custom Code");
+          var name = this.tr("Unreadable Custom Code");
           var errorMessage = "Unable to read the URL parameter.";
           if (qx.bom.client.Engine.MSHTML) {
             errorMessage += this.tr(" Your browser has a length restriction of the " + 
@@ -222,19 +267,17 @@ qx.Class.define("playground.Application",
       }
       else
       {
-        state = qx.lang.Object.getKeys(this.__sampleContainer)[0];
-        this.currentSample = state;
-        this.textarea.setValue(this.__sampleContainer[state]);
-        var title = state;
+        var name = this.__samples.getNames()[0];
+        this.textarea.setValue(this.__samples.get(name));
       }
 
       this.__history.addListener("request", function(e)
       {
         var state = e.getData();
 
-        if (this.__sampleContainer[state] != undefined)
+        if (this.__samples.isAvailable(state))
         {
-          this.editor.setCode(this.__sampleContainer[state]);
+          this.editor.setCode(this.__samples.get(state));
 
           this.updatePlayground(this.__playRoot);
 
@@ -246,15 +289,15 @@ qx.Class.define("playground.Application",
         } else {
           var data = qx.util.Json.parse(state);
           var code = decodeURIComponent(data.code).replace(/%0D/g, "");
-          if (this.showSyntaxHighlighting) {
+          if (this.__toolbar.isHighlighted()) {
             if (code != this.editor.getCode()) {
               this.editor.setCode(code);
-              this.__widgets["toolbar.runButton"].execute();              
+              this.run();
             }
           } else {
             if (code != this.textarea.getValue()) {
               this.textarea.setValue(code);
-              this.__widgets["toolbar.runButton"].execute();              
+              this.run();
             }
           }
         }
@@ -262,8 +305,8 @@ qx.Class.define("playground.Application",
 
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state,
-            this.__updateTitle(this.__decodeSampleId(title)));
-        this.playAreaCaption.setValue(this.__decodeSampleId(title));
+            this.__updateTitle(this.__decodeSampleId(name)));
+        this.playAreaCaption.setValue(name);
       }, this, 0);
     },
 
@@ -366,8 +409,6 @@ qx.Class.define("playground.Application",
 
       if (CodeMirror != undefined)
       {
-        this.showSyntaxHighlighting = true;
-
         // this code part uses the CodeMirror library to add a
         // syntax-highlighting editor as an textarea replacement
         this.textarea.addListenerOnce("appear", function()
@@ -439,8 +480,7 @@ qx.Class.define("playground.Application",
       }
       else
       {
-        this.showSyntaxHighlighting = false;
-        this.__widgets["toolbar.toggleButton"].setEnabled(false);
+        this.__toolbar.enableHighlighting(false);
 
         this.editor = {};
         var self = this;
@@ -453,21 +493,6 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * adds shortcuts to the respective buttons.
-     *
-     * @return {void}
-     */
-    __createCommands : function()
-    {
-      this.__runSample = new qx.ui.core.Command("Control+Y");
-
-      this.__runSample.addListener("execute", function() {
-        this.updatePlayground(this.__playRoot);
-      }, this);
-    },
-
-
-    /**
      * Checks, whether the code is changed. If yes, the application name is
      * renamed
      *
@@ -476,12 +501,12 @@ qx.Class.define("playground.Application",
     __isSourceCodeChanged : function()
     {
       var compareElem1 = document.getElementById("compare_div1");
-      compareElem1.innerHTML = this.__sampleContainer[this.currentSample];
+      compareElem1.innerHTML = this.__samples.getCurrent();
 
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.editor.getCode();
 
-      var label = this.__decodeSampleId(this.currentSample);
+      var label = this.__decodeSampleId(this.__samples.getCurrentName());
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
           compareElem1.innerHTML != compareElem2.innerHTML) ||
@@ -492,7 +517,7 @@ qx.Class.define("playground.Application",
       }
       else {
         this.playAreaCaption.setValue(label);
-        this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
+        this.__history.addToHistory(this.__samples.getCurrentName(), this.__updateTitle(label));
       }
     },
 
@@ -532,13 +557,13 @@ qx.Class.define("playground.Application",
       var reg = qx.Class.$$registry;
       delete reg[this.__currentStandalone];
 
-      if (this.showSyntaxHighlighting && this.editor) {
+      if (this.__toolbar.isHighlighted() && this.editor) {
           this.code = this.editor.getCode() || this.textarea.getValue();
       } else {
         this.code = this.textarea.getValue();
       }
 
-      var title = this.__decodeSampleId(this.currentSample);
+      var title = this.__decodeSampleId(this.__samples.getCurrentName());
       this.code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
         ' ...");\n' + 
@@ -578,7 +603,7 @@ qx.Class.define("playground.Application",
       if (exc)
       {
         this.error(exc);
-        this.__widgets["toolbar.logCheckButton"].setValue(true);
+        this.__toolbar.showLog(true);
         this.stack.show();
       }
 
@@ -635,163 +660,36 @@ qx.Class.define("playground.Application",
         alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
       }
     },
-    
-    
-    /**
-     * Generates a menu to select the samples.
-     *
-     * @return {var} menu of the samples
-     */
-    __createSampleMenu : function()
-    {
-      var menu = new qx.ui.menu.Menu;
-
-      var newButton;
-
-      var elem = document.getElementsByTagName("TEXTAREA");
-      var id;
-
-      for (var i=0; i<elem.length; i++)
-      {
-        if (elem[i].className == "qx_samples")
-        {
-          var id = this.__encodeSampleId(elem[i].title);
-          this.__sampleContainer[id] = elem[i].value;
-          newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/mimetypes/office-document.png");
-          menu.add(newButton);
-
-          newButton.addListener("execute", this.__onSampleChanged, this);
-        }
-      }
-
-      return menu;
-    },
 
 
     /**
-     * Initializes the playground with a sample.
-     *
      * @lint ignoreDeprecated(confirm)
-     *
-     * @param e {Event} the current target
-     * @return {void}
      */
-    __onSampleChanged : function(e)
+    run : function()
     {
-      var userCode = this.showSyntaxHighlighting ?
-                     this.editor.getCode() :
-                     this.textarea.getValue();
+      this.updatePlayground(this.__playRoot);
 
-      if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, ""))
-      {
-        if (!confirm(this.tr("You changed the code of the current sample.|Click OK to discard your changes.").replace(/\|/g, "\n"))) {
-          return ;
-        }
+      if (this.__samples.getCurrent() != "" && this.editor != undefined) {
+        this.__isSourceCodeChanged();
       }
-
-      var label = e.getTarget().getLabel().toString();
-      this.playAreaCaption.setValue(label);
-
-      this.currentSample = this.__encodeSampleId(label);
-      var currentSource = this.__sampleContainer[this.currentSample];
-      currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-
-      if (this.showSyntaxHighlighting) {
-        this.editor.setCode(currentSource);
+      // get the currently set code
+      if (this.__toolbar.isHighlighted()) {
+        var code = this.editor.getCode();
       } else {
-        this.textarea.setValue(currentSource);
+        var code = this.textarea.getValue();
       }
 
-      this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
-    },
-
-
-    /**
-     * Attach listener to run the current source code
-     *
-     * @lint ignoreDeprecated(confirm)
-     * @param root {var} the root of the play area
-     * @return {void}
-     */
-    __attachRunApplication : function(root)
-    {
-      this.__widgets["toolbar.runButton"].addListener("execute", function()
-      {
-        this.updatePlayground(root);
-
-        if (this.currentSample != "" && this.editor != undefined) {
-          this.__isSourceCodeChanged();
+      if (escape(code) != escape(this.__samples.getCurrent()).replace(/%0D/g, "")) {
+        var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
+        if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
+          if (!this.__ignoreSaveFaults && confirm(this.tr("Could not save your code in the url because it is too much code. Do you want to ignore it?"))) {
+            this.__ignoreSaveFaults = true;
+          };
+          return;
         }
-        // get the currently set code
-        if (this.showSyntaxHighlighting) {
-          var code = this.editor.getCode();
-        } else {
-          var code = this.textarea.getValue();
-        }
-
-        if (escape(code) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
-          var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
-          if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
-            if (!this.__ignoreSaveFaults && confirm(this.tr("Could not save your code in the url because it is too much code. Do you want to ignore it?"))) {
-              this.__ignoreSaveFaults = true;
-            };
-            return;
-          }
-          this.__history.addToHistory(codeJson);
-        }
-      },
-      this);
+        this.__history.addToHistory(codeJson);
+      }
     },
-
-
-    /**
-     * Opens the qooxdoo api viewer.
-     *
-     * @return {void}
-     */
-    __attachOpenApiViewer : function()
-    {
-      this.__widgets["toolbar.apiButton"].addListener("execute", function() {
-        window.open("http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/apiviewer/");
-      }, this);
-    },
-
-
-    /**
-     * Opens the qooxdoo user manual.
-     *
-     * @return {void}
-     */
-    __attachOpenManual : function()
-    {
-      this.__widgets["toolbar.helpButton"].addListener("execute", function()
-      {
-        var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
-        window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
-      },
-      this);
-    },
-
-
-    /**
-    * Shows the log entries.
-    *
-    * @return {void}
-    */
-   __attachOpenLog : function()
-   {
-     this.__widgets["toolbar.logCheckButton"].addListener("click", function()
-     {
-       var logState = this.__widgets["toolbar.logCheckButton"].getValue();
-
-       if (logState == true) {
-         this.stack.show();
-       } else {
-         this.stack.exclude();
-       }
-     },
-     this);
-   },
 
 
    /**
@@ -800,27 +698,23 @@ qx.Class.define("playground.Application",
     * @param e {Event} the toggle button event
     * @return {void}
     */
-   __toggleEditor : function(e)
+   useHighlight : function(value)
    {
       if (!this.editor) {
         return;
       }
 
-      if (e.getData())
-      {
+      if (value) {
         this.editor.setCode(this.textarea.getValue());
         this.editor.frame.style.visibility = "visible";
         this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
 
-        this.showSyntaxHighlighting = true;
-      }
-      else
-      {
+        this.__toolbar.isHighlighted() = true;
+        
+      } else {
         this.textarea.setValue(this.editor.getCode());
         this.textarea.getContentElement().getDomElement().style.visibility = "visible";
         this.editor.frame.style.visibility = "hidden";
-
-        this.showSyntaxHighlighting = false;
       }
    },
 
@@ -898,71 +792,6 @@ qx.Class.define("playground.Application",
       }, this);
 
       return container;
-    },
-
-
-    /**
-     * Creates the toolbar of the application.
-     *
-     * @return {var} toolbar of the application
-     */
-    __createToolbar : function()
-    {
-      // toolbar of the playground
-      var toolbar = new qx.ui.toolbar.ToolBar();
-
-      var part1 = new qx.ui.toolbar.Part();
-      toolbar.add(part1);
-
-      // run button
-      var runButton = new qx.ui.toolbar.Button(this.tr("Run"), "playground/image/media-playback-start.png");
-      part1.add(runButton);
-      this.__widgets["toolbar.runButton"] = runButton;
-      //this.__widgets["toolbar.runButton"].setCommand(this.__runSample);
-      runButton.setToolTipText(this.tr("Run the source code"));
-
-      // select sample button
-      var selectSampleButton = new qx.ui.toolbar.MenuButton(this.tr("Samples"), "playground/image/document-folder.png");
-      part1.add(selectSampleButton);
-      this.__widgets["toolbar.selectSampleButton"] = selectSampleButton;
-      selectSampleButton.setToolTipText(this.tr("Select a sample"));
-      selectSampleButton.setMenu(this.__createSampleMenu());
-
-      var toggleButton = new qx.ui.form.ToggleButton(this.tr("Syntax Highlighting"), "icon/16/actions/check-spelling.png");
-      part1.add(toggleButton);
-      toggleButton.setAppearance("toolbar-button");
-      this.__widgets["toolbar.toggleButton"] = toggleButton;
-
-      toggleButton.addListener("changeValue", function(e)
-      {
-        this.__toggleEditor(e);
-      }, this);
-      toggleButton.setValue(true);
-
-      toolbar.addSpacer();
-
-      var part2 = new qx.ui.toolbar.Part();
-      toolbar.add(part2);
-
-      // log Check button
-      var logCheckButton = new qx.ui.toolbar.CheckBox(this.tr("Log"), "playground/image/utilities-log-viewer.png");
-      part2.add(logCheckButton);
-      this.__widgets["toolbar.logCheckButton"] = logCheckButton;
-      logCheckButton.setToolTipText(this.tr("Show log output"));
-
-      // api button
-      var apiButton = new qx.ui.toolbar.Button(this.tr("API Viewer"), "playground/image/help-contents.png");
-      part2.add(apiButton);
-      this.__widgets["toolbar.apiButton"] = apiButton;
-      apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
-
-      // help button
-      var helpButton = new qx.ui.toolbar.Button(this.tr("Manual"), "playground/image/help-about.png");
-      part2.add(helpButton);
-      this.__widgets["toolbar.helpButton"] = helpButton;
-      helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
-
-      return toolbar;
     }
   },
 
@@ -976,8 +805,6 @@ qx.Class.define("playground.Application",
 
   destruct : function()
   {
-    this._disposeMap("__widgets");
-    this._disposeMap("__sampleContainer");
     this.__labelDeco = this.logelem = this.__history = this.__playApp = null;
     this._disposeObjects("mainsplit", 
                          "container", 
