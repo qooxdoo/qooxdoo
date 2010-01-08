@@ -7,16 +7,30 @@
 #
 # usage: gendata.py <dest> <source>
 #
-#   <dest>    output file
+#   <dest>    output directory
 #   <source>  root directory for the scan
 ##
 
 import sys, os, optparse, codecs, re
 import shutil
 
+# adding tool chain to sys.path
+sys.path.insert(0, os.path.join(
+    os.path.dirname(unicode(__file__)),  # tool
+    os.pardir,          # demobrowser
+    os.pardir,          # application
+    os.pardir,          # qooxdoo
+    "tool",
+    "pylib"
+    ))
+
+from misc import json
+
+
 basic      = u"""[%s]"""
 fJSON      = "./config.demo.json"
 demoDataFn = "demodata.js"
+demosSourcePath = "./source/class/demobrowser/demo"
 
 def fileCheck(fname):
     fileH = open(fname,"rU")
@@ -157,15 +171,73 @@ def copyJsFiles(destdir):
     yield  # to catch caller's .send(None)
 
 
+def createDemoData(destdir):
+    dist = os.path.join(destdir, demoDataFn) # +".1")  #TODO: remove +".1" for production
+    res = []
+    ocategory = ""
+
+    while True:
+        (htmlFilePath, category, demo) = (yield)
+        if htmlFilePath == None: break
+
+        # init new category
+        if category != ocategory:
+            ocategory = category
+            resCategory = {}
+            res.append(resCategory)
+            resCategory["classname"] = category
+            resCatDemos = []
+            resCategory["tests"]     = resCatDemos
+
+        # init new demo
+        resDemo = {}
+        resCatDemos.append(resDemo)
+
+
+        # get the tags
+        jsitem = demo[0:demo.find("html")] + "js"
+        jsfile = os.path.join(demosSourcePath, category, jsitem)
+        tags = getTagsFromJsFile(jsfile)
+
+        title = os.path.splitext(demo)[0]
+
+        if "_" in title:
+            basename, nr = title.split("_",1)
+        else:
+            basename, nr = (title, 0)
+
+        title = title.replace("_", " ")
+
+        resDemo["nr"]    = nr
+        resDemo["title"] = title
+        resDemo["name"]  = demo
+        resDemo["tags"]  = list(tags)
+
+    # Write demodata.js file
+    if not os.path.exists(destdir):
+      os.makedirs(destdir)
+
+    content = json.dumpsCode(res)
+
+    outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
+    outputFile.write(content)
+    outputFile.flush()
+    outputFile.close()
+
+    yield  # final yield to catch caller's .send(None)
+
 
 def main(dest, scan):
     dist = os.path.join(dest, demoDataFn)
     res = ""
     structurize = False
 
-    configCreator = createDemoJson() # generator to push file names into, so they get into config.demo.json
-    configCreator.send(None)         # init it
-    jsFileCopier  = copyJsFiles(dest)
+    # Init the various consumers that work on every demo
+    dataCreator   = createDemoData(dest) # generator for the demodata.js file
+    dataCreator.send(None)               # init it
+    configCreator = createDemoJson()     # generator for the config.demo.json file
+    configCreator.send(None)
+    jsFileCopier  = copyJsFiles(dest)    # generator to copy demos' source JS to script dir
     jsFileCopier.send(None)
 
     firstCategory = True
@@ -198,6 +270,7 @@ def main(dest, scan):
               print "  - Skipping HTML file: %s" % (htmlfile,)
               continue
 
+            dataCreator.send((htmlfile, category, item))   # process this demo for demodata.js
             configCreator.send(htmlfile) # process this file name for config.demo.json
             jsFileCopier.send(htmlfile)  # copy demo source file to script dir
 
@@ -243,6 +316,8 @@ def main(dest, scan):
 
     res += "}"
 
+    dataCreator.send((None, None, None))    # finalize demodata.js
+    dataCreator.close()
     configCreator.send(None)  # finalize config.demo.json
     configCreator.close()
     jsFileCopier.send(None)   # finalize file copying
@@ -255,10 +330,10 @@ def main(dest, scan):
 
     content = basic % res
 
-    outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
-    outputFile.write(content)
-    outputFile.flush()
-    outputFile.close()
+    #outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
+    #outputFile.write(content)
+    #outputFile.flush()
+    #outputFile.close()
 
 
 
