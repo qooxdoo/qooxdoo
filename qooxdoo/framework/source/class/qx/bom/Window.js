@@ -190,7 +190,7 @@ qx.Class.define("qx.bom.Window",
           if (qx.bom.Window.__modelessOptions[key])
           {
             if (qx.lang.Type.isBoolean(options[key])) {
-              value = key + "=" + options[key] ? "yes" : "no";
+              value = key + "=" + (options[key] ? "yes" : "no");
             }
             else {
               value = key + "=" + options[key];
