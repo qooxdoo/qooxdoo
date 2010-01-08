@@ -84,8 +84,6 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
-      this.__sampleContainer = {};
-
       var self = this;
 
       var doc = this.getRoot();
@@ -281,7 +279,7 @@ qx.Class.define("playground.Application",
 
           this.updatePlayground(this.__playRoot);
 
-          var newName = this.__decodeSampleId(state);
+          var newName = state;
           this.playAreaCaption.setValue(newName);
 
           // update state on sample change
@@ -305,28 +303,11 @@ qx.Class.define("playground.Application",
 
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state,
-            this.__updateTitle(this.__decodeSampleId(name)));
+            this.__updateTitle(name));
         this.playAreaCaption.setValue(name);
       }, this, 0);
     },
 
-    /**
-     * Transform sample label into sample id
-     * @param label {String} label
-     * @return
-     */
-    __encodeSampleId : function(label) {
-      return label.replace(/\s+/g, "_");
-    },
-
-    /**
-    * Transform sample id into sample label
-    * @param id {String} id
-    * @return
-    */
-    __decodeSampleId : function(id) {
-      return id.replace(/_/g, " ");
-    },
 
     /**
      * Update the window title with given sample label
@@ -506,7 +487,7 @@ qx.Class.define("playground.Application",
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.editor.getCode();
 
-      var label = this.__decodeSampleId(this.__samples.getCurrentName());
+      var label = this.__samples.getCurrentName();
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
           compareElem1.innerHTML != compareElem2.innerHTML) ||
@@ -563,7 +544,7 @@ qx.Class.define("playground.Application",
         this.code = this.textarea.getValue();
       }
 
-      var title = this.__decodeSampleId(this.__samples.getCurrentName());
+      var title = this.__samples.getCurrentName();
       this.code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
         ' ...");\n' + 
@@ -726,18 +707,14 @@ qx.Class.define("playground.Application",
      */
     __fetchLog : function()
     {
-      var logger;
-
-      logger = qx.log.Logger;
-
       // Register to flush the log queue into the appender.
-      logger.register(this.logappender);
+      qx.log.Logger.register(this.logappender);
 
       // Clear buffer
-      logger.clear();
+      qx.log.Logger.clear();
 
       // Unregister again, so that the logger can flush again the next time the tab is clicked.
-      logger.unregister(this.logappender);
+      qx.log.Logger.unregister(this.logappender);
     },
 
 
