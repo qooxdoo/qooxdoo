@@ -280,37 +280,7 @@ qx.Class.define("playground.Application",
         this.run();
       }
 
-      this.__history.addListener("request", function(e)
-      {
-        var state = e.getData();
-
-        if (this.__samples.isAvailable(state))
-        {
-          this.editor.setCode(this.__samples.get(state));
-
-          this.updatePlayground(this.__playRoot);
-
-          var newName = state;
-          this.playAreaCaption.setValue(newName);
-
-          // update state on sample change
-          this.__history.addToHistory(state, this.__updateTitle(newName));
-        } else {
-          var data = qx.util.Json.parse(state);
-          var code = decodeURIComponent(data.code).replace(/%0D/g, "");
-          if (this.__toolbar.isHighlighted()) {
-            if (code != this.editor.getCode()) {
-              this.editor.setCode(code);
-              this.run();
-            }
-          } else {
-            if (code != this.textarea.getValue()) {
-              this.textarea.setValue(code);
-              this.run();
-            }
-          }
-        }
-      }, this);
+      this.__history.addListener("request", this.__onHistoryChanged, this);
 
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state,
@@ -318,6 +288,40 @@ qx.Class.define("playground.Application",
         this.playAreaCaption.setValue(name);
       }, this, 0);
     },
+
+
+    __onHistoryChanged : function(e)
+    {
+      var state = e.getData();
+
+      if (this.__samples.isAvailable(state))
+      {
+        this.editor.setCode(this.__samples.get(state));
+
+        this.updatePlayground(this.__playRoot);
+
+        var newName = state;
+        this.playAreaCaption.setValue(newName);
+
+        // update state on sample change
+        this.__history.addToHistory(state, this.__updateTitle(newName));
+      } else if (state != "") {
+        var data = qx.util.Json.parse(state);
+        var code = decodeURIComponent(data.code).replace(/%0D/g, "");
+        if (this.__toolbar.isHighlighted()) {
+          if (code != this.editor.getCode()) {
+            this.editor.setCode(code);
+            this.run();
+          }
+        } else {
+          if (code != this.textarea.getValue()) {
+            this.textarea.setValue(code);
+            this.run();
+          }
+        }
+      }
+    }, 
+
 
 
     /**
@@ -613,16 +617,11 @@ qx.Class.define("playground.Application",
       if (name === "playground.Application") {
         return false;
       }
-      
       var clazz = qx.Class.$$registry[name];
-      
-      if( clazz && clazz.superclass && 
-          clazz.superclass.classname === "qx.application.Standalone")
-      {
-        return true;
-      } else {
-        return false;
-      }
+      return (
+        clazz && clazz.superclass && 
+        clazz.superclass.classname === "qx.application.Standalone"
+      )      
     },
 
 
