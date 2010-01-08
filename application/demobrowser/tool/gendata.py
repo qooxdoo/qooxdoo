@@ -51,16 +51,17 @@ sys.path.insert(0, os.path.join(
 
 from misc import json
 
-basic      = u"""[%s]"""
 fJSON      = "./config.demo.json"
 demoDataFn = "demodata.js"
 demosSourcePath = "./source/class/demobrowser/demo"
+
+##
+# check whether to include this demo
 
 def fileCheck(fname):
     fileH = open(fname,"rU")
     selected = False
     for line in fileH:
-        #if re.search(r'demobrowser\.demo',line):
         if re.search(r'src="\.\./helper.js"',line):
             selected = True
             break
@@ -69,7 +70,9 @@ def fileCheck(fname):
     return selected
 
 
+##
 # get the tags from the javascript source file
+
 def getTagsFromJsFile(fname):
     fileH = open(fname,"rU")
 
@@ -92,7 +95,10 @@ def getTagsFromJsFile(fname):
     return tags    
 
 
-def createDemoJson():
+##
+# generator to create config.demo.json
+
+def CreateDemoJson():
     source = ""
     build  = ""
     scategories = {}
@@ -169,14 +175,19 @@ def createDemoJson():
     yield  # final yield to provide for .send(None) of caller
 
 
+##
+# extract the category and demo name from file path
+
 def demoCategoryFromFile(file):
-    # return demo category, name from demo's html file path
-    # mirror line file "./source/demo/animation/Login.html"
+    # mirror line file: "./source/demo/animation/Login.html"
     parts = file.split(os.sep)
     return parts[3], parts[4].split(".")[0]
 
 
-def copyJsFiles(destdir):
+##
+# generator to copy demo source .js files to script dir
+
+def CopyJsFiles(destdir):
     # copy js source file to script dir
     if not os.path.exists(destdir):
       os.makedirs(destdir)
@@ -189,7 +200,10 @@ def copyJsFiles(destdir):
     yield  # to catch caller's .send(None)
 
 
-def createDemoData(destdir):
+##
+# generator to create demodata.js
+
+def CreateDemoData(destdir):
     dist = os.path.join(destdir, demoDataFn)
     res = []
     ocategory = ""
@@ -244,15 +258,18 @@ def createDemoData(destdir):
     yield  # final yield to catch caller's .send(None)
 
 
+##
+# Main
+
 def main(dest, scan):
     dist = os.path.join(dest, demoDataFn)
 
     # Init the various consumers that work on every demo
-    dataCreator   = createDemoData(dest) # generator for the demodata.js file
+    dataCreator   = CreateDemoData(dest) # generator for the demodata.js file
     dataCreator.send(None)               # init it
-    configCreator = createDemoJson()     # generator for the config.demo.json file
+    configCreator = CreateDemoJson()     # generator for the config.demo.json file
     configCreator.send(None)
-    jsFileCopier  = copyJsFiles(dest)    # generator to copy demos' source JS to script dir
+    jsFileCopier  = CopyJsFiles(dest)    # generator to copy demos' source JS to script dir
     jsFileCopier.send(None)
 
     # File iterator - go through the demos' .html files
