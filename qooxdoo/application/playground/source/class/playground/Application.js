@@ -131,13 +131,8 @@ qx.Class.define("playground.Application",
 
       this.__log = new playground.view.Log();
 
-      // Adds the log console to the stack
-      this.stack = new qx.ui.container.Stack();
-      this.stack.setDecorator("main");
-      this.stack.add(this.__log);
-
-      infosplit.add(this.stack, 1);
-      this.stack.exclude();
+      infosplit.add(this.__log, 1);
+      this.__log.exclude();
 
       this.__playArea.init(this);
     },
@@ -179,7 +174,7 @@ qx.Class.define("playground.Application",
     },
 
     __onLogChange : function(e) {
-      e.getData() ? this.stack.show() : this.stack.exclude();
+      e.getData() ? this.__log.show() : this.__log.exclude();
     },
     
     __onApiOpen : function() {
@@ -251,8 +246,7 @@ qx.Class.define("playground.Application",
       this.__history.addListener("request", this.__onHistoryChanged, this);
 
       qx.event.Timer.once(function() {
-        this.__history.addToHistory(state,
-            this.__updateTitle(name));
+        this.__history.addToHistory(state, this.__updateTitle(name));
         this.__playArea.updateCaption(name);
       }, this, 0);
     },
@@ -282,9 +276,29 @@ qx.Class.define("playground.Application",
         }
       }
     }, 
+    
+    
+    /**
+     * @lint ignoreDeprecated(confirm)
+     */    
+    __addCodeToHistory : function(code) {
+      var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
+      if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
+        if (!this.__ignoreSaveFaults && confirm(
+          this.tr("Could not save your code in the url because it is too much " + 
+          "code. Do you want to ignore it?"))
+        ) {
+          this.__ignoreSaveFaults = true;
+        };
+        return;
+      }
+      this.__history.addToHistory(codeJson);      
+    },
 
 
-
+    // ***************************************************
+    // UPDATE & RUN
+    // ***************************************************
     /**
      * Update the window title with given sample label
      * @param label {String} sample label
@@ -299,10 +313,8 @@ qx.Class.define("playground.Application",
     /**
      * Checks, whether the code is changed. If yes, the application name is
      * renamed
-     *
-     * @return {void}
      */
-    __isSourceCodeChanged : function()
+    __updateCaption : function()
     {
       var compareElem1 = document.getElementById("compare_div1");
       compareElem1.innerHTML = this.__samples.getCurrent();
@@ -310,27 +322,23 @@ qx.Class.define("playground.Application",
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.__editor.getCode();
 
-      var label = this.__samples.getCurrentName();
+      var name = this.__samples.getCurrentName();
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
           compareElem1.innerHTML != compareElem2.innerHTML) ||
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        this.__playArea.updateCaption(this.tr("%1 (modified)", label));
+        this.__playArea.updateCaption(this.tr("%1 (modified)", name));
       }
       else {
-        this.__playArea.updateCaption(label);
-        this.__history.addToHistory(this.__samples.getCurrentName(), this.__updateTitle(label));
+        this.__playArea.updateCaption(name);
+        this.__history.addToHistory(this.__samples.getCurrentName(), this.__updateTitle(name));
       }
     },
 
+
     /**
      * Updates the playground.
-     *
-     * @param root {var} of the playarea
-     * @return {void}
-     *
-     * @lint ignoreDeprecated(alert)
      */
     updatePlayground : function()
     {
@@ -340,8 +348,8 @@ qx.Class.define("playground.Application",
       var reg = qx.Class.$$registry;
       delete reg[this.__currentStandalone];
 
+      // build the code to run
       var code = this.__editor.getCode();
-
       var title = this.__samples.getCurrentName();
       code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
@@ -349,43 +357,65 @@ qx.Class.define("playground.Application",
         ((code + ";") || "") +
         'this.info("' + this.tr("Successfully started").toString() + '.");\n';
 
+      // try to create a function
       try {
         this.fun = new Function(code);
       } catch(ex) {
         var exc = ex;
       }
 
+      // run the code
       try {
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
       }
-      catch(ex)
-      {
+      catch(ex) {
         var exc = ex;
-        alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
       }
 
+      // store the new standalone app if available
       for(var name in reg)
       {
         if(this.__isStandaloneApp(name))
         {
           this.__currentStandalone = name;
           this.__executeStandaloneApp(name);
-          continue;
+          break;
         }
       } 
       
-      if (exc)
-      {
-        this.error(exc);
+      // error handling
+      if (exc) {
+        this.error(this.__errorMsg.replace(/\|/g, "\n") + exc);
         this.__toolbar.showLog(true);
-        this.stack.show();
+        this.__log.show();
+        this.__playArea.reset();
       }
 
       this.__log.fetch();
     },
-
     
+    
+    run : function()
+    {
+      this.updatePlayground();
+
+      if (this.__samples.getCurrent() != "") {
+        this.__updateCaption();
+      }
+      // get the currently set code
+      var code = this.__editor.getCode();
+
+      if (escape(code) != escape(this.__samples.getCurrent()).replace(/%0D/g, "")) {
+        this.__addCodeToHistory(code);
+      }
+    },    
+
+ 
+    // ***************************************************
+    // STANDALONE SUPPORT
+    // *************************************************** 
+       
     /**
      * Determines whether the class (given by name) exists in the object 
      * registry and is a qooxdoo standalone application class
@@ -410,7 +440,6 @@ qx.Class.define("playground.Application",
      * Execute the class (given by name) as a standalone app
      *
      * @param name {String} Name of the application class to execute
-     * @lint ignoreDeprecated(alert)
      */
     __executeStandaloneApp : function(name)
     {
@@ -419,41 +448,12 @@ qx.Class.define("playground.Application",
 
       var app = new qx.Class.$$registry[name];
 
-      try
-      {
+      try {
         app.main();
         qx.ui.core.queue.Manager.flush();
-      }
-      catch(ex)
-      {
+      } catch(ex) {
         var exc = ex;
-        alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
-      }
-    },
-
-
-    /**
-     * @lint ignoreDeprecated(confirm)
-     */
-    run : function()
-    {
-      this.updatePlayground();
-
-      if (this.__samples.getCurrent() != "") {
-        this.__isSourceCodeChanged();
-      }
-      // get the currently set code
-      var code = this.__editor.getCode();
-
-      if (escape(code) != escape(this.__samples.getCurrent()).replace(/%0D/g, "")) {
-        var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
-        if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
-          if (!this.__ignoreSaveFaults && confirm(this.tr("Could not save your code in the url because it is too much code. Do you want to ignore it?"))) {
-            this.__ignoreSaveFaults = true;
-          };
-          return;
-        }
-        this.__history.addToHistory(codeJson);
+        this.error(this.__errorMsg.replace(/\|/g, "\n") + exc);
       }
     }
   },
@@ -469,6 +469,6 @@ qx.Class.define("playground.Application",
   destruct : function()
   {
     this.__history = null;
-    this._disposeObjects("stack", "__currentStandalone");
+    this._disposeObjects("__currentStandalone");
   }
 });
