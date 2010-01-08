@@ -128,12 +128,12 @@ qx.Class.define("playground.Application",
       mainsplit.add(infosplit, 1);
       infosplit.add(this.__createPlayArea(), 2);
 
-      var log = this.__createLog();
+      this.__log = new playground.view.Log();
 
       // Adds the log console to the stack
       this.stack = new qx.ui.container.Stack;
       this.stack.setDecorator("main");
-      this.stack.add(log);
+      this.stack.add(this.__log);
 
       infosplit.add(this.stack, 1);
       this.stack.exclude();
@@ -523,9 +523,7 @@ qx.Class.define("playground.Application",
      */
     updatePlayground : function(root)
     {
-      if(this.logelem) {
-        this.logelem.innerHTML = "";
-      }
+      this.__log.clear();
 
       // This currently only destroys the children of the application root.
       // While this is ok for many simple scenarios, it cannot account for
@@ -599,7 +597,7 @@ qx.Class.define("playground.Application",
         this.stack.show();
       }
 
-      this.__fetchLog();
+      this.__log.fetch();
     },
 
     
@@ -708,79 +706,7 @@ qx.Class.define("playground.Application",
         this.textarea.getContentElement().getDomElement().style.visibility = "visible";
         this.editor.frame.style.visibility = "hidden";
       }
-   },
-
-
-    /**
-     * Fetches the log entries.
-     *
-     * @return {void}
-     */
-    __fetchLog : function()
-    {
-      // Register to flush the log queue into the appender.
-      qx.log.Logger.register(this.logappender);
-
-      // Clear buffer
-      qx.log.Logger.clear();
-
-      // Unregister again, so that the logger can flush again the next time the tab is clicked.
-      qx.log.Logger.unregister(this.logappender);
-    },
-
-
-    /**
-     * Creates the log pane.
-     *
-     * @return {var} container contains the log pane
-     */
-    __createLog : function()
-    {
-      var layout = new qx.ui.layout.VBox();
-      layout.setSeparator("separator-vertical");
-
-      var container = new qx.ui.container.Composite(layout).set({});
-
-      // caption of the log pane
-      var caption = new qx.ui.basic.Label(this.tr("Log")).set(
-      {
-        font       : "bold",
-        decorator  : this.__labelDeco,
-        padding    : 5,
-        allowGrowX : true,
-        allowGrowY : true
-      });
-
-      container.add(caption);
-
-      this.logArea = new qx.ui.embed.Html('');
-
-      this.logArea.set(
-      {
-        backgroundColor : "white",
-        overflowY       : "scroll",
-        overflowX       : "auto",
-        font            : "monospace",
-        padding         : 5
-      });
-
-      container.add(this.logArea, { flex : 1 });
-
-      // log appender
-      this.logappender = new qx.log.appender.Element();
-
-      qx.log.Logger.unregister(this.logappender);
-
-      // Directly create DOM element to use
-      this.logelem = document.createElement("DIV");
-      this.logappender.setElement(this.logelem);
-
-      this.logArea.addListenerOnce("appear", function() {
-        this.logArea.getContentElement().getDomElement().appendChild(this.logelem);
-      }, this);
-
-      return container;
-    }
+   }
   },
 
 
@@ -793,15 +719,13 @@ qx.Class.define("playground.Application",
 
   destruct : function()
   {
-    this.__labelDeco = this.logelem = this.__history = this.__playApp = null;
+    this.__labelDeco = this.__history = this.__playApp = null;
     this._disposeObjects("mainsplit", 
                          "container", 
                          "textarea", 
                          "playarea", 
                          "playAreaCaption",
                          "dummy",
-                         "logArea",
-                         "logappender",
                          "stack",
                          "__playRoot",
                          "__currentStandalone",
