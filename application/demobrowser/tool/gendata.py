@@ -1,9 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
+#    * Martin Wittemann (martinwittemann)
+#
+################################################################################
 ##
-# gendata.py -- go through all the demos (i.e. their HTML files) and generate an 
-#               index file, to be used in Demobrowser's tree navigation pane.
+# gendata.py -- go through all the demos (i.e. their HTML files) and do the 
+#               following:
+#               - generate a Json index file, to be used in Demobrowser's tree 
+#                 navigation pane (demodata.js)
+#               - generate a generator configuration file for demo building 
+#                 (config.demo.json), using tmpl.json
+#               - copy the demo's source JS files to output dir (<dest>), for
+#                 Demobrowser's "View Source" function
 #
 # usage: gendata.py <dest> <source>
 #
@@ -25,7 +50,6 @@ sys.path.insert(0, os.path.join(
     ))
 
 from misc import json
-
 
 basic      = u"""[%s]"""
 fJSON      = "./config.demo.json"
@@ -154,10 +178,8 @@ def demoCategoryFromFile(file):
 
 def copyJsFiles(destdir):
     # copy js source file to script dir
-    try:
-        os.makedirs(destdir)
-    except OSError:
-        pass
+    if not os.path.exists(destdir):
+      os.makedirs(destdir)
 
     while True:
         file = (yield)
@@ -168,7 +190,7 @@ def copyJsFiles(destdir):
 
 
 def createDemoData(destdir):
-    dist = os.path.join(destdir, demoDataFn) # +".1")  #TODO: remove +".1" for production
+    dist = os.path.join(destdir, demoDataFn)
     res = []
     ocategory = ""
 
