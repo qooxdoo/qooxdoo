@@ -48,14 +48,11 @@ qx.Class.define("playground.Application",
     // UI Components
     __toolbar : null,
     __log : null,
-    __editor : null, 
+    __editor : null,
+    __playArea : null,
     
     // storage for all samples
     __samples : null,
-
-    // the root of the playarea (inline)
-    __playRoot : null,
-    __playApp : null,
 
     __history : null,
     
@@ -82,8 +79,6 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
-      var self = this;
-
       // container layout
       var layout = new qx.ui.layout.VBox();
 
@@ -109,8 +104,6 @@ qx.Class.define("playground.Application",
 
       // mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
-      this.mainsplit = mainsplit;
-
       mainContainer.add(mainsplit, { flex : 1 });
 
       var infosplit = new qx.ui.splitpane.Pane("vertical");
@@ -125,7 +118,8 @@ qx.Class.define("playground.Application",
       
       mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
-      infosplit.add(this.__createPlayArea(), 2);
+      this.__playArea = new playground.view.PlayArea();
+      infosplit.add(this.__playArea, 2);
       
       mainsplit.getChildControl("splitter").addListener("mousedown", function() {
         this.__editor.block();
@@ -145,39 +139,9 @@ qx.Class.define("playground.Application",
       infosplit.add(this.stack, 1);
       this.stack.exclude();
 
-
-
-
-      qx.html.Element.flush();
-      var playRootEl = this.dummy.getContainerElement().getDomElement();
-      this.__playRoot = new qx.ui.root.Inline(playRootEl);
-      this.__playRoot._setLayout(new qx.ui.layout.Canvas());
-
-      this.__playRoot.getLayoutParent = function() { return self.playarea; };
-      this.playarea.getChildren = this.playarea._getChildren =
-        function() { return [self.__playRoot]; };
-
-      this.playarea.addListener("resize", function(e)
-      {
-        var data = e.getData();
-        self.__playRoot.setMinWidth(data.width);
-        self.__playRoot.setMinHeight(data.height);
-      });
-
-      this.__playApp = this.clone();
-      playground.Application.__PLAYROOT = this.__playRoot;
-
-      this.__playApp.getRoot = function() {
-        return self.__playRoot;
-      };
-
-      this.__playRoot.addListener("resize", function(e)
-      {
-        var data = e.getData();
-        self.dummy.setMinWidth(data.width);
-        self.dummy.setMinHeight(data.height);
-      });
+      this.__playArea.init(this);
     },
+
 
     finalize: function()
     {
@@ -189,7 +153,9 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // TOOLBAR HANDLER
     // ***************************************************
-    
+    /**
+     * @lint ignoreDeprecated(confirm)
+     */
     __onSampleChange : function(e) {
       var userCode = this.__editor.getCode();
       if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
@@ -251,8 +217,8 @@ qx.Class.define("playground.Application",
       {
         var sample = this.__samples.get(name);
         this.__editor.setCode(sample);
-        this.updatePlayground(this.__playRoot);
-        this.playAreaCaption.setValue(name);
+        this.updatePlayground();
+        this.__playArea.updateCaption(name);
 
       // if there is a state given
       } 
@@ -287,7 +253,7 @@ qx.Class.define("playground.Application",
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state,
             this.__updateTitle(name));
-        this.playAreaCaption.setValue(name);
+        this.__playArea.updateCaption(name);
       }, this, 0);
     },
 
@@ -300,10 +266,10 @@ qx.Class.define("playground.Application",
       {
         this.__editor.setCode(this.__samples.get(state));
 
-        this.updatePlayground(this.__playRoot);
+        this.updatePlayground();
 
         var newName = state;
-        this.playAreaCaption.setValue(newName);
+        this.__playArea.updateCaption(newName);
 
         // update state on sample change
         this.__history.addToHistory(state, this.__updateTitle(newName));
@@ -329,38 +295,6 @@ qx.Class.define("playground.Application",
       return title;
     },
 
-    /**
-     * Creates an area to show the samples.
-     *
-     * @return {var} container of the play area
-     */
-    __createPlayArea : function()
-    {
-      var layout = new qx.ui.layout.VBox();
-      layout.setSeparator("separator-vertical");
-
-      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
-
-      this.playAreaCaption = new qx.ui.basic.Label().set(
-      {
-        font       : "bold",
-        padding    : 5,
-        allowGrowX : true,
-        allowGrowY : true
-      });
-
-      container.add(this.playAreaCaption);
-
-      this.playarea = new qx.ui.container.Scroll();
-
-      this.dummy = new qx.ui.core.Widget;
-      this.playarea.add(this.dummy);
-
-      container.add(this.playarea, { flex : 1 });
-
-      return container;
-    },
-
 
     /**
      * Checks, whether the code is changed. If yes, the application name is
@@ -382,11 +316,10 @@ qx.Class.define("playground.Application",
           compareElem1.innerHTML != compareElem2.innerHTML) ||
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        this.playAreaCaption.setValue(this.tr("%1 (modified)", label));
-        //top.location.hash = "#";
+        this.__playArea.updateCaption(this.tr("%1 (modified)", label));
       }
       else {
-        this.playAreaCaption.setValue(label);
+        this.__playArea.updateCaption(label);
         this.__history.addToHistory(this.__samples.getCurrentName(), this.__updateTitle(label));
       }
     },
@@ -399,53 +332,31 @@ qx.Class.define("playground.Application",
      *
      * @lint ignoreDeprecated(alert)
      */
-    updatePlayground : function(root)
+    updatePlayground : function()
     {
       this.__log.clear();
-
-      // This currently only destroys the children of the application root.
-      // While this is ok for many simple scenarios, it cannot account for
-      // application code that generates temporary objects without adding them
-      // to the application (as widgets for instance). There is no real
-      // solution for such a multi-application scenario that is playground
-      // specific.
-      var ch = root.getChildren();
-      var i = ch.length;
-      while(i--)
-      {
-        if (ch[i]) {
-          ch[i].destroy();
-        }
-      }
-      
-      var layout = root.getLayout();
-      root.setLayout(new qx.ui.layout.Canvas());
-      layout.dispose();
+      this.__playArea.reset();
 
       var reg = qx.Class.$$registry;
       delete reg[this.__currentStandalone];
 
-      this.code = this.__editor.getCode();
+      var code = this.__editor.getCode();
 
       var title = this.__samples.getCurrentName();
-      this.code = 'this.info("' + this.tr("Starting application").toString() +
+      code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
         ' ...");\n' + 
-        ((this.code + ";") || "") +
+        ((code + ";") || "") +
         'this.info("' + this.tr("Successfully started").toString() + '.");\n';
 
-      try
-      {
-        this.fun = new Function(this.code);
-      }
-      catch(ex)
-      {
+      try {
+        this.fun = new Function(code);
+      } catch(ex) {
         var exc = ex;
       }
 
-      try
-      {
-        this.fun.call(this.__playApp);
+      try {
+        this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
       }
       catch(ex)
@@ -454,7 +365,7 @@ qx.Class.define("playground.Application",
         alert(this.__errorMsg.replace(/\|/g, "\n") + exc);
       }
 
-      for( var name in reg )
+      for(var name in reg)
       {
         if(this.__isStandaloneApp(name))
         {
@@ -499,7 +410,7 @@ qx.Class.define("playground.Application",
      * Execute the class (given by name) as a standalone app
      *
      * @param name {String} Name of the application class to execute
-     * @return {void}
+     * @lint ignoreDeprecated(alert)
      */
     __executeStandaloneApp : function(name)
     {
@@ -526,7 +437,7 @@ qx.Class.define("playground.Application",
      */
     run : function()
     {
-      this.updatePlayground(this.__playRoot);
+      this.updatePlayground();
 
       if (this.__samples.getCurrent() != "") {
         this.__isSourceCodeChanged();
@@ -557,16 +468,7 @@ qx.Class.define("playground.Application",
 
   destruct : function()
   {
-    this.__history = this.__playApp = null;
-    this._disposeObjects("mainsplit", 
-                         "container", 
-                         "textarea", 
-                         "playarea", 
-                         "playAreaCaption",
-                         "dummy",
-                         "stack",
-                         "__playRoot",
-                         "__currentStandalone",
-                         "editor");
+    this.__history = null;
+    this._disposeObjects("stack", "__currentStandalone");
   }
 });
