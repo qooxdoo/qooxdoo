@@ -110,7 +110,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON} tool/gendata.py ./source/script/demodata.js ./source/demo"
+        "command" : "${PYTHON} tool/gendata.py ./source/script ./source/demo"
       }
     },
 
@@ -149,7 +149,7 @@
       [
         // preparations
         "source-data",
-        "source-demo-jobs",
+        //"source-demo-jobs",
         // do the compiling with a different config
         "source-demobrowser"
       ]
@@ -166,7 +166,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON} tool/gendata.py ./build/script/demodata.js ./source/demo"
+        "command" : "${PYTHON} tool/gendata.py ./build/script ./source/demo"
       }
     },
 
@@ -204,7 +204,7 @@
       [
         // preparations
         "build-data",
-        "build-demo-jobs",
+        //"build-demo-jobs",
         // do the compiling with a different config
         "build-demobrowser"
       ]
