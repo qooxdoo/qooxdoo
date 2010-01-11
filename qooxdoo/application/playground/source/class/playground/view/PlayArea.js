@@ -120,5 +120,20 @@ qx.Class.define("playground.view.PlayArea",
     {
       return this.__playApp;
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects(
+      "__playFieldCaption", "__playField", "__dummy", "__playRoot", "__playApp"
+    );
   }
 });

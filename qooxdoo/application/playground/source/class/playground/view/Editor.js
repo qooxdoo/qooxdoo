@@ -202,5 +202,19 @@ qx.Class.define("playground.view.Editor",
         this.__codeMirror.frame.style.visibility = "hidden";
       }      
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__textarea");
+    this.__codeMirror = null;
   }
 });

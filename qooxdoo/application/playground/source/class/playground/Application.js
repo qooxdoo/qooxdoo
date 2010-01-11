@@ -442,6 +442,9 @@ qx.Class.define("playground.Application",
   destruct : function()
   {
     this.__history = null;
-    this._disposeObjects("__currentStandalone");
+    this._disposeObjects(
+      "__currentStandalone", "__samples", "__toolbar", "__editor", 
+      "__playArea", "__log"
+    );
   }
 });

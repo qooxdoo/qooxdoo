@@ -69,5 +69,17 @@ qx.Class.define("playground.Samples",
     isAvailable : function(name) {
       return this.__samples[name] != undefined;
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    this.__samples = null;
   }
 });
