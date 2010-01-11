@@ -76,19 +76,21 @@ def getClassVariants(fileId, filePath, treeLoader, cache, console, generate=True
     classvariants = None
     if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
         if generate:
-            classvariants = []
             tree = treeLoader.getTree(fileId, {})  # get complete tree
-            getClassVariantsFromTree(tree, classvariants, console)       # get variants used in qx.core.Variant...(<variant>,...)
+            classvariants = getClassVariantsFromTree(tree, console)       # get variants used in qx.core.Variant...(<variant>,...)
             if classinfo == None:
                 classinfo = {}
             classinfo['svariants'] = classvariants
             cache.writemulti(cacheId, classinfo)
+    else:
+        classvariants = classinfo['svariants']
 
-    return classinfo['svariants']
+    return classvariants
 
 ##
 # helper that operates on ecmascript.frontend.tree
-def getClassVariantsFromTree(node, classvariants, console):
+def getClassVariantsFromTree(node, console):
+    classvariants = []
     # mostly taken from ecmascript.transform.optimizer.variantoptimizer
     variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
     for variant in variants:
@@ -102,4 +104,6 @@ def getClassVariantsFromTree(node, classvariants, console):
             classvariants.append(firstParam.get("value"))
         else:
             console.warn("! qx.core.Variant call without literal argument")
+
+    return classvariants
 
