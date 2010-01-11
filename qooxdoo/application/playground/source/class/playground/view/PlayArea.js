@@ -75,8 +75,6 @@ qx.Class.define("playground.view.PlayArea",
       }, this);
 
       this.__playApp = app.clone();
-      playground.Application.__PLAYROOT = this.__playRoot;
-
       this.__playApp.getRoot = function() {
         return self.__playRoot;
       };
