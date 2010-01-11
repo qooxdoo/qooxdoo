@@ -2567,17 +2567,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "atom",
       style : function(states)
       {
-        var fileType = qx.bom.client.Engine.MSHTML ? ".gif" : ".png";
         return {
           minWidth  : 13,
           minHeight : 20,
           padding   : states.hovered ? [ 3, 4, 2, 4 ] : [ 3, 4 ],
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
-          sortIcon  : states.sorted
-            ? (states.sortedAscending  
-              ? "decoration/table/ascending" + fileType
-              : "decoration/table/descending" + fileType)
-            : undefined
+          sortIcon  : states.sorted ?
+              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
+              : undefined
         }
       }
     },
