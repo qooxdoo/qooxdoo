@@ -409,6 +409,7 @@ qx.Class.define("qx.ui.basic.Image",
           var pixel = "px";
           var styles = {};
 
+          // Copy dimension and location of the current content element
           var innerSize = this.getInnerSize();
           if (innerSize != null)
           {
@@ -419,6 +420,10 @@ qx.Class.define("qx.ui.basic.Image",
           var insets = this.getInsets();
           styles.left = insets.left + pixel;
           styles.top = insets.top + pixel;
+
+          // Set the default zIndex to avoid any issues with decorators
+          // since these would otherwise cover the content element
+          styles.zIndex = 10;
 
           elementToAdd.setStyles(styles, true);
           elementToAdd.setSelectable(this.getSelectable());
