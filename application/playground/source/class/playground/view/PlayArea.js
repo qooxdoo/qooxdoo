@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Widget responsible for hosting the run code.
+ */
 qx.Class.define("playground.view.PlayArea", 
 {
   extend : qx.ui.container.Composite,
@@ -46,6 +49,7 @@ qx.Class.define("playground.view.PlayArea",
     this.add(this.__playField, {flex : 1});
   },
 
+
   members :
   {
     __playFieldCaption : null,
@@ -55,6 +59,10 @@ qx.Class.define("playground.view.PlayArea",
     __playApp : null,
     
     
+    /**
+     * Initializes the playarea.
+     * @param app {qx.application.Standalone} Reference to the playground app.
+     */
     init : function(app) 
     {
       qx.html.Element.flush();
@@ -87,6 +95,10 @@ qx.Class.define("playground.view.PlayArea",
     },
     
     
+    /**
+     * Sets the caoption of the playarea to the given text.
+     * @param text {String} The new text of the caption.
+     */
     updateCaption : function(text) {
       this.__playFieldCaption.setValue(text);
     },
@@ -116,6 +128,10 @@ qx.Class.define("playground.view.PlayArea",
     },
     
     
+    /**
+     * Returns the used application.
+     * @return {qx.application.Standalone} A clone of the playground app.
+     */
     getApp : function() 
     {
       return this.__playApp;

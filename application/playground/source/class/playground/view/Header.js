@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Application header widget.
+ */
 qx.Class.define("playground.view.Header", 
 {
   extend : qx.ui.container.Composite,

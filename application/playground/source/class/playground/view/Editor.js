@@ -25,9 +25,6 @@
 
 /**
  * Container for the source code editor.
- *
- * This is implemented as a separate class, for instance to easily change the
- * z-index of the iframe blocker.
  */
 qx.Class.define("playground.view.Editor",
 {
@@ -40,8 +37,12 @@ qx.Class.define("playground.view.Editor",
     this.base(arguments);
   }, 
   
+  
   events : 
   {
+    /**
+     * Event for signaling that the highlighting could not be done by the editor.
+     */
     "disableHighlighting" : "qx.event.type.Event"
   },
   
@@ -51,6 +52,7 @@ qx.Class.define("playground.view.Editor",
     __textarea : null,
     __codeMirror : null,
     __highlighted : null,
+    
     
     /**
      * The constructor was spit up to make the included mixin available during 
@@ -104,7 +106,7 @@ qx.Class.define("playground.view.Editor",
     },
     
     /**
-     * this code part uses the CodeMirror library to add a
+     * This code part uses the CodeMirror library to add a
      * syntax-highlighting editor as an textarea replacement
      * 
      * @lint ignoreUndefined(CodeMirror)
@@ -167,6 +169,10 @@ qx.Class.define("playground.view.Editor",
     },
     
     
+    /**
+     * Returns the current set code of the editor.
+     * @return {String} The current set text.
+     */
     getCode : function() {
       if (this.__highlighted && this.__codeMirror) {
         return this.__codeMirror.getCode();
@@ -176,6 +182,10 @@ qx.Class.define("playground.view.Editor",
     },
     
     
+    /**
+     * Sets the given code to the editor.
+     * @param code {String} The new code.
+     */
     setCode : function(code) {
       if (this.__highlighted && this.__codeMirror) {
         this.__codeMirror.setCode(code);
@@ -185,6 +195,10 @@ qx.Class.define("playground.view.Editor",
     },
     
 
+    /**
+     * Switches between the CodeMirror editor and a plain textarea.
+     * @param value {Boolean} True, if CodeMirror should be used.
+     */
     useHighlight : function(value) {
       if (!this.__codeMirror) {
         return;

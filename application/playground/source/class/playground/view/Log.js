@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Log widget responsible for showing the log information.
+ */
 qx.Class.define("playground.view.Log", 
 {
   extend : qx.ui.container.Composite,
@@ -70,12 +73,20 @@ qx.Class.define("playground.view.Log",
     __logAppender : null,
     
     
+    /**
+     * Clears the log.
+     */
     clear : function() {
       if (this.__logElem) {
         this.__logElem.innerHTML = "";        
       }
     },
     
+    
+    /**
+     * Fetches all logged data from the qx logging system and puts in into the
+     * log widget.
+     */
     fetch : function()
     {
       // Register to flush the log queue into the appender.

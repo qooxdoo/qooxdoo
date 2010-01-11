@@ -16,11 +16,18 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * The playground toolbar containing all buttons and menus.
+ */
 qx.Class.define("playground.view.Toolbar", 
 {
   extend : qx.ui.toolbar.ToolBar,
 
 
+  /**
+   * @param sampleNames {Array} An array containing all names of the samples as 
+   *   String.
+   */
   construct : function(sampleNames)
   {
     this.base(arguments);
@@ -98,11 +105,35 @@ qx.Class.define("playground.view.Toolbar",
 
   events : 
   {
+    /**
+     * Fired if the run button is pressed.
+     */
     "run" : "qx.event.type.Event",
+    
+    /**
+     * Fired if a new sample should be selected. The data contains the name of 
+     * the new sample.
+     */
     "changeSample" : "qx.event.type.Data",
+    
+    /**
+     * Data event if the code highlighting should be used.
+     */
     "changeHighlight" : "qx.event.type.Data",
+    
+    /**
+     * Data event if the log should be shown.
+     */
     "changeLog" : "qx.event.type.Data",
+    
+    /**
+     * Event which will be fired to open the api.
+     */
     "openApi" : "qx.event.type.Event",
+    
+    /**
+     * Event which will be fired to open the manual.
+     */
     "openManual" : "qx.event.type.Event"
   },
 
@@ -113,11 +144,19 @@ qx.Class.define("playground.view.Toolbar",
     __logCheckButton : null,
     
     
+    /**
+     * Controlls the presed state of the log button.
+     * @param show {Boolean} True, if the button should be pressed.
+     */
     showLog : function(show) {
       this.__logCheckButton.setValue(show);
     },
     
     
+    /**
+     * Controlls the enabled property of the highlight button.
+     * @param value {Boolean} True, if the button should be enabled.
+     */
     enableHighlighting : function(value) {
       this.__highlightButton.setEnabled(value);
     },
@@ -125,8 +164,8 @@ qx.Class.define("playground.view.Toolbar",
     
     /**
      * Generates a menu to select the samples.
-     *
-     * @return {qx.ui.menu.Menu} menu of the samples
+     * @param sampleNames {Array} An array containing all names of the samples.
+     * @return {qx.ui.menu.Menu} Menu of the samples.
      */
     __createSampleMenu : function(sampleNames)
     {
