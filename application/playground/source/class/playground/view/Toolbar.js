@@ -24,9 +24,7 @@ qx.Class.define("playground.view.Toolbar",
   construct : function(sampleNames)
   {
     this.base(arguments);
-    
-    this.__sampleContainer = {};
-    
+        
     // left part
     var part1 = new qx.ui.toolbar.Part();
     this.add(part1);
@@ -111,14 +109,8 @@ qx.Class.define("playground.view.Toolbar",
 
   members :
   {
-    __sampleContainer : null,
     __highlightButton : null,
     __logCheckButton : null,
-    
-    
-    getSample : function(id) {
-      return this.__sampleContainer[id];
-    },
     
     
     showLog : function(show) {
@@ -158,5 +150,17 @@ qx.Class.define("playground.view.Toolbar",
 
       return menu;
     }  
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    this._disposeObjects("__highlightButton", "__logCheckButton");
   }
 });

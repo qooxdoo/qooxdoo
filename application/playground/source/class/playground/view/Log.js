@@ -87,5 +87,19 @@ qx.Class.define("playground.view.Log",
       // Unregister again, so that the logger can flush again the next time the tab is clicked.
       qx.log.Logger.unregister(this.__logAppender);
     }
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__logAppender");
+    this.__logElem = null;
+  }  
 });
