@@ -69,8 +69,6 @@ qx.Class.define("playground.Application",
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
-     *
-     * @return {void}
      */
     main : function()
     {
@@ -146,6 +144,10 @@ qx.Class.define("playground.Application",
     // TOOLBAR HANDLER
     // ***************************************************
     /**
+     * Handler for sample changes of the toolbar.
+     * @param e {qx.event.type.Data} Data event containing the new name of 
+     *   the sample.
+     * 
      * @lint ignoreDeprecated(confirm)
      */
     __onSampleChange : function(e) {
@@ -168,16 +170,29 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Handler for the changeHighlight event of the toolbar.
+     * @param e {qx.event.type.Data} Data event containing the boolean to change
+     *   the highlighted code view.
+     */
     __onHighlightChange : function(e) {
       this.__editor.useHighlight(e.getData());
     },
 
 
+    /**
+     * Handler for showing the log of the toolbar.
+     * @param e {qx.event.type.Data} Data event containing if the log should 
+     *   be shown.
+     */
     __onLogChange : function(e) {
       e.getData() ? this.__log.show() : this.__log.exclude();
     },
     
     
+    /**
+     * Handler for opening the api viewer.
+     */
     __onApiOpen : function() {
       window.open(
         "http://demo.qooxdoo.org/" + 
@@ -187,6 +202,9 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Handler for opening the manual.
+     */
     __onManualOpen : function() {
       var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
       window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
@@ -237,6 +255,10 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Handler for changes of the history.
+     * @param e {qx.event.type.Data} Data event containing the history changes.
+     */
     __onHistoryChanged : function(e)
     {
       var state = e.getData();
@@ -256,6 +278,12 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Helper method for parsing the given url parameter to a valid code 
+     * fragment.
+     * @param state {String} The given state of the browsers history.
+     * @return {String} A valid code snippet.
+     */
     __parseURLCode : function(state) 
     {
       try {
@@ -274,6 +302,8 @@ qx.Class.define("playground.Application",
     
     
     /**
+     * Adds the given code to the history.
+     * @param code {String} the code to add.
      * @lint ignoreDeprecated(confirm)
      */    
     __addCodeToHistory : function(code) {
@@ -364,6 +394,9 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Runs the current set sample and checks if it need to be saved to the url.
+     */
     run : function()
     {
       this.__updatePlayground();
