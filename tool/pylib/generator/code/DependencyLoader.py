@@ -41,6 +41,7 @@ import sys, re, os, types
 
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script import Script
+from generator.code import Class
 from misc import filetool, util
 from misc.ExtMap import ExtMap
 import graph
@@ -341,13 +342,16 @@ class DependencyLoader(object):
 
             return deps
 
-        # -----------------------------------------------------------------
+        # -- Main ---------------------------------------------------------
 
         if not self._classes.has_key(fileId):
             raise NameError("Could not find class to fulfill dependency: %s" % fileId)
 
-        filePath = self._classes[fileId]["path"]
-        cacheId = "deps-%s-%s" % (filePath, util.toString(variants))
+        filePath         = self._classes[fileId]["path"]
+        classVariants    = Class.getClassVariants(fileId, filePath, self._treeLoader, self._cache, self._console)
+        #classVariants    = variants.keys()  # a do-nothing alternative
+        relevantVariants = Class.projectClassVariantsToCurrent(classVariants, variants)
+        cacheId = "deps-%s-%s" % (filePath, util.toString(relevantVariants))
 
         # print "Read from cache: %s" % fileId
         
@@ -1208,3 +1212,4 @@ class DependencyItem(object):
     def __init__(self, name, line):
         self.name = name
         self.line = line
+
