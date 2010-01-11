@@ -28,11 +28,14 @@ from ecmascript.frontend import treeutil
 
 class Class(object):
 
-    def __init__(self, id):
-        __slots__       = ('name', 'file', 'source', 'ast', 'scopes', 'translations')
+    def __init__(self, id, path, library):
+        #__slots__       = ('name', 'file', 'size', 'encoding', 'namespace', 'source', 'ast', 'scopes', 'translations')
         self.name       = id   # qooxdoo name of class, classId
-        self.file       = u''  # file path of this class
-        self.source     = u''  # source code of this class
+        self.file       = path  # file path of this class
+        self.size       = -1
+        self.encoding   = 'utf-8'
+        self.library    = library
+        self.source     = u''  # source text of this class
         self.ast        = None # ecmascript.frontend.tree instance
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
