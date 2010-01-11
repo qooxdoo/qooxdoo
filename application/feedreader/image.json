@@ -33,6 +33,7 @@
                 [
                   "${RESPATH}/qx/icon/Tango/22/actions/dialog-ok.png",
                   "${RESPATH}/qx/icon/Tango/22/actions/dialog-cancel.png",
+                  "${RESPATH}/qx/icon/Tango/22/actions/dialog-cancel-disabled.png",
                   "${RESPATH}/qx/icon/Tango/22/actions/view-refresh.png",
                   "${RESPATH}/qx/icon/Tango/22/actions/help-about.png",
                   "${RESPATH}/qx/icon/Tango/22/places/folder-open.png",
