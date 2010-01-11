@@ -232,20 +232,19 @@ qx.Class.define("playground.Application",
       if (state && this.__samples.isAvailable(name))
       {
         var sample = this.__samples.get(name);
-        this.__editor.setCode(sample);
-        this.run();
-
+        var code = sample;
       // if there is a state given
       } else if (state != "") {
         var name = this.tr("Custom Code");
-        this.__editor.setCode(this.__parseURLCode(state));
-        this.run();
+        var code = this.__parseURLCode(state);
       // if no state is given
       } else {
         var name = this.__samples.getNames()[0];
-        this.__editor.setCode(this.__samples.get(name));
-        this.run();
+        var code = this.__samples.get(name);
       }
+      
+      this.__editor.setCode(code);
+      this.run();
 
       // update the history
       qx.event.Timer.once(function() {
@@ -404,7 +403,7 @@ qx.Class.define("playground.Application",
       var name = this.__samples.getCurrentName();
       var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
-      if (code != currentSample) {
+      if (code && code != currentSample) {
         this.__playArea.updateCaption(this.tr("%1 (modified)", name));
         this.__addCodeToHistory(code);
       } else {
