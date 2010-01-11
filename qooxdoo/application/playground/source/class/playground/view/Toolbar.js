@@ -82,6 +82,16 @@ qx.Class.define("playground.view.Toolbar",
       this.fireDataEvent("changeLog", e.getData(), e.getOldData());
     }, this);
 
+    // url shortening button
+    var urlShortButton = new qx.ui.toolbar.Button(
+      this.tr("Shorten URL"), "icon/22/actions/bookmark-new.png"
+    );
+    part2.add(urlShortButton);
+    urlShortButton.setToolTipText(this.tr("Use tinyurl to shorten the url."));
+    urlShortButton.addListener("execute", function() {
+      this.fireEvent("shortenUrl");
+    }, this);
+
     // api button
     var apiButton = new qx.ui.toolbar.Button(
       this.tr("API Viewer"), "icon/22/actions/help-contents.png"
@@ -126,6 +136,11 @@ qx.Class.define("playground.view.Toolbar",
      */
     "changeLog" : "qx.event.type.Data",
     
+    /**
+     * Event which will indicate a url shortening action.
+     */
+    "shortenUrl" : "qx.event.type.Event",
+
     /**
      * Event which will be fired to open the api.
      */

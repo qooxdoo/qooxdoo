@@ -37,6 +37,31 @@ qx.Class.define("playground.Application",
 
   /*
    *****************************************************************************
+      STATICS
+   *****************************************************************************
+  */
+  statics :
+  {
+    /**
+     * Global handler for the url shortening JSONP call.
+     *
+     * @lint ignoreDeprecated(alert)
+     * @lint ignoreDeprecated(prompt)
+     */
+    handleShortendURl : function(data)
+    {
+      if (data.results) {
+        var shorturl = data.results[qx.lang.Object.getKeys(data.results)[0]].shortUrl;
+        prompt("URL", shorturl);
+      } else {
+        alert(data.errorMessage);
+      }
+    }
+  },
+
+
+  /*
+   *****************************************************************************
       MEMBERS
    *****************************************************************************
   */
@@ -51,6 +76,9 @@ qx.Class.define("playground.Application",
     
     // storage for all samples
     __samples : null,
+
+    // API-Key for bit.ly
+    __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
 
     __history : null,
     
@@ -95,6 +123,7 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("changeSample", this.__onSampleChange, this);
       this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
+      this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
 
@@ -190,6 +219,20 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Handler for the url shortening service.
+     */
+    __onUrlShorten : function() {
+      var url = "http://api.bit.ly/shorten?version=2.0.1" + 
+        "&login=qooxdoo" + 
+        "&longUrl=" + escape(window.location.href) + 
+        "&apiKey=" + this.__bitlyKey + 
+        "&callback=playground.Application.handleShortendURl";
+      var loader = new qx.io.ScriptLoader();
+      loader.load(url);
+    },
+
+
     /**
      * Handler for opening the api viewer.
      */
