@@ -136,8 +136,7 @@ qx.Class.define("playground.Application",
     },
 
 
-    finalize: function()
-    {
+    finalize: function() {
       // Back button and bookmark support
       this.__initBookmarkSupport();      
     },
@@ -151,7 +150,8 @@ qx.Class.define("playground.Application",
      */
     __onSampleChange : function(e) {
       var userCode = this.__editor.getCode();
-      if (escape(userCode) != escape(this.__samples.getCurrent()).replace(/%0D/g, ""))
+      var currentSample = this.__samples.getCurrent();
+      if (userCode != currentSample)
       {
         if (!confirm(this.tr("You changed the code of the current sample.|" + 
           "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
@@ -167,13 +167,16 @@ qx.Class.define("playground.Application",
       this.run();
     },
     
+    
     __onHighlightChange : function(e) {
       this.__editor.useHighlight(e.getData());
     },
 
+
     __onLogChange : function(e) {
       e.getData() ? this.__log.show() : this.__log.exclude();
     },
+    
     
     __onApiOpen : function() {
       window.open(
@@ -182,6 +185,7 @@ qx.Class.define("playground.Application",
         "/apiviewer/"
       );
     },
+    
     
     __onManualOpen : function() {
       var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
@@ -199,6 +203,7 @@ qx.Class.define("playground.Application",
     __initBookmarkSupport : function()
     {
       this.__history = qx.bom.History.getInstance();
+      this.__history.addListener("request", this.__onHistoryChanged, this);
 
       // Handle bookmarks
       var state = this.__history.getState();
@@ -210,39 +215,21 @@ qx.Class.define("playground.Application",
       {
         var sample = this.__samples.get(name);
         this.__editor.setCode(sample);
-        this.updatePlayground();
-        this.__playArea.updateCaption(name);
+        this.run();
 
       // if there is a state given
-      } 
-      else if (state != "")
-      {
+      } else if (state != "") {
         var name = this.tr("Custom Code");
-        
-        try {
-          var data = qx.util.Json.parse(state);
-          var code = decodeURIComponent(data.code).replace(/%0D/g, "");
-          this.__editor.setCode(code);
-          this.run();
-        } catch (e) {
-          var name = this.tr("Unreadable Custom Code");
-          var errorMessage = "Unable to read the URL parameter.";
-          if (qx.bom.client.Engine.MSHTML) {
-            errorMessage += this.tr(" Your browser has a length restriction of the " + 
-                            "URL parameter which could have caused the problem.");
-          }
-          alert(errorMessage);
-        }
-      }
-      else
-      {
+        this.__editor.setCode(this.__parseURLCode(state));
+        this.run();
+      // if no state is given
+      } else {
         var name = this.__samples.getNames()[0];
         this.__editor.setCode(this.__samples.get(name));
         this.run();
       }
 
-      this.__history.addListener("request", this.__onHistoryChanged, this);
-
+      // update the history
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state, this.__updateTitle(name));
         this.__playArea.updateCaption(name);
@@ -257,23 +244,33 @@ qx.Class.define("playground.Application",
       if (this.__samples.isAvailable(state))
       {
         this.__editor.setCode(this.__samples.get(state));
+        this.run();
 
-        this.updatePlayground();
-
-        var newName = state;
-        this.__playArea.updateCaption(newName);
-
-        // update state on sample change
-        this.__history.addToHistory(state, this.__updateTitle(newName));
       } else if (state != "") {
-        var data = qx.util.Json.parse(state);
-        var code = decodeURIComponent(data.code).replace(/%0D/g, "");
+        var code = this.__parseURLCode(state);
         if (code != this.__editor.getCode()) {
           this.__editor.setCode(code);
           this.run();
         }
       }
-    }, 
+    },
+    
+    
+    __parseURLCode : function(state) 
+    {
+      try {
+        var data = qx.util.Json.parse(state);
+        return decodeURIComponent(data.code).replace(/%0D/g, "");        
+      } catch (e) {
+        var error = "// Could not handle URL parameter! \n// " + e;
+        
+        if (qx.bom.client.Engine.MSHTML) {
+          error += this.tr("// Your browser has a length restriction of the " + 
+                          "URL parameter which could have caused the problem.");
+        }
+        return error;
+      }
+    },
     
     
     /**
@@ -309,36 +306,9 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Checks, whether the code is changed. If yes, the application name is
-     * renamed
-     */
-    __updateCaption : function()
-    {
-      var compareElem1 = document.getElementById("compare_div1");
-      compareElem1.innerHTML = this.__samples.getCurrent();
-
-      var compareElem2 = document.getElementById("compare_div2");
-      compareElem2.innerHTML = this.__editor.getCode();
-
-      var name = this.__samples.getCurrentName();
-
-      if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
-          compareElem1.innerHTML != compareElem2.innerHTML) ||
-          compareElem1.innerHTML.length != compareElem2.innerHTML.length)
-      {
-        this.__playArea.updateCaption(this.tr("%1 (modified)", name));
-      }
-      else {
-        this.__playArea.updateCaption(name);
-        this.__history.addToHistory(this.__samples.getCurrentName(), this.__updateTitle(name));
-      }
-    },
-
-
-    /**
      * Updates the playground.
      */
-    updatePlayground : function()
+    __updatePlayground : function()
     {
       this.__log.clear();
       this.__playArea.reset();
@@ -396,16 +366,19 @@ qx.Class.define("playground.Application",
     
     run : function()
     {
-      this.updatePlayground();
+      this.__updatePlayground();
 
-      if (this.__samples.getCurrent() != "") {
-        this.__updateCaption();
-      }
-      // get the currently set code
+      var name = this.__samples.getCurrentName();
+      var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
-
-      if (escape(code) != escape(this.__samples.getCurrent()).replace(/%0D/g, "")) {
+      if (code != currentSample) {
+        this.__playArea.updateCaption(this.tr("%1 (modified)", name));
         this.__addCodeToHistory(code);
+      } else {
+        this.__playArea.updateCaption(name);
+        this.__history.addToHistory(
+          this.__samples.getCurrentName(), this.__updateTitle(name)
+        );
       }
     },    
 
