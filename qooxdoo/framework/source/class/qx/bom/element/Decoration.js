@@ -127,6 +127,15 @@ qx.Class.define("qx.bom.element.Decoration",
       // Apply new styles
       var Style = qx.bom.element.Style;
       Style.setStyles(element, ret.style);
+
+      // we need to apply the filter to prevent black rendering artifacts
+      // http://blog.hackedbrain.com/archive/2007/05/21/6110.aspx
+      if (this.__enableAlphaFix)
+      {
+        try {
+          element.filters["DXImageTransform.Microsoft.AlphaImageLoader"].apply();
+        } catch(e) {}
+      }
     },
 
 
