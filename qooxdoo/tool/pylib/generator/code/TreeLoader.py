@@ -1,8 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#
+################################################################################
+
 import sys
 
 from ecmascript.frontend import tokenizer, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from misc import filetool, util
+from generator.code import Class
 
 class TreeLoader(object):
     def __init__(self, classes, cache, console):
@@ -11,24 +33,15 @@ class TreeLoader(object):
         self._console = console
 
 
-    def getTree(self, fileId, variants=None):
+    def getTree(self, fileId, variants={}):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
-
-        if variants:
-            cacheId = "tree-%s-%s" % (filePath, util.toString(variants))
-        else:
-            cacheId = "tree-%s" % filePath
-
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
-        tree = self._cache.read(cacheId, filePath, memory=tradeSpaceForSpeed)
-        if tree != None:
-            return tree
+        unoptCacheId  = "tree-%s-%s" % (filePath, util.toString({}))
 
         # Lookup for unoptimized tree
-        if variants != None:
-            tree = self._cache.read("tree-%s" % fileId, filePath, memory=tradeSpaceForSpeed)
+        tree = self._cache.read(unoptCacheId, filePath, memory=tradeSpaceForSpeed)
 
         # Tree still undefined?, create it!
         if tree == None:
@@ -44,17 +57,28 @@ class TreeLoader(object):
             tree = treegenerator.createSyntaxTree(tokens)  # allow exceptions to propagate
 
             # store unoptimized tree
-            self._cache.write("tree-%s" % fileId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
+            #print "Caching %s" % unoptCacheId
+            self._cache.write(unoptCacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
 
             self._console.outdent()
 
-        # Call variant optimizer
-        if variants != None:
+        classVariants    = []
+        Class.getClassVariantsFromTree(tree, classVariants, self._console)
+        relevantVariants = Class.projectClassVariantsToCurrent(classVariants, variants)
+
+        cacheId       = "tree-%s-%s" % (filePath, util.toString(relevantVariants))
+        if cacheId == unoptCacheId:
+            return tree
+
+        opttree = self._cache.read(cacheId, filePath, memory=tradeSpaceForSpeed)
+        if not opttree:
+            opttree = tree
             self._console.debug("Selecting variants: %s..." % fileId)
             self._console.indent()
-            variantoptimizer.search(tree, variants, fileId)
+            variantoptimizer.search(opttree, variants, fileId)
             self._console.outdent()
             # store optimized tree
-            self._cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
+            #print "Caching %s" % cacheId
+            self._cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
-        return tree
+        return opttree
