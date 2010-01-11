@@ -414,8 +414,10 @@ qx.Class.define("playground.Application",
      */
     __executeStandaloneApp : function(name)
     {
+      var self = this;
       qx.application.Standalone.prototype._createRootWidget = function() {
-        return playground.Application.__PLAYROOT; };
+        return self.__playArea.getApp().getRoot(); 
+      };
 
       var app = new qx.Class.$$registry[name];
 
