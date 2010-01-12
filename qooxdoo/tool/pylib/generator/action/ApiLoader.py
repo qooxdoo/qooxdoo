@@ -29,17 +29,15 @@ from ecmascript.frontend import tree
 
 
 class ApiLoader(object):
-    def __init__(self, classes, docs, cache, console, treeutil):
-        self._classes = classes
+    def __init__(self, classesObj, docs, cache, console, ):
+        self._classesObj = classesObj
         self._docs = docs
         self._cache = cache
         self._console = console
-        self._treeLoader = treeutil
 
 
     def getApi(self, fileId):
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
+        filePath = self._classesObj[fileId].path
 
         cacheId = "api-%s" % filePath
         data = self._cache.read(cacheId, filePath)
@@ -49,7 +47,8 @@ class ApiLoader(object):
         self._console.debug("Extracting API data: %s..." % fileId)
 
         self._console.indent()
-        tree = self._treeLoader.getTree(fileId)
+        #tree = self._treeLoader.getTree(fileId)
+        tree = self._classesObj[fileId].tree()
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
         
@@ -95,7 +94,7 @@ class ApiLoader(object):
             # Only continue merging if there were no errors
             if not hasErrors:
                 self._mergeApiNodes(docTree, fileApi)
-                pkgId = self._classes[fileId]["package"]
+                pkgId = self._classesObj[fileId].package
                 # make sure all parent packages are included
                 nsparts = pkgId.split('.')
                 for i in range(len(nsparts)+1):
