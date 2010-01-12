@@ -57,6 +57,13 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       this.flush();
     },
 
+    testResetSelectionAllowEmpty : function()
+    {
+      this._mode = "single";
+      this._widget.getChildrenContainer().setSelectionMode(this._mode);
+      this.testResetSelection();
+    },
+
     _getChildren : function()
     {
       if (this._widget != null) {

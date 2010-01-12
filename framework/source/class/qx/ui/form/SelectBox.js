@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      *    <code>false</code> otherwise.
      */
     _isAllowEmptySelection: function() {
-      return !this.getChildrenContainer().getSelectionMode() === "one";
+      return this.getChildrenContainer().getSelectionMode() !== "one";
     },
 
     /**
@@ -173,7 +173,11 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       var list = this.getChildControl("list");
       if (list.getSelection()[0] != listItem) {
-        list.setSelection([listItem]);
+        if(listItem) {
+          list.setSelection([listItem]);
+        } else {
+          list.resetSelection();
+        }
       }
 
       this.__updateIcon();
