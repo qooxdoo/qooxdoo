@@ -193,7 +193,6 @@ if __name__ == '__main__':
            (hasattr(options, "stacktrace") and options.stacktrace)):  # or when 'stacktrace' is enabled
             raise
         else:
-            raise
             if str(e): # there's something to print
                 print >> sys.stderr, e
             else:

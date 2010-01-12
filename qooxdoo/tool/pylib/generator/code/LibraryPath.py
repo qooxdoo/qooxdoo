@@ -123,7 +123,7 @@ class LibraryPath(object):
             full = os.path.join(path, entry)
             if os.path.isdir(full):
                 if ns != None:
-                    raise ValueError("Multi namespaces per library are not supported!")
+                    raise ValueError("Multiple namespaces per library are not supported (%s,%s)" % (full, ns))
 
                 ns = entry
 
