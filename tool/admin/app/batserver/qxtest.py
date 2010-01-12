@@ -45,7 +45,8 @@ class QxTest:
       'seleniumVersion'     : 'current',
       'seleniumJar'         : 'selenium-server.jar',
       'seleniumHost'        : 'http://localhost:4444',
-      'ieSingleWindow'      : True
+      'ieSingleWindow'      : True,
+      'trustAllSSLCertificates' : False 
     }
     
     defaultTestConf = {
@@ -169,7 +170,7 @@ class QxTest:
   # fails the script is ended.
   #
   # @param single {bool} Start the server with the -singleWindow option 
-  def startSeleniumServer(self, single=False, version=None):
+  def startSeleniumServer(self, single=False, version=None, trustAllCerts=False):
     seleniumVersion = version or self.seleniumConf["seleniumVersion"]
     cmd = self.testConf["javaBin"]
     cmd += " -jar " + self.seleniumConf["seleniumDir"] + "/" 
@@ -192,6 +193,8 @@ class QxTest:
         cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
       if single:
         cmd += " -singlewindow"
+      if trustAllCerts:
+        cmd += " -trustAllSSLCertificates"
       selserv = subprocess.Popen(cmd, shell=True)
     
       # wait a while for the server to start up
@@ -662,6 +665,11 @@ class QxTest:
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
         single = True
       
+      # Use trustAllSSLCertificates option?
+      trustAllCerts = False
+      if self.seleniumConf['trustAllSSLCertificates']:
+        trustAllCerts = True
+      
       seleniumVersion = self.seleniumConf["seleniumVersion"]
       if 'seleniumVersion' in appConf:
         seleniumVersion = appConf["seleniumVersion"]
@@ -676,7 +684,7 @@ class QxTest:
       if individual:
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
-        self.startSeleniumServer(single, seleniumVersion)
+        self.startSeleniumServer(single, seleniumVersion, trustAllCerts)
       
       options = False
       if "options" in browser:
