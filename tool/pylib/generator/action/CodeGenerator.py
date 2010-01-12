@@ -203,7 +203,7 @@ class CodeGenerator(object):
         return
 
 
-    def runSource(self, script, libs, classes):
+    def runSource(self, script, libs, classes, classesObj):
 
         def mapCompileConfig(oldConf):
             newConf = ExtMap({})

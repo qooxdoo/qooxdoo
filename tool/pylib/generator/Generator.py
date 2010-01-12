@@ -30,6 +30,7 @@ from ecmascript.transform.optimizer  import variableoptimizer
 from ecmascript.transform.optimizer  import privateoptimizer
 #from ecmascript.transform.optimizer import protectedoptimizer
 from misc.ExtMap                     import ExtMap
+from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeLoader       import TreeLoader
@@ -57,6 +58,7 @@ class Generator(object):
     def __init__(self, context):
         global console, interruptRegistry
         interruptRegistry = context['interruptRegistry']
+        self._context   = context
         self._config    = context['config']  #config
         self._job       = context['jobconf'] #config.getJob(job)
         self._console   = context['console'] #console_
@@ -70,6 +72,7 @@ class Generator(object):
             cache_path  = self._job.get("cache/compile", "cache")
             cache_path  = self._config.absPath(cache_path)
             self._cache = Cache(cache_path, context)
+            context['cache'] = self._cache
 
         console = self._console
 
@@ -181,16 +184,6 @@ class Generator(object):
 
 
         def scanLibrary(library):
-            self._console.info("Scanning libraries...")
-            self._console.indent()
-
-            _namespaces = []
-            _classes = {}
-            _docs = {}
-            _translations = {}
-            _libs = {}
-            if not isinstance(library, types.ListType):
-                return (_namespaces, _classes, _docs, _translations, _libs)
 
             def getJobsLib(path):
                 lib = None
@@ -221,6 +214,20 @@ class Generator(object):
                 ytime = sorted(youngFiles.keys())[-1]
                 return (youngFiles[ytime], ytime)
 
+            # - Main -----------------------------------------------------------
+
+            self._console.info("Scanning libraries...")
+            self._console.indent()
+
+            _namespaces = []
+            _classes = {}
+            _classesObj = {}
+            _docs = {}
+            _translations = {}
+            _libs = {}
+            if not isinstance(library, types.ListType):
+                return (_namespaces, _classes, _docs, _translations, _libs)
+
             for lib in library:
                 key  = lib["path"]
 
@@ -245,6 +252,12 @@ class Generator(object):
                 classes = path.getClasses()
                 _classes.update(classes)
 
+                for key,entry in classes.items():
+                    clazz = Class(key, entry["path"], lib, self._context)
+                    clazz.encoding = entry["encoding"]
+                    clazz.size     = entry["size"]
+                    _classesObj[key] = clazz
+
                 _docs.update(path.getDocs())
                 _translations[namespace] = path.getTranslations()
                 _libs[namespace] = lib
@@ -253,7 +266,7 @@ class Generator(object):
             self._console.debug("Loaded %s libraries" % len(_namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _docs, _translations, _libs)
+            return (_namespaces, _classes, _classesObj, _docs, _translations, _libs)
 
 
 
@@ -438,8 +451,6 @@ class Generator(object):
         job    = self._job
         require = config.get("require", {})
         use     = config.get("use", {})
-        context = {'config': self._config, 'jobconf': self._job, 'console': self._console, 'cache': self._cache}
-        self._context = context
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
@@ -497,14 +508,19 @@ class Generator(object):
         # scanning given library paths
         (self._namespaces,
          self._classes,
+         self._classesObj,
          self._docs,
          self._translations,
          self._libs)         = scanLibrary(config.get("library"))
 
+        # Python2.6 only:
+        #print len(self._classesObj), len(self._classesObj) * sys.getsizeof(Class("a","b",{}))
+        #print len(self._classes), len(self._classes) * sys.getsizeof(self._classes["qx.Class"])
+
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._locale         = Locale(self._context, self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use, context)
+        self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
         self._resourceHandler= ResourceHandler(self)
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
@@ -544,7 +560,7 @@ class Generator(object):
         # -- Process job triggers that require the full tool chain
 
         # Create tool chain instances
-        self._treeCompiler   = TreeCompiler(self._classes, self._treeLoader, context)
+        self._treeCompiler   = TreeCompiler(self._classes, self._treeLoader, self._context)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # TODO: the next is a kludge to optimize compile behaviour
@@ -579,7 +595,7 @@ class Generator(object):
             )               = partsConfigFromClassList(excludeWithDeps, script)
 
             # Execute real tasks
-            self._codeGenerator.runSource  (script, self._libs, self._classes)
+            self._codeGenerator.runSource  (script, self._libs, self._classes, self._classesObj)
             self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             # debug tasks
@@ -1371,7 +1387,8 @@ class Generator(object):
         lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
-            self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classes[classId]['path']))
+            #self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classes[classId]['path']))
+            self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classesObj[classId].path))
 
         self._console.outdent()
 
