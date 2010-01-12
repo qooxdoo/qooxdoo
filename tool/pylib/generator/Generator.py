@@ -256,6 +256,7 @@ class Generator(object):
                     clazz = Class(key, entry["path"], lib, self._context)
                     clazz.encoding = entry["encoding"]
                     clazz.size     = entry["size"]
+                    clazz.package  = entry["package"]
                     _classesObj[key] = clazz
 
                 _docs.update(path.getDocs())
@@ -519,7 +520,7 @@ class Generator(object):
 
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-        self._locale         = Locale(self._context, self._classes, self._translations, self._cache, self._console, self._treeLoader)
+        self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
         self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
         self._resourceHandler= ResourceHandler(self)
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
@@ -560,7 +561,7 @@ class Generator(object):
         # -- Process job triggers that require the full tool chain
 
         # Create tool chain instances
-        self._treeCompiler   = TreeCompiler(self._classes, self._treeLoader, self._context)
+        self._treeCompiler   = TreeCompiler(self._classes, self._classesObj, self._context)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # TODO: the next is a kludge to optimize compile behaviour
@@ -625,7 +626,7 @@ class Generator(object):
 
         apiPath = self._config.absPath(apiPath)
 
-        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
+        self._apiLoader      = ApiLoader(self._classesObj, self._docs, self._cache, self._console, )
 
         self._apiLoader.storeApi(classList, apiPath)
         

@@ -51,13 +51,13 @@ polib.POFile.getIdIndex = pofileGetIdIndex
 polib.POFile.indexFind  = pofileIndexFind
 
 class Locale(object):
-    def __init__(self, context, classes, translation, cache, console, treeLoader):
+    def __init__(self, context, classes, classesObj, translation, cache, console):
         self._context = context
         self._classes = classes
+        self._classesObj = classesObj
         self._translation = translation
         self._cache = cache
         self._console = console
-        self._treeLoader = treeLoader
 
 
 
@@ -111,7 +111,7 @@ class Locale(object):
 
 
 
-    def getPotFile(self, content, variants=None):
+    def getPotFile(self, content, variants={}):
         pot = self.createPoFile()
         strings = self.getPackageStrings(content, variants)
 
@@ -433,7 +433,8 @@ class Locale(object):
         self._console.debug("Looking for translation strings: %s..." % fileId)
         self._console.indent()
 
-        tree = self._treeLoader.getTree(fileId, variants)
+        #tree = self._treeLoader.getTree(fileId, variants)
+        tree = self._classesObj[fileId].tree(variants)
 
         try:
             translation = self._findTranslationBlocks(tree, [])

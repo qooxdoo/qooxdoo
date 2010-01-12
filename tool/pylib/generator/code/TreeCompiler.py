@@ -29,13 +29,13 @@ from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer,
 from misc import util
 
 class TreeCompiler(object):
-    def __init__(self, classes, treeLoader, context):
+    def __init__(self, classes, classesObj, context):
         self._classes = classes
+        self._classesObj = classesObj
         self._context = context
         self._cache   = context.get('cache')
         self._console = context.get('console')
         self._jobconf = context.get('jobconf')
-        self._treeLoader = treeLoader
         self._optimize   = []
         #self._privatesCacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
         self._privatesCacheId = "privates"  # use a site-wide privates db
@@ -265,7 +265,8 @@ class TreeCompiler(object):
         if compiled != None:
             return compiled
 
-        tree = self._treeLoader.getTree(fileId, variants)
+        #tree = self._treeLoader.getTree(fileId, variants)
+        tree = self._classesObj[fileId].tree(variants)
 
         if len(optimize) > 0:
             # Protect original before optimizing
