@@ -203,6 +203,9 @@ qx.Class.define("qx.ui.form.AbstractField",
   {
     __nullValue : true,
     __placeholder : null,
+    __oldValue : null,
+    __oldInputValue : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -481,15 +484,29 @@ qx.Class.define("qx.ui.form.AbstractField",
       // fire the events, if necessary
       if (fireEvents)
       {
-        this.fireDataEvent("input", value);
+        // store the old input value 
+        this.fireDataEvent("input", value, this.__oldInputValue);
+        this.__oldInputValue = value;
+
         // check for the live change event
-        if (this.getLiveUpdate())
-        {
-          this.fireNonBubblingEvent(
-            "changeValue", qx.event.type.Data, [value]
-          );
+        if (this.getLiveUpdate()) {
+          this.__fireChangeValueEvent(value);
         }
       }
+    },
+
+
+    /**
+     * Handles the firing of the changeValue event including the local cache 
+     * for sending the old value in the event.
+     * 
+     * @param value {String} The new value.
+     */
+    __fireChangeValueEvent : function(value) {
+      this.fireNonBubblingEvent(
+        "changeValue", qx.event.type.Data, [value, this.__oldValue]
+      );
+      this.__oldValue = value;
     },
 
 
@@ -530,9 +547,8 @@ qx.Class.define("qx.ui.form.AbstractField",
           var oldValue = elem.getValue();
           elem.setValue(value);
           var data = this.__nullValue ? null : value;
-          this.fireNonBubblingEvent(
-            "changeValue", qx.event.type.Data, [data, oldValue]
-          );
+          this.__oldValue = oldValue;
+          this.__fireChangeValueEvent(data);
         }
         this._showPlaceholder();
         return value;
@@ -568,7 +584,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _onChangeContent : function(e)
     {
       this.__nullValue = e.getData() === null;
-      this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
+      this.__fireChangeValueEvent(e.getData());
     },
 
 
