@@ -64,13 +64,12 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBA
 
 class DependencyLoader(object):
 
-    def __init__(self, classes, cache, console, treeLoader, require, use, context):
-        self._classes = classes
-        self._cache = cache
+    def __init__(self, classesObj, cache, console, require, use, context):
+        self._classesObj = classesObj
+        self._cache   = cache
         self._console = console
         self._context = context
         self._jobconf = context.get('jobconf', ExtMap())
-        self._treeLoader = treeLoader
         self._require = require
         self._use = use
         self._defaultIgnore = self._nameSpacePatts(self._jobconf) # adding name spaces; this is first step into #2904
@@ -192,7 +191,7 @@ class DependencyLoader(object):
 
         if len(includeWithDeps) == 0:
             self._console.info("Including all known classes")
-            result = self._classes.keys()
+            result = self._classesObj.keys()
 
             # In this case the block works like an explicit exclude
             # because all classes are included like an explicit include.
@@ -271,7 +270,8 @@ class DependencyLoader(object):
             runtimeDeps  = []
             undefDeps    = []
 
-            tree = self._treeLoader.getTree(fileId, variants)
+            #tree = self._treeLoader.getTree(fileId, variants)
+            tree = self._classesObj[fileId].tree(variants)
             self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
 
             ## this should be for *source* version only!
@@ -344,11 +344,12 @@ class DependencyLoader(object):
 
         # -- Main ---------------------------------------------------------
 
-        if not self._classes.has_key(fileId):
+        if fileId not in self._classesObj:
             raise NameError("Could not find class to fulfill dependency: %s" % fileId)
 
-        filePath         = self._classes[fileId]["path"]
-        classVariants    = Class.getClassVariants(fileId, filePath, self._treeLoader, self._cache, self._console)
+        clazz            = self._classesObj[fileId]
+        filePath         = clazz.path
+        classVariants    = clazz.classVariants()
         #classVariants    = variants.keys()  # a do-nothing alternative
         relevantVariants = Class.projectClassVariantsToCurrent(classVariants, variants)
         cacheId = "deps-%s-%s" % (filePath, util.toString(relevantVariants))
@@ -377,7 +378,7 @@ class DependencyLoader(object):
         # check whether classId can be considered a known class
         if classId in lang.BUILTIN + ["clazz"]:
             return True
-        elif classId in self._classes:
+        elif classId in self._classesObj:
             return True
         elif re.match(r'this\b', classId):
             return True
@@ -452,10 +453,10 @@ class DependencyLoader(object):
     def _splitQxClass(self, assembled):
         # this supersedes reduceAssembled(), improving the return value
         className = classAttribute = ''
-        if assembled in self._classes:
+        if assembled in self._classesObj:
             className = assembled
         elif "." in assembled:
-            for entryId in self._classes:
+            for entryId in self._classesObj:
                 if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                     if len(entryId) > len(className): # take the longest match
                         className      = entryId
@@ -557,10 +558,10 @@ class DependencyLoader(object):
         def reduceAssembled(assembled, node):
             # try to deduce a qooxdoo class from <assembled>
             assembledId = ''
-            if assembled in self._classes:
+            if assembled in self._classesObj:
                 assembledId = assembled
             elif "." in assembled:
-                for entryId in self._classes:
+                for entryId in self._classesObj:
                     if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                         if len(entryId) > len(assembledId): # take the longest match
                             assembledId = entryId
@@ -569,7 +570,7 @@ class DependencyLoader(object):
         def reduceAssembled1(assembled, node):
             def tryKnownClasses(assembled):
                 result = ''
-                for entryId in self._classes.keys() + ["this"]:
+                for entryId in self._classesObj.keys() + ["this"]:
                     if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                         if len(entryId) > len(assembledId): # take the longest match
                             result = entryId
@@ -588,7 +589,7 @@ class DependencyLoader(object):
                     result = assembled[:assembled.rindex('.')] # drop the method name after last '.'
                 return result
 
-            if assembled in self._classes:
+            if assembled in self._classesObj:
                 assembledId = assembled
             elif "." in assembled:
                 assembledId = tryKnownClasses(assembled)
@@ -635,7 +636,7 @@ class DependencyLoader(object):
 
         def followCallDeps(assembledId):
             if (assembledId and
-                assembledId in self._classes and       # we have a class id
+                assembledId in self._classesObj and       # we have a class id
                 assembledId != fileId and
                 self._jobconf.get("dependencies/follow-static-initializers", False) and
                 node.hasParentContext("call/operand")  # it's a method call
@@ -753,7 +754,7 @@ class DependencyLoader(object):
             fileId = "qx.Class"
 
         # get the class code
-        tree = self._treeLoader.getTree(fileId, variants)
+        tree = self._classesObj[fileId].tree( variants)
 
         # find the method node
         funcNode   = findMethod(tree, methodName)
@@ -819,10 +820,10 @@ class DependencyLoader(object):
             # handle .call() ?!
             if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
                 return True, True
-            elif clazzId not in self._classes: # can't further process non-qooxdoo classes
+            elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
                 return None, None
 
-            tree = self._treeLoader.getTree(clazzId, variants)
+            tree = self._classesObj[clazzId].tree( variants)
             clazz = treeutil.findQxDefine(tree)
             classAttribs = treeutil.getClassMap(clazz)
             keyval = classHasOwnMethod(classAttribs, methodId)
@@ -868,10 +869,10 @@ class DependencyLoader(object):
 
         def reduceAssembled(assembled, node):
             assembledId = ''
-            if assembled in self._classes:
+            if assembled in self._classesObj:
                 assembledId = assembled
             elif "." in assembled:
-                for entryId in self._classes.keys() + ["this"]:
+                for entryId in self._classesObj.keys() + ["this"]:
                     if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                         if len(entryId) > len(assembledId): # take the longest match
                             assembledId = entryId
@@ -938,7 +939,7 @@ class DependencyLoader(object):
             self._console.indent()
 
             # Check cache
-            filePath= self._classes[classId]["path"]
+            filePath= self._classesObj[classId].path
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
             ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if ndeps != None:
@@ -989,7 +990,7 @@ class DependencyLoader(object):
                         continue
                     else:
                         ndeps.add((clazzId, methId))
-                        assert clazzId in self._classes
+                        assert clazzId in self._classesObj
                         r = getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
                         ndeps.update(r)
 
@@ -1162,8 +1163,8 @@ class DependencyLoader(object):
 
         # ----------------------------------------------------------
 
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
+        fileEntry = self._classesObj[fileId]
+        filePath = fileEntry.path
         cacheId = "meta-%s" % filePath
 
         meta = self._cache.readmulti(cacheId, filePath)
@@ -1174,7 +1175,7 @@ class DependencyLoader(object):
 
         self._console.indent()
 
-        content = filetool.read(filePath, fileEntry["encoding"])
+        content = filetool.read(filePath, fileEntry.encoding)
 
         meta["loadtimeDeps"] = _extractLoadtimeDeps(content, fileId)
         meta["runtimeDeps"]  = _extractRuntimeDeps(content, fileId)
