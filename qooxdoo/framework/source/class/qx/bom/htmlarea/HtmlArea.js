@@ -2291,8 +2291,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * to receive the keypress events correctly.
      *
      * @param e {qx.event.type.Mouse} mouse event instance
-     * @return {void}
+     * 
      * @signature function(e)
+     * @return {void}
      */
     _handleMouseUpOnDocument : qx.core.Variant.select("qx.client", {
       "mshtml" : function(e) {},
@@ -2805,65 +2806,41 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       if (this._processingExamineCursorContext || this.getEditable() == false) {
         return;
       }
-
       this._processingExamineCursorContext = true;
-      var doc = this._getIframeDocument();
 
-
-      /*
-        ----------
-        focus node
-        ----------
-      */
       var focusNode = this.getFocusNode();
+      if (focusNode == null) {
+        return;
+      }
 
       if (qx.dom.Node.isText(focusNode)) {
         focusNode = focusNode.parentNode;
       }
 
+      var doc = this._getIframeDocument();
       var focusNodeStyle = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNode.currentStyle : doc.defaultView.getComputedStyle(focusNode, null);
 
-      /*
-       * BOLD
-       */
       var isBold = qx.core.Variant.isSet("qx.client", "mshtml|opera") ? focusNodeStyle.fontWeight == 700 :
                                                                         focusNodeStyle.getPropertyValue("font-weight") == "bold" ||
                                                                         qx.dom.Node.isNodeName(focusNode, "b");
 
-      /*
-       * ITALIC
-       */
       var isItalic = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontStyle == "italic" :
                                                                     focusNodeStyle.getPropertyValue("font-style") == "italic";
 
-      /*
-       * UNDERLINE
-       */
       var isUnderline = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textDecoration.indexOf("underline") !== -1 :
                                                                        focusNodeStyle.getPropertyValue("text-decoration").indexOf("underline") !== -1;
 
-      /*
-       * STRIKETHROUGH
-       */
       var isStrikeThrough = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textDecoration.indexOf("line-through") !== -1 :
                                                                            focusNodeStyle.getPropertyValue("text-decoration").indexOf("line-through") !== -1;
 
-      /*
-       * FONT SIZE
-       */
       var fontSize = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontSize : focusNodeStyle.getPropertyValue("font-size");
       var computedFontSize = null;
 
-      /*
-       * FONT FAMILY
-       */
       var fontFamily = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontFamily : focusNodeStyle.getPropertyValue("font-family");
 
-      /*
-       * ORDERED/UNORDERED LIST
-       * Traverse the DOM to get the result, instead of using the CSS-Properties. In this case the CSS-Properties are not useful, e.g. Gecko always reports
-       * "disc" for "list-style-type" even if it is normal text. ("disc" is the initial value)
-       */
+
+      // Traverse the DOM to get the result, instead of using the CSS-Properties. In this case the CSS-Properties are not useful, e.g. Gecko always reports
+      // "disc" for "list-style-type" even if it is normal text. ("disc" is the initial value)
       var unorderedList = false;
       var orderedList   = false;
 
@@ -2871,7 +2848,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var node = focusNode;
 
       // only traverse the DOM upwards if were are not already within the body element or at the top of the document
-      // -> nodeType 9 = document node
       if (node != null && node.parentNode != null && !qx.dom.Node.isDocument(node.parentNode))
       {
         while (node != null && !qx.dom.Node.isNodeName(node, "body"))
@@ -2897,10 +2873,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
       }
 
-
-      /*
-       * JUSTIFY
-       */
       var justifyLeft   = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textAlign == "left" :
                                                                          focusNodeStyle.getPropertyValue("text-align") == "left";
 
@@ -2914,20 +2886,19 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                                                                          focusNodeStyle.getPropertyValue("text-align") == "justify";
 
 
-      // put together the data for the "cursorContext" data event
       var eventMap = {
-        bold                : isBold ? 1 : 0,
-        italic              : isItalic ? 1 : 0,
-        underline           : isUnderline ? 1 : 0,
-        strikethrough       : isStrikeThrough ? 1 : 0,
-        fontSize            : (computedFontSize == null) ? fontSize : computedFontSize,
-        fontFamily          : fontFamily,
+        bold : isBold ? 1 : 0,
+        italic : isItalic ? 1 : 0,
+        underline : isUnderline ? 1 : 0,
+        strikethrough : isStrikeThrough ? 1 : 0,
+        fontSize : (computedFontSize == null) ? fontSize : computedFontSize,
+        fontFamily : fontFamily,
         insertUnorderedList : unorderedList ? 1 : 0,
-        insertOrderedList   : orderedList ? 1 : 0,
-        justifyLeft         : justifyLeft ? 1 : 0,
-        justifyCenter       : justifyCenter ? 1 : 0,
-        justifyRight        : justifyRight ? 1 : 0,
-        justifyFull         : justifyFull ? 1 : 0
+        insertOrderedList : orderedList ? 1 : 0,
+        justifyLeft : justifyLeft ? 1 : 0,
+        justifyCenter : justifyCenter ? 1 : 0,
+        justifyRight : justifyRight ? 1 : 0,
+        justifyFull : justifyFull ? 1 : 0
       };
 
       this._processingExamineCursorContext = false;
@@ -3049,8 +3020,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Browser-specific implementation to get the current range contents
      *
      * @param range {Range object} Native range object
-     * @return {String} range contents
+     * 
      * @signature function(range)
+     * @return {String} range contents
      */
     __getRangeContents : qx.core.Variant.select("qx.client",
     {
@@ -3132,8 +3104,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         var focusNode = this.getFocusNode();
 
         // check if the caret is within a word
-        return sel && this.isSelectionCollapsed() && qx.dom.Node.isText(focusNode) &&
-               sel.anchorOffset < focusNode.length;
+        return sel && this.isSelectionCollapsed() && focusNode != null && 
+               qx.dom.Node.isText(focusNode) && sel.anchorOffset < focusNode.length;
       },
 
       "default" : function() {
@@ -3170,9 +3142,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     */
 
     /**
-     * returns the range of the current selection
+     * Returns the range of the current selection
      *
-     * @return {Range} Range object
+     * @return {Range?null} Range object or null
      */
     getRange : function() {
       return this.__createRange(this.getSelection());
@@ -3180,10 +3152,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * returns a range for the current selection
+     * Returns a range for the current selection
      *
      * @param sel {Selection} current selection object
-     * @return {Range} Range object
+     * 
+     * @signature function(sel)
+     * @return {Range?null} Range object or null if the document is not available
      */
     __createRange : qx.core.Variant.select("qx.client",
     {
@@ -3196,12 +3170,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           try {
             return sel.createRange();
           } catch(ex) {
-            return doc.body.createTextRange();
+            return doc ? doc.body.createTextRange() : null;
           }
-        }
-        else
-        {
-          return doc.body.createTextRange();
+        } else {
+          return doc ? doc.body.createTextRange() : null;
         }
        },
 
@@ -3214,12 +3186,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
            try {
              return sel.getRangeAt(0);
            } catch(ex) {
-             return doc.createRange();
+             return doc ? doc.createRange() : null;
            }
-         }
-         else
-         {
-           return doc.createRange();
+         } else {
+           return doc ? doc.createRange() : null;
          }
        }
     }),
@@ -3281,8 +3251,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       -----------------------------------------------------------------------------
     */
     /**
-      returns the node where the selection ends
-    */
+     * Returns the node where the selection ends
+     * 
+     * @signature function()
+     * @return {Element?null} Focus node or null if no range is available
+     */
     getFocusNode : qx.core.Variant.select("qx.client",
     {
        "mshtml" : function()
@@ -3294,22 +3267,33 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
          {
            case "Text":
            case "None":
-             /*
-              * It seems that even for selection of type "None",
-              * there _is_ a correct parent element
-              */
+             // It seems that even for selection of type "None",
+             // there _is_ a correct parent element
              rng = this.__createRange(sel);
-             rng.collapse(false);  /* collapse to end */
-             return rng.parentElement();
-
+             
+             if (rng)
+             {
+               rng.collapse(false);
+               return rng.parentElement();
+             } else {
+               return null;
+             }
+           break;
+           
            case "Control":
              rng = this.__createRange(sel);
 
-             try {
-               rng.collapse(false);  /* collapse to end */
-             } catch(ex) {}
+             if (rng)
+             {
+               try {
+                 rng.collapse(false);
+               } catch(ex) {}
 
-             return rng.item(0);
+               return rng.item(0);
+             } else {
+               return null;
+             }
+           break;
 
            default:
              return this._getIframeDocument().body;
@@ -3320,8 +3304,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
        {
          var sel = this.getSelection();
 
-         if (sel && sel.focusNode)
-         {
+         if (sel && sel.focusNode) {
            return sel.focusNode;
          }
 
