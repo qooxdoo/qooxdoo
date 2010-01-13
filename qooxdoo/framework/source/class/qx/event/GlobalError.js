@@ -95,8 +95,8 @@ qx.Bootstrap.define("qx.event.GlobalError",
           try {
             return method.apply(this, arguments);
           } catch(ex) {
-            self.handleError(ex);
-          }
+            self.handleError(new qx.core.GlobalError(ex, arguments));
+         }
         };
       }
       else
