@@ -52,7 +52,7 @@ sys.path.insert(0, os.path.join(
 from misc import json
 
 fJSON      = "./config.demo.json"
-demoDataFn = "demodata.js"
+demoDataFn = "demodata.json"
 demosSourcePath = "./source/class/demobrowser/demo"
 
 ##
@@ -300,11 +300,8 @@ def main(dest, scan):
 
     # Finalize
     dataCreator.send((None, None, None))    # finalize demodata.js
-    dataCreator.close()
     configCreator.send(None)  # finalize config.demo.json
-    configCreator.close()
     jsFileCopier.send(None)   # finalize file copying
-    jsFileCopier.close()
 
     return
 
