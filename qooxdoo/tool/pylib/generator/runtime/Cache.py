@@ -290,6 +290,9 @@ class Cache(object):
                 filetool.unlock(cacheFile)
                 self._locked_files.remove(cacheFile)  # not atomic with the previous one!
 
+                #if cacheId.startswith("tree-"):
+                #    print "caching: %s" % cacheId
+
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)
                 sys.exit(1)

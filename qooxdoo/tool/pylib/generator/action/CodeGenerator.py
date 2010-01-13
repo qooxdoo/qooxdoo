@@ -313,7 +313,7 @@ class CodeGenerator(object):
         return
 
 
-    def runPrettyPrinting(self, classes, treeLoader):
+    def runPrettyPrinting(self, classes, classesObj):
         "Gather all relevant config settings and pass them to the compiler"
 
         if not isinstance(self._job.get("pretty-print", False), types.DictType):
@@ -349,7 +349,8 @@ class CodeGenerator(object):
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
             self._console.progress(pos, numClasses)
-            tree = treeLoader.getTree(classId)
+            #tree = treeLoader.getTree(classId)
+            tree = classesObj[classId].tree()
             compiled = compiler.compile(tree, options)
             filetool.save(self._classes[classId]['path'], compiled)
 
@@ -481,6 +482,8 @@ class CodeGenerator(object):
         mapInfo['__out__'] = { 'sourceUri': out_sourceUri }
         globalCodes["Libinfo"]     = mapInfo
 
+        #import cProfile
+        #cProfile.runctx("mapInfo = self.generateResourceInfoCode(script, settings, libs, format)", globals(), locals(), "/home/thron7/tmp/generateResourceIC.profile")
         mapInfo = self.generateResourceInfoCode(script, settings, libs, format)
         globalCodes["Resources"]    = mapInfo
 
@@ -679,7 +682,7 @@ class CodeGenerator(object):
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
-        self._console.info("Analysing assets...")
+        self._console.info("Analyzing assets...")
         self._console.indent()
 
         self._imageInfo      = ImageInfo(self._console, self._cache)
