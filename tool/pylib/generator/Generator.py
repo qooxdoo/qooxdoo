@@ -255,8 +255,8 @@ class Generator(object):
                 for key,entry in classes.items():
                     clazz = Class(key, entry["path"], lib, self._context)
                     clazz.encoding = entry["encoding"]
-                    clazz.size     = entry["size"]
-                    clazz.package  = entry["package"]
+                    clazz.size     = entry["size"]     # dependency logging uses this
+                    clazz.package  = entry["package"]  # Apiloader uses this
                     _classesObj[key] = clazz
 
                 _docs.update(path.getDocs())
@@ -519,7 +519,7 @@ class Generator(object):
         #print len(self._classes), len(self._classes) * sys.getsizeof(self._classes["qx.Class"])
 
         # create tool chain instances
-        self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
+        #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
         self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
         self._resourceHandler= ResourceHandler(self)
@@ -548,7 +548,7 @@ class Generator(object):
                 elif trigger == "translate":
                     self.runUpdateTranslation()
                 elif trigger == "pretty-print":
-                    self._codeGenerator.runPrettyPrinting(classList, self._treeLoader)
+                    self._codeGenerator.runPrettyPrinting(classList, self._classesObj)
                 else:
                     pass
 
