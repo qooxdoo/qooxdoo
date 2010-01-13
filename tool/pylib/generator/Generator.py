@@ -528,11 +528,9 @@ class Generator(object):
         # Preprocess include/exclude lists
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
-        # Processing all combinations of variants
-        variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
-        variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
-        # get a class list with an initial variant set
-        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variantSets[0], verifyDeps=True)
+        # get a class list with no variants (all-encompassing)
+        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, {}, # was:variantSets[0]
+                                     verifyDeps=True)
         
         # process job triggers
         if classdepTriggers:
@@ -572,7 +570,9 @@ class Generator(object):
             optimize = config.get("compile-dist/code/optimize", []) or config.get("compile-options/code/optimize", [])
             self._treeCompiler.setOptimize(optimize)
 
-        # Iterate through variant sets
+        # Processing all combinations of variants
+        variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
+        variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         for variantSetNum, variants in enumerate(variantSets):
 
             # some console output

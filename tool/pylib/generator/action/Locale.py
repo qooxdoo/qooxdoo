@@ -26,6 +26,7 @@ from polib import polib
 from ecmascript.frontend import treeutil, tree
 from misc import cldr, util, filetool, util
 from generator.code.LibraryPath import LibraryPath
+from generator.code import Class
 
 ##
 # creates an up-to-date index of the msgid's in the POFile
@@ -422,7 +423,9 @@ class Locale(object):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = util.toString(variants)
+        classVariants     = self._classesObj[fileId].classVariants()
+        relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
+        variantsId        = util.toString(relevantVariants)
 
         cacheId = "translation-%s-%s" % (filePath, variantsId)
 

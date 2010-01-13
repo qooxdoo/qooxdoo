@@ -26,6 +26,7 @@ from ecmascript import compiler
 from ecmascript.frontend import treeutil
 from ecmascript.transform.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
 from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
+from generator.code import Class
 from misc import util
 
 class TreeCompiler(object):
@@ -248,16 +249,21 @@ class TreeCompiler(object):
         cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
         return cmd
 
+
     def checkCache(self, fileId, variants, optimize, format=False):
         filePath = self._classes[fileId]["path"]
 
-        variantsId = util.toString(variants)
+        classVariants     = self._classesObj[fileId].classVariants()
+        relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
+        variantsId = util.toString(relevantVariants)
+
         optimizeId = self.generateOptimizeId(optimize)
 
         cacheId = "compiled-%s-%s-%s-%s" % (filePath, variantsId, optimizeId, format)
         compiled = self._cache.read(cacheId, filePath)
 
         return cacheId, compiled
+
 
     def getCompiled(self, fileId, variants, optimize, format=False):
 
