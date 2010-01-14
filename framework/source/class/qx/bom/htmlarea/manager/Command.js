@@ -911,7 +911,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        "mshtml" : function(attributes, commandObject)
        {
-         var result;
+         var result = false;
 
          // Put together the HTML for the image
          var img = "<img ";
@@ -931,13 +931,13 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          // DO NOT allow pasteHTML at control selections (like selected images)
          if (sel && sel.type != "Control")
          {
-           currRange.select();
-           currRange.pasteHTML(img);
-
-           result = true;
-         }
-         else {
-           result = false;
+           try
+           {
+             currRange.select();
+             currRange.pasteHTML(img);
+  
+             result = true;
+           } catch (e) {}
          }
 
          this.__editorInstance.resetSavedRange();
