@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.core.Blocker",
         blocker.include();
         blocker.activate();
 
-        qx.event.Registration.addListener(window, "focus", this.__activateBlockerElement, this);
+        blocker.addListener("deactivate", this.__activateBlockerElement, this);
         blocker.addListener("keypress", this.__stopTabEvent, this);
         blocker.addListener("keydown", this.__stopTabEvent, this);
         blocker.addListener("keyup", this.__stopTabEvent, this);
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.core.Blocker",
       this._restoreActiveWidget();
 
       var blocker = this.getBlockerElement();
-      qx.event.Registration.removeListener(window, "focus", this.__activateBlockerElement, this);
+      blocker.removeListener("deactivate", this.__activateBlockerElement, this);
       blocker.removeListener("keypress", this.__stopTabEvent, this);
       blocker.removeListener("keydown", this.__stopTabEvent, this);
       blocker.removeListener("keyup", this.__stopTabEvent, this);
