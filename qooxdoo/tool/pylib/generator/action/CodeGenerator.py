@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import os, sys, string, types, re, zlib
+import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
 import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
@@ -36,9 +36,9 @@ console = None
 
 class CodeGenerator(object):
 
-    def __init__(self, cache, console_, config, job, settings, locale, resourceHandler, classes):
-        global console
-        self._cache   = cache
+    def __init__(self, cache_, console_, config, job, settings, locale, resourceHandler, classes):
+        global console, cache
+        self._cache   = cache_
         self._console = console_
         self._config  = config
         self._job     = job
@@ -48,6 +48,7 @@ class CodeGenerator(object):
         self._classes = classes
 
         console = console_
+        cache   = cache_
 
 
 
@@ -689,6 +690,12 @@ class CodeGenerator(object):
 
         resourceFilter, classToResourceMap= self._resourceHandler.getResourceFilterByAssets(self._classList)
 
+        # read img cache file
+        cacheId = "imginfo-%s" % self._config._fname
+        imgLookupTable = cache.read(cacheId, None)
+        if imgLookupTable == None:
+            imgLookupTable = {}
+
         for lib in libs:
             #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
@@ -705,7 +712,14 @@ class CodeGenerator(object):
                     imgpath= resource
                     #imguri = resource[1]
                     imguri = resource
-                    imageInfo = self._imageInfo.getImageInfo(imgpath, assetId)
+
+                    # cache or generate
+                    if (imgpath in imgLookupTable and
+                        imgLookupTable[imgpath]["time"] > os.stat(imgpath).st_mtime):
+                        imageInfo = imgLookupTable[imgpath]["content"]
+                    else:
+                        imageInfo = self._imageInfo.getImageInfo(imgpath, assetId)
+                        imgLookupTable[imgpath] = {"time": time.time(), "content": imageInfo}
 
                     # use an ImgInfoFmt object, to abstract from flat format
                     imgfmt = ImgInfoFmt()
@@ -744,6 +758,9 @@ class CodeGenerator(object):
 
 
         # wpbasti: Image data is not part relevant yet.
+
+        # write img cache file
+        cache.write(cacheId, imgLookupTable)
 
         self._console.outdent()
 
