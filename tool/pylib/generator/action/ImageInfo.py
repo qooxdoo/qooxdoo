@@ -54,12 +54,11 @@ class ImageInfo(object):
 
         cacheId = "img-%s" % fileName
 
-        imgInfo = self._cache.readmulti(cacheId, fileName)
-        if imgInfo != None:
-            return imgInfo
+        #imgInfo = self._cache.readmulti(cacheId, fileName)
+        #if imgInfo != None:
+        #    return imgInfo
         
         self._console.debug("Analysing image: %s" % img)
-        #mo = self.imgpatt.search(img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
             #result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
@@ -67,7 +66,7 @@ class ImageInfo(object):
         else:
             result = {}
 
-        self._cache.writemulti(cacheId, result)
+        #self._cache.writemulti(cacheId, result)
 
         return result
 
