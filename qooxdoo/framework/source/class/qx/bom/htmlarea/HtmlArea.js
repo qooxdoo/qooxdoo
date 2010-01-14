@@ -3334,7 +3334,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
   {
     try
     {
-      /* TODO: complete disposing */
       var doc = this._getIframeDocument();
       var Registration = qx.event.Registration;
 
@@ -3357,6 +3356,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     this.__handleFocusEvent = this.__handleBlurEvent = this.__handleFocusOutEvent = null;
     this.handleMouseUpOnBody = this.__handleMouseUpOnDocument = this.__documentSkeletonParts = null;
-    this.__iframe = this.__widget = null;
+    this.__iframe = this.__widget = this.__stackCommandManager = null;
   }
 });
