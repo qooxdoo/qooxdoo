@@ -2818,37 +2818,78 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
 
       var doc = this._getIframeDocument();
-      var focusNodeStyle = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNode.currentStyle : doc.defaultView.getComputedStyle(focusNode, null);
+      var focusNodeStyle = qx.core.Variant.isSet("qx.client", "mshtml") ? 
+                           focusNode.currentStyle : 
+                           doc.defaultView.getComputedStyle(focusNode, null);
 
-      var isBold = qx.core.Variant.isSet("qx.client", "mshtml|opera") ? focusNodeStyle.fontWeight == 700 :
-                                                                        focusNodeStyle.getPropertyValue("font-weight") == "bold" ||
-                                                                        qx.dom.Node.isNodeName(focusNode, "b");
-
-      var isItalic = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontStyle == "italic" :
-                                                                    focusNodeStyle.getPropertyValue("font-style") == "italic";
-
-      var isUnderline = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textDecoration.indexOf("underline") !== -1 :
-                                                                       focusNodeStyle.getPropertyValue("text-decoration").indexOf("underline") !== -1;
-
-      var isStrikeThrough = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textDecoration.indexOf("line-through") !== -1 :
-                                                                           focusNodeStyle.getPropertyValue("text-decoration").indexOf("line-through") !== -1;
-
-      var fontSize = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontSize : focusNodeStyle.getPropertyValue("font-size");
-      var computedFontSize = null;
-
-      var fontFamily = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.fontFamily : focusNodeStyle.getPropertyValue("font-family");
-
-
-      // Traverse the DOM to get the result, instead of using the CSS-Properties. In this case the CSS-Properties are not useful, e.g. Gecko always reports
-      // "disc" for "list-style-type" even if it is normal text. ("disc" is the initial value)
+      var isBold = false;
+      var isItalic = false;
+      var isUnderline = false;
+      var isStrikeThrough = false;
+      
       var unorderedList = false;
-      var orderedList   = false;
+      var orderedList = false;
+      
+      var justifyLeft = false;
+      var justifyCenter = false;
+      var justifyRight = false;
+      var justifyFull = false;
+      
+      var fontSize = null;
+      var computedFontSize = null;
+      var fontFamily = null;
 
-      // traverse the DOM upwards to determine if the focusNode is inside an ordered/unordered list
+      if (focusNodeStyle != null)
+      {
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          isItalic = focusNodeStyle.fontStyle == "italic";
+          isUnderline = focusNodeStyle.textDecoration.indexOf("underline") !== -1;
+          isStrikeThrough = focusNodeStyle.textDecoration.indexOf("line-through") !== -1;
+          
+          fontSize = focusNodeStyle.fontSize;
+          fontFamily = focusNodeStyle.fontFamily;
+          
+          justifyLeft = focusNodeStyle.textAlign == "left";
+          justifyCenter = focusNodeStyle.textAlign == "center";
+          justifyRight = focusNodeStyle.textAlign == "right";
+          justifyFull = focusNodeStyle.textAlign == "justify";
+        }
+        else
+        {
+          isItalic = focusNodeStyle.getPropertyValue("font-style") == "italic";
+          isUnderline = focusNodeStyle.getPropertyValue("text-decoration").indexOf("underline") !== -1;
+          isStrikeThrough = focusNodeStyle.getPropertyValue("text-decoration").indexOf("line-through") !== -1;
+          
+          fontSize = focusNodeStyle.getPropertyValue("font-size");
+          fontFamily = focusNodeStyle.getPropertyValue("font-family");
+          
+          justifyLeft = focusNodeStyle.getPropertyValue("text-align") == "left";
+          justifyCenter = focusNodeStyle.getPropertyValue("text-align") == "center";
+          justifyRight = focusNodeStyle.getPropertyValue("text-align") == "right";
+          justifyFull = focusNodeStyle.getPropertyValue("text-align") == "justify";
+        }
+        
+        if (qx.core.Variant.isSet("qx.client", "mshtml|opera")) {
+          isBold = focusNodeStyle.fontWeight == 700;
+        } else {
+          isBold = focusNodeStyle.getPropertyValue("font-weight") == "bold" ||
+                   qx.dom.Node.isNodeName(focusNode, "b");
+        }
+      }
+
+      // Traverse the DOM to get the result, instead of using the CSS-Properties. 
+      // In this case the CSS-Properties are not useful, e.g. Gecko always reports
+      // "disc" for "list-style-type" even if it is normal text. ("disc" is the 
+      // initial value)
+      // Traverse the DOM upwards to determine if the focusNode is inside an 
+      // ordered/unordered list
       var node = focusNode;
 
-      // only traverse the DOM upwards if were are not already within the body element or at the top of the document
-      if (node != null && node.parentNode != null && !qx.dom.Node.isDocument(node.parentNode))
+      // only traverse the DOM upwards if were are not already within the body 
+      // element or at the top of the document
+      if (node != null && node.parentNode != null && 
+          !qx.dom.Node.isDocument(node.parentNode))
       {
         while (node != null && !qx.dom.Node.isNodeName(node, "body"))
         {
@@ -2866,25 +2907,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           }
 
           if (computedFontSize == null || computedFontSize == "") {
-            computedFontSize = this._getAttribute(node, 'size');
+            computedFontSize = qx.bom.element.Attribute.get(node, 'size');
           }
 
           node = node.parentNode;
         }
       }
-
-      var justifyLeft   = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textAlign == "left" :
-                                                                         focusNodeStyle.getPropertyValue("text-align") == "left";
-
-      var justifyCenter = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textAlign == "center" :
-                                                                         focusNodeStyle.getPropertyValue("text-align") == "center";
-
-      var justifyRight  = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textAlign == "right" :
-                                                                         focusNodeStyle.getPropertyValue("text-align") == "right";
-
-      var justifyFull   = qx.core.Variant.isSet("qx.client", "mshtml") ? focusNodeStyle.textAlign == "justify" :
-                                                                         focusNodeStyle.getPropertyValue("text-align") == "justify";
-
 
       var eventMap = {
         bold : isBold ? 1 : 0,
@@ -2906,32 +2934,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       return eventMap;
     },
 
-
-    /**
-     * returns the attribute value of a given element
-     *
-     * @param element {Object}
-     * @param attribute {String}
-     * @return {String}
-     */
-    _getAttribute : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(element, attribute) {
-        try {
-          return element[attribute];
-        } catch (e) {
-          return null;
-        }
-      },
-
-      "default" : function(element, attribute) {
-        try {
-          return element.getAttribute(attribute);
-        } catch (e) {
-          return null;
-        }
-      }
-    }),
 
 
     /*
