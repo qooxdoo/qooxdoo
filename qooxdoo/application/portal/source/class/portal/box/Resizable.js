@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Alexander Back (aback)
+     * Alexander Steitz (aback)
      * David Werner (psycledw)
 
 ************************************************************************ */
@@ -364,7 +364,7 @@ qx.Class.define("portal.box.Resizable",
             // box element's margin and border in the outmost if condition.
             // DO NOT substract "paddingLeft" and "paddingRight" for IE
             // -> to workaround the different implementations of the "width" property
-            if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+            if (qx.core.Variant.isSet("qx.client", "mshtml|webkit")) {
               var maxLayoutAreaInnerWidth = groupBoxDimensions.width - boxUtil.getStyleProperty(groupBox.element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "borderRightWidth", true) - boxUtil.getStyleProperty(this.__element, "borderLeftWidth", true) - boxUtil.getStyleProperty(this.__element, "marginRight", true) - boxUtil.getStyleProperty(this.__element, "marginLeft", true);
             } else {
               var maxLayoutAreaInnerWidth = groupBoxDimensions.width - boxUtil.getStyleProperty(groupBox.element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "paddingLeft", true) - boxUtil.getStyleProperty(this.__element, "borderRightWidth", true) - boxUtil.getStyleProperty(this.__element, "borderLeftWidth", true) - boxUtil.getStyleProperty(this.__element, "marginRight", true) - boxUtil.getStyleProperty(this.__element, "marginLeft", true);
