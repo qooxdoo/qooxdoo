@@ -140,30 +140,33 @@ qx.Class.define("qx.bom.Json",
         this.__indent = '';
         this.__stack = [];
 
-        if (typeof space === 'number')
+        if (qx.lang.Type.isNumber(space))
         {
           // If the space parameter is a number, make an indent string containing that
           // many spaces.
+          var space = Math.min(10, Math.floor(space));
           for (var i = 0; i < space; i += 1) {
             this.__indent += ' ';
           }
         }
-        else if (typeof space === 'string')
+        else if (qx.lang.Type.isString(space))
         {
+          if (space.length > 10) {
+            space = space.slice(0, 10);
+          }
           // If the space parameter is a string, it will be used as the indent string.
           this.__indent = space;
         }
 
         // If there is a replacer, it must be a function or an array.
-        // Otherwise, throw an error.
-
-        this.__rep = replacer;
+        // Otherwise, ignore it.
         if (
           replacer &&
-          typeof replacer !== 'function' &&
-          (typeof replacer !== 'object' || typeof replacer.length !== 'number')
-         ) {
-           throw new Error('JSON.stringify');
+          (qx.lang.Type.isFunction(replacer) || qx.lang.Type.isArray(replacer))
+        ) {
+          this.__rep = replacer;
+        } else {
+          this.__rep = null;
         }
 
         // Make a fake root object containing our value under the key of ''.
@@ -225,7 +228,7 @@ qx.Class.define("qx.bom.Json",
           partial = [];
 
           if (this.__stack.indexOf(value) !== -1) {
-            throw new Error("Cannot stringify a recursive object.")
+            throw new TypeError("Cannot stringify a recursive object.")
           }
           this.__stack.push(value);
 
@@ -256,7 +259,7 @@ qx.Class.define("qx.bom.Json",
           partial = [];
 
           if (this.__stack.indexOf(value) !== -1) {
-            throw new Error("Cannot stringify a recursive object.")
+            throw new TypeError("Cannot stringify a recursive object.")
           }
           this.__stack.push(value);
 
