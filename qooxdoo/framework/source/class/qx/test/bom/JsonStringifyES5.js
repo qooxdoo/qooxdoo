@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2007-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,7 +14,16 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+   ________________________________________________________________________
 
+   This class contains code based on the following work:
+
+    ECMAScript 5 Conformance Suite
+    http://es5conform.codeplex.com/
+    
+    Copyright (c) 2009 Microsoft Corporation 
+    BSD licensed
+        
 ************************************************************************ */
 
 qx.Class.define("qx.test.bom.JsonStringifyES5",
@@ -383,7 +392,6 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       }
       
       this.fail();
-    },
-    
+    }
   }
 });
