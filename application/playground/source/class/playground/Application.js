@@ -74,8 +74,9 @@ qx.Class.define("playground.Application",
     __editor : null,
     __playArea : null,
     
-    // storage for all samples
+    // storages
     __samples : null,
+    __gistStore : null,
 
     // API-Key for bit.ly
     __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
@@ -113,8 +114,12 @@ qx.Class.define("playground.Application",
       // qooxdoo header
       mainContainer.add(new playground.view.Header(), { flex : 0 });
 
-      // toolbar
+      // data stuff
       this.__samples = new playground.Samples();
+      this.__gistStore = new playground.GistStore();
+      this.__gistStore.addListener("loaded", this.__onGistsLoaded, this);
+      
+      // toolbar
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
       mainContainer.add(this.__toolbar, { flex : 0 });
 
@@ -122,11 +127,15 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("run", this.run, this);
       this.__toolbar.addListener("changeSample", this.__onSampleChange, this);
       this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
+      this.__toolbar.addListener("changeGist", this.__onGistChange, this);
+      this.__toolbar.addListener("reloadGists", function(e) {
+        this.__gistStore.reload(e.getData());
+      }, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
-
+      
       // mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
@@ -195,6 +204,12 @@ qx.Class.define("playground.Application",
       var newSample = this.__samples.get(e.getData());
       this.__editor.setCode(newSample);
       // run the new sample
+      this.run();
+    },
+    
+    
+    __onGistChange : function(e) {
+      this.__editor.setCode(e.getData());
       this.run();
     },
     
@@ -332,7 +347,7 @@ qx.Class.define("playground.Application",
         var data = qx.util.Json.parse(state);
         return decodeURIComponent(data.code).replace(/%0D/g, "");        
       } catch (e) {
-        var error = "// Could not handle URL parameter! \n// " + e;
+        var error = this.tr("// Could not handle URL parameter! \n// %1", e);
         
         if (qx.bom.client.Engine.MSHTML) {
           error += this.tr("// Your browser has a length restriction of the " + 
@@ -362,6 +377,29 @@ qx.Class.define("playground.Application",
       this.__history.addToHistory(codeJson);      
     },
 
+
+    // ***************************************************
+    // GIST SUPPORT
+    // ***************************************************
+
+    __onGistsLoaded : function() {
+      var model = this.__gistStore.getModel();
+      var names = [];
+      var texts = [];
+      for (var i = 0; i < model.getLength(); i++) {
+        var item = model.getItem(i);
+        names.push(item.getDescription() || item.getRepo());
+        texts.push(item.getText());
+      };
+      this.__toolbar.updateGists(names, texts);
+      
+      if (this.__gistStore.getState() == "Error") {
+        this.__toolbar.invalidGistUser(true, this.tr("No such user found."));
+      } else {
+        this.__toolbar.invalidGistUser(false);        
+      }
+    },
+    
 
     // ***************************************************
     // UPDATE & RUN
