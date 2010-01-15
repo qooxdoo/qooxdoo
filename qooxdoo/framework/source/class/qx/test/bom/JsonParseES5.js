@@ -32,11 +32,19 @@ qx.Class.define("qx.test.bom.JsonParseES5",
 
   members :
   {   
+    setUp : function()
+    {
+      // we only test the internal JSON and not the buildin browser
+      // functionality
+      this.JSON = new qx.bom.JsonImpl();
+    },
+  
+    
     // 15.12.1.1-0-1
     "test: The JSON lexical grammer treats whitespace as a token seperator." : function()
     {
       try {
-        qx.bom.Json.parse('12\t\r\n 34'); // should produce a syntax error as whitespace results in two tokens
+        this.JSON.parse('12\t\r\n 34'); // should produce a syntax error as whitespace results in two tokens
       } catch (e) {
         this.assert(e instanceof SyntaxError);
         return;
@@ -78,7 +86,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
       for  (var i=0; i<strings.length; i++)
       {
         try {
-          qx.bom.Json.parse(strings[i]); // should produce a syntax error 
+          this.JSON.parse(strings[i]); // should produce a syntax error 
         }
         catch (e) {
           continue;
@@ -91,7 +99,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     // 15.12.1.1-0-9
     testWhiteSpaceBeforeAndAfterTokens : function()
     {
-      qx.bom.Json.parse('\t\r \n{\t\r \n'+
+      this.JSON.parse('\t\r \n{\t\r \n'+
           '"property"\t\r \n:\t\r \n{\t\r \n}\t\r \n,\t\r \n' +
           '"prop2"\t\r \n:\t\r \n'+
                '[\t\r \ntrue\t\r \n,\t\r \nnull\t\r \n,123.456\t\r \n]'+
@@ -112,10 +120,10 @@ qx.Class.define("qx.test.bom.JsonParseES5",
       for (var i=0; i<spaces.length; i++)
       {
         var space = spaces[i];
-        this.assertEquals(1234, qx.bom.Json.parse(space + "1234"));
+        this.assertEquals(1234, this.JSON.parse(space + "1234"));
         
         try {
-          qx.bom.Json.parse('12' + space + '34'); // should produce a syntax error as whitespace results in two tokens
+          this.JSON.parse('12' + space + '34'); // should produce a syntax error as whitespace results in two tokens
         } catch (e) {
           continue;
         }
@@ -126,7 +134,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     
     // 15.12.1.1-g2-1
     "test: JSONStrings can be written using double quotes." : function() {
-      this.assertEquals("abc", qx.bom.Json.parse('"abc"'));
+      this.assertEquals("abc", this.JSON.parse('"abc"'));
     },
     
     
@@ -134,7 +142,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     "test: A JSONString may not be delimited by single quotes." : function()
     {
       try {
-        qx.bom.Json.parse("'abc'");
+        this.JSON.parse("'abc'");
       } catch (e) {
         return;
       }
@@ -146,7 +154,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     "SKIP_test: A JSONString may not be delimited by Unicode escaped quotes." : function()
     {
       try {
-        qx.bom.Json.parse("\u0022abc\u0022");
+        this.JSON.parse("\u0022abc\u0022");
       } catch (e) {
         return;
       }
@@ -158,7 +166,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     "test: A JSONString must both begin and end with double quotes." : function()
     {
       try {
-        qx.bom.Json.parse('"ab'+"c'")
+        this.JSON.parse('"ab'+"c'")
       } catch (e) {
         return;
       }
@@ -168,7 +176,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     
     // 15.12.1.1-g2-5
     "test: A JSONStrings can contain no JSONStringCharacters (Empty JSONStrings)." : function() {
-      this.assertEquals("", qx.bom.Json.parse('""'))
+      this.assertEquals("", this.JSON.parse('""'))
     },
     
     
@@ -184,9 +192,8 @@ qx.Class.define("qx.test.bom.JsonParseES5",
       
       for (var i=0; i<chars.length; i++)
       {
-        var char = chars[i];
         try {
-          qx.bom.Json.parse('"' + char + '"'); 
+          this.JSON.parse('"' + chars[i] + '"'); 
         } catch (e) {
           continue;
         }
@@ -197,7 +204,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     
     // 15.12.1.1-g5-1
     "test: The JSON lexical grammer allows Unicode escape sequences in a JSONString." : function() {
-      this.assertEquals("X", qx.bom.Json.parse('"\\u0058"'));
+      this.assertEquals("X", this.JSON.parse('"\\u0058"'));
     },
     
     
@@ -205,7 +212,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     "SKIP_test: A JSONStringCharacter UnicodeEscape may not have fewer than 4 hex characters." : function()
     {
       try {
-        qx.bom.Json.parse('"\\u005"')
+        this.JSON.parse('"\\u005"')
       } catch (e) {
         this.assertEquals("SyntaxError", e.name);
       }
@@ -217,7 +224,7 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     "SKIP_test: A JSONStringCharacter UnicodeEscape may not include any non hex characters." : function()
     {
       try {
-        qx.bom.Json.parse('"\\u0X50"')
+        this.JSON.parse('"\\u0X50"')
       } catch (e) {
         this.assertEquals("SyntaxError", e.name);
       }
@@ -227,23 +234,23 @@ qx.Class.define("qx.test.bom.JsonParseES5",
     
     // 15.12.1.1-g6-1
     "test: The JSON lexical grammer allows '/' as a JSONEscapeCharacter after '\\' in a JSONString." : function() {
-      this.assertEquals("/", qx.bom.Json.parse('"\\/"'));
+      this.assertEquals("/", this.JSON.parse('"\\/"'));
     },
 
     
     // 15.12.1.1-g6-2
     "test: The JSON lexical grammer allows '/' as a JSONEscapeCharacter after '\\' in a JSONString." : function() {
-      this.assertEquals("\\", qx.bom.Json.parse('"\\\\"'));
+      this.assertEquals("\\", this.JSON.parse('"\\\\"'));
     },
 
     
     // 15.12.1.1-g6-3 .. 15.12.1.1-g6-7
     "test: The JSON lexical grammer allows 'b', 'f', 'n', 'r' and 't' as a JSONEscapeCharacter after '\\' in a JSONString." : function() {
-      this.assertEquals("\b", qx.bom.Json.parse('"\\b"'));
-      this.assertEquals("\f", qx.bom.Json.parse('"\\f"'));
-      this.assertEquals("\n", qx.bom.Json.parse('"\\n"'));
-      this.assertEquals("\r", qx.bom.Json.parse('"\\r"'));
-      this.assertEquals("\t", qx.bom.Json.parse('"\\t"'));
-    },
+      this.assertEquals("\b", this.JSON.parse('"\\b"'));
+      this.assertEquals("\f", this.JSON.parse('"\\f"'));
+      this.assertEquals("\n", this.JSON.parse('"\\n"'));
+      this.assertEquals("\r", this.JSON.parse('"\\r"'));
+      this.assertEquals("\t", this.JSON.parse('"\\t"'));
+    }
   }
 });

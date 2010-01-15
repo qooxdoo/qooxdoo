@@ -22,10 +22,18 @@ qx.Class.define("qx.test.bom.Json",
   extend : qx.dev.unit.TestCase,
 
   members :
-  {   
+  {
+    setUp : function() 
+    {
+      // we only test the internal JSON and not the buildin browser
+      // functionality
+      this.JSON = new qx.bom.JsonImpl();
+    },
+    
+  
     testStringifyArray : function()
     {
-      var text = qx.bom.Json.stringify(['e', {pluribus: 'unum'}]);
+      var text = this.JSON.stringify(['e', {pluribus: 'unum'}]);
       this.assertEquals('["e",{"pluribus":"unum"}]', text);
     },
 
@@ -35,7 +43,7 @@ qx.Class.define("qx.test.bom.Json",
      */
     testFormattingString : function()
     {
-      var text = qx.bom.Json.stringify(['e', {pluribus: 'unum'}], null, '\t');
+      var text = this.JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
       this.assertEquals('[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]', text); //json2
       //this.assertEquals('["e",\n\t{\n\t\t"pluribus":"unum"\n\t}\n]', text); // ff3.5
     },
@@ -46,7 +54,7 @@ qx.Class.define("qx.test.bom.Json",
      */
     testFormattingNumber : function()
     {
-      var text = qx.bom.Json.stringify(['e', {pluribus: 'unum'}], null, 2);
+      var text = this.JSON.stringify(['e', {pluribus: 'unum'}], null, 2);
       this.assertEquals('[\n  "e",\n  {\n    "pluribus": "unum"\n  }\n]', text); //json2
       //this.assertEquals('["e",\n  {\n    "pluribus":"unum"\n  }\n]', text); // ff3.5
     },
@@ -61,7 +69,7 @@ qx.Class.define("qx.test.bom.Json",
         return this[key] instanceof Date ? 'Date(' + this[key].getTime() + ')' : value;
       };
 
-      var text = qx.bom.Json.stringify(json, replacer);
+      var text = this.JSON.stringify(json, replacer);
       this.assertEquals('["Date(0)","foo"]', text);
     },
 
@@ -69,14 +77,14 @@ qx.Class.define("qx.test.bom.Json",
     testReplacerWhiteList : function()
     {
       var list = ["name"];
-      var text = qx.bom.Json.stringify({name: "Peter", last: "Pan"}, list);
+      var text = this.JSON.stringify({name: "Peter", last: "Pan"}, list);
 
       this.assertEquals('{"name":"Peter"}', text);
     },
 
 
     testStringifyObject : function() {
-      this.assertEquals('{"test":123}', qx.bom.Json.stringify({ test : 123 }));
+      this.assertEquals('{"test":123}', this.JSON.stringify({ test : 123 }));
     },
 
 
@@ -85,7 +93,7 @@ qx.Class.define("qx.test.bom.Json",
       var data = {
         start: new Date(0)
       };
-      this.assertEquals('{"start":"1970-01-01T00:00:00.000Z"}', qx.bom.Json.stringify(data));
+      this.assertEquals('{"start":"1970-01-01T00:00:00.000Z"}', this.JSON.stringify(data));
     },
 
 
@@ -95,7 +103,7 @@ qx.Class.define("qx.test.bom.Json",
       start.toJSON = function(key) {
         return this.getTime();
       };
-      this.assertEquals('0', qx.bom.Json.stringify(start));
+      this.assertEquals('0', this.JSON.stringify(start));
     },
 
 
@@ -112,7 +120,7 @@ qx.Class.define("qx.test.bom.Json",
         self.assertEquals("", key);
         return "#" + key + "#";
       };
-      this.assertEquals('"##"', qx.bom.Json.stringify(custom));
+      this.assertEquals('"##"', this.JSON.stringify(custom));
     },
 
 
@@ -123,8 +131,8 @@ qx.Class.define("qx.test.bom.Json",
           return "#" + key + "#";
         }
       };
-      this.assertEquals('"##"', qx.bom.Json.stringify(custom));
-      this.assertEquals('{"juhu":"#juhu#"}', qx.bom.Json.stringify({ juhu : custom }));
+      this.assertEquals('"##"', this.JSON.stringify(custom));
+      this.assertEquals('{"juhu":"#juhu#"}', this.JSON.stringify({ juhu : custom }));
     },
 
 
@@ -134,14 +142,14 @@ qx.Class.define("qx.test.bom.Json",
       obj.foo = obj;
 
       this.assertException(function() {
-        var text = qx.bom.Json.stringify(obj);
+        var text = this.JSON.stringify(obj);
       });
 
       var obj = [];
       obj[0] = obj;
 
       this.assertException(function() {
-        var text = qx.bom.Json.stringify(obj);
+        var text = this.JSON.stringify(obj);
       });
     },
 
@@ -151,7 +159,7 @@ qx.Class.define("qx.test.bom.Json",
       var data = [1, "foo"];
       data.juhu = "kinners"; // must be ignored
 
-      this.assertEquals('[1,"foo"]', qx.bom.Json.stringify(data));
+      this.assertEquals('[1,"foo"]', this.JSON.stringify(data));
     },
 
 
@@ -161,13 +169,13 @@ qx.Class.define("qx.test.bom.Json",
         juhu: "kinners",
         foo: function() {}
       }
-      this.assertEquals('{"juhu":"kinners"}', qx.bom.Json.stringify(data));
+      this.assertEquals('{"juhu":"kinners"}', this.JSON.stringify(data));
     },
 
 
     testSimpleParse : function()
     {
-      var data = qx.bom.Json.parse('{"juhu":"kinners","age":23,"foo":[1,2,3]}');
+      var data = this.JSON.parse('{"juhu":"kinners","age":23,"foo":[1,2,3]}');
 
       // check keys
       this.assertEquals(
@@ -183,8 +191,8 @@ qx.Class.define("qx.test.bom.Json",
     
     
     testParseNumber : function() {
-      this.assertEquals(1234, qx.bom.Json.parse("1234"))
-      this.assertEquals(1234, qx.bom.Json.parse(" 1234"))
+      this.assertEquals(1234, this.JSON.parse("1234"))
+      this.assertEquals(1234, this.JSON.parse(" 1234"))
     }
   }
 });
