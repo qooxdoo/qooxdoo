@@ -38,7 +38,7 @@
  *
  * If the browser supports native JSON the browser implementation is used.
  */
-qx.Class.define("qx.bom.Json",
+qx.Class.define("qx.lang.Json",
 {
   statics :
   {
@@ -47,7 +47,7 @@ qx.Class.define("qx.bom.Json",
      *   this member points to <code>window.JSON</code>. Otherwise it points to
      *   the qooxdoo implementation {@link JsonImpl}. 
      */
-    JSON : qx.lang.Type.getClass(window.JSON) == "JSON" ? window.JSON : new qx.bom.JsonImpl(),
+    JSON : qx.lang.Type.getClass(window.JSON) == "JSON" ? window.JSON : new qx.lang.JsonImpl(),
   
     /**
      * This method produces a JSON text from a JavaScript value.
@@ -136,7 +136,7 @@ qx.Class.define("qx.bom.Json",
      * @return {String} The JSON string of the value
      */
     stringify : function(value, replacer, space) {
-      return qx.bom.Json.JSON.stringify(value, replacer, space);
+      return qx.lang.Json.JSON.stringify(value, replacer, space);
     },
 
 
@@ -190,7 +190,7 @@ qx.Class.define("qx.bom.Json",
      * @return {Object} The parsed JSON object
      */
     parse : function(text, reviver) {
-      return qx.bom.Json.JSON.parse(text, reviver);
+      return qx.lang.Json.JSON.parse(text, reviver);
     }
   }
 });

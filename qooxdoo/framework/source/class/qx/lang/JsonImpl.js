@@ -35,7 +35,7 @@
  * 
  * @internal
  */
-qx.Class.define("qx.bom.JsonImpl",
+qx.Class.define("qx.lang.JsonImpl",
 {
   extend : Object,
   
