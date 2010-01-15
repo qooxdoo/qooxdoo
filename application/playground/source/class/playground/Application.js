@@ -305,6 +305,13 @@ qx.Class.define("playground.Application",
       {
         var sample = this.__samples.get(name);
         var code = sample;
+
+      // check if a gist id is given
+      } else if (state.indexOf("gist=") == 0) {
+        var id = state.substring(5, state.lenght);
+        var name = this.tr("Showing gist %1", id);
+        this.__loadGist(id);
+
       // if there is a state given
       } else if (state != "") {
         var name = this.tr("Custom Code");
@@ -334,11 +341,17 @@ qx.Class.define("playground.Application",
     {
       var state = e.getData();
 
+      // is a sample name given
       if (this.__samples.isAvailable(state))
       {
         this.__editor.setCode(this.__samples.get(state));
         this.run();
 
+      // is a gist id given
+      } else if (state.indexOf("gist=") == 0) {
+        this.__loadGist(state.substring(5, state.lenght));
+
+      // is code given
       } else if (state != "") {
         var code = this.__parseURLCode(state);
         if (code != this.__editor.getCode()) {
@@ -416,7 +429,26 @@ qx.Class.define("playground.Application",
         this.__toolbar.invalidGist(false);        
       }
     },
-    
+
+
+    /**
+     * Responsible for loading and running the gist stored with the given id.
+     * @param id {String} The id of the gist to run.
+     */
+    __loadGist : function(id)
+    {
+      var url = "http://gist.github.com/" + id + ".txt";
+      var request = new qx.io.remote.Request(
+        url, "GET", "text/plain"
+      );
+      request.addListener("completed", function(e) {
+        var data = e.getContent();
+        this.__editor.setCode(data);
+        this.__updatePlayground();
+      }, this);
+      request.send();
+    },
+
 
     // ***************************************************
     // UPDATE & RUN
