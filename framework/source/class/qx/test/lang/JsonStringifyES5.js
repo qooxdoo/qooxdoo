@@ -26,7 +26,7 @@
         
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.JsonStringifyES5",
+qx.Class.define("qx.test.lang.JsonStringifyES5",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -35,7 +35,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
     setUp : function() {
       // we only test the internal JSON and not the buildin browser
       // functionality
-      this.JSON = new qx.bom.JsonImpl();
+      this.JSON = new qx.lang.JsonImpl();
     },
 
     // 15.12.3-11-1

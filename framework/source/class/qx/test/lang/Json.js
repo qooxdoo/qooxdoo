@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Json",
+qx.Class.define("qx.test.lang.Json",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -27,7 +27,7 @@ qx.Class.define("qx.test.bom.Json",
     {
       // we only test the internal JSON and not the buildin browser
       // functionality
-      this.JSON = new qx.bom.JsonImpl();
+      this.JSON = new qx.lang.JsonImpl();
     },
     
   
