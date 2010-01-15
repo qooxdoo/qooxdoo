@@ -101,7 +101,8 @@ qx.Class.define("portal.dragdrop.Manager",
         {
           this.__groupBoxInfos[groupBoxes[i].element.id] = {
             left  : qx.bom.element.Location.getLeft(groupBoxes[i].element),
-            right : qx.bom.element.Location.getLeft(groupBoxes[i].element) + qx.bom.element.Dimension.getWidth(groupBoxes[i].element)
+            right : qx.bom.element.Location.getLeft(groupBoxes[i].element) +
+                    qx.bom.element.Dimension.getWidth(groupBoxes[i].element)
           };
         }
       }
@@ -120,11 +121,8 @@ qx.Class.define("portal.dragdrop.Manager",
         this.__ghost = qx.bom.Element.create("div");
       }
 
-
-      // use the computedStyle rather than the "clientWidth" or "clientHeight"
-      // to ensure the padding is included for Firefox
-      var element   = this.getActiveBox().getElement();
-      var dimension = portal.box.Util.getComputedDimension(element);
+      var element = this.getActiveBox().getElement();
+      var dimension = qx.bom.element.Dimension.getContentSize(element);
 
       // get all elements of box
       this.__switchParent(element, this.__ghost);
@@ -132,33 +130,17 @@ qx.Class.define("portal.dragdrop.Manager",
       // style the ghost element
       qx.bom.element.Class.add(this.__ghost, qx.bom.element.Class.get(element));
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var top = qx.bom.element.Location.getTop(element, "margin") -
-                  parseInt(qx.bom.element.Style.get(element, "paddingTop")) -
-                  parseInt(qx.bom.element.Style.get(element, "borderTopWidth"));
-      }
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
-      {
-        var top = qx.bom.element.Location.getTop(element, "margin");
-      }
-      else
-      {
-        var top = qx.bom.element.Location.getTop(element);
-      }
-
       var css = "opacity:0.5;margin:0;position:absolute;" +
-                "top:" + top + "px;" +
+                "top:" + qx.bom.element.Location.getTop(element) + "px;" +
                 "left:" + qx.bom.element.Location.getLeft(element) + "px;" +
                 "width:" + dimension.width + "px;" +
                 "height:" + dimension.height + "px";
 
       qx.bom.element.Style.setCss(this.__ghost, css);
 
-      // set a new border for the box element - this element actually gets moved around
+      // set a new border for the box element - this element gets moved around
       qx.bom.element.Style.set(element, "border", "1px dashed red");
 
-      // insert the ghost element and bring it to the front
       qx.dom.Node.getBodyElement(element).appendChild(this.__ghost);
       portal.box.Util.bringToFront(this.__ghost);
     },
@@ -191,24 +173,8 @@ qx.Class.define("portal.dragdrop.Manager",
       // set session inactive
       this.setSessionActive(false);
 
-      var activeBox  = this.getActiveBox();
-      var element    = activeBox.getElement();
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var top        = qx.bom.element.Location.getTop(element, "margin") - parseInt(qx.bom.element.Style.get(element, "paddingTop")) - parseInt(qx.bom.element.Style.get(element, "paddingBottom"));
-        var left       = qx.bom.element.Location.getLeft(element, "margin") - parseInt(qx.bom.element.Style.get(element, "paddingLeft"));
-      }
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
-      {
-        var top        = qx.bom.element.Location.getTop(element, "margin");
-        var left       = qx.bom.element.Location.getLeft(element, "margin");
-      }
-      else
-      {
-        var top        = qx.bom.element.Location.getTop(element);
-        var left       = qx.bom.element.Location.getLeft(element);
-      }
+      var activeBox = this.getActiveBox();
+      var element = activeBox.getElement();
 
       // inform the box manager about the update
       portal.box.Manager.getInstance().updateGroupBoxMembers(activeBox.getGroupBoxId(), this.__currentGroupBox, activeBox);
@@ -220,10 +186,10 @@ qx.Class.define("portal.dragdrop.Manager",
       var animMove = new qx.fx.effect.core.Move(this.__ghost);
       animMove.set(
       {
-        x          : left,
-        y          : top,
-        mode       : "absolute",
-        duration   : 0.5,
+        x : qx.bom.element.Location.getLeft(element),
+        y : qx.bom.element.Location.getTop(element),
+        mode : "absolute",
+        duration : 0.5,
         transition : "spring"
       });
 
@@ -231,30 +197,20 @@ qx.Class.define("portal.dragdrop.Manager",
       animMove.start();
 
       // listener for animation end
-      var that = this;
       animMove.addListener("finish", function()
       {
-        // switch back
-        that.__switchParent(that.__ghost, element);
+        this.__switchParent(this.__ghost, element);
 
-        // reset the border
         qx.bom.element.Style.reset(element, "border");
 
-        // remove ghost
-        that.__ghost.parentNode.removeChild(that.__ghost);
+        this.__ghost.parentNode.removeChild(this.__ghost);
 
-        // check if the box is already the active one
-        if (activeBox.isActive())
-        {
-          // if active call the apply to be sure about the state
+        if (activeBox.isActive()) {
           activeBox._applyActive(true);
-        }
-        else
-        {
-          // otherwise call the manager to make box active
+        } else {
           portal.box.Manager.getInstance().setActiveBox(activeBox);
         }
-      });
+      }, this);
     },
 
 
@@ -267,42 +223,34 @@ qx.Class.define("portal.dragdrop.Manager",
      */
     onDragMove : function(top, left)
     {
-      // set the new left coord (if changed)
-      if (this.__positions.left != left)
-      {
+      if (this.__positions.left != left) {
         qx.bom.element.Style.set(this.__ghost, "left", left + "px");
       }
 
-      // set the new top coord (if changed)
-      if (this.__positions.top != top)
-      {
+      if (this.__positions.top != top) {
         qx.bom.element.Style.set(this.__ghost, "top", top + "px");
       }
 
       // get the element of the dragged box and cache top position and height
       var activeBoxElement = this.getActiveBox().getElement();
-      if (this.__activeBoxInfo.top == null)
-      {
+      if (this.__activeBoxInfo.top == null) {
         this.__activeBoxInfo.top = qx.bom.element.Location.getTop(activeBoxElement);
       }
 
-      if (this.__activeBoxInfo.height == null)
-      {
+      if (this.__activeBoxInfo.height == null) {
         this.__activeBoxInfo.height = qx.bom.element.Dimension.getHeight(activeBoxElement);
       }
 
       // if the mouse pointer is moved over the placeholder nothing has to be done
       if (this.__groupBoxChange == false  && top >= this.__activeBoxInfo.top &&
-          top <= (this.__activeBoxInfo.top + this.__activeBoxInfo.height))
-      {
+          top <= (this.__activeBoxInfo.top + this.__activeBoxInfo.height)) {
         return;
       }
 
 
       var nextBox;
-      /*
-       * Special case: box is dragged to a new groupBox
-       */
+
+      // Special case: box is dragged to a new groupBox
       if (this.__groupBoxChange)
       {
         // get the first element of the groupBox as start point
@@ -319,8 +267,7 @@ qx.Class.define("portal.dragdrop.Manager",
           nextBox = qx.dom.Hierarchy.getNextElementSibling(nextBox);
         }
       }
-      else
-      {
+      else {
         nextBox = activeBoxElement;
       }
 
@@ -333,8 +280,7 @@ qx.Class.define("portal.dragdrop.Manager",
         while(nextBox != null)
         {
           if (nextBox) {
-            if (this.__checkInsert(true, top, activeBoxElement, nextBox))
-            {
+            if (this.__checkInsert(true, top, activeBoxElement, nextBox)) {
               return;
             }
           }
@@ -349,8 +295,7 @@ qx.Class.define("portal.dragdrop.Manager",
         while(nextBox != null)
         {
           if (nextBox) {
-            if (this.__checkInsert(false, top, activeBoxElement, nextBox))
-            {
+            if (this.__checkInsert(false, top, activeBoxElement, nextBox)) {
               return;
             }
           }
@@ -375,19 +320,22 @@ qx.Class.define("portal.dragdrop.Manager",
      */
     __checkInsert : function(downwards, top, activeBoxElement, nextBox)
     {
-      var nextBoxTop    = qx.bom.element.Location.getTop(nextBox);
-      
+      var nextBoxTop = qx.bom.element.Location.getTop(nextBox);
+
       var nextBoxPaddingTop = parseInt(qx.bom.element.Style.get(nextBox, "paddingTop"));
       var nextBoxPaddingBottom = parseInt(qx.bom.element.Style.get(nextBox, "paddingBottom"));
       var nextBoxHeight = qx.bom.element.Dimension.getContentHeight(nextBox) +
                           nextBoxPaddingBottom + nextBoxPaddingTop;
-      
+
       var sibling;
 
-      if (downwards) {
-        if (top >= (nextBoxTop + (nextBoxHeight / 3))) {
+      if (downwards)
+      {
+        if (top >= (nextBoxTop + (nextBoxHeight / 3)))
+        {
           sibling = qx.dom.Hierarchy.getNextElementSibling(nextBox);
-          if (sibling != activeBoxElement || sibling == null) {
+          if (sibling != activeBoxElement || sibling == null)
+          {
             qx.dom.Element.insertAfter(activeBoxElement, nextBox);
 
             this.__activeBoxInfo.top = qx.bom.element.Location.getTop(activeBoxElement);
@@ -395,10 +343,13 @@ qx.Class.define("portal.dragdrop.Manager",
           return true;
         }
       }
-      else {
-        if (top <= (nextBoxTop + nextBoxHeight * 2 / 3)) {
+      else
+      {
+        if (top <= (nextBoxTop + nextBoxHeight * 2 / 3))
+        {
           sibling = qx.dom.Hierarchy.getPreviousElementSibling(nextBox);
-          if (sibling != activeBoxElement || sibling == null) {
+          if (sibling != activeBoxElement || sibling == null)
+          {
             qx.dom.Element.insertBefore(activeBoxElement, nextBox);
 
             this.__activeBoxInfo.top = qx.bom.element.Location.getTop(activeBoxElement);
@@ -421,8 +372,8 @@ qx.Class.define("portal.dragdrop.Manager",
     checkGroupBox : function(left)
     {
       // check at first the current groupBox
-      if (this.__groupBoxInfos[this.__currentGroupBox].left <= left && this.__groupBoxInfos[this.__currentGroupBox].right >= left)
-      {
+      if (this.__groupBoxInfos[this.__currentGroupBox].left <= left &&
+          this.__groupBoxInfos[this.__currentGroupBox].right >= left) {
         return;
       }
 
@@ -447,7 +398,7 @@ qx.Class.define("portal.dragdrop.Manager",
    * ******************************************************/
   destruct : function()
   {
-    this.__activeBoxInfo = this.__positions = this.__currentGroupBox =
-      this.__currentBoxElement = this.__ghost = this.__groupBoxInfos = null;
+    this.__activeBoxInfo = this.__positions = this.__currentGroupBox = null;
+    this.__currentBoxElement = this.__ghost = this.__groupBoxInfos = null;
   }
 });

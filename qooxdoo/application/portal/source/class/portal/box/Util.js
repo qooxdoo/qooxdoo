@@ -29,7 +29,6 @@ qx.Class.define("portal.box.Util",
     /** Default zIndex offset */
     __zIndexOffset : 1000,
 
-
     /**
      * Brings the given element to the front.
      *
@@ -38,10 +37,10 @@ qx.Class.define("portal.box.Util",
      */
     bringToFront : function(element)
     {
-      var zIndex = this.getStyleProperty(element, "zIndex");
+      var zIndex = qx.bom.element.Style.get(element, "zIndex");
       zIndex = zIndex == "auto" ? 0 : zIndex;
 
-      qx.bom.element.Style.set(element, "zIndex", zIndex + portal.box.Util.__zIndexOffset);
+      qx.bom.element.Style.set(element, "zIndex", zIndex + this.__zIndexOffset);
     },
 
 
@@ -53,45 +52,8 @@ qx.Class.define("portal.box.Util",
      */
     sendToBack : function(element)
     {
-      var zIndex = this.getStyleProperty(element, "zIndex");
-
-      qx.bom.element.Style.set(element, "zIndex", zIndex - portal.box.Util.__zIndexOffset);
-    },
-
-
-    /**
-     * Returns the value of the given CSS property of the element.
-     *
-     * @param element {Element} Element to check.
-     * @param property {String} CSS Property name
-     * @param asInteger {Boolean} Integer transformation
-     * @return {String | Integer} Property value
-     */
-    getStyleProperty : function(element, property, asInteger) {
-      var styleProperty = qx.bom.element.Style.get(element, property);
-
-      return asInteger ? parseInt(styleProperty) : styleProperty;
-    },
-
-
-    /**
-     * Returns the computed dimension of an element
-     *
-     * @param element {Node} DOM-Node to work on
-     * @return {Map} computed width and height of the given element as a map (keys: 'width' and 'height')
-     */
-    getComputedDimension : function(element)
-    {
-      var width  = portal.box.Util.getStyleProperty(element, "width", true);
-      var height = portal.box.Util.getStyleProperty(element, "height", true);
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        width = width == 0 ? element.offsetWidth : width;
-        height = height == 0 ? element.offsetHeight : height;
-      }
-
-      return { width : width, height : height };
+      var zIndex = qx.bom.element.Style.get(element, "zIndex");
+      qx.bom.element.Style.set(element, "zIndex", zIndex - this.__zIndexOffset);
     }
   }
 });

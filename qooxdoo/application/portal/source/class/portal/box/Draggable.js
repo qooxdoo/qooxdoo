@@ -66,8 +66,7 @@ qx.Class.define("portal.box.Draggable",
      *
      * @return {Element} Element node of the box
      */
-    getElement : function()
-    {
+    getElement : function() {
       return this.__element;
     },
 
@@ -108,7 +107,7 @@ qx.Class.define("portal.box.Draggable",
     __addListener : function()
     {
       qx.bom.Element.addListener(this.__handle, "mousedown", this.__onMouseDown, this);
-      qx.bom.Element.addListener(this.__handle, "mouseover", function(e){
+      qx.bom.Element.addListener(this.__handle, "mouseover", function(e) {
         qx.bom.element.Style.set(this, "cursor", "move");
       }, this.__handle);
 
@@ -127,25 +126,12 @@ qx.Class.define("portal.box.Draggable",
      */
     __onMouseDown : function(e)
     {
-      if (e.isLeftPressed()) {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (e.isLeftPressed())
+      {
+        this.__offsets =
         {
-          var top = qx.bom.element.Location.getTop(this.__element, "margin") -
-                    parseInt(qx.bom.element.Style.get(this.__element, "paddingTop")) -
-                    parseInt(qx.bom.element.Style.get(this.__element, "borderTopWidth"));
-        }
-        else if (qx.core.Variant.isSet("qx.client", "webkit"))
-        {
-          var top = qx.bom.element.Location.getTop(this.__element, "margin");
-        }
-        else
-        {
-          var top = qx.bom.element.Location.getTop(this.__element);
-        }
-
-        this.__offsets = {
           left : e.getDocumentLeft() - qx.bom.element.Location.getLeft(this.__element),
-          top  : e.getDocumentTop() - top
+          top  : e.getDocumentTop() - qx.bom.element.Location.getTop(this.__element)
         };
 
         // add "mouseup" event listener
@@ -163,7 +149,7 @@ qx.Class.define("portal.box.Draggable",
      * Call the mouseup listener method if the cursor leaves the viewport since
      * IE won't fire a mouseup event while the cursor is outside the viewport.
      *
-     * @return {void}
+     * @signature function()
      */
     __monitorMouseLeaveViewport : qx.core.Variant.select("qx.client",
     {
@@ -173,7 +159,7 @@ qx.Class.define("portal.box.Draggable",
         var bound = qx.lang.Function.bind(this.__onMouseUp, that);
         document.getElementsByTagName("html")[0].onmouseleave = bound;
       },
-      "default" : function() {}
+      "default" : qx.lang.Function.empty
     }),
 
 
@@ -193,12 +179,10 @@ qx.Class.define("portal.box.Draggable",
 
       if (portal.dragdrop.Manager.getInstance().isSessionActive())
       {
-        // remove "mousemove" listener
         qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
         portal.dragdrop.Manager.getInstance().stopSession();
       }
 
-      // remove "mouseup" event listener
       qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);
     },
 
