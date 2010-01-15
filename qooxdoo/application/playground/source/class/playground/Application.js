@@ -78,7 +78,6 @@ qx.Class.define("playground.Application",
     
     // storages
     __samples : null,
-    __gistStore : null,
 
     // API-Key for bit.ly
     __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
@@ -119,8 +118,9 @@ qx.Class.define("playground.Application",
       // data stuff
       this.__samples = new playground.Samples();
       var initUserName = qx.bom.Cookie.get("playgroundUser");
-      this.__gistStore = new playground.GistStore(initUserName);
-      this.__gistStore.addListener("loaded", this.__onGistsLoaded, this);
+      if (initUserName) {
+        this.__loadGistsForUser(initUserName);
+      }
       
       // toolbar
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
@@ -132,7 +132,7 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
       this.__toolbar.addListener("changeGist", this.__onGistChange, this);
       this.__toolbar.addListener("reloadGists", function(e) {
-        this.__gistStore.reload(e.getData());
+        this.__loadGistsForUser(e.getData());
       }, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
@@ -410,24 +410,50 @@ qx.Class.define("playground.Application",
     // ***************************************************
     /**
      * Handler for working with the new loaded gists.
+     * @param e {qx.event.type.Data} The loaded event of the store.
      */
-    __onGistsLoaded : function() {
-      var model = this.__gistStore.getModel();
+    __onGistsLoaded : function(e) {
+      var model = e.getData();
+      
+      // error handling
+      if (model == "FAIL!") {
+        this.__toolbar.invalidGist(true, this.tr("No such user found."));
+        this.__toolbar.updateGists([], []);
+        return;
+      } else {
+        this.__toolbar.invalidGist(false);        
+      }
+      
       var names = [];
       var texts = [];
       for (var i = 0; i < model.getLength(); i++) {
         var item = model.getItem(i);
-        names.push(item.getDescription() || item.getRepo());
-        texts.push(item.getText());
+        var desc = qx.lang.Type.isString(item.getDescription()) ? 
+          item.getDescription() : item.getRepo();
+        names.push(desc);
+        
+        texts.push(item.getContent ? item.getContent() : "");
       };
       this.__toolbar.updateGists(names, texts);
-      
-      // error handling
-      if (this.__gistStore.getState() == "failed") {
-        this.__toolbar.invalidGist(true, this.tr("No such user found."));
-      } else {
-        this.__toolbar.invalidGist(false);        
-      }
+    },
+    
+    
+    /**
+     * Load all gists viy YQL for the given username.
+     * @param username {String} The username to load the gists for.
+     */
+    __loadGistsForUser : function(username) 
+    {
+      var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.list.xml" AS gh; SELECT * FROM gh WHERE user="' + username + '"';
+      var delegate = {manipulateData : function(data) {
+        if (data.query.results) {
+          return data.query.results.gists.gist;
+        } else {
+          return "FAIL!";
+        }
+      }};
+      var store = new qx.data.store.Yql(query, delegate);
+      store.addListener("loaded", this.__onGistsLoaded, this);      
     },
 
 
