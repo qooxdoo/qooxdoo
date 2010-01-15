@@ -93,7 +93,10 @@ qx.Class.define("qx.test.lang.Json",
       var data = {
         start: new Date(0)
       };
-      this.assertEquals('{"start":"1970-01-01T00:00:00.000Z"}', this.JSON.stringify(data));
+      this.assertMatch(
+        this.JSON.stringify(data),
+        new RegExp('\{"start":"1970\-01\-01T00:00:00\(\.0*)?Z"\}')
+      );
     },
 
 
