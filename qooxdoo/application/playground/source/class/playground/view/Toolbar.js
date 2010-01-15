@@ -16,6 +16,13 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#asset(playground/images/*)
+
+************************************************************************ */
+
+
 /**
  * The playground toolbar containing all buttons and menus.
  */
@@ -65,6 +72,21 @@ qx.Class.define("playground.view.Toolbar",
     }, this);
     this.__highlightButton.setValue(true);
 
+    // gist button
+    var gistButton = new qx.ui.toolbar.MenuButton(
+      null, "playground/images/logo_gist.png"
+    );
+    part1.add(gistButton);
+    gistButton.setToolTipText(this.tr("gist support"));
+    this.__gistMenu = new playground.view.gist.GistMenu();
+    gistButton.setMenu(this.__gistMenu);
+    this.__gistMenu.addListener("changeGist", function(e) {
+      this.fireDataEvent("changeGist", e.getData());
+    }, this);
+    this.__gistMenu.addListener("reload", function(e) {
+      this.fireDataEvent("reloadGists", e.getData());
+    }, this);
+
     // spacer
     this.addSpacer();
 
@@ -113,6 +135,7 @@ qx.Class.define("playground.view.Toolbar",
     }, this);
   },
 
+
   events : 
   {
     /**
@@ -149,7 +172,12 @@ qx.Class.define("playground.view.Toolbar",
     /**
      * Event which will be fired to open the manual.
      */
-    "openManual" : "qx.event.type.Event"
+    "openManual" : "qx.event.type.Event",
+    
+    
+    
+    "changeGist" : "qx.event.type.Data",
+    "reloadGists" : "qx.event.type.Data"
   },
 
 
@@ -157,7 +185,7 @@ qx.Class.define("playground.view.Toolbar",
   {
     __highlightButton : null,
     __logCheckButton : null,
-    
+    __gistMenu : null,
     
     /**
      * Controlls the presed state of the log button.
@@ -203,7 +231,16 @@ qx.Class.define("playground.view.Toolbar",
       }
 
       return menu;
-    }  
+    },
+    
+    
+    updateGists: function(names, texts) {
+      this.__gistMenu.updateGists(names, texts);
+    },
+    
+    invalidGistUser : function(invalid, message) {
+      this.__gistMenu.invalidUser(invalid, message);
+    }
   },
 
 
