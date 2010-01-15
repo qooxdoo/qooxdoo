@@ -56,7 +56,9 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__items.push(this.__emptyItem);
 
     // item for signaling the loading process
-    this.__loadingItem = new playground.view.gist.TextMenuItem(this.tr("Loading..."));
+    this.__loadingItem = new playground.view.gist.TextMenuItem(
+      this.tr("Loading..."), "playground/images/loading.gif"
+    );
   },
   
   
