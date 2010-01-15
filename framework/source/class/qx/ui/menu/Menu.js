@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
   include : [
     qx.ui.core.MPlacement,
-    qx.ui.core.MChildrenHandling
+    qx.ui.core.MRemoteChildrenHandling
   ],
 
 
@@ -514,6 +514,12 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     // overridden
+    getChildrenContainer : function() {
+      return this.getChildControl("slidebar", true) || this;
+    },
+
+
+    // overridden
     _createChildControlImpl : function(id)
     {
       var control;
@@ -538,7 +544,7 @@ qx.Class.define("qx.ui.menu.Menu",
           this.removeListener("resize", this._onResize, this);
           control.getChildrenContainer().addListener("resize", this._onResize, this);
 
-          this.add(control);
+          this._add(control);
 
         break;
       }
