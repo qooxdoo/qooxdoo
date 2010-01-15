@@ -187,7 +187,7 @@ qx.Class.define("qx.bom.Json",
       var mind = this.__gap, partial, value = holder[key];
 
       // If the value has a toJSON method, call it to obtain a replacement value.
-      if (value && typeof value === 'object' && typeof value.toJSON === 'function') {
+      if (value && qx.lang.Type.isFunction(value.toJSON)) {
         value = value.toJSON(key);
       } else if (qx.lang.Type.isDate(value)) {
         value = this.dateToJSON(value);

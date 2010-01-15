@@ -22,7 +22,7 @@ qx.Class.define("qx.test.bom.Json",
   extend : qx.dev.unit.TestCase,
 
   members :
-  {
+  {   
     testStringifyArray : function()
     {
       var text = qx.bom.Json.stringify(['e', {pluribus: 'unum'}]);
@@ -179,7 +179,104 @@ qx.Class.define("qx.test.bom.Json",
       this.assertEquals("kinners", data.juhu);
       this.assertEquals(23, data.age);
       this.assertArrayEquals([1, 2, 3], data.foo);
+    },
+    
+    
+    testParseNumber : function() {
+      this.assertEquals(1234, qx.bom.Json.parse("1234"))
+      this.assertEquals(1234, qx.bom.Json.parse(" 1234"))
+    },
+    
+   
+    // ES 15.12.1.1-0-1
+    testParseWhitespaceAsTokenSeparator : function()
+    {
+      try {
+        qx.bom.Json.parse('12\t\r\n 34'); // should produce a syntax error as whitespace results in two tokens
+      } catch (e) {
+        this.assert(e instanceof SyntaxError);
+        return;
+      }
+      this.fail();
+    },
+    
+    
+    // ES 15.12.1.1-0-2 .. ES 15.12.1.1-0-8 
+    testParseInvalidWhiteSpace : function() 
+    {
+      
+      var strings = [
+        '\u000b1234', // <VT> is not valid JSON whitespace as specified by the production JSONWhitespace.
+        '\u000c1234', // <FF> is not valid JSON whitespace
+        '\u00a01234', // <NBSP> is not valid JSON whitespace
+        '\u200b1234', // <ZWSPP> is not valid JSON whitespace
+        '\ufeff1234', // <BOM> is not valid JSON whitespace 
+        '\u16801234',
+        '\u180e1234',
+        '\u20001234',
+        '\u20011234',
+        '\u20021234',
+        '\u20031234',
+        '\u20041234',
+        '\u20051234',
+        '\u20061234',
+        '\u20071234',
+        '\u20081234',
+        '\u20091234',
+        '\u200a1234',
+        '\u202f1234',
+        '\u205f1234',
+        '\u30001234',
+        '\u20281234', 
+        '\u20291234'
+      ]
+      
+      for  (var i=0; i<strings.length; i++)
+      {
+        try {
+          qx.bom.Json.parse(strings[i]); // should produce a syntax error 
+        }
+        catch (e) {
+          continue;
+        }
+        this.fail();
+      }
+    },
+    
+    
+    // ES 15.12.1.1-0-9
+    testWhiteSpaceBeforeAndAfterTokens : function()
+    {
+      qx.bom.Json.parse('\t\r \n{\t\r \n'+
+          '"property"\t\r \n:\t\r \n{\t\r \n}\t\r \n,\t\r \n' +
+          '"prop2"\t\r \n:\t\r \n'+
+               '[\t\r \ntrue\t\r \n,\t\r \nnull\t\r \n,123.456\t\r \n]'+
+            '\t\r \n}\t\r \n');  // should JOSN parse without error
+    },
+    
+    
+    // ES 15.12.1.1-g1-1 .. ES 15.12.1.1-g1-4
+    testParseWhitespace : function()
+    {
+      var spaces = [
+        "\t",
+        "\r",
+        "\n",
+        " "
+      ];
+      
+      for (var i=0; i<spaces.length; i++)
+      {
+        var space = spaces[i];
+        this.assertEquals(1234, qx.bom.Json.parse(space + "1234"));
+        
+        try {
+          qx.bom.Json.parse('12' + space + '34'); // should produce a syntax error as whitespace results in two tokens
+        } catch (e) {
+          continue;
+        }
+        this.fail();
+      }
     }
-
   }
 });
