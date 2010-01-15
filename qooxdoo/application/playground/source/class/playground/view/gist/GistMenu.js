@@ -43,7 +43,8 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__filterCheckBox = new playground.view.gist.CheckBox(
       this.tr("Activate filter for [qx]")
     );
-    this.__filterCheckBox.setValue(true);
+    var initFilterValue = qx.bom.Cookie.get("playgroundFilter") !== "false";
+    this.__filterCheckBox.setValue(initFilterValue);
     this.__filterCheckBox.addListener("changeValue", this.__onFilterChange, this);
     this.add(this.__filterCheckBox);
 
@@ -59,6 +60,11 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__loadingItem = new playground.view.gist.TextMenuItem(
       this.tr("Loading..."), "playground/images/loading.gif"
     );
+    
+    // check for initial loading
+    if (qx.bom.Cookie.get("playgroundUser")) {
+      this.__loading();
+    }
   },
   
   
@@ -90,7 +96,9 @@ qx.Class.define("playground.view.gist.GistMenu",
     {
       // empty the cache
       for (var i = 0; i < this.__items.length; i++) {
-        this.remove(this.__items[i]);
+        if (this.indexOf(this.__items[i]) != -1) {
+          this.remove(this.__items[i]);
+        }
         if (this.__items[i] != this.__emptyItem) {
           this.__items[i].destroy();
         }
@@ -108,7 +116,10 @@ qx.Class.define("playground.view.gist.GistMenu",
      */
     updateGists : function(names, texts) 
     {
-      this.remove(this.__loadingItem);
+      // remove the loading item if its in the menu
+      if (this.indexOf(this.__loadingItem) != -1) {
+        this.remove(this.__loadingItem);
+      } 
       
       // empty list handling
       if (names.length == 0) {
@@ -152,6 +163,9 @@ qx.Class.define("playground.view.gist.GistMenu",
      */
     __onFilterChange : function() {
       var on = this.__filterCheckBox.getValue();
+      // write the status to the cookie
+      qx.bom.Cookie.set("playgroundFilter", on);
+      
       var oneShown = false;
       for (var i = 0; i < this.__items.length; i++) {
         var item = this.__items[i];

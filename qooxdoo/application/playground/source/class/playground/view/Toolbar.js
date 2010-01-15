@@ -69,7 +69,8 @@ qx.Class.define("playground.view.Toolbar",
     this.__highlightButton.addListener("changeValue", function(e) {
       this.fireDataEvent("changeHighlight", e.getData(), e.getOldData());
     }, this);
-    this.__highlightButton.setValue(true);
+    var initValue = qx.bom.Cookie.get("playgroundHighlight") !== "false";
+    this.__highlightButton.setValue(initValue);
 
     // gist button
     var gistButton = new qx.ui.toolbar.MenuButton(
