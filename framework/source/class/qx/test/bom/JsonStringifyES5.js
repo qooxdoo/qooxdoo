@@ -32,100 +32,106 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
 
   members :
   {   
+    setUp : function() {
+      // we only test the internal JSON and not the buildin browser
+      // functionality
+      this.JSON = new qx.bom.JsonImpl();
+    },
+
     // 15.12.3-11-1
     testStringifyUndefined : function() {
-      this.assertEquals(undefined, qx.bom.Json.stringify(undefined));
+      this.assertEquals(undefined, this.JSON.stringify(undefined));
     },
 
 
     // 15.12.3-11-2
     "test: A JSON.stringify replacer function works is applied to a top level undefined value." : function() {
-      this.assertEquals('"replacement"', qx.bom.Json.stringify(undefined, function(k, v) { return "replacement" }));
+      this.assertEquals('"replacement"', this.JSON.stringify(undefined, function(k, v) { return "replacement" }));
     },
     
     
     // 15.12.3-11-3
     testStringifyString : function() {
-      this.assertEquals('"a string"', qx.bom.Json.stringify("a string"));
+      this.assertEquals('"a string"', this.JSON.stringify("a string"));
     },
 
     
     // 15.12.3-11-4
     testStringifyNumber : function() {
-      this.assertEquals('123', qx.bom.Json.stringify(123));
+      this.assertEquals('123', this.JSON.stringify(123));
     },
 
     
     // 15.12.3-11-5
     testStringifyBoolean : function() {
-      this.assertEquals("true", qx.bom.Json.stringify(true));
-      this.assertEquals("false", qx.bom.Json.stringify(false));
+      this.assertEquals("true", this.JSON.stringify(true));
+      this.assertEquals("false", this.JSON.stringify(false));
     },
     
     
     // 15.12.3-11-6
     testStringifyNull : function() {
-      this.assertEquals("null", qx.bom.Json.stringify(null));
+      this.assertEquals("null", this.JSON.stringify(null));
     },
     
     
     // 15.12.3-11-7
     testStringifyNumberObject : function() {
-      this.assertEquals("42", qx.bom.Json.stringify(new Number(42)));
+      this.assertEquals("42", this.JSON.stringify(new Number(42)));
     },
     
     
     // 15.12.3-11-8
     testStringifyStringObject : function() {
-      this.assertEquals('"a string"', qx.bom.Json.stringify(new String("a string")));
+      this.assertEquals('"a string"', this.JSON.stringify(new String("a string")));
     },
     
     
     // 15.12.3-11-9
     testStringifyBooleanObject : function() {
-      this.assertEquals('false', qx.bom.Json.stringify(new Boolean(false)));
+      this.assertEquals('false', this.JSON.stringify(new Boolean(false)));
     },
     
     
     // 15.12.3-11-10
     "test: A JSON.stringify replacer function applied to a top level scalar value can return undefined." : function() {
-      this.assertUndefined(qx.bom.Json.stringify(42, function(k, v) { return undefined }));
+      this.assertUndefined(this.JSON.stringify(42, function(k, v) { return undefined }));
     },
     
     
     // 15.12.3-11-11
     "test: A JSON.stringify replacer function applied to a top level Object can return undefined." : function() {
-      this.assertUndefined(qx.bom.Json.stringify({prop:1}, function(k, v) { return undefined }));
+      this.assertUndefined(this.JSON.stringify({prop:1}, function(k, v) { return undefined }));
     },
     
     
     // 15.12.3-11-12
     "test: A JSON.stringify replacer function applied to a top level scalar can return an Array." : function() {
-      this.assertEquals("[4,2]", qx.bom.Json.stringify(42, function(k, v) { return v==42 ?[4,2]:v }));
+      this.assertEquals("[4,2]", this.JSON.stringify(42, function(k, v) { return v==42 ?[4,2]:v }));
     },
     
     
     // 15.12.3-11-13
     "test: A JSON.stringify replacer function applied to a top level scalar can return an Object." : function() {
-      this.assertEquals('{"forty":2}', qx.bom.Json.stringify(42, function(k, v) { return v==42 ? {forty:2}: v}));
+      this.assertEquals('{"forty":2}', this.JSON.stringify(42, function(k, v) { return v==42 ? {forty:2}: v}));
     },
     
     
     // 15.12.3-11-14
     "testStringifyFunction" : function() {
-      this.assertUndefined(qx.bom.Json.stringify(function() {}));
+      this.assertUndefined(this.JSON.stringify(function() {}));
     },
     
     
     // 15.12.3-11-15
     "test: Applying JSON.stringify with a replacer function to a function returns the replacer value." : function() {
-      this.assertEquals('99', qx.bom.Json.stringify(function() {}, function(k,v) {return 99}));
+      this.assertEquals('99', this.JSON.stringify(function() {}, function(k,v) {return 99}));
     },
     
     
     // 15.12.3-4-1
     "test: JSON.stringify ignores replacer aruguments that are not functions or arrays." : function() {
-      this.assertEquals('[42]', qx.bom.Json.stringify([42], {}));
+      this.assertEquals('[42]', this.JSON.stringify([42], {}));
     },
     
     
@@ -135,8 +141,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
     
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, new Number(5)), 
-        qx.bom.Json.stringify(obj, null, 5)
+        this.JSON.stringify(obj, null, new Number(5)), 
+        this.JSON.stringify(obj, null, 5)
       );
     },
     
@@ -147,8 +153,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, new String('xxx')), 
-        qx.bom.Json.stringify(obj, null, "xxx")
+        this.JSON.stringify(obj, null, new String('xxx')), 
+        this.JSON.stringify(obj, null, "xxx")
       );
     },
 
@@ -159,8 +165,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, 10), 
-        qx.bom.Json.stringify(obj, null, 100)
+        this.JSON.stringify(obj, null, 10), 
+        this.JSON.stringify(obj, null, 100)
       );
     },
 
@@ -171,8 +177,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, 5.99999), 
-        qx.bom.Json.stringify(obj, null, 5)
+        this.JSON.stringify(obj, null, 5.99999), 
+        this.JSON.stringify(obj, null, 5)
       );
     },
 
@@ -183,8 +189,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, 0.9999999), 
-        qx.bom.Json.stringify(obj)
+        this.JSON.stringify(obj, null, 0.9999999), 
+        this.JSON.stringify(obj)
       );
     },
 
@@ -195,8 +201,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, 0), 
-        qx.bom.Json.stringify(obj)
+        this.JSON.stringify(obj, null, 0), 
+        this.JSON.stringify(obj)
       );
     },
 
@@ -207,8 +213,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, -5), 
-        qx.bom.Json.stringify(obj)
+        this.JSON.stringify(obj, null, -5), 
+        this.JSON.stringify(obj)
       );
     },
 
@@ -222,8 +228,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       //               '12345'
 
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, 5), 
-        qx.bom.Json.stringify(obj, null, fiveSpaces)
+        this.JSON.stringify(obj, null, 5), 
+        this.JSON.stringify(obj, null, fiveSpaces)
       );
     },
     
@@ -234,8 +240,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj, null, '0123456789xxxxxxxxx'), 
-        qx.bom.Json.stringify(obj, null, '0123456789')
+        this.JSON.stringify(obj, null, '0123456789xxxxxxxxx'), 
+        this.JSON.stringify(obj, null, '0123456789')
       );
     },
 
@@ -246,8 +252,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj), 
-        qx.bom.Json.stringify(obj, null, '')
+        this.JSON.stringify(obj), 
+        this.JSON.stringify(obj, null, '')
       );
     },
 
@@ -258,8 +264,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj), 
-        qx.bom.Json.stringify(obj, null, true)
+        this.JSON.stringify(obj), 
+        this.JSON.stringify(obj, null, true)
       );
     },
 
@@ -270,8 +276,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj), 
-        qx.bom.Json.stringify(obj, null, null)
+        this.JSON.stringify(obj), 
+        this.JSON.stringify(obj, null, null)
       );
     },
 
@@ -282,8 +288,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj), 
-        qx.bom.Json.stringify(obj, null, new Boolean(true))
+        this.JSON.stringify(obj), 
+        this.JSON.stringify(obj, null, new Boolean(true))
       );
     },
 
@@ -294,8 +300,8 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {a1: {b1: [1,2,3,4], b2: {c1: 1, c2: 2}},a2: 'a2'};
       
       this.assertEquals(
-        qx.bom.Json.stringify(obj), 
-        qx.bom.Json.stringify(obj, null, obj)
+        this.JSON.stringify(obj), 
+        this.JSON.stringify(obj, null, obj)
       );
     },
 
@@ -307,7 +313,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
         prop:42,
         toJSON: function () {return 'fortytwo objects'}
       };
-      this.assertEquals('["fortytwo objects"]', qx.bom.Json.stringify([obj]));
+      this.assertEquals('["fortytwo objects"]', this.JSON.stringify([obj]));
     },
 
     
@@ -318,7 +324,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
         prop:42,
         toJSON: function () {return new Number(42)}
       };
-      this.assertEquals('[42]', qx.bom.Json.stringify([obj]));
+      this.assertEquals('[42]', this.JSON.stringify([obj]));
     },
 
     
@@ -329,7 +335,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
         prop:42,
         toJSON: function () {return new Boolean(true)}
       };
-      this.assertEquals('[true]', qx.bom.Json.stringify([obj]));
+      this.assertEquals('[true]', this.JSON.stringify([obj]));
     },
 
     
@@ -338,7 +344,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
     {
       this.assertEquals(
         '["fortytwo"]',
-        qx.bom.Json.stringify([42], function(k,v) {return v===42? new String('fortytwo'):v})
+        this.JSON.stringify([42], function(k,v) {return v===42? new String('fortytwo'):v})
       );
     },
 
@@ -348,7 +354,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
     {
       this.assertEquals(
         '[84]',
-        qx.bom.Json.stringify([42], function(k,v) {return v===42? new Number(84):v})
+        this.JSON.stringify([42], function(k,v) {return v===42? new Number(84):v})
       );
     },
 
@@ -358,7 +364,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
     {
       this.assertEquals(
         '[false]',
-        qx.bom.Json.stringify([42], function(k,v) {return v===42? new Boolean(false):v})
+        this.JSON.stringify([42], function(k,v) {return v===42? new Boolean(false):v})
       );
     },
     
@@ -369,7 +375,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {};
       obj.prop = obj;
       try {
-        qx.bom.Json.stringify(obj);       
+        this.JSON.stringify(obj);       
       } catch (e) {
         this.assertEquals('TypeError', e.name);
         return;
@@ -385,7 +391,7 @@ qx.Class.define("qx.test.bom.JsonStringifyES5",
       var obj = {p1: {p2: {}}};
       obj.p1.p2.prop = obj;
       try {
-        qx.bom.Json.stringify(obj);       
+        this.JSON.stringify(obj);       
       } catch (e) {
         this.assertEquals('TypeError', e.name);
         return;
