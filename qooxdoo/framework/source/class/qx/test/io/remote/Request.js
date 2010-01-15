@@ -121,7 +121,7 @@ qx.Class.define("qx.test.io.remote.Request",
         {
           completedCount++;
 
-          var response = qx.util.Json.parse(e.getContent());
+          var response = qx.lang.Json.parse(e.getContent());
           request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
         }, this);
@@ -156,7 +156,7 @@ qx.Class.define("qx.test.io.remote.Request",
         {
           completedCount++;
 
-          var response = qx.util.Json.parse(e.getContent());
+          var response = qx.lang.Json.parse(e.getContent());
           request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
 
@@ -201,7 +201,7 @@ qx.Class.define("qx.test.io.remote.Request",
         //{
           asynchronousRequestFinished = true;
 
-          var response = qx.util.Json.parse(e.getContent());
+          var response = qx.lang.Json.parse(e.getContent());
           var request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
         //}, this);
@@ -211,7 +211,7 @@ qx.Class.define("qx.test.io.remote.Request",
       {
         synchronousRequestFinished = true;
 
-        var response = qx.util.Json.parse(e.getContent());
+        var response = qx.lang.Json.parse(e.getContent());
         var request = e.getTarget();
         this.assertEquals(request.getParameter("test"), response["test"]);
       }, this);

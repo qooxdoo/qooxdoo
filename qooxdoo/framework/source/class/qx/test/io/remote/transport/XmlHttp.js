@@ -89,7 +89,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setRequestHeader("juhu", "kinners");
 
       this.request.addListener("completed", function(e) { this.resume(function() {
-        var response = qx.util.Json.parse(this.request.getResponseText().toLowerCase());
+        var response = qx.lang.Json.parse(this.request.getResponseText().toLowerCase());
         this.assertEquals("kinners", response["juhu"]);
         this.assertEquals("bar", response["foo"]);
       }, this); }, this);
