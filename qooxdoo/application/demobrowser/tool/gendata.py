@@ -180,8 +180,9 @@ def CreateDemoJson():
 
 def demoCategoryFromFile(file):
     # mirror line file: "./source/demo/animation/Login.html"
+    file = os.path.normpath(file)
     parts = file.split(os.sep)
-    return parts[3], parts[4].split(".")[0]
+    return parts[2], parts[3].split(".")[0]
 
 
 ##
