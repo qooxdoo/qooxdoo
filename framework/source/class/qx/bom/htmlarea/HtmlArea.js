@@ -2620,8 +2620,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @param url {String} url of the background image to set
      * @param repeat {String} repeat mode. Possible values are "repeat|repeat-x|repeat-y|no-repeat".
      *                                     Default value is "no-repeat"
-     * @param position {String} Position of the background image. Possible values are "|top|bottom|center|left|right|right top|left top|left bottom|right bottom".
-     *                          Default value is "top"
+     * @param position {String?Array} Position of the background image. Possible values are "|top|bottom|center|left|right|right top|left top|left bottom|right bottom" or
+     *                                an array consisting of two values for x and
+     *                                y coordinate. Both values have to define the
+     *                                unit e.g. "px" or "%".
+     *                                Default value is "top"
      * @return {Boolean} Success of operation
      */
     setBackgroundImage : function(url, repeat, position) {
