@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.core.Assert",
         stringValue = "Array[" + value.length + "]";
       } else if ((value instanceof Object) && (value.toString == null))
       {
-        stringValue = qx.util.Json.stringify(value);
+        stringValue = qx.lang.Json.stringify(value, null, 2);
       } else
       {
         try {
@@ -297,8 +297,8 @@ qx.Bootstrap.define("qx.core.Assert",
      */
     assertJsonEquals : function(expected, found, msg) {
       this.assertEquals(
-        qx.util.Json.stringify(expected),
-        qx.util.Json.stringify(found),
+        qx.lang.Json.stringify(expected),
+        qx.lang.Json.stringify(found),
         msg
       );
     },

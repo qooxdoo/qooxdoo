@@ -174,7 +174,7 @@ qx.Class.define("qx.dev.unit.TestLoaderInline",
         desc.push(clsDesc);
       }
 
-      return qx.util.Json.stringify(desc);
+      return qx.lang.Json.stringify(desc);
     },
 
 
