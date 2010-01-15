@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * A special menu item contining a label and a textfield.
+ */
 qx.Class.define("playground.view.gist.UserNameMenuItem", 
 {
   extend : qx.ui.core.Widget,
@@ -43,22 +46,37 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       this.fireDataEvent("reload", e.getData());
     }, this);
   },
-  
-  
+
+
   events : {
+    /**
+     * Fired, if the username has changed.
+     */
     "reload" : "qx.event.type.Data"
   },
-  
+
 
   members :
   {
+    __textField : null,
+
+
+    /**
+     * Necessary implementation for the menu layout.
+     * @return {Array} An array containing the sizes.
+     */
     getChildrenSizes : function()
     {
       // iconWidth, labelWidth, shortcutWidth, arrowWidth
       return [0, this.getSizeHint().width, 0, 0];
     },
-    
-    
+
+
+    /**
+     * Method for marking the textfield as invalid.
+     * @param invalid {Boolean} true, if something is wrong.
+     * @param message {String} The error message.
+     */
     markInvalid : function(invalid, message) 
     {
       this.__textField.setValid(!invalid);

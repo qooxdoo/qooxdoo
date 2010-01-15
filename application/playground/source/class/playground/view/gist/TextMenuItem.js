@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * A special menu item only showing an atom.
+ */
 qx.Class.define("playground.view.gist.TextMenuItem", 
 {
   extend : qx.ui.basic.Atom,
@@ -30,6 +33,10 @@ qx.Class.define("playground.view.gist.TextMenuItem",
 
   members :
   {
+    /**
+     * Necessary implementation for the menu layout.
+     * @return {Array} An array containing the sizes.
+     */
     getChildrenSizes : function()
     {
       // iconWidth, labelWidth, shortcutWidth, arrowWidth

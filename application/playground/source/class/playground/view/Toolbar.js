@@ -22,7 +22,6 @@
 
 ************************************************************************ */
 
-
 /**
  * The playground toolbar containing all buttons and menus.
  */
@@ -174,9 +173,14 @@ qx.Class.define("playground.view.Toolbar",
      */
     "openManual" : "qx.event.type.Event",
     
-    
-    
+    /**
+     * Event signaling that a new gist has been selected.
+     */
     "changeGist" : "qx.event.type.Data",
+    
+    /**
+     * Event which will be fireed if the gists should be reloaded.
+     */
     "reloadGists" : "qx.event.type.Data"
   },
 
@@ -234,15 +238,25 @@ qx.Class.define("playground.view.Toolbar",
     },
     
     
+    /**
+     * Updates the gists shown in the toolbar.
+     * @param names {Array} An array of gist names.
+     * @param texts {Array} An array of gist contents.
+     */
     updateGists: function(names, texts) {
       this.__gistMenu.updateGists(names, texts);
     },
     
-    invalidGistUser : function(invalid, message) {
+    
+    /**
+     * Signals that something went wrong during the loading of the gists.
+     * @param invalid {Boolean} true, if something was wrong
+     * @param message {String} The message what was wrong.
+     */
+    invalidGist : function(invalid, message) {
       this.__gistMenu.invalidUser(invalid, message);
     }
   },
-
 
 
   /*

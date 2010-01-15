@@ -45,6 +45,8 @@ qx.Class.define("playground.Application",
     /**
      * Global handler for the url shortening JSONP call.
      *
+     * @param data {Object} The data from the JSONP call.
+     * 
      * @lint ignoreDeprecated(alert)
      * @lint ignoreDeprecated(prompt)
      */
@@ -208,6 +210,11 @@ qx.Class.define("playground.Application",
     },
     
     
+    /**
+     * Handler for changeGist which set the given text to the editor and 
+     * runs it.
+     * @param e {qx.event.type.Data} The data event containing the gist content.
+     */
     __onGistChange : function(e) {
       this.__editor.setCode(e.getData());
       this.run();
@@ -381,7 +388,9 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // GIST SUPPORT
     // ***************************************************
-
+    /**
+     * Handler for working with the new loaded gists.
+     */
     __onGistsLoaded : function() {
       var model = this.__gistStore.getModel();
       var names = [];
@@ -393,10 +402,11 @@ qx.Class.define("playground.Application",
       };
       this.__toolbar.updateGists(names, texts);
       
-      if (this.__gistStore.getState() == "Error") {
-        this.__toolbar.invalidGistUser(true, this.tr("No such user found."));
+      // error handling
+      if (this.__gistStore.getState() == "failed") {
+        this.__toolbar.invalidGist(true, this.tr("No such user found."));
       } else {
-        this.__toolbar.invalidGistUser(false);        
+        this.__toolbar.invalidGist(false);        
       }
     },
     
