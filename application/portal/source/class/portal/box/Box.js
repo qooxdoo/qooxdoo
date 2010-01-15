@@ -233,7 +233,7 @@ qx.Class.define("portal.box.Box",
       var text = "This is a demo application showing the low-level capabilities." +
                  " It does contain no UI widget code at all.";
       text = text + "<br/><br/>" + text + "<br/><br/>" + text;
-      
+
       var box = qx.bom.Element.create("div", { "class" : "box_content" });
       box.innerHTML = text;
 

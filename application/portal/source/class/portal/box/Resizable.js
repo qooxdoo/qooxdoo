@@ -37,22 +37,18 @@ qx.Class.define("portal.box.Resizable",
   {
     this.base(arguments);
 
-    /* Set the basics */
     this.__box = box;
     this.__element = this.__box.getElement();
 
-    /* prepare data structure for resizing handles */
     this.__handles = {};
 
     this.__capturingPhase = false;
-    this.__capturedElement = null;
 
     this.__mouseMoveData = {
         orientation : null,
         lastCoord   : { left : null, top  : null }
     };
 
-    /* Set the options */
     this.__options =
     {
       minWidth  : 10,
@@ -79,9 +75,6 @@ qx.Class.define("portal.box.Resizable",
    * ******************************************************/
   members :
   {
-    /** Hash to store the style properties of the box element */
-    __elementProperties : null,
-
     /** Hash to store the data of the mouse move events */
     __mouseMoveData : null,
 
@@ -90,7 +83,6 @@ qx.Class.define("portal.box.Resizable",
     __handles : null,
     __options : null,
     __capturingPhase : false,
-    __capturedElement : null,
 
 
     /**
@@ -110,13 +102,6 @@ qx.Class.define("portal.box.Resizable",
      */
     __prepare : function()
     {
-      this.__elementProperties = {
-        paddingTop    : parseInt(qx.bom.element.Style.get(this.__element, "paddingTop")),
-        paddingRight  : parseInt(qx.bom.element.Style.get(this.__element, "paddingRight")),
-        paddingBottom : parseInt(qx.bom.element.Style.get(this.__element, "paddingBottom")),
-        paddingLeft   : parseInt(qx.bom.element.Style.get(this.__element, "paddingLeft"))
-      };
-
       switch(this.__options.handles)
       {
         case 1:
@@ -160,7 +145,6 @@ qx.Class.define("portal.box.Resizable",
      */
     __styleHandle : function(orientation)
     {
-      /* Only set the className (CSS is defined seperately) and set the dynamic values */
       qx.bom.element.Class.add(this.__handles[orientation], orientation + "Handle");
       qx.bom.element.Style.set(this.__handles[orientation], "visibility", this.__options.autoHide ? "hidden" : "visible");
     },
@@ -178,15 +162,16 @@ qx.Class.define("portal.box.Resizable",
      */
     __addListener : function(orientation)
     {
+      var Registration = qx.event.Registration;
       var handle = this.__handles[orientation];
-      qx.event.Registration.addListener(handle, "mousedown", this.__mouseDownListener, this);
 
-      qx.event.Registration.addListener(document.body, "mouseup", this.__mouseUpListener, this);
+      Registration.addListener(handle, "mousedown", this.__mouseDownListener, this);
+      Registration.addListener(document.body, "mouseup", this.__mouseUpListener, this);
 
       if (this.__options.autoHide)
       {
-        qx.event.Registration.addListener(this.__box.getElement(), "mouseover", this.__mouseOverListener, this);
-        qx.event.Registration.addListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
+        Registration.addListener(this.__box.getElement(), "mouseover", this.__mouseOverListener, this);
+        Registration.addListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
       }
     },
 
@@ -277,12 +262,7 @@ qx.Class.define("portal.box.Resizable",
 
         this.__capturingPhase = false;
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          if (document.selection.type.toLowerCase() == "text") {
-            document.selection.empty();
-          }
-        }
+        qx.bom.Selection.clear(document.body);
       }
     },
 
@@ -340,39 +320,26 @@ qx.Class.define("portal.box.Resizable",
      */
     __resize : function(mouseCoord, lastMouseCoord)
     {
-      var mouseDiff;
-      var boxUtil = portal.box.Util;
+      var Dimension = qx.bom.element.Dimension;
 
       var groupBox = portal.box.Manager.getInstance().getGroupBoxDataOfBox(this.__box.getId());
-      var groupBoxDimensions = portal.box.Util.getComputedDimension(groupBox.element);
+      var groupBoxInnerDimensions = Dimension.getContentSize(groupBox.element);
 
       if (mouseCoord.left)
       {
         var mouseDiff = mouseCoord.left - lastMouseCoord.left;
-
         if (mouseDiff !== 0)
         {
-          var elementWidth = this.__element.clientWidth;
+          // Use the inner width of the element to set as new width and the
+          // full size (including padding, margin) for comparison
+          var newContentWidth = Dimension.getContentWidth(this.__element) + mouseDiff;
+          var newWidth = Dimension.getWidth(this.__element) + mouseDiff;
 
-          var newWidth = (elementWidth + mouseDiff) -
-                         (this.__elementProperties['paddingLeft'] + this.__elementProperties['paddingRight']);
-
-          if ((this.__options.minWidth == null || newWidth > this.__options.minWidth) && (this.__options.maxWidth == null || newWidth <= this.__options.maxWidth))
+          if ((this.__options.minWidth == null || newContentWidth > this.__options.minWidth) &&
+              (this.__options.maxWidth == null || newContentWidth <= this.__options.maxWidth))
           {
-            // This way proved faster than comparing mouse position with
-            // GroupBox's right edge position minus it's padding and the
-            // box element's margin and border in the outmost if condition.
-            // DO NOT substract "paddingLeft" and "paddingRight" for IE
-            // -> to workaround the different implementations of the "width" property
-            if (qx.core.Variant.isSet("qx.client", "mshtml|webkit")) {
-              var maxLayoutAreaInnerWidth = groupBoxDimensions.width - boxUtil.getStyleProperty(groupBox.element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "borderRightWidth", true) - boxUtil.getStyleProperty(this.__element, "borderLeftWidth", true) - boxUtil.getStyleProperty(this.__element, "marginRight", true) - boxUtil.getStyleProperty(this.__element, "marginLeft", true);
-            } else {
-              var maxLayoutAreaInnerWidth = groupBoxDimensions.width - boxUtil.getStyleProperty(groupBox.element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "paddingRight", true) - boxUtil.getStyleProperty(this.__element, "paddingLeft", true) - boxUtil.getStyleProperty(this.__element, "borderRightWidth", true) - boxUtil.getStyleProperty(this.__element, "borderLeftWidth", true) - boxUtil.getStyleProperty(this.__element, "marginRight", true) - boxUtil.getStyleProperty(this.__element, "marginLeft", true);
-            }
-
-            if (maxLayoutAreaInnerWidth >= newWidth)
-            {
-              qx.bom.element.Style.set(this.__element, "width", newWidth + 'px');
+            if (groupBoxInnerDimensions.width >= newWidth) {
+              qx.bom.element.Style.set(this.__element, "width", newContentWidth + 'px');
             }
           }
         }
@@ -381,17 +348,13 @@ qx.Class.define("portal.box.Resizable",
       if (mouseCoord.top)
       {
         var mouseDiff = mouseCoord.top - lastMouseCoord.top;
-
-        // this.info("mouseDiff = " +mouseDiff);
         if (mouseDiff !== 0)
         {
-          var elementHeight = this.__element.clientHeight;
+          var newContentHeight = Dimension.getContentHeight(this.__element) + mouseDiff;
 
-          var newHeight = (elementHeight + mouseDiff) -
-                          (this.__elementProperties['paddingTop'] + this.__elementProperties['paddingBottom']);
-
-          if ((this.__options.minHeight == null || newHeight > this.__options.minHeight) && (this.__options.maxHeight == null || newHeight <= this.__options.maxHeight)) {
-            qx.bom.element.Style.set(this.__element, "height", newHeight + "px");
+          if ((this.__options.minHeight == null || newContentHeight > this.__options.minHeight) &&
+              (this.__options.maxHeight == null || newContentHeight <= this.__options.maxHeight)) {
+            qx.bom.element.Style.set(this.__element, "height", newContentHeight + "px");
           }
         }
       }
@@ -410,8 +373,7 @@ qx.Class.define("portal.box.Resizable",
       qx.event.Registration.removeListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
     }
 
-    this.__box = this.__options = this.__element = this.__handles = 
-      this.__capturedElement = this.___elementProperties = 
-      this.__mouseMoveData = this.__elementProperties = null;
+    this.__box = this.__options = this.__element = this.__handles = null;
+    this.__mouseMoveData = null;
   }
 });
