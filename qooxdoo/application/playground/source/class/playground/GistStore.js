@@ -16,13 +16,22 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Data store for loading gists.
+ * 
+ * http://gist.github.com
+ */
 qx.Class.define("playground.GistStore", {
   extend : qx.data.store.Json,
+  
+  /**
+   * @param username {String?null} The username for initially loading the gists.
+   */
   construct : function(username) {
     var url = "http://gist.github.com/api/v1/json/gists/" + username;
  
     var delegate ={manipulateData: function(data) {
-      if (!data.gists) data = {gists: []};
+      if (!data.gists) {data = {gists: []}};
       for (var i = 0; i < data.gists.length; i++) {
         data.gists[i].text = null;
       }
@@ -32,12 +41,12 @@ qx.Class.define("playground.GistStore", {
     this.base(arguments, username == null ? null : url, delegate);
   },
   
-  events: {
-    "done" : "qx.event.type.Event" 
-  },
   
   members : {
-    //overridden
+    /**
+     * Reloads the gists.
+     * @param username {String} The github username to load the gists.
+     */
     reload : function(username) 
     {
       var url = "http://gist.github.com/api/v1/json/gists/" + username;
@@ -48,25 +57,25 @@ qx.Class.define("playground.GistStore", {
     //overridden
     _createRequest: function(url) {
       // create the request
-      this.__request = new qx.io.remote.Request(
+      this._request = new qx.io.remote.Request(
         url, "GET"
       );
 
       // check for the request configuration hook
       var del = this._delegate;
       if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(this.__request);
+        this._delegate.configureRequest(this._request);
       }
 
-      this.__request.addListener(
+      this._request.addListener(
         "completed", this.__completeHandler, this
       );
       // mapp the state to its own state
-      this.__request.addListener("changeState", function(ev) {
+      this._request.addListener("changeState", function(ev) {
         this.setState(ev.getData());
       }, this);
 
-      this.__request.send();
+      this._request.send();
     },
     
     
@@ -99,16 +108,17 @@ qx.Class.define("playground.GistStore", {
 
       // create the class
       this._marshaler.toClass(data, false);
-      // set the initial data
-      this.setModel(this._marshaler.toModel(data));
 
       // load the content of the gists
-      this.__loadGists();      
+      this.__loadGists(this._marshaler.toModel(data));      
     },
     
     
-    __loadGists : function() {
-      var gists = this.getModel();
+    /**
+     * Responsible for loading the content of all already loaded gists.
+     * @param gists {qx.data.Array} The array containing the gist information. 
+     */
+    __loadGists : function(gists) {
       var l = gists.getLength();
       for (var i = 0; i < l; i++) {
         var cameBack = 0;
@@ -122,14 +132,16 @@ qx.Class.define("playground.GistStore", {
           gists.getItem(i).setText(data);
           cameBack++;
           if (cameBack == l) {
+            this.setModel(gists);            
             this.fireDataEvent("loaded", this.getModel());
           }
         }, this, i));
         request.send();
       }
       if (gists.getLength() == 0) {
+        this.setModel(gists);        
         this.fireDataEvent("loaded", this.getModel());
-      }      
-    }  
+      }
+    }
   }
 });

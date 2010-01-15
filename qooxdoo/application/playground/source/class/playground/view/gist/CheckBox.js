@@ -16,14 +16,20 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * A special menu checkbox not closing the menu on value changes.
+ */
 qx.Class.define("playground.view.gist.CheckBox", 
 {
   extend : qx.ui.menu.CheckBox,
 
-
+  /**
+   * @param label {String} The label of the checkbox.
+   */
   construct : function(label) {
     this.base(arguments, label);
   },
+
 
   members :
   {
