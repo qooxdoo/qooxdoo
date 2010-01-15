@@ -188,11 +188,10 @@ qx.Class.define("playground.view.Editor",
      * @param code {String} The new code.
      */
     setCode : function(code) {
-      if (this.__highlighted && this.__codeMirror) {
+      if (this.__codeMirror) {
         this.__codeMirror.setCode(code);
-      } else {
-        this.__textarea.setValue(code);
       }
+      this.__textarea.setValue(code);      
     },
     
 
@@ -212,7 +211,6 @@ qx.Class.define("playground.view.Editor",
         this.__codeMirror.frame.style.visibility = "visible";
         this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";        
       } else {
-        this.__textarea.setValue(this.__codeMirror.getCode());
         this.__textarea.getContentElement().getDomElement().style.visibility = "visible";
         this.__codeMirror.frame.style.visibility = "hidden";
       }      
