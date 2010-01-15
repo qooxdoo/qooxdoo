@@ -1814,6 +1814,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      __setBackgroundImage : function(value, commandObject)
      {
        var url, repeat, position;
+       var Command = qx.bom.htmlarea.manager.Command;
 
        if (value == null) {
          url = null;
@@ -1848,10 +1849,10 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        // Return silently if the parameter "repeat" is not valid and report
        //the error in debug mode
-       if (repeat != null && qx.bom.htmlarea.manager.Command.__backgroundRepeat.indexOf(repeat) < 0 )
+       if (repeat != null && !qx.lang.String.contains(Command.__backgroundRepeat, repeat))
        {
          if (qx.core.Variant.isSet("qx.debug", "on")) {
-           this.error("The value '" +repeat + "' is not allowed for parameter 'repeat'. Possible values are '" + qx.bom.htmlarea.manager.Command.__backgroundRepeat + "'");
+           this.error("The value '" +repeat + "' is not allowed for parameter 'repeat'. Possible values are '" + Command.__backgroundRepeat + "'");
          }
          return false;
        }
@@ -1859,22 +1860,33 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          repeat = "no-repeat";
        }
 
-       // Return silently if the parameter "position" is not valid
-       // and report the error in debug mode
-       if (position != null && qx.bom.htmlarea.manager.Command.__backgroundPosition.indexOf('|'+position+'|') < 0)
+       if (position != null)
        {
-         if (qx.core.Variant.isSet("qx.debug", "on")) {
-           this.error("The value '" + position + "' is not allowed for parameter 'position'. Possible values are '" + qx.bom.htmlarea.manager.Command.__backgroundPosition + "'");
+         if (qx.lang.Type.isString(position) && 
+             !qx.lang.String.contains(Command.__backgroundPosition, '|'+position+'|')) 
+         {
+           if (qx.core.Variant.isSet("qx.debug", "on")) {
+             this.error("The value '" + position + "' is not allowed for parameter 'position'. Possible values are '" + Command.__backgroundPosition + "'");
+           }
+           return false;
          }
-         return false;
-       }
-       else
-       {
-         if (!position) {
-           position = "top";
+         else
+         {
+           if (qx.lang.Type.isArray(position) && position.length == 2) {
+             position = position[0] + " " + position[1];
+           }
+           else
+           {
+             if (qx.core.Variant.isSet("qx.debug", "on")) {
+               this.error("If an array is provided for parameter 'position' it has to define two elements!");
+             }
+             return false;
+           }
          }
+       } else {
+         // Set the default value if no value is given
+         position = "top";
        }
-
 
        // Don't use the "background" css property to prevent overwriting the
        // current background color
