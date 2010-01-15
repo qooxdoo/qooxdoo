@@ -37,13 +37,32 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
   members :
   {
     /**
+     * Forward the call with the given function name to the children container
+     * 
+     * @param functionName {String} name of the method to forward
+     * @param a1 {var} first argument of the method to call
+     * @param a2 {var} second argument of the method to call
+     * @param a3 {var} third argument of the method to call
+     * @return {var} The return value of the forwared method
+     */
+    __forward : function(functionName, a1, a2, a3)
+    {
+      var container = this.getChildrenContainer();
+      if (container === this) {
+        functionName = "_" + functionName;
+      }
+      return (container[functionName])(a1, a2, a3);
+    },
+
+
+    /**
      * Returns the children list
      *
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
     getChildren : function() {
-      return this.getChildrenContainer().getChildren();
+      return this.__forward("getChildren");
     },
 
 
@@ -53,7 +72,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
     hasChildren : function() {
-      return this.getChildrenContainer().hasChildren();
+      return this.__forward("hasChildren");
     },
 
 
@@ -69,7 +88,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @return {Widget} This object (for chaining support)
      */
     add : function(child, options) {
-      return this.getChildrenContainer().add(child, options);
+      return this.__forward("add", child, options);
     },
 
 
@@ -80,7 +99,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @return {Widget} This object (for chaining support)
      */
     remove : function(child) {
-      return this.getChildrenContainer().remove(child);
+      return this.__forward("remove", child);
     },
 
 
@@ -90,7 +109,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @return {void}
      */
     removeAll : function() {
-      return this.getChildrenContainer().removeAll();
+      return this.__forward("removeAll");
     },
 
 
@@ -108,7 +127,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      *   the given item is no child of this layout.
      */
     indexOf : function(child) {
-      return this.getChildrenContainer().indexOf(child);
+      return this.__forward("indexOf", child);
     },
 
 
@@ -125,7 +144,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addAt : function(child, index, options) {
-      this.getChildrenContainer().addAt(child, index, options);
+      this.__forward("addAt", child, index, options);
     },
 
 
@@ -142,7 +161,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addBefore : function(child, before, options) {
-      this.getChildrenContainer().addBefore(child, before, options);
+      this.__forward("addBefore", child, before, options);
     },
 
 
@@ -159,7 +178,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addAfter : function(child, after, options) {
-      this.getChildrenContainer().addAfter(child, after, options);
+      this.__forward("addAfter", child, after, options);
     },
 
 
@@ -174,7 +193,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param index {Integer} Index of the item to remove.
      */
     removeAt : function(index) {
-      this.getChildrenContainer().removeAt(index);
+      this.__forward("removeAt", index);
     }
   }
 });
