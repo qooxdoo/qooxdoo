@@ -46,7 +46,8 @@ class QxTest:
       'seleniumJar'         : 'selenium-server.jar',
       'seleniumHost'        : 'http://localhost:4444',
       'ieSingleWindow'      : True,
-      'trustAllSSLCertificates' : False 
+      'trustAllSSLCertificates' : False,
+      'options'             : ""
     }
     
     defaultTestConf = {
@@ -169,8 +170,9 @@ class QxTest:
   # respond correctly after 20 seconds, another attempt is made. If this also 
   # fails the script is ended.
   #
-  # @param single {bool} Start the server with the -singleWindow option 
-  def startSeleniumServer(self, single=False, version=None, trustAllCerts=False):
+  # @param version {string} name of a subdirectory of seleniumConf["seleniumDir"]
+  # @param options {string} command line options, e.g. -singleWindow -trustAllSSLCertificates 
+  def startSeleniumServer(self, version=None, options=""):
     seleniumVersion = version or self.seleniumConf["seleniumVersion"]
     cmd = self.testConf["javaBin"]
     cmd += " -jar " + self.seleniumConf["seleniumDir"] + "/" 
@@ -178,7 +180,7 @@ class QxTest:
     cmd += self.seleniumConf["seleniumJar"]
 
     if (self.sim):
-      if single:
+      if "-singleWindow" in options:
         self.log("SIMULATION: Starting Selenium RC server in single window mode.")
       else:
         self.log("SIMULATION: Starting Selenium RC server in default mode.")
@@ -187,26 +189,27 @@ class QxTest:
     import subprocess, time
     if (self.isSeleniumServer()):
       self.log("Selenium server already running.")
-    else:
-      self.log("Starting Selenium server...")      
-      if 'seleniumLog' in self.seleniumConf:
-        cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
-      if single:
-        cmd += " -singlewindow"
-      if trustAllCerts:
-        cmd += " -trustAllSSLCertificates"
-      selserv = subprocess.Popen(cmd, shell=True)
+      return
+          
+    if 'seleniumLog' in self.seleniumConf:
+      cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
     
-      # wait a while for the server to start up
-      time.sleep(10)
+    cmd += options
     
-      # check if it's up and running
+    self.log("Starting Selenium server: %s" %cmd)
+
+    selserv = subprocess.Popen(cmd, shell=True)
+  
+    # wait a while for the server to start up
+    time.sleep(10)
+  
+    # check if it's up and running
+    if ( not(self.isSeleniumServer()) ):
+      self.log("Selenium server not responding, waiting a little longer...")
+      time.sleep(30)
       if ( not(self.isSeleniumServer()) ):
-        self.log("Selenium server not responding, waiting a little longer...")
-        time.sleep(30)
-        if ( not(self.isSeleniumServer()) ):
-          self.log("ERROR: Selenium server not responding.")
-          sys.exit(1)
+        self.log("ERROR: Selenium server not responding.")
+        sys.exit(1)
 
   ##
   # Terminates the Selenium server process using a VBScript (Windows) or the
@@ -660,15 +663,19 @@ class QxTest:
       self.startSeleniumServer(False, seleniumVersion)
 
     for browser in appConf['browsers']:
+      
+      seleniumOptions = ""
       # Use single window mode? (Necessary for IE with Selenium 1.*)
-      single = False
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
-        single = True
+        seleniumOptions += " -singleWindow"
       
       # Use trustAllSSLCertificates option?
       trustAllCerts = False
       if self.seleniumConf['trustAllSSLCertificates']:
-        trustAllCerts = True
+        seleniumOptions += " -trustAllSSLCertificates"
+      
+      # Any additional options
+      seleniumOptions += " %s" %self.seleniumConf["options"]
       
       seleniumVersion = self.seleniumConf["seleniumVersion"]
       if 'seleniumVersion' in appConf:
@@ -684,7 +691,7 @@ class QxTest:
       if individual:
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
-        self.startSeleniumServer(single, seleniumVersion, trustAllCerts)
+        self.startSeleniumServer(seleniumVersion, seleniumOptions)
       
       options = False
       if "options" in browser:
