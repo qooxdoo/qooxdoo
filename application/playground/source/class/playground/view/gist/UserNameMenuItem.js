@@ -34,7 +34,8 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     layout.setRowAlign(0, "left", "middle");
     this._setLayout(layout);
     this.setPadding(4);
-    this.__textField = new qx.ui.form.TextField();
+    var initUserName = qx.bom.Cookie.get("playgroundUser");
+    this.__textField = new qx.ui.form.TextField(initUserName);
     this.__textField.set({
       width: 50
     });
@@ -43,6 +44,9 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     this._add(this.__textField, {row: 0, column: 1});
     
     this.__textField.addListener("changeValue", function(e) {
+      // set the cookie
+      qx.bom.Cookie.set("playgroundUser", e.getData());
+      // invoke a reload
       this.fireDataEvent("reload", e.getData());
     }, this);
   },

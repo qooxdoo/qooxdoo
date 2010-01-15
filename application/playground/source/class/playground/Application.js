@@ -118,7 +118,8 @@ qx.Class.define("playground.Application",
 
       // data stuff
       this.__samples = new playground.Samples();
-      this.__gistStore = new playground.GistStore();
+      var initUserName = qx.bom.Cookie.get("playgroundUser");
+      this.__gistStore = new playground.GistStore(initUserName);
       this.__gistStore.addListener("loaded", this.__onGistsLoaded, this);
       
       // toolbar
@@ -176,7 +177,12 @@ qx.Class.define("playground.Application",
 
     finalize: function() {
       // Back button and bookmark support
-      this.__initBookmarkSupport();      
+      this.__initBookmarkSupport();
+      
+      // check for the highlight cookie
+      if (qx.bom.Cookie.get("playgroundHighlight") === "false") {
+        this.__editor.useHighlight(false);
+      }
     },
 
     
@@ -227,6 +233,7 @@ qx.Class.define("playground.Application",
      *   the highlighted code view.
      */
     __onHighlightChange : function(e) {
+      qx.bom.Cookie.set("playgroundHighlight", e.getData());
       this.__editor.useHighlight(e.getData());
     },
 
