@@ -290,14 +290,17 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ?
-      function(map)
+    getKeys : 
+    ({
+      "ES5" : Object.keys,
+      
+      "BROKEN_IE" : function(map)
       {
         var arr = [];
         for (var key in map) {
           arr.push(key);
         }
-
+  
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible with the ECMA standard!!
         // This is why this checks are needed.
@@ -309,11 +312,11 @@ qx.Bootstrap.define("qx.Bootstrap",
             arr.push(a[i]);
           }
         }
-
+  
         return arr;
-      }
-      :
-      function(map)
+      },
+
+      "default" : function(map)
       {
         var arr = [];
 
@@ -322,8 +325,12 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
 
         return arr;
-      },
-    
+      }
+    })[
+      typeof(Object.keys) == "function" ? "ES5" :
+        (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
+    ],
+
     
     /**
      * Get the keys of a map as string
