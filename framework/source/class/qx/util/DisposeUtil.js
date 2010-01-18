@@ -27,7 +27,7 @@
 /**
  * Methods to cleanup fields from maps/objects.
  */
-qx.Bootstrap.define("qx.util.DisposeUtil",
+qx.Class.define("qx.util.DisposeUtil",
 {
   statics :
   {
