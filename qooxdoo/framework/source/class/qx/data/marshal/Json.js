@@ -146,7 +146,7 @@ qx.Class.define("qx.data.marshal.Json",
       var properties = {};
       for (var key in data) {
         // stip the unwanted characters
-        key = key.replace("-", "");
+        key = key.replace(/-/g, "");
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
@@ -248,7 +248,7 @@ qx.Class.define("qx.data.marshal.Json",
 
         // go threw all element in the data
         for (var key in data) {
-          var propertyName = key.replace("-", "");
+          var propertyName = key.replace(/-/g, "");
           model["set" + qx.lang.String.firstUp(propertyName)](this.toModel(data[key]));
         }
         return model;
