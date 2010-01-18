@@ -25,7 +25,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Bootstrap.define("qx.bom.client.Platform",
+qx.Class.define("qx.bom.client.Platform",
 {
   /*
   *****************************************************************************

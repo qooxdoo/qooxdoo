@@ -23,7 +23,7 @@
  *
  * @deprecated This class has been moved to 'qx.io.ImageLoader'
  */
-qx.Bootstrap.define("qx.io2.ImageLoader",
+qx.Class.define("qx.io2.ImageLoader",
 {
   statics :
   {

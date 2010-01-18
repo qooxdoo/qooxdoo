@@ -61,9 +61,8 @@
  */
 qx.Class.define("qx.bom.Request",
 {
-  extend : qx.core.Object,
-
-
+  extend : Object,
+  
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -72,8 +71,6 @@ qx.Class.define("qx.bom.Request",
 
   construct : function()
   {
-    this.base(arguments);
-
     this.__headers = {};
     this.__xmlhttp = this.__createNative();
   },

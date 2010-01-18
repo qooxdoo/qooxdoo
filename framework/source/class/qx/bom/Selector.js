@@ -114,7 +114,7 @@
  *
  * * http://wiki.github.com/jeresig/sizzle
  */
-qx.Bootstrap.define("qx.bom.Selector",
+qx.Class.define("qx.bom.Selector",
 {
   statics :
   {

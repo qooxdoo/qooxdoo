@@ -23,7 +23,7 @@
  * Be aware of that behaviour if using the {@link #has} method with a minimum
  * version as second parameter.
  */
-qx.Bootstrap.define("qx.bom.client.Multimedia",
+qx.Class.define("qx.bom.client.Multimedia",
 {
   /*
   *****************************************************************************
