@@ -180,9 +180,11 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : qx.core.Variant.select("qx.client",
+    getKeys : (
     {
-      "mshtml" : function(map)
+      "ES5" : Object.keys,
+      
+      "BROKEN_IE" : function(map)
       {
         var arr = [];
         for (var key in map) {
@@ -213,7 +215,10 @@ qx.Bootstrap.define("qx.lang.Object",
 
         return arr;
       }
-    }),
+    })[
+      typeof(Object.keys) == "function" ? "ES5" :
+        (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
+    ],
 
 
     /**
