@@ -86,6 +86,9 @@ qx.Class.define("playground.view.Toolbar",
     this.__gistMenu.addListener("reload", function(e) {
       this.fireDataEvent("reloadGists", e.getData());
     }, this);
+    this.__gistMenu.addListener("newGist", function() {
+      this.fireEvent("newGist");
+    }, this);
 
     // spacer
     this.addSpacer();
@@ -182,7 +185,12 @@ qx.Class.define("playground.view.Toolbar",
     /**
      * Event which will be fireed if the gists should be reloaded.
      */
-    "reloadGists" : "qx.event.type.Data"
+    "reloadGists" : "qx.event.type.Data",
+    
+    /**
+     * Fired if a new gist should be created.
+     */
+    "newGist" : "qx.event.type.Event"
   },
 
 
