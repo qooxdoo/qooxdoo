@@ -140,7 +140,7 @@ qx.Class.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : qx.Bootstrap.objectGetKeys,
+    getKeys : qx.Bootstrap.getKeys,
 
 
     /**
@@ -151,7 +151,7 @@ qx.Class.define("qx.lang.Object",
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    getKeysAsString : qx.Bootstrap.objectGetKeysAsString,
+    getKeysAsString : qx.Bootstrap.getKeysAsString,
 
 
     /**

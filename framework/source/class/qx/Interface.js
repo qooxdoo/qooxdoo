@@ -294,7 +294,7 @@ qx.Bootstrap.define("qx.Interface",
         return false;
       }
 
-      var propertyName = qx.Bootstrap.stringFirstLow(match[2]);
+      var propertyName = qx.Bootstrap.firstLow(match[2]);
       var isPropertyMethod = qx.Bootstrap.getPropertyDefinition(clazz, propertyName);
       if (!isPropertyMethod) {
         return false;

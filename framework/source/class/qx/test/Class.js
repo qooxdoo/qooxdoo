@@ -115,7 +115,7 @@ qx.Class.define("qx.test.Class",
       {
         this.assertException(function() {
           bmw.getMaxSpeed();
-        }, qx.core.AssertionError);
+        }, Error);
       }
     },
 

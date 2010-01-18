@@ -290,7 +290,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    objectGetKeys : (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ?
+    getKeys : (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ?
       function(map)
       {
         var arr = [];
@@ -332,9 +332,9 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    objectGetKeysAsString : function(map)
+    getKeysAsString : function(map)
     {
-      var keys = qx.Bootstrap.objectGetKeys(map);
+      var keys = qx.Bootstrap.getKeys(map);
       if (keys.length == 0) {
         return "";
       }
@@ -370,7 +370,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
-    stringFirstUp : function(str) {
+    firstUp : function(str) {
       return str.charAt(0).toUpperCase() + str.substr(1);
     },
 
@@ -381,7 +381,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param str {String} the string
      * @return {String} the string with a lower case first character
      */
-    stringFirstLow : function(str) {
+    firstLow : function(str) {
       return str.charAt(0).toLowerCase() + str.substr(1);
     },
     
