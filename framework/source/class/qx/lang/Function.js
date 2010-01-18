@@ -224,7 +224,7 @@ qx.Class.define("qx.lang.Function",
     create : function(func, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
+        qx.core.Assert && qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
       }
 
       // Nothing to be done when there are no options.
@@ -243,7 +243,7 @@ qx.Class.define("qx.lang.Function",
         {
           if (options.self instanceof qx.core.Object)
           {
-            qx.core.Assert.assertFalse(
+            qx.core.Assert && qx.core.Assert.assertFalse(
               options.self.isDisposed(),
               "Trying to call a bound function with a disposed object as context: " + options.self.toString() + " :: " + qx.lang.Function.getName(func)
             );

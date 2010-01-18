@@ -622,14 +622,14 @@ qx.Bootstrap.define("qx.core.Property",
 
         // Overriding temporary wrapper
         try{
-          members[store] = new Function("value", code.join(""));
+          members[store] = eval("function(value) {" + code.join("") + "}");
         } catch(ex) {
           throw new Error("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
       }
       else
       {
-        members[store] = new Function("value", code.join(""));
+        members[store] = eval("function(value) {" + code.join("") + "}");
       }
 
       // Enable profiling code
