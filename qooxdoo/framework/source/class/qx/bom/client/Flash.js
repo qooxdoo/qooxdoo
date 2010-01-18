@@ -45,7 +45,7 @@
 /**
  * Flash detection
  */
-qx.Bootstrap.define("qx.bom.client.Flash",
+qx.Class.define("qx.bom.client.Flash",
 {
   /*
   *****************************************************************************

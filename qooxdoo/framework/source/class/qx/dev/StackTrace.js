@@ -20,7 +20,7 @@
 /**
  * Methods to get information about the JavaScript call stack.
  */
-qx.Bootstrap.define("qx.dev.StackTrace",
+qx.Class.define("qx.dev.StackTrace",
 {
   statics:
   {

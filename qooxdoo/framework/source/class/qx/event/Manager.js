@@ -27,8 +27,10 @@
 /**
  * Wrapper for browser DOM event handling for each browser window/frame.
  */
-qx.Bootstrap.define("qx.event.Manager",
+qx.Class.define("qx.event.Manager",
 {
+  extend : Object,
+  
   /*
   *****************************************************************************
      CONSTRUCTOR

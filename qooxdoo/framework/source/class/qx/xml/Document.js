@@ -26,7 +26,7 @@
  * * http://msdn2.microsoft.com/en-us/library/ms764622.aspx
  * * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
-qx.Bootstrap.define("qx.xml.Document",
+qx.Class.define("qx.xml.Document",
 {
   statics :
   {

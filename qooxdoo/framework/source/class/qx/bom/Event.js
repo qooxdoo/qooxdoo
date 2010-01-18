@@ -64,7 +64,7 @@
  * This class should not be used directly normally. It's better
  * to use {@link qx.event.Registration} instead.
  */
-qx.Bootstrap.define("qx.bom.Event",
+qx.Class.define("qx.bom.Event",
 {
   statics :
   {

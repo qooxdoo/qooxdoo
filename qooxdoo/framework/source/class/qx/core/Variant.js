@@ -263,7 +263,7 @@ qx.Bootstrap.define("qx.core.Variant",
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
         throw new Error('No match for variant "' + key +
-          '" in variants [' + qx.lang.Object.getKeysAsString(variantFunctionMap) +
+          '" in variants [' + qx.Bootstrap.objectGetKeysAsString(variantFunctionMap) +
           '] found, and no default ("default") given');
       }
     },
