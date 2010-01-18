@@ -388,7 +388,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.lang.Object.getKeys(clazz.$$properties));
+          list.push.apply(list, qx.Bootstrap.objectGetKeys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -463,7 +463,7 @@ qx.Bootstrap.define("qx.Class",
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin directly.
      */
-    hasOwnMixin: function(clazz, mixin) {
+    hasOwnMixin : function(clazz, mixin) {
       return clazz.$$includes && clazz.$$includes.indexOf(mixin) !== -1;
     },
 
@@ -756,7 +756,7 @@ qx.Bootstrap.define("qx.Class",
           var key = maps[i];
 
           if (config[key] !== undefined && (
-            config[key].$$hash !== undefined || !qx.lang.Type.isObject(config[key])
+            config[key].$$hash !== undefined || !qx.Bootstrap.isObject(config[key])
           )) {
             throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value needs to be a map!');
           }
@@ -910,7 +910,7 @@ qx.Bootstrap.define("qx.Class",
 
           var key;
 
-          for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
+          for (var i=0, a=qx.Bootstrap.objectGetKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
             var staticValue = statics[key];
@@ -1194,9 +1194,9 @@ qx.Bootstrap.define("qx.Class",
         if (config.check != null)
         {
           if (
-            !qx.lang.Type.isString(config.check) &&
-            !qx.lang.Type.isArray(config.check) &&
-            !qx.lang.Type.isFunction(config.check)
+            !qx.Bootstrap.isString(config.check) &&
+            !qx.Bootstrap.isArray(config.check) &&
+            !qx.Bootstrap.isFunction(config.check)
           ) {
             throw new Error('Invalid check definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
           }
@@ -1225,7 +1225,7 @@ qx.Bootstrap.define("qx.Class",
 
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
-      for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=qx.Bootstrap.objectGetKeys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         member = members[key];

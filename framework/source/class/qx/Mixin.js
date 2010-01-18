@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.core.Variant)
+
+/* ************************************************************************ */
+
 /**
  * This class is used to define mixins (similar to mixins in Ruby).
  *
@@ -231,7 +237,7 @@ qx.Bootstrap.define("qx.Mixin",
      */
     isCompatible : function(mixin, clazz)
     {
-      var list = qx.Class.getMixins(clazz);
+      var list = qx.Bootstrap.getMixins(clazz);
       list.push(mixin);
       return qx.Mixin.checkCompatibility(list);
     },
@@ -266,7 +272,7 @@ qx.Bootstrap.define("qx.Mixin",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.$$registry);
+      return qx.Bootstrap.objectGetLength(this.$$registry);
     },
 
 
@@ -292,8 +298,6 @@ qx.Bootstrap.define("qx.Mixin",
           list.push.apply(list, this.flatten(mixins[i].$$includes));
         }
       }
-
-      // console.log("Flatten: " + mixins + " => " + list);
 
       return list;
     },
