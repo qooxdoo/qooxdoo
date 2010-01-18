@@ -47,6 +47,14 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__filterCheckBox.setValue(initFilterValue);
     this.__filterCheckBox.addListener("changeValue", this.__onFilterChange, this);
     this.add(this.__filterCheckBox);
+    
+    var newGistButton = new qx.ui.menu.Button(
+      this.tr("New gist"), "icon/16/actions/list-add.png"
+    );
+    newGistButton.addListener("execute", function() {
+      this.fireEvent("newGist");     
+    }, this);
+    this.add(newGistButton);
 
     // separator
     this.add(new qx.ui.menu.Separator());
@@ -77,7 +85,12 @@ qx.Class.define("playground.view.gist.GistMenu",
     /**
      * Fired if the gists need to relaod.
      */
-    "reload" : "qx.event.type.Data"
+    "reload" : "qx.event.type.Data",
+    
+    /**
+     * Fired when a new gists should be made.
+     */
+     "newGist" : "qx.event.type.Event"
   },
 
 

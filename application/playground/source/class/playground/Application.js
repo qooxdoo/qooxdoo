@@ -134,6 +134,7 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("reloadGists", function(e) {
         this.__loadGistsForUser(e.getData());
       }, this);
+      this.__toolbar.addListener("newGist", this.__newGist, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
@@ -473,6 +474,15 @@ qx.Class.define("playground.Application",
         this.__updatePlayground();
       }, this);
       request.send();
+    },
+    
+    
+    /**
+     * Handler for creating a new gists. (Opens up a window 
+     * for creating a new gist)
+     */
+    __newGist : function() {
+      window.open("http://gist.github.com");
     },
 
 
