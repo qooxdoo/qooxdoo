@@ -73,6 +73,9 @@ qx.Class.define("qx.bom.client.Feature",
 
     /** {Boolean} Flag to detect if the client runs in SSL mode */
     SSL : window.location.protocol === "https:",
+    
+    /** {BOOLEAN} Whether the object type supports the <code>__count__</code> property */ 
+    ECMA_OBJECT_COUNT : (({}).__count__ == 0),
 
     /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
     CSS_POINTER_EVENTS : "pointerEvents" in document.documentElement.style,

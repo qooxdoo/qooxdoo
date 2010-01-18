@@ -52,17 +52,16 @@ qx.Class.define("qx.lang.Object",
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
-    isEmpty : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(map)
+    isEmpty : (qx.bom.client.Feature.ECMA_OBJECT_COUNT) ?
+      function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
         return map.__count__ === 0;
-      },
-
-      "default" : function(map)
+      }
+      :
+      function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
@@ -73,8 +72,7 @@ qx.Class.define("qx.lang.Object",
         }
 
         return true;
-      }
-    }),
+      },
 
 
     /**
@@ -85,9 +83,8 @@ qx.Class.define("qx.lang.Object",
      * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
      */
-    hasMinLength : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(map, minLength)
+    hasMinLength : (qx.bom.client.Feature.ECMA_OBJECT_COUNT) ?
+      function(map, minLength)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -95,9 +92,9 @@ qx.Class.define("qx.lang.Object",
           qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
         }
         return map.__count__ >= minLength;
-      },
-
-      "default" : function(map, minLength)
+      }
+      :
+      function(map, minLength)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -119,8 +116,7 @@ qx.Class.define("qx.lang.Object",
         }
 
         return false;
-      }
-    }),
+      },
 
 
     /**
