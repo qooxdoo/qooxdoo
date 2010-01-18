@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#optional(qx.Interface)
 #use(qx.event.type.Data)
 #use(qx.event.dispatch.Direct)
 
@@ -271,7 +270,7 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
-    /** Contains names of inheritable properties, filled by {@link qx.Class#define} */
+    /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
     $$inheritable : {},
 
 
@@ -385,14 +384,14 @@ qx.Bootstrap.define("qx.core.Property",
      */
     __attachGroupMethods : function(clazz, config, name)
     {
-      var upname = qx.lang.String.firstUp(name);
+      var upname = qx.Bootstrap.stringFirstUp(name);
       var members = clazz.prototype;
       var themeable = config.themeable === true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          qx.log.Logger.debug("Generating property group: " + name);
+          qx.Bootstrap.debug("Generating property group: " + name);
         }
       }
 
@@ -480,19 +479,19 @@ qx.Bootstrap.define("qx.core.Property",
      */
     __attachPropertyMethods : function(clazz, config, name)
     {
-      var upname = qx.lang.String.firstUp(name);
+      var upname = qx.Bootstrap.stringFirstUp(name);
       var members = clazz.prototype;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          qx.log.Logger.debug("Generating property wrappers: " + name);
+          qx.Bootstrap.debug("Generating property wrappers: " + name);
         }
       }
 
       // Fill dispose value
       if (config.dispose === undefined && typeof config.check === "string") {
-        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check) || qx.Interface.isDefined(config.check);
+        config.dispose = this.__dispose[config.check] || qx.Bootstrap.classIsDefined(config.check) || qx.Interface.isDefined(config.check);
       }
 
       var method = this.$$method;
@@ -618,7 +617,7 @@ qx.Bootstrap.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          qx.log.Logger.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
+          qx.Bootstrap.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
 
         // Overriding temporary wrapper
