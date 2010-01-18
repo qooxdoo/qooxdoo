@@ -293,8 +293,8 @@ qx.Class.define("qx.lang.Array",
       // an arr as second argument.
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
-        qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
 
       Array.prototype.push.apply(arr1, arr2);
@@ -317,8 +317,8 @@ qx.Class.define("qx.lang.Array",
       // an arr as second argument.
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
-        qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
 
       for (var i=0, il=arr2.length, index; i<il; i++)
@@ -419,7 +419,7 @@ qx.Class.define("qx.lang.Array",
     max : function(arr)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertArray(arr, "Parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 
       var i, len=arr.length, result = arr[0];
@@ -445,7 +445,7 @@ qx.Class.define("qx.lang.Array",
     min : function(arr)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertArray(arr, "Parameter must be an array.");
+        qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 
       var i, len=arr.length, result = arr[0];

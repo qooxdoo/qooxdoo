@@ -66,13 +66,13 @@ qx.Class.define("qx.core.Assert",
 
       var errorMsg = "Assertion error! " + comment + ": " + msg;
       if (this.__logError) {
-        qx.log.Logger.error(errorMsg);
+        qx.Bootstrap.error(errorMsg);
       }
       if (qx.Class.isDefined("qx.core.AssertionError"))
       {
         var err = new qx.core.AssertionError(comment, msg);
         if (this.__logError) {
-          qx.log.Logger.error("Stack trace: \n" + err.getStackTrace());
+          qx.Bootstrap.error("Stack trace: \n" + err.getStackTrace());
         }
         throw err;
       } else {

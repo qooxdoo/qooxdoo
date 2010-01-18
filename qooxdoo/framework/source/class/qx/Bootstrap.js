@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #resource(qx.static:qx/static)
+#ignore(qx.data)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
 
@@ -448,7 +449,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return (
         value !== null && (
         value instanceof Array ||
-        (value && qx.Class.hasInterface(value.constructor, qx.data.IListData) ) ||
+        (value && qx.data && qx.data.IListData && qx.Bootstrap.hasInterface(value.constructor, qx.data.IListData) ) ||
         qx.Bootstrap.getClass(value) == "Array" ||
         (!!value && !!value.$$isArray))
       );
