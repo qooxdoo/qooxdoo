@@ -39,6 +39,14 @@ qx.Class.define("qx.lang.JsonImpl",
 {
   extend : Object,
   
+  
+  construct : function()
+  {
+    // bind parse and stringify so they can be called without a context.
+    this.stringify = qx.lang.Function.bind(this.stringify, this);
+    this.parse = qx.lang.Function.bind(this.parse, this);
+  },
+  
   members :
   {  
     __gap: null,

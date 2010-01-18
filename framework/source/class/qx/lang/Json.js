@@ -123,6 +123,8 @@ qx.Class.define("qx.lang.Json",
      * // text is '["Date(---current time---)"]'
      * </pre>
      *
+     * @signature function(value, replacer, space)
+     *
      * @param value {var} any JavaScript value, usually an object or array.
      *
      * @param replacer {Function?} an optional parameter that determines how
@@ -138,9 +140,7 @@ qx.Class.define("qx.lang.Json",
      *
      * @return {String} The JSON string of the value
      */
-    stringify : function(value, replacer, space) {
-      return qx.lang.Json.JSON.stringify(value, replacer, space);
-    },
+    stringify : null, // will be set in the defer block
 
 
     /**
@@ -185,6 +185,8 @@ qx.Class.define("qx.lang.Json",
      * });
      * </pre>
      *
+     * @signature function(text, reviver)
+     * 
      * @param text {String} JSON string to parse
      *
      * @param reviver {Function?} Optional reviver function to filter and
@@ -192,8 +194,13 @@ qx.Class.define("qx.lang.Json",
      *
      * @return {Object} The parsed JSON object
      */
-    parse : function(text, reviver) {
-      return qx.lang.Json.JSON.parse(text, reviver);
-    }
+    parse : null // will be set in the defer block
+  },
+  
+  
+  defer : function(statics)
+  {
+    statics.stringify = statics.JSON.stringify; 
+    statics.parse = statics.JSON.parse; 
   }
 });
