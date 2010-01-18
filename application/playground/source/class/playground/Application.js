@@ -448,7 +448,11 @@ qx.Class.define("playground.Application",
       var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.list.xml" AS gh; SELECT * FROM gh WHERE user="' + username + '"';
       var delegate = {manipulateData : function(data) {
         if (data.query.results) {
-          return data.query.results.gists.gist;
+          if (data.query.results.gists.gist) {
+            return data.query.results.gists.gist;
+          } else {
+            return [];
+          }
         } else {
           return "FAIL!";
         }
