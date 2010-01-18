@@ -181,7 +181,7 @@ qx.Bootstrap.define("qx.Interface",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.$$registry);
+      return qx.Bootstrap.objectGetLength(this.$$registry);
     },
 
 
@@ -208,8 +208,6 @@ qx.Bootstrap.define("qx.Interface",
         }
       }
 
-      // console.log("Flatten: " + ifaces + " => " + list);
-
       return list;
     },
 
@@ -231,10 +229,10 @@ qx.Bootstrap.define("qx.Interface",
       {
         for (var key in members)
         {
-          if (qx.lang.Type.isFunction(members[key]))
+          if (qx.Bootstrap.isFunction(members[key]))
           {
             var isPropertyMethod = this.__isPropertyMethod(clazz, key);
-            var hasMemberFunction = isPropertyMethod || qx.lang.Type.isFunction(object[key]);
+            var hasMemberFunction = isPropertyMethod || qx.Bootstrap.isFunction(object[key]);
 
             if (!hasMemberFunction)
             {
@@ -250,7 +248,7 @@ qx.Bootstrap.define("qx.Interface",
             var shouldWrapFunction =
               wrap === true &&
               !isPropertyMethod &&
-              !qx.Class.hasInterface(clazz, iface);
+              !qx.Bootstrap.hasInterface(clazz, iface);
 
             if (shouldWrapFunction) {
               object[key] = this.__wrapInterfaceMember(
@@ -296,15 +294,15 @@ qx.Bootstrap.define("qx.Interface",
         return false;
       }
 
-      var propertyName = qx.lang.String.firstLow(match[2]);
-      var isPropertyMethod = qx.Class.hasProperty(clazz, propertyName);
+      var propertyName = qx.Bootstrap.stringFirstLow(match[2]);
+      var isPropertyMethod = qx.Bootstrap.getPropertyDefinition(clazz, propertyName);
       if (!isPropertyMethod) {
         return false;
       }
 
       var isBoolean = match[0] == "is" || match[0] == "toggle";
       if (isBoolean) {
-        return qx.Class.getPropertyDefinition(clazz, propertyName).check == "Boolean";
+        return qx.Bootstrap.getPropertyDefinition(clazz, propertyName).check == "Boolean";
       }
 
       return true;
@@ -323,7 +321,7 @@ qx.Bootstrap.define("qx.Interface",
       {
         for (var key in iface.$$properties)
         {
-          if (!qx.Class.hasProperty(clazz, key)) {
+          if (!qx.Bootstrap.getPropertyDefinition(clazz, key)) {
             throw new Error(
               'The property "' + key + '" is not supported by Class "' +
               clazz.classname + '"!'
@@ -346,7 +344,7 @@ qx.Bootstrap.define("qx.Interface",
       {
         for (var key in iface.$$events)
         {
-          if (!qx.Class.supportsEvent(clazz, key)) {
+          if (!qx.Bootstrap.supportsEvent(clazz, key)) {
             throw new Error(
               'The event "' + key + '" is not supported by Class "' +
               clazz.classname + '"!'

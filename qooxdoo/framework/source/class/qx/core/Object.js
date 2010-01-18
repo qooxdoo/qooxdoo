@@ -124,10 +124,12 @@ qx.Class.define("qx.core.Object",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        this.assertFunction(
-          args.callee.base,
-          "Cannot call super class. Method is not derived: " + qx.lang.Function.getName(args.callee)
-        );
+        if (!qx.Bootstrap.isFunction(args.callee.base)) {
+          throw new Error(
+            "Cannot call super class. Method is not derived: " +
+            args.callee.displayName
+          );
+        }
       }
 
       if (arguments.length === 1) {
@@ -164,17 +166,6 @@ qx.Class.define("qx.core.Object",
      * Returns a clone of this object. Copies over all user configured
      * property values. Do not configure a parent nor apply the appearance
      * styles directly.
-     * The method has some limitation you should know before considering to use
-     * it:
-     *
-     * * Objects with mandatory constructor parameters can not be cloned.
-     * * Objects holding its state not only in properties will not have the same
-     * state!
-     *
-     *  * The method fails cloning singletons.
-     *
-     *  * If you have stored other qooxdoo objects in properties, only the
-     * references will be cloned. (flat copy)
      *
      * @return {qx.core.Object} The clone
      */
@@ -222,19 +213,18 @@ qx.Class.define("qx.core.Object",
     {
       var setter = qx.core.Property.$$method.set;
 
-      if (qx.lang.Type.isString(data))
+      if (qx.Bootstrap.isString(data))
       {
         if (!this[setter[data]])
         {
-          // check for a fallback [BUG #2341]
-          if (this["set" + qx.lang.String.firstUp(data)] != undefined) {
-            this["set" + qx.lang.String.firstUp(data)](value);
+          if (this["set" + qx.Bootstrap.firstUp(data)] != undefined) {
+            this["set" + qx.Bootstrap.firstUp(data)](value);
             return;
           }
 
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            this.error("No such property: " + data);
+            qx.Bootstrap.error("No such property: " + data);
             return this;
           }
         }
@@ -248,15 +238,14 @@ qx.Class.define("qx.core.Object",
         {
           if (!this[setter[prop]])
           {
-            // check for a fallback [BUG #2341]
-            if (this["set" + qx.lang.String.firstUp(prop)] != undefined) {
-              this["set" + qx.lang.String.firstUp(prop)](data[prop]);
+            if (this["set" + qx.Bootstrap.firstUp(prop)] != undefined) {
+              this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
               continue;
             }
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              this.error("No such property: " + prop);
+              qx.Bootstrap.error("No such property: " + prop);
               return this;
             }
           }
@@ -283,14 +272,13 @@ qx.Class.define("qx.core.Object",
 
       if (!this[getter[prop]])
       {
-        // check for a fallback [BUG #2341]
-        if (this["get" + qx.lang.String.firstUp(prop)] != undefined) {
-          return this["get" + qx.lang.String.firstUp(prop)]();
+        if (this["get" + qx.Bootstrap.firstUp(prop)] != undefined) {
+          return this["get" + qx.Bootstrap.firstUp(prop)]();
         }
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          this.error("No such property: " + prop);
+          qx.Bootstrap.error("No such property: " + prop);
           return this;
         }
       }
@@ -313,15 +301,14 @@ qx.Class.define("qx.core.Object",
 
       if (!this[resetter[prop]])
       {
-        // check for a fallback [BUG #2341]
-        if (this["reset" + qx.lang.String.firstUp(prop)] != undefined) {
-          this["reset" + qx.lang.String.firstUp(prop)]();
+        if (this["reset" + qx.Bootstrap.firstUp(prop)] != undefined) {
+          this["reset" + qx.Bootstrap.firstUp(prop)]();
           return;
         }
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          this.error("No such property: " + prop);
+          qx.Bootstrap.error("No such property: " + prop);
           return this;
         }
       }
@@ -688,7 +675,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          qx.log.Logger.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -737,7 +724,7 @@ qx.Class.define("qx.core.Object",
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (value !== null && typeof value === "object" && !(qx.lang.Type.isString(value)))
+            if (value !== null && typeof value === "object" && !(qx.Bootstrap.isString(value)))
             {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
@@ -746,7 +733,7 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              qx.log.Logger.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+              qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
               delete this[key];
             }
           }
@@ -770,12 +757,9 @@ qx.Class.define("qx.core.Object",
      * @deprecated Performance: Don't use '_disposeFields' - instead
      *      assign directly to <code>null</code>
      */
-    _disposeFields : function(varargs) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Don't use '_disposeFields' - instead assign directly to 'null'"
-      );
-
+    _disposeFields : function(varargs) 
+    {
+      qx.Bootstrap.warn("Don't use '_disposeFields' - instead assign directly to 'null'");
       qx.util.DisposeUtil.disposeFields(this, arguments);
     },
 
