@@ -388,7 +388,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.Bootstrap.objectGetKeys(clazz.$$properties));
+          list.push.apply(list, qx.Bootstrap.getKeys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -910,7 +910,7 @@ qx.Bootstrap.define("qx.Class",
 
           var key;
 
-          for (var i=0, a=qx.Bootstrap.objectGetKeys(statics), l=a.length; i<l; i++)
+          for (var i=0, a=qx.Bootstrap.getKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
             var staticValue = statics[key];
@@ -1225,7 +1225,7 @@ qx.Bootstrap.define("qx.Class",
 
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
-      for (var i=0, a=qx.Bootstrap.objectGetKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         member = members[key];

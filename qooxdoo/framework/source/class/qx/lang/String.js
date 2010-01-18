@@ -216,7 +216,7 @@ qx.Class.define("qx.lang.String",
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
-    firstUp : qx.Bootstrap.stringFirstUp,
+    firstUp : qx.Bootstrap.firstUp,
 
 
     /**
@@ -226,7 +226,7 @@ qx.Class.define("qx.lang.String",
      * @param str {String} the string
      * @return {String} the string with a lower case first character
      */
-    firstLow : qx.Bootstrap.stringFirstLow,
+    firstLow : qx.Bootstrap.firstLow,
 
 
     /**
