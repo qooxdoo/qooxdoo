@@ -30,7 +30,7 @@
  * * Supports different debug levels ("debug", "info", "warn" or "error")
  * * Simple data serialization for incoming messages
  */
-qx.Bootstrap.define("qx.log.Logger",
+qx.Class.define("qx.log.Logger",
 {
   statics :
   {
@@ -615,5 +615,19 @@ qx.Bootstrap.define("qx.log.Logger",
         trace : trace
       };
     }
+  },
+  
+  
+  defer : function(statics)
+  {
+    var logs = qx.Bootstrap.$$logs;
+    for (var i=0; i<logs.length; i++) {
+      this.__log(logs[i][0], logs[i][1]);
+    }
+    
+    qx.Bootstrap.debug = qx.lang.Function.bind(statics.debug, statics);
+    qx.Bootstrap.info = qx.lang.Function.bind(statics.info, statics);
+    qx.Bootstrap.warn = qx.lang.Function.bind(statics.warn, statics);
+    qx.Bootstrap.error = qx.lang.Function.bind(statics.error, statics);
   }
 });
