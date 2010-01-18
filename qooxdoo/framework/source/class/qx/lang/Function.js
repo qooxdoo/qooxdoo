@@ -41,7 +41,7 @@
 /**
  * Collection of helper methods operating on functions.
  */
-qx.Bootstrap.define("qx.lang.Function",
+qx.Class.define("qx.lang.Function",
 {
   statics :
   {

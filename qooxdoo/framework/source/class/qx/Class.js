@@ -21,11 +21,9 @@
 /* ************************************************************************
 
 #require(qx.core.Setting)
-#require(qx.lang.Object)
-#require(qx.lang.Type)
-#optional(qx.Interface)
-#optional(qx.Mixin)
-#optional(qx.core.Property)
+#require(qx.Interface)
+#require(qx.Mixin)
+#require(qx.core.Property)
 
 ************************************************************************ */
 
@@ -259,12 +257,11 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether the given class exists
      *
+     * @signature function(name)
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
-    isDefined : function(name) {
-      return this.getByName(name) !== undefined;
-    },
+    isDefined : qx.Bootstrap.classIsDefined,
 
 
     /**
@@ -273,19 +270,18 @@ qx.Bootstrap.define("qx.Class",
      * @return {Number} the total number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.$$registry);
+      return qx.Bootstrap.objectGetLength(this.$$registry);
     },
 
 
     /**
      * Find a class by its name
      *
+     * @signature function(name)
      * @param name {String} class name to resolve
      * @return {Class} the class
      */
-    getByName : function(name) {
-      return this.$$registry[name];
-    },
+    getByName : qx.Bootstrap.getByName,
 
 
     /**
@@ -371,23 +367,12 @@ qx.Bootstrap.define("qx.Class",
      *
      * TODO: Correctly support refined properties?
      *
+     * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
      */
-    getPropertyDefinition : function(clazz, name)
-    {
-      while (clazz)
-      {
-        if (clazz.$$properties && clazz.$$properties[name]) {
-          return clazz.$$properties[name];
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return null;
-    },
+    getPropertyDefinition : qx.Bootstrap.getPropertyDefinition,
 
 
     /**
@@ -440,50 +425,35 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether a class has the given property
      *
+     * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
      */
-    hasProperty : function(clazz, name) {
-      return !!this.getPropertyDefinition(clazz, name);
-    },
+    hasProperty : qx.Bootstrap.hasProperty,
 
 
     /**
      * Returns the event type of the given event. Returns null if
      * the event does not exist.
      *
+     * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the event
      * @return {String|null} Event type of the given event.
      */
-    getEventType : function(clazz, name)
-    {
-      var clazz = clazz.constructor;
-
-      while (clazz.superclass)
-      {
-        if (clazz.$$events && clazz.$$events[name] !== undefined) {
-          return clazz.$$events[name];
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return null;
-    },
+    getEventType : qx.Bootstrap.getEventType,
 
 
     /**
      * Whether a class supports the given event type
      *
+     * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
      */
-    supportsEvent : function(clazz, name) {
-      return !!this.getEventType(clazz, name);
-    },
+    supportsEvent : qx.Bootstrap.supportsEvent,
 
 
     /**
@@ -535,24 +505,11 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Returns a list of all mixins available in a given class.
      *
+     * @signature function(clazz)
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
      */
-    getMixins : function(clazz)
-    {
-      var list = [];
-
-      while (clazz)
-      {
-        if (clazz.$$includes) {
-          list.push.apply(list, clazz.$$flatIncludes);
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return list;
-    },
+    getMixins : qx.Bootstrap.getMixins,
 
 
     /**
@@ -588,33 +545,12 @@ qx.Bootstrap.define("qx.Class",
      * declaration of the given interface. Returns null if the interface is not
      * specified anywhere.
      *
+     * @signature function(clazz, iface)
      * @param clazz {Class} class to look for the interface
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
      */
-    getByInterface : function(clazz, iface)
-    {
-      var list, i, l;
-
-      while (clazz)
-      {
-        if (clazz.$$implements)
-        {
-          list = clazz.$$flatImplements;
-
-          for (i=0, l=list.length; i<l; i++)
-          {
-            if (list[i] === iface) {
-              return clazz;
-            }
-          }
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return null;
-    },
+    getByInterface : qx.Bootstrap.getByInterface,
 
 
     /**
@@ -648,13 +584,12 @@ qx.Bootstrap.define("qx.Class",
      * or any of its super classes using the "implement"
      * key.
      *
+     * @signature function(clazz, iface)
      * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
      */
-    hasInterface : function(clazz, iface) {
-      return !!this.getByInterface(clazz, iface);
-    },
+    hasInterface : qx.Bootstrap.hasInterface,
 
 
     /**

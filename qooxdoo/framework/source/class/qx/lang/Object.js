@@ -18,16 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#optional(qx.core.Assert)
-
-************************************************************************ */
-
 /**
  * Helper functions to handle Object as a Hash map.
  */
-qx.Bootstrap.define("qx.lang.Object",
+qx.Class.define("qx.lang.Object",
 {
   statics :
   {
@@ -136,41 +130,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    getLength : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(map)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
-        return map.__count__;
-      },
-
-      "default" : function(map)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
-
-        var length = 0;
-
-        for (var key in map) {
-          length++;
-        }
-
-        return length;
-      }
-    }),
-
-
-    _shadowedKeys :
-    [
-      "isPrototypeOf",
-      "hasOwnProperty",
-      "toLocaleString",
-      "toString",
-      "valueOf"
-    ],
+    getLength : qx.Bootstrap.objectGetLength,
 
 
     /**
@@ -180,67 +140,18 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : (
-    {
-      "ES5" : Object.keys,
-      
-      "BROKEN_IE" : function(map)
-      {
-        var arr = [];
-        for (var key in map) {
-          arr.push(key);
-        }
-
-        // IE does not return "shadowed" keys even if they are defined directly
-        // in the object. This is incompatible with the ECMA standard!!
-        // This is why this checks are needed.
-        var hasOwnProperty = Object.prototype.hasOwnProperty;
-        for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
-        {
-          if (hasOwnProperty.call(map, a[i])) {
-            arr.push(a[i]);
-          }
-        }
-
-        return arr;
-      },
-
-      "default" : function(map)
-      {
-        var arr = [];
-
-        for (var key in map) {
-          arr.push(key);
-        }
-
-        return arr;
-      }
-    })[
-      typeof(Object.keys) == "function" ? "ES5" :
-        (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
-    ],
+    getKeys : qx.Bootstrap.objectGetKeys,
 
 
     /**
      * Get the keys of a map as string
      *
+     * @signature function(map)
      * @param map {Object} the map
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    getKeysAsString : function(map)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-      }
-
-      var keys = qx.lang.Object.getKeys(map);
-      if (keys.length == 0) {
-        return "";
-      }
-
-      return '"' + keys.join('\", "') + '"';
-    },
+    getKeysAsString : qx.Bootstrap.objectGetKeysAsString,
 
 
     /**
