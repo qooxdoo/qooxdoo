@@ -36,7 +36,7 @@
  * * Opera using the <code>postError</code> (disabled due to missing
  *     functionality in opera as of version 9.6).
  */
-qx.Bootstrap.define("qx.log.appender.Native",
+qx.Class.define("qx.log.appender.Native",
 {
   /*
   *****************************************************************************
@@ -115,12 +115,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    if (window.console && window.console.clear) {
-      console.clear();
-    }
-
+  defer : function(statics) {
     qx.log.Logger.register(statics);
   }
 });

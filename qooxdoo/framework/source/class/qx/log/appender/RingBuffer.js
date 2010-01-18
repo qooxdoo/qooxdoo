@@ -24,8 +24,10 @@
  * can be retrieved later, f. i. when an error dialog pops up and the question
  * arises what actions have caused the error.
  */
-qx.Bootstrap.define("qx.log.appender.RingBuffer",
+qx.Class.define("qx.log.appender.RingBuffer",
 {
+  extend : Object,
+  
   /**
    * @param maxMessages {Integer?50} Maximum number of messages in the buffer
    */
