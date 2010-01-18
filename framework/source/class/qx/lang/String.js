@@ -42,7 +42,7 @@
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
-qx.Bootstrap.define("qx.lang.String",
+qx.Class.define("qx.lang.String",
 {
   statics :
   {
@@ -212,23 +212,21 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Convert the first character of the string to upper case.
      *
+     * @signature function(str)
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
-    firstUp : function(str) {
-      return str.charAt(0).toUpperCase() + str.substr(1);
-    },
+    firstUp : qx.Bootstrap.stringFirstUp,
 
 
     /**
      * Convert the first character of the string to lower case.
      *
+     * @signature function(str)
      * @param str {String} the string
      * @return {String} the string with a lower case first character
      */
-    firstLow : function(str) {
-      return str.charAt(0).toLowerCase() + str.substr(1);
-    },
+    firstLow : qx.Bootstrap.stringFirstLow,
 
 
     /**

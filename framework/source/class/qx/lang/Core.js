@@ -46,7 +46,7 @@
  * * Array.every()
  * * String.quote()
  */
-qx.Bootstrap.define("qx.lang.Core",
+qx.Class.define("qx.lang.Core",
 {
   statics :
   {
