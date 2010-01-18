@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.event.handler.Application)
-
-************************************************************************ */
-
 /**
  * Registration for all instances of qooxdoo classes. Mainly
  * used to manage them for the final shutdown sequence and to
@@ -144,9 +138,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (obj == null)
-        {
-          qx.log.Logger.trace(this);
+        if (obj == null) {
           throw new Error("Invalid object: " + obj);
         }
       }
@@ -178,9 +170,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (obj == null)
-        {
-          qx.log.Logger.trace(this);
+        if (obj == null) {
           throw new Error("Invalid object: " + obj);
         }
       }
@@ -258,7 +248,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         }
         catch(ex)
         {
-          qx.log.Logger.error(this, "Could not dispose object " + obj.toString() + ": " + ex);
+          qx.Bootstrap.error(this, "Could not dispose object " + obj.toString() + ": " + ex);
 
           if (i !== l)
           {
@@ -270,7 +260,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         break;
       }
 
-      qx.log.Logger.debug(this, "Disposed " + l + " objects");
+      qx.Bootstrap.debug(this, "Disposed " + l + " objects");
 
       delete this.__registry;
     },

@@ -17,10 +17,17 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.log.Logger)
+#ignore(qx.log)
+
+************************************************************************ */
+
 /**
  * Methods to cleanup fields from maps/objects.
  */
-qx.Class.define("qx.util.DisposeUtil",
+qx.Bootstrap.define("qx.util.DisposeUtil",
 {
   statics :
   {
@@ -34,13 +41,8 @@ qx.Class.define("qx.util.DisposeUtil",
      */
     disposeFields : function(obj, arr)
     {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Don't use 'disposeFields' - instead assign directly to 'null'"
-      );
-
-      var name;
-
+      qx.Bootstrap.warn("Don't use 'disposeFields' - instead assign directly to 'null'");
+      
       for (var i=0, l=arr.length; i<l; i++)
       {
         var name = arr[i]
