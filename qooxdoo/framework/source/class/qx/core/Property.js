@@ -21,6 +21,7 @@
 
 /* ************************************************************************
 
+#optional(qx.Interface)
 #use(qx.event.type.Data)
 #use(qx.event.dispatch.Direct)
 
@@ -491,7 +492,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       // Fill dispose value
       if (config.dispose === undefined && typeof config.check === "string") {
-        config.dispose = this.__dispose[config.check] || qx.Bootstrap.classIsDefined(config.check) || qx.Interface.isDefined(config.check);
+        config.dispose = this.__dispose[config.check] || qx.Bootstrap.classIsDefined(config.check) || (qx.Interface && qx.Interface.isDefined(config.check));
       }
 
       var method = this.$$method;
@@ -622,14 +623,14 @@ qx.Bootstrap.define("qx.core.Property",
 
         // Overriding temporary wrapper
         try{
-          members[store] = eval("function(value) {" + code.join("") + "}");
+          members[store] =  new Function("value", code.join(""));
         } catch(ex) {
           throw new Error("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
       }
       else
       {
-        members[store] = eval("function(value) {" + code.join("") + "}");
+        members[store] =  new Function("value", code.join(""));
       }
 
       // Enable profiling code

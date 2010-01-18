@@ -719,4 +719,5 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param object {Object} Contextual object (either instance or static class)
      */
     trace : function(object) {}
+  }
 });
