@@ -108,7 +108,7 @@ qx.Class.define("playground.Application",
       // container layout
       var layout = new qx.ui.layout.VBox();
 
-      // Main container
+      // main container
       var mainContainer = new qx.ui.container.Composite(layout);
       this.getRoot().add(mainContainer, { edge : 0 });
 
