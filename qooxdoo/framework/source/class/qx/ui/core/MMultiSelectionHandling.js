@@ -138,6 +138,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * Selects all items of the managed object.
      */
     selectAll : function() {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to selectiong all items.")
+        );
+        this.trace();
+      }
       this.__manager.selectAll();
     },
 
@@ -169,6 +177,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * @throws an exception if the item is not a child element.
      */
     addToSelection : function(item) {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to selectiong the given items.")
+        );
+        this.trace();
+      }
       if (!qx.ui.core.Widget.contains(this, item)) {
         throw new Error("Could not add + " + item +
           " to selection, because it is not a child element!");
@@ -188,6 +204,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * @throws an exception if the item is not a child element.
      */
     removeFromSelection : function(item) {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to removing the given items.")
+        );
+        this.trace();
+      }
       if (!qx.ui.core.Widget.contains(this, item)) {
         throw new Error("Could not remove " + item +
           " from selection, because it is not a child element!");
@@ -204,6 +228,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * @param end {qx.ui.core.Widget} Item to end at
      */
     selectRange : function(begin, end) {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to selectiong the given items.")
+        );
+        this.trace();
+      }
       this.__manager.selectItemRange(begin, end);
     },
 
@@ -214,6 +246,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * styles.
      */
     resetSelection : function() {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Resetting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to resetting the selectiong.")
+        );
+        this.trace();
+      }
       this.__manager.clearSelection();
     },
 
@@ -227,6 +267,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *    the items contains more than one item.
      */
     setSelection : function(items) {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to selectiong the given items.")
+        );
+        this.trace();
+      }
       for (var i = 0; i < items.length; i++) {
         if (!qx.ui.core.Widget.contains(this, items[i])) {
           throw new Error("Could not select " + items[i] +
@@ -306,6 +354,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * Invert the selection. Select the non selected and deselect the selected.
      */
     invertSelection: function() {
+      // @deprecated for 1.1
+      if (!this.getEnabled()) {
+        this.warn(
+          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
+          ("The current behavior will change from doing nothing to selectiong the given items.")
+        );
+        this.trace();
+      }
       this.__manager.invertSelection();
     },
 
