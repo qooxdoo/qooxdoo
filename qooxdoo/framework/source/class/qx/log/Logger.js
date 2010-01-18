@@ -167,7 +167,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     debug : function(object, message) {
-      this.__log("debug", arguments);
+      qx.log.Logger.__log("debug", arguments);
     },
 
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     info : function(object, message) {
-      this.__log("info", arguments);
+      qx.log.Logger.__log("info", arguments);
     },
 
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     warn : function(object, message) {
-      this.__log("warn", arguments);
+      qx.log.Logger.__log("warn", arguments);
     },
 
 
@@ -209,7 +209,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     error : function(object, message) {
-      this.__log("error", arguments);
+      qx.log.Logger.__log("error", arguments);
     },
 
 
@@ -220,7 +220,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     trace : function(object) {
-      this.__log("info", [object, qx.dev.StackTrace.getStackTrace().join("\n")]);
+      qx.log.Logger.__log("info", [object, qx.dev.StackTrace.getStackTrace().join("\n")]);
     },
 
 
@@ -625,9 +625,10 @@ qx.Class.define("qx.log.Logger",
       this.__log(logs[i][0], logs[i][1]);
     }
     
-    qx.Bootstrap.debug = qx.lang.Function.bind(statics.debug, statics);
-    qx.Bootstrap.info = qx.lang.Function.bind(statics.info, statics);
-    qx.Bootstrap.warn = qx.lang.Function.bind(statics.warn, statics);
-    qx.Bootstrap.error = qx.lang.Function.bind(statics.error, statics);
+    qx.Bootstrap.debug = statics.debug;
+    qx.Bootstrap.info = statics.info;
+    qx.Bootstrap.warn = statics.warn;
+    qx.Bootstrap.error = statics.error;
+    qx.Bootstrap.trace = statics.trace;
   }
 });

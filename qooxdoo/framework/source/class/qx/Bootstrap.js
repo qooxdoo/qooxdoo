@@ -710,6 +710,13 @@ qx.Bootstrap.define("qx.Bootstrap",
      */
     error : function(object, message) {
       qx.Bootstrap.$$logs.push(["error", arguments]);
-    }    
-  }
+    },
+    
+    
+    /**
+     * Prints the current stack trace at level "info"
+     *
+     * @param object {Object} Contextual object (either instance or static class)
+     */
+    trace : function(object) {}
 });
