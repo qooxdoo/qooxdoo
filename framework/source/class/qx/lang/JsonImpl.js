@@ -134,6 +134,10 @@ qx.Class.define("qx.lang.JsonImpl",
         return 'null';
       }
 
+      if (value === undefined) {
+        return undefined;
+      }
+
       // What happens next depends on the value's type.
       switch (qx.lang.Type.getClass(value))
       {
