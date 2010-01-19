@@ -256,12 +256,13 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    objectGetLength : (({}).__count__ == 0) ?
-      function(map) {
+    objectGetLength : 
+    ({
+      "count": function(map) {
         return map.__count__;
-      }
-      :
-      function(map)
+      },
+    
+      "default": function(map)
       {
         var length = 0;
 
@@ -270,7 +271,34 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
 
         return length;
-      },
+      }
+    })[(({}).__count__ == 0) ? "count" : "default"],
+    
+    
+    /**
+     * Inserts all keys of the source object into the
+     * target objects. Attention: The target map gets modified.
+     *
+     * @param target {Object} target object
+     * @param source {Object} object to be merged
+     * @param overwrite {Boolean ? true} If enabled existing keys will be overwritten
+     * @return {Object} Target with merged values from the source object
+     */
+    objectMergeWith : function(target, source, overwrite)
+    {
+      if (overwrite === undefined) {
+        overwrite = true;
+      }
+
+      for (var key in source)
+      {
+        if (overwrite || target[key] === undefined) {
+          target[key] = source[key];
+        }
+      }
+
+      return target;
+    },    
     
     
     _shadowedKeys :
