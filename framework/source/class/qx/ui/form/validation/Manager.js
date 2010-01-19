@@ -526,5 +526,16 @@ qx.Class.define("qx.ui.form.validation.Manager",
       // fire the complete event (no entry in the results with null)
       this.fireEvent("complete");
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+    this.__formItems = null;
   }
 });
