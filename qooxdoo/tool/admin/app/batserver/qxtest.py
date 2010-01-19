@@ -940,6 +940,7 @@ class QxTest:
       "test_host" : test_host,
       "test_hostos" : self.os,
       "test_hostid" : "",
+      "revision" : self.trunkrev,
       "start_date" : start_date,
       "end_date" : time.strftime(self.timeFormat),
       "simulations": [],
