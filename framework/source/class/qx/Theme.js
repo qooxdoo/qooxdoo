@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.core.Variant)
+
+************************************************************************ */
+
+
 /**
  * Theme classes contain styling information for certain aspects of the
  * graphical user interface.
@@ -26,7 +33,7 @@
  * The additional meta theme allows for grouping of the individual
  * themes.
  */
-qx.Class.define("qx.Theme",
+qx.Bootstrap.define("qx.Theme",
 {
   statics:
   {
@@ -129,7 +136,7 @@ qx.Class.define("qx.Theme",
         return [];
       }
 
-      if (qx.lang.Type.isArray(objectOrArray)) {
+      if (qx.Bootstrap.isArray(objectOrArray)) {
         return objectOrArray;
       } else {
         return [objectOrArray];
@@ -147,7 +154,7 @@ qx.Class.define("qx.Theme",
     {
       var aliases = config.aliases || {};
       if (config.extend && config.extend.aliases) {
-        qx.lang.Object.mergeWith(aliases, config.extend.aliases, false);
+        qx.Bootstrap.objectMergeWith(aliases, config.extend.aliases, false);
       }
 
       theme.aliases = aliases;
@@ -192,7 +199,7 @@ qx.Class.define("qx.Theme",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.$$registry);
+      return qx.Bootstrap.objectGetLength(this.$$registry);
     },
 
 

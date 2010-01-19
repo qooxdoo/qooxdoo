@@ -177,32 +177,13 @@ qx.Class.define("qx.lang.Object",
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
      *
+     * @signature function(target, source, overwrite)
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @param overwrite {Boolean ? true} If enabled existing keys will be overwritten
      * @return {Object} Target with merged values from the source object
      */
-    mergeWith : function(target, source, overwrite)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
-        qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
-      }
-
-      if (overwrite === undefined) {
-        overwrite = true;
-      }
-
-      for (var key in source)
-      {
-        if (overwrite || target[key] === undefined) {
-          target[key] = source[key];
-        }
-      }
-
-      return target;
-    },
+    mergeWith : qx.Bootstrap.objectMergeWith,
 
 
     /**
