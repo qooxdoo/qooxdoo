@@ -301,7 +301,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     },    
     
     
-    _shadowedKeys :
+    __shadowedKeys :
     [
       "isPrototypeOf",
       "hasOwnProperty",
