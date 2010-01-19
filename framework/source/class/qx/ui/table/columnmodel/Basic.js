@@ -667,7 +667,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         // Inform the listeners. Do not add data as all known listeners in qooxdoo
         // only take this event to mean "total repaint necesscary". Fabian will look
         // after deprecating the data part of the orderChanged - event
-        this.fireEvent("orderChanged");
+        this.fireDataEvent("orderChanged");
 
       } else {
         throw new Error("setColumnsOrder: Invalid number of column positions given, expected "
