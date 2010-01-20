@@ -57,12 +57,16 @@ qx.Class.define("qx.data.store.Jsonp",
   {
     // overridden
     _createRequest: function(url) {
-      var loader = new qx.io.ScriptLoader();
+      // if there is an old loader, dispose it
+      if (this.__loader) {
+        this.__loader.dispose();
+      }
+      this.__loader = new qx.io.ScriptLoader();
 
       // check for the request configuration hook
       var del = this._delegate;
       if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(loader);
+        this._delegate.configureRequest(this.__loader);
       }
 
       var prefix = url.indexOf("?") == -1 ? "?" : "&";
@@ -71,7 +75,7 @@ qx.Class.define("qx.data.store.Jsonp",
 
       qx.data.store.Jsonp[id] = this;
       url += 'qx.data.store.Jsonp[' + id + '].callback';
-      loader.load(url, function(data) {
+      this.__loader.load(url, function(data) {
         delete this[id];
       }, this);
     },
@@ -84,6 +88,10 @@ qx.Class.define("qx.data.store.Jsonp",
      * @internal
      */
     callback : function(data) {
+      // check for disposed callback calls
+      if (this.isDisposed()) {
+        return;
+      }
       this.__loaded(data);
     },
 
@@ -113,5 +121,19 @@ qx.Class.define("qx.data.store.Jsonp",
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.__loader.dispose();
+    this.__loader = null;
   }
 });
