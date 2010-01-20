@@ -217,6 +217,10 @@ qx.Class.define("qx.io.ScriptLoader",
 
   destruct : function()
   {
+    // remove the current listener in case the call is disposed before the 
+    // element has finished loading
+    this.__elem.onerror = this.__elem.onload = this.__elem.onreadystatechange = null;
+    
     this.__elem = this.__oneventWrapped = this.__callback =
       this.__context = null;
   }
