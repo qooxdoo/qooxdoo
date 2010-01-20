@@ -128,7 +128,6 @@ qx.Class.define("playground.view.PlayArea",
       while(i--)
       {
         if (ch[i]) {
-          console.log("destroy", ch[i].classname);
           ch[i].destroy();
         }
       }
