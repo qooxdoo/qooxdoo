@@ -89,7 +89,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
     {
       check : "Boolean",
       apply : "_applyEnabled",
-      event : "changeEnabled"
+      event : "changeEnabled",
+      init: true
     },
 
     /**
