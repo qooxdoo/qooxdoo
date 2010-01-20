@@ -99,6 +99,7 @@ class SimulationLogParser:
     for k in sorted(logs.iterkeys()):    
       simulationDict = {
         "browser" : "Unknown",
+        "user_agent" : "Unknown",
         "platform" : "Unknown",
         "selenium_version" : "Unknown",
         "failed" : True,
@@ -113,6 +114,7 @@ class SimulationLogParser:
       agent = agentre.search(entry)
       if (agent):
         simulationDict["browser"] = self.getBrowser(agent.group(1))
+        simulationDict["user_agent"] = agent.group(1)
         
       platma = platre.search(entry)
       if (platma):
