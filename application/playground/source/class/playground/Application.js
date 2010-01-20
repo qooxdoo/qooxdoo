@@ -88,6 +88,11 @@ qx.Class.define("playground.Application",
     
     // flag used for the warning for IE
     __ignoreSaveFaults : false,
+    
+    // used for removing the created objects in the run code
+    __beforeReg : null,
+    __afterReg : null,
+    __oldCode : null,
 
     __errorMsg: qx.locale.Manager.tr(
       "Unfortunately, an unrecoverable internal error was caused by your code." + 
@@ -510,7 +515,7 @@ qx.Class.define("playground.Application",
     __updatePlayground : function()
     {
       this.__log.clear();
-      this.__playArea.reset();
+      this.__playArea.reset(this.__beforeReg, this.__afterReg, this.__oldCode);
 
       var reg = qx.Class.$$registry;
       delete reg[this.__currentStandalone];
@@ -526,6 +531,7 @@ qx.Class.define("playground.Application",
 
       // try to create a function
       try {
+        this.__oldCode = code;
         this.fun = new Function(code);
       } catch(ex) {
         var exc = ex;
@@ -533,8 +539,12 @@ qx.Class.define("playground.Application",
 
       // run the code
       try {
+        // save the current registry
+        this.__beforeReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
+        // run the aplpication
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
+        this.__afterReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
       }
       catch(ex) {
         var exc = ex;
@@ -556,7 +566,7 @@ qx.Class.define("playground.Application",
         this.error(this.__errorMsg.replace(/\|/g, "\n") + exc);
         this.__toolbar.showLog(true);
         this.__log.show();
-        this.__playArea.reset();
+        this.__playArea.reset(this.__beforeReg, this.__afterReg, this.__oldCode);
       }
 
       this.__log.fetch();
