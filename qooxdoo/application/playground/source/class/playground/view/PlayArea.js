@@ -105,19 +105,30 @@ qx.Class.define("playground.view.PlayArea",
     
     
     /**
-     * This currently only destroys the children of the application root.
-     * While this is ok for many simple scenarios, it cannot account for
-     * application code that generates temporary objects without adding them
-     * to the application (as widgets for instance). There is no real
-     * solution for such a multi-application scenario that is playground
-     * specific.
+     * Disposes the objects added in the playarea.
+     * Therefore, it uses a two step process, which could fail ins some 
+     * scenarios. 
+     * 
+     * First step takes all widgets added to the playarea's root and destroys 
+     * them.
+     * 
+     * The second step uses the given dumps of the qx registry and compares the
+     * additionally available classes with the sourcecode. If the classname of 
+     * the new objects are in the code, the objects will be disposed. 
+     * 
+     * @param beforeReg {Object} A copy of the qx object registry before running 
+     *   the application.
+     * @param afterReg {Object} A copy of the qx object registry after running
+     *   the application
+     * @param code {String} The code of the application as string.
      */
-    reset : function() {
+    reset : function(beforeReg, afterReg, code) {
       var ch = this.__playRoot.getChildren();
       var i = ch.length;
       while(i--)
       {
         if (ch[i]) {
+          console.log("destroy", ch[i].classname);
           ch[i].destroy();
         }
       }
@@ -125,6 +136,24 @@ qx.Class.define("playground.view.PlayArea",
       var layout = this.__playRoot.getLayout();
       this.__playRoot.setLayout(new qx.ui.layout.Canvas());
       layout.dispose();
+      
+      if (!beforeReg) {
+        return;
+      }
+      
+      // flush the dispose queue to get the ui controlls disposed
+      qx.ui.core.queue.Dispose.flush();
+      
+      // clean up the registry. Only really new objects should be in
+      for (var hash in afterReg) {
+        if (!beforeReg[hash] && !afterReg[hash].isDisposed()) {
+          // check if the object could be created by the code
+          if (code.indexOf(afterReg[hash].classname) != -1) {
+            // if yes, dispose it
+            afterReg[hash].dispose();
+          }
+        }
+      }
     },
     
     
