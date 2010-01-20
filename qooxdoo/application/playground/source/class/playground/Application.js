@@ -205,7 +205,7 @@ qx.Class.define("playground.Application",
     __onSampleChange : function(e) {
       var userCode = this.__editor.getCode();
       var currentSample = this.__samples.getCurrent();
-      if (userCode != currentSample)
+      if (this.__isCodeEqual(userCode, currentSample))
       {
         if (!confirm(this.tr("You changed the code of the current sample.|" + 
           "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
@@ -294,7 +294,6 @@ qx.Class.define("playground.Application",
     // ***************************************************
     /**
      * Back button and bookmark support
-     * @lint ignoreDeprecated(alert)
      */
     __initBookmarkSupport : function()
     {
@@ -496,8 +495,27 @@ qx.Class.define("playground.Application",
 
 
     // ***************************************************
-    // UPDATE & RUN
+    // UPDATE & RUN & COMPARE
     // ***************************************************
+    /**
+     * Special compare method for IE.
+     * @param code1 {String} The first code to compare.
+     * @param code2 {String} The second code to compare.
+     * @return {Boolean} true, if the code is equal.
+     */
+    __isCodeEqual : function(code1, code2)
+    {
+      var compareElem1 = document.getElementById("compare_div1");
+    	compareElem1.innerHTML = code1;
+
+      var compareElem2 = document.getElementById("compare_div2");
+      compareElem2.innerHTML = code2;
+
+      return (compareElem1.innerHTML.length != compareElem2.innerHTML.length ||
+        compareElem1.innerHTML != compareElem2.innerHTML);
+    },
+
+
     /**
      * Update the window title with given sample label
      * @param label {String} sample label
@@ -583,7 +601,7 @@ qx.Class.define("playground.Application",
       var name = this.__samples.getCurrentName();
       var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
-      if (code && code != currentSample) {
+      if (code && this.__isCodeEqual(code, currentSample)) {
         this.__playArea.updateCaption(this.tr("%1 (modified)", name));
         this.__addCodeToHistory(code);
       } else {
