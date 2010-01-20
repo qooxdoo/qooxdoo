@@ -473,7 +473,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        {
          // get the current styles as structure
          var helperStyleStructure = this.__getCurrentStylesGrouped();
-
+         
          // check for styles to apply at the paragraph
          var paragraphStyle = this.__generateParagraphStyle(helperStyleStructure);
 
@@ -495,7 +495,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          htmlToInsert += helperStyle + '</p>';
 
          this.__editorInstance.getCommandManager().addUndoStep("inserthtml", "insertParagraph", this.getCommandObject("inserthtml"));
-
+         
          this.execute("inserthtml", htmlToInsert);
 
          this.__hideSuperfluousParagraph();
@@ -571,10 +571,24 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           var paragraphStyle = 'style="';
           var childElement = currentStylesGrouped.child;
 
+          // text-align has to be applied to the paragraph element to get the 
+          // correct behaviour since it is the top block element for the text
           if (childElement["text-align"])
           {
             paragraphStyle += 'text-align:' + childElement["text-align"] + ';';
             delete currentStylesGrouped.child["text-align"];
+          }
+          
+          // To fix Bug #3346 (selecting multiple paragraphs and changing the
+          // font family) it is necessary to apply the font-family to the 
+          // paragraph element to prevent inserting any font-family style to 
+          // an inner "span" element which then block the font-family style
+          // attribute of the "p" element (this will applied by FF when using
+          // the "fontFamily" execCommand).
+          if (childElement["font-family"])
+          {
+            paragraphStyle += 'font-family:' + childElement["font-family"] + ';';
+            delete currentStylesGrouped.child["font-family"];
           }
 
           var paddingsToApply = {
@@ -1140,11 +1154,16 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        // retrieve the current styles as structure if no parameter is given
        var structure = typeof groupedStyles !== "undefined" ? groupedStyles : this.__getCurrentStylesGrouped();
-
+       
        // first traverse the "child" chain
        var child = structure.child;
        var legacyFont = false;
 
+       // if no styles are available no need to create an empty "span" element
+       if (qx.lang.Object.isEmpty(child)) {
+         return "";
+       }
+       
        while (child)
        {
          legacyFont = child["legacy-font-size"] != null;
