@@ -881,7 +881,7 @@ class QxTest:
       try:
         import simplejson as json
       except ImportError, e:
-        print("ERROR: Unable to import JSON module: " + repr(e))
+        self.log("ERROR: Unable to import JSON module: " + repr(e))
         return 
     
     from urllib2 import *
@@ -906,18 +906,18 @@ class QxTest:
     req = Request(self.testConf["reportServerUrl"], postdata)
     
     try:
-      response = urlopen(req)
+      response = urlopen(req)    
     except URLError, e:
       errMsg = ""
       if (e.args):
         errMsg = repr(e.args)
-      print("ERROR: Unable to contact report server " + errMsg)
-      return    
+      self.log("ERROR: Unable to contact report server %s" %errMsg)
+      return
     except HTTPError, e:
       errMsg = ""
-      if (e.args):
-        errMsg = repr(e.args)
-      print("ERROR: Unable to send report data " + errMsg)
+      if (e.code):
+        errMsg = repr(e.code)
+      self.log("ERROR: Report server couldn't store report: %s" %errMsg)
       return
       
     content = response.read()    
@@ -1273,7 +1273,7 @@ class QxTest:
     newConfigJson = demjson.encode(parsedConfig, strict=False, compactly=False, escape_unicode=True, encoding="utf-8")
 
     configFile = codecs.open(configFilePath, 'w', 'utf-8')
-    print("Writing new config to file: " + configFilePath)
+    self.log("Writing new config to file: " + configFilePath)
     configFile.write(newConfigJson)
 
     
@@ -1349,10 +1349,8 @@ class QxTest:
       self.log("Deleting directory %s" %topDir)
       for root, dirs, files in os.walk(topDir, topdown=False):
         for name in files:
-          print(name)
           os.remove(os.path.join(root, name))
         for name in dirs:
-          print(name)
           os.rmdir(os.path.join(root, name))
 
     # Write the zip file's contents    
@@ -1437,7 +1435,7 @@ def sendMultipartMail(configuration):
   msgText = MIMEText(configuration['html'], 'html')
   msg.attach(msgText)
   
-  print("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
+  self.log("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
         + configuration['mailTo'])
   
   mailServer = smtplib.SMTP(configuration['smtpHost'], configuration['smtpPort'])  
