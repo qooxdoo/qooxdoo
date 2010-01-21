@@ -358,6 +358,29 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
+    testModelCreationDeep : function() {
+      var form = new qx.ui.form.Form();
+      var tf1 = new qx.ui.form.TextField("A");
+      var tf2 = new qx.ui.form.TextField("B");
+      
+      form.add(tf1, null, null, "a.b1");
+      form.add(tf2, null, null, "a.b2.c");
+      
+      var controller = new qx.data.controller.Form(null, form);
+      var model = controller.createModel();
+
+      // check if the creation worked
+      this.assertEquals("A", model.getA().getB1());
+      this.assertEquals("B", model.getA().getB2().getC());
+
+      model.dispose();
+      controller.dispose();
+      tf1.destroy();
+      tf2.destroy();
+      form.dispose();
+    },
+    
+    
     testModelCreationWithModelSelection : function() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
