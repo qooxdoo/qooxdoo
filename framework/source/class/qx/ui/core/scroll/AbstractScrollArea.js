@@ -558,9 +558,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
         barX.show();
 
-        var max = Math.max(0, scrollSize.width - paneSize.width);
-        barX.setMaximum(max);
-        barX.setKnobFactor(max > 0 ? paneSize.width / scrollSize.width : 0);
+        barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width - 1));
+        barX.setKnobFactor(paneSize.width / scrollSize.width);
       }
       else
       {
@@ -573,9 +572,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
         barY.show();
 
-        var max = Math.max(0, scrollSize.height - paneSize.height);
-        barY.setMaximum(max);
-        barY.setKnobFactor(max > 0 ? paneSize.height / scrollSize.height : 0);
+        barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height - 1));
+        barY.setKnobFactor(paneSize.height / scrollSize.height);
       }
       else
       {
