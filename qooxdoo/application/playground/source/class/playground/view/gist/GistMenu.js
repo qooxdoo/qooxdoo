@@ -90,7 +90,13 @@ qx.Class.define("playground.view.gist.GistMenu",
     /**
      * Fired when a new gists should be made.
      */
-     "newGist" : "qx.event.type.Event"
+     "newGist" : "qx.event.type.Event",
+     
+     
+     /**
+      * Fired when a gist should be edited.
+      */
+     "editGist" : "qx.event.type.Data"
   },
 
 
@@ -146,7 +152,9 @@ qx.Class.define("playground.view.gist.GistMenu",
         // skip empty gists
         if (!texts[i]) {continue;}
         
-        var menuItem = new qx.ui.menu.Button(names[i], "icon/22/actions/edit-paste.png");
+        var menuItem = new playground.view.gist.MenuButton(
+          names[i], "icon/22/actions/edit-paste.png"
+        );
         this.add(menuItem);
         this.__items.push(menuItem);
         menuItem.addListener("execute", 
@@ -154,6 +162,9 @@ qx.Class.define("playground.view.gist.GistMenu",
             this.fireDataEvent("changeGist", code);
           }, this, texts[i])
         );
+        menuItem.addListener("editGist", function(e) {
+          this.fireDataEvent("editGist", e.getData());
+        }, this);
       };
       // apply the filter on load
       this.__onFilterChange();
@@ -175,6 +186,10 @@ qx.Class.define("playground.view.gist.GistMenu",
      * excludes the items not containing a '[qx]' in its label.
      */
     __onFilterChange : function() {
+      // if the gists are currently loading, do nothing
+      if (this.indexOf(this.__loadingItem) != -1) {
+        return;
+      }
       var on = this.__filterCheckBox.getValue();
       // write the status to the cookie
       qx.bom.Cookie.set("playgroundFilter", on);

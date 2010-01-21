@@ -78,6 +78,7 @@ qx.Class.define("playground.Application",
     
     // storages
     __samples : null,
+    __gists : null,
 
     // API-Key for bit.ly
     __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
@@ -140,6 +141,7 @@ qx.Class.define("playground.Application",
         this.__loadGistsForUser(e.getData());
       }, this);
       this.__toolbar.addListener("newGist", this.__newGist, this);
+      this.__toolbar.addListener("editGist", this.__onEditGist, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
@@ -419,7 +421,8 @@ qx.Class.define("playground.Application",
      */
     __onGistsLoaded : function(e) {
       var model = e.getData();
-      
+      this.__gists = model;
+
       // error handling
       if (model == "FAIL!") {
         this.__toolbar.invalidGist(true, this.tr("No such user found."));
@@ -491,6 +494,29 @@ qx.Class.define("playground.Application",
      */
     __newGist : function() {
       window.open("http://gist.github.com");
+    },
+
+
+    /**
+     * Handler for editing gists.
+     * @param e {qx.event.type.Data} The data event containing the name of
+     *   the gist.
+     */
+    __onEditGist : function(e) {
+      var name = e.getData();
+
+      // if the name is not in the description of any item, its the repo itself
+      var repo = name;
+
+      // search for the fitting repo number
+      for (var i = 0; i < this.__gists.getLength(); i++) {
+        if (this.__gists.getItem(i).getDescription() == name) {
+          repo = this.__gists.getItem(i).getRepo();
+          break;
+        }
+      }
+
+      window.open("http://gist.github.com/gists/" + repo + "/edit");
     },
 
 
