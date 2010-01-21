@@ -89,6 +89,9 @@ qx.Class.define("playground.view.Toolbar",
     this.__gistMenu.addListener("newGist", function() {
       this.fireEvent("newGist");
     }, this);
+    this.__gistMenu.addListener("editGist", function(e) {
+      this.fireDataEvent("editGist", e.getData());
+    }, this);
 
     // spacer
     this.addSpacer();
@@ -190,7 +193,12 @@ qx.Class.define("playground.view.Toolbar",
     /**
      * Fired if a new gist should be created.
      */
-    "newGist" : "qx.event.type.Event"
+    "newGist" : "qx.event.type.Event",
+    
+    /**
+     * Fired if the gist should be edited.
+     */
+    "editGist" : "qx.event.type.Event"
   },
 
 
