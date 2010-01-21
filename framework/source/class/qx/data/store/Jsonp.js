@@ -55,6 +55,9 @@ qx.Class.define("qx.data.store.Jsonp",
 
   members :
   {
+    __loader : null,
+
+
     // overridden
     _createRequest: function(url) {
       // if there is an old loader, dispose it
@@ -133,7 +136,9 @@ qx.Class.define("qx.data.store.Jsonp",
 
   destruct : function()
   {
-    this.__loader.dispose();
+    if (this.__loader) {
+      this.__loader.dispose();
+    }
     this.__loader = null;
   }
 });
