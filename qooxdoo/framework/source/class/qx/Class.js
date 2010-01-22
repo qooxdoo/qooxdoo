@@ -1526,7 +1526,7 @@ qx.Bootstrap.define("qx.Class",
     }
   },
 
-  defer : function(statics)
+  defer : function()
   {
     // Binding of already loaded bootstrap classes
     if (qx.core.Variant.isSet("qx.aspects", "on"))
