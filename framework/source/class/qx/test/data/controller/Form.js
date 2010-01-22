@@ -367,7 +367,7 @@ qx.Class.define("qx.test.data.controller.Form",
       form.add(tf2, null, null, "a.b2.c");
       
       var controller = new qx.data.controller.Form(null, form);
-      var model = controller.createModel();
+      var model = controller.createModel(true);
 
       // check if the creation worked
       this.assertEquals("A", model.getA().getB1());
