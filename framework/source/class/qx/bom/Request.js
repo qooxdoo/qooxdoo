@@ -61,7 +61,7 @@
  */
 qx.Class.define("qx.bom.Request",
 {
-  extend : Object,
+  extend : qx.core.Object,
   
   /*
   *****************************************************************************
