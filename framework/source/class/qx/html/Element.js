@@ -1450,7 +1450,9 @@ qx.Class.define("qx.html.Element",
       // CSS userSelect the right way.
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         this.setStyle("userSelect", value ? "normal" : "none");
-      }
+      } else if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        this.setStyle("MozUserSelect", value ? "text" : "-moz-none");
+      } 
     },
 
 

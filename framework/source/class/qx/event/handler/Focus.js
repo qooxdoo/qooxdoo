@@ -805,40 +805,10 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function(e)
       {
-        var target = e.target;
-
-        var focusTarget = this.__findFocusableElement(target);
-        var selectable = this.__isSelectable(target);
-
-        if (!selectable)
+        var focusTarget = this.__findFocusableElement(e.target);
+        if (!focusTarget)
         {
-          qx.bom.Event.preventDefault(e);
-
-          // Is we have a focusTarget we need to manually focus
-          // it as the event is already prevented to be processed
-          // by the browser
-          if (focusTarget)
-          {
-            // do not perform the focus if the focusTarget is a root element
-            // (qx.ui.root.Page in this case) since Gecko scrolls to the top in
-            // this scenario.
-            // Setting the root widget as unfocusable is not an option because
-            // it breaks the core eventhandler code
-            // see Bug #2740
-            if (qx.core.Variant.isSet("qx.client", "gecko"))
-            {
-              var isElementOfRootPage = qx.bom.element.Attribute.get(focusTarget, "qxIsRootPage") === "1";
-              if (!isElementOfRootPage) {
-                focusTarget.focus();
-              }
-            } else {
-              focusTarget.focus();
-            }
-          }
-        }
-        else if (!focusTarget)
-        {
-          // Selection is allowed, focus not, so prevent the event
+          // focus is not allowed, so prevent the event
           // This is mainly for supporting the keepFocus attribute.
           qx.bom.Event.preventDefault(e);
         }
@@ -870,7 +840,7 @@ qx.Class.define("qx.event.handler.Focus",
             // The unselectable attribute stops focussing as well.
             // Do this manually.
             try {
-            focusTarget.focus();
+              focusTarget.focus();
             } catch (e) {
               // ignore "Can't move focus of this control" error
             }
