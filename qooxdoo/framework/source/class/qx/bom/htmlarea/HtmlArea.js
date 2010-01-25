@@ -81,24 +81,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     // set the optional style information - if available
     this.__styleInformation = qx.bom.htmlarea.HtmlArea.__formatStyleInformation(styleInformation);
 
-    // Wrapper methods for focus events
-    this.__handleFocusEvent = qx.lang.Function.bind(this._handleFocusEvent, this);
-    this.__handleBlurEvent = qx.lang.Function.bind(this._handleBlurEvent, this);
-    this.__handleFocusOutEvent = qx.lang.Function.bind(this._handleFocusOutEvent, this);
-
-
-    // Wrapper methods for mouse events.
-    // The mouse events are primarily needed to examine the current cursor context.
-    // The cursor context examines if the current text node is formatted in any manner
-    // like bold or italic. An event is thrown to e.g. activate/deactivate toolbar buttons.
-    // Additionally the mouseup at document level is necessary for gecko and webkit
-    // to reset the focus (see Bug #2896).
-    this.__handleMouseUpOnBody = qx.lang.Function.bind(this._handleMouseUpOnBody, this);
-    this.__handleMouseUpOnDocument = qx.lang.Function.bind(this._handleMouseUpOnDocument, this);
-
-    this.__handleContextMenuEvent = qx.lang.Function.bind(this._handleContextMenuEvent, this);
-
-
     // Check for available content
     if (typeof value === "string") {
       this.__value = value;
@@ -756,12 +738,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     __currentEvent : null,
     __storedSelectedHtml : null,
     __iframe : null,
-    __handleFocusEvent : null,
-    __handleBlurEvent : null,
-    __handleFocusOutEvent : null,
-    __handleMouseUpOnBody : null,
-    __handleMouseUpOnDocument : null,
-    __handleContextMenuEvent : null,
     __styleInformation : null,
     __documentSkeletonParts : null,
     __savedRange : null,
@@ -1511,16 +1487,22 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.addListener(doc.body, "keydown", this._handleKeyDown,  this);
 
       var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
-      Registration.addListener(focusBlurTarget, "focus", this.__handleFocusEvent, this);
-      Registration.addListener(focusBlurTarget, "blur", this.__handleBlurEvent, this);
+      Registration.addListener(focusBlurTarget, "focus", this._handleFocusEvent, this);
+      Registration.addListener(focusBlurTarget, "blur", this._handleBlurEvent, this);
 
-      Registration.addListener(doc, "focusout",  this.__handleFocusOutEvent, this);
+      Registration.addListener(doc, "focusout",  this._handleFocusOutEvent, this);
 
+      // The mouse events are primarily needed to examine the current cursor context.
+      // The cursor context examines if the current text node is formatted in any 
+      // manner like bold or italic. An event is thrown to e.g. activate/deactivate 
+      // toolbar buttons.
+      // Additionally the mouseup at document level is necessary for gecko and 
+      // webkit to reset the focus (see Bug #2896).
       var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
-      Registration.addListener(doc.body, mouseEventName, this.__handleMouseUpOnBody, this);
-      Registration.addListener(doc.documentElement, mouseEventName, this.__handleMouseUpOnDocument, this);
+      Registration.addListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
+      Registration.addListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
 
-      Registration.addListener(doc.documentElement, "contextmenu", this.__handleContextMenuEvent, this);
+      Registration.addListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
     },
 
 
@@ -2296,7 +2278,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {void}
      */
     _handleMouseUpOnDocument : qx.core.Variant.select("qx.client", {
-      "mshtml" : function(e) {},
+      "mshtml" : qx.lang.Function.empty,
 
       "default" : function(e)
       {
@@ -2687,25 +2669,21 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       var doc = this._getIframeDocument();
 
-      /* clearing the editor */
+      // clearing the editor
       while (doc.body.firstChild) {
         doc.body.removeChild(doc.body.firstChild);
       }
 
-      /*
-       * Gecko needs a p element with a text-node (&nbsp;) to
-       * show the caret after clearing out the content. Otherwise
-       * the user is able to type ahead but right after the clearing the
-       * caret is not visible (-> cursor does not blink)
-       */
+      // Gecko needs a p element with a text-node (&nbsp;) to
+      // show the caret after clearing out the content. Otherwise
+      // the user is able to type ahead but right after the clearing the
+      // caret is not visible (-> cursor does not blink)
       if (qx.bom.client.Engine.GECKO) {
         doc.body.innerHTML = "<p>&nbsp;</p>";
       }
 
-      /*
-       * To ensure Webkit is showing a cursor after resetting the
-       * content it is necessary to create a new selection and add a range
-       */
+      // To ensure Webkit is showing a cursor after resetting the
+      // content it is necessary to create a new selection and add a range
       else if (qx.bom.client.Engine.WEBKIT)
       {
         var sel = this.getSelection();
@@ -2750,11 +2728,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         return (doc.body.innerHTML == "<P>&nbsp;</P>");
       },
 
-      "default" : function()
-      {
-        return false;
-      }
-
+      "default" : qx.lang.Function.returnFalse
     }),
 
     /*
@@ -2986,13 +2960,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     getSelectedText : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function()
-      {
+      "mshtml" : function() {
         return this.getRange() ? this.getRange().text : "";
       },
 
-      "default" : function()
-      {
+      "default" : function() {
         return this.getRange() ? this.getRange().toString() : "";
       }
     }),
@@ -3347,20 +3319,18 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.removeListener(doc.body, "keydown", this._handleKeyDown, this);
 
       var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
-      Registration.removeListener(focusBlurTarget, "focus", this.__handleFocusEvent);
-      Registration.removeListener(focusBlurTarget, "blur",  this.__handleBlurEvent);
-      Registration.removeListener(doc, "focusout", this.__handleFocusOutEvent);
+      Registration.removeListener(focusBlurTarget, "focus", this._handleFocusEvent);
+      Registration.removeListener(focusBlurTarget, "blur",  this._handleBlurEvent);
+      Registration.removeListener(doc, "focusout", this._handleFocusOutEvent);
 
       var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
-      Registration.removeListener(doc.body, mouseEventName, this.__handleMouseUpOnBody, this);
-      Registration.removeListener(doc.body, mouseEventName, this.__handleMouseUpOnDocument, this);
-      Registration.removeListener(doc.documentElement, "contextmenu", this.__handleContextMenuEvent, this);
+      Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
+      Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnDocument, this);
+      Registration.removeListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
     } catch (ex) {};
 
     this._disposeObjects("__commandManager");
 
-    this.__handleFocusEvent = this.__handleBlurEvent = this.__handleFocusOutEvent = null;
-    this.handleMouseUpOnBody = this.__handleMouseUpOnDocument = this.__documentSkeletonParts = null;
-    this.__iframe = this.__widget = this.__stackCommandManager = null;
+    this.__documentSkeletonParts =  this.__iframe = this.__widget = this.__stackCommandManager = null;
   }
 });
