@@ -72,6 +72,12 @@ qx.Class.define("qx.event.handler.Input",
     this._onChangeValueWrapper = qx.lang.Function.listener(this._onChangeValue, this);
     this._onInputWrapper = qx.lang.Function.listener(this._onInput, this);
     this._onPropertyWrapper = qx.lang.Function.listener(this._onProperty, this);
+    
+    // special key event handler for opera
+    if (qx.core.Variant.isSet("qx.client", "opera")) {
+      this._onKeyDownWrapper = qx.lang.Function.listener(this._onKeyDown, this);
+      this._onKeyUpWrapper = qx.lang.Function.listener(this._onKeyUp, this);
+    }
   },
 
 
@@ -116,6 +122,12 @@ qx.Class.define("qx.event.handler.Input",
 
   members :
   {
+    // special enter handling for opera
+    __enter : false,
+    // stores the former seet value for opera and IE
+    __oldValue : null,
+    
+    
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -205,6 +217,14 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
+      
+      "opera" : function(target) {
+        // register key events for filtering "enter" on input events
+        qx.bom.Event.addNativeListener(target, "keyup", this._onKeyUpWrapper);
+        qx.bom.Event.addNativeListener(target, "keydown", this._onKeyDownWrapper);
+        
+        qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);        
+      },
 
       "default" : function(target) {
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
@@ -278,6 +298,14 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
       },
+      
+      "opera" : function(target) {
+        // unregister key events for filtering "enter" on input events
+        qx.bom.Event.removeNativeListener(target, "keyup", this._onKeyUpWrapper);
+        qx.bom.Event.removeNativeListener(target, "keydown", this._onKeyDownWrapper);
+        
+        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+      },      
 
       "default" : function(target) {
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
@@ -304,7 +332,11 @@ qx.Class.define("qx.event.handler.Input",
         {
           qx.event.Registration.addListener(target, "keypress", function(e) {
             if (e.getKeyIdentifier() === "Enter") {
-              qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+              if (target.value !== this.__oldValue) {
+                this.__oldValue = target.value;
+                qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+              }
+
             }
           });
         }
@@ -314,6 +346,51 @@ qx.Class.define("qx.event.handler.Input",
     }),
 
 
+    /*
+    ---------------------------------------------------------------------------
+      NATIVE KEY EVENT HANDLERS (FOR OPERA ONLY)
+    ---------------------------------------------------------------------------
+    */ 
+    /**
+     * Key event listener for opera which stores if the enter key has been 
+     * pressed.
+     * 
+     * @signature function(e)
+     * @param e {Event} DOM event object
+     */    
+    _onKeyDown : qx.core.Variant.select("qx.client",
+    {
+      "opera" : function(e)
+      {
+        // enter is pressed
+        if (e.keyCode === 13) {
+          this.__enter = true;
+        }
+      },
+
+      "default" : null
+    }),
+    
+    
+    /**
+     * Key event listener for opera which stores if the enter key has been 
+     * pressed.
+     * 
+     * @signature function(e)
+     * @param e {Event} DOM event object
+     */    
+    _onKeyUp : qx.core.Variant.select("qx.client", 
+    {
+      "opera" : function(e) 
+      {
+        // enter is pressed
+        if (e.keyCode === 13) {
+          this.__enter = false;
+        }
+      },
+
+      "default" : null
+    }),
 
 
     /*
@@ -331,7 +408,10 @@ qx.Class.define("qx.event.handler.Input",
     _onInput : qx.event.GlobalError.observeMethod(function(e)
     {
       var target = e.target;
-      qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
+      // check if the enter key has been pressed (opera only)
+      if (!this.__enter) {
+        qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);        
+      }
     }),
 
 
