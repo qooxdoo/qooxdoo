@@ -557,10 +557,10 @@ class QxTest:
         self.logError(e, "Opening remote revision file")
         return False
 
-      reg = re.compile("\D+")
+      reg = re.compile("\d+M?")
       found = reg.search(rev)
-      if found:
-        self.log("ERROR: Unexpected character(s) in remote revision file")
+      if not found:
+        self.log("ERROR: Remote revision has unexpected format: %s")
       else:
         self.trunkrev = rev
         self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
