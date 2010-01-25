@@ -123,8 +123,10 @@ qx.Class.define("qx.event.handler.Input",
 
   members :
   {
-    // special enter handling for opera
+    // special handling for opera
     __enter : false,
+    __onInputTimeoutId : null,
+    
     // stores the former seet value for opera and IE
     __oldValue : null,
     
@@ -409,8 +411,8 @@ qx.Class.define("qx.event.handler.Input",
     {
       "opera" : function(e) 
       {
-        if (this.__timeoutId) {
-          window.clearTimeout(this.__timeoutId);
+        if (this.__onInputTimeoutId) {
+          window.clearTimeout(this.__onInputTimeoutId);
         }
       },
 
@@ -438,7 +440,7 @@ qx.Class.define("qx.event.handler.Input",
         // opera needs a special treatment for input events because they are 
         // also fired on blur
         if (qx.core.Variant.isSet("qx.client", "opera")) {
-          this.__timeoutId = window.setTimeout(function() {
+          this.__onInputTimeoutId = window.setTimeout(function() {
             qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
           }, 0);
         } else {
