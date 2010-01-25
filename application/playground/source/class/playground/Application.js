@@ -456,7 +456,13 @@ qx.Class.define("playground.Application",
       var delegate = {manipulateData : function(data) {
         if (data.query.results) {
           if (data.query.results.gists.gist) {
-            return data.query.results.gists.gist;
+            if (qx.lang.Type.isArray(data.query.results.gists.gist)) {
+              return data.query.results.gists.gist;
+            } else {
+              // single gists are transfered without an array
+              return [data.query.results.gists.gist];
+            }
+
           } else {
             return [];
           }
