@@ -165,6 +165,6 @@ qx.Class.define("qx.io.part.Package",
    */
 
    destruct : function() {
-     this._disposeArray("__urls");
+     this.__urls = null;
    }
 });
