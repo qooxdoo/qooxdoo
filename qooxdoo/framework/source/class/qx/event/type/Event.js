@@ -158,8 +158,13 @@ qx.Class.define("qx.event.type.Event",
      */
     stop : function()
     {
-      this.stopPropagation();
-      this.preventDefault();
+      if (this._bubbles) {
+        this.stopPropagation();
+      }
+      
+      if (this._cancelable) {
+        this.preventDefault();
+      }
     },
 
 
