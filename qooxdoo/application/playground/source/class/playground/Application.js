@@ -230,8 +230,8 @@ qx.Class.define("playground.Application",
      * @param e {qx.event.type.Data} The data event containing the gist content.
      */
     __onGistChange : function(e) {
-      this.__editor.setCode(e.getData());
-      this.run();
+      this.__editor.setCode(e.getData().code);
+      this.run(null, e.getData().name);
     },
     
     
@@ -626,15 +626,15 @@ qx.Class.define("playground.Application",
     /**
      * Runs the current set sample and checks if it need to be saved to the url.
      */
-    run : function()
+    run : function(e, newName)
     {
       this.__updatePlayground();
 
       var name = this.__samples.getCurrentName();
       var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
-        this.__playArea.updateCaption(this.tr("%1 (modified)", name));
       if (code && this.__isCodeNotEqual(code, currentSample)) {
+        this.__playArea.updateCaption(newName || this.tr("%1 (modified)", name));
         this.__addCodeToHistory(code);
       } else {
         this.__playArea.updateCaption(name);

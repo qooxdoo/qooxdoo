@@ -158,9 +158,9 @@ qx.Class.define("playground.view.gist.GistMenu",
         this.add(menuItem);
         this.__items.push(menuItem);
         menuItem.addListener("execute", 
-          qx.lang.Function.bind(function(code) {
-            this.fireDataEvent("changeGist", code);
-          }, this, texts[i])
+          qx.lang.Function.bind(function(code, name) {
+            this.fireDataEvent("changeGist", {code: code, name: name});
+          }, this, texts[i], names[i])
         );
         menuItem.addListener("editGist", function(e) {
           this.fireDataEvent("editGist", e.getData());
