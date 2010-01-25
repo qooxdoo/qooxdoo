@@ -145,7 +145,7 @@ qx.Class.define("qx.io.part.Part",
             break;
 
           default:
-            throw new Error("Invalid case!")
+            throw new Error("Invalid case!");
         }
       }
 
@@ -162,6 +162,6 @@ qx.Class.define("qx.io.part.Part",
    */
 
    destruct : function() {
-     this._disposeObjects("__packages");
+     this._disposeArray("__packages");
    }
 });

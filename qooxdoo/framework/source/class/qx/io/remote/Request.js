@@ -103,7 +103,7 @@ qx.Class.define("qx.io.remote.Request",
     "completed" : "qx.io.remote.Response",
 
     /** Fired when the pending request has been aborted. */
-    "aborted" : "qx.io.remote.Response",
+    "aborted" : "qx.event.type.Event",
 
     /** Fired when the pending request failes. */
     "failed" : "qx.io.remote.Response",

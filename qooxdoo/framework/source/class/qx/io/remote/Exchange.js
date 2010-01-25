@@ -82,7 +82,7 @@ qx.Class.define("qx.io.remote.Exchange",
     "completed" : "qx.io.remote.Response",
 
     /** Fired whenever a request is aborted */
-    "aborted" : "qx.io.remote.Response",
+    "aborted" : "qx.event.type.Event",
 
     /** Fired whenever a request has failed */
     "failed" : "qx.io.remote.Response",
