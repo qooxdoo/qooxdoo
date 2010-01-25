@@ -175,7 +175,10 @@ qx.Class.define("qx.event.handler.Input",
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
 
-          this.__changeEventOnEnterFix(target, elementType);
+          if (elementType === "text" || elementType === "password") {
+            this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
+            qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
+          }
 
           target.__inputHandlerAttached = true;
         }
@@ -189,16 +192,20 @@ qx.Class.define("qx.event.handler.Input",
         }
         else if (type === "change")
         {
-          if (target.type === "radio" || target.type === "checkbox")
-          {
+          if (target.type === "radio" || target.type === "checkbox") {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeCheckedWrapper);
-          }
-          else
-          {
+          } else {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
-
-          this.__changeEventOnEnterFix(target, target.type);
+          
+          // special enter bugfix for opera
+          if (qx.core.Variant.isSet("qx.client", "opera")) {
+            if (target.type === "text" || target.type === "password") {
+              this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
+              qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
+            }
+          }
+         
         }
       }
     }),
@@ -257,6 +264,10 @@ qx.Class.define("qx.event.handler.Input",
           if (elementType !== "checkbox" && elementType !== "radio") {
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
+          
+          if (elementType === "text" || elementType === "password") {
+            qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
+          }
 
           try {
             delete target.__inputHandlerAttached;
@@ -281,6 +292,12 @@ qx.Class.define("qx.event.handler.Input",
           else
           {
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
+          }
+        }
+        
+        if (qx.core.Variant.isSet("qx.client", "opera")) {
+          if (target.type === "text" || target.type === "password") {
+            qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
           }
         }
       }
@@ -321,36 +338,34 @@ qx.Class.define("qx.event.handler.Input",
     }),
 
 
+    /*
+    ---------------------------------------------------------------------------
+      FOR OPERA AND IE (KEYPRESS TO SIMULATE CHANGE EVENT)
+    ---------------------------------------------------------------------------
+    */
     /**
-     * Fix the different behavior when pressing the enter key.
+     * Handler for fixing the different behavior when pressing the enter key.
      *
      * FF and Safari fire a "change" event if the user presses the enter key.
      * IE and Opera fire the event only if the focus is changed.
-     *
-     * @signature function(target, elementType)
+     * 
+     * @signature function(e, target)
+     * @param e {Event} DOM event object
      * @param target {Element} The event target
-     * @param elementType {String} The type of element
-     * @return {void}
-     */
-    __changeEventOnEnterFix : qx.core.Variant.select("qx.client",
+     */    
+    _onKeyPress : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(target, elementType)
+      "mshtml|opera" : function(e, target)
       {
-        if (elementType === "text" || elementType === "password")
-        {
-          qx.event.Registration.addListener(target, "keypress", function(e) {
-            if (e.getKeyIdentifier() === "Enter") {
-              if (target.value !== this.__oldValue) {
-                this.__oldValue = target.value;
-                qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
-              }
-
-            }
-          });
+        if (e.keyCode === 13) {
+          if (target.value !== this.__oldValue) {
+            this.__oldValue = target.value;
+            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+          }
         }
       },
 
-      "default" : function(target, elementType) {}
+      "default" : null
     }),
 
 
@@ -360,7 +375,7 @@ qx.Class.define("qx.event.handler.Input",
     ---------------------------------------------------------------------------
     */ 
     /**
-     * Key event listener for opera which stores if the enter key has been 
+     * Key event listener for opera which recognizes if the enter key has been 
      * pressed.
      * 
      * @signature function(e)
@@ -381,7 +396,7 @@ qx.Class.define("qx.event.handler.Input",
     
     
     /**
-     * Key event listener for opera which stores if the enter key has been 
+     * Key event listener for opera which recognizes if the enter key has been 
      * pressed.
      * 
      * @signature function(e)
