@@ -86,5 +86,17 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       this.__textField.setValid(!invalid);
       this.__textField.setInvalidMessage(message || "");
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    this._disposeObjects("__textField");
   }
 });
