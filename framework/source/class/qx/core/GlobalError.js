@@ -27,9 +27,6 @@ qx.Class.define("qx.core.GlobalError",
 
 
   /**
-   * @param failMessage {String} The error message
-   * @param uri {String} URI where error was raised
-   * @param lineNumber {Integer} The line number where the error was raised
    * @param exc {Error} source exception
    * @param args {Array} arguments
    */
