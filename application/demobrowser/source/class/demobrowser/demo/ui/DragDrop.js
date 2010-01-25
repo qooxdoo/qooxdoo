@@ -287,6 +287,12 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
     __reorderList : function(listItem)
     {
+
+      // Only continue if the target is a list item.
+      if (listItem.classname != "qx.ui.form.ListItem") {
+        return ;
+      }
+      
       var sel = this.__list.getSortedSelection();
 
       for (var i=0, l=sel.length; i<l; i++)
