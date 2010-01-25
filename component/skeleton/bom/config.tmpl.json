@@ -26,6 +26,7 @@
 
       "include" : 
       [
+        "qx.event.handler.Application",
         "qx.bom.Collection",
         "qx.bom.Request",
         "qx.bom.element.Background"
