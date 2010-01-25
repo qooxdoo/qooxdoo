@@ -283,6 +283,6 @@ qx.Class.define("playground.view.Toolbar",
    */
 
   destruct : function() {
-    this._disposeObjects("__highlightButton", "__logCheckButton");
+    this._disposeObjects("__highlightButton", "__logCheckButton", "__gistMenu");
   }
 });

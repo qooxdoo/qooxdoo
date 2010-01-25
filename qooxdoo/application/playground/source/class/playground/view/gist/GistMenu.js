@@ -214,5 +214,22 @@ qx.Class.define("playground.view.gist.GistMenu",
         this.remove(this.__emptyItem);
       }
     }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    for (var i = 0; i < this.__items.length; i++) {
+      this.__items[i].dispose();
+    };
+    this.__items = null;
+    this._disposeObjects("__userNameChange", "__filterCheckBox", "__emptyItem"
+      "__loadingItem");
   }
 });
