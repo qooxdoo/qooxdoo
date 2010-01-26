@@ -229,7 +229,7 @@ qx.Class.define("playground.view.gist.GistMenu",
       this.__items[i].dispose();
     };
     this.__items = null;
-    this._disposeObjects("__userNameChange", "__filterCheckBox", "__emptyItem"
+    this._disposeObjects("__userNameChange", "__filterCheckBox", "__emptyItem",
       "__loadingItem");
   }
 });
