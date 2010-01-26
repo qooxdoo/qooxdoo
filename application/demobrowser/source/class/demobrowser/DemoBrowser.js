@@ -385,6 +385,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       playgroundButton.addListener("execute", this.__toPlayground, this);
       playgroundButton.setToolTipText("Open demo in the playground");
       playgroundButton.setEnabled(false);
+      
+      // Loading demos into IE fails most of the time because IE truncates
+      // long URLs 
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        playgroundButton.exclude();
+      }
+      
       this.__playgroundButton = playgroundButton;
       this._navPart.add(playgroundButton);
 
