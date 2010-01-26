@@ -321,7 +321,7 @@ qx.Class.define("playground.Application",
         this.__loadGist(id);
 
       // if there is a state given
-      } else if (state != "") {
+      } else if (state && state.charAt(0) == "{") {
         var name = this.tr("Custom Code");
         code = this.__parseURLCode(state);
       // if no state is given
@@ -333,7 +333,6 @@ qx.Class.define("playground.Application",
       this.__editor.setCode(code);
       this.run();
       this.__updateTitle(name);
-      this.__playArea.updateCaption(name);
     },
 
 
@@ -536,6 +535,12 @@ qx.Class.define("playground.Application",
      */
     __isCodeNotEqual : function(code1, code2)
     {
+      if (qx.core.Variant.isSet("qx.client", "opera")) {
+        code1 = code1.replace(/\r?\n/g, "\n");
+        code2 = code2.replace(/\r?\n/g, "\n");
+        return code1 != code2;     
+      }
+
       var compareElem1 = document.getElementById("compare_div1");
     	compareElem1.innerHTML = code1;
 
