@@ -42,6 +42,9 @@ qx.Class.define("playground.view.PlayArea",
     this.add(this.__playFieldCaption);
 
     this.__playField = new qx.ui.container.Scroll();
+    this.__playField.getChildControl("scrollbar-x");
+    this.__playField.getChildControl("scrollbar-y");
+    this.__playField.getChildControl("corner");
 
     this.__dummy = new qx.ui.core.Widget();
     this.__playField.add(this.__dummy);
@@ -149,7 +152,8 @@ qx.Class.define("playground.view.PlayArea",
           // check if the object could be created by the code
           if (code.indexOf(afterReg[hash].classname) != -1) {
             // if yes, dispose it
-            afterReg[hash].dispose();
+            var item = afterReg[hash];
+            item.destruct ? item.destruct() : item.dispose();            
           }
         }
       }
