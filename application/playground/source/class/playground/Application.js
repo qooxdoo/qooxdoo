@@ -97,8 +97,7 @@ qx.Class.define("playground.Application",
 
     __errorMsg: qx.locale.Manager.tr(
       "Unfortunately, an unrecoverable internal error was caused by your code." + 
-      " This may prevent the playground application to run properly.||Please " + 
-      "copy your code, restart the playground and paste your code.||"
+      " This may prevent the playground application to run properly.||"
     ),
     
 
@@ -306,12 +305,14 @@ qx.Class.define("playground.Application",
       var state = this.__history.getState();
       var name = state.replace(/_/g, " ");
 
+      var code = "";
+
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
       if (state && this.__samples.isAvailable(name))
       {
         var sample = this.__samples.get(name);
-        var code = sample;
+        code = sample;
 
       // check if a gist id is given
       } else if (state.indexOf("gist=") == 0) {
@@ -322,11 +323,11 @@ qx.Class.define("playground.Application",
       // if there is a state given
       } else if (state != "") {
         var name = this.tr("Custom Code");
-        var code = this.__parseURLCode(state);
+        code = this.__parseURLCode(state);
       // if no state is given
       } else {
         var name = this.__samples.getNames()[0];
-        var code = this.__samples.get(name);
+        code = this.__samples.get(name);
       }
       
       this.__editor.setCode(code);
@@ -357,6 +358,8 @@ qx.Class.define("playground.Application",
       // is a gist id given
       } else if (state.indexOf("gist=") == 0) {
         this.__loadGist(state.substring(5, state.lenght));
+        var id = state.substring(5, state.length);
+        this.__playArea.updateCaption(this.tr("Showing gist %1", id));
 
       // is code given
       } else if (state != "") {
