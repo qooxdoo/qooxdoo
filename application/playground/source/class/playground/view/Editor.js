@@ -176,7 +176,8 @@ qx.Class.define("playground.view.Editor",
      */
     getCode : function() {
       if (this.__highlighted && this.__codeMirror) {
-        return this.__codeMirror.getCode();
+        var code = this.__codeMirror.getCode();
+        return code ? code : this.__textarea.getValue() ;
       } else {
         return this.__textarea.getValue();
       }
@@ -191,7 +192,7 @@ qx.Class.define("playground.view.Editor",
       if (this.__codeMirror) {
         this.__codeMirror.setCode(code);
       }
-      this.__textarea.setValue(code);      
+      this.__textarea.setValue(code);
     },
     
 

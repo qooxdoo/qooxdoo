@@ -332,12 +332,8 @@ qx.Class.define("playground.Application",
       
       this.__editor.setCode(code);
       this.run();
-
-      // update the history
-      qx.event.Timer.once(function() {
-        this.__history.addToHistory(state, this.__updateTitle(name));
-        this.__playArea.updateCaption(name);
-      }, this, 0);
+      this.__updateTitle(name);
+      this.__playArea.updateCaption(name);
     },
 
 
