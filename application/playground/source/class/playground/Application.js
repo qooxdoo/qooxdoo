@@ -488,7 +488,7 @@ qx.Class.define("playground.Application",
           this.__editor.setCode(code);
           this.__updatePlayground();
         } catch (e) {
-          this.log(this.tr("Can't load the gist."));
+          this.info(this.tr("Can't load the gist."));
         }
       }, this);
     },
