@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
@@ -11,119 +11,143 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:72
-msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"
+#: playground/Application.js:98
+msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr ""
 
-#: playground/Application.js:205
-msgid "Custom Code"
-msgstr ""
-
-#: playground/Application.js:214
-msgid "Unreadable Custom Code"
-msgstr ""
-
-#: playground/Application.js:217
-msgid " Your browser has a length restriction of the URL parameter which could have caused the problem."
-msgstr ""
-
-#: playground/Application.js:344
-msgid "Source Code"
-msgstr ""
-
-#: playground/Application.js:490
-msgid "%1 (modified)"
-msgstr ""
-
-#: playground/Application.js:542
-msgid "Starting application"
-msgstr ""
-
-#: playground/Application.js:546
-msgid "Successfully started"
-msgstr ""
-
-#: playground/Application.js:687
+#: playground/Application.js:211
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:735
-msgid "Could not save your code in the url because it is too much code. Do you want to ignore it?"
+#: playground/Application.js:320 playground/Application.js:357
+msgid "Showing gist %1"
 msgstr ""
 
-#: playground/Application.js:863 playground/Application.js:973
-msgid "Log"
+#: playground/Application.js:325
+msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:916
-msgid "Playground"
+#: playground/Application.js:382
+msgid "// Could not handle URL parameter! \n// %1"
 msgstr ""
 
-#: playground/Application.js:919
+#: playground/Application.js:385
+msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
+msgstr ""
+
+#: playground/Application.js:402
+msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
+msgstr ""
+
+#: playground/Application.js:426
+msgid "No such user found."
+msgstr ""
+
+#: playground/Application.js:491
+msgid "Can't load the gist."
+msgstr ""
+
+#: playground/Application.js:582
+msgid "Starting application"
+msgstr ""
+
+#: playground/Application.js:586
+msgid "Successfully started"
+msgstr ""
+
+#: playground/Application.js:643
+msgid "%1 (modified)"
+msgstr ""
+
+#: playground/view/Editor.js:80
+msgid "Source Code"
+msgstr ""
+
+#: playground/view/Header.js:31
 msgid "qooxdoo %1"
 msgstr ""
 
-#: playground/Application.js:943
+#: playground/view/Header.js:33
+msgid "Playground"
+msgstr ""
+
+#: playground/view/Toolbar.js:47
 msgid "Run"
 msgstr ""
 
-#: playground/Application.js:947
+#: playground/view/Toolbar.js:50
 msgid "Run the source code"
 msgstr ""
 
-#: playground/Application.js:950
+#: playground/view/Toolbar.js:57
 msgid "Samples"
 msgstr ""
 
-#: playground/Application.js:953
+#: playground/view/Toolbar.js:60
 msgid "Select a sample"
 msgstr ""
 
-#: playground/Application.js:956
+#: playground/view/Toolbar.js:65
 msgid "Syntax Highlighting"
 msgstr ""
 
-#: playground/Application.js:976
+#: playground/view/Toolbar.js:80
+msgid "gist support"
+msgstr ""
+
+#: playground/view/Toolbar.js:105 playground/view/Log.js:35
+msgid "Log"
+msgstr ""
+
+#: playground/view/Toolbar.js:108
 msgid "Show log output"
 msgstr ""
 
-#: playground/Application.js:979
+#: playground/view/Toolbar.js:115
+msgid "Shorten URL"
+msgstr ""
+
+#: playground/view/Toolbar.js:118
+msgid "Use tinyurl to shorten the url."
+msgstr ""
+
+#: playground/view/Toolbar.js:125
 msgid "API Viewer"
 msgstr ""
 
-#: playground/Application.js:982
+#: playground/view/Toolbar.js:128
 msgid "Open the qooxdoo API Viewer"
 msgstr ""
 
-#: playground/Application.js:985
+#: playground/view/Toolbar.js:135
 msgid "Manual"
 msgstr ""
 
-#: playground/Application.js:988
+#: playground/view/Toolbar.js:138
 msgid "Open the qooxdoo Manual"
 msgstr ""
 
-#~ msgid "Starting application '"
-#~ msgstr ""
+#: playground/view/gist/GistMenu.js:44
+msgid "Activate filter for [qx]"
+msgstr ""
 
-#~ msgid "Successfully started."
-#~ msgstr ""
+#: playground/view/gist/GistMenu.js:52
+msgid "New gist"
+msgstr ""
 
-#~ msgid ""
-#~ "Unfortunately, an unrecoverable internal error was caused by your code.\\\n"
-#~ "This may prevent the playground application to run properly.\\\n"
-#~ "Please copy your code, restart the playground and paste your code.\\\n"
-#~ "\\\n"
-#~ msgstr ""
+#: playground/view/gist/GistMenu.js:63
+msgid "<em>No gist to show.</em>"
+msgstr ""
 
-#~ msgid ""
-#~ "Unfortunately, an unrecoverable internal error was caused by your code.\\\n"
-#~ "This may prevent the playground application to run properly.\\\n"
-#~ "Please copy your code, restart the playground and paste your code.\\\n"
-#~ "\\\n"
-#~ msgstr ""
+#: playground/view/gist/GistMenu.js:69
+msgid "Loading..."
+msgstr ""
 
-#~ msgid ""
-#~ "You changed the code of the current sample.\\\n"
-#~ "Click OK to discard your changes."
-#~ msgstr ""
+#: playground/view/gist/MenuButton.js:59
+msgid "Open an edit page for this gist."
+msgstr ""
+
+#: playground/view/gist/UserNameMenuItem.js:43
+msgid "Username"
+msgstr ""
+
