@@ -149,7 +149,7 @@ msgstr "Laden..."
 
 #: playground/view/gist/MenuButton.js:59
 msgid "Open an edit page for this gist."
-msgstr "Editorseite für diesen gist Öffnen."
+msgstr "Editorseite für diesen gist öffnen."
 
 #: playground/view/gist/UserNameMenuItem.js:43
 msgid "Username"
