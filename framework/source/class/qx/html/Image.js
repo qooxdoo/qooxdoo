@@ -50,7 +50,17 @@ qx.Class.define("qx.html.Image",
       {
         var elem = this.getDomElement();
 
+        // To prevent any wrong background-position or -repeat it is necessary
+        // to reset those styles whenever a background-image is updated.
+        // This is only necessary if any backgroundImage was set already.
+        // See Bug #3376 for details
         var styles = this.getAllStyles();
+        if (this.__nodeName == "div" && this.getStyle("backgroundImage"))
+        {
+          styles.backgroundPosition = null;
+          styles.backgroundRepeat = null;
+        }
+        
         var source = this._getProperty("source");
         var scale = this._getProperty("scale");
         var repeat = scale ? "scale" : "no-repeat";
@@ -88,7 +98,7 @@ qx.Class.define("qx.html.Image",
 
 
 
-
+    
 
     /*
     ---------------------------------------------------------------------------
