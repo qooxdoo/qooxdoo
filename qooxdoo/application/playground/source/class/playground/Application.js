@@ -479,16 +479,18 @@ qx.Class.define("playground.Application",
      */
     __loadGist : function(id)
     {
-      var url = "http://gist.github.com/" + id + ".txt";
-      var request = new qx.io.remote.Request(
-        url, "GET", "text/plain"
-      );
-      request.addListener("completed", function(e) {
-        var data = e.getContent();
-        this.__editor.setCode(data);
-        this.__updatePlayground();
+      var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" AS gh; SELECT * FROM gh WHERE repo="' + id + '"';
+      var store = new qx.data.store.Yql(query);
+
+      store.addListener("loaded", function(e) {
+        try {
+          var code = e.getData().getQuery().getResults().getContent();
+          this.__editor.setCode(code);
+          this.__updatePlayground();
+        } catch (e) {
+          this.log(this.tr("Can't load the gist."));
+        }
       }, this);
-      request.send();
     },
     
     
