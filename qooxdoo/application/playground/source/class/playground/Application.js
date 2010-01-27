@@ -399,8 +399,8 @@ qx.Class.define("playground.Application",
       var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
       if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
         if (!this.__ignoreSaveFaults && confirm(
-          this.tr("Could not save your code in the url because it is too much " + 
-          "code. Do you want to ignore it?"))
+          this.tr("Cannot append sample code to URL, as it is too long. " +
+                  "Disable this warning in the future?"))
         ) {
           this.__ignoreSaveFaults = true;
         };
