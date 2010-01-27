@@ -391,19 +391,18 @@ qx.Class.define("qx.ui.form.List",
         item = items[i];
 
         // get the label (consider ignoreCase and its default value (true))
-        var label;
-        if (item.getLabel() != null) {
-          label = item.getLabel();
+        var label = item.getLabel();
+        if (label != null) {
           if (label.translate) {
             label = label.translate();
           }
           if (ignoreCase !== false) {
             label = label.toLowerCase();
           }
-        }
 
-        if (label.toString() == search.toString()) {
-          return item;
+          if (label.toString() == search.toString()) {
+            return item;
+          }
         }
       }
 
