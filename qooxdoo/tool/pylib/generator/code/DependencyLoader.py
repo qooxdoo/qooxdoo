@@ -314,7 +314,11 @@ class DependencyLoader(object):
                     if item in metaOptional:
                         pass
                     elif item in (x.name for x in load):
-                        self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
+                        # [BUG #3365] temp. fix!
+                        if fileId in ("qx.Theme", "qx.Interface", "qx.Mixin"):
+                            pass
+                        else:
+                            self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
                     else:
                         load.append(dep)
 
