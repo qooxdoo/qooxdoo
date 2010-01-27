@@ -252,17 +252,6 @@ qx.Class.define("qx.lang.JsonImpl",
 
 
     /**
-     * Convert an array
-     * 
-     * @param array {Array} the arry to convert
-     */
-    __convertArray : function(array)
-    {
-      var stepback = this.gap;
-    },
-
-
-    /**
      * Convert a date to JSON
      * 
      * @param date {Date} The date to convert
