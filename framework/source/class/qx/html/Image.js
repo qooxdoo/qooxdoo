@@ -55,7 +55,8 @@ qx.Class.define("qx.html.Image",
         // This is only necessary if any backgroundImage was set already.
         // See Bug #3376 for details
         var styles = this.getAllStyles();
-        if (this.__nodeName == "div" && this.getStyle("backgroundImage"))
+
+        if (this.getNodeName() == "div" && this.getStyle("backgroundImage"))
         {
           styles.backgroundPosition = null;
           styles.backgroundRepeat = null;
