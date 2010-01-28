@@ -37,33 +37,6 @@ qx.Class.define("playground.Application",
 
   /*
    *****************************************************************************
-      STATICS
-   *****************************************************************************
-  */
-  statics :
-  {
-    /**
-     * Global handler for the url shortening JSONP call.
-     *
-     * @param data {Object} The data from the JSONP call.
-     * 
-     * @lint ignoreDeprecated(alert)
-     * @lint ignoreDeprecated(prompt)
-     */
-    handleShortendURl : function(data)
-    {
-      if (data.results) {
-        var shorturl = data.results[qx.lang.Object.getKeys(data.results)[0]].shortUrl;
-        prompt("URL", shorturl);
-      } else {
-        alert(data.errorMessage);
-      }
-    }
-  },
-
-
-  /*
-   *****************************************************************************
       MEMBERS
    *****************************************************************************
   */
@@ -80,10 +53,8 @@ qx.Class.define("playground.Application",
     __samples : null,
     __gists : null,
 
-    // API-Key for bit.ly
-    __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
-
     __history : null,
+    __urlShorter : null,
     
     __currentStandalone: null,
     
@@ -257,15 +228,23 @@ qx.Class.define("playground.Application",
     
     /**
      * Handler for the url shortening service.
+     *
+     * @lint ignoreDeprecated(alert)
+     * @lint ignoreDeprecated(prompt)     
      */
     __onUrlShorten : function() {
-      var url = "http://api.bit.ly/shorten?version=2.0.1" + 
-        "&login=qooxdoo" + 
-        "&longUrl=" + escape(window.location.href) + 
-        "&apiKey=" + this.__bitlyKey + 
-        "&callback=playground.Application.handleShortendURl";
-      var loader = new qx.io.ScriptLoader();
-      loader.load(url);
+      if (!this.__urlShorter) {
+        this.__urlShorter = new playground.UrlShorter();
+      }
+      this.__urlShorter.shorten(window.location.href, function(url, error) {
+        if (url) {
+          prompt(this.tr("The shortened url."), url);
+        } else if (error) {
+          alert(error);
+        } else {
+          alert(this.tr("Error during url shortening."));
+        }
+      }, this);
     },
 
 
@@ -631,6 +610,9 @@ qx.Class.define("playground.Application",
     
     /**
      * Runs the current set sample and checks if it need to be saved to the url.
+     * 
+     * @param e {qx.event.type.Event} A possible events (unused)
+     * @param newName {String} The new name of the playground application.
      */
     run : function(e, newName)
     {

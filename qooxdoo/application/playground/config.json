@@ -15,7 +15,8 @@
     "CACHE"        : "${TMPDIR}/cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en", "de" ],
-    "TEST_INCLUDE" : "${APPLICATION}.*",
+    "TEST_INCLUDE" : "${APPLICATION}.test.*",
+    "API_EXCLUDE"  : ["${APPLICATION}.test.*"],
     "ROOT"         : "."
   },
   
