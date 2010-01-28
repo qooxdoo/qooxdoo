@@ -240,7 +240,7 @@ qx.Class.define("playground.Application",
      *   the highlighted code view.
      */
     __onHighlightChange : function(e) {
-      qx.bom.Cookie.set("playgroundHighlight", e.getData());
+      qx.bom.Cookie.set("playgroundHighlight", e.getData(), 100);
       this.__editor.useHighlight(e.getData());
     },
 

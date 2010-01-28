@@ -45,7 +45,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     
     this.__textField.addListener("changeValue", function(e) {
       // set the cookie
-      qx.bom.Cookie.set("playgroundUser", e.getData());
+      qx.bom.Cookie.set("playgroundUser", e.getData(), 100);
       // invoke a reload
       this.fireDataEvent("reload", e.getData());
     }, this);

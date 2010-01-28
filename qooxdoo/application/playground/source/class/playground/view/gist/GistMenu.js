@@ -192,7 +192,7 @@ qx.Class.define("playground.view.gist.GistMenu",
       }
       var on = this.__filterCheckBox.getValue();
       // write the status to the cookie
-      qx.bom.Cookie.set("playgroundFilter", on);
+      qx.bom.Cookie.set("playgroundFilter", on, 100);
       
       var oneShown = false;
       for (var i = 0; i < this.__items.length; i++) {
