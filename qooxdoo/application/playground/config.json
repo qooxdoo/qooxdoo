@@ -33,7 +33,8 @@
       "exclude" :
       [
         "qx.test.*",
-        "qx.dev.unit.*"
+        "qx.dev.unit.*",
+        "playground.test.*"
       ],
 
       "variants" :
@@ -57,7 +58,8 @@
       "exclude" :
       [
         "qx.test.*",
-        "qx.dev.unit.*"
+        "qx.dev.unit.*",
+        "playground.test.*"
       ],
 
       "variants" :

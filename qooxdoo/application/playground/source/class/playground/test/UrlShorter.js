@@ -18,7 +18,7 @@
 ************************************************************************ */
 qx.Class.define("playground.test.UrlShorter", 
 {
-  extend : qx.test.ui.LayoutTestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
