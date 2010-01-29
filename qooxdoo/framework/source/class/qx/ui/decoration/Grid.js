@@ -34,7 +34,8 @@
  */
 qx.Class.define("qx.ui.decoration.Grid",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend: qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],
 
 
   /*
@@ -51,13 +52,20 @@ qx.Class.define("qx.ui.decoration.Grid",
   {
     this.base(arguments);
 
-    // Initialize properties
-    if (baseImage != null) {
-      this.setBaseImage(baseImage);
+    if (qx.ui.decoration.css3.BorderImage.IS_SUPPORTED)
+    {
+      this.__impl = new qx.ui.decoration.css3.BorderImage();
+      if (baseImage) {
+        this.__setBorderImage(baseImage);
+      }
+    } 
+    else
+    {
+      this.__impl = new qx.ui.decoration.GridDiv(baseImage);
     }
-
+    
     if (insets != null) {
-      this.setInsets(insets);
+      this.__impl.setInsets(insets);
     }
   },
 
@@ -98,7 +106,47 @@ qx.Class.define("qx.ui.decoration.Grid",
       check : "String",
       nullable : true,
       apply : "_applyBaseImage"
-    }
+    },
+    
+    
+    /** Width of the left inset (keep this margin to the outer box) */
+    insetLeft :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applyInsets"
+    },
+
+    /** Width of the right inset (keep this margin to the outer box) */
+    insetRight :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applyInsets"
+    },
+
+    /** Width of the bottom inset (keep this margin to the outer box) */
+    insetBottom :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applyInsets"
+    },
+
+    /** Width of the top inset (keep this margin to the outer box) */
+    insetTop :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applyInsets"
+    },
+
+    /** Property group for insets */
+    insets :
+    {
+      group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
+      mode  : "shorthand"
+    }    
   },
 
 
@@ -112,237 +160,61 @@ qx.Class.define("qx.ui.decoration.Grid",
 
   members :
   {
-    __markup : null,
-    __images : null,
-    __edges : null,
-
-
-    // overridden
-    _getDefaultInsets : function()
-    {
-      return {
-        top : 0,
-        right : 0,
-        bottom : 0,
-        left : 0
-      };
+    __impl : null,
+    
+    
+    getMarkup : function() {
+      return this.__impl.getMarkup();
+    },
+    
+    
+    resize : function(element, width, height) {
+      this.__impl.resize(element, width, height);
     },
 
 
-    // overridden
-    _isInitialized: function() {
-      return !!this.__markup;
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERFACE IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    // interface implementation
-    getMarkup : function()
-    {
-      if (this.__markup) {
-        return this.__markup;
-      }
-
-      var Decoration = qx.bom.element.Decoration;
-      var images = this.__images;
-      var edges = this.__edges;
-
-      // Create edges and vertical sides
-      // Order: tl, t, tr, bl, b, bt, l, c, r
-      var html = [];
-
-      // Outer frame
-      // Note: Overflow=hidden is needed for Safari 3.1 to omit scrolling through
-      // dragging when the cursor is in the text field in Spinners etc.
-      html.push('<div style="position:absolute;top:0;left:0;overflow:hidden;font-size:0;line-height:0;">');
-
-      // Top: left, center, right
-      html.push(Decoration.create(images.tl, "no-repeat", { top: 0, left: 0 }));
-      html.push(Decoration.create(images.t, "scale-x", { top: 0, left: edges.left + "px" }));
-      html.push(Decoration.create(images.tr, "no-repeat", { top: 0, right : 0 }));
-
-      // Bottom: left, center, right
-      html.push(Decoration.create(images.bl, "no-repeat", { bottom: 0, left:0 }));
-      html.push(Decoration.create(images.b, "scale-x", { bottom: 0, left: edges.left + "px" }));
-      html.push(Decoration.create(images.br, "no-repeat", { bottom: 0, right: 0 }));
-
-      // Middle: left, center, right
-      html.push(Decoration.create(images.l, "scale-y", { top: edges.top + "px", left: 0 }));
-      html.push(Decoration.create(images.c, "scale", { top: edges.top + "px", left: edges.left + "px" }));
-      html.push(Decoration.create(images.r, "scale-y", { top: edges.top + "px", right: 0 }));
-
-      // Outer frame
-      html.push('</div>');
-
-      // Store
-      return this.__markup = html.join("");
-    },
-
-
-    // interface implementation
-    resize : function(element, width, height)
-    {
-      // Compute inner sizes
-      var edges = this.__edges;
-      var innerWidth = width - edges.left - edges.right;
-      var innerHeight = height - edges.top - edges.bottom;
-
-      // Set the inner width or height to zero if negative
-      if (innerWidth < 0) {innerWidth = 0;}
-      if (innerHeight < 0) {innerHeight = 0;}
-
-      // Update nodes
-      element.style.width = width + "px";
-      element.style.height = height + "px";
-
-      element.childNodes[1].style.width = innerWidth + "px";
-      element.childNodes[4].style.width = innerWidth + "px";
-      element.childNodes[7].style.width = innerWidth + "px";
-
-      element.childNodes[6].style.height = innerHeight + "px";
-      element.childNodes[7].style.height = innerHeight + "px";
-      element.childNodes[8].style.height = innerHeight + "px";
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        // Internet Explorer as of version 6 or version 7 in quirks mode
-        // have rounding issues when working with odd dimensions:
-        // right and bottom positioned elements are rendered with a
-        // one pixel negative offset which results into some ugly
-        // render effects.
-        if (
-          qx.bom.client.Engine.VERSION < 7 ||
-          (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8)
-        )
-        {
-          if (width%2==1)
-          {
-            element.childNodes[2].style.marginRight = "-1px";
-            element.childNodes[5].style.marginRight = "-1px";
-            element.childNodes[8].style.marginRight = "-1px";
-          }
-          else
-          {
-            element.childNodes[2].style.marginRight = "0px";
-            element.childNodes[5].style.marginRight = "0px";
-            element.childNodes[8].style.marginRight = "0px";
-          }
-
-          if (height%2==1)
-          {
-            element.childNodes[3].style.marginBottom = "-1px";
-            element.childNodes[4].style.marginBottom = "-1px";
-            element.childNodes[5].style.marginBottom = "-1px";
-          }
-          else
-          {
-            element.childNodes[3].style.marginBottom = "0px";
-            element.childNodes[4].style.marginBottom = "0px";
-            element.childNodes[5].style.marginBottom = "0px";
-          }
-        }
-      }
-    },
-
-
-    // interface implementation
     tint : function(element, bgcolor) {
-      // not implemented
+      // do nothing
     },
+   
+    
+    getInsets : function() {
+      return this.__impl.getInsets();  
+    },
+    
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-
-    // property apply
+    _applyInsets : function(value, old, name) 
+    {
+      var setter = "set" + qx.lang.String.firstUp(name);
+      this.__impl[setter](value);
+    },
+    
+    
     _applyBaseImage : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
-
-      if (value)
-      {
-        var base = this._resolveImageUrl(value);
-        var split = /(.*)(\.[a-z]+)$/.exec(base);
-        var prefix = split[1];
-        var ext = split[2];
-
-        // Store images
-        var images = this.__images =
-        {
-          tl : prefix + "-tl" + ext,
-          t : prefix + "-t" + ext,
-          tr : prefix + "-tr" + ext,
-
-          bl : prefix + "-bl" + ext,
-          b : prefix + "-b" + ext,
-          br : prefix + "-br" + ext,
-
-          l : prefix + "-l" + ext,
-          c : prefix + "-c" + ext,
-          r : prefix + "-r" + ext
-        };
-
-        // Store edges
-        this.__edges = this._computeEdgeSizes(images);
+      if (this.__impl instanceof qx.ui.decoration.GridDiv) {
+        this.__impl.setBaseImage(value);
+      } else {
+        this.__setBorderImage(value);
       }
     },
-
-
-    /**
-     * Resolve the url of the given image
-     *
-     * @param image {String} base image URL
-     * @return {String} the resolved image URL
-     */
-    _resolveImageUrl : function(image) {
-      return qx.util.AliasManager.getInstance().resolve(image);
-    },
-
-
-    /**
-     * Returns the sizes of the "top" and "bottom" heights and the "left" and
-     * "right" widths of the grid.
-     *
-     * @param images {Map} Map of image URLs
-     * @return {Map} the edge sizes
-     */
-    _computeEdgeSizes : function(images)
+    
+    
+    __setBorderImage : function(baseImage)
     {
+      this.__impl.setBorderImage(baseImage);
+      
+      var base = qx.util.AliasManager.getInstance().resolve(baseImage);
+      var split = /(.*)(\.[a-z]+)$/.exec(base);
+      var prefix = split[1];
+      var ext = split[2];
+      
       var ResourceManager = qx.util.ResourceManager.getInstance();
-
-      return {
-        top : ResourceManager.getImageHeight(images.t),
-        bottom : ResourceManager.getImageHeight(images.b),
-        left : ResourceManager.getImageWidth(images.l),
-        right : ResourceManager.getImageWidth(images.r)
-      };
+      
+      var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
+      var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
+      
+      this.__impl.setSlice([topSlice, leftSlice]);
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this.__markup = this.__images = this.__edges = null;
   }
 });

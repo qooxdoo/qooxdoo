@@ -55,6 +55,11 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.lang.String)
+
+************************************************************************ */
 
 /**
  * Style querying and modification of HTML elements.
@@ -72,94 +77,93 @@ qx.Class.define("qx.bom.element.Style",
 
   statics :
   {
-    /** Internal map of style property convertions */
-    __hints :
+    __detectVendorProperties : function() 
     {
-      // Style property name correction (at element.style level)
-      styleNames :
+      var vendorProperties = [
+        "appearance",
+        "userSelect",
+        "textOverflow",
+        "borderImage"
+      ];
+      
+      var styleNames = {};
+
+      var style = document.documentElement.style;
+      var prefixes = ['Moz', 'Webkit', 'Khtml', 'O', 'Ms'];
+      for (var i=0,l=vendorProperties.length; i<l; i++) 
       {
-        "float" : qx.core.Variant.select("qx.client", {
-          "mshtml" : "styleFloat",
-          "default" : "cssFloat"
-        }),
-
-        "appearance" : qx.core.Variant.select("qx.client", {
-          "gecko" : "MozAppearance",
-          "webkit" : "WebkitAppearance",
-          "default" : "appearance"
-        }),
-
-        "userSelect" : qx.core.Variant.select("qx.client", {
-          "gecko" : "MozUserSelect",
-          "webkit" : "WebkitUserSelect",
-          "default" : "userSelect"
-        }),
-
-        "userModify" : qx.core.Variant.select("qx.client", {
-          "gecko" : "MozUserModify",
-          "webkit" : "WebkitUserModify",
-          "default" : "userSelect"
-        })
-      },
-
-      // CSS property name correction (at HTML/CSS level)
-      cssNames :
-      {
-        "appearance" : qx.core.Variant.select("qx.client", {
-          "gecko" : "-moz-appearance",
-          "webkit" : "-webkit-appearance",
-          "default" : "appearance"
-        }),
-
-       "userSelect" : qx.core.Variant.select("qx.client", {
-          "gecko" : "-moz-user-select",
-          "webkit" : "-webkit-user-select",
-          "default" : "user-select"
-        }),
-
-       "userModify" : qx.core.Variant.select("qx.client", {
-          "gecko" : "-moz-user-modify",
-          "webkit" : "-webkit-user-modify",
-          "default" : "user-select"
-        }),
-
-        "textOverflow" : qx.core.Variant.select("qx.client", {
-          "opera" : "-o-text-overflow",
-          "default" : "text-overflow"
-        })
-      },
-
-      // Mshtml has proprietary pixel* properties for locations and dimensions
-      // which return the pixel value. Used by getComputed() in mshtml variant.
-      mshtmlPixel :
-      {
-        width : "pixelWidth",
-        height : "pixelHeight",
-        left : "pixelLeft",
-        right : "pixelRight",
-        top : "pixelTop",
-        bottom : "pixelBottom"
-      },
-
-      // Whether a special class is available for the processing of this style.
-      special :
-      {
-        clip : qx.bom.element.Clip,
-        cursor : qx.bom.element.Cursor,
-        opacity : qx.bom.element.Opacity,
-        boxSizing : qx.bom.element.BoxSizing,
-        overflowX : {
-          set : qx.lang.Function.bind(qx.bom.element.Overflow.setX, qx.bom.element.Overflow),
-          get : qx.lang.Function.bind(qx.bom.element.Overflow.getX, qx.bom.element.Overflow),
-          reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetX, qx.bom.element.Overflow),
-          compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileX, qx.bom.element.Overflow)
-        },
-        overflowY : {
-          set : qx.lang.Function.bind(qx.bom.element.Overflow.setY, qx.bom.element.Overflow),
-          get : qx.lang.Function.bind(qx.bom.element.Overflow.getY, qx.bom.element.Overflow),
-          reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetY, qx.bom.element.Overflow),
-          compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileY, qx.bom.element.Overflow)
+        var propName = vendorProperties[i];
+        var key = propName;
+        if (style[propName])
+        {
+          styleNames[key] = propName;
+          continue;
         }
+        
+        propName = qx.lang.String.firstUp(propName);
+        
+        for (var j=0, pl=prefixes.length; j<pl; j++)
+        {
+          var prefixed = prefixes[j] + propName;
+          if (typeof style[prefixed] == 'string')
+          {
+            styleNames[key] = prefixed;
+            break;
+          };
+          
+        }
+      }
+      
+      this.__styleNames = styleNames;
+      
+      this.__styleNames["userModify"] = qx.core.Variant.select("qx.client", {
+        "gecko" : "MozUserModify",
+        "webkit" : "WebkitUserModify",
+        "default" : "userSelect"
+      });
+      
+      this.__cssNames = {};
+      for (var key in styleNames) {
+        this.__cssNames[key] = this.__hyphenate(styleNames[key]);
+      }
+      
+      this.__styleNames["float"] = qx.core.Variant.select("qx.client", {
+        "mshtml" : "styleFloat",
+        "default" : "cssFloat"
+      });
+    },
+      
+      
+    // Mshtml has proprietary pixel* properties for locations and dimensions
+    // which return the pixel value. Used by getComputed() in mshtml variant.
+    __mshtmlPixel :
+    {
+      width : "pixelWidth",
+      height : "pixelHeight",
+      left : "pixelLeft",
+      right : "pixelRight",
+      top : "pixelTop",
+      bottom : "pixelBottom"
+    },
+
+    // Whether a special class is available for the processing of this style.
+    __special :
+    {
+      clip : qx.bom.element.Clip,
+      cursor : qx.bom.element.Cursor,
+      opacity : qx.bom.element.Opacity,
+      boxSizing : qx.bom.element.BoxSizing,
+      overflowX : {
+        set : qx.lang.Function.bind(qx.bom.element.Overflow.setX, qx.bom.element.Overflow),
+        get : qx.lang.Function.bind(qx.bom.element.Overflow.getX, qx.bom.element.Overflow),
+        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetX, qx.bom.element.Overflow),
+        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileX, qx.bom.element.Overflow)
+      },
+      overflowY : {
+        set : qx.lang.Function.bind(qx.bom.element.Overflow.setY, qx.bom.element.Overflow),
+        get : qx.lang.Function.bind(qx.bom.element.Overflow.getY, qx.bom.element.Overflow),
+        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetY, qx.bom.element.Overflow),
+        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileY, qx.bom.element.Overflow)
       }
     },
 
@@ -169,10 +173,6 @@ qx.Class.define("qx.bom.element.Style",
       COMPILE SUPPORT
     ---------------------------------------------------------------------------
     */
-
-    /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
-    __hyphens : {},
-
 
     /**
      * Compiles the given styles into a string which can be used to
@@ -184,11 +184,8 @@ qx.Class.define("qx.bom.element.Style",
     compile : function(map)
     {
       var html = [];
-      var hints = this.__hints;
-      var special = hints.special;
-      var names = hints.cssNames;
-      var hyphens = this.__hyphens;
-      var str = qx.lang.String;
+      var special = this.__special;
+      var names = this.__cssNames;
       var name, prop, value;
 
       for (name in map)
@@ -205,22 +202,28 @@ qx.Class.define("qx.bom.element.Style",
         // process special properties
         if (special[name]) {
           html.push(special[name].compile(value));
-        }
-        else
-        {
-          prop = hyphens[name];
-          if (!prop) {
-            prop = hyphens[name] = str.hyphenate(name);
-          }
-
-          html.push(prop, ":", value, ";");
+        } else {
+          html.push(this.__hyphenate(name), ":", value, ";");
         }
       }
 
       return html.join("");
     },
+    
 
-
+    /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
+    __hyphens : {},
+    
+    
+    __hyphenate : function(propName) 
+    {
+      var hyphens = this.__hyphens;
+      var prop = hyphens[propName];
+      if (!prop) {
+        prop = hyphens[propName] = qx.lang.String.hyphenate(propName);
+      }
+      return prop;
+    },
 
 
     /*
@@ -277,6 +280,16 @@ qx.Class.define("qx.bom.element.Style",
     ---------------------------------------------------------------------------
     */
 
+    isPropertySupported : function(propertyName)
+    {
+      return (
+        this.__special[propertyName] ||
+        this.__styleNames[propertyName] ||
+        propertyName in document.documentElement.style
+      );
+    },
+    
+    
     /** {Integer} Computed value of a style property. Compared to the cascaded style,
      * this one also interprets the values e.g. translates <code>em</code> units to
      * <code>px</code>.
@@ -314,16 +327,14 @@ qx.Class.define("qx.bom.element.Style",
       }
 
 
-      var hints = this.__hints;
-
       // normalize name
-      name = hints.styleNames[name] || name;
+      name = this.__styleNames[name] || name;
 
       // special handling for specific properties
       // through this good working switch this part costs nothing when
       // processing non-smart properties
-      if (smart!==false && hints.special[name]) {
-        return hints.special[name].set(element, value);
+      if (smart!==false && this.__special[name]) {
+        return this.__special[name].set(element, value);
       } else {
         element.style[name] = value !== null ? value : "";
       }
@@ -353,9 +364,8 @@ qx.Class.define("qx.bom.element.Style",
 
       // inline calls to "set" and "reset" because this method is very
       // performance critical!
-      var hints = this.__hints;
-      var styleNames = hints.styleNames;
-      var special = hints.special;
+      var styleNames = this.__styleNames;
+      var special = this.__special;
 
       var style = element.style;
 
@@ -395,14 +405,12 @@ qx.Class.define("qx.bom.element.Style",
      */
     reset : function(element, name, smart)
     {
-      var hints = this.__hints;
-
       // normalize name
-      name = hints.styleNames[name] || name;
+      name = this.__styleNames[name] || name;
 
       // special handling for specific properties
-      if (smart!==false && hints.special[name]) {
-        return hints.special[name].reset(element);
+      if (smart!==false && this.__special[name]) {
+        return this.__special[name].reset(element);
       } else {
         element.style[name] = "";
       }
@@ -439,14 +447,12 @@ qx.Class.define("qx.bom.element.Style",
     {
       "mshtml" : function(element, name, mode, smart)
       {
-        var hints = this.__hints;
-
         // normalize name
-        name = hints.styleNames[name] || name;
+        name = this.__styleNames[name] || name;
 
         // special handling
-        if (smart!==false && hints.special[name]) {
-          return hints.special[name].get(element, mode);
+        if (smart!==false && this.__special[name]) {
+          return this.__special[name].get(element, mode);
         }
 
         // if the element is not inserted into the document "currentStyle"
@@ -474,7 +480,7 @@ qx.Class.define("qx.bom.element.Style",
             }
 
             // Try to convert non-pixel values
-            var pixel = hints.mshtmlPixel[name];
+            var pixel = this.__mshtmlPixel[name];
             if (pixel)
             {
               // Backup local and runtime style
@@ -506,14 +512,12 @@ qx.Class.define("qx.bom.element.Style",
 
       "default" : function(element, name, mode, smart)
       {
-        var hints = this.__hints;
-
         // normalize name
-        name = hints.styleNames[name] || name;
+        name = this.__styleNames[name] || name;
 
         // special handling
-        if (smart!==false && hints.special[name]) {
-          return hints.special[name].get(element, mode);
+        if (smart!==false && this.__special[name]) {
+          return this.__special[name].get(element, mode);
         }
 
         // switch to right mode
@@ -555,5 +559,9 @@ qx.Class.define("qx.bom.element.Style",
         }
       }
     })
+  },
+  
+  defer : function(statics) {
+    statics.__detectVendorProperties(); 
   }
 });

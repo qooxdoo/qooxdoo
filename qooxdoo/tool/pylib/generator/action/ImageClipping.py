@@ -33,7 +33,10 @@
 #</pre>
 ##
 
-import sys, os, glob
+import sys
+import os
+import glob
+import shutil
 from generator.action.ImageInfo import ImageInfo
 
 
@@ -66,6 +69,8 @@ class ImageClipping(object):
         os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
         os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
         os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
+        
+        shutil.copyfile(source_file, dest_file + ".png")
 
 
     def combine(self, combined, files, horizontal):
