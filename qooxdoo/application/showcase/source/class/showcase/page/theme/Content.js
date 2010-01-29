@@ -53,7 +53,73 @@ qx.Class.define("showcase.page.theme.Content",
       var model = new showcase.page.theme.calc.Model();
       new showcase.page.theme.calc.Presenter(calc, model);
       
+      this.__monkeyDance(calc);
+      
       return view;
+    },
+    
+    
+    __monkeyDance : function(calc)
+    {
+      if (!("WebkitTransition" in document.documentElement.style)) {
+        return;
+      }
+      
+      var showMonkey = true;
+      var monkeyImage = new qx.ui.basic.Image("showcase/theme/affe.png").set({
+        backgroundColor: "#525252",
+        padding: [50, 5]
+      });
+      
+      calc.addListener("dblclick", function(e) 
+      {        
+        el = calc.getContainerElement().getDomElement();
+        el.style.WebkitTransition = "-webkit-transform 0.3s ease-in";
+        
+        if (showMonkey) {
+          el.style.WebkitTransform = "perspective(600) rotateY(90deg)";
+        } else {
+          el.style.WebkitTransform = "perspective(600) rotateY(270deg)";
+        }
+        
+        el.addEventListener("webkitTransitionEnd", function() 
+        {
+          el.removeEventListener("webkitTransitionEnd", arguments.callee, false);
+          
+          if (showMonkey) 
+          {
+            var bounds = calc.getChildrenContainer().getBounds();
+            monkeyImage.setUserBounds(0, 0, bounds.width, bounds.height);
+            calc.add(monkeyImage);
+            calc.setCaption("");
+          } 
+          else
+          {
+            calc.remove(monkeyImage);
+            calc.setCaption("Calculator");
+          }
+
+          qx.ui.core.queue.Manager.flush(); 
+          
+          el.style.WebkitTransition = "-webkit-transform 0.3s ease-out";
+          if (showMonkey)
+          {
+            el.style.WebkitTransform = "perspective(600) rotateY(180deg)";
+          }
+          else
+          {
+            el.style.WebkitTransform = "perspective(600) rotateY(360deg)";
+            el.addEventListener("webkitTransitionEnd", function()
+            {
+              el.removeEventListener("webkitTransitionEnd", arguments.callee, false);
+              el.style.WebkitTransition = "";
+              el.style.WebkitTransform = "perspective(600) rotateY(0deg)";
+            }, false);
+          }
+          
+          showMonkey = !showMonkey;
+        }, false)
+      })
     }
   }
 });

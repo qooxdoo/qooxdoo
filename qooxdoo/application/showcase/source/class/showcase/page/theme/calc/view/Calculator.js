@@ -36,6 +36,7 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
     this.set({
       showMinimize: false,
       showMaximize: false,
+      allowMaximize: false,
       showClose : false
     });
     
