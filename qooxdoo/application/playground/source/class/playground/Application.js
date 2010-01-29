@@ -74,7 +74,7 @@ qx.Class.define("playground.Application",
 
     /**
      * This method contains the initial application code and gets called
-     * during startup of the application
+     * during startup of the application.
      */
     main : function()
     {
