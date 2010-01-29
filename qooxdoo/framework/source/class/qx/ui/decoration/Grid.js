@@ -82,8 +82,9 @@ qx.Class.define("qx.ui.decoration.Grid",
   properties :
   {
     /**
-     * Base image URL. All the different images needed are named by the default
-     * naming scheme:
+     * Base image URL. There must be an image with this name and the sliced
+     * and the nine sliced images. The sliced images must be named according to
+     * the following scheme:
      *
      * ${baseImageWithoutExtension}-${imageName}.${baseImageExtension}
      *
@@ -163,26 +164,31 @@ qx.Class.define("qx.ui.decoration.Grid",
     __impl : null,
     
     
+    // interface implementation
     getMarkup : function() {
       return this.__impl.getMarkup();
     },
     
-    
+
+    // interface implementation
     resize : function(element, width, height) {
       this.__impl.resize(element, width, height);
     },
 
 
+    // interface implementation
     tint : function(element, bgcolor) {
       // do nothing
     },
    
     
+    // interface implementation
     getInsets : function() {
       return this.__impl.getInsets();  
     },
     
 
+    // property apply
     _applyInsets : function(value, old, name) 
     {
       var setter = "set" + qx.lang.String.firstUp(name);
@@ -190,6 +196,7 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
     
     
+    // property apply
     _applyBaseImage : function(value, old)
     {
       if (this.__impl instanceof qx.ui.decoration.GridDiv) {
@@ -200,8 +207,14 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
     
     
+    /**
+     * Configures the border image decorator
+     * 
+     * @param baseImage {String} URL of the base image
+     */
     __setBorderImage : function(baseImage)
     {
+      
       this.__impl.setBorderImage(baseImage);
       
       var base = qx.util.AliasManager.getInstance().resolve(baseImage);

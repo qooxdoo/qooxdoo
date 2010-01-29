@@ -18,6 +18,18 @@
 ************************************************************************ */
 
 /**
+ * Decorator, which uses the CSS3 border image properties.
+ * 
+ * This decorator can be used as replacement for {@link qx.ui.layout.Grid},
+ * {@link qx.ui.layout.HBox} and {@link qx.ui.layout.VBox} decorators in
+ * browsers, which support it.
+ * 
+ * Supported browsers are:
+ * <ul>
+ *   <li>Firefox >= 3.5</li>
+ *   <li>Safari >= 4</li>
+ *   <li>Chrome >= 3</li>
+ * <ul>
  */
 qx.Class.define("qx.ui.decoration.css3.BorderImage",
 {
@@ -25,7 +37,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
 
   /**
    * @param borderImage {String} Base image to use
-   * @param slice {Integer|Array} 
+   * @param slice {Integer|Array} Sets the {@link #slice} property 
    */
   construct : function(borderImage, slice)
   {
@@ -44,6 +56,9 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
   
   statics :
   {
+    /**
+     * Whether the browser supports this decorator 
+     */
     IS_SUPPORTED : qx.bom.element.Style.isPropertySupported("borderImage")
   },
   
@@ -61,6 +76,11 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
     
     
+    /**
+     * The top slice line of the base image. The slice properties divide the
+     * image into nine regions, which define the corner, edge and the center
+     * images.
+     */
     sliceTop : 
     {
       check : "Integer",
@@ -69,6 +89,11 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
     
 
+    /**
+     * The right slice line of the base image. The slice properties divide the
+     * image into nine regions, which define the corner, edge and the center
+     * images.
+     */
     sliceRight : 
     {
       check : "Integer",
@@ -77,6 +102,11 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
 
     
+    /**
+     * The bottom slice line of the base image. The slice properties divide the
+     * image into nine regions, which define the corner, edge and the center
+     * images.
+     */    
     sliceBottom : 
     {
       check : "Integer",
@@ -85,6 +115,11 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
     
     
+    /**
+     * The left slice line of the base image. The slice properties divide the
+     * image into nine regions, which define the corner, edge and the center
+     * images.
+     */
     sliceLeft : 
     {
       check : "Integer",
@@ -93,6 +128,10 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
     
     
+    /**
+     * The slice properties divide the image into nine regions, which define the
+     * corner, edge and the center images.
+     */
     slice : 
     {
       group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
@@ -100,22 +139,52 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
     
     
+    /**
+     * This property specifies how the images for the sides and the middle part
+     * of the border image are scaled and tiled horizontally.
+     * 
+     * Values have the following meanings:
+     * <ul>
+     *   <li><strong>stretch</strong>: The image is stretched to fill the area.</li>
+     *   <li><strong>repeat</strong>: The image is tiled (repeated) to fill the area.</li>
+     *   <li><strong>round</strong>: The image is tiled (repeated) to fill the area. If it does not 
+     *    fill the area with a whole number of tiles, the image is rescaled so
+     *    that it does.</li>
+     * </ul>
+     */
     repeatX : 
     {
       check : ["stretch", "repeat", "round"],
-      init : ["stretch"],
+      init : "stretch",
       apply : "_applyStyle"
     },
 
-    
+
+    /**
+     * This property specifies how the images for the sides and the middle part
+     * of the border image are scaled and tiled vertically.
+     * 
+     * Values have the following meanings:
+     * <ul>
+     *   <li><strong>stretch</strong>: The image is stretched to fill the area.</li>
+     *   <li><strong>repeat</strong>: The image is tiled (repeated) to fill the area.</li>
+     *   <li><strong>round</strong>: The image is tiled (repeated) to fill the area. If it does not 
+     *    fill the area with a whole number of tiles, the image is rescaled so
+     *    that it does.</li>
+     * </ul>
+     */    
     repeatY : 
     {
       check : ["stretch", "repeat", "round"],
-      init : ["stretch"],
+      init : "stretch",
       apply : "_applyStyle"
     },
     
     
+    /**
+     * This property specifies how the images for the sides and the middle part
+     * of the border image are scaled and tiled.
+     */
     repeat : 
     {
       group : ["repeatX", "repeatY"],
@@ -166,7 +235,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
         this.getSliceRight(), 
         this.getSliceBottom(),
         this.getSliceLeft()
-      ].join(" ");
+      ];
       
       var repeat = [
         this.getRepeatX(),
@@ -176,12 +245,13 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
       this.__markup = [
         "<div style='",
         qx.bom.element.Style.compile({
-          "borderImage" : 'url("' + source + '") ' + slice + " stretch stretch",
+          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + " stretch stretch",
           position: "absolute",
           lineHeight: 0,
           fontSize: 0,
           overflow: "hidden",
-          boxSizing: "border-box"
+          boxSizing: "border-box",
+          borderWidth: slice.join("px ") + "px"
         }),
         ";'></div>"
       ].join("");

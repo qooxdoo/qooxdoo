@@ -77,6 +77,9 @@ qx.Class.define("qx.bom.element.Style",
 
   statics :
   {
+    /**
+     * Detect vendor specific properties.
+     */
     __detectVendorProperties : function() 
     {
       var vendorProperties = [
@@ -215,6 +218,13 @@ qx.Class.define("qx.bom.element.Style",
     __hyphens : {},
     
     
+    /**
+     * Hypenate the given string. Replaces upper case letters with lower case
+     * letters prefixed with a hyphen.
+     * 
+     * @param propName {String} A CSS property name
+     * @return {String} The hyphenated version of the property name
+     */
     __hyphenate : function(propName) 
     {
       var hyphens = this.__hyphens;
@@ -280,6 +290,12 @@ qx.Class.define("qx.bom.element.Style",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Checks whether the browser supports the given CSS property.
+     * 
+     * @param propertyName {String} The name of the property
+     * @return {Boolean} Whether the property id supported
+     */
     isPropertySupported : function(propertyName)
     {
       return (
@@ -301,7 +317,10 @@ qx.Class.define("qx.bom.element.Style",
     CASCADED_MODE : 2,
 
 
-    /** {Integer} Local value of a style property. Ignores inheritance cascade. Does not interpret values. */
+    /** 
+     * {Integer} Local value of a style property. Ignores inheritance cascade.
+     *   Does not interpret values.
+     */
     LOCAL_MODE : 3,
 
 
