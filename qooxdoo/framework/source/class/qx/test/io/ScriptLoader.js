@@ -26,6 +26,7 @@ Authors:
 qx.Class.define("qx.test.io.ScriptLoader",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.test.io.MRemoteTest,
 
   members :
   {
@@ -43,12 +44,24 @@ qx.Class.define("qx.test.io.ScriptLoader",
     {
       window.SCRIPT_LOADED = false;
 
-      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/script.js");
+      var url = this.getUrl("qx/test/script.js");
       this.loader.load(url, function() { this.resume(function() {
         this.assertTrue(window.SCRIPT_LOADED);
       }); }, this);
 
       this.wait(5000);
+    },
+
+
+    test404 : function()
+    {
+      var url = this.getUrl("qx/test/xmlhttp/404.php");
+      
+      this.loader.load(url, function(status) { this.resume(function() {
+        this.assertEquals("fail", status);
+      }, this)}, this);
+      
+      this.wait();
     },
 
 
@@ -83,7 +96,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
     {
       window.SCRIPT_LOADED = false;
 
-      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/script.js");
+      var url = this.getUrl("qx/test/script.js");
       this.loader.load(url);
 
       var pollTimer = new qx.event.Timer(20);

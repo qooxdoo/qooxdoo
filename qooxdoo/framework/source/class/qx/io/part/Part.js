@@ -54,7 +54,13 @@ qx.Class.define("qx.io.part.Part",
   events :
   {
     /** This event is fired after the part has been loaded successfully. */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.event.type.Event",
+    
+    /**
+     * The error event is fired if a part could not be loaded. The event's
+     * {@link qx.event.Data#data} property contains the failed {@link package}.
+     */
+    "error" : "qx.event.type.Data"
   },
 
 
@@ -104,23 +110,27 @@ qx.Class.define("qx.io.part.Part",
      */
     load : function(callback, self)
     {
-      if (this.__readyState == "complete")
+      if (this.__readyState == "complete" || this.__readyState == "error")
       {
         if (callback) {
-          callback.call(self);
+          callback.call(self, this.getReadyState());
         }
         return;
       }
-      else if (this.__readyState == "loading")
+      else if (this.__readyState == "loading" && callback)
       {
-        if (callback) {
-          this.addListenerOnce("load", callback, self);
-        }
+        this.__addLoadAndErrorHandlerOnce(this, function() {
+          callback.call(self, this.getReadyState());
+        }, this);
         return;
       }
+      
+      this.__readyState = "loading";
 
       if (callback) {
-        this.addListenerOnce("load", callback, self);
+        this.__addLoadAndErrorHandlerOnce(this, function() {
+          callback.call(self, this.getReadyState());
+        }, this);
       }
 
       var onLoad = function() {
@@ -132,17 +142,22 @@ qx.Class.define("qx.io.part.Part",
         var pkg = this.__packages[i];
         switch (pkg.getReadyState())
         {
-          case "initialized":
-            pkg.addListenerOnce("load", onLoad, this);
+          case "initialized":            
+            this.__addLoadAndErrorHandlerOnce(pkg, onLoad, this);
             pkg.load();
             return;
 
           case "loading":
-            pkg.addListenerOnce("load", onLoad, this);
+            this.__addLoadAndErrorHandlerOnce(pkg, onLoad, this);
             return;
 
           case "complete":
             break;
+            
+          case "error":
+            this.__readyState = "error";
+            this.fireDataEvent("error", pkg);
+            return;
 
           default:
             throw new Error("Invalid case!");
@@ -151,6 +166,26 @@ qx.Class.define("qx.io.part.Part",
 
       this.__readyState = "complete";
       this.fireEvent("load");
+    },
+    
+    
+    /**
+     * Add a listener to the "load" and "error" event. Once one of those events
+     * is fired the listener is removed from both events.
+     * 
+     * @param target {qx.core.Object} The event target
+     * @param callback {Function} The event listener
+     * @param self {Object} The context for the listener
+     */
+    __addLoadAndErrorHandlerOnce : function(target, callback, self)
+    {
+      var wrapper = function(e) {
+        callback.call(self, e);
+        target.removeListenerById(loadId);
+        target.removeListenerById(errorId);
+      }
+      var loadId = target.addListener("load", wrapper);
+      var errorId = target.addListener("error", wrapper);
     }
   },
 

@@ -1,0 +1,1 @@
+qx.test.io.ScriptLoader.FILES.push("file3")

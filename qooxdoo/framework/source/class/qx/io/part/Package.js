@@ -46,67 +46,96 @@ qx.Class.define("qx.io.part.Package",
   events :
   {
     /** This event is fired after the part has been loaded successfully. */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.event.type.Event",
+    
+    /**
+     * The error event is fired if a package could not be loaded.
+     */
+    "error" : "qx.event.type.Event"
   },
 
 
   members :
   {
-
     __id : null,
     __urls : null,
     __readyState : null,
 
+    
     /**
      * Loads a list of scripts in the correct order.
      *
      * @param urlList {String[]} List of script urls
      * @param callback {Function} Function to execute on completion
-     * @param self {Object?window} Context to execute the given function in
-     */
-    __loadScriptList : function(urlList, callback, self)
+     * @param errBack {Function} Function to execute on error
+     * @param self {Object?window} Context to execute the callback and errback in
+     */    
+    __loadScriptList : function(urlList, callback, errBack, self)
     {
-      if (urlList.length == 0)
+      var responses = [];
+      var loaders = [];
+      var loadedFiles = 0;
+
+      for (var i=0; i<urlList.length; i++)
       {
-        callback.call(self);
-        return;
-      }
-
-      this.__readyState = "loading";
-
-      var urlsLoaded = 0;
-      var onLoad = function(urls)
-      {
-        if (urlsLoaded >= urlList.length)
-        {
-          this.__readyState = "complete";
-          callback.call(self);
-          return;
-        }
-
-        var loader = new qx.io.ScriptLoader()
-        loader.load(urls.shift(), function()
-        {
-          urlsLoaded += 1;
+        var loader = loaders[i] = new qx.bom.Request();
+        loader.open("GET", urlList[i], true);
+        loader.send();
+        
+        loader.onload = qx.lang.Function.bind(function(i, loader)
+        {        
+          responses[i] = loader.responseText;          
           loader.dispose();
-          if (qx.core.Variant.isSet("qx.client", "webkit"))
+          loadedFiles += 1;
+          if (loadedFiles == urlList.length)
           {
-            // force asynchronous load
-            // Safari fails with an "maximum recursion depth exceeded" error if it is
-            // called sync.
-            qx.event.Timer.once(function() {
-              onLoad.call(this, urls, callback, self);
-            }, this, 0);
-          } else {
-            onLoad.call(this, urls, callback, self);
-          }
-        }, this);
+            this.__evalFiles(urlList, responses);
+            callback.call(this);
+          }          
+        }, this, i, loader);
+        
+        var self = this;
+        loader.onerror = loader.onabort = loader.ontimeout = function(loader) {
+          self.__cleanupLoaders(loaders);
+          errBack.call(self);
+        }
       }
-
-      onLoad(qx.lang.Array.clone(urlList));
     },
-
-
+    
+    
+    /**
+     * Dispose all loaders
+     * 
+     * @param loaders {qx.bom.Request[]} list of loaders to dispose
+     */
+    __cleanupLoaders : function(loaders)
+    {
+      for (var i=0; i<loaders.length; i++)
+      {
+        var loader = loaders[i];
+        loader.onerror = loader.onabort = loader.ontimeout = loader.onload = null;
+        loader.dispose();
+      }
+    },
+    
+    
+    /**
+     * Eval the contents of a list of source files
+     * 
+     * @param names {String[]} file names
+     * @param contentList {String[]} The content of the files.
+     */
+    __evalFiles : function(names, contentList)
+    {
+      for (var i=0; i<names.length; i++) 
+      {
+        // debugging assist for Firebug
+        content = contentList[i] + "\r\n//@ sourceURL=" + names[i];
+        eval(content);
+      }
+    },
+    
+    
     /**
      * Get the ready state of the package. The value is one of
      * <ul>
@@ -137,13 +166,22 @@ qx.Class.define("qx.io.part.Package",
 
       this.__readyState = "loading";
 
-      this.__loadScriptList(this.__urls, function()
-      {
-        this.__readyState = "complete";
-        var packageHash = qx.$$loader.packageHashes[this.__id];
-        this._importPackageData(qx.$$packageData[packageHash]);
-        this.fireEvent("load");
-      }, this);
+      this.__loadScriptList(
+        this.__urls,
+        function() {
+          this.__readyState = "complete";
+          
+          // TODO move this code one level up into the part loader
+          var packageHash = qx.$$loader.packageHashes[this.__id];
+          this._importPackageData(qx.$$packageData[packageHash]);
+          this.fireEvent("load");
+        },
+        function() {
+          this.__readyState = "error";
+          this.fireEvent("error");
+        },
+        this
+      );
     },
 
     /**
@@ -156,15 +194,8 @@ qx.Class.define("qx.io.part.Package",
     _importPackageData : qx.$$loader.importPackageData
   },
 
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-   destruct : function() {
-     this.__urls = null;
-   }
+  
+  destruct : function() {
+    this.__urls = null;
+  }
 });

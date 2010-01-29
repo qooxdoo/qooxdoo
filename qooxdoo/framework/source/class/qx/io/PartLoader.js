@@ -27,6 +27,7 @@ qx.Class.define("qx.io.PartLoader",
   type : "singleton",
   extend : qx.core.Object,
 
+  
   construct : function()
   {
     this.base(arguments);
@@ -51,6 +52,9 @@ qx.Class.define("qx.io.PartLoader",
       part.addListener("load", function(e) {
         this.fireDataEvent("partLoaded", e.getTarget());
       }, this);
+      part.addListener("error", function(e) {
+        this.fireDataEvent("partLoadingError", e.getTarget().getName());
+      }, this);
       this.__parts[name] = part;
     }
   },
@@ -62,7 +66,13 @@ qx.Class.define("qx.io.PartLoader",
      * Fired if a parts was loaded. The data of the event instance point to the
      * loaded part instance.
      */
-    "partLoaded" : "qx.event.type.Data"
+    "partLoaded" : "qx.event.type.Data",
+
+    /**
+     * Fired if a part could not be loaded. The event's
+     * {@link qx.event.Data#data} property contains the name if the failed part.
+     */
+    "partLoadingError" : "qx.event.type.Data"
   },
 
 
@@ -73,7 +83,7 @@ qx.Class.define("qx.io.PartLoader",
      * parts and their dependencies are fully loaded. If the parts are already
      * loaded the callback is called immediately.
      *
-     * @param partNames {String[]} List of parts namesto load as defined in the
+     * @param partNames {String[]} List of parts names to load as defined in the
      *    config file at compile time.
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
