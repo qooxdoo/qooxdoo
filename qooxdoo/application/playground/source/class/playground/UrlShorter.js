@@ -69,7 +69,7 @@ qx.Class.define("playground.UrlShorter",
     
     
     /**
-     * Method for shortening a url using the bit.ly JSONP service.
+     * Method for shortening the given URL using the bit.ly JSONP service.
      * 
      * @param longurl {String} The url to shorten.
      * @param callback {Function} The function to call on finish.
