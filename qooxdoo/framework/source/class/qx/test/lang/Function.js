@@ -23,6 +23,15 @@ qx.Class.define("qx.test.lang.Function",
 
   members :
   {
+    testGlobalEval : function()
+    {
+      qx.lang.Function.globalEval("var JUHU=12;");
+      this.assertEquals(12, window.JUHU);
+      
+      delete window.JUHU;
+    },
+    
+  
     testGetCaller : function()
     {
       var self = this;
