@@ -70,6 +70,7 @@ class ImageClipping(object):
         os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
         os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
         
+        # for css3, the original images are used
         shutil.copyfile(source_file, dest_file + ".png")
 
 
