@@ -28,6 +28,8 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
   {
     this.base(arguments);
     
+    this.setAppearance("menu-button");
+    
     var layout = new qx.ui.layout.Grid(5, 5);
     layout.setColumnFlex(1, 1);
     layout.setRowFlex(0, 1);
@@ -37,10 +39,13 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     var initUserName = qx.bom.Cookie.get("playgroundUser");
     this.__textField = new qx.ui.form.TextField(initUserName);
     this.__textField.set({
-      width: 50
+      width: 50,
+      anonymous: true
     });
     
-    this._add(new qx.ui.basic.Label(this.tr("Username")), {row: 0, column: 0});
+    var label = new qx.ui.basic.Label(this.tr("Username"));
+    label.setAnonymous(true);
+    this._add(label, {row: 0, column: 0});
     this._add(this.__textField, {row: 0, column: 1});
     
     this.__textField.addListener("changeValue", function(e) {
@@ -49,6 +54,40 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       // invoke a reload
       this.fireDataEvent("reload", e.getData());
     }, this);
+    
+    // sync the selected state
+    this.addListener("syncAppearance", function() {
+      this.hasState("selected") ? this.__textField.focus() : null;
+    }, this);
+    
+    // EVIL HACK FOR THE MENU MANAGER!!!!
+    var manager = qx.ui.menu.Manager.getInstance();
+    var onKeyPressLeft = manager._onKeyPressLeft;
+    var onKeyPressRight = manager._onKeyPressRight;
+    
+    var self = this;
+    manager._onKeyPressLeft = function(menu) {
+      if ((menu.getSelectedButton() instanceof self.constructor)) {
+        var cursorPos = self.__textField.getTextSelectionStart();
+        if (cursorPos != 0) {
+          self.__textField.setTextSelection(cursorPos - 1, cursorPos - 1);
+          return;
+        }
+      }
+      // default action
+      onKeyPressLeft.call(manager, menu);
+    };
+    
+    manager._onKeyPressRight = function(menu) {
+      if ((menu.getSelectedButton() instanceof self.constructor)) {
+        var cursorPos = self.__textField.getTextSelectionStart();
+        if (cursorPos != self.__textField.getValue().length) {
+          self.__textField.setTextSelection(cursorPos + 1, cursorPos + 1);
+          return;
+        }
+      }
+      onKeyPressRight.call(manager, menu);
+    };
   },
 
 
@@ -85,6 +124,15 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     {
       this.__textField.setValid(!invalid);
       this.__textField.setInvalidMessage(message || "");
+    },
+    
+    
+    /**
+     * Dummy implementataion for the menu, returning always null.
+     * @return {null} Always null!
+     */
+    getMenu : function() {
+      return null;
     }
   },
 

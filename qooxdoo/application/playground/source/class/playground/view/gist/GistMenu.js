@@ -200,10 +200,10 @@ qx.Class.define("playground.view.gist.GistMenu",
         // ignore the status items
         if (item == this.__emptyItem) {continue;}
         if (on && item.getLabel().indexOf("[qx]") == -1) {
-          item.exclude();
+          this.remove(item);
         } else {
           oneShown = true;
-          item.show();
+          this.add(item);
         }
       };
       
@@ -213,7 +213,19 @@ qx.Class.define("playground.view.gist.GistMenu",
       } else if (this.indexOf(this.__emptyItem) != -1) {
         this.remove(this.__emptyItem);
       }
-    }
+    },
+    
+    
+    //overridden
+    _onMouseOver : function(e)
+    {
+      this.base(arguments, e);
+      
+      var target = e.getTarget();
+      if (target.isEnabled()) {
+        this.setSelectedButton(target);
+      }
+    }  
   },
 
 
