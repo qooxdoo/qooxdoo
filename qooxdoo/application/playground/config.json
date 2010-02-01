@@ -44,6 +44,11 @@
       "code" :
       {
         "optimize" : ["variables", "basecalls", "privates", "strings"]
+      },
+
+      "settings" :
+      {
+        "qx.nativeScrollBars" : true
       }
     },
     
@@ -61,6 +66,11 @@
         "qx.dev.unit.*",
         "playground.test.*"
       ],
+
+      "settings" :
+      {
+        "qx.nativeScrollBars" : true
+      },
 
       "variants" :
       {
