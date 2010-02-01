@@ -30,7 +30,7 @@ class Lang(object):
     LET_KEY      = "let"
     LIBRARY_KEY  = "library"
     JOBS_KEY     = "jobs"
-    RESOLVED_KEY = "resolved"
+    RESOLVED_KEY = "__resolved__"
     OVERRIDE_KEY = "__override__"
     META_KEYS    = [ RESOLVED_KEY, OVERRIDE_KEY ]
     OVERRIDE_TAG = "="    # tag for key names, to protect on merging
