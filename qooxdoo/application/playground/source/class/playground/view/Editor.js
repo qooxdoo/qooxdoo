@@ -212,6 +212,10 @@ qx.Class.define("playground.view.Editor",
         this.__codeMirror.frame.style.visibility = "visible";
         this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";        
       } else {
+        var code = this.__codeMirror.getCode();
+        if (code) {
+          this.__textarea.setValue(code);
+        }
         this.__textarea.getContentElement().getDomElement().style.visibility = "visible";
         this.__codeMirror.frame.style.visibility = "hidden";
       }      

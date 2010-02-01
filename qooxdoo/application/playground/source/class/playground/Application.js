@@ -34,6 +34,22 @@ qx.Class.define("playground.Application",
 {
   extend : qx.application.Standalone,
 
+  properties : 
+  {
+    /** The name of the current application.*/
+    name : {
+      check : "String",
+      apply : "_applyName",
+      init: ""
+    },
+    
+    /** Code to check agains as unchanged source of the loaded code.*/
+    originCode : {
+      check : "String",
+      apply : "_applyOriginCode",
+      init : ""
+    } 
+  },
 
   /*
    *****************************************************************************
@@ -60,6 +76,8 @@ qx.Class.define("playground.Application",
     
     // flag used for the warning for IE
     __ignoreSaveFaults : false,
+    
+    __modified : false,
     
     // used for removing the created objects in the run code
     __beforeReg : null,
@@ -163,6 +181,19 @@ qx.Class.define("playground.Application",
       }
     },
 
+
+    // ***************************************************
+    // PROPERTY APPLY
+    // ***************************************************    
+    _applyName : function(value, old) {
+      this.__playArea.updateCaption(value);
+      this.__updateTitle(value);      
+    },
+    
+    _applyOriginCode : function(value, old) {
+      this.__modified = false;
+    },
+
     
     // ***************************************************
     // TOOLBAR HANDLER
@@ -176,8 +207,7 @@ qx.Class.define("playground.Application",
      */
     __onSampleChange : function(e) {
       var userCode = this.__editor.getCode();
-      var currentSample = this.__samples.getCurrent();
-      if (this.__isCodeNotEqual(userCode, currentSample))
+      if (this.__isCodeNotEqual(userCode, this.getOriginCode()))
       {
         if (!confirm(this.tr("You changed the code of the current sample.|" + 
           "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
@@ -188,7 +218,12 @@ qx.Class.define("playground.Application",
 
       // set the new sample data
       var newSample = this.__samples.get(e.getData());
+      // need to get the code from the editor in case he changes something 
+      // in the code
       this.__editor.setCode(newSample);
+      this.setOriginCode(this.__editor.getCode());      
+      
+      this.setName(e.getData());
       // run the new sample
       this.run();
     },
@@ -200,8 +235,13 @@ qx.Class.define("playground.Application",
      * @param e {qx.event.type.Data} The data event containing the gist content.
      */
     __onGistChange : function(e) {
-      this.__editor.setCode(e.getData().code);
-      this.run(null, e.getData().name);
+      var code = e.getData().code;      
+      // need to get the code from the editor in case he changes something 
+      // in the code      
+      this.__editor.setCode(code);
+      this.setOriginCode(this.__editor.getCode());
+      this.setName(e.getData().name);
+      this.run();
     },
     
     
@@ -309,9 +349,13 @@ qx.Class.define("playground.Application",
         code = this.__samples.get(name);
       }
       
+      // need to get the code from the editor in case he changes something 
+      // in the code
       this.__editor.setCode(code);
+      this.setOriginCode(this.__editor.getCode());
+      
+      this.setName(name);
       this.run();
-      this.__updateTitle(name);
     },
 
 
@@ -326,20 +370,25 @@ qx.Class.define("playground.Application",
       // is a sample name given
       if (this.__samples.isAvailable(state))
       {
-        this.__editor.setCode(this.__samples.get(state));
-        this.run();
+        var sample = this.__samples.get(state);
+        if (this.__isCodeNotEqual(sample, this.__editor.getCode())) {
+          this.__editor.setCode(sample);
+          this.setName(state);
+          this.run(); 
+        }
 
       // is a gist id given
       } else if (state.indexOf("gist=") == 0) {
         this.__loadGist(state.substring(5, state.lenght));
         var id = state.substring(5, state.length);
-        this.__playArea.updateCaption(this.tr("Showing gist %1", id));
+        this.setName(this.tr("Showing gist %1", id));
 
       // is code given
       } else if (state != "") {
         var code = this.__parseURLCode(state);
         if (code != this.__editor.getCode()) {
           this.__editor.setCode(code);
+          this.setName(this.tr("Custom Code"));
           this.run();
         }
       }
@@ -465,6 +514,7 @@ qx.Class.define("playground.Application",
         try {
           var code = e.getData().getQuery().getResults().getContent();
           this.__editor.setCode(code);
+          this.setName("gist " + id);
           this.__updatePlayground();
         } catch (e) {
           this.info(this.tr("Can't load the gist."));
@@ -557,11 +607,9 @@ qx.Class.define("playground.Application",
 
       // build the code to run
       var code = this.__editor.getCode();
-      var title = this.__samples.getCurrentName();
       code = 'this.info("' + this.tr("Starting application").toString() +
-        (title ? " '" + title + "'": "") +
-        ' ...");\n' + 
-        ((code + ";") || "") +
+        " '" + this.getName() + "'" + ' ...");\n' + 
+        (code || "") +
         'this.info("' + this.tr("Successfully started").toString() + '.");\n';
 
       // try to create a function
@@ -612,24 +660,19 @@ qx.Class.define("playground.Application",
      * Runs the current set sample and checks if it need to be saved to the url.
      * 
      * @param e {qx.event.type.Event} A possible events (unused)
-     * @param newName {String} The new name of the playground application.
      */
-    run : function(e, newName)
+    run : function(e)
     {
-      this.__updatePlayground();
-
-      var name = this.__samples.getCurrentName();
-      var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
-      if (code && this.__isCodeNotEqual(code, currentSample)) {
-        this.__playArea.updateCaption(newName || this.tr("%1 (modified)", name));
+      if (code && this.__isCodeNotEqual(code, this.getOriginCode())) {
         this.__addCodeToHistory(code);
-      } else {
-        this.__playArea.updateCaption(name);
-        this.__history.addToHistory(
-          this.__samples.getCurrentName(), this.__updateTitle(name)
-        );
+        if (!this.__modified) {
+          this.setName(this.tr("%1 (modified)", this.getName()));
+        }
+        this.__modified = true;
       }
+      
+      this.__updatePlayground();
     },    
 
  
