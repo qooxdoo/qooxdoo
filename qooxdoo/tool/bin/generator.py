@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -162,6 +163,9 @@ Arguments:
 
     # To see fully expanded config:
     #console.info(pprint.pformat(config.get(".")))
+
+    # Clean-up config
+    config.cleanUpJobs(expandedjobs)
 
     # Processing jobs...
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}

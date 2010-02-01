@@ -86,6 +86,18 @@ class Job(object):
                     map[Lang.OVERRIDE_KEY].append(cleankey)
 
 
+    ##
+    # clean up any artifacts in job definitions (e.g. __override__ synthetic keys in maps)
+
+    def cleanUpJob(self):
+
+        visitor = self.getDataVisitor()
+        for map in visitor:
+            for synthKey in Lang.META_KEYS:
+                if synthKey in map:
+                    del map[synthKey]
+
+
     def resolveExtend(self, entryTrace=[], cfg=None):
         # resolve the 'extend' entry of a job
         config = cfg or self._config
@@ -131,7 +143,7 @@ class Job(object):
     #                                                                               
     # @param     self     (IN) self
     # @return    joblist  (OUT) list of replacement jobs
-    # @exception RuntimeError  'resolved' key missing in a job
+    # @exception RuntimeError  Lang.RESOLVED_KEY key missing in a job
     #
     # DESCRIPTION
     #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
@@ -181,8 +193,8 @@ class Job(object):
                 
                 # we assume the initial 'run' job has already been resolved, so
                 # we reset it here and set the 'extend' to the subjob
-                if newjob.hasFeature('resolved'): 
-                    newjob.removeFeature('resolved')
+                if newjob.hasFeature(Lang.RESOLVED_KEY): 
+                    newjob.removeFeature(Lang.RESOLVED_KEY)
                 else:
                     raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
                 newjob.setFeature('extend', [subjobObj]) # extend subjob

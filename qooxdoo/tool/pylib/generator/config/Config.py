@@ -239,8 +239,11 @@ class Config(object):
 
 
 
+    ##
+    # fix tags (markers, like prefix '=') in Jobs, so they will we compatible with
+    # normal jobs processing (e.g. the keys have to be compareable)
+
     def fixJobsTags(self):
-        # fix tags within each job
         jobNames = self.getJobsList()
         for jobName in jobNames:
             job = self.getJob(jobName)
@@ -265,6 +268,19 @@ class Config(object):
                 # fix Job object property
                 if isinstance(jobsMap[cleankey], Job):
                     jobsMap[cleankey].name = cleankey
+
+
+    ##
+    # clean up any artifacts in job definitions (e.g. __override__ synthetic keys in maps)
+
+    def cleanUpJobs(self, jobList):
+        for jobName in jobList:
+            job = self.getJob(jobName)
+            if not job:
+                raise RuntimeError, "No such job: \"%s\"" % jobname
+            else:
+                job.cleanUpJob()
+
 
 
     def resolveIncludes(self, includeTrace=[]):
@@ -445,8 +461,8 @@ class Config(object):
         console.indent()
 
         # while there are still 'run' jobs or unresolved jobs in the job list...
-        while ([x for x in jobList if self.getJob(x).hasFeature('run')] or 
-               [y for y in jobList if not self.getJob(y).hasFeature('resolved')]):
+        while ([x for x in jobList if self.getJob(x).hasFeature(Lang.RUN_KEY)] or 
+               [y for y in jobList if not self.getJob(y).hasFeature(Lang.RESOLVED_KEY)]):
             jobList = self._resolveExtends(jobList)
             jobList = self._resolveRuns(jobList)
 
@@ -479,7 +495,7 @@ class Config(object):
     # @param     self     (IN) self
     # @param     jobs     (IN) list of names of jobs that might be 'run'-extended
     # @return    newjobs  (OUT) new list of jobs to run
-    # @exception RuntimeError  'resolved' key missing in a job
+    # @exception RuntimeError  Lang.RESOLVED_KEY key missing in a job
     #
     # DESCRIPTION
     #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
