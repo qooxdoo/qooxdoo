@@ -96,6 +96,17 @@ qx.Class.define("qx.ui.tabview.TabButton",
   members :
   {
 
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates)
+     */
+    _forwardStates :
+    {
+      focused : true,
+      hovered : true,
+      checked : true
+    },
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API

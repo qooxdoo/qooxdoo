@@ -56,6 +56,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
     },
 
 
+    "keyboard-focus" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : "black",
+        style : "dotted"
+      }
+    },
 
 
 

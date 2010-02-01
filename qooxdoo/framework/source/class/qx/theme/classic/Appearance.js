@@ -1014,7 +1014,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview-page/button/label" : "label",
+    "tabview-page/button/label" :
+    {
+      alias : "label",
+
+      style : function(states)
+      {
+        return {
+          padding : [0, 1, 0, 1],
+          margin : states.focused ? 0 : 1,
+          decorator : states.focused ? "keyboard-focus" : undefined
+        };
+      }
+    },
+
     "tabview-page/button/icon" : "image",
     "tabview-page/button/close-button" :
     {
@@ -1026,7 +1039,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-
 
 
     /*
