@@ -73,7 +73,7 @@ qx.Class.define("showcase.page.theme.Content",
       
       calc.addListener("dblclick", function(e) 
       {        
-        el = calc.getContainerElement().getDomElement();
+        var el = calc.getContainerElement().getDomElement();
         el.style.WebkitTransition = "-webkit-transform 0.3s ease-in";
         
         if (showMonkey) {
