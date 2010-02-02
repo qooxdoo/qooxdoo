@@ -64,6 +64,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     var manager = qx.ui.menu.Manager.getInstance();
     var onKeyPressLeft = manager._onKeyPressLeft;
     var onKeyPressRight = manager._onKeyPressRight;
+    var onKeyPressEnter = manager._onKeyPressEnter;
     
     var self = this;
     manager._onKeyPressLeft = function(menu) {
@@ -87,6 +88,18 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
         }
       }
       onKeyPressRight.call(manager, menu);
+    };
+    
+    manager._onKeyPressEnter = function(menu, button, e) {
+      if ((menu.getSelectedButton() instanceof self.constructor)) {
+        var data = self.__textField.getValue();
+        // set the cookie
+        qx.bom.Cookie.set("playgroundUser", data, 100);
+        // invoke a reload
+        self.fireDataEvent("reload", data);
+        return;
+      }
+      onKeyPressEnter.call(manager, menu, button, e);
     };
   },
 
