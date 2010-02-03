@@ -139,6 +139,48 @@ qx.Class.define("qx.test.core.Object",
       this.assertEquals(2, called);
 
       qx.log.Logger.error = oldError;
+    },
+    
+    
+    testDisposeObject : function() 
+    {
+      // regular object dispose
+      var o = new qx.core.Object();
+      o.o = new qx.core.Object();
+      o._disposeObjects("o");
+      this.assertTrue(o.o == null);
+      
+      // object dispose with a singleton
+      qx.Class.define("qx.test.Single", {
+        extend : qx.core.Object,
+        type : "singleton"
+      });
+      
+      var o = new qx.core.Object();
+      o.s = qx.test.Single.getInstance();
+      this.assertException(function() {
+        o._disposeObjects("s");
+      });
+      qx.Class.undefine("qx.test.Single");
+    },
+    
+    
+    testDisposeSingletonObject : function() 
+    {
+      // object dispose with a singleton and a object
+      qx.Class.define("qx.test.Single", {
+        extend : qx.core.Object,
+        type : "singleton"
+      });
+
+      var o = new qx.core.Object();
+      o.o = new qx.core.Object();
+      o.s = qx.test.Single.getInstance();      
+      o._disposeSingletonObjects("o", "s");
+      this.assertTrue(o.o == null);
+      this.assertTrue(o.s == null);      
+
+      qx.Class.undefine("qx.test.Single");      
     }
   }
 });

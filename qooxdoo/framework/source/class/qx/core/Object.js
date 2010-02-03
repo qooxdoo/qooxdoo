@@ -771,11 +771,21 @@ qx.Class.define("qx.core.Object",
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
      * @param varargs {arguments} List of fields (which store objects) to dispose
-     * @return {void}
      */
     _disposeObjects : function(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, arguments);
     },
+    
+    
+    /**
+     * Disconnects and disposes given singleton objects from instance.
+     * Only works with qx.core.Object based objects e.g. Widgets.
+     *
+     * @param varargs {arguments} List of fields (which store objects) to dispose
+     */
+    _disposeSingletonObjects : function(varargs) {
+      qx.util.DisposeUtil.disposeObjects(this, arguments, true);
+    },    
 
 
     /**
@@ -783,7 +793,6 @@ qx.Class.define("qx.core.Object",
      * the field which refers to the array afterwards.
      *
      * @param field {String} Name of the field which refers to the array
-     * @return {void}
      */
     _disposeArray : function(field) {
       qx.util.DisposeUtil.disposeArray(this, field);
@@ -795,7 +804,6 @@ qx.Class.define("qx.core.Object",
      * the field which refers to the map afterwards.
      *
      * @param field {String} Name of the field which refers to the map
-     * @return {void}
      */
     _disposeMap : function(field) {
       qx.util.DisposeUtil.disposeMap(this, field);

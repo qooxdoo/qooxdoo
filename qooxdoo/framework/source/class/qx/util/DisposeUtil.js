@@ -62,9 +62,9 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the fields
      * @param arr {Array} List of fields (which store objects) to dispose
-     * @return {void}
+     * @param disposeSingletons {Boolean?} true, if singletons should be disposed
      */
-    disposeObjects : function(obj, arr)
+    disposeObjects : function(obj, arr, disposeSingletons)
     {
       var name;
       for (var i=0, l=arr.length; i<l; i++)
@@ -77,7 +77,12 @@ qx.Class.define("qx.util.DisposeUtil",
         if (!qx.core.ObjectRegistry.inShutDown)
         {
           if (obj[name].dispose) {
-            obj[name].dispose();
+            // singletons
+            if (!disposeSingletons && obj[name].constructor.$$instance) {
+              throw new Error("The object stored in key " + name + " is a singleton! Please use disposeSingleton instead.");
+            } else {
+              obj[name].dispose();
+            }
           } else {
             throw new Error("Has no disposable object under key: " + name + "!");
           }
