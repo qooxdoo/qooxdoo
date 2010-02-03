@@ -674,7 +674,7 @@ qx.Class.define("qx.core.Object",
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
           qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
@@ -733,8 +733,10 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
-              delete this[key];
+              if (value instanceof qx.core.Object || qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+                qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                delete this[key];
+              }
             }
           }
         }
