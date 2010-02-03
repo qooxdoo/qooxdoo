@@ -581,10 +581,8 @@ class Generator(object):
             script.variants = variants
 
             # get current class list
-            self._classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+            script.classes  = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
                                                excludeNoDeps, variants)
-            script.classes  = self._classList
-
             # get parts config
             #(script.boot,
             #script.parts,            # script.parts['boot']=[0,1,3]
@@ -743,7 +741,7 @@ class Generator(object):
                     data[classId]["run"] = []
 
                 data[classId][loadOrRun].append(depId)
-    
+
             file = depsLogConf.get('json/file', "deps.json")
             self._console.info("Writing dependency data to file: %s" % file)
             pretty = depsLogConf.get('json/pretty', None)
@@ -768,7 +766,7 @@ class Generator(object):
 
                 if loadOrRun == 'load':
                     data[classId]['imports'].append(depId)
-    
+
             output = []
             for cid in data.keys():
                 output.append(data[cid])
@@ -987,7 +985,7 @@ class Generator(object):
             mainformat = depsLogConf.get('format', None)
             if mainformat == 'dot':
                 gr = graph.digraph()
-                graphAddNodes(gr, self._classList)
+                graphAddNodes(gr, script.classes)
                 graphAddEdges(lookupUsingDeps(packages), gr, dset)
                 depsToDotFile(depsLogConf, gr)
             elif mainformat == 'json':
