@@ -335,7 +335,7 @@ qx.Class.define("playground.Application",
 
       // check if a gist id is given
       } else if (state.indexOf("gist=") == 0) {
-        var id = state.substring(5, state.lenght);
+        var id = state.substring(5, state.length);
         var name = this.tr("Showing gist %1", id);
         this.__loadGist(id);
 
