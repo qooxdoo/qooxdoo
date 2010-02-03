@@ -33,7 +33,6 @@ from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
-from generator.code.TreeLoader       import TreeLoader
 from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.LibraryPath      import LibraryPath
 from generator.code.ResourceHandler  import ResourceHandler
