@@ -327,6 +327,17 @@ qx.Class.define("qx.test.Class",
     testSubClassOf : function()
     {
       this.assertTrue(qx.Class.isSubClassOf(qx.ui.core.Widget, qx.core.Object));
+    },
+    
+    
+    testClassUndefine : function() {
+      qx.Class.define("qx.test.u.u.Undefine", {
+        extend : qx.core.Object
+      });
+      this.assertNotUndefined(qx.test.u.u.Undefine);
+      
+      qx.Class.undefine("qx.test.u.u.Undefine");
+      this.assertUndefined(qx.test["u"]);
     }
   }
 });
