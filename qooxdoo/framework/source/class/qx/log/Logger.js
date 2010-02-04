@@ -361,7 +361,12 @@ qx.Class.define("qx.log.Logger",
         {
           if (clazz.prototype.hasOwnProperty(methodName))
           {
-            qx.log.Logger.deprecatedMethodWarning(object[methodName], msg);
+            var functionName = qx.lang.Function.getName(object[methodName]);
+            this.warn(
+              "The method '"+ functionName + "' overrides a deprecated method: " +
+              (msg || "Please consult the API documentation for alternatives.")
+            );
+            this.trace();
             break;
           }
           clazz = clazz.superclass;
