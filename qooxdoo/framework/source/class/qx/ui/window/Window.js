@@ -92,6 +92,14 @@ qx.Class.define("qx.ui.window.Window",
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
+
+    // @deprecated
+    // Deprecates the protected methods for overriding
+    if (qx.core.Variant.isSet("qx.debug", "on"))
+    {
+      qx.log.Logger.deprecateMethodOverriding(this, qx.ui.window.Window, "_applyCaption");
+      qx.log.Logger.deprecateMethodOverriding(this, qx.ui.window.Window, "_applyIcon");
+    }
   },
 
 
@@ -239,7 +247,7 @@ qx.Class.define("qx.ui.window.Window",
     /** The text of the caption */
     caption :
     {
-      apply : "_applyCaption",
+      apply : "_applyCaptionBarChange",
       event : "changeCaption",
       nullable : true
     },
@@ -250,7 +258,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "String",
       nullable : true,
-      apply : "_applyIcon",
+      apply : "_applyCaptionBarChange",
       event : "changeIcon",
       themeable : true
     },
@@ -523,13 +531,17 @@ qx.Class.define("qx.ui.window.Window",
     {
       var btn;
 
-      if (this.getIcon()) {
+      var icon = this.getIcon(); 
+      if (icon) {
+        this.getChildControl("icon").setSource(icon);
         this._showChildControl("icon");
       } else {
         this._excludeChildControl("icon");
       }
 
-      if (this.getCaption()) {
+      var caption = this.getCaption()
+      if (caption) {
+        this.getChildControl("title").setValue(caption);
         this._showChildControl("title");
       } else {
         this._excludeChildControl("title");
@@ -874,13 +886,21 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
+    // @deprecated
     _applyCaption : function(value, old) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee)
+      }
       this.getChildControl("title").setValue(value);
     },
 
 
     // property apply
+    // @deprecated
     _applyIcon : function(value, old) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee)
+      }
       this.getChildControl("icon").setSource(value);
     },
 
