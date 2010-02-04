@@ -33,6 +33,7 @@
 #  - DependencyLoader.__init__()
 #  - DependencyLoader.getClassList()
 #  - DependencyLoader.getMeta()
+#  - DependencyLoader.getCombinedDeps()
 #  - DependencyLoader.getDeps()
 #
 ##
@@ -71,7 +72,7 @@ class DependencyLoader(object):
         self._context = context
         self._jobconf = context.get('jobconf', ExtMap())
         self._require = require
-        self._use = use
+        self._use     = use
         self._defaultIgnore = self._nameSpacePatts(self._jobconf) # adding name spaces; this is first step into #2904
 
 
@@ -85,19 +86,17 @@ class DependencyLoader(object):
         return nsPatts
 
 
-    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False):
+    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
         # return a class list for the current script (i.e. compilation)
 
         def resolveDepsSmartCludes():
             # Resolve intelli include/exclude depdendencies
             if len(includeWithDeps) == 0 and len(includeNoDeps) > 0:
                 if len(excludeWithDeps) > 0:
-                    self._console.error("Blocking is not supported when only explicit includes are defined!");
-                    sys.exit(1)
-
+                    raise ValueError("Blocking is not supported when only explicit includes are defined!");
                 result = []
             else:
-                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps)
+                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps, script)
 
             return result
 
@@ -117,6 +116,11 @@ class DependencyLoader(object):
 
         # ---------------------------------------------------
 
+        if script:
+            buildType = script.buildType  # source/build, for sortClasses
+        else:
+            buildType = ""
+
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result)
         # Sort classes
@@ -124,9 +128,9 @@ class DependencyLoader(object):
         if  self._jobconf.get("dependencies/sort-topological", False):
             result = self.sortClassesTopological(result, variants)
         else:
-            result = self.sortClasses(result, variants)
+            result = self.sortClasses(result, variants, buildType)
 
-        if self._console.getLevel() == "debug":# or True:
+        if self._console.getLevel() == "debug":
             self._console.indent()
             self._console.info("Sorted class list:")
             self._console.indent()
@@ -140,7 +144,8 @@ class DependencyLoader(object):
 
 
 
-    def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, verifyDeps=False):
+    def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
+                             verifyDeps=False, script=None):
 
         def classlistFromClassRecursive(item, excludeWithDeps, variants, result):
             # support blocking
@@ -154,8 +159,10 @@ class DependencyLoader(object):
             # add self
             result.append(item)
 
-            # reading dependencies:
-            deps = self.getCombinedDeps(item, variants)
+            # reading dependencies
+            deps = self.getCombinedDeps(item, variants, buildType)
+
+            # and evaluate them
             deps["warn"] = self._checkDepsAreKnown(deps,)
             ignore_names = [x.name for x in deps["ignore"]]
             if verifyDeps:
@@ -189,6 +196,11 @@ class DependencyLoader(object):
 
         # -------------------------------------------
 
+        if script:
+            buildType = script.buildType  # source/build, for classlistFromClassRecursive
+        else:
+            buildType = ""
+
         if len(includeWithDeps) == 0:
             self._console.info("Including all known classes")
             result = self._classesObj.keys()
@@ -201,31 +213,41 @@ class DependencyLoader(object):
         else:
             result = []
             for item in includeWithDeps:
-                try:
-                    classlistFromClassRecursive(item, excludeWithDeps, variants, result)
-
-                except NameError, detail:
-                    #self._console.error("Dependencies resolving failed for %s with: \n%s" % (item, detail))
-                    #sys.exit(1)
-                    raise
+                classlistFromClassRecursive(item, excludeWithDeps, variants, result)
 
         return result
 
 
-    def getCombinedDeps(self, fileId, variants):
-        # return dependencies of class named <fileId>, both found in its code and
-        # expressed in config options
+    ##
+    # return dependencies of class named <fileId>, both found in its code and
+    # expressed in config options
+    # - interface method
 
-        # print "Get combined deps: %s" % fileId
+    def getCombinedDeps(self, fileId, variants, buildType=""):
 
         # init lists
         loadFinal = []
-        runFinal = []
+        runFinal  = []
 
         # add static dependencies
         static = self.getDeps(fileId, variants)
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
+
+        # fix source dependency to qx.core.Variant
+        if len(variants) and buildType == "source" :
+            depsUnOpt = self.getDeps(fileId, {})  # get unopt deps
+            # this needs no extra generation, as Generator.py calls
+            # getClassList with empty variant set once anyway (see
+            # Generator:computeClassList and its invocations)
+            for depItem in depsUnOpt["load"]:
+                if depItem.name == "qx.core.Variant":
+                    loadFinal.append(depItem)
+                    break
+            for depItem in depsUnOpt["run"]:
+                if depItem.name == "qx.core.Variant":
+                    runFinal.append(depItem)
+                    break
 
         # add config dependencies
         if self._require.has_key(fileId):
@@ -317,6 +339,8 @@ class DependencyLoader(object):
                         self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
                     else:
                         load.append(dep)
+                #if fileId in ("qx.Mixin", "qx.Theme", "qx.Interface"):
+                #    print fileId, [x.name for x in load]
 
             if not "auto-use" in metaIgnore:
                 for dep in autoRun:
@@ -1011,14 +1035,14 @@ class DependencyLoader(object):
     #  CLASS SORT SUPPORT
     ######################################################################
 
-    def sortClasses(self, includeWithDeps, variants):
+    def sortClasses(self, includeWithDeps, variants, buildType=""):
 
         def sortClassesRecurser(classId, available, variants, result, path):
             if classId in result:
                 return
 
             # reading dependencies
-            deps = self.getCombinedDeps(classId, variants)
+            deps = self.getCombinedDeps(classId, variants, buildType)
 
             # path is needed for recursion detection
             if not classId in path:
@@ -1035,7 +1059,7 @@ class DependencyLoader(object):
                         self._console.debug("%s depends on: %s" % (classId, ", ".join(deps["load"])))
                         self._console.debug("%s depends on: %s" % (item, ", ".join(other["load"])))
                         self._console.outdent()
-                        sys.exit(1)
+                        raise RuntimeError("Circular class dependencies")
 
                     sortClassesRecurser(item, available, variants, result, path)
 
@@ -1077,8 +1101,7 @@ class DependencyLoader(object):
         # cycle check?
         cycle_nodes = gr.find_cycle()
         if cycle_nodes:
-            self._console.error("Detected circular dependencies between nodes: %r" % cycle_nodes)
-            sys.exit(1)
+            raise RuntimeError("Detected circular dependencies between nodes: %r" % cycle_nodes)
 
         classList = gr.topological_sorting()
 

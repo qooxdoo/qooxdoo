@@ -173,10 +173,10 @@ class Generator(object):
           }
 
 
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
             self._console.info("Resolving dependencies...")
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps, script)
             self._console.outdent()
 
             return classList
@@ -528,8 +528,8 @@ class Generator(object):
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
         # get a class list with no variants (all-encompassing)
-        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, {}, # was:variantSets[0]
-                                     verifyDeps=True)
+        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+                                     excludeNoDeps, {}, verifyDeps=True, script=None)
         
         # process job triggers
         if classdepTriggers:
@@ -579,10 +579,17 @@ class Generator(object):
 
             script          = Script()  # a new Script object represents the target code
             script.variants = variants
+            # set source/build version
+            if ("compile-source" in jobTriggers or
+                ("compile" in jobTriggers and config.get("compile/type", "") == "source")):
+                script.buildType = "source"
+            elif ("compile-dist" in jobTriggers or
+                ("compile" in jobTriggers and config.get("compile/type", "") == "build")):
+                script.buildType = "build"
 
             # get current class list
-            script.classes  = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
-                                               excludeNoDeps, variants)
+            script.classes  = computeClassList(includeWithDeps, excludeWithDeps, 
+                                               includeNoDeps, excludeNoDeps, variants, script=script)
             # get parts config
             #(script.boot,
             #script.parts,            # script.parts['boot']=[0,1,3]
