@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Alexander Back (aback)
+     * Alexander Steitz (aback)
 
 ************************************************************************ */
 
@@ -30,6 +30,10 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._el = div;
       document.body.appendChild(div);
+      
+      var input = document.createElement("input");
+      this._input = input;
+      document.body.appendChild(input);
 
       var checkBox = document.createElement("input");
       checkBox.type = "checkbox";
@@ -62,24 +66,63 @@ qx.Class.define("qx.test.bom.Attribute",
     testGetAttribute : function()
     {
       var Attribute = qx.bom.element.Attribute;
+      
+      this.assertNull(Attribute.get(this._input, "maxLength"));
+      this.assertNull(Attribute.get(this._checkBox, "checked"));
+      this.assertNull(Attribute.get(this._el, "className"));
+      this.assertNull(Attribute.get(this._el, "innerHTML"));
+      this.assertNull(Attribute.get(this._checkBox, "tabIndex"));
+      this.assertNull(Attribute.get(this._checkBox, "readOnly"));
+      this.assertNull(Attribute.get(this._input, "value"));
 
-      this._el.setAttribute("maxLength", 10);
-      this.assertEquals(10, Attribute.get(this._el, "maxLength"));
-
-      this._checkBox.setAttribute("checked", "checked");
+      this._checkBox.setAttribute("checked", true);
       this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+          qx.bom.client.Engine.VERSION <= 7) {
+        this._checkBox.setAttribute("checked", false);
+      } else {
+        this._checkBox.removeAttribute("checked");
+      }
+      this.assertNull(Attribute.get(this._checkBox, "checked"));
 
       this._el["className"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._el, "className"));
+
+      this._el.innerHTML = "vanillebaer";
+      this.assertEquals("vanillebaer", Attribute.get(this._el, "innerHTML"));
+
+      this._checkBox["tabIndex"] = 1000;
+      this.assertEquals(1000, Attribute.get(this._checkBox, "tabIndex"));
+
+      this._checkBox["tabIndex"] = 0;
+      this.assertNull(Attribute.get(this._checkBox, "tabIndex"));
+      
+      this._checkBox["tabIndex"] = -1;
+      this.assertEquals(-1, Attribute.get(this._checkBox, "tabIndex"));
+
+      this._checkBox["readOnly"] = true;
+      this.assertTrue(Attribute.get(this._checkBox, "readonly"));
+      
+      this._checkBox["value"] = "vanillebaer";
+      this.assertEquals("vanillebaer", Attribute.get(this._checkBox, "value"));
     },
 
     testRemoveAttribute : function()
     {
       var Attribute = qx.bom.element.Attribute;
 
-      Attribute.set(this._el, "maxLength", 10);
-      Attribute.set(this._el, "maxLength", null);
-      this.assertEquals(10000000, this._el["maxLength"]);
+      Attribute.set(this._input, "maxLength", 10);
+      Attribute.set(this._input, "maxLength", null);
+      
+      var maxLengthValue = qx.core.Variant.select("qx.client", {
+                            "mshtml": 2147483647,
+                            "webkit": 524288,
+                            "default": -1
+                           });
+      
+      this.assertEquals(maxLengthValue, this._input["maxLength"]);
+      this.assertNull(Attribute.get(this._input, "maxLength"));
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.set(this._checkBox, "checked", null);
@@ -94,13 +137,41 @@ qx.Class.define("qx.test.bom.Attribute",
     {
       var Attribute = qx.bom.element.Attribute;
 
-      Attribute.set(this._el, "maxLength", 10);
-      Attribute.reset(this._el, "maxLength");
-      this.assertEquals(10000000, this._el["maxLength"]);
+      Attribute.set(this._input, "maxLength", 10);
+      Attribute.reset(this._input, "maxLength");
+      this.assertNull(Attribute.get(this._input, "maxLength"));
+      
+      Attribute.set(this._checkBox, "disabled", true);
+      Attribute.reset(this._checkBox, "disabled");
+      this.assertNull(Attribute.get(this._checkBox, "disabled"));
+      
+      Attribute.set(this._checkBox, "multiple", true);
+      Attribute.reset(this._checkBox, "multiple");
+      this.assertNull(Attribute.get(this._checkBox, "multiple"));
+      
+      Attribute.set(this._el, "innerHTML", "<b>foo</b>");
+      Attribute.reset(this._el, "innerHTML");
+      this.assertNull(Attribute.get(this._el, "innerHTML"));
+
+      Attribute.set(this._el, "tabIndex", 10);
+      Attribute.reset(this._el, "tabIndex");
+      this.assertNull(Attribute.get(this._el, "tabIndex"));
+      
+      Attribute.set(this._input, "tabIndex", 20);
+      Attribute.reset(this._input, "tabIndex");
+      this.assertNull(Attribute.get(this._input, "tabIndex"));
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.reset(this._checkBox, "checked");
-      this.assertFalse(this._checkBox["checked"]);
+      this.assertNull(Attribute.get(this._checkBox, "checked"));
+      
+      Attribute.set(this._checkBox, "readOnly", true);
+      Attribute.reset(this._checkBox, "readonly");
+      this.assertNull(Attribute.get(this._checkBox, "readonly"));
+      
+      Attribute.set(this._input, "value", "foo");
+      Attribute.reset(this._input, "value");
+      this.assertNull(Attribute.get(this._input, "value"));
     }
   }
 });
