@@ -248,6 +248,9 @@ class DependencyLoader(object):
                 if depItem.name == "qx.core.Variant":
                     runFinal.append(depItem)
                     break
+        #if fileId in ("qx.Mixin", "qx.Theme", "qx.Interface"):
+        #    lf = [x.name for x in loadFinal]
+        #    print fileId, lf
 
         # add config dependencies
         if self._require.has_key(fileId):
@@ -339,8 +342,6 @@ class DependencyLoader(object):
                         self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
                     else:
                         load.append(dep)
-                #if fileId in ("qx.Mixin", "qx.Theme", "qx.Interface"):
-                #    print fileId, [x.name for x in load]
 
             if not "auto-use" in metaIgnore:
                 for dep in autoRun:

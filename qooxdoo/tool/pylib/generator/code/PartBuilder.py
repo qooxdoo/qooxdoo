@@ -118,7 +118,7 @@ class PartBuilder(object):
             # check individual class deps are fullfilled in part
             # alternative: check part.deps against classSet
             for classId in classSet:
-                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants)
+                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                 loadDeps    = set(x.name for x in classDeps['load'])
                 missingDeps = loadDeps.difference(classSet)
                 if missingDeps:  # there is a load dep not in the part
@@ -186,7 +186,7 @@ class PartBuilder(object):
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants)
+            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script)
 
             # Remove all unknown classes
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
@@ -257,7 +257,7 @@ class PartBuilder(object):
             # get all direct deps of this package
             allDeps = set(())
             for classId in package.classes:
-                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants)
+                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                 loadDeps    = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 
@@ -603,7 +603,7 @@ class PartBuilder(object):
         resultClasses = []
         for pkgId in packageIds:
             #resultClasses[pkgId] = self._depLoader.sortClasses(packages[pkgId].classes, variants)
-            resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants))
+            resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants, script.buildType))
 
         return resultClasses
 
@@ -615,7 +615,7 @@ class PartBuilder(object):
         packageIds = self._sortPackages(packages.keys(), packages)
 
         for pkgId in packageIds:
-            packages[pkgId].classes = self._depLoader.sortClasses(packages[pkgId].classes, variants)
+            packages[pkgId].classes = self._depLoader.sortClasses(packages[pkgId].classes, variants, script.buildType)
 
         script.packageIdsSorted = packageIds
 
