@@ -876,17 +876,15 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyCaption : function(value, old) {
       this.getChildControl("title").setValue(value);
+      this._updateCaptionBar();
     },
 
 
     // property apply
     _applyIcon : function(value, old) {
       this.getChildControl("icon").setSource(value);
+      this._updateCaptionBar();
     },
-
-
-
-
 
 
     /*
