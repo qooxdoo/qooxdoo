@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Alexander Steitz (aback)
 
    ======================================================================
 
@@ -162,14 +163,28 @@ qx.Class.define("qx.bom.element.Attribute",
         multiple : false,
         selected : false,
         value : "",
-        maxLength : 10000000,
         className : "",
         innerHTML : "",
         innerText : "",
         textContent : "",
         htmlFor : "",
-        tabIndex : 0
+        tabIndex : 0,
+        maxLength: qx.core.Variant.select("qx.client", {
+          "mshtml" : 2147483647,
+          "webkit": 524288,
+          "default": -1
+        })
       },
+
+
+      // Properties which can be removed to reset them
+      removeableProperties :
+      {
+        disabled: 1,
+        multiple: 1,
+        maxLength: 1
+      },
+      
 
       // Use getAttribute(name, 2) for these to query for the real value, not
       // the interpreted one.
@@ -235,14 +250,13 @@ qx.Class.define("qx.bom.element.Attribute",
         // respect properties
         else if (hints.property[name])
         {
-          if (hints.propertyDefault[name] && value == hints.propertyDefault[name]) {
+          value = element[name];
+          
+          if (typeof hints.propertyDefault[name] !== undefined && 
+              value == hints.propertyDefault[name]) {
             return null;
           }
-
-          value = element[name];
-        }
-
-        else {
+        } else { // fallback to attribute
           value = element.getAttribute(name);
         }
 
@@ -266,19 +280,13 @@ qx.Class.define("qx.bom.element.Attribute",
         // respect properties
         if (hints.property[name])
         {
-          if (hints.propertyDefault[name] && value == hints.propertyDefault[name]) {
-            return null;
-          }
-
           value = element[name];
 
-          if (value == null) {
-            value = element.getAttribute(name);
+          if (typeof hints.propertyDefault[name] !== undefined && 
+              value == hints.propertyDefault[name]) {
+            return null;
           }
-        }
-
-        // fallback to attribute
-        else {
+        } else { // fallback to attribute
           value = element.getAttribute(name);
         }
 
@@ -315,14 +323,19 @@ qx.Class.define("qx.bom.element.Attribute",
       // apply attribute
       if (hints.property[name])
       {
+        // resetting the attribute/property
         if (value == null)
         {
-          value = hints.propertyDefault[name];
-          if (value === undefined)
+          // for properties which need to be removed for a correct reset
+          if (hints.removeableProperties[name])
           {
-            value = null;
+            element.removeAttribute(name);
+            return;
+          } else if (typeof hints.propertyDefault[name] !== undefined) {
+            value = hints.propertyDefault[name];
           }
         }
+
         element[name] = value;
       }
       else
