@@ -68,11 +68,11 @@ qx.Class.define("qx.test.bom.Attribute",
       var Attribute = qx.bom.element.Attribute;
       
       this.assertNull(Attribute.get(this._input, "maxLength"));
-      this.assertNull(Attribute.get(this._checkBox, "checked"));
+      this.assertFalse(Attribute.get(this._checkBox, "checked"));
       this.assertNull(Attribute.get(this._el, "className"));
       this.assertNull(Attribute.get(this._el, "innerHTML"));
       this.assertNull(Attribute.get(this._checkBox, "tabIndex"));
-      this.assertNull(Attribute.get(this._checkBox, "readOnly"));
+      this.assertFalse(Attribute.get(this._checkBox, "readOnly"));
       this.assertNull(Attribute.get(this._input, "value"));
 
       this._checkBox.setAttribute("checked", true);
@@ -84,7 +84,7 @@ qx.Class.define("qx.test.bom.Attribute",
       } else {
         this._checkBox.removeAttribute("checked");
       }
-      this.assertNull(Attribute.get(this._checkBox, "checked"));
+      this.assertFalse(Attribute.get(this._checkBox, "checked"));
 
       this._el["className"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._el, "className"));
@@ -143,11 +143,11 @@ qx.Class.define("qx.test.bom.Attribute",
       
       Attribute.set(this._checkBox, "disabled", true);
       Attribute.reset(this._checkBox, "disabled");
-      this.assertNull(Attribute.get(this._checkBox, "disabled"));
+      this.assertFalse(Attribute.get(this._checkBox, "disabled"));
       
       Attribute.set(this._checkBox, "multiple", true);
       Attribute.reset(this._checkBox, "multiple");
-      this.assertNull(Attribute.get(this._checkBox, "multiple"));
+      this.assertFalse(Attribute.get(this._checkBox, "multiple"));
       
       Attribute.set(this._el, "innerHTML", "<b>foo</b>");
       Attribute.reset(this._el, "innerHTML");
@@ -163,11 +163,11 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.reset(this._checkBox, "checked");
-      this.assertNull(Attribute.get(this._checkBox, "checked"));
+      this.assertFalse(Attribute.get(this._checkBox, "checked"));
       
       Attribute.set(this._checkBox, "readOnly", true);
       Attribute.reset(this._checkBox, "readonly");
-      this.assertNull(Attribute.get(this._checkBox, "readonly"));
+      this.assertFalse(Attribute.get(this._checkBox, "readonly"));
       
       Attribute.set(this._input, "value", "foo");
       Attribute.reset(this._input, "value");
