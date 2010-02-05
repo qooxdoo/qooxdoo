@@ -258,7 +258,9 @@ qx.Class.define("qx.bom.element.Attribute",
             // only return null for all non-boolean properties
             if (typeof hints.bools[name] === "undefined") {
               return null;
-            }
+            } else {
+              return value;
+            } 
           }
         } else { // fallback to attribute
           value = element.getAttribute(name);
