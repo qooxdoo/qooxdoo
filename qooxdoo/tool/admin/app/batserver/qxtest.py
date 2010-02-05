@@ -84,9 +84,10 @@ class QxTest:
 
     if self.testType == "local":
       self.getLocalRevision()
+      self.buildStatus = self.getLocalBuildStatus()
     elif self.testType == "remote":
       self.getRemoteRevision()
-      self.getRemoteBuildStatus()
+      self.buildStatus = self.getRemoteBuildStatus()
     
     self.sim = False      
     if ('simulateTest' in self.testConf):
@@ -339,7 +340,9 @@ class QxTest:
         self.log("Building " + target + "\n  " + cmd)
         self.buildStatus[target] = {
           "SVNRevision" : False,
-          "BuildError"  : False
+          "BuildError"  : False,
+          "BuildStarted" : time.strftime(self.timeFormat),
+          "BuildFinished" : False
         }
         if (self.sim):
           status = 0
@@ -365,15 +368,16 @@ class QxTest:
                 self.buildStatus[target]["BuildError"] = m.group(1)
             else:
               self.log(target + " build finished without errors.")
+              self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
               
           self.buildStatus[target]["SVNRevision"] = self.getLocalRevision()
+          self.storeBuildStatus()
       
       if ('buildLogDir' in buildConf):        
         buildLogFile.close()
 
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
-    self.storeBuildStatus()
     
     
   ##
@@ -457,7 +461,32 @@ class QxTest:
       rFile.write(jsonData)
       rFile.close()
 
-      
+  
+  ##
+  # Reads the build status stored by a previous test run from the file system
+  # @return Build status dictionary
+  def getLocalBuildStatus(self):
+    try:
+      import json
+    except ImportError, e:
+      try:
+        import simplejson as json
+      except ImportError, e:
+        self.log("ERROR: simplejson module not found, unable to get build status!")
+        return False
+    status = {}
+    path = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
+    if not os.path.isfile(path):
+      return status
+    
+    statusFile = codecs.open(path, "r")    
+    try:
+      status = json.load(statusFile)
+    except Exception, e:
+      self.logError(e, "Reading local build status")
+    finally:
+      return status
+    
   ##
   # Reads the build status from a file on a remote test host
   #
@@ -499,7 +528,6 @@ class QxTest:
     
     try:
       status = json.load(jsonData)
-      self.buildStatus = status
       self.log("Remote build status retrieved successfully.")
     except ValueError, e:    
       self.log("ERROR: Unable to parse buildStatus JSON: " + repr(e))
@@ -932,8 +960,12 @@ class QxTest:
     except socket.gaierror:
       test_host = '172.17.12.142'
     
+    autName = aut
+    if "Source" in aut:
+      autName = aut[0:aut.find("Source")]
+    
     testRun = {
-      "aut_name" : aut,
+      "aut_name" : autName,
       "aut_host" : self.autConf["autHost"], 
       "aut_qxpath" : "",
       "aut_path" : self.autConf["autPath" + aut],
