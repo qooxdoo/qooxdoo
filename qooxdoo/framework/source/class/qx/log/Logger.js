@@ -357,7 +357,7 @@ qx.Class.define("qx.log.Logger",
       {
         var clazz = object.constructor;
         
-        while(clazz.classname !== baseclass.name)
+        while(clazz.classname !== baseclass.classname)
         {
           if (clazz.prototype.hasOwnProperty(methodName))
           {
