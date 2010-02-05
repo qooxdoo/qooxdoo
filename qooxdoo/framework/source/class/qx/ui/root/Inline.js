@@ -86,6 +86,13 @@ qx.Class.define("qx.ui.root.Inline",
 
     // Register as root
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
+
+
+    // Input type file does only work, when the root element is selectable.
+    // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3408 for details.
+    if (qx.core.Variant.isSet("qx.client", "opera")) {
+      this.setSelectable(true);
+    }
   },
 
 
