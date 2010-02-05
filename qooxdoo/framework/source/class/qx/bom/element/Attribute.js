@@ -121,7 +121,7 @@ qx.Class.define("qx.bom.element.Attribute",
         noshade  : 1,
         checked  : 1,
         disabled : 1,
-        readonly : 1,
+        readOnly : 1,
         multiple : 1,
         selected : 1,
         noresize : 1,
@@ -252,9 +252,13 @@ qx.Class.define("qx.bom.element.Attribute",
         {
           value = element[name];
           
-          if (typeof hints.propertyDefault[name] !== undefined && 
-              value == hints.propertyDefault[name]) {
-            return null;
+          if (typeof hints.propertyDefault[name] !== "undefined" && 
+              value == hints.propertyDefault[name])
+          {
+            // only return null for all non-boolean properties
+            if (typeof hints.bools[name] === "undefined") {
+              return null;
+            }
           }
         } else { // fallback to attribute
           value = element.getAttribute(name);
@@ -273,18 +277,24 @@ qx.Class.define("qx.bom.element.Attribute",
       {
         var hints = this.__hints;
         var value;
-
+        
         // normalize name
         name = hints.names[name] || name;
-
+        
         // respect properties
         if (hints.property[name])
         {
           value = element[name];
 
-          if (typeof hints.propertyDefault[name] !== undefined && 
-              value == hints.propertyDefault[name]) {
-            return null;
+          if (typeof hints.propertyDefault[name] !== "undefined" && 
+              value == hints.propertyDefault[name])
+          {
+            // only return null for all non-boolean properties
+            if (typeof hints.bools[name] === "undefined") {
+              return null;
+            } else {
+              return value;
+            }
           }
         } else { // fallback to attribute
           value = element.getAttribute(name);
@@ -331,7 +341,7 @@ qx.Class.define("qx.bom.element.Attribute",
           {
             element.removeAttribute(name);
             return;
-          } else if (typeof hints.propertyDefault[name] !== undefined) {
+          } else if (typeof hints.propertyDefault[name] !== "undefined") {
             value = hints.propertyDefault[name];
           }
         }

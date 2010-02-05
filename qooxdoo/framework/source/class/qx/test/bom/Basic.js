@@ -71,17 +71,17 @@ qx.Class.define("qx.test.bom.Basic",
       this.assertEquals("foo3", attrib.get(test3, "name"));
       this.assertEquals("bar", attrib.get(test3, "value"));
       this.assertEquals("checkbox", attrib.get(test3, "type"));
-      this.assertEquals(true, attrib.get(test3, "checked"));
-      this.assertEquals(false, attrib.get(test3, "disabled"));
+      this.assertTrue(attrib.get(test3, "checked"));
+      this.assertFalse(attrib.get(test3, "disabled"));
       this.assertEquals(2, attrib.get(test3, "tabindex"));
 
       this.info("test4");
-      this.assertEquals(true, attrib.get(document.getElementById("test4"), "disabled"));
-      this.assertEquals(false, attrib.get(document.getElementById("test4"), "readonly"));
+      this.assertTrue(attrib.get(document.getElementById("test4"), "disabled"));
+      this.assertFalse(attrib.get(document.getElementById("test4"), "readonly"));
 
       this.info("test5");
-      this.assertEquals(true, attrib.get(document.getElementById("test5"), "disabled"));
-      this.assertEquals(true, attrib.get(document.getElementById("test5"), "readonly"));
+      this.assertTrue(attrib.get(document.getElementById("test5"), "disabled"));
+      this.assertTrue(attrib.get(document.getElementById("test5"), "readonly"));
 
       this.info("test6");
       this.assert(qx.lang.String.endsWith(attrib.get(document.getElementById("test6"), "href"), "/foo.html"));
