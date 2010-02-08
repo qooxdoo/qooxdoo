@@ -42,7 +42,7 @@ qx.Class.define("qx.io.part.Package",
     this.__id   = id;
   },
 
-
+  
   events :
   {
     /** This event is fired after the part has been loaded successfully. */
@@ -54,6 +54,25 @@ qx.Class.define("qx.io.part.Package",
     "error" : "qx.event.type.Event"
   },
 
+  
+  properties :
+  {
+    /**
+     * Whether the package should be loaded using the {@link SafeScriptLoader}. 
+     */
+    useSafeScriptLoader :
+    {
+      check : "Boolean",
+      init: false
+    }
+  },
+  
+  
+  statics : 
+  {
+    TIMEOUT : 7000
+  },
+  
 
   members :
   {
@@ -61,6 +80,16 @@ qx.Class.define("qx.io.part.Package",
     __urls : null,
     __readyState : null,
 
+    
+    /**
+     * Get the package ID.
+     * 
+     * @return {String} The package id
+     */
+    getId : function() {
+      return this.__id;
+    },
+    
     
     /**
      * Loads a list of scripts in the correct order.
@@ -80,16 +109,22 @@ qx.Class.define("qx.io.part.Package",
       this.__readyState = "loading";
 
       var urlsLoaded = 0;
+      var self = this;
       var onLoad = function(urls)
       {
         if (urlsLoaded >= urlList.length)
         {
-          this.__readyState = "complete";
+          self.__readyState = "complete";
           callback.call(self);
           return;
         }
 
-        var loader = new qx.io.ScriptLoader()
+        if (self.getUseSafeScriptLoader()) {
+          var loader = new qx.io.part.SafeScriptLoader(self.__id, qx.io.part.Package.TIMEOUT);
+        } else {
+          var loader = new qx.io.ScriptLoader();
+        }
+        
         loader.load(urls.shift(), function(status)
         {
           urlsLoaded += 1;
@@ -105,93 +140,18 @@ qx.Class.define("qx.io.part.Package",
             // Safari fails with an "maximum recursion depth exceeded" error if it is
             // called sync.
             qx.event.Timer.once(function() {
-              onLoad.call(this, urls, callback, self);
-            }, this, 0);
+              onLoad.call(self, urls, callback, self);
+            }, self, 0);
           } else {
-            onLoad.call(this, urls, callback, self);
+            onLoad.call(self, urls, callback, self);
           }
-        }, this);
+        }, self);
       }
 
       onLoad(qx.lang.Array.clone(urlList));
     },
     
-    
-    
-    /**
-     * Loads a list of scripts in the correct order.
-     *
-     * @param urlList {String[]} List of script urls
-     * @param callback {Function} Function to execute on completion
-     * @param errBack {Function} Function to execute on error
-     * @param self {Object?window} Context to execute the callback and errback in
-     */    
-    __loadScriptListXhr : function(urlList, callback, errBack, self)
-    {
-      var responses = [];
-      var loaders = [];
-      var loadedFiles = 0;
 
-      for (var i=0; i<urlList.length; i++)
-      {
-        var loader = loaders[i] = new qx.bom.Request();
-        loader.open("GET", urlList[i], true);
-        loader.send();
-        
-        loader.onload = qx.lang.Function.bind(function(i, loader)
-        {        
-          responses[i] = loader.responseText;          
-          loader.dispose();
-          loadedFiles += 1;
-          if (loadedFiles == urlList.length)
-          {
-            this.__evalFiles(urlList, responses);
-            callback.call(this);
-          }          
-        }, this, i, loader);
-        
-        var self = this;
-        loader.onerror = loader.onabort = loader.ontimeout = function(loader) {
-          self.__cleanupLoaders(loaders);
-          errBack.call(self);
-        }
-      }
-    },
-    
-    
-    /**
-     * Dispose all loaders
-     * 
-     * @param loaders {qx.bom.Request[]} list of loaders to dispose
-     */
-    __cleanupLoaders : function(loaders)
-    {
-      for (var i=0; i<loaders.length; i++)
-      {
-        var loader = loaders[i];
-        loader.onerror = loader.onabort = loader.ontimeout = loader.onload = null;
-        loader.dispose();
-      }
-    },
-    
-    
-    /**
-     * Eval the contents of a list of source files
-     * 
-     * @param names {String[]} file names
-     * @param contentList {String[]} The content of the files.
-     */
-    __evalFiles : function(names, contentList)
-    {
-      for (var i=0; i<names.length; i++) 
-      {
-        // debugging assist for Firebug
-        content = contentList[i] + "\r\n//@ sourceURL=" + names[i];
-        eval(content);
-      }
-    },
-    
-    
     /**
      * Get the ready state of the package. The value is one of
      * <ul>
@@ -225,11 +185,7 @@ qx.Class.define("qx.io.part.Package",
       this.__loadScriptList(
         this.__urls,
         function() {
-          this.__readyState = "complete";
-          
-          // TODO move this code one level up into the part loader
-          var packageHash = qx.$$loader.packageHashes[this.__id];
-          this._importPackageData(qx.$$packageData[packageHash]);
+          this.__readyState = "complete";          
           this.fireEvent("load");
         },
         function() {
@@ -238,16 +194,7 @@ qx.Class.define("qx.io.part.Package",
         },
         this
       );
-    },
-
-    /**
-     * Import the data of a package. The function is defined in the loader
-     * script.
-     *
-     * @signature function(packageData)
-     * @param packageData {Map} Map of package data categories ("resources",...)
-     */
-    _importPackageData : qx.$$loader.importPackageData
+    }
   },
 
   

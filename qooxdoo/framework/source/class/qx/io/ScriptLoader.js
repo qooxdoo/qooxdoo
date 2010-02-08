@@ -23,7 +23,7 @@
  * Loading of local or remote scripts.
  *
  * * Supports cross-domain communication
- * * Automatically "embeds" script so when the loaded event occours the new features are useable as well
+ * * Automatically "embeds" script so when the loaded event occurs the new features are usable as well
  */
 qx.Class.define("qx.io.ScriptLoader",
 {

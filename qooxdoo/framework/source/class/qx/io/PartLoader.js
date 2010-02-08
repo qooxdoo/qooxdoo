@@ -34,9 +34,18 @@ qx.Class.define("qx.io.PartLoader",
 
     this.__packages = [];
     var uris = this._getUris();
-    for (var i=0; i<uris.length; i++) {
-      this.__packages.push(new qx.io.part.Package(uris[i], i, i==0));
+    for (var i=0; i<uris.length; i++)
+    {
+      var hash = qx.$$loader.packageHashes[i];
+      var pkg = new qx.io.part.Package(uris[i], hash, i==0);
+      pkg.addListener("load", this._onPackageLoad, this);
+      this.__packages.push(pkg);
     };
+    
+    var safeLoading = qx.$$loader.safeLoading || [];
+    for (var i=0; i<safeLoading.length; i++) {
+      this.__packages[safeLoading[i]].setUseSafeScriptLoader(true);
+    }
 
     this.__parts = {};
     var parts = qx.$$loader.parts;
@@ -158,6 +167,26 @@ qx.Class.define("qx.io.PartLoader",
     },
 
 
+    /**
+     * After a package is loaded import the package data.
+     * 
+     * @param e {qx.event.type.Event} The event object
+     */
+    _onPackageLoad : function(e) {
+      this._importPackageData(e.getTarget().getId());
+    },
+    
+    
+    /**
+     * Import the data of a package. The function is defined in the loader
+     * script.
+     *
+     * @signature function(packageData)
+     * @param packageData {Map} Map of package data categories ("resources",...)
+     */
+    _importPackageData : qx.$$loader.importPackageData,
+    
+    
     /**
      * Get the URI lists of all packages
      *
