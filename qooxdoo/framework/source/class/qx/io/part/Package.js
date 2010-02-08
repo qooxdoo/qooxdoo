@@ -67,10 +67,66 @@ qx.Class.define("qx.io.part.Package",
      *
      * @param urlList {String[]} List of script urls
      * @param callback {Function} Function to execute on completion
+     * @param self {Object?window} Context to execute the given function in
+     */
+    __loadScriptList : function(urlList, callback, errBack, self)
+    {
+      if (urlList.length == 0)
+      {
+        callback.call(self);
+        return;
+      }
+
+      this.__readyState = "loading";
+
+      var urlsLoaded = 0;
+      var onLoad = function(urls)
+      {
+        if (urlsLoaded >= urlList.length)
+        {
+          this.__readyState = "complete";
+          callback.call(self);
+          return;
+        }
+
+        var loader = new qx.io.ScriptLoader()
+        loader.load(urls.shift(), function(status)
+        {
+          urlsLoaded += 1;
+          loader.dispose();
+          
+          if (status !== "success") {
+            return errBack.call(self);
+          }
+          
+          if (qx.core.Variant.isSet("qx.client", "webkit"))
+          {
+            // force asynchronous load
+            // Safari fails with an "maximum recursion depth exceeded" error if it is
+            // called sync.
+            qx.event.Timer.once(function() {
+              onLoad.call(this, urls, callback, self);
+            }, this, 0);
+          } else {
+            onLoad.call(this, urls, callback, self);
+          }
+        }, this);
+      }
+
+      onLoad(qx.lang.Array.clone(urlList));
+    },
+    
+    
+    
+    /**
+     * Loads a list of scripts in the correct order.
+     *
+     * @param urlList {String[]} List of script urls
+     * @param callback {Function} Function to execute on completion
      * @param errBack {Function} Function to execute on error
      * @param self {Object?window} Context to execute the callback and errback in
      */    
-    __loadScriptList : function(urlList, callback, errBack, self)
+    __loadScriptListXhr : function(urlList, callback, errBack, self)
     {
       var responses = [];
       var loaders = [];
