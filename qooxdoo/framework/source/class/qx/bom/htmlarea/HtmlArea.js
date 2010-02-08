@@ -641,6 +641,24 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       node = qx.dom.Node.getName(node);
 
       return /^(body|td|th|caption|fieldset|div)$/.test(node);
+    },
+    
+    
+    /**
+     * Checks of the given node is headline node.
+     * 
+     * @param node {Node} Node to check
+     * @return {Boolean} whether it is a headline node
+     */
+    isHeadlineNode : function(node)
+    {
+      if (!qx.dom.Node.isElement(node)) {
+        return false;
+      }
+      
+      var nodeName = qx.dom.Node.getName(node);
+
+      return /^h[1-6]$/.test(nodeName); 
     }
  },
 

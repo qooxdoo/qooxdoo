@@ -133,8 +133,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       this._commands = {
         bold                  : { useBuiltin : true, identifier : "Bold", method : null },
         italic                : { useBuiltin : true, identifier : "Italic", method : null },
-        underline             : { useBuiltin : true, identifier : "Underline", method : null }, // "__setUnderline" },
-        strikethrough         : { useBuiltin : true, identifier : "StrikeThrough", method : null }, //"__setStrikeThrough" },
+        underline             : { useBuiltin : true, identifier : "Underline", method : null },
+        strikethrough         : { useBuiltin : true, identifier : "StrikeThrough", method : null },
         fontfamily            : { useBuiltin : true, identifier : "FontName", method : null },
         fontsize              : { useBuiltin : false, identifier : "FontSize", method : "__setFontSize" },
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
             this.__insertHelperParagraph();
           }
         }
-
+        
         // Pass all useBuiltin commands right to the browser
         if (commandObject.useBuiltin) {
           result = this.__executeCommand(commandObject.identifier, false, value);
@@ -244,36 +244,34 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      */
     __paragraphMissing : function()
     {
+      var Node = qx.dom.Node;
       var focusNode = this.__editorInstance.getFocusNode();
-      var isInParagraph = false;
+      var insideBlockElement = false;
       var bodyIsFocusNode = false;
 
       if (focusNode)
       {
-        if (focusNode.nodeType == 3)
+        if (Node.isText(focusNode))
         {
-          // Check the focus node is inside a paragraph tag.
           var parents = qx.dom.Hierarchy.getAncestors(focusNode);
-
+          
           for(var i=0, j=parents.length; i<j; i++)
           {
-            if (parents[i].tagName == "P")
+            if (Node.isNodeName(parents[i], "p") || qx.bom.htmlarea.HtmlArea.isHeadlineNode(parents[i]))
             {
-              isInParagraph = true;
+              insideBlockElement = true;
               break;
             }
           }
-
         }
-        else if (focusNode.nodeType == 1 && focusNode.tagName == "BODY")
-        {
-          // TODO: Additional checks needed?
+        else if (Node.isNodeName(focusNode, "body")) {
           bodyIsFocusNode = true;
         }
       }
 
-      return bodyIsFocusNode || !isInParagraph;
+      return bodyIsFocusNode || !insideBlockElement;
     },
+
 
     /**
      * Inserts a paragraph tag around selection or at the insert point
@@ -353,7 +351,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         if (emptyRange && range.text != "") {
           range.collapse();
         }
-
 
         if (qx.core.Variant.isSet("qx.debug", "on") &&
             qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
