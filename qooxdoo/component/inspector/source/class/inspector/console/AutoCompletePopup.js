@@ -156,7 +156,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       // if there is no dot in the textfield
       if (objectRef == searchTerm) {
         objectRef = "window." + objectRef;
-      } 
+      }
 
       // cut of the stuff after the last dot
       objectRef = objectRef.substring(0, objectRef.lastIndexOf("."));
@@ -169,7 +169,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
         this.hide();
         return;
       }
-      
+
       // check if it has returned an object
       if (!(object instanceof iFrameWindow.Object) && !object == iFrameWindow.window) {
         // hide the popup
@@ -205,7 +205,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
               } else {
                 var scope = "public";
               }
-  
+
             // if it is a function
             if (object[name] instanceof iFrameWindow.Function) {
               // add the opening bracket for the function arguments
@@ -223,12 +223,12 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
               }
               // add the ending bracket for the function arguments
               functionString += ")";
-  
+
               // create the image uri
               var image = "inspector/images/autocomplete/method_" + scope + "18.gif";
               // add the function string to the data
               data.push([image, functionString]);
-  
+
             // if it is no function
             } else {
               // create the image uri
@@ -275,7 +275,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       return null;
     }
    },
-   
+
    destruct : function()
    {
      this._controller = null;

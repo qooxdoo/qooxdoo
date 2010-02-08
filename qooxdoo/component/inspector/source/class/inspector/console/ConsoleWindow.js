@@ -148,7 +148,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
     }
 
   },
-  
+
   destruct : function()
   {
     this._disposeObjects("_clearButton", "_consoleButton", "_domButton",

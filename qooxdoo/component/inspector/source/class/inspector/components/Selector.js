@@ -222,7 +222,7 @@ qx.Class.define("inspector.components.Selector",
     }
 
   },
-  
+
   destruct : function()
   {
     this._iFrameWindow = this._addedWidgets = this._root = null;

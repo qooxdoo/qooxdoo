@@ -649,7 +649,7 @@ qx.Class.define("inspector.property.PropertyList", {
           var classname = index.substring(0, index.lastIndexOf("."));
           // set the new value for all
           this._setPropertyValueFull(key, classname);
-        } catch(ex) {}        
+        } catch(ex) {}
       }
     },
 
