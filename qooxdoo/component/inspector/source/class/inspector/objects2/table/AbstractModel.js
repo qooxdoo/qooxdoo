@@ -25,7 +25,7 @@ qx.Class.define("inspector.objects2.table.AbstractModel",
   {
     this.base(arguments);
 
-    this.__model = model;
+    this._model = model;
     this.setColumns(columns);
     this.setData(this._getData());
   },
@@ -34,7 +34,7 @@ qx.Class.define("inspector.objects2.table.AbstractModel",
   {
     __currentFilter : "",
 
-    __model : null,
+    _model : null,
 
     _getData: function() {
       throw Error("Abstract Method call!");
@@ -58,6 +58,6 @@ qx.Class.define("inspector.objects2.table.AbstractModel",
   },
 
   destruct : function() {
-    this.__model = null;
+    this._model = null;
   }
 });

@@ -29,7 +29,7 @@ qx.Class.define("inspector.objects2.table.CountModel",
   members :
   {
     _getData: function() {
-      var objects = this.__model.getObjects();
+      var objects = this._model.getObjects();
 
       var tempData = {};
       for (var i = 0; i < objects.length; i++)
