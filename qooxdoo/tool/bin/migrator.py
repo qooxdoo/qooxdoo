@@ -496,36 +496,32 @@ def readPatchInfoFiles(baseDir):
     return compiledPatches
 
 
-
 def regtool(content, regs, patch, filePath):
+
+    def patchfunc(mo):
+        retval      = ""
+        line        = len(content[:mo.start()].split("\n")) - 1
+        matchString = mo.group(0)
+        replString  = mo.expand(patchEntry["repl"])
+
+        # Replacing
+        if patch:
+            retval = replString    # return the replacement string expanded
+            # Debug
+            logging.debug("    - %s:%s Replacing match '%s' to '%s'" % (
+                filePath, line, matchString, replString)
+            )
+        else:
+            retval = matchString   # return the found string - no change
+            # Debug
+            logging.debug("   - %s:%s: Found match '%s' in" % (filePath, line, matchString))
+            logging.info("    - %s:%s: %s" % (filePath, line, replString))
+
+        return retval
+
+
     for patchEntry in regs:
-        matches = patchEntry["expr"].findall(content)
-        itercontent = content
-        line = 1
-
-        for fragment in matches:
-
-            # Replacing
-            if patch:
-                content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
-                # Debug
-                logging.debug("    - %s:%s Replacing pattern '%s' to '%s'" % (
-                    filePath, line, patchEntry["orig"], patchEntry["repl"])
-                )
-            else:
-                # Search for first match position
-                pos = itercontent.find(fragment)
-                pos = patchEntry["expr"].search(itercontent).start()
-
-                # Update current line
-                line += len((itercontent[:pos] + fragment).split("\n")) - 1
-
-                # Removing leading part til matching part
-                itercontent = itercontent[pos+len(fragment):]
-
-                # Debug
-                logging.debug("   - %s:%s: Matches %s in" % (filePath, line, patchEntry["orig"]))
-                logging.info("    - %s:%s: %s" % (filePath, line, patchEntry["repl"]))
+        content = patchEntry["expr"].sub(patchfunc, content)
 
     return content
 
