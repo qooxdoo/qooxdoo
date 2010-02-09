@@ -32,10 +32,12 @@ qx.Class.define("qx.data.store.Yql",
    * @param query {String} The query for YQL.
    * @param delegate {Object?} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
+   * @param https {Boolean?} If https should be used.
    */
-  construct : function(query, delegate)
+  construct : function(query, delegate, https)
   {
-    var url = "http://query.yahooapis.com/v1/public/yql?q=" +
+    var prefix = https ? "https" : "http";
+    var url = prefix + "://query.yahooapis.com/v1/public/yql?q=" +
     encodeURIComponent(query) +
     "&format=json&diagnostics=false&" +
     "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
