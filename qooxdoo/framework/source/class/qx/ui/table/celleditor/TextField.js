@@ -29,6 +29,26 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
 
   members :
   {
+    // overridden
+    getCellEditorValue : function(cellEditor)
+    {
+      var value = cellEditor.getValue();
+
+      // validation function will be called with new and old value
+      var validationFunc = this.getValidationFunction();
+      if (validationFunc ) {
+        value = validationFunc( value, cellEditor.originalValue );
+      }
+
+      if (typeof cellEditor.originalValue == "number") {
+        if (value != null) {
+          value = parseFloat(value);
+        }
+      }
+      return value;
+    },
+
+
     _createEditor : function()
     {
       var cellEditor = new qx.ui.form.TextField();
