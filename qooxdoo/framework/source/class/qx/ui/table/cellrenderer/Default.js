@@ -34,8 +34,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
   statics :
   {
     STYLEFLAG_ALIGN_RIGHT : 1,
-    STYLEFLAG_BOLD        : 2,
-    STYLEFLAG_ITALIC      : 4
+    STYLEFLAG_BOLD : 2,
+    STYLEFLAG_ITALIC : 4,
+    _numberFormat : null
   },
 
 
@@ -86,6 +87,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
           return qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT;
         }
       }
+      return 0;
     },
 
 
@@ -132,6 +134,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
     _formatValue : function(cellInfo)
     {
       var value = cellInfo.value;
+      var res;
 
       if (value == null) {
         return "";
