@@ -79,7 +79,8 @@ qx.Class.define("qx.test.bom.Attribute",
       this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
       
       if (qx.core.Variant.isSet("qx.client", "mshtml") && 
-          qx.bom.client.Engine.VERSION <= 7) {
+          (qx.bom.client.Engine.VERSION <= 7 || 
+           (qx.bom.client.Engine.VERSION == 8 && qx.bom.client.Engine.DOCUMENT_MODE == 7))) {
         this._checkBox.setAttribute("checked", false);
       } else {
         this._checkBox.removeAttribute("checked");
