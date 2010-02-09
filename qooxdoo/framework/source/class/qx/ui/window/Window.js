@@ -885,9 +885,15 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    // property apply
-    // @deprecated
-    _applyCaption : function(value, old) {
+    /**
+     * Old apply method for {@link #caption} property.
+     * 
+     * @deprecated This method is not more called from the property apply.
+     * @param value {String} ew property value
+     * @param old {String} old property value
+     */
+    _applyCaption : function(value, old)
+    {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.log.Logger.deprecatedMethodWarning(arguments.callee)
       }
@@ -895,9 +901,15 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    // property apply
-    // @deprecated
-    _applyIcon : function(value, old) {
+    /**
+     * Old apply method for {@link #icon} property.
+     * 
+     * @deprecated This method is not more called from the property apply.
+     * @param value {String} ew property value
+     * @param old {String} old property value
+     */
+    _applyIcon : function(value, old)
+    {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.log.Logger.deprecatedMethodWarning(arguments.callee)
       }
