@@ -1103,7 +1103,7 @@ class Generator(object):
         self._console.info("Python version: %s" % sys.version)
         
         if 'QOOXDOO_PATH' in letConfig:
-            qxPath = letConfig['QOOXDOO_PATH']
+            qxPath = self._config.absPath(letConfig['QOOXDOO_PATH'])
             self._console.info("qooxdoo path: %s" % qxPath)
         
             versionFile = open(os.path.join(qxPath, "version.txt"))
@@ -1142,7 +1142,7 @@ class Generator(object):
             cacheCfg = expandedjobs[0].get("cache", None)  # TODO: this might be better taken from self._cache?!
             if cacheCfg:
                 if 'compile' in cacheCfg:
-                    compDir = cacheCfg['compile']
+                    compDir = self._config.absPath(cacheCfg['compile'])
                     self._console.info("Compile cache path is: %s" % compDir )
                     self._console.indent()
                     isDir = os.path.isdir(compDir)
@@ -1152,7 +1152,7 @@ class Generator(object):
                         self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
                     self._console.outdent()
                 if 'downloads' in cacheCfg:
-                    downDir = cacheCfg['downloads']
+                    downDir = self._config.absPath(cacheCfg['downloads'])
                     self._console.info("Download cache path is: %s" % downDir )
                     self._console.indent()
                     isDir = os.path.isdir(downDir)
