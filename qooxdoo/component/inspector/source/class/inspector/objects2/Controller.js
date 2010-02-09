@@ -53,6 +53,10 @@ qx.Class.define("inspector.objects2.Controller",
 
     this.__timer = qx.util.TimerManager.getInstance();
 
+    this.__view.addListenerOnce("appear", function(event) {
+      this.__view.selectObject(this.__model.getInspected());
+    }, this);
+
     this.__initializeView();
   },
 

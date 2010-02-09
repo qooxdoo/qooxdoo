@@ -149,7 +149,7 @@ qx.Class.define("inspector.test.components.InspectorModel",
         this.__model.getInspected(),
         "Inspected object is wrong."
       );
-      
+
       this.assertEquals(
         this.__mockApplication.getSelected(),
         this.__model.getInspected(),
@@ -177,7 +177,7 @@ qx.Class.define("inspector.test.components.InspectorModel",
           event.getOldData(),
           "Old inspected object is wrong."
         );
-        
+
         that.assertEquals(
           that.__mockApplication.getSelected(),
           that.__model.getInspected(),

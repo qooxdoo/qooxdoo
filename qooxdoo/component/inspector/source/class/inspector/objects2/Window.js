@@ -34,11 +34,16 @@ qx.Class.define("inspector.objects2.Window",
     this.syncAppearance();
 
     // apply default size and position
-    this.setSizeAndPosition({});
+    this.setInitSizeAndPosition();
 
     this.__model = new inspector.objects2.Model(inspectorModel)
     this.__controller = new inspector.objects2.Controller(this.__model);
     this.add(this.__controller.getView(), {edge: 0});
+  },
+
+  events :
+  {
+    "open" : "qx.event.type.Event"
   },
 
   members :
@@ -48,15 +53,22 @@ qx.Class.define("inspector.objects2.Window",
 
     // position {Map} with left, top, width, height
     setSizeAndPosition : function(position) {
-      var top = position.top ? position.top : 20;
-      var left = position.left ? position.left : 20;
+      this.moveTo(position.left, position.top);
+      this.setWidth(position.width);
+      this.setHeight(position.height);
+    },
 
-      var width = position.width ? position.width : this.getWidth();
-      var height = position.height ? position.height : this.getHeight();
-
-      this.moveTo(left, top);
-      this.setWidth(width);
+    setInitSizeAndPosition : function() {
+      var left = parseInt(qx.bom.Viewport.getWidth() - this.getWidth());
+      var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);
+      this.moveTo(left, 30);
       this.setHeight(height);
+    },
+
+    open : function()
+    {
+      this.base(arguments);
+      this.fireEvent("open");
     }
   },
 

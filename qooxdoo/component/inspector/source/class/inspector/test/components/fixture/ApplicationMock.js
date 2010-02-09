@@ -24,7 +24,7 @@ qx.Class.define("inspector.test.components.fixture.ApplicationMock",
   members :
   {
     __excludes : null,
-    
+
     __selected : null,
 
     getExcludes : function() {
@@ -34,11 +34,11 @@ qx.Class.define("inspector.test.components.fixture.ApplicationMock",
     setExcludes : function(excludes) {
       this.__excludes = excludes;
     },
-    
+
     select : function(object) {
       this.__selected = object;
     },
-    
+
     getSelected : function() {
       return this.__selected;
     }

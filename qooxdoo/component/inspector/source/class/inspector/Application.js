@@ -82,6 +82,10 @@ qx.Class.define("inspector.Application",
     _selector : null,
     _loadedWindow : null,
 
+
+    __inspectorModel : null,
+    __state : null,
+
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -93,14 +97,14 @@ qx.Class.define("inspector.Application",
       // Call super class
       this.base(arguments);
 
-      // Enable logging in debug variant
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
+
+      this.__inspectorModel = new inspector.components.InspectorModel(this);
+      this.__state = new inspector.components.State();
 
       this._container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       this.getRoot().add(this._container, {edge : 0});
@@ -118,7 +122,7 @@ qx.Class.define("inspector.Application",
       {
         this._urlTextField.setVisibility("hidden");
         startUrl = "index.html";
-      } 
+      }
       else {
         startUrl = cookieUrl;
       }
@@ -177,9 +181,11 @@ qx.Class.define("inspector.Application",
       this.__checkForReload();
 
       // select the root of the new app
+      this.__inspectorModel.setObjectRegistry(this._loadedWindow.qx.core.ObjectRegistry);
       this.select(this._loadedWindow.qx.core.Init.getApplication().getRoot());
 
       // check for the cookies
+      this.__state.restoreState();
       this.__checkCookies();
     },
 
@@ -229,7 +235,7 @@ qx.Class.define("inspector.Application",
 
     __checkCookies: function() {
       // check the objects window
-      this.__checkCookieFor("_objectsWindow", this._objectsButton, "objects");
+      //this.__checkCookieFor("_objectsWindow", this._objectsButton, "objects");
       // check the widgets window
       this.__checkCookieFor("_widgetsWindow", this._widgetsButton, "widgets");
       // check the console window
@@ -293,15 +299,22 @@ qx.Class.define("inspector.Application",
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Objects window
-      this.__createWindow(
-        "_objectsButton", "Objects", "_objectsWindow",
-        inspector.objects.ObjectsWindow, "objects",
-        function() {
-          if (this._loadedWindow != null) {
-            this._objectsWindow.load(this._loadedWindow);
-          }
-        }
-      );
+      var objectWindow2 = new inspector.objects2.Window("Objects", this.__inspectorModel);
+      this.__state.add(objectWindow2, "objects");
+
+      this._objectsButton = new qx.ui.toolbar.CheckBox("Objects");
+      this._toolbar.add(this._objectsButton);
+      this._objectsButton.addListener("changeValue", function(e) {
+        e.getData() ? objectWindow2.open() : objectWindow2.close();
+      }, this);
+      objectWindow2.addListener("open", function(e) {
+        this._objectsButton.setValue(true);
+      }, this);
+      objectWindow2.addListener("close", function(e) {
+        this._objectsButton.setValue(false);
+      }, this);
+
+
       // Widgets window
       this.__createWindow(
         "_widgetsButton", "Widgets", "_widgetsWindow",
@@ -375,7 +388,7 @@ qx.Class.define("inspector.Application",
       try {
         iFrameSource = this._iFrame.getWindow().location.pathname;
       } catch (ex) {}
-      
+
       if (iFrameSource != this._urlTextField.getValue()) {
         this._iFrame.setSource(this._urlTextField.getValue());
       }
@@ -527,6 +540,8 @@ qx.Class.define("inspector.Application",
         }
       }
 
+      this.__inspectorModel.setInspected(object);
+
       this._selector.highlightFor(object, 1000);
     },
 
@@ -542,10 +557,14 @@ qx.Class.define("inspector.Application",
 
 
     getExcludes: function() {
-      return this._selector.getAddedWidgets();
+      if (this._selector != null) {
+        return this._selector.getAddedWidgets();
+      } else {
+        return [];
+      }
     }
   },
-  
+
   destruct : function()
   {
     this._loadedWindow = null;
