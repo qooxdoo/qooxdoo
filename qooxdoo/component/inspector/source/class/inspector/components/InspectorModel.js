@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,17 +13,25 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Martin Wittemann (martinwittemann)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
+
+/**
+ * Inspector model is responsible for the registered objects ({@link #getObjects})
+ * and the inspected object ({@link #getInspected}) from inspected application.
+ */
 qx.Class.define("inspector.components.InspectorModel",
 {
   extend : qx.core.Object,
 
   implement : [inspector.components.IInspectorModel],
 
-  // objectRegistry {qx.core.ObjectRegistry}
-  // application {inspector.Application}
+  /**
+   * Constructs the model.
+   * 
+   * @param application {inspector.Application} the inspector application.
+   */
   construct : function(application) {
     this.base(arguments);
 
@@ -32,23 +40,37 @@ qx.Class.define("inspector.components.InspectorModel",
 
   events :
   {
+    // interface implementation
     "changeObjects" : "qx.event.type.Event",
 
+    // interface implementation
     "changeInspected": "qx.event.type.Data"
   },
 
   members :
   {
+    /**
+     * {qx.core.ObjectRegestry} the instance to the object registry from the 
+     * inspected application.
+     */
     __objectRegistry : null,
 
+    /**
+     * {inspector.Application} the instance to the inspector application.
+     */
     __application : null,
 
+    /**
+     * {qx.core.Object} the instance from the inspected object.
+     */
     __inspected : null,
 
+    // interface implementation
     getObjectRegistry : function() {
       return this.__objectRegistry;
     },
 
+    // interface implementation
     setObjectRegistry : function(objectRegistry) {
       if (this.__objectRegistry !== objectRegistry)
       {
@@ -57,10 +79,12 @@ qx.Class.define("inspector.components.InspectorModel",
       }
     },
 
+    // interface implementation
     getApplication : function() {
       return this.__application;
     },
 
+    // interface implementation
     setApplication : function(application) {
       if (this.__application !== application)
       {
@@ -69,6 +93,7 @@ qx.Class.define("inspector.components.InspectorModel",
       }
     },
 
+    // interface implementation
     getObjects : function()
     {
       var result = [];
@@ -91,10 +116,12 @@ qx.Class.define("inspector.components.InspectorModel",
       return result;
     },
 
+    // interface implementation
     getInspected : function() {
       return this.__inspected;
     },
 
+    // interface implementation
     setInspected : function(object) {
       if (this.__inspected !== object) {
         var oldInspected = this.__inspected;
