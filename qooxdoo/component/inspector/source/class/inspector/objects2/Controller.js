@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,18 +18,10 @@
 
 ************************************************************************ */
 
-/**
- * TODO
- */
 qx.Class.define("inspector.objects2.Controller",
 {
   extend : qx.core.Object,
 
-  /**
-   * Creates the controller with the view.
-   *
-   * @param model {inspector.objects.AbstractModel} the model for the controller.
-   */
   construct : function(model)
   {
     this.base(arguments);
@@ -47,8 +39,6 @@ qx.Class.define("inspector.objects2.Controller",
     this.__model.addListener("changeInspected", this.__onChangeInspected, this);
     this.__model.addListener("changeObjects", this.__onChangeObjects, this);
 
-    this.__tableHashModel = new inspector.objects2.table.HashModel(model);
-    this.__tableCountModel = new inspector.objects2.table.CountModel(model);
     this.__view = new inspector.objects2.View(this);
 
     this.__timer = qx.util.TimerManager.getInstance();
@@ -82,8 +72,8 @@ qx.Class.define("inspector.objects2.Controller",
 
     reload : function() {
       this.__ignoreInpectObject = true;
-      this.__tableCountModel.reload();
-      this.__tableHashModel.reload();
+      this.__getTableCountModel().reload();
+      this.__getTableHashModel().reload();
       this.__ignoreInpectObject = false;
       this.__view.selectObject(this.__model.getInspected());
     },
@@ -92,7 +82,7 @@ qx.Class.define("inspector.objects2.Controller",
       this.__view.setByHashActive(true);
       this.__view.setByCountActive(false);
 
-      this.__view.setTableModel(this.__tableHashModel);
+      this.__view.setTableModel(this.__getTableHashModel());
       this.__view.setTableSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
       this.__view.selectObject(this.__model.getInspected());
     },
@@ -101,7 +91,7 @@ qx.Class.define("inspector.objects2.Controller",
       this.__view.setByHashActive(false);
       this.__view.setByCountActive(true);
 
-      this.__view.setTableModel(this.__tableCountModel);
+      this.__view.setTableModel(this.__getTableCountModel());
       this.__view.setTableSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
       this.__view.selectObject(null);
     },
@@ -113,8 +103,8 @@ qx.Class.define("inspector.objects2.Controller",
       this.__timerId = this.__timer.start(function() {
         this.__timerId = null;
 
-        this.__tableCountModel.filter(filter);
-        this.__tableHashModel.filter(filter);
+        this.__getTableCountModel().filter(filter);
+        this.__getTableHashModel().filter(filter);
 
         // Set the inspcected object, because the filter changes the selection
         // model, which try to select a wrong object
@@ -159,6 +149,20 @@ qx.Class.define("inspector.objects2.Controller",
 
     __onChangeObjects : function(event) {
       this.reload();
+    },
+
+    __getTableHashModel : function() {
+      if (this.__tableHashModel == null) {
+        this.__tableHashModel = new inspector.objects2.table.HashModel(this.__model);
+      }
+      return this.__tableHashModel;
+    },
+
+    __getTableCountModel : function() {
+      if (this.__tableCountModel == null) {
+        this.__tableCountModel = new inspector.objects2.table.CountModel(this.__model);
+      }
+      return this.__tableCountModel;
     }
   },
 
@@ -166,10 +170,16 @@ qx.Class.define("inspector.objects2.Controller",
   {
     this.__stopTimer();
 
-    this.__view.destroy();
-    this.__tableHashModel.dispose();
-    this.__tableCountModel.dispose();
+    if(this.__tableHashModel != null) {
+      this.__tableHashModel.dispose();
+    }
 
+    if (this.__tableCountModel) {
+      this.__tableCountModel.dispose();
+    }
+
+    this.__view.destroy();
+    
     this.__view = this.__model = this.__tableHashModel =
       this.__tableCountModel = this.__timer = null;
   }
