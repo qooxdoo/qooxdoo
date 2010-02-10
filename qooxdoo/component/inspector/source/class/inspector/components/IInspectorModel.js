@@ -43,7 +43,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
      * from the inspector, e.q. all objects which are created for the objects
      * inspection visualization.
      * 
-     * @return {qx.core.ObjectRegistry} Returns the object regestry from the 
+     * @return {qx.core.ObjectRegistry|null} Returns the object regestry from the 
      *   inspected application.
      */
     getObjectRegistry : function() {
@@ -96,7 +96,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
     /**
      * Returns the inspected object.
      * 
-     * @return {qx.core.Object} Returns the current inspected object.
+     * @return {qx.core.Object|null} Returns the current inspected object.
      */
     getInspected : function() {
       return true;
