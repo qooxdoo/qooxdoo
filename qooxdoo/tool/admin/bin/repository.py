@@ -26,54 +26,83 @@
 
 import os, sys, re
 import qxenviron
+import simplejson as json
+import codecs
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
-try:
-  import json
-except ImportError, e:
-  try:
-    import simplejson as json
-  except ImportError, e:
-    raise RuntimeError, "No JSON module found: %s" %e
-
 
 class Repository:
-  def __init__(self, repoDir, processLibs = None):
+  """Represents a repository containing qooxdoo libraries."""
+  def __init__(self, repoDir, config=None):
+    """Create a new repository instance by scanning a directory containing
+    qooxdoo libraries. By default, all libraries found will be included. 
+    Optionally, a dictionary containing library/directory names as keys and a 
+    list of library version names/subdirectories can be provided, e.g.
+    myRepo = Repository("/foo/bar", { "Simulator" : ["trunk"],
+                                      "HtmlArea" : ["0.5"] })
+
+    Keyword arguments:
+    repoDir -- File system path of the directory to scan
+    config -- (optional) Configuration dictionary 
+
+    """
     global console
     console = Log(None, "info")
     global shell
     shell = ShellCmd()
     
+    self.config = config
+    processLibs = None
+    if config:
+      if "libraries" in config:
+        processLibs = config["libraries"]
+    
     self.dir = repoDir
     self.libraries = self.getLibraries(processLibs)
     
-  def getLibraries(self, processLibs = None):    
+  def getLibraries(self, processLibs):
     console.info("Processing repository in %s" %self.dir)
     libraries = {}
     for root, dirs, files in os.walk(self.dir, topdown=True):
-      for name in dirs:
+      for name in dirs[:]:
         # ignore subdirectories and SVN cruft
-        if root == self.dir and name[0] != ".":
+        if root != self.dir or name[0] == ".":
+          dirs.remove(name)
+          console.outdent()
+          continue        
         
-          if processLibs:
-            # only process selected libraries
-            if name in processLibs:
-              console.indent()
-              console.info("Processing selected library %s" %name)
-              lib = Library(self, name, processLibs[name])
-              libraries[name] = lib
-              console.outdent()                
-          else:
-            # find all libraries
+        # only process selected libraries
+        if processLibs:
+          if name in processLibs:
             console.indent()
-            console.info("Processing found library %s" %name)
-            lib = Library(self, name, [])
+            console.info("Processing library %s" %name)
+            lib = Library(self, name, processLibs[name])
             libraries[name] = lib
             console.outdent()
+          elif "*" in processLibs:
+            console.indent()
+            console.info("Processing library %s" %name)
+            lib = Library(self, name, processLibs["*"])
+            libraries[name] = lib
+            console.outdent()
+        
+        else:
+          # find all libraries
+          console.indent()
+          console.info("Processing library %s" %name)
+          lib = Library(self, name, [])
+          libraries[name] = lib
+          console.outdent()
+    
     console.info("Found %s libraries." %len(libraries))
     return libraries
   
-  def buildAllDemos(self):
+  def buildAllDemos(self, selectedVariant=None):
+    demoData = []
+    if self.config:
+      if "demobrowser" in self.config:
+        demoBrowser = True
+    
     for libraryName in self.libraries:
       library = self.libraries[libraryName]
       for versionName in library.versions:
@@ -81,15 +110,74 @@ class Repository:
         if version.hasDemoDir:
           demoVariants = version.getDemoVariants()
           if demoVariants:
+            
+            libraryData = {
+              "classname": libraryName, 
+              "tests": []
+            }
+            
             for variant in demoVariants:
-              version.buildDemo(variant)
+              if selectedVariant:
+                if selectedVariant == variant:
+                  version.buildDemo(variant)
+                  if demoBrowser:
+                    demobrowserDir = self.config["demobrowser"]["path"]
+                    htmlfile = self.copyHtmlFile(libraryName, variant)
+                    libraryData["tests"].append(self.getDemoData(libraryName, variant))
+              else:  
+                version.buildDemo(variant)
+                if self.config:
+                  if demoBrowser:
+                    demobrowserDir = self.config["demobrowser"]["path"]
+                    htmlfile = self.copyHtmlFile(libraryName, variant)
+                    libraryData["tests"].append(self.getDemoData(libraryName, variant))
+    
+            demoData.append(libraryData)
 
+    if demoBrowser:
+      jsonData = json.dumps(demoData, sort_keys=True, indent=4)
+      outPath = os.path.join(self.dir, self.config["demobrowser"]["path"], "source", "script", "demodata.json")
+      rFile = codecs.open(outPath, 'w', 'utf-8')
+      rFile.write(jsonData)
+      rFile.close() 
+                
+  
+  def copyHtmlFile(self, category, item, demobrowserDir=None):
+    if not demobrowserDir:
+      demobrowserDir = os.path.join(self.dir, "demobrowser")
+    sourceFilePath = os.path.join(demobrowserDir,"source", "demo", "template.html")
+    sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
+    targetDir = os.path.join(demobrowserDir,"source", "demo", category)
+    if not os.path.isdir(targetDir):
+      os.mkdir(targetDir)
+    targetFilePath = os.path.join(targetDir, item + ".html")
+    targetFile = codecs.open(targetFilePath, "w", "utf-8")
+    #targetFile.write(sourceFile.read())
+    for line in sourceFile: 
+      demoUrl = "../../../../%s/trunk/demo/%s/build/" %(category,item)
+      targetFile.write(line.replace("$LIBRARY", demoUrl))
+    
+    targetFile.close()
+    return targetFilePath
+    #print "Copying html to " + targetFile
+  
+  def getDemoData(self, category, item):
+    demoDict = {
+      "name": item + ".html",
+      "nr": item.capitalize(),
+      "tags": [
+          category
+          #TODO: get more tags
+      ],
+      "title": category + "AFFE!!!"
+    }
+
+    return demoDict
 
 class Library:
   def __init__(self, repository = None, libraryDir = None, libraryVersions = [] ):
     if not (libraryDir and repository):
       raise RuntimeError, "Repository and library directory must be defined!"
-    
     self.repository = repository
     self.dir = libraryDir
     self.versions = self.getVersions(libraryVersions)
@@ -98,33 +186,46 @@ class Library:
     versions = {}
     libraryPath = os.path.join(self.repository.dir, self.dir)
     for root, dirs, files in os.walk(libraryPath, topdown=True):
-      for name in dirs:
+      #print root, dirs
+      for name in dirs[:]:
         console.indent()
         # only check direct subfolders of the library, ignore .svn etc.
-        if root == libraryPath and name[0] != ".":          
-          # only get requested versions
-          if len(libraryVersions) > 0:
-            if name in libraryVersions:
-              console.info("Processing selected version %s" %name)
+        if root != libraryPath or name[0] == ".":
+          dirs.remove(name)
+          console.outdent()
+          continue
+        if len(libraryVersions) > 0:
+          if name in libraryVersions:
+            console.info("Processing selected version %s" %name)
+            try:
               libVersion = LibraryVersion(self, name)
               versions[name] = libVersion
-          elif name == "trunk" or "." in name:
-            console.info("Processing found version %s" %name)
+            except Exception, e:
+              console.warn("%s version %s not added: %s" %(self.dir,name,e.message))
+        elif name == "trunk" or "." in name:
+          console.info("Processing found version %s" %name)
+          try:
             libVersion = LibraryVersion(self, name)
             versions[name] = libVersion
+          except Exception, e:
+            console.warn("%s version %s not added: %s" %(self.dir,name,e.message))
         console.outdent()
     return versions
 
 
 class LibraryVersion:  
-  def __init__(self, library, versionDir = None):    
+  def __init__(self, library, versionDir = None):
     if not (library and versionDir):
       raise RuntimeError, "Both the library and this version's directory must be defined!"
     
     self.library = library
     self.dir = versionDir
     self.versionPath = os.path.join(self.library.repository.dir, self.library.dir, self.dir)
-    self.manifest = self.getManifest()
+    try:
+      self.manifest = self.getManifest()
+    except Exception:
+      raise RuntimeError, "Couldn't get manifest for version %s" %self.dir
+    
     self.svnRevision = self.getSvnRevision()
     self.hasSourceDir = False
     self.hasDemoDir = False
@@ -133,7 +234,7 @@ class LibraryVersion:
     # TODO self.hasTestDir = False
     self.hasReadmeFile = False
     self.hasGenerator = False
-    
+    #console.info("Checking library %s")
     self.checkStructure()
 
   def checkStructure(self):    
@@ -232,9 +333,9 @@ class LibraryVersion:
     
     cmd = "python " + os.path.join(self.versionPath, "demo", demoVariant, "generate.py") + " build" 
     console.info("Building demo variant %s for library %s version %s" %(demoVariant, self.library.dir, self.dir) )
-    console.indent()
-    console.info("Build command: %s" %cmd)
-    console.outdent()
+    #console.indent()
+    #console.info("Build command: %s" %cmd)
+    #console.outdent()
     rcode, output, errout = shell.execute_piped(cmd)
     
     demoBuildStatus = {
@@ -243,9 +344,11 @@ class LibraryVersion:
     
     if rcode > 0:
       console.error(errout)
+      console.info(output)
       demoBuildStatus["buildError"] = errout
     else:
       console.info("Demo built successfully.")
       demoBuildStatus["buildError"] = None
       
     self.demoBuildStatus = demoBuildStatus
+    
