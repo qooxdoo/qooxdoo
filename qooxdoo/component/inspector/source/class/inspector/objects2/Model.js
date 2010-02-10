@@ -72,7 +72,7 @@ qx.Class.define("inspector.objects2.Model",
     },
 
     /**
-     * Returns the object from the object registy with the passed hash code.
+     * Returns the object from the object registry with the passed hash code.
      * 
      * @param hashCode {String} the hash code from the looking object. 
      * @return {qx.core.Object|null} the object with the hash code, or <code>null</code>
