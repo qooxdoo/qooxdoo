@@ -116,7 +116,7 @@ qx.Class.define("inspector.test.objects2.Model",
       this.assertEventFired(this.__model, "changeObjects", function() {
         that.__mockObject.setObjects(objects);
       }, function(event) {
-        this.assertArrayEquals(objects, event.getTarget().getObjects(),
+        that.assertArrayEquals(objects, event.getTarget().getObjects(),
           "Objects are wrong.");
       });
 
