@@ -21,7 +21,7 @@
 
 ##
 # repository.py -- represents a repository (e.g. qooxdoo-contrib) containing a 
-# number of libraries
+# number of libraries.
 ##
 
 import os, sys, re
@@ -105,72 +105,76 @@ class Repository:
     
     for libraryName in self.libraries:
       library = self.libraries[libraryName]
+      libraryData = {
+        "classname": libraryName, 
+        "tests": []
+      }
+      validDemo = False
       for versionName in library.versions:
         version = library.versions[versionName]
-        if version.hasDemoDir:
-          demoVariants = version.getDemoVariants()
-          if demoVariants:
-            
-            libraryData = {
-              "classname": libraryName, 
-              "tests": []
-            }
-            
-            for variant in demoVariants:
-              if selectedVariant:
-                if selectedVariant == variant:
-                  version.buildDemo(variant)
-                  if demoBrowser:
-                    demobrowserDir = self.config["demobrowser"]["path"]
-                    htmlfile = self.copyHtmlFile(libraryName, variant)
-                    libraryData["tests"].append(self.getDemoData(libraryName, variant))
-              else:  
-                version.buildDemo(variant)
-                if self.config:
-                  if demoBrowser:
-                    demobrowserDir = self.config["demobrowser"]["path"]
-                    htmlfile = self.copyHtmlFile(libraryName, variant)
-                    libraryData["tests"].append(self.getDemoData(libraryName, variant))
-    
-            demoData.append(libraryData)
+        
+        if not version.hasDemoDir:
+          continue
+        
+        demoVariants = version.getDemoVariants()
+        if not demoVariants:
+          continue
+        
+        for variant in demoVariants:
+          if (selectedVariant and selectedVariant != variant) or (variant == "source" or variant == "build"):
+            continue
+          #if (not selectedVariant) or selectedVariant and selectedVariant == variant:
+          status = version.buildDemo(variant)
+          if demoBrowser and not status["buildError"]:
+            htmlfile = self.copyHtmlFile(libraryName, versionName, variant)
+            libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
+            validDemo = True
+      
+      if validDemo:
+        demoData.append(libraryData)
 
-    if demoBrowser:
+    if demoBrowser:      
       jsonData = json.dumps(demoData, sort_keys=True, indent=4)
       outPath = os.path.join(self.dir, self.config["demobrowser"]["path"], "source", "script", "demodata.json")
+      console.info("Generating demobrowser data: %s" %outPath)
       rFile = codecs.open(outPath, 'w', 'utf-8')
       rFile.write(jsonData)
       rFile.close() 
                 
   
-  def copyHtmlFile(self, category, item, demobrowserDir=None):
+  def copyHtmlFile(self, libraryName, versionName, variantName, demobrowserDir=None):
     if not demobrowserDir:
       demobrowserDir = os.path.join(self.dir, "demobrowser")
+    console.info("Copying HTML file to demobrowser directory %s" %demobrowserDir)
     sourceFilePath = os.path.join(demobrowserDir,"source", "demo", "template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
-    targetDir = os.path.join(demobrowserDir,"source", "demo", category)
+    targetDir = os.path.join(demobrowserDir,"source", "demo", libraryName)
     if not os.path.isdir(targetDir):
       os.mkdir(targetDir)
-    targetFilePath = os.path.join(targetDir, item + ".html")
+    targetFilePath = os.path.join(targetDir, versionName + "-" + variantName +  ".html")
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
     #targetFile.write(sourceFile.read())
     for line in sourceFile: 
-      demoUrl = "../../../../%s/trunk/demo/%s/build/" %(category,item)
+      demoUrl = "../../../../%s/%s/demo/%s/build/" %(libraryName,versionName,variantName)
       targetFile.write(line.replace("$LIBRARY", demoUrl))
     
     targetFile.close()
     return targetFilePath
-    #print "Copying html to " + targetFile
   
-  def getDemoData(self, category, item):
+  def getDemoData(self, library, version, variant):
     demoDict = {
-      "name": item + ".html",
-      "nr": item.capitalize(),
+      "name": version + "-" + variant + ".html",
+      "nr": variant.capitalize(),
       "tags": [
-          category
+          library
           #TODO: get more tags
       ],
-      "title": category + "AFFE!!!"
+      "title": library + " " + version + " " + variant
     }
+    
+    qooxdooVersions = self.libraries[library].versions[version].getManifest()["info"]["qooxdoo-versions"]
+    for ver in qooxdooVersions:
+      demoDict["tags"].append("qxVersion_" + ver)
 
     return demoDict
 
@@ -186,7 +190,6 @@ class Library:
     versions = {}
     libraryPath = os.path.join(self.repository.dir, self.dir)
     for root, dirs, files in os.walk(libraryPath, topdown=True):
-      #print root, dirs
       for name in dirs[:]:
         console.indent()
         # only check direct subfolders of the library, ignore .svn etc.
@@ -194,7 +197,7 @@ class Library:
           dirs.remove(name)
           console.outdent()
           continue
-        if len(libraryVersions) > 0:
+        if len(libraryVersions) > 0 and not libraryVersions[0] == "*":
           if name in libraryVersions:
             console.info("Processing selected version %s" %name)
             try:
@@ -333,9 +336,6 @@ class LibraryVersion:
     
     cmd = "python " + os.path.join(self.versionPath, "demo", demoVariant, "generate.py") + " build" 
     console.info("Building demo variant %s for library %s version %s" %(demoVariant, self.library.dir, self.dir) )
-    #console.indent()
-    #console.info("Build command: %s" %cmd)
-    #console.outdent()
     rcode, output, errout = shell.execute_piped(cmd)
     
     demoBuildStatus = {
@@ -345,10 +345,12 @@ class LibraryVersion:
     if rcode > 0:
       console.error(errout)
       console.info(output)
+      if not errout:
+        errout = "Unknown error"
       demoBuildStatus["buildError"] = errout
     else:
       console.info("Demo built successfully.")
       demoBuildStatus["buildError"] = None
       
     self.demoBuildStatus = demoBuildStatus
-    
+    return demoBuildStatus
