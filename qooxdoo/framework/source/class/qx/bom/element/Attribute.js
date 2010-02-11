@@ -153,6 +153,12 @@ qx.Class.define("qx.bom.element.Attribute",
         htmlFor     : 1,
         tabIndex    : 1
       },
+      
+      qxProperties :
+      {
+        $$widget : 1,
+        $$html : 1
+      },
 
       // Default values when "null" is given to a property
       propertyDefault :
@@ -333,7 +339,9 @@ qx.Class.define("qx.bom.element.Attribute",
       }
 
       // apply attribute
-      if (hints.property[name])
+      // only properties which can be applied by the browser or qxProperties
+      // otherwise use the attribute methods
+      if (hints.property[name] && (!(element[name] === undefined) || hints.qxProperties[name]))
       {
         // resetting the attribute/property
         if (value == null)
