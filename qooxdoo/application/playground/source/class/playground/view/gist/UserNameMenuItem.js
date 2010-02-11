@@ -48,13 +48,6 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     this._add(label, {row: 0, column: 0});
     this._add(this.__textField, {row: 0, column: 1});
     
-    this.__textField.addListener("changeValue", function(e) {
-      // set the cookie
-      qx.bom.Cookie.set("playgroundUser", e.getData(), 100);
-      // invoke a reload
-      this.fireDataEvent("reload", e.getData());
-    }, this);
-    
     // sync the selected state
     this.addListener("syncAppearance", function() {
       this.hasState("selected") ? this.__textField.focus() : null;
