@@ -54,13 +54,16 @@ qx.Class.define("qx.test.bom.Attribute",
       var Attribute = qx.bom.element.Attribute;
 
       Attribute.set(this._el, "maxLength", 10);
-      this.assertEquals(10, this._el["maxLength"]);
+      this.assertEquals(10, this._el.getAttribute("maxLength"));
 
       Attribute.set(this._checkBox, "checked", true);
       this.assertTrue(this._checkBox["checked"]);
 
       Attribute.set(this._el, "className", "vanillebaer");
       this.assertEquals("vanillebaer", this._el["className"]);
+      
+      Attribute.set(this._el, "selected", true);
+      this.assertEquals("selected", this._el.getAttribute("selected"));
     },
 
     testGetAttribute : function()
