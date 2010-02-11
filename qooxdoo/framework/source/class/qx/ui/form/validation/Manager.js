@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
           var validatorResult = !!formItem.getValue();
         }
         formItem.setValid(validatorResult);
-        formItem.setInvalidMessage("This field is required");
+        formItem.setInvalidMessage(this.tr("This field is required"));
         return validatorResult;
       }
       return true;
