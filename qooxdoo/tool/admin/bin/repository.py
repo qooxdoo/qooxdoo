@@ -184,6 +184,7 @@ class Library:
       raise RuntimeError, "Repository and library directory must be defined!"
     self.repository = repository
     self.dir = libraryDir
+    self.path = os.path.join(self.repository.dir, self.dir)
     self.versions = self.getVersions(libraryVersions)
     
   def getVersions(self, libraryVersions):
@@ -223,7 +224,7 @@ class LibraryVersion:
     
     self.library = library
     self.dir = versionDir
-    self.versionPath = os.path.join(self.library.repository.dir, self.library.dir, self.dir)
+    self.path = os.path.join(self.library.repository.dir, self.library.dir, self.dir)
     try:
       self.manifest = self.getManifest()
     except Exception:
@@ -241,17 +242,17 @@ class LibraryVersion:
     self.checkStructure()
 
   def checkStructure(self):    
-    if os.path.isdir(os.path.join(self.versionPath, "source")):
+    if os.path.isdir(os.path.join(self.path, "source")):
       self.hasSourceDir = True
     
-    if os.path.isdir(os.path.join(self.versionPath, "demo")):
+    if os.path.isdir(os.path.join(self.path, "demo")):
       self.hasDemoDir = True
       self.demoVariants = self.getDemoVariants()
     
-    if os.path.isfile(os.path.join(self.versionPath, "README")):
+    if os.path.isfile(os.path.join(self.path, "README")):
       self.hasReadmeFile = True
     
-    if os.path.isfile(os.path.join(self.versionPath, "generate.py")):
+    if os.path.isfile(os.path.join(self.path, "generate.py")):
       self.hasGenerator = True
   
   def getManifest(self):
@@ -260,7 +261,7 @@ class LibraryVersion:
     except AttributeError:
       pass
     
-    manifestPath = os.path.join(self.versionPath, "Manifest.json")
+    manifestPath = os.path.join(self.path, "Manifest.json")
     
     try:
       manifestFile = open(manifestPath)
@@ -271,7 +272,7 @@ class LibraryVersion:
     return manifest
   
   def getDemoManifest(self, demoVariant = "default"):
-    manifestPath = os.path.join(self.versionPath, "demo", demoVariant, "Manifest.json")
+    manifestPath = os.path.join(self.path, "demo", demoVariant, "Manifest.json")
     
     try:
       manifestFile = open(manifestPath)
@@ -295,7 +296,7 @@ class LibraryVersion:
         self.mailto = mailto
         self.outputfile = None
         
-    lintOpts = LintOpts(self.versionPath)
+    lintOpts = LintOpts(self.path)
     lint = QxLint(lintOpts)
     self.lintResult = lint.data
     
@@ -307,7 +308,7 @@ class LibraryVersion:
     except:
       pass
     
-    cmd = "svnversion %s" %self.versionPath
+    cmd = "svnversion %s" %self.path
     rcode, output, errout = shell.execute_piped(cmd)
     
     if rcode > 0:
@@ -321,7 +322,7 @@ class LibraryVersion:
       return False
     
     demoVariants = []
-    demoPath = os.path.join(self.versionPath, "demo")
+    demoPath = os.path.join(self.path, "demo")
     for root, dirs, files in os.walk(demoPath, topdown=True):
       for name in dirs:        
         if root == demoPath and name[0] != ".":
@@ -334,7 +335,7 @@ class LibraryVersion:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
       return
     
-    cmd = "python " + os.path.join(self.versionPath, "demo", demoVariant, "generate.py") + " build" 
+    cmd = "python " + os.path.join(self.path, "demo", demoVariant, "generate.py") + " build" 
     console.info("Building demo variant %s for library %s version %s" %(demoVariant, self.library.dir, self.dir) )
     rcode, output, errout = shell.execute_piped(cmd)
     
@@ -342,12 +343,19 @@ class LibraryVersion:
       "svnRevision" : self.getSvnRevision()
     }
     
+    #some demos have a "build" job that doesn't produce a qooxdoo application
+    demoBuildPath = os.path.join(self.path, "demo", demoVariant, "build", "script")
+    hasScriptDir = os.path.isdir(demoBuildPath)
+    
     if rcode > 0:
       console.error(errout)
       console.info(output)
       if not errout:
         errout = "Unknown error"
       demoBuildStatus["buildError"] = errout
+    elif not hasScriptDir:
+      console.warn("No script directory created!")
+      demoBuildStatus["buildError"] = "No script directory created"
     else:
       console.info("Demo built successfully.")
       demoBuildStatus["buildError"] = None
