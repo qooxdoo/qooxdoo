@@ -113,16 +113,31 @@ class PartBuilder(object):
             self._console.indent()
             # get set of current classes in this part
             classSet = set()
-            for package in part.packages:
-                classSet.update(package.classes)
+            classList = []
+            for package in part.packages: # TODO: not sure this is sorted
+                #classSet.update(package.classes)
+                classList.extend(package.classes)
             # check individual class deps are fullfilled in part
             # alternative: check part.deps against classSet
-            for classId in classSet:
+            #for classId in classSet:
+            for classIdx,classId in enumerate(classList):
                 classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                 loadDeps    = set(x.name for x in classDeps['load'])
-                missingDeps = loadDeps.difference(classSet)
-                if missingDeps:  # there is a load dep not in the part
-                    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
+                missingDeps = []
+                for depsId in loadDeps:
+                    try:
+                        depsIdx = classList.index(depsId)
+                    except ValueError:
+                        missingDeps.append(depsId)
+                        #self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
+                        raise RuntimeError("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
+                        continue
+                    if classIdx < depsIdx:
+                        #self._console.warn("Load-dep loaded after using class ('%s'):  '%s'" % (classId, depsId))  # TODO: should I raise here?
+                        raise RuntimeError("Load-dep loaded after using class ('%s'):  '%s'" % (classId, depsId))
+                #missingDeps = loadDeps.difference(classSet)
+                #if missingDeps:  # there is a load dep not in the part
+                #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
             self._console.outdent()
 
         self._console.outdent()
