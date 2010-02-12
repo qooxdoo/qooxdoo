@@ -1,1 +1,1 @@
-qx.test.io.ScriptLoader.FILES.push("file2")
+qx.test.PART_FILES.push("file2")

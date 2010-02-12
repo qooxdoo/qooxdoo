@@ -31,7 +31,7 @@ qx.Class.define("qx.test.io.part.Package",
   members :
   {
     setUp : function() {
-      qx.test.io.ScriptLoader.FILES = [];
+      qx.test.PART_FILES = [];
     },
   
     
@@ -48,7 +48,7 @@ qx.Class.define("qx.test.io.part.Package",
       
       pkg.addListener("load", function(e) { this.resume(function() {
         this.assertEquals("complete", pkg.getReadyState());
-        this.assertEquals("file1", qx.test.io.ScriptLoader.FILES[0]);
+        this.assertEquals("file1", qx.test.PART_FILES[0]);
         
         pkg.dispose();
       }, this)}, this);
@@ -71,7 +71,7 @@ qx.Class.define("qx.test.io.part.Package",
       pkg.addListener("load", function(e) { this.resume(function() {
         this.assertJsonEquals(
           ["file1", "file2", "file3"],
-          qx.test.io.ScriptLoader.FILES
+          qx.test.PART_FILES
         );
         pkg.dispose();
       }, this)}, this);
@@ -99,7 +99,7 @@ qx.Class.define("qx.test.io.part.Package",
       pkg.addListener("load", function(e) { this.resume(function() {
         this.assertJsonEquals(
           ["file1", "file2", "file3"],
-          qx.test.io.ScriptLoader.FILES
+          qx.test.PART_FILES
         );
         pkg.dispose();
       }, this)}, this);
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.io.part.Package",
           // TODO
 //        this.assertJsonEquals(
 //          [],
-//          qx.test.io.ScriptLoader.FILES
+//          qx.test.PART_FILES
 //        );
         pkg.dispose();
       }, this)}, this);

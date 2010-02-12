@@ -32,39 +32,16 @@ qx.Class.define("qx.io.PartLoader",
   {
     this.base(arguments);
 
-    this.__packages = [];
-    var uris = this._getUris();
-    for (var i=0; i<uris.length; i++)
-    {
-      var hash = qx.$$loader.packageHashes[i];
-      var pkg = new qx.io.part.Package(uris[i], hash, i==0);
-      pkg.addListener("load", this._onPackageLoad, this);
-      this.__packages.push(pkg);
-    };
     
-    var safeLoading = qx.$$loader.safeLoading || [];
-    for (var i=0; i<safeLoading.length; i++) {
-      this.__packages[safeLoading[i]].setUseSafeScriptLoader(true);
-    }
-
-    this.__parts = {};
-    var parts = qx.$$loader.parts;
-
-    for (var name in parts)
-    {
-      var pkgIndexes = parts[name];
-      var packages = [];
-      for (var i=0; i<pkgIndexes.length; i++) {
-        packages.push(this.__packages[pkgIndexes[i]]);
+    var loader = this._loader = qx.Part.getInstance();
+    
+    var self = this;
+    loader.onpart = function(part) {
+      if (part.readyState == "success") {
+        self.fireDataEvent("partLoaded", part);
+      } else {
+        self.fireDataEvent("partLoadingError", part.name);
       }
-      var part = new qx.io.part.Part(name, packages);
-      part.addListener("load", function(e) {
-        this.fireDataEvent("partLoaded", e.getTarget());
-      }, this);
-      part.addListener("error", function(e) {
-        this.fireDataEvent("partLoadingError", e.getTarget().getName());
-      }, this);
-      this.__parts[name] = part;
     }
   },
 
@@ -105,7 +82,6 @@ qx.Class.define("qx.io.PartLoader",
 
   members :
   {
-
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -117,36 +93,10 @@ qx.Class.define("qx.io.PartLoader",
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
      */
-    require : function(partNames, callback, self)
-    {
-      var callback = callback || function() {};
-      var self = self || window;
-
-      if (qx.Bootstrap.isString(partNames)) {
-        partNames = [partNames];
-      }
-
-      var parts = [];
-      for (var i=0; i<partNames.length; i++) {
-        parts.push(this.getPart(partNames[i]));
-      }
-
-      var partsLoaded = 0;
-      var onLoad = function() {
-        partsLoaded += 1;
-        if (partsLoaded >= parts.length) {
-          callback.call(self)
-        }
-      }
-
-      for (var i=0; i<parts.length; i++) {
-        parts[i].load(onLoad, this);
-      }
+    require : function(partNames, callback, self) {
+      return this._loader.require(partNames, callback, self);
     },
 
-    __packages : null,
-
-    __parts : null,
 
     /**
      * Get the part instance of the part with the given name.
@@ -155,74 +105,8 @@ qx.Class.define("qx.io.PartLoader",
      *    compile time.
      * @return {Part} The corresponding part instance
      */
-    getPart : function(name)
-    {
-      var part = this.__parts[name];
-
-      if (!part) {
-        throw new Error("No such part: " + name)
-      }
-
-      return part;
-    },
-
-
-    /**
-     * After a package is loaded import the package data.
-     * 
-     * @param e {qx.event.type.Event} The event object
-     */
-    _onPackageLoad : function(e) {
-      this._importPackageData(e.getTarget().getId());
-    },
-    
-    
-    /**
-     * Import the data of a package. The function is defined in the loader
-     * script.
-     *
-     * @signature function(packageData)
-     * @param packageData {Map} Map of package data categories ("resources",...)
-     */
-    _importPackageData : qx.$$loader.importPackageData,
-    
-    
-    /**
-     * Get the URI lists of all packages
-     *
-     * @return {String[][]} Array of URI lists for each package
-     */
-    _getUris : function()
-    {
-      var packages = qx.$$loader.uris;
-      var uris = [];
-      for (var i=0; i<packages.length; i++) {
-        uris.push(this._decodeUris(packages[i]));
-      }
-      return uris;
-    },
-
-
-    /**
-     * Decodes a list of source URIs. The function is defined in the loader
-     * script.
-     *
-     * @signature function(compressedUris)
-     * @param compressedUris {String[]} Array of compressed URIs
-     * @return {String[]} decompressed URIs
-     */
-    _decodeUris : qx.$$loader.decodeUris
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-   destruct : function() {
-     this._disposeObjects("__parts", "__packages");
-   }
+    getPart : function(name) {
+      return this._loader.getPart(name);
+    }
+  }
 });
