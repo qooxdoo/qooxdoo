@@ -86,7 +86,7 @@ def findQxDefine(rootNode):
 #
 def selectNode(node, path):
     """
-    Selects a node using a XPath like path expresseion.
+    Selects a node using a XPath like path expression.
     This function returns None if no matching node was found.
 
     Warning: This function usys a depth first search without backtracking!!
