@@ -122,7 +122,7 @@ qx.Class.define("qx.io.PartLoader",
       var callback = callback || function() {};
       var self = self || window;
 
-      if (qx.lang.Type.isString(partNames)) {
+      if (qx.Bootstrap.isString(partNames)) {
         partNames = [partNames];
       }
 

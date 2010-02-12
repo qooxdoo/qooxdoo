@@ -808,7 +808,6 @@ qx.Class.define("qx.event.Manager",
 
       if (!event.getBubbles() && !this.hasListener(target, type))
       {
-        // qx.log.Logger.warn(this, "Useless dispatch found: " + type);
         qx.event.Pool.getInstance().poolObject(event);
         return true;
       }
@@ -839,7 +838,9 @@ qx.Class.define("qx.event.Manager",
 
       if (!dispatched)
       {
-        qx.log.Logger.error(this, "No dispatcher can handle event of type " + type + " on " + target);
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.log.Logger.error(this, "No dispatcher can handle event of type " + type + " on " + target);
+        }
         return true;
       }
 

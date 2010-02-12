@@ -208,6 +208,8 @@ qx.Class.define("qx.test.Class",
       qx.Class.define("qx.Setting1", { settings : { "qx.juhu" : "kinners" } });
 
       this.assertEquals("kinners", qx.core.Setting.get("qx.juhu"));
+      
+      qx.Class.undefine("qx.Setting1");
     },
 
 
@@ -245,6 +247,8 @@ qx.Class.define("qx.test.Class",
         },
         Error, "Forbidden variant");
       };
+      
+      qx.Class.undefine("qx.Variant1");
     },
 
 

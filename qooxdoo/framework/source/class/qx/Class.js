@@ -262,7 +262,8 @@ qx.Bootstrap.define("qx.Class",
      * 
      * @param name {String} Name of the class
      */
-    undefine : function(name) {
+    undefine : function(name) 
+    {
       // first, delete the class from the registry
       delete this.$$registry[name];
       // delete the class reference from the namespaces and all empty namespaces
