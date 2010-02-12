@@ -217,6 +217,13 @@ qx.Class.define("qx.html.Element",
       {
         obj = visibility[hc];
 
+        var element = obj.__element;
+        if (!element)
+        {
+          delete visibility[hc];
+          continue;
+        }
+        
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this.DEBUG) {
@@ -224,12 +231,12 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        obj.__element.style.display = obj.__visible ? "" : "none";
+        element.style.display = obj.__visible ? "" : "none";
         // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
           if (!(document.documentMode >= 8)) {
-            obj.__element.style.visibility = obj.__visible ? "visible" : "hidden";
+            element.style.visibility = obj.__visible ? "visible" : "hidden";
           }
         }
 
