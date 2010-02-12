@@ -22,8 +22,7 @@
 
 #resource(qx.static:qx/static)
 #ignore(qx.data)
-#use(qx.lang.Core)
-#use(qx.lang.Generics)
+#optional(qx.data.IListData)
 
 ************************************************************************ */
 

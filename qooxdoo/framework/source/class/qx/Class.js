@@ -25,6 +25,9 @@
 #require(qx.Mixin)
 #require(qx.core.Property)
 
+#use(qx.lang.Core)
+#use(qx.lang.Generics)
+
 ************************************************************************ */
 
 /**
