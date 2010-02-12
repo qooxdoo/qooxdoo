@@ -49,6 +49,12 @@ qx.Class.define("qx.bom.element.Class",
 
   statics :
   {
+    /** {RegExp} Regular expressions to split class names */
+    __splitter : /\s+/g,
+  
+    /** {RegExp} String trim regular expression. */
+    __trim : /^\s+|\s+$/g,  
+  
     /**
      * Adds a className to the given element
      * If successfully added the given className will be returned
@@ -68,13 +74,47 @@ qx.Class.define("qx.bom.element.Class",
 
 
     /**
+     * Adds multiple classes to the given element
+     * 
+     * @param elem {Element} DOM element to modify
+     * @param classes {String[]} List of classes to add.
+     * @return {String} The resulting class name which was applied
+     */
+    addClasses : function(elem, classes)
+    {
+      var keys = {};
+      var result;
+      
+      var old = elem.className;
+      if (old)
+      {
+        result = old.split(this.__splitter);
+        for (var i=0, l=result.length; i<l; i++) {
+          keys[result[i]] = true;
+        }
+
+        for (var i=0, l=classes.length; i<l; i++) 
+        {
+          if (!keys[classes[i]]) {
+            result.push(classes[i]);
+          }
+        }
+      }
+      else {
+        result = classes;
+      }    
+
+      return elem.className = result.join(" ");
+    },
+
+
+    /**
      * Gets the classname of the given element
      *
      * @param element {Element} The element to query
      * @return {String} The retrieved classname
      */
-    get : function(element)
-    {
+    get : function(element) {
       return element.className;
     },
 
@@ -106,6 +146,20 @@ qx.Class.define("qx.bom.element.Class",
       element.className = element.className.replace(regexp, "$2");
 
       return name;
+    },
+    
+    
+    /**
+     * Removes multiple classes from the given element
+     * 
+     * @param elem {Element} DOM element to modify
+     * @param classes {String[]} List of classes to remove.
+     * @return {String} The resulting class name which was applied
+     */    
+    removeClasses : function(elem, classes)
+    {
+      var reg = new RegExp("\\b" + classes.join("\\b|\\b") + "\\b", "g");
+      return elem.className = elem.className.replace(reg, "").replace(this.__trim, "").replace(this.__splitter, " ");
     },
 
 
