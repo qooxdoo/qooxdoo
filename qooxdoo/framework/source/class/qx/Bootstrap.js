@@ -429,6 +429,31 @@ qx.Bootstrap.define("qx.Bootstrap",
     
     /*
     ---------------------------------------------------------------------------
+      FUNCTION UTILITY FUNCTIONS
+    ---------------------------------------------------------------------------
+    */
+    
+    
+    /**
+     * Binds the "this" context of the given function
+     * 
+     * @param func {Function} Original function to wrap
+     * @param self {Object ? null} The object that the "this" of the function
+     *   will refer to.
+     * @return {Function} The bound function.
+     */
+    bind : function(func, self, varargs)
+    { 
+      var fixedArgs = Array.prototype.slice.call(arguments, 2, arguments.length);
+      return function() {
+        var args = Array.prototype.slice.call(arguments, 0, arguments.length);
+        return func.apply(self, fixedArgs.concat(args));
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
       STRING UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
     */ 

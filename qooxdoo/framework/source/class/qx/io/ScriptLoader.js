@@ -40,7 +40,7 @@ qx.Class.define("qx.io.ScriptLoader",
   {
     this.base(arguments);
 
-    this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
+    this.__oneventWrapped = qx.Bootstrap.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
 

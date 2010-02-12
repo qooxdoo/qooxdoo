@@ -45,7 +45,7 @@ qx.Class.define("qx.event.GlobalError",
       if (qx.core.Setting.get("qx.globalErrorHandling") === "on")
       {
         if (callback && !window.onerror) {
-          window.onerror = qx.lang.Function.bind(this.__onErrorWindow, this);
+          window.onerror = qx.Bootstrap.bind(this.__onErrorWindow, this);
         }
 
         if (!callback && window.onerror) {
