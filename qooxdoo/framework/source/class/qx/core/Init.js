@@ -54,8 +54,12 @@ qx.Class.define("qx.core.Init",
      *
      * @return {void}
      */
-    __ready : function()
+    ready : function()
     {
+      if (this.__application) {
+        return;
+      }
+      
       if (qx.bom.client.Engine.UNKNOWN_ENGINE) {
         qx.log.Logger.warn("Could not detect engine!");
       }
@@ -136,7 +140,7 @@ qx.Class.define("qx.core.Init",
 
   defer : function(statics)
   {
-    qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
+    qx.event.Registration.addListener(window, "ready", statics.ready, statics);
     qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, statics);
     qx.event.Registration.addListener(window, "beforeunload", statics.__close, statics);
   }

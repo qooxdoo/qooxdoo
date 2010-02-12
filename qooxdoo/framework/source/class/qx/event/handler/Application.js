@@ -90,9 +90,6 @@ qx.Class.define("qx.event.handler.Application",
     IGNORE_CAN_HANDLE : true,
 
 
-    /** {Boolean} Flag to indicate that all scripts are fully loaded */
-    __scriptLoaded : false,
-
     /**
      * Sends the currently running application the ready signal. Used
      * exclusively by package loader system.
@@ -102,8 +99,6 @@ qx.Class.define("qx.event.handler.Application",
      */
     onScriptLoaded : function()
     {
-      this.__scriptLoaded = true;
-
       var inst = qx.event.handler.Application.$$instance;
       if (inst) {
         inst.__fireReady();
@@ -169,7 +164,7 @@ qx.Class.define("qx.event.handler.Application",
       var clazz = qx.event.handler.Application;
 
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__isReady && this.__domReady && clazz.__scriptLoaded)
+      if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
       {
         // If qx is loaded within a frame IE the document is ready before
         // the "ready" listener can be added. To avoid any startup issue check
@@ -222,7 +217,7 @@ qx.Class.define("qx.event.handler.Application",
     _initObserver : function()
     {
       // in Firefox the loader script sets the ready state
-      if (qx.$$domReady || document.readyState == "complete")
+      if (qx.$$domReady || document.readyState.match(/^(complete|ready)$/))
       {
         this.__domReady = true;
         this.__fireReady();

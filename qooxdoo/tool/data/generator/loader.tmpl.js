@@ -103,7 +103,9 @@ qx.$$loader.importPackageData = function (dataMap) {
   }
 }
 
-qx.$$loader.signalStartup = function () {
+qx.$$loader.signalStartup = function () 
+{
+  qx.$$loader.scriptLoaded = true;
   if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
 }
 

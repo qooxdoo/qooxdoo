@@ -395,8 +395,8 @@ qx.Bootstrap.define("qx.Part",
     {
       var key = pkg.id;
       
-      if (pkg.readyState == "success") {
-        this.__importPackageData(key);
+      if (pkg.readyState == "complete") {
+        this.__importPackageData(qx.$$packageData[key]);
       }
       
       var listeners = this.__packageListeners[key];
