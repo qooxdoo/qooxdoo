@@ -25,33 +25,14 @@
  * * Supports cross-domain communication
  * * Automatically "embeds" script so when the loaded event occurs the new features are usable as well
  */
-qx.Class.define("qx.io.ScriptLoader",
+qx.Bootstrap.define("qx.io.ScriptLoader",
 {
-  extend : qx.core.Object,
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
-    this.base(arguments);
-
     this.__oneventWrapped = qx.Bootstrap.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -124,7 +105,7 @@ qx.Class.define("qx.io.ScriptLoader",
     abort : function()
     {
       if (this.__running) {
-        this.__cleanup("abort");
+        this.dispose("abort");
       }
     },
 
@@ -136,8 +117,13 @@ qx.Class.define("qx.io.ScriptLoader",
      * @param status {String} Any of success, fail or abort.
      * @return {void}
      */
-    __cleanup : function(status)
+    dispose : function(status)
     {
+      if (this._disposed) {
+        return;
+      }
+      this._disposed = true;
+      
       // Get script
       var script = this.__elem;
 
@@ -172,9 +158,9 @@ qx.Class.define("qx.io.ScriptLoader",
         var state = this.__elem.readyState;
 
         if (state == "loaded") {
-          this.__cleanup("success");
+          this.dispose("success");
         } else if (state == "complete") {
-         this.__cleanup("success");
+         this.dispose("success");
         } else {
           return;
         }
@@ -182,10 +168,10 @@ qx.Class.define("qx.io.ScriptLoader",
 
       "opera" : function(e)
       {
-        if (qx.lang.Type.isString(e) || e.type === "error") {
-          return this.__cleanup("fail");
+        if (qx.Bootstrap.isString(e) || e.type === "error") {
+          return this.dispose("fail");
         } else if (e.type === "load") {
-          return this.__cleanup("success");
+          return this.dispose("success");
         } else {
           return;
         }
@@ -193,35 +179,16 @@ qx.Class.define("qx.io.ScriptLoader",
 
       "default" : function(e)
       {
-        if (qx.lang.Type.isString(e) || e.type === "error") {
-          this.__cleanup("fail");
+        if (qx.Bootstrap.isString(e) || e.type === "error") {
+          this.dispose("fail");
         } else if (e.type === "load") {
-          this.__cleanup("success");
+          this.dispose("success");
         } else if (e.type === "readystatechange" && (e.target.readyState === "complete" || e.target.readyState === "loaded")) {
-          this.__cleanup("success");
+          this.dispose("success");
         } else {
           return;
         }
       }
     }))
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    // remove the current listener in case the call is disposed before the 
-    // element has finished loading
-    this.__elem.onerror = this.__elem.onload = this.__elem.onreadystatechange = null;
-    
-    this.__elem = this.__oneventWrapped = this.__callback =
-      this.__context = null;
   }
 });
