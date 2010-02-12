@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -77,36 +77,73 @@ qx.Class.define("qx.bom.Window",
      * Opens a native window with the given options.
      *
      * Modal windows can have the following options:
-     *   - top
-     *   - left
-     *   - width
-     *   - height
-     *   - scrollbars
-     *   - resizable
+     * 
+     *   * top
+     *   
+     *   * left
+     *   
+     *   * width
+     *   
+     *   * height
+     *   
+     *   * scrollbars
+     *   
+     *   * resizable
      *
      * Modeless windows have the following options:
-     *   - top
-     *   - left
-     *   - width
-     *   - height
-     *   - dependent
-     *   - resizable
-     *   - status
-     *   - location
-     *   - menubar
-     *   - scrollbars
-     *   - toolbar
+     * 
+     *   * top
+     *   
+     *   * left
+     *   
+     *   * width
+     *   
+     *   * height
+     *   
+     *   * dependent
+     *   
+     *   * resizable
+     *   
+     *   * status
+     *   
+     *   * location
+     *   
+     *   * menubar
+     *   
+     *   * scrollbars
+     *   
+     *   * toolbar
      *
      * Except of dimension and location options all other options are boolean
      * values.
+     * 
+     * *Important infos for native modal windows*
+     * 
+     * If you want to reference the openenr window from within the native modal
+     * window you need to use 
+     * 
+     * <pre class='javascript'>
+     * var opener = window.dialogArguments[0];
+     * </pre>
+     * 
+     * since a reference to the opener is passed automatically to the modal window.
+     * 
+     * *Passing window arguments*
+     * 
+     * This is only working if the page of the modal window is from the same origin.
+     * This is at least true for Firefox browsers.
      *
      * @param url {String} URL of the window
      * @param name {String} Name of the window
      * @param options {Map} Window options
      * @param modal {Boolean} Whether the window should be opened modal
+     * @param useNativeModalDialog {Boolean} controls if modal windows are opened
+     *                                       using the native method or a blocker
+     *                                       should be used to fake modality. 
+     *                                       Default is <b>true</b>
      * @return {win} native window object
      */
-    open : function(url, name, options, modal)
+    open : function(url, name, options, modal, useNativeModalDialog)
     {
       if (url == null) {
         url = "javascript:/";
@@ -115,24 +152,25 @@ qx.Class.define("qx.bom.Window",
       if (name == null) {
         name = "qxNativeWindow" + new Date().getTime();
       }
+      
+      if (useNativeModalDialog == null) {
+        useNativeModalDialog = true;
+      }
 
-      var configurationString = this.__generateConfigurationString(options, modal);
+      var configurationString = this.__generateConfigurationString(options, modal && useNativeModalDialog);
 
       if (modal)
       {
-        if (this.__isCapableToOpenModalWindows()) {
-          return window.showModalDialog(url, null, configurationString);
+        if (this.__isCapableToOpenModalWindows() && useNativeModalDialog) {
+          return window.showModalDialog(url, [ window.self ], configurationString);
         }
         else
         {
-          if (this.__blocker == null) {
-            this.__blocker = new qx.bom.Blocker;
-          }
-          this.__blocker.block();
+          this.getBlocker().block();
 
           if (this.__timer == null)
           {
-            this.__timer = new qx.event.Timer(200);
+            this.__timer = new qx.event.Timer(500);
             this.__timer.addListener("interval", this.__checkForUnblocking, this);
             this.__timer.start();
           } else {
@@ -152,17 +190,17 @@ qx.Class.define("qx.bom.Window",
      * Returns the given config as string for direct use for the "window.open" method
      *
      * @param options {Array} Array with all configuration options
-     * @param modal {Boolean} whether the config should be for a modal window
+     * @param modality {Boolean} whether the config should be for a modal window
      *
      * @return {String} configuration as string representation
      */
-    __generateConfigurationString : function(options, modal)
+    __generateConfigurationString : function(options, modality)
     {
       var configurationString;
       var value;
       var configuration = [];
 
-      if (modal && this.__isCapableToOpenModalWindows())
+      if (modality && this.__isCapableToOpenModalWindows())
       {
         for (var key in options)
         {
@@ -217,9 +255,31 @@ qx.Class.define("qx.bom.Window",
     {
       if (this.isClosed(this.__blockerWindow))
       {
-        this.__blocker.unblock();
+        this.getBlocker().unblock();
         this.__timer.stop();
       }
+    },
+    
+    
+    /**
+     * If a modal window is opened with the option 
+     * 
+     * <pre class='javascript'>
+     * useNativeModalWindow = false;
+     * </pre>
+     * 
+     * an instance of <b>qx.bom.Blocker</b> is used to fake modality. This method 
+     * can be used to get a reference to the blocker to style it.
+     * 
+     * @return {qx.bom.Blocker?null} Blocker instance or null if no blocker is used
+     */
+    getBlocker : function()
+    {
+      if (this.__blocker == null) {
+        this.__blocker = new qx.bom.Blocker;
+      }
+      
+      return this.__blocker;
     },
 
 

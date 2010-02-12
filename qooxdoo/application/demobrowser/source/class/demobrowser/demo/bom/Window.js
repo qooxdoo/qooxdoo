@@ -32,7 +32,8 @@ qx.Class.define("demobrowser.demo.bom.Window",
 
       this.__urls = [ "http://qooxdoo.org",
                       "http://sourceforge.net",
-                      "http://slashdot.org" ];
+                      "http://slashdot.org",
+                      "ModalWindow.html"];
 
       var button1 = qx.bom.Input.create("button");
       qx.bom.Input.setValue(button1, "Open Native Window");
@@ -74,7 +75,7 @@ qx.Class.define("demobrowser.demo.bom.Window",
                         left: 100,
                         scrollbars : false };
 
-        this.window2 = qx.bom.Window.open(this.__urls[1], "window2", options, true);
+        this.window2 = qx.bom.Window.open(this.__urls[3], "window2", options, true);
       }, this);
 
       var button4 = qx.bom.Input.create("button");
@@ -84,6 +85,26 @@ qx.Class.define("demobrowser.demo.bom.Window",
       qx.event.Registration.addListener(button4, "click", function(e)
       {
         alert(qx.bom.Window.isClosed(this.window2));
+      }, this);
+      
+      
+      var button5 = qx.bom.Input.create("button");
+      qx.bom.Input.setValue(button5, "Open Faked Native Modal Window");
+      document.body.appendChild(button5);
+
+
+      qx.event.Registration.addListener(button5, "click", function(e)
+      {
+        var options = { width: 800,
+                        height: 600,
+                        top: 200,
+                        left: 100,
+                        scrollbars : false };
+
+        var blocker = qx.bom.Window.getBlocker();
+        blocker.setBlockerColor("#eee");
+        blocker.setBlockerOpacity(0.5);
+        this.window3 = qx.bom.Window.open(this.__urls[0], "window3", options, true, false);
       }, this);
     }
   },
