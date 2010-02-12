@@ -69,6 +69,20 @@ qx.Bootstrap.define("qx.Part",
   statics :
   {
     /**
+     * Get the default part loader instance
+     * 
+     * @return {qx.Part} the default part loader
+     */
+    getInstance : function()
+    {
+      if (!this.$$instance) {
+        this.$$instance = new this(qx.$$loader);        
+      }
+      return this.$$instance;
+    },
+    
+    
+    /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
      * loaded the callback is called immediately.
@@ -78,13 +92,8 @@ qx.Bootstrap.define("qx.Part",
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
      */
-    require : function(partNames, callback, self) 
-    {
-      if (!this.$$instance) {
-        this.$$instance = new this(qx.$$loader);        
-      }
-      
-      this.$$instance.require(partNames, callback, self);
+    require : function(partNames, callback, self) {
+      this.getInstance().require(partNames, callback, self);
     }
   },
   
