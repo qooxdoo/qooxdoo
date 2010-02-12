@@ -51,7 +51,6 @@ class Repository:
     global shell
     shell = ShellCmd()
     
-    self.config = config
     processLibs = None
     if config:
       if "libraries" in config:
@@ -59,7 +58,7 @@ class Repository:
     
     self.dir = repoDir
     if not os.path.isabs(self.dir):
-      self.dir = os.path.join(os.getcwd(), self.dir)
+      self.dir = os.path.abspath(self.dir)
     
     self.libraries = self.getLibraries(processLibs)
     
@@ -100,11 +99,8 @@ class Repository:
     console.info("Found %s libraries." %len(libraries))
     return libraries
   
-  def buildAllDemos(self):
+  def buildAllDemos(self, demoVersion="build", demoBrowser=False):
     demoData = []
-    if self.config:
-      if "demobrowser" in self.config:
-        demoBrowser = True
     
     for libraryName in self.libraries:
       library = self.libraries[libraryName]
@@ -126,9 +122,9 @@ class Repository:
         for variant in demoVariants:
           if variant == "source" or variant == "build":
             continue
-          status = version.buildDemo(variant)
+          status = version.buildDemo(variant, demoVersion)
           if demoBrowser and not status["buildError"]:
-            htmlfile = self.copyHtmlFile(libraryName, versionName, variant)
+            htmlfile = self.copyHtmlFile(libraryName, versionName, variant, demoVersion)
             libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
             validDemo = True
       
@@ -137,27 +133,29 @@ class Repository:
 
     if demoBrowser:      
       jsonData = json.dumps(demoData, sort_keys=True, indent=4)
-      outPath = os.path.join(self.dir, self.config["demobrowser"]["path"], "source", "script", "demodata.json")
+      dbScriptDir = os.path.join(self.dir, "demobrowser", demoVersion, "script")
+      if not os.path.isdir(dbScriptDir):
+        os.mkdir(dbScriptDir)
+      outPath = os.path.join(dbScriptDir, "demodata.json")
       console.info("Generating demobrowser data: %s" %outPath)
       rFile = codecs.open(outPath, 'w', 'utf-8')
       rFile.write(jsonData)
       rFile.close() 
                 
   
-  def copyHtmlFile(self, libraryName, versionName, variantName, demobrowserDir=None):
+  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion="build", demobrowserDir=None):
     if not demobrowserDir:
       demobrowserDir = os.path.join(self.dir, "demobrowser")
     console.info("Copying HTML file to demobrowser directory %s" %demobrowserDir)
     sourceFilePath = os.path.join(demobrowserDir,"source", "demo", "template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
-    targetDir = os.path.join(demobrowserDir,"source", "demo", libraryName)
+    targetDir = os.path.join(demobrowserDir, demoVersion, "demo", libraryName)
     if not os.path.isdir(targetDir):
-      os.mkdir(targetDir)
+      os.makedirs(targetDir)
     targetFilePath = os.path.join(targetDir, versionName + "-" + variantName +  ".html")
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
-    #targetFile.write(sourceFile.read())
     for line in sourceFile: 
-      demoUrl = "../../../../%s/%s/demo/%s/build/" %(libraryName,versionName,variantName)
+      demoUrl = "../../../../%s/%s/demo/%s/%s/" %(libraryName,versionName,variantName,demoVersion)
       targetFile.write(line.replace("$LIBRARY", demoUrl))
     
     targetFile.close()
@@ -167,10 +165,7 @@ class Repository:
     demoDict = {
       "name": version + "-" + variant + ".html",
       "nr": variant.capitalize(),
-      "tags": [
-          library
-          #TODO: get more tags
-      ],
+      "tags": [library],
       "title": library + " " + version + " " + variant
     }
     
@@ -332,22 +327,23 @@ class LibraryVersion:
     
     return demoVariants
   
-  def buildDemo(self, demoVariant = "default"):
+  def buildDemo(self, demoVariant = "default", demoVersion = "build"):
     if not self.hasDemoDir:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
       return
     
-    cmd = "python " + os.path.join(self.path, "demo", demoVariant, "generate.py") + " build" 
-    console.info("Building demo variant %s for library %s version %s" %(demoVariant, self.library.dir, self.dir) )
+    cmd = "python " + os.path.join(self.path, "demo", demoVariant, "generate.py") + " " + demoVersion 
+    console.info("Building %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.library.dir, self.dir) )
     rcode, output, errout = shell.execute_piped(cmd)
     
     demoBuildStatus = {
       "svnRevision" : self.getSvnRevision()
     }
     
-    #some demos have a "build" job that doesn't produce a qooxdoo application
-    demoBuildPath = os.path.join(self.path, "demo", demoVariant, "build", "script")
-    hasScriptDir = os.path.isdir(demoBuildPath)
+    #some demos have don't produce a qooxdoo application, so they're ignored
+    #for the demobrowser
+    demoScriptPath = os.path.join(self.path, "demo", demoVariant, demoVersion, "script")
+    hasScriptDir = os.path.isdir(demoScriptPath)
     
     if rcode > 0:
       console.error(errout)
@@ -368,6 +364,9 @@ class LibraryVersion:
 
 def main(args):
   repository = Repository(args[0])
+  
+  if args[1][:6] == "demos-":
+    repository.buildAllDemos(args[1][6:], True)
 
 
 if __name__ == '__main__':
