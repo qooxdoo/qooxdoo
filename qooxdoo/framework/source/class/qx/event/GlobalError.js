@@ -26,7 +26,7 @@
  *  Further each JavaScript "entry point" must be wrapped with a call to
  *  {@link qx.event.GlobalError#observeMethod}.
  */
-qx.Class.define("qx.event.GlobalError",
+qx.Bootstrap.define("qx.event.GlobalError",
 {
   statics :
   {

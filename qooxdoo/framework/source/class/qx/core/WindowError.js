@@ -21,7 +21,7 @@
  * This exception is thrown by the {@link qx.event.GlobalError} handler if a
  * <code>window.onerror</code> event occurs in the browser.
  */
-qx.Class.define("qx.core.WindowError",
+qx.Bootstrap.define("qx.core.WindowError",
 {
   extend : Error,
 

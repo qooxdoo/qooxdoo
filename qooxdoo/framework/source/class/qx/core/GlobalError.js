@@ -21,7 +21,7 @@
  * This exception is thrown by the {@link qx.event.GlobalError} handler if a
  * observed method throws an exception.
  */
-qx.Class.define("qx.core.GlobalError",
+qx.Bootstrap.define("qx.core.GlobalError",
 {
   extend : Error,
 
@@ -90,5 +90,4 @@ qx.Class.define("qx.core.GlobalError",
     this.__arguments = null;
     this.__failMessage = null;
   }
-
 });
