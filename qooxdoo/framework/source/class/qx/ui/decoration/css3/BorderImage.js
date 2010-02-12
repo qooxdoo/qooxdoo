@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
       this.__markup = [
         "<div style='",
         qx.bom.element.Style.compile({
-          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + " stretch stretch",
+          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + " " + repeat,
           position: "absolute",
           lineHeight: 0,
           fontSize: 0,

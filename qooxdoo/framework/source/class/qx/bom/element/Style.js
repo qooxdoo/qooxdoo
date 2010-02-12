@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.element.Style",
       var html = [];
       var special = this.__special;
       var names = this.__cssNames;
-      var name, prop, value;
+      var name, value;
 
       for (name in map)
       {

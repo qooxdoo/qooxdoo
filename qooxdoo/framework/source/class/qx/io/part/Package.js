@@ -96,6 +96,7 @@ qx.Class.define("qx.io.part.Package",
      *
      * @param urlList {String[]} List of script urls
      * @param callback {Function} Function to execute on completion
+     * @param errBack {Function} Function to execute on error
      * @param self {Object?window} Context to execute the given function in
      */
     __loadScriptList : function(urlList, callback, errBack, self)

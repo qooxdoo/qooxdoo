@@ -48,6 +48,11 @@ qx.Class.define("qx.io.part.SafeScriptLoader",
   {
     __pending : {},
     
+    /**
+     * Loaded scripts have to call this method to indicate successful loading
+     * 
+     * @param id {String} script id
+     */
     $$notifyLoad : function(id)
     {
       var loader = qx.io.part.SafeScriptLoader.__pending[id];
@@ -57,8 +62,16 @@ qx.Class.define("qx.io.part.SafeScriptLoader",
     }
   },
   
+  
   members :
   {
+    __timeout : null,
+    __callback : null,
+    __context : null,
+    __timeoutId : null,
+    
+    _loader : null,
+    
     /**
      * Loads the script from the given URL. It is possible to define
      * a callback and a context in which the callback is executed.
