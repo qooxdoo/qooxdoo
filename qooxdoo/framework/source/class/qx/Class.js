@@ -984,33 +984,7 @@ qx.Bootstrap.define("qx.Class",
 
       if (extend)
       {
-        var superproto = extend.prototype;
-
-        // Use helper function/class to save the unnecessary constructor call while
-        // setting up inheritance.
-        var helper = this.__createEmptyFunction();
-        helper.prototype = superproto;
-        var proto = new helper;
-
-        // Apply prototype to new helper instance
-        clazz.prototype = proto;
-
-        // Store names in prototype
-        proto.name = proto.classname = name;
-        proto.basename = basename;
-
-        /*
-          - Store base constructor to constructor-
-          - Store reference to extend class
-        */
-        construct.base = clazz.superclass = extend;
-
-        /*
-          - Store statics/constructor onto constructor/prototype
-          - Store correct constructor
-          - Store statics onto prototype
-        */
-        construct.self = clazz.constructor = proto.constructor = clazz;
+        qx.Bootstrap.extendClass(clazz, construct, extend, name, basename);
 
         // Store destruct onto class
         if (destruct)

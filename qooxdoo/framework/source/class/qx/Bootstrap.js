@@ -95,8 +95,8 @@ qx.Bootstrap = {
 
     qx.Bootstrap.setDisplayNames(config.statics, name);
 
-    if (config.members)
-    {
+    if (config.members || config.extend)
+    {      
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
       clazz = config.construct || new Function;
@@ -106,10 +106,10 @@ qx.Bootstrap = {
       }
 
       proto = clazz.prototype;
-      var members = config.members;
+      var members = config.members || [];
       for (var key in members) {
         proto[key] = members[key];
-      }
+      }      
     }
     else
     {
@@ -118,6 +118,10 @@ qx.Bootstrap = {
 
     // Create namespace
     var basename = this.createNamespace(name, clazz);
+    
+    if (config.extend) {
+      this.extendClass(clazz, clazz, config.extend, name, basename);
+    }
 
     // Store names in constructor/object
     clazz.name = clazz.classname = name;
@@ -155,11 +159,11 @@ qx.Bootstrap = {
  *
  * * Statics
  * * Members
+ * * Extend
  * * Defer
  *
  * Does not support:
  *
- * * Custom extends
  * * Super class calls
  * * Mixins, Interfaces, Properties, ...
  */
@@ -226,6 +230,38 @@ qx.Bootstrap.define("qx.Bootstrap",
      */
     genericToString : qx.Bootstrap.genericToString,
 
+    
+    extendClass : function(clazz, construct, superClass, name, basename)
+    {
+      var superproto = superClass.prototype;
+
+      // Use helper function/class to save the unnecessary constructor call while
+      // setting up inheritance.
+      var helper = new Function;
+      helper.prototype = superproto;
+      var proto = new helper;
+
+      // Apply prototype to new helper instance
+      clazz.prototype = proto;
+
+      // Store names in prototype
+      proto.name = proto.classname = name;
+      proto.basename = basename;
+
+      /*
+        - Store base constructor to constructor-
+        - Store reference to extend class
+      */
+      construct.base = clazz.superclass = superClass;
+
+      /*
+        - Store statics/constructor onto constructor/prototype
+        - Store correct constructor
+        - Store statics onto prototype
+      */
+      construct.self = clazz.constructor = proto.constructor = clazz;    
+    },
+    
 
     /**
      * Find a class by its name
