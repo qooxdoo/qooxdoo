@@ -100,7 +100,7 @@ class Repository:
     console.info("Found %s libraries." %len(libraries))
     return libraries
   
-  def buildAllDemos(self, selectedVariant=None):
+  def buildAllDemos(self):
     demoData = []
     if self.config:
       if "demobrowser" in self.config:
@@ -124,9 +124,8 @@ class Repository:
           continue
         
         for variant in demoVariants:
-          if (selectedVariant and selectedVariant != variant) or (variant == "source" or variant == "build"):
+          if variant == "source" or variant == "build":
             continue
-          #if (not selectedVariant) or selectedVariant and selectedVariant == variant:
           status = version.buildDemo(variant)
           if demoBrowser and not status["buildError"]:
             htmlfile = self.copyHtmlFile(libraryName, versionName, variant)
