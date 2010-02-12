@@ -24,7 +24,7 @@
 # number of libraries.
 ##
 
-import os, sys, re
+import os, sys, re, optparse
 import qxenviron
 import simplejson as json
 import codecs
@@ -58,6 +58,9 @@ class Repository:
         processLibs = config["libraries"]
     
     self.dir = repoDir
+    if not os.path.isabs(self.dir):
+      self.dir = os.path.join(os.getcwd(), self.dir)
+    
     self.libraries = self.getLibraries(processLibs)
     
   def getLibraries(self, processLibs):
@@ -362,3 +365,21 @@ class LibraryVersion:
       
     self.demoBuildStatus = demoBuildStatus
     return demoBuildStatus
+
+
+def main(args):
+  repository = Repository(args[0])
+
+
+if __name__ == '__main__':
+  try:
+    parser = optparse.OptionParser()
+
+    (options, args) = parser.parse_args()
+
+    main(args)
+
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
