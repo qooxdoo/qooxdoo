@@ -912,7 +912,7 @@ class QxTest:
         self.log("ERROR: Unable to import JSON module: " + repr(e))
         return 
     
-    from urllib2 import *
+    import urllib2
     from urllib import urlencode
     testRunDict = self.getTestRunDict(aut, start_date)
     
@@ -931,22 +931,22 @@ class QxTest:
     
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
-    req = Request(self.testConf["reportServerUrl"], postdata)
+    req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
     
     try:
-      response = urlopen(req)    
-    except URLError, e:
-      errMsg = ""
-      if (e.args):
-        errMsg = repr(e.args)
-      self.log("ERROR: Unable to contact report server %s" %errMsg)
-      return
-    except HTTPError, e:
-      errMsg = ""
-      if (e.code):
-        errMsg = repr(e.code)
-      self.log("ERROR: Report server couldn't store report: %s" %errMsg)
-      return
+        response = urllib2.urlopen(req)    
+    except urllib2.URLError, e:
+        self.log("Unable to contact report server: Error %s" %e.code)
+        errorFile = open("error.html", "w")
+        errorFile.write(e.read())
+        errorFile.close()
+        return
+    except urllib2.HTTPError, e:
+        errMsg = ""
+        if (e.code):
+            errMsg = repr(e.code)
+        self.log.error("Report server couldn't store report: %s" %errMsg)
+        return
       
     content = response.read()    
     self.log("Report server response: " + content)
