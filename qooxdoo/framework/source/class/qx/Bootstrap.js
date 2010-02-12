@@ -231,6 +231,20 @@ qx.Bootstrap.define("qx.Bootstrap",
     genericToString : qx.Bootstrap.genericToString,
 
     
+    /**
+     * Inherit a clazz from a super class. 
+     * 
+     * This function differentiates between class and constructor because the 
+     * constructor written by the user might be wrapped and the <code>base</code>
+     * property has to be attached to the constructor, while the <code>superclass</code>
+     * property has to be attached to the wrapped constructor.
+     * 
+     * @param clazz {Function} The class's wrapped constructor
+     * @param construct {Function} The unwrapped constructor
+     * @param superClass {Function} The super class
+     * @param name {Function} fully qualified class name
+     * @param basename {Function} the base name  
+     */
     extendClass : function(clazz, construct, superClass, name, basename)
     {
       var superproto = superClass.prototype;
@@ -435,11 +449,29 @@ qx.Bootstrap.define("qx.Bootstrap",
     
     
     /**
-     * Binds the "this" context of the given function
-     * 
+     * Returns a function whose "this" is altered.
+     *
+     * *Syntax*
+     *
+     * <pre class='javascript'>qx.lang.Function.self(myFunction, [self, [varargs...]]);</pre>
+     *
+     * *Example*
+     *
+     * <pre class='javascript'>
+     * function myFunction()
+     * {
+     *   this.setStyle('color', 'red');
+     *   // note that 'this' here refers to myFunction, not an element
+     *   // we'll need to bind this function to the element we want to alter
+     * };
+     *
+     * var myBoundFunction = qx.lang.Function.bind(myFunction, myElement);
+     * myBoundFunction(); // this will make the element myElement red.
+     * </pre>
+     *
      * @param func {Function} Original function to wrap
-     * @param self {Object ? null} The object that the "this" of the function
-     *   will refer to.
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Function} The bound function.
      */
     bind : function(func, self, varargs)

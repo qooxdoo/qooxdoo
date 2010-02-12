@@ -34,7 +34,7 @@ qx.Class.define("qx.test.Part",
     {
       qx.test.PART_FILES = [];
       qx.test.Part.LOAD_ORDER = [];
-      this.__loader = new qx.Part();
+      this.__loader = new qx.Part(qx.$$loader);
     },
     
     

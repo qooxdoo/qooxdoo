@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.Part",
      * 
      * @param part {Object} The loaded part
      */    
-    __notifyPartResult : function(part)
+    _notifyPartResult : function(part)
     {
       if (typeof this.onpart == "function") {
         this.onpart(part);
@@ -315,7 +315,7 @@ qx.Bootstrap.define("qx.Part",
             
           case "error":
             part.readyState = "error";
-            this.__notifyPartResult(part);
+            this._notifyPartResult(part);
             return;
 
           default:
@@ -324,7 +324,7 @@ qx.Bootstrap.define("qx.Part",
       }
 
       part.readyState = "complete";
-      this.__notifyPartResult(part);
+      this._notifyPartResult(part);
     },    
     
     
@@ -382,7 +382,7 @@ qx.Bootstrap.define("qx.Part",
      * 
      * @param pkg {Object} The loaded package
      */
-    __notifyPackageResult : function(pkg)
+    _notifyPackageResult : function(pkg)
     {
       var key = pkg.id;
       
@@ -421,11 +421,11 @@ qx.Bootstrap.define("qx.Part",
         pkg.urls,
         function() {
           pkg.readyState = "complete";          
-          this.__notifyPackageResult(pkg);
+          this._notifyPackageResult(pkg);
         },
         function() {
           pkg.readyState = "error";
-          this.__notifyPackageResult(pkg);
+          this._notifyPackageResult(pkg);
         },
         this
       );
