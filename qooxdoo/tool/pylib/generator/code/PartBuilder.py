@@ -130,16 +130,17 @@ class PartBuilder(object):
                 for classId in package.classes:
                     classIdx   += 1
                     classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                    loadDeps    = set(x.name for x in classDeps['load'])
-                    for depsId in loadDeps:
+                    loadDeps    = [x.name for x in classDeps['load']]
+                    runDeps     = [x.name for x in classDeps['run']]
+                    for depsId in loadDeps: # + runDeps:
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
-                            msg = "Unfullfilled load dependencies of class '%s'[%d]: '%s'" % (classId, packageIdx, depsId)
+                            msg = "Unfullfilled dependency of class '%s'[%d]: '%s'" % (classId, packageIdx, depsId)
                             self._console.warn("! " + msg)
                             #raise RuntimeError(msg)
                             continue
-                        if classIdx < depsIdx:
+                        if depsId in loadDeps and classIdx < depsIdx:
                             msg = "Load-dep loaded after using class ('%s'[%d]):  '%s'[%d]" % (classId, packageIdx, depsId, classPackage[depsIdx])
                             self._console.warn("! " + msg)  # I should better raise here
                             #raise RuntimeError(msg)
@@ -229,6 +230,8 @@ class PartBuilder(object):
     # @returns {Map} { packageId : Package }
 
     def _getPackages(self, script):
+        self._console.indent()
+
         parts = script.parts
         # Generating list of all classes
         allClasses = {}
@@ -291,6 +294,7 @@ class PartBuilder(object):
                         #print "-- package %s adding dependent package %s" % (package.id, otherpackage.id)
                         package.packageDeps.add(otherpackage)
          
+        self._console.outdent()
         return packages
 
 
@@ -385,6 +389,19 @@ class PartBuilder(object):
                 return True
             return False
 
+        ##
+        # check if the deps of searchPackage have deps to targetPackage - 
+        # if merging searchPackage into targetPackage, this would be creating
+        # circular dependencies
+
+        def hasNoDeps(searchPackage, targetPackage):
+            for package in searchPackage.packageDeps:
+                if targetPackage in package.packageDeps:
+                    return False
+            return True
+
+        # ----------------------------------------------------------------------
+
         searchId            = searchPackage.id
         self._console.debug("Search a target package for package #%s" % (searchId,))
         allPackages         = reversed(self._sortPackages(packages.keys(), packages))
@@ -392,7 +409,8 @@ class PartBuilder(object):
 
         for packageId in allPackages:
             package = packages[packageId]
-            if isCommonAndGreaterPackage(searchId, package):
+            if (isCommonAndGreaterPackage(searchId, package)
+                and hasNoDeps(searchPackage, package)):
                 yield package
 
         yield None
@@ -666,13 +684,25 @@ class PartBuilder(object):
         def cmpFunc (x, y):
             if x.part_count != y.part_count:
                 return cmp(x.part_count, y.part_count)
+            #else:
+            #    if x in y.packageDeps:  # y needs x, so x is "larger" (must be earlier)
+            #        return 1
+            #    elif y in x.packageDeps: # other way round
+            #        return -1
+            #    else:
+            #        return 0
             else:
-                if x in y.packageDeps:  # y needs x, so x is "larger" (must be earlier)
+                if x not in y.packageDeps and y not in x.packageDeps:  # unrelated, either is fine
+                    return 0
+                if x in y.packageDeps and y not in x.packageDeps:  # y needs x, so x is "larger" (must be earlier)
                     return 1
-                elif y in x.packageDeps: # other way round
+                elif y in x.packageDeps and x not in y.packageDeps: # other way round
                     return -1
                 else:
+                    msg = "Circular dependencies between packages: #%d - #%d" % (x.id, y.id)
+                    self._console.warn("! "+msg)
                     return 0
+
 
         #packages.sort(key=lambda x: x.part_count, reverse=True)
         packages.sort(cmp=cmpFunc, reverse=True)
