@@ -51,11 +51,12 @@ class Part(object):
             if x.part_count != y.part_count:
                 return cmp(x.part_count, y.part_count)
             else:
-                if x in y.packageDeps:  # y needs x, so x is "larger" (must be earlier)
+                if x in y.packageDeps and y not in x.packageDeps:  # y needs x, so x is "larger" (must be earlier)
                     return 1
-                elif y in x.packageDeps: # other way round
+                elif y in x.packageDeps and x not in y.packageDeps: # other way round
                     return -1
                 else:
+                    print ">>> oups, strange dependencies"
                     return 0
 
         packages = self.packages[:]
