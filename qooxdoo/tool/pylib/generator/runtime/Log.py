@@ -116,6 +116,10 @@ class Log(object):
 
 
     def debug(self, msg, feed=True):
+        # TODO: check caller's name against module filter
+        #caller_name = sys._getframe(1).f_code.co_name
+        #caller_fqn  = ??? + "." caller_name
+        # if caller_fqn matches module_filter:
         self.log(msg, "debug", feed)
 
 
