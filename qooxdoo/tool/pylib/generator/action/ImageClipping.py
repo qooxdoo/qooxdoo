@@ -108,6 +108,8 @@ class ImageClipping(object):
         if len(clips) == 0:
             self._console.warn("No images to combine; skipping")
         else:
+            if not os.path.exists(os.path.dirname(combined)):
+                os.makedirs(os.path.dirname(combined))
             cmd = montage_cmd % (orientation, " ".join(clips), combined)
             rc = os.system(cmd)
             if rc != 0:
