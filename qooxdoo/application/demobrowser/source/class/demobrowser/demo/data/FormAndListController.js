@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
       this.getRoot().add(new qx.ui.form.renderer.Single(form), {left: 30, top: 20});
 
       // create a form controller!
-      var formController = new qx.data.controller.Form(model, form);
+      new qx.data.controller.Form(model, form);
 
       
       // A button to log the models content
