@@ -33,6 +33,7 @@ class Script(object):
         self.packages   = {}   # .js files for this application / library
         self.boot       = "boot"
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
+        self.buildType  = ""   # "source"/"build"
 
     ##
     # return old-style array of arrays of classIds in self.packageIdsSorted order

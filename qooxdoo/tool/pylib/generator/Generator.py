@@ -33,7 +33,6 @@ from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
-from generator.code.TreeLoader       import TreeLoader
 from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.LibraryPath      import LibraryPath
 from generator.code.ResourceHandler  import ResourceHandler
@@ -174,10 +173,10 @@ class Generator(object):
           }
 
 
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
             self._console.info("Resolving dependencies...")
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps, script)
             self._console.outdent()
 
             return classList
@@ -529,8 +528,8 @@ class Generator(object):
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
         # get a class list with no variants (all-encompassing)
-        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, {}, # was:variantSets[0]
-                                     verifyDeps=True)
+        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+                                     excludeNoDeps, {}, verifyDeps=True, script=None)
         
         # process job triggers
         if classdepTriggers:
@@ -580,12 +579,17 @@ class Generator(object):
 
             script          = Script()  # a new Script object represents the target code
             script.variants = variants
+            # set source/build version
+            if ("compile-source" in jobTriggers or
+                ("compile" in jobTriggers and config.get("compile/type", "") == "source")):
+                script.buildType = "source"
+            elif ("compile-dist" in jobTriggers or
+                ("compile" in jobTriggers and config.get("compile/type", "") == "build")):
+                script.buildType = "build"
 
             # get current class list
-            self._classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
-                                               excludeNoDeps, variants)
-            script.classes  = self._classList
-
+            script.classes  = computeClassList(includeWithDeps, excludeWithDeps, 
+                                               includeNoDeps, excludeNoDeps, variants, script=script)
             # get parts config
             #(script.boot,
             #script.parts,            # script.parts['boot']=[0,1,3]
@@ -744,7 +748,7 @@ class Generator(object):
                     data[classId]["run"] = []
 
                 data[classId][loadOrRun].append(depId)
-    
+
             file = depsLogConf.get('json/file', "deps.json")
             self._console.info("Writing dependency data to file: %s" % file)
             pretty = depsLogConf.get('json/pretty', None)
@@ -769,7 +773,7 @@ class Generator(object):
 
                 if loadOrRun == 'load':
                     data[classId]['imports'].append(depId)
-    
+
             output = []
             for cid in data.keys():
                 output.append(data[cid])
@@ -988,7 +992,7 @@ class Generator(object):
             mainformat = depsLogConf.get('format', None)
             if mainformat == 'dot':
                 gr = graph.digraph()
-                graphAddNodes(gr, self._classList)
+                graphAddNodes(gr, script.classes)
                 graphAddEdges(lookupUsingDeps(packages), gr, dset)
                 depsToDotFile(depsLogConf, gr)
             elif mainformat == 'json':
