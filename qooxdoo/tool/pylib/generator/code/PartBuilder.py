@@ -141,6 +141,7 @@ class PartBuilder(object):
                             #raise RuntimeError(msg)
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
+                            print "classIdx: %d, depsIdx: %d" %( classIdx, depsIdx)
                             msg = "Load-dep loaded after using class ('%s'[%d]):  '%s'[%d]" % (classId, packageIdx, depsId, classPackage[depsIdx])
                             self._console.warn("! " + msg)  # I should better raise here
                             #raise RuntimeError(msg)
@@ -340,29 +341,36 @@ class PartBuilder(object):
         allPartBitMasks = {}
         [allPartBitMasks.setdefault(x.bit_mask, x) for x in script.parts.values()]
 
-        # Test and optimize 'fromId'
-        for fromId in allPackages:
-            # possibly protect part-private package from merging
-            if fromId in allPartBitMasks.keys():
-                if allPartBitMasks[fromId].no_merge_private_package:
-                    self._console.debug("Skipping private package #%s" % (fromId,))
+        oldpackages = set([])
+        while oldpackages != set(script.packages.keys()):
+            oldpackages = set(script.packages.keys())
+            allPackages = self._sortPackages(script.packages.keys(), script.packages)
+            allPackages.reverse()
+            
+            # Test and optimize 'fromId'
+            for fromId in allPackages:
+                # possibly protect part-private package from merging
+                if fromId in allPartBitMasks.keys():
+                    if allPartBitMasks[fromId].no_merge_private_package:
+                        self._console.debug("Skipping private package #%s" % (fromId,))
+                        continue
+                fromPackage = script.packages[fromId]
+                packageSize = self._computePackageSize(fromPackage, variants) / 1024
+                self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
+                # check selectablility
+                if (fromPackage.part_count == 1) and (packageSize >= minPackageSizeForUnshared):
                     continue
-            fromPackage = script.packages[fromId]
-            packageSize = self._computePackageSize(fromPackage, variants) / 1024
-            self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
-            # check selectablility
-            if (fromPackage.part_count == 1) and (packageSize >= minPackageSizeForUnshared):
-                continue
-            if (fromPackage.part_count > 1) and (packageSize >= minPackageSize):
-                continue
+                if (fromPackage.part_count > 1) and (packageSize >= minPackageSize):
+                    continue
 
-            # assert: the package is shared and smaller than minPackageSize
-            #     or: the package is unshared and smaller than minPackageSizeForUnshared
-            self._console.indent()
-            self._mergePackage(fromPackage, script, script.packages)
-            del script.packages[fromPackage.id]
+                # assert: the package is shared and smaller than minPackageSize
+                #     or: the package is unshared and smaller than minPackageSizeForUnshared
+                self._console.indent()
+                mergedPackage, targetPackage = self._mergePackage(fromPackage, script, script.packages)
+                if mergedPackage: # mergedPackage == fromPackage on success
+                    del script.packages[fromPackage.id]
 
-            self._console.outdent()
+                self._console.outdent()
 
         self._console.outdent()
         self._console.outdent()
@@ -394,9 +402,19 @@ class PartBuilder(object):
         # if merging searchPackage into targetPackage, this would be creating
         # circular dependencies
 
-        def hasNoDeps(searchPackage, targetPackage):
+        def noCircularDeps(searchPackage, targetPackage):
             for package in searchPackage.packageDeps:
                 if targetPackage in package.packageDeps:
+                    return False
+            return True
+
+        ##
+        # check that the targetPackage is loaded in (at least) those parts
+        # where searchPackage's deps are also loaded
+
+        def depsAvailWhereTarget (searchPackge, targetPackage):
+            for package in searchPackage.packageDeps:
+                if not package.id & targetPackage.id == package.id:
                     return False
             return True
 
@@ -410,7 +428,8 @@ class PartBuilder(object):
         for packageId in allPackages:
             package = packages[packageId]
             if (isCommonAndGreaterPackage(searchId, package)
-                and hasNoDeps(searchPackage, package)):
+                and noCircularDeps(searchPackage, package)
+                and depsAvailWhereTarget(searchPackage, package)):
                 yield package
 
         yield None
@@ -498,12 +517,15 @@ class PartBuilder(object):
             for part in collapse_group:
                 selected_packages = selectFunc(part, collapse_group, script.packages)
                 #print "xxx selecteds: %r" % selected_packages
-                for package in reversed(part.packages):   # start with "smallest" package
-                    if package.id in selected_packages:
-                        mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
-                        if mergedPackage:  # on success == package
-                            del script.packages[mergedPackage.id]
-                            curr_targets.add(targetPackage)
+                oldpackages = []
+                while oldpackages != part.packages:
+                    oldpackages = part.packages[:]
+                    for package in reversed(part.packages):   # start with "smallest" package
+                        if package.id in selected_packages:
+                            mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
+                            if mergedPackage:  # on success == package
+                                del script.packages[mergedPackage.id]
+                                curr_targets.add(targetPackage)
 
             seen_targets.update(curr_targets)
             self._console.outdent()
@@ -601,7 +623,7 @@ class PartBuilder(object):
                 # if the toPackage is in part, we might need to add additional packages that toPackage now depends on
                 updatePartDependencies(part, fromPackage.packageDeps)
 
-        # remove of fromPackage from packages list is easier handled in the caller
+        # remove of fromPackage from global packages list is easier handled in the caller
         
         self._console.outdent()
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
