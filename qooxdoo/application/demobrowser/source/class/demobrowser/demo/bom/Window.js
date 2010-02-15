@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(demobrowser/demo/html/ModalWindow.html)
+
+************************************************************************ */
+
+
 qx.Class.define("demobrowser.demo.bom.Window",
 {
   extend : qx.application.Native,
@@ -30,10 +37,12 @@ qx.Class.define("demobrowser.demo.bom.Window",
     {
       this.base(arguments);
 
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+      
       this.__urls = [ "http://qooxdoo.org",
                       "http://sourceforge.net",
                       "http://slashdot.org",
-                      "ModalWindow.html"];
+                      ResourceManager.toUri("demobrowser/demo/html/ModalWindow.html") ];
 
       var button1 = qx.bom.Input.create("button");
       qx.bom.Input.setValue(button1, "Open Native Window");
