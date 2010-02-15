@@ -22,7 +22,7 @@
 ##
 ##
 
-import sys, codecs
+import sys, codecs, inspect, re
 
 
 class Log(object):
@@ -36,13 +36,18 @@ class Log(object):
     }
 
 
-    def __init__(self, logfile=None, level="info"):
+    def __init__(self, logfile=None, level="info",):
         self.setLevel(level)
 
         if logfile != None:
             self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
         else:
             self.logfile = False
+
+        self.filter_pattern = ""
+
+    def setFilter(filterString):
+        self.filter_pattern = re.compile(filterString)
 
 
     def setLevel(self, level):
@@ -118,9 +123,21 @@ class Log(object):
     def debug(self, msg, feed=True):
         # TODO: check caller's name against module filter
         #caller_name = sys._getframe(1).f_code.co_name
-        #caller_fqn  = ??? + "." caller_name
-        # if caller_fqn matches module_filter:
-        self.log(msg, "debug", feed)
+        if self.filter_pattern:
+            caller_frame = inspect.stack()[1]
+            #caller_module = inspect.getmodulename(caller_frame[1])
+            caller_module = inspect.getmodule(caller_frame[0])
+            if caller_module:
+                caller_module = caller_module.__name__
+            else:
+                caller_module = ""
+            caller_function = caller_frame[0].f_code.co_name
+            caller_fqn = caller_module + "." + caller_function
+            if self.filter_pattern.search(caller_fqn):
+                #print caller_fqn
+                self.log(msg, "debug", feed)
+        else:
+            self.log(msg, "debug", feed)
 
 
     def info(self, msg, feed=True):
