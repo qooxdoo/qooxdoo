@@ -92,7 +92,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selectiong the given items.")
+          ("The current behavior will change from doing nothing to selecting the given items.")
         );
         this.trace();
       }

@@ -142,7 +142,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selectiong all items.")
+          ("The current behavior will change from doing nothing to selecting all items.")
         );
         this.trace();
       }
@@ -181,7 +181,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selectiong the given items.")
+          ("The current behavior will change from doing nothing to selecting the given items.")
         );
         this.trace();
       }
@@ -232,7 +232,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selectiong the given items.")
+          ("The current behavior will change from doing nothing to selecting the given items.")
         );
         this.trace();
       }
@@ -250,7 +250,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Resetting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to resetting the selectiong.")
+          ("The current behavior will change from doing nothing to resetting the selection.")
         );
         this.trace();
       }
@@ -358,7 +358,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (!this.getEnabled()) {
         this.warn(
           "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selectiong the given items.")
+          ("The current behavior will change from doing nothing to selecting the given items.")
         );
         this.trace();
       }
