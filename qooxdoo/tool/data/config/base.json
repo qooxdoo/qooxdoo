@@ -354,23 +354,6 @@
     },
 
 
-    // can be used as an 'extend' to activate profiling
-    "profiling" :
-    {
-      "desc"    : "includer job, to activate profiling",
-
-      "variants" :
-      {
-        "qx.aspects" : ["on"]
-      },
-
-      "require" :
-      {
-        "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
-      }
-    },
-
-
     "pretty" :
     {
       "desc"    : "pretty-formatting of the source code of the current library",
@@ -503,6 +486,41 @@
       "desc" : "collects environment information like the qooxdoo version etc., and prints it out",
       
       "collect-environment-info" : {}
+    },
+
+
+    // -- various includer jobs that can be used in "extend" key ---------------
+
+    "profiling" :
+    {
+      "desc"    : "includer job, to activate profiling",
+
+      "variants" :
+      {
+        "qx.aspects" : ["on"]
+      },
+
+      "require" :
+      {
+        "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
+      }
+    },
+
+
+    "log-parts" : 
+    {
+      "desc" : "includer job, to filter verbose messages for part building (with -v)",
+
+      "log"  : { "filter" : { "debug" : [ "generator.code.PartBuilder.*" ] } }
+    },
+
+
+    "log-dependencies" : 
+    {
+      "desc" : "includer job, to filter verbose messages for dependency analysis (with -v)",
+
+      "log"  : { "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] } }
     }
+
   }
 }
