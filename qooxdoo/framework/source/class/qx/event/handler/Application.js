@@ -161,8 +161,6 @@ qx.Class.define("qx.event.handler.Application",
      */
     __fireReady : function()
     {
-      var clazz = qx.event.handler.Application;
-
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
       {

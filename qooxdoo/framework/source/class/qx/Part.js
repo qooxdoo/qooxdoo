@@ -100,6 +100,10 @@ qx.Bootstrap.define("qx.Part",
   
   members :
   {
+    __loader : null,
+    __readyState : null,
+    
+    
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -228,7 +232,7 @@ qx.Bootstrap.define("qx.Part",
      */
     addPartListener : function(part, callback)
     {
-      var key = part.name;
+      var key = part.hash;
       if (!this.__partListners[key]) {
         this.__partListners[key] = [];
       }
@@ -251,7 +255,7 @@ qx.Bootstrap.define("qx.Part",
         this.onpart(part);
       }
       
-      var key = part.name;
+      var key = part.hash;
       var listeners = this.__partListners[key];
       if (!listeners) {
         return;
