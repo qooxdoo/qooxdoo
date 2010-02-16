@@ -105,6 +105,36 @@ qx.Class.define("qx.test.Bootstrap",
     },
     
     
+    "test: extended Bootstap class should append members to the prototype" : function()
+    {
+      qx.Bootstrap.define("qx.test.Super", {
+        members : {
+          foo : 10,
+          baz: "juhu"
+        }
+      });
+
+      qx.Bootstrap.define("qx.test.ExtendSuper", {
+        extend: qx.test.Super,
+        members : {
+          bar : "affe",
+          foo : 11
+        }
+      });
+      
+      var obj = new qx.test.ExtendSuper();
+      this.assertEquals("affe", obj.bar);
+      this.assertEquals(11, obj.foo);
+      this.assertEquals("juhu", obj.baz);
+
+      this.assertEquals(11, qx.test.ExtendSuper.prototype.foo);
+      this.assertEquals(10, qx.test.Super.prototype.foo);
+      
+      qx.Class.undefine("qx.test.Super"); 
+      qx.Class.undefine("qx.test.ExtendSuper"); 
+    },
+      
+    
     testFunctionWrap : function()
     {
       var context = null;

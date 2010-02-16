@@ -100,11 +100,16 @@ qx.Bootstrap = {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
       clazz = config.construct || new Function;
+      
+      if (config.extend) {
+        this.extendClass(clazz, clazz, config.extend, name, basename);
+      }
+
       var statics = config.statics;
       for (var key in statics) {
         clazz[key] = statics[key];
       }
-
+      
       proto = clazz.prototype;
       var members = config.members || [];
       for (var key in members) {
@@ -119,10 +124,6 @@ qx.Bootstrap = {
     // Create namespace
     var basename = this.createNamespace(name, clazz);
     
-    if (config.extend) {
-      this.extendClass(clazz, clazz, config.extend, name, basename);
-    }
-
     // Store names in constructor/object
     clazz.name = clazz.classname = name;
     clazz.basename = basename;
