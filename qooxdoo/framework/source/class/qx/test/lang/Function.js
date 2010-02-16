@@ -27,8 +27,12 @@ qx.Class.define("qx.test.lang.Function",
     {
       qx.lang.Function.globalEval("var JUHU=12;");
       this.assertEquals(12, window.JUHU);
-      
-      delete window.JUHU;
+
+      try {
+      	delete window.JUHU;
+      } catch(e) {
+      	window.JUHU = null;
+      }
     },
     
   
