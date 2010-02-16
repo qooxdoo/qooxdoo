@@ -113,6 +113,13 @@ def toRegExp(text):
     return re.compile("^(" + text.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$")
 
 
+##
+# a tweaked version of the above; returns a string (for better post-processing),
+
+def toRegExpS(text):
+    return "^(" + text.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+
+
 def main():
     allowed = ["any2Dos", "any2Mac", "any2Unix", "convertDos2Mac", "convertDos2Unix", "convertMac2Dos", "convertMac2Unix", "convertUnix2Dos", "convertUnix2Mac", "spaces2Tab", "tab2Space", "removeTrailingSpaces", "normalizeWhiteSpace"]
     

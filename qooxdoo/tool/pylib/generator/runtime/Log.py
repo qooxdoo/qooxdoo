@@ -24,6 +24,8 @@
 
 import sys, codecs, inspect, re
 
+from misc import textutil
+
 
 class Log(object):
     _indent = 0
@@ -46,8 +48,16 @@ class Log(object):
 
         self.filter_pattern = ""
 
-    def setFilter(filterString):
-        self.filter_pattern = re.compile(filterString)
+    def setFilter(self, filterPatternsList=[]):
+        if not filterPatternsList:
+            self.filter_pattern = ""
+            return
+        re_patts = [textutil.toRegExpS(x) for x in filterPatternsList]
+        self.filter_pattern = re.compile("|".join(re_patts))
+
+
+    def resetFilter(self):
+        self.filter_pattern = ""
 
 
     def setLevel(self, level):
@@ -121,9 +131,8 @@ class Log(object):
 
 
     def debug(self, msg, feed=True):
-        # TODO: check caller's name against module filter
-        #caller_name = sys._getframe(1).f_code.co_name
         if self.filter_pattern:
+            # check caller's name against module filter
             caller_frame = inspect.stack()[1]
             #caller_module = inspect.getmodulename(caller_frame[1])
             caller_module = inspect.getmodule(caller_frame[0])
@@ -131,10 +140,11 @@ class Log(object):
                 caller_module = caller_module.__name__
             else:
                 caller_module = ""
+            #caller_function = sys._getframe(1).f_code.co_name
             caller_function = caller_frame[0].f_code.co_name
             caller_fqn = caller_module + "." + caller_function
             if self.filter_pattern.search(caller_fqn):
-                #print caller_fqn
+                #print "### ", caller_fqn
                 self.log(msg, "debug", feed)
         else:
             self.log(msg, "debug", feed)

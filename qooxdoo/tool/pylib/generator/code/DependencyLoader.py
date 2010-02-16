@@ -132,10 +132,10 @@ class DependencyLoader(object):
 
         if self._console.getLevel() == "debug":
             self._console.indent()
-            self._console.info("Sorted class list:")
+            self._console.debug("Sorted class list:")
             self._console.indent()
             for classId in result:
-                self._console.info(classId)
+                self._console.debug(classId)
             self._console.outdent()
             self._console.outdent()
 

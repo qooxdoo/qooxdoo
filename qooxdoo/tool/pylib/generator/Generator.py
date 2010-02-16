@@ -74,6 +74,7 @@ class Generator(object):
             context['cache'] = self._cache
 
         console = self._console
+        console.resetFilter()   # reset potential filters from a previous job
 
 
 
@@ -451,6 +452,9 @@ class Generator(object):
         job    = self._job
         require = config.get("require", {})
         use     = config.get("use", {})
+
+        # Apply output log filter, if any
+        self._console.setFilter(config.get("log/filter/debug", []))
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.

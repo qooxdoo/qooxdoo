@@ -87,7 +87,8 @@ Arguments:
     # Common options
     parser.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode of job processing")
+    parser.add_option("-w", "--config-verbose", action="store_true", dest="config_verbose", default=False, help="verbose output mode of configuration processing")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
     parser.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
@@ -117,6 +118,12 @@ Arguments:
 
     console = Log(options.logfile, level)
 
+    # Treat verbosity of pre-job processing
+    if options.config_verbose:
+        console.setLevel("debug")
+        console.setFilter(["generator.config.*"])
+    else:
+        console.setLevel("info")
 
     # Initial user feedback
     appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
@@ -129,6 +136,9 @@ Arguments:
 
     # Load user configuration (preferences)
     config = getUserConfig(config)
+
+    # Early check for log filter -- doesn't work as there is no job selected yet
+    #console.setFilter(config.get("log/filter/debug", []))
 
     # Resolve "include"-Keys
     console.info("Resolving config includes...")
@@ -167,12 +177,19 @@ Arguments:
     # Clean-up config
     config.cleanUpJobs(expandedjobs)
 
+    # Reset console level
+    console.setLevel(level)
+    console.resetFilter()
+
     # Processing jobs...
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
     for job in expandedjobs:
         console.head("Executing: %s" % job.name, True)
-        console.debug("Expanded job config:")
-        console.debug(pprint.pformat(config.getJob(job).getData()))
+        if options.config_verbose:
+            console.setLevel("debug")
+            console.debug("Expanded job config:")
+            console.debug(pprint.pformat(config.getJob(job).getData()))
+            console.setLevel(level)
 
         ctx = context.copy()
         ctx['jobconf'] = config.getJob(job)

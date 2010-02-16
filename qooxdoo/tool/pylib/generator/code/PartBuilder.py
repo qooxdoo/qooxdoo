@@ -141,8 +141,7 @@ class PartBuilder(object):
                             #raise RuntimeError(msg)
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
-                            print "classIdx: %d, depsIdx: %d" %( classIdx, depsIdx)
-                            msg = "Load-dep loaded after using class ('%s'[%d]):  '%s'[%d]" % (classId, packageIdx, depsId, classPackage[depsIdx])
+                            msg = "Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % (classId, packageIdx, classIdx, depsId, classPackage[depsIdx], depsIdx)
                             self._console.warn("! " + msg)  # I should better raise here
                             #raise RuntimeError(msg)
                     #missingDeps = loadDeps.difference(classSet)
@@ -383,9 +382,6 @@ class PartBuilder(object):
         # packages lists
 
         def isCommonAndGreaterPackage(searchId, package):  
-            # the same package is not "greater"
-            if package.id == searchId:
-                return False
             # the next takes advantage of the fact that the package id encodes
             # the parts a package is used by. if another package id has the
             # same bits turned on, it is in the same packages. this is only
@@ -421,17 +417,24 @@ class PartBuilder(object):
         # ----------------------------------------------------------------------
 
         searchId            = searchPackage.id
-        self._console.debug("Search a target package for package #%s" % (searchId,))
+        #self._console.indent()
         allPackages         = reversed(self._sortPackages(packages.keys(), packages))
                                 # sorting and reversing assures we try "smaller" package id's first
 
         for packageId in allPackages:
             package = packages[packageId]
-            if (isCommonAndGreaterPackage(searchId, package)
-                and noCircularDeps(searchPackage, package)
-                and depsAvailWhereTarget(searchPackage, package)):
+            if searchId == package.id:  # no self-merging ;)
+                pass
+            elif not isCommonAndGreaterPackage(searchId, package):
+                self._console.debug("Skip #%d (different parts using)" % package.id)
+            #elif not noCircularDeps(searchPackage, package):
+            #    self._console.debug("Skip #%d (circular dependencies)" % package.id)
+            #elif not depsAvailWhereTarget(searchPackage, package):
+            #    self._console.debug("Skip #%d (dependencies not always available)" % package.id)
+            else:
                 yield package
 
+        #self._console.outdent()
         yield None
 
 
@@ -586,6 +589,8 @@ class PartBuilder(object):
 
         # ----------------------------------------------------------------------
 
+        self._console.debug("Search a target package for package #%s" % (fromPackage.id,))
+        self._console.indent()
         # find toPackage
         toPackage = None
         for toPackage in self._getPreviousCommonPackage(fromPackage, script.parts, packages):
@@ -597,6 +602,7 @@ class PartBuilder(object):
             else:
                 break
         if toPackage == None:
+            self._console.outdent()
             return None, None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
         self._console.indent()
@@ -625,6 +631,7 @@ class PartBuilder(object):
 
         # remove of fromPackage from global packages list is easier handled in the caller
         
+        self._console.outdent()
         self._console.outdent()
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
 
