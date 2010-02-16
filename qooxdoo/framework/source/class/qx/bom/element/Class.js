@@ -59,16 +59,16 @@ qx.Class.define("qx.bom.element.Class",
      * Adds a className to the given element
      * If successfully added the given className will be returned
      *
-     * @signature function(elem, name)
+     * @signature function(element, name)
      * @param element {Element} The element to modify
      * @param name {String} The class name to add
      * @return {String} The added classname (if so)
      */
     add : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(elem, name)
+      "native" : function(element, name)
       {
-        elem.classList.add(name)
+        element.classList.add(name)
         return name;
       },
         
@@ -86,27 +86,27 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Adds multiple classes to the given element
      * 
-     * @signature function(elem, classes)
-     * @param elem {Element} DOM element to modify
+     * @signature function(element, classes)
+     * @param element {Element} DOM element to modify
      * @param classes {String[]} List of classes to add.
      * @return {String} The resulting class name which was applied
      */
     addClasses : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(elem, classes)
+      "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
-          elem.classList.add(classes[i])
+          element.classList.add(classes[i])
         }
-        return elem.className;
+        return element.className;
       },
         
-      "default" : function(elem, classes)
+      "default" : function(element, classes)
       {
         var keys = {};
         var result;
        
-        var old = elem.className;
+        var old = element.className;
         if (old)
         {
           result = old.split(this.__splitter);
@@ -125,7 +125,7 @@ qx.Class.define("qx.bom.element.Class",
           result = classes;
         }    
   
-        return elem.className = result.join(" ");
+        return element.className = result.join(" ");
       }
     }),
 
@@ -192,25 +192,25 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Removes multiple classes from the given element
      * 
-     * @signature function(elem, classes)
-     * @param elem {Element} DOM element to modify
+     * @signature function(element, classes)
+     * @param element {Element} DOM element to modify
      * @param classes {String[]} List of classes to remove.
      * @return {String} The resulting class name which was applied
      */    
     removeClasses : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(elem, classes) 
+      "native" : function(element, classes) 
       {
         for (var i=0; i<classes.length; i++) {
-          elem.classList.remove(classes[i])
+          element.classList.remove(classes[i])
         }
-        return elem.className;
+        return element.className;
       },
     
-      "default" : function(elem, classes)
+      "default" : function(element, classes)
       {
         var reg = new RegExp("\\b" + classes.join("\\b|\\b") + "\\b", "g");
-        return elem.className = elem.className.replace(reg, "").replace(this.__trim, "").replace(this.__splitter, " ");
+        return element.className = element.className.replace(reg, "").replace(this.__trim, "").replace(this.__splitter, " ");
       }
     }),
 
