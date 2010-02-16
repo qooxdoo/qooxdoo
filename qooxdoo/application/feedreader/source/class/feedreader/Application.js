@@ -512,7 +512,6 @@ qx.Class.define("feedreader.Application",
           // create it
           this.__prefWindow = new feedreader.view.PreferenceWindow();
           this.getRoot().add(this.__prefWindow);
-          this.showPreferences();
         }
 
         // open the window
