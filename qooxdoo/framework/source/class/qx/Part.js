@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.Part",
      */
     addPartListener : function(part, callback)
     {
-      var key = part.hash;
+      var key = part.name;
       if (!this.__partListners[key]) {
         this.__partListners[key] = [];
       }
@@ -255,7 +255,7 @@ qx.Bootstrap.define("qx.Part",
         this.onpart(part);
       }
       
-      var key = part.hash;
+      var key = part.name;
       var listeners = this.__partListners[key];
       if (!listeners) {
         return;
