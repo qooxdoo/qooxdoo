@@ -1374,27 +1374,16 @@ qx.Class.define("qx.html.Element",
       // when we try to use the same DOM node again. I am not sure
       // why this happens. Would be a good performance improvement,
       // but does not seem to work.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         var helper = document.createElement("div");
-      }
-      else
-      {
-        var helper = qx.html.Element.__markupHelper;
-        if (!helper) {
-          helper = qx.html.Element.__markupHelper = document.createElement("div");
-        }
+      } else {
+        var helper = qx.bom.Element.getHelperElement();
       }
 
       // Extract first element
       helper.innerHTML = html;
-      this.__element = helper.firstChild;
-      this.__element.$$element = this.$$hash;
+      this.useElement(helper.firstChild);
 
-      // Copy currently existing data over to element
-      this._copyData(true);
-
-      // Return element
       return this.__element;
     },
 

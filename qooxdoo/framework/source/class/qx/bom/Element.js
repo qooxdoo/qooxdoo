@@ -62,6 +62,40 @@ qx.Class.define("qx.bom.Element",
       "disabled" : true
     },
 
+    __helperElement : {},
+
+
+    /**
+     * Creates and returns an DOM helper element.
+     *
+     * @param win {Window?} Window to create the element for
+     * @return {Element} The created element node
+     */
+    getHelperElement : function (win)
+    {
+      if (!win) {
+        win = window;
+      }
+
+      // key is needed to allow using different windows
+      var key = win.location.href;
+
+      if (!qx.bom.Element.__helperElement[key])
+      {
+        var helper = qx.bom.Element.__helperElement[key] = win.document.createElement("div");
+
+        // innerHTML will only parsed correctly if element is appended to document
+        if (qx.bom.client.Engine.WEBKIT)
+        {
+          helper.style.display = "none";
+
+          win.document.body.appendChild(helper);
+        }
+      }
+
+      return qx.bom.Element.__helperElement[key];
+    },
+
 
     /**
      * Creates an DOM element.
@@ -111,7 +145,8 @@ qx.Class.define("qx.bom.Element",
         // into it and extract the interesting content via 'firstChild'
         else
         {
-          var helper = win.document.createElement("div");
+          var helper = qx.bom.Element.getHelperElement(win);
+
           helper.innerHTML = "<" + name + " " + attributesHtml + "></" + name + ">";
           element = helper.firstChild;
         }
