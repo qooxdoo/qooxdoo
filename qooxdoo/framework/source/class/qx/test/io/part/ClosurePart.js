@@ -54,6 +54,31 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       })});
       
       this.wait();
+    },
+    
+    
+    "test: load part with two packages" : function() 
+    {
+      var loader = new qx.Part(qx.$$loader);
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
+      
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["file1-closure", "file2-closure"],
+          qx.test.PART_FILES
+        );
+      })});
+      
+      this.wait();      
     }
   }
 });

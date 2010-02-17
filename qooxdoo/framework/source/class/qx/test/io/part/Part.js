@@ -51,6 +51,7 @@ qx.Class.define("qx.test.io.part.Part",
         error: !!error,
         readyState: readyState || "initialized",
         getReadyState : function() { return this.readyState; },
+        getId : function() { return this.id; },
         load : function(notifyPackageResult, self)
         {
           pkg.readyState = "loading";

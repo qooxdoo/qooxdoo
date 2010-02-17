@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.Part",
      */
     addPackageListener : function(pkg, callback)
     {
-      var key = pkg.id;
+      var key = pkg.getId();
       if (!this.__packageListeners[key]) {
         this.__packageListeners[key] = [];
       }
@@ -305,7 +305,7 @@ qx.Bootstrap.define("qx.Part",
      */
     notifyPackageResult : function(pkg)
     {
-      var key = pkg.id;
+      var key = pkg.getId();
       
       if (pkg.getReadyState() == "complete") {
         this.__importPackageData(qx.$$packageData[key] || {});
