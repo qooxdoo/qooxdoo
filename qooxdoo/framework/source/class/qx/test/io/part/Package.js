@@ -33,25 +33,27 @@ qx.Class.define("qx.test.io.part.Package",
     setUp : function() {
       qx.test.PART_FILES = [];
     },
-  
     
+    
+    createPackage : function(urls, hash, loaded) {
+      return new qx.io.part.Package(urls, hash, loaded);
+    },
+    
+
     "test: load a package with one JS file" : function()
     {
       var urls = [
         this.getUrl("qx/test/part/file1.js")
       ]
-      var pkg = new qx.test.io.part.TestingPackage(urls, "1", false);
+      var pkg = this.createPackage(urls, "1", false);
       this.assertEquals("initialized", pkg.getReadyState());
 
-      pkg.load();      
-      this.assertEquals("loading", pkg.getReadyState());
-      
-      pkg.addListener("load", function(e) { this.resume(function() {
+      pkg.load(function() { this.resume(function() {
         this.assertEquals("complete", pkg.getReadyState());
         this.assertEquals("file1", qx.test.PART_FILES[0]);
-        
-        pkg.dispose();
       }, this)}, this);
+
+      this.assertEquals("loading", pkg.getReadyState());
       
       this.wait();
     },
@@ -65,15 +67,12 @@ qx.Class.define("qx.test.io.part.Package",
         this.getUrl("qx/test/part/file3.js")
       ];
 
-      var pkg = new qx.test.io.part.TestingPackage(urls, "1", false);
-      pkg.load();      
-      
-      pkg.addListener("load", function(e) { this.resume(function() {
+      var pkg = this.createPackage(urls, "1", false);
+      pkg.load(function() { this.resume(function() {
         this.assertJsonEquals(
           ["file1", "file2", "file3"],
           qx.test.PART_FILES
         );
-        pkg.dispose();
       }, this)}, this);
       
       this.wait();
@@ -93,15 +92,13 @@ qx.Class.define("qx.test.io.part.Package",
         this.getUrl("qx/test/part/file3.js")
       ];
 
-      var pkg = new qx.test.io.part.TestingPackage(urls, "1", false);
-      pkg.load();
-      
-      pkg.addListener("load", function(e) { this.resume(function() {
+      var pkg = this.createPackage(urls, "1", false);
+      pkg.load(function() { this.resume(function()
+      {
         this.assertJsonEquals(
           ["file1", "file2", "file3"],
           qx.test.PART_FILES
         );
-        pkg.dispose();
       }, this)}, this);
       
       this.wait();
@@ -121,24 +118,12 @@ qx.Class.define("qx.test.io.part.Package",
         this.getUrl("qx/test/part/file3.js")
       ];
 
-      var pkg = new qx.test.io.part.TestingPackage(urls, "1", false);
-      pkg.load();      
-      
-      pkg.addListener("load", function(e) { this.resume(function() {
-        this.fail();
-      }, this)}, this);
-
-      pkg.addListener("error", function(e) { this.resume(function() {
+      var pkg = this.createPackage(urls, "1", false);
+      pkg.load(function() { this.resume(function() {
         this.assertEquals("error", pkg.getReadyState());
-          // TODO
-//        this.assertJsonEquals(
-//          [],
-//          qx.test.PART_FILES
-//        );
-        pkg.dispose();
       }, this)}, this);
 
       this.wait();      
-    }  
+    }
   }
 });

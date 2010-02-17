@@ -1,1 +1,1 @@
-qx.test.PART_FILES.push("file3")
+qx.test.PART_FILES.push("file3");

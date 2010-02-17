@@ -30,22 +30,58 @@ qx.Class.define("qx.test.io.part.Part",
 
   members :
   {
-    setUp : function() {
-      qx.test.io.part.MockPackage.LOAD_ORDER = [];
+    setUp : function()
+    {
+      qx.test.Part.LOAD_ORDER = [];
+      this.__loader = new qx.Part(qx.$$loader);
     },
-  
+    
+    
+    tearDown : function()
+    {
+      this.__loader = null;
+    },   
+    
+    
+    createMockPackage : function(id, delay, error, readyState) 
+    {
+      var pkg = {
+        id: id,
+        delay: delay || 0,
+        error: !!error,
+        readyState: readyState || "initialized",
+        getReadyState : function() { return this.readyState; },
+        load : function(notifyPackageResult, self)
+        {
+          pkg.readyState = "loading";
+          setTimeout(function()
+          {
+            if (pkg.error) {
+              pkg.readyState = "error";            
+            } else {
+              qx.test.Part.LOAD_ORDER.push(pkg.id);
+              pkg.readyState = "complete";
+            }
+            notifyPackageResult.call(self, pkg);
+          }, pkg.delay);
+        }
+      }
+      return pkg;
+    },
+    
+    
     "test: load part with one package" : function()
     {
-      var pkg = new qx.test.io.part.MockPackage();
-      var part = new qx.io.part.Part("1", [pkg]);
+      var pkg = this.createMockPackage("1");
+      var part = new qx.io.part.Part("1", [pkg], this.__loader);
       this.assertEquals("initialized", part.getReadyState());
 
-      part.load(function(readyState) { this.resume(function()
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
       {
-        this.assertEquals("complete", readyState);      
-        this.assertEquals("complete", part.getReadyState());      
-        part.dispose();
-      }, this)}, this);
+        self.assertEquals("complete", readyState);      
+        self.assertEquals("complete", part.getReadyState());      
+      })});
       
       this.assertEquals("loading", part.getReadyState());      
       this.wait();
@@ -55,21 +91,20 @@ qx.Class.define("qx.test.io.part.Part",
     "test: load part with several packages" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b"),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a"),
+        this.createMockPackage("b"),
+        this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function() { 
-      this.resume(function()
+      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
       {
-        this.assertJsonEquals(
+        self.assertJsonEquals(
           ["a", "b", "c"],
-          qx.test.io.part.MockPackage.LOAD_ORDER
+          qx.test.Part.LOAD_ORDER
         );
-        part.dispose();
-      }, this)}, this);
+      })});
         
       this.wait();      
     },
@@ -78,21 +113,20 @@ qx.Class.define("qx.test.io.part.Part",
     "test: delay loading of second package should preserve order" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b").set({delay: 100}),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a"),
+        this.createMockPackage("b", 100),
+        this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function() { 
-      this.resume(function()
+      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
       {
-        this.assertJsonEquals(
+        self.assertJsonEquals(
           ["a", "b", "c"],
-          qx.test.io.part.MockPackage.LOAD_ORDER
+          qx.test.Part.LOAD_ORDER
         );
-        part.dispose();
-      }, this)}, this);
+      })});
         
       this.wait();        
     },
@@ -101,27 +135,32 @@ qx.Class.define("qx.test.io.part.Part",
     "test: one already loaded package should not be loaded again and preserve order" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a").set({readyState: "complete"}),
-        new qx.test.io.part.MockPackage("b"),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a", 0, false, "complete"),
+        this.createMockPackage("b"),
+        this.createMockPackage("c")
       ];
      
       // fail if it is loaded again
       var self = this;
-      packages[0].load = function() {
-        self.fail();
+      var oldLoadPackage = this.__loader.loadPackage;
+      this.__loader.loadPackage = function(pkg) 
+      {
+        if (pkg == packages[0]) {
+          self.fail();
+        } else {
+          oldLoadPackage.call(this, pkg);
+        }
       }
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function() { 
-        this.resume(function()
+      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
         {
-          this.assertJsonEquals(
+          self.assertJsonEquals(
             ["b", "c"], // a is already loaded
-            qx.test.io.part.MockPackage.LOAD_ORDER
+            qx.test.Part.LOAD_ORDER
           );
-          part.dispose();
-      }, this)}, this);
+      })});
       
       this.wait();        
     },
@@ -130,81 +169,43 @@ qx.Class.define("qx.test.io.part.Part",
     "test: a currently loading package should not be loaded again and should preserve order" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a").set({readyState: "complete"}),
-        new qx.test.io.part.MockPackage("b"),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a", 0, false, "complete"),
+        this.createMockPackage("b"),
+        this.createMockPackage("c")
       ];
       
-      packages[1].load(); // now in loading state
-
-      // fail if it is loaded again
+      packages[1].load(this.__loader.notifyPackageResult, this.__loader); // now in loading state
+     
+      var part = new qx.io.part.Part("1", packages, this.__loader);
       var self = this;
-      packages[0].load = function() {
-        self.fail();
-      }
-      
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function() { 
-      this.resume(function()
+      part.load(function(readyState) { self.resume(function()
       {
-        this.assertJsonEquals(
+        self.assertJsonEquals(
           ["b", "c"], // a has already been loaded
-          qx.test.io.part.MockPackage.LOAD_ORDER
+          qx.test.Part.LOAD_ORDER
         );
-        part.dispose();
-      }, this)}, this);
+      })});
         
       this.wait();        
     },
     
     
     
-    "test: error loading second package should fire error event" : function()
-    {
-      var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b").set({error: true}),
-        new qx.test.io.part.MockPackage("c")
-      ];
-      
-      var part = new qx.io.part.Part("1", packages);
-      part.load();
-      
-      part.addListener("load", function() { 
-        this.fail();
-      }, this);
-        
-      part.addListener("error", function() { 
-      this.resume(function()
-      {
-        this.assertEquals("error", part.getReadyState());
-        part.dispose();
-      }, this)}, this);
-        
-      this.wait();      
-    },
-    
-    
     "test: error loading second package should set 'error' status on callback" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b").set({error: true}),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a"),
+        this.createMockPackage("b", 0, true),
+        this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load();
+      var part = new qx.io.part.Part("1", packages, this.__loader);
       
-      part.load(function(readyState) { this.resume(function()
-      {
-        this.assertEquals("error", readyState);
-        this.assertJsonEquals(
-          ["a"],
-          qx.test.io.part.MockPackage.LOAD_ORDER
-        );
-        part.dispose();
-      }, this)}, this);
+      var self = this;
+      part.load(function(readyState) { self.resume(function() {
+        this.assertEquals("error", readyState);        
+        this.assertEquals("error", part.getReadyState());        
+      })}); 
         
       this.wait();      
     },
@@ -213,27 +214,25 @@ qx.Class.define("qx.test.io.part.Part",
     "test: loading a loaded part again should not reload the packages" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b"),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a"),
+        this.createMockPackage("b"),
+        this.createMockPackage("c")
       ];
       
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function()
+      var part = new qx.io.part.Part("1", packages, this.__loader);
+
+      var self = this;
+      part.load(function(readyState)
       {
-        var self = this;
-        for (var i=0; i<packages.length; i++)
-        {
-          // fail if it is loaded again
-          packages[i].load = function() {
-            self.fail();
-          }
+        self.__loader.loadPackage = function() {
+          self.fail();
         }
-        part.load(function(readyState) { this.resume( function() {
+        
+        part.load(function(readyState) { self.resume( function() {
           this.assertEquals("complete", readyState);
-        }, this)}, this);
-      }, this);
+        })});
+      });
         
       this.wait();              
     },
@@ -242,29 +241,27 @@ qx.Class.define("qx.test.io.part.Part",
     "test: loading an error part again should not reload the packages" : function()
     {
       var packages = [
-        new qx.test.io.part.MockPackage("a"),
-        new qx.test.io.part.MockPackage("b").set({error: true}),
-        new qx.test.io.part.MockPackage("c")
+        this.createMockPackage("a"),
+        this.createMockPackage("b", 0, true),
+        this.createMockPackage("c")
       ];
       
       
-      var part = new qx.io.part.Part("1", packages);
-      part.load(function()
+      var part = new qx.io.part.Part("1", packages, this.__loader);
+      
+      var self = this;
+      part.load(function(readyState)
       {
-        var self = this;
-        for (var i=0; i<packages.length; i++)
-        {
-          // fail if it is loaded again
-          packages[i].load = function() {
-            self.fail();
-          }
+        self.__loader.loadPackage = function() {
+          self.fail();
         }
-        part.load(function(readyState) { this.resume( function() {
-          this.assertEquals("error", readyState);
-        }, this)}, this);
-      }, this);
+
+        part.load(function(readyState) { self.resume( function() {
+          self.assertEquals("error", readyState);
+        })});
+      });
       
       this.wait();              
-    }
+    }    
   }
 });

@@ -38,6 +38,7 @@ qx.Bootstrap.define("qx.Part",
   construct : function(loader) 
   {
     this.__loader = loader;
+    
     this.__partListners = {};
     this.__packageListeners = {};
     
@@ -46,12 +47,13 @@ qx.Bootstrap.define("qx.Part",
     for (var i=0; i<uris.length; i++)
     {
       var hash = loader.packageHashes[i];
-      var pkg = this.createPackage(uris[i], hash, i==0);
+      var pkg = new qx.io.part.Package(uris[i], hash, i==0);
       this.__packages.push(pkg);
     };
     
     this.__parts = {};
     var parts = loader.parts;
+    var closureParts = loader.closureParts || {};
   
     for (var name in parts)
     {
@@ -59,10 +61,16 @@ qx.Bootstrap.define("qx.Part",
       var packages = [];
       for (var i=0; i<pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
-      }      
-      var part = this.createPart(name, packages);       
+      }
+      
+      if (closureParts[name]) {
+        var part = new qx.io.part.ClosurePart(name, packages, this);
+      } else {
+        var part = new qx.io.part.Part(name, packages, this);
+      }
+      
       this.__parts[name] = part;
-    }    
+    }
   },
   
   
@@ -94,14 +102,35 @@ qx.Bootstrap.define("qx.Part",
      */
     require : function(partNames, callback, self) {
       this.getInstance().require(partNames, callback, self);
-    }
+    },
+    
+    
+    /**
+     * Loaded scripts have to call this method to indicate successful loading
+     * 
+     * @param id {String} script id
+     */
+    $$notifyLoad : function(id, closure)
+    {
+      //qx.$$loader.importPackageData(packageData);
+      closure();
+    }    
   },
   
   
   members :
   {
     __loader : null,
-    __readyState : null,
+    __packages : null,
+    __parts : null,    
+    
+    
+    /**
+     * @internal
+     */
+    getParts : function() {
+      return this.__parts;
+    },
     
     
     /**
@@ -138,15 +167,11 @@ qx.Bootstrap.define("qx.Part",
       }
 
       for (var i=0; i<parts.length; i++) {
-        this.loadPart(parts[i], onLoad, this);
+        parts[i].load(onLoad, this);
       }
     },
     
     
-    __packages : null,
-    __parts : null,
-
-
     /**
      * Get the URI lists of all packages
      *
@@ -190,34 +215,6 @@ qx.Bootstrap.define("qx.Part",
     ---------------------------------------------------------------------------
     */ 
     
-    /**
-     * Create part data structure.
-     * @internal
-     * 
-     * @param name {String} Name of the part as defined in the config file at
-     *    compile time.
-     * @param packages {Package[]} List of dependent packages
-     * @return {Map} The part data structure.
-     */
-    createPart : function(name, packages)
-    {
-      var part = {};
-      part.name = name;
-      part.readyState = "complete";
-      part.packages = packages;
-
-      for (var i=0; i<packages.length; i++)
-      {
-        if (packages[i].readyStategetre !== "complete")
-        {
-          part.readyState = "initialized";
-          break;
-        }
-      }
-      return part;
-    },
-    
-    
     __partListners : null,
     
     
@@ -232,7 +229,7 @@ qx.Bootstrap.define("qx.Part",
      */
     addPartListener : function(part, callback)
     {
-      var key = part.name;
+      var key = part.getName();
       if (!this.__partListners[key]) {
         this.__partListners[key] = [];
       }
@@ -240,6 +237,9 @@ qx.Bootstrap.define("qx.Part",
     },
     
     
+    /**
+     * If defined this method is called after each part load.
+     */
     onpart : null,
     
     
@@ -247,125 +247,32 @@ qx.Bootstrap.define("qx.Part",
      * This method is called after a part has been loaded or failed to load.
      * It calls all listeners for this part.
      * 
+     * @internal
      * @param part {Object} The loaded part
      */    
-    _notifyPartResult : function(part)
+    notifyPartResult : function(part)
     {
       if (typeof this.onpart == "function") {
         this.onpart(part);
       }
       
-      var key = part.name;
+      var key = part.getName();
       var listeners = this.__partListners[key];
       if (!listeners) {
         return;
       }
       for (var i=0; i<listeners.length; i++) {
-        listeners[i](part.readyState);
+        listeners[i](part.getReadyState());
       }
       this.__partListners[key] = [];            
     },
-    
-    
-    /**
-     * Loads the part asynchronously. The callback is called after the part and
-     * its dependencies are fully loaded. If the part is already loaded the
-     * callback is called immediately.
-     *
-     * @internal
-     * 
-     * @param part {Object} part to load
-     * @param callback {Function} Function to execute on completion
-     * @param self {Object?window} Context to execute the given function in
-     */
-    loadPart : function(part, callback, self)
-    {
-      if (part.readyState == "complete" || part.readyState == "error")
-      {
-        if (callback) {
-          callback.call(self, part.readyState);
-        }
-        return;
-      }
-      else if (part.readyState == "loading" && callback)
-      {
-        this.addPartListener(part, function() {
-          callback.call(self, part.readyState);
-        }, this);
-        return;
-      }
-      
-      part.readyState = "loading";
 
-      if (callback)
-      {
-        this.addPartListener(part, function() {
-          callback.call(self, part.readyState);
-        }, this);
-      }
-
-      var self = this;
-      var onLoad = function() {
-        self.loadPart(part);
-      }
-
-      for (var i=0; i<part.packages.length; i++)
-      {
-        var pkg = part.packages[i];
-        switch (pkg.readyState)
-        {
-          case "initialized":            
-            this.addPackageListener(pkg, onLoad);
-            this.loadPackage(pkg);
-            return;
-
-          case "loading":
-            this.addPackageListener(pkg, onLoad);
-            return;
-
-          case "complete":
-            break;
-            
-          case "error":
-            part.readyState = "error";
-            this._notifyPartResult(part);
-            return;
-
-          default:
-            throw new Error("Invalid case! " + pkg.readyState);
-        }
-      }
-
-      part.readyState = "complete";
-      this._notifyPartResult(part);
-    },    
-    
-    
+   
     /*
     ---------------------------------------------------------------------------
       PACKAGE
     ---------------------------------------------------------------------------
-    */       
-    
-    
-    /**
-     * Create data structor for a package
-     * 
-     * @internal
-     * 
-     * @param urls {String[]} A list of script URLs
-     * @param id {var} Unique package hash key
-     * @param loaded {Boolean?false} Whether the package is already loaded
-     */
-    createPackage : function(urls, id, loaded)
-    {
-      return {
-        readyState: loaded ? "complete" : "initialized",
-        urls: urls,
-        id: id
-      };
-    },
-    
+    */          
     
     __packageListeners : null,
     
@@ -393,14 +300,15 @@ qx.Bootstrap.define("qx.Part",
      * This method is called after a packages has been loaded or failed to load.
      * It calls all listeners for this package.
      * 
+     * @internal
      * @param pkg {Object} The loaded package
      */
-    _notifyPackageResult : function(pkg)
+    notifyPackageResult : function(pkg)
     {
       var key = pkg.id;
       
-      if (pkg.readyState == "complete") {
-        this.__importPackageData(qx.$$packageData[key]);
+      if (pkg.getReadyState() == "complete") {
+        this.__importPackageData(qx.$$packageData[key] || {});
       }
       
       var listeners = this.__packageListeners[key];
@@ -408,98 +316,9 @@ qx.Bootstrap.define("qx.Part",
         return;
       }
       for (var i=0; i<listeners.length; i++) {
-        listeners[i](pkg.readyState);
+        listeners[i](pkg.getReadyState());
       }
       this.__packageListeners[key] = [];      
-    },
-    
-    
-    /**
-     * Load the part's script URLs in the correct order. A {@link #load} event
-     * if fired once all scripts are loaded.
-     * 
-     * @internal
-     * 
-     * @param pkg {Object} package to load
-     */
-    loadPackage : function(pkg)
-    {
-      if (pkg.readyState !== "initialized") {
-        return;
-      }
-
-      pkg.readyState = "loading";
-
-      this.__loadScriptList(
-        pkg.urls,
-        function() {
-          pkg.readyState = "complete";          
-          this._notifyPackageResult(pkg);
-        },
-        function() {
-          pkg.readyState = "error";
-          this._notifyPackageResult(pkg);
-        },
-        this
-      );
-    },
-    
-    
-    /**
-     * Loads a list of scripts in the correct order.
-     *
-     * @param urlList {String[]} List of script urls
-     * @param callback {Function} Function to execute on completion
-     * @param errBack {Function} Function to execute on error
-     * @param self {Object?window} Context to execute the given function in
-     */
-    __loadScriptList : function(urlList, callback, errBack, self)
-    {
-      if (urlList.length == 0)
-      {
-        callback.call(self);
-        return;
-      }
-
-      this.__readyState = "loading";
-
-      var urlsLoaded = 0;
-      var self = this;
-      var onLoad = function(urls)
-      {
-        if (urlsLoaded >= urlList.length)
-        {
-          self.__readyState = "complete";
-          callback.call(self);
-          return;
-        }
-
-        var loader = new qx.io.ScriptLoader();
-        
-        loader.load(urls.shift(), function(status)
-        {
-          urlsLoaded += 1;
-          loader.dispose();
-          
-          if (status !== "success") {
-            return errBack.call(self);
-          }
-          
-          if (qx.core.Variant.isSet("qx.client", "webkit"))
-          {
-            // force asynchronous load
-            // Safari fails with an "maximum recursion depth exceeded" error if it is
-            // called sync.
-            setTimeout(function() {
-              onLoad.call(self, urls, callback, self);
-            }, 0);
-          } else {
-            onLoad.call(self, urls, callback, self);
-          }
-        }, self);
-      }
-
-      onLoad(urlList.concat());
     }
   }
 });

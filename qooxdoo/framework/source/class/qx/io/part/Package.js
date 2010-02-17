@@ -23,11 +23,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.io.part.Package",
+qx.Bootstrap.define("qx.io.part.Package",
 {
-  extend : qx.core.Object,
-
-
   /**
    * @param urls {String[]} A list of script URLs
    * @param id {var} Unique package hash key
@@ -35,52 +32,14 @@ qx.Class.define("qx.io.part.Package",
    */
   construct : function(urls, id, loaded)
   {
-    this.base(arguments);
-
     this.__readyState = loaded ? "complete" : "initialized";
     this.__urls = urls;
-    this.__id   = id;
+    this.__id = id;
   },
 
-  
-  events :
-  {
-    /** This event is fired after the part has been loaded successfully. */
-    "load" : "qx.event.type.Event",
-    
-    /**
-     * The error event is fired if a package could not be loaded.
-     */
-    "error" : "qx.event.type.Event"
-  },
-
-  
-  properties :
-  {
-    /**
-     * Whether the package should be loaded using the {@link SafeScriptLoader}. 
-     */
-    useSafeScriptLoader :
-    {
-      check : "Boolean",
-      init: false
-    }
-  },
-  
-  
-  statics : 
-  {
-    TIMEOUT : 7000
-  },
-  
 
   members :
   {
-    __id : null,
-    __urls : null,
-    __readyState : null,
-
-    
     /**
      * Get the package ID.
      * 
@@ -88,6 +47,61 @@ qx.Class.define("qx.io.part.Package",
      */
     getId : function() {
       return this.__id;
+    },
+    
+
+    /**
+     * Get the ready state of the package. The value is one of
+     * <ul>
+     * <li>
+     *   <b>initialized</b>: The package is initialized. The {@link #load}
+     *   method has not yet been called
+     * </li>
+     * <li><b>loading</b>: The package is still loading.</li>
+     * <li><b>complete</b>: The package has been loaded successfully</li>
+     * </li>
+     *
+     * @return {String} The ready state.
+     */
+    getReadyState : function() {
+      return this.__readyState;
+    },
+    
+    
+    /**
+     * @internal
+     */
+    getUrls : function() {
+      return this.__urls;
+    },
+    
+    
+    /**
+     * Load the part's script URLs in the correct order. A {@link #load} event
+     * if fired once all scripts are loaded.
+     * 
+     * @internal
+     */
+    load : function(notifyPackageResult, self)
+    {
+      if (this.__readyState !== "initialized") {
+        return;
+      }
+
+      this.__readyState = "loading";
+
+      this.__loadScriptList(
+        this.__urls,
+        function() {
+          this.__readyState = "complete";          
+          notifyPackageResult.call(self, this);
+        },
+        function() {
+          this.__readyState = "error";
+          notifyPackageResult.call(self, this);
+        },
+        this
+      );
     },
     
     
@@ -120,11 +134,7 @@ qx.Class.define("qx.io.part.Package",
           return;
         }
 
-        if (self.getUseSafeScriptLoader()) {
-          var loader = new qx.io.part.SafeScriptLoader(self.__id, qx.io.part.Package.TIMEOUT);
-        } else {
-          var loader = new qx.io.ScriptLoader();
-        }
+        var loader = new qx.io.ScriptLoader();
         
         loader.load(urls.shift(), function(status)
         {
@@ -150,56 +160,6 @@ qx.Class.define("qx.io.part.Package",
       }
 
       onLoad(urlList.concat());
-    },
-    
-
-    /**
-     * Get the ready state of the package. The value is one of
-     * <ul>
-     * <li>
-     *   <b>initialized</b>: The package is initialized. The {@link #load}
-     *   method has not yet been called
-     * </li>
-     * <li><b>loading</b>: The package is still loading.</li>
-     * <li><b>complete</b>: The package has been loaded successfully</li>
-     * </li>
-     *
-     * @return {String} The ready state.
-     */
-    getReadyState : function() {
-      return this.__readyState;
-    },
-
-
-    /**
-     * Load the part's script URLs in the correct order. A {@link #load} event
-     * if fired once all scripts are loaded.
-     */
-    load : function()
-    {
-      if (this.__readyState !== "initialized") {
-        return;
-      }
-
-      this.__readyState = "loading";
-
-      this.__loadScriptList(
-        this.__urls,
-        function() {
-          this.__readyState = "complete";          
-          this.fireEvent("load");
-        },
-        function() {
-          this.__readyState = "error";
-          this.fireEvent("error");
-        },
-        this
-      );
-    }
-  },
-
-  
-  destruct : function() {
-    this.__urls = null;
+    }    
   }
 });
