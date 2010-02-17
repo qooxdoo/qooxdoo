@@ -99,7 +99,7 @@ class Repository:
     console.info("Found %s libraries." %len(libraries))
     return libraries
   
-  def buildAllDemos(self, demoVersion="build", demoBrowser=False):
+  def buildAllDemos(self, demoVersion="build", demoBrowser=None):
     demoData = []
     
     for libraryName in self.libraries:
@@ -120,11 +120,14 @@ class Repository:
           continue
         
         for variant in demoVariants:
+          # source/build dirs at this level means the demo has a non-standard structure
           if variant == "source" or variant == "build":
             continue
-          status = version.buildDemo(variant, demoVersion)
+          #DEBUG
+          #status = version.buildDemo(variant, demoVersion)
+          status = {"buildError" : False}
           if demoBrowser and not status["buildError"]:
-            htmlfile = self.copyHtmlFile(libraryName, versionName, variant, demoVersion)
+            htmlfile = self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
             libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
             validDemo = True
       
@@ -133,7 +136,7 @@ class Repository:
 
     if demoBrowser:      
       jsonData = json.dumps(demoData, sort_keys=True, indent=4)
-      dbScriptDir = os.path.join(self.dir, "demobrowser", demoVersion, "script")
+      dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
       if not os.path.isdir(dbScriptDir):
         os.mkdir(dbScriptDir)
       outPath = os.path.join(dbScriptDir, "demodata.json")
@@ -143,19 +146,28 @@ class Repository:
       rFile.close() 
                 
   
-  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion="build", demobrowserDir=None):
-    if not demobrowserDir:
-      demobrowserDir = os.path.join(self.dir, "demobrowser")
-    console.info("Copying HTML file to demobrowser directory %s" %demobrowserDir)
-    sourceFilePath = os.path.join(demobrowserDir,"source", "demo", "template.html")
+  # creates an HTML file for the demo in the demobrowser's "demo" dir by 
+  # modifying the demo_template.html file in the demobrowser's resource dir.
+  # This file simply does a meta redirect to the generated demo. 
+  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser):    
+    #get some needed info from the demobrowser's manifest
+    dbManifest = getDataFromJsonFile(os.path.join(demoBrowser, "Manifest.json"))
+    dbResourcePath = dbManifest["provides"]["resource"]
+    dbNamespace = dbManifest["provides"]["namespace"]
+    
+    sourceFilePath = os.path.join(demoBrowser, dbResourcePath, dbNamespace, "demo_template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
-    targetDir = os.path.join(demobrowserDir, demoVersion, "demo", libraryName)
+    
+    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName) 
+    
     if not os.path.isdir(targetDir):
       os.makedirs(targetDir)
     targetFilePath = os.path.join(targetDir, versionName + "-" + variantName +  ".html")
+    console.info("Copying HTML file for demo %s %s %s %s to the demobrowser" %(libraryName,versionName,variantName,demoVersion))
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
+    
     for line in sourceFile: 
-      demoUrl = "../../../../%s/%s/demo/%s/%s/" %(libraryName,versionName,variantName,demoVersion)
+      demoUrl = "../../../../../%s/%s/demo/%s/%s/" %(libraryName,versionName,variantName,demoVersion)
       targetFile.write(line.replace("$LIBRARY", demoUrl))
     
     targetFile.close()
@@ -235,7 +247,6 @@ class LibraryVersion:
     # TODO self.hasTestDir = False
     self.hasReadmeFile = False
     self.hasGenerator = False
-    #console.info("Checking library %s")
     self.checkStructure()
 
   def checkStructure(self):    
@@ -260,24 +271,11 @@ class LibraryVersion:
     
     manifestPath = os.path.join(self.path, "Manifest.json")
     
-    try:
-      manifestFile = open(manifestPath)
-    except:
-      raise RuntimeError, "Manifest file %s not found" %manifestPath
-    
-    manifest = json.load(manifestFile)
-    return manifest
+    return getDataFromJsonFile(manifestPath)
   
   def getDemoManifest(self, demoVariant = "default"):
     manifestPath = os.path.join(self.path, "demo", demoVariant, "Manifest.json")
-    
-    try:
-      manifestFile = open(manifestPath)
-    except:
-      raise RuntimeError, "Manifest file %s not found" %manifestPath
-    
-    manifest = json.load(manifestFile)
-    return manifest
+    return getDataFromJsonFile(manifestPath)
   
   def getLintResult(self):
     try:
@@ -340,7 +338,7 @@ class LibraryVersion:
       "svnRevision" : self.getSvnRevision()
     }
     
-    #some demos have don't produce a qooxdoo application, so they're ignored
+    #some demos don't produce a qooxdoo application, so they're ignored
     #for the demobrowser
     demoScriptPath = os.path.join(self.path, "demo", demoVariant, demoVersion, "script")
     hasScriptDir = os.path.isdir(demoScriptPath)
@@ -362,20 +360,71 @@ class LibraryVersion:
     return demoBuildStatus
 
 
-def main(args):
-  repository = Repository(args[0])
-  
-  if args[1][:6] == "demos-":
-    repository.buildAllDemos(args[1][6:], True)
+def getDataFromJsonFile(path):
+  try:
+    jsonFile = codecs.open(path, "r", "UTF-8")
+  except:
+    raise RuntimeError, "File %s not found" %jsonFile
+    
+  try:
+    return json.load(jsonFile)
+  except Exception, e:
+    raise RuntimeError, "Couldn't parse JSON from file %s" %jsonFile
 
+
+def getComputedConf():
+  parser = optparse.OptionParser()
+
+  parser.add_option(
+    "-c", "--config-file", dest="configfile", default=None, type="string",
+    help="Path of a JSON configuration file that specifies which libraries/versions should be processed."
+  )
+  
+  parser.add_option(
+    "-r", "--repository-path", dest="workdir", default=".", type="string",
+    help="Path of the repository to be scanned."
+  )
+  
+  parser.add_option(
+    "-j", "--job-list", dest="joblist", default=None, type="string",
+    help="List of jobs to run on the repository."
+  )
+  
+  parser.add_option(
+    "-d", "--demobrowser-path", dest="demobrowser", default=None, type="string",
+    help="Path of the Demobrowser that will display the repository's demo apps."
+  )
+  
+  (options, args) = parser.parse_args()
+
+  return (options, args)
+
+
+def main():
+  (options,args) = getComputedConf()
+  
+  config = None
+  if options.configfile:
+    configFile = codecs.open(options.configfile, 'r', 'utf-8')
+    configJson = statusFile.read()
+    config = json.loads(configJson)
+
+  repository = Repository(options.workdir, config)
+  
+  if options.joblist:
+    jobs = options.joblist.split(",")
+    for job in jobs:
+      if job[:6] == "demos-":
+        if options.demobrowser:
+          if not os.path.isabs(options.demobrowser):
+            options.demobrowser = os.path.abspath(options.demobrowser)
+          repository.buildAllDemos(job[6:], options.demobrowser)
+        else:
+          repository.buildAllDemos(job[6:])
 
 if __name__ == '__main__':
   try:
-    parser = optparse.OptionParser()
-
-    (options, args) = parser.parse_args()
-
-    main(args)
+    main()
 
   except KeyboardInterrupt:
     print
