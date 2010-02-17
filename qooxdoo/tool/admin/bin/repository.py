@@ -36,15 +36,13 @@ class Repository:
   def __init__(self, repoDir, config=None):
     """Create a new repository instance by scanning a directory containing
     qooxdoo libraries. By default, all libraries found will be included. 
-    Optionally, a dictionary containing library/directory names as keys and a 
-    list of library version names/subdirectories can be provided, e.g.
-    myRepo = Repository("/foo/bar", { "Simulator" : ["trunk"],
-                                      "HtmlArea" : ["0.5"] })
+    Optionally, specific libraries or versions thereof can be selected using a
+    configuration dictionary - see config.demo.json in the contrib demobrowser
+    for an example. 
 
     Keyword arguments:
     repoDir -- File system path of the directory to scan
-    config -- (optional) Configuration dictionary 
-
+    config -- (optional) Configuration dictionary
     """
     global console
     console = Log(None, "info")
@@ -74,27 +72,24 @@ class Repository:
           continue        
         
         # only process selected libraries
+        console.indent()
+        
         if processLibs:
           if name in processLibs:
-            console.indent()
             console.info("Processing library %s" %name)
             lib = Library(self, name, processLibs[name])
             libraries[name] = lib
-            console.outdent()
           elif "*" in processLibs:
-            console.indent()
             console.info("Processing library %s" %name)
             lib = Library(self, name, processLibs["*"])
-            libraries[name] = lib
-            console.outdent()
-        
+            libraries[name] = lib      
         else:
           # find all libraries
-          console.indent()
           console.info("Processing library %s" %name)
           lib = Library(self, name, [])
           libraries[name] = lib
-          console.outdent()
+        
+        console.outdent()
     
     console.info("Found %s libraries." %len(libraries))
     return libraries
@@ -123,9 +118,7 @@ class Repository:
           # source/build dirs at this level means the demo has a non-standard structure
           if variant == "source" or variant == "build":
             continue
-          #DEBUG
-          #status = version.buildDemo(variant, demoVersion)
-          status = {"buildError" : False}
+          status = version.buildDemo(variant, demoVersion)
           if demoBrowser and not status["buildError"]:
             htmlfile = self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
             libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
@@ -188,15 +181,15 @@ class Repository:
     return demoDict
 
 class Library:
-  def __init__(self, repository = None, libraryDir = None, libraryVersions = [] ):
+  def __init__(self, repository = None, libraryDir = None, restrictions = None):
     if not (libraryDir and repository):
       raise RuntimeError, "Repository and library directory must be defined!"
     self.repository = repository
     self.dir = libraryDir
     self.path = os.path.join(self.repository.dir, self.dir)
-    self.versions = self.getVersions(libraryVersions)
+    self.versions = self.getVersions(restrictions)
     
-  def getVersions(self, libraryVersions):
+  def getVersions(self, restrictions):
     versions = {}
     libraryPath = os.path.join(self.repository.dir, self.dir)
     for root, dirs, files in os.walk(libraryPath, topdown=True):
@@ -207,23 +200,44 @@ class Library:
           dirs.remove(name)
           console.outdent()
           continue
-        if len(libraryVersions) > 0 and not libraryVersions[0] == "*":
-          if name in libraryVersions:
-            console.info("Processing selected version %s" %name)
-            try:
-              libVersion = LibraryVersion(self, name)
-              versions[name] = libVersion
-            except Exception, e:
-              console.warn("%s version %s not added: %s" %(self.dir,name,e.message))
-        elif name == "trunk" or "." in name:
-          console.info("Processing found version %s" %name)
+             
+        if self.isValidVersion(name, libraryPath, restrictions):
+          console.info("Processing library version %s" %name)
           try:
             libVersion = LibraryVersion(self, name)
             versions[name] = libVersion
           except Exception, e:
             console.warn("%s version %s not added: %s" %(self.dir,name,e.message))
+        
         console.outdent()
     return versions
+  
+  def isValidVersion(self, versionName, libraryPath, restrictions):
+    if not restrictions:
+      return True
+    
+    if "versions" in restrictions:
+      if len(restrictions["versions"]) > 0 and (not "*" in restrictions["versions"]):
+        if versionName not in restrictions["versions"]:
+          return False
+        
+    if "qooxdoo-versions" in restrictions:
+      if len(restrictions["qooxdoo-versions"]) > 0 and (not "*" in restrictions["qooxdoo-versions"]):
+        manifestPath = os.path.join(libraryPath, versionName, "Manifest.json")
+        
+        try:
+          versionManifest = getDataFromJsonFile(manifestPath)
+        except Exception:
+          return False
+        compatibleWith = versionManifest["info"]["qooxdoo-versions"]
+        foundCompatible = False
+        for qxVersion in restrictions["qooxdoo-versions"]:
+          if qxVersion in compatibleWith:
+            foundCompatible = True
+        if not foundCompatible:
+          return False
+    
+    return True
 
 
 class LibraryVersion:  
@@ -406,7 +420,7 @@ def main():
   config = None
   if options.configfile:
     configFile = codecs.open(options.configfile, 'r', 'utf-8')
-    configJson = statusFile.read()
+    configJson = configFile.read()
     config = json.loads(configJson)
 
   repository = Repository(options.workdir, config)
