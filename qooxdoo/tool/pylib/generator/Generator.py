@@ -47,6 +47,7 @@ from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
+from generator                       import Context
 import simplejson
 from robocopy import robocopy
 import graph

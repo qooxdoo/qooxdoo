@@ -25,6 +25,7 @@
 
 from misc.securehash import sha_construct
 from misc import json
+from generator import Context
 
 class Package(object):
 
@@ -76,4 +77,41 @@ class Package(object):
         packageContent += 'qx.$$packageData[' + contentHash + ']=' + dataString + ';'
         packageContent += classesString
         return contentHash, packageContent
+
+
+    ##
+    # this is to replace PartBuilder._sortPackages
+
+    @classmethod
+    def simpleSort(clazz, packages=[]):
+        return sorted(packages, cmp=clazz.compareByPartCount)
+
+
+    ##
+    # a simple sort(cmp=) function, comparing only by part_count
+
+    @staticmethod
+    def compareByPartCount(a, b):
+        return cmp(a.part_count, b.part_count)
+
+
+    ##
+    # a complex sort(cmp=) function, comparing by part_count and dependencies
+    # (I would like to use this throughout, eliminating compareByPartCount)
+
+    @staticmethod
+    def compareWithDeps(a, b):
+        if a.part_count != b.part_count:
+            return cmp(a.part_count, b.part_count)
+        else:
+            if a not in b.packageDeps and b not in a.packageDeps:  # unrelated, either is fine
+                return 0
+            if a in b.packageDeps and b not in a.packageDeps:  # b needs a, so a is "larger" (must be earlier)
+                return 1
+            elif b in a.packageDeps and a not in b.packageDeps: # other way round
+                return -1
+            else:
+                msg = "Circular dependencies between packages: #%d - #%d" % (a.id, b.id)
+                console.warn("! "+msg)
+                return 0
 

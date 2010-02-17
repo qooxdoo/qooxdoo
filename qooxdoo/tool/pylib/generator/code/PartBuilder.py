@@ -67,6 +67,7 @@ class PartBuilder(object):
         # Compute packages
         script.packages = {}  # map of Packages
         script.packages = self._getPackages(script)
+        script.sortParts()
 
         self._printPartStats(script)
 
@@ -88,8 +89,16 @@ class PartBuilder(object):
         # Post process results
         resultParts = self._getFinalPartData(script)
 
-        #resultClasses = self._getFinalClassList(script)
-        script = self._getFinalClassList1(script)
+        # re-sort part packages, to clean up ordering issues from merging
+        # - (the issue here is that part packages are only re-sorted during merges
+        #   when actually new packages are added to the part, but *not* when existing
+        #   packages receive a merge package whos package dependencies are already
+        #   fullfilled in the part; still package dependencies among the existing
+        #   packages might change so a re-sorting is necessary to support proper
+        #   load order)
+        script.sortParts()
+
+        script = self._getFinalClassList(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
 
         #script.parts    = resultParts
@@ -268,16 +277,6 @@ class PartBuilder(object):
                     
             package.part_count = len(package.parts)
 
-        # Sorting packages of parts
-        for part in parts.values():
-            #part.packageIdsSorted = self._sortPackages([x.id for x in part.packages], packages)
-            ## re-map sorting to part.packages
-            #packObjs = []
-            #for pkgId in part.packageIdsSorted:
-            #    packObjs.append(packages[pkgId])
-            #part.packages = packObjs
-            self._sortPartPackages(part)
-
         # Register dependencies between Packages
         for package in packages.values():
             # get all direct deps of this package
@@ -333,7 +332,7 @@ class PartBuilder(object):
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
-        allPackages = self._sortPackages(script.packages.keys(), script.packages)
+        allPackages = script.packagesSortedSimple()
         allPackages.reverse()
 
         # make a dict {part.bit_mask: part}
@@ -343,17 +342,16 @@ class PartBuilder(object):
         oldpackages = set([])
         while oldpackages != set(script.packages.keys()):
             oldpackages = set(script.packages.keys())
-            allPackages = self._sortPackages(script.packages.keys(), script.packages)
+            allPackages = script.packagesSortedSimple()
             allPackages.reverse()
             
             # Test and optimize 'fromId'
-            for fromId in allPackages:
+            for fromPackage in allPackages:
                 # possibly protect part-private package from merging
-                if fromId in allPartBitMasks.keys():
-                    if allPartBitMasks[fromId].no_merge_private_package:
-                        self._console.debug("Skipping private package #%s" % (fromId,))
+                if fromPackage.id in allPartBitMasks.keys():  # fromPackage.id == a part's bit mask
+                    if allPartBitMasks[fromPackage.id].no_merge_private_package:
+                        self._console.debug("Skipping private package #%s" % (fromPackage.id,))
                         continue
-                fromPackage = script.packages[fromId]
                 packageSize = self._computePackageSize(fromPackage, variants) / 1024
                 self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
                 # check selectablility
@@ -376,12 +374,12 @@ class PartBuilder(object):
 
 
 
-    def _getPreviousCommonPackage(self, searchPackage, parts, packages):
+    def _getPreviousCommonPackage(self, searchPackage, packages):
         # get the "smallest" package (in the sense of _sortPackages()) that is 
         # in all parts searchPackage is in, and is earlier in the corresponding
         # packages lists
 
-        def isCommonAndGreaterPackage(searchId, package):  
+        def isCommonAndGreaterPackage(searchPackage, package):  
             # the next takes advantage of the fact that the package id encodes
             # the parts a package is used by. if another package id has the
             # same bits turned on, it is in the same packages. this is only
@@ -389,7 +387,7 @@ class PartBuilder(object):
             # more bits turned on (ie. are "greater"); hence, and due to 
             # _sortPackages, they are earlier in the packages list of the
             # corresponding parts
-            if searchId & package.id == searchId:
+            if searchPackage.id & package.id == searchPackage.id:
                 return True
             return False
 
@@ -408,33 +406,32 @@ class PartBuilder(object):
         # check that the targetPackage is loaded in (at least) those parts
         # where searchPackage's deps are also loaded
 
-        def depsAvailWhereTarget (searchPackge, targetPackage):
-            for package in searchPackage.packageDeps:
-                if not package.id & targetPackage.id == package.id:
+        def depsAvailWhereTarget (searchPackage, targetPackage):
+            for depsPackage in searchPackage.packageDeps:
+                if not isCommonAndGreaterPackage(targetPackage, depsPackage):
+                #if not targetPackage.id & depsPackage.id == targetPackage.id:
                     return False
             return True
 
         # ----------------------------------------------------------------------
 
-        searchId            = searchPackage.id
-        #self._console.indent()
-        allPackages         = reversed(self._sortPackages(packages.keys(), packages))
+        allPackages  = reversed(Package.simpleSort(packages.values()))
                                 # sorting and reversing assures we try "smaller" package id's first
 
-        for packageId in allPackages:
-            package = packages[packageId]
-            if searchId == package.id:  # no self-merging ;)
-                pass
-            elif not isCommonAndGreaterPackage(searchId, package):
-                self._console.debug("Skip #%d (different parts using)" % package.id)
-            #elif not noCircularDeps(searchPackage, package):
-            #    self._console.debug("Skip #%d (circular dependencies)" % package.id)
-            #elif not depsAvailWhereTarget(searchPackage, package):
-            #    self._console.debug("Skip #%d (dependencies not always available)" % package.id)
-            else:
-                yield package
+        for targetPackage in allPackages:
+            if searchPackage.id == targetPackage.id:  # no self-merging ;)
+                continue
+            if not isCommonAndGreaterPackage(searchPackage, targetPackage):
+                self._console.debug("Skip #%d (different parts using)" % targetPackage.id)
+                continue
+            if not noCircularDeps(searchPackage, targetPackage):
+                self._console.debug("Skip #%d (circular dependencies)" % targetPackage.id)
+                #continue
+            if not depsAvailWhereTarget(searchPackage, targetPackage):
+                self._console.debug("Skip #%d (dependencies not always available)" % targetPackage.id)
+                #continue
+            yield targetPackage
 
-        #self._console.outdent()
         yield None
 
 
@@ -567,11 +564,7 @@ class PartBuilder(object):
             for package in packageDeps:
                 if package not in part.packages:
                     # add package
-                    #print "-- adding dependent package %s to part %s (because of package %s)" % (package.id, part.name, toPackage.id)
                     part.packages.append(package)
-                    # sort packages
-                    self._sortPartPackages(part)
-                    #print "-- part %s packages after sorting: %r" % (part.name, [x.id for x in part.packages])
                     # recurse
                     updatePartDependencies(part, package.packageDeps)
             return
@@ -593,7 +586,7 @@ class PartBuilder(object):
         self._console.indent()
         # find toPackage
         toPackage = None
-        for toPackage in self._getPreviousCommonPackage(fromPackage, script.parts, packages):
+        for toPackage in self._getPreviousCommonPackage(fromPackage, packages):
             if toPackage == None:
                 break
             elif seen_targets != None:
@@ -610,14 +603,17 @@ class PartBuilder(object):
         # Merge package content and dependencies
         toPackage = mergeContAndDeps(fromPackage, toPackage)
 
-        # Update package dependencies
+        # Update package dependencies:
+        # all packages that depended on fromPackage depend now from toPackage
         for package in script.packages.values():
             if fromPackage in package.packageDeps:
                 # replace fromPackage with toPackage
                 package.packageDeps.difference_update(set((fromPackage,)))
                 package.packageDeps.update(set((toPackage,)))
 
-        # Update part information
+        # Update part information:
+        # remove the fromPackage from all parts using it, and add new dependencies to part
+        # using toPackage
         for part in script.parts.values():
             # remove the merged package
             if fromPackage in part.packages:
@@ -639,7 +635,7 @@ class PartBuilder(object):
     def _getFinalPartData(self, script):
         packages   = script.packages
         parts      = script.parts
-        packageIds = self._sortPackages(packages.keys(), packages)
+        packageIds = [x.id for x in script.packagesSortedSimple()]
 
         resultParts = {}
         for toId, fromId in enumerate(packageIds):
@@ -650,92 +646,19 @@ class PartBuilder(object):
                     else:
                         resultParts[partId].append(toId)
 
-        # re-sort part packages, to clean up ordering issues from merging
-        # - (the issue here is that part packages are only re-sorted during merges
-        #   when actually new packages are added to the part, but *not* when existing
-        #   packages receive a merge package whos package dependencies are already
-        #   fullfilled in the part; still package dependencies among the existing
-        #   packages might change so a re-sorting is necessary to support proper
-        #   load order)
-        for part in script.parts.values():
-            self._sortPartPackages(part)
-
         return resultParts
 
 
 
     def _getFinalClassList(self, script):
-        packages   = script.packagesArraySorted()
-        variants   = script.variants
-        packageIds = self._sortPackages(packages.keys(), packages)
+        packages   = script.packagesSortedSimple()
 
-        #resultClasses = {}
-        resultClasses = []
-        for pkgId in packageIds:
-            #resultClasses[pkgId] = self._depLoader.sortClasses(packages[pkgId].classes, variants)
-            resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants, script.buildType))
+        for package in packages:
+            package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)
 
-        return resultClasses
-
-
-
-    def _getFinalClassList1(self, script):
-        packages   = script.packages
-        variants   = script.variants
-        packageIds = self._sortPackages(packages.keys(), packages)
-
-        for pkgId in packageIds:
-            packages[pkgId].classes = self._depLoader.sortClasses(packages[pkgId].classes, variants, script.buildType)
-
-        script.packageIdsSorted = packageIds
+        script.packageIdsSorted = [x.id for x in packages]
 
         return script
-
-
-
-    def _sortPartPackages(self, part):
-        part.packages = self._sortPackages1(part.packages)
-        #part.packages = list(reversed(self._sortPackagesTopological(part.packages)))
-        part.packageIdsSorted = [x.id for x in part.packages]
-        return
-
-
-    def _sortPackages(self, packageIds, packages):  # packages: {pkgId : Package}
-        def keyFunc (pkgId):
-            return packages[pkgId].part_count
-
-        packageIds.sort(key=keyFunc, reverse=True)
-
-        return packageIds
-
-
-    def _sortPackages1(self, packages):  # packages: [Package]
-        def cmpFunc (x, y):
-            if x.part_count != y.part_count:
-                return cmp(x.part_count, y.part_count)
-            #else:
-            #    if x in y.packageDeps:  # y needs x, so x is "larger" (must be earlier)
-            #        return 1
-            #    elif y in x.packageDeps: # other way round
-            #        return -1
-            #    else:
-            #        return 0
-            else:
-                if x not in y.packageDeps and y not in x.packageDeps:  # unrelated, either is fine
-                    return 0
-                if x in y.packageDeps and y not in x.packageDeps:  # y needs x, so x is "larger" (must be earlier)
-                    return 1
-                elif y in x.packageDeps and x not in y.packageDeps: # other way round
-                    return -1
-                else:
-                    msg = "Circular dependencies between packages: #%d - #%d" % (x.id, y.id)
-                    self._console.warn("! "+msg)
-                    return 0
-
-
-        #packages.sort(key=lambda x: x.part_count, reverse=True)
-        packages.sort(cmp=cmpFunc, reverse=True)
-        return packages
 
 
     ##

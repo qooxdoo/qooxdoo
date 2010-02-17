@@ -23,6 +23,8 @@
 # Part -- Internal representation of an application part
 ##
 
+from generator.code.Package import Package
+
 class Part(object):
     def __init__(self, name):
         self.name      = name
@@ -46,27 +48,21 @@ class Part(object):
             result.append(packageIdsSorted.index(package.id))
         return result
 
-    def _sortPackages(self,):  # packages: [Package]
-        def cmpFunc (x, y):
-            if x.part_count != y.part_count:
-                return cmp(x.part_count, y.part_count)
-            else:
-                if x in y.packageDeps and y not in x.packageDeps:  # y needs x, so x is "larger" (must be earlier)
-                    return 1
-                elif y in x.packageDeps and x not in y.packageDeps: # other way round
-                    return -1
-                else:
-                    print ">>> oups, strange dependencies"
-                    return 0
+    def _sortPackages(self, packages_=None):  # packages: [Package]
 
-        packages = self.packages[:]
-        #packages.sort(key=lambda x: x.part_count, reverse=True)
-        packages.sort(cmp=cmpFunc, reverse=True)
+        if packages_:
+            packages = packages_
+        else:
+            packages = self.packages
+
+        packages.sort(cmp=Package.compareWithDeps, reverse=True)
         return packages
 
     def _setPackageIdsSorted(self, value):
         pass # ignore the value - will be generated on get
 
     packageIdsSorted = property(_sortPackages, _setPackageIdsSorted)
+    
+    packagesSorted   = property(_sortPackages)
 
 

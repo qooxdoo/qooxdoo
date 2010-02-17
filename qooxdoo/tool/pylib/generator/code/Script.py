@@ -24,6 +24,8 @@
 #           application / library
 ##
 
+from generator.code.Package import Package
+
 class Script(object):
 
     def __init__(self, ):
@@ -44,5 +46,19 @@ class Script(object):
         for pkgId in self.packageIdsSorted:
             packageClasses.append(self.packages[pkgId].classes)
         return packageClasses
+
+
+    ##
+    # sort the packages in all parts
+    
+    def sortParts(self):
+        for part in self.parts.values():
+            part.packagesSorted
+            
+    ##
+    # return sorted array of script's packages
+    
+    def packagesSortedSimple(self):
+        return Package.simpleSort(self.packages.values())
 
 
