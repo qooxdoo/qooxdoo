@@ -84,7 +84,7 @@ class Package(object):
 
     @classmethod
     def simpleSort(clazz, packages=[]):
-        return sorted(packages, cmp=clazz.compareByPartCount)
+        return sorted(packages, cmp=clazz.compareByPartCount, reverse=True)
 
 
     ##

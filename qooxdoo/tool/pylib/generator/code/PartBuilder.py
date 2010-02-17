@@ -427,9 +427,11 @@ class PartBuilder(object):
             if not noCircularDeps(searchPackage, targetPackage):
                 self._console.debug("Skip #%d (circular dependencies)" % targetPackage.id)
                 #continue
+                pass
             if not depsAvailWhereTarget(searchPackage, targetPackage):
                 self._console.debug("Skip #%d (dependencies not always available)" % targetPackage.id)
                 #continue
+                pass
             yield targetPackage
 
         yield None
@@ -520,7 +522,7 @@ class PartBuilder(object):
                 oldpackages = []
                 while oldpackages != part.packages:
                     oldpackages = part.packages[:]
-                    for package in reversed(part.packages):   # start with "smallest" package
+                    for package in reversed(part.packagesSorted):   # start with "smallest" package
                         if package.id in selected_packages:
                             mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
                             if mergedPackage:  # on success == package
