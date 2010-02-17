@@ -422,16 +422,14 @@ class PartBuilder(object):
             if searchPackage.id == targetPackage.id:  # no self-merging ;)
                 continue
             if not isCommonAndGreaterPackage(searchPackage, targetPackage):
-                self._console.debug("Skip #%d (different parts using)" % targetPackage.id)
+                self._console.debug("Problematic #%d (different parts using)" % targetPackage.id)
                 continue
             if not noCircularDeps(searchPackage, targetPackage):
-                self._console.debug("Skip #%d (circular dependencies)" % targetPackage.id)
+                self._console.debug("Problematic #%d (circular dependencies)" % targetPackage.id)
                 #continue
-                pass
             if not depsAvailWhereTarget(searchPackage, targetPackage):
-                self._console.debug("Skip #%d (dependencies not always available)" % targetPackage.id)
+                self._console.debug("Problematic #%d (dependencies not always available)" % targetPackage.id)
                 #continue
-                pass
             yield targetPackage
 
         yield None
