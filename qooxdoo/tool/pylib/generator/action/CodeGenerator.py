@@ -892,6 +892,14 @@ qx.Part.$$notifyLoad("%s", function() {
             vals["BootIsInline"] = json.dumpsCode(False)
         else:
             vals["BootIsInline"] = json.dumpsCode(self._job.get("packages/loader-with-boot", True))
+            
+        # closure package information
+            cParts = {}
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            for part in script.parts:
+                if not loader_with_boot or part != "boot":
+                    cParts[part] = True
+            vals["ClosureParts"] = json.dumpsCode(cParts)
 
         # Package Hashes
         vals["PackageHashes"] = {}

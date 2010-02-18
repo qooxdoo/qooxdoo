@@ -41,6 +41,7 @@ qx.Bootstrap.define("qx.Part",
     
     this.__partListners = {};
     this.__packageListeners = {};
+    this.__closures = {};
     
     this.__packages = [];
     var uris = this.__getUris();
@@ -110,10 +111,8 @@ qx.Bootstrap.define("qx.Part",
      * 
      * @param id {String} script id
      */
-    $$notifyLoad : function(id, closure)
-    {
-      //qx.$$loader.importPackageData(packageData);
-      closure();
+    $$notifyLoad : function(id, closure) {
+      this.getInstance().saveClosure(id, closure);
     }    
   },
   
@@ -123,7 +122,18 @@ qx.Bootstrap.define("qx.Part",
     __loader : null,
     __packages : null,
     __parts : null,    
+    __closures : null,
     
+    
+    saveClosure : function(id, closure) {
+      this.__closures[id] = closure;
+    },
+
+    
+    getClosures : function() {
+      return this.__closures;
+    },
+
     
     /**
      * @internal
@@ -256,12 +266,13 @@ qx.Bootstrap.define("qx.Part",
         this.onpart(part);
       }
       
+      
       var key = part.getName();
       var listeners = this.__partListners[key];
       if (!listeners) {
         return;
       }
-      for (var i=0; i<listeners.length; i++) {
+      for (var i = 0; i < listeners.length; i++) {
         listeners[i](part.getReadyState());
       }
       this.__partListners[key] = [];            

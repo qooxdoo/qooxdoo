@@ -30,6 +30,8 @@ qx.Class.define("qx.test.io.part.Part",
 
   members :
   {
+    __loader : null,
+    
     setUp : function()
     {
       qx.test.Part.LOAD_ORDER = [];

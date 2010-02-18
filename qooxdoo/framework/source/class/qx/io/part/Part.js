@@ -33,15 +33,15 @@ qx.Bootstrap.define("qx.io.part.Part",
   construct : function(name, packages, loader)
   {
     this.__name = name;
-    this.__readyState = "complete";
-    this.__packages = packages;
-    this.__loader = loader;
+    this._readyState = "complete";
+    this._packages = packages;
+    this._loader = loader;
   
     for (var i=0; i<packages.length; i++)
     {
       if (packages[i].getReadyState() !== "complete")
       {
-        this.__readyState = "initialized";
+        this._readyState = "initialized";
         break;
       }
     }
@@ -50,6 +50,12 @@ qx.Bootstrap.define("qx.io.part.Part",
 
   members :
   {
+    _readyState : null,
+    _loader : null,
+    _packages : null,
+    __name : null,
+    
+    
     /**
      * Get the ready state of the part. The value is one of
      * <ul>
@@ -64,7 +70,7 @@ qx.Bootstrap.define("qx.io.part.Part",
      * @return {String} The ready state.
      */
     getReadyState : function() {
-      return this.__readyState;
+      return this._readyState;
     },
 
 
@@ -83,7 +89,7 @@ qx.Bootstrap.define("qx.io.part.Part",
      */
     getPackages : function()
     {
-      return this.__packages;
+      return this._packages;
     },
     
     
@@ -98,57 +104,42 @@ qx.Bootstrap.define("qx.io.part.Part",
      * @param self {Object?window} Context to execute the given function in
      */
     load : function(callback, self)
-    {
+    {      
+       if (this._checkCompleteLoading(callback, self)) {
+         return;
+       };
+     
+      this._readyState = "loading";
+
+      if (callback) {
+        this._appendPartListener(callback, self, this);
+      }
+
       var part = this;
-      
-      if (this.__readyState == "complete" || this.__readyState == "error")
-      {
-        if (callback) {
-          callback.call(self, part.__readyState);
-        }
-        return;
-      }
-      else if (this.__readyState == "loading" && callback)
-      {
-        this.__loader.addPartListener(this, function() {
-          callback.call(self, part.__readyState);
-        });
-        return;
-      }
-      
-      this.__readyState = "loading";
-
-      if (callback)
-      {
-        this.__loader.addPartListener(this, function() {
-          callback.call(self, part.__readyState);
-        }, this);
-      }
-
       var onLoad = function() {
         part.load();
       }
 
-      for (var i=0; i<this.__packages.length; i++)
+      for (var i=0; i<this._packages.length; i++)
       {
-        var pkg = this.__packages[i];
+        var pkg = this._packages[i];
         switch (pkg.getReadyState())
         {
           case "initialized":            
-            this.__loader.addPackageListener(pkg, onLoad);
-            pkg.load(this.__loader.notifyPackageResult, this.__loader);
+            this._loader.addPackageListener(pkg, onLoad);
+            pkg.load(this._loader.notifyPackageResult, this._loader);
             return;
 
           case "loading":
-            this.__loader.addPackageListener(pkg, onLoad);
+            this._loader.addPackageListener(pkg, onLoad);
             return;
 
           case "complete":
             break;
             
           case "error":
-            this.__readyState = "error";
-            this.__loader.notifyPartResult(this);
+            this._readyState = "error";
+            this._loader.notifyPartResult(this);
             return;
 
           default:
@@ -156,8 +147,37 @@ qx.Bootstrap.define("qx.io.part.Part",
         }
       }
 
-      this.__readyState = "complete";
-      this.__loader.notifyPartResult(this);
-    }    
+      this._markAsCompleted(this);
+    },
+    
+
+    _appendPartListener : function(callback, self, part) {
+      this._loader.addPartListener(this, function() {
+        callback.call(self, part._readyState);
+      });
+    },
+    
+    
+    _markAsCompleted : function(part) 
+    {
+      part._readyState = "complete";
+      part._loader.notifyPartResult(part);
+    },
+    
+    
+    _checkCompleteLoading : function(callback, self) {
+      // check if its already loaded
+      if (this._readyState == "complete" || this._readyState == "error") {
+        if (callback) {
+          callback.call(self, this._readyState);
+        }
+        return true;
+      }
+      // add a listener if its currently loading
+      else if (this._readyState == "loading" && callback) {
+        this._appendPartListener(callback, self, this);
+        return true;
+      }      
+    }
   }
 });

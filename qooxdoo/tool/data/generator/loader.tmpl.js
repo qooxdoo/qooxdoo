@@ -28,6 +28,7 @@ qx.$$loader = {
   urisBefore : %{UrisBefore},
   packageHashes : %{PackageHashes},
   boot : %{Boot},
+  closureParts : %{ClosureParts},
   bootIsInline : %{BootIsInline},
   
   decodeUris : function(compressedUris)

@@ -29,5 +29,103 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   
   construct : function(name, packages, loader) {
     qx.io.part.Part.call(this, name, packages, loader);
+  },
+  
+  
+  members : 
+  {
+    __packagesToLoad : 0,
+    
+    
+    load : function(callback, self) 
+    {
+      this._checkCompleteLoading(callback, self);
+      
+      // now loading starts
+      this._readyState = "loading";
+
+      // register a listener if we have a callback
+      if (callback) {
+        this._appendPartListener(callback, self, this);
+      }
+
+      // save the number of packages to load 
+      // (will be reduced on every loaded package)
+      this.__packagesToLoad = this._packages.length;
+
+      // handler for every loaded package
+      var part = this;
+      var onLoad = function(readyState) {
+        part.__onLoad.call(part, readyState);
+      }
+      
+      // save the number of packages already completed
+      var completeCount = 0;
+      // handle every package
+      for (var i = 0; i < this._packages.length; i++)
+      {
+        var pkg = this._packages[i];
+        switch (pkg.getReadyState())
+        {
+          // not loadded and not started to load
+          case "initialized":
+            this._loader.addPackageListener(pkg, onLoad);
+            pkg.load(this._loader.notifyPackageResult, this._loader);
+            break; 
+            
+          // already started loading but not done
+          case "loading":
+            this._loader.addPackageListener(pkg, onLoad);
+            break;
+
+          // done loading
+          case "complete":
+            this.__packagesToLoad--;
+            completeCount++;
+            break;
+          
+          // something went wrong during the loading
+          case "error":
+            this._readyState = "error";
+            this._loader.notifyPartResult(part);
+            return;
+
+          default:
+            throw new Error("Invalid case! " + pkg.getReadyState());
+        }
+      }
+      
+      // if all packages are already loaded
+      if (completeCount == this._packages.length) {
+        this._markAsCompleted(this);
+      }
+    },
+    
+        
+    __onLoad : function(readyState) {
+      // error handling
+      if (readyState != "complete") {
+        if (this._readyState != "error") {
+          this._readyState = "error";
+          this._loader.notifyPartResult(this);
+        }
+        return;
+      }
+      
+      this.__packagesToLoad--;
+      if (this.__packagesToLoad === 0) {
+        // invoke the execution if every package is loaded         
+        var closures = this._loader.getClosures();
+        for (var i = 0; i < this._packages.length; i++) {
+          var key = this._packages[i].getId();
+          if (closures[key]) {
+            closures[key]();
+            delete closures[key];
+          }
+        };
+        
+        this._markAsCompleted(this);
+      }      
+    }
   }
 });
