@@ -21,6 +21,7 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types, string, glob
+import functools
 
 from misc import filetool, textutil, util, Path, PathType
 from misc.PathType import PathType
@@ -115,7 +116,8 @@ class Generator(object):
 
             "copy-resources" :
             {
-              "type"   : "JClassDepJob"
+              #"type"   : "JClassDepJob"
+              "type" : "JCompileJob",
             },
 
             "compile" :
@@ -533,24 +535,27 @@ class Generator(object):
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
         # get a class list with no variants (all-encompassing)
-        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+        #classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+        #                             excludeNoDeps, {}, verifyDeps=True, script=None)
+        classListProducer = functools.partial(
+                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
                                      excludeNoDeps, {}, verifyDeps=True, script=None)
         
         # process job triggers
         if classdepTriggers:
             for trigger in classdepTriggers:
                 if trigger == "api":
-                    self.runApiData(classList)
-                elif trigger == "copy-resources":
-                    self.runResources(classList)
+                    self.runApiData(classListProducer)
+                #elif trigger == "copy-resources":
+                #    self.runResources(classList)
                 elif trigger == "fix-files":
-                    self.runFix(classList)
+                    self.runFix(self._classes)
                 elif trigger == "lint-check":
-                    self.runLint(classList)
+                    self.runLint(self._classes)
                 elif trigger == "translate":
                     self.runUpdateTranslation()
                 elif trigger == "pretty-print":
-                    self._codeGenerator.runPrettyPrinting(classList, self._classesObj)
+                    self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
                 else:
                     pass
 
@@ -605,6 +610,8 @@ class Generator(object):
             )               = partsConfigFromClassList(excludeWithDeps, script)
 
             # Execute real tasks
+            if "copy-resources" in jobTriggers:
+                self.runResources(script.classes)
             self._codeGenerator.runSource  (script, self._libs, self._classes, self._classesObj)
             self._codeGenerator.runCompiled(script, self._treeCompiler)
 
@@ -628,12 +635,13 @@ class Generator(object):
 
 
 
-    def runApiData(self, classList):
+    def runApiData(self, classListProducer):
         apiPath = self._job.get("api/path")
         if not apiPath:
             return
 
-        apiPath = self._config.absPath(apiPath)
+        classList = classListProducer()
+        apiPath   = self._config.absPath(apiPath)
 
         self._apiLoader      = ApiLoader(self._classesObj, self._docs, self._cache, self._console, )
 
