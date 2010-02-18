@@ -847,8 +847,10 @@ qx.Part.$$notifyLoad("%s", function() {
         if not parts:
             return ""
 
-        result = ""
-        vals   = {}
+        result           = ""
+        vals             = {}
+        loader_with_boot = self._job.get("packages/loader-with-boot", True)
+
         # fix uris in globalCodes['I18N']['uris']
         if 'uris' in globalCodes['I18N']:
             for code in globalCodes['I18N']['uris']:
@@ -891,15 +893,15 @@ qx.Part.$$notifyLoad("%s", function() {
         if version == "source":
             vals["BootIsInline"] = json.dumpsCode(False)
         else:
-            vals["BootIsInline"] = json.dumpsCode(self._job.get("packages/loader-with-boot", True))
+            vals["BootIsInline"] = json.dumpsCode(loader_with_boot)
             
-        # closure package information
-            cParts = {}
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+        # Closure package information
+        cParts = {}
+        if version == "build":
             for part in script.parts:
                 if not loader_with_boot or part != "boot":
                     cParts[part] = True
-            vals["ClosureParts"] = json.dumpsCode(cParts)
+        vals["ClosureParts"] = json.dumpsCode(cParts)
 
         # Package Hashes
         vals["PackageHashes"] = {}
