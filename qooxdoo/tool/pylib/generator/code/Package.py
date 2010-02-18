@@ -70,12 +70,11 @@ class Package(object):
             return hashCode
 
         # ----------------------------------------------------------------------
-        packageContent  = u''
-        dataString      = getDataString()
-        classesString   = getClassesString()
-        contentHash     = getHash(dataString + classesString)
-        packageContent += 'qx.$$packageData[' + contentHash + ']=' + dataString + ';'
-        packageContent += classesString
+        contentHash    = getHash(dataString + classesString)
+        packageContent = u''''qx.$$packageData["%s"]=%s;'
+qx.Part.$$notifyLoad("%s", function() {
+%s
+});''' % (contentHash, getDataString(), contentHash, getClassesString())
         return contentHash, packageContent
 
 

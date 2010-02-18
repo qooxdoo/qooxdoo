@@ -166,6 +166,7 @@ class CodeGenerator(object):
 
         globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
+        loader_with_boot = self._job.get("packages/loader-with-boot", True)
         bootPackage = ""
         compiledPackages = []
         for packageIndex, packageBitId in enumerate(script.packageIdsSorted):
@@ -176,7 +177,17 @@ class CodeGenerator(object):
             pkgCode = self._treeCompiler.compileClasses(script.packages[packageBitId].classes, variants, optimize, format)
             pkgData = getPackageData(script.packages[packageBitId])
             hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
-            compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
+
+            isBootPackage = packageIndex == 0 and loader_with_boot
+            if isBootPackage:
+                compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
+            else:
+                compiledContent = u'''qx.$$packageData['%s']=%s
+qx.Part.$$notifyLoad("%s", function() {
+%s
+});''' % (hash, pkgData, hash, pkgCode)
+            
+            #
             script.packages[packageBitId].hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
             compiledPackages.append(compiledContent)
 
@@ -189,7 +200,7 @@ class CodeGenerator(object):
 
         outputPackages = []
 
-        if self._job.get("packages/loader-with-boot", True):
+        if loader_with_boot:
             outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
         else:
             outputPackages.append( generateBootScript(globalCodes, script) )
