@@ -401,7 +401,7 @@ class Generator(object):
                 self._console.debug("Expanding expressions...")
                 try:
                     includeWithDeps = self._expandRegExps(includeWithDeps)
-                    includeNoDeps = self._expandRegExps(includeNoDeps)
+                    includeNoDeps   = self._expandRegExps(includeNoDeps)
                 except RuntimeError:
                     self._console.error("Invalid include block: %s" % includeCfg)
                     raise
@@ -1385,6 +1385,28 @@ class Generator(object):
 
 
     def runLint(self, classes):
+
+        def getFilteredClassList(classes, includePatt_, excludePatt_):
+            # Although lint-check doesn't work with dependencies, we allow
+            # '=' in class pattern for convenience; stripp those now
+            intelli, explicit = self._splitIncludeExcludeList(includePatt_)
+            includePatt = intelli + explicit
+            intelli, explicit = self._splitIncludeExcludeList(excludePatt_)
+            excludePatt = intelli + explicit
+            if len(includePatt):
+                incRegex = map(textutil.toRegExpS, includePatt)
+                incRegex = re.compile("|".join(incRegex))
+            else:
+                incRegex = re.compile(".")  # catch-all
+            if len(excludePatt):
+                excRegex = map(textutil.toRegExpS, excludePatt)
+                excRegex = re.compile("|".join(excRegex))
+            else:
+                excRegex = re.compile(".")  # catch-all
+
+            classesFiltered = (c for c in classes if not excRegex.search(c))
+            return classesFiltered
+
         if not self._job.get('lint-check', False):
             return
 
@@ -1397,14 +1419,16 @@ class Generator(object):
             qxPath = qxPath['QOOXDOO_PATH']
         else:
             raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
-        lintsettings = ExtMap(self._job.get('lint-check'))
-        allowedGlobals = lintsettings.get('allowed-globals', [])
+        lintCommand    = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
+        lintJob        = self._job
+        allowedGlobals = lintJob.get('lint-check/allowed-globals', [])
+        includePatt    = lintJob.get('include', [])  # this is for future use
+        excludePatt    = lintJob.get('exclude', [])
 
         #self._actionLib.lint(classes)
         lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
-        numClasses = len(classes)
-        for pos, classId in enumerate(classes):
+        classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
+        for pos, classId in enumerate(classesToCheck):
             #self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classes[classId]['path']))
             self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classesObj[classId].path))
 
@@ -1507,13 +1531,13 @@ class Generator(object):
         return intelli, explicit
 
 
-
     def _expandRegExps(self, entries, container=None):
         result = []
         for entry in entries:
             expanded = self._expandRegExp(entry, container)
             result.extend(expanded)
         return result
+
 
     def _expandRegExp(self, entry, container=None):
         if not container:
