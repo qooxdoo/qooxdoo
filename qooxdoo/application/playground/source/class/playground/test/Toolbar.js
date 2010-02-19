@@ -98,14 +98,6 @@ qx.Class.define("playground.test.Toolbar",
         menu.getChildren()[2].execute();
       }, function() {});
       
-      // test reloadGists event
-      menu.getChildren()[0]._getChildren()[1].setValue("abc");
-      this.assertEventFired(this.__toolbar, "reloadGists", function() {
-        menu.getChildren()[0]._getChildren()[1].setValue("wittemann");
-      }, function(e) {
-        self.assertEquals(e.getData(), "wittemann");
-      });
-      
       // test invalid gist
       this.__toolbar.invalidGist(true, "affe");
       this.assertFalse(menu.getChildren()[0]._getChildren()[1].isValid());
