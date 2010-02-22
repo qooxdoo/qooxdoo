@@ -163,46 +163,57 @@ qx.Class.define("qx.ui.core.queue.Manager",
      * flush is cleaned up and rescheduled. The finally code is called after the
      * callback even if it has thrown an exception.
      *
+     * @signature function(callback, finallyCode) 
      * @param callback {Function} the callback function
      * @param finallyCode {Function} function to be called in the finally block
      */
-    __executeAndRescheduleOnError : function(callback, finallyCode)
+    __executeAndRescheduleOnError : qx.core.Variant.select("qx.debug",
     {
-      var self = qx.ui.core.queue.Manager;
-
-      try
+      "on" : function(callback, finallyCode) 
       {
         callback();
-      }
-      catch (e)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.log.Logger.error(
-            "Error while layout flush: " + e + "\n" +
-            "Stack trace: \n" +
-            qx.dev.StackTrace.getStackTraceFromError(e)
-          );
-        }
-        self.__scheduled = false;
-        self.__inFlush = false;
-        self.__retries += 1;
-
-        if (self.__retries <= self.MAX_RETRIES) {
-          self.scheduleFlush();
-        } else {
-          throw new Error(
-            "Fatal Error: Flush terminated " + (self.__retries-1) + " times in a row" +
-            " due to exceptions in user code. The application has to be reloaded!"
-          );
-        }
-
-        throw e;
-      }
-      finally
-      {
         finallyCode();
+      },
+ 
+    
+      "off" : function(callback, finallyCode)
+      {
+        var self = qx.ui.core.queue.Manager;
+  
+        try
+        {
+          callback();
+        }
+        catch (e)
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            qx.log.Logger.error(
+              "Error while layout flush: " + e + "\n" +
+              "Stack trace: \n" +
+              qx.dev.StackTrace.getStackTraceFromError(e)
+            );
+          }
+          self.__scheduled = false;
+          self.__inFlush = false;
+          self.__retries += 1;
+  
+          if (self.__retries <= self.MAX_RETRIES) {
+            self.scheduleFlush();
+          } else {
+            throw new Error(
+              "Fatal Error: Flush terminated " + (self.__retries-1) + " times in a row" +
+              " due to exceptions in user code. The application has to be reloaded!"
+            );
+          }
+  
+          throw e;
+        }
+        finally
+        {
+          finallyCode();
+        }
       }
-    }
+    })
   },
 
 
