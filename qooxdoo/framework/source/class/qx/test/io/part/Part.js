@@ -48,39 +48,11 @@ qx.Class.define("qx.test.io.part.Part",
     createPart : function(name, pkgs, loader) {
       return new qx.io.part.Part(name, pkgs, loader)
     }, 
-    
-    
-    createMockPackage : function(id, delay, error, readyState) 
-    {
-      var pkg = {
-        id: id,
-        delay: delay || 0,
-        error: !!error,
-        readyState: readyState || "initialized",
-        getReadyState : function() { return this.readyState; },
-        getId : function() { return this.id; },
-        load : function(notifyPackageResult, self)
-        {
-          pkg.readyState = "loading";
-          setTimeout(function()
-          {
-            if (pkg.error) {
-              pkg.readyState = "error";            
-            } else {
-              qx.test.Part.LOAD_ORDER.push(pkg.id);
-              pkg.readyState = "complete";
-            }
-            notifyPackageResult.call(self, pkg);
-          }, pkg.delay);
-        }
-      }
-      return pkg;
-    },
-    
+  
     
     "test: load part with one package" : function()
     {
-      var pkg = this.createMockPackage("1");
+      var pkg = new qx.test.io.part.MockPackage("1");
       var part = this.createPart("1", [pkg], this.__loader);
       this.assertEquals("initialized", part.getReadyState());
 
@@ -99,9 +71,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: load part with several packages" : function()
     {
       var packages = [
-        this.createMockPackage("a"),
-        this.createMockPackage("b"),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a"),
+        new qx.test.io.part.MockPackage("b"),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       var part = this.createPart("1", packages, this.__loader);
@@ -121,9 +93,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: delay loading of second package should preserve order" : function()
     {
       var packages = [
-        this.createMockPackage("a"),
-        this.createMockPackage("b", 100),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a"),
+        new qx.test.io.part.MockPackage("b", 100),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       var part = this.createPart("1", packages, this.__loader);
@@ -143,9 +115,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: one already loaded package should not be loaded again and preserve order" : function()
     {
       var packages = [
-        this.createMockPackage("a", 0, false, "complete"),
-        this.createMockPackage("b"),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a", 0, false, "complete"),
+        new qx.test.io.part.MockPackage("b"),
+        new qx.test.io.part.MockPackage("c")
       ];
      
       // fail if it is loaded again
@@ -177,9 +149,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: a currently loading package should not be loaded again and should preserve order" : function()
     {
       var packages = [
-        this.createMockPackage("a", 0, false, "complete"),
-        this.createMockPackage("b"),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a", 0, false, "complete"),
+        new qx.test.io.part.MockPackage("b"),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       packages[1].load(this.__loader.notifyPackageResult, this.__loader); // now in loading state
@@ -202,9 +174,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: error loading second package should set 'error' status on callback" : function()
     {
       var packages = [
-        this.createMockPackage("a"),
-        this.createMockPackage("b", 0, true),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a"),
+        new qx.test.io.part.MockPackage("b", 0, true),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       var part = this.createPart("1", packages, this.__loader);
@@ -222,9 +194,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: loading a loaded part again should not reload the packages" : function()
     {
       var packages = [
-        this.createMockPackage("a"),
-        this.createMockPackage("b"),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a"),
+        new qx.test.io.part.MockPackage("b"),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       
@@ -249,9 +221,9 @@ qx.Class.define("qx.test.io.part.Part",
     "test: loading an error part again should not reload the packages" : function()
     {
       var packages = [
-        this.createMockPackage("a"),
-        this.createMockPackage("b", 0, true),
-        this.createMockPackage("c")
+        new qx.test.io.part.MockPackage("a"),
+        new qx.test.io.part.MockPackage("b", 0, true),
+        new qx.test.io.part.MockPackage("c")
       ];
       
       

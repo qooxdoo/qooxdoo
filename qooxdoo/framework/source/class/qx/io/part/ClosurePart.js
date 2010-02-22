@@ -27,8 +27,14 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 {
   extend : qx.io.part.Part,
   
-  construct : function(name, packages, loader) {
+  construct : function(name, packages, loader)
+  {
+    if (packages.length !== 1) {
+      throw new TypeError("closure parts must have exactly one package!");
+    }
     qx.io.part.Part.call(this, name, packages, loader);
+    
+    this.__package = packages[0];
   },
   
   
@@ -51,54 +57,35 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         this._appendPartListener(callback, self, this);
       }
 
-      // save the number of packages to load 
-      // (will be reduced on every loaded package)
-      this.__packagesToLoad = this._packages.length;
-
       // handler for every loaded package
       var part = this;
       var onLoad = function(readyState) {
         part.__onLoad.call(part, readyState);
       }
       
-      // save the number of packages already completed
-      var completeCount = 0;
-      // handle every package
-      for (var i = 0; i < this._packages.length; i++)
+      var pkg = this.__package;
+      var readyState = pkg.getReadyState();
+      switch (readyState)
       {
-        var pkg = this._packages[i];
-        switch (pkg.getReadyState())
-        {
-          // not loadded and not started to load
-          case "initialized":
-            this._loader.addPackageListener(pkg, onLoad);
-            pkg.load(this._loader.notifyPackageResult, this._loader);
-            break; 
-            
-          // already started loading but not done
-          case "loading":
-            this._loader.addPackageListener(pkg, onLoad);
-            break;
-
-          // done loading
-          case "complete":
-            this.__packagesToLoad--;
-            completeCount++;
-            break;
+        // not loadded and not started to load
+        case "initialized":
+          this._loader.addPackageListener(pkg, onLoad);
+          pkg.load(this._loader.notifyPackageResult, this._loader);
+          break; 
           
-          // something went wrong during the loading
-          case "error":
-            this._markAsCompleted("error");
-            return;
+        // already started loading but not done
+        case "loading":
+          this._loader.addPackageListener(pkg, onLoad);
+          break;
 
-          default:
-            throw new Error("Invalid case! " + pkg.getReadyState());
-        }
-      }
-      
-      // if all packages are already loaded
-      if (completeCount == this._packages.length) {
-        this._markAsCompleted("complete");
+        // done loading
+        case "complete":
+        case "error":
+          this._markAsCompleted(readyState);
+          break;
+
+        default:
+          throw new Error("Invalid case! " + readyState);
       }
     },
     
@@ -113,21 +100,16 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         return;
       }
       
-      this.__packagesToLoad--;
-      if (this.__packagesToLoad === 0)
+      // invoke the execution if every package is loaded         
+      var closures = this._loader.getClosures();
+      var key = this.__package.getId();
+      if (closures[key])
       {
-        // invoke the execution if every package is loaded         
-        var closures = this._loader.getClosures();
-        for (var i = 0; i < this._packages.length; i++) {
-          var key = this._packages[i].getId();
-          if (closures[key]) {
-            closures[key]();
-            delete closures[key];
-          }
-        };
-        
-        this._markAsCompleted("complete");
-      }      
-    }
+        closures[key]();
+        delete closures[key];
+      }
+      
+      this._markAsCompleted("complete");
+    }      
   }
 });
