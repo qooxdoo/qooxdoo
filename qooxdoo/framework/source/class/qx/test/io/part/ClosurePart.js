@@ -41,7 +41,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     tearDown : function() {
       qx.Part.$$instance = null;
     },
-  
+
     
     "test: load part with one package" : function()
     {

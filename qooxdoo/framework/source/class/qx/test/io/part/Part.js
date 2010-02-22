@@ -45,6 +45,11 @@ qx.Class.define("qx.test.io.part.Part",
     },   
     
     
+    createPart : function(name, pkgs, loader) {
+      return new qx.io.part.Part(name, pkgs, loader)
+    }, 
+    
+    
     createMockPackage : function(id, delay, error, readyState) 
     {
       var pkg = {
@@ -76,7 +81,7 @@ qx.Class.define("qx.test.io.part.Part",
     "test: load part with one package" : function()
     {
       var pkg = this.createMockPackage("1");
-      var part = new qx.io.part.Part("1", [pkg], this.__loader);
+      var part = this.createPart("1", [pkg], this.__loader);
       this.assertEquals("initialized", part.getReadyState());
 
       var self = this;
@@ -99,7 +104,7 @@ qx.Class.define("qx.test.io.part.Part",
         this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -121,7 +126,7 @@ qx.Class.define("qx.test.io.part.Part",
         this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -155,7 +160,7 @@ qx.Class.define("qx.test.io.part.Part",
         }
       }
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       var self = this;
       part.load(function(readyState) { self.resume(function()
         {
@@ -179,7 +184,7 @@ qx.Class.define("qx.test.io.part.Part",
       
       packages[1].load(this.__loader.notifyPackageResult, this.__loader); // now in loading state
      
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -202,7 +207,7 @@ qx.Class.define("qx.test.io.part.Part",
         this.createMockPackage("c")
       ];
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       
       var self = this;
       part.load(function(readyState) { self.resume(function() {
@@ -223,7 +228,7 @@ qx.Class.define("qx.test.io.part.Part",
       ];
       
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
 
       var self = this;
       part.load(function(readyState)
@@ -250,7 +255,7 @@ qx.Class.define("qx.test.io.part.Part",
       ];
       
       
-      var part = new qx.io.part.Part("1", packages, this.__loader);
+      var part = this.createPart("1", packages, this.__loader);
       
       var self = this;
       part.load(function(readyState)
