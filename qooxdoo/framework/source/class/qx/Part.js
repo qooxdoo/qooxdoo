@@ -41,6 +41,7 @@ qx.Bootstrap.define("qx.Part",
     
     this.__partListners = {};
     this.__packageListeners = {};
+    this.__packageClosureListeners = {};
     this.__closures = {};
     
     this.__packages = [];
@@ -60,7 +61,7 @@ qx.Bootstrap.define("qx.Part",
     {
       var pkgIndexes = parts[name];
       var packages = [];
-      for (var i=0; i<pkgIndexes.length; i++) {
+      for (var i = 0; i < pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
       
@@ -77,6 +78,8 @@ qx.Bootstrap.define("qx.Part",
   
   statics :
   {
+    TIMEOUT : 7500,
+    
     /**
      * Get the default part loader instance
      * 
@@ -112,7 +115,7 @@ qx.Bootstrap.define("qx.Part",
      * @param id {String} script id
      */
     $$notifyLoad : function(id, closure) {
-      this.getInstance().saveClosure(id, closure);
+      this.getInstance().saveClosure(id, closure);      
     }    
   },
   
@@ -123,13 +126,62 @@ qx.Bootstrap.define("qx.Part",
     __packages : null,
     __parts : null,    
     __closures : null,
+    __packageClosureListeners : null,
     
+    
+    /**
+     * This method is only for testing purposes! Don't use it!
+     * 
+     * @internal
+     * @param pkg {qx.io.part.Package} The package to add to the internal
+     *   registry of packages.
+     */
+    addToPackage : function(pkg) {
+      this.__packages.push(pkg);
+    },
+    
+    
+    addClosurePackageListener : function(pkg, callback)
+    {
+      var key = pkg.getId();
+      if (!this.__packageClosureListeners[key]) {
+        this.__packageClosureListeners[key] = [];
+      }
+      this.__packageClosureListeners[key].push(callback);
+    },
+        
     
     saveClosure : function(id, closure) {
       this.__closures[id] = closure;
+      
+      // search for the package
+      var pkg;
+      for (var i = 0; i < this.__packages.length; i++) {
+        if (this.__packages[i].getId() == id) {
+          pkg = this.__packages[i];
+          break;
+        }
+      };
+      // error if no package could be found
+      if (!pkg) {
+        throw new Error("Package not available");
+      }
+      
+      // call the listeners
+      var listeners = this.__packageClosureListeners[id];
+      if (!listeners) {
+        return;
+      }
+      for (var i = 0; i < listeners.length; i++) {
+        listeners[i]("complete", id);
+      }
+      this.__packageClosureListeners[id] = [];      
     },
 
     
+    /**
+     * @internal
+     */
     getClosures : function() {
       return this.__closures;
     },

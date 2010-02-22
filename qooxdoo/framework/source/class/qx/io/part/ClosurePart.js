@@ -29,13 +29,14 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   
   construct : function(name, packages, loader) {
     qx.io.part.Part.call(this, name, packages, loader);
+    this.__timeoutIDs = {};
   },
   
   
   members : 
   {
     __packagesToLoad : 0,
-    
+    __timeoutIDs : null,
     
     load : function(callback, self) 
     {
@@ -57,8 +58,13 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 
       // handler for every loaded package
       var part = this;
-      var onLoad = function(readyState) {
-        part.__onLoad.call(part, readyState);
+      // success case
+      var onLoad = function(readyState, id) {
+        part._onLoad.call(part, readyState, id);
+      }
+      // timeout case
+      var onTimeout = function() {
+        part._onLoad.call(part, "error");
       }
       
       // save the number of packages already completed
@@ -71,8 +77,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         {
           // not loadded and not started to load
           case "initialized":
-            this._loader.addPackageListener(pkg, onLoad);
-            pkg.load(this._loader.notifyPackageResult, this._loader);
+            // start a timeout as error handling
+            this.__timeoutIDs[pkg.getId()] = window.setTimeout(onTimeout, qx.Part.TIMEOUT);
+            this._loader.addClosurePackageListener(pkg, onLoad);
+            pkg.load(function() {}, this._loader);
             break; 
             
           // already started loading but not done
@@ -104,9 +112,14 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
     },
     
-        
-    __onLoad : function(readyState) 
-    {
+    
+    _onLoad : function(readyState, id) 
+    {      
+      // stop the error timeout, if an id is given
+      if (id) {
+        window.clearTimeout(this.__timeoutIDs[id]);        
+      }
+      
       // error handling
       if (readyState != "complete") {
         if (this._readyState != "error") {
