@@ -112,6 +112,11 @@ qx.Class.define("qx.test.io.part.Package",
         return;
       }
       
+      // test don't work in IE and Opera
+      if (qx.bom.client.Engine.OPERA || qx.bom.client.Engine.MSHTML) {
+        return;
+      }
+      
       var urls = [
         this.getUrl("qx/test/part/file1.js"),
         this.getUrl("qx/test/xmlhttp/404.php"),
