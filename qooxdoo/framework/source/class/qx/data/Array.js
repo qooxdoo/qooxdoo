@@ -705,6 +705,10 @@ qx.Class.define("qx.data.Array",
   */
 
   destruct : function() {
+    for (var i = 0; i < this.__array.length; i++) {
+      this._applyEventPropagation(null, this.__array[i], i);
+    }
+
     this.__array = null;
   }
 });
