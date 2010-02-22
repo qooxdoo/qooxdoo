@@ -115,27 +115,37 @@ class PartBuilder(object):
 
 
     def verifyParts(self, partsMap, script):
+
+        def handleError(msg):
+            if bomb_on_error:
+                raise RuntimeError(msg)
+            else:
+                self._console.warn("! "+msg)
+
         self._console.info("Verifying Parts...")
         self._console.indent()
+        bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
+
         for part in partsMap.values():
             self._console.info("Verifying: %s" % part.name)
             self._console.indent()
             # get set of current classes in this part
-            classSet = set()
             classList = []
             classPackage = []
             for packageIdx, package in enumerate(part.packages): # TODO: not sure this is sorted
-                #classSet.update(package.classes)
-                #classList.extend(package.classes)
                 for classId in package.classes:
                     classList.append(classId)
                     classPackage.append(packageIdx)
-            # check individual class deps are fullfilled in part
+            # 1) Check the initial part defining classes are included (trivial sanity)
+            for classId in part.initial_deps:
+                if classId not in classList:
+                    handleError("Defining class not included in part: '%s'" % (classId,))
+                    
+            # 2) Check individual class deps are fullfilled in part
+            # 3) Check classes are in load-order
             # alternative: check part.deps against classSet
-            #for classId in classSet:
             classIdx = -1
             for packageIdx, package in enumerate(part.packages):
-            #for classIdx,classId in enumerate(classList):
                 for classId in package.classes:
                     classIdx   += 1
                     classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
@@ -145,15 +155,10 @@ class PartBuilder(object):
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
-                            msg = "Unfullfilled dependency of class '%s'[%d]: '%s'" % (classId, packageIdx, depsId)
-                            self._console.warn("! " + msg)
-                            #raise RuntimeError(msg)
+                            handleError("Unfullfilled dependency of class '%s'[%d]: '%s'" % (classId, packageIdx, depsId))
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
-                            msg = "Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % (classId, packageIdx, classIdx, depsId, classPackage[depsIdx], depsIdx)
-                            self._console.warn("! " + msg)  # I should better raise here
-                            #raise RuntimeError(msg)
-                    #missingDeps = loadDeps.difference(classSet)
+                            handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % (classId, packageIdx, classIdx, depsId, classPackage[depsIdx], depsIdx))
                     #if missingDeps:  # there is a load dep not in the part
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
             self._console.outdent()
@@ -417,6 +422,7 @@ class PartBuilder(object):
 
         allPackages  = reversed(Package.simpleSort(packages.values()))
                                 # sorting and reversing assures we try "smaller" package id's first
+        additional_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
 
         for targetPackage in allPackages:
             if searchPackage.id == targetPackage.id:  # no self-merging ;)
@@ -426,10 +432,12 @@ class PartBuilder(object):
                 continue
             if not noCircularDeps(searchPackage, targetPackage):
                 self._console.debug("Problematic #%d (circular dependencies)" % targetPackage.id)
-                #continue
+                if additional_constraints:
+                    continue
             if not depsAvailWhereTarget(searchPackage, targetPackage):
                 self._console.debug("Problematic #%d (dependencies not always available)" % targetPackage.id)
-                #continue
+                if additional_constraints:
+                    continue
             yield targetPackage
 
         yield None
@@ -515,15 +523,16 @@ class PartBuilder(object):
             curr_targets = set(())
 
             for part in collapse_group:
-                selected_packages = selectFunc(part, collapse_group, script.packages)
-                #print "xxx selecteds: %r" % selected_packages
+                #selected_packages = selectFunc(part, collapse_group, script.packages)
                 oldpackages = []
                 while oldpackages != part.packages:
                     oldpackages = part.packages[:]
                     for package in reversed(part.packagesSorted):   # start with "smallest" package
+                        selected_packages = selectFunc(part, collapse_group, script.packages)
+                                                # have to re-calculate, to account for modified script.packages
                         if package.id in selected_packages:
                             mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
-                            if mergedPackage:  # on success == package
+                            if mergedPackage:   # on success == package
                                 del script.packages[mergedPackage.id]
                                 curr_targets.add(targetPackage)
 
@@ -574,10 +583,10 @@ class PartBuilder(object):
             toPackage.classes.extend(fromPackage.classes)
             # Merging package dependencies
             depsDelta = fromPackage.packageDeps.difference(set((toPackage,))) # make sure toPackage is not included
-            self._console.debug("Adding packages dependencies to target package: %r" % ([x.id for x in depsDelta],))
+            self._console.debug("Adding packages dependencies to target package: %r" % (sorted([x.id for x in depsDelta]),))
             toPackage.packageDeps.update(depsDelta)
             toPackage.packageDeps.difference_update(set((fromPackage,))) # remove potential dependency to fromPackage
-            self._console.debug("Target package #%s now depends on: %r" % (toPackage.id, [x.id for x in toPackage.packageDeps]))
+            self._console.debug("Target package #%s now depends on: %r" % (toPackage.id, sorted([x.id for x in toPackage.packageDeps])))
             return toPackage
 
         # ----------------------------------------------------------------------
@@ -703,14 +712,18 @@ class PartBuilder(object):
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
             self._console.debug("%r" % packages[packageId].classes)
-            self._console.debug("Package #%s depends on these packages: %r" % (packageId, [x.id for x in packages[packageId].packageDeps]))
+            self._console.debug("Package #%s depends on these packages: %r" % (packageId, sorted([x.id for x in packages[packageId].packageDeps])))
         self._console.outdent()
 
         self._console.debug("")
         self._console.debug("Part summary : %d parts" % len(parts))
         self._console.indent()
+        packages_used_in_parts = 0
         for part in parts.values():
+            packages_used_in_parts += len(part.packages)
             self._console.debug("Part #%s packages(%d): %s" % (part.name, len(part.packages), ", ".join('#'+str(x.id) for x in part.packages)))
 
+        self._console.debug("")
+        self._console.debug("Total of packages used in parts: %d" % packages_used_in_parts)
         self._console.outdent()
         self._console.debug("")
