@@ -32,10 +32,8 @@ qx.Class.define("qx.test.io.part.ClosurePart",
   {
     __dummyLoader : null,
     
-    setUp : function()
-    {
+    setUp : function() {
       qx.test.PART_FILES = [];
-      qx.test.Part.LOAD_ORDER = [];
       this.__dummyLoader = {uris: []};
     },
     
@@ -44,22 +42,6 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       qx.Part.$$instance = null;
     },
 
-    
-    "test: if the number of pakeages is != 1 an exception should be thrown" : function()
-    {      
-      this.assertException(function() {
-        var part = new qx.io.part.ClosurePart("juhu", [], {});
-      }, TypeError);
-
-      this.assertException(function() {
-        var part = new qx.io.part.ClosurePart("juhu", [
-          new qx.test.io.part.MockPackage("a"),
-          new qx.test.io.part.MockPackage("b")          
-        ], {});
-      }, TypeError);
-    },
-    
-    
     
     "test: load part with one package" : function()
     {
@@ -84,22 +66,25 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     },
     
     
-    "test: load part with an already loading package" : function() 
+    "test: load part with two packages" : function() 
     {
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
   
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
-      var part = new qx.io.part.ClosurePart("juhu", [pkg1], loader);
-      
-      pkg1.load(loader.notifyPackageResult, loader);
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
       
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
         self.assertJsonEquals(
-          ["file1-closure"],
-          qx.test.Part.LOAD_ORDER
+          ["file1-closure", "file2-closure"],
+          qx.test.PART_FILES
         );
       })});
       
@@ -107,19 +92,144 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     },
     
     
-    "test: load part with an error in the package" : function()
+    "test: load part with two packages and one already loaded" : function() 
     {
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
-       
-      var pkg1 = new qx.test.io.part.MockPackage("file21-closure", null, true, null, true);
-      var part = new qx.io.part.ClosurePart("juhu", [pkg1], loader);
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
+      
+      pkg2.load(loader.notifyPackageResult, loader);
+      
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["file1-closure", "file2-closure"],
+          qx.test.PART_FILES
+        );
+      })});
+      
+      this.wait();      
+    },
+    
+    
+    "test: load part with two packages and all already loaded" : function() 
+    {
+      var loader = new qx.Part(this.__dummyLoader);
+      qx.Part.$$instance = loader;
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
+      
+      pkg1.load(loader.notifyPackageResult, loader);
+      pkg2.load(loader.notifyPackageResult, loader);
+      
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["file1-closure", "file2-closure"],
+          qx.test.PART_FILES
+        );
+      })});
+      
+      this.wait();      
+    },
+    
+    
+    "test: load part with three packages and delay" : function() 
+    {
+      var loader = new qx.Part(this.__dummyLoader);
+      qx.Part.$$instance = loader;
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/delay.php") + "?sleep=0.3&file=file1-closure.js"], 
+        "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var pkg3 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/delay.php") + "?sleep=0.2&file=file3-closure.js"], 
+        "file3-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2, pkg3], loader);
+      
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["file1-closure", "file2-closure", "file3-closure"],
+          qx.test.PART_FILES
+        );
+      })});
+      
+      this.wait();      
+    },
+    
+    
+    
+    "test: load part with two packages and delay first part" : function() 
+    {
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+        return;
+      }
+      
+      var loader = new qx.Part(this.__dummyLoader);
+      qx.Part.$$instance = loader;
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/delay.php") + "?sleep=0.3&file=file1-closure.js"], 
+        "file1-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
+      
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["file1-closure", "file2-closure"],
+          qx.test.PART_FILES
+        );
+      })});
+      
+      this.wait();      
+    },
+    
+    
+    "test: load part with two packages with an error in the first part" : function() {
+      var loader = new qx.Part(this.__dummyLoader);
+      qx.Part.$$instance = loader;
+  
+      var pkg1 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file211-closure.js")], "file2-closure"
+      );
+      var pkg2 = new qx.io.part.Package(
+        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+      );
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], loader);
       
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
         self.assertEquals("error", readyState);
-        self.assertJsonEquals([], qx.test.Part.LOAD_ORDER);
+        self.assertJsonEquals([], qx.test.PART_FILES);
       })});
       
       this.wait();      
