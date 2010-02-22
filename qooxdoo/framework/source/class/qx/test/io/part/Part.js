@@ -35,13 +35,15 @@ qx.Class.define("qx.test.io.part.Part",
     setUp : function()
     {
       qx.test.Part.LOAD_ORDER = [];
-      this.__loader = new qx.Part(qx.$$loader);
+      this.__loader = new qx.Part({uris:[]});
+      qx.Part.$$instance = this.__loader;
     },
     
     
     tearDown : function()
     {
       this.__loader = null;
+      qx.Part.$$instance = null;      
     },   
     
     
@@ -242,6 +244,32 @@ qx.Class.define("qx.test.io.part.Part",
       });
       
       this.wait();              
-    }    
+    },
+    
+    
+    "test: load part with several packages including wrapped" : function()
+    {
+      var packages = [
+        new qx.test.io.part.MockPackage("a", null, null, null, true),
+        new qx.test.io.part.MockPackage("b"),
+        new qx.test.io.part.MockPackage("c", null, null, null, true)
+      ];
+      
+      this.__loader.addToPackage(packages[0]);
+      this.__loader.addToPackage(packages[1]);
+      this.__loader.addToPackage(packages[2]);
+      
+      var part = this.createPart("1", packages, this.__loader);
+      var self = this;
+      part.load(function(readyState) { self.resume(function()
+      {
+        self.assertJsonEquals(
+          ["a", "b", "c"],
+          qx.test.Part.LOAD_ORDER
+        );
+      })});
+        
+      this.wait();      
+    }
   }
 });

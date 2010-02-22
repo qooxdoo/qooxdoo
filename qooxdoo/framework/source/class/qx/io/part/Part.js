@@ -119,6 +119,9 @@ qx.Bootstrap.define("qx.io.part.Part",
       var onLoad = function() {
         part.load();
       }
+      var onClosureLoad = function(readyState, id) {
+        part._onClosureLoad.call(part, readyState, id);
+      }
 
       for (var i=0; i<this._packages.length; i++)
       {
@@ -127,6 +130,7 @@ qx.Bootstrap.define("qx.io.part.Part",
         {
           case "initialized":            
             this._loader.addPackageListener(pkg, onLoad);
+            this._loader.addClosurePackageListener(pkg, onClosureLoad);
             pkg.load(this._loader.notifyPackageResult, this._loader);
             return;
 
@@ -147,6 +151,25 @@ qx.Bootstrap.define("qx.io.part.Part",
       }
 
       this._markAsCompleted("complete");
+    },
+    
+    
+    _onClosureLoad : function(readyState, id) {
+      if (readyState == "complete") {
+        // invoke the execution of the package
+        var closures = this._loader.getClosures();
+        for (var i = 0; i < this._packages.length; i++) {
+          var key = this._packages[i].getId();
+          if (id == key && closures[key]) {
+            closures[key]();
+            delete closures[key];
+            break;
+          }
+        };
+      } else {
+        // if its not complete, the whole part has an error
+        this._markAsCompleted("error");
+      }
     },
     
 
