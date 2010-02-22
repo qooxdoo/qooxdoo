@@ -600,20 +600,18 @@ class Generator(object):
             # get current class list
             script.classes  = computeClassList(includeWithDeps, excludeWithDeps, 
                                                includeNoDeps, excludeNoDeps, variants, script=script)
-            # get parts config
-            #(script.boot,
-            #script.parts,            # script.parts['boot']=[0,1,3]
-            #script.packages          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
-            (_,
-            _,            # script.parts['boot']=[0,1,3]
-            _          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )               = partsConfigFromClassList(excludeWithDeps, script)
-
             # Execute real tasks
             if "copy-resources" in jobTriggers:
                 self.runResources(script.classes)
-            self._codeGenerator.runSource  (script, self._libs, self._classes, self._classesObj)
-            self._codeGenerator.runCompiled(script, self._treeCompiler)
+            if set(("compile", "compile-source", "compile-dist")).intersection(jobTriggers):
+                # get parts config; sets
+                # script.boot
+                # script.parts['boot']=[0,1,3]
+                # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
+                partsConfigFromClassList(excludeWithDeps, script)
+
+                self._codeGenerator.runSource  (script, self._libs, self._classes, self._classesObj)
+                self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             # debug tasks
             self.runLogDependencies(script)
