@@ -101,9 +101,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         this._markAsCompleted("complete");
       }
     },
-
-
-    __onLoad : function(readyState) {
+    
+        
+    __onLoad : function(readyState) 
+    {
       // error handling
       if (readyState != "complete") {
         if (this._readyState != "error") {
@@ -113,7 +114,8 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
       
       this.__packagesToLoad--;
-      if (this.__packagesToLoad === 0) {
+      if (this.__packagesToLoad === 0)
+      {
         // invoke the execution if every package is loaded         
         var closures = this._loader.getClosures();
         for (var i = 0; i < this._packages.length; i++) {
