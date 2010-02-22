@@ -32,8 +32,9 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
         } 
         else
         {   
-          if (this.useClosure) 
+          if (pkg.useClosure) 
           { 
+            
             qx.Part.$$notifyLoad(pkg.id, function() {
               qx.test.Part.LOAD_ORDER.push(pkg.id);
             });

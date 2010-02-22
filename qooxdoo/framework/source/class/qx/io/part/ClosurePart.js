@@ -98,7 +98,9 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       
       // if all packages are already loaded
       if (completeCount == this._packages.length) {
-        this._markAsCompleted("complete");
+        setTimeout(function() {
+          pkg._markAsCompleted("complete");
+        }, 0);
       }
     },
     

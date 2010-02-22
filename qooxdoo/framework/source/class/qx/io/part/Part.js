@@ -168,14 +168,17 @@ qx.Bootstrap.define("qx.io.part.Part",
     _checkCompleteLoading : function(callback, self) 
     {
       // check if its already loaded
-      if (this._readyState == "complete" || this._readyState == "error") {
+      var readyState = this._readyState;
+      if (readyState == "complete" || readyState == "error") {
         if (callback) {
-          callback.call(self, this._readyState);
+          setTimeout(function() {
+            callback.call(self, readyState);
+          }, 0);
         }
         return true;
       }
       // add a listener if its currently loading
-      else if (this._readyState == "loading" && callback)
+      else if (readyState == "loading" && callback)
       {
         this._appendPartListener(callback, self, this);
         return true;
