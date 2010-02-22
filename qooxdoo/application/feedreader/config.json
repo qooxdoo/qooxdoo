@@ -31,8 +31,9 @@
     {
       "packages" : 
       {
+        "loader-with-boot" : false,
         "parts" : 
-        {
+        {          
           "boot": 
           {
             "include" : ["${QXTHEME}", "feedreader.Application"]
