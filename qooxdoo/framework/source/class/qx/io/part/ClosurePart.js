@@ -39,8 +39,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     
     load : function(callback, self) 
     {
-      this._checkCompleteLoading(callback, self);
-      
+      if (this._checkCompleteLoading(callback, self)) {
+        return;
+      };
+            
       // now loading starts
       this._readyState = "loading";
 
@@ -86,8 +88,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
           
           // something went wrong during the loading
           case "error":
-            this._readyState = "error";
-            this._loader.notifyPartResult(part);
+            this._markAsCompleted("error");
             return;
 
           default:
@@ -97,17 +98,16 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       
       // if all packages are already loaded
       if (completeCount == this._packages.length) {
-        this._markAsCompleted(this);
+        this._markAsCompleted("complete");
       }
     },
-    
-        
+
+
     __onLoad : function(readyState) {
       // error handling
       if (readyState != "complete") {
         if (this._readyState != "error") {
-          this._readyState = "error";
-          this._loader.notifyPartResult(this);
+          this._markAsCompleted("error");
         }
         return;
       }
@@ -124,7 +124,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
           }
         };
         
-        this._markAsCompleted(this);
+        this._markAsCompleted("complete");
       }      
     }
   }

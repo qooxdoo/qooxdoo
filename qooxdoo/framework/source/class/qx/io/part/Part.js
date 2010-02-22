@@ -138,8 +138,7 @@ qx.Bootstrap.define("qx.io.part.Part",
             break;
             
           case "error":
-            this._readyState = "error";
-            this._loader.notifyPartResult(this);
+            this._markAsCompleted("error");
             return;
 
           default:
@@ -147,7 +146,7 @@ qx.Bootstrap.define("qx.io.part.Part",
         }
       }
 
-      this._markAsCompleted(this);
+      this._markAsCompleted("complete");
     },
     
 
@@ -158,10 +157,10 @@ qx.Bootstrap.define("qx.io.part.Part",
     },
     
     
-    _markAsCompleted : function(part) 
+    _markAsCompleted : function(readyState) 
     {
-      part._readyState = "complete";
-      part._loader.notifyPartResult(part);
+      this._readyState = readyState;
+      this._loader.notifyPartResult(this);
     },
     
     
