@@ -109,6 +109,11 @@ qx.Bootstrap.define("qx.Part",
     },
     
     
+    preload : function(partNames) {
+      this.getInstance().preload(partNames);
+    },    
+    
+    
     /**
      * Loaded scripts have to call this method to indicate successful loading
      * 
@@ -232,6 +237,19 @@ qx.Bootstrap.define("qx.Part",
         parts[i].load(onLoad, this);
       }
     },
+    
+    
+    preload : function(partNames) 
+    {
+      if (qx.Bootstrap.isString(partNames)) {
+        partNames = [partNames];
+      }
+
+      var parts = [];
+      for (var i=0; i<partNames.length; i++) {
+        this.__parts[partNames[i]].preload();
+      }
+    }, 
     
     
     /**

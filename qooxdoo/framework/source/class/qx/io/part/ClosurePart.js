@@ -27,7 +27,8 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 {
   extend : qx.io.part.Part,
   
-  construct : function(name, packages, loader) {
+  construct : function(name, packages, loader) 
+  {
     qx.io.part.Part.call(this, name, packages, loader);
     this.__timeoutIDs = {};
   },
@@ -37,6 +38,11 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   {
     __packagesToLoad : 0,
     __timeoutIDs : null,
+    
+    
+    preload : function() {
+    },
+    
     
     load : function(callback, self) 
     {
