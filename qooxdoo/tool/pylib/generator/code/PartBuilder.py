@@ -127,6 +127,8 @@ class PartBuilder(object):
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
 
         for part in partsMap.values():
+            if part.is_ignored:  # skip ignored parts
+                continue
             self._console.info("Verifying: %s" % part.name)
             self._console.indent()
             # get set of current classes in this part
@@ -221,6 +223,7 @@ class PartBuilder(object):
             # Checking we have something to include
             if len(part.deps) == 0:
                 self._console.info("Part #%s is ignored in current configuration" % part.name)
+                part.is_ignored = True
                 continue
 
             # Finally resolve the dependencies
