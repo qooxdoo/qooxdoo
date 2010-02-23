@@ -55,6 +55,17 @@ qx.Class.define("qx.test.io.ScriptLoader",
 
     test404 : function()
     {
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+        return;
+      }
+      
+      // Opera will fire an event at all
+      if (qx.bom.client.Engine.OPERA) {
+        this.warn("Test skipped in Opera, since it doesn't fire events here.");
+        return;
+      }
+      
       var url = this.getUrl("qx/test/xmlhttp/404.php");
       
       this.loader.load(url, function(status) { this.resume(function() {
@@ -67,7 +78,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
 
     testLoadError : function()
     {
-      // Opera will fire no event at all
+      // Opera will fire an event at all
       if (qx.bom.client.Engine.OPERA) {
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
