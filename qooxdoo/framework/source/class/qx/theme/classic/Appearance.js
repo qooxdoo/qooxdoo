@@ -393,6 +393,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        // "disabled" state is not handled here with purpose. The image widget
+        // does handle this already by replacing the current image with a 
+        // disabled version (if available). If no disabled image is found the 
+        // opacity style is used.
         var icon;
         if (states.checked && states.focused) {
           icon = "checkbox-checked-focused";
@@ -404,8 +408,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon = "checkbox-checked-hovered";
         } else if (states.checked) {
           icon = "checkbox-checked";
-        } else if (states.disabled) {
-          icon = "checkbox-disabled";
         } else if (states.focused) {
           icon = "checkbox-focused";
         } else if (states.pressed) {
@@ -432,6 +434,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        // "disabled" state is not handled here with purpose. The image widget
+        // does handle this already by replacing the current image with a 
+        // disabled version (if available). If no disabled image is found the 
+        // opacity style is used.
         var icon;
         if (states.checked && states.focused) {
           icon = "radiobutton-checked-focused";
@@ -443,8 +449,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon = "radiobutton-checked-hovered";
         } else if (states.checked) {
           icon = "radiobutton-checked";
-        } else if (states.disabled) {
-          icon = "radiobutton-disabled";
         } else if (states.focused) {
           icon = "radiobutton-focused";
         } else if (states.pressed) {
