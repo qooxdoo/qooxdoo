@@ -34,6 +34,7 @@ class Part(object):
         self.packages  = []   # list of packages constituting this part
         #self.packageIdsSorted = [] # list of sorted package id's of this part
         self.no_merge_private_package = False # whether the specific package in this part should be protected from merging
+        self.is_ignored= False      # a part might get ignored, e.g. if it is empty
 
     def __repr__(self):
         return "<%s:%s>" % (self.__class__.__name__,self.name)
