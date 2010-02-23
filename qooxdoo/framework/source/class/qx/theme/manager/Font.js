@@ -129,6 +129,23 @@ qx.Class.define("qx.theme.manager.Font",
 
       return false;
     },
+    
+    
+    __resolveInclude : function(fonts, fontToCheckForInclude)
+    {
+      var fontToInclude = null;
+      
+      if (fonts[fontToCheckForInclude].include)
+      {
+        fontToInclude = fonts[fonts[fontToCheckForInclude].include]; 
+        delete fonts[fontToCheckForInclude].include;
+        fonts[fontToCheckForInclude] = qx.lang.Object.mergeWith(fonts[fontToCheckForInclude], fontToInclude, false);
+        
+        this.__resolveInclude(fonts, fontToCheckForInclude);
+      }
+      
+      return fontToCheckForInclude;
+    },
 
 
     _applyTheme : function(value)
@@ -148,9 +165,14 @@ qx.Class.define("qx.theme.manager.Font",
       {
         var source = value.fonts;
         var font = qx.bom.Font;
-
+        var fontToInclude = null;
+        
         for (var key in source)
         {
+          if (source[key].include && source[source[key].include]) {
+            source.key = this.__resolveInclude(source, key);
+          }
+          
           dest[key] = (new font).set(source[key]);
           dest[key].themed = true;
         }
