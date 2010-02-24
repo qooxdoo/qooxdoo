@@ -55,12 +55,12 @@ def remove(filePath):
             os.remove(filePath)
 
     except IOError, (errno, strerror):
-        print "  * I/O error(%s): %s" % (errno, strerror)
-        sys.exit(1)
+        #print "  * I/O error(%s): %s" % (errno, strerror)
+        raise
 
     except:
-        print "  * Unexpected error:", sys.exc_info()[0]
-        sys.exit(1)
+        #print "  * Unexpected error:", sys.exc_info()[0]
+        raise
 
 
 def save(filePath, content="", encoding="utf-8"):
@@ -76,16 +76,16 @@ def save(filePath, content="", encoding="utf-8"):
         outputFile.write(content)
 
     except IOError, (errno, strerror):
-        print "  * I/O error(%s): %s" % (errno, strerror)
-        sys.exit(1)
+        #print "  * I/O error(%s): %s" % (errno, strerror)
+        raise
 
     except UnicodeDecodeError:
-        print "  * Could not decode result to %s" % encoding
-        sys.exit(1)
+        #print "  * Could not decode result to %s" % encoding
+        raise
 
     except:
-        print "  * Unexpected error:", sys.exc_info()[0]
-        sys.exit(1)
+        #print "  * Unexpected error:", sys.exc_info()[0]
+        raise
 
     outputFile.flush()
     outputFile.close()
@@ -113,16 +113,16 @@ def read(filePath, encoding="utf_8"):
         return textutil.any2Unix(unicode(content))
 
     except IOError, (errno, strerror):
-        print "  * I/O error(%s): %s (%s)" % (errno, strerror, filePath)
-        sys.exit(1)
+        #print "  * I/O error(%s): %s (%s)" % (errno, strerror, filePath)
+        raise
 
     except ValueError:
-        print "  * Invalid Encoding. Required encoding %s in %s" % (encoding, filePath)
-        sys.exit(1)
+        #print "  * Invalid Encoding. Required encoding %s in %s" % (encoding, filePath)
+        raise
 
     except:
-        print "  * Unexpected error:", sys.exc_info()[0], " (%s)" % filePath
-        sys.exit(1)
+        #print "  * Unexpected error:", sys.exc_info()[0], " (%s)" % filePath
+        raise
 
 
 def root():

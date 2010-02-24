@@ -61,7 +61,7 @@ class PartBuilder(object):
 
         # Preprocess part data
         script.parts    = {}  # map of Parts
-        script.parts    = self._getParts(partIncludes, partsCfg)
+        script.parts    = self._getParts(partIncludes, partsCfg, script)
         script.parts    = self._getPartDeps(script, smartExclude)
 
         # Compute packages
@@ -171,14 +171,14 @@ class PartBuilder(object):
     # create the set of parts, each part with a unique single-bit bit mask
     # @returns {Map} parts = { partName : Part() }
 
-    def _getParts(self, partIncludes, partsCfg):
+    def _getParts(self, partIncludes, partsCfg, script):
         self._console.debug("Creating part structures...")
 
         self._console.indent()
         parts = {}
         for partPos, partId in enumerate(partIncludes):
             npart          = Part(partId)    # create new Part object
-            npart.bit_mask = 1<<partPos      # add unique bit
+            npart.bit_mask = script.getPartBitMask()      # add unique bit
             npart.initial_deps = partIncludes[partId][:]  # defining classes from config
             npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
             if 'expected-load-order' in partsCfg[partId]:

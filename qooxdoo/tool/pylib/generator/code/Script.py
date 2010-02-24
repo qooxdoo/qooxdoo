@@ -61,4 +61,13 @@ class Script(object):
     def packagesSortedSimple(self):
         return Package.simpleSort(self.packages.values())
 
+    ##
+    # generates a sequence of consecutive powers of 2: 1, 2, 4, 8, ...
+     
+    def getPartBitMask(self, c=[0]):
+        bitmask = 1L<<c[0]
+        c[0] += 1
+        return bitmask
+
+
 

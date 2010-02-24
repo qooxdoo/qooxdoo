@@ -23,13 +23,15 @@ import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
 import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
-from generator.config.Lang import Lang
-from generator.config.Library import Library
-from ecmascript import compiler
-from misc import filetool, json, Path
-from misc.ExtMap import ExtMap
-from misc.Path import OsPath, Uri
-from misc import securehash as sha
+from generator.config.Lang      import Lang
+from generator.config.Library   import Library
+from generator.code.Part        import Part
+from generator.code.Package     import Package
+from ecmascript                 import compiler
+from misc                       import filetool, json, Path
+from misc.ExtMap                import ExtMap
+from misc.Path                  import OsPath, Uri
+from misc                       import securehash as sha
         
 
 console = None
@@ -102,7 +104,7 @@ class CodeGenerator(object):
 
         def getPackageData(package):
             data = {}
-            data["resources"] = package.resources
+            data["resources"] = package.data.resources
             data = json.dumpsCode(data)
             data += ';\n'
             return data
@@ -684,7 +686,7 @@ qx.Part.$$notifyLoad("%s", function() {
                         break
             for package in script.packages.values():
                 if classesUsing.intersection(set(package.classes)):
-                    package.resources[assetId] = resvalue
+                    package.data.resources[assetId] = resvalue
             return
 
 
@@ -992,17 +994,25 @@ qx.Part.$$notifyLoad("%s", function() {
         transKeys  = globalCodes['Translations'].keys()
         localeKeys = globalCodes['Locales'].keys()
         for localeCode in set(transKeys + localeKeys):
+            # new: also provide a localeCode "part" with corresponding packages
+            part = Part(localeCode)
+            part.bit_mask = script.getPartBitMask()
+            package = Package(part.bit_mask)  # this might be modified later
+
             data = {}
             data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
             if localeCode in transKeys:
-                data[localeCode]['Translations'] = globalCodes['Translations'][localeCode]
+                data[localeCode]['Translations']     = globalCodes['Translations'][localeCode]
+                package.data.translations[localeCode] = globalCodes['Translations'][localeCode]
             if localeCode in localeKeys:
-                data[localeCode]['Locales']      = globalCodes['Locales'][localeCode]
+                data[localeCode]['Locales']     = globalCodes['Locales'][localeCode]
+                package.data.locales[localeCode] = globalCodes['Locales'][localeCode]
 
             # write to file
             dataS = json.dumpsCode(data)
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             fPath = self.writePackage(dataS, script, packageId=localeCode)
+            #fPath1 = self.writePackage(package.packageContent()[1], script, packageId=localeCode+"I")
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
             globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
