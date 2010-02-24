@@ -103,6 +103,24 @@ qx.Class.define("qx.test.theme.manager.Icon",
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("juhu/icon", alias.resolve("icon"));
       this.assertEquals("test/custom", alias.resolve("custom"));
+    },
+    
+    
+    testChangeThemeEventFired : function()
+    {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        aliases : {
+          "icon" : "my/icon/Theme"
+        },
+        icons : {}
+      });
+
+      var that = this;
+      this.assertEventFired(this.manager, "changeTheme", function() {
+        that.manager.setTheme(qx.test.Theme.themes.A);        
+      }, function(e) {
+        that.assertIdentical(e.getData(), qx.test.Theme.themes.A, "Setting theme failed!");
+      });      
     }
   }
 });
