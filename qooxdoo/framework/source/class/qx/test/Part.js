@@ -81,20 +81,23 @@ qx.Class.define("qx.test.Part",
       
       var loader = {
         parts : {
-          "juhu" : [0]
+          "juhu" : [1]
         },
         uris : [
-          [this.getUrl("qx/test/part/file1-closure.js")]
+          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")]
         ],
         closureParts : {"juhu": true},
-        packageHashes : ["file1-closure"]
+        packageHashes : {"1": "file1-closure"}
       };
       
       var partLoader = new qx.Part(loader);
+      qx.Part.$$instance = partLoader;
       
       var self = this;
       partLoader.onpart = function(part) {
         self.resume(function() {
+          self.assertEquals("complete", part.getPackages()[0].getReadyState());
+          self.assertEquals("cached", part.getReadyState());
           self.assertEquals(0, qx.test.PART_FILES.length);
           var closures = partLoader.getClosures();
           self.assertEquals(1, qx.lang.Object.getLength(closures));

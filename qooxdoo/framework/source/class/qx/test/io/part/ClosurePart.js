@@ -251,8 +251,32 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       part.load(function(readyState) { self.resume(function() {
         self.assertEquals("complete", readyState);
       })});
-      
       this.wait();       
+    },
+    
+    
+    "test: load a part with preloaded package" : function()
+    {
+      var pkg = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
+      var part = new qx.io.part.ClosurePart("juhu", [pkg], this.__loader);
+        
+      this.__loader.addToPackage(pkg);
+
+      var self = this;
+      
+      this.__loader.onpart = function(part) {
+        part.load(function(readyState) { self.resume(function()
+        {
+          self.assertEquals("complete", readyState);
+          self.assertJsonEquals(
+            ["file1-closure"],
+            qx.test.LOAD_ORDER
+          );
+        })});
+      }
+      
+      part.preload();
+      this.wait();      
     }
   }
 });
