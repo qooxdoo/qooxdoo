@@ -24,6 +24,7 @@ import re, os, sys, optparse, shutil, errno, stat, codecs
 from string import Template
 
 import qxenviron
+from ecmascript.frontend import lang
 from generator.runtime.Log import Log
 from misc import Path
 
@@ -238,6 +239,33 @@ def normalizePath(path):
     return path
 
 
+def checkNamespace(options):
+
+    # check availability and spelling
+    if not options.namespace:
+        if R_ILLEGAL_NS_CHAR.search(options.name):
+            convertedName = R_ILLEGAL_NS_CHAR.sub("_", options.name)
+            console.log("WARNING: Converted illegal characters in name (from %s to %s)" % (options.name, convertedName))
+            options.name = convertedName
+            options.namespace = convertedName.lower()
+        else:
+            options.namespace = options.name.lower()
+        
+    else:
+        options.namespace = options.namespace.decode('utf-8')
+        if R_ILLEGAL_NS_CHAR.search(options.namespace):
+            convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
+            console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
+            options.namespace = convertedNamespace
+
+    # check reserved words
+    if options.namespace in lang.GLOBALS:
+        console.error("JS reserved word '%s' is not allowed as name space" % options.namespace)
+        sys.exit(1)
+
+
+
+
 def main():
     parser = optparse.OptionParser()
 
@@ -296,22 +324,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     global console
     console = Log(options.logfile, "info")
 
-    if not options.namespace:
-        if R_ILLEGAL_NS_CHAR.search(options.name):
-            convertedName = R_ILLEGAL_NS_CHAR.sub("_", options.name)
-            console.log("WARNING: Converted illegal characters in name (from %s to %s)" % (options.name, convertedName))
-            options.name = convertedName
-            options.namespace = convertedName.lower()
-        else:
-            options.namespace = options.name.lower()
-        
-    else:
-        options.namespace = options.namespace.decode('utf-8')
-        if R_ILLEGAL_NS_CHAR.search(options.namespace):
-            convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
-            console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
-            options.namespace = convertedNamespace
-
+    checkNamespace(options)
     getQxVersion()
     createApplication(options)
 
