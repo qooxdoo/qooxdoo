@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       
       if (qx.$$packageData[this.__id])
       {
-        this.__importPackageData(qx.$$packageData[this.__id] || {});
+        this.__importPackageData(qx.$$packageData[this.__id]);
         delete qx.$$packageData[this.__id];
       }
       this.__readyState = "complete";
@@ -158,6 +158,7 @@ qx.Bootstrap.define("qx.io.part.Package",
         this.__urls,
         function() {
           this.__readyState = "complete";
+          this.execute();
           notifyPackageResult.call(self, this);
         },
         function() {
