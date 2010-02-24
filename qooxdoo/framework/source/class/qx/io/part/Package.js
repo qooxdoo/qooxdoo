@@ -40,6 +40,15 @@ qx.Bootstrap.define("qx.io.part.Package",
 
   members :
   {
+    __readyState : null,
+    __urls : null,
+    __id : null,
+    __closure : null,
+    __loadWithClosure : null,
+    __timeoutId : null,
+    __notifyPackageResult : null,
+    
+    
     /**
      * Get the package ID.
      * 
