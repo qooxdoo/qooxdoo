@@ -51,6 +51,7 @@ class QxTest:
     }
     
     defaultTestConf = {
+      'qxBranch'            : 'trunk',
       'simulateTest'        : False,
       'getReportFrom'       : 'testLog',
       'testLogDir'          : '../../logs',
@@ -973,6 +974,7 @@ class QxTest:
       "test_hostos" : self.os,
       "test_hostid" : "",
       "revision" : self.trunkrev,
+      "branch" : self.testConf["qxBranch"],
       "start_date" : start_date,
       "end_date" : time.strftime(self.timeFormat),
       "simulations": [],
@@ -1040,7 +1042,7 @@ class QxTest:
     if ('hostId' in self.mailConf):
       self.mailConf['subject'] += " " + self.mailConf['hostId']
     if (self.trunkrev):
-      self.mailConf['subject'] += " (trunk r" + self.trunkrev + ")"
+      self.mailConf['subject'] += " (%s r%s)" %(self.testConf["qxBranch"],self.trunkrev)
     if (aut in self.buildStatus):
       if (self.buildStatus[aut]["BuildError"]):
         self.mailConf['subject'] += " BUILD ERROR"
