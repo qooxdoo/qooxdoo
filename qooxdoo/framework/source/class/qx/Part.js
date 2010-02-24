@@ -245,7 +245,6 @@ qx.Bootstrap.define("qx.Part",
         partNames = [partNames];
       }
 
-      var parts = [];
       for (var i=0; i<partNames.length; i++) {
         this.__parts[partNames[i]].preload();
       }
@@ -332,20 +331,20 @@ qx.Bootstrap.define("qx.Part",
      */    
     notifyPartResult : function(part)
     {
+      var key = part.getName();
+
+      var listeners = this.__partListners[key];
+      if (listeners) 
+      {
+        for (var i = 0; i < listeners.length; i++) {
+          listeners[i](part.getReadyState());
+        }
+        this.__partListners[key] = [];            
+      }
+
       if (typeof this.onpart == "function") {
         this.onpart(part);
       }
-      
-      
-      var key = part.getName();
-      var listeners = this.__partListners[key];
-      if (!listeners) {
-        return;
-      }
-      for (var i = 0; i < listeners.length; i++) {
-        listeners[i](part.getReadyState());
-      }
-      this.__partListners[key] = [];            
     },
 
    

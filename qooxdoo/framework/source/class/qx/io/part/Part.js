@@ -154,8 +154,10 @@ qx.Bootstrap.define("qx.io.part.Part",
     },
     
     
-    _onClosureLoad : function(readyState, id) {
-      if (readyState == "complete") {
+    _onClosureLoad : function(readyState, id) 
+    {
+      if (readyState == "complete")
+      {
         // invoke the execution of the package
         var closures = this._loader.getClosures();
         for (var i = 0; i < this._packages.length; i++) {
