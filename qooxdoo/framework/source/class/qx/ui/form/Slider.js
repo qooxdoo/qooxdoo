@@ -163,7 +163,8 @@ qx.Class.define("qx.ui.form.Slider",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyMinimum"
+      apply : "_applyMinimum",
+      event: "changeMinimum"
     },
 
 
@@ -175,7 +176,8 @@ qx.Class.define("qx.ui.form.Slider",
     {
       check : "Integer",
       init : 100,
-      apply : "_applyMaximum"
+      apply : "_applyMaximum",
+      event : "changeMaximum"
     },
 
 

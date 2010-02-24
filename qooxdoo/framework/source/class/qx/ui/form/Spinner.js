@@ -160,7 +160,8 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Number",
       apply : "_applyMinimum",
-      init : 0
+      init : 0,
+      event: "changeMinimum"
     },
 
     /** The value of the spinner. */
@@ -178,7 +179,8 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Number",
       apply : "_applyMaximum",
-      init : 100
+      init : 100,
+      event: "changeMaximum"
     },
 
     /** whether the value should wrap around */
