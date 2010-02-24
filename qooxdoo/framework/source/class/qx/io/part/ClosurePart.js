@@ -30,125 +30,103 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   construct : function(name, packages, loader) 
   {
     qx.io.part.Part.call(this, name, packages, loader);
-    this.__timeoutIDs = {};
   },
   
   
   members : 
   {
     __packagesToLoad : 0,
-    __timeoutIDs : null,
     
     
-    preload : function() {
+    preload : function() 
+    {
+      for (var i = 0; i < this._packages.length; i++)
+      {
+        var pkg = this._packages[i];
+        if (pkg.getReadyState() == "initialized") {
+          pkg.loadClosure(this._loader.notifyPackageResult, this._loader);
+        }
+      }
     },
     
     
-    load : function(callback, self) 
+    load : function(callback, self)
     {
       if (this._checkCompleteLoading(callback, self)) {
         return;
       };
-            
-      // now loading starts
+    
       this._readyState = "loading";
-
-      // register a listener if we have a callback
+      
       if (callback) {
         this._appendPartListener(callback, self, this);
-      }
-
-      // save the number of packages to load 
-      // (will be reduced on every loaded package)
+      }      
+     
       this.__packagesToLoad = this._packages.length;
-
-      // handler for every loaded package
-      var part = this;
-      // success case
-      var onLoad = function(readyState, id) {
-        part._onLoad.call(part, readyState, id);
-      }
-      // timeout case
-      var onTimeout = function() {
-        part._onLoad.call(part, "error");
-      }
       
-      // save the number of packages already completed
-      var completeCount = 0;
-      // handle every package
       for (var i = 0; i < this._packages.length; i++)
       {
         var pkg = this._packages[i];
-        switch (pkg.getReadyState())
+        var pkgReadyState = pkg.getReadyState();
+        
+        // trigger loading
+        if (pkgReadyState == "initialized") {
+          pkg.loadClosure(this._loader.notifyPackageResult, this._loader);
+        }
+        
+        // Listener for package changes
+        if (pkgReadyState == "initialized" || pkgReadyState == "loading") 
         {
-          // not loadded and not started to load
-          case "initialized":
-            // start a timeout as error handling
-            this.__timeoutIDs[pkg.getId()] = window.setTimeout(onTimeout, qx.Part.TIMEOUT);
-            this._loader.addClosurePackageListener(pkg, onLoad);
-            pkg.load(function() {}, this._loader);
-            break; 
-            
-          // already started loading but not done
-          case "loading":
-            this._loader.addPackageListener(pkg, onLoad);
-            break;
-
-          // done loading
-          case "complete":
-            this.__packagesToLoad--;
-            completeCount++;
-            break;
-          
-          // something went wrong during the loading
-          case "error":
-            this._markAsCompleted("error");
-            return;
-
-          default:
-            throw new Error("Invalid case! " + pkg.getReadyState());
+          this._loader.addPackageListener(
+            pkg, 
+            qx.Bootstrap.bind(this._onPackageLoad, this, pkg)
+          );
+        }
+        else if (pkgReadyState == "error")
+        {
+          this._markAsCompleted("error");
+          return;
+        }
+        else {
+          // "complete" and "cached"
+          this.__packagesToLoad--;
         }
       }
       
-      // if all packages are already loaded
-      if (completeCount == this._packages.length) {
-        setTimeout(function() {
-          pkg._markAsCompleted("complete");
-        }, 0);
-      }
+      // execute closures in case everything is already loaded/cached
+      if (this.__packagesToLoad <= 0) {
+        this.__executePackages();
+      } 
     },
     
     
-    _onLoad : function(readyState, id) 
-    {      
-      // stop the error timeout, if an id is given
-      if (id) {
-        window.clearTimeout(this.__timeoutIDs[id]);        
+    __executePackages : function()
+    {
+      for (var i = 0; i < this._packages.length; i++) {
+        this._packages[i].execute();
       }
-      
-      // error handling
-      if (readyState != "complete") {
-        if (this._readyState != "error") {
-          this._markAsCompleted("error");
-        }
+      this._markAsCompleted("complete");
+    },
+    
+    
+    _onPackageLoad : function(pkg)
+    {
+      // if the part already has an error, ignore the callback
+      if (this._readyState == "error") {
         return;
       }
       
+      // one error package results in an error part
+      if (pkg.getReadyState() == "error") {
+        this._markAsCompleted("error");
+        return;
+      }
+      
+      // every package could be loaded -> execute the closures
       this.__packagesToLoad--;
-      if (this.__packagesToLoad === 0)
-      {
-        // invoke the execution if every package is loaded         
-        var closures = this._loader.getClosures();
-        for (var i = 0; i < this._packages.length; i++) {
-          var key = this._packages[i].getId();
-          if (closures[key]) {
-            closures[key]();
-            delete closures[key];
-          }
-        };
-        
-        this._markAsCompleted("complete");
-      }      
+      if (this.__packagesToLoad <= 0) {
+        this.__executePackages();
+      }
     }
   }
 });

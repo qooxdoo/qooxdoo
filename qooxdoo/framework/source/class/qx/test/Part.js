@@ -94,23 +94,57 @@ qx.Class.define("qx.test.Part",
       qx.Part.$$instance = partLoader;
       
       var self = this;
-      partLoader.onpart = function(part) {
+      var part = partLoader.getParts()["juhu"];
+      setTimeout(function() {
         self.resume(function() {
-          self.assertEquals("complete", part.getPackages()[0].getReadyState());
-          self.assertEquals("cached", part.getReadyState());
+          self.assertEquals("cached", part.getPackages()[0].getReadyState());
+          self.assertEquals("initialized", part.getReadyState());
           self.assertEquals(0, qx.test.PART_FILES.length);
-          var closures = partLoader.getClosures();
-          self.assertEquals(1, qx.lang.Object.getLength(closures));
-          self.assertFunction(closures["file1-closure"]);
           
           // execute closure to check if it is the correct one
-          closures["file1-closure"]();
+          part.getPackages()[0].execute();
           self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
         });
-      }
+      }, 300);
       
       partLoader.preload("juhu");
       this.wait();
-    }
+    },
+    
+    
+    "test: preload a part and immediately load it afterwards" : function()
+    {
+      qx.test.PART_FILES = [];
+      
+      var loader = {
+        parts : {
+          "juhu" : [1]
+        },
+        uris : [
+          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")]
+        ],
+        closureParts : {"juhu": true},
+        packageHashes : {"1": "file1-closure"}
+      };
+      
+      var partLoader = new qx.Part(loader);
+      qx.Part.$$instance = partLoader;
+
+      partLoader.preload("juhu");
+      
+      var self = this;
+      var part = partLoader.getParts()["juhu"];
+      partLoader.require("juhu", function() {
+        self.resume(function() {
+          self.assertEquals("complete", part.getPackages()[0].getReadyState());
+          self.assertEquals("complete", part.getReadyState());
+          
+          self.assertEquals(1, qx.test.PART_FILES.length);
+          self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
+        });
+      }, 300);
+      
+      this.wait();
+    }    
   }
 });

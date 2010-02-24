@@ -42,7 +42,6 @@ qx.Bootstrap.define("qx.Part",
     this.__partListners = {};
     this.__packageListeners = {};
     this.__packageClosureListeners = {};
-    this.__closures = {};
     
     this.__packages = [];
     var uris = this.__getUris();
@@ -130,7 +129,6 @@ qx.Bootstrap.define("qx.Part",
     __loader : null,
     __packages : null,
     __parts : null,    
-    __closures : null,
     __packageClosureListeners : null,
     
     
@@ -156,9 +154,8 @@ qx.Bootstrap.define("qx.Part",
     },
         
     
-    saveClosure : function(id, closure) {
-      this.__closures[id] = closure;
-      
+    saveClosure : function(id, closure) 
+    {
       // search for the package
       var pkg;
       for (var i = 0; i < this.__packages.length; i++) {
@@ -167,10 +164,13 @@ qx.Bootstrap.define("qx.Part",
           break;
         }
       };
+      
       // error if no package could be found
       if (!pkg) {
-        throw new Error("Package not available");
+        throw new Error("Package not available: " + id);
       }
+
+      pkg.saveClosure(closure);
       
       // call the listeners
       var listeners = this.__packageClosureListeners[id];
@@ -180,15 +180,7 @@ qx.Bootstrap.define("qx.Part",
       for (var i = 0; i < listeners.length; i++) {
         listeners[i]("complete", id);
       }
-      this.__packageClosureListeners[id] = [];      
-    },
-
-    
-    /**
-     * @internal
-     */
-    getClosures : function() {
-      return this.__closures;
+      this.__packageClosureListeners[id] = [];   
     },
 
     
@@ -276,16 +268,6 @@ qx.Bootstrap.define("qx.Part",
      * @return {String[]} decompressed URIs
      */
     __decodeUris : qx.$$loader.decodeUris,
-    
-    
-    /**
-     * Import the data of a package. The function is defined in the loader
-     * script.
-     *
-     * @signature function(packageData)
-     * @param packageData {Map} Map of package data categories ("resources",...)
-     */
-    __importPackageData : qx.$$loader.importPackageData,    
     
     
     /*
@@ -386,10 +368,6 @@ qx.Bootstrap.define("qx.Part",
     notifyPackageResult : function(pkg)
     {
       var key = pkg.getId();
-      
-      if (pkg.getReadyState() == "complete") {
-        this.__importPackageData(qx.$$packageData[key] || {});
-      }
       
       var listeners = this.__packageListeners[key];
       if (!listeners) {

@@ -76,6 +76,68 @@ qx.Bootstrap.define("qx.io.part.Package",
     },
     
     
+    saveClosure : function(closure)
+    {
+      if (this.__readyState == "error") {
+        return;
+      }
+
+      this.__closure = closure;
+      
+      if (!this.__loadWithClosure) {
+        this.execute();
+      } else {
+        clearTimeout(this.__timeoutId);
+        this.__readyState = "cached";
+        this.__notifyPackageResult(this);
+      }
+    },
+    
+    
+    execute : function()
+    {
+      if (this.__closure)
+      {
+        this.__closure();
+        delete this.__closure;
+      }
+      
+      if (qx.$$packageData[this.__id])
+      {
+        this.__importPackageData(qx.$$packageData[this.__id] || {});
+        delete qx.$$packageData[this.__id];
+      }
+      this.__readyState = "complete";
+    },
+    
+    
+    loadClosure : function(notifyPackageResult, self)
+    {
+      if (this.__readyState !== "initialized") {
+        return;
+      }
+
+      this.__loadWithClosure = true;
+      this.__notifyPackageResult = qx.Bootstrap.bind(notifyPackageResult, self);
+      
+      this.__loadScriptList(
+        this.__urls,
+        function() {},
+        function() {
+          this.__readyState = "error";
+          notifyPackageResult.call(self, this);
+        },
+        this
+      );
+      
+      var pkg = this;
+      this.__timeoutId = setTimeout(function() {
+        pkg.__readyState = "error";
+        notifyPackageResult.call(self, pkg);
+      }, qx.Part.TIMEOUT);
+    },
+    
+    
     /**
      * Load the part's script URLs in the correct order. A {@link #load} event
      * if fired once all scripts are loaded.
@@ -88,12 +150,14 @@ qx.Bootstrap.define("qx.io.part.Package",
         return;
       }
 
+      this.__loadWithClosure = false;
+      
       this.__readyState = "loading";
 
       this.__loadScriptList(
         this.__urls,
         function() {
-          this.__readyState = "complete";          
+          this.__readyState = "complete";
           notifyPackageResult.call(self, this);
         },
         function() {
@@ -121,15 +185,12 @@ qx.Bootstrap.define("qx.io.part.Package",
         return;
       }
 
-      this.__readyState = "loading";
-
       var urlsLoaded = 0;
       var self = this;
       var onLoad = function(urls)
       {
         if (urlsLoaded >= urlList.length)
         {
-          self.__readyState = "complete";
           callback.call(self);
           return;
         }
@@ -142,7 +203,9 @@ qx.Bootstrap.define("qx.io.part.Package",
           loader.dispose();
           
           if (status !== "success") {
-            return errBack.call(self);
+            if (self.__readyState == "loading") {
+              return errBack.call(self);
+            }
           }
           
           if (qx.core.Variant.isSet("qx.client", "webkit"))
@@ -150,16 +213,29 @@ qx.Bootstrap.define("qx.io.part.Package",
             // force asynchronous load
             // Safari fails with an "maximum recursion depth exceeded" error if it is
             // called sync.
-            setTimeout(function() {
+            setTimeout(function() 
+            {
               onLoad.call(self, urls, callback, self);
             }, 0);
-          } else {
+          } 
+          else
+          {
             onLoad.call(self, urls, callback, self);
           }
         }, self);
       }
 
       onLoad(urlList.concat());
-    }    
+    },
+    
+    
+    /**
+     * Import the data of a package. The function is defined in the loader
+     * script.
+     *
+     * @signature function(packageData)
+     * @param packageData {Map} Map of package data categories ("resources",...)
+     */
+    __importPackageData : qx.$$loader.importPackageData      
   }
 });

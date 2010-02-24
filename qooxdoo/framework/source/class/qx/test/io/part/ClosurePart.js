@@ -53,12 +53,9 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     },
     
     
-    loadPackage : function(part, pkg) {
-      var onLoad = function(readyState) {
-        part._onLoad.call(part, readyState);
-      }
-      this.__loader.addClosurePackageListener(pkg, onLoad);
-      pkg.load(function() {}, null);      
+    loadPackage : function(part, pkg) 
+    {
+      pkg.loadClosure(this.__loader.notifyPackageResult, this.__loader);      
     },
 
     
@@ -214,15 +211,13 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     },
     
     
-    "test: load part with two packages with an error in the first part" : function() 
+    "test: load part with an error package" : function() 
     {
       var pkg1 = new qx.test.io.part.MockPackage("file211-closure", null, true, null, true); 
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true); 
 
-      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1], this.__loader);
       
       this.__loader.addToPackage(pkg1);
-      this.__loader.addToPackage(pkg2);
       
       var self = this;
       part.load(function(readyState) { self.resume(function()
@@ -264,17 +259,18 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
       var self = this;
       
-      this.__loader.onpart = function(part) {
+      setTimeout(function() 
+      {
         part.load(function(readyState) { self.resume(function()
         {
           self.assertEquals("complete", readyState);
           self.assertJsonEquals(
             ["file1-closure"],
-            qx.test.LOAD_ORDER
-          );
+            qx.test.Part.LOAD_ORDER
+          );          
         })});
-      }
-      
+      }, 100);
+
       part.preload();
       this.wait();      
     }

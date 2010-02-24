@@ -129,6 +129,85 @@ qx.Class.define("qx.test.io.part.Package",
       }, this)}, this);
 
       this.wait();      
+    },
+    
+    
+    "test: loading a closure package with load() should execute the closure" : function()
+    {
+      var urls = [
+        this.getUrl("qx/test/part/file1-closure.js")
+      ];
+
+      var pkg = this.createPackage(urls, "file1-closure", false);
+      
+      var loader = new qx.Part({uris: []});
+      qx.Part.$$instance = loader;
+
+      loader.addToPackage(pkg);
+      
+      
+      pkg.load(function() { this.resume(function()
+      {
+        this.assertJsonEquals(
+          ["file1-closure"],
+          qx.test.PART_FILES
+        );
+      }, this)}, this);
+      
+      this.wait();    
+    },
+    
+    
+    "test: loading a closure package with loadClosure() should not execute the closure" : function()
+    {
+      var urls = [
+        this.getUrl("qx/test/part/file1-closure.js")
+      ];
+
+      var pkg = this.createPackage(urls, "file1-closure", false);
+      
+      var loader = new qx.Part({uris: []});
+      qx.Part.$$instance = loader;
+
+      loader.addToPackage(pkg);
+      
+      
+      pkg.loadClosure(function() { this.resume(function()
+      {
+        this.assertEquals("cached", pkg.getReadyState()); 
+        this.assertJsonEquals([], qx.test.PART_FILES);
+
+        pkg.execute();
+        this.assertJsonEquals(
+          ["file1-closure"],
+          qx.test.PART_FILES
+        );
+      }, this)}, this);
+      
+      this.wait();    
+    },
+    
+    
+    "test: loading a non existing file with loadClosure() should timeout" : function()
+    {
+      var pkg = this.createPackage(["___foo.js"], "file1-closure", false);
+      
+      var loader = new qx.Part({uris: []});
+      qx.Part.$$instance = loader;
+
+      loader.addToPackage(pkg);
+
+      qx.Part.TIMEOUT = 300;
+      
+      pkg.loadClosure(function() { this.resume(function()
+      {
+        this.assertEquals("error", pkg.getReadyState()); 
+        this.assertJsonEquals([], qx.test.PART_FILES);
+      }, this)}, this);
+      
+      qx.Part.TIMEOUT = 7500;
+      
+      this.wait(); 
     }
   }
 });

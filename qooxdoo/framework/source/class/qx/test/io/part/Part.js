@@ -137,11 +137,11 @@ qx.Class.define("qx.test.io.part.Part",
       var part = this.createPart("1", packages, this.__loader);
       var self = this;
       part.load(function(readyState) { self.resume(function()
-        {
-          self.assertJsonEquals(
-            ["b", "c"], // a is already loaded
-            qx.test.Part.LOAD_ORDER
-          );
+      {
+        self.assertJsonEquals(
+          ["b", "c"], // a is already loaded
+          qx.test.Part.LOAD_ORDER
+        );
       })});
       
       this.wait();        

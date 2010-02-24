@@ -19,9 +19,12 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
       return this.id; 
     },
     
+    
     load : function(notifyPackageResult, self)
     {
       var pkg = this;
+      
+      this._loadWithClosure = false;
       
       pkg.readyState = "loading";
       setTimeout(function()
@@ -49,6 +52,55 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
 
         notifyPackageResult.call(self, pkg);
       }, pkg.delay);
-    }
+    },
+    
+    
+    saveClosure : function(closure)
+    {
+      if (this.readyState == "error") {
+        return;
+      }
+
+      if (!this._loadWithClosure) {
+        this.execute();
+      } else {
+        this.__readyState = "cached";
+        this.__notifyPackageResult(this);
+      }
+    },
+    
+    
+    execute : function() {
+      qx.test.Part.LOAD_ORDER.push(this.id);
+    },
+    
+    
+    loadClosure : function(notifyPackageResult, self)
+    {
+      var pkg = this;
+      
+      this._loadWithClosure = true;
+      
+      this.__notifyPackageResult = qx.Bootstrap.bind(notifyPackageResult, self);      
+      
+      pkg.readyState = "loading";
+      setTimeout(function()
+      {
+        if (pkg.error)
+        {
+          pkg.readyState = "error";            
+        } 
+        else
+        {   
+          qx.Part.$$notifyLoad(pkg.id, function() {
+            qx.test.Part.LOAD_ORDER.push(pkg.id);
+          });
+          
+          pkg.readyState = "cached";
+        }
+
+        notifyPackageResult.call(self, pkg);
+      }, pkg.delay);
+    }    
   }
 })
