@@ -39,7 +39,7 @@
  *   var text = new qx.ui.form.TextArea("Resize me\nI'm resizable");
  *   resizer.add(text, {edge: 0});
  *
- *   this.getRot().add(resizer);
+ *   this.getRoot().add(resizer);
  * </pre>
  *
  * This example creates a resizer, configures it with a canvas layout and
