@@ -101,8 +101,11 @@ qx.Class.define("qx.bom.Label",
 
           // Force style inheritance for font styles to omit usage of
           // CSS "label" selector, See bug #1349 for details.
+          var style = inner.style;
+          style.padding = "0";
+          
           for (var key in this.__styles) {
-            inner.style[key] = "inherit";
+            style[key] = "inherit";
           }
 
           el.appendChild(inner);
@@ -186,10 +189,12 @@ qx.Class.define("qx.bom.Label",
         var el = win.document.createElement("div");
         var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
-        xulel.style.cursor = "inherit";
-        xulel.style.color = "inherit";
-        xulel.style.overflow = "hidden";
-        xulel.style.maxWidth = "100%";
+        var style = xulel.style;
+        style.cursor = "inherit";
+        style.color = "inherit";
+        style.overflow = "hidden";
+        style.maxWidth = "100%";
+        style.padding = "0";
 
         // Force style inheritance for font styles to omit usage of
         // CSS "label" selector, See bug #1349 for details.
