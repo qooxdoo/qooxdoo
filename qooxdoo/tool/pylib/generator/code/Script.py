@@ -31,8 +31,8 @@ class Script(object):
     def __init__(self, ):
         self.classes    = []   # classes making up the application / library
         self.variants   = []
-        self.parts      = {}   # parts defined by the configuration (if any)
-        self.packages   = {}   # .js files for this application / library
+        self.parts      = {}   # parts defined by the configuration (if any); {part.name : part}
+        self.packages   = {}   # .js files for this application / library;  {package.id : package}
         self.boot       = "boot"
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
         self.buildType  = ""   # "source"/"build"

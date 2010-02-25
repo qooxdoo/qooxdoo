@@ -993,11 +993,15 @@ qx.Part.$$notifyLoad("%s", function() {
         # for each locale code, collect mappings
         transKeys  = globalCodes['Translations'].keys()
         localeKeys = globalCodes['Locales'].keys()
+        newParts   = {}    # language codes to part objects,    {"C": part}
+        newPackages= {}    # language codes to private package objects, {"C": package}
         for localeCode in set(transKeys + localeKeys):
             # new: also provide a localeCode "part" with corresponding packages
             part = Part(localeCode)
             part.bit_mask = script.getPartBitMask()
+            newParts[localeCode] = part
             package = Package(part.bit_mask)  # this might be modified later
+            newPackages[localeCode] = package
 
             data = {}
             data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
@@ -1016,6 +1020,24 @@ qx.Part.$$notifyLoad("%s", function() {
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
             globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
+
+        # Finalize the new packages and parts
+        # - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
+        for partId, part in newParts.items():
+            for packageId, package in newPackages.items():
+                if packageId == "C" and package not in part.packages:
+                    part.packages.append(newPackages["C"])   # all need "C"
+                if len(partId) > 2 and partId[2] == "_":  # it's a sub-language -> include main language
+                    mainlang = partId[:2]
+                    if mainlang in newPackages:
+                        if newPackages[mainlang] not in part.packages:
+                            part.packages.append(newPackages[mainlang])
+                    else:
+                        raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
+
+        # - add to script object
+        #script.parts.update([(x.name, x) for x in newParts])  # TODO: update might overwrite exist. entries!
+        #script.packages.extend([(x.id, x) for x in newPackages])
 
         return globalCodes
 
