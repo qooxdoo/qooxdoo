@@ -284,6 +284,10 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     __detectAction : function()
     {
+      if (this.__dragTarget == null) {
+        return;
+      }
+
       var actions = this.__actions;
       var keys = this.__keys;
       var current = null;
