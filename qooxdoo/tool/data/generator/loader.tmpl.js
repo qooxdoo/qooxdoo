@@ -123,7 +123,7 @@ qx.$$loader.init = function(){
     loadScriptList(l.decodeUris(l.uris[l.parts[l.boot]]), function(){
       // Opera needs this extra time to parse the scripts
       window.setTimeout(function(){
-        l.importPackageData(qx.$$packageData[bootPackageHash]);
+        l.importPackageData(qx.$$packageData[bootPackageHash] || {});
         l.signalStartup();
       }, 0);
     });
