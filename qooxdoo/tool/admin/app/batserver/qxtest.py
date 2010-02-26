@@ -984,11 +984,12 @@ class QxTest:
     if "autQxPath" in self.autConf:
       testRun["aut_qxpath"] = self.autConf["autQxPath"]
     
-    if "hostId" in self.mailConf:
-      testRun["test_hostid"] = self.mailConf["hostId"]
-    
-    if ("webtechnologies" in self.mailConf["mailTo"]):
-      testRun["dev_run"] = False
+    if self.mailConf:
+      if "hostId" in self.mailConf:
+        testRun["test_hostid"] = self.mailConf["hostId"]
+      
+      if ("webtechnologies" in self.mailConf["mailTo"]):
+        testRun["dev_run"] = False
     
     return testRun
 
@@ -1266,6 +1267,12 @@ class QxTest:
         else:
           self.log("Running Lint for " + options.workdir)  
           qxlint = QxLint(options)
+
+        if "reportServerUrl" in self.testConf:
+          try:
+            qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], self.trunkrev, self.testConf["qxBranch"])
+          except Exception, e:
+            self.logError(e, "Error trying to send Lint results to report server")
 
 
   def logError(self, e, desc=""):
