@@ -6,11 +6,17 @@ qx.Class.define("performance.test.widget.AbstractWidget",
   
   members :
   {
-    CREATE_ITERATIONS : 200,
-    RESIZE_ITERATIONS : 200,
-    DISPOSE_ITERATIONS : 200,
+    CREATE_ITERATIONS : 600,
+    RESIZE_ITERATIONS : 600,
+    DISPOSE_ITERATIONS : 600,
     
   
+    setUp : function() {
+      this.base(arguments);
+      this.flush();
+    },
+    
+    
     _createWidget : function() {
       throw new Error("abstract method call");
     },
@@ -20,14 +26,19 @@ qx.Class.define("performance.test.widget.AbstractWidget",
     {
       var widgets = [];
       var that = this;
-      this.measureRepeated("create widget instance", function() {
-        widgets.push(that._createWidget());
-      }, this.CREATE_ITERATIONS);
-      
-      for (var i=0; i<widgets.length; i++) {
-        widgets[i].dispose();
-      }
-      this.flush();
+      this.measureRepeated(
+        "create widget instance", 
+        function() {
+          widgets.push(that._createWidget());
+        },
+        function() {
+          for (var i=0; i<widgets.length; i++) {
+            widgets[i].dispose();
+          }
+          this.flush();
+        },
+        this.CREATE_ITERATIONS
+      );
     },
     
     
@@ -41,12 +52,16 @@ qx.Class.define("performance.test.widget.AbstractWidget",
       }
       
       var that = this;
-      this.measureRepeated("render/flush widgets", function() {
-        that.flush();
-      }, 1, this.CREATE_ITERATIONS);
-
-      container.destroy();
-      this.flush();
+      this.measureRepeated(
+        "render and flush widgets", function() {
+          that.flush();
+        },
+        function() {
+          container.destroy();
+          this.flush();
+        },
+        1, this.CREATE_ITERATIONS
+      );
     },
     
     
@@ -63,24 +78,29 @@ qx.Class.define("performance.test.widget.AbstractWidget",
       
       var that = this;
       var l=widgets.length;
-      this.measureRepeated("resize/flush widgets", function() {
-        for (i=0; i<l; i++) {
-          widgets[i].setWidth(300);
-          widgets[i].setHeight(100)
-        };
-        that.flush();
-        
-        for (i=0; i<l; i++) {
-          widgets[i].setWidth(100);
-          widgets[i].setHeight(30);
-        }
-        that.flush();
-      }, 1, this.RESIZE_ITERATIONS);
-
-      for (i=0; i<l; i++) {
-        widgets[i].destroy();
-      }
-      this.flush();
+      this.measureRepeated(
+        "resize and flush widgets", 
+        function() {
+          for (i=0; i<l; i++) {
+            widgets[i].setWidth(300);
+            widgets[i].setHeight(100)
+          };
+          that.flush();
+          
+          for (i=0; i<l; i++) {
+            widgets[i].setWidth(100);
+            widgets[i].setHeight(30);
+          }
+          that.flush();
+        }, 
+        function() {
+          for (i=0; i<l; i++) {
+            widgets[i].destroy();
+          }
+          this.flush();
+        },
+        1, this.RESIZE_ITERATIONS
+      );
     },
     
     
@@ -94,13 +114,18 @@ qx.Class.define("performance.test.widget.AbstractWidget",
       }
       
       var that = this;
-      this.measureRepeated("remove/flush widgets", function() {
-        container.removeAll();
-        that.flush();
-      }, 1, this.CREATE_ITERATIONS);
-
-      container.destroy();
-      this.flush();      
+      this.measureRepeated(
+        "remove and flush widgets", 
+        function() {
+          container.removeAll();
+          that.flush();
+        },
+        function() {
+          container.destroy();
+          this.flush();      
+        },
+        1, this.CREATE_ITERATIONS
+      );
     },
     
     
@@ -111,13 +136,18 @@ qx.Class.define("performance.test.widget.AbstractWidget",
         widgets.push(this._createWidget());
       }
       
-      this.measureRepeated("dispose not rendered widgets", function() {
-        for (var i=0; i<widgets.length; i++) {
-          widgets[i].dispose();
-        }
-      }, 1, this.DISPOSE_ITERATIONS);
-
-      this.flush();
+      this.measureRepeated(
+        "dispose not rendered widgets", 
+        function() {
+          for (var i=0; i<widgets.length; i++) {
+            widgets[i].dispose();
+          }
+        },
+        function() {
+          this.flush();
+        },
+        1, this.DISPOSE_ITERATIONS
+      );
     },
     
     
@@ -132,14 +162,19 @@ qx.Class.define("performance.test.widget.AbstractWidget",
       this.flush();
       
       var that = this;
-      this.measureRepeated("dispose rendered widgets", function() {
-        for (var i=0; i<widgets.length; i++) {
-          widgets[i].destroy();
-        }
-        that.flush();
-      }, 1, this.DISPOSE_ITERATIONS);
-
-      this.flush();      
+      this.measureRepeated(
+        "dispose rendered widgets",
+        function() {
+          for (var i=0; i<widgets.length; i++) {
+            widgets[i].destroy();
+          }
+          that.flush();
+        },
+        function() {
+          this.flush();      
+        },
+        1, this.DISPOSE_ITERATIONS
+      );
     }
   }  
 });

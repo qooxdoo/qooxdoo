@@ -7,12 +7,43 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
   {
     setUp : function()
     {
-      this.divs = [];
+      var div = this.div = document.createElement("div");
+      div.style.position = "absolute";
+      div.style.width = "100px";
+      div.style.height = "50px";
+      this.divs.push(div);
+      container.appendChild(div);
       
-      for (var i=0; i<1000; i++) {
-        var div = document.createElement("div");
-        div.style.positoin = "absolute";
-      }
+      document.body.appendChild(div);
+    },
+    
+    
+    tearDown : function() {
+      document.body.removeChild(this.div);
+    },
+    
+    
+    createDecorator : function() {
+      // abstract method call
+    },
+    
+    
+    testRender : function()
+    {
+      var decorator = this.createDecorator();
+      decorator.getMarkup();
+      
+      var div = this.div;
+      
+      var that = this;
+      this.measureRepeated(
+        "create and render decorator",
+        function() {
+          div.innerHTML = decorator.getMarkup();
+        },
+        function() {},
+        2000
+      );      
     }
   }  
 });

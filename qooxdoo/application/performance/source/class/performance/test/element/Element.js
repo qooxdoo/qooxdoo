@@ -42,14 +42,19 @@ qx.Class.define("performance.test.element.Element",
     {
       var elements = [];
       var that = this;
-      this.measureRepeated("create element instance", function() {
-        elements.push(that._createElement());
-      }, this.CREATE_ITERATIONS);
-      
-      for (var i=0; i<elements.length; i++) {
-        elements[i].dispose();
-      }
-      this.flush();
+      this.measureRepeated(
+        "create element instance", 
+        function() {
+          elements.push(that._createElement());
+        }, 
+        function() {
+          for (var i=0; i<elements.length; i++) {
+            elements[i].dispose();
+          }
+          this.flush();
+        },
+        this.CREATE_ITERATIONS
+      );      
     },
     
     
@@ -65,9 +70,14 @@ qx.Class.define("performance.test.element.Element",
       }
       
       var that = this;
-      this.measureRepeated("render/flush elements", function() {
-        that.flush();
-      }, 1, this.CREATE_ITERATIONS);
+      this.measureRepeated(
+        "render/flush elements", 
+        function() {
+          that.flush();
+        },
+        function() {},
+        1, this.CREATE_ITERATIONS
+      );
     },
     
     
@@ -84,23 +94,28 @@ qx.Class.define("performance.test.element.Element",
       
       var l = elements.length;
       var that = this;
-      this.measureRepeated("resize/flush elements", function() {
-        for (i=0; i<l; i++) {
-          elements[i].setStyles({
-            width: "300px",
-            height: "100px"
-          });
-        }
-        that.flush();
-        
-        for (i=0; i<l; i++) {
-          elements[i].setStyles({
-            width: "100px",
-            height: "30px"
-          });
-        }
-        that.flush();
-      }, 1, this.RESIZE_ITERATIONS);
+      this.measureRepeated(
+        "resize/flush elements", 
+        function() {
+          for (i=0; i<l; i++) {
+            elements[i].setStyles({
+              width: "300px",
+              height: "100px"
+            });
+          }
+          that.flush();
+          
+          for (i=0; i<l; i++) {
+            elements[i].setStyles({
+              width: "100px",
+              height: "30px"
+            });
+          }
+          that.flush();
+        },
+        function() {},
+        1, this.RESIZE_ITERATIONS
+      );
     },
     
     
@@ -112,12 +127,17 @@ qx.Class.define("performance.test.element.Element",
       this.elements = qx.lang.Array.clone(this._doc.getChildren());
       
       var that = this;
-      this.measureRepeated("remove/flush elements", function() {
-        that._doc.removeAll();
-        that.flush();
-      }, 1, this.CREATE_ITERATIONS);
-      
-      qx.util.DisposeUtil.disposeArray(this, "elements");
+      this.measureRepeated(
+        "remove/flush elements", 
+        function() {
+          that._doc.removeAll();
+          that.flush();
+        },
+        function() {
+          qx.util.DisposeUtil.disposeArray(this, "elements");
+        },
+        1, this.CREATE_ITERATIONS
+      );
     },
     
     
@@ -128,13 +148,18 @@ qx.Class.define("performance.test.element.Element",
         elements.push(this._createElement());
       }
       
-      this.measureRepeated("dispose not rendered elements", function() {
-        for (var i=0; i<elements.length; i++) {
-          elements[i].dispose();
-        }
-      }, 1, this.DISPOSE_ITERATIONS);
-
-      this.flush();
+      this.measureRepeated(
+        "dispose not rendered elements", 
+        function() {
+          for (var i=0; i<elements.length; i++) {
+            elements[i].dispose();
+          }
+        },
+        function() {
+          this.flush();
+        },
+        1, this.DISPOSE_ITERATIONS
+      );
     },
     
     
@@ -149,14 +174,19 @@ qx.Class.define("performance.test.element.Element",
       this.flush();
       
       var that = this;
-      this.measureRepeated("dispose rendered elements", function() {
-        for (var i=0; i<elements.length; i++) {
-          elements[i].dispose();
-        }
-        that.flush();
-      }, 1, this.DISPOSE_ITERATIONS);
-
-      this.flush();      
+      this.measureRepeated(
+        "dispose rendered elements", 
+        function() {
+          for (var i=0; i<elements.length; i++) {
+            elements[i].dispose();
+          }
+          that.flush();
+        }, 
+        function() {
+          this.flush();      
+        },
+        1, this.DISPOSE_ITERATIONS
+      );
     }
   }  
 });
