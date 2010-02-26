@@ -318,6 +318,48 @@ class QxLint:
     else:
       print("Report HTML seems incomplete, report not sent.")
 
+      
+  def reportResults(self, reportServerUrl, target="", revision="", branch=""):
+    import urllib, urllib2
+    if not reportServerUrl:
+        raise RuntimeError, "No report server URL specified"
+    print("Sending Lint results to report server")
+    
+    flatData = []
+    for message in self.data:
+      for messageDetails in self.data[message]:
+        flatMessage = {
+          "message" : message,
+          "member" : messageDetails["member"],
+          "path" : messageDetails["path"],
+          "line" : messageDetails["line"],
+          "target" : target,
+          "revision" : revision,
+          "branch" : branch
+        }
+        flatData.append(flatMessage)
+
+    postdata = urllib.urlencode({"lintRun": self.getJson(flatData)})
+    req = urllib2.Request(reportServerUrl, postdata)
+
+    try:
+        response = urllib2.urlopen(req)    
+    except urllib2.URLError, e:
+        print("Unable to contact report server: Error %s" %e.code)
+        errorFile = open("reportingerror_lint.html", "w")
+        errorFile.write(e.read())
+        errorFile.close()
+        return
+    except urllib2.HTTPError, e:
+        errMsg = ""
+        if (e.code):
+            errMsg = repr(e.code)
+        print("Report server couldn't store report: %s" %errMsg)
+        return
+      
+    content = response.read()    
+    print("Report server response: %s" %content)
+
 
 def getComputedConf():
   parser = optparse.OptionParser()
