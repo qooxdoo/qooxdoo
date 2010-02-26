@@ -1,3 +1,8 @@
+/* ************************************************************************
+
+#require performance.test.RunnerPatch
+
+************************************************************************ */
 qx.Mixin.define("performance.test.MMeasure",
 {
   members :
@@ -20,13 +25,19 @@ qx.Mixin.define("performance.test.MMeasure",
     
     measure : function(msg, callback, finalize, displayIterations)
     {
-//      console.profile(msg);
+      // profiling
+      if (performance.test.RunnerPatch.ENABLE_PROFILE) {
+        console.profile(msg);
+      }
 
       var start = new Date();
       callback();
       var end = new Date();
       
-//      console.profileEnd(msg);
+      // profiling
+      if (performance.test.RunnerPatch.ENABLE_PROFILE) {
+        console.profileEnd(msg);
+      }      
       
       var time = end-start;
 
@@ -38,7 +49,7 @@ qx.Mixin.define("performance.test.MMeasure",
         var renderTime = new Date() - renderStart;
         self.log(msg, displayIterations, time, renderTime);
       }); }, 0);
-    
+
       this.wait(10000);
     },
     
