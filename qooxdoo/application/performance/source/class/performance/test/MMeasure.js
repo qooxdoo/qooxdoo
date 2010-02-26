@@ -58,7 +58,7 @@ qx.Mixin.define("performance.test.MMeasure",
     {
       var app = this.getRunnerApplication ? this.getRunnerApplication() : qx.core.Init.getApplication();
       if (app.logMeasurement) {
-        app.logMeasurement(msg, iterations, ownTime, renderTime)
+        app.logMeasurement(this.classname, msg, iterations, ownTime, renderTime)
       }
       this.debug([msg, iterations, ownTime, renderTime].join("; "));
     }

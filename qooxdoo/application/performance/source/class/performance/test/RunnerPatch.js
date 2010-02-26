@@ -23,7 +23,12 @@ qx.Class.define("performance.test.RunnerPatch",
 {
   extend : qx.core.Object,
 
-  defer : function() {
+  defer : function() 
+  {
+    if (window.top === window) {
+      return;
+    }
+  
     var testRunnerApp = window.frames.top.qx.core.Init.getApplication();
     var toolbar = testRunnerApp.getRoot().getChildren()[1].getChildren()[1];
     var part = toolbar.getChildren()[3];

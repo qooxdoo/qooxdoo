@@ -84,8 +84,8 @@ qx.Class.define("performance.Application",
 
 
     __measurements : [],
-    logMeasurement : function(msg, iterations, ownTime, renderTime) {
-      this.__measurements.push([msg, iterations, ownTime, renderTime].join("; "));
+    logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
+      this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
     },
     
     
