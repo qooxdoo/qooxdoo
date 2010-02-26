@@ -31,6 +31,8 @@
  */
 qx.Bootstrap.define("qx.Part",
 {
+  // !! Careful when editing this file. Do not extend the dependencies !!
+  
   /**
    * @param loader {Object} The data structure from the boot script about all
    *   known parts and packages. Usually <code>qx.$$loader</code>.
@@ -39,10 +41,12 @@ qx.Bootstrap.define("qx.Part",
   {
     this.__loader = loader;
     
+    // initialize the pseudo event listener maps
     this.__partListners = {};
     this.__packageListeners = {};
     this.__packageClosureListeners = {};
     
+    // create the packages
     this.__packages = [];
     var uris = this.__getUris();
     for (var i=0; i<uris.length; i++)
@@ -52,6 +56,7 @@ qx.Bootstrap.define("qx.Part",
       this.__packages.push(pkg);
     };
     
+    // create the parts
     this.__parts = {};
     var parts = loader.parts;
     var closureParts = loader.closureParts || {};
@@ -64,6 +69,7 @@ qx.Bootstrap.define("qx.Part",
         packages.push(this.__packages[pkgIndexes[i]]);
       }
       
+      // check for closure loading
       if (closureParts[name]) {
         var part = new qx.io.part.ClosurePart(name, packages, this);
       } else {
@@ -77,7 +83,11 @@ qx.Bootstrap.define("qx.Part",
   
   statics :
   {
+    /**
+     * Default timeout in ms for the error handling of the closure loading.
+     */
     TIMEOUT : 7500,
+    
     
     /**
      * Get the default part loader instance
@@ -108,15 +118,27 @@ qx.Bootstrap.define("qx.Part",
     },
     
     
+    /**
+     * Preloads one or more closure parts but does not execute them. This means
+     * the closure (the whole code of the part) is already loaded but not
+     * executed so you can't use the classes in the the part after a preload. 
+     * If you want to execute them, just use the regular {@link #require} 
+     * function.
+     * 
+     * @param partNames {String[]} List of parts names to preload as defined 
+     *   in the config file at compile time.
+     */
     preload : function(partNames) {
       this.getInstance().preload(partNames);
     },    
     
     
     /**
-     * Loaded scripts have to call this method to indicate successful loading
+     * Loaded closure packages have to call this method to indicate 
+     * successful loading and to get thir closure stored.
      * 
-     * @param id {String} script id
+     * @param id {String} The id of the package.
+     * @param closure {Function} The wrapped code of the package.
      */
     $$notifyLoad : function(id, closure) {
       this.getInstance().saveClosure(id, closure);      
@@ -144,6 +166,14 @@ qx.Bootstrap.define("qx.Part",
     },
     
     
+    /**
+     * Internal addListener for closure packages.
+     * 
+     * @internal
+     * @param pkg {qx.io.part.ClosurePackage} The colosure package to listen 
+     *   for.
+     * @param callback {Function} The method to call when the package is loaded.
+     */
     addClosurePackageListener : function(pkg, callback)
     {
       var key = pkg.getId();
@@ -154,6 +184,13 @@ qx.Bootstrap.define("qx.Part",
     },
         
     
+    /**
+     * Internal herlper method to save the closure and notify that the load.
+     * 
+     * @internal
+     * @param id {String} The hash of the package.
+     * @param closure {Function} The code of the package wrappen into a closure.
+     */
     saveClosure : function(id, closure) 
     {
       // search for the package
@@ -170,6 +207,7 @@ qx.Bootstrap.define("qx.Part",
         throw new Error("Package not available: " + id);
       }
 
+      // save the colsure in the package itself
       pkg.saveClosure(closure);
       
       // call the listeners
@@ -180,12 +218,17 @@ qx.Bootstrap.define("qx.Part",
       for (var i = 0; i < listeners.length; i++) {
         listeners[i]("complete", id);
       }
+      // get rid of all colsure package listeners for that package
       this.__packageClosureListeners[id] = [];   
     },
 
     
     /**
+     * Inthern mehtod for testing purposes which returns the internal parts 
+     * store.
+     * 
      * @internal
+     * @return {Array} An array of parts.
      */
     getParts : function() {
       return this.__parts;
@@ -231,6 +274,11 @@ qx.Bootstrap.define("qx.Part",
     },
     
     
+    /**
+     * Preloader for the given part.
+     * 
+     * @param partNames {String} The hash of the part to preload.
+     */
     preload : function(partNames) 
     {
       if (qx.Bootstrap.isString(partNames)) {

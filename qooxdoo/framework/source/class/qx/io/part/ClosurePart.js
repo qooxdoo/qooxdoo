@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -27,6 +28,12 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 {
   extend : qx.io.part.Part,
   
+  /**
+   * @param name {String} Name of the part as defined in the config file at
+   *    compile time.
+   * @param packages {Package[]} List of dependent packages
+   * @param loader {qx.Part} The loader of this part.
+   */  
   construct : function(name, packages, loader) 
   {
     qx.io.part.Part.call(this, name, packages, loader);
@@ -38,6 +45,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     __packagesToLoad : 0,
     
     
+    /**
+     * Method for preloading this part. It initializs the packages to load but 
+     * not to execute the closure when done loading.
+     */
     preload : function() 
     {
       for (var i = 0; i < this._packages.length; i++)
@@ -50,6 +61,14 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     },
     
     
+    /**
+     * Loads the colsure part including all its packages. The loading will 
+     * be done parallel. After all packages are available, the closures are 
+     * executed in the correct order.
+     * 
+     * @param callback {Function} The function to call after the loading.
+     * @param self {Object?} The context of the callback.
+     */
     load : function(callback, self)
     {
       if (this._checkCompleteLoading(callback, self)) {
@@ -100,6 +119,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     },
     
     
+    /**
+     * Executes the packages in their correct order and marks the part as
+     * complete after execution.
+     */
     __executePackages : function()
     {
       for (var i = 0; i < this._packages.length; i++) {
@@ -109,6 +132,13 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     },
     
     
+    /**
+     * Handler for every package load. It checks for errors and decreases the 
+     * packages to load. If all packages has been loaded, it invokes the 
+     * execution.
+     * 
+     * @param pkg {qx.io.part.Package} The loaded package.
+     */
     _onPackageLoad : function(pkg)
     {
       // if the part already has an error, ignore the callback

@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -68,6 +69,8 @@ qx.Bootstrap.define("qx.io.part.Package",
      * </li>
      * <li><b>loading</b>: The package is still loading.</li>
      * <li><b>complete</b>: The package has been loaded successfully</li>
+     * <li><b>cached</b>: The package is loaded but is not executed 
+     *   (for closure parts)</li>
      * </li>
      *
      * @return {String} The ready state.
@@ -78,13 +81,22 @@ qx.Bootstrap.define("qx.io.part.Package",
     
     
     /**
+     * Returns the urlsstored stored in the package.
+     * 
      * @internal
+     * @return {String[]} An array of urls of this package.
      */
     getUrls : function() {
       return this.__urls;
     },
     
     
+    /**
+     * Method for storing the closure for this package. This is only relevant 
+     * if a {@link qx.io.part.ClosurePart} is used.
+     * 
+     * @param closure {Function} The code of this package wrapped in a closure.
+     */
     saveClosure : function(closure)
     {
       if (this.__readyState == "error") {
@@ -103,6 +115,10 @@ qx.Bootstrap.define("qx.io.part.Package",
     },
     
     
+    /**
+     * Executes the stored closure. This is only relevant if a 
+     * {@link qx.io.part.ClosurePart} is used.
+     */
     execute : function()
     {
       if (this.__closure)
@@ -120,6 +136,14 @@ qx.Bootstrap.define("qx.io.part.Package",
     },
     
     
+    /**
+     * Load method if the package loads a closure. This is only relevant if a 
+     * {@link qx.io.part.ClosurePart} is used.
+     * 
+     * @param notifyPackageResult {Function} The callback if all scripts are 
+     *   done loading in this package.
+     * @param self {Object?} The context of the callback.
+     */
     loadClosure : function(notifyPackageResult, self)
     {
       if (this.__readyState !== "initialized") {
@@ -148,10 +172,11 @@ qx.Bootstrap.define("qx.io.part.Package",
     
     
     /**
-     * Load the part's script URLs in the correct order. A {@link #load} event
-     * if fired once all scripts are loaded.
+     * Load the part's script URLs in the correct order. 
      * 
-     * @internal
+     * @param notifyPackageResult {Function} The callback if all scripts are 
+     *   done loading in this package.
+     * @param self {Object?} The context of the callback.
      */
     load : function(notifyPackageResult, self)
     {

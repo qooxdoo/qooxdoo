@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -29,6 +30,7 @@ qx.Bootstrap.define("qx.io.part.Part",
    * @param name {String} Name of the part as defined in the config file at
    *    compile time.
    * @param packages {Package[]} List of dependent packages
+   * @param loader {qx.Part} The loader of this part.
    */
   construct : function(name, packages, loader)
   {
@@ -85,7 +87,9 @@ qx.Bootstrap.define("qx.io.part.Part",
     
     
     /**
+     * Internal helper for testing purposes.
      * @internal
+     * @return {qx.io.part.Package[]} All contained packages in an array.
      */
     getPackages : function()
     {
@@ -150,6 +154,14 @@ qx.Bootstrap.define("qx.io.part.Part",
     },
     
     
+    /**
+     * Helper for appending a listener for this part.
+     * 
+     * @param callback {Function} The callback to call when the part is loaded.
+     * @param self {Object?} The context of the callback.
+     * @param part {qx.io.part.Part|qx.io.part.ClosurePart} The part to listen 
+     *   to.
+     */
     _appendPartListener : function(callback, self, part) 
     {
       this._loader.addPartListener(this, function() {
@@ -158,6 +170,11 @@ qx.Bootstrap.define("qx.io.part.Part",
     },
     
     
+    /**
+     * Helper for marking the part as complete.
+     * 
+     * @param readyState {String} The new ready state.
+     */
     _markAsCompleted : function(readyState) 
     {
       this._readyState = readyState;
@@ -165,6 +182,14 @@ qx.Bootstrap.define("qx.io.part.Part",
     },
     
     
+    /**
+     * Helper for checkig if the part is loaded completely. 
+     * 
+     * @param callback {Function} The call which will be called if the part
+     *   is loaded completely.
+     * @param self {Object} The context of the callback.
+     * @return {Boolean} true, if the part is loading, complete or has an error.
+     */
     _checkCompleteLoading : function(callback, self) 
     {
       // check if its already loaded
