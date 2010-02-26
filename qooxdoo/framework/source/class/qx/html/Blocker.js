@@ -34,18 +34,25 @@ qx.Class.define("qx.html.Blocker",
    */
   construct : function(backgroundColor, opacity)
   {
-    this.base(arguments);
-
     var backgroundColor = backgroundColor ?
         qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null;
 
-    this.setStyles({
+    var styles = {
       position: "absolute",
       width: "100%",
       height: "100%",
       opacity : opacity || 0,
       backgroundColor : backgroundColor
-    });
+    };
+    
+    // IE needs some extra love here to convince it to block events.
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      styles.backgroundImage = "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")";
+      styles.backgroundRepeat = "repeat";
+    }
+
+    this.base(arguments, styles);
 
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
@@ -56,16 +63,6 @@ qx.Class.define("qx.html.Blocker",
     this.addListener("mouseout", this._stopPropagation, this);
     this.addListener("mousewheel", this._stopPropagation, this);
     this.addListener("contextmenu", this._stopPropagation, this);
-
-    // IE needs some extra love here to convince it to block events.
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
-    {
-      this.setStyles({
-        backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
-        backgroundRepeat: "repeat"
-      });
-    }
-
     this.addListener("appear", this.__refreshCursor, this);
     this.addListener("disappear", this.__refreshCursor, this);
   },

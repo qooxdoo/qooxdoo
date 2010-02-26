@@ -33,23 +33,22 @@ qx.Class.define("qx.html.Decorator",
    */
   construct : function(decorator, decoratorId)
   {
-    this.base(arguments);
-    this.__decorator = decorator;
-    this.__id = decoratorId || decorator.toHashCode();
-
-    this.useMarkup(decorator.getMarkup());
-
     var styles = {
       position: "absolute",
       top: 0,
       left: 0
     }
-
+    
     if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
       styles.pointerEvents = "none"
     }
 
-    this.setStyles(styles);
+    this.base(arguments, styles);
+    
+    this.__decorator = decorator;
+    this.__id = decoratorId || decorator.toHashCode();
+
+    this.useMarkup(decorator.getMarkup());
   },
 
 

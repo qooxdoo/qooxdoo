@@ -1594,26 +1594,22 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _createContainerElement : function()
     {
-      var el = new qx.html.Element("div");
-
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        el.setAttribute("qxType", "container");
+      var attributes = {
+        "$$widget": this.toHashCode()
       }
 
-      el.setStyles({
-        "position": "absolute",
-        "zIndex": 0
-      });
-
-      // Store "weak" reference to the widget in the DOM element.
-      el.setAttribute("$$widget", this.toHashCode());
-
-      // Add class name hint for better debugging
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        el.setAttribute("qxClass", this.classname);
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        attributes.qxType = "container";
+        attributes.qxClass = this.classname;
       }
-
-      return el;
+      
+      var styles = {
+        zIndex: 0,
+        position: "absolute"
+      };
+      
+      return new qx.html.Element("div", styles, attributes);
     },
 
 
@@ -1624,6 +1620,18 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __createContentElement : function()
     {
+      var attributes = {};
+  
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        attributes.qxType = "content";
+      }
+      
+      var styles = {
+        zIndex: 0,
+        position: "absolute"
+      };      
+      
+      
       var el = this._createContentElement();
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -1649,14 +1657,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _createContentElement : function()
     {
-      var el = new qx.html.Element("div");
-
-      el.setStyles({
-        "overflowX": "hidden",
-        "overflowY": "hidden"
+      return new qx.html.Element("div", {
+        overflowX: "hidden",
+        overflowY: "hidden"
       });
-
-      return el;
     },
 
 

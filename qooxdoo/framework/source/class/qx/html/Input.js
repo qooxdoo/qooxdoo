@@ -40,19 +40,23 @@ qx.Class.define("qx.html.Input",
    *   <code>hidden</code>, <code>submit</code>, <code>image</code>,
    *   <code>file</code>, <code>search</code>, <code>reset</code>,
    *   <code>select</code> and <code>textarea</code>.
+   * @param styles {Map?null} optional map of CSS styles, where the key is the name 
+   *    of the style and the value is the value to use.
+   * @param attributes {Map?null} optional map of element attributes, where the
+   *    key is the name of the attribute and the value is the value to use.
    */
-  construct : function(type)
+  construct : function(type, styles, attributes)
   {
-    this.base(arguments);
-
-    this.__type = type;
-
     // Update node name correctly
     if (type === "select" || type === "textarea") {
-      this.setNodeName(type);
+      var nodeName = type;
     } else {
-      this.setNodeName("input");
+      nodeName = "input";
     }
+
+    this.base(arguments, nodeName, styles, attributes);
+
+    this.__type = type;
   },
 
 
