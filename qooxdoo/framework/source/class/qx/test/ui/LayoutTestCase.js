@@ -53,6 +53,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         qx.theme.manager.Meta.getInstance().initialize();
         cls._root = new qx.ui.root.Application(document);
 
+        this.__oldGetApplication = qx.core.Init.getApplication;
+        
         qx.core.Init.getApplication = function() {
           return {
             getRoot : function() {
@@ -63,6 +65,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       }
 
       return cls._root;
+    },
+    
+    
+    getRunnerApplication : function() {
+      return this.__oldGetApplication.call(qx.core.Init)
     },
 
 

@@ -83,6 +83,12 @@ qx.Class.define("performance.Application",
     },
 
 
+    __measurements : [],
+    logMeasurement : function(msg, iterations, ownTime, renderTime) {
+      this.__measurements.push([msg, iterations, ownTime, renderTime].join("; "));
+    },
+    
+    
     /**
      * Run tests as standalone application
      */
@@ -127,12 +133,14 @@ qx.Class.define("performance.Application",
       {
         if (tests.length == 0) {
           self.info("--- DONE " + (new Date() - start) + "ms");
+          alert(self.__measurements.join("\n"));
           return;
         }
         var test = tests.shift();
         test.run(testResult);
       }
       
+      this.__measurements = [];
       var start = new Date();
       runNextTest();
     },

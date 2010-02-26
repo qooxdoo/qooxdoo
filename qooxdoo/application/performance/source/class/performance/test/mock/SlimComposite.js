@@ -7,6 +7,7 @@ qx.Class.define("performance.test.mock.SlimComposite",
     elementMock : {
       setAttribute : function() {},
       setStyle : function() {},
+      setStyles : function() {},
       dispose : function() {}
     },
     

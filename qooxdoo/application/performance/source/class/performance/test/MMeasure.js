@@ -36,10 +36,20 @@ qx.Mixin.define("performance.test.MMeasure",
       setTimeout(function() { self.resume(function()
       {
         var renderTime = new Date() - renderStart;
-        self.debug([msg, displayIterations, time, renderTime].join("; "));
+        self.log(msg, displayIterations, time, renderTime);
       }); }, 0);
     
       this.wait(10000);
+    },
+    
+    
+    log : function(msg, iterations, ownTime, renderTime)
+    {
+      var app = this.getRunnerApplication ? this.getRunnerApplication() : qx.core.Init.getApplication();
+      if (app.logMeasurement) {
+        app.logMeasurement(msg, iterations, ownTime, renderTime)
+      }
+      this.debug([msg, iterations, ownTime, renderTime].join("; "));
     }
   }
 })
