@@ -103,7 +103,10 @@ qx.Class.define("qx.event.Timer",
     {
       // Create time instance
       var timer = new qx.event.Timer(timeout);
-
+      
+      // Bug #3481: append original function to timer instance so it can be read by a debugger
+      timer.__onceFunc = func;
+      
       // Add event listener to interval
       timer.addListener("interval", function(e)
       {
