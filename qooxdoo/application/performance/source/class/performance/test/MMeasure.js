@@ -20,13 +20,13 @@ qx.Mixin.define("performance.test.MMeasure",
     
     measure : function(msg, callback, finalize, displayIterations)
     {
-      console.profile(msg);
+//      console.profile(msg);
 
       var start = new Date();
       callback();
       var end = new Date();
       
-      console.profileEnd(msg);
+//      console.profileEnd(msg);
       
       var time = end-start;
 
@@ -37,7 +37,7 @@ qx.Mixin.define("performance.test.MMeasure",
       {
         var renderTime = new Date() - renderStart;
         self.debug([msg, displayIterations, time, renderTime].join("; "));
-      }); });
+      }); }, 0);
     
       this.wait(10000);
     }

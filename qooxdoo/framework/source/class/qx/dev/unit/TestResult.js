@@ -128,7 +128,6 @@ qx.Class.define("qx.dev.unit.TestResult",
         return;
       }
 
-      this.fireDataEvent("startTest", test);
 
       if (this.__timeout[test.getFullName()])
       {
@@ -137,6 +136,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
       else
       {
+        this.fireDataEvent("startTest", test);
         try {
           test.setUp();
         }
