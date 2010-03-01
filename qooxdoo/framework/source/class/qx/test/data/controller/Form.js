@@ -533,7 +533,62 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // distroy the objects
       c.dispose();
-    }
+    },
+    
+    
+    testConnectionWithListControllerSelection : function() {
+      // generate fake data
+      var data = [{name: "a", age: 1}, {name: "b", age: 2}, {name: "c", age: 3}];
+      var model = qx.data.marshal.Json.createModel(data);
 
+      // list
+      var list = new qx.ui.form.List();
+      var listController = new qx.data.controller.List(model, list, "name");
+
+      // form
+      var form = new qx.ui.form.Form();
+      form.add(new qx.ui.form.TextField(), "Name", null, "name");
+      form.add(new qx.ui.form.Spinner(), "Age", null, "age");
+      var formController = new qx.data.controller.Form(null, form);
+
+      // connection
+      listController.bind("selection[0]", formController, "model");
+      
+      // select the first item
+      var listItems = list.getSelectables();
+      list.setSelection([listItems[0]]);
+      
+      // check if the model is still the same
+      this.assertEquals("a", model.getItem(0).getName());
+      this.assertEquals("b", model.getItem(1).getName());
+      this.assertEquals("c", model.getItem(2).getName());
+      this.assertEquals(1, model.getItem(0).getAge());
+      this.assertEquals(2, model.getItem(1).getAge());
+      this.assertEquals(3, model.getItem(2).getAge());
+      
+      // select the second item
+      var listItems = list.getSelectables();
+      list.setSelection([listItems[1]]);
+      
+      // check if the model is still the same
+      this.assertEquals("a", model.getItem(0).getName());
+      this.assertEquals("b", model.getItem(1).getName());
+      this.assertEquals("c", model.getItem(2).getName());
+      this.assertEquals(1, model.getItem(0).getAge());
+      this.assertEquals(2, model.getItem(1).getAge());
+      this.assertEquals(3, model.getItem(2).getAge());
+      
+      // select the first item again
+      var listItems = list.getSelectables();
+      list.setSelection([listItems[0]]);
+      
+      // check if the model is still the same
+      this.assertEquals("a", model.getItem(0).getName());
+      this.assertEquals("b", model.getItem(1).getName());
+      this.assertEquals("c", model.getItem(2).getName());
+      this.assertEquals(1, model.getItem(0).getAge());
+      this.assertEquals(2, model.getItem(1).getAge());
+      this.assertEquals(3, model.getItem(2).getAge());
+    }
   }
 });

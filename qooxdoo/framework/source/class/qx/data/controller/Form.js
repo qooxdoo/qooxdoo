@@ -208,6 +208,17 @@ qx.Class.define("qx.data.controller.Form",
 
     // apply method
     _applyModel : function(value, old) {
+      // first, get rid off all bindings (avoids whong data population)
+      if (this.__objectController != null) {
+        var items = this.getTarget().getItems();
+        for (var name in items) {
+          var item = items[name];
+          var targetProperty =
+            this.__isModelSelectable(item) ? "modelSelection[0]" : "value";
+          this.__objectController.removeTarget(item, targetProperty, name);
+        }
+      }
+      
       // set the model of the object controller if available
       if (this.__objectController != null) {
         this.__objectController.setModel(value);
