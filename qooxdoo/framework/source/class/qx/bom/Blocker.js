@@ -377,5 +377,9 @@ qx.Class.define("qx.bom.Blocker",
               qx.dom.Node.isWindow(this.__blockedElement) ||
               qx.dom.Node.isDocument(this.__blockedElement));
     }
+  },
+
+  destruct : function() {
+    this.__iframeElement = this.__blockerElement = this.__blockedElement = null;
   }
 });
