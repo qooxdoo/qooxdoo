@@ -216,7 +216,7 @@ class PartBuilder(object):
             partExcludes.extend(smartExclude)
 
             # Remove unknown classes before checking dependencies
-            for classId in part.deps:
+            for classId in part.deps[:]:
                 if not classId in classList:
                     part.deps.remove(classId)
 
