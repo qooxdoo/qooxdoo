@@ -39,6 +39,7 @@ import glob
 import shutil
 from generator.action.ImageInfo import ImageInfo
 from misc import filetool
+import tempfile
 
 
 class ImageClipping(object):
@@ -110,8 +111,12 @@ class ImageClipping(object):
             self._console.warn("No images to combine; skipping")
         else:
             filetool.directory(os.path.dirname(combined))
-            cmd = montage_cmd % (orientation, " ".join(clips), combined)
+            temp = tempfile.TemporaryFile(mode='r+t')
+            temp.write("\n".join(clips))
+            temp.seek(0)
+            cmd = montage_cmd % (orientation, "@" + os.path.normpath(temp.name), combined)
             rc = os.system(cmd)
+            temp.close()
             if rc != 0:
                 raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
 
