@@ -52,7 +52,7 @@ qx.Class.define("qx.html.Blocker",
       styles.backgroundRepeat = "repeat";
     }
 
-    this.base(arguments, styles);
+    this.base(arguments, "div", styles);
 
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
