@@ -1499,10 +1499,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       var Registration = qx.event.Registration;
       var doc = this._getIframeDocument();
-
-      Registration.addListener(doc.body, "keypress", this._handleKeyPress, this);
-      Registration.addListener(doc.body, "keyup", this._handleKeyUp,    this);
-      Registration.addListener(doc.body, "keydown", this._handleKeyDown,  this);
+      
+      // Adding the key event listener asynchronously is the only way to get it
+      // working in opera (see Bug #3483)
+      if (qx.core.Variant.isSet("qx.client", "opera")) {
+        qx.event.Timer.once(function() {
+          this.__addKeyListeners();
+        }, this, 0);
+      } else {
+        this.__addKeyListeners();
+      }
 
       var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
       Registration.addListener(focusBlurTarget, "focus", this._handleFocusEvent, this);
@@ -1521,6 +1527,20 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.addListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
 
       Registration.addListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
+    },
+    
+    
+    /**
+     * Add key event listeners to the body element
+     */
+    __addKeyListeners : function()
+    {
+      var Registration = qx.event.Registration;
+      var doc = this._getIframeDocument();
+      
+      Registration.addListener(doc.body, "keypress", this._handleKeyPress, this);
+      Registration.addListener(doc.body, "keyup", this._handleKeyUp,    this);
+      Registration.addListener(doc.body, "keydown", this._handleKeyDown,  this);
     },
 
 
