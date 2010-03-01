@@ -14,7 +14,7 @@ qx.Mixin.define("performance.test.MMeasure",
         function() {
           var i = iterations;
           while (i--) {
-            callback();
+            callback(i);
           }
         }, 
         finalize, 
@@ -48,6 +48,7 @@ qx.Mixin.define("performance.test.MMeasure",
       {
         var renderTime = new Date() - renderStart;
         self.log(msg, displayIterations, time, renderTime);
+        finalize();
       }); }, 0);
 
       this.wait(10000);
