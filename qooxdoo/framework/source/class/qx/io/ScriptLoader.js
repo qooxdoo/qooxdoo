@@ -131,7 +131,10 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       script.onerror = script.onload = script.onreadystatechange = null;
 
       // Remove script from head
-      document.getElementsByTagName("head")[0].removeChild(script);
+      var scriptParent = script.parentNode;
+      if (scriptParent) {
+        scriptParent.removeChild(script);
+      }
 
       // Free object
       delete this.__running;
