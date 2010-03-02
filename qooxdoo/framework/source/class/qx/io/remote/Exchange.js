@@ -839,10 +839,45 @@ qx.Class.define("qx.io.remote.Exchange",
         value.setUsername(vRequest.getUsername());
         value.setPassword(vRequest.getPassword());
 
-        value.setParameters(vRequest.getParameters());
+        value.setParameters(vRequest.getParameters(false));
         value.setFormFields(vRequest.getFormFields());
         value.setRequestHeaders(vRequest.getRequestHeaders());
-        value.setData(vRequest.getData());
+        var data = vRequest.getData();
+        if (data === null) 
+        {
+          var vParameters = vRequest.getParameters(true);
+          var vParametersList = [];
+          
+          for (var vId in vParameters)
+          {
+            var paramValue = vParameters[vId];
+            
+            if (paramValue instanceof Array)
+            {
+              for (var i=0; i<paramValue.length; i++)
+              {
+                vParametersList.push(encodeURIComponent(vId) +
+                                     "=" +
+                                     encodeURIComponent(paramValue[i]));
+              }
+            }
+            else
+            {
+              vParametersList.push(encodeURIComponent(vId) +
+                                   "=" +
+                                   encodeURIComponent(paramValue));
+            }
+          }
+          
+          if (vParametersList.length > 0)
+          {
+            value.setData(vParametersList.join("&"));
+          }
+        }
+        else
+        {
+          value.setData(data);
+        }
 
         value.setResponseType(vRequest.getResponseType());
 
