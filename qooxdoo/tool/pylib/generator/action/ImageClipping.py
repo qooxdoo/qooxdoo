@@ -111,7 +111,7 @@ class ImageClipping(object):
             self._console.warn("No images to combine; skipping")
         else:
             filetool.directory(os.path.dirname(combined))
-            temp = tempfile.TemporaryFile(mode='r+t')
+            temp = tempfile.NamedTemporaryFile(mode='r+t')
             temp.write("\n".join(clips))
             temp.seek(0)
             cmd = montage_cmd % (orientation, "@" + os.path.normpath(temp.name), combined)
