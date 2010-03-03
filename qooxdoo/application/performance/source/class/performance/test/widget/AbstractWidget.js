@@ -6,9 +6,9 @@ qx.Class.define("performance.test.widget.AbstractWidget",
   
   members :
   {
-    CREATE_ITERATIONS : 200,
-    RESIZE_ITERATIONS : 200,
-    DISPOSE_ITERATIONS : 200,
+    CREATE_ITERATIONS : 1000,
+    RESIZE_ITERATIONS : 1000,
+    DISPOSE_ITERATIONS : 1000,
     
   
     setUp : function() 
