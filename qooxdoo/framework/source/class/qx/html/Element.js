@@ -1442,23 +1442,33 @@ qx.Class.define("qx.html.Element",
      * qxSelectable with the values 'on' or 'off'.
      * In webkit, a special css property will be used (-webkit-user-select).
      *
+     * @signature function(value)
      * @param value {Boolean} True, if the element should be selectable.
      */
-    setSelectable : function(value)
+    setSelectable : qx.core.Variant.select("qx.client",
     {
-      // Apply qooxdoo attribute
-      this.setAttribute("qxSelectable", value ? "on" : "off");
-
-      // Webkit, as of Safari 3.0, is the only client which supports
-      // CSS userSelect the right way.
-      if (qx.core.Variant.isSet("qx.client", "webkit")) {
+      "webkit" : function(value) 
+      {
+        // Apply qooxdoo attribute
+        this.setAttribute("qxSelectable", value ? "on" : "off");
         this.setStyle("userSelect", value ? "normal" : "none");
-      } else if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      },
+      
+      "gecko" : function(value) 
+      {
+        // Apply qooxdoo attribute
+        this.setAttribute("qxSelectable", value ? "on" : "off");
         this.setStyle("MozUserSelect", value ? "text" : "-moz-none");
-      } 
-    },
+      },
 
-
+      "default" : function(value)
+      {
+        // Apply qooxdoo attribute
+        this.setAttribute("qxSelectable", value ? "on" : "off");
+      }
+    }), 
+      
+      
     /**
      * Whether the element is natively focusable (or will be when created)
      *
