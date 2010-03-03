@@ -955,7 +955,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Update inheritable properties
-      qx.core.Property.refresh(this);
+      this.$$refreshInheritables();
 
       // Update visibility cache
       qx.ui.core.queue.Visibility.add(this);

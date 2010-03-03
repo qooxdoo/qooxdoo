@@ -274,66 +274,94 @@ qx.Bootstrap.define("qx.core.Property",
     /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
     $$inheritable : {},
 
+    
+    __executeOptimizedRefresh : function(widget, clazz)
+    {
+      var inheritables = this.__getInheritablesOfClass(clazz);
+      
+      var inherit = this.$$store.inherit;
+      var init = this.$$store.init;
+      var refresh = this.$$method.refresh;
+            
+      if (!inheritables.length) {
+        var refresher = qx.lang.Function.empty;
+      } else {
+        refresher = this.__createRefresher(inheritables, inherit, init, refresh);
+      }
+      
+      clazz.prototype.$$refreshInheritables = refresher;
+      return refresher.call(widget);
+    },
+    
+    
+    __getInheritablesOfClass : function(clazz)
+    {
+      var inheritable = [];
+      var refresh = this.$$method.refresh;
+      
+      while(clazz)
+      {
+        properties = clazz.$$properties;
+
+        if (properties)
+        {
+          for (var name in this.$$inheritable)
+          {
+            // Whether the property is available in this class
+            // and whether it is inheritable in this class as well
+            if (properties[name] && properties[name].inheritable)
+            {
+              inheritable.push(name);
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+      
+      return inheritable;
+    },
+    
+    
+    __createRefresher : function(inheritables, inherit, init, refresh)
+    {
+      var code = [
+        "var parent = this.$$parent;",
+        "if (!parent) return;"        
+      ];
+      
+      for (var i=0, l=inheritables.length; i<l; i++) 
+      {
+        var name = inheritables[i];
+        code.push(
+          "var value = parent.", inherit[name],";",
+          "if (value===undefined) value = parent.", init[name], ";",
+          "this.", refresh[name], "(value);"
+        );
+      }
+      
+      return new Function(code.join(""));
+    },
 
     /**
      * Refreshes widget whose parent has changed (including the children)
      *
+     * @deprecated qx.core.Property.refresh() is deprecated. Please use the
+     *     member function '$$refreshInheritables()'.
      * @param widget {qx.ui.core.Widget} the widget
      * @return {void}
      */
-    refresh : function(widget)
+    refresh : function(widget) 
     {
-      var parent = widget.getLayoutParent();
-
-      if (parent)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var clazz = widget.constructor;
-        var inherit = this.$$store.inherit;
-        var init = this.$$store.init;
-        var refresh = this.$$method.refresh;
-        var properties;
-        var value;
-
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-            widget.debug("Update property inheritance");
-          }
-        }
-
-        while(clazz)
-        {
-          properties = clazz.$$properties;
-
-          if (properties)
-          {
-            for (var name in this.$$inheritable)
-            {
-              // Whether the property is available in this class
-              // and whether it is inheritable in this class as well
-              if (properties[name] && widget[refresh[name]])
-              {
-                value = parent[inherit[name]];
-
-                if (value === undefined) {
-                  value = parent[init[name]];
-                }
-
-                if (qx.core.Variant.isSet("qx.debug", "on"))
-                {
-                  if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                    widget.debug("Updating property: " + name + " to '" + value + "'");
-                  }
-                }
-
-                widget[refresh[name]](value);
-              }
-            }
-          }
-
-          clazz = clazz.superclass;
-        }
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "qx.core.Property.refresh() is deprecated. Please use the member function '$$refreshInheritables()'"
+        );
       }
+
+      widget.$$refreshInheritables();
     },
 
 
@@ -354,10 +382,20 @@ qx.Bootstrap.define("qx.core.Property",
         }
       }
 
+      this.__attachRefreshInheritables(clazz);
+      
       clazz.$$propertiesAttached = true;
     },
 
 
+    __attachRefreshInheritables : function(clazz)
+    {
+      clazz.prototype.$$refreshInheritables = function() {
+        return qx.core.Property.__executeOptimizedRefresh(this, clazz);
+      }
+    },
+    
+    
     /**
      * Attach one property to class
      *
