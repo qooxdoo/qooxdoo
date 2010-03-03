@@ -1431,7 +1431,7 @@ qx.Bootstrap.define("qx.Class",
     __createDefaultConstructor : function()
     {
       function defaultConstructor() {
-        arguments.callee.base.apply(this, arguments);
+        defaultConstructor.base.apply(this, arguments);
       };
 
       return defaultConstructor;
