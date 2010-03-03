@@ -1,5 +1,5 @@
 qooxdoo/framework/cache/.cache_check_file
 qooxdoo/application/playground/test/*
 qooxdoo/application/performance/test/*
-qooxdoo/application/performance/build/script/*
+qooxdoo/application/performance/build/*
 qooxdoo/application/performance/source/script/*
