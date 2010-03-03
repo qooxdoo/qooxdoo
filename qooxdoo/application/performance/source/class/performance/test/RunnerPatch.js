@@ -25,7 +25,7 @@ qx.Class.define("performance.test.RunnerPatch",
 
   defer : function() 
   {
-    if (window.top === window) {
+    if (window.top == window) {
       return;
     }
   
