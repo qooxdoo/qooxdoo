@@ -73,6 +73,11 @@ qx.Class.define("qx.ui.form.renderer.Double",
         if (i % 2 == 1) {
           this._row++;
         }
+        
+        // store the names for translation
+        if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+          this._names.push({name: names[i], label: label, item: items[i]});
+        }        
       }
 
       if (i % 2 == 1) {
@@ -125,14 +130,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
      * @return {qx.ui.basic.Label} The label for the given item.
      */
     _createLabel : function(name, item) {
-      var required = "";
-      if (item.getRequired()) {
-       required = " <span style='color:red'>*</span> ";
-      }
-
-      // Create the label. Append a colon only if there's text to display.
-      var colon = name.length > 0 || item.getRequired() ? " :" : "";
-      var label = new qx.ui.basic.Label(name + required + colon);
+      var label = new qx.ui.basic.Label(this._createLabelText(name, item));
       label.setRich(true);
       return label;
     },

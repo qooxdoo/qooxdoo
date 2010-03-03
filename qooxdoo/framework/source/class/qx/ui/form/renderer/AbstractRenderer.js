@@ -35,8 +35,16 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
    */
   construct : function(form)
   {
-    this.base(arguments);
-
+    this.base(arguments);      
+    
+    // translation support
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale", this._onChangeLocale, this
+      );
+      this._names = [];
+    }
+    
     // add the groups
     var groups = form.getGroups();
     for (var i = 0; i < groups.length; i++) {
@@ -54,6 +62,53 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
 
   members :
   {
+    _names : null,
+
+
+    /**
+     * Locale change event handler
+     *
+     * @signature function(e)
+     * @param e {Event} the change event
+     */
+    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    {
+      "on" : function(e) {
+        for (var i = 0; i < this._names.length; i++) {
+          var entry = this._names[i];
+          if (entry.name && entry.name.translate) {
+            entry.name = entry.name.translate();
+          }
+          var newText = this._createLabelText(entry.name, entry.item);
+          entry.label.setValue(newText);
+        };
+      },
+
+      "off" : null
+    }),
+    
+    
+    /**
+     * Creates the label text for the given form item.
+     *
+     * @param name {String} The content of the label without the
+     *   trailing * and :
+     * @param item {qx.ui.core.Widget} The item, which has the required state.
+     * @return {String} The text for the given item.
+     */
+    _createLabelText : function(name, item) 
+    {
+      var required = "";
+      if (item.getRequired()) {
+       required = " <span style='color:red'>*</span> ";
+      }      
+
+      // Create the label. Append a colon only if there's text to display.
+      var colon = name.length > 0 || item.getRequired() ? " :" : "";
+      return name + required + colon;
+    },     
+    
+    
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
     },
@@ -61,5 +116,21 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     addButton : function(button) {
       throw new Error("Abstract method call");
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
+    this._names = null;
   }
 });
