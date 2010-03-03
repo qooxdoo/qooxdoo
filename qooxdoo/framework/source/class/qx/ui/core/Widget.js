@@ -3062,10 +3062,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applySelectable : function(value)
+    _applySelectable : function(value, old)
     {
-      // Re-apply cursor
-      this._applyCursor(this.getCursor());
+      // Re-apply cursor if not in "initSelectable"
+      if (old !== null) {
+        this._applyCursor(this.getCursor());
+      }
 
       // Apply qooxdoo attribute
       this.getContainerElement().setSelectable(value);
