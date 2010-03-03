@@ -176,7 +176,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Create the class
-      var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct);
+      var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct, config.include);
 
       // Members, properties, events and mixins are only allowed for non-static classes
       if (config.extend)
@@ -915,7 +915,7 @@ qx.Bootstrap.define("qx.Class",
      * @param destruct {Function} Destructor of the class
      * @return {Class} The generated class
      */
-    __createClass : function(name, type, extend, statics, construct, destruct)
+    __createClass : function(name, type, extend, statics, construct, destruct, mixins)
     {
       var clazz;
 
@@ -927,7 +927,7 @@ qx.Bootstrap.define("qx.Class",
       }
       else
       {
-        clazz = {};
+        var clazz = {};
 
         if (extend)
         {
@@ -936,8 +936,12 @@ qx.Bootstrap.define("qx.Class",
             construct = this.__createDefaultConstructor();
           }
 
-          // Wrap constructor to handle mixin constructors and property initialization
-          clazz = this.__wrapConstructor(construct, name, type);
+          if (this.__needsConstructorWrapper(type, extend, mixins)) {
+            clazz = this.__wrapConstructor(construct, name, type);
+          } else {
+            clazz = construct;
+          }
+          
           // Add singleton getInstance()
           if (type === "singleton") {
             clazz.getInstance = this.getInstance;
@@ -1453,6 +1457,40 @@ qx.Bootstrap.define("qx.Class",
     },
 
 
+    __needsConstructorWrapper : function(type, base, mixins)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        return true;
+      }
+      
+      // Check for base class mixin constructors
+      if (base && base.$$includes)
+      {
+        var mixins=base.$$flatIncludes;
+        for (var i=0, l=mixins.length; i<l; i++)
+        {
+          if (mixins[i].$$constructor) {
+            return true;
+          }
+        }
+      }
+      
+      // check for direct mixin constructors
+      if (mixins)
+      {
+        var flatMixins = qx.Mixin.flatten(mixins);
+        for (var i=0, l=flatMixins.length; i<l; i++)
+        {
+          if (flatMixins[i].$$constructor) {
+            return true;
+          }
+        }
+      }
+      
+      return false;
+    },
+
+
     /**
      * Generate a wrapper of the original class constructor in order to enable
      * some of the advanced OO features (e.g. abstract class, singleton, mixins)
@@ -1465,8 +1503,7 @@ qx.Bootstrap.define("qx.Class",
     {
       var wrapper = function()
       {
-        // We can access the class/statics using arguments.callee
-        var clazz=arguments.callee.constructor;
+        var clazz = wrapper;
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -1505,9 +1542,11 @@ qx.Bootstrap.define("qx.Class",
           }
         }
 
-        // Mark instance as initialized
-        if (this.classname===name.classname) {
-          this.$$initialized=true;
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          // Mark instance as initialized
+          if (this.classname === name) {
+            this.$$initialized = true;
+          }
         }
 
         // Return optional return value
