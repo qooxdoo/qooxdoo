@@ -5,19 +5,7 @@ qx.Class.define("performance.test.Object",
   
   members :
   {
-  
-    setUp : function()
-    {
-    },
-  
-  
-    tearDown : function()
-    {
-    },
-    
-  
     CREATE_ITERATIONS : 100000,
-    BASE_ITERATIONS : 100000,
     
     
     testObjectCreate : function()
@@ -36,37 +24,6 @@ qx.Class.define("performance.test.Object",
         },
         this.CREATE_ITERATIONS
       );
-    },
-    
-    
-    testBaseCall : function() 
-    {
-      var obj = new performance.test.Extend();
-      this.measure(
-        "call this.base()"
-      )
     }
   }  
-});
-
-qx.Class.define("performance.test.Base", {
-  extend : Object,
-  
-  members : {
-    foo : function(a,b,c) {}
-  }
-});
-
-qx.Class.define("performance.test.Extend", {
-  extend : performance.test.Base,
-  
-  members : {
-    foo : function(a,b,c) {
-      this.base(arguments, a, b, c);
-    },
-    
-    bar : function(a, b, c) {
-      performance.test.Base.prototype.foo.call(this, a, b, c)
-    }
-  }
 });
