@@ -112,7 +112,6 @@ class ImageClipping(object):
         else:
             filetool.directory(os.path.dirname(combined))
             (fileDescriptor, tempPath) = tempfile.mkstemp(text=True)
-            tempPath = os.path.normpath(tempPath)
             temp = os.fdopen(fileDescriptor, "w")
             temp.write("\n".join(clips))
             temp.close()
