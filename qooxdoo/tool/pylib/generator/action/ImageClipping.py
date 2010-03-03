@@ -111,12 +111,14 @@ class ImageClipping(object):
             self._console.warn("No images to combine; skipping")
         else:
             filetool.directory(os.path.dirname(combined))
-            temp = tempfile.NamedTemporaryFile(mode='r+t')
+            (fileDescriptor, tempPath) = tempfile.mkstemp(text=True)
+            tempPath = os.path.normpath(tempPath)
+            temp = os.fdopen(fileDescriptor, "w")
             temp.write("\n".join(clips))
-            temp.seek(0)
-            cmd = montage_cmd % (orientation, "@" + os.path.normpath(temp.name), combined)
-            rc = os.system(cmd)
             temp.close()
+            cmd = montage_cmd % (orientation, "@" + tempPath, combined)
+            rc = os.system(cmd)
+            os.unlink(tempPath)
             if rc != 0:
                 raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
 
