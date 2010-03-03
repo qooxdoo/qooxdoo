@@ -938,6 +938,11 @@ qx.Bootstrap.define("qx.Class",
 
           // Wrap constructor to handle mixin constructors and property initialization
           clazz = this.__wrapConstructor(construct, name, type);
+          // Add singleton getInstance()
+          if (type === "singleton") {
+            clazz.getInstance = this.getInstance;
+          }          
+          
           qx.Bootstrap.setDisplayName(construct, name, "constructor");
         }
 
@@ -1515,11 +1520,6 @@ qx.Bootstrap.define("qx.Class",
         wrapper.$$original = construct;
         wrapper.constructor = aspectWrapper;
         wrapper = aspectWrapper;
-      }
-
-      // Add singleton getInstance()
-      if (type === "singleton") {
-        wrapper.getInstance = this.getInstance;
       }
 
       // Store original constructor
