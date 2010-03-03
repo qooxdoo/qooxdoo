@@ -297,11 +297,10 @@ qx.Bootstrap.define("qx.core.Property",
     __getInheritablesOfClass : function(clazz)
     {
       var inheritable = [];
-      var refresh = this.$$method.refresh;
       
       while(clazz)
       {
-        properties = clazz.$$properties;
+        var properties = clazz.$$properties;
 
         if (properties)
         {
@@ -326,7 +325,7 @@ qx.Bootstrap.define("qx.core.Property",
     __createRefresher : function(inheritables, inherit, init, refresh)
     {
       var code = [
-        "var parent = this.$$parent;",
+        "var parent = this.getLayoutParent();",
         "if (!parent) return;"        
       ];
       

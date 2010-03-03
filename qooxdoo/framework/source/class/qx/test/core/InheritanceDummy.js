@@ -63,7 +63,7 @@ qx.Class.define("qx.test.core.InheritanceDummy",
     {
       this.children.push(child);
       child.parent = this;
-      qx.core.Property.refresh(child);
+      child.$$refreshInheritables();
     },
 
     _getChildren : function() {

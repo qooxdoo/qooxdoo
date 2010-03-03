@@ -204,11 +204,6 @@ qx.Bootstrap.define("qx.Class",
             this.__addMixin(clazz, config.include[i], false);
           }
         }
-        
-        // Attach properties
-        if (!clazz.$$propertiesAttached && clazz.$$properties) {
-          qx.core.Property.attach(clazz);
-        }
       }
 
       // Process settings
@@ -258,6 +253,12 @@ qx.Bootstrap.define("qx.Class",
           }
         });
       }
+      
+      // Attach properties
+      if (!clazz.$$propertiesAttached && clazz.$$properties) {
+        qx.core.Property.attach(clazz);
+      }      
+      
       return clazz;
     },
 
