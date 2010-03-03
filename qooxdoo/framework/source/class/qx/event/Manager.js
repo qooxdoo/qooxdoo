@@ -94,7 +94,7 @@ qx.Class.define("qx.event.Manager",
      * @return {String} The next free identifier (auto-incremened)
      */
     getNextUniqueId : function() {
-      return (this.__lastUnique++).toString(36);
+      return (this.__lastUnique++) + "";
     }
   },
 
@@ -388,7 +388,7 @@ qx.Class.define("qx.event.Manager",
         {
           handler : item.listener,
           context : item.self,
-          unique : item.unique || (clazz.__lastUnique++).toString(36)
+          unique : item.unique || (clazz.__lastUnique++) + ""
         });
       }
     },
@@ -449,7 +449,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // Append listener to list
-      var unique = (qx.event.Manager.__lastUnique++).toString(36);
+      var unique = (qx.event.Manager.__lastUnique++) + "";
       var entry =
       {
         handler : listener,

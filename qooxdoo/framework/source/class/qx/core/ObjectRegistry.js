@@ -73,7 +73,7 @@ qx.Class.define("qx.core.ObjectRegistry",
         if (cache.length > 0) {
           hash = cache.pop();
         } else {
-          hash = (this.__nextHash++).toString(36);
+          hash = (this.__nextHash++) + "";
         }
 
         // Store hash code
@@ -153,7 +153,7 @@ qx.Class.define("qx.core.ObjectRegistry",
       if (cache.length > 0) {
         hash = cache.pop();
       } else {
-        hash = (this.__nextHash++).toString(36);
+        hash = (this.__nextHash++) + "";
       }
 
       // Store
@@ -228,7 +228,7 @@ qx.Class.define("qx.core.ObjectRegistry",
       }
 
       hashes.sort(function(a, b) {
-        return parseInt(b, 36)-parseInt(a, 36);
+        return parseInt(b)-parseInt(a);
       });
 
       var obj, i=0, l=hashes.length;
