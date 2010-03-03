@@ -204,6 +204,11 @@ qx.Bootstrap.define("qx.Class",
             this.__addMixin(clazz, config.include[i], false);
           }
         }
+        
+        // Attach properties
+        if (!clazz.$$propertiesAttached && clazz.$$properties) {
+          qx.core.Property.attach(clazz);
+        }
       }
 
       // Process settings
@@ -1478,11 +1483,6 @@ qx.Bootstrap.define("qx.Class",
               throw new Error("The class '" + name + "' is a singleton! It is not possible to instantiate it directly. Use the static getInstance() method instead.");
             }
           }
-        }
-
-        // Attach properties
-        if (!clazz.$$propertiesAttached) {
-          qx.core.Property.attach(clazz);
         }
 
         // Execute default constructor
