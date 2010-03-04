@@ -937,7 +937,7 @@ qx.Bootstrap.define("qx.Class",
             construct = this.__createDefaultConstructor();
           }
 
-          if (this.__needsConstructorWrapper(type, extend, mixins)) {
+          if (this.__needsConstructorWrapper(extend, mixins)) {
             clazz = this.__wrapConstructor(construct, name, type);
           } else {
             clazz = construct;
@@ -1458,19 +1458,26 @@ qx.Bootstrap.define("qx.Class",
     },
 
 
-    __needsConstructorWrapper : function(type, base, mixins)
+    /**
+     * Checks if the constructor needs to be wrapped.
+     * 
+     * @param base {Class} The base class.
+     * @param mixins {Mixin[]} All mixins which should be included.
+     * @return {Boolean} true, if the constructor needs to be wrapped.
+     */
+    __needsConstructorWrapper : function(base, mixins)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        return true;
-      }
+      // if (qx.core.Variant.isSet("qx.debug", "on")) {
+      //   return true;
+      // }      
       
       // Check for base class mixin constructors
       if (base && base.$$includes)
       {
-        var mixins=base.$$flatIncludes;
-        for (var i=0, l=mixins.length; i<l; i++)
+        var baseMixins=base.$$flatIncludes;
+        for (var i=0, l=baseMixins.length; i<l; i++)
         {
-          if (mixins[i].$$constructor) {
+          if (baseMixins[i].$$constructor) {
             return true;
           }
         }
