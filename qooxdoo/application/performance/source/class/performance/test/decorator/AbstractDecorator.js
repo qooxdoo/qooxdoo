@@ -2,24 +2,41 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
 {
   extend : qx.dev.unit.TestCase,
   include : performance.test.MMeasure,
+  type: "abstract",
   
   members :
   {
+    CREATE_ITTERATIONS : 5000,
+    RENDER_ITTERATIONS : 5000,
+    RESIZE_ITTERATIONS : 10000,
+    
+    
     setUp : function()
     {
-      var div = this.div = document.createElement("div");
-      div.style.position = "absolute";
-      div.style.width = "100px";
-      div.style.height = "50px";
-      this.divs.push(div);
-      container.appendChild(div);
-      
-      document.body.appendChild(div);
+
     },
     
-    
     tearDown : function() {
-      document.body.removeChild(this.div);
+      document.body.innerHTML = "";
+    },
+    
+    createDivs : function(count) 
+    {
+      var divs = [];
+      var container = document.createElement("div");
+      for (var i = 0; i < count; i++) {
+        var div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.width = "100px";
+        div.style.height = "50px";
+
+        container.appendChild(div);
+        
+        divs.push(div);
+      };
+      
+      document.body.appendChild(container);      
+      return divs;      
     },
     
     
@@ -28,22 +45,58 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
     },
     
     
-    testRender : function()
+    testCreate : function() 
     {
-      var decorator = this.createDecorator();
-      decorator.getMarkup();
-      
-      var div = this.div;
-      
-      var that = this;
+      var self = this;
       this.measureRepeated(
-        "create and render decorator",
+        "create and initial getMarkup",
         function() {
-          div.innerHTML = decorator.getMarkup();
+          var decorator = self.createDecorator();
+          decorator.getMarkup();
         },
         function() {},
-        2000
+        this.CREATE_ITTERATIONS
+      );
+    },
+    
+    
+    testRender : function()
+    {
+      // warmup the decorator
+      var decorator = this.createDecorator();
+      decorator.getMarkup();
+
+      var divs = this.createDivs(this.RENDER_ITTERATIONS);
+      this.measureRepeated(
+        "set inner HTML to markup",
+        function(i) {
+          divs[i].innerHTML = decorator.getMarkup();
+        },
+        function() {},
+        this.RENDER_ITTERATIONS
       );      
-    }
+    },
+    
+    
+    testResize : function()
+    {
+      var divs = this.createDivs(this.RESIZE_ITTERATIONS);
+
+      var decorator = this.createDecorator();
+      for (var i = 0; i < divs.length; i++) {
+        divs[i].innerHTML = decorator.getMarkup();
+      };
+      var size = [100, 200];
+  
+      this.measureRepeated(
+        "resize decorator",
+        function(i) {
+          var currentSize = size[i % 2];
+          decorator.resize(divs[i].firstChild, currentSize, currentSize);
+        },
+        function() {},
+        this.RESIZE_ITTERATIONS
+      );      
+    }    
   }  
 });
