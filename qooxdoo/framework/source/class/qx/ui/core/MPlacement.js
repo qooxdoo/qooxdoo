@@ -150,7 +150,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
   members :
   {
-    __updater : null,
+    __ptwLiveUpdater : null,
+    __ptwLiveDisappearListener : null,
 
 
     /**
@@ -252,25 +253,42 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       // updated automatically (e.g. the widget gets scrolled).
       if (liveupdate)
       {
-        // Bind target and livupdate to placeToWidget
-        this.__updater = qx.lang.Function.bind(this.placeToWidget, this, target, false);
+        this.__cleanupFromLastPlaceToWidgetLiveUpdate();
 
-        qx.event.Idle.getInstance().addListener("interval", this.__updater);
+        // Bind target and livupdate to placeToWidget
+        this.__ptwLiveUpdater = qx.lang.Function.bind(this.placeToWidget, this, target, false);
+
+        qx.event.Idle.getInstance().addListener("interval", this.__ptwLiveUpdater);
 
         // Remove the listener when the element disappears.
-        this.addListener("disappear", function()
+        this.__ptwLiveUpdateDisappearListener = function()
         {
-          if (this.__updater)
-          {
-            qx.event.Idle.getInstance().removeListener("interval", this.__updater);
-            this.__updater = null;
-          }
-        }, this);
+          this.__cleanupFromLastPlaceToWidgetLiveUpdate();
+        }
+        
+        this.addListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
 
       }
 
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
       this.__place(coords);
+    },
+    
+    /** 
+     * Removes all resources allocated by the last run of placeToWidget with liveupdate=true 
+     */
+    __cleanupFromLastPlaceToWidgetLiveUpdate : function(){
+      if (this.__ptwLiveUpdater)
+      {
+        qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);            
+        this.__ptwLiveUpdater = null;
+      }
+      
+      if (this.__ptwLiveUpdateDisappearListener){
+        this.removeListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
+        __ptwLiveUpdateDisappearListener = null;
+      }
+      
     },
 
 
@@ -319,17 +337,17 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       if (liveupdate)
       {
         // Bind target and livupdate to placeToWidget
-        this.__updater = qx.lang.Function.bind(this.placeToElement, this, elem, false);
+        this.__ptwLiveUpdater = qx.lang.Function.bind(this.placeToElement, this, elem, false);
 
-        qx.event.Idle.getInstance().addListener("interval", this.__updater);
+        qx.event.Idle.getInstance().addListener("interval", this.__ptwLiveUpdater);
 
         // Remove the listener when the element disappears.
         this.addListener("disappear", function()
         {
-          if (this.__updater)
+          if (this.__ptwLiveUpdater)
           {
-            qx.event.Idle.getInstance().removeListener("interval", this.__updater);
-            this.__updater = null;
+            qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);
+            this.__ptwLiveUpdater = null;
           }
         }, this);
       }
@@ -569,8 +587,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
   destruct : function()
   {
-    if (this.__updater) {
-      qx.event.Idle.getInstance().removeListener("interval", this.__updater);
-    }
+    this.__cleanupFromLastPlaceToWidgetLiveUpdate();
   }
 });
