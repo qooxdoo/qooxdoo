@@ -235,10 +235,6 @@ qx.Bootstrap.define("qx.Class",
         this.__validateAbstractInterfaces(clazz);
       }
 
-      // Attach properties
-      if (!clazz.$$propertiesAttached && clazz.$$properties) {
-        qx.core.Property.attach(clazz);
-      }
       
       // Process defer
       if (config.defer)
@@ -342,11 +338,6 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, false);
-      
-      // Attach properties
-      if (!clazz.$$propertiesAttached && clazz.$$properties) {
-        qx.core.Property.attach(clazz);
-      }
     },
 
 
@@ -375,11 +366,6 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, true);
-      
-      // Attach properties
-      if (!clazz.$$propertiesAttached && clazz.$$properties) {
-        qx.core.Property.attach(clazz);
-      }  
     },
 
 
@@ -990,7 +976,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Create namespace
-      var basename = qx.Bootstrap.createNamespace(name, clazz, false);
+      var basename = qx.Bootstrap.createNamespace(name, clazz);
 
       // Store names in constructor/object
       clazz.name = clazz.classname = name;
@@ -1104,8 +1090,8 @@ qx.Bootstrap.define("qx.Class",
         patch = false;
       }
 
-      var attach = !!clazz.$$propertiesAttached;
-
+      var proto = clazz.prototype;
+      
       for (var name in properties)
       {
         config = properties[name];
@@ -1142,13 +1128,15 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Remember inheritable properties
-        if (config.inheritable) {
+        if (config.inheritable)
+        {
           qx.core.Property.$$inheritable[name] = true;
+          if (!proto.$$refreshInheritables) {
+            qx.core.Property.attachRefreshInheritables(clazz);
+          }
         }
 
-        // If instances of this class were already created, we
-        // need to attach the new style properties functions, directly.
-        if (attach) {
+        if (!config.refine) {
           qx.core.Property.attachMethods(clazz, name, config);
         }
       }

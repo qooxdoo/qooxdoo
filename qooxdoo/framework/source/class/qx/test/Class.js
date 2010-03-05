@@ -476,6 +476,27 @@ qx.Class.define("qx.test.Class",
       o.dispose();
       qx.Class.undefine("qx.MyClass");
       qx.Class.undefine("qx.MyMixin");      
-    }    
+    },
+    
+    
+    "test: instantiate class in defer and access property" : function()
+    {
+      var self = this;
+      
+      qx.Class.define("qx.DeferFoo", {
+        extend: qx.core.Object,
+        properties : {
+          juhu : {}          
+        },
+        defer : function() {
+          var df = new qx.DeferFoo();
+          
+          df.setJuhu("23");
+          self.assertEquals("23", df.getJuhu());
+        }
+      });
+      
+      qx.Class.undefine("qx.DeferFoo");
+    }
   }
 });

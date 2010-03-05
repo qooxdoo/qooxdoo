@@ -364,30 +364,7 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
-    /**
-     * Attach properties to class prototype
-     *
-     * @param clazz {Class} Class to attach properties to
-     * @return {void}
-     */
-    attach : function(clazz)
-    {
-      var properties = clazz.$$properties;
-
-      if (properties)
-      {
-        for (var name in properties) {
-          this.attachMethods(clazz, name, properties[name]);
-        }
-      }
-
-      this.__attachRefreshInheritables(clazz);
-      
-      clazz.$$propertiesAttached = true;
-    },
-
-
-    __attachRefreshInheritables : function(clazz)
+    attachRefreshInheritables : function(clazz)
     {
       clazz.prototype.$$refreshInheritables = function() {
         return qx.core.Property.__executeOptimizedRefresh(this, clazz);
