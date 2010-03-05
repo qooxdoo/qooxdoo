@@ -274,26 +274,32 @@ qx.Bootstrap.define("qx.core.Property",
     /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
     $$inheritable : {},
 
-    
-    __executeOptimizedRefresh : function(widget, clazz)
+
+    /**
+     * Generate optimized refresh method and  attach it to the class' prototype
+     * 
+     * @param clazz {Clazz} clazz to which the refresher should be added
+     */
+    __executeOptimizedRefresh : function(clazz)
     {
       var inheritables = this.__getInheritablesOfClass(clazz);
-      
-      var inherit = this.$$store.inherit;
-      var init = this.$$store.init;
-      var refresh = this.$$method.refresh;
-            
+                  
       if (!inheritables.length) {
         var refresher = qx.lang.Function.empty;
       } else {
-        refresher = this.__createRefresher(inheritables, inherit, init, refresh);
+        refresher = this.__createRefresher(inheritables);
       }
       
       clazz.prototype.$$refreshInheritables = refresher;
-      return refresher.call(widget);
     },
     
     
+    /**
+     * Get the names of all inheritable properties of the given class
+     * 
+     * @param clazz {Clazz} class to get the inheritable properties of
+     * @return {String[]} List of property names
+     */
     __getInheritablesOfClass : function(clazz)
     {
       var inheritable = [];
@@ -322,8 +328,17 @@ qx.Bootstrap.define("qx.core.Property",
     },
     
     
-    __createRefresher : function(inheritables, inherit, init, refresh)
+    /**
+     * Assemble the refresher code and return the generated function
+     * 
+     * @param inheritables {String[]} list of inheritable properties
+     */
+    __createRefresher : function(inheritables)
     {
+      var inherit = this.$$store.inherit;
+      var init = this.$$store.init;
+      var refresh = this.$$method.refresh;
+
       var code = [
         "var parent = this.getLayoutParent();",
         "if (!parent) return;"        
@@ -364,10 +379,17 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
+    /**
+     * Attach $$refreshInheritables method stub to the given class
+     * 
+     * @param clazz {Clazz} clazz to which the refresher should be added
+     */
     attachRefreshInheritables : function(clazz)
     {
-      clazz.prototype.$$refreshInheritables = function() {
-        return qx.core.Property.__executeOptimizedRefresh(this, clazz);
+      clazz.prototype.$$refreshInheritables = function() 
+      {
+        qx.core.Property.__executeOptimizedRefresh(clazz);
+        return this.$$refreshInheritables();
       }
     },
     

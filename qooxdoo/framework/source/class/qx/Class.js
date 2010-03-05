@@ -909,6 +909,7 @@ qx.Bootstrap.define("qx.Class",
      * @param statics {Map} Static methods or fields
      * @param construct {Function} Constructor of the class
      * @param destruct {Function} Destructor of the class
+     * @param mixins {Mixin[]} array of mixins of the class
      * @return {Class} The generated class
      */
     __createClass : function(name, type, extend, statics, construct, destruct, mixins)
