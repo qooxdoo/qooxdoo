@@ -371,6 +371,11 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, true);
+      
+      // Attach properties
+      if (!clazz.$$propertiesAttached && clazz.$$properties) {
+        qx.core.Property.attach(clazz);
+      }      
     },
 
 
