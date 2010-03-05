@@ -233,7 +233,7 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Toggles a className of the given element
      *
-     * @signature function(element, name) 
+     * @signature function(element, name, toggle) 
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to toggle
      * @param toggle {Boolean?null} Whether to switch class on/off. Without
@@ -242,9 +242,13 @@ qx.Class.define("qx.bom.element.Class",
      */
     toggle : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(element, name) 
+      "native" : function(element, name, toggle) 
       {
-        element.classList.toggle(name);
+        if (toggle === undefined) {
+          element.classList.toggle(name);
+        } else {
+          toggle ? this.add(element, name) : this.remove(element, name);
+        }
         return name;
       },
     
