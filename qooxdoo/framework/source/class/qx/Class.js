@@ -1472,9 +1472,9 @@ qx.Bootstrap.define("qx.Class",
      */
     __needsConstructorWrapper : function(base, mixins)
     {
-      // if (qx.core.Variant.isSet("qx.debug", "on")) {
-      //   return true;
-      // }      
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        return true;
+      }
       
       // Check for base class mixin constructors
       if (base && base.$$includes)
