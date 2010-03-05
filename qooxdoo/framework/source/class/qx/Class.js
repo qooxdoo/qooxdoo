@@ -235,7 +235,11 @@ qx.Bootstrap.define("qx.Class",
         this.__validateAbstractInterfaces(clazz);
       }
 
-
+      // Attach properties
+      if (!clazz.$$propertiesAttached && clazz.$$properties) {
+        qx.core.Property.attach(clazz);
+      }
+      
       // Process defer
       if (config.defer)
       {
@@ -253,11 +257,6 @@ qx.Bootstrap.define("qx.Class",
           }
         });
       }
-      
-      // Attach properties
-      if (!clazz.$$propertiesAttached && clazz.$$properties) {
-        qx.core.Property.attach(clazz);
-      }      
       
       return clazz;
     },
