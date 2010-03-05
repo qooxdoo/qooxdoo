@@ -1363,6 +1363,69 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
+     * Wrap the constructor of an already existing clazz. This function will
+     * replace all references to the existing constructor with the new wrapped
+     * constructor.
+     * 
+     * @param clazz {Class} The class to wrap 
+     */
+    __retrospectWrapConstruct : function(clazz)
+    {
+      var name = clazz.classname
+      var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
+      
+      // copy all keys from the wrapped constructor to the wrapper
+      for (var key in clazz) {
+        if (clazz.hasOwnProperty(key)) {
+          wrapper[key] = clazz[key];
+        }
+      }
+      
+      // fix self references in members
+      var members = clazz.prototype;
+      for (var key in members) {
+        if (members.hasOwnProperty(key))
+        {
+          var method = members[key];
+          if (method.self == clazz) {
+            method.self = wrapper;
+          }
+        }
+      }      
+     
+      // fix base and superclass references in all defined classes
+      for(var key in this.$$registry)
+      {
+        var construct = this.$$registry[key];
+        if (!construct) {
+          continue;
+        }
+        
+        if (construct.base == clazz) {
+          construct.base = wrapper;
+        }
+        if (construct.superclass == clazz) {
+          construct.superclass = wrapper;
+        }
+        
+        if (construct.$$original) 
+        {
+          if (construct.$$original.base == clazz) {
+            construct.$$original.base = wrapper;
+          }
+          if (construct.$$original.superclass == clazz) {
+            construct.$$original.superclass = wrapper;
+          }         
+        }
+      }
+      qx.Bootstrap.createNamespace(name, wrapper);
+      this.$$registry[name] = wrapper;
+      
+      return wrapper;
+    },
+    
+    
+    /**
      * Include all features of the mixin into the given class (recursive).
      *
      * @param clazz {Class} The class where the mixin should be attached.
@@ -1382,6 +1445,11 @@ qx.Bootstrap.define("qx.Class",
         return;
       }
 
+      var isConstructorWrapped = clazz.$$original; 
+      if (mixin.$$constructor && !isConstructorWrapped) {
+        clazz = this.__retrospectWrapConstruct(clazz);
+      }
+      
       // Attach content
       var list = qx.Mixin.flatten([mixin]);
       var entry;

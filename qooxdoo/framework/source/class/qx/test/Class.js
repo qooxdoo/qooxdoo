@@ -345,7 +345,8 @@ qx.Class.define("qx.test.Class",
     },
     
     
-    testPatch : function() {
+    testPatch : function() 
+    {
       qx.Mixin.define("qx.MyMixin", {
         properties : {
           "property" : {init: "p"}
@@ -377,9 +378,10 @@ qx.Class.define("qx.test.Class",
     },
     
     
-    testPatchWithConstructor : function() {
+    testPatchWithConstructor : function() 
+    {
       qx.Mixin.define("qx.MyMixin", {
-        constructor : function() {
+        construct : function() {
           this.__p = "p";
         },
         properties : {
@@ -446,7 +448,7 @@ qx.Class.define("qx.test.Class",
     
     testIncludeWithConstructor : function() {
       qx.Mixin.define("qx.MyMixin", {
-        constructor : function() {
+        construct : function() {
           this.__p = "p";
         },
         properties : {
