@@ -152,6 +152,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   {
     __ptwLiveUpdater : null,
     __ptwLiveDisappearListener : null,
+    __ptwLiveUpdateDisappearListener : null,
 
 
     /**
