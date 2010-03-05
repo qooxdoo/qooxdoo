@@ -1131,7 +1131,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             node.bOpened = !node.bOpened;
 
             // Clear the old selections in the tree
-            tree.getSelectionModel()._clearSelection();
+            tree.getSelectionModel()._resetSelection();
           }
 
           // Re-render the row data since formerly visible rows may now be
