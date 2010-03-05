@@ -131,23 +131,31 @@ qx.Class.define("qx.theme.manager.Font",
     },
     
     
-    __resolveInclude : function(fonts, fontToCheckForInclude)
+    /**
+     * Checks for includes and resolves them recursively
+     * 
+     * @param fonts {Map} all fonts of the theme
+     * @param fontToCheckForInclude {String} font name to include
+     */
+    __resolveInclude : function(fonts, fontName)
     {
-      var fontToInclude = null;
-      
-      if (fonts[fontToCheckForInclude].include)
+      if (fonts[fontName].include)
       {
-        fontToInclude = fonts[fonts[fontToCheckForInclude].include]; 
-        delete fonts[fontToCheckForInclude].include;
-        fonts[fontToCheckForInclude] = qx.lang.Object.mergeWith(fonts[fontToCheckForInclude], fontToInclude, false);
+        // get font infos out of the font theme
+        var fontToInclude = fonts[fonts[fontName].include];
         
-        this.__resolveInclude(fonts, fontToCheckForInclude);
+        // delete 'include' key - not part of the merge 
+        fonts[fontName].include = null;
+        delete fonts[fontName].include;
+        
+        fonts[fontName] = qx.lang.Object.mergeWith(fonts[fontName], fontToInclude, false);
+        
+        this.__resolveInclude(fonts, fontName);
       }
-      
-      return fontToCheckForInclude;
     },
 
 
+    // apply method
     _applyTheme : function(value)
     {
       var dest = this._getDynamic();
@@ -170,7 +178,7 @@ qx.Class.define("qx.theme.manager.Font",
         for (var key in source)
         {
           if (source[key].include && source[source[key].include]) {
-            source.key = this.__resolveInclude(source, key);
+            this.__resolveInclude(source, key);
           }
           
           dest[key] = (new font).set(source[key]);

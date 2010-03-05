@@ -28,6 +28,7 @@ qx.Class.define("qx.test.theme.manager.Font",
       this.__formerTheme = this.manager.getTheme();
     },
 
+
     tearDown : function()
     {
       qx.test.Theme.themes = null;
@@ -38,7 +39,8 @@ qx.Class.define("qx.test.theme.manager.Font",
 
     testInclude : function()
     {
-      qx.Theme.define("qx.test.Theme.themes.A", {
+      qx.Theme.define("qx.test.Theme.themes.A",
+      {
         extend : qx.theme.modern.Font,
         
         fonts :
