@@ -343,6 +343,11 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, false);
+      
+      // Attach properties
+      if (!clazz.$$propertiesAttached && clazz.$$properties) {
+        qx.core.Property.attach(clazz);
+      }
     },
 
 
@@ -375,7 +380,7 @@ qx.Bootstrap.define("qx.Class",
       // Attach properties
       if (!clazz.$$propertiesAttached && clazz.$$properties) {
         qx.core.Property.attach(clazz);
-      }      
+      }  
     },
 
 

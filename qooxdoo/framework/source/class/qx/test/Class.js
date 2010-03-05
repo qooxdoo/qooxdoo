@@ -374,6 +374,108 @@ qx.Class.define("qx.test.Class",
       o.dispose();
       qx.Class.undefine("qx.MyClass");
       qx.Class.undefine("qx.MyMixin");      
-    }
+    },
+    
+    
+    testPatchWithConstructor : function() {
+      qx.Mixin.define("qx.MyMixin", {
+        constructor : function() {
+          this.__p = "p";
+        },
+        properties : {
+          "property" : {init: "p"}
+        },
+        
+        members : {
+          getP : function() {
+            return this.__p;
+          }
+        }
+      });
+
+      qx.Class.define("qx.MyClass", {
+        extend  : qx.core.Object
+      });
+
+      qx.Class.patch(qx.MyClass, qx.MyMixin);
+
+      var o = new qx.MyClass();
+      
+      // just check of the properties are ok
+      this.assertEquals("p", o.getProperty());
+      this.assertEquals("p", o.getP());      
+      
+      // clean up
+      o.dispose();
+      qx.Class.undefine("qx.MyClass");
+      qx.Class.undefine("qx.MyMixin");      
+    },
+    
+    
+    testInclude : function() {
+      qx.Mixin.define("qx.MyMixin", {
+        properties : {
+          "property" : {init: "p"}
+        },
+        
+        members : {
+          getP : function() {
+            return "p";
+          }
+        }
+      });
+
+      qx.Class.define("qx.MyClass", {
+        extend  : qx.core.Object
+      });
+
+      qx.Class.include(qx.MyClass, qx.MyMixin);
+
+      var o = new qx.MyClass();
+      
+      // just check of the properties are ok
+      this.assertEquals("p", o.getProperty());
+      this.assertEquals("p", o.getP());      
+      
+      // clean up
+      o.dispose();
+      qx.Class.undefine("qx.MyClass");
+      qx.Class.undefine("qx.MyMixin");      
+    },
+    
+    
+    testIncludeWithConstructor : function() {
+      qx.Mixin.define("qx.MyMixin", {
+        constructor : function() {
+          this.__p = "p";
+        },
+        properties : {
+          "property" : {init: "p"}
+        },
+        
+        members : {
+          getP : function() {
+            return this.__p;
+          }
+        }
+      });
+
+      qx.Class.define("qx.MyClass", {
+        extend  : qx.core.Object
+      });
+
+      qx.Class.include(qx.MyClass, qx.MyMixin);
+
+      var o = new qx.MyClass();
+      
+      // just check of the properties are ok
+      this.assertEquals("p", o.getProperty());
+      this.assertEquals("p", o.getP());      
+      
+      // clean up
+      o.dispose();
+      qx.Class.undefine("qx.MyClass");
+      qx.Class.undefine("qx.MyMixin");      
+    }    
   }
 });
