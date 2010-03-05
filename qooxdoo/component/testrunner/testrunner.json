@@ -16,7 +16,7 @@
 
   "jobs" :
   {
-    "common" :
+    "testrunner-common" :
     {
       "library" :
       [
@@ -60,6 +60,8 @@
 
     "common-tests" :
     {
+      "extend"    : [ "libraries" ],
+
       "let" :
       {
         "LOCALES" : ["de", "de_DE", "fr", "fr_FR" ]
@@ -95,7 +97,7 @@
 
     "source-script" :
     {
-      "extend" : ["common"],
+      "extend" : ["testrunner-common"],
 
       "compile-options" :
       {
@@ -145,7 +147,7 @@
 
     "build-files" :
     {
-      "extend" : ["common"],
+      "extend" : ["testrunner-common"],
 
       "copy-files" :
       {
@@ -166,7 +168,7 @@
 
     "build-resources":
     {
-      "extend" : ["common"],
+      "extend" : ["testrunner-common"],
 
       "include" :
       [
@@ -183,7 +185,7 @@
 
     "build-script" :
     {
-      "extend" : ["common"],
+      "extend" : ["testrunner-common"],
 
       "compile-options" :
       {
@@ -282,7 +284,7 @@
 
     "clean" :
     {
-      "extend" : [ "common" ],
+      "extend" : [ "testrunner-common" ],
 
       "clean-files" :
       {

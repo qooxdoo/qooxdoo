@@ -519,7 +519,11 @@
     {
       "desc" : "includer job, to filter verbose messages for dependency analysis (with -v)",
 
-      "log"  : { "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] } }
+      "log"  : 
+      { 
+        "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
+        "dependencies" : { "type" : "using" }
+      }
     }
 
   }

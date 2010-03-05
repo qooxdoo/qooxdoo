@@ -133,7 +133,7 @@
     {
       "desc"    : "create a test runner app for unit tests of the current library",
 
-      "extend" : ["libraries", "testrunner::build"],
+      "extend"  : ["testrunner::build"],
 
       "let" :
       {
