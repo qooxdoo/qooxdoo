@@ -93,7 +93,11 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
 
       // Finally append child
       // This will execute the script content
-      head.appendChild(script);
+      setTimeout(function() {
+        // This has to be wrapped in a timeout because under some circumstances
+        // the script is evaluated synchronously. (e.g. in IE8 if the script is cached)
+        head.appendChild(script);
+      }, 0);
     },
 
 
