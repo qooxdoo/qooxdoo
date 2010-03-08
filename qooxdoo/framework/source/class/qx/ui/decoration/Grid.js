@@ -229,5 +229,18 @@ qx.Class.define("qx.ui.decoration.Grid",
       
       this.__impl.setSlice([topSlice, leftSlice]);
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this.__impl = null;
   }
+
 });
