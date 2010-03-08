@@ -155,6 +155,7 @@ class Cache(object):
             raise RuntimeError, "The cache path is not a directory: %s" % path
         else: # it's an existing directory
             # defer read/write access to the first call of read()/write()
+            self._console.debug("Using existing directory")
             pass
         self._console.outdent()
 
