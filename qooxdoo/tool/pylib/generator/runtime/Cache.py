@@ -65,19 +65,12 @@ class Cache(object):
 
 
     def _update_checkfile(self, ):
-        fd  = os.open(self._check_file, os.O_CREAT|os.O_RDWR, 0666)  # open or create
+        fd  = os.open(self._check_file, os.O_CREAT|os.O_RDWR, 0666)  # open or create (portable form of os.mknod)
         numbytes = os.write(fd, str(self._cache_revision))
         os.close(fd)
         if numbytes < 1:
             raise IOError("Cannot write cache check file '%s'" % check_file)
         return
-
-    def _update_checkfile_1(self, check_file):
-        if not os.path.isfile(check_file):
-            #os.mknod(check_file, 0666)
-            os.close(os.open(check_file, os.O_CREAT|os.O_RDWR, 0666))  # portable form of os.mknod
-        return
-
 
     def _checkToolsNewer(self, ):
         cacheRevision = self.getCacheFileVersion()
