@@ -353,6 +353,10 @@ class DependencyLoader(object):
 
         # -- Main ---------------------------------------------------------
 
+        #
+        # Handle caching and invoke buildShallowDeps
+        #
+
         if fileId not in self._classesObj:
             raise NameError("Could not find class to fulfill dependency: %s" % fileId)
 
