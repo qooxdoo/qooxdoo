@@ -145,7 +145,10 @@ class Cache(object):
     # make sure there is a cache directory to work with (no r/w test currently)
 
     def _check_path(self, path):
+        self._console.indent()
+        self._console.debug("Checking path '%s'" % path)
         if not os.path.exists(path):
+            self._console.debug("Creating non-existing cache directory")
             filetool.directory(path)
             self._update_checkfile()
         elif not os.path.isdir(path):
@@ -153,6 +156,7 @@ class Cache(object):
         else: # it's an existing directory
             # defer read/write access to the first call of read()/write()
             pass
+        self._console.outdent()
 
     ##
     # clean up lock files interrupt handler
