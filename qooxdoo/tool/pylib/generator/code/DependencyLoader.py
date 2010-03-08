@@ -237,9 +237,8 @@ class DependencyLoader(object):
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :
             depsUnOpt = self.getDeps(fileId, {})  # get unopt deps
-            # this needs no extra generation, as Generator.py calls
-            # getClassList with empty variant set once anyway (see
-            # Generator:computeClassList and its invocations)
+            # this might incur extra generation if unoptimized deps
+            # haven't computed before for this fileId
             for depItem in depsUnOpt["load"]:
                 if depItem.name == "qx.core.Variant":
                     loadFinal.append(depItem)
@@ -248,9 +247,6 @@ class DependencyLoader(object):
                 if depItem.name == "qx.core.Variant":
                     runFinal.append(depItem)
                     break
-        #if fileId in ("qx.Mixin", "qx.Theme", "qx.Interface"):
-        #    lf = [x.name for x in loadFinal]
-        #    print fileId, lf
 
         # add config dependencies
         if self._require.has_key(fileId):
