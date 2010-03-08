@@ -268,39 +268,27 @@ class DependencyLoader(object):
 
 
     ##
-    # Interface method
+    # Find dependencies of class named <fileId> in its *code* (both meta hints 
+    # (#require, ...) as well as class code)
+    # - interface method
     #
     def getDeps(self, fileId, variants):
-        # find dependencies of class named <fileId> in its code (both meta hints as
-        # well as source code)
 
+        ##
+        # Wrapper around the tree recurser, _analyzeClassDepsNode
         def analyzeClassDeps(fileId, variants):
-
-            ## analyze with no variants
-
-            #loadtimeDepsNV = []  # NV = no variants
-            #runtimeDepsNV  = []
-            #undefDepsNV    = []
-
-            #tree = self._treeLoader.getTree(fileId, {})
-            #self._analyzeClassDepsNode(fileId, tree, loadtimeDepsNV, runtimeDepsNV, undefDepsNV, False, variants)
-
-            # now analyze with variants
 
             loadtimeDeps = []
             runtimeDeps  = []
             undefDeps    = []
 
-            #tree = self._treeLoader.getTree(fileId, variants)
             tree = self._classesObj[fileId].tree(variants)
             self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
 
-            ## this should be for *source* version only!
-            #if "qx.core.Variant" in loadtimeDepsNV and "qx.core.Variant" not in loadtimeDeps:
-            #    loadtimeDeps.append("qx.core.Variant")
-
             return loadtimeDeps, runtimeDeps, undefDeps
 
+        ##
+        # Handle meta hints and call analyzeClassDeps
         def buildShallowDeps():
             # Notes:
             # load time = before class = require
