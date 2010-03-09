@@ -146,8 +146,22 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Execute user callback
       if (this.__callback)
       {
-        this.__callback.call(this.__context, status);
-        delete this.__callback;
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          // Quick fix: Source version does not start, without this timeout.
+          // Fabian will check this fix in bug #3505.
+          var self = this;
+          setTimeout(function()
+          {
+            self.__callback.call(self.__context, status);
+            delete self.__callback;
+          },0);
+        } 
+        else 
+        {
+          this.__callback.call(this.__context, status);
+          delete this.__callback;
+        }
       }
     },
 
