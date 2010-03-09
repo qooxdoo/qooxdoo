@@ -27,6 +27,17 @@
  *
  * @state active Whether the window is activated
  * @state maximized Whether the window is maximized
+ * 
+ * @childControl statusbar {qx.ui.container.Composite} statusbar container which shows the statusbar text
+ * @childControl statusbar-text {qx.ui.basic.Label} text of the statusbar
+ * @childControl pane {qx.ui.container.Composite} window pane which holds the content
+ * @childControl captionbar {qx.ui.container.Composite} Container for all widgets inside the captionbar
+ * @childControl icon {qx.ui.basic.Image} icon at the left of the captionbar
+ * @childControl title {qx.ui.basic.Label} caption of the window
+ * @childControl minimize-button {qx.ui.form.Button} button to minimize the window
+ * @childControl restore-button {qx.ui.form.Button} button to restore the window
+ * @childControl maximize-button {qx.ui.form.Button} button to maximize the window
+ * @childControl close-button {qx.ui.form.Button} button to close the window 
  */
 qx.Class.define("qx.ui.window.Window",
 {

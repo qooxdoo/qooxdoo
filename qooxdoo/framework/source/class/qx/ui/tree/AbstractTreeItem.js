@@ -23,6 +23,10 @@
 /**
  * The AbstractTreeItem serves as a common superclass for the {@link
  * TreeFile} and {@link TreeFolder} classes.
+ * 
+ * @childControl label {qx.ui.basic.Label} label of the tree item
+ * @childControl icon {qx.ui.basic.Image} icon of the tree item
+ * @childControl open {qx.ui.tree.FolderOpenButton} button to open/close a subtree
  */
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {

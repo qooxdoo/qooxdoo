@@ -23,6 +23,15 @@
 /**
  * A popup which contains palettes of colors and the possibility to open the
  * Colorselector to choose a color.
+ * 
+ * @childControl field {qx.ui.core.Widget} shows preset colors
+ * @childControl auto-button {qx.ui.form.Button} automatic button
+ * @childControl selector-button {qx.ui.form.Button} button to open the color selector
+ * @childControl preview-pane {qx.ui.groupbox.GroupBox} group box to show the old and the new color
+ * @childControl selected-preview {qx.ui.container.Composite} show the selected color
+ * @childControl current-preview {qx.ui.container.Composite} show the current color
+ * @childControl colorselector-okbutton {qx.ui.form.Button} button of the colorselector 
+ * @childControl colorselector-cancelbutton {qx.ui.form.Button} button of the colorselector
  */
 qx.Class.define("qx.ui.control.ColorPopup",
 {

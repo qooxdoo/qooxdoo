@@ -21,7 +21,11 @@
 
 /**
  * Basic class for a selectbox like lists. Basically supports a popup
- * with a list and the whole children managment.
+ * with a list and the whole children management.
+ * 
+ * @childControl list {qx.ui.form.List} list component of the selectbox
+ * @childControl popup {qx.ui.popup.Popup} popup which shows the list
+ * 
  */
 qx.Class.define("qx.ui.form.AbstractSelectBox",
 {

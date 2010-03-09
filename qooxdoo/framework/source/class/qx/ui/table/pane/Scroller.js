@@ -23,6 +23,15 @@
  * virtual scrolling and does all the mouse event handling.
  *
  * @appearance table-focus-indicator {qx.ui.core.Widget}
+ * 
+ * @childControl header {qx.ui.table.pane.Header} header pane
+ * @childContol pane {qx.ui.table.pane.Pane} table pane to show the data
+ * @childControl focus-indicator {qx.ui.table.pane.FocusIndicator} shows the current focused cell
+ * @childControl resize-line {qx.ui.core.Widget} resize line widget
+ * @childControl scrollbar-x {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar} 
+ *               horizontal scrollbar widget (depends on the "qx.nativeScrollBars" setting which implementation is used)
+ * @childControl scrollbar-y {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar} 
+ *               vertical scrollbar widget (depends on the "qx.nativeScrollBars" setting which implementation is used)
  */
 qx.Class.define("qx.ui.table.pane.Scroller",
 {

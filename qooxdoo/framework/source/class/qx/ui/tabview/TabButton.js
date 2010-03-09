@@ -20,6 +20,10 @@
 /**
  * A TabButton is the clickable part sitting on the {@link qx.ui.tabview.Page}.
  * By clicking on the TabButton the user can set a Page active.
+ * 
+ * @childControl label {qx.ui.basic.Label} label of the tab button
+ * @childControl icon {qx.ui.basic.Image} icon of the tab button
+ * @childControl close-button {qx.ui.form.Button} close button of the tab button
  */
 qx.Class.define("qx.ui.tabview.TabButton",
 {

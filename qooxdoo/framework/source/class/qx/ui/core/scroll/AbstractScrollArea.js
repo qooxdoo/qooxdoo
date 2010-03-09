@@ -21,6 +21,11 @@
 /**
  * The ScrollArea provides a container widget with on demand scroll bars
  * if the content size exceeds the size of the container.
+ * 
+ * @childControl pane {qx.ui.core.scroll.ScrollPane} pane which holds the content to scroll
+ * @childControl scrollbar-x {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar} horizontal scrollbar
+ * @childControl scrollbar-y {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar} vertical scrollbar
+ * @childControl corner {qx.ui.core.Widget} corner where no scrollbar is shown
  */
 qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 {

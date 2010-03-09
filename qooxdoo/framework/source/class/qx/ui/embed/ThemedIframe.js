@@ -25,6 +25,10 @@
  * scroll bars do only work if the iframe's source points to the same domain
  * as the application.
  *
+ * @childControl iframe {qx.ui.embed.Iframe} embedded iframe component
+ * @childControl scrollbar-x {qx.ui.core.scroll.ScrollBar} horizontal scrollbar
+ * @childControl scrollbar-y {qx.ui.core.scroll.ScrollBar} vertical scrollbar
+ * @childControl corner {qx.ui.core.Widget} corner widget where no scrollbar is shown
  *
  * *Example*
  *

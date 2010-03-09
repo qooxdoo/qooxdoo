@@ -25,6 +25,9 @@
  * around and move it to another position. Currently mainly used
  * for structuring large toolbars beyond the capabilities of the
  * {@link Separator}.
+ * 
+ * @childControl handle {qx.ui.basic.Image} prat handle to visualize the separation
+ * @childControl container {qx.ui.toolbar.PartContainer} holds the content of the toolbar part
  */
 qx.Class.define("qx.ui.toolbar.Part",
 {

@@ -22,6 +22,11 @@
 /**
  * Container, which provides scrolling in one dimension (vertical or horizontal).
  *
+ * @childControl button-forward {qx.ui.form.RepeatButton} button to step forward
+ * @childControl button-backward {qx.ui.form.RepeatButton} button to step backward
+ * @childControl content {qx.ui.container.Composite} container to hold the content
+ * @childControl scrollpane {qx.ui.core.scroll.ScrollPane} the scroll pane holds the content to enable scrolling
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -54,7 +59,8 @@
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/1.0/widget/SlideBar' target='_blank'>
- * Documentation of this widget in the qooxdoo wiki.</a> */
+ * Documentation of this widget in the qooxdoo wiki.</a>
+ */
 qx.Class.define("qx.ui.container.SlideBar",
 {
   extend : qx.ui.core.Widget,

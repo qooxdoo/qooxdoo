@@ -20,6 +20,9 @@
 /**
  * The MenuSlideBar is used to scroll menus if they don't fit on the screen.
  *
+ * @childControl button-forward {qx.ui.form.HoverButton} scrolls forward of hovered
+ * @childControl button-backward {qx.ui.form.HoverButton} scrolls backward if hovered
+ *
  * @internal
  */
 qx.Class.define("qx.ui.menu.MenuSlideBar",

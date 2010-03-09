@@ -23,6 +23,9 @@
  *
  * A detailed description can be found in the package description
  * {@link qx.ui.table}.
+ * 
+ * @childControl statusbar {qx.ui.basic.Label} label to show the status of the table
+ * @childControl column-button {qx.ui.table.columnmenu.Button} button to open the column menu
  */
 qx.Class.define("qx.ui.table.Table",
 {

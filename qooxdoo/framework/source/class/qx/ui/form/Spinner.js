@@ -49,6 +49,11 @@
  * A spinner instance without any further properties specified in the
  * constructor or a subsequent *set* command will appear with default
  * values and behaviour.
+ * 
+ * @childControl textfield {qx.ui.form.TextField} holds the current value of the spinner
+ * @childControl upbutton {qx.ui.form.Button} button to increase the value
+ * @childControl downbutton {qx.ui.form.Button} button to decrease the value
+ * 
  */
 qx.Class.define("qx.ui.form.Spinner",
 {

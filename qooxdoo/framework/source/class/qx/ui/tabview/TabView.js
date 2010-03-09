@@ -25,6 +25,9 @@
  * A tab view is a multi page view where only one page is visible
  * at each moment. It is possible to switch the pages using the
  * buttons rendered by each page.
+ * 
+ * @childControl bar {qx.ui.container.SlideBar} slidebar for all tab buttons
+ * @childControl pane {qx.ui.container.Stack} stack container to show one tab page
  */
 qx.Class.define("qx.ui.tabview.TabView",
 {

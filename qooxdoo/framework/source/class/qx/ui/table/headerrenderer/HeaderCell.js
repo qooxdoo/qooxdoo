@@ -19,6 +19,10 @@
 
 /**
  * The default header cell widget
+ * 
+ * @childControl label {qx.ui.basic.Label} label of the header cell
+ * @childControl sort-icon {qx.ui.basic.Image} sort icon of the header cell
+ * @childControl icon {qx.ui.basic.Image} icon of the header cell
  */
 qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
 {

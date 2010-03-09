@@ -52,6 +52,8 @@
  * # <code>pageStep</code>: The larger of two natural steps that an abstract
  * slider provides and typically corresponds to the user pressing PageUp or
  * PageDown.
+ * 
+ * @childControl knob {qx.ui.core.Widget} knob to set the value of the slider
  */
 qx.Class.define("qx.ui.form.Slider",
 {

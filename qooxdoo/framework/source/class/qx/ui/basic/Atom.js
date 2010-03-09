@@ -41,6 +41,10 @@
  *
  * <a href='http://qooxdoo.org/documentation/1.0/widget/Atom' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
+ * 
+ * 
+ * @childControl label {qx.ui.basic.Label} label part of the atom
+ * @childControl icon {qx.ui.basic.Image} icon part of the atom
  */
 qx.Class.define("qx.ui.basic.Atom",
 {

@@ -21,6 +21,11 @@
 /**
  * The abstract menu button class is used for all type of menu content
  * for example normal buttons, checkboxes or radiobuttons.
+ * 
+ * @childControl icon {qx.ui.basic.Image} icon of the button
+ * @childControl label {qx.ui.basic.Label} label of the button
+ * @childControl shortcut {qx.ui.basic.Label} shows if specified the shortcut
+ * @childControl arrow {qx.ui.basic.Image} shows the arrow to show an additional widget (e.g. popup or submenu)
  */
 qx.Class.define("qx.ui.menu.AbstractButton",
 {

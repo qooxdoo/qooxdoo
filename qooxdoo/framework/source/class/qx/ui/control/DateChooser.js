@@ -41,6 +41,22 @@
  * Additionally to a selection event a execute event is available which is
  * fired by doubleclick or taping the space / enter key. With this event you
  * can for example save the selection and close the date chooser.
+ * 
+ * @childControl navigation-bar {qx.ui.container.Composite} container for the navigation bar controls
+ * @childControl last-year-button-tooltip {qx.ui.tooltip.ToolTip} tooltip for the last year button
+ * @childControl last-year-button {qx.ui.form.Button} button to jump to the last year
+ * @childControl last-month-button-tooltip {qx.ui.tooltip.ToolTip} tooltip for the last month button 
+ * @childControl last-month-button {qx.ui.form.Button} button to jump to the last month
+ * @childControl next-month-button-tooltip {qx.ui.tooltip.ToolTip} tooltip for the next month button
+ * @childControl next-month-button {qx.ui.form.Button} button to jump to the next month
+ * @childControl next-year-button-tooltip {qx.ui.tooltip.ToolTip} tooltip for the next year button 
+ * @childControl next-year-button {qx.ui.form.Button} button to jump to the next year
+ * @childControl month-year-label {qx.ui.basic.Label} shows the current month and year
+ * @childControl week {qx.ui.basic.Label} week label (used multiple times)
+ * @childControl weekday {qx.ui.basic.Label} weekday label (used multiple times)
+ * @childControl day {qx.ui.basic.Label} day label (used multiple times)
+ * @childControl date-pane {qx.ui.container.Composite} the pane used to position the week, weekday and day labels
+ * 
  */
 qx.Class.define("qx.ui.control.DateChooser",
 {

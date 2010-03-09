@@ -26,6 +26,32 @@
  * Includes support for RGB and HSB color areas.
  *
  * @appearance colorselector
+ * 
+ * @childControl control-bar {qx.ui.container.Composite} container which holds the control-pane and visual-pane
+ * @childControl visual-pane {qx.ui.groupbox.GroupBox} pane shows the hue-saturation-pane and the brightness-pane
+ * @childControl hue-saturation-pane {qx.ui.container.Composite} shows the hue saturation and the handle to select
+ * @childControl hue-saturation-field {qx.ui.basic.Image} hue saturation image which shows all available colors
+ * @childControl hue-saturation-handle {qx.ui.basic.Image} handle to select the color using the mouse
+ * @childCOntrol brightness-pane {qx.ui.container.Composite} shows the brightness field and the handle to select
+ * @childControl brightness-field {qx.ui.basic.Image} brightness image which shows all brightness steps
+ * @childControl brightness-handle {qx.ui.basic.Image} brightness handle to select the brightness using the mouse
+ * @childControl preset-field-set {qx.ui.groupbox.GroupBox} groupbox holding all preset colors
+ * @childControl colorbucket {qx.ui.core.Widget} color bucket
+ * @childControl preset-grid {qx.ui.container.Composite} container for all color presets
+ * @childControl input-field-set {qx.ui.groupbox.GroupBox} groupbox holding different input elements
+ * @childControl preview-field-set {qx.ui.groupbox.GroupBox} groupbox holding the two preview fields
+ * @childControl hex-field-composite {qx.ui.container.Composite} container for the hex field
+ * @childControl hex-field {qx.ui.form.TextField} textfield to input a hex value
+ * @childControl rgb-spinner-composite {qx.ui.container.Composite} container for the rgb spinner
+ * @childControl rgb-spinner-red {qx.ui.form.Spinner} spinner control for the red hex value
+ * @childControl rgb-spinner-green {qx.ui.form.Spinner} spinner control for the green hex value
+ * @childControl rgb-spinner-blue {qx.ui.form.Spinner} spinner control for the blue hex value
+ * @childControl hsb-spinner-composite {qx.ui.container.Composite} container for the hsb spinners
+ * @childControl hsb-spinner-hue {qx.ui.form.Spinner} spinner control for the huevalue
+ * @childControl hsb-spinner-saturation {qx.ui.form.Spinner} spinner control for the saturation value
+ * @childControl hsb-spinner-brightness {qx.ui.form.Spinner} spinner control for the brightness value
+ * @childControl preview-content-old {qx.ui.core.Widget} preview of the old color
+ * @childControl preview-content-new {qx.ui.core.Widget} preview of the new color
  */
 qx.Class.define("qx.ui.control.ColorSelector",
 {
