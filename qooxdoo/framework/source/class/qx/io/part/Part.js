@@ -98,6 +98,15 @@ qx.Bootstrap.define("qx.io.part.Part",
     
     
     /**
+     * Method for preloading this part. It initializs the packages to load but 
+     * not to execute the closure when done loading.
+     */
+    preload : function() {
+      this.load(function() {});
+    },
+    
+    
+    /**
      * Loads the part asynchronously. The callback is called after the part and
      * its dependencies are fully loaded. If the part is already loaded the
      * callback is called immediately.
