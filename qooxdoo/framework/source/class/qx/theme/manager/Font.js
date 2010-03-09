@@ -135,7 +135,7 @@ qx.Class.define("qx.theme.manager.Font",
      * Checks for includes and resolves them recursively
      * 
      * @param fonts {Map} all fonts of the theme
-     * @param fontToCheckForInclude {String} font name to include
+     * @param fontName {String} font name to include
      */
     __resolveInclude : function(fonts, fontName)
     {
