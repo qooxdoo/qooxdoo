@@ -32,7 +32,6 @@ class Part(object):
         self.initial_deps = []   # initial deps, as defined in config
         self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
         self.packages  = []   # list of packages constituting this part
-        #self.packageIdsSorted = [] # list of sorted package id's of this part
         self.no_merge_private_package = False # whether the specific package in this part should be protected from merging
         self.is_ignored= False      # a part might get ignored, e.g. if it is empty
 
@@ -43,10 +42,10 @@ class Part(object):
     # returns a list of the packages of this part, as indices into the provided
     # list of package Id's
 
-    def packagesAsIndices(self, packageIdsSorted):
+    def packagesAsIndices(self, packagesSorted):
         result = []
         for package in self.packages:
-            result.append(packageIdsSorted.index(package.id))
+            result.append(packagesSorted.index(package))
         return result
 
     def _sortPackages(self, packages_=None):  # packages: [Package]
@@ -59,11 +58,6 @@ class Part(object):
         packages.sort(cmp=Package.compareWithDeps, reverse=True)
         return packages
 
-    def _setPackageIdsSorted(self, value):
-        pass # ignore the value - will be generated on get
-
-    packageIdsSorted = property(_sortPackages, _setPackageIdsSorted)
-    
     packagesSorted   = property(_sortPackages)
 
 

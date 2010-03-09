@@ -83,6 +83,24 @@ class CodeGenerator(object):
                     npackages.append((packageFileName,))
                 return npackages
 
+            # besser: fixPackagesFiles()
+            def packagesOfFiles1(fileUri, packages):
+                # returns list of lists, each containing destination file name of the corresp. package
+                # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
+                file = os.path.basename(fileUri)
+                loader_with_boot = self._job.get("packages/loader-with-boot", True)
+                for packageId, package in enumerate(packages):
+                    if loader_with_boot:
+                        suffix = packageId - 1
+                        if suffix < 0:
+                            suffix = ""
+                    else:
+                        suffix = packageId
+                    packageFileName = self._resolveFileName(file, self._variants, self._settings, suffix)
+                    package.file = packageFileName
+
+                return packages
+
             # ----------------------------------------------------------------------------
             self._console.info("Generating boot script...")
 
@@ -94,10 +112,10 @@ class CodeGenerator(object):
             else:
                 globalCodes["I18N"]         = {}  # make a fake entry
 
-            filesPackages = packagesOfFiles(fileUri, packages)
+            filepackages = packagesOfFiles(fileUri, packages)
             #plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
             plugCodeFile = compConf.get("code/decode-uris-plug", False)
-            bootContent = self.generateBootCode(parts, filesPackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
+            bootContent = self.generateBootCode(parts, filepackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
 
             return bootContent
 
@@ -114,7 +132,7 @@ class CodeGenerator(object):
         if not (self._job.get("compile-dist", False) or self._job.get("compile/type")=="build"):
             return
 
-        packages   = script.packagesArraySorted()
+        packages   = script.packagesSortedSimple()
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
@@ -170,13 +188,13 @@ class CodeGenerator(object):
 
         bootPackage = ""
         compiledPackages = []
-        for packageIndex, packageBitId in enumerate(script.packageIdsSorted):
+        for packageIndex, package in enumerate(script.packagesSortedSimple()):
             self._console.info("Compiling package #%s:" % packageIndex, False)
             self._console.indent()
 
             # Compile file content
-            pkgCode = self._treeCompiler.compileClasses(script.packages[packageBitId].classes, variants, optimize, format)
-            pkgData = getPackageData(script.packages[packageBitId])
+            pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
+            pkgData = getPackageData(package)
             hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
 
             isBootPackage = packageIndex == 0
@@ -189,7 +207,7 @@ qx.Part.$$notifyLoad("%s", function() {
 });''' % (hash, pkgData, hash, pkgCode)
             
             #
-            script.packages[packageBitId].hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
+            package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
             compiledPackages.append(compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
@@ -251,7 +269,7 @@ qx.Part.$$notifyLoad("%s", function() {
             compConf  = self._job.get("compile-options")
         compConf   = ExtMap(compConf)
 
-        packages   = script.packagesArraySorted()
+        packages   = script.packagesSortedSimple()
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
@@ -262,7 +280,7 @@ qx.Part.$$notifyLoad("%s", function() {
         self._classes   = classes
 
         # construct old-style packages array
-        packagesArray = script.packagesArraySorted()
+        packagesArray = script.packagesSortedSimple()
 
         # Read in base file name
         filePath = compConf.get("paths/file")
@@ -309,7 +327,7 @@ qx.Part.$$notifyLoad("%s", function() {
         plugCodeFile = compConf.get("code/decode-uris-plug", False)
         self._console.info("Generating boot loader...")
         #print "-- packageIdsSorted: %r" % script.packageIdsSorted
-        sourceContent = self.generateBootCode(parts, packagesArray, boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
+        sourceContent = self.generateBootCode(parts, [x.classes for x in packagesArray], boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -527,11 +545,11 @@ qx.Part.$$notifyLoad("%s", function() {
         self._console.indent()
 
         packageTranslations = []
-        for pos, classes in enumerate(packages):
+        for pos, package in enumerate(packages):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
-            pac_dat = self._locale.getTranslationData_1(classes, variants, locales) # .po data
+            pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
 
@@ -684,7 +702,7 @@ qx.Part.$$notifyLoad("%s", function() {
                     if assetRex.match(assetId):
                         classesUsing.add(clazz)
                         break
-            for package in script.packages.values():
+            for package in script.packages:
                 if classesUsing.intersection(set(package.classes)):
                     package.data.resources[assetId] = resvalue
             return
@@ -780,18 +798,18 @@ qx.Part.$$notifyLoad("%s", function() {
         return resdata
 
 
+    ##
+    # returns the Javascript code for the initial ("boot") script as a string 
+
     def generateBootCode(self, parts, packages, boot, script, compConf, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
-        # returns the Javascript code for the initial ("boot") script as a string 
 
+        ##
+        # create a map with part names as key and array of package id's and
+        # return as string
         def partsMap(script):
-            # create a map with part names as key and array of package id's and
-            # return as string
-
-            # <parts> is already a suitable map; just serialize it
-            #partData = json.dumpsCode(parts)
             partData = {}
             for part in script.parts:
-                partData[part] = script.parts[part].packagesAsIndices(script.packageIdsSorted)
+                partData[part] = script.parts[part].packagesAsIndices(script.packagesSortedSimple())
             partData = json.dumpsCode(partData)
 
             return partData
@@ -873,7 +891,7 @@ qx.Part.$$notifyLoad("%s", function() {
         else:
             vals["BootPart"] = ""
             # fake package data
-            for key, packageId in enumerate(script.packageIdsSorted): 
+            for key, package in enumerate(script.packagesSortedSimple()): 
                 vals["BootPart"] += "qx.$$packageData['%d']={};\n" % key
 
         # Translate part information to JavaScript
@@ -908,11 +926,11 @@ qx.Part.$$notifyLoad("%s", function() {
         # Package Hashes
         vals["PackageHashes"] = {}
         if version == "build":  # TODO: this is perliminary, until runSource and the source template is adapted
-            for key, packageId in enumerate(script.packageIdsSorted):
-                vals["PackageHashes"][key] = script.packages[packageId].hash 
+            for key, package in enumerate(script.packagesSortedSimple()):
+                vals["PackageHashes"][key] = package.hash 
         else:
             # fake package hashes
-            for key, packageId in enumerate(script.packageIdsSorted):
+            for key, package in enumerate(script.packages):
                 vals["PackageHashes"][key] = "%d" % key
         vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
@@ -1016,7 +1034,7 @@ qx.Part.$$notifyLoad("%s", function() {
             dataS = json.dumpsCode(data)
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             fPath = self.writePackage(dataS, script, packageId=localeCode)
-            #fPath1 = self.writePackage(package.packageContent()[1], script, packageId=localeCode+"I")
+            fPath1 = self.writePackage(package.packageContent()[1], script, packageId=localeCode+"I")
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
             globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
@@ -1036,8 +1054,8 @@ qx.Part.$$notifyLoad("%s", function() {
                         raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
 
         # - add to script object
-        #script.parts.update([(x.name, x) for x in newParts])  # TODO: update might overwrite exist. entries!
-        #script.packages.extend([(x.id, x) for x in newPackages])
+        #script.parts.update([(x.name, x) for x in newParts.values()])  # TODO: update might overwrite exist. entries!
+        #script.packages.update([(x.id, x) for x in newPackages.values()])
 
         return globalCodes
 

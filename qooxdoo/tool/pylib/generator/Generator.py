@@ -293,7 +293,7 @@ class Generator(object):
                 # Computing packages
                 #boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
                 partPackages, _ = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
-                packageClasses = script.packagesArraySorted()
+                packageClasses = script.packagesSortedSimple()
 
                 #return boot, partPackages, packageClasses
                 return script.boot, script.parts, packageClasses
@@ -314,8 +314,8 @@ class Generator(object):
                 script.boot        = boot
                 packageObj         = Package(0)
                 packageObj.classes = classList
-                script.packages[0] = packageObj
-                script.packageIdsSorted = [0]
+                script.packages.append(packageObj)
+                #script.packageIdsSorted = [0]
                 partObj            = Part("boot")
                 #partObj.packages   = [0]
                 partObj.packages.append(packageObj)
@@ -656,7 +656,7 @@ class Generator(object):
         if not self._job.get("log/classes-unused", False):
             return
 
-        packages   = script.packagesArraySorted()
+        packages   = script.packagesSortedSimple()
         parts      = script.parts
         variants   = script.variants
 
@@ -730,7 +730,7 @@ class Generator(object):
         if not depsLogConf:
            return
 
-        packages   = script.packagesArraySorted()
+        packages   = script.packagesSortedSimple()
         parts      = script.parts
         variants   = script.variants
 
@@ -740,7 +740,7 @@ class Generator(object):
         def lookupUsingDeps(packages):
             # a generator to yield all using-dependencies of classes in packages
             for packageId, package in enumerate(packages):
-                for classId in sorted(package):
+                for classId in sorted(package.classes):
                     classDeps = self._depLoader.getDeps(classId, variants)
                     if classDeps["load"]:
                         for dep in classDeps["load"]:

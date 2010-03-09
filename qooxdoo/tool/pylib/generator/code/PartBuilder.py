@@ -65,7 +65,7 @@ class PartBuilder(object):
         script.parts    = self._getPartDeps(script, smartExclude)
 
         # Compute packages
-        script.packages = {}  # map of Packages
+        script.packages = []  # array of Packages
         script.packages = self._getPackages(script)
         script.sortParts()
 
@@ -100,9 +100,6 @@ class PartBuilder(object):
 
         script = self._getFinalClassList(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
-
-        #script.parts    = resultParts
-        #script.packages = resultClasses
 
         if True: #self._console.getLevel() < self._console._levels["info"]: # - not working!
             self.verifyParts(script.parts, script)
@@ -302,7 +299,7 @@ class PartBuilder(object):
                         package.packageDeps.add(otherpackage)
          
         self._console.outdent()
-        return packages
+        return packages.values()
 
 
     def _computePackageSize(self, package, variants):
@@ -348,8 +345,8 @@ class PartBuilder(object):
         [allPartBitMasks.setdefault(x.bit_mask, x) for x in script.parts.values()]
 
         oldpackages = set([])
-        while oldpackages != set(script.packages.keys()):
-            oldpackages = set(script.packages.keys())
+        while oldpackages != set(script.packages):
+            oldpackages = set(script.packages)
             allPackages = script.packagesSortedSimple()
             allPackages.reverse()
             
@@ -373,7 +370,7 @@ class PartBuilder(object):
                 self._console.indent()
                 mergedPackage, targetPackage = self._mergePackage(fromPackage, script, script.packages)
                 if mergedPackage: # mergedPackage == fromPackage on success
-                    del script.packages[fromPackage.id]
+                    script.packages.remove(fromPackage)
 
                 self._console.outdent()
 
@@ -423,7 +420,7 @@ class PartBuilder(object):
 
         # ----------------------------------------------------------------------
 
-        allPackages  = reversed(Package.simpleSort(packages.values()))
+        allPackages  = reversed(Package.simpleSort(packages))
                                 # sorting and reversing assures we try "smaller" package id's first
         additional_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
 
@@ -460,7 +457,7 @@ class PartBuilder(object):
 
     def collapsePartsByOrder(self, script, collapse_groups=None):
         
-        def getCollapseGroupsOrdered(parts, packages):
+        def getCollapseGroupsOrdered(parts, ):
             # returns dict of parts grouped by collapse index
             # { 0 : set('boot'), 1 : set(part1, part2), 2 : ... }
             collapseGroups    = {}
@@ -534,9 +531,9 @@ class PartBuilder(object):
                         selected_packages = selectFunc(part, collapse_group, script.packages)
                                                 # have to re-calculate, to account for modified script.packages
                         if package.id in selected_packages:
-                            mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages, seen_targets)
+                            mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages.values(), seen_targets)
                             if mergedPackage:   # on success == package
-                                del script.packages[mergedPackage.id]
+                                script.packages.remove(mergedPackage)
                                 curr_targets.add(targetPackage)
 
             seen_targets.update(curr_targets)
@@ -545,15 +542,12 @@ class PartBuilder(object):
         
         # ---------------------------------------------------------------------
 
-        parts    = script.parts
-        packages = script.packages
-
         self._console.debug("")
         self._console.info("Collapsing parts by collapse order...")
         self._console.indent()
 
         if collapse_groups == None:
-            collapse_groups = getCollapseGroupsOrdered(parts, packages)
+            collapse_groups = getCollapseGroupsOrdered(script.parts, )
         seen_targets    = set(())
 
         for collidx in sorted(collapse_groups.keys()): # go through groups in load order
@@ -561,8 +555,8 @@ class PartBuilder(object):
             self._console.debug("Collapse group %d %r" % (collidx, [x.name for x in collgrp]))
             self._console.indent()
 
-            parts, packages = mergeGroupPackages(getUniquePackages, collgrp, script, seen_targets)
-            parts, packages = mergeGroupPackages(getCommonPackages, collgrp, script, seen_targets)
+            script.parts, script.packages = mergeGroupPackages(getUniquePackages, collgrp, script, seen_targets)
+            script.parts, script.packages = mergeGroupPackages(getCommonPackages, collgrp, script, seen_targets)
 
             self._console.outdent()
 
@@ -617,7 +611,7 @@ class PartBuilder(object):
 
         # Update package dependencies:
         # all packages that depended on fromPackage depend now from toPackage
-        for package in script.packages.values():
+        for package in script.packages:
             if fromPackage in package.packageDeps:
                 # replace fromPackage with toPackage
                 package.packageDeps.difference_update(set((fromPackage,)))
@@ -645,7 +639,6 @@ class PartBuilder(object):
 
 
     def _getFinalPartData(self, script):
-        packages   = script.packages
         parts      = script.parts
         packageIds = [x.id for x in script.packagesSortedSimple()]
 
@@ -668,7 +661,7 @@ class PartBuilder(object):
         for package in packages:
             package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)
 
-        script.packageIdsSorted = [x.id for x in packages]
+        #script.packageIdsSorted = [x.id for x in packages]
 
         return script
 
@@ -702,7 +695,7 @@ class PartBuilder(object):
 
 
     def _printPartStats(self, script):
-        packages = script.packages
+        packages = dict([(x.id,x) for x in script.packages])
         parts    = script.parts
 
         packageIds = packages.keys()

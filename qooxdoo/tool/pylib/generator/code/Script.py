@@ -32,7 +32,7 @@ class Script(object):
         self.classes    = []   # classes making up the application / library
         self.variants   = []
         self.parts      = {}   # parts defined by the configuration (if any); {part.name : part}
-        self.packages   = {}   # .js files for this application / library;  {package.id : package}
+        self.packages   = []   # .js files for this application / library;  {package.id : package}
         self.boot       = "boot"
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
         self.buildType  = ""   # "source"/"build"
@@ -59,7 +59,7 @@ class Script(object):
     # return sorted array of script's packages
     
     def packagesSortedSimple(self):
-        return Package.simpleSort(self.packages.values())
+        return Package.simpleSort(self.packages)
 
     ##
     # generates a sequence of consecutive powers of 2: 1, 2, 4, 8, ...
