@@ -93,7 +93,7 @@ qx.Class.define("performance.test.Event",
       };
       var that = this;
       this.measureRepeated(
-        "remove listeners", function() {
+        "remove listeners", function(i) {
           that.removeListener("plain", handler[i]);
         },
         function() {}, this.ADD_ITERATIONS
@@ -151,7 +151,6 @@ qx.Class.define("performance.test.Event",
           };
         }, 1, this.FIRE_ITERATIONS
       );      
-    }
-    
+    }    
   }
 });
