@@ -56,7 +56,7 @@ qx.Class.define("qx.bom.client.Locale",
      */
     __init : function()
     {
-      var locale = (qx.bom.client.Engine.MSHTML ? navigator.userLanguage : navigator.language).toLowerCase();
+      var locale = (navigator.userLanguage || navigator.language).toLowerCase();
       var variant = "";
 
       var index = locale.indexOf("-");

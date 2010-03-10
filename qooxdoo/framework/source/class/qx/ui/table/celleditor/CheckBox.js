@@ -27,21 +27,6 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
   implement : qx.ui.table.ICellEditorFactory,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS

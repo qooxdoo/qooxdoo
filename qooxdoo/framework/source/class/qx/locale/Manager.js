@@ -333,14 +333,17 @@ qx.Class.define("qx.locale.Manager",
         language = this.__language;
       }
 
-      if (!txt && catalog[locale]) {
+      // e.g. DE_at
+      if (catalog[locale]) {
         txt = catalog[locale][messageId];
       }
 
+      // e.g. DE
       if (!txt && catalog[language]) {
         txt = catalog[language][messageId];
       }
 
+      // C
       if (!txt && catalog[this.__defaultLocale]) {
         txt = catalog[this.__defaultLocale][messageId];
       }

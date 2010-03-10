@@ -118,7 +118,7 @@ qx.Class.define("qx.util.ObjectPool",
     getObject : function(clazz)
     {
       if (this.$$disposed) {
-        return;
+        return new clazz;
       }
 
       if (!clazz) {
