@@ -147,24 +147,25 @@ class CodeGenerator(object):
 
         # -- Main --------------------------------------------------------------
 
-        if version == "build":
-            if not (self._job.get("compile-dist", False) or self._job.get("compile/type")=="build"):
-                return
+        # Early return
+        compType = self._job.get("compile/type", "")
+        if compType not in ("build", "source"):
+            return
 
-            packages   = script.packagesSortedSimple()
-            parts      = script.parts
-            boot       = script.boot
-            variants   = script.variants
-            classList  = script.classes
+        packages   = script.packagesSortedSimple()
+        parts      = script.parts
+        boot       = script.boot
+        variants   = script.variants
 
-            self._treeCompiler = treeCompiler
-            self._classList    = classList
-            self._variants     = variants
+        self._classList    = script.classes
+        self._treeCompiler = treeCompiler
+        self._variants     = variants
 
-            compConf = self._job.get("compile-dist") or self._job.get("compile-options")
-            if self._job.get("compile-dist"):
-                self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-dist'")
-            compConf = ExtMap(compConf)
+        # Compile config
+        compConf = self._job.get("compile-options")
+        compConf = ExtMap(compConf)
+
+        if compType == "build":
 
             # - Evaluate job config ---------------------
             # read in base file name
@@ -251,26 +252,8 @@ class CodeGenerator(object):
 
         # ---- 'source' version ------------------------------------------------
         else:
-            if not (self._job.get("compile-source/file") or self._job.get("compile/type")=="source"):
-                return
-
             self._console.info("Generate source version...")
             self._console.indent()
-
-            compConf   = self._job.get("compile-source")
-            if compConf:                  # translate old to new config
-                self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-source'")
-                compConf  = mapCompileConfig(compConf)
-            else:
-                compConf  = self._job.get("compile-options")
-            compConf   = ExtMap(compConf)
-
-            packages   = script.packagesSortedSimple()
-            parts      = script.parts
-            boot       = script.boot
-            variants   = script.variants
-
-            self._classList = script.classes
 
             # construct old-style packages array
             packagesArray = script.packagesSortedSimple()
