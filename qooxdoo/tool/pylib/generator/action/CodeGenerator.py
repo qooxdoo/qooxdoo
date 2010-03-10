@@ -56,10 +56,10 @@ class CodeGenerator(object):
 
     def runCompiled(self, script, treeCompiler, version="build"):
 
-        def getOutputFile():
+        def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
             if not filePath:
-                filePath = os.path.join("build", "script", self.getAppName() + ".js")
+                filePath = os.path.join(compileType, "script", self.getAppName() + ".js")
             return filePath
 
         def getFileUri(scriptUri):
@@ -68,7 +68,7 @@ class CodeGenerator(object):
             fileUri = Path.posifyPath(fileUri)
             return fileUri
 
-        def generateBootScript(globalCodes, script, bootPackage=""):
+        def generateBootScript(globalCodes, script, bootPackage="", compileType="build"):
 
             def packagesOfFiles(fileUri, packages):
                 # returns list of lists, each containing destination file name of the corresp. part
@@ -112,10 +112,14 @@ class CodeGenerator(object):
             else:
                 globalCodes["I18N"]         = {}  # make a fake entry
 
-            filepackages = packagesOfFiles(fileUri, packages)
-            #plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
             plugCodeFile = compConf.get("code/decode-uris-plug", False)
-            bootContent = self.generateBootCode(parts, filepackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
+            if compileType == "build":
+                filepackages = packagesOfFiles(fileUri, packages)
+                bootContent = self.generateBootCode(parts, filepackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, compileType, plugCodeFile, format)
+            else:
+                filepackages = [x.classes for x in packages]
+                bootContent = self.generateBootCode(parts, filepackages, boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, version=compileType, decodeUrisFile=plugCodeFile, format=format)
+
 
             return bootContent
 
@@ -127,29 +131,35 @@ class CodeGenerator(object):
             data += ';\n'
             return data
 
-        ##
-        # for 'source' build
-        def mapCompileConfig(oldConf):
-            newConf = ExtMap({})
-            if 'file' in oldConf:
-                newConf.set("paths/file", oldConf['file'])
-            if 'root' in oldConf:
-                newConf.set("paths/app-root", oldConf['root'])
-            if 'locales' in oldConf:
-                newConf.set("code/locales", oldConf['locales'])
-            if 'gzip' in oldConf:
-                newConf.set("path/gzip", oldConf['gzip'])
-            if 'decode-uris-plug'in oldConf:
-                newConf.set("code/decode-uris-plug", oldConf['decode-uris-plug'])
-            if 'loader-template' in oldConf:
-                newConf.set("paths/loader-template", oldConf['loader-template'])
-            return newConf.getData()
+        def compilePackage(packageIndex, package):
+            self._console.info("Compiling package #%s:" % packageIndex, False)
+            self._console.indent()
+
+            # Compile file content
+            pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
+            pkgData = getPackageData(package)
+            hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
+
+            isBootPackage = packageIndex == 0
+            if isBootPackage:
+                compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
+            else:
+                compiledContent  = u'''qx.$$packageData['%s']=%s\n''' % (hash, pkgData)
+                compiledContent += u'''qx.Part.$$notifyLoad("%s", function() {\n%s\n});''' % (hash, pkgCode)
+            
+            #
+            package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
+
+            self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
+            self._console.outdent()
+
+            return compiledContent
 
         # -- Main --------------------------------------------------------------
 
         # Early return
-        compType = self._job.get("compile/type", "")
-        if compType not in ("build", "source"):
+        compileType = self._job.get("compile/type", "")
+        if compileType not in ("build", "source"):
             return
 
         packages   = script.packagesSortedSimple()
@@ -161,18 +171,35 @@ class CodeGenerator(object):
         self._treeCompiler = treeCompiler
         self._variants     = variants
 
+        self._console.info("Generate %s version..." % compileType)
+        self._console.indent()
+
+        # - Evaluate job config ---------------------
         # Compile config
         compConf = self._job.get("compile-options")
         compConf = ExtMap(compConf)
 
-        if compType == "build":
+        # Whether the code should be formatted
+        format = compConf.get("code/format", False)
+        script.scriptCompress = compConf.get("paths/gzip", False)
 
-            # - Evaluate job config ---------------------
-            # read in base file name
-            fileRelPath = getOutputFile()
-            filePath    = self._config.absPath(fileRelPath)
-            script.baseScriptPath = filePath
+        # Read in settings
+        settings = self.getSettings()
+        script.settings = settings
 
+        # Read libraries
+        libs = self._job.get("library", [])
+
+        # Get translation maps
+        locales = compConf.get("code/locales", [])
+        translationMaps = self.getTranslationMaps(packages, variants, locales)
+
+        # Read in base file name
+        fileRelPath = getOutputFile(compileType)
+        filePath    = self._config.absPath(fileRelPath)
+        script.baseScriptPath = filePath
+
+        if compileType == "build":
             # read in uri prefixes
             scriptUri = compConf.get('uris/script', 'script')
             scriptUri = Path.posifyPath(scriptUri)
@@ -180,64 +207,40 @@ class CodeGenerator(object):
             # for resource list
             resourceUri = compConf.get('uris/resource', 'resource')
             resourceUri = Path.posifyPath(resourceUri)
+        else:
+            # source version needs place where the app HTML ("index.html") lives
+            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
+            resourceUri = None
+            scriptUri   = None
 
+        # Get global script data (like qxlibraries, qxresources,...)
+        globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
+
+        if compileType == "build":
+
+            # - Specific job config ---------------------
             # read in compiler options
             optimize = compConf.get("code/optimize", [])
             self._treeCompiler.setOptimize(optimize)
-
-            # whether the code should be formatted
-            format = compConf.get("code/format", False)
-            script.scriptCompress = compConf.get("paths/gzip", False)
-
-            # read in settings
-            settings = self.getSettings()
-            script.settings = settings
-
-            # read libraries
-            libs = self._job.get("library", [])
-
-            # get translation maps
-            locales = compConf.get("code/locales", [])
-            translationMaps = self.getTranslationMaps(packages, variants, locales)
 
             # - Generating packages ---------------------
             self._console.info("Generating packages...")
             self._console.indent()
 
-            globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
-
             bootPackage = ""
             compiledPackages = []
-            for packageIndex, package in enumerate(script.packagesSortedSimple()):
-                self._console.info("Compiling package #%s:" % packageIndex, False)
-                self._console.indent()
-
-                # Compile file content
-                pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
-                pkgData = getPackageData(package)
-                hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
-
-                isBootPackage = packageIndex == 0
-                if isBootPackage:
-                    compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
-                else:
-                    compiledContent  = u'''qx.$$packageData['%s']=%s\n''' % (hash, pkgData)
-                    compiledContent += u'''qx.Part.$$notifyLoad("%s", function() {\n%s\n});''' % (hash, pkgCode)
-                
-                #
-                package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
+            for packageIndex, package in enumerate(packages):
+                compiledContent = compilePackage(packageIndex, package)
                 compiledPackages.append(compiledContent)
-
-                self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
-                self._console.outdent()
 
             self._console.outdent()
             if not len(compiledPackages):
                 raise RuntimeError("No valid boot package generated.")
 
+            # - Put loader and packages together -------
             outputPackages = []
-
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            # handle loader and boot package
             if loader_with_boot:
                 outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
             else:
@@ -248,62 +251,13 @@ class CodeGenerator(object):
             for p in compiledPackages[1:]:
                 outputPackages.append(p)
 
+            # write packages
             self.writePackages(outputPackages, script)
 
         # ---- 'source' version ------------------------------------------------
         else:
-            self._console.info("Generate source version...")
-            self._console.indent()
 
-            # construct old-style packages array
-            packagesArray = script.packagesSortedSimple()
-
-            # Read in base file name
-            filePath = compConf.get("paths/file")
-            #if variants:
-            #    filePath = self._makeVariantsName(filePath, variants)
-            filePath = self._config.absPath(filePath)
-            script.baseScriptPath = filePath
-
-            # Whether the code should be formatted
-            format = compConf.get("code/format", False)
-            script.scriptCompress = compConf.get("paths/gzip", False)
-
-            # The place where the app HTML ("index.html") lives
-            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
-
-            # Read in settings
-            settings = self.getSettings()
-            script.settings = settings
-
-            # Get resource list
-            libs = self._job.get("library", [])
-            # add an 'output' lib
-            #outputLib = Library({})
-            #outputLib.namespace = "__out__"
-            #outputLib.path = os.path.dirname(filePath)  # this is fake
-            #outputLib.scriptUri = compConf.get("uris/script", None) or os.path.dirname(filePath)
-            #outputLib.resourceUri = compConf.get("uris/resource", None) or os.path.dirname(filePath) # this is fake too
-            #libs.append(outputLib.getMap())
-
-            # Get translation maps
-            locales = compConf.get("code/locales", [])
-            translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
-
-            # Add data from settings, variants and packages
-            globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format)
-            if not self._job.get("packages/i18n-with-boot", True):
-                globalCodes = self.writeI18NFiles(globalCodes, script)
-                # remove I18N info from globalCodes, so they don't go into the loader
-                globalCodes["Translations"] = {}
-                globalCodes["Locales"]      = {}
-            else:
-                globalCodes["I18N"]         = {}  # make a fake entry
-            #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
-            plugCodeFile = compConf.get("code/decode-uris-plug", False)
-            self._console.info("Generating boot loader...")
-            #print "-- packageIdsSorted: %r" % script.packageIdsSorted
-            sourceContent = self.generateBootCode(parts, [x.classes for x in packagesArray], boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
+            sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=compileType)
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -318,7 +272,9 @@ class CodeGenerator(object):
             self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
             self._console.outdent()
 
-        return
+        self._console.outdent()
+
+        return  # runCompiled()
 
 
     def runPrettyPrinting(self, classes, classesObj):

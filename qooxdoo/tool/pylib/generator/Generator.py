@@ -610,8 +610,6 @@ class Generator(object):
                 # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
                 partsConfigFromClassList(excludeWithDeps, script)
 
-                #self._codeGenerator.runSource  (script, )
-                self._codeGenerator.runCompiled(script, self._treeCompiler, version='source')
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             # debug tasks
