@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Execute user callback
       if (this.__callback)
       {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if (qx.core.Variant.isSet("qx.client", "mshtml|gecko"))
         {
           // Quick fix: Source version does not start, without this timeout.
           // Fabian will check this fix in bug #3505.
