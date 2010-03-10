@@ -127,115 +127,218 @@ class CodeGenerator(object):
             data += ';\n'
             return data
 
-        # ----------------------------------------------------------------------
+        ##
+        # for 'source' build
+        def mapCompileConfig(oldConf):
+            newConf = ExtMap({})
+            if 'file' in oldConf:
+                newConf.set("paths/file", oldConf['file'])
+            if 'root' in oldConf:
+                newConf.set("paths/app-root", oldConf['root'])
+            if 'locales' in oldConf:
+                newConf.set("code/locales", oldConf['locales'])
+            if 'gzip' in oldConf:
+                newConf.set("path/gzip", oldConf['gzip'])
+            if 'decode-uris-plug'in oldConf:
+                newConf.set("code/decode-uris-plug", oldConf['decode-uris-plug'])
+            if 'loader-template' in oldConf:
+                newConf.set("paths/loader-template", oldConf['loader-template'])
+            return newConf.getData()
 
-        if not (self._job.get("compile-dist", False) or self._job.get("compile/type")=="build"):
-            return
+        # -- Main --------------------------------------------------------------
 
-        packages   = script.packagesSortedSimple()
-        parts      = script.parts
-        boot       = script.boot
-        variants   = script.variants
-        classList  = script.classes
+        if version == "build":
+            if not (self._job.get("compile-dist", False) or self._job.get("compile/type")=="build"):
+                return
 
-        self._treeCompiler = treeCompiler
-        self._classList    = classList
-        self._variants     = variants
+            packages   = script.packagesSortedSimple()
+            parts      = script.parts
+            boot       = script.boot
+            variants   = script.variants
+            classList  = script.classes
 
-        compConf = self._job.get("compile-dist") or self._job.get("compile-options")
-        if self._job.get("compile-dist"):
-            self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-dist'")
-        compConf = ExtMap(compConf)
+            self._treeCompiler = treeCompiler
+            self._classList    = classList
+            self._variants     = variants
 
-        # - Evaluate job config ---------------------
-        # read in base file name
-        fileRelPath = getOutputFile()
-        filePath    = self._config.absPath(fileRelPath)
-        script.baseScriptPath = filePath
+            compConf = self._job.get("compile-dist") or self._job.get("compile-options")
+            if self._job.get("compile-dist"):
+                self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-dist'")
+            compConf = ExtMap(compConf)
 
-        # read in uri prefixes
-        scriptUri = compConf.get('uris/script', 'script')
-        scriptUri = Path.posifyPath(scriptUri)
-        fileUri   = getFileUri(scriptUri)
-        # for resource list
-        resourceUri = compConf.get('uris/resource', 'resource')
-        resourceUri = Path.posifyPath(resourceUri)
+            # - Evaluate job config ---------------------
+            # read in base file name
+            fileRelPath = getOutputFile()
+            filePath    = self._config.absPath(fileRelPath)
+            script.baseScriptPath = filePath
 
-        # read in compiler options
-        optimize = compConf.get("code/optimize", [])
-        self._treeCompiler.setOptimize(optimize)
+            # read in uri prefixes
+            scriptUri = compConf.get('uris/script', 'script')
+            scriptUri = Path.posifyPath(scriptUri)
+            fileUri   = getFileUri(scriptUri)
+            # for resource list
+            resourceUri = compConf.get('uris/resource', 'resource')
+            resourceUri = Path.posifyPath(resourceUri)
 
-        # whether the code should be formatted
-        format = compConf.get("code/format", False)
-        script.scriptCompress = compConf.get("paths/gzip", False)
+            # read in compiler options
+            optimize = compConf.get("code/optimize", [])
+            self._treeCompiler.setOptimize(optimize)
 
-        # read in settings
-        settings = self.getSettings()
-        script.settings = settings
+            # whether the code should be formatted
+            format = compConf.get("code/format", False)
+            script.scriptCompress = compConf.get("paths/gzip", False)
 
-        # read libraries
-        libs = self._job.get("library", [])
+            # read in settings
+            settings = self.getSettings()
+            script.settings = settings
 
-        # get translation maps
-        locales = compConf.get("code/locales", [])
-        translationMaps = self.getTranslationMaps(packages, variants, locales)
+            # read libraries
+            libs = self._job.get("library", [])
 
-        # - Generating packages ---------------------
-        self._console.info("Generating packages...")
-        self._console.indent()
+            # get translation maps
+            locales = compConf.get("code/locales", [])
+            translationMaps = self.getTranslationMaps(packages, variants, locales)
 
-        globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
-
-        bootPackage = ""
-        compiledPackages = []
-        for packageIndex, package in enumerate(script.packagesSortedSimple()):
-            self._console.info("Compiling package #%s:" % packageIndex, False)
+            # - Generating packages ---------------------
+            self._console.info("Generating packages...")
             self._console.indent()
 
-            # Compile file content
-            pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
-            pkgData = getPackageData(package)
-            hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
+            globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
-            isBootPackage = packageIndex == 0
-            if isBootPackage:
-                compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
-            else:
-                compiledContent = u'''qx.$$packageData['%s']=%s
-qx.Part.$$notifyLoad("%s", function() {
-%s
-});''' % (hash, pkgData, hash, pkgCode)
-            
-            #
-            package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
-            compiledPackages.append(compiledContent)
+            bootPackage = ""
+            compiledPackages = []
+            for packageIndex, package in enumerate(script.packagesSortedSimple()):
+                self._console.info("Compiling package #%s:" % packageIndex, False)
+                self._console.indent()
 
-            self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
+                # Compile file content
+                pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
+                pkgData = getPackageData(package)
+                hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
+
+                isBootPackage = packageIndex == 0
+                if isBootPackage:
+                    compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
+                else:
+                    compiledContent  = u'''qx.$$packageData['%s']=%s\n''' % (hash, pkgData)
+                    compiledContent += u'''qx.Part.$$notifyLoad("%s", function() {\n%s\n});''' % (hash, pkgCode)
+                
+                #
+                package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
+                compiledPackages.append(compiledContent)
+
+                self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
+                self._console.outdent()
+
             self._console.outdent()
+            if not len(compiledPackages):
+                raise RuntimeError("No valid boot package generated.")
 
-        self._console.outdent()
-        if not len(compiledPackages):
-            raise RuntimeError("No valid boot package generated.")
+            outputPackages = []
 
-        outputPackages = []
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            if loader_with_boot:
+                outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
+            else:
+                outputPackages.append( generateBootScript(globalCodes, script) )
+                outputPackages.append( compiledPackages[0] )
 
-        loader_with_boot = self._job.get("packages/loader-with-boot", True)
-        if loader_with_boot:
-            outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
+            # copy rest over
+            for p in compiledPackages[1:]:
+                outputPackages.append(p)
+
+            self.writePackages(outputPackages, script)
+
+        # ---- 'source' version ------------------------------------------------
         else:
-            outputPackages.append( generateBootScript(globalCodes, script) )
-            outputPackages.append( compiledPackages[0] )
+            if not (self._job.get("compile-source/file") or self._job.get("compile/type")=="source"):
+                return
 
-        # copy rest over
-        for p in compiledPackages[1:]:
-            outputPackages.append(p)
+            self._console.info("Generate source version...")
+            self._console.indent()
 
-        self.writePackages(outputPackages, script)
+            compConf   = self._job.get("compile-source")
+            if compConf:                  # translate old to new config
+                self._console.warn("! DeprecationWarning: You are using deprecated config key 'compile-source'")
+                compConf  = mapCompileConfig(compConf)
+            else:
+                compConf  = self._job.get("compile-options")
+            compConf   = ExtMap(compConf)
+
+            packages   = script.packagesSortedSimple()
+            parts      = script.parts
+            boot       = script.boot
+            variants   = script.variants
+
+            self._classList = script.classes
+
+            # construct old-style packages array
+            packagesArray = script.packagesSortedSimple()
+
+            # Read in base file name
+            filePath = compConf.get("paths/file")
+            #if variants:
+            #    filePath = self._makeVariantsName(filePath, variants)
+            filePath = self._config.absPath(filePath)
+            script.baseScriptPath = filePath
+
+            # Whether the code should be formatted
+            format = compConf.get("code/format", False)
+            script.scriptCompress = compConf.get("paths/gzip", False)
+
+            # The place where the app HTML ("index.html") lives
+            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
+
+            # Read in settings
+            settings = self.getSettings()
+            script.settings = settings
+
+            # Get resource list
+            libs = self._job.get("library", [])
+            # add an 'output' lib
+            #outputLib = Library({})
+            #outputLib.namespace = "__out__"
+            #outputLib.path = os.path.dirname(filePath)  # this is fake
+            #outputLib.scriptUri = compConf.get("uris/script", None) or os.path.dirname(filePath)
+            #outputLib.resourceUri = compConf.get("uris/resource", None) or os.path.dirname(filePath) # this is fake too
+            #libs.append(outputLib.getMap())
+
+            # Get translation maps
+            locales = compConf.get("code/locales", [])
+            translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
+
+            # Add data from settings, variants and packages
+            globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format)
+            if not self._job.get("packages/i18n-with-boot", True):
+                globalCodes = self.writeI18NFiles(globalCodes, script)
+                # remove I18N info from globalCodes, so they don't go into the loader
+                globalCodes["Translations"] = {}
+                globalCodes["Locales"]      = {}
+            else:
+                globalCodes["I18N"]         = {}  # make a fake entry
+            #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
+            plugCodeFile = compConf.get("code/decode-uris-plug", False)
+            self._console.info("Generating boot loader...")
+            #print "-- packageIdsSorted: %r" % script.packageIdsSorted
+            sourceContent = self.generateBootCode(parts, [x.classes for x in packagesArray], boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
+
+            # Construct file name
+            resolvedFilePath = self._resolveFileName(filePath, variants, settings)
+
+            # Save result file
+            filetool.save(resolvedFilePath, sourceContent)
+
+            if compConf.get("paths/gzip"):
+                filetool.gzip(resolvedFilePath, sourceContent)
+
+            self._console.outdent()
+            self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
+            self._console.outdent()
 
         return
 
 
-    def runSource(self, script, libs, classes, classesObj):
+    def runSource(self, script, ):
 
         def mapCompileConfig(oldConf):
             newConf = ExtMap({})
@@ -273,11 +376,11 @@ qx.Part.$$notifyLoad("%s", function() {
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
-        classList  = script.classes
+        #classList  = script.classes
 
-        self._classList = classList
-        self._libs      = libs
-        self._classes   = classes
+        self._classList = script.classes
+        #self._libs      = libs
+        #self._classes   = classes
 
         # construct old-style packages array
         packagesArray = script.packagesSortedSimple()
