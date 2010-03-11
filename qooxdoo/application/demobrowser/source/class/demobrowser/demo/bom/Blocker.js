@@ -35,10 +35,9 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
 
       var blocker = new qx.bom.Blocker;
       blocker.setBlockerOpacity(0.5);
+      blocker.setBlockerColor("red");
 
       qx.event.Registration.addListener(input, "click", function(e){
-        blocker.setBlockerColor("red");
-
         blocker.block();
 
         qx.event.Timer.once(function(e){
@@ -47,8 +46,6 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
       });
 
       qx.dom.Element.insertEnd(input, document.body);
-
-
 
 
       var input2 = qx.bom.Input.create("button", { value: "Block Element for 5s" });
@@ -67,11 +64,15 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
                                                        zIndex: 500 });
       qx.dom.Element.insertBegin(elementToBlock, document.body);
 
+      var blocker2 = new qx.bom.Blocker;
+      blocker2.setBlockerOpacity(0.5);
+      blocker2.setBlockerColor("green");
+
       qx.event.Registration.addListener(input2, "click", function(e){
-        blocker.block(elementToBlock);
+        blocker2.block(elementToBlock);
 
         qx.event.Timer.once(function(e){
-         blocker.unblock();
+         blocker2.unblock();
         }, window, 5000);
       });
 
