@@ -1217,7 +1217,7 @@ def documentApplyMethod(methodNode, prop):
     functionCode = """/**
  * Applies changes of the property value of the property <code>%(shortPropName)s</code>.
  *
- * For further details take a look at the property definition: {@link #%(propName)s}.
+ * For further details take a look at the property definition: {@link #%(shortPropName)s}.
  *
  * @param %(firstParamName)s {%(paramType)s} new value of the property
  * @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).
