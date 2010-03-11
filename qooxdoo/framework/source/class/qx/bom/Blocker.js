@@ -228,16 +228,6 @@ qx.Class.define("qx.bom.Blocker",
         backgroundColor: this.__defaultBlockerColor
       });
       this.setBlockerZIndex(this.__defaultZIndex);
-
-      // IE needs some extra love here to convince it to block events.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        qx.bom.element.Style.setStyles(this.__blockerElement,
-        {
-          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
-          backgroundRepeat: "repeat"
-        });
-      }
     },
 
 
