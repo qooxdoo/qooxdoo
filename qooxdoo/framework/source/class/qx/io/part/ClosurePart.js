@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     
     
     /**
-     * Loads the colsure part including all its packages. The loading will 
+     * Loads the closure part including all its packages. The loading will 
      * be done parallel. After all packages are available, the closures are 
      * executed in the correct order.
      * 
