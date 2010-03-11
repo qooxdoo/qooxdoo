@@ -1026,6 +1026,10 @@ class CodeGenerator(object):
                     part.packages.append(newPackages[mainlang])   # add main language
                     newPackages[mainlang].id |= part.bit_mask     # adapt package's bit string
 
+        # finally, sort packages
+        for part in newParts.values():
+            part.packagesSorted
+
         # - add to script object
         script.parts.update([(x.name, x) for x in newParts.values()])  # TODO: update might overwrite exist. entries!
         script.packages.extend(newPackages.values())
