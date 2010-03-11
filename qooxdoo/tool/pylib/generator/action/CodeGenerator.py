@@ -81,10 +81,11 @@ class CodeGenerator(object):
                     totalLen = len(packages) + 1
                 for packageId, packageFileName in enumerate(self.packagesFileNames(file, totalLen, classPackagesOnly=True)):
                     npackages.append((packageFileName,))
+                    packages[packageId].files.append(packageFileName)  # TODO: very unnice to fix this here
                 return npackages
 
             # besser: fixPackagesFiles()
-            def packagesOfFiles1(fileUri, packages):
+            def packagesOfFilesX(fileUri, packages):
                 # returns list of lists, each containing destination file name of the corresp. package
                 # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
                 file = os.path.basename(fileUri)
@@ -97,7 +98,7 @@ class CodeGenerator(object):
                     else:
                         suffix = packageId
                     packageFileName = self._resolveFileName(file, self._variants, self._settings, suffix)
-                    package.file = packageFileName
+                    package.files.append(packageFileName)
 
                 return packages
 
@@ -228,13 +229,11 @@ class CodeGenerator(object):
             self._console.indent()
 
             bootPackage = ""
-            compiledPackages = []
             for packageIndex, package in enumerate(packages):
-                compiledContent = compilePackage(packageIndex, package)
-                compiledPackages.append(compiledContent)
+                package.compiled = compilePackage(packageIndex, package)
 
             self._console.outdent()
-            if not len(compiledPackages):
+            if not len(packages):
                 raise RuntimeError("No valid boot package generated.")
 
             # - Put loader and packages together -------
@@ -242,14 +241,14 @@ class CodeGenerator(object):
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
             # handle loader and boot package
             if loader_with_boot:
-                outputPackages.append( generateBootScript(globalCodes, script, compiledPackages[0]) )
+                outputPackages.append( generateBootScript(globalCodes, script, packages[0].compiled) )
             else:
                 outputPackages.append( generateBootScript(globalCodes, script) )
-                outputPackages.append( compiledPackages[0] )
+                outputPackages.append( packages[0].compiled )
 
             # copy rest over
-            for p in compiledPackages[1:]:
-                outputPackages.append(p)
+            for package in packages[1:]:
+                outputPackages.append(package.compiled)
 
             # write packages
             self.writePackages(outputPackages, script)
@@ -740,8 +739,11 @@ class CodeGenerator(object):
         # return as string
         def partsMap(script):
             partData = {}
+            packages = script.packagesSortedSimple()
+            #print "packages: %r" % packages
             for part in script.parts:
-                partData[part] = script.parts[part].packagesAsIndices(script.packagesSortedSimple())
+                partData[part] = script.parts[part].packagesAsIndices(packages)
+                #print "part '%s': %r" % (part, script.parts[part].packages)
             partData = json.dumpsCode(partData)
 
             return partData
@@ -775,6 +777,36 @@ class CodeGenerator(object):
                     packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
                 allUris.append(packageUris)
 
+            return allUris
+
+        def packageUrisToJS1(packages, version, namespace=None):
+            # Translate URI data to JavaScript
+            # using Package objects
+
+            if version == "build" and not namespace:
+                # TODO: gosh, the next is an ugly hack!  
+                # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                #namespace  = self._resourceHandler._genobj._namespaces[0]
+                namespace  = self.getAppName()
+            
+            allUris = []
+            for packageId, package in enumerate(packages):
+                packageUris = []
+                if package.files:
+                    namespace = "__out__"
+                    for fileId in package.files:
+                        relpath    = OsPath(fileId)
+                        shortUri   = Uri(relpath.toUri())
+                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                else: # "source" :
+                    for clazz in package.classes:
+                        namespace  = self._classes[clazz]["namespace"]
+                        relpath    = OsPath(self._classes[clazz]["relpath"])
+                        shortUri   = Uri(relpath.toUri())
+                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+
+
+                allUris.append(packageUris)
             return allUris
 
         def loadTemplate(bootCode):
@@ -830,7 +862,8 @@ class CodeGenerator(object):
         vals["Parts"] = partsMap(script)
 
         # Translate URI data to JavaScript
-        vals["Uris"] = packageUrisToJS(packages, version)
+        #vals["Uris"] = packageUrisToJS(packages, version)
+        vals["Uris"] = packageUrisToJS1(script.packagesSortedSimple(), version)
         vals["Uris"] = json.dumpsCode(vals["Uris"])
 
         # Add potential extra scripts
@@ -892,6 +925,7 @@ class CodeGenerator(object):
             packageFileName = self._resolveFileName(basename, self._variants, self._settings, suffix)
             yield packageFileName
 
+
     def writePackages(self, compiledPackages, script, startId=0):
         for content, resolvedFilePath in zip(compiledPackages, self.packagesFileNames(script.baseScriptPath, len(compiledPackages))):
             # Save result file
@@ -905,6 +939,7 @@ class CodeGenerator(object):
 
         return
 
+
     def writePackages1(self, compiledPackages, script, startId=0):
         for packageId, content in enumerate(compiledPackages):
             suffix = startId + packageId -1
@@ -912,6 +947,7 @@ class CodeGenerator(object):
                 suffix = ""   # creating ["", 0, 1, 2, ...]
             self.writePackage(content, script, suffix)
         return
+
 
     def writePackage(self, content, script, packageId=""):
         # Construct file name
@@ -952,6 +988,7 @@ class CodeGenerator(object):
             newParts[localeCode] = part
             package = Package(part.bit_mask)  # this might be modified later
             newPackages[localeCode] = package
+            part.packages.append(package)
 
             data = {}
             data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
@@ -966,7 +1003,10 @@ class CodeGenerator(object):
             dataS = json.dumpsCode(data)
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             fPath = self.writePackage(dataS, script, packageId=localeCode)
-            fPath1 = self.writePackage(package.packageContent()[1], script, packageId=localeCode+"I")
+            hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
+            fPath1 = self.writePackage(dataS, script, packageId=localeCode+"I")
+            package.files.append(os.path.basename(fPath1))
+            package.hash = hash
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
             globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
@@ -974,20 +1014,21 @@ class CodeGenerator(object):
         # Finalize the new packages and parts
         # - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
         for partId, part in newParts.items():
-            for packageId, package in newPackages.items():
-                if packageId == "C" and package not in part.packages:
-                    part.packages.append(newPackages["C"])   # all need "C"
-                if len(partId) > 2 and partId[2] == "_":  # it's a sub-language -> include main language
-                    mainlang = partId[:2]
-                    if mainlang in newPackages:
-                        if newPackages[mainlang] not in part.packages:
-                            part.packages.append(newPackages[mainlang])
-                    else:
-                        raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
+            if newPackages["C"] not in part.packages:
+                package = newPackages["C"]
+                part.packages.append(package)   # all need "C"
+                package.id |= part.bit_mask     # adapt package's bit string
+            if len(partId) > 2 and partId[2] == "_":  # it's a sub-language -> include main language
+                mainlang = partId[:2]
+                if mainlang not in newPackages:
+                    raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
+                if newPackages[mainlang] not in part.packages:
+                    part.packages.append(newPackages[mainlang])   # add main language
+                    newPackages[mainlang].id |= part.bit_mask     # adapt package's bit string
 
         # - add to script object
-        #script.parts.update([(x.name, x) for x in newParts.values()])  # TODO: update might overwrite exist. entries!
-        #script.packages.update([(x.id, x) for x in newPackages.values()])
+        script.parts.update([(x.name, x) for x in newParts.values()])  # TODO: update might overwrite exist. entries!
+        script.packages.extend(newPackages.values())
 
         return globalCodes
 

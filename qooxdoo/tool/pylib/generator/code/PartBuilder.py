@@ -278,9 +278,9 @@ class PartBuilder(object):
                     #part.packages.append(package.id)
                     part.packages.append(package)
                     #package.parts.append(part.name)
-                    package.parts.append(part)
+                    #package.parts.append(part)
                     
-            package.part_count = len(package.parts)
+            #package.part_count = len(package.parts)
 
         # Register dependencies between Packages
         for package in packages.values():

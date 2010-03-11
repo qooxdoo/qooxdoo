@@ -33,28 +33,35 @@
 ##
 
 from generator import Context
-from misc.securehash import sha_construct
-from misc import json
+from misc import securehash as sha
+from misc import json, util
 from misc.NameSpace import NameSpace
 
 class Package(object):
 
     def __init__(self, id):
         self.id         = id   # int representing bit mask for each using part turned on
-        self.file       = ""   # an optional file name, to store the package in, if desired
+        self.files      = []   # potential file names that make up the package, if desired
         self.classes    = []   # list of classes in this package
-        self.part_count = 0    # number of parts using this package
-        self.parts      = []   # list of parts using this package
+        #self.part_count       # property
+        #self.parts      = []   # list of parts using this package  -- currently not used
         self.data       = NameSpace() # an extensible container
         self.data.resources    = {}   # {resourceId: resourceInfo}
         self.data.locales      = {}   # {"en" : {"cldr_am" : "AM"}}
         self.data.translations = {}   # {"en" : {"Hello"   : "Hallo"}}
         self.packageDeps= set(()) # set packages this package depends on
+        self.compiled   = ""   # potential compiled string of the package classes
+        self._hash      = ""   # property
 
 
     def __repr__(self):
         return "<%s:%r>" % (self.__class__.__name__, self.id)
 
+    
+    def _part_count(self):
+        return util.countBitsOn(self.id)
+
+    part_count = property(_part_count)
 
     # --------------------------------------------------------------------------
     #    Code Generating Functions                                              
@@ -73,6 +80,7 @@ class Package(object):
     #   |   ...       |
     #   +-------------+
     #
+    # ! this currently only works for packages that only have data (bec. of packageCode() :-(
 
     def packageContent(self):
         def getDataString():
@@ -83,7 +91,7 @@ class Package(object):
             return self.packageCode()
 
         def getHash(buffer):
-            hashCode = sha_construct(buffer).hexdigest()
+            hashCode = sha.getHash(buffer)[:12]  # first 12 chars should be enough
             return hashCode
 
         # ----------------------------------------------------------------------
@@ -97,6 +105,14 @@ qx.Part.$$notifyLoad("%s", function() {
 });''' % (contentHash, dataString, contentHash, classesString)
         return contentHash, packageContent
 
+
+    def _getHash(self):
+        return self._hash
+
+    def _setHash(self, val):
+        self._hash = val
+
+    hash = property(_getHash, _setHash)
 
     ##
     # return a code string containing the code of classes associated with this
