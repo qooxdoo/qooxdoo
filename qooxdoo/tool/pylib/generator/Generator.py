@@ -974,15 +974,15 @@ class Generator(object):
                 self._console.info("Package %s" % packageId)
                 self._console.indent()
 
-                for partId in parts:
-                    if packageId in parts[partId]:
-                        self._console.info("Part %s" % partId)
+                for part in parts.values():
+                    if package in part.packages:
+                        self._console.info("Part %s" % part.name)
 
-                for classId in sorted(package):
+                for classId in sorted(package.classes):
                     self._console.info("Class: %s" % classId)
                     self._console.indent()
 
-                    for otherClassId in package:
+                    for otherClassId in package.classes:
                         otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
                         if classId in (x.name for x in otherClassDeps["load"]):
