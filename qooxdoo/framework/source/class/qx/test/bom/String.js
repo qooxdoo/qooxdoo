@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Jonathan Weißäßää (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
