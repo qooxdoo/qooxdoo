@@ -287,7 +287,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       
       if (this.__ptwLiveUpdateDisappearListener){
         this.removeListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
-        __ptwLiveUpdateDisappearListener = null;
+        this.__ptwLiveUpdateDisappearListener = null;
       }
       
     },
