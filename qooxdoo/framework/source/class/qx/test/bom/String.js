@@ -24,13 +24,21 @@ qx.Class.define("qx.test.bom.String",
   members :
   {
     
-    testToTextBreak : function()
+    testToText_Break : function()
     {
       this.assertEquals(qx.bom.String.toText("<br>"), "\n");
       this.assertEquals(qx.bom.String.toText("<br />"), "\n");
     },
 		
-		testToTextAdvanced : function()
+    testToText_Tabs : function()
+    {
+      this.assertEquals(qx.bom.String.toText("	"), " ");
+      this.assertEquals(qx.bom.String.toText("		"), "  ");
+      this.assertEquals(qx.bom.String.toText("foo	bar"), "foo bar");
+    },
+
+
+		testToText_Advanced : function()
 		{
 			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>"), "");
 			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>foo</div></div>"), "foo");
