@@ -420,17 +420,17 @@ qx.Class.define("qx.bom.String",
      */
     toText : function(str)
     {
-      return qx.bom.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
+			return qx.bom.String.unescape(str.replace(/<\/?[^>]+(>|$)/gi, function(chr)
       {
-        if (/\s+/.test(chr)) {
-          return " ";
-        } else if (/^<BR|^<br/gi.test(chr)) {
-          return "\n";
-        } else {
-          return "";
-        }
-      }));
-    }
+			  if (chr.indexOf("<br") === 0) {
+			    return "\n";
+			  } else if (chr.length > 0 && chr.replace(/^\s*/, "").replace(/\s*$/, "") == "") {
+			    return " ";
+			  } else {
+			    return "";
+			  }
+			}));
+		}
   },
 
 

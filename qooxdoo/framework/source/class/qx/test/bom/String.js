@@ -1,0 +1,43 @@
+﻿/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2007-2010 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Jonathan Weißäßää (jonathan_rass)
+
+************************************************************************ */
+
+qx.Class.define("qx.test.bom.String",
+{
+  extend : qx.dev.unit.TestCase,
+
+  members :
+  {
+    
+    testToTextBreak : function()
+    {
+      this.assertEquals(qx.bom.String.toText("<br>"), "\n");
+      this.assertEquals(qx.bom.String.toText("<br />"), "\n");
+    },
+		
+		testToTextAdvanced : function()
+		{
+			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>"), "");
+			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>foo</div></div>"), "foo");
+
+			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> "), " ");
+			this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> foo </div></div>"), " foo ");
+		}
+
+  }
+});
