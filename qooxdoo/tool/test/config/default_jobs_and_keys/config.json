@@ -43,7 +43,12 @@
 
   ,"jobs" :
   {
-    "log-classes-unused" :
+    "_default-settings"  :
+    {
+      "cache" : { "compile" : "${CACHE}" }  
+    }
+    
+    ,"log-classes-unused" :
     {
       //"extend" : [ "scan-local-lib" ],
       "extend" : [ "source" ],
