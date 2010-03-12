@@ -73,23 +73,24 @@ def fileCheck(fname):
 ##
 # get the tags from the javascript source file
 
+tagreg = re.compile('\@tag\s(.*)')
+qxreg  = re.compile('(qx\.[^(;\s]*)\(')
+
 def getTagsFromJsFile(fname):
     fileH = open(fname,"rU")
 
     tags = set([]) 
     for line in fileH:
         # tags
-        reg = re.compile('\@tag\s(.*)');
-        match = reg.search(line);
+        match = tagreg.search(line)
         if match:
           if match.group(1):
-            tags.add(match.group(1));
+            tags.add(match.group(1))
         # qx. usage
-        reg = re.compile('(qx\.[^(;\s]*)\(');
-        match = reg.search(line);
+        match = qxreg.search(line)
         if match:
           if match.group(1):
-            tags.add(match.group(1));
+            tags.add(match.group(1))
     fileH.close()
 
     return tags    
