@@ -1,0 +1,48 @@
+{
+  "name" : "Test config, to run a maximum of jobs and keys on an app (curr. Feedreader)"
+
+  ,"include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ]
+
+  ,"export" :  // run these exported jobs
+  [
+    "api",
+    //"build",  -- these are covered by normal app testing
+    //"clean",
+    //"distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    //"migration",
+    "pretty",
+    //"profiling",
+    //"source",
+    //"source-all",
+    "test",
+    "test-source",
+    "translation"
+  ]
+
+  ,"let" :
+  {
+    "APPLICATION"  : "feedreader",
+    "QOOXDOO_PATH" : "../../../..",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv"],
+    "TEST_INCLUDE" : "${APPLICATION}.*",
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : "${QOOXDOO_PATH}/application/feedreader"
+  }
+
+  ,"jobs" :
+  {
+    
+  }
+ 
+}
