@@ -673,7 +673,7 @@ class Generator(object):
         # used classes of interest
         for packageId, package in enumerate(packages):
             for namespace in namespaces:
-                packageClasses = self._expandRegExps([namespace], package)
+                packageClasses = self._expandRegExps([namespace], package.classes)
                 usedClassesArr[namespace].extend(packageClasses)
         
         # available classes of interest
