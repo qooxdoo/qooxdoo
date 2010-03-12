@@ -32,6 +32,7 @@ qx.Class.define("qx.test.io.part.Package",
   {
     setUp : function() {
       qx.test.PART_FILES = [];
+      this.__dummyLoader = new qx.test.io.part.MockLoader();      
     },
     
     
@@ -140,7 +141,7 @@ qx.Class.define("qx.test.io.part.Package",
 
       var pkg = this.createPackage(urls, "file1-closure", false);
       
-      var loader = new qx.Part({uris: []});
+      var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
       loader.addToPackage(pkg);
@@ -166,7 +167,7 @@ qx.Class.define("qx.test.io.part.Package",
 
       var pkg = this.createPackage(urls, "file1-closure", false);
       
-      var loader = new qx.Part({uris: []});
+      var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
       loader.addToPackage(pkg);
@@ -192,7 +193,7 @@ qx.Class.define("qx.test.io.part.Package",
     {
       var pkg = this.createPackage(["___foo.js"], "file1-closure", false);
       
-      var loader = new qx.Part({uris: []});
+      var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
       loader.addToPackage(pkg);

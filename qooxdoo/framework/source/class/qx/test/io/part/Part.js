@@ -35,7 +35,8 @@ qx.Class.define("qx.test.io.part.Part",
     setUp : function()
     {
       qx.test.Part.LOAD_ORDER = [];
-      this.__loader = new qx.Part({uris:[]});
+      this.__dummyLoader = new qx.test.io.part.MockLoader();      
+      this.__loader      = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = this.__loader;
     },
     

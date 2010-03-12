@@ -38,7 +38,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     {
       qx.test.PART_FILES = [];
       qx.test.Part.LOAD_ORDER = [];
-      this.__dummyLoader = {uris: []};
+      this.__dummyLoader = new qx.test.io.part.MockLoader();
       
       this.__loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = this.__loader;
