@@ -9,23 +9,24 @@
   ]
 
   ,"export" :  // run these exported jobs
-  [
+  [     
+    /* default jobs - other standard jobs like source, build, ... are covered
+       by normal app testing */
     "api",
-    //"build",  -- these are covered by normal app testing
-    //"clean",
-    //"distclean",
     "fix",
     "info",
     "inspector",
     "lint",
-    //"migration",
     "pretty",
-    //"profiling",
-    //"source",
-    //"source-all",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "log-parts",
+    "log-dependencies",
+    /* log jobs */
+    "log-deps-using",
+    "log-deps-usedby",
+    "log-classes-unused"
   ]
 
   ,"let" :
@@ -37,12 +38,29 @@
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv"],
     "TEST_INCLUDE" : "${APPLICATION}.*",
     "CACHE"        : "${TMPDIR}/cache",
-    "ROOT"         : "${QOOXDOO_PATH}/application/feedreader"
+    "ROOT"         : "${QOOXDOO_PATH}/application/${APPLICATION}"
   }
 
   ,"jobs" :
   {
+    "log-classes-unused" :
+    {
+      //"extend" : [ "scan-local-lib" ],
+      "extend" : [ "source" ],
+      "log" : { "classes-unused" : [ "${APPLICATION}.*" ] }
+    }
+    
+    ,"log-deps-using" :
+    {
+      "extend" : [ "source" ],
+      "log" : { "dependencies" : { "type" : "using" } }
+    }
+    
+    ,"log-deps-usedby" :
+    {
+      "extend" : [ "source" ],
+      "log" : { "dependencies" : { "type" : "used-by" } }
+    }
     
   }
- 
 }
