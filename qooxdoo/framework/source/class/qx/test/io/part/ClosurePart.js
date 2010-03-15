@@ -272,6 +272,14 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       }, 100);
 
       part.preload();
+      
+      pkg.loadClosure = function() {
+        debugger;
+        self.resume(function() {
+          self.fail("load called twice!");
+        });
+      }
+      
       this.wait();      
     }
   }

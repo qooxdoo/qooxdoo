@@ -131,9 +131,17 @@ qx.Class.define("qx.test.Part",
       qx.Part.$$instance = partLoader;
 
       partLoader.preload("juhu");
-      
+
       var self = this;
       var part = partLoader.getParts()["juhu"];
+      
+      
+      part.getPackages()[0].loadClosure = function() {
+        self.resume(function() {
+          self.fail("load called twice!");
+        });
+      }
+
       partLoader.require("juhu", function() {
         self.resume(function() {
           self.assertEquals("complete", part.getPackages()[0].getReadyState());
@@ -143,6 +151,7 @@ qx.Class.define("qx.test.Part",
           self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
         });
       }, 300);
+      
       
       this.wait();
     }    
