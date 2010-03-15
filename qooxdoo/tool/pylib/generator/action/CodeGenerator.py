@@ -81,7 +81,7 @@ class CodeGenerator(object):
                     totalLen = len(packages) + 1
                 for packageId, packageFileName in enumerate(self.packagesFileNames(file, totalLen, classPackagesOnly=True)):
                     npackages.append((packageFileName,))
-                    packages[packageId].files.append(packageFileName)  # TODO: very unnice to fix this here
+                    packages[packageId].file = packageFileName  # TODO: very unnice to fix this here
                 return npackages
 
             # besser: fixPackagesFiles()
@@ -98,7 +98,7 @@ class CodeGenerator(object):
                     else:
                         suffix = packageId
                     packageFileName = self._resolveFileName(file, self._variants, self._settings, suffix)
-                    package.files.append(packageFileName)
+                    package.file = packageFileName
 
                 return packages
 
@@ -237,21 +237,23 @@ class CodeGenerator(object):
                 raise RuntimeError("No valid boot package generated.")
 
             # - Put loader and packages together -------
-            outputPackages = []
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
             # handle loader and boot package
             if loader_with_boot:
-                outputPackages.append( generateBootScript(globalCodes, script, packages[0].compiled) )
+                bootCode = generateBootScript(globalCodes, script, packages[0].compiled)
+                packages[0].compiled = bootCode
             else:
-                outputPackages.append( generateBootScript(globalCodes, script) )
-                outputPackages.append( packages[0].compiled )
+                loaderCode = generateBootScript(globalCodes, script)
+                loadPackage = Package(0)            # make a dummy Package for the loader
+                loadPackage.compiled = loaderCode
+                packages.insert(0, loadPackage)
 
-            # copy rest over
-            for package in packages[1:]:
-                outputPackages.append(package.compiled)
+            # attach file names
+            for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
+                package.file = fileName
 
             # write packages
-            self.writePackages(outputPackages, script)
+            self.writePackages(packages, script)
 
         # ---- 'source' version ------------------------------------------------
         else:
@@ -792,12 +794,12 @@ class CodeGenerator(object):
             allUris = []
             for packageId, package in enumerate(packages):
                 packageUris = []
-                if package.files:
+                if package.file:
                     namespace = "__out__"
-                    for fileId in package.files:
-                        relpath    = OsPath(fileId)
-                        shortUri   = Uri(relpath.toUri())
-                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                    fileId    = package.file
+                    relpath    = OsPath(fileId)
+                    shortUri   = Uri(relpath.toUri())
+                    packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
                 else: # "source" :
                     for clazz in package.classes:
                         namespace  = self._classes[clazz]["namespace"]
@@ -926,7 +928,7 @@ class CodeGenerator(object):
             yield packageFileName
 
 
-    def writePackages(self, compiledPackages, script, startId=0):
+    def writePackages1(self, compiledPackages, script, startId=0):
         for content, resolvedFilePath in zip(compiledPackages, self.packagesFileNames(script.baseScriptPath, len(compiledPackages))):
             # Save result file
             filetool.save(resolvedFilePath, content)
@@ -940,29 +942,22 @@ class CodeGenerator(object):
         return
 
 
-    def writePackages1(self, compiledPackages, script, startId=0):
-        for packageId, content in enumerate(compiledPackages):
-            suffix = startId + packageId -1
-            if suffix < 0:
-                suffix = ""   # creating ["", 0, 1, 2, ...]
-            self.writePackage(content, script, suffix)
+    def writePackages(self, packages, script):
+
+        for package in packages:
+            filePath = package.file
+            content = package.compiled
+            self.writePackage(content, filePath, script)
+
         return
 
-
-    def writePackage(self, content, script, packageId=""):
-        # Construct file name
-        resolvedFilePath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, packageId)
-
-        # Save result file
-        filetool.save(resolvedFilePath, content)
-
+    
+    def writePackage(self, content, filePath, script):
         if script.scriptCompress:
-            filetool.gzip(resolvedFilePath, content)
+            filetool.gzip(filePath, content)
+        else:
+            filetool.save(filePath, content)
 
-        self._console.debug("Done: %s" % self._computeContentSize(content))
-        self._console.debug("")
-
-        return resolvedFilePath
 
     ##
     # write 'Translations' and 'Locales' info out in dedicated files, so 
@@ -1002,10 +997,13 @@ class CodeGenerator(object):
             # write to file
             dataS = json.dumpsCode(data)
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
-            fPath = self.writePackage(dataS, script, packageId=localeCode)
+            fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
+            self.writePackage(dataS, fPath, script)
             hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
-            fPath1 = self.writePackage(dataS, script, packageId=localeCode+"I")
-            package.files.append(os.path.basename(fPath1))
+            package.compiled = dataS
+            fPath1 = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode+"I")
+            self.writePackage(dataS, fPath1, script)
+            package.file = os.path.basename(fPath1) # TODO: the use of os.path.basename is a hack
             package.hash = hash
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]

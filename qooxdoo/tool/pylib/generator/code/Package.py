@@ -41,7 +41,7 @@ class Package(object):
 
     def __init__(self, id):
         self.id         = id   # int representing bit mask for each using part turned on
-        self.files      = []   # potential file names that make up the package, if desired
+        self.file       = ""   # potential file name that makes up the package, if desired
         self.classes    = []   # list of classes in this package
         #self.part_count       # property
         #self.parts      = []   # list of parts using this package  -- currently not used
