@@ -138,6 +138,34 @@ qx.Class.define("qx.test.io.ScriptLoader",
       pollTimer.start();
 
       this.wait(5000);
+    },
+    
+    
+    testLoadCachedFile : function()
+    {
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+        return;
+      }
+      
+      // first fetch fills the cache
+      var url = this.getUrl("qx/test/cached-script.php");
+      window.SCRIPT_LOADED = false;
+      this.loader.load(url, function() 
+      {        
+        this.assertTrue(window.SCRIPT_LOADED);
+        window.SCRIPT_LOADED = false;
+
+        var loader = new qx.io.ScriptLoader();
+        loader.load(url, function(status) { this.resume(function() 
+        {
+          this.assertEquals("success", status);
+          this.assertTrue(window.SCRIPT_LOADED);
+        }, this); }, this);
+        
+      }, this);
+      
+      this.wait();
     }
   }
 });

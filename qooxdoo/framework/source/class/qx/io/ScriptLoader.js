@@ -146,16 +146,20 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Execute user callback
       if (this.__callback)
       {
-        if (qx.core.Variant.isSet("qx.client", "mshtml|gecko"))
+        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
         {
-          // Quick fix: Source version does not start, without this timeout.
-          // Fabian will check this fix in bug #3505.
+          // Safari fails with an "maximum recursion depth exceeded" error if
+          // many files are loaded
+          
+          // IE may call the callback before the contents is evaluated if the
+          // script is serverd directly from the browser cache
+          
           var self = this;
-          setTimeout(function()
+          setTimeout(qx.event.GlobalError.observeMethod(function()
           {
             self.__callback.call(self.__context, status);
             delete self.__callback;
-          },0);
+          }), 0);
         } 
         else 
         {
