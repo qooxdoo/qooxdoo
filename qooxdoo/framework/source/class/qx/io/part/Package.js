@@ -151,6 +151,9 @@ qx.Bootstrap.define("qx.io.part.Package",
       }
 
       this.__loadWithClosure = true;
+
+      this.__readyState = "loading";
+
       this.__notifyPackageResult = qx.Bootstrap.bind(notifyPackageResult, self);
       
       this.__loadScriptList(
