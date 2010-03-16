@@ -104,11 +104,21 @@ qx.$$loader.importPackageData = function (dataMap) {
   }
   if (dataMap["locales"]){
     var locMap = dataMap["locales"];
-    for (var lang in locMap) qx.$$locales[lang] = locMap[lang];
+    var qxlocs = qx.$$locales;
+    for (var lang in locMap){
+      if (!qxlocs[lang]) qxlocs[lang] = locMap[lang];
+      else 
+        for (var k in locMap[lang]) qxlocs[lang][k] = locMap[lang][k];
+    }
   }
   if (dataMap["translations"]){
-    var trMap = dataMap["translations"];
-    for (var lang in trMap) qx.$$translations[lang] = trMap[lang];
+    var trMap   = dataMap["translations"];
+    var qxtrans = qx.$$translations;
+    for (var lang in trMap){
+      if (!qxtrans[lang]) qxtrans[lang] = trMap[lang];
+      else 
+        for (var k in trMap[lang]) qxtrans[lang][k] = trMap[lang][k];
+    }
   }
 }
 
