@@ -1620,18 +1620,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __createContentElement : function()
     {
-      var attributes = {};
-  
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        attributes.qxType = "content";
-      }
-      
-      var styles = {
-        zIndex: 0,
-        position: "absolute"
-      };      
-      
-      
       var el = this._createContentElement();
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
