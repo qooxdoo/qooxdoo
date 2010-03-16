@@ -21,8 +21,8 @@
     "test",
     "test-source",
     "translation",
-    "log-parts",
-    "log-dependencies",
+    //"log-parts",   // fix bug#3517 first
+    //"log-dependencies",
     /* log jobs */
     "log-deps-using",
     "log-deps-usedby",
