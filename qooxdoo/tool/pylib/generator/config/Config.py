@@ -645,7 +645,7 @@ class Config(object):
     def absPath(self, path):
         'Take a path relative to config file location, and return it absolute'
         assert isinstance(path, types.StringTypes)
-        path = path.encode('utf-8')
+        #path = path.encode('utf-8')
         if os.path.isabs(path):
             return path
         elif not self.getConfigDir():
@@ -653,7 +653,8 @@ class Config(object):
         else:
             p = os.path.normpath(os.path.abspath(
                     os.path.join(self.getConfigDir(), path)))
-            return p.decode('utf-8')
+            #return p.decode('utf-8')
+            return p
 
 
     def findKey(self, keyPatt, mode):
