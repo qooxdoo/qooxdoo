@@ -102,6 +102,14 @@ qx.$$loader.importPackageData = function (dataMap) {
     var resMap = dataMap["resources"];
     for (var k in resMap) qx.$$resources[k] = resMap[k];
   }
+  if (dataMap["locales"]){
+    var locMap = dataMap["locales"];
+    for (var lang in locMap) qx.$$locales[lang] = locMap[lang];
+  }
+  if (dataMap["translations"]){
+    var trMap = dataMap["translations"];
+    for (var lang in trMap) qx.$$translations[lang] = trMap[lang];
+  }
 }
 
 qx.$$loader.signalStartup = function () 

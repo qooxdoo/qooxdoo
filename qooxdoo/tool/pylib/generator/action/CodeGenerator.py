@@ -835,6 +835,7 @@ class CodeGenerator(object):
 
         result           = ""
         vals             = {}
+        packages         = script.packagesSortedSimple()
         loader_with_boot = self._job.get("packages/loader-with-boot", True)
 
         # fix uris in globalCodes['I18N']['uris']
@@ -857,7 +858,7 @@ class CodeGenerator(object):
         else:
             vals["BootPart"] = ""
             # fake package data
-            for key, package in enumerate(script.packagesSortedSimple()): 
+            for key, package in enumerate(packages): 
                 vals["BootPart"] += "qx.$$packageData['%d']={};\n" % key
 
         # Translate part information to JavaScript
@@ -865,7 +866,7 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         #vals["Uris"] = packageUrisToJS(packages, version)
-        vals["Uris"] = packageUrisToJS1(script.packagesSortedSimple(), version)
+        vals["Uris"] = packageUrisToJS1(packages, version)
         vals["Uris"] = json.dumpsCode(vals["Uris"])
 
         # Add potential extra scripts
@@ -892,13 +893,11 @@ class CodeGenerator(object):
 
         # Package Hashes
         vals["PackageHashes"] = {}
-        if version == "build":  # TODO: this is perliminary, until runSource and the source template is adapted
-            for key, package in enumerate(script.packagesSortedSimple()):
-                vals["PackageHashes"][key] = package.hash 
-        else:
-            # fake package hashes
-            for key, package in enumerate(script.packages):
-                vals["PackageHashes"][key] = "%d" % key
+        for key, package in enumerate(packages):
+            if package.hash:
+                vals["PackageHashes"][key] = package.hash
+            else:
+                vals["PackageHashes"][key] = "%d" % key  # fake code package hashes in source ver.
         vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
         # Script hook for qx.$$loader.decodeUris() function
