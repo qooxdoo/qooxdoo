@@ -173,7 +173,6 @@ qx.Class.define("qx.theme.manager.Font",
       {
         var source = value.fonts;
         var font = qx.bom.Font;
-        var fontToInclude = null;
         
         for (var key in source)
         {
