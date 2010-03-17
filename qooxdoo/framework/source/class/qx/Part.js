@@ -39,7 +39,8 @@ qx.Bootstrap.define("qx.Part",
    */
   construct : function(loader) 
   {
-	var bootPackageIndex = loader.parts[loader.boot][0];  // assert: boot part has a single package
+    // assert: boot part has a single package
+    var bootPackageIndex = loader.parts[loader.boot][0];
 	
     this.__loader = loader;
     

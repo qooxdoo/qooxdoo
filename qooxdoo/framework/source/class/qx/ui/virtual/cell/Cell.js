@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     this.__themePaddings = {};
 
     this.__states = {};
+    
     this.__themeValues = {};
 
     this.initAppearance();
@@ -437,7 +438,6 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
         this.__computeCssClassForStates(states);
         this.__cacheThemedValues();
 
-        var themeStyles = qx.lang.Object.clone(this.__themeStyles);
         this.__states[this.__statesKey] = 1;
       }
       this.__applyThemeValues();
