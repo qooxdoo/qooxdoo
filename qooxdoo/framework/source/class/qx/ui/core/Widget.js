@@ -829,8 +829,13 @@ qx.Class.define("qx.ui.core.Widget",
         if (widgetKey != null) {
           return qx.core.ObjectRegistry.fromHashCode(widgetKey);
         }
-
-        element = element.parentNode;
+      
+        // Fix for FF, which occasionally breaks (BUG#3525)
+        try {
+          element = element.parentNode;
+        } catch (e) {
+          return null;
+        }
       }
       return null;
     },
