@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -43,7 +44,6 @@ qx.Class.define("qx.ui.decoration.HBox",
    */
   construct : function(baseImage, insets)
   {
-    this.base(arguments, baseImage, insets);
-    this._setOrientation("horizontal");
+    this.base(arguments, baseImage, insets, "horizontal");
   }
 });

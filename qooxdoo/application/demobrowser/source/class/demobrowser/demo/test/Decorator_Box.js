@@ -35,21 +35,24 @@ qx.Class.define("demobrowser.demo.test.Decorator_Box",
 
       var win = new qx.ui.window.Window("HBox/VBox Decorator Demo");
       win.setLayout(new qx.ui.layout.Canvas());
+      win.moveTo(20, 20);
       win.open();
 
-      var decorator = new qx.ui.decoration.HBox("demobrowser/demo/theme/tag-hor.png");
-      var widget = new qx.ui.core.Widget().set({
-        decorator: decorator,
+      var decorator_horizontal = new qx.ui.decoration.HBox("demobrowser/demo/theme/tag-hor.png");
+      var widget_horizontal = new qx.ui.core.Widget().set({
+        decorator: decorator_horizontal,
         height: 12
       });
-      win.add(widget, {left: 20, top: 0, right: 0});
+      win.add(widget_horizontal, {left: 10, top: 10, right: 0});
 
-      var decorator = new qx.ui.decoration.VBox("demobrowser/demo/theme/tag-vert.png");
-      var widget = new qx.ui.core.Widget().set({
-        decorator: decorator,
+
+      var decorator_vertical = new qx.ui.decoration.VBox("demobrowser/demo/theme/tag-vert.png");
+      var widget_vertical = new qx.ui.core.Widget().set({
+        decorator: decorator_vertical,
         width: 12
       });
-      win.add(widget, {left: 0, top: 20, bottom: 0});
+      win.add(widget_vertical, {left: 10, top: 60, bottom: 0});
+
     }
   }
 });

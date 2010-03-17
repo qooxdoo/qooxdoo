@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -39,11 +40,10 @@ qx.Class.define("qx.ui.decoration.VBox",
 
   /**
    * @param baseImage {String} Base image to use
-   * @param insets {Integer|Array} Insets for the grid
+   * @param insets {Integer|Array} Insets for the grid 
    */
   construct : function(baseImage, insets)
   {
-    this.base(arguments, baseImage, insets);
-    this._setOrientation("vertical");
+    this.base(arguments, baseImage, insets, "vertical");
   }
 });
