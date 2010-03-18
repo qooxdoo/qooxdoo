@@ -150,5 +150,18 @@ qx.Class.define("qx.ui.form.renderer.Double",
       }
       return header;
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function() {
+    // first, remove all buttons from the botton row because they 
+    // should not be disposed
+    this._buttonRow.removeAll();
+    this._disposeObjects("_buttonRow");
   }
 });
