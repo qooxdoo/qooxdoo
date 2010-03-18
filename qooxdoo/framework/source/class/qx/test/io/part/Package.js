@@ -114,7 +114,7 @@ qx.Class.define("qx.test.io.part.Package",
       }
       
       // test don't work in IE and Opera
-      if (qx.bom.client.Engine.OPERA || qx.bom.client.Engine.MSHTML) {
+      if (qx.bom.client.Engine.OPERA || qx.bom.client.Engine.MSHTML) {
         return;
       }
       

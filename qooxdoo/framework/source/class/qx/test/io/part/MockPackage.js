@@ -3,9 +3,9 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
   construct : function(id, delay, error, readyState, useClosure) 
   {
     this.id = id;
-    this.delay = delay || 0;
+    this.delay = delay || 0;
     this.error = !!error;
-    this.readyState = readyState || "initialized";
+    this.readyState = readyState || "initialized";
     this.useClosure = !!useClosure;
   },
   

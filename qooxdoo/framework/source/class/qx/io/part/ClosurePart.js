@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         }
         
         // Listener for package changes
-        if (pkgReadyState == "initialized" || pkgReadyState == "loading") 
+        if (pkgReadyState == "initialized" || pkgReadyState == "loading") 
         {
           this._loader.addPackageListener(
             pkg, 

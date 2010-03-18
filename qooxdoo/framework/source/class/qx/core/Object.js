@@ -733,7 +733,7 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              if (value instanceof qx.core.Object || qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+              if (value instanceof qx.core.Object || qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
                 qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
                 delete this[key];
               }

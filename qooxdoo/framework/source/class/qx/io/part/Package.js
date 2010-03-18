@@ -159,7 +159,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       this.__loadScriptList(
         this.__urls,
         function() {},
-        function() {
+        function() {
           this.__readyState = "error";
           notifyPackageResult.call(self, this);
         },
@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.io.part.Package",
           this.execute();
           notifyPackageResult.call(self, this);
         },
-        function() {
+        function() {
           this.__readyState = "error";
           notifyPackageResult.call(self, this);
         },

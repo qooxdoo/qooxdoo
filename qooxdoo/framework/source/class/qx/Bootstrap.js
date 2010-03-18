@@ -95,7 +95,7 @@ qx.Bootstrap = {
 
     qx.Bootstrap.setDisplayNames(config.statics, name);
 
-    if (config.members || config.extend)
+    if (config.members || config.extend)
     {      
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
