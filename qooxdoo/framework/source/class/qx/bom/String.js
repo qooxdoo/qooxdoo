@@ -420,7 +420,8 @@ qx.Class.define("qx.bom.String",
      */
     toText : function(str)
     {
-			return qx.bom.String.unescape(str.replace(/<\/?[^>]+(>|$)/gi, function(chr)
+      return qx.bom.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
+			//return qx.bom.String.unescape(str.replace(/<\/?[^>]+(>|$)/gi, function(chr)
       {
 			  if (chr.indexOf("<br") === 0) {
 			    return "\n";
