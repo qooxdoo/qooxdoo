@@ -339,14 +339,25 @@ class LibraryVersion:
     
     return demoVariants
   
+  def runGenerator(self, job, subPath=None, cwd=False):
+    path = self.path
+    if subPath:
+      path = os.path.join(path, subPath)
+    startPath = os.getcwd()
+    os.chdir(path)
+    cmd = "python generate.py %s" %job
+    rcode, output, errout = shell.execute_piped(cmd)
+    os.chdir(startPath)
+    return (rcode,output,errout)
+  
   def buildDemo(self, demoVariant = "default", demoVersion = "build"):
     if not self.hasDemoDir:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
       return
     
-    cmd = "python " + os.path.join(self.path, "demo", demoVariant, "generate.py") + " " + demoVersion 
     console.info("Building %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.library.dir, self.dir) )
-    rcode, output, errout = shell.execute_piped(cmd)
+    subPath = os.path.join("demo", demoVariant)
+    rcode, output, errout = self.runGenerator(demoVersion, subPath)
     
     demoBuildStatus = {
       "svnRevision" : self.getSvnRevision()
