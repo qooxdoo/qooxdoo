@@ -655,8 +655,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var startOfWeek = qx.locale.Date.getWeekStart();
 
       // Create a help date that points to the first of the current month
-      // Used Date.UTC to fix bug #3453
-      var helpDate = new Date(Date.UTC(this.getShownYear(), this.getShownMonth(), 1));
+      var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
       var monthYearFormat = new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT);
       this.getChildControl("month-year-label").setValue(monthYearFormat.format(helpDate));
@@ -683,8 +682,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       }
 
       // Show the days
-      // Used Date.UTC to fix bug #3453
-      helpDate = new Date(Date.UTC(shownYear, shownMonth, 1, 12, 0, 0));
+      helpDate = new Date(shownYear, shownMonth, 1, 12, 0, 0);
       var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
       helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
 

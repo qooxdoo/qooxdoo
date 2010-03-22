@@ -223,8 +223,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       // Get the thursday of the week january 4th belongs to
       // (which defines week 1 of a year)
-      // Used Date.UTC to fix bug #3453
-      var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(Date.UTC(weekYear, 0, 4)));
+      var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(weekYear, 0, 4));
 
       // Calculate the calendar week
       return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
@@ -483,8 +482,7 @@ qx.Class.define("qx.util.format.DateFormat",
         currGroup += (rule.groups == null) ? 1 : rule.groups;
       }
 
-      // Used Date.UTC to fix bug #3453
-      var date = new Date(Date.UTC(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms));
+      var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
 
       if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear())
       {
