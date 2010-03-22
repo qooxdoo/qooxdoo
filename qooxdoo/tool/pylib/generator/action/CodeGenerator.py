@@ -112,6 +112,10 @@ class CodeGenerator(object):
                 globalCodes["Locales"]      = {}
             else:
                 globalCodes["I18N"]         = {}  # make a fake entry
+                if compileType == "build":
+                    # also remove them here, as this info is now with the packages
+                    globalCodes["Translations"] = {}
+                    globalCodes["Locales"]      = {}
 
             plugCodeFile = compConf.get("code/decode-uris-plug", False)
             if compileType == "build":
@@ -127,7 +131,9 @@ class CodeGenerator(object):
 
         def getPackageData(package):
             data = {}
-            data["resources"] = package.data.resources
+            data["resources"]    = package.data.resources
+            data["translations"] = package.data.translations
+            data["locales"]      = package.data.locales
             data = json.dumpsCode(data)
             data += ';\n'
             return data
@@ -478,6 +484,7 @@ class CodeGenerator(object):
         self._console.indent()
 
         packageTranslations = []
+        i18n_with_packages  = self._job.get("packages/i18n-with-boot", True)
         for pos, package in enumerate(packages):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
@@ -485,6 +492,9 @@ class CodeGenerator(object):
             pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
+            if i18n_with_packages:
+                package.data.translations.update(pac_dat)
+                package.data.locales.update(loc_dat)
 
             self._console.outdent()
 
