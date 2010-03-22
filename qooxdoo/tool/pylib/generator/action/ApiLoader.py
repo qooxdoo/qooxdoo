@@ -105,7 +105,7 @@ class ApiLoader(object):
         self._console.outdent()
 
         if hasErrors:
-            self._console.error("Found errornous API information. Please see above. Stopping!")
+            self._console.error("Found erroneous API information. Please see above. Stopping!")
             return
                 
         self._console.info("Loading package docs...")
