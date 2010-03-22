@@ -150,7 +150,7 @@ def handleClassDefinition(docTree, item, variant):
         # print "KEY: %s = %s" % (key, valueItem.type)
 
         if key == "extend":
-            if variant == "class":
+            if variant in ("class", "bootstrap"):
                 handleClassExtend(valueItem, classNode, docTree, className)
 
             elif variant == "interface":
