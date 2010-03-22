@@ -1474,6 +1474,9 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
     return asString
 
 
+##
+# interface function
+
 def getPackageData(node):
     data = {
       "type" : node.type
