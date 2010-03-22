@@ -306,7 +306,6 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       var Color = qx.theme.manager.Color.getInstance();
-      var colorValue;
 
       // Styles
       var styles = {};
