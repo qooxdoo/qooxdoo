@@ -205,6 +205,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInteger(width, "Invalid argument 'width'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       var oldWidth = this.__columnDataArr[col].width;
@@ -235,6 +236,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(col, "Invalid argument 'col'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       return this.__columnDataArr[col].width;
@@ -255,6 +257,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.IHeaderRenderer, "Invalid argument 'renderer'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       var oldRenderer = this.__columnDataArr[col].headerRenderer;
@@ -274,8 +277,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getHeaderCellRenderer : function(col)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
         this.assertInteger(col, "Invalid argument 'col'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       return this.__columnDataArr[col].headerRenderer;
@@ -295,6 +300,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model"); 
       }
 
       var oldRenderer = this.__columnDataArr[col].dataRenderer;
@@ -314,8 +320,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getDataCellRenderer : function(col)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
         this.assertInteger(col, "Invalid argument 'col'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       return this.__columnDataArr[col].dataRenderer;
@@ -335,6 +343,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(factory, qx.ui.table.ICellEditorFactory, "Invalid argument 'factory'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       var oldRenderer = this.__columnDataArr[col].headerRenderer;
@@ -354,8 +363,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getCellEditorFactory : function(col)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
         this.assertInteger(col, "Invalid argument 'col'.");
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       return this.__columnDataArr[col].editorFactory;
