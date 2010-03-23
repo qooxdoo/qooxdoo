@@ -100,9 +100,11 @@ qx.Bootstrap.define("qx.io.part.Part",
     /**
      * Method for preloading this part. It initializs the packages to load but 
      * not to execute the closure when done loading.
+     * @param callback {Function} Callback for the preload.
+     * @param self {Object?} The context of the callback.
      */
-    preload : function() {
-      this.load(function() {});
+    preload : function(callback, self) {
+      this.load(callback, self);
     },
     
     

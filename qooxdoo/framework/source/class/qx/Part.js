@@ -289,15 +289,34 @@ qx.Bootstrap.define("qx.Part",
      * Preloader for the given part.
      * 
      * @param partNames {String} The hash of the part to preload.
+     * @param callback {Function} Function to execute on completion.
+     *   The function has one parameter which is an array of ready states of 
+     *   the parts specified in the partNames argument.
+     * @param self {Object?window} Context to execute the given function in
      */
-    preload : function(partNames) 
+    preload : function(partNames, callback, self) 
     {
       if (qx.Bootstrap.isString(partNames)) {
         partNames = [partNames];
       }
-
+      
+      var partsPreloaded = 0;
       for (var i=0; i<partNames.length; i++) {
-        this.__parts[partNames[i]].preload();
+
+        this.__parts[partNames[i]].preload(function() {
+          partsPreloaded++;
+          
+          if (partsPreloaded >= partNames.length) {
+            // gather the ready states of the parts
+            var states = [];
+            for (var i = 0; i < partNames.length; i++) {
+              states.push(this.__parts[partNames[i]].getReadyState());
+            };
+            if (callback) {
+              callback.call(self, states);
+            }
+          };
+        }, this);
       }
     }, 
     
