@@ -1009,8 +1009,10 @@ class CodeGenerator(object):
             fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
             self.writePackage(dataS, fPath, script)
             hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
-            package.compiled = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            package.compiled = dataS
             fPath1 = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode+"I")
+            #if fPath1.endswith("source-deI.js"): import pydb; pydb.debugger()
             self.writePackage(dataS, fPath1, script)
             package.file = os.path.basename(fPath1) # TODO: the use of os.path.basename is a hack
             package.hash = hash
