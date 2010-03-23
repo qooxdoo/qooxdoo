@@ -273,7 +273,7 @@ qx.Class.define("playground.Application",
       window.open(
         "http://tinyurl.com/create.php?url=" + encodeURIComponent(location.href),
         "tinyurl",
-        "width=800,height=600,resizable=yes"
+        "width=800,height=600,resizable=yes,scrollbars=yes"
       );
     },
 
