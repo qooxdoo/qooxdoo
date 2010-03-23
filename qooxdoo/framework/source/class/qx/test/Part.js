@@ -157,9 +157,46 @@ qx.Class.define("qx.test.Part",
           self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
         });
       }, 300);
+
+      this.wait();
+    },
+    
+    
+    testRequireState : function() 
+    {
+      qx.test.PART_FILES = [];
       
+      // create a dummy loader
+      var loader = {
+        parts : {
+          "juhu" : [1],
+          "affe" : [0],
+          "fail" : [2]
+        },
+        uris : [
+          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")], ["_fail.js"]
+        ],
+        closureParts : {"juhu": true},
+        packageHashes : {"0": "boot", "1": "file1-closure", "2": "fail"},
+        boot: "affe"
+      };
+      
+      var partLoader = new qx.Part(loader);
+      qx.Part.$$instance = partLoader;
+
+      // preload one part
+      partLoader.preload("juhu");
+      
+      // require all three parts and check the ready states
+      partLoader.require(["affe", "juhu", "fail"], function(states) {
+        this.resume(function() {
+          this.assertEquals(states[0], "complete");
+          this.assertEquals(states[1], "complete");
+          this.assertEquals(states[2], "error");     
+        }, this);
+      }, this);
       
       this.wait();
-    }    
+    }
   }
 });

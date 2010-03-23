@@ -244,9 +244,11 @@ qx.Bootstrap.define("qx.Part",
      * loaded the callback is called immediately.
      *
      * @param partNames {String|String[]} List of parts names to load as defined
-     *    in the config file at compile time. The method also accepts a single
-     *    string as parameter to only load one part.
-     * @param callback {Function} Function to execute on completion
+     *   in the config file at compile time. The method also accepts a single
+     *   string as parameter to only load one part.
+     * @param callback {Function} Function to execute on completion.
+     *   The function has one parameter which is an array of ready states of 
+     *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */
     require : function(partNames, callback, self)
@@ -266,8 +268,14 @@ qx.Bootstrap.define("qx.Part",
       var partsLoaded = 0;
       var onLoad = function() {
         partsLoaded += 1;
+        // done?
         if (partsLoaded >= parts.length) {
-          callback.call(self)
+          // gather the ready states of the parts
+          var states = [];
+          for (var i = 0; i < parts.length; i++) {
+            states.push(parts[i].getReadyState());
+          };
+          callback.call(self, states);
         }
       }
 

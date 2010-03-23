@@ -71,7 +71,9 @@ qx.Class.define("qx.io.PartLoader",
      *
      * @param partNames {String[]} List of parts names to load as defined in the
      *    config file at compile time.
-     * @param callback {Function} Function to execute on completion
+     * @param callback {Function} Function to execute on completion.
+     *   The function has one parameter which is an array of ready states of 
+     *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */
     require : function(partNames, callback, self) {
