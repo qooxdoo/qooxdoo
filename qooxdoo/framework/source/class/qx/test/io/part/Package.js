@@ -30,6 +30,9 @@ qx.Class.define("qx.test.io.part.Package",
 
   members :
   {
+    __dummyLoader : null,
+    
+    
     setUp : function() {
       qx.test.PART_FILES = [];
       this.__dummyLoader = new qx.test.io.part.MockLoader();      
@@ -198,15 +201,18 @@ qx.Class.define("qx.test.io.part.Package",
 
       loader.addToPackage(pkg);
 
+      var oldTimeout = qx.Part.TIMEOUT;
       qx.Part.TIMEOUT = 300;
       
-      pkg.loadClosure(function() { this.resume(function()
-      {
-        this.assertEquals("error", pkg.getReadyState()); 
-        this.assertJsonEquals([], qx.test.PART_FILES);
-      }, this)}, this);
+      pkg.loadClosure(function() { 
+        this.resume(function()
+        {
+          this.assertEquals("error", pkg.getReadyState()); 
+          this.assertJsonEquals([], qx.test.PART_FILES);
+        }, this)
+      }, this);
       
-      qx.Part.TIMEOUT = 7500;
+      qx.Part.TIMEOUT = oldTimeout;
       
       this.wait(); 
     }

@@ -242,6 +242,7 @@ qx.Bootstrap.define("qx.io.part.Package",
           
           if (status !== "success") {
             if (self.__readyState == "loading") {
+              clearTimeout(self.__timeoutId);      
               return errBack.call(self);
             }
           }
