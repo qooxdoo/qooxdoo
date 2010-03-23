@@ -144,15 +144,14 @@ qx.Class.define("qx.test.event.GlobalError",
       var wasHandled = false;
       var handler = function(ex) { this.resume(function()
       {
-
+        wasHandled = true;
         this.assertInstance(ex, qx.core.WindowError);
         this.assertEquals("Doofer Fehler", ex.toString());
 
         this.assertString(ex.getUri());
         this.assertInteger(ex.getLineNumber());
 
-        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
-        wasHandled = true;
+        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());        
       }, this); }
 
       this.errorHandler.setErrorHandler(handler, this);
