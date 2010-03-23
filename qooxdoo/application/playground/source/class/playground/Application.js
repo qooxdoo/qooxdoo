@@ -268,23 +268,13 @@ qx.Class.define("playground.Application",
     
     /**
      * Handler for the url shortening service.
-     *
-     * @lint ignoreDeprecated(alert)
-     * @lint ignoreDeprecated(prompt)     
      */
     __onUrlShorten : function() {
-      if (!this.__urlShorter) {
-        this.__urlShorter = new playground.UrlShorter();
-      }
-      this.__urlShorter.shorten(window.location.href, function(url, error) {
-        if (url) {
-          prompt(this.tr("The shortened url."), url);
-        } else if (error) {
-          alert(error);
-        } else {
-          alert(this.tr("Error during url shortening."));
-        }
-      }, this);
+      window.open(
+        "http://tinyurl.com/create.php?url=" + encodeURIComponent(location.href),
+        "tinyurl",
+        "width=800,height=600,resizable=yes"
+      );
     },
 
 
