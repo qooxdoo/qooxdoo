@@ -39,6 +39,14 @@ qx.Mixin.define("qx.ui.core.MResizable",
     this.addListener("mousemove", this.__onResizeMouseMove, this);
     this.addListener("mouseout", this.__onResizeMouseOut, this);
     this.addListener("losecapture", this.__onResizeLoseCapture, this);
+
+    // Get a reference of the drag and drop handler
+    var domElement = this.getContainerElement().getDomElement();
+    if (domElement == null) {
+      domElement = window;
+    }
+
+    this.__dragDropHandler = qx.event.Registration.getManager(domElement).getHandler(qx.event.handler.DragDrop);
   },
 
 
@@ -117,6 +125,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   members :
   {
+    __dragDropHandler : null,
     __resizeFrame : null,
     __resizeActive : null,
     __resizeLeft : null,
@@ -480,7 +489,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         // Full stop for event
         e.stopPropagation();
       }
-      else if (!this.hasState("maximized"))
+      else if (!this.hasState("maximized") && !this.__dragDropHandler.isSessionActive())
       {
         this.__computeResizeMode(e);
 
