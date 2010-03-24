@@ -22,6 +22,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
 
   members :
   {
+
     createModel : function()
     {
       var tableModel = new qx.ui.table.model.Simple();
@@ -50,13 +51,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.setColumnWidth(6, 10)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
-
+     if (qx.core.Variant.isSet("qx.debug", "on"))
+     {
+       this.assertException(function(){
+         tcm.setColumnWidth(6, 10)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
+  
       table.destroy();
       model.dispose();
     },
@@ -68,12 +69,14 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.getColumnWidth(6, 10)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.getColumnWidth(6, 10)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
+      
 
       table.destroy();
       model.dispose();
@@ -87,12 +90,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Default)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Default)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
@@ -104,12 +108,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.getHeaderCellRenderer(6)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.getHeaderCellRenderer(6)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
@@ -122,12 +127,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.setDataCellRenderer(6, qx.ui.table.cellrenderer.Default)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.setDataCellRenderer(6, qx.ui.table.cellrenderer.Default)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
@@ -140,12 +146,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.getDataCellRenderer(6)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.getDataCellRenderer(6)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
@@ -158,12 +165,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.setCellEditorFactory(6, qx.ui.table.celleditor.SelectBox)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.setCellEditorFactory(6, qx.ui.table.celleditor.SelectBox)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
@@ -176,12 +184,13 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     this.assertException(
-       function() {tcm.getCellEditorFactory(6)},
-       qx.core.AssertionError,
-       "Column not found in table model",
-       "Invalid column width."
-      );
+     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     {
+       this.assertException(function()
+       {
+         tcm.getCellEditorFactory(6)
+       }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
+     }
 
       table.destroy();
       model.dispose();
