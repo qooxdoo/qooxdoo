@@ -18,6 +18,7 @@
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
      * Christian Schmidt (chris_schmidt)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
@@ -272,19 +273,18 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * Get the tree item after the given item
+     * Get the tree item following the given item in the tree hierarchy.
      *
      * @param treeItem {AbstractTreeItem} The tree item to get the item after
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
-     * @param stayInSameNestLevel {Boolean?false} if true, only the same nest level
-     *                                            will be searched
+     * 
      * @return {AbstractTreeItem?null} The item after the given item. May be
      *     <code>null</code> if the item is the last item.
      */
-    getNextSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
+    getNextNodeOf : function(treeItem, invisible)
     {
-      if ((invisible !== false || treeItem.isOpen()) && !(stayInSameNestLevel == true) && treeItem.hasChildren()) {
+      if ((invisible !== false || treeItem.isOpen()) && treeItem.hasChildren()) {
         return treeItem.getChildren()[0];
       }
 
@@ -294,6 +294,7 @@ qx.Class.define("qx.ui.tree.Tree",
         if (!parent) {
           return null;
         }
+
 
         var parentChildren = parent.getChildren();
         var index = parentChildren.indexOf(treeItem);
@@ -308,19 +309,16 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * Get the tree item before the given item
+     * Get the tree item preceding the given item in the tree hierarchy.
      *
      * @param treeItem {AbstractTreeItem} The tree item to get the item before
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
-     * @param stayInSameNestLevel {Boolean?false} if true, only the same nest level
-     *                                            will be searched
-     *
      *
      * @return {AbstractTreeItem?null} The item before the given item. May be
-     *     <code>null</code> if the item is the first item.
+     *     <code>null</code> if the given item is the tree's root.
      */
-    getPreviousSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
+    getPreviousNodeOf : function(treeItem, invisible)
     {
       var parent = treeItem.getParent();
       if (!parent) {
@@ -348,7 +346,7 @@ qx.Class.define("qx.ui.tree.Tree",
       if (index > 0)
       {
         var folder = parentChildren[index-1];
-        while ((invisible !== false || folder.isOpen()) && !(stayInSameNestLevel == true) && folder.hasChildren())
+        while ((invisible !== false || folder.isOpen()) && folder.hasChildren())
         {
           var children = folder.getChildren();
           folder = children[children.length-1];
@@ -359,6 +357,76 @@ qx.Class.define("qx.ui.tree.Tree",
       {
         return parent;
       }
+    },
+    
+    
+    /**
+     * Get the tree item's next sibling.
+     *
+     * @param treeItem {AbstractTreeItem} The tree item to get the following 
+     * sibling of.
+     *
+     * @return {AbstractTreeItem?null} The item following the given item. May be
+     *     <code>null</code> if the given item is the last in it's nesting 
+     *     level. 
+     */
+    getNextSiblingOf : function(treeItem)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Since qx 1.1-pre, getNextSiblingOf is restricted to the given "
+          + " item's nesting level (replacing the stayInSameNestLevel "
+          + "parameter).Use getNextNodeOf() for the old behavior."
+      );
+      
+      if (treeItem == this.getRoot()) {
+        return null;
+      }
+      
+      var parent = treeItem.getParent();
+      var siblings = parent.getChildren();
+      var index = siblings.indexOf(treeItem);
+      
+      if (index < siblings.length-1) {
+        return siblings[index+1];
+      }
+           
+      return null;
+    },
+    
+    
+    /**
+     * Get the tree item's previous sibling.
+     *
+     * @param treeItem {AbstractTreeItem} The tree item to get the previous 
+     * sibling of.
+     *
+     * @return {AbstractTreeItem?null} The item preceding the given item. May be
+     *     <code>null</code> if the given item is the first in it's nesting 
+     *     level.
+     */
+    getPreviousSiblingOf : function(treeItem)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Since qx 1.1-pre, getPreviousSiblingOf is restricted to the given "
+          + " item's nesting level (replacing the stayInSameNestLevel "
+          + "parameter).Use getPreviousNodeOf() for the old behavior."
+      );
+      
+      if (treeItem == this.getRoot()) {
+        return null;
+      }
+      
+      var parent = treeItem.getParent();
+      var siblings = parent.getChildren();
+      var index = siblings.indexOf(treeItem);
+      
+      if (index > 0) {
+        return siblings[index-1];
+      }
+           
+      return null;
     },
 
 

@@ -129,11 +129,11 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       switch (relation)
       {
         case "above":
-          related = widget.getPreviousSiblingOf(item, false);
+          related = widget.getPreviousNodeOf(item, false);
           break;
 
         case "under":
-          related = widget.getNextSiblingOf(item, false);
+          related = widget.getNextNodeOf(item, false);
           break;
 
         case "left":
