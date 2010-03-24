@@ -61,7 +61,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
             packagesLoaded++;
             that._loader.notifyPackageResult(pkg);
             // everything loaded?
-            if (packagesLoaded >= that._packages.length) {              
+            if (packagesLoaded >= that._packages.length && callback) {
               callback.call(self);
             }
           }, this._loader);

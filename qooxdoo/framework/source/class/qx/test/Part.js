@@ -30,7 +30,7 @@ qx.Class.define("qx.test.Part",
 
   members :
   {
-    "test: loader structure parsing" : function()
+    testLoaderStructureParsing : function()
     {
       var loader = {
         parts : {
@@ -152,7 +152,7 @@ qx.Class.define("qx.test.Part",
     },    
     
     
-    "test: preload a part and immediately load it afterwards" : function()
+    testPreloadAndLoadAfterwards : function()
     {
       qx.test.PART_FILES = [];
       
@@ -183,14 +183,14 @@ qx.Class.define("qx.test.Part",
       }
 
       partLoader.require("juhu", function() {
-        self.resume(function() {
-          self.assertEquals("complete", part.getPackages()[0].getReadyState());
-          self.assertEquals("complete", part.getReadyState());
+        this.resume(function() {
+          this.assertEquals("complete", part.getPackages()[0].getReadyState());
+          this.assertEquals("complete", part.getReadyState());
           
-          self.assertEquals(1, qx.test.PART_FILES.length);
-          self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
+          this.assertEquals(1, qx.test.PART_FILES.length);
+          this.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);          
         });
-      }, 300);
+      }, this);
       
       this.wait();
     },
@@ -210,7 +210,7 @@ qx.Class.define("qx.test.Part",
         uris : [
           ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")], ["_fail.js"]
         ],
-        closureParts : {"juhu": true},
+        closureParts : {"juhu": true, "fail" : true},
         packageHashes : {"0": "boot", "1": "file1-closure", "2": "fail"},
         boot: "affe"
       };
@@ -221,12 +221,16 @@ qx.Class.define("qx.test.Part",
       // preload one part
       partLoader.preload("juhu");
       
+      var timeout = qx.Part.TIMEOUT;
+      qx.Part.TIMEOUT = 1000;
+      
       // require all three parts and check the ready states
       partLoader.require(["affe", "juhu", "fail"], function(states) {
         this.resume(function() {
-          this.assertEquals(states[0], "complete");
-          this.assertEquals(states[1], "complete");
-          this.assertEquals(states[2], "error");     
+          qx.Part.TIMEOUT = timeout;
+          this.assertEquals("complete", states[0]);
+          this.assertEquals("complete", states[1]);
+          this.assertEquals("error", states[2]);     
         }, this);
       }, this);
       
