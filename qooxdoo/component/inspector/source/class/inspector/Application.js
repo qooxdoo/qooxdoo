@@ -20,7 +20,6 @@
 
 #asset(inspector/*)
 #asset(qx/icon/Tango/16/actions/view-refresh.png)
-#asset(qx/icon/Tango/22/actions/edit-find.png)
 #ignore(qxinspector.local)
 
 ************************************************************************ */
@@ -345,7 +344,7 @@ qx.Class.define("inspector.Application",
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // create the find button
-      this._inspectButton = new qx.ui.toolbar.CheckBox("Inspect widget", "icon/22/actions/edit-find.png");
+      this._inspectButton = new qx.ui.toolbar.CheckBox("Inspect widget", "inspector/images/icons/edit-find.png");
       this._inspectButton.setAppearance("toolbar-button-bold");
       this._toolbar.add(this._inspectButton);
       this._inspectButton.addListener("changeValue", function(e) {
