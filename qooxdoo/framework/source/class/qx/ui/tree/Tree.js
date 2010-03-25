@@ -370,14 +370,20 @@ qx.Class.define("qx.ui.tree.Tree",
      *     <code>null</code> if the given item is the last in it's nesting 
      *     level. 
      */
-    getNextSiblingOf : function(treeItem)
+    getNextSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
     {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Since qx 1.1-pre, getNextSiblingOf is restricted to the given "
-          + " item's nesting level (replacing the stayInSameNestLevel "
-          + "parameter).Use getNextNodeOf() for the old behavior."
-      );
+      if (typeof(invisible) !== "undefined") {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The invisible and stayInSameNestLevel parameters are deprecated: Use"
+            + " getNextNodeOf() instead."
+        );
+      
+        if (!stayInSameNestLevel) {
+          return this.getNextNodeOf(treeItem, invisible);
+        }
+        
+      }
       
       if (treeItem == this.getRoot()) {
         return null;
@@ -407,12 +413,18 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     getPreviousSiblingOf : function(treeItem)
     {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Since qx 1.1-pre, getPreviousSiblingOf is restricted to the given "
-          + " item's nesting level (replacing the stayInSameNestLevel "
-          + "parameter).Use getPreviousNodeOf() for the old behavior."
-      );
+      if (typeof(invisible) !== "undefined") {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The invisible and stayInSameNestLevel parameters are deprecated: Use"
+            + " getPreviousNodeOf() instead."
+        );
+      
+        if (!stayInSameNestLevel) {
+          return this.getPreviousNodeOf(treeItem, invisible);
+        }
+        
+      }
       
       if (treeItem == this.getRoot()) {
         return null;
