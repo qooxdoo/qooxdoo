@@ -15,59 +15,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: playground/Application.js:69
+#: playground/Application.js:87
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten, der nicht abgefangen werden konnte.||"
 
-#: playground/Application.js:182
+#: playground/Application.js:212
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr "Der Quelltext des aktuellen Beispiels wurde verändert.|Bitte wählen Sie OK, um die Änderungen zu verwerfen."
 
-#: playground/Application.js:241
-msgid "The shortened url."
-msgstr "Die verkürzte URL."
-
-#: playground/Application.js:245
-msgid "Error during url shortening."
-msgstr "Ein Fehler ist während der Verkürzung der URL aufgetreten."
-
-#: playground/Application.js:299 playground/Application.js:336
+#: playground/Application.js:329 playground/Application.js:374
 msgid "Showing gist %1"
 msgstr "gist %1 wird angezeigt"
 
-#: playground/Application.js:304
+#: playground/Application.js:334 playground/Application.js:381
 msgid "Custom Code"
 msgstr "Eigener Code"
 
-#: playground/Application.js:361
+#: playground/Application.js:400
 msgid "// Could not handle URL parameter! \n// %1"
 msgstr ""
 
-#: playground/Application.js:364
+#: playground/Application.js:403
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:381
+#: playground/Application.js:420
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Der Code kann nicht an die URL angehängt werden, da er zu lang ist. Diese Warnung nicht mehr anzeigen?"
 
-#: playground/Application.js:405
+#: playground/Application.js:444
 msgid "No such user found."
 msgstr "Benutzer nicht gefunden"
 
-#: playground/Application.js:470
+#: playground/Application.js:507
+msgid "Gist contains no content."
+msgstr "Gist enthält keinen Inhalt."
+
+#: playground/Application.js:513
 msgid "Can't load the gist."
 msgstr "gist kann nicht geladen werden."
 
-#: playground/Application.js:561
+#: playground/Application.js:603
 msgid "Starting application"
 msgstr "Starte Anwendung"
 
-#: playground/Application.js:565
+#: playground/Application.js:606
 msgid "Successfully started"
 msgstr "Anwendung gestartet"
 
-#: playground/Application.js:622
+#: playground/Application.js:663
 msgid "%1 (modified)"
 msgstr "%1 (geändert)"
 
@@ -159,11 +155,6 @@ msgstr "Laden..."
 msgid "Open an edit page for this gist."
 msgstr "Editorseite für diesen gist öffnen."
 
-#: playground/view/gist/UserNameMenuItem.js:43
+#: playground/view/gist/UserNameMenuItem.js:46
 msgid "Username"
 msgstr "Benutzername"
-
-#~ msgid ""
-#~ "// Could not handle URL parameter! \n"
-#~ "// %1"
-#~ msgstr ""

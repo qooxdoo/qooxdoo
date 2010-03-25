@@ -369,8 +369,8 @@ qx.Class.define("playground.Application",
 
       // is a gist id given
       } else if (state.indexOf("gist=") == 0) {
-        this.__loadGist(state.substring(5, state.lenght));
         var id = state.substring(5, state.length);
+        this.__loadGist(id);
         this.setName(this.tr("Showing gist %1", id));
 
       // is code given
@@ -503,6 +503,9 @@ qx.Class.define("playground.Application",
       store.addListener("loaded", function(e) {
         try {
           var code = e.getData().getQuery().getResults().getContent();
+          if (code == null) {
+            this.setName(this.tr("Gist contains no content."));
+          }
           this.__editor.setCode(code);
           this.setName("gist " + id);
           this.__updatePlayground();
