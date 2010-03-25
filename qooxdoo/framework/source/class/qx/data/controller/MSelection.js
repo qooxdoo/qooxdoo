@@ -131,8 +131,19 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * will be found and added to the selection array.
      */
     _changeTargetSelection: function() {
+      // dont do anything without a target
+      if (this.getTarget() == null) {
+        return;
+      }
+      
+      // if a selection API is supported
+      if (!this.__targetSupportsMultiSelection()
+        && !this.__targetSupportsSingleSelection()) {
+        return;
+      }
+      
       // if __changeSelectionArray is currently working, do nothing
-      if (this._inSelectionModification() || this.getTarget() == null) {
+      if (this._inSelectionModification()) {
         return;
       }
 

@@ -51,6 +51,22 @@ qx.Class.define("qx.test.data.controller.List",
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model, this.__list);
     },
+    
+    
+    testModelChangeCombobox : function() {
+      var model2 = new qx.data.Array(["A", "B"]);
+      var box = new qx.ui.form.ComboBox();
+      var controller = new qx.data.controller.List(this.__model, box);
+      
+      // change the model
+      controller.setModel(model2);
+      this.assertEquals("A", box.getChildControl("list").getChildren()[0].getLabel());
+      this.assertEquals("B", box.getChildControl("list").getChildren()[1].getLabel());
+      
+      model2.dispose();
+      box.dispose();
+      controller.dispose();
+    },
 
 
     testStringArray: function() {
