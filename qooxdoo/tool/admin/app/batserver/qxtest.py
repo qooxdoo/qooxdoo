@@ -638,6 +638,11 @@ class QxTest:
         os.mkdir(logPath)
       tf = '%Y-%m-%d_%H-%M-%S'
       logFile = os.path.join(logPath, testStartDate + ".log")
+      if not os.path.isabs(logFile):
+        logFile = os.path.abspath(logFile)
+        
+      lf = codecs.open(logFile, 'w', 'utf-8')
+      lf.close()
     
     reportPath = os.path.join(self.testConf['testReportDir'], appConf['appName'])
     if not os.path.isdir(reportPath):
