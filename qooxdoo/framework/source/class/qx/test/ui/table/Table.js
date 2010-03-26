@@ -199,6 +199,46 @@ qx.Class.define("qx.test.ui.table.Table",
 
       table.destroy();
       model.dispose();
+    },
+    
+    
+    testRegularListener : function() {
+      var table = new qx.ui.table.Table();
+      
+      var executed = false;
+      var id = table.addListener("changeRowHeight", function() {executed = true;}, this);
+      this.assertNotNull(id);
+      
+      table.removeListenerById(id);
+      
+      // invoke event
+      table.setRowHeight(111);    
+      this.assertFalse(executed);
+      
+      table.dispose();
+    },
+    
+    
+    testSpecialListener : function() {
+      var table = new qx.ui.table.Table();
+      // use a meta column to see if both events are handled properly
+      table.setMetaColumnCounts([1, -1]);
+      
+      var executed = false;
+      var id = table.addListener("cellClick", function() {executed = true;}, this);
+      this.assertNotNull(id);
+      
+      table.removeListenerById(id);
+      
+      // invoke synthetic cellClick event
+      var scroller = table._getPaneScrollerArr()[0];
+      var mouse = new qx.event.type.Mouse();
+      mouse.init({}, scroller, scroller, false, true);
+      scroller.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [scroller, mouse, 0, 0], true);
+      this.assertFalse(executed, "Listener not removed");
+      
+      mouse.dispose();
+      table.dispose();
     }
   }
 });

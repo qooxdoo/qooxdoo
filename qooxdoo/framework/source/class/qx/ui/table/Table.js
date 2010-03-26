@@ -1984,10 +1984,14 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (this.self(arguments).__redirectEvents[type])
       {
+        // start the id with the type (needed for removing)
+        var id = [type];
         for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
         {
-          arr[i].addListener.apply(arr[i], arguments);
+          id.push(arr[i].addListener.apply(arr[i], arguments));
         }
+        // join the id's of every event with "
+        return id.join('"')
       }
       else
       {
@@ -2011,6 +2015,28 @@ qx.Class.define("qx.ui.table.Table",
         this.base(arguments, type, listener, self, capture);
       }
     },
+    
+    
+    // overridden
+    removeListenerById : function(id) {
+      var ids = id.split('"');
+      // type is the first entry of the connected id
+      var type = ids.shift();
+      if (this.self(arguments).__redirectEvents[type])
+      {
+        var removed = true;
+        for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+        {
+          removed = arr[i].removeListenerById.call(arr[i], ids[i]) && removed;
+        }
+        return removed;
+      }
+      else
+      {
+        return this.base(arguments, id);
+      }      
+    },
+    
 
     destroy : function()
     {
