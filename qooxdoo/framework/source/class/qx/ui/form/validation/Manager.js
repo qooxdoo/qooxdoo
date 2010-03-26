@@ -31,6 +31,8 @@ qx.Class.define("qx.ui.form.validation.Manager",
     this.__formItems = [];
     // storage for all results of async validation calls
     this.__asyncResults = {};
+    // set the default required field message
+    this.setRequiredFieldMessage(qx.locale.Manager.tr("This field is required"));
   },
 
 
@@ -79,6 +81,16 @@ qx.Class.define("qx.ui.form.validation.Manager",
     {
       check : "String",
       init: ""
+    },
+    
+    
+    /**
+     * This message will be shown if a required field is empty.
+     */
+    requiredFieldMessage : 
+    {
+      check : "String",
+      init : ""
     }
   },
 
@@ -218,7 +230,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
           var validatorResult = !!formItem.getValue();
         }
         formItem.setValid(validatorResult);
-        formItem.setInvalidMessage(qx.locale.Manager.tr("This field is required"));
+        formItem.setInvalidMessage(this.getRequiredFieldMessage());
         return validatorResult;
       }
       return true;
