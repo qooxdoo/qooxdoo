@@ -180,6 +180,53 @@ qx.Class.define("qx.test.Bootstrap",
       }
       var bound = qx.Bootstrap.bind(callback, this, undef, true);
       bound();
+    },
+    
+    
+    testDefineShadowedMembers : function()
+    {
+      qx.Bootstrap.define("qx.test.Construct",
+      {
+        extend: Object,
+        members : {
+          "isPrototypeOf" : 10,
+          "hasOwnProperty" : 11,
+          "toLocaleString" : 12,
+          "toString" : 13,
+          "valueOf" : 14
+        }
+      });
+      
+      var obj = new qx.test.Construct();
+      this.assertEquals(10, obj.isPrototypeOf);
+      this.assertEquals(11, obj.hasOwnProperty);
+      this.assertEquals(12, obj.toLocaleString);
+      this.assertEquals(13, obj.toString);
+      this.assertEquals(14, obj.valueOf);
+      
+      qx.Class.undefine("qx.test.Construct");      
+    },
+    
+    
+    testDefineShadowedStatics : function()
+    {
+      qx.Bootstrap.define("qx.test.Construct",
+      {
+        extend: Object,
+        statics : {
+          "isPrototypeOf" : 10,
+          "toLocaleString" : 12,
+          "toString" : 13,
+          "valueOf" : 14
+        }
+      });
+      
+      this.assertEquals(10, qx.test.Construct.isPrototypeOf);
+      this.assertEquals(12, qx.test.Construct.toLocaleString);
+      this.assertEquals(13, qx.test.Construct.toString);
+      this.assertEquals(14, qx.test.Construct.valueOf);
+      
+      qx.Class.undefine("qx.test.Construct");      
     }
   }
 });
