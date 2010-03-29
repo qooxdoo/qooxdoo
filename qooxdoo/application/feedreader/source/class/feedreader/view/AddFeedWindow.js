@@ -146,6 +146,11 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       }
 
       this.__controller.addFeed(title, url, "user");
+      
+      // clear the content of th window
+      this.__titleTextfield.setValue("");
+      this.__urlTextfield.setValue("");
+      
       this.close();
     }
   },
