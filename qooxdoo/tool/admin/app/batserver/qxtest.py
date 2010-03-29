@@ -827,7 +827,7 @@ class QxTest:
         self.sendReport(appConf['appName'], reportFile)
         
     if "reportServerUrl" in self.testConf:
-      self.reportResults(appConf['appName'], testStartDate, logFile)
+      self.reportResults(appConf['appName'], testStartDate, logFile, ignore)
 
 
   ##
@@ -900,7 +900,7 @@ class QxTest:
     return cmd
 
 
-  def reportResults(self, aut, start_date, log_file):
+  def reportResults(self, aut, start_date, log_file, ignore=[]):
     from simulationLogParser import SimulationLogParser
     
     if (self.sim):
@@ -922,11 +922,11 @@ class QxTest:
     from urllib import urlencode
     testRunDict = self.getTestRunDict(aut, start_date)
     
-    slp = SimulationLogParser(log_file)
+    slp = SimulationLogParser(log_file, ignore)
     simulationData = slp.getSimulationData()
-    #simulationData = simulationLogParser.parse(log_file)
-    testRunDict["simulations"] = simulationData
     
+    testRunDict["simulations"] = simulationData
+        
     try:
       if simulationData[0]["platform"] != "Unknown":
         testRunDict["test_hostos"] = simulationData[0]["platform"]
@@ -978,6 +978,7 @@ class QxTest:
       "test_host" : test_host,
       "test_hostos" : self.os,
       "test_hostid" : "",
+      "test_type" : self.testConf["runType"],
       "revision" : self.trunkrev,
       "branch" : self.testConf["qxBranch"],
       "start_date" : start_date,
