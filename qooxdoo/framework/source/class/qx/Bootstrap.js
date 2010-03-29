@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -101,14 +102,18 @@ qx.Bootstrap = {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
       clazz = config.construct || new Function;
-      var statics = config.statics;
-      for (var key in statics) {
+      var statics = config.statics || {};
+      // use getKeys to include the shaddowed in IE
+      for (var i=0, keys=qx.Bootstrap.getKeys(statics), l=keys.length; i<l; i++) {
+        var key = keys[i];
         clazz[key] = statics[key];
       }
 
       proto = clazz.prototype;
-      var members = config.members;
-      for (var key in members) {
+      var members = config.members || {};
+      // use getKeys to include the shaddowed in IE
+      for (var i=0, keys=qx.Bootstrap.getKeys(members), l=keys.length; i<l; i++) {
+        var key = keys[i];
         proto[key] = members[key];
       }
     }
