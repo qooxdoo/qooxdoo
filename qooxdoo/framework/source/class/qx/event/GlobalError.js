@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -44,12 +45,31 @@ qx.Bootstrap.define("qx.event.GlobalError",
 
       if (qx.core.Setting.get("qx.globalErrorHandling") === "on")
       {
+        // wrap the original onerror
+        if (callback && window.onerror) {
+          var wrappedHandler = qx.Bootstrap.bind(this.__onErrorWindow, this);
+          if (this.__originalOnError == null) {
+            this.__originalOnError = window.onerror; 
+          }
+          var self = this;
+          window.onerror = function(e) {
+            self.__originalOnError(e);
+            wrappedHandler(e);
+          };
+        }
+        
         if (callback && !window.onerror) {
           window.onerror = qx.Bootstrap.bind(this.__onErrorWindow, this);
         }
-
-        if (!callback && window.onerror) {
-          window.onerror = null;
+        
+        // reset 
+        if (this.__callback == null) {
+          if (this.__originalOnError != null) {
+            window.onerror = this.__originalOnError;
+            this.__originalOnError = null;
+          } else {
+            window.onerror = null;
+          }
         }
       }
     },

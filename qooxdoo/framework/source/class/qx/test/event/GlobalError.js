@@ -141,6 +141,9 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testOnWindowError : function()
     {
+      // reset the handler
+      this.errorHandler.setErrorHandler(null);
+      
       var wasHandled = false;
       var handler = function(ex) { this.resume(function()
       {
@@ -181,7 +184,66 @@ qx.Class.define("qx.test.event.GlobalError",
       }, 100);
 
       this.wait(500);
+    },
+    
+    
+    testOnWindowErrorWrapped : function()
+    {
+      // reset error handler on startup
+      this.errorHandler.setErrorHandler(null);
+            
+      var wasHandled = false;
+      var wasNativeHandled = false;
+
+      var self = this;
+      // append a native onerror mehtod
+      window.onerror = function(ex) {
+        wasNativeHandled = true;
+        self.assertEquals("Doofer Fehler", ex.toString());
+      }
+      
+      var handler = function(ex) { this.resume(function()
+      {
+        wasHandled = true;
+        this.assertTrue(wasNativeHandled, "native handler not called.");
+        this.assertInstance(ex, qx.core.WindowError);
+        this.assertEquals("Doofer Fehler", ex.toString());
+
+        this.assertString(ex.getUri());
+        this.assertInteger(ex.getLineNumber());
+
+        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());        
+      }, this); }
+
+      this.errorHandler.setErrorHandler(handler, this);
+
+      // callback is NOT wrapped!
+      window.setTimeout(function() {
+        throw new Error("Doofer Fehler");
+      }, 0);
+
+      // Opera and Webkit do not support window.onerror
+      // make sure the test fails once they support it
+      var self = this;
+      window.setTimeout(function()
+      {
+        if (wasHandled) {
+          return;
+        }
+
+        self.resume(function()
+        {
+          if (qx.core.Variant.isSet("qx.client", "opera|webkit")) {
+            this.warn("window.onerror is not supported by Opera and Webkit");
+          } else {
+            this.fail("window.onerror should be supported! Note: this test fails in IE if the debugger is active!");
+          }
+        }, self);
+      }, 100);
+
+      this.wait(500);
     }
+        
 
     // timer setTimeout/setInterval - OK
     // addNativeListener - OK
