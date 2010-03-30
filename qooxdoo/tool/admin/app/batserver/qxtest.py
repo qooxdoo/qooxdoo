@@ -51,6 +51,7 @@ class QxTest:
     }
     
     defaultTestConf = {
+      'runType'             : '',
       'qxBranch'            : 'trunk',
       'simulateTest'        : False,
       'getReportFrom'       : 'testLog',
