@@ -195,12 +195,17 @@ class Library:
     for root, dirs, files in os.walk(libraryPath, topdown=True):
       for name in dirs[:]:
         console.indent()
-        # only check direct subfolders of the library, ignore .svn etc.
-        if root != libraryPath or name[0] == ".":
+        # ignore dotfiles, e.g. .svn
+        if name[0] == ".":
           dirs.remove(name)
           console.outdent()
           continue
              
+        if root != libraryPath:
+          # potential version dir is not a direct child of the library
+          parent = root[len(self.path)+1:]
+          name = os.path.join(parent, name)
+        
         if self.isValidVersion(name, libraryPath, restrictions):
           console.info("Processing library version %s" %name)
           try:
