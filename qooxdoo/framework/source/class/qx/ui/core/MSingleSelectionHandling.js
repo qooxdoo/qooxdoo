@@ -68,6 +68,9 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
     /**
      * Returns an array of currently selected items.
      *
+     * Note: The result is only a set of selected items and
+     * the order can differ from the sequence which items were added.
+     * 
      * @return {qx.ui.core.Widget[]} List of items.
      */
     getSelection : function() {
