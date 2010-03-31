@@ -87,7 +87,7 @@ qx.Class.define("qx.util.Validate",
         || (!(isFinite(value))))
       {
         throw new qx.core.ValidationError(
-          "Validation Error: ", value + " is not a number."
+          "Validation Error: ", qx.locale.Manager.tr("%1 is not a number.", value)
         );
       }
     },
@@ -119,7 +119,8 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", "'" + (value || "") + "' is not an email address."
+          "Validation Error", 
+          qx.locale.Manager.tr("'%1' is not an email address.", (value || ""))
         );
       }
     },
@@ -149,7 +150,7 @@ qx.Class.define("qx.util.Validate",
       if (typeof value !== "string" && (!(value instanceof String)))
       {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not a string."
+          "Validation Error", qx.locale.Manager.tr("%1 is not a string.", value)
         );
       }
     },
@@ -180,7 +181,7 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not an url."
+          "Validation Error", qx.locale.Manager.tr("%1 is not an url.", value)
         );
       }
     },
@@ -212,7 +213,7 @@ qx.Class.define("qx.util.Validate",
         qx.util.ColorUtil.stringToRgb(value);
       } catch (e) {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not a color! " + e
+          "Validation Error", qx.locale.Manager.tr("%1 is not a color! %2", value, e)
         );
       }
     },
@@ -237,8 +238,8 @@ qx.Class.define("qx.util.Validate",
         if (value < from || value > to)
         {
           throw new qx.core.ValidationError(
-            "Validation Error", value + " is not in the range from [" +
-            from + ", " + to + "]."
+            "Validation Error", 
+            qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", value, from, to)
           );
         }
       }
@@ -260,7 +261,7 @@ qx.Class.define("qx.util.Validate",
         if (array.indexOf(value) === -1)
         {
           throw new qx.core.ValidationError(
-            "Validation Error", value + " is not in " + array + ""
+            "Validation Error", qx.locale.Manager.tr("%1 is not in %2", value, array)
           );
         }
       }
@@ -283,7 +284,7 @@ qx.Class.define("qx.util.Validate",
         if (reg.test(value) === false)
         {
           throw new qx.core.ValidationError(
-            "Validation Error", value + " does not fit " + reg + "."
+            "Validation Error", qx.locale.Manager.tr("%1 does not fit %2.", value, reg)
           );
         }
       }
