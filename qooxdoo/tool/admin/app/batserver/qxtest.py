@@ -904,7 +904,7 @@ class QxTest:
     return cmd
 
 
-  def reportResults(self, aut, start_date, log_file, ignore=[]):
+  def reportResults(self, aut, start_date, log_file, ignore=None):
     from simulationLogParser import SimulationLogParser
     
     if (self.sim):
