@@ -384,6 +384,9 @@ qx.Class.define("qx.ui.tabview.TabView",
     /**
      * Returns an array of currently selected items.
      *
+     * Note: The result is only a set of selected items and
+     * the order can differ from the sequence which items were added.
+     * 
      * @return {qx.ui.tabview.Page[]} List of items.
      */
     getSelection : function() {
