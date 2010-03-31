@@ -108,6 +108,7 @@ qx.Class.define("playground.view.gist.GistMenu",
     __userNameChange : null,
     __filterCheckBox : null,
     
+    
     /**
      * Helper method for setting up the list to the loading view.
      */
@@ -125,6 +126,12 @@ qx.Class.define("playground.view.gist.GistMenu",
       this.__items = [];
       
       this.add(this.__loadingItem);      
+    },
+    
+    // overridden
+    _applySelectedButton : function(value, old) {
+      this.__userNameChange.focusTextField(value == this.__userNameChange);
+      this.base(arguments, value, old);
     },
 
 

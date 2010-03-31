@@ -151,9 +151,18 @@ msgstr ""
 msgid "Open an edit page for this gist."
 msgstr ""
 
-#: playground/view/gist/UserNameMenuItem.js:46
+#: playground/view/gist/UserNameMenuItem.js:42
 msgid "Username"
 msgstr ""
+
+#: playground/view/gist/UserNameMenuItem.js:55
+msgid "Load / reload the gists."
+msgstr ""
+
+#~ msgid ""
+#~ "// Could not handle URL parameter! \n"
+#~ "// %1"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "// Could not handle URL parameter! \n"

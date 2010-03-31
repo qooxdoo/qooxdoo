@@ -30,12 +30,19 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     
     this.setAppearance("menu-button");
     
+    // init self
     var layout = new qx.ui.layout.Grid(5, 5);
     layout.setColumnFlex(1, 1);
     layout.setRowFlex(0, 1);
     layout.setRowAlign(0, "left", "middle");
     this._setLayout(layout);
     this.setPadding(4);
+
+    // label
+    var label = new qx.ui.basic.Label(this.tr("Username"));
+    label.setAnonymous(true);
+
+    // textfield
     var initUserName = qx.bom.Cookie.get("playgroundUser");
     this.__textField = new qx.ui.form.TextField(initUserName);
     this.__textField.set({
@@ -43,15 +50,23 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       anonymous: true
     });
     
-    var label = new qx.ui.basic.Label(this.tr("Username"));
-    label.setAnonymous(true);
+    // button
+    var reloadButton = new qx.ui.form.Button(null, "icon/16/actions/media-playback-start.png");
+    reloadButton.setToolTipText(this.tr("Load / reload the gists."));
+    reloadButton.addListener("execute", this.__reload, this);
+    // handler to keep the blu background color of the menu item
+    reloadButton.addListener("mouseover", function() {
+      this.addState("selected");
+    }, this);
+    reloadButton.addListener("mouseout", function() {
+      this.removeState("selected");
+    }, this);
+
+    // add all three widgets
     this._add(label, {row: 0, column: 0});
     this._add(this.__textField, {row: 0, column: 1});
-    
-    // sync the selected state
-    this.addListener("syncAppearance", function() {
-      this.hasState("selected") ? this.__textField.focus() : null;
-    }, this);
+    this._add(reloadButton, {row: 0, column: 2});
+
     
     // EVIL HACK FOR THE MENU MANAGER!!!!
     var manager = qx.ui.menu.Manager.getInstance();
@@ -85,15 +100,11 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     
     manager._onKeyPressEnter = function(menu, button, e) {
       if ((menu.getSelectedButton() instanceof self.constructor)) {
-        var data = self.__textField.getValue();
-        // set the cookie
-        qx.bom.Cookie.set("playgroundUser", data, 100);
-        // invoke a reload
-        self.fireDataEvent("reload", data);
+        self.__reload();
         return;
       }
       onKeyPressEnter.call(manager, menu, button, e);
-    };
+    };    
   },
 
 
@@ -108,6 +119,33 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
   members :
   {
     __textField : null,
+
+    
+    /**
+     * Internal helper for reloading the gists.
+     */
+    __reload : function() {
+      var data = this.__textField.getValue();
+      // set the cookie
+      qx.bom.Cookie.set("playgroundUser", data, 100);
+      // invoke a reload
+      this.fireDataEvent("reload", data);      
+    },
+    
+    
+    /**
+     * Method for focusing / bluring the textfield.
+     * 
+     * @param enabled {Boolean} focus on true, blur on false.
+     */
+    focusTextField : function(enabled) 
+    {
+      if (enabled) {
+        this.__textField.focus();
+      } else {
+        this.__textField.blur();
+      }
+    },
 
 
     /**

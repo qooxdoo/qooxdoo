@@ -155,6 +155,15 @@ msgstr "Laden..."
 msgid "Open an edit page for this gist."
 msgstr "Editorseite für diesen gist öffnen."
 
-#: playground/view/gist/UserNameMenuItem.js:46
+#: playground/view/gist/UserNameMenuItem.js:42
 msgid "Username"
 msgstr "Benutzername"
+
+#: playground/view/gist/UserNameMenuItem.js:55
+msgid "Load / reload the gists."
+msgstr "Lade die gists (neu)."
+
+#~ msgid ""
+#~ "// Could not handle URL parameter! \n"
+#~ "// %1"
+#~ msgstr ""
