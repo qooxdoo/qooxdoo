@@ -31,7 +31,7 @@ import re
 # @param ignore {list} List of strings that will be evaluated as regular 
 # expressions. Any line matching one of these will not be logged.
 class SimulationLogParser:
-  def __init__(self, logFile, ignoreStrings=[]):
+  def __init__(self, logFile, ignoreStrings=None):
     if not logFile:
       raise Exception("No log file specified!")
     
@@ -40,10 +40,11 @@ class SimulationLogParser:
     
     self.log = open(logFile, "r")
     
-    self.ignore = []
-    for string in ignoreStrings:
-      reg = re.compile(string)
-      self.ignore.append(reg)
+    self.ignore = None
+    if ignoreStrings:
+      for string in ignoreStrings:
+        reg = re.compile(string)
+        self.ignore.append(reg)
     
     self.simulationsList = None
 
@@ -161,11 +162,12 @@ class SimulationLogParser:
     logentryList = []  
     for entry in logEntries:
       ignore = False
-      for reg in self.ignore:
-        found = reg.search(entry)
-        if found:
-          ignore = True
-          continue
+      if self.ignore:
+        for reg in self.ignore:
+          found = reg.search(entry)
+          if found:
+            ignore = True
+            continue
       if ignore:
         continue
       
