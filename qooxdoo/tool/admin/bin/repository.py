@@ -96,7 +96,7 @@ class Repository:
     if not "libraries" in self.filter:
       return True
     if "*" in self.filter["libraries"]:
-      libraryFilter = self.filter["*"]
+      libraryFilter = self.filter["libraries"]["*"]
     else:
       libraryFilter = self.filter["libraries"][libraryName]
     
