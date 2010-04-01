@@ -43,8 +43,11 @@ class SimulationLogParser:
     self.ignore = None
     if ignoreStrings:
       for string in ignoreStrings:
-        reg = re.compile(string)
-        self.ignore.append(reg)
+        try:
+          reg = re.compile(string)
+          self.ignore.append(reg)
+        except Exception:
+          pass
     
     self.simulationsList = None
 
