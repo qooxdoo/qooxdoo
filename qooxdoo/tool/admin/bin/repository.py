@@ -1,99 +1,130 @@
-#!/usr/bin/env python
-
-################################################################################
-#
-#  qooxdoo - the new era of web development
-#
-#  http://qooxdoo.org
-#
-#  Copyright:
-#    2007-2009 1&1 Internet AG, Germany, http://www.1und1.de
-#
-#  License:
-#    LGPL: http://www.gnu.org/licenses/lgpl.html
-#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
-#    See the LICENSE file in the project's top-level directory for details.
-#
-#  Authors:
-#    * Daniel Wagner (d_wagner)
-#
-################################################################################
-
-##
-# repository.py -- represents a repository (e.g. qooxdoo-contrib) containing a 
-# number of libraries.
-##
+#! /usr/bin/env python
 
 import os, sys, re, optparse
 import qxenviron
-import simplejson as json
+import demjson
 import codecs
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
 
-class Repository:
-  """Represents a repository containing qooxdoo libraries."""
-  def __init__(self, repoDir, config=None):
-    """Create a new repository instance by scanning a directory containing
-    qooxdoo libraries. By default, all libraries found will be included. 
-    Optionally, specific libraries or versions thereof can be selected using a
-    configuration dictionary - see config.demo.json in the contrib demobrowser
-    for an example. 
+global console
+console = Log(None, "info")
+global shell
+shell = ShellCmd()
 
-    Keyword arguments:
-    repoDir -- File system path of the directory to scan
-    config -- (optional) Configuration dictionary
-    """
-    global console
-    console = Log(None, "info")
-    global shell
-    shell = ShellCmd()
+class Repository:
+  def __init__(self, repoDir, config=None):
+    self.dir = os.path.abspath(repoDir)
+    self.filter = config
     
-    processLibs = None
-    if config:
-      if "libraries" in config:
-        processLibs = config["libraries"]
+    manifests = self.scanRepository()
+    self.libraries = self.getLibraries(manifests)
     
-    self.dir = repoDir
-    if not os.path.isabs(self.dir):
-      self.dir = os.path.abspath(self.dir)
     
-    self.libraries = self.getLibraries(processLibs)
-    
-  def getLibraries(self, processLibs):
-    console.info("Processing repository in %s" %self.dir)
-    libraries = {}
+  def scanRepository(self):
+    console.indent()
+    console.info("Scanning %s" %self.dir)
+    demoDir = "%sdemo%s" %(os.sep,os.sep)
+    manifestPaths = []
     for root, dirs, files in os.walk(self.dir, topdown=True):
-      for name in dirs[:]:
-        # ignore subdirectories and SVN cruft
-        if root != self.dir or name[0] == ".":
-          dirs.remove(name)
-          console.outdent()
-          continue        
-        
-        # only process selected libraries
-        console.indent()
-        
-        if processLibs:
-          if name in processLibs:
-            console.info("Processing library %s" %name)
-            lib = Library(self, name, processLibs[name])
-            libraries[name] = lib
-          elif "*" in processLibs:
-            console.info("Processing library %s" %name)
-            lib = Library(self, name, processLibs["*"])
-            libraries[name] = lib      
-        else:
-          # find all libraries
-          console.info("Processing library %s" %name)
-          lib = Library(self, name, [])
-          libraries[name] = lib
-        
-        console.outdent()
-    
-    console.info("Found %s libraries." %len(libraries))
-    return libraries
+      for name in files[:]:
+        #if "Bugs" in root:
+        #  dirs = []
+        #  files = []
+        if name == "Manifest.json" and root != self.dir:           
+          console.debug("Found manifest: " + os.path.join(root, name))
+          manifestPath = os.path.join(root,name)
+          if not demoDir in manifestPath:
+            manifestPaths.append(manifestPath)
+          dirs = []
+          files = []
+    console.info("Found %s manifests" %len(manifestPaths))
+    console.outdent()
+    return manifestPaths
   
+  
+  def getLibraries(self, manifests):
+    libraries = {}
+    for manifestPath in manifests:
+      try:
+        manifest = getDataFromJsonFile(manifestPath)
+      except RuntimeError, e:
+        console.error(repr(e))
+      
+      if not "info" in manifest:
+        console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
+        continue
+      
+      libraryName = manifest["info"]["name"]
+      libraryVersion = manifest["info"]["version"]
+      libraryQxVersions = manifest["info"]["qooxdoo-versions"]
+      
+      try:
+        libraryType = manifest["provides"]["type"]
+      except KeyError:
+        libraryType = None
+        
+      if not self.isSelected(libraryName, libraryVersion, libraryType, libraryQxVersions):        
+        continue
+      
+      if libraryName not in libraries:
+        libraries[libraryName] = {}
+      
+      if libraryVersion not in libraries[libraryName]:
+        console.info("Adding library %s version %s" %(libraryName,libraryVersion))
+        # create LibraryVersion instance
+        versionPath = os.path.dirname(manifestPath)
+        libVer = LibraryVersion(libraryVersion, libraryName, versionPath)
+        libVer.manifest = manifest
+        libraries[libraryName][libraryVersion] = libVer
+      else:
+        console.warn("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
+    return libraries
+    
+  
+  def isSelectedLibrary(self, libraryName):
+    if not "libraries" in self.filter:
+      return True
+    wantedLibraries = self.filter["libraries"]
+    if "*" in wantedLibraries or libraryName in wantedLibraries:
+      return True
+    else:
+      return False
+  
+  
+  def isSelectedVersion(self, libraryName, libraryVersion):    
+    if not "libraries" in self.filter:
+      return True
+    if "*" in self.filter["libraries"]:
+      libraryFilter = self.filter["*"]
+    else:
+      libraryFilter = self.filter["libraries"][libraryName]
+    
+    if not "versions" in libraryFilter:
+      return True
+    
+    wantedVersions = libraryFilter["versions"]
+    
+    if "*" in wantedVersions:
+      return True
+    
+    if libraryVersion in wantedVersions:
+      return True
+    else:
+      return False
+  
+    
+  def isSelected(self, libraryName, libraryVersion, libraryType, libraryQxVersion):
+    if not self.filter:
+      return True
+    if not self.isSelectedLibrary(libraryName):
+      return False
+    if not self.isSelectedVersion(libraryName, libraryVersion):
+      return False
+    else:
+      return True
+
+
   def buildAllDemos(self, demoVersion="build", demoBrowser=None):
     demoData = []
     
@@ -104,8 +135,8 @@ class Repository:
         "tests": []
       }
       validDemo = False
-      for versionName in library.versions:
-        version = library.versions[versionName]
+      for versionName in library:
+        version = library[versionName]
         
         if not version.hasDemoDir:
           continue
@@ -128,7 +159,8 @@ class Repository:
         demoData.append(libraryData)
 
     if demoBrowser:      
-      jsonData = json.dumps(demoData, sort_keys=True, indent=4)
+      #jsonData = json.dumps(demoData, sort_keys=True, indent=4)
+      jsonData = demjson.encode(demoData, strict=False, compactly=False)
       dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
       if not os.path.isdir(dbScriptDir):
         os.mkdir(dbScriptDir)
@@ -174,104 +206,41 @@ class Repository:
       "title": library + " " + version + " " + variant
     }
     
-    qooxdooVersions = self.libraries[library].versions[version].getManifest()["info"]["qooxdoo-versions"]
+    qooxdooVersions = self.libraries[library][version].getManifest()["info"]["qooxdoo-versions"]
     for ver in qooxdooVersions:
       demoDict["tags"].append("qxVersion_" + ver)
 
     return demoDict
 
-class Library:
-  def __init__(self, repository = None, libraryDir = None, restrictions = None):
-    if not (libraryDir and repository):
-      raise RuntimeError, "Repository and library directory must be defined!"
-    self.repository = repository
-    self.dir = libraryDir
-    self.path = os.path.join(self.repository.dir, self.dir)
-    self.versions = self.getVersions(restrictions)
+
+def getDataFromJsonFile(path):
+  try:
+    jsonFile = codecs.open(path, "r", "UTF-8")
+  except:
+    raise RuntimeError, "File %s not found" %jsonFile
     
-  def getVersions(self, restrictions):
-    versions = {}
-    libraryPath = os.path.join(self.repository.dir, self.dir)
-    for root, dirs, files in os.walk(libraryPath, topdown=True):
-      for name in dirs[:]:
-        console.indent()
-        # ignore dotfiles, e.g. .svn
-        if name[0] == ".":
-          dirs.remove(name)
-          console.outdent()
-          continue
-             
-        if root != libraryPath:
-          # potential version dir is not a direct child of the library
-          parent = root[len(self.path)+1:]
-          name = os.path.join(parent, name)
-        
-        if self.isValidVersion(name, libraryPath, restrictions):
-          console.info("Processing library version %s" %name)
-          try:
-            libVersion = LibraryVersion(self, name)
-            versions[name] = libVersion
-          except Exception, e:
-            console.warn("%s version %s not added: %s" %(self.dir,name,e.message))
-        
-        console.outdent()
-    return versions
+  data = jsonFile.read()
+  jsonFile.close()
   
-  def isValidVersion(self, versionName, libraryPath, restrictions):
-    if not restrictions:
-      return True
-    
-    if "versions" in restrictions:
-      if len(restrictions["versions"]) > 0 and (not "*" in restrictions["versions"]):
-        if versionName not in restrictions["versions"]:
-          return False
-        
-    if "qooxdoo-versions" in restrictions:
-      if len(restrictions["qooxdoo-versions"]) > 0 and (not "*" in restrictions["qooxdoo-versions"]):
-        manifestPath = os.path.join(libraryPath, versionName, "Manifest.json")
-        
-        try:
-          versionManifest = getDataFromJsonFile(manifestPath)
-        except Exception:
-          return False
-        compatibleWith = versionManifest["info"]["qooxdoo-versions"]
-        foundCompatible = False
-        for qxVersion in restrictions["qooxdoo-versions"]:
-          if qxVersion in compatibleWith:
-            foundCompatible = True
-        if not foundCompatible:
-          return False
-    
-    return True
+  try:
+    return demjson.decode(data, allow_comments=True)
+  except Exception, e:
+    raise RuntimeError, "Couldn't parse JSON from file %s" %jsonFile    
 
 
 class LibraryVersion:  
-  def __init__(self, library, versionDir = None):
-    if not (library and versionDir):
-      raise RuntimeError, "Both the library and this version's directory must be defined!"
+  def __init__(self, versionName, libraryName, path):    
+    self.versionName = versionName
+    self.libraryName = libraryName
+    self.path = path
     
-    self.library = library
-    self.dir = versionDir
-    self.path = os.path.join(self.library.repository.dir, self.library.dir, self.dir)
-    try:
-      self.manifest = self.getManifest()
-    except Exception:
-      raise RuntimeError, "Couldn't get manifest for version %s" %self.dir
-    
-    self.svnRevision = self.getSvnRevision()
-    self.hasSourceDir = False
     self.hasDemoDir = False
     self.demoVariants = self.getDemoVariants()
     self.demoBuildStatus = {}
-    # TODO self.hasTestDir = False
-    self.hasReadmeFile = False
-    self.hasGenerator = False
     self.checkStructure()
-
-  def checkStructure(self):    
-    if os.path.isdir(os.path.join(self.path, "source")):
-      self.hasSourceDir = True
     
+  
+  def checkStructure(self):        
     if os.path.isdir(os.path.join(self.path, "demo")):
       self.hasDemoDir = True
       self.demoVariants = self.getDemoVariants()
@@ -281,6 +250,7 @@ class LibraryVersion:
     
     if os.path.isfile(os.path.join(self.path, "generate.py")):
       self.hasGenerator = True
+  
   
   def getManifest(self):
     try:
@@ -292,15 +262,15 @@ class LibraryVersion:
     
     return getDataFromJsonFile(manifestPath)
   
+  
   def getDemoManifest(self, demoVariant = "default"):
     manifestPath = os.path.join(self.path, "demo", demoVariant, "Manifest.json")
     return getDataFromJsonFile(manifestPath)
   
-  def getLintResult(self):
-    try:
-      return self.lintResult
-    except AttributeError:
-      pass
+  
+  def getLintResult(self):    
+    if not self.hasGenerator:
+      raise RuntimeError, "%s %s has no generate.py script!" %(self.libraryName, self.versionName)
     
     from lintRunner import QxLint
     
@@ -315,6 +285,7 @@ class LibraryVersion:
     self.lintResult = lint.data
     
     return self.lintResult
+  
   
   def getSvnRevision(self):
     try:
@@ -331,6 +302,7 @@ class LibraryVersion:
     svnRevision = output.rstrip('\n')
     return svnRevision
   
+  
   def getDemoVariants(self):
     if not self.hasDemoDir:
       return False
@@ -344,7 +316,10 @@ class LibraryVersion:
     
     return demoVariants
   
+  
   def runGenerator(self, job, subPath=None, cwd=False):
+    if not self.hasGenerator:
+      raise RuntimeError, "%s %s has no generate.py script!" %(self.libraryName, self.versionName)
     path = self.path
     if subPath:
       path = os.path.join(path, subPath)
@@ -355,12 +330,13 @@ class LibraryVersion:
     os.chdir(startPath)
     return (rcode,output,errout)
   
+  
   def buildDemo(self, demoVariant = "default", demoVersion = "build"):
     if not self.hasDemoDir:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
       return
     
-    console.info("Building %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.library.dir, self.dir) )
+    console.info("Building %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
     subPath = os.path.join("demo", demoVariant)
     rcode, output, errout = self.runGenerator(demoVersion, subPath)
     
@@ -388,18 +364,6 @@ class LibraryVersion:
       
     self.demoBuildStatus = demoBuildStatus
     return demoBuildStatus
-
-
-def getDataFromJsonFile(path):
-  try:
-    jsonFile = codecs.open(path, "r", "UTF-8")
-  except:
-    raise RuntimeError, "File %s not found" %jsonFile
-    
-  try:
-    return json.load(jsonFile)
-  except Exception, e:
-    raise RuntimeError, "Couldn't parse JSON from file %s" %jsonFile
 
 
 def getComputedConf():
@@ -435,9 +399,7 @@ def main():
   
   config = None
   if options.configfile:
-    configFile = codecs.open(options.configfile, 'r', 'utf-8')
-    configJson = configFile.read()
-    config = json.loads(configJson)
+    config = getDataFromJsonFile(options.configfile)
 
   repository = Repository(options.workdir, config)
   
