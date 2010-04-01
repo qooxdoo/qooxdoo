@@ -955,8 +955,25 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          return result;
        },
 
-       "default" : function(attributes, commandObject) {
-         return this.__doc.execCommand(commandObject.identifier, false, attributes.src);
+       "default" : function(attributes, commandObject)
+       {
+         // Only insert an image if the src attribute info is available
+         if (attributes.src)
+         {
+           var img = "<img ";
+
+           for (var attrName in attributes) {
+             img += attrName + "='" + attributes[attrName] + "' ";
+           }
+
+           img += "/>";
+
+           return this.__doc.execCommand("InsertHtml", false, img);
+         }
+         else
+         {
+           return false;
+         }
        }
      }),
 
