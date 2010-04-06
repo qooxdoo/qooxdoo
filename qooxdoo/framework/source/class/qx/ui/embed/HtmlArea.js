@@ -82,9 +82,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.addListener(document.body, "losecapture", this.release, this, true);
 
-    this.__blockerElement = this._createBlockerElement();
-    this.getContainerElement().add(this.__blockerElement);
-
     this.__postPonedProperties = {};
   },
 
@@ -302,6 +299,17 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     __initValues : null,
 
 
+    /**
+     * @return {void}
+     */
+    _initBlockerElement : function ()
+    {
+      if (!this.__blockerElement) {
+        this.__blockerElement = this._createBlockerElement();
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       MODIFIERS
@@ -378,9 +386,11 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       var el = new qx.html.Element("div");
 
-      el.setStyle("zIndex", 20);
-      el.setStyle("position", "absolute");
-      el.setStyle("display", "none");
+      el.setStyles({
+        zIndex   : 20,
+        position : "absolute",
+        display  : "none"
+      });
 
       // IE needs some extra love here to convince it to block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -525,10 +535,16 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       var pixel = "px";
       var insets = this.getInsets();
 
-      this.__blockerElement.setStyle("left", insets.left + pixel);
-      this.__blockerElement.setStyle("top", insets.top + pixel);
-      this.__blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
-      this.__blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
+      if (!this.__blockerElement) {
+        this._initBlockerElement();
+      }
+
+      this.__blockerElement.setStyles({
+        left   : insets.left + pixel,
+        top    : insets.top + pixel,
+        width  : (width - insets.left - insets.right) + pixel,
+        height : (height - insets.top - insets.bottom) + pixel
+      });
     },
 
 
@@ -1211,7 +1227,16 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * use {@link #release}.
      *
      */
-    block : function() {
+    block : function()
+    {
+      if (!this.__blockerElement) {
+        this._initBlockerElement();
+      }
+
+      if (!this.getContainerElement().hasChild(this.__blockerElement)) {
+        this.getContainerElement().add(this.__blockerElement);
+      }
+
       this.__blockerElement.setStyle("display", "block");
     },
 
@@ -1220,8 +1245,11 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * Release the blocker set by {@link #block}.
      *
      */
-    release : function() {
-      this.__blockerElement.setStyle("display", "none");
+    release : function()
+    {
+      if (this.__blockerElement) {
+        this.__blockerElement.setStyle("display", "none");
+      }
     }
 
 
@@ -1241,11 +1269,12 @@ qx.Class.define("qx.ui.embed.HtmlArea",
    */
   destruct : function()
   {
-    this._disposeObjects("__blockerElement", "__editorComponent");
     this.__postPonedProperties = this.__initValues = null;
 
     qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
+
+    this._disposeObjects("__blockerElement", "__editorComponent");
   }
 });
