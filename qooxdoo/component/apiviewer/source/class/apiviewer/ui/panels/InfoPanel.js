@@ -232,18 +232,35 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // NOTE: The onclick-handler must be added by HTML code. If it
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
+          var protocol, host, pathname;
 
-          var linkHtml = new qx.util.StringBuilder(
+          // Opera 10.5 loses the reference to "window"
+          // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3516 for details 
+          if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION > 9)
+          {
+            protocol = location.protocol;
+            host = location.host;
+            pathname = location.pathname;
+          }
+          else
+          {
+            protocol = window.location.protocol;
+            host = window.location.host;
+            pathname = window.location.pathname;
+          }
+
+          var linkHtml = [
             '<span style="white-space: nowrap;">',
             (typeof iconCode != "undefined" ? iconCode : ""),
-            '<a style="' + style + '" href="' + window.location.protocol, '//',
-            window.location.host,
-            window.location.pathname, '#', fullItemName,
+            '<a style="' + style + '" href="' + protocol, '//',
+            host,
+            pathname, '#', fullItemName,
             '" onclick="', 'apiviewer.ui.ClassViewer.instance._onSelectItem(\'',
             fullItemName, '\'); return false;"', ' title="',
             fullItemName, '">', label, '</a></span>'
-          )
-          return linkHtml.get();
+          ];
+          
+          return linkHtml.join("");
         }
       }
     },
