@@ -15,7 +15,7 @@ shell = ShellCmd()
 class Repository:
   def __init__(self, repoDir, config=None):
     self.dir = os.path.abspath(repoDir)
-    self.filter = config
+    self.validator = LibraryValidator(config)
     
     manifests = self.scanRepository()
     self.libraries = self.getLibraries(manifests)
@@ -64,7 +64,7 @@ class Repository:
       except KeyError:
         libraryType = None
         
-      if not self.isSelected(libraryName, libraryVersion, libraryType, libraryQxVersions):        
+      if not self.validator.isValid(libraryType, libraryName, libraryVersion, libraryQxVersions):
         continue
       
       if libraryName not in libraries:
@@ -80,49 +80,6 @@ class Repository:
       else:
         console.warn("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
     return libraries
-    
-  
-  def isSelectedLibrary(self, libraryName):
-    if not "libraries" in self.filter:
-      return True
-    wantedLibraries = self.filter["libraries"]
-    if "*" in wantedLibraries or libraryName in wantedLibraries:
-      return True
-    else:
-      return False
-  
-  
-  def isSelectedVersion(self, libraryName, libraryVersion):    
-    if not "libraries" in self.filter:
-      return True
-    if "*" in self.filter["libraries"]:
-      libraryFilter = self.filter["libraries"]["*"]
-    else:
-      libraryFilter = self.filter["libraries"][libraryName]
-    
-    if not "versions" in libraryFilter:
-      return True
-    
-    wantedVersions = libraryFilter["versions"]
-    
-    if "*" in wantedVersions:
-      return True
-    
-    if libraryVersion in wantedVersions:
-      return True
-    else:
-      return False
-  
-    
-  def isSelected(self, libraryName, libraryVersion, libraryType, libraryQxVersion):
-    if not self.filter:
-      return True
-    if not self.isSelectedLibrary(libraryName):
-      return False
-    if not self.isSelectedVersion(libraryName, libraryVersion):
-      return False
-    else:
-      return True
 
 
   def buildAllDemos(self, demoVersion="build", demoBrowser=None):
@@ -336,7 +293,7 @@ class LibraryVersion:
       console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
       return
     
-    console.info("Building %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
+    console.info("Generating %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
     subPath = os.path.join("demo", demoVariant)
     rcode, output, errout = self.runGenerator(demoVersion, subPath)
     
@@ -392,6 +349,53 @@ def getComputedConf():
   (options, args) = parser.parse_args()
 
   return (options, args)
+
+
+class LibraryValidator():
+  def __init__(self, config={}):
+    self.config = self.setDefaults(config)
+    
+  def setDefaults(self, config):
+    if not "types" in config:
+      config["types"] = ["*"]
+    if not "libraries" in config:
+      config["libraries"] = { 
+        "*" : {} 
+      }
+    for libName, lib in config["libraries"].iteritems():
+      if not "versions" in lib:
+        lib["versions"] = ["*"]
+      if not "qooxdoo-versions" in lib:
+        lib["qooxdoo-versions"] = ["*"]
+    return config    
+  
+  def isValidKey(self, key, map):
+    if "*" in map or key in map:
+      return True
+    else:
+      return False
+  
+  def isValidType(self, type):
+    return self.isValidKey(type, self.config["types"])
+  
+  def isValidLibrary(self, libName):
+    return self.isValidKey(libName, self.config["libraries"])
+  
+  def isValidVersion(self, libName, version):
+    if not libName in self.config["libraries"]:
+      libName = "*"
+    return self.isValidKey(version, self.config["libraries"][libName]["versions"])
+  
+  def isValidQxVersion(self, libName, qxVersions):
+    if not libName in self.config["libraries"]:
+      libName = "*"
+    for qxVer in qxVersions:
+      if self.isValidKey(qxVer, self.config["libraries"][libName]["qooxdoo-versions"]):
+        return True
+    return False
+  
+  def isValid(self, type, libName, version, qxVersions):
+    return self.isValidType(type) and self.isValidLibrary(libName) and self.isValidVersion(libName, version) and self.isValidQxVersion(libName, qxVersions)
 
 
 def main():
