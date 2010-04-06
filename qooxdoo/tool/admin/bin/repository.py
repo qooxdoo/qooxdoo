@@ -1,9 +1,7 @@
 #! /usr/bin/env python
 
-import os, sys, re, optparse
+import os, sys, re, optparse, codecs, demjson
 import qxenviron
-import demjson
-import codecs
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
 
@@ -22,8 +20,8 @@ class Repository:
     
     
   def scanRepository(self):
-    console.indent()
     console.info("Scanning %s" %self.dir)
+    console.indent()
     demoDir = "%sdemo%s" %(os.sep,os.sep)
     manifestPaths = []
     for root, dirs, files in os.walk(self.dir, topdown=True):
@@ -44,7 +42,9 @@ class Repository:
   
   
   def getLibraries(self, manifests):
+    console.info("Checking manifests to find valid libraries...")
     libraries = {}
+    console.indent()
     for manifestPath in manifests:
       try:
         manifest = getDataFromJsonFile(manifestPath)
@@ -64,7 +64,7 @@ class Repository:
       except KeyError:
         libraryType = None
         
-      if not self.validator.isValid(libraryType, libraryName, libraryVersion, libraryQxVersions):
+      if not self.validator.isValid(libraryName, libraryType, libraryVersion, libraryQxVersions):
         continue
       
       if libraryName not in libraries:
@@ -79,11 +79,15 @@ class Repository:
         libraries[libraryName][libraryVersion] = libVer
       else:
         console.warn("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
+    
+    console.outdent()
     return libraries
 
 
   def buildAllDemos(self, demoVersion="build", demoBrowser=None):
+    console.info("Generating demos for all known libraries")
     demoData = []
+    console.indent()
     
     for libraryName in self.libraries:
       library = self.libraries[libraryName]
@@ -126,7 +130,8 @@ class Repository:
       rFile = codecs.open(outPath, 'w', 'utf-8')
       rFile.write(jsonData)
       rFile.close() 
-                
+    
+    console.outdent()            
   
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
   # modifying the demo_template.html file in the demobrowser's resource dir.
@@ -356,13 +361,16 @@ class LibraryValidator():
     self.config = self.setDefaults(config)
     
   def setDefaults(self, config):
-    if not "types" in config:
-      config["types"] = ["*"]
+    if not config:
+      config = {}
+    
     if not "libraries" in config:
       config["libraries"] = { 
         "*" : {} 
       }
     for libName, lib in config["libraries"].iteritems():
+      if not "types" in lib:
+        lib["types"] = ["*"]
       if not "versions" in lib:
         lib["versions"] = ["*"]
       if not "qooxdoo-versions" in lib:
@@ -375,11 +383,13 @@ class LibraryValidator():
     else:
       return False
   
-  def isValidType(self, type):
-    return self.isValidKey(type, self.config["types"])
-  
   def isValidLibrary(self, libName):
     return self.isValidKey(libName, self.config["libraries"])
+  
+  def isValidType(self, libName, type):
+    if not libName in self.config["libraries"]:
+      libName = "*"
+    return self.isValidKey(type, self.config["libraries"][libName]["types"])
   
   def isValidVersion(self, libName, version):
     if not libName in self.config["libraries"]:
@@ -394,8 +404,8 @@ class LibraryValidator():
         return True
     return False
   
-  def isValid(self, type, libName, version, qxVersions):
-    return self.isValidType(type) and self.isValidLibrary(libName) and self.isValidVersion(libName, version) and self.isValidQxVersion(libName, qxVersions)
+  def isValid(self, libName, type, version, qxVersions):
+    return self.isValidLibrary(libName) and self.isValidType(libName, type) and self.isValidVersion(libName, version) and self.isValidQxVersion(libName, qxVersions)
 
 
 def main():
