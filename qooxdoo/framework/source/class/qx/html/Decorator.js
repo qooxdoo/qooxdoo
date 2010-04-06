@@ -43,7 +43,7 @@ qx.Class.define("qx.html.Decorator",
       styles.pointerEvents = "none"
     }
 
-    this.base(arguments, styles);
+    this.base(arguments, null, styles);
     
     this.__decorator = decorator;
     this.__id = decoratorId || decorator.toHashCode();
