@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
 
     /**
-     * @return {void}
+     * Initializes the blocker element if (yet) not available
      */
     _initBlockerElement : function ()
     {
