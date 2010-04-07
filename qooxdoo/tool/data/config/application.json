@@ -175,7 +175,7 @@
     {
       "desc"    : "create a test runner app for unit tests (source version) of the current library",
 
-      "extend" : ["libraries", "testrunner::build-with-tests-source"],
+      "extend" : ["testrunner::build-with-tests-source"],
 
       "let" :
       {
