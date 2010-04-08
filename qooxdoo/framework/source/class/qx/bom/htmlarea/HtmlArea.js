@@ -1277,7 +1277,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // Open a new document and insert needed elements plus the initial content
       this.__renderContent();
 
-      this.__addListeners();
+      if (!qx.core.Variant.isSet("qx.client", "opera")) {
+        this.__addListeners();
+      }
 
       // Setting the document editable for all other browser engines
       // AFTER the content is set
@@ -1293,6 +1295,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       cm.setContentDocument(this._getIframeDocument());
 
       this.__processStackedCommands();
+
+      // Add listeners to opera after the edit mode is activated,
+      // otherwise the listeners will be removed
+      if (qx.core.Variant.isSet("qx.client", "opera")) {
+        this.__addListeners();
+      }
 
       // dispatch the "ready" event at the end of the initialization
       this.fireEvent("ready");
@@ -1497,36 +1505,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     __addListeners : function()
     {
-      var Registration = qx.event.Registration;
-      var doc = this._getIframeDocument();
-      
-      // Adding the key event listener asynchronously is the only way to get it
-      // working in opera (see Bug #3483)
-      if (qx.core.Variant.isSet("qx.client", "opera")) {
-        qx.event.Timer.once(function() {
-          this.__addKeyListeners();
-        }, this, 0);
-      } else {
-        this.__addKeyListeners();
-      }
-
-      var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
-      Registration.addListener(focusBlurTarget, "focus", this._handleFocusEvent, this);
-      Registration.addListener(focusBlurTarget, "blur", this._handleBlurEvent, this);
-
-      Registration.addListener(doc, "focusout",  this._handleFocusOutEvent, this);
-
-      // The mouse events are primarily needed to examine the current cursor context.
-      // The cursor context examines if the current text node is formatted in any 
-      // manner like bold or italic. An event is thrown to e.g. activate/deactivate 
-      // toolbar buttons.
-      // Additionally the mouseup at document level is necessary for gecko and 
-      // webkit to reset the focus (see Bug #2896).
-      var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
-      Registration.addListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
-      Registration.addListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
-
-      Registration.addListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
+      this.__addKeyListeners();
+      this.__addMouseListeners();
+      this.__addFocusListeners();
     },
     
     
@@ -1537,10 +1518,48 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       var Registration = qx.event.Registration;
       var doc = this._getIframeDocument();
-      
+
       Registration.addListener(doc.body, "keypress", this._handleKeyPress, this);
       Registration.addListener(doc.body, "keyup", this._handleKeyUp,    this);
       Registration.addListener(doc.body, "keydown", this._handleKeyDown,  this);
+    },
+
+
+    /**
+     * Add focus event listeners.
+     */
+    __addFocusListeners : function()
+    {
+      var Registration = qx.event.Registration;
+      var doc = this._getIframeDocument();
+      
+      var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
+      Registration.addListener(focusBlurTarget, "focus", this._handleFocusEvent, this);
+      Registration.addListener(focusBlurTarget, "blur", this._handleBlurEvent, this);
+      
+      Registration.addListener(doc, "focusout",  this._handleFocusOutEvent, this);
+    },
+
+
+    /**
+     * Add mouse event listeners.
+     */
+    __addMouseListeners : function()
+    {
+      // The mouse events are primarily needed to examine the current cursor context.
+      // The cursor context examines if the current text node is formatted in any 
+      // manner like bold or italic. An event is thrown to e.g. activate/deactivate 
+      // toolbar buttons.
+      // Additionally the mouseup at document level is necessary for gecko and 
+      // webkit to reset the focus (see Bug #2896).
+      var Registration = qx.event.Registration;
+      var doc = this._getIframeDocument();
+
+      var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
+      Registration.addListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
+      Registration.addListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
+
+      Registration.addListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
     },
 
 
@@ -3363,7 +3382,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
       var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
       Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
-      Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnDocument, this);
+      Registration.removeListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
       Registration.removeListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
     } catch (ex) {};
 
