@@ -40,7 +40,7 @@ class SimulationLogParser:
     
     self.log = open(logFile, "r")
     
-    self.ignore = None
+    self.ignore = []
     if ignoreStrings:
       for string in ignoreStrings:
         try:
@@ -165,7 +165,7 @@ class SimulationLogParser:
     logentryList = []  
     for entry in logEntries:
       ignore = False
-      if self.ignore:
+      if len(self.ignore) > 0:
         for reg in self.ignore:
           found = reg.search(entry)
           if found:
