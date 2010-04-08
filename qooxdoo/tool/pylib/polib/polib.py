@@ -220,11 +220,11 @@ def escape(st):
     >>> escape('\\t and \\n and \\r and " and \\\\')
     '\\\\t and \\\\n and \\\\r and \\\\" and \\\\\\\\'
     """
-    return st.replace('\\', r'\\')\
-             .replace('\t', r'\t')\
+    return st.replace('\t', r'\t')\
              .replace('\r', r'\r')\
              .replace('\n', r'\n')\
-             .replace('\"', r'\"')
+             #.replace('\\', r'\\')\
+             #.replace('\"', r'\"')
 
 # }}}
 # function unescape() {{{
@@ -252,7 +252,7 @@ def unescape(st):
             st = st.replace(a, b)
         else:
             st = st.replace(b, c)
-    return st.replace(r'\"', '"').replace(r'\\', '\\')
+    return st #.replace(r'\"', '"').replace(r'\\', '\\')
 
 # }}}
 # class _BaseFile {{{
