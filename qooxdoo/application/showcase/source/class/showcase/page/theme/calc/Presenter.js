@@ -120,7 +120,7 @@ qx.Class.define("showcase.page.theme.calc.Presenter",
           break;
       }
       
-      this.getView().setDisplay(displayValue || "");
+      this.getView().setDisplay(displayValue || "");
     }
   } 
 });
