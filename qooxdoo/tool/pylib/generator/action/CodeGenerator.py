@@ -111,7 +111,6 @@ class CodeGenerator(object):
                 globalCodes["Translations"] = {}
                 globalCodes["Locales"]      = {}
             else:
-                globalCodes["I18N"]         = {}  # make a fake entry
                 if compileType == "build":
                     # also remove them here, as this info is now with the packages
                     globalCodes["Translations"] = {}
@@ -848,10 +847,6 @@ class CodeGenerator(object):
         packages         = script.packagesSortedSimple()
         loader_with_boot = self._job.get("packages/loader-with-boot", True)
 
-        # fix uris in globalCodes['I18N']['uris']
-        if 'uris' in globalCodes['I18N']:
-            for code in globalCodes['I18N']['uris']:
-                globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build", "__out__")[0][0]
         # stringify data in globalCodes
         for entry in globalCodes:
             globalCodes[entry] = json.dumpsCode(globalCodes[entry])
@@ -975,11 +970,6 @@ class CodeGenerator(object):
     # add URI information for the created files to globalCodes
     def writeI18NFiles(self, globalCodes, script):
 
-        if 'I18N' not in globalCodes.keys():
-            globalCodes['I18N'] = {}
-        if 'uris' not in globalCodes['I18N']:
-            globalCodes['I18N']['uris'] = {}
-
         # for each locale code, collect mappings
         transKeys  = globalCodes['Translations'].keys()
         localeKeys = globalCodes['Locales'].keys()
@@ -1004,21 +994,14 @@ class CodeGenerator(object):
                 package.data.locales[localeCode] = globalCodes['Locales'][localeCode]
 
             # write to file
-            dataS = json.dumpsCode(data)
-            dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
-            fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            self.writePackage(dataS, fPath, script)
+            #dataS = json.dumpsCode(data)
             hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             package.compiled = dataS
-            fPath1 = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode+"I")
-            #if fPath1.endswith("source-deI.js"): import pydb; pydb.debugger()
-            self.writePackage(dataS, fPath1, script)
-            package.file = os.path.basename(fPath1) # TODO: the use of os.path.basename is a hack
+            fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
+            self.writePackage(dataS, fPath, script)
+            package.file = os.path.basename(fPath) # TODO: the use of os.path.basename is a hack
             package.hash = hash
-            # add uri info to globalCodes
-            #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
-            globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
 
         # Finalize the new packages and parts
         # - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
