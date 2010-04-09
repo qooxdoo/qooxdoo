@@ -1758,7 +1758,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // keyup event. The keypress delivers the "Ctrl" key and the keyup the
       // "Enter" key. If the latter occurs right after the first one the
       // linebreak gets inserted.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
       {
         if (this.__controlPressed)
         {
@@ -1767,12 +1767,22 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             case "enter":
               if (this.getInsertLinebreakOnCtrlEnter())
               {
-                var rng = this.__createRange(this.getSelection());
-
-                if (rng)
+                if (qx.core.Variant.isSet("qx.client", "webkit"))
                 {
-                  rng.collapse(true);
-                  rng.pasteHTML('<br/><div class="placeholder"></div>');
+                  this.__insertWebkitLineBreak();
+  
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
+                else 
+                {
+                  var rng = this.__createRange(this.getSelection());
+                  
+                  if (rng)
+                  {
+                    rng.collapse(true);
+                    rng.pasteHTML('<br/><div class="placeholder"></div>');
+                  }
                 }
 
                 this.__startExamineCursorContext();
@@ -1805,23 +1815,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           case "backspace":
             this.__isFirstLineSelected = (this.getFocusNode() == this.getContentBody().firstChild);
           break;
-        }
-      }
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
-      {
-        if (isCtrlPressed)
-        {
-          if (this.getInsertLinebreakOnCtrlEnter() && keyIdentifier == "enter")
-          {
-            this.__insertWebkitLineBreak();
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            this.__startExamineCursorContext();
-          }
-
-          this.__controlPressed = false;
         }
       }
     },
@@ -2296,6 +2289,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     _handleFocusOutEvent : function(e)
     {
+      this.__controlPressed = false;
+
       if (this.__storedSelectedHtml == null) {
         this.__storedSelectedHtml = this.getSelectedHtml();
       }
