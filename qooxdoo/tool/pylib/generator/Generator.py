@@ -1506,13 +1506,22 @@ class Generator(object):
 
         self._console.info("Fixing files: ", False)
         numClasses = len(classes)
+        eolStyle = fixsettings.get("eol-style", "LF")
         for pos, classId in enumerate(classes):
             self._console.progress(pos, numClasses)
             classEntry   = self._classes[classId]
             filePath     = classEntry['path']
             fileEncoding = classEntry['encoding']
             fileContent  = filetool.read(filePath, fileEncoding)
-            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(textutil.any2Unix(fileContent), 2)))
+            # Caveat: as filetool.read already calls any2Unix, converting to LF will
+            # not work as the file content appears unchanged to this function
+            if eolStyle == "CR":
+                fixedContent = textutil.any2Mac(fileContent)
+            elif eolStyle == "CRLF":
+                fixedContent = textutil.any2Dos(fileContent)
+            else:
+                fixedContent = textutil.any2Unix(fileContent)
+            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(fixedContent, 2)))
             if fixedContent != fileContent:
                 self._console.debug("modifying file: %s" % filePath)
                 filetool.save(filePath, fixedContent, fileEncoding)
