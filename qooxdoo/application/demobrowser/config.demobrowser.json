@@ -47,6 +47,11 @@
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },
+      
+      "variants" :
+      {
+        "qx.contrib" : ["off"]
+      },
 
       // the next is in since resource copying is done here for the demos as well
       "asset-let" :

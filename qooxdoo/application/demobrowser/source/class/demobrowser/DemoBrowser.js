@@ -403,24 +403,26 @@ qx.Class.define("demobrowser.DemoBrowser",
       var menuPart = new qx.ui.toolbar.Part;
       bar.add(menuPart);
 
-      var themeMenu = new qx.ui.menu.Menu;
-
-      var t1 = new qx.ui.menu.RadioButton("Modern Theme");
-      var t2 = new qx.ui.menu.RadioButton("Classic Theme");
-
-      t1.setUserData("value", "qx.theme.Modern");
-      t1.setValue(true);
-      t2.setUserData("value", "qx.theme.Classic");
-
-      var group = new qx.ui.form.RadioGroup(t1, t2);
-      group.addListener("changeSelection", this.__onChangeTheme, this);
-
-      themeMenu.add(t1);
-      themeMenu.add(t2);
-
-      var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
-      themeButton.setToolTipText("Choose theme");
-      menuPart.add(themeButton);
+      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        var themeMenu = new qx.ui.menu.Menu;
+  
+        var t1 = new qx.ui.menu.RadioButton("Modern Theme");
+        var t2 = new qx.ui.menu.RadioButton("Classic Theme");
+  
+        t1.setUserData("value", "qx.theme.Modern");
+        t1.setValue(true);
+        t2.setUserData("value", "qx.theme.Classic");
+  
+        var group = new qx.ui.form.RadioGroup(t1, t2);
+        group.addListener("changeSelection", this.__onChangeTheme, this);
+  
+        themeMenu.add(t1);
+        themeMenu.add(t2);
+      
+        var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
+        themeButton.setToolTipText("Choose theme");
+        menuPart.add(themeButton);
+      }
 
 
 
@@ -429,13 +431,15 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var menu = new qx.ui.menu.Menu;
 
-      var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
-      summaryBtn.setCommand(this._cmdObjectSummary);
-      menu.add(summaryBtn);
-
-      var namespaceBtn = new qx.ui.menu.Button(this.tr("Global Namespace Pollution"));
-      namespaceBtn.setCommand(this._cmdNamespacePollution);
-      menu.add(namespaceBtn);
+      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
+        summaryBtn.setCommand(this._cmdObjectSummary);
+        menu.add(summaryBtn);
+  
+        var namespaceBtn = new qx.ui.menu.Button(this.tr("Global Namespace Pollution"));
+        namespaceBtn.setCommand(this._cmdNamespacePollution);
+        menu.add(namespaceBtn);
+      }
 
       var disposeBtn = new qx.ui.menu.Button(this.tr("Dispose Demo"));
       disposeBtn.setCommand(this._cmdDisposeSample);
@@ -454,26 +458,33 @@ qx.Class.define("demobrowser.DemoBrowser",
       bar.addSpacer();
       bar.add(viewPart);
 
-      var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
-      htmlView.setToolTipText("Display HTML source");
-      var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
-      jsView.setToolTipText("Display JavaScript source");
+      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
+        htmlView.setToolTipText("Display HTML source");
+        var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
+        jsView.setToolTipText("Display JavaScript source");
+        
+        htmlView.setUserData("value", "html");
+        jsView.setUserData("value", "js");
+        
+        viewPart.add(htmlView);
+        viewPart.add(jsView);
+      }
+      
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
       logView.setToolTipText("Display log file");
-
-      htmlView.setUserData("value", "html");
-      jsView.setUserData("value", "js");
+      
       logView.setUserData("value", "log");
 
-      viewPart.add(htmlView);
-      viewPart.add(jsView);
       viewPart.add(logView);
 
       var viewGroup = this.viewGroup = new qx.ui.form.RadioGroup;
       viewGroup.setAllowEmptySelection(true);
-      viewGroup.add(htmlView, jsView, logView);
+      viewGroup.add(logView);
 
-
+      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        viewGroup.add(htmlView, jsView);
+      }
 
 
 
@@ -776,9 +787,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
       if (treeNode)
-      {
+      {        
         treeNode.getTree().setSelection([treeNode]);
-        url = 'demo/' + value + "?qx.theme=" + this.__currentTheme;
+        url = 'demo/' + value;
+        if (qx.core.Variant.isSet("qx.contrib", "off")) {
+          url += "?qx.theme=" + this.__currentTheme;
+        }
       }
       else
       {
@@ -991,47 +1005,49 @@ qx.Class.define("demobrowser.DemoBrowser",
         var content = evt.getContent();
         // if there is a content
         if (content) {
-          // extract the name of the js file
-          var secondSrcTagPosition = content.indexOf("<script", content.indexOf("<script")+7);
-          var srcAttributeStart = content.indexOf("src", secondSrcTagPosition);
-          var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
-          var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
-          var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
-
-
-          // construct url to demo script source
-          var u = "script/demobrowser.demo";
-          var parts = url.split('/');
-          var cat = parts[1];
-          var base = parts[2];
-          base = base.substr(0, base.indexOf('.html'))
-          u += "." + cat + "." + base + ".src.js";
-          jsSourceFileName = u;
-
-          // get the javascript code
-          var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
-          reqJSFile.setTimeout(180000);
-          reqJSFile.setProhibitCaching(false);
-          reqJSFile.addListener("completed", function(evt2) {
-            var jsCode = evt2.getContent();
-            
-            // store the current visible code
-            this.__setCurrentJSCode(jsCode);
-            
-            if (jsCode) {
-              // set the javascript code to the javascript page
-              this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
-            }
-          }, this);
-          // add a listener which handles the failure of the request
-          reqJSFile.addListener("failed", function(evt) {
-            this.error("Couldn't load file: " + url);
-          }, this);
-          // send the request for the javascript code
-          reqJSFile.send();
-
-          // write the html code to the html page
-          this.widgets["outputviews.sourcepage.html.page"].setHtml(this.__beautySource(content));
+          if (qx.core.Variant.isSet("qx.contrib", "off")) {
+            // extract the name of the js file
+            var secondSrcTagPosition = content.indexOf("<script", content.indexOf("<script")+7);
+            var srcAttributeStart = content.indexOf("src", secondSrcTagPosition);
+            var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
+            var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
+            var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
+  
+  
+            // construct url to demo script source
+            var u = "script/demobrowser.demo";
+            var parts = url.split('/');
+            var cat = parts[1];
+            var base = parts[2];
+            base = base.substr(0, base.indexOf('.html'))
+            u += "." + cat + "." + base + ".src.js";
+            jsSourceFileName = u;
+  
+            // get the javascript code
+            var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
+            reqJSFile.setTimeout(180000);
+            reqJSFile.setProhibitCaching(false);
+            reqJSFile.addListener("completed", function(evt2) {
+              var jsCode = evt2.getContent();
+              
+              // store the current visible code
+              this.__setCurrentJSCode(jsCode);
+              
+              if (jsCode) {
+                // set the javascript code to the javascript page
+                this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
+              }
+            }, this);
+            // add a listener which handles the failure of the request
+            reqJSFile.addListener("failed", function(evt) {
+              this.error("Couldn't load file: " + url);
+            }, this);
+            // send the request for the javascript code
+            reqJSFile.send();
+  
+            // write the html code to the html page
+            this.widgets["outputviews.sourcepage.html.page"].setHtml(this.__beautySource(content));
+          }
         }
       }, this);
       // add a listener which handles the failure of the request
