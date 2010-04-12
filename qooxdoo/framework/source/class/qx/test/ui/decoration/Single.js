@@ -21,6 +21,12 @@ qx.Class.define("qx.test.ui.decoration.Single",
 {
   extend : qx.dev.unit.TestCase,
 
+  statics :  
+  {
+    overflow : (qx.bom.client.Engine.MSHTML ? "overflow:hidden;" : "") 
+  },
+
+
 
   members:
   {
@@ -33,7 +39,7 @@ qx.Class.define("qx.test.ui.decoration.Single",
       decorator.setColorTop(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="border-top:2px solid ;position:absolute;top:0;left:0;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="border-top:2px solid ;position:absolute;top:0;left:0;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
 
@@ -44,7 +50,7 @@ qx.Class.define("qx.test.ui.decoration.Single",
       decorator.setColorRight(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="border-right:2px solid ;position:absolute;top:0;left:0;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="border-right:2px solid ;position:absolute;top:0;left:0;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
 
@@ -55,7 +61,7 @@ qx.Class.define("qx.test.ui.decoration.Single",
       decorator.setColorBottom(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="border-bottom:2px solid ;position:absolute;top:0;left:0;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="border-bottom:2px solid ;position:absolute;top:0;left:0;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
 
@@ -66,7 +72,7 @@ qx.Class.define("qx.test.ui.decoration.Single",
       decorator.setColorLeft(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="border-left:2px solid ;position:absolute;top:0;left:0;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="border-left:2px solid ;position:absolute;top:0;left:0;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     }
 
 

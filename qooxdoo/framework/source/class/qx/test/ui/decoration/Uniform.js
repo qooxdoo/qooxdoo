@@ -21,6 +21,10 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
 {
   extend : qx.dev.unit.TestCase,
 
+  statics :  
+  {
+    overflow : (qx.bom.client.Engine.MSHTML ? "overflow:hidden;" : "") 
+  },
 
   members:
   {
@@ -33,7 +37,7 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       decorator.setColor(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
     testBackgroundColor : function()
@@ -43,7 +47,7 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       decorator.setBackgroundColor(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;"></div>', markup);
+      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     }
 
 
