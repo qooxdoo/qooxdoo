@@ -402,7 +402,8 @@ class Locale(object):
                     }
 
                     if source.has_key("plural"):
-                        target["plural"] = self.parseAsUnicodeString(source["plural"])
+                        #target["plural"] = self.parseAsUnicodeString(source["plural"])
+                        target["plural"] = source["plural"]
 
                     if source.has_key("hint"):
                         target["hint"] = source["hint"]
