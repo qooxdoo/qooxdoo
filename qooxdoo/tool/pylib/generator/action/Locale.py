@@ -118,7 +118,8 @@ class Locale(object):
 
         for msgid in strings:
             # create poentry
-            obj = polib.POEntry(msgid=msgid)
+            #obj = polib.POEntry(msgid=msgid)
+            obj = polib.POEntry(msgid=polib.unescape(msgid))
             pot.append(obj)
 
             # convert to polib style
@@ -132,7 +133,8 @@ class Locale(object):
                 obj.comment = strings[msgid]["hint"]
             
             if "plural" in strings[msgid]:
-                obj.msgid_plural = strings[msgid]["plural"]
+                #obj.msgid_plural = strings[msgid]["plural"]
+                obj.msgid_plural = polib.unescape(strings[msgid]["plural"])
                 obj.msgstr_plural[u'0'] = ""
                 obj.msgstr_plural[u'1'] = ""
 
