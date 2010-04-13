@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.decoration.Single",
 
   statics :  
   {
-    overflow : (qx.bom.client.Engine.MSHTML ? "overflow:hidden;" : "") 
+    overflow : (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION == 6 ? "overflow:hidden;" : "") 
   },
 
 
