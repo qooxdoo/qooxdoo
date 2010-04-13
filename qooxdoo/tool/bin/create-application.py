@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob
 from string import Template
 
 import qxenviron
@@ -106,6 +106,13 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
         resource_dir = os.path.join(root_dir, "source", "resource", "custom")
         out_dir      = os.path.join(root_dir, "source", "resource")
         expand_dir(resource_dir, out_dir, namespace)
+
+        # rename in script path
+        script_dir   = os.path.join(root_dir, "source", "script")
+        script_files = glob.glob(os.path.join(script_dir, "custom.*js")) 
+        if script_files:
+            for script_file in script_files:
+                os.rename(script_file, script_file.replace("custom", namespace))
 
     template = os.path.join(skeleton_path, app_type)
     if not os.path.isdir(template):
