@@ -147,8 +147,8 @@ qx.Class.define("qx.bom.element.Dimension",
       var Style = qx.bom.element.Style;
 
       var overflowX = qx.bom.element.Overflow.getX(element);
-      var paddingLeft = parseInt(Style.get(element, "paddingLeft"), 10);
-      var paddingRight = parseInt(Style.get(element, "paddingRight"), 10);
+      var paddingLeft = parseInt(Style.get(element, "paddingLeft")||"0px", 10);
+      var paddingRight = parseInt(Style.get(element, "paddingRight")||"0px", 10);
 
       if (this.__hiddenScrollbars[overflowX])
       {
@@ -198,8 +198,8 @@ qx.Class.define("qx.bom.element.Dimension",
       var Style = qx.bom.element.Style;
 
       var overflowY = qx.bom.element.Overflow.getY(element);
-      var paddingTop = parseInt(Style.get(element, "paddingTop"), 10);
-      var paddingBottom = parseInt(Style.get(element, "paddingBottom"), 10);
+      var paddingTop = parseInt(Style.get(element, "paddingTop")||"0px", 10);
+      var paddingBottom = parseInt(Style.get(element, "paddingBottom")||"0px", 10);
 
       if (this.__hiddenScrollbars[overflowY])
       {
