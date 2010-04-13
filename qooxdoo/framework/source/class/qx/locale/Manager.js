@@ -310,15 +310,59 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a message using the current locale and apply format string to the arguments.
      *
+     * Implements the lookup chain locale (e.g. en_US) -> language (e.g. en) ->
+     * default locale (e.g. C). Localizes the arguments if possible and splices
+     * them into the message. If qx.dynlocale is on, returns a {@link
+     * LocalizedString}.
+     *
      * @param messageId {String} message id (may contain format strings)
-     * @param args {Object[]} array of objects, which are inserted into the format string.
-     * @param locale {String} optional locale to be used for translation
-     * @return {String} translated message.
+     * @param args {Object[]} array of objects, which are inserted into the format string
+     * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
+     * @return {String | LocalizedString} translated message or localized string
      */
     translate : function(messageId, args, locale)
     {
-      var txt;
       var catalog = this.__translations;
+      return this.__lookupAndExpand(catalog, messageId, args, locale);
+    },
+
+    /**
+     * Provide localisation (CLDR) data.
+     *
+     * Implements the lookup chain locale (e.g. en_US) -> language (e.g. en) ->
+     * default locale (e.g. C). Localizes the arguments if possible and splices
+     * them into the message. If qx.dynlocale is on, returns a {@link
+     * LocalizedString}.
+     *
+     * @param messageId {String} message id (may contain format strings)
+     * @param args {Object[]} array of objects, which are inserted into the format string
+     * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
+     * @return {String | LocalizedString} translated message or localized string
+     */
+    localize : function(messageId, args, locale)
+    {
+      var catalog = this.__locales;
+      return this.__lookupAndExpand(catalog, messageId, args, locale);
+    },
+
+
+    /**
+     * Look up an I18N key in a catalog and expand format strings.
+     *
+     * Implements the lookup chain locale (e.g. en_US) -> language (e.g. en) ->
+     * default locale (e.g. C). Localizes the arguments if possible and splices
+     * them into the message. If qx.dynlocale is on, returns a {@link
+     * LocalizedString}.
+     *
+     * @param catalog {Map} map of I18N keys and their values
+     * @param messageId {String} message id (may contain format strings)
+     * @param args {Object[]} array of objects, which are inserted into the format string
+     * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
+     * @return {String | LocalizedString} translated message or localized string
+     */
+    __lookupAndExpand : function(catalog, messageId, args, locale)
+    {
+      var txt;
 
       if (!catalog) {
         return messageId;
@@ -334,7 +378,7 @@ qx.Class.define("qx.locale.Manager",
       }
 
       // e.g. DE_at
-      if (catalog[locale]) {
+      if (!txt && catalog[locale]) {
         txt = catalog[locale][messageId];
       }
 
@@ -359,71 +403,6 @@ qx.Class.define("qx.locale.Manager",
         {
           var arg = args[i];
           if (arg && arg.translate) {
-            translatedArgs[i] = arg.translate();
-          } else {
-            translatedArgs[i] = arg;
-          }
-        }
-        txt = qx.lang.String.format(txt, translatedArgs);
-      }
-
-      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
-        txt = new qx.locale.LocalizedString(txt, messageId, args);
-      }
-
-      return txt;
-    },
-
-
-    /**
-     * Provide localisation (CLDR) data
-     *
-     * @param messageId {String} message id (may contain format strings)
-     * @param args {Object[]} array of objects, which are inserted into the format string.
-     * @param locale {String} optional locale to be used for translation
-     * @return {String} translated message.
-     */
-    localize : function(messageId, args, locale)
-    {
-      var txt;
-      var catalog = this.__locales;
-
-      if (!catalog) {
-        return messageId;
-      }
-
-      if (locale) {
-        var language = this.__extractLanguage(locale);
-      }
-      else
-      {
-        locale = this.__locale;
-        language = this.__language;
-      }
-
-      if (!txt && catalog[locale]) {
-        txt = catalog[locale][messageId];
-      }
-
-      if (!txt && catalog[language]) {
-        txt = catalog[language][messageId];
-      }
-
-      if (!txt && catalog[this.__defaultLocale]) {
-        txt = catalog[this.__defaultLocale][messageId];
-      }
-
-      if (!txt) {
-        txt = messageId;
-      }
-
-      if (args.length > 0)
-      {
-        var translatedArgs = [];
-        for ( var i = 0; i < args.length; i++)
-        {
-          var arg = args[i];
-          if (arg.translate) {
             translatedArgs[i] = arg.translate();
           } else {
             translatedArgs[i] = arg;
