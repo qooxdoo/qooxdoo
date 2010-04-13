@@ -30,7 +30,7 @@ class Repository:
         #  dirs = []
         #  files = []
         if name == "Manifest.json" and root != self.dir:           
-          console.debug("Found manifest: " + os.path.join(root, name))
+          console.debug("Found manifest: " + repr(os.path.join(root, name)))
           manifestPath = os.path.join(root,name)
           if not demoDir in manifestPath:
             manifestPaths.append(manifestPath)
@@ -132,6 +132,17 @@ class Repository:
       rFile.close() 
     
     console.outdent()            
+  
+  def runGeneratorForAll(self, job, subPath=None, cwd=False):
+    console.indent()
+    for libraryName, library in self.libraries.iteritems():
+      for versionName, libraryVersion in library.iteritems():
+        console.info("Running job %s on %s %s..." %(job, libraryName, versionName))
+        ret, out, err = libraryVersion.runGenerator(job, subPath, cwd)
+        console.debug(out)
+        if ret > 0:
+          console.error(err)
+    console.outdent()    
   
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
   # modifying the demo_template.html file in the demobrowser's resource dir.
