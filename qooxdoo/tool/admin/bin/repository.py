@@ -73,7 +73,7 @@ class Repository:
       if libraryVersion not in libraries[libraryName]:
         console.info("Adding library %s version %s" %(libraryName,libraryVersion))
         # create LibraryVersion instance
-        versionPath = os.path.dirname(manifestPath)
+        versionPath = os.path.abspath(os.path.dirname(manifestPath))
         libVer = LibraryVersion(libraryVersion, libraryName, versionPath)
         libVer.manifest = manifest
         libraries[libraryName][libraryVersion] = libVer
@@ -85,6 +85,8 @@ class Repository:
 
 
   def buildAllDemos(self, demoVersion="build", demoBrowser=None):
+    if demoBrowser:
+      demoBrowser = os.path.abspath(demoBrowser)
     console.info("Generating demos for all known libraries")
     demoData = []
     console.indent()
@@ -164,12 +166,47 @@ class Repository:
     console.info("Copying HTML file for demo %s %s %s %s to the demobrowser" %(libraryName,versionName,variantName,demoVersion))
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
     
-    for line in sourceFile: 
-      demoUrl = "../../../../../%s/%s/demo/%s/%s/" %(libraryName,versionName,variantName,demoVersion)
+    demoPath = os.path.join( self.libraries[libraryName][versionName].path, "demo", variantName, demoVersion)
+    # the demo's HTML file lives under source|build/demo/libraryName
+    demoUrl = "../../../" + self.getDemoUrl(demoBrowser, demoPath)
+    
+    for line in sourceFile:
       targetFile.write(line.replace("$LIBRARY", demoUrl))
     
     targetFile.close()
     return targetFilePath
+  
+  
+  # attempts to calculate a relative link from the Demo Browser to the Demo.
+  def getDemoUrl(self, demoBrowser, demo):    
+    demoUrl = ""
+    
+    demoBrowserList = demoBrowser.split(os.sep)
+    try:
+      demoBrowserList.remove("")
+    except:
+      pass
+    
+    demoList = demo.split(os.sep)
+    try:
+      demoList.remove("")
+    except:
+      pass
+    
+    depth = 0
+    for i in range(0, len(demoBrowserList)):
+      if demoBrowserList[i] == demoList[i]:
+          depth = depth + 1
+      else:
+          break
+    
+    for j in range(0, len(demoBrowserList[depth:])):
+      demoUrl += "../"
+    uniquePart = "/".join(demoList[depth:])
+    demoUrl += uniquePart
+    
+    return demoUrl
+  
   
   def getDemoData(self, library, version, variant):
     demoDict = {
