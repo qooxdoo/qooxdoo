@@ -52,24 +52,32 @@ import re
 from ecmascript.frontend import tree, tokenizer, treegenerator
 
 
+##
+# Finds the next qx.*.define in the given tree
+
 def findQxDefine(rootNode):
-    if rootNode.type == "variable":
+    for node in nodeIterator(rootNode, ["variable"]):
+        if isQxDefine(node):
+            return node.parent.parent
+        
+    return None
+
+
+##
+# Checks if the given node is a qx.*.define function invocation
+
+def isQxDefine(node):
+    if node.type == "variable":
         try:
-            variableName = (assembleVariable(rootNode))[0]
+            variableName = (assembleVariable(node))[0]
         except tree.NodeAccessException:
-            return None
+            return False
 
         if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define", "qx.Theme.define"]:
-            if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
-                return rootNode.parent.parent
+            if node.hasParentContext("call/operand"):
+                return True
 
-    if rootNode.hasChildren():
-        for child in rootNode.children:
-            foundNode = findQxDefine(child)
-            if foundNode is not None:
-                return foundNode
-    else:
-        return None
+    return False
         
         
 ##
