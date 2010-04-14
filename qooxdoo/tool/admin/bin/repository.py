@@ -48,8 +48,8 @@ class Repository:
     for manifestPath in manifests:
       try:
         manifest = getDataFromJsonFile(manifestPath)
-      except RuntimeError, e:
-        console.error(repr(e))
+      except Exception, e:
+        console.error(e.message)
       
       if not "info" in manifest:
         console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
@@ -227,7 +227,7 @@ def getDataFromJsonFile(path):
   try:
     jsonFile = codecs.open(path, "r", "UTF-8")
   except:
-    raise RuntimeError, "File %s not found" %jsonFile
+    raise Exception("File %s not found" %jsonFile)
     
   data = jsonFile.read()
   jsonFile.close()
@@ -235,7 +235,7 @@ def getDataFromJsonFile(path):
   try:
     return demjson.decode(data, allow_comments=True)
   except Exception, e:
-    raise RuntimeError, "Couldn't parse JSON from file %s" %jsonFile    
+    raise Exception("Couldn't parse JSON from file %s" %jsonFile)    
 
 
 class LibraryVersion:  
@@ -251,13 +251,17 @@ class LibraryVersion:
     
   
   def checkStructure(self):        
+    self.hasDemoDir = False
+    self.demoVariants = []
     if os.path.isdir(os.path.join(self.path, "demo")):
       self.hasDemoDir = True
       self.demoVariants = self.getDemoVariants()
     
+    self.hasReadmeFile = False
     if os.path.isfile(os.path.join(self.path, "README")):
       self.hasReadmeFile = True
     
+    self.hasGenerator = False
     if os.path.isfile(os.path.join(self.path, "generate.py")):
       self.hasGenerator = True
   
@@ -280,7 +284,7 @@ class LibraryVersion:
   
   def getLintResult(self):    
     if not self.hasGenerator:
-      raise RuntimeError, "%s %s has no generate.py script!" %(self.libraryName, self.versionName)
+      raise Exception("%s %s has no generate.py script!" %(self.libraryName, self.versionName))
     
     from lintRunner import QxLint
     
@@ -307,7 +311,7 @@ class LibraryVersion:
     rcode, output, errout = shell.execute_piped(cmd)
     
     if rcode > 0:
-      raise RuntimeError, "Error while retrieving SVN version: " + errout
+      raise Exception("Error while retrieving SVN version: " + errout)
     
     svnRevision = output.rstrip('\n')
     return svnRevision
@@ -329,7 +333,7 @@ class LibraryVersion:
   
   def runGenerator(self, job, subPath=None, cwd=False):
     if not self.hasGenerator:
-      raise RuntimeError, "%s %s has no generate.py script!" %(self.libraryName, self.versionName)
+      raise Exception("%s %s has no generate.py script!" %(self.libraryName, self.versionName))
     path = self.path
     if subPath:
       path = os.path.join(path, subPath)
@@ -342,17 +346,25 @@ class LibraryVersion:
   
   
   def buildDemo(self, demoVariant = "default", demoVersion = "build"):
-    if not self.hasDemoDir:
-      console.error("Library %s version %s has no demo folder!" %(self.library.dir, self.dir))
-      return
-    
-    console.info("Generating %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
-    subPath = os.path.join("demo", demoVariant)
-    rcode, output, errout = self.runGenerator(demoVersion, subPath)
-    
     demoBuildStatus = {
       "svnRevision" : self.getSvnRevision()
     }
+    
+    if not self.hasDemoDir:
+      msg = "Library %s version %s has no demo folder!" %(self.library.dir, self.dir)
+      console.error(msg)
+      demoBuildStatus["buildError"] = msg 
+      return demoBuildStatus
+    
+    console.info("Generating %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
+    subPath = os.path.join("demo", demoVariant)
+    try:
+      rcode, output, errout = self.runGenerator(demoVersion, subPath)
+    except Exception, e:
+      msg = "Error running generator: " + e.message
+      console.error(e)
+      demoBuildStatus["buildError"] = msg 
+      return demoBuildStatus
     
     #some demos don't produce a qooxdoo application, so they're ignored
     #for the demobrowser
