@@ -24,18 +24,23 @@ class Repository:
     console.indent()
     demoDir = "%sdemo%s" %(os.sep,os.sep)
     manifestPaths = []
+    
     for root, dirs, files in os.walk(self.dir, topdown=True):
-      for name in files[:]:
-        #if "Bugs" in root:
-        #  dirs = []
-        #  files = []
-        if name == "Manifest.json" and root != self.dir:           
-          console.debug("Found manifest: " + repr(os.path.join(root, name)))
-          manifestPath = os.path.join(root,name)
-          if not demoDir in manifestPath:
-            manifestPaths.append(manifestPath)
-          dirs = []
-          files = []
+      for dir in dirs:
+        #if dir == "Bugs":
+        #  dirs.remove("Bugs")
+        #  continue
+        path = os.path.join(root,dir)
+        manifestPath = os.path.join(path, "Manifest.json")
+        
+        if demoDir in manifestPath:
+          dirs.remove(dir)
+          continue
+        
+        if os.path.isfile(manifestPath):
+          console.debug("Found manifest: " + repr(manifestPath) )
+          manifestPaths.append(manifestPath)
+
     console.info("Found %s manifests" %len(manifestPaths))
     console.outdent()
     return manifestPaths
