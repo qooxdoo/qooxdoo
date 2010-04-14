@@ -1376,7 +1376,9 @@ qx.Bootstrap.define("qx.Class",
       var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
       
       // copy all keys from the wrapped constructor to the wrapper
-      for (var key in clazz) {
+      for (var i=0, a=qx.Bootstrap.getKeys(clazz), l=a.length; i<l; i++)
+      {
+        key = a[i];
         if (clazz.hasOwnProperty(key)) {
           wrapper[key] = clazz[key];
         }
@@ -1384,7 +1386,9 @@ qx.Bootstrap.define("qx.Class",
       
       // fix self references in members
       var members = clazz.prototype;
-      for (var key in members) {
+      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
+      {
+        key = a[i];
         if (members.hasOwnProperty(key))
         {
           var method = members[key];
