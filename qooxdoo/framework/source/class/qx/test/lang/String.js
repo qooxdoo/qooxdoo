@@ -44,6 +44,7 @@ qx.Class.define("qx.test.lang.String",
 
     testRepeat: function()
     {
+      this.assertEquals("", qx.lang.String.repeat("", 10));
       this.assertEquals("", qx.lang.String.repeat("1", 0));
       this.assertEquals("1111", qx.lang.String.repeat("1", 4));
       this.assertEquals("123123123", qx.lang.String.repeat("123", 3));

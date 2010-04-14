@@ -180,7 +180,7 @@ qx.Class.define("qx.lang.String",
      * @return {String} repeated string
      */
     repeat : function(str, times) {
-      return str.length >= 0 ? new Array(times + 1).join(str) : "";
+      return str.length > 0 ? new Array(times + 1).join(str) : "";
     },
 
 
