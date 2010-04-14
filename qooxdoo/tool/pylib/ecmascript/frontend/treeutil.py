@@ -20,37 +20,12 @@
 ################################################################################
 
 ##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
+# This module contains a collection of helper functions to work with the
+# JavaScript syntax tree.
 ##
-
-"""
-This module contains a collection of helper functions to work with the
-JavaScript syntax tree.
-"""
 
 import re
 from ecmascript.frontend import tree, tokenizer, treegenerator
-
 
 ##
 # Finds the next qx.*.define in the given tree
@@ -62,6 +37,15 @@ def findQxDefine(rootNode):
         
     return None
 
+
+##
+# Finds all the qx.*.define in the given tree
+
+def findQxDefineR(rootNode):
+    for node in nodeIterator(rootNode, ["variable"]):
+        if isQxDefine(node):
+            yield node.parent.parent
+        
 
 ##
 # Checks if the given node is a qx.*.define function invocation
@@ -566,7 +550,7 @@ def getClassMap(classNode):
     # get top-level class map
     mapNode = selectNode(classNode, "params/map")
 
-    if mapNode.type != "map":
+    if not mapNode or mapNode.type != "map":
         raise tree.NodeAccessException("Expected a map node!", mapNode)
 
     if mapNode.hasChildren():

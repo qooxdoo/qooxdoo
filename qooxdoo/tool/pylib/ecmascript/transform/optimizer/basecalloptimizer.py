@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2008 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -21,44 +21,93 @@
 
 import re, sys
 
-from ecmascript.frontend import treeutil
+from ecmascript.frontend import tree, treeutil
 
 def patch(node):
+    patchCount    = 0
+    classDefNodes = list(treeutil.findQxDefineR(node))
+
+    for classDefNode in classDefNodes:
+        patchCount += optimize(classDefNode, classDefNodes,)
+
+    return patchCount
+
+
+def optimize(classDefine, classDefNodes):
+    patchCount    = 0
+
+    # get class map
+    try:
+        classMap = treeutil.getClassMap(classDefine)
+    except tree.NodeAccessException: # this might happen when the second param is not a map literal
+        return 0
+
+    if not "extend" in classMap:
+        return 0
+      
+    if classMap["extend"].type == "variable":
+        superClass = treeutil.assembleVariable(classMap["extend"])[0]
+    else:
+        return 0  # interfaces can have a list-valued "extend", but we currently don't optimize those
+
+    if "construct" in classMap:
+        patchCount = optimizeConstruct(classMap["construct"], superClass, "construct", classDefNodes)
+      
+    if not "members" in classMap:
+        return patchCount
+    
+    members = classMap["members"]
+    for methodName, methodNode in members.items():
+        patchCount += optimizeConstruct(methodNode, superClass, methodName, classDefNodes)
+
+    return patchCount
+
+
+def optimizeConstruct(node, superClass, methodName, classDefNodes):
     patchCount = 0
 
-    this_base_vars = treeutil.findVariable(node, "this.base")
-    for var in this_base_vars:
-        if var.parent.type == "operand" and var.parent.parent.type == "call":
-            call = var.parent.parent
-            try:
-                firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-            except tree.NodeAccessException:
-                continue
+    # Need to run through all the nodes, to skip embedded qx.*.define(),
+    # which will be treated separately
 
-            if firstArgName != "arguments":
-                continue
+    # Handle Node
 
-            newCall = treeutil.compileString("arguments.callee.base.call(this)")
-            newCall.replaceChild(newCall.getChild("params"), call.getChild("params"))
-            treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")
-            call.parent.replaceChild(call, newCall)
-            patchCount += 1
+    # skip embedded qx.*.define()
+    if node in classDefNodes:
+        return 0
 
-    this_self_vars = treeutil.findVariable(node, "this.self")
-    for var in this_self_vars:
-        if var.parent.type == "operand" and var.parent.parent.type == "call":
-            call = var.parent.parent
-            try:
-                firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
-            except tree.NodeAccessException:
-                continue
+    elif node.type == "variable" and node.hasParentContext("call/operand"):
 
-            if firstArgName != "arguments":
-                continue
+        varName, complete = treeutil.assembleVariable(node)
+        if not (complete and varName == "this.base"):
+            return 0
 
-            newCall = treeutil.compileString("arguments.callee.self")
-            call.parent.replaceChild(call, newCall)
-            patchCount += 1
+        call = node.parent.parent
+
+        try:
+            firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
+        except tree.NodeAccessException:
+            return 0
+
+        if firstArgName != "arguments":
+            return 0
+
+        # "construct"
+        if methodName == "construct":
+            newCall = treeutil.compileString("%s.call()" % superClass)
+        # "member"
+        else:
+            newCall = treeutil.compileString("%s.prototype.%s.call()" % (superClass, methodName))
+        newCall.replaceChild(newCall.getChild("params"), call.getChild("params")) # replace with old arglist
+        treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")   # arguments -> this
+        call.parent.replaceChild(call, newCall)
+        patchCount += 1
+
+    
+
+    # Handle Children
+    if node.hasChildren():
+        for child in node.children:
+            patchCount += optimizeConstruct(child, superClass, methodName, classDefNodes)
 
     return patchCount
 
@@ -80,5 +129,5 @@ if __name__ == "__main__":
     patch(node)
     
     print node.toJavascript()
-
-
+    
+    
