@@ -95,6 +95,22 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
+    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      var versionComposite = new qx.ui.container.Composite();
+      versionComposite.setLayout(new qx.ui.layout.HBox(3));
+      leftComposite.add(versionComposite);
+      var versionLabel = new qx.ui.basic.Label("Compatible with: ")
+      versionLabel.setPadding(4, 5, 0, 2);
+      versionComposite.add(versionLabel);      
+      
+      this.__versionSelect = new qx.ui.form.SelectBox();
+      versionComposite.add(this.__versionSelect,{flex: 1});
+            
+      var itemAll = new qx.ui.form.ListItem("Any qooxdoo version");
+      itemAll.setModel(null);
+      this.__versionSelect.add(itemAll);
+    }
+    
     // search    
     var searchComposlite = new qx.ui.container.Composite();
     searchComposlite.setLayout(new qx.ui.layout.HBox(3));
@@ -112,6 +128,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.filter(e.getData());
     }, this);    
     searchComposlite.add(this.__searchTextField, {flex: 1});
+    
+    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      this.__versionSelect.addListener("changeSelection", function(ev) {
+        this.__versionFilter = ev.getData()[0].getModel();
+        this.filter(this.__searchTextField.getValue() || "");
+      }, this);
+    }
     
     // create the status of the tree
     this.__status = new qx.ui.basic.Label("");
@@ -226,6 +249,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     __searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
+    
+    __versionFilter : null,
+    __versionTags : {},
     
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
@@ -695,7 +721,10 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
-            t.setUserData("tags", currNode.tags);            
+            t.setUserData("tags", currNode.tags);
+            if (qx.core.Variant.isSet("qx.contrib", "on")) {
+              that.__getVersionTags(currNode.tags);
+            }
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
@@ -717,6 +746,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tree.getRoot().setOpen(true)
       buildSubTree(this.tree.getRoot(), ttree);
 
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        this.__getVersionItems();
+      }
+      
       if (_initialNode != null) {
         this.tree.setSelection([_initialNode]);
       }
@@ -929,21 +962,29 @@ qx.Class.define("demobrowser.DemoBrowser",
         // check for the tags
         var tags = folder.getUserData("tags");
         var inTags = false;
+        var selectedVersion = false;
         if (tags != null) {
           for (var j = 0; j < tags.length; j++) {
             inTags = !!tags[j].match(searchRegExp);
-            if (inTags) {
-              break;
+            
+            if (qx.core.Variant.isSet("qx.contrib", "off")) {
+              if (inTags) {
+                selectedVersion = true;
+                break;
+              }
             }
-          };          
+            else if (!this.__versionFilter || tags[j] == this.__versionFilter) {
+              selectedVersion = true;
+            }
+          }
         }
 
         if (folder.getChildren().length == 0) {
           count++;
         }
 
-        if (inTags || !folder.getLabel().search(searchRegExp) ||
-            !parent.getLabel().search(searchRegExp))
+        if ( (inTags || !folder.getLabel().search(searchRegExp) ||
+            !parent.getLabel().search(searchRegExp) ) && selectedVersion)
         {
           if (folder.getChildren().length == 0) {
             showing++;
@@ -1343,7 +1384,55 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.add(version);
 
       return header;
-    }
+    },
+    
+    /**
+     * Add a demo's "qxVersion" tags to the list of version tags
+     * 
+     * @param tagList {Array} A tree node's tags
+     */
+    __getVersionTags : qx.core.Variant.select("qx.contrib",
+    {
+      "on" : function(tagList)
+      {
+        for (var i=0,l=tagList.length; i<l; i++) {
+          var tag = tagList[i];
+          if (tag.indexOf("qxVersion") == 0) {
+            if (!(tag in this.__versionTags)) {
+              this.__versionTags[tag] = "";
+            }
+          }
+        }        
+      },
+      
+      "off" : undefined
+    }),
+    
+    
+    /**
+     * Add an option for each version to the version select box
+     */
+    __getVersionItems : qx.core.Variant.select("qx.contrib",
+    {
+      "on" : function()
+      {
+        versions = [];
+        for (tag in this.__versionTags) {
+          versions.push(tag.substr(tag.indexOf("_") + 1) );
+        }
+        versions.sort();
+        versions.reverse();
+        
+        for (var i=0,l=versions.length; i<l; i++) {
+          var li = new qx.ui.form.ListItem(versions[i]);        
+          li.setModel("qxVersion_" + versions[i]);
+          this.__versionSelect.add(li);
+        }
+      },
+      
+      "off" : undefined
+    })
+    
   },
 
 
