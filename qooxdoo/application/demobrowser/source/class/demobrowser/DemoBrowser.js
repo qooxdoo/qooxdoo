@@ -407,20 +407,22 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._navPart.add(sobutt);
       
       // -- to playground
-      var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
-      playgroundButton.addListener("execute", this.__toPlayground, this);
-      playgroundButton.setToolTipText("Open demo in the playground");
-      playgroundButton.setEnabled(false);
-      
-      // Loading demos into IE fails most of the time because IE truncates
-      // long URLs 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        playgroundButton.exclude();
+      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
+        playgroundButton.addListener("execute", this.__toPlayground, this);
+        playgroundButton.setToolTipText("Open demo in the playground");
+        playgroundButton.setEnabled(false);
+        
+        // Loading demos into IE fails most of the time because IE truncates
+        // long URLs 
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          playgroundButton.exclude();
+        }
+        
+        this.__playgroundButton = playgroundButton;
+        this._navPart.add(playgroundButton);
       }
       
-      this.__playgroundButton = playgroundButton;
-      this._navPart.add(playgroundButton);
-
 
 
       // THEME MENU
