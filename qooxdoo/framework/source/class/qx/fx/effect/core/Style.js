@@ -54,6 +54,8 @@ qx.Class.define("qx.fx.effect.core.Style",
   /**
    * @param element {Object} The DOM element
    * @param cssAttribute {String} Name of the CSS attribute to animate.
+   * @param func {Function} Function which modifies the numeric value given by
+   * update().
    */
   construct : function(element, cssAttribute, func)
   {

@@ -53,6 +53,8 @@ qx.Class.define("qx.fx.effect.core.Property",
   /**
    * @param element {Object} The DOM element
    * @param qxProperty {String} Name of the qooxdoo property to animate.
+   * @param func {Function} Function which modifies the numeric value given by
+   * update().
    */
   construct : function(element, qxProperty, func)
   {
