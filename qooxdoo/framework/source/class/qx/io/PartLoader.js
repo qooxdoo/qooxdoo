@@ -56,7 +56,8 @@ qx.Class.define("qx.io.PartLoader",
 
     /**
      * Fired if a part could not be loaded. The event's
-     * {@link qx.event.Data#data} property contains the name if the failed part.
+     * {@link qx.event.type.Data#getData} method returns the name of the failed 
+     * part.
      */
     "partLoadingError" : "qx.event.type.Data"
   },
