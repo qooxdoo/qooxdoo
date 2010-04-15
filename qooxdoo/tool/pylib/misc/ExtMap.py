@@ -15,6 +15,7 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
+#    * Daniel Wagner (d_wagner)
 #
 ################################################################################
 
@@ -35,18 +36,12 @@ class ExtMap(object):
 
         self._data = data
 
-    def get(self, key, default=None, confmap=None):
-        """Returns a (possibly nested) data element from dict
-        """
         
-        if confmap:
-            data = confmap
-        else:
-            data = self._data
-            
-        if data.has_key(key):
-            return data[key]
+    def __getitem__(self, key):
+        if self._data.has_key(key):
+            return self._data[key]
 
+        data = self._data
         splits = key.split('/')
         for part in splits:
             if part == "." or part == "":
@@ -54,15 +49,27 @@ class ExtMap(object):
             elif isinstance(data, types.DictType) and data.has_key(part):
                 data = data[part]
             else:
-                return default
+                #return default
+                raise KeyError, key
 
         return data
-    
-    ##
-    # set a (possibly nested) data element in the dict
-    
-    def set(self, key, value):
+
+
+    def get(self, key, default=None, confmap=None):
+        """Returns a (possibly nested) data element from dict
+        """
+        if confmap:
+            data = confmap
+        else:
+            data = self
         
+        try:
+            return data.__getitem__(key)
+        except KeyError:
+            return default
+    
+    
+    def __setitem__(self, key, value):
         data = self._data
         if key in data:
             data[key] = value
@@ -86,8 +93,21 @@ class ExtMap(object):
 
         return
 
+    
+    def set(self, key, value):
+        """Sets a (possibly nested) data element in the dict
+        """
+        return self._data.__setitem__(key, value)
 
 
+    def __contains__(self, item):
+        try:
+            self.__getitem__(item)
+            return True
+        except KeyError:
+            return False
+    
+    
     def extract(self, key):
         return ExtMap(self.get(key, {}))
 
