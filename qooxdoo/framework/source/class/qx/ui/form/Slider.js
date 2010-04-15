@@ -257,6 +257,8 @@ qx.Class.define("qx.ui.form.Slider",
         case "knob":
           control = new qx.ui.core.Widget();
           control.addListener("resize", this._onUpdate, this);
+          control.addListener("mouseover", this._onMouseOver);
+          control.addListener("mouseout", this._onMouseOut);
           this._add(control);
           break;
       }
@@ -273,6 +275,31 @@ qx.Class.define("qx.ui.form.Slider",
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
+    
+    
+    /**
+     * Event handler for mouseover events at the knob child control.
+     *
+     * Adds the 'hovered' state
+     *
+     * @param e {qx.event.type.Mouse} Incoming mouse event
+     */
+    _onMouseOver : function(e) {
+      this.addState("hovered");
+    },
+    
+    
+    /**
+     * Event handler for mouseout events at the knob child control.
+     *
+     * Removes the 'hovered' state
+     *
+     * @param e {qx.event.type.Mouse} Incoming mouse event
+     */
+    _onMouseOut : function(e) {
+      this.removeState("hovered");
+    },
+    
 
     /**
      * Listener of mousewheel event
@@ -369,6 +396,9 @@ qx.Class.define("qx.ui.form.Slider",
         // Compute dragOffset (includes both: inner position of the widget and
         // cursor position on knob)
         this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
+        
+        // add state
+        knob.addState("pressed");
       }
       else
       {
@@ -423,6 +453,39 @@ qx.Class.define("qx.ui.form.Slider",
         // Cleanup status flags
         delete this.__dragMode;
         delete this.__dragOffset;
+        
+        // remove state
+        this.getChildControl("knob").removeState("pressed");
+        
+        // it's necessary to check whether the mouse cursor is over the knob widget to be able to
+        // to decide whether to remove the 'hovered' state.
+        if (e.getType() === "mouseup")
+        {
+          var deltaSlider;
+          var deltaPosition;
+          var positionSlider;
+          
+          if (this.__isHorizontal)
+          {
+            deltaSlider = e.getDocumentLeft() - (this._valueToPosition(this.getValue()) + this.__sliderLocation);
+            
+            positionSlider = qx.bom.element.Location.get(this.getContentElement().getDomElement())["top"];
+            deltaPosition = e.getDocumentTop() - (positionSlider + this.getChildControl("knob").getBounds().top);
+          }
+          else
+          {
+            deltaSlider = e.getDocumentTop() - (this._valueToPosition(this.getValue()) + this.__sliderLocation);
+            
+            positionSlider = qx.bom.element.Location.get(this.getContentElement().getDomElement())["left"];
+            deltaPosition = e.getDocumentLeft() - (positionSlider + this.getChildControl("knob").getBounds().left);
+          }
+          
+          if (deltaPosition < 0 || deltaPosition > this.__knobSize ||
+              deltaSlider < 0 || deltaSlider > this.__knobSize) {
+            this.getChildControl("knob").removeState("hovered");
+          }
+        }
+        
       }
       else if (this.__trackingMode)
       {
