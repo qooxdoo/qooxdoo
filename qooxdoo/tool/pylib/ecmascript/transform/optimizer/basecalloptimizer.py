@@ -16,12 +16,19 @@
 #  Authors:
 #    * Sebastian Werner (wpbasti)
 #    * Fabian Jakobs (fjakobs)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
 import re, sys
 
 from ecmascript.frontend import tree, treeutil
+
+##
+# Run through all the qx.*.define nodes of a tree. This will cover multiple
+# classes defined in single file, as well as nested calls to qx.*.define.
+#
+# - interface function
 
 def patch(node):
     patchCount    = 0
@@ -32,6 +39,9 @@ def patch(node):
 
     return patchCount
 
+
+##
+# Optimize a single class definition; treats 'construct' and 'member' sections
 
 def optimize(classDefine, classDefNodes):
     patchCount    = 0
@@ -62,6 +72,10 @@ def optimize(classDefine, classDefNodes):
 
     return patchCount
 
+
+##
+# Optimize calls to this.base in a tree (e.g. a method); this will skip nested
+# calls to qx.*.define, as they are handled on a higher level
 
 def optimizeConstruct(node, superClass, methodName, classDefNodes):
     patchCount = 0
@@ -101,8 +115,6 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")   # arguments -> this
         call.parent.replaceChild(call, newCall)
         patchCount += 1
-
-    
 
     # Handle Children
     if node.hasChildren():
