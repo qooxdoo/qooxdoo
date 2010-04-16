@@ -1507,6 +1507,7 @@ class Generator(object):
         self._console.info("Fixing files: ", False)
         numClasses = len(classes)
         eolStyle = fixsettings.get("eol-style", "LF")
+        tabWidth = fixsettings.get("tab-width", 2)
         for pos, classId in enumerate(classes):
             self._console.progress(pos, numClasses)
             classEntry   = self._classes[classId]
@@ -1521,7 +1522,7 @@ class Generator(object):
                 fixedContent = textutil.any2Dos(fileContent)
             else:
                 fixedContent = textutil.any2Unix(fileContent)
-            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(fixedContent, 2)))
+            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(fixedContent, tabWidth)))
             if fixedContent != fileContent:
                 self._console.debug("modifying file: %s" % filePath)
                 filetool.save(filePath, fixedContent, fileEncoding)
