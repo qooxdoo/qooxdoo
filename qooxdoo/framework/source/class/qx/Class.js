@@ -1383,7 +1383,10 @@ qx.Bootstrap.define("qx.Class",
           wrapper[key] = clazz[key];
         }
       }
-      
+
+      // Hot fix for bug #3586
+      wrapper.prototype = clazz.prototype;
+
       // fix self references in members
       var members = clazz.prototype;
       for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
