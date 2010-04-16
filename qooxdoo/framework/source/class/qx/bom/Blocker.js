@@ -369,7 +369,10 @@ qx.Class.define("qx.bom.Blocker",
     }
   },
 
-  destruct : function() {
+  destruct : function()
+  {
+    qx.event.Registration.removeListener(window, "resize", this.__onResize, this);
+
     this.__iframeElement = this.__blockerElement = this.__blockedElement = null;
   }
 });
