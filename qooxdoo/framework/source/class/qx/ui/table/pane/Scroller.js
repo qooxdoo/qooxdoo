@@ -107,14 +107,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
 
-    // Set up wrapper if required
-    //if (!this.__onintervalWrapper) {
-    //  this.__onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-    //}
-
     this.__timer = new qx.event.Timer();
     this.__timer.addListener("interval", this._oninterval, this);
     this.initScrollTimeout();
+
   },
 
 
@@ -1137,6 +1133,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col
       ) {
         this.__lastMouseDownCell = {};
+        console.info("_onMouseupFocusIndicator")
         this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, this.__lastMouseDownCell.row, this.__lastMouseDownCell.col], true);
       }
     },
@@ -1366,6 +1363,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             ))
         {
           this.__lastMouseDownCell = {};
+          console.info("_onClickpane")
           this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
         }
       }
