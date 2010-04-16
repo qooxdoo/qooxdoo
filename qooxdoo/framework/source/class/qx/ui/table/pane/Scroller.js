@@ -1132,6 +1132,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (
         this.__lastMouseDownCell &&
+        !this.isEditing() &&
         this.__focusIndicator.getRow() == this.__lastMouseDownCell.row &&
         this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col
       ) {
@@ -1359,12 +1360,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         if (
           this.__focusIndicator.isHidden() ||
             (this.__lastMouseDownCell &&
+             !this.isEditing() &&
              row == this.__lastMouseDownCell.row &&
              col == this.__lastMouseDownCell.col
             ))
         {
           this.__lastMouseDownCell = {};
-
+          console.info("_onClickpane")
           this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
         }
       }
@@ -1762,9 +1764,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this.__cellEditor.setUserBounds(0, 0, size.width, size.height);
 
           // prevent click event from bubbling up to the table
-          this.__focusIndicator.addListener("mousedown", function(e) {
+          this.__focusIndicator.addListener("mousedown", function(e)
+          {
+            this.__lastMouseDownCell = {
+              row : this.__focusedRow,
+              col : this.__focusedCol
+            };
             e.stopPropagation();
-          });
+          }, this);
 
           this.__focusIndicator.add(this.__cellEditor);
           this.__focusIndicator.addState("editing");
