@@ -83,7 +83,7 @@ qx.Class.define("qx.fx.effect.core.Style",
   members :
   {
     __cssAttribute : null,
-    __fnc : null,
+    __func : null,
 
     // overridden
     update : function(position)

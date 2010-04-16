@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.effect.core.Property",
   members :
   {
     __qxProperty : null,
-    __fnc : null,
+    __func : null,
 
     // overridden
     update : function(position)
