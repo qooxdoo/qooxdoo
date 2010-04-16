@@ -362,7 +362,8 @@ qx.Bootstrap.define("qx.Bootstrap",
       "hasOwnProperty",
       "toLocaleString",
       "toString",
-      "valueOf"
+      "valueOf",
+      "constructor"
     ],
     
     

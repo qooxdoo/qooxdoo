@@ -227,6 +227,28 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals(14, qx.test.Construct.valueOf);
       
       qx.Class.undefine("qx.test.Construct");      
+    },
+
+
+    testGetKeys : function()
+    {
+      var obj = {};
+      obj.isPrototypeOf = function() {};
+      obj.hasOwnProperty = function() {};
+      obj.toLocaleString = function() {};
+      obj.toString = function() {};
+      obj.valueOf = function() {};
+      obj.constructor = function() {};
+      obj.prototype = function() {};
+
+      var keys = qx.Bootstrap.getKeys(obj);
+      this.assertTrue(qx.lang.Array.contains(keys, "isPrototypeOf"), "Test isPrototypeOf");
+      this.assertTrue(qx.lang.Array.contains(keys, "hasOwnProperty"), "Test hasOwnProperty");
+      this.assertTrue(qx.lang.Array.contains(keys, "toLocaleString"), "Test toLocaleString");
+      this.assertTrue(qx.lang.Array.contains(keys, "toString"), "Test toString");
+      this.assertTrue(qx.lang.Array.contains(keys, "valueOf"), "Test valueOf");
+      this.assertTrue(qx.lang.Array.contains(keys, "constructor"), "Test constructor");
+      this.assertTrue(qx.lang.Array.contains(keys, "prototype"), "Test prototype");
     }
   }
 });
