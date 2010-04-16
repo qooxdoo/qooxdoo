@@ -65,8 +65,8 @@
 
       "include" :
       [
-        "${QXTHEME}",
-        "${APPLICATION_MAIN_CLASS}"
+        "${APPLICATION_MAIN_CLASS}",
+        "${QXTHEME}"
       ],
 
       "cache" : "${CACHE_KEY}",
@@ -92,6 +92,14 @@
       "desc"    : "create includer script of current application",
 
       "extend" : ["common"],
+
+      /*
+      "require" :
+      {
+        // to have reporting infrastructure before custom classes
+        "qx.Class" : [ "qx.log.Logger", "qx.dev.StackTrace"]
+      },
+      */
 
       "compile-options" :
       {
