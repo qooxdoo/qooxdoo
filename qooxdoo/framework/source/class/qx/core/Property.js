@@ -112,6 +112,15 @@
  *     There are some default validators in the {@link qx.util.Validate} class.
  *     See this documentation for usage examples.
  *   </td></tr>
+ *   <tr><th>dereference</th><td>Boolean</td><td>
+ *     By default, the references to the values (current, init, ...) of the 
+ *     property will be stored as references on the object. When disposing 
+ *     this object, the references will not be deleted. Setting the 
+ *     dereference key to true tells the property system to delete all
+ *     connections made by this property on dispose. This can be necessary for 
+ *     disconnecting DOM objects to allow the garbage collector to work 
+ *     properly.
+ *   </td></tr>
  * </table>
  *
  * *Property groups*
@@ -178,9 +187,9 @@ qx.Bootstrap.define("qx.core.Property",
 
 
     /**
-     * Contains types from {@link #__checks} list which need to be disposed
+     * Contains types from {@link #__checks} list which need to be dereferenced
      */
-    __dispose :
+    __dereference :
     {
       "Node"      : true,
       "Element"   : true,
@@ -242,7 +251,8 @@ qx.Bootstrap.define("qx.core.Property",
     $$allowedKeys :
     {
       name         : "string",   // String
-      dispose      : "boolean",  // Boolean
+      dispose      : "boolean",  // Boolean @deprecated in 1.1
+      dereference  : "boolean",  // Boolean 
       inheritable  : "boolean",  // Boolean
       nullable     : "boolean",  // Boolean
       themeable    : "boolean",  // Boolean
@@ -526,10 +536,27 @@ qx.Bootstrap.define("qx.core.Property",
         }
       }
 
-      // Fill dispose value
-      if (config.dispose === undefined && typeof config.check === "string") {
-        config.dispose = this.__dispose[config.check] || qx.Bootstrap.classIsDefined(config.check) || (qx.Interface && qx.Interface.isDefined(config.check));
+      // @deprecation warning (came in with 1.1)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (config.dispose) 
+        {
+          // migrate for further processing
+          if (!config.dereference) {
+            config.dereference = config.dispose;            
+          }
+          qx.log.Logger.warn(
+            "The property key 'dispose' is deprecated: " + 
+            "Please use 'dereference' instead."
+          );
+          qx.log.Logger.trace();          
+        }
       }
+      
+      // Fill dispose value
+      if (config.dereference === undefined && typeof config.check === "string") {
+        config.dereference = this.__dereference[config.check] || qx.Bootstrap.classIsDefined(config.check) || (qx.Interface && qx.Interface.isDefined(config.check));
+      }      
 
       var method = this.$$method;
       var store = this.$$store;

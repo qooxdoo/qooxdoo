@@ -879,7 +879,8 @@ qx.Class.define("qx.core.Object",
       {
         for (var name in properties)
         {
-          if (properties[name].dispose) {
+          // dispose is @deprecated with 1.1
+          if (properties[name].dispose || properties[name].dereference) {
             this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
           }
         }
