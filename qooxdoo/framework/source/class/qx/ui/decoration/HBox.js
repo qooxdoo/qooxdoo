@@ -14,7 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
-     * Jonathan Weiﬂ (jonathan_rass)
+     * Jonathan Wei√ü (jonathan_rass)
 
 ************************************************************************ */
 
