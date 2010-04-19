@@ -946,7 +946,7 @@ class QxTest:
     try:
         response = urllib2.urlopen(req)    
     except urllib2.URLError, e:
-        self.log("Unable to contact report server: Error %s" %e.code)
+        self.log("Unable to contact report server: Error %s" %e.reason)
         errorFile = open("error.html", "w")
         errorFile.write(e.read())
         errorFile.close()
