@@ -756,7 +756,7 @@ def projectClassVariantsToCurrent(classVariants, variantSet):
 ##
 # helper that operates on ecmascript.frontend.tree
 def getClassVariantsFromTree(node, console):
-    classvariants = []
+    classvariants = set([])
     # mostly taken from ecmascript.transform.optimizer.variantoptimizer
     variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
     for variant in variants:
@@ -767,7 +767,7 @@ def getClassVariantsFromTree(node, console):
             continue
         firstParam = treeutil.selectNode(variant, "../../params/1")
         if firstParam and treeutil.isStringLiteral(firstParam):
-            classvariants.append(firstParam.get("value"))
+            classvariants.add(firstParam.get("value"))
         else:
             console.warn("! qx.core.Variant call without literal argument")
 
