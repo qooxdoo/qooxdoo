@@ -64,6 +64,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
    */
   construct : function(value, styleInformation, source)
   {
+    this.__postPonedProperties = {};
+    
     // **********************************************************************
     //   INIT
     // **********************************************************************
@@ -77,12 +79,9 @@ qx.Class.define("qx.ui.embed.HtmlArea",
                           styleInfo: styleInformation,
                           source: source };
 
-
     qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.addListener(document.body, "losecapture", this.release, this, true);
-
-    this.__postPonedProperties = {};
   },
 
 
@@ -279,7 +278,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       refine : true,
       init   : "htmlarea"
-    }
+    }      
   },
 
 
@@ -374,7 +373,16 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__postPonedProperties["UseUndoRedo"] = value;
       }
     },
-
+    
+    // overridden
+    _applyNativeContextMenu : function(value, old)
+    {
+      if (this.__editorComponent != null) {
+        this.__editorComponent.setNativeContextMenu(value);
+      } else {
+        this.__postPonedProperties["NativeContextMenu"] = value;
+      }
+    },
 
 
     /**

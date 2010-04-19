@@ -731,6 +731,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       check : "Boolean",
       init  : true
+    },
+    
+    
+    /**
+     * Whether to use the native contextmenu or to block it and use own event
+     */
+    nativeContextMenu :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -2342,10 +2352,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * Event Listener for the "contextmenu" event. Stops the browser from
-     * displaying the native context menu and fires an own event for the
+     * If the property {@link nativeContextMenu} is set to <code>false</code> this handler method
+     * stops the browser from displaying the native context menu and fires an own event for the
      * application developers to position their own (qooxdoo) contextmenu.
-     *
+     * 
      * Fires a data event with the following data:
      *
      *   * x - absolute x coordinate
@@ -2353,32 +2363,37 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *   * relX - relative x coordinate
      *   * relY - relative y coordinate
      *   * target - DOM element target
+     *   
+     * Otherwise the native browser contextmenu is shown as usual.
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleContextMenuEvent : function(e)
     {
-      var relX = e.getViewportLeft();
-      var relY = e.getViewportTop();
-
-      var absX = qx.bom.element.Location.getLeft(this.__widget) + relX;
-      var absY = qx.bom.element.Location.getTop(this.__widget) + relY;
-
-      var data = {
-        x: absX,
-        y: absY,
-        relX: relX,
-        relY: relY,
-        target: e.getTarget()
-      };
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      qx.event.Timer.once(function() {
-        this.fireDataEvent("contextmenu", data);
-      }, this, 0);
+      // only fire own "contextmenu" event if the native contextmenu should not be used
+      if (!this.getNativeContextMenu())
+      {
+        var relX = e.getViewportLeft();
+        var relY = e.getViewportTop();
+  
+        var absX = qx.bom.element.Location.getLeft(this.__widget) + relX;
+        var absY = qx.bom.element.Location.getTop(this.__widget) + relY;
+  
+        var data = {
+          x: absX,
+          y: absY,
+          relX: relX,
+          relY: relY,
+          target: e.getTarget()
+        };
+  
+        e.preventDefault();
+        e.stopPropagation();
+  
+        qx.event.Timer.once(function() {
+          this.fireDataEvent("contextmenu", data);
+        }, this, 0);
+      }
     },
 
 
