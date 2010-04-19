@@ -1745,7 +1745,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     _handleKeyUp : function(e)
     {
       var keyIdentifier = e.getKeyIdentifier().toLowerCase();
-      var isCtrlPressed = e.isCtrlPressed();
       this.__currentEvent = e;
 
       if (qx.core.Variant.isSet("qx.debug", "on") &&
