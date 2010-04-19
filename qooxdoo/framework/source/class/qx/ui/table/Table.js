@@ -1262,7 +1262,7 @@ qx.Class.define("qx.ui.table.Table",
               break;
           }
         }
-        return
+
       }
       else
       {
@@ -1299,7 +1299,8 @@ qx.Class.define("qx.ui.table.Table",
 
             case "F2":
             case "Enter":
-              consumed = this.startEditing();
+              this.startEditing();
+              consumed = true;
               break;
 
             case "Home":
