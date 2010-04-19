@@ -93,6 +93,12 @@ qx.Class.define("qx.ui.root.Inline",
     if (qx.core.Variant.isSet("qx.client", "opera")) {
       this.setSelectable(true);
     }
+
+    // Avoid the automatically scroll in to view.
+    // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3236 for details.
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      this.setKeepFocus(true);
+    }
   },
   
 
