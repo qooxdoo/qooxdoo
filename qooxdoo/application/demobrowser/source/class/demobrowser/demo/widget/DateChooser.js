@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       container.add(label);
 
       // listener for the change event
-      chooser.addListener("changeDate", function(e) {
+      chooser.addListener("changeValue", function(e) {
         label.setValue("Change: " + e.getData());
       }, this);
 
