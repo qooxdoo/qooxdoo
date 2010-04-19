@@ -707,12 +707,6 @@ qx.Class.define("qx.core.Object",
         clazz = clazz.superclass;
       }
 
-      // remove all property references
-      var properties = qx.Class.getProperties(this.constructor);
-      for (var i = 0, l = properties.length; i < l; i++) {
-        delete this["$$user_" + properties[i]];
-      }
-
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
