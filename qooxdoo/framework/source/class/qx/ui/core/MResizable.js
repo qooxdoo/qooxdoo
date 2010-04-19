@@ -547,5 +547,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.__resizeFrame.destroy();
       this.__resizeFrame = null;
     }
+
+    this.__dragDropHandler = null;
   }
 });
