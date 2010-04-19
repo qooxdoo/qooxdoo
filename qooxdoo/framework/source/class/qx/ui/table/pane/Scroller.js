@@ -1133,7 +1133,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col
       ) {
         this.__lastMouseDownCell = {};
-        console.info("_onMouseupFocusIndicator")
         this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, this.__lastMouseDownCell.row, this.__lastMouseDownCell.col], true);
       }
     },
@@ -1363,7 +1362,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             ))
         {
           this.__lastMouseDownCell = {};
-          console.info("_onClickpane")
           this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
         }
       }
