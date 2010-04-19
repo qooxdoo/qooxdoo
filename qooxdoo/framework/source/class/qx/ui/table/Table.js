@@ -15,6 +15,7 @@
    Authors:
      * Til Schneider (til132)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -1710,6 +1711,32 @@ qx.Class.define("qx.ui.table.Table",
       }
     },
 
+    /**
+     * Activates the blocker widgets on all column headers and the
+     * column button
+     */
+    blockHeaderElements : function()
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].getHeader().getBlocker().blockContent(20);
+      }
+      this.getChildControl("column-button").getBlocker().blockContent(20);
+    },
+
+
+    /**
+     * Deactivates the blocker widgets on all column headers and the
+     * column button
+     */
+    unblockHeaderElements : function()
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].getHeader().getBlocker().unblockContent();
+      }
+      this.getChildControl("column-button").getBlocker().unblockContent();
+    },
 
     /**
      * Gets the meta column at a certain x position in the page. If there is no

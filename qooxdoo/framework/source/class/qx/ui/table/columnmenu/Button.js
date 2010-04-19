@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -32,11 +33,15 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
   construct : function()
   {
     this.base(arguments);
+
+    // add blocker
+    this.__blocker = new qx.ui.core.Blocker(this);
   },
 
   members :
   {
     __columnMenuButtons : null,
+    __blocker : null,
 
     // Documented in qx.ui.table.IColumnMenu
     factory : function(item, options)
@@ -72,6 +77,15 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
     },
 
 
+    /**
+     * Returns the blocker of the columnmenu button.
+     *
+     * @return {qx.ui.core.Blocker} the blocker.
+     */
+    getBlocker : function() {
+      return this.__blocker;
+    },
+
     // Documented in qx.ui.table.IColumnMenu
     empty : function()
     {
@@ -83,5 +97,16 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
         entries[0].destroy();
       }
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct: function() {
+    this.__blocker.dispose();
   }
+
 });

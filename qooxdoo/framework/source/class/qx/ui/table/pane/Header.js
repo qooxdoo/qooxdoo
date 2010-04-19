@@ -41,6 +41,9 @@ qx.Class.define("qx.ui.table.pane.Header",
     this.base(arguments);
     this._setLayout(new qx.ui.layout.HBox());
 
+    // add blocker
+    this.__blocker = new qx.ui.core.Blocker(this);
+
     this.__paneScroller = paneScroller;
   },
 
@@ -60,7 +63,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     __paneScroller : null,
     __moveFeedback : null,
     __lastMouseOverColumn : null,
-
+    __blocker : null,
 
     /**
      * Returns the TablePaneScroller this header belongs to.
@@ -81,6 +84,14 @@ qx.Class.define("qx.ui.table.pane.Header",
       return this.__paneScroller.getTable();
     },
 
+    /**
+     * Returns the blocker of the header.
+     *
+     * @return {qx.ui.core.Blocker} the blocker.
+     */
+    getBlocker : function() {
+      return this.__blocker;
+    },
 
     /**
      * Event handler. Called the column order has changed.
@@ -337,7 +348,9 @@ qx.Class.define("qx.ui.table.pane.Header",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    this.__blocker.dispose();    
     this._disposeObjects("__paneScroller");
   }
 });
