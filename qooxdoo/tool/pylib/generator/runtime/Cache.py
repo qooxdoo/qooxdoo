@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -56,10 +57,10 @@ class Cache(object):
         self._toolChainIsNewer = self._checkToolsNewer()
         if self._toolChainIsNewer:
             if self._context['jobconf'].get("cache/invalidate-on-tool-change", False):
-                self._console.info("Cleaning compile cache, as tool chain is newer")
+                self._console.info("Cleaning compile cache, as tool chain has changed")
                 self.cleanCompileCache()  # will also remove checkFile
             else:
-                self._console.warn("! Detected newer tool chain; you might want to clear the cache.")
+                self._console.warn("! Detected changed tool chain; you might want to clear the cache.")
         self._update_checkfile()
         return
 
@@ -76,8 +77,8 @@ class Cache(object):
         cacheRevision = self.getCacheFileVersion()
         if not cacheRevision:
             return True
-        elif self._cache_revision > cacheRevision:
-            return True  # current caches rev is lower than that of the Cache class
+        elif self._cache_revision != cacheRevision:
+            return True  # current caches rev is different from that of the Cache class
         else:
             return False
 
