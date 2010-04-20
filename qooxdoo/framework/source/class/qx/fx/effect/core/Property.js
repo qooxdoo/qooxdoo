@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.effect.core.Property",
     update : function(position)
     {
       this.base(arguments);
-      var value = this.__fnc ? this.__fnc(position) : position;
+      var value = this.__func ? this.__func(position) : position;
 
       var properties = {};
       properties[this.__qxProperty] = value;
