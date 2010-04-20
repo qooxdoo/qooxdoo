@@ -1,0 +1,174 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-20 17:33+0100\n"
+"PO-Revision-Date: 2010-04-20 17:33+0100\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: testrunner/runner/TestRunner.js:307
+msgid "<b>Run&nbsp;Tests!</b>"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:312
+msgid "<b>Stop&nbsp;Tests</b>"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:319
+msgid "Reload"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:321
+msgid "Reload application under test"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:326
+msgid "Run selected test(s)"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:334
+msgid "Stop running tests"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:344
+msgid "Application under test URL"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:366
+msgid "Auto Reload"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:369
+msgid "Always reload application under test before testing"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:377
+msgid "Show Stack Trace"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:380
+msgid "Show stack trace information for exceptions"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:419
+msgid "Log Level"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:492
+msgid "Test Results"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:522
+msgid "Application under test"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:610 testrunner/runner/TestRunner.js:619
+msgid "Tests"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:671
+msgid "Queued: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:684
+msgid "Failed: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:695
+msgid "Succeeded: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:749
+msgid "Selected Test: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:761
+msgid "Number of Tests: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:775
+msgid "System Status: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:784
+msgid "Loading..."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:819
+msgid "Tests selected"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1010
+msgid "Preparing..."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1016
+msgid "Now running: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1045
+msgid "' started."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1045 testrunner/runner/TestRunner.js:1055
+#: testrunner/runner/TestRunner.js:1069
+msgid "Test '"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1055
+msgid "' waiting."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1069
+msgid "' failed: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1087
+msgid "' had an error: "
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1087
+msgid "The test '"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1143
+msgid "Running tests..."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1163
+msgid "Enabled auto-reload"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1167 testrunner/runner/TestRunner.js:1387
+msgid "Ready"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1219
+msgid "Please select a test node from the tree!"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1255
+msgid "Alarm: no testResult!"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1285
+msgid "Reloading test suite..."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1361
+msgid "The selected test file is invalid."
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1363
+msgid "Invalid test file selected!"
+msgstr ""
+
+#: testrunner/runner/TestRunner.js:1392
+msgid "No test file selected!"
+msgstr ""
