@@ -28,7 +28,9 @@ msgid "Custom Code"
 msgstr ""
 
 #: playground/Application.js:400
-msgid "// Could not handle URL parameter! \n// %1"
+msgid ""
+"// Could not handle URL parameter! \n"
+"// %1"
 msgstr ""
 
 #: playground/Application.js:403
