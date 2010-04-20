@@ -12,15 +12,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:138
+#: feedreader/Application.js:143
 msgid "Static Feeds"
 msgstr "Vordefinierte Quellen"
 
-#: feedreader/Application.js:168
+#: feedreader/Application.js:173
 msgid "User Feeds"
 msgstr "Eigene Quellen"
 
-#: feedreader/Application.js:526
+#: feedreader/Application.js:529
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 

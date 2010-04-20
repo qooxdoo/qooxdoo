@@ -14,15 +14,15 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: feedreader/Application.js:138
+#: feedreader/Application.js:143
 msgid "Static Feeds"
 msgstr "Feeds Estáticos"
 
-#: feedreader/Application.js:168
+#: feedreader/Application.js:173
 msgid "User Feeds"
 msgstr "Feeds del Usuario"
 
-#: feedreader/Application.js:526
+#: feedreader/Application.js:529
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 

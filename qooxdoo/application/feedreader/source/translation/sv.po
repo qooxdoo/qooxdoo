@@ -13,15 +13,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: feedreader/Application.js:138
+#: feedreader/Application.js:143
 msgid "Static Feeds"
 msgstr "Statiska flöden"
 
-#: feedreader/Application.js:168
+#: feedreader/Application.js:173
 msgid "User Feeds"
 msgstr "Användarflöden"
 
-#: feedreader/Application.js:526
+#: feedreader/Application.js:529
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo driven)"
 
