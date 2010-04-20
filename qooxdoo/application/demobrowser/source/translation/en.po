@@ -2,46 +2,205 @@
 msgid ""
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:284
+#: demobrowser/DemoBrowser.js:326
+msgid "Could not open the Playground."
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:378
 msgid "Run"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:290
+#: demobrowser/DemoBrowser.js:384
 msgid "Stop"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:298
+#: demobrowser/DemoBrowser.js:392
 msgid "Previous"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:304
+#: demobrowser/DemoBrowser.js:398
 msgid "Next"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:310
+#: demobrowser/DemoBrowser.js:404
 msgid "Own Window"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:338
+#: demobrowser/DemoBrowser.js:411
+msgid "To Playground"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:450
 msgid "Theme"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:349
+#: demobrowser/DemoBrowser.js:463
 msgid "Object Summary"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:353
+#: demobrowser/DemoBrowser.js:467
 msgid "Global Namespace Pollution"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:357
+#: demobrowser/DemoBrowser.js:472
 msgid "Dispose Demo"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:361
+#: demobrowser/DemoBrowser.js:476
 msgid "Debug"
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:424
+#: demobrowser/DemoBrowser.js:548
 msgid "Clear log"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:69
+msgid "Form Elements"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:81
+msgid "Choose a locale:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:107
+msgid "Localized ComboBox:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:110
+#: demobrowser/demo/showcase/Localization.js:145
+msgid "Cut"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:111
+#: demobrowser/demo/showcase/Localization.js:147
+msgid "Paste"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:112
+#: demobrowser/demo/showcase/Localization.js:146
+msgid "Copy"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:119
+msgid "A date:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:142
+msgid "Undo"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:143
+msgid "Redo"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:148
+msgid "Delete"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:149
+msgid "Select All"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:151
+msgid "Search"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:152
+msgid "Search Again"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:154
+msgid "Command Menu (keyboard shortcuts)"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:162
+msgid "Open Color Popup"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:202
+msgid "Locale information"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:232
+msgid "Locale:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:235
+msgid "Territory code:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:238
+msgid "Date format short:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:240
+msgid "Date short:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:243
+msgid "Date format medium:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:245
+msgid "Date medium:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:248
+msgid "Date format long:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:250
+msgid "Date long:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:253
+msgid "Date format full:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:255
+msgid "Date full:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:258
+msgid "Time format short:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:260
+msgid "Time short:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:263
+msgid "Time format long:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:265
+msgid "Time long:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:268
+msgid "Week start:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Localization.js:271
+msgid "Format of %1:"
+msgstr ""
+
+#: demobrowser/demo/showcase/Translation.js:102
+msgid "Hello World"
+msgstr ""
+
+#: demobrowser/demo/showcase/Translation.js:113
+#: demobrowser/demo/showcase/Translation.js:124
+msgid "I have an apple"
+msgid_plural "I have %1 apples"
+msgstr[0] ""
+msgstr[1] ""
+
+#. The mammal fox that is.
+#: demobrowser/demo/showcase/Translation.js:135
+msgid "The quick brown fox"
+msgstr ""
+
+#: demobrowser/demo/showcase/Translation.js:142
+msgid "One can"
 msgstr ""
