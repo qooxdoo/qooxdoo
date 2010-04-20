@@ -652,7 +652,14 @@ class CodeGenerator(object):
 
         # -- main --------------------------------------------------------------
 
+        compConf = self._job.get("compile-options")
+        compConf = ExtMap(compConf)
+        resources_tree = compConf.get("code/resources-tree", False)
+        
         resdata = {}
+        if resources_tree:
+            resdata = ExtMap()
+        
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
@@ -737,6 +744,9 @@ class CodeGenerator(object):
 
         self._console.outdent()
 
+        if resources_tree:
+            resdata = resdata._data
+        
         return resdata
 
 
