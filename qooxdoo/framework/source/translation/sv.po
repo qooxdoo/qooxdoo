@@ -253,77 +253,81 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
-#: qx/ui/control/ColorPopup.js:138
+#: qx/ui/control/ColorPopup.js:147
 msgid "Automatic"
 msgstr "Automatiskt"
 
-#: qx/ui/control/ColorPopup.js:146
+#: qx/ui/control/ColorPopup.js:155
 msgid "Open ColorSelector"
 msgstr "Öppna färgväljare"
 
-#: qx/ui/control/ColorPopup.js:171
+#: qx/ui/control/ColorPopup.js:180
 msgid "OK"
 msgstr "OK"
 
-#: qx/ui/control/ColorPopup.js:176
+#: qx/ui/control/ColorPopup.js:185
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: qx/ui/control/ColorPopup.js:233
+#: qx/ui/control/ColorPopup.js:242
 msgid "Color Selector"
 msgstr "Färgväljare"
 
-#: qx/ui/control/ColorSelector.js:232
+#: qx/ui/control/ColorSelector.js:258
 msgid "Visual"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:292
+#: qx/ui/control/ColorSelector.js:318
 msgid "Presets"
 msgstr "Förinställningar"
 
-#: qx/ui/control/ColorSelector.js:323
+#: qx/ui/control/ColorSelector.js:349
 msgid "Details"
 msgstr "Detaljer"
 
-#: qx/ui/control/ColorSelector.js:334 qx/ui/control/ColorPopup.js:153
+#: qx/ui/control/ColorSelector.js:360 qx/ui/control/ColorPopup.js:162
 msgid "Preview (Old/New)"
 msgstr "Förhandsgranska (Gammal/Ny)"
 
-#: qx/ui/control/ColorSelector.js:352
+#: qx/ui/control/ColorSelector.js:378
 msgid "Hex"
 msgstr "Hex"
 
-#: qx/ui/control/ColorSelector.js:374
+#: qx/ui/control/ColorSelector.js:400
 msgid "RGB"
 msgstr "RGB"
 
-#: qx/ui/control/ColorSelector.js:406
+#: qx/ui/control/ColorSelector.js:432
 msgid "HSB"
 msgstr "HSB"
 
-#: qx/ui/control/DateChooser.js:227
+#: qx/ui/control/DateChooser.js:243
 msgid "Last year"
 msgstr "Föregående år"
 
-#: qx/ui/control/DateChooser.js:239
+#: qx/ui/control/DateChooser.js:255
 msgid "Last month"
 msgstr "Föregående månad"
 
-#: qx/ui/control/DateChooser.js:251
+#: qx/ui/control/DateChooser.js:267
 msgid "Next month"
 msgstr "Nästa månad"
 
-#: qx/ui/control/DateChooser.js:263
+#: qx/ui/control/DateChooser.js:279
 msgid "Next year"
 msgstr "Nästa år"
 
-#: qx/ui/table/Table.js:1778
+#: qx/ui/form/validation/Manager.js:35
+msgid "This field is required"
+msgstr ""
+
+#: qx/ui/table/Table.js:1809
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "En rad"
 msgstr[1] "%1 rader"
 
-#: qx/ui/table/Table.js:1780
+#: qx/ui/table/Table.js:1811
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "en av en rad"
@@ -332,6 +336,38 @@ msgstr[1] "%1 of %2 rader"
 #: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
 msgstr "Återställ kolumnbredder"
+
+#: qx/util/Validate.js:90
+msgid "%1 is not a number."
+msgstr ""
+
+#: qx/util/Validate.js:123
+msgid "'%1' is not an email address."
+msgstr ""
+
+#: qx/util/Validate.js:153
+msgid "%1 is not a string."
+msgstr ""
+
+#: qx/util/Validate.js:184
+msgid "%1 is not an url."
+msgstr ""
+
+#: qx/util/Validate.js:216
+msgid "%1 is not a color! %2"
+msgstr ""
+
+#: qx/util/Validate.js:242
+msgid "%1 is not in the range from [%2, %3]."
+msgstr ""
+
+#: qx/util/Validate.js:264
+msgid "%1 is not in %2"
+msgstr ""
+
+#: qx/util/Validate.js:287
+msgid "%1 does not fit %2."
+msgstr ""
 
 #~ msgid "Case sensitive"
 #~ msgstr "Versalkänslig"
