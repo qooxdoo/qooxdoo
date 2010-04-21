@@ -185,10 +185,9 @@ qx.Class.define("qx.test.Class",
       };
     },
 
-    /* disabled acc. to state of bug #1433
-    testMissingExtendKey : function()
+    testInvalidImplicitStatic : function()
     {
-      // missing "extend" key should cause an exception
+      // different error message if no "extend" key was configured
       if (this.isDebugOn())
       {
         this.assertException(function() {
@@ -198,10 +197,9 @@ qx.Class.define("qx.test.Class",
               qx.ui.core.MChildrenHandling
             ]
           });
-        }, Error, new RegExp('.*has to extend at least.*'));
+        }, Error, new RegExp('Assumed static class.*'));
       }
     },
-    */
 
     testSetting : function()
     {

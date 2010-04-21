@@ -166,13 +166,22 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Normalize type
+      var implicitType = false;
       if (!config.hasOwnProperty("extend") && !config.type) {
         config.type = "static";
+        implicitType = true;
       }
 
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.__validateConfig(name, config);
+        try {
+          this.__validateConfig(name, config);
+        } catch(ex) {
+          if (implicitType) {
+            ex.message = 'Assumed static class because no "extend" key was found. ' + ex.message;
+          }
+          throw ex;
+        }
       }
 
       // Create the class
