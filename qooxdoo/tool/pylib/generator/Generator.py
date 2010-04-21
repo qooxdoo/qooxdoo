@@ -21,7 +21,7 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types, string, glob
-import functools, codecs
+import functools, codecs, operator
 
 from misc import filetool, textutil, util, Path, PathType
 from misc.PathType import PathType
@@ -1596,6 +1596,15 @@ class Generator(object):
         return result
 
 
+    ##
+    # create a list ['-x', '.svn', '-x', '.git', '-x', ...] for version dir patts
+    # used in _copyResources
+    #skip_list = reduce(operator.concat, 
+    #                   [['-x', x.strip("^\\$")] for x in filetool.VERSIONCONTROL_DIR_PATTS],
+    #                   [])
+
+    skip_list = [x.strip("^\\$") for x in filetool.VERSIONCONTROL_DIR_PATTS]
+
     # wpbasti: Does robocopy really help us here? Is it modified largely. Does this only mean modifications
     # for qooxdoo or code improvements as well? Do we need to give them back to the community of robocopy?
     def _copyResources(self, srcPath, targPath):
@@ -1605,7 +1614,8 @@ class Generator(object):
         #generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
         copier = robocopy.PyRobocopier(generator._console)
         #copier.parse_args(['-f', '-c', '-s', '-x', '.svn', srcPath, targPath])
-        copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
+        args      = ['-c', '-s', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
+        copier.parse_args(args)
         copier.do_work()
 
 
