@@ -1,0 +1,63 @@
+# 
+msgid ""
+msgstr ""
+
+#: apiviewer/Viewer.js:152
+msgid "Content"
+msgstr ""
+
+#: apiviewer/Viewer.js:155
+msgid "Show/hide the packages."
+msgstr ""
+
+#: apiviewer/Viewer.js:158
+msgid "Search"
+msgstr ""
+
+#: apiviewer/Viewer.js:160
+msgid "Search for packages, classes and members."
+msgstr ""
+
+#: apiviewer/Viewer.js:163
+msgid "Legend"
+msgstr ""
+
+#: apiviewer/Viewer.js:165
+msgid "Show/hide the legend."
+msgstr ""
+
+#: apiviewer/Viewer.js:179
+msgid "Properties"
+msgstr ""
+
+#: apiviewer/Viewer.js:182
+msgid "Show/hide all generated property methods."
+msgstr ""
+
+#: apiviewer/Viewer.js:185
+msgid "Inherited"
+msgstr ""
+
+#: apiviewer/Viewer.js:187
+msgid "Show/hide inherited members of the current class."
+msgstr ""
+
+#: apiviewer/Viewer.js:190
+msgid "Protected"
+msgstr ""
+
+#: apiviewer/Viewer.js:192
+msgid "Show/hide protected members of the current class."
+msgstr ""
+
+#: apiviewer/Viewer.js:195
+msgid "Private"
+msgstr ""
+
+#: apiviewer/Viewer.js:197
+msgid "Show/hide private members of the current class."
+msgstr ""
+
+#: apiviewer/ui/SearchView.js:482
+msgid "Hint: You can use regular expressions in the search field."
+msgstr ""
