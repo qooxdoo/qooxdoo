@@ -152,7 +152,7 @@ qx.Class.define("qx.test.io.remote.Request",
       }
 
       var that = this;
-      this.wait(2000, function()
+      this.wait(5000, function()
       {
         that.assertEquals(i, completedCount);
       });
@@ -206,7 +206,7 @@ qx.Class.define("qx.test.io.remote.Request",
       synchronousRequest.send();
 
       var that = this;
-      this.wait(3000, function()
+      this.wait(5000, function()
       {
         that.assertTrue(asynchronousRequestFinished);
         that.assertTrue(synchronousRequestFinished);
