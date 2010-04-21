@@ -222,7 +222,16 @@ qx.Class.define("qx.event.handler.Focus",
     focus : function(element)
     {
       try {
-        element.focus();
+        // Fixed timing issue with IE, see bug report #3267
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          window.setTimeout(function() {
+            element.focus();
+          }, 0);  
+        } 
+        else {
+          element.focus();
+        }
       } catch(ex) {};
 
       this.setFocus(element);
