@@ -496,8 +496,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          this.execute("inserthtml", htmlToInsert);
 
          this.__hideSuperfluousParagraph();
-         this.__doc.getElementById(spanId).removeAttribute("id");
-
+         qx.bom.element.Attribute.reset(this.__doc.getElementById(spanId), "id");
+         
          // If previous paragraph only contains helperString ->  it was empty.
          // Empty paragraphs are problematic in Gecko -> not properly rendered.
          var paragraphNode = this.__doc.getElementById(paragraphId);
@@ -518,6 +518,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            paragraphNode.previousSibling.appendChild(helperNodeFragment);
            paragraphNode.previousSibling.appendChild(brNode);
          }
+
+         qx.bom.element.Attribute.reset(paragraphNode, "id");
 
          return true;
        },
