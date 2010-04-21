@@ -852,8 +852,10 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
-    // Cleanup event listeners
-    qx.event.Registration.removeAllListeners(this);
+    if (!qx.core.ObjectRegistry.inShutDown) {
+      // Cleanup event listeners
+      qx.event.Registration.removeAllListeners(this);      
+    }
 
     // Cleanup object registry
     qx.core.ObjectRegistry.unregister(this);
