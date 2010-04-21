@@ -555,7 +555,7 @@ qx.Bootstrap.define("qx.core.Property",
       
       // Fill dispose value
       if (config.dereference === undefined && typeof config.check === "string") {
-        config.dereference = this.__dereference[config.check] || qx.Bootstrap.classIsDefined(config.check) || (qx.Interface && qx.Interface.isDefined(config.check));
+        config.dereference = this.__shouldBeDereferenced(config.check);
       }      
 
       var method = this.$$method;
@@ -628,6 +628,44 @@ qx.Bootstrap.define("qx.core.Property",
         members["is" + upname] = new Function("return this." + method.get[name] + "()");
       }
     },
+    
+    
+    /**
+     * Cross browser function which returns if the reference for the given 
+     * property check should be removed on dispose.
+     * As IE6 and FF2 seem to have bad garbage collecion behaviors, we should 
+     * additionally remove all references between qooxdoo objects and 
+     * interfaces.
+     * 
+     * @param check {var} The check of the property definition.
+     * @signature function(check)
+     */
+    __shouldBeDereferenced : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(check) {
+        // IE6 seems to have problem on garbage collection so better remove 
+        // all references and not only those to DOM objects
+        var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
+        return ie6 ? !!this.__dereference[check] :
+          this.__dereference[check] || 
+          qx.Bootstrap.classIsDefined(check) || 
+          (qx.Interface && qx.Interface.isDefined(check));
+      },
+      
+      "gecko" : function(check) {
+        // FF2 seems to have problem on garbage collection so better remove 
+        // all references and not only those to DOM objects        
+        var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
+        return !ff2 ? !!this.__dereference[check] :
+          this.__dereference[check] || 
+          qx.Bootstrap.classIsDefined(check) || 
+          (qx.Interface && qx.Interface.isDefined(check));
+      },      
+
+      "default" : function(check) {        
+        return !!this.__dereference[check];
+      }
+    }),
 
 
     /** {Map} Internal data field for error messages used by {@link #error} */

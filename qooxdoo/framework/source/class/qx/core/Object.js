@@ -707,12 +707,11 @@ qx.Class.define("qx.core.Object",
         clazz = clazz.superclass;
       }
 
-      // remove all property references
-      var properties = qx.Class.getProperties(this.constructor);
-      for (var i = 0, l = properties.length; i < l; i++) {
-        delete this["$$user_" + properties[i]];
+      // remove all property references for IE6 and FF2
+      if (this.__removePropertyReferences) {
+        this.__removePropertyReferences();
       }
-
+      
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -733,9 +732,19 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              if (value instanceof qx.core.Object || qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-                qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
-                delete this[key];
+              var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
+              var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
+              // keep the old behavior for IE6 and FF2
+              if (ff2 || ie6) {
+                if (value instanceof qx.core.Object || qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                  delete this[key];
+                }
+              } else {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                  delete this[key];
+                }
               }
             }
           }
@@ -743,7 +752,40 @@ qx.Class.define("qx.core.Object",
       }
     },
 
+    
+    /**
+     * Special method for IE6 and FF2 which removes all $$user_ references 
+     * set up by the properties.
+     * @signature function()
+     */
+    __removePropertyReferences : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function() {
+        // IE6 seems to have problem on garbage collection so better remove 
+        // all references
+        if (navigator.userAgent.indexOf("MSIE 6.0") != -1) {
+          // remove all property references
+          var properties = qx.Class.getProperties(this.constructor);
+          for (var i = 0, l = properties.length; i < l; i++) {
+            delete this["$$user_" + properties[i]];
+          }
+        }
+      },
+      
+      "gecko" : function() {
+        // FF2 seems to have problem on garbage collection so better remove 
+        // all references
+        if (navigator.userAgent.indexOf("rv:1.8.1") != -1) {
+          // remove all property references
+          var properties = qx.Class.getProperties(this.constructor);
+          for (var i = 0, l = properties.length; i < l; i++) {
+            delete this["$$user_" + properties[i]];
+          }
+        }
+      },
 
+      "default" : null
+    }),
 
 
     /*
