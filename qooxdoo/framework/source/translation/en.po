@@ -318,13 +318,17 @@ msgstr ""
 msgid "Next year"
 msgstr ""
 
-#: qx/ui/table/Table.js:1778
+#: qx/ui/form/validation/Manager.js:35
+msgid "This field is required"
+msgstr ""
+
+#: qx/ui/table/Table.js:1805
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qx/ui/table/Table.js:1780
+#: qx/ui/table/Table.js:1807
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
@@ -332,6 +336,38 @@ msgstr[1] ""
 
 #: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
+msgstr ""
+
+#: qx/util/Validate.js:90
+msgid "%1 is not a number."
+msgstr ""
+
+#: qx/util/Validate.js:123
+msgid "'%1' is not an email address."
+msgstr ""
+
+#: qx/util/Validate.js:153
+msgid "%1 is not a string."
+msgstr ""
+
+#: qx/util/Validate.js:184
+msgid "%1 is not an url."
+msgstr ""
+
+#: qx/util/Validate.js:216
+msgid "%1 is not a color! %2"
+msgstr ""
+
+#: qx/util/Validate.js:242
+msgid "%1 is not in the range from [%2, %3]."
+msgstr ""
+
+#: qx/util/Validate.js:264
+msgid "%1 is not in %2"
+msgstr ""
+
+#: qx/util/Validate.js:287
+msgid "%1 does not fit %2."
 msgstr ""
 
 #~ msgid "Case sensitive"
