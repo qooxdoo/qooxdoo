@@ -1,4 +1,4 @@
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
@@ -28,7 +28,9 @@ msgid "Custom Code"
 msgstr ""
 
 #: playground/Application.js:382
-msgid "// Could not handle URL parameter! \n// %1"
+msgid ""
+"// Could not handle URL parameter! \n"
+"// %1"
 msgstr ""
 
 #: playground/Application.js:385
@@ -150,4 +152,3 @@ msgstr ""
 #: playground/view/gist/UserNameMenuItem.js:43
 msgid "Username"
 msgstr ""
-
