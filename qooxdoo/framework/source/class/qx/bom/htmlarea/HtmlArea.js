@@ -374,7 +374,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                 return html.join("");
               }
             }
-
+            
             // --------------------------------------------------------------
             // Parse attributes
             // --------------------------------------------------------------
@@ -384,6 +384,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             var len = attrs.length;
             // Current attribute
             var a;
+
+            if (qx.core.Variant.isSet("qx.client", "gecko"))
+            {
+              // we can leave out all auto-generated empty span elements which are marked dirty
+              if (tag == "span" && len == 1 && attrs[0].name == "_moz_dirty" && root.childNodes.length == 0) {
+                return "";
+              }
+            }
 
             for (i = 0; i < len; i++)
             {
