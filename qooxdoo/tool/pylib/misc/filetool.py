@@ -144,13 +144,8 @@ def find(rootpath, pattern=None, includedirs=False):
     alwaysSkip  = re.compile(r'%s' % '|'.join(VERSIONCONTROL_DIR_PATTS),re.I)
 
     for (path, dirlist, filelist) in dirwalker:
-        # correct dirlist (only with 'while' you can change it in place)
-        i,j = 0,len(dirlist)
-        while i<j:
-            if re.search(alwaysSkip, dirlist[i]):
-                del dirlist[i]
-                j -= 1
-            i += 1
+        # filter dirlist (slice assignment changes it in place)
+        dirlist[:] = [x for x in dirlist if not re.search(alwaysSkip, x)]
 
         ## go through files
         if includedirs: 
