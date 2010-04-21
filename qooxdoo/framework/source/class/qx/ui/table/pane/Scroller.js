@@ -98,11 +98,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
 
-    // Set up wrapper if required
-    //if (!this.__onintervalWrapper) {
-    //  this.__onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-    //}
-
     this.__timer = new qx.event.Timer();
     this.__timer.addListener("interval", this._oninterval, this);
     this.initScrollTimeout();
@@ -1123,6 +1118,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (
         this.__lastMouseDownCell &&
+        !this.isEditing() &&
         this.__focusIndicator.getRow() == this.__lastMouseDownCell.row &&
         this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col
       ) {
@@ -1350,6 +1346,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         if (
           this.__focusIndicator.isHidden() ||
             (this.__lastMouseDownCell &&
+             !this.isEditing() &&
              row == this.__lastMouseDownCell.row &&
              col == this.__lastMouseDownCell.col
             ))
@@ -1753,9 +1750,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this.__cellEditor.setUserBounds(0, 0, size.width, size.height);
 
           // prevent click event from bubbling up to the table
-          this.__focusIndicator.addListener("mousedown", function(e) {
+          this.__focusIndicator.addListener("mousedown", function(e)
+          {
+            this.__lastMouseDownCell = {
+              row : this.__focusedRow,
+              col : this.__focusedCol
+            };
             e.stopPropagation();
-          });
+          }, this);
 
           this.__focusIndicator.add(this.__cellEditor);
           this.__focusIndicator.addState("editing");
