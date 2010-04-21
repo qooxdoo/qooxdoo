@@ -49,7 +49,6 @@ class ExtMap(object):
             elif isinstance(data, types.DictType) and data.has_key(part):
                 data = data[part]
             else:
-                #return default
                 raise KeyError, key
 
         return data
