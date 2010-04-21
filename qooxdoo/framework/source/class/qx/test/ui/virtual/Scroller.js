@@ -88,8 +88,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
 
       this.scroller.scrollToX(3000);
 
-      this.assertEquals(3000-301, this.scroller.getScrollX());
-      this.assertEquals(3000-301, this.scroller.getPane().getScrollX());
+      this.assertEquals(3000-300, this.scroller.getScrollX());
+      this.assertEquals(3000-300, this.scroller.getPane().getScrollX());
 
       this.configureScroller(3000, 2000, 3000, 2000);
       this.assertScrollbars(false, false);
@@ -112,8 +112,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.assertEquals(100, this.scroller.getPane().getScrollY());
 
       this.scroller.scrollToY(2000);
-      this.assertEquals(2000-201, this.scroller.getScrollY());
-      this.assertEquals(2000-201, this.scroller.getPane().getScrollY());
+      this.assertEquals(2000-200, this.scroller.getScrollY());
+      this.assertEquals(2000-200, this.scroller.getPane().getScrollY());
 
       this.configureScroller(3000, 2000, 3000, 2000);
       this.assertScrollbars(false, false);
@@ -130,16 +130,16 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
 
       // scroll to end
       this.scroller.scrollToY(10000);
-      this.assertEquals(2000-201, this.scroller.getScrollY());
+      this.assertEquals(2000-200, this.scroller.getScrollY());
 
       // increase scroller size
       this.configureScroller(3000, 2000, 300, 400);
       this.assertEquals(
-        2000-401, this.scroller.getScrollY(),
+        2000-400, this.scroller.getScrollY(),
         "the scroll position must be limited to the max scroll position"
       );
       this.assertEquals(
-        2000-401, this.scroller.getPane().getScrollY(),
+        2000-400, this.scroller.getPane().getScrollY(),
         "the scroll position must be limited to the max scroll position"
       );
 

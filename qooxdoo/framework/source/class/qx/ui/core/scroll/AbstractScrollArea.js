@@ -557,8 +557,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
         var barX = this.getChildControl("scrollbar-x");
 
         barX.show();
-
-        barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width - 1));
+        barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width));
         barX.setKnobFactor(paneSize.width / scrollSize.width);
       }
       else
@@ -571,8 +570,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
         var barY = this.getChildControl("scrollbar-y");
 
         barY.show();
-
-        barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height - 1));
+        barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height));
         barY.setKnobFactor(paneSize.height / scrollSize.height);
       }
       else
