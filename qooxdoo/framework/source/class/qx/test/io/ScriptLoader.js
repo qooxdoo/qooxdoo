@@ -65,12 +65,12 @@ qx.Class.define("qx.test.io.ScriptLoader",
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
-      
+
       var url = this.getUrl("qx/test/xmlhttp/404.php");
       
       this.loader.load(url, function(status) { this.resume(function() {
-        if (qx.bom.client.Engine.MSHTML) {
-          // Error state does not work in IE!
+        if (qx.bom.client.Engine.MSHTML || (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 531)) {
+          // Error state does not work in IE and Safari 3!
           this.assertEquals("success", status);
         } else {
           this.assertEquals("fail", status);
