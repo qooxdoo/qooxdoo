@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
       }
 
-      var oldRenderer = this.__columnDataArr[col].headerRenderer;
+      var oldRenderer = this.__columnDataArr[col].dataRenderer;
       if (oldRenderer !== this.__dataRenderer) {
         oldRenderer.dispose();
       }
