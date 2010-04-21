@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
       // Add styles
       var Color = qx.theme.manager.Color.getInstance();
-      styles.border = width + "px " + this.getStyle() + " " + Color.resolve(this.getColor());
+      styles.border = width + "px " + this.getStyle() + " " + (Color.resolve(this.getColor()) || "");
 
       var html = this._generateBackgroundMarkup(styles);
 
