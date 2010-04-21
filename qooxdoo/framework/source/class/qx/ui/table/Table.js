@@ -1258,7 +1258,6 @@ qx.Class.define("qx.ui.table.Table",
               break;
           }
         }
-        return
       }
       else
       {
