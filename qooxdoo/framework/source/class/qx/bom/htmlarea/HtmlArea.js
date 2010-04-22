@@ -2890,6 +2890,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         qx.bom.Element.focus(this.getContentBody());
         qx.bom.Element.focus(this.getContentWindow());
         
+        var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
+        if (elementToFocus) {
+          qx.bom.element.Attribute.reset(elementToFocus, "id");
+        }
+        
         this.__checkForContentAndSetDefaultContent();       
       },
 
