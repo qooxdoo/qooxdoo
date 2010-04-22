@@ -83,13 +83,7 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
       // Add description, toolbar and HtmlArea widget
       vbContainer.add(description);
       vbContainer.add(toolbar);
-<<<<<<< HEAD
       vbContainer.add(this.__htmlArea);
-=======
-      vbContainer.add(new qx.ui.form.TextField);
-      vbContainer.add(new qx.ui.form.TextField);
-      vbContainer.add(this.__htmlArea);      
->>>>>>> First steps to support tab focus in htmmlarea. Still at development state.
 
       doc.add(vbContainer, { left: 20, top: 20 });
     },
