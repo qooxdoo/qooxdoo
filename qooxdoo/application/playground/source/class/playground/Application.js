@@ -46,7 +46,7 @@ qx.Class.define("playground.Application",
      * Global handler for the url shortening JSONP call.
      *
      * @param data {Object} The data from the JSONP call.
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @lint ignoreDeprecated(prompt)
      */
@@ -75,7 +75,7 @@ qx.Class.define("playground.Application",
     __log : null,
     __editor : null,
     __playArea : null,
-    
+
     // storages
     __samples : null,
     __gists : null,
@@ -84,22 +84,22 @@ qx.Class.define("playground.Application",
     __bitlyKey: "R_84ed30925212f47f60d700fdfc225e33",
 
     __history : null,
-    
+
     __currentStandalone: null,
-    
+
     // flag used for the warning for IE
     __ignoreSaveFaults : false,
-    
+
     // used for removing the created objects in the run code
     __beforeReg : null,
     __afterReg : null,
     __oldCode : null,
 
     __errorMsg: qx.locale.Manager.tr(
-      "Unfortunately, an unrecoverable internal error was caused by your code." + 
+      "Unfortunately, an unrecoverable internal error was caused by your code." +
       " This may prevent the playground application to run properly.||"
     ),
-    
+
 
     /**
      * This method contains the initial application code and gets called
@@ -126,7 +126,7 @@ qx.Class.define("playground.Application",
       if (initUserName) {
         this.__loadGistsForUser(initUserName);
       }
-      
+
       // toolbar
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
       mainContainer.add(this.__toolbar, { flex : 0 });
@@ -145,33 +145,33 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
-      
+
       // mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
 
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
-      
+
       // need to split up the creation process
       this.__editor = new playground.view.Editor();
       this.__editor.init();
       this.__editor.addListener("disableHighlighting", function() {
         this.__toolbar.enableHighlighting(false);
       });
-      
+
       mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
       this.__playArea = new playground.view.PlayArea();
       infosplit.add(this.__playArea, 2);
-      
+
       mainsplit.getChildControl("splitter").addListener("mousedown", function() {
         this.__editor.block();
       }, this);
 
       mainsplit.addListener("losecapture", function() {
         this.__editor.unblock();
-      }, this);      
+      }, this);
 
       this.__log = new playground.view.Log();
 
@@ -185,22 +185,22 @@ qx.Class.define("playground.Application",
     finalize: function() {
       // Back button and bookmark support
       this.__initBookmarkSupport();
-      
+
       // check for the highlight cookie
       if (qx.bom.Cookie.get("playgroundHighlight") === "false") {
         this.__editor.useHighlight(false);
       }
     },
 
-    
+
     // ***************************************************
     // TOOLBAR HANDLER
     // ***************************************************
     /**
      * Handler for sample changes of the toolbar.
-     * @param e {qx.event.type.Data} Data event containing the new name of 
+     * @param e {qx.event.type.Data} Data event containing the new name of
      *   the sample.
-     * 
+     *
      * @lint ignoreDeprecated(confirm)
      */
     __onSampleChange : function(e) {
@@ -208,8 +208,8 @@ qx.Class.define("playground.Application",
       var currentSample = this.__samples.getCurrent();
       if (this.__isCodeNotEqual(userCode, currentSample))
       {
-        if (!confirm(this.tr("You changed the code of the current sample.|" + 
-          "Click OK to discard your changes.").replace(/\|/g, "\n"))) 
+        if (!confirm(this.tr("You changed the code of the current sample.|" +
+          "Click OK to discard your changes.").replace(/\|/g, "\n")))
         {
           return ;
         }
@@ -221,10 +221,10 @@ qx.Class.define("playground.Application",
       // run the new sample
       this.run();
     },
-    
-    
+
+
     /**
-     * Handler for changeGist which set the given text to the editor and 
+     * Handler for changeGist which set the given text to the editor and
      * runs it.
      * @param e {qx.event.type.Data} The data event containing the gist content.
      */
@@ -232,8 +232,8 @@ qx.Class.define("playground.Application",
       this.__editor.setCode(e.getData().code);
       this.run(null, e.getData().name);
     },
-    
-    
+
+
     /**
      * Handler for the changeHighlight event of the toolbar.
      * @param e {qx.event.type.Data} Data event containing the boolean to change
@@ -247,22 +247,22 @@ qx.Class.define("playground.Application",
 
     /**
      * Handler for showing the log of the toolbar.
-     * @param e {qx.event.type.Data} Data event containing if the log should 
+     * @param e {qx.event.type.Data} Data event containing if the log should
      *   be shown.
      */
     __onLogChange : function(e) {
       e.getData() ? this.__log.show() : this.__log.exclude();
     },
-    
-    
+
+
     /**
      * Handler for the url shortening service.
      */
     __onUrlShorten : function() {
-      var url = "http://api.bit.ly/shorten?version=2.0.1" + 
-        "&login=qooxdoo" + 
-        "&longUrl=" + escape(window.location.href) + 
-        "&apiKey=" + this.__bitlyKey + 
+      var url = "http://api.bit.ly/shorten?version=2.0.1" +
+        "&login=qooxdoo" +
+        "&longUrl=" + escape(window.location.href) +
+        "&apiKey=" + this.__bitlyKey +
         "&callback=playground.Application.handleShortendURl";
       var loader = new qx.io.ScriptLoader();
       loader.load(url);
@@ -274,13 +274,13 @@ qx.Class.define("playground.Application",
      */
     __onApiOpen : function() {
       window.open(
-        "http://demo.qooxdoo.org/" + 
-        qx.core.Setting.get("qx.version") + 
+        "http://demo.qooxdoo.org/" +
+        qx.core.Setting.get("qx.version") +
         "/apiviewer/"
       );
     },
-    
-    
+
+
     /**
      * Handler for opening the manual.
      */
@@ -329,7 +329,7 @@ qx.Class.define("playground.Application",
         var name = this.__samples.getNames()[0];
         code = this.__samples.get(name);
       }
-      
+
       this.__editor.setCode(code);
       this.run();
       this.__updateTitle(name);
@@ -365,36 +365,36 @@ qx.Class.define("playground.Application",
         }
       }
     },
-    
-    
+
+
     /**
-     * Helper method for parsing the given url parameter to a valid code 
+     * Helper method for parsing the given url parameter to a valid code
      * fragment.
      * @param state {String} The given state of the browsers history.
      * @return {String} A valid code snippet.
      */
-    __parseURLCode : function(state) 
+    __parseURLCode : function(state)
     {
       try {
         var data = qx.util.Json.parse(state);
-        return decodeURIComponent(data.code).replace(/%0D/g, "");        
+        return decodeURIComponent(data.code).replace(/%0D/g, "");
       } catch (e) {
         var error = this.tr("// Could not handle URL parameter! \n// %1", e);
-        
+
         if (qx.bom.client.Engine.MSHTML) {
-          error += this.tr("// Your browser has a length restriction of the " + 
+          error += this.tr("// Your browser has a length restriction of the " +
                           "URL parameter which could have caused the problem.");
         }
         return error;
       }
     },
-    
-    
+
+
     /**
      * Adds the given code to the history.
      * @param code {String} the code to add.
      * @lint ignoreDeprecated(confirm)
-     */    
+     */
     __addCodeToHistory : function(code) {
       var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
       if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
@@ -406,7 +406,7 @@ qx.Class.define("playground.Application",
         };
         return;
       }
-      this.__history.addToHistory(codeJson);      
+      this.__history.addToHistory(codeJson);
     },
 
 
@@ -427,28 +427,28 @@ qx.Class.define("playground.Application",
         this.__toolbar.updateGists([], []);
         return;
       } else {
-        this.__toolbar.invalidGist(false);        
+        this.__toolbar.invalidGist(false);
       }
-      
+
       var names = [];
       var texts = [];
       for (var i = 0; i < model.getLength(); i++) {
         var item = model.getItem(i);
-        var desc = qx.lang.Type.isString(item.getDescription()) ? 
+        var desc = qx.lang.Type.isString(item.getDescription()) ?
           item.getDescription() : item.getRepo();
         names.push(desc);
-        
+
         texts.push(item.getContent ? item.getContent() : "");
       };
       this.__toolbar.updateGists(names, texts);
     },
-    
-    
+
+
     /**
      * Load all gists viy YQL for the given username.
      * @param username {String} The username to load the gists for.
      */
-    __loadGistsForUser : function(username) 
+    __loadGistsForUser : function(username)
     {
       var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.list.xml" AS gh; SELECT * FROM gh WHERE user="' + username + '"';
       var delegate = {manipulateData : function(data) {
@@ -469,7 +469,7 @@ qx.Class.define("playground.Application",
         }
       }};
       var store = new qx.data.store.Yql(query, delegate);
-      store.addListener("loaded", this.__onGistsLoaded, this);      
+      store.addListener("loaded", this.__onGistsLoaded, this);
     },
 
 
@@ -492,10 +492,10 @@ qx.Class.define("playground.Application",
         }
       }, this);
     },
-    
-    
+
+
     /**
-     * Handler for creating a new gists. (Opens up a window 
+     * Handler for creating a new gists. (Opens up a window
      * for creating a new gist)
      */
     __newGist : function() {
@@ -540,11 +540,11 @@ qx.Class.define("playground.Application",
       if (qx.core.Variant.isSet("qx.client", "opera")) {
         code1 = code1.replace(/\r?\n/g, "\n");
         code2 = code2.replace(/\r?\n/g, "\n");
-        return code1 != code2;     
+        return code1 != code2;
       }
 
       var compareElem1 = document.getElementById("compare_div1");
-    	compareElem1.innerHTML = code1;
+      compareElem1.innerHTML = code1;
 
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = code2;
@@ -581,8 +581,8 @@ qx.Class.define("playground.Application",
       var title = this.__samples.getCurrentName();
       code = 'this.info("' + this.tr("Starting application").toString() +
         (title ? " '" + title + "'": "") +
-        ' ...");\n' + 
-        ((code + ";") || "") +
+        ' ...");\n' +
+        ((code + ";") || "") +
         'this.info("' + this.tr("Successfully started").toString() + '.");\n';
 
       // try to create a function
@@ -615,8 +615,8 @@ qx.Class.define("playground.Application",
           this.__executeStandaloneApp(name);
           break;
         }
-      } 
-      
+      }
+
       // error handling
       if (exc) {
         this.error(this.__errorMsg.replace(/\|/g, "\n") + exc);
@@ -627,8 +627,8 @@ qx.Class.define("playground.Application",
 
       this.__log.fetch();
     },
-    
-    
+
+
     /**
      * Runs the current set sample and checks if it need to be saved to the url.
      */
@@ -640,7 +640,7 @@ qx.Class.define("playground.Application",
       var currentSample = this.__samples.getCurrent();
       var code = this.__editor.getCode();
       if (code && this.__isCodeNotEqual(code, currentSample)) {
-        this.__playArea.updateCaption(newName || this.tr("%1 (modified)", name));
+        this.__playArea.updateCaption(newName || this.tr("%1 (modified)", name));
         this.__addCodeToHistory(code);
       } else {
         this.__playArea.updateCaption(name);
@@ -648,15 +648,15 @@ qx.Class.define("playground.Application",
           this.__samples.getCurrentName(), this.__updateTitle(name)
         );
       }
-    },    
+    },
 
- 
+
     // ***************************************************
     // STANDALONE SUPPORT
-    // *************************************************** 
-       
+    // ***************************************************
+
     /**
-     * Determines whether the class (given by name) exists in the object 
+     * Determines whether the class (given by name) exists in the object
      * registry and is a qooxdoo standalone application class
      *
      * @param name {String} Name of the class to examine
@@ -669,9 +669,9 @@ qx.Class.define("playground.Application",
       }
       var clazz = qx.Class.$$registry[name];
       return (
-        clazz && clazz.superclass && 
+        clazz && clazz.superclass &&
         clazz.superclass.classname === "qx.application.Standalone"
-      )      
+      )
     },
 
 
@@ -684,7 +684,7 @@ qx.Class.define("playground.Application",
     {
       var self = this;
       qx.application.Standalone.prototype._createRootWidget = function() {
-        return self.__playArea.getApp().getRoot(); 
+        return self.__playArea.getApp().getRoot();
       };
 
       var app = new qx.Class.$$registry[name];
@@ -711,7 +711,7 @@ qx.Class.define("playground.Application",
   {
     this.__history = this.__beforeReg = this.__afterReg = null;
     this._disposeObjects(
-      "__currentStandalone", "__samples", "__toolbar", "__editor", 
+      "__currentStandalone", "__samples", "__toolbar", "__editor",
       "__playArea", "__log"
     );
   }

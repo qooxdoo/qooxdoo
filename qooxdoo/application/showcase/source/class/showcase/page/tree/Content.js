@@ -36,28 +36,28 @@
 qx.Class.define("showcase.page.tree.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
-  
-  
+
+
   construct : function(page) {
     this.base(arguments, page);
-    
+
     var win = this.__addSecondWindow();
     this.getView().add(win);
     win.moveTo(260, 20);
     win.open();
   },
-  
-  
+
+
   members : {
-    _addWindowContent : function(win) 
+    _addWindowContent : function(win)
     {
       win.set({
         caption : "Simple View",
         minWidth: 200
       });
-      
+
       win.setLayout(new qx.ui.layout.Grow());
-      
+
       var tree = new qx.ui.tree.Tree().set({
         width : 200,
         height : 400,
@@ -99,7 +99,7 @@ qx.Class.define("showcase.page.tree.Content",
       });
       var te1_2_3 = new qx.ui.tree.TreeFile("DVD (E:)").set({
         icon: "icon/22/devices/drive-optical.png"
-      });      
+      });
       te1_2.add(te1_2_1, te1_2_2, te1_2_3);
 
 
@@ -136,9 +136,9 @@ qx.Class.define("showcase.page.tree.Content",
 
       root.add(te2);
     },
-    
-    
-    __addSecondWindow : function() 
+
+
+    __addSecondWindow : function()
     {
       var win = new qx.ui.window.Window().set({
         showClose: false,
@@ -161,7 +161,7 @@ qx.Class.define("showcase.page.tree.Content",
       });
 
       win.add(tree);
-      
+
       var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Home", "icon/22/places/user-home.png");
       root.setOpen(true);
       tree.setRoot(root);
@@ -222,11 +222,11 @@ qx.Class.define("showcase.page.tree.Content",
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8);
       root.add(te2);
-      
+
       return win;
     },
-    
-    
+
+
     configureTreeItem : function(treeItem, vLabel, vIcon)
     {
       // Here's our indentation and tree-lines
@@ -239,7 +239,7 @@ qx.Class.define("showcase.page.tree.Content",
       // The standard tree icon follows
       treeItem.addIcon();
       if (arguments.length >= 3) {
-        treeItem.setIcon(vIcon);        
+        treeItem.setIcon(vIcon);
       }
 
       // The label
@@ -261,6 +261,6 @@ qx.Class.define("showcase.page.tree.Content",
       treeItem.addWidget(text);
 
       return treeItem;
-    }    
+    }
   }
 });

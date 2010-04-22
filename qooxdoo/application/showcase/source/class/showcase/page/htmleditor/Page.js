@@ -24,13 +24,13 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.htmleditor.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -50,8 +50,8 @@ qx.Class.define("showcase.page.htmleditor.Page",
       )
     });
   },
-  
-  
+
+
   members :
   {
     __descriptionText : "The Html Editor, embedded here in a window with menu bar and toolbar, provides basic" +
@@ -59,22 +59,22 @@ qx.Class.define("showcase.page.htmleditor.Page",
     " and as a qooxdoo widget. It offers events, allowing easy implementation of a toolbar " +
     "supplement. The UI controls of the toolbar can be used to interact " +
     "with the HTML editing component.",
-      
+
     __tryThis : {
       "Text Formatting" : "Format some text with underline, bold, italic, ...",
       "Alignment" : "Align the text on the right side.",
       "Lists" : "Insert a numbered or bullet point list.",
       "Redo/Undo" : "Try reverting your changes by using the undo button."
     },
-    
+
     __features : {
       "Inserting" : "You can insert HTML tables, images, hyperlinks, ..."
     },
-    
+
     __manual : {
       "ui_html_editing": "Overview HTML Editing"
-    },    
-      
+    },
+
     __demos : {
       "#bom~HtmlArea.html" : "Low-Level editor",
       "#widget~HtmlArea.html" : "Editor widget"
@@ -85,6 +85,6 @@ qx.Class.define("showcase.page.htmleditor.Page",
       "#qx.ui.toolbar" : "Toolbar",
       "#qx.ui.menubar" : "MenuBar",
       "#qx.ui.menu" : "Menu"
-    }  
-  }  
+    }
+  }
 });

@@ -82,12 +82,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
       check : "String",
       init: ""
     },
-    
-    
+
+
     /**
      * This message will be shown if a required field is empty.
      */
-    requiredFieldMessage : 
+    requiredFieldMessage :
     {
       check : "String",
       init : ""

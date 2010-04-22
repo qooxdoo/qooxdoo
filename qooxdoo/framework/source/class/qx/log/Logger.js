@@ -620,15 +620,15 @@ qx.Class.define("qx.log.Logger",
       };
     }
   },
-  
-  
+
+
   defer : function(statics)
   {
     var logs = qx.Bootstrap.$$logs;
     for (var i=0; i<logs.length; i++) {
       this.__log(logs[i][0], logs[i][1]);
     }
-    
+
     qx.Bootstrap.debug = statics.debug;
     qx.Bootstrap.info = statics.info;
     qx.Bootstrap.warn = statics.warn;

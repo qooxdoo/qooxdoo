@@ -61,7 +61,7 @@ qx.Class.define("qx.html.Image",
           styles.backgroundPosition = null;
           styles.backgroundRepeat = null;
         }
-        
+
         var source = this._getProperty("source");
         var scale = this._getProperty("scale");
         var repeat = scale ? "scale" : "no-repeat";
@@ -99,7 +99,7 @@ qx.Class.define("qx.html.Image",
 
 
 
-    
+
 
     /*
     ---------------------------------------------------------------------------

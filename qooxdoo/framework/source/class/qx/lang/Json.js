@@ -45,13 +45,13 @@ qx.Class.define("qx.lang.Json",
     /**
      * {JSON} The JSON object to use. If the browser has native JSON support
      *   this member points to <code>window.JSON</code>. Otherwise it points to
-     *   the qooxdoo implementation {@link JsonImpl}. 
+     *   the qooxdoo implementation {@link JsonImpl}.
      */
     JSON : (
       qx.lang.Type.getClass(window.JSON) == "JSON" &&
       JSON.parse('{"x":1}').x === 1
     ) ? window.JSON : new qx.lang.JsonImpl(),
-  
+
     /**
      * This method produces a JSON text from a JavaScript value.
      *
@@ -186,7 +186,7 @@ qx.Class.define("qx.lang.Json",
      * </pre>
      *
      * @signature function(text, reviver)
-     * 
+     *
      * @param text {String} JSON string to parse
      *
      * @param reviver {Function?} Optional reviver function to filter and
@@ -196,11 +196,11 @@ qx.Class.define("qx.lang.Json",
      */
     parse : null // will be set in the defer block
   },
-  
-  
+
+
   defer : function(statics)
   {
-    statics.stringify = statics.JSON.stringify; 
-    statics.parse = statics.JSON.parse; 
+    statics.stringify = statics.JSON.stringify;
+    statics.parse = statics.JSON.parse;
   }
 });

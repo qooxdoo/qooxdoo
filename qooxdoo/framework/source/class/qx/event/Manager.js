@@ -30,7 +30,7 @@
 qx.Class.define("qx.event.Manager",
 {
   extend : Object,
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR

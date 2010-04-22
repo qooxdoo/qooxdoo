@@ -21,9 +21,9 @@ qx.Class.define("qx.test.ui.decoration.Single",
 {
   extend : qx.dev.unit.TestCase,
 
-  statics :  
+  statics :
   {
-    overflow : (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION == 6 ? "overflow:hidden;" : "") 
+    overflow : (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION == 6 ? "overflow:hidden;" : "")
   },
 
 
@@ -77,5 +77,5 @@ qx.Class.define("qx.test.ui.decoration.Single",
 
 
   }
-  
+
 });

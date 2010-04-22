@@ -91,10 +91,10 @@ qx.Class.define("feedreader.io.FeedLoader",
       req.send();
     },
 
-    
+
     /**
      * Handler for failing requests.
-     * 
+     *
      * @param e {qx.io.request.Response} The failed response.
      */
     __onFail : function(feed, e) {

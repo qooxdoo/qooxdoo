@@ -20,39 +20,39 @@
 qx.Class.define("showcase.page.theme.Content",
 {
   extend : showcase.AbstractContent,
-  
-  
+
+
   construct : function(page) {
     this.base(arguments, page);
-    
+
     this.setView(this._createView());
   },
-  
-  
+
+
   members :
   {
-    _createView : function() 
+    _createView : function()
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
-      
-      var calc = new showcase.page.theme.calc.view.Calculator(true);     
+
+      var calc = new showcase.page.theme.calc.view.Calculator(true);
       view.add(calc);
       calc.moveTo(60, 40);
-      calc.open();      
-   
+      calc.open();
+
       var model = new showcase.page.theme.calc.Model();
       new showcase.page.theme.calc.Presenter(calc, model);
 
-      
+
       var calc = new showcase.page.theme.calc.view.Calculator(false);
-      
+
       view.add(calc);
       calc.moveTo(340, 40);
-      calc.open();      
-      
+      calc.open();
+
       var model = new showcase.page.theme.calc.Model();
       new showcase.page.theme.calc.Presenter(calc, model);
-      
+
       return view;
     }
   }

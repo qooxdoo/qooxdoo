@@ -21,13 +21,13 @@ qx.Class.define("showcase.page.theme.calc.Model",
 {
   extend : qx.core.Object,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    
+
     this.initState();
   },
-  
+
   properties :
   {
     state :
@@ -37,48 +37,48 @@ qx.Class.define("showcase.page.theme.calc.Model",
       init : "number",
       apply : "_applyState"
     },
-    
-    errorMessage : 
+
+    errorMessage :
     {
       check : "String",
       init : "",
       event : "changeErrorMessage"
     },
-    
-    input : 
+
+    input :
     {
       check : "String",
       nullable : true,
       event : "changeInput"
     },
-    
+
     maxInputLength :
     {
       check : "Integer",
       init : 20
     },
-    
+
     operator :
     {
       check : ["+", "-", "*", "/"],
       nullable : true,
       event : "changeOperator"
     },
-    
-    operant : 
+
+    operant :
     {
       check : "Number",
       nullable : true,
       event : "changeOperant"
     },
-    
-    value : 
+
+    value :
     {
       check : "Number",
       nullable : true,
       event : "changeValue"
     },
-    
+
     memory :
     {
       check : "Number",
@@ -86,7 +86,7 @@ qx.Class.define("showcase.page.theme.calc.Model",
       event : "changeMemory"
     }
   },
-  
+
   members :
   {
     readToken : function(token)
@@ -111,20 +111,20 @@ qx.Class.define("showcase.page.theme.calc.Model",
         this.__readMemoryClear();
       } else if (token == "MR") {
         this.__readMemoryRestore();
-      }     
+      }
     },
-    
-    
+
+
     __getInputAsNumber : function() {
       return parseFloat(this.getInput());
     },
-    
-    
+
+
     __compute : function(operant1, operant2, operator)
     {
       switch (operator)
       {
-        case "+": 
+        case "+":
           return operant1 + operant2;
         case "-":
           return operant1 - operant2;
@@ -141,8 +141,8 @@ qx.Class.define("showcase.page.theme.calc.Model",
           }
       }
     },
-    
-    
+
+
     _applyState : function(value, old)
     {
       if (value == "number") {
@@ -151,41 +151,41 @@ qx.Class.define("showcase.page.theme.calc.Model",
         this.setOperator(null);
       }
     },
-    
-    
+
+
     __readDigit : function(digit)
     {
       this.setState("number");
       var input = this.getInput();
-      
+
       if (input.length >= this.getMaxInputLength()-1) {
         return;
       }
-      
-      if (digit == "0") 
+
+      if (digit == "0")
       {
         if (input !== "0") {
-          input += "0";            
-        }        
+          input += "0";
+        }
       }
       else
       {
         if (input == "0") {
           input = digit;
         } else {
-          input += digit;          
-        }        
+          input += digit;
+        }
       }
-      
+
       this.setInput(input);
     },
-    
-    
+
+
     __readSign : function()
     {
       this.setState("number");
       var input = this.getInput();
-      
+
       if (input == "0") {
         return;
       }
@@ -197,13 +197,13 @@ qx.Class.define("showcase.page.theme.calc.Model",
       }
       this.setInput(input);
     },
-    
-    
+
+
     __readDot : function()
     {
       this.setState("number");
       var input = this.getInput();
-      
+
       if (input.length >= this.getMaxInputLength()-1) {
         return;
       }
@@ -212,25 +212,25 @@ qx.Class.define("showcase.page.theme.calc.Model",
       if (!isFraction) {
         input += ".";
       }
-      this.setInput(input);       
+      this.setInput(input);
     },
-    
-    
+
+
     __readBinaryOperator : function(operator)
     {
       var state = this.getState();
-      
+
       if (state == "error") {
         return;
       } else if (state == "waitForNumber") {
         this.setOperator(operator);
         return;
-      }     
+      }
       this.setState("waitForNumber");
-      
-      var operant = this.__getInputAsNumber();     
+
+      var operant = this.__getInputAsNumber();
       var value = this.getValue();
-      
+
       if (value !== null) {
         this.setValue(this.__compute(value, operant, this.getOperator()));
       } else {
@@ -240,8 +240,8 @@ qx.Class.define("showcase.page.theme.calc.Model",
       this.setOperant(operant);
       this.setOperator(operator);
     },
-    
-    
+
+
     __readEquals : function()
     {
       var operator = this.getOperator();
@@ -254,17 +254,17 @@ qx.Class.define("showcase.page.theme.calc.Model",
       {
         this.setValue(this.__compute(value, this.getOperant(), operator));
         return;
-      }   
-      
+      }
+
       this.setState("waitForNumber");
-      
+
       var operant = this.__getInputAsNumber();
-      this.setOperant(operant);  
-      
+      this.setOperant(operant);
+
       this.setValue(this.__compute(value, operant, operator));
     },
-    
-    
+
+
     __readClear : function()
     {
       this.setState("number");
@@ -272,13 +272,13 @@ qx.Class.define("showcase.page.theme.calc.Model",
       this.setValue(null);
       this.setInput("0");
     },
-    
-    
+
+
     __readMemory : function(token)
     {
       var state = this.getState();
       var value;
-      
+
       if (state == "error") {
         return
       } else if (state == "waitForNumber") {
@@ -286,16 +286,16 @@ qx.Class.define("showcase.page.theme.calc.Model",
       } else {
         value = this.__getInputAsNumber();
       }
-      
-      var memory = this.getMemory() || 0;
+
+      var memory = this.getMemory() || 0;
       if (token == "M+") {
         this.setMemory(memory + value);
       } else {
         this.setMemory(memory - value);
       }
     },
-    
-    
+
+
     __readMemoryRestore : function()
     {
       var memory = this.getMemory();
@@ -305,10 +305,10 @@ qx.Class.define("showcase.page.theme.calc.Model",
       this.setState("number");
       this.setInput(memory.toString());
     },
-    
-    
+
+
     __readMemoryClear: function() {
       this.setMemory(null);
     }
-  } 
+  }
 });

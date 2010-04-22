@@ -25,19 +25,19 @@
 /**
  * The playground toolbar containing all buttons and menus.
  */
-qx.Class.define("playground.view.Toolbar", 
+qx.Class.define("playground.view.Toolbar",
 {
   extend : qx.ui.toolbar.ToolBar,
 
 
   /**
-   * @param sampleNames {Array} An array containing all names of the samples as 
+   * @param sampleNames {Array} An array containing all names of the samples as
    *   String.
    */
   construct : function(sampleNames)
   {
     this.base(arguments);
-        
+
     // left part
     var part1 = new qx.ui.toolbar.Part();
     this.add(part1);
@@ -142,29 +142,29 @@ qx.Class.define("playground.view.Toolbar",
   },
 
 
-  events : 
+  events :
   {
     /**
      * Fired if the run button is pressed.
      */
     "run" : "qx.event.type.Event",
-    
+
     /**
-     * Fired if a new sample should be selected. The data contains the name of 
+     * Fired if a new sample should be selected. The data contains the name of
      * the new sample.
      */
     "changeSample" : "qx.event.type.Data",
-    
+
     /**
      * Data event if the code highlighting should be used.
      */
     "changeHighlight" : "qx.event.type.Data",
-    
+
     /**
      * Data event if the log should be shown.
      */
     "changeLog" : "qx.event.type.Data",
-    
+
     /**
      * Event which will indicate a url shortening action.
      */
@@ -174,27 +174,27 @@ qx.Class.define("playground.view.Toolbar",
      * Event which will be fired to open the api.
      */
     "openApi" : "qx.event.type.Event",
-    
+
     /**
      * Event which will be fired to open the manual.
      */
     "openManual" : "qx.event.type.Event",
-    
+
     /**
      * Event signaling that a new gist has been selected.
      */
     "changeGist" : "qx.event.type.Data",
-    
+
     /**
      * Event which will be fireed if the gists should be reloaded.
      */
     "reloadGists" : "qx.event.type.Data",
-    
+
     /**
      * Fired if a new gist should be created.
      */
     "newGist" : "qx.event.type.Event",
-    
+
     /**
      * Fired if the gist should be edited.
      */
@@ -207,7 +207,7 @@ qx.Class.define("playground.view.Toolbar",
     __highlightButton : null,
     __logCheckButton : null,
     __gistMenu : null,
-    
+
     /**
      * Controlls the presed state of the log button.
      * @param show {Boolean} True, if the button should be pressed.
@@ -215,8 +215,8 @@ qx.Class.define("playground.view.Toolbar",
     showLog : function(show) {
       this.__logCheckButton.setValue(show);
     },
-    
-    
+
+
     /**
      * Controlls the enabled property of the highlight button.
      * @param value {Boolean} True, if the button should be enabled.
@@ -224,8 +224,8 @@ qx.Class.define("playground.view.Toolbar",
     enableHighlighting : function(value) {
       this.__highlightButton.setEnabled(value);
     },
-        
-    
+
+
     /**
      * Generates a menu to select the samples.
      * @param sampleNames {Array} An array containing all names of the samples.
@@ -238,7 +238,7 @@ qx.Class.define("playground.view.Toolbar",
       for (var i = 0; i < sampleNames.length; i++)
       {
         var name = sampleNames[i];
-        
+
         var sampleEntryButton = new qx.ui.menu.Button(
           name, "icon/22/actions/edit-paste.png"
         );
@@ -253,8 +253,8 @@ qx.Class.define("playground.view.Toolbar",
 
       return menu;
     },
-    
-    
+
+
     /**
      * Updates the gists shown in the toolbar.
      * @param names {Array} An array of gist names.
@@ -263,8 +263,8 @@ qx.Class.define("playground.view.Toolbar",
     updateGists: function(names, texts) {
       this.__gistMenu.updateGists(names, texts);
     },
-    
-    
+
+
     /**
      * Signals that something went wrong during the loading of the gists.
      * @param invalid {Boolean} true, if something was wrong

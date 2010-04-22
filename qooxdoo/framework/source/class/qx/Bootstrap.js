@@ -246,14 +246,14 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /** {Map} Stores all defined classes */
     $$registry : {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       OBJECT UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Get the number of objects in the map
      *
@@ -261,12 +261,12 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    objectGetLength : 
+    objectGetLength :
     ({
       "count": function(map) {
         return map.__count__;
       },
-    
+
       "default": function(map)
       {
         var length = 0;
@@ -278,8 +278,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         return length;
       }
     })[(({}).__count__ == 0) ? "count" : "default"],
-    
-    
+
+
     /**
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
@@ -303,9 +303,9 @@ qx.Bootstrap.define("qx.Bootstrap",
       }
 
       return target;
-    },    
-    
-    
+    },
+
+
     __shadowedKeys :
     [
       "isPrototypeOf",
@@ -314,8 +314,8 @@ qx.Bootstrap.define("qx.Bootstrap",
       "toString",
       "valueOf"
     ],
-    
-    
+
+
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
@@ -323,17 +323,17 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : 
+    getKeys :
     ({
       "ES5" : Object.keys,
-      
+
       "BROKEN_IE" : function(map)
       {
         var arr = [];
         for (var key in map) {
           arr.push(key);
         }
-  
+
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible with the ECMA standard!!
         // This is why this checks are needed.
@@ -345,7 +345,7 @@ qx.Bootstrap.define("qx.Bootstrap",
             arr.push(a[i]);
           }
         }
-  
+
         return arr;
       },
 
@@ -364,7 +364,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
 
-    
+
     /**
      * Get the keys of a map as string
      *
@@ -380,9 +380,9 @@ qx.Bootstrap.define("qx.Bootstrap",
       }
 
       return '"' + keys.join('\", "') + '"';
-    },    
-    
-    
+    },
+
+
     __classToTypeMap :
     {
       "[object String]": "String",
@@ -396,14 +396,14 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Error]": "Error"
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       STRING UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */ 
-    
-    
+    */
+
+
     /**
      * Convert the first character of the string to upper case.
      *
@@ -424,13 +424,13 @@ qx.Bootstrap.define("qx.Bootstrap",
     firstLow : function(str) {
       return str.charAt(0).toLowerCase() + str.substr(1);
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
       TYPE UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */    
+    */
 
     /**
      * Get the internal class of the value. See
@@ -510,8 +510,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         qx.Bootstrap.getClass(value) == "Object"
       );
     },
-   
-    
+
+
     /**
      * Whether the value is a function.
      *
@@ -521,15 +521,15 @@ qx.Bootstrap.define("qx.Bootstrap",
     isFunction : function(value) {
       return qx.Bootstrap.getClass(value) == "Function";
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CLASS UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */  
-    
-    
+    */
+
+
     /**
      * Whether the given class exists
      *
@@ -539,7 +539,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     classIsDefined : function(name) {
       return qx.Bootstrap.getByName(name) !== undefined;
     },
-    
+
     /**
      * Returns the definition of the given property. Returns null
      * if the property does not exist.
@@ -563,7 +563,7 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
+
 
     /**
      * Whether a class has the given property
@@ -575,8 +575,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     hasProperty : function(clazz, name) {
       return !!qx.Bootstrap.getPropertyDefinition(clazz, name);
     },
-    
-    
+
+
     /**
      * Returns the event type of the given event. Returns null if
      * the event does not exist.
@@ -600,8 +600,8 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
-    
+
+
     /**
      * Whether a class supports the given event type
      *
@@ -612,8 +612,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     supportsEvent : function(clazz, name) {
       return !!qx.Bootstrap.getEventType(clazz, name);
     },
-    
-    
+
+
     /**
      * Returns the class or one of its super classes which contains the
      * declaration of the given interface. Returns null if the interface is not
@@ -646,8 +646,8 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
-    
+
+
     /**
      * Whether a given class or any of its super classes includes a given interface.
      *
@@ -663,8 +663,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     hasInterface : function(clazz, iface) {
       return !!qx.Bootstrap.getByInterface(clazz, iface);
     },
-    
-    
+
+
     /**
      * Returns a list of all mixins available in a given class.
      *
@@ -686,17 +686,17 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return list;
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       LOGGING UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
     */
-    
+
     $$logs : [],
-   
-    
+
+
     /**
      * Sending a message at level "debug" to the logger.
      *
@@ -751,8 +751,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     error : function(object, message) {
       qx.Bootstrap.$$logs.push(["error", arguments]);
     },
-    
-    
+
+
     /**
      * Prints the current stack trace at level "info"
      *

@@ -1452,7 +1452,7 @@ qx.Class.define("qx.html.Element",
         this.setStyle("userSelect", value ? "normal" : "none");
       } else if (qx.core.Variant.isSet("qx.client", "gecko")) {
         this.setStyle("MozUserSelect", value ? "text" : "-moz-none");
-      } 
+      }
     },
 
 

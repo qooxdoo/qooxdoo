@@ -757,7 +757,7 @@ qx.Class.define("qx.core.Object",
      * @deprecated Performance: Don't use '_disposeFields' - instead
      *      assign directly to <code>null</code>
      */
-    _disposeFields : function(varargs) 
+    _disposeFields : function(varargs)
     {
       qx.Bootstrap.warn("Don't use '_disposeFields' - instead assign directly to 'null'");
       qx.util.DisposeUtil.disposeFields(this, arguments);

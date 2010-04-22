@@ -19,7 +19,7 @@
 /**
  * A special menu checkbox not closing the menu on value changes.
  */
-qx.Class.define("playground.view.gist.CheckBox", 
+qx.Class.define("playground.view.gist.CheckBox",
 {
   extend : qx.ui.menu.CheckBox,
 
@@ -39,6 +39,6 @@ qx.Class.define("playground.view.gist.CheckBox",
       if (e.isLeftPressed()) {
         this.execute();
       }
-    }    
+    }
   }
 });

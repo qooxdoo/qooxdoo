@@ -20,21 +20,21 @@
 qx.Class.define("showcase.page.form.Content",
 {
   extend : showcase.AbstractContent,
-  
-  
+
+
   construct : function(page) {
     this.base(arguments, page);
-    
+
     this.setView(this._createView());
   },
-  
-  
+
+
   members : {
-    _createView : function() 
+    _createView : function()
     {
       var grid = new qx.ui.layout.Grid(20, 5);
       grid.setColumnFlex(0, 1);
-      grid.setColumnFlex(1, 1); 
+      grid.setColumnFlex(1, 1);
       var view = new qx.ui.container.Composite(grid);
       view.setPadding(10);
       var tabIndex = 1;
@@ -86,7 +86,7 @@ qx.Class.define("showcase.page.form.Content",
 
       // date field
       var dateField = new qx.ui.form.DateField();
-      dateField.setTabIndex(tabIndex++);      
+      dateField.setTabIndex(tabIndex++);
       dateField.setPlaceholder("dd.mm.YYYY");
       label = new qx.ui.basic.Label("DateField:");
       label.setBuddy(dateField);
@@ -106,7 +106,7 @@ qx.Class.define("showcase.page.form.Content",
 
       // select box
       var selectBox = new qx.ui.form.SelectBox();
-      selectBox.setTabIndex(tabIndex++);      
+      selectBox.setTabIndex(tabIndex++);
       label = new qx.ui.basic.Label("SelectBox:");
       label.setBuddy(selectBox);
       selectionGroupBox.add(label, {row: 0, column: 0});
@@ -115,7 +115,7 @@ qx.Class.define("showcase.page.form.Content",
 
       // list
       var list = new qx.ui.form.List();
-      list.setTabIndex(tabIndex++);      
+      list.setTabIndex(tabIndex++);
       list.setHeight(60);
       list.setWidth(155)
       label = new qx.ui.basic.Label("List:");
@@ -237,14 +237,14 @@ qx.Class.define("showcase.page.form.Content",
       label.setBuddy(slider);
       numberGroupBox.add(label, {row: 1, column: 0});
       numberGroupBox.add(slider, {row: 1, column: 1});
-      
+
       slider.bind("value", spinner, "value");
       spinner.bind("value", slider, "value");
-      
+
       return view;
     },
-    
-    
+
+
     __createItems: function(widget)
     {
       for (var i = 0; i < 10; i++) {
@@ -295,6 +295,6 @@ qx.Class.define("showcase.page.form.Content",
       menu.add(site3);
 
       return menu;
-    }    
+    }
   }
 });

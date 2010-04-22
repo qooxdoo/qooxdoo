@@ -19,7 +19,7 @@
 /**
  * A special menu item contining a label and a textfield.
  */
-qx.Class.define("playground.view.gist.UserNameMenuItem", 
+qx.Class.define("playground.view.gist.UserNameMenuItem",
 {
   extend : qx.ui.core.Widget,
 
@@ -27,7 +27,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
   construct : function()
   {
     this.base(arguments);
-    
+
     var layout = new qx.ui.layout.Grid(5, 5);
     layout.setColumnFlex(1, 1);
     layout.setRowFlex(0, 1);
@@ -39,10 +39,10 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     this.__textField.set({
       width: 50
     });
-    
+
     this._add(new qx.ui.basic.Label(this.tr("Username")), {row: 0, column: 0});
     this._add(this.__textField, {row: 0, column: 1});
-    
+
     this.__textField.addListener("changeValue", function(e) {
       // set the cookie
       qx.bom.Cookie.set("playgroundUser", e.getData());
@@ -81,10 +81,10 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
      * @param invalid {Boolean} true, if something is wrong.
      * @param message {String} The error message.
      */
-    markInvalid : function(invalid, message) 
+    markInvalid : function(invalid, message)
     {
       this.__textField.setValid(!invalid);
-      this.__textField.setInvalidMessage(message || "");
+      this.__textField.setInvalidMessage(message || "");
     }
   },
 

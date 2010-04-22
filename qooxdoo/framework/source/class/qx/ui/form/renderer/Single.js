@@ -41,8 +41,8 @@ qx.Class.define("qx.ui.form.renderer.Single",
   {
     _row : 0,
     _buttonRow : null,
-        
-    
+
+
     /**
      * Add a group of form items with the corresponding names. The names are
      * displayed as label.
@@ -70,11 +70,11 @@ qx.Class.define("qx.ui.form.renderer.Single",
         label.setBuddy(item);
         this._add(item, {row: this._row, column: 1});
         this._row++;
-        
+
         // store the names for translation
         if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
           this._names.push({name: names[i], label: label, item: items[i]});
-        }        
+        }
       }
     },
 

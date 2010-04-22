@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
       // Inner styles
       // Inner image must be relative to be compatible with qooxdoo 0.8.x
-      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details  
+      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
       var innerStyles = { position : "relative" };
 
       // Add inner borders

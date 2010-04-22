@@ -271,8 +271,8 @@ qx.Class.define("qx.ui.form.Slider",
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Event handler for mouseover events at the knob child control.
      *
@@ -283,8 +283,8 @@ qx.Class.define("qx.ui.form.Slider",
     _onMouseOver : function(e) {
       this.addState("hovered");
     },
-    
-    
+
+
     /**
      * Event handler for mouseout events at the knob child control.
      *
@@ -295,7 +295,7 @@ qx.Class.define("qx.ui.form.Slider",
     _onMouseOut : function(e) {
       this.removeState("hovered");
     },
-    
+
 
     /**
      * Listener of mousewheel event
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.form.Slider",
         // Compute dragOffset (includes both: inner position of the widget and
         // cursor position on knob)
         this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
-        
+
         // add state
         knob.addState("pressed");
       }
@@ -449,10 +449,10 @@ qx.Class.define("qx.ui.form.Slider",
         // Cleanup status flags
         delete this.__dragMode;
         delete this.__dragOffset;
-        
+
         // remove state
         this.getChildControl("knob").removeState("pressed");
-        
+
         // it's necessary to check whether the mouse cursor is over the knob widget to be able to
         // to decide whether to remove the 'hovered' state.
         if (e.getType() === "mouseup")
@@ -460,28 +460,28 @@ qx.Class.define("qx.ui.form.Slider",
           var deltaSlider;
           var deltaPosition;
           var positionSlider;
-          
+
           if (this.__isHorizontal)
           {
             deltaSlider = e.getDocumentLeft() - (this._valueToPosition(this.getValue()) + this.__sliderLocation);
-            
+
             positionSlider = qx.bom.element.Location.get(this.getContentElement().getDomElement())["top"];
             deltaPosition = e.getDocumentTop() - (positionSlider + this.getChildControl("knob").getBounds().top);
           }
           else
           {
             deltaSlider = e.getDocumentTop() - (this._valueToPosition(this.getValue()) + this.__sliderLocation);
-            
+
             positionSlider = qx.bom.element.Location.get(this.getContentElement().getDomElement())["left"];
             deltaPosition = e.getDocumentLeft() - (positionSlider + this.getChildControl("knob").getBounds().left);
           }
-          
+
           if (deltaPosition < 0 || deltaPosition > this.__knobSize ||
               deltaSlider < 0 || deltaSlider > this.__knobSize) {
             this.getChildControl("knob").removeState("hovered");
           }
         }
-        
+
       }
       else if (this.__trackingMode)
       {

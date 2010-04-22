@@ -218,7 +218,7 @@ qx.Class.define("qx.data.controller.Form",
           this.__objectController.removeTarget(item, targetProperty, name);
         }
       }
-      
+
       // set the model of the object controller if available
       if (this.__objectController != null) {
         this.__objectController.setModel(value);

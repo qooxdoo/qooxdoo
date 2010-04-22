@@ -23,7 +23,7 @@ qx.Class.define("qx.test.Bootstrap",
   extend : qx.dev.unit.TestCase,
 
   members :
-  {    
+  {
     testDefineShadowedMembers : function()
     {
       qx.Bootstrap.define("qx.test.Construct",
@@ -37,7 +37,7 @@ qx.Class.define("qx.test.Bootstrap",
           "valueOf" : 14
         }
       });
-      
+
       var obj = new qx.test.Construct();
       this.assertEquals(10, obj.isPrototypeOf);
       this.assertEquals(11, obj.hasOwnProperty);
@@ -45,8 +45,8 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals(13, obj.toString);
       this.assertEquals(14, obj.valueOf);
     },
-    
-    
+
+
     testDefineShadowedStatics : function()
     {
       qx.Bootstrap.define("qx.test.Construct",
@@ -59,7 +59,7 @@ qx.Class.define("qx.test.Bootstrap",
           "valueOf" : 14
         }
       });
-      
+
       this.assertEquals(10, qx.test.Construct.isPrototypeOf);
       this.assertEquals(12, qx.test.Construct.toLocaleString);
       this.assertEquals(13, qx.test.Construct.toString);

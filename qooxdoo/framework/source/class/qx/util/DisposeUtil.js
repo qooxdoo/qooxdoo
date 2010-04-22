@@ -42,7 +42,7 @@ qx.Class.define("qx.util.DisposeUtil",
     disposeFields : function(obj, arr)
     {
       qx.Bootstrap.warn("Don't use 'disposeFields' - instead assign directly to 'null'");
-      
+
       for (var i=0, l=arr.length; i<l; i++)
       {
         var name = arr[i]

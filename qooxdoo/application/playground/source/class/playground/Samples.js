@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * Samples data container. This class is responsible for getting the smaples 
+ * Samples data container. This class is responsible for getting the smaples
  * stored in textareas in the index.mhtml file into the JavaScript world.
  */
-qx.Class.define("playground.Samples", 
+qx.Class.define("playground.Samples",
 {
   extend : qx.core.Object,
 
@@ -28,9 +28,9 @@ qx.Class.define("playground.Samples",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__samples = {};
-    
+
     var textAreas = document.getElementsByTagName("TEXTAREA");
 
     for (var i=0; i < textAreas.length; i++)
@@ -38,7 +38,7 @@ qx.Class.define("playground.Samples",
       if (textAreas[i].className == "qx_samples") {
         this.__samples[textAreas[i].title] = textAreas[i].value;
       }
-    }    
+    }
   },
 
 
@@ -60,8 +60,8 @@ qx.Class.define("playground.Samples",
       }
       return sample;
     },
-    
-    
+
+
     /**
      * Returns an array of all stored sample names.
      * @return {Array} The names of all samples.
@@ -69,8 +69,8 @@ qx.Class.define("playground.Samples",
     getNames : function() {
       return qx.lang.Object.getKeys(this.__samples);
     },
-    
-    
+
+
     /**
      * Returns the last fetched sample using the {@link #get} method.
      * @return {String} The code of the last used sample.
@@ -78,18 +78,18 @@ qx.Class.define("playground.Samples",
     getCurrent : function() {
       return this.__samples[this.__currentName];
     },
-    
-    
+
+
     /**
      * Returns the name of the last fetched sample using the {@link #get} method.
      * @return {String} The name of the last used sample of an empty string, if
      *   no sample has been requests to this point.
      */
     getCurrentName : function() {
-      return this.__currentName || "";
-    },    
-    
-    
+      return this.__currentName || "";
+    },
+
+
     /**
      * Check if a sample with the given name is available.
      * @param name {String} The name of the sample.

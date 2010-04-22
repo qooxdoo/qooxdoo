@@ -16,7 +16,7 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.table.columnmodel.Basic", 
+qx.Class.define("qx.test.ui.table.columnmodel.Basic",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
          tcm.setColumnWidth(6, 10)
        }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
      }
-  
+
       table.destroy();
       model.dispose();
     },
@@ -69,14 +69,14 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
          tcm.getColumnWidth(6, 10)
        }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
      }
-      
+
 
       table.destroy();
       model.dispose();
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
@@ -108,7 +108,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
@@ -146,7 +146,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
@@ -165,7 +165,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {
@@ -184,7 +184,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if (qx.core.Variant.isSet("qx.debug", "on")) 
+     if (qx.core.Variant.isSet("qx.debug", "on"))
      {
        this.assertException(function()
        {

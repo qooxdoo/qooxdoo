@@ -16,20 +16,20 @@
    * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
- 
+
 /* ************************************************************************
 
 #use(showcase.page.animation.Content)
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.animation.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -43,33 +43,33 @@ qx.Class.define("showcase.page.animation.Page",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
-        this.__manual,        
+        this.__manual,
         this.__demos,
         this.__api
       )
     });
   },
-  
-  members : 
+
+  members :
   {
      __descriptionText : "qooxdoo Animation is a low level animation layer. An effect changes one or more attributes of a DOM element in the given time either linear or using a transition function. Effects can be stacked in a queue and orderd by assigning a startup delay.",
-     
+
      __tryThis : {
        "Click Cancel" : "To see the Fade effect"
      },
-     
+
      __features : {
        "14 effects" : "Perfect for your needs.",
        "effect queue" : "Order and queue effects",
        "Highly expandable" : "Writing custom effects was never so easy."
      },
-     
+
      __manual : {
        "qooxdoo_animation#usuage" : "Animation Usuage",
        "qooxdoo_animation#queueing_effecs" : "Queueing effecs",
        "qooxdoo_animation#writing_own_effects" : "Writing own effects"
      },
-     
+
     __demos : {
       "#animation~Showcase.html" : "Animation Showcase",
       "#animation~Save_Dialog.html" : "Save Dialog Sample",
@@ -79,6 +79,6 @@ qx.Class.define("showcase.page.animation.Page",
     __api : {
       "#qx.fx.Base" : "Base Effect API Documentation",
       "#qx.fx.Transition" : "Transition Functions Documentation"
-    }          
+    }
   }
 });

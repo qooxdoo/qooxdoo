@@ -153,7 +153,7 @@ qx.Class.define("qx.bom.element.Attribute",
         htmlFor     : 1,
         tabIndex    : 1
       },
-      
+
       qxProperties :
       {
         $$widget : 1,
@@ -190,7 +190,7 @@ qx.Class.define("qx.bom.element.Attribute",
         multiple: 1,
         maxLength: 1
       },
-      
+
 
       // Use getAttribute(name, 2) for these to query for the real value, not
       // the interpreted one.
@@ -257,8 +257,8 @@ qx.Class.define("qx.bom.element.Attribute",
         else if (hints.property[name])
         {
           value = element[name];
-          
-          if (typeof hints.propertyDefault[name] !== "undefined" && 
+
+          if (typeof hints.propertyDefault[name] !== "undefined" &&
               value == hints.propertyDefault[name])
           {
             // only return null for all non-boolean properties
@@ -266,7 +266,7 @@ qx.Class.define("qx.bom.element.Attribute",
               return null;
             } else {
               return value;
-            } 
+            }
           }
         } else { // fallback to attribute
           value = element.getAttribute(name);
@@ -285,16 +285,16 @@ qx.Class.define("qx.bom.element.Attribute",
       {
         var hints = this.__hints;
         var value;
-        
+
         // normalize name
         name = hints.names[name] || name;
-        
+
         // respect properties
         if (hints.property[name])
         {
           value = element[name];
 
-          if (typeof hints.propertyDefault[name] !== "undefined" && 
+          if (typeof hints.propertyDefault[name] !== "undefined" &&
               value == hints.propertyDefault[name])
           {
             // only return null for all non-boolean properties

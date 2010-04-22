@@ -19,7 +19,7 @@
 /**
  * A special menu item only showing an atom.
  */
-qx.Class.define("playground.view.gist.TextMenuItem", 
+qx.Class.define("playground.view.gist.TextMenuItem",
 {
   extend : qx.ui.basic.Atom,
 

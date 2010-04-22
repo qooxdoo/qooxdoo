@@ -20,8 +20,8 @@
 qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
 {
   appearances :
-  {    
-    "calculator" : 
+  {
+    "calculator" :
     {
       style : function(states)
       {
@@ -32,10 +32,10 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           contentPadding : [6, 8, 8 ,8]
         };
       }
-    },    
+    },
     "calculator/pane" : "widget",
     "calculator/captionbar" : "widget",
-    
+
     "calculator/title" :
     {
       style : function(states)
@@ -47,8 +47,8 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           textColor : "black-window-caption"
         };
       }
-    },    
-    
+    },
+
     "calculator/icon" :
     {
       style : function(states)
@@ -57,8 +57,8 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           margin : [3, 8, 0, 8]
         };
       }
-    },     
-  
+    },
+
     "display" :
     {
       style : function(states)
@@ -70,8 +70,8 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           padding : [0, 20]
         }
       }
-    },    
-   
+    },
+
     "display/label" :
     {
       style : function(states)
@@ -81,7 +81,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           marginLeft: 5
         };
       }
-    },       
+    },
 
     "display/memory" :
     {
@@ -91,8 +91,8 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           marginLeft: 5
         };
       }
-    },       
-           
+    },
+
     "display/operation" :
     {
       style : function(states)
@@ -101,18 +101,18 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
           marginLeft: 50
         }
       }
-    }, 
-    
+    },
+
     "calculator/display" : "display",
-    
+
     "calculator-button" :
     {
       alias: "button",
-      
+
       style : function(states)
       {
        return {
-         textColor : states.pressed ? 
+         textColor : states.pressed ?
            "black-button-text-pressed" :
            "black-button-text",
          decorator : states.pressed ?

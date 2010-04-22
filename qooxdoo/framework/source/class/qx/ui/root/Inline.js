@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.root.Inline",
       this.setKeepFocus(true);
     }
   },
-  
+
 
   /*
   *****************************************************************************
@@ -203,9 +203,9 @@ qx.Class.define("qx.ui.root.Inline",
 
       // Store "weak" reference to the widget in the DOM element.
       root.setAttribute("$$widget", this.toHashCode());
-      
+
       // fire event asynchronously, otherwise the browser will fire the event
-      // too early and no listener will be informed since they're not added 
+      // too early and no listener will be informed since they're not added
       // at this time
       qx.event.Timer.once(function(e) {
         this.fireEvent("appear");

@@ -17,20 +17,20 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
- 
+
 /* ************************************************************************
 
 #use(showcase.page.databinding.Content)
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.databinding.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -44,39 +44,39 @@ qx.Class.define("showcase.page.databinding.Page",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
-        this.__manual,        
+        this.__manual,
         this.__demos,
         this.__api
       )
     });
   },
-  
-  members : 
+
+  members :
   {
-    __descriptionText : "The twitter demo illustrates the use of data binding. " + 
+    __descriptionText : "The twitter demo illustrates the use of data binding. " +
     "Twitter offers a REST / JSONP API, making it a perfect match for data " +
     "binding. The demo fetches the data and binds the result to the list. " +
     "Clicking on a tweet will invoke a second binding which displays the " +
     "selected tweet in the detail view right beside the list.",
-      
+
     __tryThis : {
       "Detail View" : "Clicking a tweet in the list shows the details.",
       "Friends" : "The friends button displays the list of followers (Requires credentials).",
-      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\" to see your recent tweets."      
+      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\" to see your recent tweets."
     },
-    
+
     __features : {
       "Loading Data" : "The data is loaded from twitter in real time via JSONP.",
       "Binding" : "A binding connects the model to the list view."
     },
-    
+
     __manual : {
       "data_binding" : "Data Binding Concepts",
       "data_binding/single_value_binding" : "Fundamental Layer",
       "data_binding/controller" : "Controller",
       "data_binding/stores" : "Data Stores"
     },
-    
+
     __demos : {
       "#data~SingleValueBinding.html" : "Single Value Binding Demo",
       "#data~ListControllerWith3Widgets.html" : "List Binding Demo",

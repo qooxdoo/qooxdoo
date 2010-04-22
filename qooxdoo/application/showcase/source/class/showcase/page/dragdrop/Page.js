@@ -17,20 +17,20 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
- 
+
 /* ************************************************************************
 
 #use(showcase.page.dragdrop.Content)
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.dragdrop.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -44,35 +44,35 @@ qx.Class.define("showcase.page.dragdrop.Page",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
-        this.__manual,        
+        this.__manual,
         this.__demos,
         this.__api
       )
     });
   },
-  
-  members : 
+
+  members :
   {
     __descriptionText : "These two list widgets simulate a shopping system. " +
     "The list on the left contains all available items while the list on the " +
     "right displays the shopping cart. The main idea of this demo is to " +
     "illustrate the drag & drop feature.",
-    
+
     __tryThis : {
       "Drag" : "Try moving an item to the cart.",
       "Reorder" : "You can reorder both lists.",
-      "Move" : "You can also move items back to the shop."      
+      "Move" : "You can also move items back to the shop."
     },
-    
+
     __features : null,
 
     __manual : {
       "ui_dragdrop" : "Drag &amp; Drop"
     },
-    
+
     __demos : {
       "#ui~DragDrop.html" : "Drag &amp; Drop with lists"
-    },  
+    },
 
     __api : {
       "#qx.ui.core.Widget~drag" : "Drag event in the Widget",

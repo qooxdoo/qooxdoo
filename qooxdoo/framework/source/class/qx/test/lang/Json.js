@@ -23,14 +23,14 @@ qx.Class.define("qx.test.lang.Json",
 
   members :
   {
-    setUp : function() 
+    setUp : function()
     {
       // we only test the internal JSON and not the buildin browser
       // functionality
       this.JSON = new qx.lang.JsonImpl();
     },
-    
-  
+
+
     testStringifyArray : function()
     {
       var text = this.JSON.stringify(['e', {pluribus: 'unum'}]);
@@ -191,8 +191,8 @@ qx.Class.define("qx.test.lang.Json",
       this.assertEquals(23, data.age);
       this.assertArrayEquals([1, 2, 3], data.foo);
     },
-    
-    
+
+
     testParseNumber : function() {
       this.assertEquals(1234, this.JSON.parse("1234"))
       this.assertEquals(1234, this.JSON.parse(" 1234"))

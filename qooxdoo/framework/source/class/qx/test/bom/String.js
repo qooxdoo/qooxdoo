@@ -23,7 +23,7 @@ qx.Class.define("qx.test.bom.String",
 
   members :
   {
-    
+
     testToText_Break : function()
     {
       this.assertEquals(qx.bom.String.toText("<br>"), "\n");
@@ -34,7 +34,7 @@ qx.Class.define("qx.test.bom.String",
     {
       this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>"), "");
       this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>foo</div></div>"), "foo");
-      
+
       this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> "), " ");
       this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> foo </div></div>"), " foo ");
     }

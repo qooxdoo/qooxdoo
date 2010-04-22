@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model"); 
+        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
       var oldRenderer = this.__columnDataArr[col].dataRenderer;

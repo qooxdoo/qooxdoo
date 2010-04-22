@@ -66,7 +66,7 @@ qx.Class.define("qx.lang.Type",
      */
      isObject : qx.Bootstrap.isObject,
 
-    
+
     /**
      * Whether the value is a function.
      *
@@ -75,7 +75,7 @@ qx.Class.define("qx.lang.Type",
      * @return {Boolean} Whether the value is a function.
      */
     isFunction : qx.Bootstrap.isFunction,
-     
+
 
     /**
     * Whether the value is a regular expression.

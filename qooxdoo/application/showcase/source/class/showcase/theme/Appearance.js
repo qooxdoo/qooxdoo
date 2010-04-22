@@ -28,24 +28,24 @@ qx.Theme.define("showcase.theme.Appearance",
 
   appearances :
   {
-    "root" : 
-    {    
+    "root" :
+    {
       style : function(states)
       {
         return {
           backgroundColor: "white",
           textColor       : "text-label",
-          font            : "default"          
+          font            : "default"
         };
       }
     },
-              
-    
+
+
     "page-preview" :
     {
       alias: "listitem",
       include: "listitem",
-      
+
       style : function(states)
       {
         return {
@@ -57,12 +57,12 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
-    
+
+
     "page-preview/label" :
     {
       include: "label",
-      
+
       style : function(states)
       {
         return {
@@ -78,10 +78,10 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
-    
+
+
     "preview-list":
-    {    
+    {
       style : function(states)
       {
         return {
@@ -97,11 +97,11 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
+
     "preview-list/scrollbar-x/slider" : "widget",
     "preview-list/scrollbar-x" : "widget",
-    
-    "preview-list/scrollbar-x/button" : 
+
+    "preview-list/scrollbar-x/button" :
     {
       style : function(states)
       {
@@ -111,11 +111,11 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
+
     "preview-list/scrollbar-x/button-begin" : "preview-list/scrollbar-x/button",
     "preview-list/scrollbar-x/button-end" : "preview-list/scrollbar-x/button",
-    
-    "preview-list/scrollbar-x/slider/knob" : 
+
+    "preview-list/scrollbar-x/slider/knob" :
     {
       style : function(states)
       {
@@ -126,8 +126,8 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
-    
+
+
     "separator":
     {
       style : function(states)
@@ -142,8 +142,8 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-        
-        
+
+
     "stack":
     {
       style : function(states)
@@ -154,8 +154,8 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-            
-    
+
+
     "content-container" :
     {
       style : function(states)
@@ -165,9 +165,9 @@ qx.Theme.define("showcase.theme.Appearance",
         };
       }
     },
-    
+
     "description" :
-    {  
+    {
       style : function(states)
       {
         return {
@@ -177,17 +177,17 @@ qx.Theme.define("showcase.theme.Appearance",
           padding: 7,
           decorator: new qx.ui.decoration.Background().set({
             backgroundImage : "showcase/images/contentbackground.gif",
-            backgroundRepeat : "repeat-y"            
+            backgroundRepeat : "repeat-y"
           })
         };
       }
     },
-    
-    
+
+
     "groupbox/legend" :
-    {      
+    {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -196,6 +196,6 @@ qx.Theme.define("showcase.theme.Appearance",
           font      : "legend"
         };
       }
-    }  
+    }
   }
 });

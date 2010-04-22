@@ -29,20 +29,20 @@
 qx.Class.define("showcase.page.table.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
-  
+
   construct : function(page) {
     this.base(arguments, page);
   },
-  
-  
+
+
   statics :
   {
     saveResult: function(result) {
       this._result = result;
     }
   },
-    
-  
+
+
   members :
   {
     _addWindowContent : function(win)
@@ -80,25 +80,25 @@ qx.Class.define("showcase.page.table.Content",
       );
 
       var tcm = table.getTableColumnModel();
-      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());      
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Number());
       tcm.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
 
-      tcm.setHeaderCellRenderer(1, 
+      tcm.setHeaderCellRenderer(1,
         new qx.ui.table.headerrenderer.Icon(
           "icon/16/mimetypes/media-audio.png", "Title"
         )
       );
-      tcm.setHeaderCellRenderer(3, 
+      tcm.setHeaderCellRenderer(3,
         new qx.ui.table.headerrenderer.Icon(
           "icon/16/apps/office-calendar.png", "Year"
         )
       );
-      tcm.setHeaderCellRenderer(4, 
+      tcm.setHeaderCellRenderer(4,
         new qx.ui.table.headerrenderer.Icon(
           "icon/16/status/dialog-warning.png", "Explicit"
         )
-      );      
+      );
 
 
       // Obtain the behavior object to manipulate
@@ -107,7 +107,7 @@ qx.Class.define("showcase.page.table.Content",
       // This uses the set() method to set all attriutes at once; uses flex
       resizeBehavior.set(1, {width: "2*", minWidth: 60});
       resizeBehavior.set(2, {width: "1*", minWidth: 60});
-      
+
       // We could also set them individually:
       resizeBehavior.setWidth(0, 80);
       resizeBehavior.setWidth(3, 70);
@@ -116,20 +116,20 @@ qx.Class.define("showcase.page.table.Content",
       win.setCaption("Popular Music Tracks");
       win.setLayout(new qx.ui.layout.Grow());
       win.add(table);
-      
-      this._loadData(tableModel);    
+
+      this._loadData(tableModel);
     },
-    
-    
-    _loadData : function(tableModel) 
+
+
+    _loadData : function(tableModel)
     {
       var query = "select * from music.track.popular";
       var url = "http://query.yahooapis.com/v1/public/yql?q=" +
       encodeURIComponent(query) +
       "&format=json&diagnostics=false&" +
-      "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=" + 
+      "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=" +
       "showcase.page.table.Content.saveResult";
-      
+
       var loader = new qx.io.ScriptLoader();
       loader.load(url, function() {
         var result = showcase.page.table.Content._result;
