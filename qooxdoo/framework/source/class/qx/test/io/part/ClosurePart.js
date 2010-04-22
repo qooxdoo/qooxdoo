@@ -33,41 +33,41 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     __dummyLoader : null,
     __timeout : null,
     __loader : null,
-    
+
     setUp : function()
     {
       qx.test.PART_FILES = [];
       qx.test.Part.LOAD_ORDER = [];
       this.__dummyLoader = new qx.test.io.part.MockLoader();
-      
+
       this.__loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = this.__loader;
       this.__timeout = qx.Part.TIMEOUT;
-      qx.Part.TIMEOUT = 3000;      
+      qx.Part.TIMEOUT = 3000;
     },
-    
-    
+
+
     tearDown : function() {
       qx.Part.$$instance = null;
       qx.Part.TIMEOUT = this.__timeout;
     },
-    
-    
-    loadPackage : function(part, pkg) 
+
+
+    loadPackage : function(part, pkg)
     {
-      pkg.loadClosure(this.__loader.notifyPackageResult, this.__loader);      
+      pkg.loadClosure(this.__loader.notifyPackageResult, this.__loader);
     },
 
-    
+
     "test: load part with one package" : function()
     {
       var pkg = new qx.io.part.Package(
         [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
       );
       var part = new qx.io.part.ClosurePart("juhu", [pkg], this.__loader);
-      
+
       this.__loader.addToPackage(pkg);
-      
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -77,12 +77,12 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.PART_FILES
         );
       })});
-      
+
       this.wait();
     },
-    
-    
-    "test: load part with two packages" : function() 
+
+
+    "test: load part with two packages" : function()
     {
       var pkg1 = new qx.io.part.Package(
         [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
@@ -91,10 +91,10 @@ qx.Class.define("qx.test.io.part.ClosurePart",
         [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
       );
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
-      
+
       this.__loader.addToPackage(pkg1);
-      this.__loader.addToPackage(pkg2);     
-      
+      this.__loader.addToPackage(pkg2);
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -103,22 +103,22 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.PART_FILES
         );
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
-    "test: load part with two packages and one already loading" : function() 
+
+
+    "test: load part with two packages and one already loading" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true); 
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true); 
+      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
-      
+
       this.__loader.addToPackage(pkg1);
       this.__loader.addToPackage(pkg2);
-      
+
       this.loadPackage(part, pkg2);
-      
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -127,24 +127,24 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.Part.LOAD_ORDER
         );
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
-    "test: load part with two packages and both already loading" : function() 
+
+
+    "test: load part with two packages and both already loading" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true); 
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true); 
+      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
 
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
-      
-      this.__loader.addToPackage(pkg1);
-      this.__loader.addToPackage(pkg2);      
 
-      this.loadPackage(part, pkg1);      
+      this.__loader.addToPackage(pkg1);
+      this.__loader.addToPackage(pkg2);
+
+      this.loadPackage(part, pkg1);
       this.loadPackage(part, pkg2);
-      
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -153,23 +153,23 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.Part.LOAD_ORDER
         );
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
-    "test: load part with three packages and delay" : function() 
+
+
+    "test: load part with three packages and delay" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 200, null, null, true); 
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true); 
-      var pkg3 = new qx.test.io.part.MockPackage("file3-closure", 100, null, null, true); 
-      
+      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 200, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
+      var pkg3 = new qx.test.io.part.MockPackage("file3-closure", 100, null, null, true);
+
       this.__loader.addToPackage(pkg1);
       this.__loader.addToPackage(pkg2);
       this.__loader.addToPackage(pkg3);
-      
-      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2, pkg3], this.__loader);      
-      
+
+      var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2, pkg3], this.__loader);
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -178,26 +178,26 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.Part.LOAD_ORDER
         );
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
-    
-    "test: load part with two packages and delay first part" : function() 
+
+
+
+    "test: load part with two packages and delay first part" : function()
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 100, null, null, true); 
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true); 
-      
+      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 100, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
+
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
-      
+
       this.__loader.addToPackage(pkg1);
       this.__loader.addToPackage(pkg2);
-      
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
@@ -206,60 +206,60 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           qx.test.Part.LOAD_ORDER
         );
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
-    "test: load part with an error package" : function() 
+
+
+    "test: load part with an error package" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file211-closure", null, true, null, true); 
+      var pkg1 = new qx.test.io.part.MockPackage("file211-closure", null, true, null, true);
 
       var part = new qx.io.part.ClosurePart("juhu", [pkg1], this.__loader);
-      
+
       this.__loader.addToPackage(pkg1);
-      
+
       var self = this;
       part.load(function(readyState) { self.resume(function()
       {
         self.assertEquals("error", readyState);
         self.assertJsonEquals([], qx.test.Part.LOAD_ORDER);
       })});
-      
-      this.wait();      
+
+      this.wait();
     },
-    
-    
+
+
     "test: load part with a loaded package should not reload the package again" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, "complete", true); 
+      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, "complete", true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg1], this.__loader);
-      
+
       var self = this;
-      
+
       pkg1.load = function() {
         self.resume(function() {
           self.fail();
         });
       };
-      
+
       part.load(function(readyState) { self.resume(function() {
         self.assertEquals("complete", readyState);
       })});
-      this.wait();       
+      this.wait();
     },
-    
-    
+
+
     "test: load a part with preloaded package" : function()
     {
       var pkg = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg], this.__loader);
-        
+
       this.__loader.addToPackage(pkg);
 
       var self = this;
-      
-      setTimeout(function() 
+
+      setTimeout(function()
       {
         part.load(function(readyState) { self.resume(function()
         {
@@ -267,20 +267,20 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           self.assertJsonEquals(
             ["file1-closure"],
             qx.test.Part.LOAD_ORDER
-          );          
+          );
         })});
       }, 100);
 
       part.preload();
-      
+
       pkg.loadClosure = function() {
         debugger;
         self.resume(function() {
           self.fail("load called twice!");
         });
       }
-      
-      this.wait();      
+
+      this.wait();
     }
   }
 });

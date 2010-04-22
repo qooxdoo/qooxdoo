@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       var tRoot = new qx.ui.tree.TreeFolder("root");
       this._tree.setRoot(tRoot);
       tRoot.setOpen(false);
-      
+
       this.flush();
     },
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.base(arguments);
       this._disposeObjects("_tree");
     },
-    
+
     testGetPreviousSiblingOf : function()
     {
       var tRoot = this._tree.getRoot();
@@ -54,11 +54,11 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertNull(this._tree.getPreviousSiblingOf(item1_1));
       this.assertIdentical(item1, this._tree.getPreviousSiblingOf(item2));
     },
-    
+
     testGetNextSiblingOf : function()
     {
       var tRoot = this._tree.getRoot();
@@ -70,11 +70,11 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertNull(this._tree.getNextSiblingOf(item1_2));
       this.assertIdentical(item2, this._tree.getNextSiblingOf(item1));
     },
-    
+
     testGetNextNodeOf : function()
     {
       var tRoot = this._tree.getRoot();
@@ -86,12 +86,12 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertIdentical(item1_1, this._tree.getNextNodeOf(item1));
       this.assertIdentical(item1_2, this._tree.getNextNodeOf(item1_1));
       this.assertNull(this._tree.getNextNodeOf(item2));
     },
-    
+
     testGetNextNodeOfInvisible : function()
     {
       var tRoot = this._tree.getRoot();
@@ -104,12 +104,12 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertIdentical(item2, this._tree.getNextNodeOf(item1, false));
       item1.setOpen(true);
       this.assertIdentical(item1_1, this._tree.getNextNodeOf(item1, false));
     },
-    
+
     testGetPreviousNodeOf : function()
     {
       var tRoot = this._tree.getRoot();
@@ -121,12 +121,12 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertIdentical(item1_2, this._tree.getPreviousNodeOf(item2));
       this.assertIdentical(item1_1, this._tree.getPreviousNodeOf(item1_2));
       this.assertNull(this._tree.getPreviousNodeOf(tRoot));
     },
-    
+
     testGetPreviousNodeOfInvisible : function()
     {
       var tRoot = this._tree.getRoot();
@@ -139,11 +139,11 @@ qx.Class.define("qx.test.ui.tree.Tree",
       item1.add(item1_2);
       var item2 = new qx.ui.tree.TreeFile("2");
       tRoot.add(item2);
-      
+
       this.assertIdentical(item1, this._tree.getPreviousNodeOf(item2, false));
       item1.setOpen(true);
       this.assertIdentical(item1_2, this._tree.getPreviousNodeOf(item2, false));
     }
-    
+
   }
 });

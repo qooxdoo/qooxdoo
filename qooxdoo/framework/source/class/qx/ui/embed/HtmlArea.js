@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
   construct : function(value, styleInformation, source)
   {
     this.__postPonedProperties = {};
-    
+
     // **********************************************************************
     //   INIT
     // **********************************************************************
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       refine : true,
       init   : "htmlarea"
-    }      
+    }
   },
 
 
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__postPonedProperties["UseUndoRedo"] = value;
       }
     },
-    
+
     // overridden
     _applyNativeContextMenu : function(value, old)
     {
@@ -1012,7 +1012,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * @param url {String} url of the background image to set
      * @param repeat {String} repeat mode. Possible values are "repeat|repeat-x|repeat-y|no-repeat".
      *                                     Default value is "no-repeat"
-     * @param position {String?Array} Position of the background image. 
+     * @param position {String?Array} Position of the background image.
      *                                Possible values are "|top|bottom|center|left|right|right top|left top|left bottom|right bottom" or
      *                                an array consisting of two values for x and
      *                                y coordinate. Both values have to define the

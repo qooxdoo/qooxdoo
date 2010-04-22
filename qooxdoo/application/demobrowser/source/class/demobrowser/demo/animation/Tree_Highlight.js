@@ -358,9 +358,9 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
   destruct : function()
   {
     this._container = this._treeGroup = this._tree = this.inputItemName =
-      this.btnAddFolder = this.btnAddFile = this.btnAddAfter = 
-      this.btnAddBefore = this.btnAddBegin = this.btnRemove = 
-      this.btnRemoveAll = this.btnMoveToParent = this.showOpenButtons = 
+      this.btnAddFolder = this.btnAddFile = this.btnAddAfter =
+      this.btnAddBefore = this.btnAddBegin = this.btnRemove =
+      this.btnRemoveAll = this.btnMoveToParent = this.showOpenButtons =
       this.mgrShowRootOpen = this.btnReset = null;
   }
 });

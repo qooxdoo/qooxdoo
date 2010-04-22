@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.form.Range",
       // min
       widget.setMinimum(10);
       this.assertEquals(10, widget.getMinimum(), "Set or get does not work. (min)");
-            
+
       var self = this;
       this.assertEventFired(widget, "changeMinimum", function() {
         widget.setMinimum(11);
@@ -34,7 +34,7 @@ qx.Class.define("qx.test.ui.form.Range",
         self.assertEquals(11, e.getData(), "Not the right number in the event.");
         self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
-      
+
       // max
       widget.setMaximum(20);
       this.assertEquals(20, widget.getMaximum(), "Set or get does not work. (max)");
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.ui.form.Range",
         self.assertEquals(21, e.getData(), "Not the right number in the event.");
         self.assertEquals(20, e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
-      
+
       // singleStep
       widget.setSingleStep(2);
       this.assertEquals(2, widget.getSingleStep(), "Set or get does not work. (singleStep)");

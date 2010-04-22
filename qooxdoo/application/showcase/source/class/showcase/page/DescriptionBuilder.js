@@ -17,18 +17,18 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("showcase.page.DescriptionBuilder", 
+qx.Class.define("showcase.page.DescriptionBuilder",
 {
   statics :
   {
-    _demoPrefix : "http://demo.qooxdoo.org/" + 
+    _demoPrefix : "http://demo.qooxdoo.org/" +
       qx.core.Setting.get("qx.version") + "/demobrowser/",
-    _apiPrefix : "http://demo.qooxdoo.org/" + 
+    _apiPrefix : "http://demo.qooxdoo.org/" +
       qx.core.Setting.get("qx.version") +"/apiviewer/",
     _manualPrefix : "http://qooxdoo.org/documentation/1.0/",
-      
-      
-    build : function(header, text, tryThis, features, manual, demos, api) 
+
+
+    build : function(header, text, tryThis, features, manual, demos, api)
     {
       var description = [];
       description.push(
@@ -36,15 +36,15 @@ qx.Class.define("showcase.page.DescriptionBuilder",
         "<h1>", header, "</h1>",
         "<p>", text, "</p>"
       );
-      
+
       if (tryThis) {
         description.push("<h2>Try This</h2>", this.__makeList(tryThis));
-      }      
-      
+      }
+
       if (features) {
         description.push("<h2>Features</h2>", this.__makeList(features));
       }
-      
+
       if (manual)
       {
         description.push(
@@ -52,7 +52,7 @@ qx.Class.define("showcase.page.DescriptionBuilder",
           this.__makeLinkList(this._manualPrefix, manual)
         )
       }
-      
+
       if (demos)
       {
         description.push(
@@ -60,7 +60,7 @@ qx.Class.define("showcase.page.DescriptionBuilder",
           this.__makeLinkList(this._demoPrefix, demos)
         )
       }
-      
+
       if (api)
       {
         description.push(
@@ -68,13 +68,13 @@ qx.Class.define("showcase.page.DescriptionBuilder",
           this.__makeLinkList(this._apiPrefix, api)
         )
       }
-      
+
       description.push("</div>");
       return description.join("");
     },
-    
-    
-    __makeLinkList : function(prefix, links) 
+
+
+    __makeLinkList : function(prefix, links)
     {
       var linkList = ["<ul>"];
       for (var key in links) {
@@ -87,9 +87,9 @@ qx.Class.define("showcase.page.DescriptionBuilder",
       linkList.push("</ul>");
       return linkList.join("");
     },
-    
-    
-    __makeList : function(items) 
+
+
+    __makeList : function(items)
     {
       var list = ["<ul>"];
       for (var key in items) {

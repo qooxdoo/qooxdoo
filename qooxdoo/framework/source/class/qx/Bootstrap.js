@@ -97,11 +97,11 @@ qx.Bootstrap = {
     qx.Bootstrap.setDisplayNames(config.statics, name);
 
     if (config.members || config.extend)
-    {      
+    {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
       clazz = config.construct || new Function;
-      
+
       if (config.extend) {
         this.extendClass(clazz, clazz, config.extend, name, basename);
       }
@@ -112,14 +112,14 @@ qx.Bootstrap = {
         var key = keys[i];
         clazz[key] = statics[key];
       }
-      
+
       proto = clazz.prototype;
       var members = config.members || {};
       // use getKeys to include the shaddowed in IE
       for (var i=0, keys=qx.Bootstrap.getKeys(members), l=keys.length; i<l; i++) {
         var key = keys[i];
         proto[key] = members[key];
-      }      
+      }
     }
     else
     {
@@ -128,7 +128,7 @@ qx.Bootstrap = {
 
     // Create namespace
     var basename = this.createNamespace(name, clazz);
-    
+
     // Store names in constructor/object
     clazz.name = clazz.classname = name;
     clazz.basename = basename;
@@ -236,20 +236,20 @@ qx.Bootstrap.define("qx.Bootstrap",
      */
     genericToString : qx.Bootstrap.genericToString,
 
-    
+
     /**
-     * Inherit a clazz from a super class. 
-     * 
-     * This function differentiates between class and constructor because the 
+     * Inherit a clazz from a super class.
+     *
+     * This function differentiates between class and constructor because the
      * constructor written by the user might be wrapped and the <code>base</code>
      * property has to be attached to the constructor, while the <code>superclass</code>
      * property has to be attached to the wrapped constructor.
-     * 
+     *
      * @param clazz {Function} The class's wrapped constructor
      * @param construct {Function} The unwrapped constructor
      * @param superClass {Function} The super class
      * @param name {Function} fully qualified class name
-     * @param basename {Function} the base name  
+     * @param basename {Function} the base name
      */
     extendClass : function(clazz, construct, superClass, name, basename)
     {
@@ -279,9 +279,9 @@ qx.Bootstrap.define("qx.Bootstrap",
         - Store correct constructor
         - Store statics onto prototype
       */
-      construct.self = clazz.constructor = proto.constructor = clazz;    
+      construct.self = clazz.constructor = proto.constructor = clazz;
     },
-    
+
 
     /**
      * Find a class by its name
@@ -296,14 +296,14 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /** {Map} Stores all defined classes */
     $$registry : {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       OBJECT UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Get the number of objects in the map
      *
@@ -311,12 +311,12 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    objectGetLength : 
+    objectGetLength :
     ({
       "count": function(map) {
         return map.__count__;
       },
-    
+
       "default": function(map)
       {
         var length = 0;
@@ -328,8 +328,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         return length;
       }
     })[(({}).__count__ == 0) ? "count" : "default"],
-    
-    
+
+
     /**
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
@@ -353,9 +353,9 @@ qx.Bootstrap.define("qx.Bootstrap",
       }
 
       return target;
-    },    
-    
-    
+    },
+
+
     __shadowedKeys :
     [
       "isPrototypeOf",
@@ -365,8 +365,8 @@ qx.Bootstrap.define("qx.Bootstrap",
       "valueOf",
       "constructor"
     ],
-    
-    
+
+
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
@@ -374,17 +374,17 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : 
+    getKeys :
     ({
       "ES5" : Object.keys,
-      
+
       "BROKEN_IE" : function(map)
       {
         var arr = [];
         for (var key in map) {
           arr.push(key);
         }
-  
+
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible with the ECMA standard!!
         // This is why this checks are needed.
@@ -396,7 +396,7 @@ qx.Bootstrap.define("qx.Bootstrap",
             arr.push(a[i]);
           }
         }
-  
+
         return arr;
       },
 
@@ -415,7 +415,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
 
-    
+
     /**
      * Get the keys of a map as string
      *
@@ -431,9 +431,9 @@ qx.Bootstrap.define("qx.Bootstrap",
       }
 
       return '"' + keys.join('\", "') + '"';
-    },    
-    
-    
+    },
+
+
     __classToTypeMap :
     {
       "[object String]": "String",
@@ -447,14 +447,14 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Error]": "Error"
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       FUNCTION UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Returns a function whose "this" is altered.
      *
@@ -482,22 +482,22 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {Function} The bound function.
      */
     bind : function(func, self, varargs)
-    { 
+    {
       var fixedArgs = Array.prototype.slice.call(arguments, 2, arguments.length);
       return function() {
         var args = Array.prototype.slice.call(arguments, 0, arguments.length);
         return func.apply(self, fixedArgs.concat(args));
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       STRING UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */ 
-    
-    
+    */
+
+
     /**
      * Convert the first character of the string to upper case.
      *
@@ -518,13 +518,13 @@ qx.Bootstrap.define("qx.Bootstrap",
     firstLow : function(str) {
       return str.charAt(0).toLowerCase() + str.substr(1);
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
       TYPE UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */    
+    */
 
     /**
      * Get the internal class of the value. See
@@ -604,8 +604,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         qx.Bootstrap.getClass(value) == "Object"
       );
     },
-   
-    
+
+
     /**
      * Whether the value is a function.
      *
@@ -615,15 +615,15 @@ qx.Bootstrap.define("qx.Bootstrap",
     isFunction : function(value) {
       return qx.Bootstrap.getClass(value) == "Function";
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CLASS UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
-    */  
-    
-    
+    */
+
+
     /**
      * Whether the given class exists
      *
@@ -633,7 +633,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     classIsDefined : function(name) {
       return qx.Bootstrap.getByName(name) !== undefined;
     },
-    
+
     /**
      * Returns the definition of the given property. Returns null
      * if the property does not exist.
@@ -657,7 +657,7 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
+
 
     /**
      * Whether a class has the given property
@@ -669,8 +669,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     hasProperty : function(clazz, name) {
       return !!qx.Bootstrap.getPropertyDefinition(clazz, name);
     },
-    
-    
+
+
     /**
      * Returns the event type of the given event. Returns null if
      * the event does not exist.
@@ -694,8 +694,8 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
-    
+
+
     /**
      * Whether a class supports the given event type
      *
@@ -706,8 +706,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     supportsEvent : function(clazz, name) {
       return !!qx.Bootstrap.getEventType(clazz, name);
     },
-    
-    
+
+
     /**
      * Returns the class or one of its super classes which contains the
      * declaration of the given interface. Returns null if the interface is not
@@ -740,8 +740,8 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return null;
     },
-    
-    
+
+
     /**
      * Whether a given class or any of its super classes includes a given interface.
      *
@@ -757,8 +757,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     hasInterface : function(clazz, iface) {
       return !!qx.Bootstrap.getByInterface(clazz, iface);
     },
-    
-    
+
+
     /**
      * Returns a list of all mixins available in a given class.
      *
@@ -780,17 +780,17 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       return list;
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       LOGGING UTILITY FUNCTIONS
     ---------------------------------------------------------------------------
     */
-    
+
     $$logs : [],
-   
-    
+
+
     /**
      * Sending a message at level "debug" to the logger.
      *
@@ -845,8 +845,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     error : function(object, message) {
       qx.Bootstrap.$$logs.push(["error", arguments]);
     },
-    
-    
+
+
     /**
      * Prints the current stack trace at level "info"
      *

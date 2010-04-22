@@ -21,7 +21,7 @@
 /**
  * A button which acts as a normal button and shows a menu on one
  * of the sides to open something like a history list.
- * 
+ *
  * @childControl button {qx.ui.form.Button} button to execute action
  * @childControl arrow {qx.ui.form.MenuButton} arrow to open the popup
  */

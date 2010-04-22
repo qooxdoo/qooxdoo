@@ -135,13 +135,13 @@ qx.Mixin.define("qx.data.controller.MSelection",
       if (this.getTarget() == null) {
         return;
       }
-      
+
       // if a selection API is supported
       if (!this.__targetSupportsMultiSelection()
         && !this.__targetSupportsSingleSelection()) {
         return;
       }
-      
+
       // if __changeSelectionArray is currently working, do nothing
       if (this._inSelectionModification()) {
         return;

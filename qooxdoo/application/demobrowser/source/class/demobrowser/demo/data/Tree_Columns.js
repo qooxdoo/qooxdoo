@@ -50,8 +50,8 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       });
 
       container.add(tree, {left: 20, top: 48});
-      
-      
+
+
       // build the data
       var data = {
         label: "Root",
@@ -87,11 +87,11 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
           }
         ]
       };
-      
+
       for (var i = 0; i < 50; i++) {
         data.children[1].children[7].children[i] = {label: "Item " + i}
       }
-      
+
       this.extendData(data);
       var model = qx.data.marshal.Json.createModel(data);
 
@@ -100,9 +100,9 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       treeController.setDelegate(this);
       treeController.setModel(model);
     },
-    
-    
-    extendData : function(data) 
+
+
+    extendData : function(data)
     {
       data.date = "May " + Math.round(Math.random() * 30 + 1) + " 2010";
       data.size = Math.round(Math.random() * 100) + "kb";
@@ -112,17 +112,17 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       if (data.children) {
         for (var i = 0; i < data.children.length; i++) {
           this.extendData(data.children[i]);
-        }        
+        }
       }
     },
-    
-    
+
+
     // delegate implementation
     bindItem : function(controller, item, id) {
       controller.bindDefaultProperties(item, id);
       controller.bindProperty("size", "value", null, item.getUserData("size"), id);
       controller.bindProperty("checked", "value", null, item.getUserData("checkbox"), id);
-      controller.bindPropertyReverse("checked", "value", null, item.getUserData("checkbox"), id);      
+      controller.bindPropertyReverse("checked", "value", null, item.getUserData("checkbox"), id);
       controller.bindProperty("date", "value", null, item.getUserData("date"), id);
       controller.bindProperty("mode", "value", null, item.getUserData("mode"), id);
       controller.bindProperty("light", "source", {
@@ -130,10 +130,10 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
           return data ? "icon/16/status/dialog-information.png" : "";
         }
       }, item.getUserData("light"), id);
-      
+
     },
-    
-    
+
+
     // delegate implementation
     createItem : function() {
       var item = new qx.ui.tree.TreeFolder();
@@ -142,7 +142,7 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       img.setWidth(16);
       item.addWidget(img);
       item.setUserData("light", img);
-      
+
       // Here's our indentation and tree-lines
       item.addSpacer();
       item.addOpenButton();
@@ -156,9 +156,9 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       checkbox.setFocusable(false);
       item.addWidget(checkbox);
       item.setUserData("checkbox", checkbox);
-      
+
       // The label
-      item.addLabel("");      
+      item.addLabel("");
 
       // All else should be right justified
       item.addWidget(new qx.ui.core.Spacer(), {flex: 1});
@@ -173,12 +173,12 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       text.setWidth(150);
       item.addWidget(text);
       item.setUserData("date", text);
-      
+
       text = new qx.ui.basic.Label();
       text.setWidth(80);
       item.addWidget(text);
       item.setUserData("mode", text);
-         
+
       return item;
     }
   }

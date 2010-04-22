@@ -38,13 +38,13 @@ qx.Class.define("qx.html.Decorator",
       top: 0,
       left: 0
     }
-    
+
     if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
       styles.pointerEvents = "none"
     }
 
     this.base(arguments, null, styles);
-    
+
     this.__decorator = decorator;
     this.__id = decoratorId || decorator.toHashCode();
 

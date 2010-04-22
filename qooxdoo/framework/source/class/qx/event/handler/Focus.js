@@ -229,8 +229,8 @@ qx.Class.define("qx.event.handler.Focus",
           try {
             element.focus();
           } catch(ex) {};
-        }, 0);  
-      } 
+        }, 0);
+      }
       else
       {
         try {

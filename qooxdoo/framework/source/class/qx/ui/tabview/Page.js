@@ -21,7 +21,7 @@
 /**
  * A page is the way to add content to a {@link TabView}. Each page gets a
  * button to switch to the page. Only one page is visible at a time.
- * 
+ *
  * @childControl button {qx.ui.tabview.TabButton} tab button connected to the page
  */
 qx.Class.define("qx.ui.tabview.Page",

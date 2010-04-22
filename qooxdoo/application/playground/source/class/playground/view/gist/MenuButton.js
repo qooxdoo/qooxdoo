@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * Implementation of a special menu button which adds a link for editing 
+ * Implementation of a special menu button which adds a link for editing
  * the gist at the end of the menu item.
  */
-qx.Class.define("playground.view.gist.MenuButton", 
+qx.Class.define("playground.view.gist.MenuButton",
 {
   extend : qx.ui.menu.Button,
 
@@ -40,12 +40,12 @@ qx.Class.define("playground.view.gist.MenuButton",
         this.fireDataEvent("editGist", label);
         e.stopPropagation();
       }, this);
-      
+
       // stop the menu from being closed
       this.getChildControl("link").addListener("mouseup", function(e) {
         e.stopPropagation();
       }, this);
-      
+
       // cursor change implementation. Would be more easy in a theme!
       this.getChildControl("link").addListener("mouseover", function(e) {
         this.setCursor("pointer");
@@ -53,15 +53,15 @@ qx.Class.define("playground.view.gist.MenuButton",
       this.getChildControl("link").addListener("mouseout", function(e) {
         this.setCursor("default");
       }, this);
-      
+
       // tooltip
       this.getChildControl("link").setToolTipText(
         this.tr("Open an edit page for this gist.")
-      );         
+      );
     }
   },
-  
-  
+
+
   events : {
     /**
      * Fired on a click of the new link image.
@@ -87,13 +87,13 @@ qx.Class.define("playground.view.gist.MenuButton",
 
       return control || this.base(arguments, id);
     },
-    
+
     // overridden
     getChildrenSizes : function()
     {
       var values = this.base(arguments);
       values[3] = 20;
       return values;
-    }    
+    }
   }
 });

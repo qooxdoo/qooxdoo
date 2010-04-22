@@ -26,7 +26,7 @@
  * Includes support for RGB and HSB color areas.
  *
  * @appearance colorselector
- * 
+ *
  * @childControl control-bar {qx.ui.container.Composite} container which holds the control-pane and visual-pane
  * @childControl visual-pane {qx.ui.groupbox.GroupBox} pane shows the hue-saturation-pane and the brightness-pane
  * @childControl hue-saturation-pane {qx.ui.container.Composite} shows the hue saturation and the handle to select

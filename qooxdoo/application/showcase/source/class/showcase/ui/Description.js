@@ -21,25 +21,25 @@
 qx.Class.define("showcase.ui.Description",
 {
   extend : qx.ui.basic.Label,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.__loadCss();
-    
+
     this.setRich(true);
     this.setSelectable(true);
   },
-  
+
   properties :
   {
-    appearance : 
+    appearance :
     {
       refine: true,
       init: "description"
     },
-    
-    allowGrowX : 
+
+    allowGrowX :
     {
       refine: true,
       init: false
@@ -51,13 +51,13 @@ qx.Class.define("showcase.ui.Description",
       refine : true
     },
 
-    allowGrowY : 
+    allowGrowY :
     {
       refine: true,
       init: true
     }
   },
-  
+
   members :
   {
     __loadCss : function()
@@ -70,23 +70,23 @@ qx.Class.define("showcase.ui.Description",
         "  line-height: 140%;",
         "  padding-left: 10px;",
         "}",
-        
+
         "#description a {",
         "  text-decoration: underline;",
         "  color: #444444;",
         "}",
-        
+
         "#description a:hover, #description a:active {",
         "  color: #83B300;",
         "}",
-        
+
         "#description h2 {",
         "  color: rgb(131, 179, 0);",
         "  padding: 10px 0px 5px 0px;",
         "  font-size: 15px;",
         "  font-weight: bold;",
         "}",
-        
+
         "#description h1 {",
         "  font-size: 24px;",
         "  line-height: 130%;",
@@ -94,15 +94,15 @@ qx.Class.define("showcase.ui.Description",
         "  color: rgb(16, 66, 117);",
         "  font-weight: bold;",
         "}",
-        
+
         "#description ul {",
         "  padding-left: 20px;",
         "}",
-        
+
         "#description li {",
         "  color: #444444;",
         "}",
-        
+
         "#i18n td {",
         "  font-size: 10px;",
         "}"

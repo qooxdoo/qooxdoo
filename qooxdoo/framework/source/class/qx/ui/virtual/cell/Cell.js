@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     this.__themePaddings = {};
 
     this.__states = {};
-    
+
     this.__themeValues = {};
 
     this.initAppearance();

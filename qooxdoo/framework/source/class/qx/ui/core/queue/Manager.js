@@ -163,23 +163,23 @@ qx.Class.define("qx.ui.core.queue.Manager",
      * flush is cleaned up and rescheduled. The finally code is called after the
      * callback even if it has thrown an exception.
      *
-     * @signature function(callback, finallyCode) 
+     * @signature function(callback, finallyCode)
      * @param callback {Function} the callback function
      * @param finallyCode {Function} function to be called in the finally block
      */
     __executeAndRescheduleOnError : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(callback, finallyCode) 
+      "on" : function(callback, finallyCode)
       {
         callback();
         finallyCode();
       },
- 
-    
+
+
       "off" : function(callback, finallyCode)
       {
         var self = qx.ui.core.queue.Manager;
-  
+
         try
         {
           callback();
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           self.__scheduled = false;
           self.__inFlush = false;
           self.__retries += 1;
-  
+
           if (self.__retries <= self.MAX_RETRIES) {
             self.scheduleFlush();
           } else {
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
               " due to exceptions in user code. The application has to be reloaded!"
             );
           }
-  
+
           throw e;
         }
         finally

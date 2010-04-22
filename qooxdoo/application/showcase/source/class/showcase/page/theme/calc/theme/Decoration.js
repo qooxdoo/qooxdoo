@@ -24,45 +24,45 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
     "calc-button" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "showcase/theme/button.png",
-        insets : [3, 3, 5, 3]        
+        insets : [3, 3, 5, 3]
       }
     },
-    
+
     "calc-button-pressed" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "showcase/theme/button-pressed.png",
-        insets : [3, 3, 5, 3]        
+        insets : [3, 3, 5, 3]
       }
     },
-    
+
     "calc-display" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "showcase/theme/display.png",
-        insets : [5, 5, 5, 4]        
+        insets : [5, 5, 5, 4]
       }
     },
-    
+
     "calc-window" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "showcase/theme/window.png",
-        insets : 2        
+        insets : 2
       }
-    }     
+    }
   }
 });

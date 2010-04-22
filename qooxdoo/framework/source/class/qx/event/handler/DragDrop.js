@@ -257,7 +257,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     /**
      * Returns if a drag session is currently active
-     * 
+     *
      * @return {Boolean} active drag session
      */
     isSessionActive : function() {

@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         if (result != null) {
           return result;
         }
-      } 
+      }
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
           return result;
-        } 
+        }
       }
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
           row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
-        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;        
+        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
           return result;
         }

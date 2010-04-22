@@ -19,7 +19,7 @@
 
 /**
  * The button to fill the menubar
- * 
+ *
  * @childControl arrow {qx.ui.basic.Image} arrow widget to show a submenu is available
  */
 qx.Class.define("qx.ui.toolbar.MenuButton",

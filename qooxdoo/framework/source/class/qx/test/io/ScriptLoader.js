@@ -59,7 +59,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
         this.needsPHPWarning();
         return;
       }
-      
+
       // Opera will fire an event at all
       if (qx.bom.client.Engine.OPERA) {
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
@@ -67,7 +67,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
       }
 
       var url = this.getUrl("qx/test/xmlhttp/404.php");
-      
+
       this.loader.load(url, function(status) { this.resume(function() {
         if (qx.bom.client.Engine.MSHTML || (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 531)) {
           // Error state does not work in IE and Safari 3!
@@ -76,7 +76,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
           this.assertEquals("fail", status);
         }
       }, this)}, this);
-      
+
       this.wait();
     },
 
@@ -139,32 +139,32 @@ qx.Class.define("qx.test.io.ScriptLoader",
 
       this.wait(5000);
     },
-    
-    
+
+
     testLoadCachedFile : function()
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       // first fetch fills the cache
       var url = this.getUrl("qx/test/cached-script.php");
       window.SCRIPT_LOADED = false;
-      this.loader.load(url, function() 
-      {        
+      this.loader.load(url, function()
+      {
         this.assertTrue(window.SCRIPT_LOADED);
         window.SCRIPT_LOADED = false;
 
         var loader = new qx.io.ScriptLoader();
-        loader.load(url, function(status) { this.resume(function() 
+        loader.load(url, function(status) { this.resume(function()
         {
           this.assertEquals("success", status);
           this.assertTrue(window.SCRIPT_LOADED);
         }, this); }, this);
-        
+
       }, this);
-      
+
       this.wait();
     }
   }

@@ -103,7 +103,7 @@ qx.Class.define("qx.bom.Label",
           // CSS "label" selector, See bug #1349 for details.
           var style = inner.style;
           style.padding = "0";
-          
+
           for (var key in this.__styles) {
             style[key] = "inherit";
           }

@@ -24,13 +24,13 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.i18n.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -50,22 +50,22 @@ qx.Class.define("showcase.page.i18n.Page",
       )
     });
   },
-  
-  
+
+
   members :
   {
-    __descriptionText : 
+    __descriptionText :
       'Internationalization (or \"I18N\" for short) is all about making' +
       " a system support different natural languages and" +
       " locales in its user interface. qooxdoo has full translation support " +
       "and comprises locale information of virtually every country in the world.",
-      
+
     __tryThis : {
-      "Change the language": 
+      "Change the language":
         "Hit one of the flag buttons on the top to change " +
         "the language. All labels on the page will be translated, including " +
         "labels in standard qooxdoo widgets like the calendar.",
-      "Change the country": 
+      "Change the country":
         "The first select box on the left lets you change the country code. " +
         "The country code defines things like date or number formats. Try " +
         "changing the country code from <em>United States</em> to " +
@@ -75,31 +75,31 @@ qx.Class.define("showcase.page.i18n.Page",
         "The command menu button in the lower left opens a popup menu. Even the " +
         "keyboard shortcuts are localized."
     },
-    
+
     __features : {
-      "Standards based translation" : 
+      "Standards based translation" :
         "Translation data is extracted into standard <em>.po</em> " +
-      	"files, as defined by GNU <em>gettext</em> tools. Many " +
-      	"open source tools can process those translation files.",
+        "files, as defined by GNU <em>gettext</em> tools. Many " +
+        "open source tools can process those translation files.",
       "CLDR" :
         "Localisation data like date and time formats are taken from the " +
         "<a href='http://cldr.unicode.org/'>Unicode Common Locale Data Repository</a> (CLDR). This " +
         "guarantees that qooxdoo uses the standardized data for even the smallest " +
-        "countries.", 
-      "Live locale switching" : 
+        "countries.",
+      "Live locale switching" :
         "All widgets are designed in a way that allows for locale switching in the running application."
     },
-    
+
     __manual : {
       "internationalization" : "Internationalization"
-    },    
-      
+    },
+
     __demos : {
       "#showcase~Localization.html" : "Localization demo"
     },
 
     __api : {
       "#qx.locale" : "qx.locale.*"
-    }  
-  }  
+    }
+  }
 });

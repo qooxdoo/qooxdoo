@@ -1,7 +1,7 @@
 qx.Class.define("performance.test.widget.WidgetWithGrid",
 {
   extend : performance.test.widget.AbstractWidget,
-  
+
   members :
   {
     CREATE_ITERATIONS : 100,
@@ -11,5 +11,5 @@ qx.Class.define("performance.test.widget.WidgetWithGrid",
     _createWidget : function() {
       return new qx.ui.core.Widget().set({decorator: "button"});
     }
-  }  
+  }
 });

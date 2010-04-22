@@ -22,17 +22,17 @@ qx.Interface.define("showcase.page.theme.calc.view.ICalculator",
   events : {
     "buttonPress" : "qx.event.type.Data"
   },
-  
-  properties : 
+
+  properties :
   {
     display : {},
-    
+
     memory : {
       check : "Boolean"
     },
-    
+
     operation : {
       check : "String"
-    }    
+    }
   }
 });

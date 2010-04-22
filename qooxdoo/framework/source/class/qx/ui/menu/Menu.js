@@ -25,7 +25,7 @@
  *
  * This class is the container for all derived instances of
  * {@link qx.ui.menu.AbstractButton}.
- * 
+ *
  * @childControl slidebar {qx.ui.menu.MenuSlideBar} shows a slidebar to easily navigate inside the menu (if too little space is left)
  */
 qx.Class.define("qx.ui.menu.Menu",

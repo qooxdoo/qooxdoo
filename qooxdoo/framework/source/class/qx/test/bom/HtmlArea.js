@@ -26,13 +26,13 @@ qx.Class.define("qx.test.bom.HtmlArea",
     setUp : function()
     {
       this.__htmlAreaContainer = qx.bom.Element.create("div");
-      qx.bom.element.Style.setStyles(this.__htmlAreaContainer, { width: "840px", 
+      qx.bom.element.Style.setStyles(this.__htmlAreaContainer, { width: "840px",
                                                                  height: "350px",
                                                                  border: "1px solid #AAA",
                                                                  borderTop: "0px",
                                                                  backgroundColor: "white" });
       qx.dom.Element.insertEnd(this.__htmlAreaContainer, document.body);
-      
+
       var demoContent = 'vanillebaer';
       this.__htmlArea = new qx.bom.htmlarea.HtmlArea(this.__htmlAreaContainer, demoContent, null, "blank.html");
     },
@@ -52,8 +52,8 @@ qx.Class.define("qx.test.bom.HtmlArea",
           this.assertTrue(true);
         }, this);
       }, this);
-      
+
       this.wait(5000);
-    }    
+    }
   }
 });

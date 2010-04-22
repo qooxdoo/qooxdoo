@@ -59,7 +59,7 @@ qx.Class.define("qx.core.Init",
       if (this.__application) {
         return;
       }
-      
+
       if (qx.bom.client.Engine.UNKNOWN_ENGINE) {
         qx.log.Logger.warn("Could not detect engine!");
       }

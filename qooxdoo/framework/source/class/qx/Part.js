@@ -32,23 +32,23 @@
 qx.Bootstrap.define("qx.Part",
 {
   // !! Careful when editing this file. Do not extend the dependencies !!
-  
+
   /**
    * @param loader {Object} The data structure from the boot script about all
    *   known parts and packages. Usually <code>qx.$$loader</code>.
    */
-  construct : function(loader) 
+  construct : function(loader)
   {
     // assert: boot part has a single package
     var bootPackageIndex = loader.parts[loader.boot][0];
-	
+
     this.__loader = loader;
-    
+
     // initialize the pseudo event listener maps
     this.__partListners = {};
     this.__packageListeners = {};
     this.__packageClosureListeners = {};
-    
+
     // create the packages
     this.__packages = [];
     var uris = this.__getUris();
@@ -58,12 +58,12 @@ qx.Bootstrap.define("qx.Part",
       var pkg = new qx.io.part.Package(uris[i], hash, i==bootPackageIndex);
       this.__packages.push(pkg);
     };
-    
+
     // create the parts
     this.__parts = {};
     var parts = loader.parts;
     var closureParts = loader.closureParts || {};
-  
+
     for (var name in parts)
     {
       var pkgIndexes = parts[name];
@@ -71,41 +71,41 @@ qx.Bootstrap.define("qx.Part",
       for (var i = 0; i < pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
-      
+
       // check for closure loading
       if (closureParts[name]) {
         var part = new qx.io.part.ClosurePart(name, packages, this);
       } else {
         var part = new qx.io.part.Part(name, packages, this);
       }
-      
+
       this.__parts[name] = part;
     }
   },
-  
-  
+
+
   statics :
   {
     /**
      * Default timeout in ms for the error handling of the closure loading.
      */
     TIMEOUT : 7500,
-    
-    
+
+
     /**
      * Get the default part loader instance
-     * 
+     *
      * @return {qx.Part} the default part loader
      */
     getInstance : function()
     {
       if (!this.$$instance) {
-        this.$$instance = new this(qx.$$loader);        
+        this.$$instance = new this(qx.$$loader);
       }
       return this.$$instance;
     },
-    
-    
+
+
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -119,47 +119,47 @@ qx.Bootstrap.define("qx.Part",
     require : function(partNames, callback, self) {
       this.getInstance().require(partNames, callback, self);
     },
-    
-    
+
+
     /**
      * Preloads one or more closure parts but does not execute them. This means
      * the closure (the whole code of the part) is already loaded but not
-     * executed so you can't use the classes in the the part after a preload. 
-     * If you want to execute them, just use the regular {@link #require} 
+     * executed so you can't use the classes in the the part after a preload.
+     * If you want to execute them, just use the regular {@link #require}
      * function.
-     * 
-     * @param partNames {String[]} List of parts names to preload as defined 
+     *
+     * @param partNames {String[]} List of parts names to preload as defined
      *   in the config file at compile time.
      */
     preload : function(partNames) {
       this.getInstance().preload(partNames);
-    },    
-    
-    
+    },
+
+
     /**
-     * Loaded closure packages have to call this method to indicate 
+     * Loaded closure packages have to call this method to indicate
      * successful loading and to get thir closure stored.
-     * 
+     *
      * @param id {String} The id of the package.
      * @param closure {Function} The wrapped code of the package.
      */
     $$notifyLoad : function(id, closure) {
-      this.getInstance().saveClosure(id, closure);      
-    }    
+      this.getInstance().saveClosure(id, closure);
+    }
   },
-  
-  
+
+
   members :
   {
     __loader : null,
     __packages : null,
-    __parts : null,    
+    __parts : null,
     __packageClosureListeners : null,
-    
-    
+
+
     /**
      * This method is only for testing purposes! Don't use it!
-     * 
+     *
      * @internal
      * @param pkg {qx.io.part.Package} The package to add to the internal
      *   registry of packages.
@@ -167,13 +167,13 @@ qx.Bootstrap.define("qx.Part",
     addToPackage : function(pkg) {
       this.__packages.push(pkg);
     },
-    
-    
+
+
     /**
      * Internal addListener for closure packages.
-     * 
+     *
      * @internal
-     * @param pkg {qx.io.part.ClosurePackage} The colosure package to listen 
+     * @param pkg {qx.io.part.ClosurePackage} The colosure package to listen
      *   for.
      * @param callback {Function} The method to call when the package is loaded.
      */
@@ -185,16 +185,16 @@ qx.Bootstrap.define("qx.Part",
       }
       this.__packageClosureListeners[key].push(callback);
     },
-        
-    
+
+
     /**
      * Internal herlper method to save the closure and notify that the load.
-     * 
+     *
      * @internal
      * @param id {String} The hash of the package.
      * @param closure {Function} The code of the package wrappen into a closure.
      */
-    saveClosure : function(id, closure) 
+    saveClosure : function(id, closure)
     {
       // search for the package
       var pkg;
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.Part",
           break;
         }
       };
-      
+
       // error if no package could be found
       if (!pkg) {
         throw new Error("Package not available: " + id);
@@ -212,7 +212,7 @@ qx.Bootstrap.define("qx.Part",
 
       // save the colsure in the package itself
       pkg.saveClosure(closure);
-      
+
       // call the listeners
       var listeners = this.__packageClosureListeners[id];
       if (!listeners) {
@@ -222,22 +222,22 @@ qx.Bootstrap.define("qx.Part",
         listeners[i]("complete", id);
       }
       // get rid of all colsure package listeners for that package
-      this.__packageClosureListeners[id] = [];   
+      this.__packageClosureListeners[id] = [];
     },
 
-    
+
     /**
-     * Inthern mehtod for testing purposes which returns the internal parts 
+     * Inthern mehtod for testing purposes which returns the internal parts
      * store.
-     * 
+     *
      * @internal
      * @return {Array} An array of parts.
      */
     getParts : function() {
       return this.__parts;
     },
-    
-    
+
+
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -247,7 +247,7 @@ qx.Bootstrap.define("qx.Part",
      *   in the config file at compile time. The method also accepts a single
      *   string as parameter to only load one part.
      * @param callback {Function} Function to execute on completion.
-     *   The function has one parameter which is an array of ready states of 
+     *   The function has one parameter which is an array of ready states of
      *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */
@@ -283,29 +283,29 @@ qx.Bootstrap.define("qx.Part",
         parts[i].load(onLoad, this);
       }
     },
-    
-    
+
+
     /**
      * Preloader for the given part.
-     * 
+     *
      * @param partNames {String} The hash of the part to preload.
      * @param callback {Function} Function to execute on completion.
-     *   The function has one parameter which is an array of ready states of 
+     *   The function has one parameter which is an array of ready states of
      *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */
-    preload : function(partNames, callback, self) 
+    preload : function(partNames, callback, self)
     {
       if (qx.Bootstrap.isString(partNames)) {
         partNames = [partNames];
       }
-      
+
       var partsPreloaded = 0;
       for (var i=0; i<partNames.length; i++) {
 
         this.__parts[partNames[i]].preload(function() {
           partsPreloaded++;
-          
+
           if (partsPreloaded >= partNames.length) {
             // gather the ready states of the parts
             var states = [];
@@ -318,9 +318,9 @@ qx.Bootstrap.define("qx.Part",
           };
         }, this);
       }
-    }, 
-    
-    
+    },
+
+
     /**
      * Get the URI lists of all packages
      *
@@ -346,23 +346,23 @@ qx.Bootstrap.define("qx.Part",
      * @return {String[]} decompressed URIs
      */
     __decodeUris : qx.$$loader.decodeUris,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PART
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     __partListners : null,
-    
-    
+
+
     /**
      * Register callback, which is called after the given part has been loaded
      * or fails with an error. After the call the listener is removed.
-     * 
+     *
      * @internal
-     * 
+     *
      * @param part {Object} Part to load
      * @param callback {Object} the listener
      */
@@ -374,32 +374,32 @@ qx.Bootstrap.define("qx.Part",
       }
       this.__partListners[key].push(callback);
     },
-    
-    
+
+
     /**
      * If defined this method is called after each part load.
      */
     onpart : null,
-    
-    
+
+
     /**
      * This method is called after a part has been loaded or failed to load.
      * It calls all listeners for this part.
-     * 
+     *
      * @internal
      * @param part {Object} The loaded part
-     */    
+     */
     notifyPartResult : function(part)
     {
       var key = part.getName();
 
       var listeners = this.__partListners[key];
-      if (listeners) 
+      if (listeners)
       {
         for (var i = 0; i < listeners.length; i++) {
           listeners[i](part.getReadyState());
         }
-        this.__partListners[key] = [];            
+        this.__partListners[key] = [];
       }
 
       if (typeof this.onpart == "function") {
@@ -407,22 +407,22 @@ qx.Bootstrap.define("qx.Part",
       }
     },
 
-   
+
     /*
     ---------------------------------------------------------------------------
       PACKAGE
     ---------------------------------------------------------------------------
-    */          
-    
+    */
+
     __packageListeners : null,
-    
-    
+
+
     /**
      * Register callback, which is called after the given package has been loaded
      * or fails with an error. After the call the listener is removed.
-     * 
+     *
      * @internal
-     * 
+     *
      * @param pkg {Object} Package to load
      * @param callback {Object} the listener
      */
@@ -434,19 +434,19 @@ qx.Bootstrap.define("qx.Part",
       }
       this.__packageListeners[key].push(callback);
     },
-    
-    
+
+
     /**
      * This method is called after a packages has been loaded or failed to load.
      * It calls all listeners for this package.
-     * 
+     *
      * @internal
      * @param pkg {Object} The loaded package
      */
     notifyPackageResult : function(pkg)
     {
       var key = pkg.getId();
-      
+
       var listeners = this.__packageListeners[key];
       if (!listeners) {
         return;
@@ -454,7 +454,7 @@ qx.Bootstrap.define("qx.Part",
       for (var i=0; i<listeners.length; i++) {
         listeners[i](pkg.getReadyState());
       }
-      this.__packageListeners[key] = [];      
+      this.__packageListeners[key] = [];
     }
   }
 });

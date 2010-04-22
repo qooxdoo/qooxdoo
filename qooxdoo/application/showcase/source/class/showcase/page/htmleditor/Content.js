@@ -27,18 +27,18 @@
 qx.Class.define("showcase.page.htmleditor.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
-  
-  
+
+
   construct : function(page) {
     this.base(arguments, page);
   },
-  
-  
-  members : {  
+
+
+  members : {
     __htmlArea : null,
     __editorComponent : null,
-    
-      
+
+
     _addWindowContent : function(win) {
       win.set({
         layout: new qx.ui.layout.Canvas(),
@@ -46,39 +46,39 @@ qx.Class.define("showcase.page.htmleditor.Content",
         height: 400,
         caption: "Editor"
       });
-      
+
       var demoContent = '<p>qooxdoo (pronounced [ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL (GNU Lesser General Public License) / EPL (Eclipse Public License) dual <a href="http://qooxdoo.org/license" class="wikilink1" title="license" target="_blank">license</a>.</p>';
 
       this.__htmlArea = new qx.ui.embed.HtmlArea(demoContent, null, "blank.html");
       this.__htmlArea.set({
-        width: 540, 
+        width: 540,
         height: 370,
         margin: 5
       });
-      
+
       var vb = new qx.ui.layout.VBox(0);
       var vbContainer = new qx.ui.container.Composite(vb).set({
-        width: 540, 
+        width: 540,
         height: 370,
         backgroundColor: "white"
       });
 
       var menuBar = this.__setupMenuBar();
       vbContainer.add(menuBar);
-      
+
       var toolbar = this.__setupToolbar();
-      
+
       // Add toolbar and HtmlArea widget
       vbContainer.add(toolbar);
-      vbContainer.add(this.__htmlArea, {flex: 1});      
+      vbContainer.add(this.__htmlArea, {flex: 1});
 
-      win.add(vbContainer, {edge: 0});     
+      win.add(vbContainer, {edge: 0});
     },
-    
-    
+
+
     /**
-     * Handler method for font color 
-     * 
+     * Handler method for font color
+     *
      * @param e {qx.event.type.Event} event instance
      */
     __fontColorHandler : function(e)
@@ -86,43 +86,43 @@ qx.Class.define("showcase.page.htmleditor.Content",
       var result = window.prompt("Color (Hex): ", "#");
       this.setTextColor(result);
     },
-    
-    
+
+
     /**
-     * Handler method for text background color 
-     * 
+     * Handler method for text background color
+     *
      * @param e {qx.event.type.Event} event instance
-     */  
+     */
     __textBackgroundColorHandler : function(e)
     {
       var result = window.prompt("BgColor (Hex): ", "#");
       this.setTextBackgroundColor(result);
     },
-    
-    
+
+
     /**
-     * Handler method for inserting images 
-     * 
+     * Handler method for inserting images
+     *
      * @param e {qx.event.type.Event} event instance
-     */  
+     */
     __insertImageHandler : function(e)
     {
       var attributes = { src    : qx.util.ResourceManager.getInstance().toUri("htmlarea/image/qooxdoo_logo.png"),
                          border : 0,
                          title  : "qooxdoo logo",
                          alt    : "qooxdoo logo" };
-      
+
       this.insertImage(attributes);
     },
-      
+
     /**
-     * Handler method for inserting tables 
-     * 
+     * Handler method for inserting tables
+     *
      * @param e {qx.event.type.Event} event instance
      */
     __insertTableHandler : function(e)
     {
-      var table = "<table border='1'>" + 
+      var table = "<table border='1'>" +
                     "<tbody>" +
                       "<tr>" +
                         "<td>First Row, First cell</td>" +
@@ -136,11 +136,11 @@ qx.Class.define("showcase.page.htmleditor.Content",
                   "</table>";
       this.insertHtml(table);
     },
-    
-    
+
+
     /**
-     * Handler method for inserting links 
-     * 
+     * Handler method for inserting links
+     *
      * @param e {qx.event.type.Event} event instance
      */
     __insertLinkHandler : function(e)
@@ -148,14 +148,14 @@ qx.Class.define("showcase.page.htmleditor.Content",
       var createLinkWindow = new qx.ui.window.Window("Insert Hyperlink");
       createLinkWindow.setLayout(new qx.ui.layout.VBox(20));
       createLinkWindow.set({ width: 400, showMaximize: false, showMinimize: false });
-      
+
       var textField = new qx.ui.form.TextField("http://");
       createLinkWindow.add(textField);
-      
+
       var hBoxLayout = new qx.ui.layout.HBox(10);
       hBoxLayout.setAlignX("right");
       var buttonContainer = new qx.ui.container.Composite(hBoxLayout);
-      
+
       var okButton = new qx.ui.form.Button("OK");
       okButton.setWidth(60);
       okButton.addListener("execute", function(e) {
@@ -163,26 +163,26 @@ qx.Class.define("showcase.page.htmleditor.Content",
         createLinkWindow.close();
       }, this);
       buttonContainer.add(okButton);
-      
+
       var cancelButton = new qx.ui.form.Button("Cancel");
       cancelButton.setWidth(60);
-      cancelButton.addListener("execute", function(e) { 
+      cancelButton.addListener("execute", function(e) {
         createLinkWindow.close();
       }, this);
       buttonContainer.add(cancelButton);
-      
+
       createLinkWindow.add(buttonContainer);
-      
+
       createLinkWindow.center();
       createLinkWindow.open();
-      
+
       this.__editorComponent.saveRange();
     },
-    
-    
+
+
     /**
-     * Handler method for inserting HTML code 
-     * 
+     * Handler method for inserting HTML code
+     *
      * @param e {qx.event.type.Event} event instance
      */
     __insertHTMLHandler : function(e)
@@ -190,20 +190,20 @@ qx.Class.define("showcase.page.htmleditor.Content",
       var result = window.prompt("HTML Code:", "");
       this.insertHtml(result);
     },
-    
-      
+
+
     /* ***************************************
-     * 
+     *
      *            Toolbar info
-     *  
+     *
      * ***************************************
      */
-    
+
     /**
      * Creates the "font-family" toolbar dropdown
-     * 
+     *
      * @return {qx.ui.form.SelectBox} select box button
-     */  
+     */
     __fontFamilyToolbarEntry : function()
     {
       var button = new qx.ui.form.SelectBox;
@@ -214,8 +214,8 @@ qx.Class.define("showcase.page.htmleditor.Content",
                    height: 16,
                    margin: [ 4, 0 ] });
       button.add(new qx.ui.form.ListItem(""));
-      
-      var entries = ["Tahoma", "Verdana", "Times New Roman", "Arial", 
+
+      var entries = ["Tahoma", "Verdana", "Times New Roman", "Arial",
                      "Arial Black", "Courier New", "Courier", "Georgia",
                      "Impact", "Comic Sans MS", "Lucida Console" ];
 
@@ -223,12 +223,12 @@ qx.Class.define("showcase.page.htmleditor.Content",
       for (var i=0, j=entries.length;i<j;i++)
       {
         entry = new qx.ui.form.ListItem(entries[i]);
-        entry.set({ focusable : false, 
+        entry.set({ focusable : false,
                     keepFocus : true,
                     font: qx.bom.Font.fromString("12px " + entries[i]) });
         button.add(entry);
       }
-      
+
       button.addListener("changeSelection", function(e)
       {
         var value = e.getData()[0].getLabel();
@@ -237,16 +237,16 @@ qx.Class.define("showcase.page.htmleditor.Content",
           button.setSelection([ button.getChildren()[0] ]);
         }
       }, this.__htmlArea);
-      
+
       return button;
-    }, 
-    
-    
+    },
+
+
     /**
      * Creates the "font-size" toolbar dropdown
-     * 
+     *
      * @return {qx.ui.form.SelectBox} select box button
-     */  
+     */
     __fontSizeToolbarEntry : function()
     {
       var button = new qx.ui.form.SelectBox;
@@ -257,16 +257,16 @@ qx.Class.define("showcase.page.htmleditor.Content",
                    height: 16,
                    margin: [ 4, 0 ] });
       button.add(new qx.ui.form.ListItem(""));
-      
+
       var entry;
       for (var i=1;i<=7;i++)
       {
         entry = new qx.ui.form.ListItem(i+"");
-        entry.set({ focusable : false, 
+        entry.set({ focusable : false,
                     keepFocus : true });
         button.add(entry);
       }
-      
+
       button.addListener("changeSelection", function(e)
       {
         var value = e.getData()[0].getLabel();
@@ -275,16 +275,16 @@ qx.Class.define("showcase.page.htmleditor.Content",
           button.setSelection([ button.getChildren()[0] ]);
         }
       }, this.__htmlArea);
-      
+
       return button;
     },
-    
-    
+
+
     /**
      * Toolbar entries
      *
      * @return {Array} toolbar entries
-     */  
+     */
     __getToolbarEntries : function()
     {
       return [
@@ -295,41 +295,41 @@ qx.Class.define("showcase.page.htmleditor.Content",
           strikethrough:       { text: "Format Strikethrough", image: "icon/16/actions/format-text-strikethrough.png", action: this.__htmlArea.setStrikeThrough },
           removeFormat:        { text: "Remove Format", image: "icon/16/actions/edit-clear.png", action: this.__htmlArea.removeFormat }
         },
-        
+
         {
           alignLeft:           { text: "Align Left", image: "icon/16/actions/format-justify-left.png", action: this.__htmlArea.setJustifyLeft },
           alignCenter:         { text: "Align Center", image: "icon/16/actions/format-justify-center.png", action: this.__htmlArea.setJustifyCenter },
           alignRight:          { text: "Align Right", image: "icon/16/actions/format-justify-right.png", action: this.__htmlArea.setJustifyRight },
           alignJustify:        { text: "Align Justify", image: "icon/16/actions/format-justify-fill.png", action: this.__htmlArea.setJustifyFull }
         },
-          
+
         {
           indent:              { text: "Indent More", image: "icon/16/actions/format-indent-more.png", action: this.__htmlArea.insertIndent },
           outdent:             { text: "Indent Less", image: "icon/16/actions/format-indent-less.png", action: this.__htmlArea.insertOutdent }
         },
-        
+
         {
           ol:                  { text: "Insert Ordered List", image: "showcase/htmleditor/format-list-ordered.png", action: this.__htmlArea.insertOrderedList },
           ul:                  { text: "Inserted Unordered List", image: "showcase/htmleditor/format-list-unordered.png", action: this.__htmlArea.insertUnorderedList }
         },
-        
+
         {
           undo:                { text: "Undo Last Change", image: "icon/16/actions/edit-undo.png", action: this.__htmlArea.undo },
           redo:                { text: "Redo Last Undo Step", image: "icon/16/actions/edit-redo.png", action: this.__htmlArea.redo }
         }
       ];
     },
-    
-    
+
+
     /**
      * Creates the toolbar entries
-     * 
+     *
      * @return {qx.ui.toolbarToolBar} toolbar widget
-     */  
+     */
     __setupToolbar : function()
-    {  
+    {
       var toolbar = new qx.ui.toolbar.ToolBar;
-      
+
       // Put together toolbar entries
       var button;
       var toolbarEntries = this.__getToolbarEntries();
@@ -337,30 +337,30 @@ qx.Class.define("showcase.page.htmleditor.Content",
       {
         var part = new qx.ui.toolbar.Part;
         toolbar.add(part);
-        
+
         for (var entry in toolbarEntries[i])
         {
           var infos = toolbarEntries[i][entry];
-          
+
           if(infos.custom) {
             button = infos.custom.call(this);
           }
-          else 
+          else
           {
             button = new qx.ui.toolbar.Button(null, infos.image);
-            button.set({ focusable : false, 
+            button.set({ focusable : false,
                          keepFocus : true,
                          center : true,
                          toolTipText : infos.text ? infos.text : "" });
             button.addListener("execute", infos.action, this.__htmlArea);
           }
           part.add(button);
-        }        
+        }
       }
-      
+
       return toolbar;
     },
-    
+
     /**
      * @lint ignoreDeprecated(alert)
      */
@@ -374,22 +374,22 @@ qx.Class.define("showcase.page.htmleditor.Content",
     debugCommand : function(e) {
       alert("This command is not yet implemented!");
     },
-    
+
     /**
-     * @lint ignoreDeprecated(alert) 
+     * @lint ignoreDeprecated(alert)
      */
     debugButton : function(e) {
       alert("This command is not yet implemented!");
     },
 
     /**
-     * @lint ignoreDeprecated(alert) 
+     * @lint ignoreDeprecated(alert)
      */
     debugCheckBox : function(e) {
       alert("This command is not yet implemented!");
     },
-    
-    
+
+
     createCommands : function()
     {
       this._newCommand = new qx.ui.core.Command("Ctrl+N");
@@ -418,25 +418,25 @@ qx.Class.define("showcase.page.htmleditor.Content",
 
       this._pasteCommand.setEnabled(false);
     },
-    
-    
+
+
     __setupMenuBar : function()
     {
       this.createCommands();
-      
+
       var menubar = new qx.ui.menubar.MenuBar().set({
         decorator: new qx.ui.decoration.Single().set({
           backgroundImage  : "decoration/menu/bar-background.png",
           backgroundRepeat : "scale",
           bottom: [1, "solid", "border-separator"]
         })
-      }); 
+      });
 
       var fileMenu = new qx.ui.menubar.Button("File", null, this.getFileMenu());
       var editMenu = new qx.ui.menubar.Button("Edit", null, this.getEditMenu());
       var searchMenu = new qx.ui.menubar.Button("Search", null, this.getSearchMenu());
       var viewMenu = new qx.ui.menubar.Button("View", null, this.getViewMenu());
-      var formatMenu = new qx.ui.menubar.Button("Format", null, this.getFormatMenu());      
+      var formatMenu = new qx.ui.menubar.Button("Format", null, this.getFormatMenu());
       var helpMenu = new qx.ui.menubar.Button("Help", null, this.getHelpMenu());
 
       menubar.add(fileMenu);
@@ -450,7 +450,7 @@ qx.Class.define("showcase.page.htmleditor.Content",
       return menubar;
     },
 
-    
+
     getFileMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
@@ -634,7 +634,7 @@ qx.Class.define("showcase.page.htmleditor.Content",
       return menu;
     },
 
-    
+
     getFormatMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
@@ -670,7 +670,7 @@ qx.Class.define("showcase.page.htmleditor.Content",
       return menu;
     },
 
-    
+
     getParagraphMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
@@ -715,6 +715,6 @@ qx.Class.define("showcase.page.htmleditor.Content",
       menu.add(infoButton);
 
       return menu;
-    }    
+    }
   }
 });

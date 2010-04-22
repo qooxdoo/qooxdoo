@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("performance.test.Event", 
+qx.Class.define("performance.test.Event",
 {
   extend : qx.dev.unit.TestCase,
   include : performance.test.MMeasure,
@@ -30,9 +30,9 @@ qx.Class.define("performance.test.Event",
   {
     FIRE_ITERATIONS : 10000,
     ADD_ITERATIONS : 5000,
-    
-    
-    testFireEvent : function() {    
+
+
+    testFireEvent : function() {
       var that = this;
       this.measureRepeated(
         "fire plain events", function() {
@@ -41,9 +41,9 @@ qx.Class.define("performance.test.Event",
         function() {}, this.FIRE_ITERATIONS
       );
     },
-    
-    
-    testFireDataEvent : function() {    
+
+
+    testFireDataEvent : function() {
       var that = this;
       this.measureRepeated(
         "fire data events", function() {
@@ -52,9 +52,9 @@ qx.Class.define("performance.test.Event",
         function() {}, this.FIRE_ITERATIONS
       );
     },
-    
-    
-    testFireDataEventCancleable : function() {    
+
+
+    testFireDataEventCancleable : function() {
       var that = this;
       this.measureRepeated(
         "fire cancleable data events", function() {
@@ -63,8 +63,8 @@ qx.Class.define("performance.test.Event",
         function() {}, this.FIRE_ITERATIONS
       );
     },
-    
-    
+
+
     testAddListener : function() {
       var that = this;
       var handler = [];
@@ -82,9 +82,9 @@ qx.Class.define("performance.test.Event",
         }, this.ADD_ITERATIONS
       );
     },
-    
-    
-    testRemoveListener : function() 
+
+
+    testRemoveListener : function()
     {
       var handler = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
@@ -97,10 +97,10 @@ qx.Class.define("performance.test.Event",
           that.removeListener("plain", handler[i]);
         },
         function() {}, this.ADD_ITERATIONS
-      );      
+      );
     },
-    
-    
+
+
     testRemoveListenerById : function() {
       var listeners = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
@@ -114,8 +114,8 @@ qx.Class.define("performance.test.Event",
         function() {}, this.ADD_ITERATIONS
       );
     },
-    
-    
+
+
     testExecutePlainListener : function() {
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
@@ -131,10 +131,10 @@ qx.Class.define("performance.test.Event",
             that.removeListenerById(listeners[i]);
           };
         }, 1, this.FIRE_ITERATIONS
-      );      
+      );
     },
-    
-    
+
+
     testExecuteDataListener : function() {
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
@@ -150,7 +150,7 @@ qx.Class.define("performance.test.Event",
             that.removeListenerById(listeners[i]);
           };
         }, 1, this.FIRE_ITERATIONS
-      );      
-    }    
+      );
+    }
   }
 });

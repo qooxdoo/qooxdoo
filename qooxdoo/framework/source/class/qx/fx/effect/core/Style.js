@@ -59,12 +59,12 @@ qx.Class.define("qx.fx.effect.core.Style",
    */
   construct : function(element, cssAttribute, func)
   {
-    if (cssAttribute)    
+    if (cssAttribute)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertString(cssAttribute);
       }
-      this.__cssAttribute = cssAttribute;    
+      this.__cssAttribute = cssAttribute;
     }else {
       throw new Error("A CSS attribute must be specified!");
     }
@@ -79,7 +79,7 @@ qx.Class.define("qx.fx.effect.core.Style",
 
     this.base(arguments, element);
   },
-  
+
   members :
   {
     __cssAttribute : null,

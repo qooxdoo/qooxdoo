@@ -22,7 +22,7 @@
  * @tag list contorller
  * @tag form controller
  */
-qx.Class.define("demobrowser.demo.data.FormAndListController", 
+qx.Class.define("demobrowser.demo.data.FormAndListController",
 {
   extend : qx.application.Standalone,
 
@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
       // create a form controller!
       new qx.data.controller.Form(model, form);
 
-      
+
       // A button to log the models content
       var logButton = new qx.ui.form.Button("Show model data in the log");
       this.getRoot().add(logButton, {left: 240, top: 20});

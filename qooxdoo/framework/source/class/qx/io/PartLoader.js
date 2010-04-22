@@ -27,14 +27,14 @@ qx.Class.define("qx.io.PartLoader",
   type : "singleton",
   extend : qx.core.Object,
 
-  
+
   construct : function()
   {
     this.base(arguments);
 
-    
+
     var loader = this._loader = qx.Part.getInstance();
-    
+
     var self = this;
     loader.onpart = function(part) {
       if (part.readyState == "success") {
@@ -56,7 +56,7 @@ qx.Class.define("qx.io.PartLoader",
 
     /**
      * Fired if a part could not be loaded. The event's
-     * {@link qx.event.type.Data#getData} method returns the name of the failed 
+     * {@link qx.event.type.Data#getData} method returns the name of the failed
      * part.
      */
     "partLoadingError" : "qx.event.type.Data"
@@ -73,7 +73,7 @@ qx.Class.define("qx.io.PartLoader",
      * @param partNames {String[]} List of parts names to load as defined in the
      *    config file at compile time.
      * @param callback {Function} Function to execute on completion.
-     *   The function has one parameter which is an array of ready states of 
+     *   The function has one parameter which is an array of ready states of
      *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */

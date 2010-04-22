@@ -25,42 +25,42 @@ qx.Class.define("qx.test.event.type.Event",
 
   members :
   {
-    "test: stop() should prevent default and stop propagation" : function() 
+    "test: stop() should prevent default and stop propagation" : function()
     {
       var e = new qx.event.type.Event().init(true, true);
-      
+
       this.assertFalse(e.getPropagationStopped());
       this.assertFalse(e.getDefaultPrevented());
-      
+
       e.stop();
-      
+
       this.assertTrue(e.getPropagationStopped());
-      this.assertTrue(e.getDefaultPrevented());      
-      
+      this.assertTrue(e.getDefaultPrevented());
+
       e.dispose();
     },
 
-    
-    "test: stop() cannot prevent default on non cancelable events" : function() 
+
+    "test: stop() cannot prevent default on non cancelable events" : function()
     {
       var e = new qx.event.type.Event().init(true, false);
-      
+
       this.assertFalse(e.getDefaultPrevented());
       e.stop();
       this.assertFalse(e.getDefaultPrevented());
-      
+
       e.dispose();
     },
-    
-    
-    "test: stop() cannot stop propagation on a non bubbling event" : function() 
+
+
+    "test: stop() cannot stop propagation on a non bubbling event" : function()
     {
       var e = new qx.event.type.Event().init(false, true);
-      
+
       this.assertFalse(e.getPropagationStopped());
       e.stop();
       this.assertFalse(e.getPropagationStopped());
-      
+
       e.dispose();
     }
   }

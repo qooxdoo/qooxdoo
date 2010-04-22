@@ -212,7 +212,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
             this.__insertHelperParagraph();
           }
         }
-        
+
         // Pass all useBuiltin commands right to the browser
         if (commandObject.useBuiltin) {
           result = this.__executeCommand(commandObject.identifier, false, value);
@@ -254,7 +254,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         if (Node.isText(focusNode))
         {
           var parents = qx.dom.Hierarchy.getAncestors(focusNode);
-          
+
           for(var i=0, j=parents.length; i<j; i++)
           {
             if (Node.isNodeName(parents[i], "p") || qx.bom.htmlarea.HtmlArea.isHeadlineNode(parents[i]))
@@ -470,7 +470,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        {
          // get the current styles as structure
          var helperStyleStructure = this.__getCurrentStylesGrouped();
-         
+
          // check for styles to apply at the paragraph
          var paragraphStyle = this.__generateParagraphStyle(helperStyleStructure);
 
@@ -492,12 +492,12 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          htmlToInsert += helperStyle + '</p>';
 
          this.__editorInstance.getCommandManager().addUndoStep("inserthtml", "insertParagraph", this.getCommandObject("inserthtml"));
-         
+
          this.execute("inserthtml", htmlToInsert);
 
          this.__hideSuperfluousParagraph();
          qx.bom.element.Attribute.reset(this.__doc.getElementById(spanId), "id");
-         
+
          // If previous paragraph only contains helperString ->  it was empty.
          // Empty paragraphs are problematic in Gecko -> not properly rendered.
          var paragraphNode = this.__doc.getElementById(paragraphId);
@@ -570,17 +570,17 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           var paragraphStyle = 'style="';
           var childElement = currentStylesGrouped.child;
 
-          // text-align has to be applied to the paragraph element to get the 
+          // text-align has to be applied to the paragraph element to get the
           // correct behaviour since it is the top block element for the text
           if (childElement["text-align"])
           {
             paragraphStyle += 'text-align:' + childElement["text-align"] + ';';
             delete currentStylesGrouped.child["text-align"];
           }
-          
+
           // To fix Bug #3346 (selecting multiple paragraphs and changing the
-          // font family) it is necessary to apply the font-family to the 
-          // paragraph element to prevent inserting any font-family style to 
+          // font family) it is necessary to apply the font-family to the
+          // paragraph element to prevent inserting any font-family style to
           // an inner "span" element which then block the font-family style
           // attribute of the "p" element (this will applied by FF when using
           // the "fontFamily" execCommand).
@@ -948,7 +948,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            {
              currRange.select();
              currRange.pasteHTML(img);
-  
+
              result = true;
            } catch (e) {}
          }
@@ -1169,7 +1169,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        // retrieve the current styles as structure if no parameter is given
        var structure = typeof groupedStyles !== "undefined" ? groupedStyles : this.__getCurrentStylesGrouped();
-       
+
        // first traverse the "child" chain
        var child = structure.child;
        var legacyFont = false;
@@ -1178,7 +1178,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        if (qx.lang.Object.isEmpty(child)) {
          return "";
        }
-       
+
        while (child)
        {
          legacyFont = child["legacy-font-size"] != null;
@@ -1896,8 +1896,8 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        if (position != null)
        {
-         if (qx.lang.Type.isString(position) && 
-             !qx.lang.String.contains(Command.__backgroundPosition, '|'+position+'|')) 
+         if (qx.lang.Type.isString(position) &&
+             !qx.lang.String.contains(Command.__backgroundPosition, '|'+position+'|'))
          {
            if (qx.core.Variant.isSet("qx.debug", "on")) {
              this.error("The value '" + position + "' is not allowed for parameter 'position'. Possible values are '" + Command.__backgroundPosition + "'");

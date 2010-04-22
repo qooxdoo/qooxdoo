@@ -26,7 +26,7 @@
  *
  * To work with selections without custom input the ideal candidates are
  * the {@link SelectBox} or the {@link RadioGroup}.
- * 
+ *
  * @childControl textfield {qx.ui.form.TextField} textfield component of the combobox
  * @childControl button {qx.ui.form.Button} button to open the list popup
  * @childControl list {qx.ui.form.List} list inside the popup

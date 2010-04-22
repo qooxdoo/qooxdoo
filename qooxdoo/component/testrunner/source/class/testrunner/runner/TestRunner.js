@@ -385,7 +385,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       return toolbar;
     },  // makeToolbar
-    
+
     /**
      * TODOC
      *
@@ -415,11 +415,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           icon : "icon/22/status/dialog-error.png"
         }
       };
-      
+
       var levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
       var levelMenu = new qx.ui.menu.Menu();
       levelbox.setMenu(levelMenu);
-      
+
       var debugButton = new qx.ui.menu.Button(logLevelData.debug.label, logLevelData.debug.icon);
       debugButton.setFont("bold");
       debugButton.addListener("execute", function(e){
@@ -444,11 +444,11 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.setLogLevel("error");
       }, this);
       levelMenu.add(errorButton);
-      
+
       var logLevelIconConverter = function(data) {
         return logLevelData[data].icon;
       }
-      
+
       var logLevelController = new qx.data.controller.Object(this);
       logLevelController.addTarget(levelbox, "icon", "logLevel", false, {converter: logLevelIconConverter});
 
@@ -1120,11 +1120,11 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.widgets["toolbar.runbutton"].setVisibility("visible");
             that.widgets["toolbar.stopbutton"].setVisibility("excluded");
           }
-          
-          // Flush the test application's dispose queue to prevent tests 
+
+          // Flush the test application's dispose queue to prevent tests
           // influencing each other
           this.iframe.getWindow().qx.ui.core.queue.Dispose.flush();
-          
+
         },
         that);
 
@@ -1595,7 +1595,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         logger.unregister(this.logappender);
       }
     },
-    
+
     _applyLogLevel : function(value, old)
     {
       var menuButtons = this.levelbox.getMenu().getChildren();

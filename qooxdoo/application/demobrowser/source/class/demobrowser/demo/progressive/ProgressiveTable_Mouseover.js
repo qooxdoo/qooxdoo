@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
       progressive.addRenderer("row", rowRenderer);
 
       // Tell the row renderer to use our custom date cell renderer
-      rowRenderer.addRenderer(2, 
+      rowRenderer.addRenderer(2,
         new demobrowser.demo.progressive.DateCellRenderer());
 
       this.getRoot().add(progressive, { edge : 50 });

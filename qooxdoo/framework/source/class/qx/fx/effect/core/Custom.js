@@ -36,7 +36,7 @@
 
 /**
  * A "empty" effect based on Base which executes the given function to
- * performe animation.  
+ * performe animation.
  */
 qx.Class.define("qx.fx.effect.core.Custom",
 {
@@ -63,7 +63,7 @@ qx.Class.define("qx.fx.effect.core.Custom",
     this.base(arguments, element);
   },
 
-  
+
   members :
   {
     __func : null,

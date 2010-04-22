@@ -158,7 +158,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Submit events
       this.sinput.addListener("keyup", function(e) {
-        this._searchResult(this.sinput.getValue() || "");
+        this._searchResult(this.sinput.getValue() || "");
       }, this);
 
     },
@@ -493,7 +493,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     __handleNote : function(e)
     {
       if (this.__note) {
-        if (qx.lang.String.trim(this.sinput.getValue() || "").length == 0) {
+        if (qx.lang.String.trim(this.sinput.getValue() || "").length == 0) {
           this.__note.show();
         }
       } else {

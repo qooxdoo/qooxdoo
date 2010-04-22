@@ -35,8 +35,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
    */
   construct : function(form)
   {
-    this.base(arguments);      
-    
+    this.base(arguments);
+
     // translation support
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener(
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       );
       this._names = [];
     }
-    
+
     // add the groups
     var groups = form.getGroups();
     for (var i = 0; i < groups.length; i++) {
@@ -86,8 +86,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
 
       "off" : null
     }),
-    
-    
+
+
     /**
      * Creates the label text for the given form item.
      *
@@ -96,19 +96,19 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
      * @param item {qx.ui.core.Widget} The item, which has the required state.
      * @return {String} The text for the given item.
      */
-    _createLabelText : function(name, item) 
+    _createLabelText : function(name, item)
     {
       var required = "";
       if (item.getRequired()) {
        required = " <span style='color:red'>*</span> ";
-      }      
+      }
 
       // Create the label. Append a colon only if there's text to display.
       var colon = name.length > 0 || item.getRequired() ? " :" : "";
       return name + required + colon;
-    },     
-    
-    
+    },
+
+
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
     },

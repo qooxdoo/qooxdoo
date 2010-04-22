@@ -329,7 +329,7 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      var nodeName = this._tree.getSelection()[0].getUserData("nodeName") || className;
+      var nodeName = this._tree.getSelection()[0].getUserData("nodeName") || className;
 
       /**
        * @lint ignoreDeprecated(alert)

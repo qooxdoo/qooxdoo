@@ -140,22 +140,22 @@ qx.Class.define("qx.test.core.Object",
 
       qx.log.Logger.error = oldError;
     },
-    
-    
-    testDisposeObject : function() 
+
+
+    testDisposeObject : function()
     {
       // regular object dispose
       var o = new qx.core.Object();
       o.o = new qx.core.Object();
       o._disposeObjects("o");
       this.assertTrue(o.o == null);
-      
+
       // object dispose with a singleton
       qx.Class.define("qx.test.Single", {
         extend : qx.core.Object,
         type : "singleton"
       });
-      
+
       var o = new qx.core.Object();
       o.s = qx.test.Single.getInstance();
       this.assertException(function() {
@@ -163,9 +163,9 @@ qx.Class.define("qx.test.core.Object",
       });
       qx.Class.undefine("qx.test.Single");
     },
-    
-    
-    testDisposeSingletonObject : function() 
+
+
+    testDisposeSingletonObject : function()
     {
       // object dispose with a singleton and a object
       qx.Class.define("qx.test.Single", {
@@ -175,12 +175,12 @@ qx.Class.define("qx.test.core.Object",
 
       var o = new qx.core.Object();
       o.o = new qx.core.Object();
-      o.s = qx.test.Single.getInstance();      
+      o.s = qx.test.Single.getInstance();
       o._disposeSingletonObjects("o", "s");
       this.assertTrue(o.o == null);
-      this.assertTrue(o.s == null);      
+      this.assertTrue(o.s == null);
 
-      qx.Class.undefine("qx.test.Single");      
+      qx.Class.undefine("qx.test.Single");
     }
   }
 });

@@ -21,23 +21,23 @@
 qx.Class.define("showcase.page.databinding.Content",
 {
   extend : showcase.AbstractContent,
-  
+
   construct : function(page) {
     this.base(arguments, page);
-    
+
     this.setView(this._createView());
   },
-    
-  
+
+
   members :
   {
-    _createView : function() 
+    _createView : function()
     {
       var view = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
       var logo = new qx.ui.basic.Image("showcase/databinding/twitter_logo_outline.png");
       view.add(logo, {left: 10, top: 15});
-      
+
       // create and add the list
       var list = new qx.ui.form.List();
       view.add(list, {left: 10, top: 135, bottom: 5});
@@ -104,7 +104,7 @@ qx.Class.define("showcase.page.databinding.Content",
          }
        }, this);
        view.add(controlsBox, {left: 10, top: 105});
-       
+
 
 
       /* ***********************************************
@@ -159,17 +159,17 @@ qx.Class.define("showcase.page.databinding.Content",
         detailsController.addTarget(avatar, "source", "user.profile_image_url");
       }
       // connect the selected model item of the list to the detail view
-      controller.bind("selection[0]", detailsController, "model");      
-      
+      controller.bind("selection[0]", detailsController, "model");
+
       return view;
     },
-    
-    
+
+
     configureItem: function(item) {
       item.setRich(true);
       item.getChildControl("icon").setWidth(48);
       item.getChildControl("icon").setHeight(48);
       item.getChildControl("icon").setScale(true);
-    }    
+    }
   }
 });

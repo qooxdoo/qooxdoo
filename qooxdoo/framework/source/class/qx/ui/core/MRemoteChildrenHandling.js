@@ -38,7 +38,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
   {
     /**
      * Forward the call with the given function name to the children container
-     * 
+     *
      * @param functionName {String} name of the method to forward
      * @param a1 {var} first argument of the method to call
      * @param a2 {var} second argument of the method to call

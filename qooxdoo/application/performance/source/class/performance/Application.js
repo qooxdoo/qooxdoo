@@ -87,8 +87,8 @@ qx.Class.define("performance.Application",
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
     },
-    
-    
+
+
     /**
      * Run tests as standalone application
      */
@@ -122,12 +122,12 @@ qx.Class.define("performance.Application",
       });
 
       var tests = [];
-      
+
       var classes = this.getSuite().getTestClasses();
       for (var i=0; i<classes.length; i++) {
         qx.lang.Array.append(tests, classes[i].getTestMethods());
       }
-      
+
       var self = this;
       function runNextTest()
       {
@@ -139,13 +139,13 @@ qx.Class.define("performance.Application",
         var test = tests.shift();
         test.run(testResult);
       }
-      
+
       this.__measurements = [];
       var start = new Date();
       runNextTest();
     },
-    
-    
+
+
     /**
      * Get a list of test descriptions
      *
@@ -172,6 +172,6 @@ qx.Class.define("performance.Application",
       }
 
       return qx.lang.Json.stringify(desc);
-    }    
+    }
   }
 });

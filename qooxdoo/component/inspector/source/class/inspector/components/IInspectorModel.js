@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Interface for the inspector model. 
+ * Interface for the inspector model.
  */
 qx.Interface.define("inspector.components.IInspectorModel",
 {
@@ -39,11 +39,11 @@ qx.Interface.define("inspector.components.IInspectorModel",
   members :
   {
     /**
-     * Returns the complete registered objects, also the objects which are added 
+     * Returns the complete registered objects, also the objects which are added
      * from the inspector, e.q. all objects which are created for the objects
      * inspection visualization.
-     * 
-     * @return {qx.core.ObjectRegistry|null} Returns the object regestry from the 
+     *
+     * @return {qx.core.ObjectRegistry|null} Returns the object regestry from the
      *   inspected application.
      */
     getObjectRegistry : function() {
@@ -52,7 +52,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
 
     /**
      * Sets the object registry.
-     * 
+     *
      * @param objectRegistry {qx.core.ObjectRegistry} the new object registry
      *   from the inspected application.
      */
@@ -62,8 +62,8 @@ qx.Interface.define("inspector.components.IInspectorModel",
 
     /**
      * Returns the inspector application.
-     * 
-     * @return {inspector.Application} Returns the instance from the inspector 
+     *
+     * @return {inspector.Application} Returns the instance from the inspector
      *   application.
      */
     getApplication : function() {
@@ -72,7 +72,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
 
     /**
      * Sets the inspector application.
-     * 
+     *
      * @param application {inspector.Application} instance from the inspector
      *   application to set.
      */
@@ -81,12 +81,12 @@ qx.Interface.define("inspector.components.IInspectorModel",
     },
 
     /**
-     * Returns the registered objects from the inspected application. The 
+     * Returns the registered objects from the inspected application. The
      * different to {@link #getObjectRegistry} is that this method only returns
      * the objects from the inspected application. All objects which are added
      * form the inspector are excluded.
-     * 
-     * @return {Array} Returns all registered objects from the inspected 
+     *
+     * @return {Array} Returns all registered objects from the inspected
      *   application with the hash code as key.
      */
     getObjects : function() {
@@ -95,7 +95,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
 
     /**
      * Returns the inspected object.
-     * 
+     *
      * @return {qx.core.Object|null} Returns the current inspected object.
      */
     getInspected : function() {
@@ -104,7 +104,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
 
     /**
      * Sets the inspected object.
-     * 
+     *
      * @param object {qx.core.Object} instance from the inspected object.
      */
     setInspected : function(object) {

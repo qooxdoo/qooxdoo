@@ -36,32 +36,32 @@ qx.Class.define("playground.view.Editor",
   construct : function()
   {
     this.base(arguments);
-  }, 
-  
-  
-  events : 
+  },
+
+
+  events :
   {
     /**
      * Event for signaling that the highlighting could not be done by the editor.
      */
     "disableHighlighting" : "qx.event.type.Event"
   },
-  
 
-  members : 
+
+  members :
   {
     __textarea : null,
     __codeMirror : null,
     __highlighted : null,
-    
-    
+
+
     /**
-     * The constructor was spit up to make the included mixin available during 
+     * The constructor was spit up to make the included mixin available during
      * the init process.
-     * 
+     *
      * @lint ignoreUndefined(CodeMirror)
      */
-    init: function() 
+    init: function()
     {
       // If widgets are added to the container, the zIndex of the editor blocker
       // is set to 100. This makes possible to resize the splitpanes
@@ -103,25 +103,25 @@ qx.Class.define("playground.view.Editor",
       } else {
         this.fireEvent("disableHighlighting");
         this.__highlighted = false;
-      }    
+      }
     },
-    
+
     /**
      * This code part uses the CodeMirror library to add a
      * syntax-highlighting editor as an textarea replacement
-     * 
+     *
      * @lint ignoreUndefined(CodeMirror)
      */
     __onTextAreaAppear : function() {
-      
+
       // hide the plain textarea
       this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";
-      
+
       // create the sheet for the codemirror iframe
       qx.bom.Stylesheet.createElement(
         ".code-mirror-iframe {position: absolute; z-index: 11}"
       );
-      
+
       var that = this;
       var bounds = this.__textarea.getBounds();
       this.__codeMirror = new CodeMirror(
@@ -152,11 +152,11 @@ qx.Class.define("playground.view.Editor",
 
       // to achieve auto-resize, the editor sets the size of the container element
       this.__textarea.addListener("resize", function() {
-        var lineOffset = 
+        var lineOffset =
           parseInt(this.__codeMirror.frame.parentNode.style.marginLeft) || 0;
-        this.__codeMirror.frame.style.width = 
+        this.__codeMirror.frame.style.width =
           (this.__textarea.getBounds().width - lineOffset) + "px";
-        this.__codeMirror.frame.style.height = 
+        this.__codeMirror.frame.style.height =
           this.__textarea.getBounds().height + "px";
       }, this);
 
@@ -168,8 +168,8 @@ qx.Class.define("playground.view.Editor",
         protector.getDomElement().parentNode.removeChild(protector.getDomElement());
       }
     },
-    
-    
+
+
     /**
      * Returns the current set code of the editor.
      * @return {String} The current set text.
@@ -182,8 +182,8 @@ qx.Class.define("playground.view.Editor",
         return this.__textarea.getValue();
       }
     },
-    
-    
+
+
     /**
      * Sets the given code to the editor.
      * @param code {String} The new code.
@@ -194,7 +194,7 @@ qx.Class.define("playground.view.Editor",
       }
       this.__textarea.setValue(code);
     },
-    
+
 
     /**
      * Switches between the CodeMirror editor and a plain textarea.
@@ -204,13 +204,13 @@ qx.Class.define("playground.view.Editor",
       if (!this.__codeMirror) {
         return;
       }
-      
+
       this.__highlighted = value;
 
       if (value) {
         this.__codeMirror.setCode(this.__textarea.getValue());
         this.__codeMirror.frame.style.visibility = "visible";
-        this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";        
+        this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";
       } else {
         var code = this.__codeMirror.getCode();
         if (code) {
@@ -218,7 +218,7 @@ qx.Class.define("playground.view.Editor",
         }
         this.__textarea.getContentElement().getDomElement().style.visibility = "visible";
         this.__codeMirror.frame.style.visibility = "hidden";
-      }      
+      }
     }
   },
 

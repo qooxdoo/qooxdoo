@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         cls._root = new qx.ui.root.Application(document);
 
         cls.__oldApplication = qx.core.Init.getApplication();
-        
+
         qx.core.Init.getApplication = function() {
           return {
             getRoot : function() {
@@ -66,8 +66,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
       return cls._root;
     },
-    
-    
+
+
     getRunnerApplication : function() {
       return qx.test.ui.LayoutTestCase.__oldApplication || qx.core.Init.getApplication();
     },

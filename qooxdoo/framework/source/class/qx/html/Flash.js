@@ -34,7 +34,7 @@ qx.Class.define("qx.html.Flash",
 
 
   /**
-   * @param styles {Map?null} optional map of CSS styles, where the key is the name 
+   * @param styles {Map?null} optional map of CSS styles, where the key is the name
    *    of the style and the value is the value to use.
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.

@@ -32,32 +32,32 @@
 /**
  * Pure JavaScript implementation of the EcmaScript 3.1 JSON object. This class
  * is used, if the browser does not support it natively.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.lang.JsonImpl",
 {
   extend : Object,
-  
-  
+
+
   construct : function()
   {
     // bind parse and stringify so they can be called without a context.
     this.stringify = qx.lang.Function.bind(this.stringify, this);
     this.parse = qx.lang.Function.bind(this.parse, this);
   },
-  
+
   members :
-  {  
+  {
     __gap: null,
     __indent: null,
     __rep: null,
     __stack : null,
-    
-  
+
+
     /**
      * This method produces a JSON text from a JavaScript value.
-     * 
+     *
      * @param value {var} any JavaScript value, usually an object or array.
      *
      * @param replacer {Function?} an optional parameter that determines how
@@ -116,10 +116,10 @@ qx.Class.define("qx.lang.JsonImpl",
 
     /**
      * Produce a string from holder[key].
-     * 
+     *
      * @param key {String} the map key
      * @param holder {Object} an object with the given key
-     * @return {String} The string representation of holder[key] 
+     * @return {String} The string representation of holder[key]
      */
     __str : function(key, holder)
     {
@@ -253,7 +253,7 @@ qx.Class.define("qx.lang.JsonImpl",
 
     /**
      * Convert a date to JSON
-     * 
+     *
      * @param date {Date} The date to convert
      * @return {String} The JSON representation of the date
      */
@@ -285,7 +285,7 @@ qx.Class.define("qx.lang.JsonImpl",
      * backslash characters, then we can safely slap some quotes around it.
      * Otherwise we must also replace the offending characters with safe escape
      * sequences.
-     * 
+     *
      * @param string {String} The string to quote
      * @return {String} The quoted string
      */
@@ -381,7 +381,7 @@ qx.Class.define("qx.lang.JsonImpl",
     /**
      * The walk method is used to recursively walk the resulting structure so
      * that modifications can be made.
-     * 
+     *
      * @param holder {Object} the root object
      * @param key {String} walk holder[key]
      * @param reviver {Function} callback, which is called on every node.

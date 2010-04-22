@@ -19,13 +19,13 @@
 /**
  * Log widget responsible for showing the log information.
  */
-qx.Class.define("playground.view.Log", 
+qx.Class.define("playground.view.Log",
 {
   extend : qx.ui.container.Composite,
 
 
   construct : function()
-  {    
+  {
     var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
     this.base(arguments, layout);
@@ -42,7 +42,7 @@ qx.Class.define("playground.view.Log",
 
     this.add(caption);
 
-    // log pane 
+    // log pane
     var logArea = new qx.ui.embed.Html('');
     logArea.set(
     {
@@ -64,25 +64,25 @@ qx.Class.define("playground.view.Log",
 
     logArea.addListenerOnce("appear", function() {
       logArea.getContentElement().getDomElement().appendChild(this.__logElem);
-    }, this);    
+    }, this);
   },
 
   members :
   {
     __logElem : null,
     __logAppender : null,
-    
-    
+
+
     /**
      * Clears the log.
      */
     clear : function() {
       if (this.__logElem) {
-        this.__logElem.innerHTML = "";        
+        this.__logElem.innerHTML = "";
       }
     },
-    
-    
+
+
     /**
      * Fetches all logged data from the qx logging system and puts in into the
      * log widget.
@@ -112,5 +112,5 @@ qx.Class.define("playground.view.Log",
   {
     this._disposeObjects("__logAppender");
     this.__logElem = null;
-  }  
+  }
 });

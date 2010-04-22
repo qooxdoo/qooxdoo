@@ -27,7 +27,7 @@
  *
  * @state active Whether the window is activated
  * @state maximized Whether the window is maximized
- * 
+ *
  * @childControl statusbar {qx.ui.container.Composite} statusbar container which shows the statusbar text
  * @childControl statusbar-text {qx.ui.basic.Label} text of the statusbar
  * @childControl pane {qx.ui.container.Composite} window pane which holds the content
@@ -37,7 +37,7 @@
  * @childControl minimize-button {qx.ui.form.Button} button to minimize the window
  * @childControl restore-button {qx.ui.form.Button} button to restore the window
  * @childControl maximize-button {qx.ui.form.Button} button to maximize the window
- * @childControl close-button {qx.ui.form.Button} button to close the window 
+ * @childControl close-button {qx.ui.form.Button} button to close the window
  */
 qx.Class.define("qx.ui.window.Window",
 {
@@ -542,7 +542,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       var btn;
 
-      var icon = this.getIcon(); 
+      var icon = this.getIcon();
       if (icon) {
         this.getChildControl("icon").setSource(icon);
         this._showChildControl("icon");
@@ -898,7 +898,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Old apply method for {@link #caption} property.
-     * 
+     *
      * @deprecated This method is not more called from the property apply.
      * @param value {String} ew property value
      * @param old {String} old property value
@@ -914,7 +914,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Old apply method for {@link #icon} property.
-     * 
+     *
      * @deprecated This method is not more called from the property apply.
      * @param value {String} ew property value
      * @param old {String} old property value

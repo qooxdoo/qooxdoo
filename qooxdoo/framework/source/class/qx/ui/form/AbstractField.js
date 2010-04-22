@@ -64,13 +64,13 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // assign the placeholder text after the appearance has been applied
     this.addListener("syncAppearance", this._syncPlaceholder, this);
-    
+
     // translation support
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener(
         "changeLocale", this._onChangeLocale, this
       );
-    }    
+    }
   },
 
 
@@ -491,7 +491,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // fire the events, if necessary
       if (fireEvents)
       {
-        // store the old input value 
+        // store the old input value
         this.fireDataEvent("input", value, this.__oldInputValue);
         this.__oldInputValue = value;
 
@@ -504,9 +504,9 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     /**
-     * Handles the firing of the changeValue event including the local cache 
+     * Handles the firing of the changeValue event including the local cache
      * for sending the old value in the event.
-     * 
+     *
      * @param value {String} The new value.
      */
     __fireChangeValueEvent : function(value) {
@@ -837,9 +837,9 @@ qx.Class.define("qx.ui.form.AbstractField",
   destruct : function()
   {
     this.__placeholder = null;
-    
+
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
-    }    
+    }
   }
 });

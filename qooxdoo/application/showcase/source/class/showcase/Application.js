@@ -30,14 +30,14 @@ qx.Class.define("showcase.Application",
 
   properties :
   {
-    selectedPage : 
+    selectedPage :
     {
       check: "showcase.Page",
       apply: "_applySelectedPage",
       nullable: true
     },
-    
-    
+
+
     showLoadIndicator :
     {
       check: "Boolean",
@@ -54,7 +54,7 @@ qx.Class.define("showcase.Application",
     __content : null,
     __effect : null,
     __description : null,
-    
+
     main : function()
     {
       this.base(arguments);
@@ -66,16 +66,16 @@ qx.Class.define("showcase.Application",
         qx.log.appender.Native;
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
-      }      
+      }
 
       qx.locale.Manager.getInstance().setLocale("en_US");
-      
+
       var grid = new qx.ui.layout.Grid();
       grid.setColumnFlex(0, 1);
       grid.setRowFlex(1, 1);
       var row = 0;
       var htmlElement = document.getElementById("showcase");
-      var container = new qx.ui.root.Inline(htmlElement, false, false);     
+      var container = new qx.ui.root.Inline(htmlElement, false, false);
       container.set({
         layout: grid,
         width: 900,
@@ -83,10 +83,10 @@ qx.Class.define("showcase.Application",
         allowGrowX: false,
         height: null
       });
-                  
+
       var list = new showcase.ui.PreviewList();
-      container.add(list, {row: row++, column: 0, colSpan: 2});               
-                 
+      container.add(list, {row: row++, column: 0, colSpan: 2});
+
       this.__stack = new qx.ui.container.Stack();
       this.__stack.set({
         appearance: "stack",
@@ -94,7 +94,7 @@ qx.Class.define("showcase.Application",
         allowGrowX: false
       });
       container.add(this.__stack, {row: row, column: 0});
-      
+
       var startPage = new qx.ui.basic.Image("showcase/images/welcome.png").set({
         allowGrowX: true,
         allowGrowY: true,
@@ -102,21 +102,21 @@ qx.Class.define("showcase.Application",
         padding: [5, 0, 0, 180]
       });
       this.__stack.add(startPage);
-      
+
       this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       var loadImage = new qx.ui.basic.Image("showcase/images/loading66.gif").set({
         marginLeft: -33
       });
       this.__listLoadImage.add(loadImage, {left: "50%", top: 200});
       this.__stack.add(this.__listLoadImage);
-        
+
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__stack.add(this.__content);
-      
+
       this.__description = new showcase.ui.Description();
       container.add(this.__description, {row: row++, column: 1});
       this.__description.exclude();
-      
+
       var pages = new qx.data.Array();
       pages.push(
         new showcase.page.table.Page(),
@@ -128,9 +128,9 @@ qx.Class.define("showcase.Application",
         new showcase.page.dragdrop.Page(),
         new showcase.page.htmleditor.Page()
       );
-      
+
       var listController = new qx.data.controller.List(pages, list, "name");
-      listController.setIconPath("icon");      
+      listController.setIconPath("icon");
       listController.bind("selection[0]", this, "selectedPage");
       listController.bind("selection[0].description", this.__description, "value");
 
@@ -138,8 +138,8 @@ qx.Class.define("showcase.Application",
         converter: function(value) {
           return value !== "complete";
         }
-      });      
-      
+      });
+
       listController.setDelegate({
         configureItem: function(item) {
           item.set({
@@ -147,11 +147,11 @@ qx.Class.define("showcase.Application",
           });
         }
       });
-      
+
       // history support
       var history = qx.bom.History.getInstance();
       listController.bind("selection[0].part", history, "state");
-      
+
       var initState = history.getState();
       if (initState) {
         var page;
@@ -164,12 +164,12 @@ qx.Class.define("showcase.Application",
         if (page) {
           // opera requires a flush to scroll the selection into view!
           qx.ui.core.queue.Manager.flush();
-          listController.getSelection().push(page);            
+          listController.getSelection().push(page);
         }
       }
     },
-    
-    
+
+
     _applyShowLoadIndicator : function(value)
     {
       if (value) {
@@ -178,18 +178,18 @@ qx.Class.define("showcase.Application",
         this.__stack.setSelection([this.__content]);
       }
     },
-    
-    
+
+
     _applySelectedPage : function(value, old)
     {
       if (old) {
         this._hidePage(old);
       }
-      
+
       this._showPage(value);
     },
-    
-    
+
+
     _hidePage : function(page)
     {
       if (this.getSelectedPage() !== page) {
@@ -199,8 +199,8 @@ qx.Class.define("showcase.Application",
         }
       }
     },
-    
-    
+
+
     _showPage : function(page)
     {
       this.__description.show();
@@ -212,14 +212,14 @@ qx.Class.define("showcase.Application",
 
           this.__content.add(view, {edge: 0});
           view.show();
-                     
+
           this.__fadeIn(view);
         }
       }, this);
     },
-    
-    
-    __cancelFade : function() 
+
+
+    __cancelFade : function()
     {
       if (this.__effect) {
         this.__effect.cancel();
@@ -227,18 +227,18 @@ qx.Class.define("showcase.Application",
         this.__effect = null;
       }
     },
-    
-    
-    __fadeIn : function(view) 
+
+
+    __fadeIn : function(view)
     {
       // no fades for IE, sorry!
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         return;
       }
-      
+
       view.getContentElement().setStyle("display", "none", true);
       this.__cancelFade();
-      
+
       qx.event.Timer.once(function() {
         var element = view.getContentElement().getDomElement();
         this.__effect = new qx.fx.effect.core.Fade(element);
@@ -254,10 +254,10 @@ qx.Class.define("showcase.Application",
       }, this, 0);
     }
   },
-  
+
   destruct : function()
   {
-    this._disposeObjects("__stack", "__listLoadImage", "__content", 
+    this._disposeObjects("__stack", "__listLoadImage", "__content",
       "__description", "__effect");
   }
 });

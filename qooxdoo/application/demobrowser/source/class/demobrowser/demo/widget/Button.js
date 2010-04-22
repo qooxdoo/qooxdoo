@@ -49,8 +49,8 @@ qx.Class.define("demobrowser.demo.widget.Button",
       this.addRepeatButton(container);
       this.addHoverButton(container);
     },
-    
-    
+
+
     addNormalButtons : function(container)
     {
       var btn1 = new qx.ui.form.Button("Button A", "icon/22/apps/media-video-player.png");
@@ -60,20 +60,20 @@ qx.Class.define("demobrowser.demo.widget.Button",
       btn2.setEnabled(false);
       container.add(btn2);
     },
-    
-    
+
+
     addToggleButton : function(container)
     {
       var button = new qx.ui.form.ToggleButton("Toggle Button", "icon/22/apps/internet-web-browser.png");
       button.focus();
       container.add(button);
-  
+
       button.addListener("changeValue", function(e) {
         this.debug("Checked: " + e.getData());
       }, this);
     },
 
-    
+
     addRepeatButton : function(container)
     {
       var button = new qx.ui.form.RepeatButton(null, "icon/22/actions/list-add.png");
@@ -93,8 +93,8 @@ qx.Class.define("demobrowser.demo.widget.Button",
         label.setValue(tempValue.toString());
       });
     },
-    
-    
+
+
     addHoverButton : function(container)
     {
       var button = new qx.ui.form.HoverButton("Hover").set({
@@ -102,14 +102,14 @@ qx.Class.define("demobrowser.demo.widget.Button",
         backgroundColor: "#AAA"
       });
       container.add(button);
-      
+
       // Label
       var label = new qx.ui.basic.Label("0");
       label.setDecorator("main");
       label.setPadding(2, 4);
       label.setBackgroundColor("white");
       container.add(label);
-      
+
       // Listener
       button.addListener("execute", function()
       {

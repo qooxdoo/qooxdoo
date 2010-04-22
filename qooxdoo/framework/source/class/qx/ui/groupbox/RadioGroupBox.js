@@ -21,7 +21,7 @@
 
 /**
  * A group box, which has a radio button near the legend.
- * 
+ *
  * @childControl legend {qx.ui.form.RadionButton} radio button to en-/disable the groupbox content
  */
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",

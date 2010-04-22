@@ -119,7 +119,7 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", 
+          "Validation Error",
           qx.locale.Manager.tr("'%1' is not an email address.", (value || ""))
         );
       }
@@ -238,7 +238,7 @@ qx.Class.define("qx.util.Validate",
         if (value < from || value > to)
         {
           throw new qx.core.ValidationError(
-            "Validation Error", 
+            "Validation Error",
             qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", value, from, to)
           );
         }

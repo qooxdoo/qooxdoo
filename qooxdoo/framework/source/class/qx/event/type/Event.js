@@ -161,7 +161,7 @@ qx.Class.define("qx.event.type.Event",
       if (this._bubbles) {
         this.stopPropagation();
       }
-      
+
       if (this._cancelable) {
         this.preventDefault();
       }

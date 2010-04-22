@@ -221,8 +221,8 @@ qx.Class.define("apiviewer.dao.ClassItem",
     }
 
   },
-  
-  
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
@@ -231,7 +231,7 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
   destruct : function()
   {
-    this._class = this._itemDocNode = this._requiredBy = this._see = 
+    this._class = this._itemDocNode = this._requiredBy = this._see =
       this._types = null;
   }
 });

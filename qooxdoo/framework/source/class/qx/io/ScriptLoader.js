@@ -127,7 +127,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
         return;
       }
       this._disposed = true;
-      
+
       // Get script
       var script = this.__elem;
 
@@ -150,18 +150,18 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
         {
           // Safari fails with an "maximum recursion depth exceeded" error if
           // many files are loaded
-          
+
           // IE may call the callback before the contents is evaluated if the
           // script is serverd directly from the browser cache
-          
+
           var self = this;
           setTimeout(qx.event.GlobalError.observeMethod(function()
           {
             self.__callback.call(self.__context, status);
             delete self.__callback;
           }), 0);
-        } 
-        else 
+        }
+        else
         {
           this.__callback.call(this.__context, status);
           delete this.__callback;

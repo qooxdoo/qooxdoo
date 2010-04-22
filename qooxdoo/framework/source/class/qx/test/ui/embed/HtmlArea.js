@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.embed.HtmlArea",
       var demoContent = 'vanillebaer';
       this.__htmlArea = new qx.ui.embed.HtmlArea(demoContent, null, "blank.html");
       this.__htmlArea.set( { width: 600, height: 400 } );
-      
+
       this.getRoot().add(this.__htmlArea);
     },
 
@@ -47,8 +47,8 @@ qx.Class.define("qx.test.ui.embed.HtmlArea",
           this.assertTrue(true);
         }, this);
       }, this);
-      
+
       this.wait(5000);
-    }    
+    }
   }
 });

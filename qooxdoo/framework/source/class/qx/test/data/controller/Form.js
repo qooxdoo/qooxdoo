@@ -362,10 +362,10 @@ qx.Class.define("qx.test.data.controller.Form",
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");
       var tf2 = new qx.ui.form.TextField("B");
-      
+
       form.add(tf1, null, null, "a.b1");
       form.add(tf2, null, null, "a.b2.c");
-      
+
       var controller = new qx.data.controller.Form(null, form);
       var model = controller.createModel(true);
 
@@ -379,8 +379,8 @@ qx.Class.define("qx.test.data.controller.Form",
       tf2.destroy();
       form.dispose();
     },
-    
-    
+
+
     testModelCreationWithModelSelection : function() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
@@ -534,8 +534,8 @@ qx.Class.define("qx.test.data.controller.Form",
       // distroy the objects
       c.dispose();
     },
-    
-    
+
+
     testConnectionWithListControllerSelection : function() {
       // generate fake data
       var data = [{name: "a", age: 1}, {name: "b", age: 2}, {name: "c", age: 3}];
@@ -553,11 +553,11 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // connection
       listController.bind("selection[0]", formController, "model");
-      
+
       // select the first item
       var listItems = list.getSelectables();
       list.setSelection([listItems[0]]);
-      
+
       // check if the model is still the same
       this.assertEquals("a", model.getItem(0).getName());
       this.assertEquals("b", model.getItem(1).getName());
@@ -565,11 +565,11 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(1, model.getItem(0).getAge());
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
-      
+
       // select the second item
       var listItems = list.getSelectables();
       list.setSelection([listItems[1]]);
-      
+
       // check if the model is still the same
       this.assertEquals("a", model.getItem(0).getName());
       this.assertEquals("b", model.getItem(1).getName());
@@ -577,11 +577,11 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(1, model.getItem(0).getAge());
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
-      
+
       // select the first item again
       var listItems = list.getSelectables();
       list.setSelection([listItems[0]]);
-      
+
       // check if the model is still the same
       this.assertEquals("a", model.getItem(0).getName());
       this.assertEquals("b", model.getItem(1).getName());

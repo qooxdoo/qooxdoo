@@ -34,24 +34,24 @@ qx.Class.define("qx.test.bom.Class",
       document.body.removeChild(this._el);
     },
 
-    
+
     testAddClass : function()
     {
       var result = qx.bom.element.Class.add(this._el, "vanillebaer");
       this.assertEquals("vanillebaer", this._el.className);
       this.assertEquals("vanillebaer", result);
     },
-    
-    
+
+
     testAddClasses : function()
     {
       qx.bom.element.Class.addClasses(this._el, [ "vanillebaer", "schokobaer" ]);
-      
+
       this.assertTrue(qx.bom.element.Class.has(this._el, "vanillebaer"));
       this.assertTrue(qx.bom.element.Class.has(this._el, "schokobaer"));
     },
-    
-    
+
+
     testHasClass : function()
     {
       this._el.className = "vanillebaer";
@@ -59,46 +59,46 @@ qx.Class.define("qx.test.bom.Class",
       this.assertFalse(qx.bom.element.Class.has(this._el, "schokobaer"));
     },
 
-    
+
     testRemoveClass : function()
     {
       this._el.className = "vanillebaer";
       var result = qx.bom.element.Class.remove(this._el, "vanillebaer");
-      
+
       this.assertEquals("", qx.bom.element.Class.get(this._el));
       this.assertEquals("vanillebaer", result);
     },
-    
-    
+
+
     testRemoveClasses : function()
     {
       this._el.className = "vanillebaer schokobaer karamellbaer";
-      
+
       qx.bom.element.Class.removeClasses(this._el, [ "vanillebaer", "schokobaer" ]);
-      
+
       this.assertFalse(qx.bom.element.Class.has(this._el, "vanillebaer"));
       this.assertFalse(qx.bom.element.Class.has(this._el, "schokobaer"));
       this.assertTrue(qx.bom.element.Class.has(this._el, "karamellbaer"));
     },
 
-    
+
     testToggleClass : function()
     {
       this._el.className = "vanillebaer";
-      
+
       qx.bom.element.Class.toggle(this._el, "vanillebaer");
       this.assertFalse(qx.bom.element.Class.has(this._el, "vanillebaer"));
-      
+
       qx.bom.element.Class.toggle(this._el, "vanillebaer");
       this.assertTrue(qx.bom.element.Class.has(this._el, "vanillebaer"));
     },
-    
-    
+
+
     testReplaceClass : function()
     {
       this._el.className = "vanillebaer";
       qx.bom.element.Class.replace(this._el, "vanillebaer", "schokobaer");
-      
+
       this.assertTrue(qx.bom.element.Class.has(this._el, "schokobaer"));
       this.assertFalse(qx.bom.element.Class.has(this._el, "vanillebaer"));
     }

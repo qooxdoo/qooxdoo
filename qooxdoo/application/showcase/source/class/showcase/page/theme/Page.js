@@ -24,13 +24,13 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.theme.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -50,10 +50,10 @@ qx.Class.define("showcase.page.theme.Page",
       )
     });
   },
-  
+
   members :
   {
-    __descriptionText : 
+    __descriptionText :
       "qooxdoo provides a powerful theming system built on a custom JSON-like " +
       "syntax. Unlike CSS this syntax doesn't have any cross " +
       "browser issues and allows styling of any widget property. It is " +
@@ -61,26 +61,26 @@ qx.Class.define("showcase.page.theme.Page",
       "application code." +
       "<p> The two calculators on this page share exactly the same application " +
       "and UI code and differ only in their theme.",
-    
+
     __features : {
-      "States" : "Widgets can have states like \"selected\" or " + 
+      "States" : "Widgets can have states like \"selected\" or " +
         "\"hovered\", which can be used by the theme to style the widgets.",
-      "Decorators" : "Any HTML code can be used to style the background of a " + 
+      "Decorators" : "Any HTML code can be used to style the background of a " +
         "widget independent of its content. Qooxdoo comes with a rich set of " +
         "pre-defined decorators."
     },
-    
+
     __manual : {
       "ui_theming": "Theming",
       "ui_appearance": "Appearance",
       "ui_custom_themes": "Custom themes",
       "ui_decorators": "Decorators"
     },
-    
+
     __demos : {
       "#ui~Decoration.html" : "This demo shows all available decorators."
     },
-    
+
     __api : {
       "#qx.theme": "This namespace contains the theme managers and the two standard themes."
     }

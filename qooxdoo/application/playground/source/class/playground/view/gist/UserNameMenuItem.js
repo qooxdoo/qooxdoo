@@ -19,7 +19,7 @@
 /**
  * A special menu item contining a label and a textfield.
  */
-qx.Class.define("playground.view.gist.UserNameMenuItem", 
+qx.Class.define("playground.view.gist.UserNameMenuItem",
 {
   extend : qx.ui.core.Widget,
 
@@ -27,9 +27,9 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setAppearance("menu-button");
-    
+
     // init self
     var layout = new qx.ui.layout.Grid(5, 5);
     layout.setColumnFlex(1, 1);
@@ -49,7 +49,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       width: 50,
       anonymous: true
     });
-    
+
     // button
     var reloadButton = new qx.ui.form.Button(null, "icon/16/actions/media-playback-start.png");
     reloadButton.setToolTipText(this.tr("Load / reload the gists."));
@@ -67,13 +67,13 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
     this._add(this.__textField, {row: 0, column: 1});
     this._add(reloadButton, {row: 0, column: 2});
 
-    
+
     // EVIL HACK FOR THE MENU MANAGER!!!!
     var manager = qx.ui.menu.Manager.getInstance();
     var onKeyPressLeft = manager._onKeyPressLeft;
     var onKeyPressRight = manager._onKeyPressRight;
     var onKeyPressEnter = manager._onKeyPressEnter;
-    
+
     var self = this;
     manager._onKeyPressLeft = function(menu) {
       if ((menu.getSelectedButton() instanceof self.constructor)) {
@@ -86,7 +86,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       // default action
       onKeyPressLeft.call(manager, menu);
     };
-    
+
     manager._onKeyPressRight = function(menu) {
       if ((menu.getSelectedButton() instanceof self.constructor)) {
         var cursorPos = self.__textField.getTextSelectionStart();
@@ -97,14 +97,14 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       }
       onKeyPressRight.call(manager, menu);
     };
-    
+
     manager._onKeyPressEnter = function(menu, button, e) {
       if ((menu.getSelectedButton() instanceof self.constructor)) {
         self.__reload();
         return;
       }
       onKeyPressEnter.call(manager, menu, button, e);
-    };    
+    };
   },
 
 
@@ -120,7 +120,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
   {
     __textField : null,
 
-    
+
     /**
      * Internal helper for reloading the gists.
      */
@@ -129,16 +129,16 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
       // set the cookie
       qx.bom.Cookie.set("playgroundUser", data, 100);
       // invoke a reload
-      this.fireDataEvent("reload", data);      
+      this.fireDataEvent("reload", data);
     },
-    
-    
+
+
     /**
      * Method for focusing / bluring the textfield.
-     * 
+     *
      * @param enabled {Boolean} focus on true, blur on false.
      */
-    focusTextField : function(enabled) 
+    focusTextField : function(enabled)
     {
       if (enabled) {
         this.__textField.focus();
@@ -164,13 +164,13 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
      * @param invalid {Boolean} true, if something is wrong.
      * @param message {String} The error message.
      */
-    markInvalid : function(invalid, message) 
+    markInvalid : function(invalid, message)
     {
       this.__textField.setValid(!invalid);
-      this.__textField.setInvalidMessage(message || "");
+      this.__textField.setInvalidMessage(message || "");
     },
-    
-    
+
+
     /**
      * Dummy implementataion for the menu, returning always null.
      * @return {null} Always null!

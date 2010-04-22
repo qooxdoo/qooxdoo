@@ -3,24 +3,24 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
   extend : qx.dev.unit.TestCase,
   include : performance.test.MMeasure,
   type: "abstract",
-  
+
   members :
   {
     CREATE_ITTERATIONS : 5000,
     RENDER_ITTERATIONS : 5000,
     RESIZE_ITTERATIONS : 10000,
-    
-    
+
+
     setUp : function()
     {
 
     },
-    
+
     tearDown : function() {
       document.body.innerHTML = "";
     },
-    
-    createDivs : function(count) 
+
+    createDivs : function(count)
     {
       var divs = [];
       var container = document.createElement("div");
@@ -31,21 +31,21 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
         div.style.height = "50px";
 
         container.appendChild(div);
-        
+
         divs.push(div);
       };
-      
-      document.body.appendChild(container);      
-      return divs;      
+
+      document.body.appendChild(container);
+      return divs;
     },
-    
-    
+
+
     createDecorator : function() {
       // abstract method call
     },
-    
-    
-    testCreate : function() 
+
+
+    testCreate : function()
     {
       var self = this;
       this.measureRepeated(
@@ -58,8 +58,8 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
         this.CREATE_ITTERATIONS
       );
     },
-    
-    
+
+
     testRender : function()
     {
       // warmup the decorator
@@ -74,10 +74,10 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
         },
         function() {},
         this.RENDER_ITTERATIONS
-      );      
+      );
     },
-    
-    
+
+
     testResize : function()
     {
       var divs = this.createDivs(this.RESIZE_ITTERATIONS);
@@ -87,7 +87,7 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
         divs[i].innerHTML = decorator.getMarkup();
       };
       var size = [100, 200];
-  
+
       this.measureRepeated(
         "resize decorator",
         function(i) {
@@ -96,7 +96,7 @@ qx.Class.define("performance.test.decorator.AbstractDecorator",
         },
         function() {},
         this.RESIZE_ITTERATIONS
-      );      
-    }    
-  }  
+      );
+    }
+  }
 });

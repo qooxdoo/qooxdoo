@@ -21,7 +21,7 @@
 
 /**
  * A group box, which has a check box near the legend.
- * 
+ *
  * @childControl legend {qx.ui.form.CheckBox} checkbox to en-/disable the groupbox content
  */
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",

@@ -24,7 +24,7 @@ qx.Theme.define("showcase.theme.Color",
   include : [
     showcase.page.theme.calc.theme.Color
   ],
-  
+
   colors :
   {
   }

@@ -1,7 +1,7 @@
 qx.Class.define("performance.test.mock.NoProtector",
 {
   extend : qx.ui.core.Widget,
-  
+
   members :
   {
     elementMock : {
@@ -10,13 +10,13 @@ qx.Class.define("performance.test.mock.NoProtector",
       setStyles : function() {},
       dispose : function() {}
     },
-    
+
     _createProtectorElement : function() {
-      return this.elementMock; 
+      return this.elementMock;
     },
-    
+
     getContentElement : function() {
       return this.getContainerElement();
     }
-  }  
+  }
 });

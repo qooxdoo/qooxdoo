@@ -20,7 +20,7 @@
 
 /**
  * Keyhandler test converted to use the low level event API.
- * 
+ *
  * @tag noPlayground
  * @tag showcase
  */

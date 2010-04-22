@@ -29,13 +29,13 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals(12, window.JUHU);
 
       try {
-      	delete window.JUHU;
+        delete window.JUHU;
       } catch(e) {
-      	window.JUHU = null;
+        window.JUHU = null;
       }
     },
-    
-  
+
+
     testGetCaller : function()
     {
       var self = this;

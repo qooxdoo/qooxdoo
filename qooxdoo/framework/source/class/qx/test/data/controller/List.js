@@ -51,18 +51,18 @@ qx.Class.define("qx.test.data.controller.List",
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model, this.__list);
     },
-    
-    
+
+
     testModelChangeCombobox : function() {
       var model2 = new qx.data.Array(["A", "B"]);
       var box = new qx.ui.form.ComboBox();
       var controller = new qx.data.controller.List(this.__model, box);
-      
+
       // change the model
       controller.setModel(model2);
       this.assertEquals("A", box.getChildControl("list").getChildren()[0].getLabel());
       this.assertEquals("B", box.getChildControl("list").getChildren()[1].getLabel());
-      
+
       model2.dispose();
       box.dispose();
       controller.dispose();
@@ -910,15 +910,15 @@ qx.Class.define("qx.test.data.controller.List",
       // add the last two to the selection of the first list
       this.__list.addToSelection(this.__list.getChildren()[4]);
       this.__list.addToSelection(this.__list.getChildren()[3]);
-      
+
       // special hack for chrome because his selection order is different
       selController.setModel(this.__controller.getSelection());
-      
+
       var labels = [];
       for (var i = 0; i < selList.getChildren().length; i++) {
         labels.push(selList.getChildren()[i].getLabel());
       };
-      
+
       // check if the second list is filled right
       this.assertNotEquals(-1, labels.indexOf("e"), "e is not in the selection list.");
       this.assertNotEquals(-1, labels.indexOf("d"), "d is not in the selection list.");

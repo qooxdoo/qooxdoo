@@ -394,8 +394,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         // "disabled" state is not handled here with purpose. The image widget
-        // does handle this already by replacing the current image with a 
-        // disabled version (if available). If no disabled image is found the 
+        // does handle this already by replacing the current image with a
+        // disabled version (if available). If no disabled image is found the
         // opacity style is used.
         var icon;
         if (states.checked && states.focused) {
@@ -435,8 +435,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         // "disabled" state is not handled here with purpose. The image widget
-        // does handle this already by replacing the current image with a 
-        // disabled version (if available). If no disabled image is found the 
+        // does handle this already by replacing the current image with a
+        // disabled version (if available). If no disabled image is found the
         // opacity style is used.
         var icon;
         if (states.checked && states.focused) {

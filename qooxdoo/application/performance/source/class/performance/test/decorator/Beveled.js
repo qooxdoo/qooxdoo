@@ -17,7 +17,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("performance.test.decorator.Beveled", 
+qx.Class.define("performance.test.decorator.Beveled",
 {
   extend : performance.test.decorator.AbstractDecorator,
 

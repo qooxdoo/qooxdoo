@@ -129,11 +129,11 @@ qx.Class.define("qx.theme.manager.Font",
 
       return false;
     },
-    
-    
+
+
     /**
      * Checks for includes and resolves them recursively
-     * 
+     *
      * @param fonts {Map} all fonts of the theme
      * @param fontName {String} font name to include
      */
@@ -143,13 +143,13 @@ qx.Class.define("qx.theme.manager.Font",
       {
         // get font infos out of the font theme
         var fontToInclude = fonts[fonts[fontName].include];
-        
-        // delete 'include' key - not part of the merge 
+
+        // delete 'include' key - not part of the merge
         fonts[fontName].include = null;
         delete fonts[fontName].include;
-        
+
         fonts[fontName] = qx.lang.Object.mergeWith(fonts[fontName], fontToInclude, false);
-        
+
         this.__resolveInclude(fonts, fontName);
       }
     },
@@ -173,13 +173,13 @@ qx.Class.define("qx.theme.manager.Font",
       {
         var source = value.fonts;
         var font = qx.bom.Font;
-        
+
         for (var key in source)
         {
           if (source[key].include && source[source[key].include]) {
             this.__resolveInclude(source, key);
           }
-          
+
           dest[key] = (new font).set(source[key]);
           dest[key].themed = true;
         }

@@ -24,7 +24,7 @@
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
-#asset(qx/icon/Tango/16/actions/edit-find.png) 
+#asset(qx/icon/Tango/16/actions/edit-find.png)
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
@@ -101,50 +101,50 @@ qx.Class.define("demobrowser.DemoBrowser",
       leftComposite.add(versionComposite);
       var versionLabel = new qx.ui.basic.Label("Compatible with: ")
       versionLabel.setPadding(4, 5, 0, 2);
-      versionComposite.add(versionLabel);      
-      
+      versionComposite.add(versionLabel);
+
       this.__versionSelect = new qx.ui.form.SelectBox();
       versionComposite.add(this.__versionSelect,{flex: 1});
-            
+
       var itemAll = new qx.ui.form.ListItem("Any qooxdoo version");
       itemAll.setModel(null);
       this.__versionSelect.add(itemAll);
     }
-    
-    // search    
+
+    // search
     var searchComposlite = new qx.ui.container.Composite();
     searchComposlite.setLayout(new qx.ui.layout.HBox(3));
     searchComposlite.setAppearance("textfield");
     leftComposite.add(searchComposlite);
-    
+
     var searchIcon = new qx.ui.basic.Image("icon/16/actions/edit-find.png");
     searchComposlite.add(searchIcon);
-    
+
     this.__searchTextField = new qx.ui.form.TextField();
     this.__searchTextField.setLiveUpdate(true);
     this.__searchTextField.setAppearance("widget");
     this.__searchTextField.setPlaceholder("Filter...");
     this.__searchTextField.addListener("changeValue", function(e) {
       this.filter(e.getData());
-    }, this);    
+    }, this);
     searchComposlite.add(this.__searchTextField, {flex: 1});
-    
+
     if (qx.core.Variant.isSet("qx.contrib", "on")) {
       this.__versionSelect.addListener("changeSelection", function(ev) {
         this.__versionFilter = ev.getData()[0].getModel();
         this.filter(this.__searchTextField.getValue() || "");
       }, this);
     }
-    
+
     // create the status of the tree
     this.__status = new qx.ui.basic.Label("");
     this.__status.setAppearance("widget");
     this.__status.setWidth(80);
     this.__status.setTextAlign("right");
     searchComposlite.add(this.__status);
-            
-    mainsplit.add(infosplit, 1);    
-    
+
+    mainsplit.add(infosplit, 1);
+
     this.__tree = this.__makeTree();
     leftComposite.add(this.__tree, {flex: 1});
 
@@ -249,10 +249,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     __searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
-    
+
     __versionFilter : null,
     __versionTags : {},
-    
+
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
 
@@ -302,21 +302,21 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sampUrl = this.__iframe.getWindow().location.href;
       window.open(sampUrl, "_blank");
     },
-    
-    
+
+
     __setCurrentJSCode : function(code) {
       var playable = !!code;
-      
+
       var currentTags = this.__tree.getSelection()[0].getUserData("tags");
       if (currentTags) {
-        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground"); 
+        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
       }
       this.__playgroundButton.setEnabled(playable);
       this.__currentJSCode = code;
     },
-    
-    
-    __toPlayground : function() {    
+
+
+    __toPlayground : function() {
       if (this.__currentJSCode) {
         var code = this.__currentJSCode;
         var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
@@ -405,24 +405,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
       this._navPart.add(sobutt);
-      
+
       // -- to playground
       if (qx.core.Variant.isSet("qx.contrib", "off")) {
         var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
         playgroundButton.addListener("execute", this.__toPlayground, this);
         playgroundButton.setToolTipText("Open demo in the playground");
         playgroundButton.setEnabled(false);
-        
+
         // Loading demos into IE fails most of the time because IE truncates
-        // long URLs 
+        // long URLs
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           playgroundButton.exclude();
         }
-        
+
         this.__playgroundButton = playgroundButton;
         this._navPart.add(playgroundButton);
       }
-      
+
 
 
       // THEME MENU
@@ -433,20 +433,20 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (qx.core.Variant.isSet("qx.contrib", "off")) {
         var themeMenu = new qx.ui.menu.Menu;
-  
+
         var t1 = new qx.ui.menu.RadioButton("Modern Theme");
         var t2 = new qx.ui.menu.RadioButton("Classic Theme");
-  
+
         t1.setUserData("value", "qx.theme.Modern");
         t1.setValue(true);
         t2.setUserData("value", "qx.theme.Classic");
-  
+
         var group = new qx.ui.form.RadioGroup(t1, t2);
         group.addListener("changeSelection", this.__onChangeTheme, this);
-  
+
         themeMenu.add(t1);
         themeMenu.add(t2);
-      
+
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
         themeButton.setToolTipText("Choose theme");
         menuPart.add(themeButton);
@@ -463,7 +463,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
         summaryBtn.setCommand(this._cmdObjectSummary);
         menu.add(summaryBtn);
-  
+
         var namespaceBtn = new qx.ui.menu.Button(this.tr("Global Namespace Pollution"));
         namespaceBtn.setCommand(this._cmdNamespacePollution);
         menu.add(namespaceBtn);
@@ -491,17 +491,17 @@ qx.Class.define("demobrowser.DemoBrowser",
         htmlView.setToolTipText("Display HTML source");
         var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
         jsView.setToolTipText("Display JavaScript source");
-        
+
         htmlView.setUserData("value", "html");
         jsView.setUserData("value", "js");
-        
+
         viewPart.add(htmlView);
         viewPart.add(jsView);
       }
-      
+
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
       logView.setToolTipText("Display log file");
-      
+
       logView.setUserData("value", "log");
 
       viewPart.add(logView);
@@ -751,7 +751,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (qx.core.Variant.isSet("qx.contrib", "on")) {
         this.__getVersionItems();
       }
-      
+
       if (_initialNode != null) {
         this.tree.setSelection([_initialNode]);
       }
@@ -822,7 +822,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
       if (treeNode)
-      {        
+      {
         treeNode.getTree().setSelection([treeNode]);
         url = 'demo/' + value;
         if (qx.core.Variant.isSet("qx.contrib", "off")) {
@@ -916,9 +916,9 @@ qx.Class.define("demobrowser.DemoBrowser",
           // Register to logger
           this.logappender.$$id = null;
           this.logappender.clear();
-          
+
           try {
-            fwindow.qx.log.Logger.register(this.logappender);            
+            fwindow.qx.log.Logger.register(this.logappender);
           } catch (e) {
             // if the logger is not available, ignore it
             return;
@@ -950,17 +950,17 @@ qx.Class.define("demobrowser.DemoBrowser",
      * This method filters the folders in the tree.
      * @param term {String} The search term.
      */
-    filter : function(term) 
+    filter : function(term)
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
       var items = this.__tree.getRoot().getItems(true, true);
-      
+
       var showing = 0;
       var count = 0;
       for (var i = 0; i < items.length; i++) {
         var folder = items[i];
         var parent = folder.getParent();
-        
+
         // check for the tags
         var tags = folder.getUserData("tags");
         var inTags = false;
@@ -968,7 +968,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (tags != null) {
           for (var j = 0; j < tags.length; j++) {
             inTags = !!tags[j].match(searchRegExp);
-            
+
             if (qx.core.Variant.isSet("qx.contrib", "off")) {
               if (inTags) {
                 selectedVersion = true;
@@ -985,8 +985,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           count++;
         }
 
-        if ( (inTags || !folder.getLabel().search(searchRegExp) ||
-            !parent.getLabel().search(searchRegExp) ) && selectedVersion)
+        if ( (inTags || !folder.getLabel().search(searchRegExp) ||
+            !parent.getLabel().search(searchRegExp) ) && selectedVersion)
         {
           if (folder.getChildren().length == 0) {
             showing++;
@@ -998,7 +998,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           folder.exclude();
         }
       }
-      
+
       // special case for the empty sting
       if (term == "") {
         var folders = this.__tree.getRoot().getItems(false, true);
@@ -1007,13 +1007,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         // close all folders
         for (var i = 0; i < folders.length; i++) {
           // don't close the current selected
-          if (folders[i] == selection[0] || folders[i] == selection[0].getParent()) {
+          if (folders[i] == selection[0] || folders[i] == selection[0].getParent()) {
             continue;
           }
           folders[i].setOpen(false);
         }
       }
-      
+
       // update the status
       this.__status.setValue(showing + "/" + count);
     },
@@ -1055,8 +1055,8 @@ qx.Class.define("demobrowser.DemoBrowser",
             var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
             var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
             var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
-  
-  
+
+
             // construct url to demo script source
             var u = "script/demobrowser.demo";
             var parts = url.split('/');
@@ -1065,17 +1065,17 @@ qx.Class.define("demobrowser.DemoBrowser",
             base = base.substr(0, base.indexOf('.html'))
             u += "." + cat + "." + base + ".src.js";
             jsSourceFileName = u;
-  
+
             // get the javascript code
             var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
             reqJSFile.setTimeout(180000);
             reqJSFile.setProhibitCaching(false);
             reqJSFile.addListener("completed", function(evt2) {
               var jsCode = evt2.getContent();
-              
+
               // store the current visible code
               this.__setCurrentJSCode(jsCode);
-              
+
               if (jsCode) {
                 // set the javascript code to the javascript page
                 this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
@@ -1087,7 +1087,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             }, this);
             // send the request for the javascript code
             reqJSFile.send();
-  
+
             // write the html code to the html page
             this.widgets["outputviews.sourcepage.html.page"].setHtml(this.__beautySource(content));
           }
@@ -1387,10 +1387,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       return header;
     },
-    
+
     /**
      * Add a demo's "qxVersion" tags to the list of version tags
-     * 
+     *
      * @param tagList {Array} A tree node's tags
      */
     __getVersionTags : qx.core.Variant.select("qx.contrib",
@@ -1404,13 +1404,13 @@ qx.Class.define("demobrowser.DemoBrowser",
               this.__versionTags[tag] = "";
             }
           }
-        }        
+        }
       },
-      
+
       "off" : undefined
     }),
-    
-    
+
+
     /**
      * Add an option for each version to the version select box
      */
@@ -1424,17 +1424,17 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
         versions.sort();
         versions.reverse();
-        
+
         for (var i=0,l=versions.length; i<l; i++) {
-          var li = new qx.ui.form.ListItem(versions[i]);        
+          var li = new qx.ui.form.ListItem(versions[i]);
           li.setModel("qxVersion_" + versions[i]);
           this.__versionSelect.add(li);
         }
       },
-      
+
       "off" : undefined
     })
-    
+
   },
 
 
@@ -1450,9 +1450,9 @@ qx.Class.define("demobrowser.DemoBrowser",
   {
     this.widgets = this.tests = this._sampleToTreeNodeMap = this.tree =
       this.logelem = null;
-    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar", 
-      "f1", "f2", "_history", "logappender", '_cmdObjectSummary', 
-      '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', 
+    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar",
+      "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
+      '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });

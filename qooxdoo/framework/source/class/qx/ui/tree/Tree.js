@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param treeItem {AbstractTreeItem} The tree item to get the item after
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
-     * 
+     *
      * @return {AbstractTreeItem?null} The item after the given item. May be
      *     <code>null</code> if the item is the last item.
      */
@@ -358,19 +358,19 @@ qx.Class.define("qx.ui.tree.Tree",
         return parent;
       }
     },
-    
-    
+
+
     /**
      * Get the tree item's next sibling.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the following 
+     * @param treeItem {AbstractTreeItem} The tree item to get the following
      * sibling of.
      * @param invisible {Boolean} DEPRECATED
      * @param stayInSameNestLevel {Boolean} DEPRECATED
      *
      * @return {AbstractTreeItem?null} The item following the given item. May be
-     *     <code>null</code> if the given item is the last in it's nesting 
-     *     level. 
+     *     <code>null</code> if the given item is the last in it's nesting
+     *     level.
      */
     getNextSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
     {
@@ -380,39 +380,39 @@ qx.Class.define("qx.ui.tree.Tree",
           "The invisible and stayInSameNestLevel parameters are deprecated: Use"
             + " getNextNodeOf() instead."
         );
-      
+
         if (!stayInSameNestLevel) {
           return this.getNextNodeOf(treeItem, invisible);
         }
-        
+
       }
-      
+
       if (treeItem == this.getRoot()) {
         return null;
       }
-      
+
       var parent = treeItem.getParent();
       var siblings = parent.getChildren();
       var index = siblings.indexOf(treeItem);
-      
+
       if (index < siblings.length-1) {
         return siblings[index+1];
       }
-           
+
       return null;
     },
-    
-    
+
+
     /**
      * Get the tree item's previous sibling.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the previous 
+     * @param treeItem {AbstractTreeItem} The tree item to get the previous
      * sibling of.
      * @param invisible {Boolean} DEPRECATED
      * @param stayInSameNestLevel {Boolean} DEPRECATED
      *
      * @return {AbstractTreeItem?null} The item preceding the given item. May be
-     *     <code>null</code> if the given item is the first in it's nesting 
+     *     <code>null</code> if the given item is the first in it's nesting
      *     level.
      */
     getPreviousSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
@@ -423,25 +423,25 @@ qx.Class.define("qx.ui.tree.Tree",
           "The invisible and stayInSameNestLevel parameters are deprecated: Use"
             + " getPreviousNodeOf() instead."
         );
-      
+
         if (!stayInSameNestLevel) {
           return this.getPreviousNodeOf(treeItem, invisible);
         }
-        
+
       }
-      
+
       if (treeItem == this.getRoot()) {
         return null;
       }
-      
+
       var parent = treeItem.getParent();
       var siblings = parent.getChildren();
       var index = siblings.indexOf(treeItem);
-      
+
       if (index > 0) {
         return siblings[index-1];
       }
-           
+
       return null;
     },
 

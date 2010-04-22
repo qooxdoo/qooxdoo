@@ -16,13 +16,13 @@ qx.Mixin.define("performance.test.MMeasure",
           while (i--) {
             callback(i);
           }
-        }, 
-        finalize, 
+        },
+        finalize,
         displayIterations || iterations
       );
     },
-    
-    
+
+
     measure : function(msg, callback, finalize, displayIterations)
     {
       // profiling
@@ -33,16 +33,16 @@ qx.Mixin.define("performance.test.MMeasure",
       var start = new Date();
       callback();
       var end = new Date();
-      
+
       // profiling
       if (performance.test.RunnerPatch.ENABLE_PROFILE) {
         console.profileEnd(msg);
-      }      
-      
+      }
+
       var time = end-start;
 
       var renderStart = new Date();
-      
+
       var self = this;
       setTimeout(function() { self.resume(function()
       {
@@ -53,8 +53,8 @@ qx.Mixin.define("performance.test.MMeasure",
 
       this.wait(10000);
     },
-    
-    
+
+
     log : function(msg, iterations, ownTime, renderTime)
     {
       var app = this.getRunnerApplication ? this.getRunnerApplication() : qx.core.Init.getApplication();

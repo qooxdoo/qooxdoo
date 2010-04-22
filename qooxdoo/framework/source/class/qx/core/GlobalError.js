@@ -63,8 +63,8 @@ qx.Bootstrap.define("qx.core.GlobalError",
 
 
     /**
-     * Returns the arguments which are 
-     * 
+     * Returns the arguments which are
+     *
      * @return {Object} arguments
      */
     getArguments : function() {

@@ -113,12 +113,12 @@
  *     See this documentation for usage examples.
  *   </td></tr>
  *   <tr><th>dereference</th><td>Boolean</td><td>
- *     By default, the references to the values (current, init, ...) of the 
- *     property will be stored as references on the object. When disposing 
- *     this object, the references will not be deleted. Setting the 
+ *     By default, the references to the values (current, init, ...) of the
+ *     property will be stored as references on the object. When disposing
+ *     this object, the references will not be deleted. Setting the
  *     dereference key to true tells the property system to delete all
- *     connections made by this property on dispose. This can be necessary for 
- *     disconnecting DOM objects to allow the garbage collector to work 
+ *     connections made by this property on dispose. This can be necessary for
+ *     disconnecting DOM objects to allow the garbage collector to work
  *     properly.
  *   </td></tr>
  * </table>
@@ -252,7 +252,7 @@ qx.Bootstrap.define("qx.core.Property",
     {
       name         : "string",   // String
       dispose      : "boolean",  // Boolean @deprecated in 1.1
-      dereference  : "boolean",  // Boolean 
+      dereference  : "boolean",  // Boolean
       inheritable  : "boolean",  // Boolean
       nullable     : "boolean",  // Boolean
       themeable    : "boolean",  // Boolean
@@ -287,33 +287,33 @@ qx.Bootstrap.define("qx.core.Property",
 
     /**
      * Generate optimized refresh method and  attach it to the class' prototype
-     * 
+     *
      * @param clazz {Clazz} clazz to which the refresher should be added
      */
     __executeOptimizedRefresh : function(clazz)
     {
       var inheritables = this.__getInheritablesOfClass(clazz);
-                  
+
       if (!inheritables.length) {
         var refresher = qx.lang.Function.empty;
       } else {
         refresher = this.__createRefresher(inheritables);
       }
-      
+
       clazz.prototype.$$refreshInheritables = refresher;
     },
-    
-    
+
+
     /**
      * Get the names of all inheritable properties of the given class
-     * 
+     *
      * @param clazz {Clazz} class to get the inheritable properties of
      * @return {String[]} List of property names
      */
     __getInheritablesOfClass : function(clazz)
     {
       var inheritable = [];
-      
+
       while(clazz)
       {
         var properties = clazz.$$properties;
@@ -333,14 +333,14 @@ qx.Bootstrap.define("qx.core.Property",
 
         clazz = clazz.superclass;
       }
-      
+
       return inheritable;
     },
-    
-    
+
+
     /**
      * Assemble the refresher code and return the generated function
-     * 
+     *
      * @param inheritables {String[]} list of inheritable properties
      */
     __createRefresher : function(inheritables)
@@ -351,10 +351,10 @@ qx.Bootstrap.define("qx.core.Property",
 
       var code = [
         "var parent = this.getLayoutParent();",
-        "if (!parent) return;"        
+        "if (!parent) return;"
       ];
-      
-      for (var i=0, l=inheritables.length; i<l; i++) 
+
+      for (var i=0, l=inheritables.length; i<l; i++)
       {
         var name = inheritables[i];
         code.push(
@@ -363,7 +363,7 @@ qx.Bootstrap.define("qx.core.Property",
           "this.", refresh[name], "(value);"
         );
       }
-      
+
       return new Function(code.join(""));
     },
 
@@ -375,7 +375,7 @@ qx.Bootstrap.define("qx.core.Property",
      * @param widget {qx.ui.core.Widget} the widget
      * @return {void}
      */
-    refresh : function(widget) 
+    refresh : function(widget)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -391,19 +391,19 @@ qx.Bootstrap.define("qx.core.Property",
 
     /**
      * Attach $$refreshInheritables method stub to the given class
-     * 
+     *
      * @param clazz {Clazz} clazz to which the refresher should be added
      */
     attachRefreshInheritables : function(clazz)
     {
-      clazz.prototype.$$refreshInheritables = function() 
+      clazz.prototype.$$refreshInheritables = function()
       {
         qx.core.Property.__executeOptimizedRefresh(clazz);
         return this.$$refreshInheritables();
       }
     },
-    
-    
+
+
     /**
      * Attach one property to class
      *
@@ -539,24 +539,24 @@ qx.Bootstrap.define("qx.core.Property",
       // @deprecation warning (came in with 1.1)
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (config.dispose) 
+        if (config.dispose)
         {
           // migrate for further processing
           if (!config.dereference) {
-            config.dereference = config.dispose;            
+            config.dereference = config.dispose;
           }
           qx.log.Logger.warn(
-            "The property key 'dispose' is deprecated: " + 
+            "The property key 'dispose' is deprecated: " +
             "Please use 'dereference' instead."
           );
-          qx.log.Logger.trace();          
+          qx.log.Logger.trace();
         }
       }
-      
+
       // Fill dispose value
       if (config.dereference === undefined && typeof config.check === "string") {
         config.dereference = this.__shouldBeDereferenced(config.check);
-      }      
+      }
 
       var method = this.$$method;
       var store = this.$$store;
@@ -628,12 +628,12 @@ qx.Bootstrap.define("qx.core.Property",
         members["is" + upname] = new Function("return this." + method.get[name] + "()");
       }
     },
-    
-    
+
+
     /**
      * Returns if the reference for the given property check should be removed
      * on dispose.
-     * 
+     *
      * @param check {var} The check of the property definition.
      * @return {Boolean} If the dereference key should be set.
      */
@@ -641,22 +641,22 @@ qx.Bootstrap.define("qx.core.Property",
       return !!this.__dereference[check];
     },
 
-    
+
     /**
-     * Special function for IE6 and FF2 which returns if the reference for 
+     * Special function for IE6 and FF2 which returns if the reference for
      * the given property check should be removed on dispose.
-     * As IE6 and FF2 seem to have bad garbage collecion behaviors, we should 
-     * additionally remove all references between qooxdoo objects and 
+     * As IE6 and FF2 seem to have bad garbage collecion behaviors, we should
+     * additionally remove all references between qooxdoo objects and
      * interfaces.
-     * 
+     *
      * @param check {var} The check of the property definition.
      * @return {Boolean} If the dereference key should be set.
-     */    
-    __shouldBeDereferencedOld : function(check) 
+     */
+    __shouldBeDereferencedOld : function(check)
     {
-      return this.__dereference[check] || 
-      qx.Bootstrap.classIsDefined(check) || 
-      (qx.Interface && qx.Interface.isDefined(check));      
+      return this.__dereference[check] ||
+      qx.Bootstrap.classIsDefined(check) ||
+      (qx.Interface && qx.Interface.isDefined(check));
     },
 
 
@@ -1552,8 +1552,8 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('}');
     }
   },
-  
-  
+
+
 
   /*
   *****************************************************************************
@@ -1565,10 +1565,10 @@ qx.Bootstrap.define("qx.core.Property",
   {
     var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
     var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
-    
+
     // keep the old dereference behavior for IE6 and FF2
-    if (ie6 || ff2) {
+    if (ie6 || ff2) {
       statics.__shouldBeDereferenced = statics.__shouldBeDereferencedOld;
     }
-  }  
+  }
 });

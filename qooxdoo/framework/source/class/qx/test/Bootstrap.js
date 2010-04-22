@@ -33,56 +33,56 @@ qx.Class.define("qx.test.Bootstrap",
           this.called = true;
         }
       });
-      
+
       var obj = new qx.test.Construct();
       this.assertTrue(obj.called);
-      
-      qx.Class.undefine("qx.test.Construct");      
+
+      qx.Class.undefine("qx.test.Construct");
     },
-    
-  
+
+
     "test: define bootstrap class, which extends 'Error'" : function()
     {
       qx.Bootstrap.define("qx.test.ExtendError", {
         extend: Error
       });
-      
+
       var obj = new qx.test.ExtendError();
       this.assertInstance(obj, Error);
-      
+
       qx.Class.undefine("qx.test.ExtendError");
     },
-    
-    
+
+
     "test: extend from qx.core.Object" : function()
     {
       qx.Bootstrap.define("qx.test.ExtendQxObject", {
         extend: qx.core.Object
       });
-      
+
       var obj = new qx.test.ExtendQxObject();
       this.assertInstance(obj, qx.core.Object);
-      
+
       obj.dispose();
-      
-      qx.Class.undefine("qx.test.ExtendQxObject");      
+
+      qx.Class.undefine("qx.test.ExtendQxObject");
     },
-    
-    
+
+
     "test: extend from null should extend Object" : function()
     {
       qx.Bootstrap.define("qx.test.ExtendNull", {
         extend: null,
         members : {}
       });
-      
+
       var obj = new qx.test.ExtendNull();
       this.assertInstance(obj, Object);
-      
-      qx.Class.undefine("qx.test.ExtendNull");            
+
+      qx.Class.undefine("qx.test.ExtendNull");
     },
-    
-    
+
+
     "test: extend from Bootstrap class" : function()
     {
       qx.Bootstrap.define("qx.test.Super", {
@@ -93,18 +93,18 @@ qx.Class.define("qx.test.Bootstrap",
         extend: qx.test.Super,
         members : {}
       });
-      
+
       var obj = new qx.test.ExtendSuper();
-      
+
       this.assertInstance(obj, Object);
       this.assertInstance(obj, qx.test.Super);
       this.assertInstance(obj, qx.test.ExtendSuper);
-      
-      qx.Class.undefine("qx.test.Super"); 
-      qx.Class.undefine("qx.test.ExtendSuper"); 
+
+      qx.Class.undefine("qx.test.Super");
+      qx.Class.undefine("qx.test.ExtendSuper");
     },
-    
-    
+
+
     "test: extended Bootstap class should append members to the prototype" : function()
     {
       qx.Bootstrap.define("qx.test.Super", {
@@ -121,7 +121,7 @@ qx.Class.define("qx.test.Bootstrap",
           foo : 11
         }
       });
-      
+
       var obj = new qx.test.ExtendSuper();
       this.assertEquals("affe", obj.bar);
       this.assertEquals(11, obj.foo);
@@ -129,12 +129,12 @@ qx.Class.define("qx.test.Bootstrap",
 
       this.assertEquals(11, qx.test.ExtendSuper.prototype.foo);
       this.assertEquals(10, qx.test.Super.prototype.foo);
-      
-      qx.Class.undefine("qx.test.Super"); 
-      qx.Class.undefine("qx.test.ExtendSuper"); 
+
+      qx.Class.undefine("qx.test.Super");
+      qx.Class.undefine("qx.test.ExtendSuper");
     },
-      
-    
+
+
     testFunctionWrap : function()
     {
       var context = null;
@@ -170,8 +170,8 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals(context, this);
       this.assertEquals(5, result);
     },
-    
-    
+
+
     testBindWithUndefinedArguments : function()
     {
       var undef;
@@ -181,8 +181,8 @@ qx.Class.define("qx.test.Bootstrap",
       var bound = qx.Bootstrap.bind(callback, this, undef, true);
       bound();
     },
-    
-    
+
+
     testDefineShadowedMembers : function()
     {
       qx.Bootstrap.define("qx.test.Construct",
@@ -196,18 +196,18 @@ qx.Class.define("qx.test.Bootstrap",
           "valueOf" : 14
         }
       });
-      
+
       var obj = new qx.test.Construct();
       this.assertEquals(10, obj.isPrototypeOf);
       this.assertEquals(11, obj.hasOwnProperty);
       this.assertEquals(12, obj.toLocaleString);
       this.assertEquals(13, obj.toString);
       this.assertEquals(14, obj.valueOf);
-      
-      qx.Class.undefine("qx.test.Construct");      
+
+      qx.Class.undefine("qx.test.Construct");
     },
-    
-    
+
+
     testDefineShadowedStatics : function()
     {
       qx.Bootstrap.define("qx.test.Construct",
@@ -220,13 +220,13 @@ qx.Class.define("qx.test.Bootstrap",
           "valueOf" : 14
         }
       });
-      
+
       this.assertEquals(10, qx.test.Construct.isPrototypeOf);
       this.assertEquals(12, qx.test.Construct.toLocaleString);
       this.assertEquals(13, qx.test.Construct.toString);
       this.assertEquals(14, qx.test.Construct.valueOf);
-      
-      qx.Class.undefine("qx.test.Construct");      
+
+      qx.Class.undefine("qx.test.Construct");
     },
 
 

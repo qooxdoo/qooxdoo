@@ -266,7 +266,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         {
           this.__cleanupFromLastPlaceToWidgetLiveUpdate();
         }
-        
+
         this.addListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
 
       }
@@ -274,22 +274,22 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
       this.__place(coords);
     },
-    
-    /** 
-     * Removes all resources allocated by the last run of placeToWidget with liveupdate=true 
+
+    /**
+     * Removes all resources allocated by the last run of placeToWidget with liveupdate=true
      */
     __cleanupFromLastPlaceToWidgetLiveUpdate : function(){
       if (this.__ptwLiveUpdater)
       {
-        qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);            
+        qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);
         this.__ptwLiveUpdater = null;
       }
-      
+
       if (this.__ptwLiveUpdateDisappearListener){
         this.removeListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
         this.__ptwLiveUpdateDisappearListener = null;
       }
-      
+
     },
 
 

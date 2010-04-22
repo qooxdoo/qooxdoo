@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * The model for the objects view. The model is responsible for the current 
+ * The model for the objects view. The model is responsible for the current
  * inspected object ({@link #getInspected}) and the registered objects from the
  * inspected application ({@link #getObjects}).
  */
@@ -28,7 +28,7 @@ qx.Class.define("inspector.objects2.Model",
 
   /**
    * Construct the model.
-   * 
+   *
    * @param model {inspector.components.IInspectorModel} instance to the
    *   inspector model
    */
@@ -63,8 +63,8 @@ qx.Class.define("inspector.objects2.Model",
 
     /**
      * Returns the registered objects from the inspected application.
-     * 
-     * @return {Array} Returns all registered objects from the inspected 
+     *
+     * @return {Array} Returns all registered objects from the inspected
      *   application with the hash code as key.
      */
     getObjects : function() {
@@ -73,8 +73,8 @@ qx.Class.define("inspector.objects2.Model",
 
     /**
      * Returns the object from the object registry with the passed hash code.
-     * 
-     * @param hashCode {String} the hash code from the looking object. 
+     *
+     * @param hashCode {String} the hash code from the looking object.
      * @return {qx.core.Object|null} the object with the hash code, or <code>null</code>
      *   if no object exist with the hash code.
      */
@@ -85,7 +85,7 @@ qx.Class.define("inspector.objects2.Model",
 
     /**
      * Returns the inspected object.
-     * 
+     *
      * @return {qx.core.Object|null} Returns the current inspected object.
      */
     getInspected : function() {
@@ -94,7 +94,7 @@ qx.Class.define("inspector.objects2.Model",
 
     /**
      * Sets the inspected object.
-     * 
+     *
      * @param object {qx.core.Object} instance from the inspected object.
      */
     setInspected : function(object) {
@@ -102,9 +102,9 @@ qx.Class.define("inspector.objects2.Model",
     },
 
     /**
-     * Event listener for the <code>changeObjects</code> event from the 
+     * Event listener for the <code>changeObjects</code> event from the
      * inspector model.
-     * 
+     *
      * @param event {qx.event.type.Event} the event.
      */
     __onChangeObjects : function(event) {
@@ -112,9 +112,9 @@ qx.Class.define("inspector.objects2.Model",
     },
 
     /**
-     * Event listener for the <code>changeInspected</code> event from the 
+     * Event listener for the <code>changeInspected</code> event from the
      * inspector model.
-     * 
+     *
      * @param event {qx.event.type.Data} the event.
      */
     __onChangeInspected : function(event) {

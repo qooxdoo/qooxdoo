@@ -19,7 +19,7 @@
 /**
  * Menu showing all loaded gists and its controlls.
  */
-qx.Class.define("playground.view.gist.GistMenu", 
+qx.Class.define("playground.view.gist.GistMenu",
 {
   extend : qx.ui.menu.Menu,
 
@@ -30,7 +30,7 @@ qx.Class.define("playground.view.gist.GistMenu",
 
     // storage for the current items in the menu (usually the gist menu items)
     this.__items = [];
-    
+
     // user name field
     this.__userNameChange = new playground.view.gist.UserNameMenuItem();
     this.add(this.__userNameChange);
@@ -38,7 +38,7 @@ qx.Class.define("playground.view.gist.GistMenu",
       this.__loading();
       this.fireDataEvent("reload", e.getData());
     }, this);
-    
+
     // filter
     this.__filterCheckBox = new playground.view.gist.CheckBox(
       this.tr("Activate filter for [qx]")
@@ -47,12 +47,12 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__filterCheckBox.setValue(initFilterValue);
     this.__filterCheckBox.addListener("changeValue", this.__onFilterChange, this);
     this.add(this.__filterCheckBox);
-    
+
     var newGistButton = new qx.ui.menu.Button(
       this.tr("New gist"), "icon/16/actions/list-add.png"
     );
     newGistButton.addListener("execute", function() {
-      this.fireEvent("newGist");     
+      this.fireEvent("newGist");
     }, this);
     this.add(newGistButton);
 
@@ -68,31 +68,31 @@ qx.Class.define("playground.view.gist.GistMenu",
     this.__loadingItem = new playground.view.gist.TextMenuItem(
       this.tr("Loading..."), "playground/images/loading.gif"
     );
-    
+
     // check for initial loading
     if (qx.bom.Cookie.get("playgroundUser")) {
       this.__loading();
     }
   },
-  
-  
+
+
   events : {
     /**
      * Fired if a new gist has been selected
      */
     "changeGist" : "qx.event.type.Data",
-    
+
     /**
      * Fired if the gists need to relaod.
      */
     "reload" : "qx.event.type.Data",
-    
+
     /**
      * Fired when a new gists should be made.
      */
      "newGist" : "qx.event.type.Event",
-     
-     
+
+
      /**
       * Fired when a gist should be edited.
       */
@@ -107,12 +107,12 @@ qx.Class.define("playground.view.gist.GistMenu",
     __emptyItem : null,
     __userNameChange : null,
     __filterCheckBox : null,
-    
-    
+
+
     /**
      * Helper method for setting up the list to the loading view.
      */
-    __loading : function() 
+    __loading : function()
     {
       // empty the cache
       for (var i = 0; i < this.__items.length; i++) {
@@ -124,10 +124,10 @@ qx.Class.define("playground.view.gist.GistMenu",
         }
       };
       this.__items = [];
-      
-      this.add(this.__loadingItem);      
+
+      this.add(this.__loadingItem);
     },
-    
+
     // overridden
     _applySelectedButton : function(value, old) {
       this.__userNameChange.focusTextField(value == this.__userNameChange);
@@ -140,31 +140,31 @@ qx.Class.define("playground.view.gist.GistMenu",
      * @param names {Array} The labels of the menu items for the gists.
      * @param texts {Array} An array containing the content of the gists.
      */
-    updateGists : function(names, texts) 
+    updateGists : function(names, texts)
     {
       // remove the loading item if its in the menu
       if (this.indexOf(this.__loadingItem) != -1) {
         this.remove(this.__loadingItem);
-      } 
-      
+      }
+
       // empty list handling
       if (names.length == 0) {
         this.add(this.__emptyItem);
         this.__items.push(this.__emptyItem);
         return;
       }
-      
+
       // add the new menu items
       for (var i = 0; i < names.length; i++) {
         // skip empty gists
         if (!texts[i]) {continue;}
-        
+
         var menuItem = new playground.view.gist.MenuButton(
           names[i], "icon/22/actions/edit-paste.png"
         );
         this.add(menuItem);
         this.__items.push(menuItem);
-        menuItem.addListener("execute", 
+        menuItem.addListener("execute",
           qx.lang.Function.bind(function(code, name) {
             this.fireDataEvent("changeGist", {code: code, name: name});
           }, this, texts[i], names[i])
@@ -176,8 +176,8 @@ qx.Class.define("playground.view.gist.GistMenu",
       // apply the filter on load
       this.__onFilterChange();
     },
-    
-    
+
+
     /**
      * Markes the username textfield as invalid.
      * @param invalid {Boolean} true, if the request failed
@@ -186,10 +186,10 @@ qx.Class.define("playground.view.gist.GistMenu",
     invalidUser : function(invalid, message) {
       this.__userNameChange.markInvalid(invalid, message);
     },
-    
-    
+
+
     /**
-     * Handler for the filter checkbox. It checks all added menu items and 
+     * Handler for the filter checkbox. It checks all added menu items and
      * excludes the items not containing a '[qx]' in its label.
      */
     __onFilterChange : function() {
@@ -200,7 +200,7 @@ qx.Class.define("playground.view.gist.GistMenu",
       var on = this.__filterCheckBox.getValue();
       // write the status to the cookie
       qx.bom.Cookie.set("playgroundFilter", on, 100);
-      
+
       var oneShown = false;
       for (var i = 0; i < this.__items.length; i++) {
         var item = this.__items[i];
@@ -213,7 +213,7 @@ qx.Class.define("playground.view.gist.GistMenu",
           this.add(item);
         }
       };
-      
+
       // handle empty lists after the filtering
       if (!oneShown) {
         this.add(this.__emptyItem);
@@ -221,18 +221,18 @@ qx.Class.define("playground.view.gist.GistMenu",
         this.remove(this.__emptyItem);
       }
     },
-    
-    
+
+
     //overridden
     _onMouseOver : function(e)
     {
       this.base(arguments, e);
-      
+
       var target = e.getTarget();
       if (target.isEnabled()) {
         this.setSelectedButton(target);
       }
-    }  
+    }
   },
 
 

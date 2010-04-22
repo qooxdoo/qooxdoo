@@ -302,7 +302,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
   destruct : function()
   {
-    this._pane = this._editorGroups = this._widgetIndicator = 
+    this._pane = this._editorGroups = this._widgetIndicator =
       this._layoutControls = null;
   }
 });

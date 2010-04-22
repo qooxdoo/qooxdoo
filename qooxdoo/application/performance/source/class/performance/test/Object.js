@@ -2,12 +2,12 @@ qx.Class.define("performance.test.Object",
 {
   extend : qx.dev.unit.TestCase,
   include : performance.test.MMeasure,
-  
+
   members :
   {
     CREATE_ITERATIONS : 100000,
-    
-    
+
+
     testObjectCreate : function()
     {
       var objects = this.__objects = [];
@@ -25,5 +25,5 @@ qx.Class.define("performance.test.Object",
         this.CREATE_ITERATIONS
       );
     }
-  }  
+  }
 });

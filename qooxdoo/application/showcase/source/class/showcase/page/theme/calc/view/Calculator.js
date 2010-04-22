@@ -21,17 +21,17 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
 {
   extend : qx.ui.window.Window,
   implement : [showcase.page.theme.calc.view.ICalculator],
-  
-  
-  construct : function(isModern) 
+
+
+  construct : function(isModern)
   {
-    this.base(arguments, "Calculator");    
-    this._isModern = !!isModern; 
-    
+    this.base(arguments, "Calculator");
+    this._isModern = !!isModern;
+
     if (this._isModern) {
       this.setAppearance("modern-calculator");
     }
-    
+
     // configure window
     this.set({
       showMinimize: false,
@@ -39,82 +39,82 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       allowMaximize: false,
       showClose : false
     });
-    
+
     // set window layout
-    this.setLayout(new qx.ui.layout.VBox());  
-    
+    this.setLayout(new qx.ui.layout.VBox());
+
     // add display and buttons
     this._initButtons();
-    
-    this.add(this.getChildControl("display"));      
-    this.add(this._createButtonContainer(), {flex: 1});    
-    
+
+    this.add(this.getChildControl("display"));
+    this.add(this._createButtonContainer(), {flex: 1});
+
     // attach key event listeners
     this._initKeyIdentifier();
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
-    this.addListener("keypress", this._onKeyPress, this);    
+    this.addListener("keypress", this._onKeyPress, this);
   },
-  
-  
+
+
   events : {
     "buttonPress" : "qx.event.type.Data"
   },
-  
-  
-  properties : 
+
+
+  properties :
   {
     appearance :
     {
       refine : true,
       init : "calculator"
     },
-    
+
     display :
     {
       init : "0",
       event : "changeDisplay"
     },
-    
+
     memory :
     {
       check : "Boolean",
       init : false,
       event : "changeMemory"
     },
-    
+
     operation :
     {
       check : "String",
       init : "",
       event : "changeOperation"
-    }    
+    }
   },
-  
-  
+
+
   members :
   {
     /** {Map} Maps button ids to the button instances */
     _buttons : null,
-    
+
     /** {Map} Maps the button's key identifier to the button instances */
     _keyIdentifier : null,
-    
-    /** The button, which is currently pressed using the keyboard */    
-    _pressedButton : null,    
-    
-    
+
+    /** The button, which is currently pressed using the keyboard */
+    _pressedButton : null,
+
+
     /*
     ---------------------------------------------------------------------------
       INITIALIZATION
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Initialize the buttons and store them in the "_buttons" map.
-     */    
+     */
     _initButtons : function()
-    {    
+    {
       this._buttons =
       {
         "MC": new showcase.page.theme.calc.view.Button("MC", 0, 0),
@@ -136,7 +136,7 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
         "5": new showcase.page.theme.calc.view.Button("5", 3, 1, null, null, "5"),
         "6": new showcase.page.theme.calc.view.Button("6", 3, 2, null, null, "6"),
         "+": new showcase.page.theme.calc.view.Button("+", 3, 3, null, null, "+"),
-        
+
         "1": new showcase.page.theme.calc.view.Button("1", 4, 0, null, null, "1"),
         "2": new showcase.page.theme.calc.view.Button("2", 4, 1, null, null, "2"),
         "3": new showcase.page.theme.calc.view.Button("3", 4, 2, null, null, "3"),
@@ -145,7 +145,7 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
         "0": new showcase.page.theme.calc.view.Button("0", 5, 0, null, 2, "0"),
         ".": new showcase.page.theme.calc.view.Button(".", 5, 2, null, null, ".")
       };
-      
+
       if (this._isModern)
       {
         for (var key in this._buttons) {
@@ -153,8 +153,8 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
         }
       }
     },
-    
-    
+
+
     /**
      * Configures a map, which maps the button's key identifiers to the button.
      * The map is stored in the protected member "_keyIdentifier".
@@ -171,19 +171,19 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
           this._keyIdentifier[key] = button;
         }
       }
-    },       
-    
-    
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET CREATION
     ---------------------------------------------------------------------------
-    */   
-    
+    */
+
     // overridden
     _createChildControlImpl : function(id)
     {
-      if (id === "display") 
+      if (id === "display")
       {
         var display = new showcase.page.theme.calc.view.Display();
         this.bind("display", display, "display");
@@ -193,21 +193,21 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       } else {
         return this.base(arguments, id);
       }
-    }, 
-    
-    
+    },
+
+
     /**
      * Creates the button container and configures it with a flexible grid
      * layout. Further it adds the buttons to the container.
-     */      
+     */
     _createButtonContainer : function()
     {
       var container = new qx.ui.container.Composite();
-       
+
       // configure button container with a grid layout
       var grid = new qx.ui.layout.Grid(5, 5);
       container.setLayout(grid);
-       
+
       // make grid resizeable
       for (var row=0; row<6; row++) {
         grid.setRowFlex(row, 1);
@@ -215,32 +215,32 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       for (var col=0; col<6; col++) {
         grid.setColumnFlex(col, 1);
       }
-     
+
       // add buttons
       for (var name in this._buttons) {
-        container.add(this._buttons[name])      
-      }      
+        container.add(this._buttons[name])
+      }
       return container;
-    },     
-    
-    
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
     ---------------------------------------------------------------------------
     */
-    
+
     _onButtonExecute : function(e)
     {
       var name = qx.lang.Object.getKeyFromValue(this._buttons, e.getTarget());
       this.fireDataEvent("buttonPress", name);
     },
-    
-    
+
+
     /**
      * Key down event handler. Visually presses the button associated with the
      * pressed key.
-     * 
+     *
      * @param e {qx.event.type.KeySequence} Key event object
      */
     _onKeyDown : function(e)
@@ -249,22 +249,22 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       if (!button) {
         return;
       }
-      
-      button.press();      
-      
+
+      button.press();
+
       if (this._pressedButton && this._pressedButton !== button) {
         this._pressedButton.release();
-      }      
+      }
       this._pressedButton = button;
-      
+
       e.stop();
     },
-    
-    
+
+
     /**
      * Key up event handler. Visually releases the button associated with the
      * released key.
-     * 
+     *
      * @param e {qx.event.type.KeySequence} Key event object
      */
     _onKeyUp : function(e)
@@ -273,30 +273,30 @@ qx.Class.define("showcase.page.theme.calc.view.Calculator",
       if (!button) {
         return;
       }
-      
+
       button.release();
       e.stop();
     },
-    
-    
+
+
     /**
      * Key press event handler. Executes the button associated with the pressed
      * key.
-     * 
+     *
      * @param e {qx.event.type.KeySequence} Key event object
-     */    
+     */
     _onKeyPress : function(e)
     {
       var button = this._keyIdentifier[e.getKeyIdentifier()];
       if (!button) {
         return;
       }
-      
+
       button.execute();
       e.stop();
-    }    
+    }
   },
-  
+
   destruct : function()
   {
     this._disposeMap("_buttons");

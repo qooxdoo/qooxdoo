@@ -143,7 +143,7 @@ qx.Class.define("qx.test.event.GlobalError",
     {
       // reset the handler
       this.errorHandler.setErrorHandler(null);
-      
+
       var wasHandled = false;
       var handler = function(ex) { this.resume(function()
       {
@@ -154,7 +154,7 @@ qx.Class.define("qx.test.event.GlobalError",
         this.assertString(ex.getUri());
         this.assertInteger(ex.getLineNumber());
 
-        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());        
+        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
       }, this); }
 
       this.errorHandler.setErrorHandler(handler, this);
@@ -185,13 +185,13 @@ qx.Class.define("qx.test.event.GlobalError",
 
       this.wait(500);
     },
-    
-    
+
+
     testOnWindowErrorWrapped : function()
     {
       // reset error handler on startup
       this.errorHandler.setErrorHandler(null);
-            
+
       var wasHandled = false;
       var wasNativeHandled = false;
 
@@ -201,7 +201,7 @@ qx.Class.define("qx.test.event.GlobalError",
         wasNativeHandled = true;
         self.assertEquals("Doofer Fehler", ex.toString());
       }
-      
+
       var handler = function(ex) { this.resume(function()
       {
         wasHandled = true;
@@ -212,7 +212,7 @@ qx.Class.define("qx.test.event.GlobalError",
         this.assertString(ex.getUri());
         this.assertInteger(ex.getLineNumber());
 
-        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());        
+        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
       }, this); }
 
       this.errorHandler.setErrorHandler(handler, this);
@@ -243,7 +243,7 @@ qx.Class.define("qx.test.event.GlobalError",
 
       this.wait(500);
     }
-        
+
 
     // timer setTimeout/setInterval - OK
     // addNativeListener - OK

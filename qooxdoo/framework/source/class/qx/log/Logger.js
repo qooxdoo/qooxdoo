@@ -347,25 +347,25 @@ qx.Class.define("qx.log.Logger",
      * Prints a deprecation waring and a stacktrace when a subclass overrides
      * the passed method name. The deprecation is only printed if the setting
      * <code>qx.debug</code> is set to <code>on</code>.
-     * 
-     * 
+     *
+     *
      * @param object {qx.core.Object} Instance to check for overriding.
      * @param baseclass {Class} The baseclass as starting point.
      * @param methodName {String} The method name which is deprecated for overriding.
-     * @param msg {String|?} Optional message to be printed. 
+     * @param msg {String|?} Optional message to be printed.
      */
-    deprecateMethodOverriding : function(object, baseclass, methodName, msg) 
+    deprecateMethodOverriding : function(object, baseclass, methodName, msg)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var clazz = object.constructor;
-        
+
         while(clazz.classname !== baseclass.classname)
         {
           if (clazz.prototype.hasOwnProperty(methodName))
           {
             this.warn(
-              "The method '" + qx.lang.Function.getName(object[methodName]) + 
+              "The method '" + qx.lang.Function.getName(object[methodName]) +
               "' overrides a deprecated method: " +
               (msg || "Please consult the API documentation for alternatives.")
             );
@@ -654,15 +654,15 @@ qx.Class.define("qx.log.Logger",
       };
     }
   },
-  
-  
+
+
   defer : function(statics)
   {
     var logs = qx.Bootstrap.$$logs;
     for (var i=0; i<logs.length; i++) {
       this.__log(logs[i][0], logs[i][1]);
     }
-    
+
     qx.Bootstrap.debug = statics.debug;
     qx.Bootstrap.info = statics.info;
     qx.Bootstrap.warn = statics.warn;

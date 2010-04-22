@@ -77,11 +77,11 @@ qx.Class.define("demobrowser.demo.bom.Selection",
       var setSelInputButton = qx.bom.Input.create("button", { value : "setSelectionInput", style : "margin-right: 8px"});
       qx.bom.Element.addListener(setSelInputButton, "click", this._setSelection, this._input);
       qx.dom.Element.insertEnd(setSelInputButton, inputContainer);
-      
+
       var getStartInputButton = qx.bom.Input.create("button", { value : "getStart", style : "margin-right: 8px"});
       qx.bom.Element.addListener(getStartInputButton, "click", this._getStart, this._input);
       qx.dom.Element.insertEnd(getStartInputButton, inputContainer);
-      
+
       var getEndInputButton = qx.bom.Input.create("button", { value : "getEnd", style : "margin-right: 8px"});
       qx.bom.Element.addListener(getEndInputButton, "click", this._getEnd, this._input);
       qx.dom.Element.insertEnd(getEndInputButton, inputContainer);
@@ -101,11 +101,11 @@ qx.Class.define("demobrowser.demo.bom.Selection",
       var setSelTextAreaButton = qx.bom.Input.create("button", { value : "setSelectionTextarea", style : "margin-right: 8px"});
       qx.bom.Element.addListener(setSelTextAreaButton, "click", this._setSelection, this._textArea);
       qx.dom.Element.insertEnd(setSelTextAreaButton, areaContainer);
-      
+
       var getStartTextAreaButton = qx.bom.Input.create("button", { value : "getStart", style : "margin-right: 8px"});
       qx.bom.Element.addListener(getStartTextAreaButton, "click", this._getStart, this._textArea);
       qx.dom.Element.insertEnd(getStartTextAreaButton, areaContainer);
-      
+
       var getEndTextAreaButton = qx.bom.Input.create("button", { value : "getEnd", style : "margin-right: 8px"});
       qx.bom.Element.addListener(getEndTextAreaButton, "click", this._getEnd, this._textArea);
       qx.dom.Element.insertEnd(getEndTextAreaButton, areaContainer);
@@ -138,11 +138,11 @@ qx.Class.define("demobrowser.demo.bom.Selection",
                                                      "<br/>" +
                                                      qx.bom.Selection.getLength(this);
     },
-    
+
     _getStart : function(e) {
       document.getElementById("results").innerHTML = qx.bom.Selection.getStart(this);
     },
-    
+
     _getEnd : function(e) {
       document.getElementById("results").innerHTML = qx.bom.Selection.getEnd(this);
     },

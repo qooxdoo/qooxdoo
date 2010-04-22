@@ -24,7 +24,7 @@
  *
  * The Scroller wraps a {@link Pane} and provides scroll bars to interactively
  * scroll the pane's content.
- * 
+ *
  * @childControl pane {qx.ui.virtual.core.Pane} virtual pane
  */
 qx.Class.define("qx.ui.virtual.core.Scroller",

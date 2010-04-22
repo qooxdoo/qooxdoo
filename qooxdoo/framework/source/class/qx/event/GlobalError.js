@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
         if (callback && window.onerror) {
           var wrappedHandler = qx.Bootstrap.bind(this.__onErrorWindow, this);
           if (this.__originalOnError == null) {
-            this.__originalOnError = window.onerror; 
+            this.__originalOnError = window.onerror;
           }
           var self = this;
           window.onerror = function(e) {
@@ -57,12 +57,12 @@ qx.Bootstrap.define("qx.event.GlobalError",
             wrappedHandler(e);
           };
         }
-        
+
         if (callback && !window.onerror) {
           window.onerror = qx.Bootstrap.bind(this.__onErrorWindow, this);
         }
-        
-        // reset 
+
+        // reset
         if (this.__callback == null) {
           if (this.__originalOnError != null) {
             window.onerror = this.__originalOnError;

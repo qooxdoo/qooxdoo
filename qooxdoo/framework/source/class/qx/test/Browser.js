@@ -16,23 +16,23 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.Browser", 
+qx.Class.define("qx.test.Browser",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
-    testForIn : function() 
+    testForIn : function()
     {
       var map = {};
-      
+
       map["234"] = 234;
       map["123"] = 123;
-      map["345"] = 345;            
-      
+      map["345"] = 345;
+
       var order = ["234", "123", "345"];
 
-      // google chrome      
+      // google chrome
       if (qx.bom.client.Browser.NAME == "chrome") {
         var i = 0;
         // is in a sorted order
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.Browser",
           i++;
         }
       }
-      
+
       // default browsers
       else {
         var i = 0;

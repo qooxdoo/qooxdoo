@@ -27,34 +27,34 @@
  * Processes the incoming log entry and displays it using the PhoneGap
  * logging capabilities.
  */
-qx.Class.define("qx.log.appender.PhoneGap", 
+qx.Class.define("qx.log.appender.PhoneGap",
 {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
-	
+
   statics :
   {
     /**
      * Processes a single log entry
      * @param entry {Map} The entry to process
-     * 
+     *
      * @lint ignoreUndefined(debug)
      */
-		process : function(entry)
-		{
-			var args = qx.log.appender.Util.toText(entry);
-			var level = entry.level;
-			if (level == "warn") {
-				debug.warn(args);
-			} else if (level == "error") {
-				debug.error(args);
-			} else {
-				debug.log(args);
-			}
-		}
+    process : function(entry)
+    {
+      var args = qx.log.appender.Util.toText(entry);
+      var level = entry.level;
+      if (level == "warn") {
+        debug.warn(args);
+      } else if (level == "error") {
+        debug.error(args);
+      } else {
+        debug.log(args);
+      }
+    }
   },
 
 
@@ -66,17 +66,17 @@ qx.Class.define("qx.log.appender.PhoneGap",
   *****************************************************************************
   */
 
-  defer : function(statics) 
-	{
-		function register()
-		{
-			if (window.debug) {
-				qx.log.Logger.register(statics);
-			} else {
-				window.setTimeout(register, 200);
-			}
-		}
-		
-		register();
+  defer : function(statics)
+  {
+    function register()
+    {
+      if (window.debug) {
+        qx.log.Logger.register(statics);
+      } else {
+        window.setTimeout(register, 200);
+      }
+    }
+
+    register();
   }
 });

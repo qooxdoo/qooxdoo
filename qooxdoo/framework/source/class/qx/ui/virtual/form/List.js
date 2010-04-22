@@ -23,7 +23,7 @@
  * This widget can either use HTML or widget cell renderer.
  *
  * EXPERIMENTAL!
- * 
+ *
  * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
  * @childControl grid-lines {qx.ui.virtual.layer.GridLines} show the grid lines
  */

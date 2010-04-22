@@ -27,7 +27,7 @@ qx.Class.define("inspector.objects2.Controller",
 
   /**
    * Creates the controller with the view.
-   * 
+   *
    * @param model {inspector.objects2.Model} the model for the view.
    */
   construct : function(model)
@@ -93,14 +93,14 @@ qx.Class.define("inspector.objects2.Controller",
 
     /**
      * {Boolean} if the value is set to <code>true</code> the controller ignore
-     *  a inspected object change from the view. In this case the model is 
+     *  a inspected object change from the view. In this case the model is
      *  not updated.
      */
     __ignoreInpectObject : false,
 
     /**
      * Returns the controlled view.
-     * 
+     *
      * @return {inspector.objects2.View} returns the controlled view instance.
      */
     getView : function() {
@@ -108,7 +108,7 @@ qx.Class.define("inspector.objects2.Controller",
     },
 
     /**
-     * Reload the current view. Updated the hash code and the count presentation 
+     * Reload the current view. Updated the hash code and the count presentation
      * form the view.
      */
     reload : function() {
@@ -144,9 +144,9 @@ qx.Class.define("inspector.objects2.Controller",
     },
 
     /**
-     * Set the passed filter to the model. The model shows only the objects 
+     * Set the passed filter to the model. The model shows only the objects
      * which match to the passed filter value.
-     * 
+     *
      * @param filter {String} The filter value for the model.
      */
     setFilter : function(filter) {
@@ -170,7 +170,7 @@ qx.Class.define("inspector.objects2.Controller",
      * Sets the inspected object. If the passed value is not <code>null</code>
      * the object with the passed hash code is set to the model. Otherwise
      * the model is not updated.
-     * 
+     *
      * @param hashCode {String} hash code form the new object, which should set
      *   as inspected.
      */
@@ -210,7 +210,7 @@ qx.Class.define("inspector.objects2.Controller",
 
     /**
      * Event listener from the "changeInspected" event form the model.
-     * 
+     *
      * @param event {qx.event.type.Data} the event from the model.
      */
     __onChangeInspected : function(event)
@@ -221,7 +221,7 @@ qx.Class.define("inspector.objects2.Controller",
 
     /**
      * Event listener from the "changeObjects" event form the model.
-     * 
+     *
      * @param event {qx.event.type.Event} the event from the model.
      */
     __onChangeObjects : function(event) {
@@ -231,7 +231,7 @@ qx.Class.define("inspector.objects2.Controller",
     /**
      * Returns the table model for the hash code presentation. If no model exists, a
      * new instance will be created.
-     * 
+     *
      * @return {inspector.objects2.table.HashModel} the model for the hash code representation.
      */
     __getTableHashModel : function() {
@@ -244,7 +244,7 @@ qx.Class.define("inspector.objects2.Controller",
     /**
      * Returns the table model for the count presentation. If no model exists, a
      * new instance will be created.
-     * 
+     *
      * @return {inspector.objects2.CountModel} the model for the count representation.
      */
     __getTableCountModel : function() {
@@ -268,7 +268,7 @@ qx.Class.define("inspector.objects2.Controller",
     }
 
     this.__view.destroy();
-    
+
     this.__view = this.__model = this.__tableHashModel = this.__timerId
       this.__tableCountModel = this.__timer = this.__ignoreInpectObject = null;
   }

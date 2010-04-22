@@ -24,13 +24,13 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.tree.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -50,30 +50,30 @@ qx.Class.define("showcase.page.tree.Page",
       )
     });
   },
-  
-  
+
+
   members :
   {
     __descriptionText : "The two tree views display some hierarchical data " +
     "including folders, icons and labels. The tree in the right window has " +
     "some additional infomation attached to each item.",
-      
+
     __tryThis : {
       "Expand" : "Try expanding some folders by using the arrow icon or double clicking.",
       "Resize" : "Resize the window to make the tree scrollbars appear.",
       "Selection" : "Select multiple items, e.g. by holding the Shift key."
     },
-    
+
     __features : {
       "Configurable" : "Each tree item has a configurable label and icon.",
       "Scrolling" : "Tree displays scrollbars if necessary.",
       "Multi Columns" : "Tree folders can display additional information in separate columns."
     },
-    
+
     __manual : {
       "widget/tree": "The Tree Widget"
-    },    
-      
+    },
+
     __demos : {
       "#widget~Tree.html" : "Configurable Tree",
       "#widget~Tree_Columns.html" : "Multi Column Tree",
@@ -84,6 +84,6 @@ qx.Class.define("showcase.page.tree.Page",
 
     __api : {
       "#qx.ui.tree" : "The tree namespace"
-    }  
-  }  
+    }
+  }
 });

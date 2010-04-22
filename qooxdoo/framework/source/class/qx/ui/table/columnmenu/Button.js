@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
       }
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

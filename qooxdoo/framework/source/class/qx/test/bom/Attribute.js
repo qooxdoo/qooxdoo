@@ -30,7 +30,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._el = div;
       document.body.appendChild(div);
-      
+
       var input = document.createElement("input");
       this._input = input;
       document.body.appendChild(input);
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._el, "className", "vanillebaer");
       this.assertEquals("vanillebaer", this._el["className"]);
-      
+
       Attribute.set(this._el, "selected", true);
       this.assertEquals("selected", this._el.getAttribute("selected"));
     },
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.bom.Attribute",
     testGetAttribute : function()
     {
       var Attribute = qx.bom.element.Attribute;
-      
+
       this.assertNull(Attribute.get(this._input, "maxLength"));
       this.assertFalse(Attribute.get(this._checkBox, "checked"));
       this.assertNull(Attribute.get(this._el, "className"));
@@ -80,9 +80,9 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._checkBox.setAttribute("checked", true);
       this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && 
-          (qx.bom.client.Engine.VERSION <= 7 || 
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+          (qx.bom.client.Engine.VERSION <= 7 ||
            (qx.bom.client.Engine.VERSION == 8 && qx.bom.client.Engine.DOCUMENT_MODE == 7))) {
         this._checkBox.setAttribute("checked", false);
       } else {
@@ -101,13 +101,13 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._checkBox["tabIndex"] = 0;
       this.assertNull(Attribute.get(this._checkBox, "tabIndex"));
-      
+
       this._checkBox["tabIndex"] = -1;
       this.assertEquals(-1, Attribute.get(this._checkBox, "tabIndex"));
 
       this._checkBox["readOnly"] = true;
       this.assertTrue(Attribute.get(this._checkBox, "readonly"));
-      
+
       this._checkBox["value"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._checkBox, "value"));
     },
@@ -118,13 +118,13 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._input, "maxLength", 10);
       Attribute.set(this._input, "maxLength", null);
-      
+
       var maxLengthValue = qx.core.Variant.select("qx.client", {
                             "mshtml": 2147483647,
                             "webkit": 524288,
                             "default": -1
                            });
-      
+
       this.assertEquals(maxLengthValue, this._input["maxLength"]);
       this.assertNull(Attribute.get(this._input, "maxLength"));
 
@@ -148,11 +148,11 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._checkBox, "disabled", true);
       Attribute.reset(this._checkBox, "disabled");
       this.assertFalse(Attribute.get(this._checkBox, "disabled"));
-      
+
       Attribute.set(this._checkBox, "multiple", true);
       Attribute.reset(this._checkBox, "multiple");
       this.assertFalse(Attribute.get(this._checkBox, "multiple"));
-      
+
       Attribute.set(this._el, "innerHTML", "<b>foo</b>");
       Attribute.reset(this._el, "innerHTML");
       this.assertNull(Attribute.get(this._el, "innerHTML"));
@@ -164,7 +164,7 @@ qx.Class.define("qx.test.bom.Attribute",
         Attribute.set(this._el, "tabIndex", 10);
         Attribute.reset(this._el, "tabIndex");
         this.assertNull(Attribute.get(this._el, "tabIndex"));
-  
+
         Attribute.set(this._input, "tabIndex", 20);
         Attribute.reset(this._input, "tabIndex");
         this.assertNull(Attribute.get(this._input, "tabIndex"));
@@ -173,11 +173,11 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._checkBox, "checked", true);
       Attribute.reset(this._checkBox, "checked");
       this.assertFalse(Attribute.get(this._checkBox, "checked"));
-      
+
       Attribute.set(this._checkBox, "readOnly", true);
       Attribute.reset(this._checkBox, "readonly");
       this.assertFalse(Attribute.get(this._checkBox, "readonly"));
-      
+
       Attribute.set(this._input, "value", "foo");
       Attribute.reset(this._input, "value");
       this.assertNull(Attribute.get(this._input, "value"));

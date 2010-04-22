@@ -19,10 +19,10 @@
 
 /**
  * Calculator button
- * 
+ *
  * This class stores all information needed for a calculator button
  */
-qx.Class.define("showcase.page.theme.calc.view.Button", 
+qx.Class.define("showcase.page.theme.calc.view.Button",
 {
   extend : qx.ui.form.Button,
 
@@ -45,7 +45,7 @@ qx.Class.define("showcase.page.theme.calc.view.Button",
       focusable : false,
       keepActive : true,
       allowShrinkX : false,
-      allowShrinkY : false   
+      allowShrinkY : false
     });
 
     this.setLayoutProperties({
@@ -54,10 +54,10 @@ qx.Class.define("showcase.page.theme.calc.view.Button",
       rowSpan: rowSpan || 1,
       colSpan: colSpan ||1
     });
-    
+
     this._keyIdentifier = keyIdentifier || null;
   },
-  
+
   properties :
   {
     appearance :
@@ -71,7 +71,7 @@ qx.Class.define("showcase.page.theme.calc.view.Button",
   {
     /**
      * Get the key identifier associated with this button
-     * 
+     *
      * @return {String} the key associated with this button
      */
     getKeyIdentifier : function() {

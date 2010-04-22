@@ -21,8 +21,8 @@
 /**
  * A split panes divides a area into two panes. The ratio between the two
  * panes is configurable by the user using the splitter.
- * 
- * @childControl slider {qx.ui.splitpane.Slider} shown during resizing the splitpane 
+ *
+ * @childControl slider {qx.ui.splitpane.Slider} shown during resizing the splitpane
  * @childControl splitter {qx.ui.splitpane.Splitter} splitter to resize the splitpane
  */
 qx.Class.define("qx.ui.splitpane.Pane",

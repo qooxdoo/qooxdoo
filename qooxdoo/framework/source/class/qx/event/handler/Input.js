@@ -72,7 +72,7 @@ qx.Class.define("qx.event.handler.Input",
     this._onChangeValueWrapper = qx.lang.Function.listener(this._onChangeValue, this);
     this._onInputWrapper = qx.lang.Function.listener(this._onInput, this);
     this._onPropertyWrapper = qx.lang.Function.listener(this._onProperty, this);
-    
+
     // special event handler for opera
     if (qx.core.Variant.isSet("qx.client", "opera")) {
       this._onKeyDownWrapper = qx.lang.Function.listener(this._onKeyDown, this);
@@ -126,11 +126,11 @@ qx.Class.define("qx.event.handler.Input",
     // special handling for opera
     __enter : false,
     __onInputTimeoutId : null,
-    
+
     // stores the former seet value for opera and IE
     __oldValue : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -197,7 +197,7 @@ qx.Class.define("qx.event.handler.Input",
           } else {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
-          
+
           // special enter bugfix for opera
           if (qx.core.Variant.isSet("qx.client", "opera")) {
             if (target.type === "text" || target.type === "password") {
@@ -205,7 +205,7 @@ qx.Class.define("qx.event.handler.Input",
               qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
             }
           }
-         
+
         }
       }
     }),
@@ -227,15 +227,15 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
-      
+
       "opera" : function(target) {
         // register key events for filtering "enter" on input events
         qx.bom.Event.addNativeListener(target, "keyup", this._onKeyUpWrapper);
         qx.bom.Event.addNativeListener(target, "keydown", this._onKeyDownWrapper);
         // register an blur event for preventing the input event on blur
         qx.bom.Event.addNativeListener(target, "blur", this._onBlurWrapper);
-        
-        qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);        
+
+        qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
 
       "default" : function(target) {
@@ -264,7 +264,7 @@ qx.Class.define("qx.event.handler.Input",
           if (elementType !== "checkbox" && elementType !== "radio") {
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
-          
+
           if (elementType === "text" || elementType === "password") {
             qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
           }
@@ -294,7 +294,7 @@ qx.Class.define("qx.event.handler.Input",
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
         }
-        
+
         if (qx.core.Variant.isSet("qx.client", "opera")) {
           if (target.type === "text" || target.type === "password") {
             qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
@@ -320,17 +320,17 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
       },
-      
+
       "opera" : function(target) {
         // unregister key events for filtering "enter" on input events
         qx.bom.Event.removeNativeListener(target, "keyup", this._onKeyUpWrapper);
         qx.bom.Event.removeNativeListener(target, "keydown", this._onKeyDownWrapper);
         // unregister the blur event (needed for preventing input event on blur)
         qx.bom.Event.removeNativeListener(target, "blur", this._onBlurWrapper);
-        
-        
+
+
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
-      },      
+      },
 
       "default" : function(target) {
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
@@ -348,11 +348,11 @@ qx.Class.define("qx.event.handler.Input",
      *
      * FF and Safari fire a "change" event if the user presses the enter key.
      * IE and Opera fire the event only if the focus is changed.
-     * 
+     *
      * @signature function(e, target)
      * @param e {Event} DOM event object
      * @param target {Element} The event target
-     */    
+     */
     _onKeyPress : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(e, target)
@@ -373,14 +373,14 @@ qx.Class.define("qx.event.handler.Input",
     ---------------------------------------------------------------------------
       FOR OPERA ONLY LISTENER (KEY AND BLUR)
     ---------------------------------------------------------------------------
-    */ 
+    */
     /**
-     * Key event listener for opera which recognizes if the enter key has been 
+     * Key event listener for opera which recognizes if the enter key has been
      * pressed.
-     * 
+     *
      * @signature function(e)
      * @param e {Event} DOM event object
-     */    
+     */
     _onKeyDown : qx.core.Variant.select("qx.client",
     {
       "opera" : function(e)
@@ -393,18 +393,18 @@ qx.Class.define("qx.event.handler.Input",
 
       "default" : null
     }),
-    
-    
+
+
     /**
-     * Key event listener for opera which recognizes if the enter key has been 
+     * Key event listener for opera which recognizes if the enter key has been
      * pressed.
-     * 
+     *
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onKeyUp : qx.core.Variant.select("qx.client", 
+    _onKeyUp : qx.core.Variant.select("qx.client",
     {
-      "opera" : function(e) 
+      "opera" : function(e)
       {
         // enter is pressed
         if (e.keyCode === 13) {
@@ -414,17 +414,17 @@ qx.Class.define("qx.event.handler.Input",
 
       "default" : null
     }),
-    
+
 
     /**
      * Blur event listener for opera cancles the timeout of the input event.
-     * 
+     *
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onBlur : qx.core.Variant.select("qx.client", 
+    _onBlur : qx.core.Variant.select("qx.client",
     {
-      "opera" : function(e) 
+      "opera" : function(e)
       {
         if (this.__onInputTimeoutId) {
           window.clearTimeout(this.__onInputTimeoutId);
@@ -452,7 +452,7 @@ qx.Class.define("qx.event.handler.Input",
       var target = e.target;
       // check if the enter key has been pressed (opera only)
       if (!this.__enter) {
-        // opera needs a special treatment for input events because they are 
+        // opera needs a special treatment for input events because they are
         // also fired on blur
         if (qx.core.Variant.isSet("qx.client", "opera")) {
           this.__onInputTimeoutId = window.setTimeout(function() {

@@ -761,8 +761,8 @@ qx.Class.define("apiviewer.dao.Class",
     }
 
   },
-  
-  
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
@@ -776,5 +776,5 @@ qx.Class.define("apiviewer.dao.Class",
       this._members = this._package = null;
     this._disposeObjects("_constructor");
   }
-  
+
 });

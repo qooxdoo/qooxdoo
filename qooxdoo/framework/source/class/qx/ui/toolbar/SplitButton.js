@@ -21,7 +21,7 @@
 /**
  * A button which acts as a normal button and shows a menu on one
  * of the sides to open something like a history list.
- * 
+ *
  * @childControl button {qx.ui.toolbar.Button} button to interact with
  * @childControl arrow {qx.ui.toolbar.MenuButton} menu button to show the menu connected to the split button
  */

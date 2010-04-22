@@ -44,7 +44,7 @@ qx.Class.define("qx.html.Blocker",
       opacity : opacity || 0,
       backgroundColor : backgroundColor
     };
-    
+
     // IE needs some extra love here to convince it to block events.
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {

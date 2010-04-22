@@ -51,10 +51,10 @@ qx.Class.define("qx.bom.element.Class",
   {
     /** {RegExp} Regular expressions to split class names */
     __splitter : /\s+/g,
-  
+
     /** {RegExp} String trim regular expression. */
-    __trim : /^\s+|\s+$/g,  
-  
+    __trim : /^\s+|\s+$/g,
+
     /**
      * Adds a className to the given element
      * If successfully added the given className will be returned
@@ -71,13 +71,13 @@ qx.Class.define("qx.bom.element.Class",
         element.classList.add(name)
         return name;
       },
-        
+
       "default" : function(element, name)
       {
         if (!this.has(element, name)) {
           element.className += (element.className ? " " : "") + name;
         }
-  
+
         return name;
       }
     }),
@@ -85,7 +85,7 @@ qx.Class.define("qx.bom.element.Class",
 
     /**
      * Adds multiple classes to the given element
-     * 
+     *
      * @signature function(element, classes)
      * @param element {Element} DOM element to modify
      * @param classes {String[]} List of classes to add.
@@ -100,12 +100,12 @@ qx.Class.define("qx.bom.element.Class",
         }
         return element.className;
       },
-        
+
       "default" : function(element, classes)
       {
         var keys = {};
         var result;
-       
+
         var old = element.className;
         if (old)
         {
@@ -113,8 +113,8 @@ qx.Class.define("qx.bom.element.Class",
           for (var i=0, l=result.length; i<l; i++) {
             keys[result[i]] = true;
           }
-  
-          for (var i=0, l=classes.length; i<l; i++) 
+
+          for (var i=0, l=classes.length; i<l; i++)
           {
             if (!keys[classes[i]]) {
               result.push(classes[i]);
@@ -123,8 +123,8 @@ qx.Class.define("qx.bom.element.Class",
         }
         else {
           result = classes;
-        }    
-  
+        }
+
         return element.className = result.join(" ");
       }
     }),
@@ -154,7 +154,7 @@ qx.Class.define("qx.bom.element.Class",
       "native" : function(element, name) {
         return element.classList.contains(name);
       },
-    
+
       "default" : function(element, name)
       {
         var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
@@ -173,40 +173,40 @@ qx.Class.define("qx.bom.element.Class",
      */
     remove : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(element, name) 
+      "native" : function(element, name)
       {
         element.classList.remove(name);
         return name;
       },
-    
+
       "default" : function(element, name)
       {
         var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
         element.className = element.className.replace(regexp, "$2");
-  
+
         return name;
       }
     }),
-    
-    
+
+
     /**
      * Removes multiple classes from the given element
-     * 
+     *
      * @signature function(element, classes)
      * @param element {Element} DOM element to modify
      * @param classes {String[]} List of classes to remove.
      * @return {String} The resulting class name which was applied
-     */    
+     */
     removeClasses : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(element, classes) 
+      "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
           element.classList.remove(classes[i])
         }
         return element.className;
       },
-    
+
       "default" : function(element, classes)
       {
         var reg = new RegExp("\\b" + classes.join("\\b|\\b") + "\\b", "g");
@@ -233,7 +233,7 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Toggles a className of the given element
      *
-     * @signature function(element, name, toggle) 
+     * @signature function(element, name, toggle)
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to toggle
      * @param toggle {Boolean?null} Whether to switch class on/off. Without
@@ -242,7 +242,7 @@ qx.Class.define("qx.bom.element.Class",
      */
     toggle : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
     {
-      "native" : function(element, name, toggle) 
+      "native" : function(element, name, toggle)
       {
         if (toggle === undefined) {
           element.classList.toggle(name);
@@ -251,13 +251,13 @@ qx.Class.define("qx.bom.element.Class",
         }
         return name;
       },
-    
+
       "default" : function(element, name, toggle)
       {
         if (toggle == null) {
           toggle = !this.has(element, name);
         }
-  
+
         toggle ? this.add(element, name) : this.remove(element, name);
         return name;
       }

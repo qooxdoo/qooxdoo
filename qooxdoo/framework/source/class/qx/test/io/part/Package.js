@@ -31,18 +31,18 @@ qx.Class.define("qx.test.io.part.Package",
   members :
   {
     __dummyLoader : null,
-    
-    
+
+
     setUp : function() {
       qx.test.PART_FILES = [];
-      this.__dummyLoader = new qx.test.io.part.MockLoader();      
+      this.__dummyLoader = new qx.test.io.part.MockLoader();
     },
-    
-    
+
+
     createPackage : function(urls, hash, loaded) {
       return new qx.io.part.Package(urls, hash, loaded);
     },
-    
+
 
     "test: load a package with one JS file" : function()
     {
@@ -58,11 +58,11 @@ qx.Class.define("qx.test.io.part.Package",
       }, this)}, this);
 
       this.assertEquals("loading", pkg.getReadyState());
-      
+
       this.wait();
     },
-    
-    
+
+
     "test: load several files" : function()
     {
       var urls = [
@@ -78,18 +78,18 @@ qx.Class.define("qx.test.io.part.Package",
           qx.test.PART_FILES
         );
       }, this)}, this);
-      
+
       this.wait();
     },
-    
-    
+
+
     "test: delay the first file - test load order" : function()
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       var urls = [
         this.getUrl("qx/test/part/delay.php") + "?sleep=0.3&file=file1.js",
         this.getUrl("qx/test/part/file2.js"),
@@ -104,18 +104,18 @@ qx.Class.define("qx.test.io.part.Package",
           qx.test.PART_FILES
         );
       }, this)}, this);
-      
+
       this.wait();
     },
-    
-    
+
+
     "test: if one of the files fails to load, no load event should be fired" : function()
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
-      
+
       // test don't work in IE, Safari 3 and Opera
       if ( qx.bom.client.Engine.OPERA ||
            qx.bom.client.Engine.MSHTML ||
@@ -123,7 +123,7 @@ qx.Class.define("qx.test.io.part.Package",
        {
         return;
       }
-      
+
       var urls = [
         this.getUrl("qx/test/part/file1.js"),
         this.getUrl("qx/test/xmlhttp/404.php"),
@@ -135,10 +135,10 @@ qx.Class.define("qx.test.io.part.Package",
         this.assertEquals("error", pkg.getReadyState());
       }, this)}, this);
 
-      this.wait();      
+      this.wait();
     },
-    
-    
+
+
     "test: loading a closure package with load() should execute the closure" : function()
     {
       var urls = [
@@ -146,13 +146,13 @@ qx.Class.define("qx.test.io.part.Package",
       ];
 
       var pkg = this.createPackage(urls, "file1-closure", false);
-      
+
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
       loader.addToPackage(pkg);
-      
-      
+
+
       pkg.load(function() { this.resume(function()
       {
         this.assertJsonEquals(
@@ -160,11 +160,11 @@ qx.Class.define("qx.test.io.part.Package",
           qx.test.PART_FILES
         );
       }, this)}, this);
-      
-      this.wait();    
+
+      this.wait();
     },
-    
-    
+
+
     "test: loading a closure package with loadClosure() should not execute the closure" : function()
     {
       var urls = [
@@ -172,16 +172,16 @@ qx.Class.define("qx.test.io.part.Package",
       ];
 
       var pkg = this.createPackage(urls, "file1-closure", false);
-      
+
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
       loader.addToPackage(pkg);
-      
-      
+
+
       pkg.loadClosure(function() { this.resume(function()
       {
-        this.assertEquals("cached", pkg.getReadyState()); 
+        this.assertEquals("cached", pkg.getReadyState());
         this.assertJsonEquals([], qx.test.PART_FILES);
 
         pkg.execute();
@@ -190,15 +190,15 @@ qx.Class.define("qx.test.io.part.Package",
           qx.test.PART_FILES
         );
       }, this)}, this);
-      
-      this.wait();    
+
+      this.wait();
     },
-    
-    
+
+
     "test: loading a non existing file with loadClosure() should timeout" : function()
     {
       var pkg = this.createPackage(["___foo.js"], "file1-closure", false);
-      
+
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
 
@@ -206,18 +206,18 @@ qx.Class.define("qx.test.io.part.Package",
 
       var oldTimeout = qx.Part.TIMEOUT;
       qx.Part.TIMEOUT = 300;
-      
-      pkg.loadClosure(function() { 
+
+      pkg.loadClosure(function() {
         this.resume(function()
         {
-          this.assertEquals("error", pkg.getReadyState()); 
+          this.assertEquals("error", pkg.getReadyState());
           this.assertJsonEquals([], qx.test.PART_FILES);
         }, this)
       }, this);
-      
+
       qx.Part.TIMEOUT = oldTimeout;
-      
-      this.wait(); 
+
+      this.wait();
     }
   }
 });

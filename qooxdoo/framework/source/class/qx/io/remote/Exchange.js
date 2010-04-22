@@ -843,15 +843,15 @@ qx.Class.define("qx.io.remote.Exchange",
         value.setFormFields(vRequest.getFormFields());
         value.setRequestHeaders(vRequest.getRequestHeaders());
         var data = vRequest.getData();
-        if (data === null) 
+        if (data === null)
         {
           var vParameters = vRequest.getParameters(true);
           var vParametersList = [];
-          
+
           for (var vId in vParameters)
           {
             var paramValue = vParameters[vId];
-            
+
             if (paramValue instanceof Array)
             {
               for (var i=0; i<paramValue.length; i++)
@@ -868,7 +868,7 @@ qx.Class.define("qx.io.remote.Exchange",
                                    encodeURIComponent(paramValue));
             }
           }
-          
+
           if (vParametersList.length > 0)
           {
             value.setData(vParametersList.join("&"));

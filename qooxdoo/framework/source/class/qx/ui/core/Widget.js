@@ -829,7 +829,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (widgetKey != null) {
           return qx.core.ObjectRegistry.fromHashCode(widgetKey);
         }
-      
+
         // Fix for FF, which occasionally breaks (BUG#3525)
         try {
           element = element.parentNode;
@@ -1603,17 +1603,17 @@ qx.Class.define("qx.ui.core.Widget",
         "$$widget": this.toHashCode()
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         attributes.qxType = "container";
         attributes.qxClass = this.classname;
       }
-      
+
       var styles = {
         zIndex: 0,
         position: "absolute"
       };
-      
+
       return new qx.html.Element("div", styles, attributes);
     },
 

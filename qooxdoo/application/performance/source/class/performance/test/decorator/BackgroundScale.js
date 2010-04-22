@@ -17,7 +17,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("performance.test.decorator.BackgroundScale", 
+qx.Class.define("performance.test.decorator.BackgroundScale",
 {
   extend : performance.test.decorator.AbstractDecorator,
 

@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.data.SelectBox",
     main: function()
     {
       this.base(arguments);
-      
+
       // create a dummy model
       var model = new qx.data.Array(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]);
 
@@ -38,35 +38,35 @@ qx.Class.define("demobrowser.demo.data.SelectBox",
       this.getRoot().add(selectBox1, {left: 10, top: 80});
       // connect the selectbox
       var controller1 = new qx.data.controller.List(model, selectBox1);
-      
+
       var selectBox2 = new qx.ui.form.SelectBox();
       this.getRoot().add(selectBox2, {left: 150, top: 80});
       // connect the selectbox
       var controller2 = new qx.data.controller.List(model, selectBox2);
-      
+
       // sync the selection
       controller1.setSelection(controller2.getSelection());
-      
+
       // show the selection in a label
       var selectionLabel = new qx.ui.basic.Label();
       this.getRoot().add(new qx.ui.basic.Label("The selection is: "), {left: 10, top: 110});
       this.getRoot().add(selectionLabel, {left: 100, top: 110});
-      
+
       controller1.bind("selection[0]", selectionLabel, "value");
-    
-      
+
+
       // selection change via textField (read/write)
       var selectionText = new qx.ui.form.TextField("A");
       selectionText.setLiveUpdate(true);
       selectionText.setWidth(150);
       this.getRoot().add(selectionText, {left: 290, top: 80});
-      
+
       // textfield --> selection binding
       selectionText.bind("value", controller1, "selection[0]");
       // selection --> textfield
       controller1.bind("selection[0]", selectionText, "value");
-      
-      
+
+
       // setting the selection without an event but a known value
       var setButton = new qx.ui.form.Button("Set Selection to 'C'");
       setButton.setWidth(150);
@@ -74,8 +74,8 @@ qx.Class.define("demobrowser.demo.data.SelectBox",
       setButton.addListener("execute", function() {
         controller1.getSelection().setItem(0, "C");
       }, this);
-      
-      
+
+
 
       /* ***********************************************
        * DESCRIPTIONS
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.data.SelectBox",
         + "Bound to the same data and share the selection. The label is also bound to the selection."
       );
       this.getRoot().add(syncBoxDescription, {left: 20, top: 10});
-      
+
       // Controls description
       var controlDescription = new qx.ui.basic.Label();
       controlDescription.setRich(true);
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.data.SelectBox",
         "<b>Change Selection</b><br/>"
         + "Type in the textfield or set the selection with the button."
       );
-      this.getRoot().add(controlDescription, {left: 300, top: 10});      
+      this.getRoot().add(controlDescription, {left: 300, top: 10});
     }
   }
 });

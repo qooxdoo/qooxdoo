@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       container.add(this.getSplitButton(), {left: 150, top: 20});
       container.add(this.getMenuBar(), {left: 20, top: 100});
       container.add(this.getList(), {left: 20, top: 200});
-      
+
       this.getRoot().setContextMenu(this.getRootContextMenu());
     },
 
@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     getRootContextMenu : function()
     {
       var menu = new qx.ui.menu.Menu();
-      
+
       var sub = new qx.ui.menu.Menu();
       for (var i=0; i<30; i++) {
         sub.add(new qx.ui.menu.Button("Folder " + (i+1)));
@@ -76,15 +76,15 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.add(new qx.ui.menu.Button("move to", null, null, sub));
 
       menu.add(new qx.ui.menu.Separator());
-      
+
       for (var i=0; i<7; i++) {
         menu.add(new qx.ui.menu.Button("command " + (i+1)));
       }
-      
+
       return menu;
     },
-    
-    
+
+
     debugRadio : function(e) {
       this.debug("Change selection: " + e.getData()[0].getLabel());
     },

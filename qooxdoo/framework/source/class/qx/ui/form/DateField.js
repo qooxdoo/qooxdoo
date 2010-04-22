@@ -32,7 +32,7 @@
  * this.getRoot().add(dateField, {top: 20, left: 20});
  * dateField.setValue(new Date());
  * </pre>
- * 
+ *
  * @childControl list {qx.ui.control.DateChooser} date chooser component
  * @childControl popup {qx.ui.popup.Popup} popup which shows the list control
  */

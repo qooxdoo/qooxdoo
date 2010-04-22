@@ -221,7 +221,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
                 if (qx.core.Variant.isSet("qx.client", "webkit"))
                 {
                   if(iconCode.indexOf("overlay_") !== -1) {
-                    style = "margin-left:18px;";              
+                    style = "margin-left:18px;";
                   }
                 }
               }
@@ -235,7 +235,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           var protocol, host, pathname;
 
           // Opera 10.5 loses the reference to "window"
-          // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3516 for details 
+          // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3516 for details
           if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION > 9)
           {
             protocol = location.protocol;
@@ -259,7 +259,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             fullItemName, '\'); return false;"', ' title="',
             fullItemName, '">', label, '</a></span>'
           ];
-          
+
           return linkHtml.join("");
         }
       }

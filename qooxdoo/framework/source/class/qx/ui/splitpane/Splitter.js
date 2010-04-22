@@ -22,7 +22,7 @@
  * The splitter is the element between the two panes.
  *
  * @internal
- * 
+ *
  * @childControl knob {qx.ui.basic.Image} knob to resize the splitpane
  */
 qx.Class.define("qx.ui.splitpane.Splitter",

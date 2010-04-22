@@ -24,13 +24,13 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.form.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -50,29 +50,29 @@ qx.Class.define("showcase.page.form.Page",
       )
     });
   },
-  
-  
+
+
   members :
   {
     __descriptionText : "This form demo shows the complete set of form " +
     "widgets. The widgets are grouped by type.",
-      
+
     __tryThis : {
       "Selection" : "Open the select box to see the list of selectables.",
       "Text" : "The placeholder disappears once you start to type in a text field.",
       "Buttons" : "Hold the repeat button to see the value increase.",
       "MenuButton" : "Click the \"MenuButton\" to open the menu."
     },
-    
+
     __features : {
       "Widgets" : "Complete set of form widgets.",
       "Keyboard Navigation" : "Try cycling through the widgets by pressing the tab key."
     },
-    
+
     __manual : {
       "ui_form_handling": "Form handling"
-    },    
-      
+    },
+
     __demos : {
       "#ui~FormRenderer.html" : "Default form renderer",
       "#ui~FormRendererCustom.html" : "Custom form renderer",
@@ -89,6 +89,6 @@ qx.Class.define("showcase.page.form.Page",
       "#qx.ui.form" : "The form namespace",
       "#qx.ui.form.renderer" : "Form renderer",
       "#qx.data.controller.Form" : "Form controller for binding"
-    }  
-  }  
+    }
+  }
 });

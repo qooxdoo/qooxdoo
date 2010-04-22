@@ -28,21 +28,21 @@ qx.Class.define("showcase.page.i18n.Content",
 {
   extend : showcase.AbstractContent,
   include : qx.locale.MTranslation,
-  
-  
+
+
   construct : function(page)
   {
     this.base(arguments, page);
     this.setView(this._createView());
   },
-  
 
-  members : 
+
+  members :
   {
     __locales: null,
     __controller : null,
 
-    _createView : function() 
+    _createView : function()
     {
       var layout = new qx.ui.layout.Grid(10, 15);
       layout.setColumnFlex(0, 1);
@@ -50,21 +50,21 @@ qx.Class.define("showcase.page.i18n.Content",
       var container = new qx.ui.container.Composite(layout).set({
         padding: 10
       });
-      
+
       container.add(this.__createButtons(), {row: 0, column:0, colSpan: 2});
       container.add(this.__createControls(), {row: 1, column: 0});
       container.add(this.__createTable(), {row: 1, column: 1});
-      
+
       return container;
     },
-    
-    
+
+
     __createButtons : function()
     {
       var group = new qx.ui.form.RadioButtonGroup(new qx.ui.layout.HBox(10).set({
         alignX: "center"
       }));
-      
+
       var locales = this.__locales = qx.data.marshal.Json.createModel([
         {
           language: "en",
@@ -91,11 +91,11 @@ qx.Class.define("showcase.page.i18n.Content",
           ]
         }
       ]);
-      
+
       for (var i=0; i<locales.getLength(); i++) {
         locales.getItem(i).setSelected(locales.getItem(i).getCountries().getItem(0));
       }
-      
+
       var controller = new qx.data.controller.List(null, group, "language");
       this.__controller = controller;
       controller.setDelegate({
@@ -114,22 +114,22 @@ qx.Class.define("showcase.page.i18n.Content",
       });
       controller.setModel(locales);
       controller.getSelection().push(locales.getItem(0));
-      
+
       this.__controller.bind("selection[0].selected.code", this, "country");
-      
+
       return group;
     },
-    
-    
-    setCountry : function(country) 
+
+
+    setCountry : function(country)
     {
-      if (country) 
+      if (country)
       {
         var language = this.__controller.getSelection().getItem(0).getLanguage();
         qx.locale.Manager.getInstance().setLocale(language + "_" + country);
       }
     },
-    
+
 
     __createControls : function()
     {
@@ -148,12 +148,12 @@ qx.Class.define("showcase.page.i18n.Content",
       var country = new qx.ui.form.SelectBox();
       var controller = new qx.data.controller.List(null, country, "name");
       this.__controller.bind("selection[0].countries", controller, "model");
-      
+
       this.__controller.bind("selection[0].selected", controller, "selection[0]");
-      controller.bind("selection[0]", this.__controller, "selection[0].selected");      
-      
+      controller.bind("selection[0]", this.__controller, "selection[0].selected");
+
       controls.add(country, {row: 0, column: 1});
-      
+
       controls.add(new qx.ui.basic.Label(this.tr("Localized ComboBox:")), {row: 1, column: 0});
 
       var s2 = new qx.ui.form.ComboBox();
@@ -203,11 +203,11 @@ qx.Class.define("showcase.page.i18n.Content",
 
       var w1 = new qx.ui.form.MenuButton(this.tr("Command Menu (keyboard shortcuts)"), null, m1);
       controls.add(w1,{row:4,column:0,colSpan:2});
-      
+
       return controls;
     },
-    
-    
+
+
     __createTable : function()
     {
       var table = new qx.ui.groupbox.GroupBox(this.tr("Locale Information"), "icon/16/actions/edit-find.png").set({
@@ -291,7 +291,7 @@ qx.Class.define("showcase.page.i18n.Content",
       // update info box
       qx.locale.Manager.getInstance().addListener("changeLocale", this.updateLocaleInformation, this);
       this.updateLocaleInformation();
-      
+
       return table;
     }
   }

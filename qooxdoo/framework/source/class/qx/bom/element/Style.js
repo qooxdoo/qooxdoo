@@ -80,7 +80,7 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Detect vendor specific properties.
      */
-    __detectVendorProperties : function() 
+    __detectVendorProperties : function()
     {
       var vendorProperties = [
         "appearance",
@@ -88,12 +88,12 @@ qx.Class.define("qx.bom.element.Style",
         "textOverflow",
         "borderImage"
       ];
-      
+
       var styleNames = {};
 
       var style = document.documentElement.style;
       var prefixes = ['Moz', 'Webkit', 'Khtml', 'O', 'Ms'];
-      for (var i=0,l=vendorProperties.length; i<l; i++) 
+      for (var i=0,l=vendorProperties.length; i<l; i++)
       {
         var propName = vendorProperties[i];
         var key = propName;
@@ -102,9 +102,9 @@ qx.Class.define("qx.bom.element.Style",
           styleNames[key] = propName;
           continue;
         }
-        
+
         propName = qx.lang.String.firstUp(propName);
-        
+
         for (var j=0, pl=prefixes.length; j<pl; j++)
         {
           var prefixed = prefixes[j] + propName;
@@ -113,30 +113,30 @@ qx.Class.define("qx.bom.element.Style",
             styleNames[key] = prefixed;
             break;
           };
-          
+
         }
       }
-      
+
       this.__styleNames = styleNames;
-      
+
       this.__styleNames["userModify"] = qx.core.Variant.select("qx.client", {
         "gecko" : "MozUserModify",
         "webkit" : "WebkitUserModify",
         "default" : "userSelect"
       });
-      
+
       this.__cssNames = {};
       for (var key in styleNames) {
         this.__cssNames[key] = this.__hyphenate(styleNames[key]);
       }
-      
+
       this.__styleNames["float"] = qx.core.Variant.select("qx.client", {
         "mshtml" : "styleFloat",
         "default" : "cssFloat"
       });
     },
-      
-      
+
+
     // Mshtml has proprietary pixel* properties for locations and dimensions
     // which return the pixel value. Used by getComputed() in mshtml variant.
     __mshtmlPixel :
@@ -212,20 +212,20 @@ qx.Class.define("qx.bom.element.Style",
 
       return html.join("");
     },
-    
+
 
     /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
     __hyphens : {},
-    
-    
+
+
     /**
      * Hypenate the given string. Replaces upper case letters with lower case
      * letters prefixed with a hyphen.
-     * 
+     *
      * @param propName {String} A CSS property name
      * @return {String} The hyphenated version of the property name
      */
-    __hyphenate : function(propName) 
+    __hyphenate : function(propName)
     {
       var hyphens = this.__hyphens;
       var prop = hyphens[propName];
@@ -292,7 +292,7 @@ qx.Class.define("qx.bom.element.Style",
 
     /**
      * Checks whether the browser supports the given CSS property.
-     * 
+     *
      * @param propertyName {String} The name of the property
      * @return {Boolean} Whether the property id supported
      */
@@ -304,8 +304,8 @@ qx.Class.define("qx.bom.element.Style",
         propertyName in document.documentElement.style
       );
     },
-    
-    
+
+
     /** {Integer} Computed value of a style property. Compared to the cascaded style,
      * this one also interprets the values e.g. translates <code>em</code> units to
      * <code>px</code>.
@@ -317,7 +317,7 @@ qx.Class.define("qx.bom.element.Style",
     CASCADED_MODE : 2,
 
 
-    /** 
+    /**
      * {Integer} Local value of a style property. Ignores inheritance cascade.
      *   Does not interpret values.
      */
@@ -579,8 +579,8 @@ qx.Class.define("qx.bom.element.Style",
       }
     })
   },
-  
+
   defer : function(statics) {
-    statics.__detectVendorProperties(); 
+    statics.__detectVendorProperties();
   }
 });

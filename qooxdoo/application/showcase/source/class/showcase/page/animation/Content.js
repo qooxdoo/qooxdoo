@@ -20,7 +20,7 @@
 qx.Class.define("showcase.page.animation.Content",
 {
   extend : showcase.AbstractContent,
-  
+
   construct : function(page) {
     this.base(arguments, page);
 
@@ -79,7 +79,7 @@ qx.Class.define("showcase.page.animation.Content",
       this.__hideEffect.start();
     },
 
-    _createView : function() 
+    _createView : function()
     {
       var view = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
@@ -179,7 +179,7 @@ qx.Class.define("showcase.page.animation.Content",
 
       return view;
     }
-    
-    
+
+
   }
 });

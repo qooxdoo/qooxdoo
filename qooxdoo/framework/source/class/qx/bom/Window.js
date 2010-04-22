@@ -77,59 +77,59 @@ qx.Class.define("qx.bom.Window",
      * Opens a native window with the given options.
      *
      * Modal windows can have the following options:
-     * 
+     *
      *   * top
-     *   
+     *
      *   * left
-     *   
+     *
      *   * width
-     *   
+     *
      *   * height
-     *   
+     *
      *   * scrollbars
-     *   
+     *
      *   * resizable
      *
      * Modeless windows have the following options:
-     * 
+     *
      *   * top
-     *   
+     *
      *   * left
-     *   
+     *
      *   * width
-     *   
+     *
      *   * height
-     *   
+     *
      *   * dependent
-     *   
+     *
      *   * resizable
-     *   
+     *
      *   * status
-     *   
+     *
      *   * location
-     *   
+     *
      *   * menubar
-     *   
+     *
      *   * scrollbars
-     *   
+     *
      *   * toolbar
      *
      * Except of dimension and location options all other options are boolean
      * values.
-     * 
+     *
      * *Important infos for native modal windows*
-     * 
+     *
      * If you want to reference the openenr window from within the native modal
-     * window you need to use 
-     * 
+     * window you need to use
+     *
      * <pre class='javascript'>
      * var opener = window.dialogArguments[0];
      * </pre>
-     * 
+     *
      * since a reference to the opener is passed automatically to the modal window.
-     * 
+     *
      * *Passing window arguments*
-     * 
+     *
      * This is only working if the page of the modal window is from the same origin.
      * This is at least true for Firefox browsers.
      *
@@ -139,7 +139,7 @@ qx.Class.define("qx.bom.Window",
      * @param modal {Boolean} Whether the window should be opened modal
      * @param useNativeModalDialog {Boolean} controls if modal windows are opened
      *                                       using the native method or a blocker
-     *                                       should be used to fake modality. 
+     *                                       should be used to fake modality.
      *                                       Default is <b>true</b>
      * @return {win} native window object
      */
@@ -152,7 +152,7 @@ qx.Class.define("qx.bom.Window",
       if (name == null) {
         name = "qxNativeWindow" + new Date().getTime();
       }
-      
+
       if (useNativeModalDialog == null) {
         useNativeModalDialog = true;
       }
@@ -259,18 +259,18 @@ qx.Class.define("qx.bom.Window",
         this.__timer.stop();
       }
     },
-    
-    
+
+
     /**
-     * If a modal window is opened with the option 
-     * 
+     * If a modal window is opened with the option
+     *
      * <pre class='javascript'>
      * useNativeModalWindow = false;
      * </pre>
-     * 
-     * an instance of <b>qx.bom.Blocker</b> is used to fake modality. This method 
+     *
+     * an instance of <b>qx.bom.Blocker</b> is used to fake modality. This method
      * can be used to get a reference to the blocker to style it.
-     * 
+     *
      * @return {qx.bom.Blocker?null} Blocker instance or null if no blocker is used
      */
     getBlocker : function()
@@ -278,7 +278,7 @@ qx.Class.define("qx.bom.Window",
       if (this.__blocker == null) {
         this.__blocker = new qx.bom.Blocker;
       }
-      
+
       return this.__blocker;
     },
 

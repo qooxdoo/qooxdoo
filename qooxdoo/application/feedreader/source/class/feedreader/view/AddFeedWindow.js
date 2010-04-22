@@ -131,7 +131,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     {
       // break if no title is given
       var title = this.__titleTextfield.getValue();
-      if (title == null || title == "")
+      if (title == null || title == "")
       {
         alert(this.tr("Please enter a title."));
         return;
@@ -139,18 +139,18 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 
       // break if no url is given
       var url = this.__urlTextfield.getValue();
-      if (url == null || title == "")
+      if (url == null || title == "")
       {
         alert(this.tr("Please enter a url."));
         return;
       }
 
       this.__controller.addFeed(title, url, "user");
-      
+
       // clear the content of th window
       this.__titleTextfield.setValue("");
       this.__urlTextfield.setValue("");
-      
+
       this.close();
     }
   },

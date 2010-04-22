@@ -2,12 +2,12 @@ qx.Class.define("performance.test.BaseCall",
 {
   extend : qx.dev.unit.TestCase,
   include : performance.test.MMeasure,
-  
+
   members :
   {
     ITERATIONS : 100000,
-    
-    testBaseCall : function() 
+
+    testBaseCall : function()
     {
       var obj = new performance.test.Extend();
       var self = this;
@@ -22,8 +22,8 @@ qx.Class.define("performance.test.BaseCall",
         this.ITERATIONS
       );
     },
-    
-    testPlainCall : function() 
+
+    testPlainCall : function()
     {
       var obj = new performance.test.Extend();
       var self = this;
@@ -38,8 +38,8 @@ qx.Class.define("performance.test.BaseCall",
           this.ITERATIONS
       );
     },
-    
-    testPlainApply : function() 
+
+    testPlainApply : function()
     {
       var obj = new performance.test.Extend();
       var self = this;
@@ -54,12 +54,12 @@ qx.Class.define("performance.test.BaseCall",
         this.ITERATIONS
       );
     }
-  }  
+  }
 });
 
 qx.Class.define("performance.test.Base", {
   extend : qx.core.Object,
-  
+
   members : {
     foo_base : function(a,b,c) {}
   }
@@ -67,16 +67,16 @@ qx.Class.define("performance.test.Base", {
 
 qx.Class.define("performance.test.Extend", {
   extend : performance.test.Base,
-  
+
   members : {
     foo_base : function(a,b,c) {
       this.base(arguments, a, b, c);
     },
-    
+
     foo_call : function(a, b, c) {
       performance.test.Base.prototype.foo_base.call(this, a, b, c);
     },
-    
+
     foo_apply : function(a, b, c) {
       performance.test.Base.prototype.foo_base.apply(this, arguments);
     }

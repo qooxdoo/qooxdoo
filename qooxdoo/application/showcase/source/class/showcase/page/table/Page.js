@@ -17,20 +17,20 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
- 
+
 /* ************************************************************************
 
 #use(showcase.page.table.Content)
 
 ************************************************************************ */
 /**
- * @lint ignoreReferenceField(__descriptionText, __tryThis, 
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.table.Page",
 {
   extend : showcase.Page,
-  
+
   construct: function()
   {
     this.base(arguments);
@@ -44,22 +44,22 @@ qx.Class.define("showcase.page.table.Page",
         this.__descriptionText,
         this.__tryThis,
         this.__features,
-        this.__manual,        
+        this.__manual,
         this.__demos,
         this.__api
       )
     });
   },
-  
-  members : 
+
+  members :
   {
-    __descriptionText : "The table is a very powerful widget. It is “virtual” " + 
-      "in that the table data can be of any length (e.g. hundreds of thousands" + 
+    __descriptionText : "The table is a very powerful widget. It is “virtual” " +
+      "in that the table data can be of any length (e.g. hundreds of thousands" +
       " of rows or more) yet only the rows which are actually being viewed are" +
-      " rendered. The data you currently see is fetched from a " + 
-      "<a href='http://developer.yahoo.com/yql/' target='_blank'>YQL</a> " + 
+      " rendered. The data you currently see is fetched from a " +
+      "<a href='http://developer.yahoo.com/yql/' target='_blank'>YQL</a> " +
       "service so it's always up to date.",
-    
+
     __tryThis : {
       "Sorting" : "Click on the column header to sort the column.",
       "Reordering" : "Drag the column header to reorder.",
@@ -67,17 +67,17 @@ qx.Class.define("showcase.page.table.Page",
       "Hide Columns" : "Use the column drop-down menu in the upper right corner.",
       "Table Resize" : "Resize the window to see the table resize."
     },
-    
+
     __features : {
       "Cell Renderer" : "Custom cell renderers like the boolean cell renderer can be configured.",
       "Header Renderer" : "Custom header renderers as shown in the “Explicit” column can be used."
     },
-    
-    
+
+
     __manual : {
       "remote_table_model" : "Remote table model"
     },
-    
+
     __demos : {
       "#table~Table.html": "Basic table",
       "#table~Table_Cell_Editor.html": "Cell editors",

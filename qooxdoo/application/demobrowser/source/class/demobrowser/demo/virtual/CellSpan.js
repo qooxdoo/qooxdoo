@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
   members :
   {
     __cellRenderer : null,
-    
+
     main : function()
     {
       // Call super class

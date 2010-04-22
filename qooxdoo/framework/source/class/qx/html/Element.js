@@ -54,7 +54,7 @@ qx.Class.define("qx.html.Element",
    * Creates a new Element
    *
    * @param tagName {String?"div"} Tag name of the element to create
-   * @param styles {Map?null} optional map of CSS styles, where the key is the name 
+   * @param styles {Map?null} optional map of CSS styles, where the key is the name
    *    of the style and the value is the value to use.
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.
@@ -65,7 +65,7 @@ qx.Class.define("qx.html.Element",
 
     // {String} Set tag name
     this.__nodeName = tagName || "div";
-    
+
     this.__styleValues = styles || null;
     this.__attribValues = attributes || null;
   },
@@ -230,7 +230,7 @@ qx.Class.define("qx.html.Element",
           delete visibility[hc];
           continue;
         }
-        
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this.DEBUG) {
@@ -1447,14 +1447,14 @@ qx.Class.define("qx.html.Element",
      */
     setSelectable : qx.core.Variant.select("qx.client",
     {
-      "webkit" : function(value) 
+      "webkit" : function(value)
       {
         // Apply qooxdoo attribute
         this.setAttribute("qxSelectable", value ? "on" : "off");
         this.setStyle("userSelect", value ? "normal" : "none");
       },
-      
-      "gecko" : function(value) 
+
+      "gecko" : function(value)
       {
         // Apply qooxdoo attribute
         this.setAttribute("qxSelectable", value ? "on" : "off");
@@ -1466,9 +1466,9 @@ qx.Class.define("qx.html.Element",
         // Apply qooxdoo attribute
         this.setAttribute("qxSelectable", value ? "on" : "off");
       }
-    }), 
-      
-      
+    }),
+
+
     /**
      * Whether the element is natively focusable (or will be when created)
      *

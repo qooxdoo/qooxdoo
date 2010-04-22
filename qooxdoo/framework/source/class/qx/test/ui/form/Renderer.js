@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Renderer", 
+qx.Class.define("qx.test.ui.form.Renderer",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -24,38 +24,38 @@ qx.Class.define("qx.test.ui.form.Renderer",
   {
     __form : null,
     __b : null,
-    
-    
+
+
     setUp : function() {
       this.__form = new qx.ui.form.Form();
       this.__b = new qx.ui.form.Button("a");
-      this.__form.addButton(this.__b);      
+      this.__form.addButton(this.__b);
     },
-    
+
     tearDown : function() {
       this.__form.dispose();
       this.__b.dispose();
-    }, 
-    
-    
+    },
+
+
     testDisposeSingle : function() {
       var renderer = new qx.ui.form.renderer.Single(this.__form);
       renderer.dispose();
-      
+
       // check if the button container has been disposed
       this.assertNull(renderer._buttonRow);
       this.assertNotNull(this.__b);
       this.assertFalse(this.__b.isDisposed());
     },
-    
+
     testDisposeDouble : function() {
       var renderer = new qx.ui.form.renderer.Double(this.__form);
       renderer.dispose();
-      
+
       // check if the button container has been disposed
       this.assertNull(renderer._buttonRow);
       this.assertNotNull(this.__b);
-      this.assertFalse(this.__b.isDisposed());    
+      this.assertFalse(this.__b.isDisposed());
     }
   }
 });

@@ -21,24 +21,24 @@
 qx.Class.define("showcase.Page",
 {
   extend: qx.core.Object,
-  
+
   construct: function()
   {
     this.initReadyState();
   },
-  
-  properties : 
+
+  properties :
   {
     name : {
       check: "String",
       event: "changeName"
     },
-    
+
     icon : {
       check: "String",
       event: "changeIcon"
     },
-    
+
     part : {
       check: "String",
       event: "changePart"
@@ -48,20 +48,20 @@ qx.Class.define("showcase.Page",
       check: "String",
       event: "changeDescription"
     },
-    
+
     contentClass : {
     },
-    
+
     controlClass : {
       nullable: true
     },
-    
-    
-    
+
+
+
     content : {
       check : "showcase.AbstractContent"
     },
-       
+
     readyState :
     {
       check: ["initialized", "loading", "complete"],
@@ -69,15 +69,15 @@ qx.Class.define("showcase.Page",
       event: "changeState"
     }
   },
-  
-  
+
+
   members :
   {
     load : function(callback, context)
     {
       var callback = callback || qx.lang.Function.empty;
-      var context = context || this;
-    
+      var context = context || this;
+
       var state = this.getReadyState();
       if (state == "complete")
       {
@@ -100,8 +100,8 @@ qx.Class.define("showcase.Page",
         }, this);
       }
     },
-    
-    
+
+
     _initializeContent : function()
     {
       var contentClass = qx.Class.getByName(this.getContentClass());

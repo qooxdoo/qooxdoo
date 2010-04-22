@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.bom.Window",
       this.base(arguments);
 
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      
+
       this.__urls = [ "http://qooxdoo.org",
                       "http://sourceforge.net",
                       "http://slashdot.org",
@@ -95,8 +95,8 @@ qx.Class.define("demobrowser.demo.bom.Window",
       {
         alert(qx.bom.Window.isClosed(this.window2));
       }, this);
-      
-      
+
+
       var button5 = qx.bom.Input.create("button");
       qx.bom.Input.setValue(button5, "Open Faked Native Modal Window");
       document.body.appendChild(button5);

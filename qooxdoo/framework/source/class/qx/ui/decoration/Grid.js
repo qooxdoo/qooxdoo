@@ -58,12 +58,12 @@ qx.Class.define("qx.ui.decoration.Grid",
       if (baseImage) {
         this.__setBorderImage(baseImage);
       }
-    } 
+    }
     else
     {
       this.__impl = new qx.ui.decoration.GridDiv(baseImage);
     }
-    
+
     if (insets != null) {
       this.__impl.setInsets(insets);
     }
@@ -108,8 +108,8 @@ qx.Class.define("qx.ui.decoration.Grid",
       nullable : true,
       apply : "_applyBaseImage"
     },
-    
-    
+
+
     /** Width of the left inset (keep this margin to the outer box) */
     insetLeft :
     {
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
       mode  : "shorthand"
-    }    
+    }
   },
 
 
@@ -162,13 +162,13 @@ qx.Class.define("qx.ui.decoration.Grid",
   members :
   {
     __impl : null,
-    
-    
+
+
     // interface implementation
     getMarkup : function() {
       return this.__impl.getMarkup();
     },
-    
+
 
     // interface implementation
     resize : function(element, width, height) {
@@ -180,22 +180,22 @@ qx.Class.define("qx.ui.decoration.Grid",
     tint : function(element, bgcolor) {
       // do nothing
     },
-   
-    
+
+
     // interface implementation
     getInsets : function() {
-      return this.__impl.getInsets();  
+      return this.__impl.getInsets();
     },
-    
+
 
     // property apply
-    _applyInsets : function(value, old, name) 
+    _applyInsets : function(value, old, name)
     {
       var setter = "set" + qx.lang.String.firstUp(name);
       this.__impl[setter](value);
     },
-    
-    
+
+
     // property apply
     _applyBaseImage : function(value, old)
     {
@@ -205,28 +205,28 @@ qx.Class.define("qx.ui.decoration.Grid",
         this.__setBorderImage(value);
       }
     },
-    
-    
+
+
     /**
      * Configures the border image decorator
-     * 
+     *
      * @param baseImage {String} URL of the base image
      */
     __setBorderImage : function(baseImage)
     {
-      
+
       this.__impl.setBorderImage(baseImage);
-      
+
       var base = qx.util.AliasManager.getInstance().resolve(baseImage);
       var split = /(.*)(\.[a-z]+)$/.exec(base);
       var prefix = split[1];
       var ext = split[2];
-      
+
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      
+
       var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
       var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
-      
+
       this.__impl.setSlice([topSlice, leftSlice]);
     }
   },

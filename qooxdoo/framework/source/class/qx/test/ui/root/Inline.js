@@ -20,7 +20,7 @@
 qx.Class.define("qx.test.ui.root.Inline",
 {
   extend : qx.dev.unit.TestCase,
-  
+
   members :
   {
     setUp : function()
@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.root.Inline",
       this.__inlineIsleElement = qx.bom.Element.create("div");
       var inlineStyle = "position:absolute;top:50px;left:50px;width:200px;height:200px";
       qx.bom.element.Style.setCss(this.__inlineIsleElement, inlineStyle);
-      
+
       qx.dom.Element.insertBegin(this.__inlineIsleElement, document.body);
     },
 
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.root.Inline",
           this.assertTrue(qx.dom.Element.isInDom(inlineRoot.getContainerElement().getDomElement()));
         }, this);
       }, this);
-      
+
       this.wait();
     }
   }

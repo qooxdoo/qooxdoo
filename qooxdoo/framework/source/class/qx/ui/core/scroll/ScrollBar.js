@@ -24,7 +24,7 @@
  *
  * Scroll bars are used by the {@link qx.ui.container.Scroll} container. Usually
  * a scroll bar is not used directly.
- * 
+ *
  * @childControl slider {qx.ui.core.scroll.ScrollSlider} scroll slider component
  * @childControl button-begin {qx.ui.form.RepeatButton} button to scroll to top
  * @childControl button-end {qx.ui.form.RepeatButton} button to scroll to bottom

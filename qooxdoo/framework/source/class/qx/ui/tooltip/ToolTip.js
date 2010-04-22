@@ -22,7 +22,7 @@
 /**
  * A Tooltip provides additional information for widgets when the user hovers
  * over a widget.
- * 
+ *
  * @childControl atom {qx.ui.basic.Atom} atom widget which represents the content of the tooltip
  */
 qx.Class.define("qx.ui.tooltip.ToolTip",

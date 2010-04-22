@@ -29,7 +29,7 @@ qx.Class.define("inspector.components.InspectorModel",
 
   /**
    * Constructs the model.
-   * 
+   *
    * @param application {inspector.Application} the inspector application.
    */
   construct : function(application) {
@@ -50,7 +50,7 @@ qx.Class.define("inspector.components.InspectorModel",
   members :
   {
     /**
-     * {qx.core.ObjectRegestry} the instance to the object registry from the 
+     * {qx.core.ObjectRegestry} the instance to the object registry from the
      * inspected application.
      */
     __objectRegistry : null,

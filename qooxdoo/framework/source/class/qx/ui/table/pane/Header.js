@@ -350,7 +350,7 @@ qx.Class.define("qx.ui.table.pane.Header",
 
   destruct : function()
   {
-    this.__blocker.dispose();    
+    this.__blocker.dispose();
     this._disposeObjects("__paneScroller");
   }
 });
