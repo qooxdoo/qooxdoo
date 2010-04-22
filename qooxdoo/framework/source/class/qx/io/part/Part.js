@@ -105,9 +105,9 @@ qx.Bootstrap.define("qx.io.part.Part",
      * @param self {Object?} The context of the callback.
      */
     preload : function(callback, self) {
-      // just do nothing because you can not preload regular parts
-      // Also loading the part is not a good idea beacue it could break the 
-      // order of part loading if someone uses prelaod right after loading 
+      // Just do nothing because you can not preload regular parts.
+      // Also, loading the part here is not a good idea beacue it could break
+      // the load order of the packages if someone uses preload right after loading 
       // another part.
     },
     
