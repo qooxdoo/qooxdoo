@@ -631,41 +631,33 @@ qx.Bootstrap.define("qx.core.Property",
     
     
     /**
-     * Cross browser function which returns if the reference for the given 
-     * property check should be removed on dispose.
+     * Returns if the reference for the given property check should be removed
+     * on dispose.
+     * 
+     * @param check {var} The check of the property definition.
+     * @return {Boolean} If the dereference key should be set.
+     */
+    __shouldBeDereferenced :  function(check) {
+      return !!this.__dereference[check];
+    },
+
+    
+    /**
+     * Special function for IE6 and FF2 which returns if the reference for 
+     * the given property check should be removed on dispose.
      * As IE6 and FF2 seem to have bad garbage collecion behaviors, we should 
      * additionally remove all references between qooxdoo objects and 
      * interfaces.
      * 
      * @param check {var} The check of the property definition.
-     * @signature function(check)
-     */
-    __shouldBeDereferenced : qx.core.Variant.select("qx.client",
+     * @return {Boolean} If the dereference key should be set.
+     */    
+    __shouldBeDereferencedOld : function(check) 
     {
-      "mshtml" : function(check) {
-        // IE6 seems to have problem on garbage collection so better remove 
-        // all references and not only those to DOM objects
-        var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
-        return ie6 ? !!this.__dereference[check] :
-          this.__dereference[check] || 
-          qx.Bootstrap.classIsDefined(check) || 
-          (qx.Interface && qx.Interface.isDefined(check));
-      },
-      
-      "gecko" : function(check) {
-        // FF2 seems to have problem on garbage collection so better remove 
-        // all references and not only those to DOM objects        
-        var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
-        return !ff2 ? !!this.__dereference[check] :
-          this.__dereference[check] || 
-          qx.Bootstrap.classIsDefined(check) || 
-          (qx.Interface && qx.Interface.isDefined(check));
-      },      
-
-      "default" : function(check) {        
-        return !!this.__dereference[check];
-      }
-    }),
+      return this.__dereference[check] || 
+      qx.Bootstrap.classIsDefined(check) || 
+      (qx.Interface && qx.Interface.isDefined(check));      
+    },
 
 
     /** {Map} Internal data field for error messages used by {@link #error} */
@@ -1559,5 +1551,24 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(backup);');
       code.push('}');
     }
-  }
+  },
+  
+  
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
+    var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
+    
+    // keep the old dereference behavior for IE6 and FF2
+    if (ie6 || ff2) {
+      statics.__shouldBeDereferenced = statics.__shouldBeDereferencedOld;
+    }
+  }  
 });

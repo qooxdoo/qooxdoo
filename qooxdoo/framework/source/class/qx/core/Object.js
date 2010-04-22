@@ -754,38 +754,26 @@ qx.Class.define("qx.core.Object",
 
     
     /**
+     * Possible reference to special method for IE6 and FF2 
+     * {@link #__removePropertyReferencesOld}
+     *
+     * @signature function()
+     */
+    __removePropertyReferences : null,
+
+
+    /**
      * Special method for IE6 and FF2 which removes all $$user_ references 
      * set up by the properties.
      * @signature function()
-     */
-    __removePropertyReferences : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function() {
-        // IE6 seems to have problem on garbage collection so better remove 
-        // all references
-        if (navigator.userAgent.indexOf("MSIE 6.0") != -1) {
-          // remove all property references
-          var properties = qx.Class.getProperties(this.constructor);
-          for (var i = 0, l = properties.length; i < l; i++) {
-            delete this["$$user_" + properties[i]];
-          }
-        }
-      },
-      
-      "gecko" : function() {
-        // FF2 seems to have problem on garbage collection so better remove 
-        // all references
-        if (navigator.userAgent.indexOf("rv:1.8.1") != -1) {
-          // remove all property references
-          var properties = qx.Class.getProperties(this.constructor);
-          for (var i = 0, l = properties.length; i < l; i++) {
-            delete this["$$user_" + properties[i]];
-          }
-        }
-      },
-
-      "default" : null
-    }),
+     */    
+    __removePropertyReferencesOld : function() {
+      // remove all property references
+      var properties = qx.Class.getProperties(this.constructor);
+      for (var i = 0, l = properties.length; i < l; i++) {
+        delete this["$$user_" + properties[i]];
+      }
+    },
 
 
     /*
@@ -874,11 +862,21 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  defer : function(statics)
+  defer : function(statics, proto)
   {
     // add asserts into each debug build
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       qx.Class.include(statics, qx.core.MAssert);
+    }
+    
+    // special treatment for IE6 and FF2
+    var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
+    var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
+    
+    // patch the remove property method for IE6 and FF2
+    if (ie6 || ff2) {
+      proto.__removePropertyReferences = proto.__removePropertyReferencesOld;
+      // debugger;
     }
   },
 
