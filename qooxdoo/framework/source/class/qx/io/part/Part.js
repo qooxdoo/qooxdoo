@@ -98,13 +98,17 @@ qx.Bootstrap.define("qx.io.part.Part",
     
     
     /**
-     * Method for preloading this part. It initializs the packages to load but 
-     * not to execute the closure when done loading.
+     * Method for preloading this part. 
+     * Empty implementation! Regular parts can not be preloaded.
+     * 
      * @param callback {Function} Callback for the preload.
      * @param self {Object?} The context of the callback.
      */
     preload : function(callback, self) {
-      this.load(callback, self);
+      // just do nothing because you can not preload regular parts
+      // Also loading the part is not a good idea beacue it could break the 
+      // order of part loading if someone uses prelaod right after loading 
+      // another part.
     },
     
     
