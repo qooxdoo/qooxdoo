@@ -278,6 +278,32 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       refine : true,
       init   : "htmlarea"
+    },
+    
+    /**
+     * TODOC
+     */
+    defaultFontFamily :
+    {
+      check : "String",
+      init : "Verdana",
+      apply : "_applyDefaultFontFamily"
+    },
+    
+    /**
+     * TODOC
+     */
+    defaultFontSize :
+    {
+      check : "Integer",
+      init : 4,
+      apply : "_applyDefaultFontSize"
+    },
+    
+    focusable :
+    {
+      refine : true,
+      init : true 
     }
   },
 
@@ -371,6 +397,26 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__editorComponent.setUseUndoRedo(value);
       } else {
         this.__postPonedProperties["UseUndoRedo"] = value;
+      }
+    },
+    
+    
+    _applyDefaultFontFamily : function(value, old)
+    {
+      if (this.__editorComponent != null) {
+        this.__editorComponent.setDefaultFontFamily(value);
+      } else {
+        this.__postPonedProperties["DefaultFontFamily"] = value;
+      }
+    },
+    
+    
+    _applyDefaultFontSize : function(value, old)
+    {
+      if (this.__editorComponent != null) {
+        this.__editorComponent.setDefaultFontSize(value);
+      } else {
+        this.__postPonedProperties["DefaultFontSize"] = value;
       }
     },
 
@@ -1170,7 +1216,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     */
 
     /**
-     * returns the range of the current selection
+     * Returns the range of the current selection
      *
      * @return {Range?null} Range object or null if not initialized
      */
@@ -1258,9 +1304,20 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       if (this.__blockerElement) {
         this.__blockerElement.setStyle("display", "none");
       }
+    },
+    
+    
+    /*
+    -----------------------------------------------------------------------------
+      FOCUS MANAGEMENT
+    -----------------------------------------------------------------------------
+    */
+    
+    tabFocus : function() {
+      if (this.__editorComponent != null) {
+        this.__editorComponent.tabFocusToContent();
+      }
     }
-
-
   },
 
 

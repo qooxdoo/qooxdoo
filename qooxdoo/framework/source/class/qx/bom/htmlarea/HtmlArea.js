@@ -81,11 +81,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     // set the optional style information - if available
     this.__styleInformation = qx.bom.htmlarea.HtmlArea.__formatStyleInformation(styleInformation);
 
-    // Check for available content
-    if (typeof value === "string") {
+    // Check content
+    if (qx.lang.Type.isString(value)) {
       this.__value = value;
     }
-
 
     /*
      * "Fix" Keycode to identifier mapping in opera to suit the needs
@@ -749,6 +748,26 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       check : "Boolean",
       init : false
+    },
+    
+    
+    /**
+     * Default font family to use when e.g. user removes all content
+     */
+    defaultFontFamily :
+    {
+      check : "String",
+      init : "Verdana"
+    },
+    
+    
+    /**
+     * Default font size to use when e.g. user removes all content
+     */
+    defaultFontSize :
+    {
+      check : "Integer",
+      init : 4
     }
   },
 
@@ -912,15 +931,39 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     setValue : function(value)
     {
-       if (typeof value === "string")
-       {
-         this.__value = value;
+      if (qx.lang.Type.isString(value))
+      {
+        this.__value = value;
 
-         var doc = this._getIframeDocument();
-         if (doc && doc.body) {
-           doc.body.innerHTML = value;
-         }
-       }
+        var doc = this._getIframeDocument();
+        if (doc && doc.body) {
+          doc.body.innerHTML = this.__generateDefaultContent(value);
+        }
+      }
+    },
+    
+    
+    /**
+     * TODOC
+     */
+    __generateDefaultContent : function(value)
+    {
+      // TODO need bogus node for Firefox 2.x
+      var zeroWidthNoBreakSpace = value.length == 0 ? "\ufeff" : "";
+      
+      var defaultContent = '<p>' + 
+                           '<span style="font-family:' +
+                            this.getDefaultFontFamily() + '">' +
+                           '<font id="mc_first" size="' +
+                           this.getDefaultFontSize() +'">' + 
+                           value + 
+                           zeroWidthNoBreakSpace + 
+                           '</font>' +
+                           '</span>' +
+                           '</p>';
+      
+      this.debug(defaultContent);
+      return defaultContent; 
     },
 
 
@@ -1496,9 +1539,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     __renderContent : function()
     {
-      var value = this.getValue();
+      var value = this.__generateDefaultContent(this.getValue());
 
-      if (typeof value == "string")
+      if (qx.lang.Type.isString(value))
       {
         var doc = this._getIframeDocument();
         try
@@ -2803,6 +2846,30 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       },
 
       "default" : qx.lang.Function.returnFalse
+    }),
+    
+    
+    /*
+      -----------------------------------------------------------------------------
+      FOUCS MANAGEMENT
+      -----------------------------------------------------------------------------
+    */
+    
+    /**
+     * TODOC
+     * 
+     * @signature function()
+     */
+    tabFocusToContent : qx.core.Variant.select("qx.client", { 
+      "gecko" : function()
+      {
+        this.debug("focus body element");
+      },
+      
+      "default" : function()
+      {
+        
+      }
     }),
 
     /*

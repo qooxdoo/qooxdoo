@@ -66,7 +66,6 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
                             "buttons at the toolbar.</p>";
       var description = new qx.ui.basic.Label(descriptionText);
       description.set( { rich: true, marginBottom : 10 });
-
       var demoContent = '<h1>About</h1><p>qooxdoo (pronounced [ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No <acronym title="HyperText Markup Language">HTML</acronym>, <acronym title="Cascading Style Sheets">CSS</acronym> nor <acronym title="Document Object Model">DOM</acronym> knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art <acronym title="Graphical User Interface">GUI</acronym> toolkit and an advanced client-server communication layer. It is Open Source under an <acronym title="GNU Lesser General Public License">LGPL</acronym>/<acronym title="Eclipse Public License">EPL</acronym> dual <a href="http://qooxdoo.org/license" class="wikilink1" title="license">license</a>.</p>';
       var doc = this.getRoot();
 
@@ -84,7 +83,13 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
       // Add description, toolbar and HtmlArea widget
       vbContainer.add(description);
       vbContainer.add(toolbar);
+<<<<<<< HEAD
       vbContainer.add(this.__htmlArea);
+=======
+      vbContainer.add(new qx.ui.form.TextField);
+      vbContainer.add(new qx.ui.form.TextField);
+      vbContainer.add(this.__htmlArea);      
+>>>>>>> First steps to support tab focus in htmmlarea. Still at development state.
 
       doc.add(vbContainer, { left: 20, top: 20 });
     },
