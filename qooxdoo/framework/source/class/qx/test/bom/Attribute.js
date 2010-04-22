@@ -144,7 +144,7 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "maxLength", 10);
       Attribute.reset(this._input, "maxLength");
       this.assertNull(Attribute.get(this._input, "maxLength"));
-      
+
       Attribute.set(this._checkBox, "disabled", true);
       Attribute.reset(this._checkBox, "disabled");
       this.assertFalse(Attribute.get(this._checkBox, "disabled"));
@@ -157,13 +157,18 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.reset(this._el, "innerHTML");
       this.assertNull(Attribute.get(this._el, "innerHTML"));
 
-      Attribute.set(this._el, "tabIndex", 10);
-      Attribute.reset(this._el, "tabIndex");
-      this.assertNull(Attribute.get(this._el, "tabIndex"));
-      
-      Attribute.set(this._input, "tabIndex", 20);
-      Attribute.reset(this._input, "tabIndex");
-      this.assertNull(Attribute.get(this._input, "tabIndex"));
+      // Skip this for Safari 2
+      if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 530) {
+        this.warn("Test skipped in Safari 2.");
+      } else {
+        Attribute.set(this._el, "tabIndex", 10);
+        Attribute.reset(this._el, "tabIndex");
+        this.assertNull(Attribute.get(this._el, "tabIndex"));
+  
+        Attribute.set(this._input, "tabIndex", 20);
+        Attribute.reset(this._input, "tabIndex");
+        this.assertNull(Attribute.get(this._input, "tabIndex"));
+      }
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.reset(this._checkBox, "checked");
@@ -176,6 +181,7 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "value", "foo");
       Attribute.reset(this._input, "value");
       this.assertNull(Attribute.get(this._input, "value"));
+
     }
   }
 });
