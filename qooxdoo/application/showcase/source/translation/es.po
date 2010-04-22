@@ -132,6 +132,3 @@ msgstr "Inicio de semana:"
 #: showcase/page/i18n/Content.js:285
 msgid "Format of %1:"
 msgstr "Formato de %1:"
-
-#~ msgid "Choose a locale:"
-#~ msgstr "Selecciona localisación:"

@@ -130,6 +130,3 @@ msgstr ""
 #: showcase/page/i18n/Content.js:285
 msgid "Format of %1:"
 msgstr ""
-
-#~ msgid "Choose a locale:"
-#~ msgstr ""

@@ -370,24 +370,3 @@ msgstr ""
 #: qx/util/Validate.js:287
 msgid "%1 does not fit %2."
 msgstr ""
-
-#~ msgid "Case sensitive"
-#~ msgstr "Maiuscole/minuscole"
-
-#~ msgid "Choose a date"
-#~ msgstr "Scegli una data"
-
-#~ msgid "Description"
-#~ msgstr "Descrizione"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Search"
-#~ msgstr "Cerca"
-
-#~ msgid "Search items in list"
-#~ msgstr "Cerca tra le voci della lista"
-
-#~ msgid "Search next occurrence"
-#~ msgstr "Cerca la prossima occorrenza"
