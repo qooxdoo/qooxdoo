@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     },
     
     /**
-     * TODOC
+     * Default font family to use when e.g. user removes all content
      */
     defaultFontFamily :
     {
@@ -289,9 +289,9 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       init : "Verdana",
       apply : "_applyDefaultFontFamily"
     },
-    
+
     /**
-     * TODOC
+     * Default font family to use when e.g. user removes all content
      */
     defaultFontSize :
     {
@@ -299,7 +299,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       init : 4,
       apply : "_applyDefaultFontSize"
     },
-    
+
+    /**
+     * Focusable
+     */
     focusable :
     {
       refine : true,
@@ -1313,17 +1316,37 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     -----------------------------------------------------------------------------
     */
     
+    // overridden
+    focus : function()
+    {
+      this.base(arguments);
+      
+      this.__focusContent();
+    },   
+    
+    // overridden
     tabFocus : function()
     {
       this.base(arguments);
       
+      this.__focusContent();
+    },
+
+
+    /**
+     * Focus the document content
+     */
+    __focusContent : function()
+    {
       if (this.__editorComponent != null) {
         qx.event.Timer.once(function() {
-          this.__editorComponent.tabFocusToContent();
+          this.__editorComponent.focusContent();
         }, this, 0);
       }
     }
   },
+  
+  
 
 
   /*

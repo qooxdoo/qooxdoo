@@ -944,7 +944,9 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     
     
     /**
-     * TODOC
+     * Generates the default content and inserts the given string
+     * 
+     * @param value {String} string to insert into the default content
      */
     __generateDefaultContent : function(value)
     {
@@ -2376,6 +2378,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       this.__mouseUpOnBody = true;
 
       this.__startExamineCursorContext();
+      
+      if (!this.__isContentAvailable()) {
+        this.__resetToDefaultContentAndSelect();
+      }
     },
 
 
@@ -2851,17 +2857,17 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     
     /*
       -----------------------------------------------------------------------------
-      FOUCS MANAGEMENT
+      FOCUS MANAGEMENT
       -----------------------------------------------------------------------------
     */
     
     /**
-     * Called whenever an user focus the HtmlArea component using the "TAB" key. This
-     * method is called by the {@link qx.ui.embed.HtmlArea} widget. 
+     * Can be used to set the user focus to the content. Also used when the "TAB" key is used to 
+     * tab into the component. This method is also called by the {@link qx.ui.embed.HtmlArea} widget. 
      * 
      * @signature function()
      */
-    tabFocusToContent : qx.core.Variant.select("qx.client",
+    focusContent : qx.core.Variant.select("qx.client",
     { 
       "gecko" : function()
       {
@@ -2874,34 +2880,51 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           qx.bom.element.Attribute.reset(elementToFocus, "id");
           qx.bom.Selection.set(elementToFocus, 0, 0);
         }
-        else if (!this.__isContentAvailable()) {
-          this.__resetToDefaultContentAndSelect();
+        else {
+          this.__checkForContentAndSetDefaultContent();
         }
       },
       
       "webkit" : function()
       {
+        qx.bom.Element.focus(this.getContentBody());
         qx.bom.Element.focus(this.getContentWindow());
         
-        if (!this.__isContentAvailable()) {
-          this.__resetToDefaultContentAndSelect();
-        }
+        this.__checkForContentAndSetDefaultContent();       
       },
 
       "opera" : function()
       {
         qx.bom.Element.focus(this.getContentWindow());
         qx.bom.Element.focus(this.getContentBody());
+        
+        this.__checkForContentAndSetDefaultContent();
       },
       
-      "default" : function() {
+      "default" : function()
+      {
         qx.bom.Element.focus(this.getContentBody());
+        
+        this.__checkForContentAndSetDefaultContent();
       }
     }),
     
     
     /**
-     * TODOC
+     * Helper method which checks if content is available and if not sets the default content.
+     */
+    __checkForContentAndSetDefaultContent : function()
+    {
+      if (!this.__isContentAvailable()) {
+        this.__resetToDefaultContentAndSelect();
+      }
+    },
+    
+    
+    /**
+     * Checks whether content is available
+     * 
+     * @signature function()
      */
     __isContentAvailable : qx.core.Variant.select("qx.client", 
     {
@@ -2934,12 +2957,26 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
       },
       
-      "default" : qx.lang.Function.empty
+      "default" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "p") && 
+                   childElements[0].firstChild == null); 
+        } else {
+          return true;
+        }
+      }
     }),
     
     
     /**
-     * TODOC
+     * Resets the content and selects the default focus node
+     * 
+     * @signature function
      */
     __resetToDefaultContentAndSelect : qx.core.Variant.select("qx.client",
     {
@@ -2952,7 +2989,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         qx.bom.Selection.set(elementToFocus, 0, 0);
       },
       
-      "default" : qx.lang.Function.empty
+      "default" : function()
+      {
+        var firstParagraph = qx.dom.Hierarchy.getFirstDescendant(this.getContentBody());
+        
+        if (qx.dom.Node.isNodeName(firstParagraph, "p"))
+        {
+          qx.bom.element.Style.set(firstParagraph, "font-family", this.getDefaultFontFamily());
+          qx.bom.element.Style.set(firstParagraph, "font-size", this.getDefaultFontSize());
+        }          
+      }
     }),
     
     
@@ -3011,6 +3057,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
       this._processingExamineCursorContext = true;
 
+      if (!this.__isContentAvailable()) {
+        this.__resetToDefaultContentAndSelect();
+      }
+      
       var focusNode = this.getFocusNode();
       if (focusNode == null) {
         return;
