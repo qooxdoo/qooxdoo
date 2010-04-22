@@ -160,29 +160,3 @@ msgstr ""
 #: playground/view/gist/UserNameMenuItem.js:55
 msgid "Load / reload the gists."
 msgstr ""
-
-#~ msgid ""
-#~ "// Could not handle URL parameter! \n"
-#~ "// %1"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "// Could not handle URL parameter! \n"
-#~ "// %1"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "// Could not handle URL parameter! \n"
-#~ "// %1"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "// Could not handle URL parameter! \n"
-#~ "// %1"
-#~ msgstr ""
-
-#~ msgid "Error during url shortening."
-#~ msgstr ""
-
-#~ msgid "The shortened url."
-#~ msgstr ""

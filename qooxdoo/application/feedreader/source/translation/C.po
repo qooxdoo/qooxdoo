@@ -96,12 +96,3 @@ msgstr ""
 #: feedreader/view/Tree.js:70
 msgid "User Feeds"
 msgstr ""
-
-#~ msgid "Classic"
-#~ msgstr ""
-
-#~ msgid "Modern"
-#~ msgstr ""
-
-#~ msgid "Theme"
-#~ msgstr ""

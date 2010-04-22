@@ -96,12 +96,3 @@ msgstr ""
 #: feedreader/view/ToolBar.js:102
 msgid "Help"
 msgstr ""
-
-#~ msgid "Classic"
-#~ msgstr ""
-
-#~ msgid "Modern"
-#~ msgstr ""
-
-#~ msgid "Theme"
-#~ msgstr ""
