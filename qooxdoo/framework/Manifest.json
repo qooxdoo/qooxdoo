@@ -26,8 +26,8 @@
       }
     ],
 
-    "version"         : "1.1-pre",
-    "qooxdoo-versions": ["1.1-pre"]
+    "version"         : "1.1",
+    "qooxdoo-versions": ["1.1"]
   },
   
   "provides" : 
