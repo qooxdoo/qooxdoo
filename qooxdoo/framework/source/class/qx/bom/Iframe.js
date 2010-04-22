@@ -16,7 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Jonathan Weiß (jonathan_rass)
-     * Christian Schmidt (Chris_schmidt)
+     * Christian Hagendorn (Chris_schmidt)
 
 ************************************************************************ */
 
