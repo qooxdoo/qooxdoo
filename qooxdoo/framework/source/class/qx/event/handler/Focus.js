@@ -221,18 +221,22 @@ qx.Class.define("qx.event.handler.Focus",
      */
     focus : function(element)
     {
-      try {
-        // Fixed timing issue with IE, see bug report #3267
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      // Fixed timing issue with IE, see bug report #3267
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        window.setTimeout(function()
         {
-          window.setTimeout(function() {
+          try {
             element.focus();
-          }, 0);  
-        } 
-        else {
+          } catch(ex) {};
+        }, 0);  
+      } 
+      else
+      {
+        try {
           element.focus();
-        }
-      } catch(ex) {};
+        } catch(ex) {};
+      }
 
       this.setFocus(element);
       this.setActive(element);
