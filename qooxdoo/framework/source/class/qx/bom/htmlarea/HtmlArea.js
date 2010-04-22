@@ -950,11 +950,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       // TODO need bogus node for Firefox 2.x
       var zeroWidthNoBreakSpace = value.length == 0 ? "\ufeff" : "";
+      var idForFontElement = qx.core.Variant.isSet("qx.client", "gecko|webkit") ? 'id="__elementToFocus__"' : '';
       
       var defaultContent = '<p>' + 
                            '<span style="font-family:' +
                             this.getDefaultFontFamily() + '">' +
-                           '<font id="mc_first" size="' +
+                           '<font ' + idForFontElement + ' size="' +
                            this.getDefaultFontSize() +'">' + 
                            value + 
                            zeroWidthNoBreakSpace + 
@@ -962,7 +963,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                            '</span>' +
                            '</p>';
       
-      this.debug(defaultContent);
       return defaultContent; 
     },
 
@@ -2856,21 +2856,106 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     */
     
     /**
-     * TODOC
+     * Called whenever an user focus the HtmlArea component using the "TAB" key. This
+     * method is called by the {@link qx.ui.embed.HtmlArea} widget. 
      * 
      * @signature function()
      */
-    tabFocusToContent : qx.core.Variant.select("qx.client", { 
+    tabFocusToContent : qx.core.Variant.select("qx.client",
+    { 
       "gecko" : function()
       {
-        this.debug("focus body element");
+        var contentDocument = this.getContentDocument();
+        contentDocument.documentElement.focus();
+        
+        var elementToFocus = contentDocument.getElementById("__elementToFocus__");
+        if (elementToFocus)
+        {
+          qx.bom.element.Attribute.reset(elementToFocus, "id");
+          qx.bom.Selection.set(elementToFocus, 0, 0);
+        }
+        else if (!this.__isContentAvailable()) {
+          this.__resetToDefaultContentAndSelect();
+        }
       },
       
-      "default" : function()
+      "webkit" : function()
       {
+        qx.bom.Element.focus(this.getContentWindow());
         
+        if (!this.__isContentAvailable()) {
+          this.__resetToDefaultContentAndSelect();
+        }
+      },
+
+      "opera" : function()
+      {
+        qx.bom.Element.focus(this.getContentWindow());
+        qx.bom.Element.focus(this.getContentBody());
+      },
+      
+      "default" : function() {
+        qx.bom.Element.focus(this.getContentBody());
       }
     }),
+    
+    
+    /**
+     * TODOC
+     */
+    __isContentAvailable : qx.core.Variant.select("qx.client", 
+    {
+      "gecko" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          // consider a BR element with "_moz_dirty" attribute as empty content
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br") && 
+                   qx.bom.element.Attribute.get(childElements[0], "_moz_dirty") != null);
+        } else {
+          return true; 
+        }
+      },
+      
+      "webkit" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          // consider a solely BR element as empty content
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br"));
+        } else {
+          return true; 
+        }
+      },
+      
+      "default" : qx.lang.Function.empty
+    }),
+    
+    
+    /**
+     * TODOC
+     */
+    __resetToDefaultContentAndSelect : qx.core.Variant.select("qx.client",
+    {
+      "gecko|webkit" : function()
+      {
+        this.getContentDocument().body.innerHTML = this.__generateDefaultContent("");
+      
+        var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
+        qx.bom.element.Attribute.reset(elementToFocus, "id");
+        qx.bom.Selection.set(elementToFocus, 0, 0);
+      },
+      
+      "default" : qx.lang.Function.empty
+    }),
+    
+    
 
     /*
       -----------------------------------------------------------------------------

@@ -1313,9 +1313,14 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     -----------------------------------------------------------------------------
     */
     
-    tabFocus : function() {
+    tabFocus : function()
+    {
+      this.base(arguments);
+      
       if (this.__editorComponent != null) {
-        this.__editorComponent.tabFocusToContent();
+        qx.event.Timer.once(function() {
+          this.__editorComponent.tabFocusToContent();
+        }, this, 0);
       }
     }
   },
