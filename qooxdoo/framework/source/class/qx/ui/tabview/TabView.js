@@ -17,7 +17,7 @@
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
      * Jonathan Weiß (jonathan_rass)
-     * Christian Schmidt (chris_schmidt)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 

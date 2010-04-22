@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
      * Sebastian Werner (wpbasti)
      * Jonathan Weiß (jonathan_rass)
-     * Christian Schmidt (chris_schmidt)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 

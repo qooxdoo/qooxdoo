@@ -15,7 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     * Christian Schmidt (chris_schmidt)
+     * Christian Hagendorn (chris_schmidt)
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */

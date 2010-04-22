@@ -14,7 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
-     * Christian Schmidt (chris_schmidt)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 /**
