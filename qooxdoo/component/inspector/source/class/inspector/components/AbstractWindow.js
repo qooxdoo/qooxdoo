@@ -71,7 +71,7 @@ qx.Class.define("inspector.components.AbstractWindow",
       throw new Error("Abstract method call (setInitSizeAndPosition) in 'AbstractWindow'!");
     }
   },
-  
+
   destruct : function() {
     this._disposeObjects("_toolbar");
   }

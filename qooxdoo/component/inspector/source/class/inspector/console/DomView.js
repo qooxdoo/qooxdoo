@@ -512,7 +512,7 @@ qx.Class.define("inspector.console.DomView",
     }
 
   },
-  
+
   destruct : function()
   {
     this._console = this._breadCrumb = null;

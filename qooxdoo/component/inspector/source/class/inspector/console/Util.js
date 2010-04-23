@@ -27,18 +27,18 @@
 qx.Class.define("inspector.console.Util",
 {
   statics :
-  {    
+  {
     /**
      * Runs the code on the Iframe window.
-     * 
+     *
      * @param code {String} Code to eval
-     * @return {Object|null} Evaluated code, if any. 
+     * @return {Object|null} Evaluated code, if any.
      * @throws an Exception if an error occurs by evaluation.
      */
     evalOnIframe : function(code) {
       var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       var result = null;
-      
+
       try {
         if (qx.core.Variant.isSet("qx.client", "webkit|mshtml|gecko")) {
           if (qx.core.Variant.isSet("qx.client", "mshtml") ||
@@ -79,7 +79,7 @@ qx.Class.define("inspector.console.Util",
       } catch (ex) {
         throw ex;
       }
-      
+
       return result;
     }
    }

@@ -632,7 +632,7 @@ qx.Class.define("inspector.property.PropertyWindow",
       }
     }
   },
-  
+
   destruct : function()
   {
     this._qxObject = null;

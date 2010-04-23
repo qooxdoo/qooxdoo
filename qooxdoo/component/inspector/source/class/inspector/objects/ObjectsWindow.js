@@ -104,7 +104,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
         if (model.selectionEnabled()) {
           this._table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
           this.select(qx.core.Init.getApplication().getSelectedObject());
-        } else {
+        } else {
           this._table.resetSelection();
           this._table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
         }
@@ -132,7 +132,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
 
 
     load: function(window, filter) {
-      this._iFrameWindow = window || this._iFrameWindow;
+      this._iFrameWindow = window || this._iFrameWindow;
       // get the data of the current model
       var data = this._currentModel.getData(this._iFrameWindow);
       // filter the data if necessary
@@ -209,7 +209,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
     }
 
   },
-  
+
   destruct : function()
   {
     this._currentModel = this._iFrameWindow = null;
