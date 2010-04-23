@@ -238,12 +238,16 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        element.style.display = obj.__visible ? "" : "none";
-        // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          if (!(document.documentMode >= 8)) {
-            element.style.visibility = obj.__visible ? "visible" : "hidden";
+        // hiding or showind an object and deleting it right after that may
+        // cause an disposed object in the visibility queue [BUG #3607]
+        if (!obj.$$disposed) {
+          element.style.display = obj.__visible ? "" : "none";
+          // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            if (!(document.documentMode >= 8)) {
+              element.style.visibility = obj.__visible ? "visible" : "hidden";
+            }
           }
         }
 
