@@ -226,6 +226,15 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+    "shadow-window" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow.png",
+        insets    : [ 4, 8, 8, 4 ]
+      }
+    },
 
     "shadow-small" :
     {
