@@ -2981,7 +2981,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Resets the content and selects the default focus node
      * 
-     * @signature function
+     * @signature function()
      */
     __resetToDefaultContentAndSelect : qx.core.Variant.select("qx.client",
     {
