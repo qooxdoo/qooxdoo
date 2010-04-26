@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.data.model.Node",
     __validateNumber: function(value) {
       // check if its a number
       if(!isNaN(parseFloat(value))) {
-        if(/^\d+$/gi.test(value)) {
+        if(/^\d+$/.test(value)) {
           return;
         }
       }
