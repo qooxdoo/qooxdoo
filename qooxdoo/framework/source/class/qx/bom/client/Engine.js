@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           engine = "gecko";
           this.GECKO = true;
 
-          window.alert("Unsupported client: " + agent
+          qx.Bootstrap.warn("Unsupported client: " + agent
             + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }
