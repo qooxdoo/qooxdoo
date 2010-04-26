@@ -186,7 +186,7 @@ qx.Class.define("qx.util.format.NumberFormat",
     /**
      * Formats a number.
      *
-     * @param num {number} the number to format.
+     * @param num {Number} the number to format.
      * @return {String} the formatted number as a string.
      */
     format : function(num)
