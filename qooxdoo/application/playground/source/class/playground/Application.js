@@ -316,7 +316,7 @@ qx.Class.define("playground.Application",
 
       // check if a gist id is given
       } else if (state.indexOf("gist=") == 0) {
-        var id = state.substring(5, state.lenght);
+        var id = state.substring(5, state.length);
         var name = this.tr("Showing gist %1", id);
         this.__loadGist(id);
 
@@ -352,7 +352,7 @@ qx.Class.define("playground.Application",
 
       // is a gist id given
       } else if (state.indexOf("gist=") == 0) {
-        this.__loadGist(state.substring(5, state.lenght));
+        this.__loadGist(state.substring(5, state.length));
         var id = state.substring(5, state.length);
         this.__playArea.updateCaption(this.tr("Showing gist %1", id));
 
