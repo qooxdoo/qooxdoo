@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-19 10:11+0200\n"
-"PO-Revision-Date: 2009-12-11 23:34+0100\n"
+"PO-Revision-Date: 2010-04-26 23:34+0100\n"
 "Last-Translator: Isaak Malik <isooik AT gmail DOT com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr "Annuleer"
 
 #: qx/ui/control/ColorPopup.js:242
 msgid "Color Selector"
-msgstr "Kleur Kiezer"
+msgstr "Kleur-instelling"
 
 #: qx/ui/control/ColorSelector.js:258
 msgid "Visual"
@@ -287,7 +287,7 @@ msgstr "Details"
 
 #: qx/ui/control/ColorSelector.js:360 qx/ui/control/ColorPopup.js:162
 msgid "Preview (Old/New)"
-msgstr "Voorafkijk (Oud/Nieuw)"
+msgstr "Voorbeeld (Oud/Nieuw)"
 
 #: qx/ui/control/ColorSelector.js:378
 msgid "Hex"
@@ -319,7 +319,7 @@ msgstr "Volgend jaar"
 
 #: qx/ui/form/validation/Manager.js:35
 msgid "This field is required"
-msgstr ""
+msgstr "Dit veld is verplicht"
 
 #: qx/ui/table/Table.js:1809
 msgid "one row"
@@ -339,32 +339,32 @@ msgstr "Kolombreedte herstellen"
 
 #: qx/util/Validate.js:90
 msgid "%1 is not a number."
-msgstr ""
+msgstr "%1 is geen nummer."
 
 #: qx/util/Validate.js:123
 msgid "'%1' is not an email address."
-msgstr ""
+msgstr "'%1' is geen email adres."
 
 #: qx/util/Validate.js:153
 msgid "%1 is not a string."
-msgstr ""
+msgstr "%1 is geen string."
 
 #: qx/util/Validate.js:184
 msgid "%1 is not an url."
-msgstr ""
+msgstr "%1 is geen url."
 
 #: qx/util/Validate.js:216
 msgid "%1 is not a color! %2"
-msgstr ""
+msgstr "%1 is geen kleur! %2"
 
 #: qx/util/Validate.js:242
 msgid "%1 is not in the range from [%2, %3]."
-msgstr ""
+msgstr "%1 is niet in het bereik van [%2, %3]."
 
 #: qx/util/Validate.js:264
 msgid "%1 is not in %2"
-msgstr ""
+msgstr "%1 is niet in %2"
 
 #: qx/util/Validate.js:287
 msgid "%1 does not fit %2."
-msgstr ""
+msgstr "%1 past niet %2."
