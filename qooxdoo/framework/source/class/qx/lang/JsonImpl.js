@@ -329,6 +329,8 @@ qx.Class.define("qx.lang.JsonImpl",
      *    transform the results
      *
      * @return {Object} The parsed JSON object
+     *
+     * @lint ignoreDeprecated(eval)
      */
     parse : function(text, reviver)
     {
