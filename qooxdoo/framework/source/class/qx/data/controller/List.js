@@ -574,7 +574,7 @@ qx.Class.define("qx.data.controller.List",
      *
      * @param item {qx.ui.form.ListItem} The internally created and used
      *   ListItem.
-     * @param index {number} The index of the ListItem.
+     * @param index {Number} The index of the ListItem.
      */
     _bindListItem: function(item, index) {
       var delegate = this.getDelegate();
@@ -598,7 +598,7 @@ qx.Class.define("qx.data.controller.List",
      *
      * @param item {qx.ui.form.ListItem} The internally created and used
      *   ListItem.
-     * @param index {number} The index of the ListItem.
+     * @param index {Number} The index of the ListItem.
      */
     bindDefaultProperties : function(item, index)
     {
@@ -697,7 +697,7 @@ qx.Class.define("qx.data.controller.List",
      * Method which will be called on the invoke of every binding. It takes
      * care of the selection on the change of the binding.
      *
-     * @param index {number} The index of the current binding.
+     * @param index {Number} The index of the current binding.
      * @param sourceObject {qx.core.Object} The source object of the binding.
      * @param targetObject {qx.core.Object} The target object of the binding.
      */

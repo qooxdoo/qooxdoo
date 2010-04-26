@@ -407,7 +407,7 @@ qx.Class.define("qx.data.Array",
      * array, -1 will be returned.
      *
      * @param item {var} The item of which the index should be returned.
-     * @return {number} The Index of the given item.
+     * @return {Number} The Index of the given item.
      */
     indexOf: function(item) {
       return this.__array.indexOf(item);
