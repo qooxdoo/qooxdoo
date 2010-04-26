@@ -965,13 +965,16 @@ qx.Class.define("demobrowser.DemoBrowser",
         var tags = folder.getUserData("tags");
         var inTags = false;
         var selectedVersion = false;
+        if (qx.core.Variant.isSet("qx.contrib", "off")) {
+          selectedVersion = true;
+        }
+        
         if (tags != null) {
           for (var j = 0; j < tags.length; j++) {
             inTags = !!tags[j].match(searchRegExp);
 
             if (qx.core.Variant.isSet("qx.contrib", "off")) {
               if (inTags) {
-                selectedVersion = true;
                 break;
               }
             }
@@ -985,8 +988,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           count++;
         }
 
-        if ( (inTags || !folder.getLabel().search(searchRegExp) ||
-            !parent.getLabel().search(searchRegExp) ) && selectedVersion)
+        if ( (inTags || (folder.getLabel().search(searchRegExp) != -1) ||
+            (parent.getLabel().search(searchRegExp) != -1 ) ) && selectedVersion)
         {
           if (folder.getChildren().length == 0) {
             showing++;
