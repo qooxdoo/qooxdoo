@@ -109,6 +109,10 @@ qx.Bootstrap.define("qx.io.part.Part",
       // Also, loading the part here is not a good idea beacue it could break
       // the load order of the packages if someone uses preload right after loading
       // another part.
+      if (callback) {
+      //    this._appendPartListener(callback, self, this);
+          callback.call(self, this);
+      }
     },
 
 
