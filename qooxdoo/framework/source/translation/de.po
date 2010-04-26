@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-19 10:11+0200\n"
-"PO-Revision-Date: 2007-01-23 17:53+0100\n"
+"PO-Revision-Date: 2010-04-22 17:53+0100\n"
 "Last-Translator: Thomas Herchenroeder <thron7 AT users DOT sourceforge DOT net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -277,7 +277,7 @@ msgstr "Farbauswahl"
 
 #: qx/ui/control/ColorSelector.js:258
 msgid "Visual"
-msgstr ""
+msgstr "Visuell"
 
 #: qx/ui/control/ColorSelector.js:318
 msgid "Presets"
@@ -321,7 +321,7 @@ msgstr "Nächstes Jahr"
 
 #: qx/ui/form/validation/Manager.js:35
 msgid "This field is required"
-msgstr ""
+msgstr "Dieses Feld ist erforderlich"
 
 #: qx/ui/table/Table.js:1809
 msgid "one row"
@@ -341,32 +341,32 @@ msgstr "Spaltenbreite zurücksetzen"
 
 #: qx/util/Validate.js:90
 msgid "%1 is not a number."
-msgstr ""
+msgstr "%1 ist keine Nummer."
 
 #: qx/util/Validate.js:123
 msgid "'%1' is not an email address."
-msgstr ""
+msgstr "'%1' ist keine Emailadresse."
 
 #: qx/util/Validate.js:153
 msgid "%1 is not a string."
-msgstr ""
+msgstr "%1 ist keine Zeichenkette."
 
 #: qx/util/Validate.js:184
 msgid "%1 is not an url."
-msgstr ""
+msgstr "%1 ist keine URL."
 
 #: qx/util/Validate.js:216
 msgid "%1 is not a color! %2"
-msgstr ""
+msgstr "%1 ist keine Farbe! %2"
 
 #: qx/util/Validate.js:242
 msgid "%1 is not in the range from [%2, %3]."
-msgstr ""
+msgstr "%1 liegt nicht im Intervall [%2, %3]."
 
 #: qx/util/Validate.js:264
 msgid "%1 is not in %2"
-msgstr ""
+msgstr "%1 ist nicht in %2"
 
 #: qx/util/Validate.js:287
 msgid "%1 does not fit %2."
-msgstr ""
+msgstr "%1 passt nicht zu %2."

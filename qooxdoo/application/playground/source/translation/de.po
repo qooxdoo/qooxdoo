@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: you@qooxdoo.org\n"
 "POT-Creation-Date: 2007-10-18 14:00+0100\n"
-"PO-Revision-Date: 2009-12-10 18:58+0100\n"
+"PO-Revision-Date: 2010-04-22 18:58+0100\n"
 "Last-Translator: Thomas Herchenroeder <thron7 AT users DOT sourceforge DOT net>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +34,11 @@ msgstr "Eigener Code"
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
-msgstr ""
+msgstr "// Konnte den URL Parameter nicht verarbeiten! \n// %1"
 
 #: playground/Application.js:403
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
-msgstr ""
+msgstr "// Ihr Browser hat eine Längenbeschränkung des URL Parameters, was das Problem verursacht haben könnte."
 
 #: playground/Application.js:420
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
