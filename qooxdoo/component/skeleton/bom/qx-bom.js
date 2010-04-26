@@ -1,5 +1,5 @@
 /*
- * This is mock content and will be overwritten with the first 'generate.py source'.
+ * This is mock content and will be overwritten with the first 'generate.py build'.
  */
 function inform(){
   var message = 
