@@ -2925,8 +2925,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       
       "webkit" : function()
       {
-        qx.bom.Element.focus(this.getContentBody());
         qx.bom.Element.focus(this.getContentWindow());
+        qx.bom.Element.focus(this.getContentBody());
         
         var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
         if (elementToFocus) {
