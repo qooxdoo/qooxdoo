@@ -460,6 +460,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
               if (!value) {
                 continue;
               }
+              
+              // ignore focus marker
+              if (name == "id" && value == "__elementToFocus__") {
+                continue;
+              }
 
               // Ignore qooxdoo attributes (for example $$hash)
               if (name.charAt(0) === "$") {
@@ -902,15 +907,50 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     setValue : function(value)
     {
-       if (typeof value === "string")
-       {
-         this.__value = value;
+      if (typeof value === "string")
+      {
+        this.__value = value;
 
-         var doc = this._getIframeDocument();
-         if (doc && doc.body) {
-           doc.body.innerHTML = value;
-         }
-       }
+        var doc = this._getIframeDocument();
+        if (doc && doc.body) {
+          doc.body.innerHTML = this.__generateDefaultContent(value);
+        }
+      }
+    },
+    
+    
+    /**
+     * Generates the default content and inserts the given string
+     * 
+     * @param value {String} string to insert into the default content
+     */
+    __generateDefaultContent : function(value)
+    {
+      // bogus node for Firefox 2.x
+      var bogusNode = "";
+      if (qx.core.Variant.isSet("qx.client","gecko"))
+      {
+        if (qx.bom.client.Browser.VERSION <= 2) {
+          bogusNode += '<br _moz_editor_bogus_node="TRUE" _moz_dirty=""/>';
+        }
+      }
+      
+      var zeroWidthNoBreakSpace = value.length == 0 ? "\ufeff" : "";
+      var idForFontElement = qx.core.Variant.isSet("qx.client", "gecko|webkit") ? 'id="__elementToFocus__"' : '';
+      
+      var defaultContent = '<p>' + 
+                           '<span style="font-family:' +
+                            this.getDefaultFontFamily() + '">' +
+                           '<font ' + idForFontElement + ' size="' +
+                           this.getDefaultFontSize() +'">' +
+                           bogusNode + 
+                           value + 
+                           zeroWidthNoBreakSpace + 
+                           '</font>' +
+                           '</span>' +
+                           '</p>';
+      
+      return defaultContent; 
     },
 
 
@@ -2272,6 +2312,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     _handleFocusEvent : function(e)
     {
       this.__storedSelectedHtml = null;
+      
+      if (qx.core.Variant.isSet("qx.client","gecko|webkit"))
+      {
+        // Remove element to focus, as the editor is focused for the first time
+        // and the element is not needed anymore.
+        var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
+        if (elementToFocus) {
+          qx.bom.element.Attribute.reset(elementToFocus, "id");
+        }
+      }
 
       this.fireEvent("focused");
     },
@@ -2789,6 +2839,176 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
       "default" : qx.lang.Function.returnFalse
     }),
+
+
+    /*
+      -----------------------------------------------------------------------------
+      FOCUS MANAGEMENT
+      -----------------------------------------------------------------------------
+    */
+    
+    /**
+     * Convenient function to select an element. The "set" method of qx.bom.Selection is not 
+     * sufficient here. It does select the element, but does not show the caret.
+     *
+     * @param element {Element} DOM element to select
+     */
+    _selectElement : function(element)
+    {
+      var selection = this.getContentWindow().getSelection();
+      var range =  this.getContentDocument().createRange();
+    
+      range.setStart(element, 0);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    },
+
+    
+    /**
+     * Can be used to set the user focus to the content. Also used when the "TAB" key is used to 
+     * tab into the component. This method is also called by the {@link qx.ui.embed.HtmlArea} widget. 
+     * 
+     * @signature function()
+     */
+    focusContent : qx.core.Variant.select("qx.client",
+    { 
+      "gecko" : function()
+      {
+        var contentDocument = this.getContentDocument();
+        contentDocument.documentElement.focus();
+
+        var elementToFocus = contentDocument.getElementById("__elementToFocus__");
+        if (elementToFocus)
+        {
+          qx.bom.element.Attribute.reset(elementToFocus, "id");
+          qx.bom.Selection.set(elementToFocus, 0, 0);
+        }
+        else {
+          this.__checkForContentAndSetDefaultContent();
+        }
+      },
+      
+      "webkit" : function()
+      {
+        qx.bom.Element.focus(this.getContentBody());
+        qx.bom.Element.focus(this.getContentWindow());
+        
+        var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
+        if (elementToFocus) {
+          qx.bom.element.Attribute.reset(elementToFocus, "id");
+        }
+        
+        this.__checkForContentAndSetDefaultContent();       
+      },
+
+      "opera" : function()
+      {
+        qx.bom.Element.focus(this.getContentWindow());
+        qx.bom.Element.focus(this.getContentBody());
+        
+        this.__checkForContentAndSetDefaultContent();
+      },
+      
+      "default" : function()
+      {
+        qx.bom.Element.focus(this.getContentBody());
+        
+        this.__checkForContentAndSetDefaultContent();
+      }
+    }),
+    
+    
+    /**
+     * Helper method which checks if content is available and if not sets the default content.
+     */
+    __checkForContentAndSetDefaultContent : function()
+    {
+      if (!this.__isContentAvailable()) {
+        this.__resetToDefaultContentAndSelect();
+      }
+    },
+    
+    
+    /**
+     * Checks whether content is available
+     * 
+     * @signature function()
+     */
+    __isContentAvailable : qx.core.Variant.select("qx.client", 
+    {
+      "gecko" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          // consider a BR element with "_moz_dirty" attribute as empty content
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br") && 
+                   qx.bom.element.Attribute.get(childElements[0], "_moz_dirty") != null);
+        } else {
+          return true; 
+        }
+      },
+      
+      "webkit" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          // consider a solely BR element as empty content
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br"));
+        } else {
+          return true; 
+        }
+      },
+      
+      "default" : function()
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        
+        if (childElements.length == 0) {
+          return false;
+        } else if (childElements.length == 1) {
+          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "p") && 
+                   childElements[0].firstChild == null); 
+        } else {
+          return true;
+        }
+      }
+    }),
+    
+    
+    /**
+     * Resets the content and selects the default focus node
+     * 
+     * @signature function()
+     */
+    __resetToDefaultContentAndSelect : qx.core.Variant.select("qx.client",
+    {
+      "gecko|webkit" : function()
+      {
+        this.getContentDocument().body.innerHTML = this.__generateDefaultContent("");
+      
+        var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
+        qx.bom.element.Attribute.reset(elementToFocus, "id");
+        this._selectElement(elementToFocus);
+      },
+      
+      "default" : function()
+      {
+        var firstParagraph = qx.dom.Hierarchy.getFirstDescendant(this.getContentBody());
+        
+        if (qx.dom.Node.isNodeName(firstParagraph, "p"))
+        {
+          qx.bom.element.Style.set(firstParagraph, "font-family", this.getDefaultFontFamily());
+          qx.bom.element.Style.set(firstParagraph, "font-size", this.getDefaultFontSize());
+        }          
+      }
+    }),
+    
 
     /*
       -----------------------------------------------------------------------------
