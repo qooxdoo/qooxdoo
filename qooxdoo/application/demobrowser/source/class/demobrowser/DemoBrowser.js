@@ -184,6 +184,14 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
+    this.__menuElements =
+    [
+      this._runbutton,
+      this.__sobutt,
+      this.__playgroundButton,
+      this.__viewPart,
+      this.__themePart
+    ];
 
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
@@ -226,6 +234,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     __searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
+    __sobutt : null,
+    __viewPart : null,
+    __themePart : null,
     
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
@@ -362,6 +373,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._navPart.add(this._stopbutton);
       this._stopbutton.setVisibility("excluded");
 
+      // Avoid flickering of the buttons are exchanged
+      this._runbutton.setMinWidth(60);
+      this._stopbutton.setMinWidth(60);
+
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
       prevbutt.addListener("execute", this.playPrev, this);
@@ -376,6 +391,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
+      this.__sobutt = sobutt;
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
       this._navPart.add(sobutt);
@@ -401,6 +417,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -----------------------------------------------------
 
       var menuPart = new qx.ui.toolbar.Part;
+      this.__themePart = menuPart;
       bar.add(menuPart);
 
       var themeMenu = new qx.ui.menu.Menu;
@@ -451,6 +468,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -----------------------------------------------------
 
       var viewPart = new qx.ui.toolbar.Part;
+      this.__viewPart = viewPart;
       bar.addSpacer();
       bar.add(viewPart);
 
@@ -793,6 +811,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.__logDone = false;
         this.__iframe.setSource(url);
+      }
+
+      // Toggle menu buttons
+      if (url == this.defaultUrl) {
+        this.disableMenuButtons();
+      } else {
+        this.enableMenuButtons();
       }
 
       this._currentSample = value;
@@ -1171,6 +1196,30 @@ qx.Class.define("demobrowser.DemoBrowser",
           this._stopbutton.setVisibility("excluded");
           this._runbutton.setVisibility("visible");
         }
+      }
+    },
+
+
+    /**
+     * Diables all menu buttons which functionality only works with a selected
+     * demo.
+     */
+    disableMenuButtons : function() 
+    {
+      var elements = this.__menuElements;      
+      for(i=0; i<elements.length; i++) {
+        elements[i].setEnabled(false);
+      }
+    },
+
+    /**
+     * Enables all menu buttons which functionality only works with a selected
+     * demo.
+     */
+    enableMenuButtons : function() {
+      var elements = this.__menuElements;      
+      for(i=0; i<elements.length; i++) {
+        elements[i].setEnabled(true);
       }
     },
 
