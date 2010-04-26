@@ -35,6 +35,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.assertEquals(3, widget.getModelSelection().getItem(0));
     },
 
+
     __testGetMulti : function(widget, children)
     {
       var children = children || widget.getChildren();
@@ -45,9 +46,11 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the model selection again
       widget.setSelection([children[1], children[2]]);
-      this.assertEquals(2, widget.getModelSelection().getItem(0));
-      this.assertEquals(3, widget.getModelSelection().getItem(1));
+      this.assertEquals(2, widget.getModelSelection().getLength(), "Wrong length");      
+      this.assertTrue(widget.getModelSelection().contains(2));
+      this.assertTrue(widget.getModelSelection().contains(3));
     },
+    
 
     __testSetSingle : function(widget, children)
     {
@@ -62,6 +65,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.assertEquals(children[2], widget.getSelection()[0]);
     },
 
+
     __testSetMulti : function(widget, children)
     {
       var children = children || widget.getChildren();
@@ -72,8 +76,9 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the set selection again
       widget.setModelSelection([2, 3]);
-      this.assertEquals(children[1], widget.getSelection()[0]);
-      this.assertEquals(children[2], widget.getSelection()[1]);
+      this.assertEquals(2, widget.getSelection().length);
+      this.assertTrue(qx.lang.Array.contains(widget.getSelection(), children[1]));
+      this.assertTrue(qx.lang.Array.contains(widget.getSelection(), children[2]));
     },
 
 
@@ -85,12 +90,14 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       return box;
     },
 
+
     __createList : function()
     {
       var list = new qx.ui.form.List();
       this.__addListItems(list);
       return list;
     },
+
 
     __addListItems : function(widget) {
       for (var i = 0; i < 3; i++) {
@@ -100,11 +107,13 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       }
     },
 
+
     __createRadioGroup : function() {
       var group = new qx.ui.form.RadioGroup();
       this.__addRadioButton(group);
       return group;
     },
+
 
     __createRadioButtonGroup : function() {
       var group = new qx.ui.form.RadioButtonGroup();
@@ -147,14 +156,13 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
     },
 
 
-
-
     testSelectBoxGetSingle : function()
     {
       var box = this.__createSelectBox();
       this.__testGetSingle(box);
       this.__getRidOf(box);
     },
+
 
     testSelectBoxSetSingle : function()
     {
@@ -171,12 +179,14 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__getRidOf(list);
     },
 
+
     testListSetSingle : function()
     {
       var list = this.__createList();
       this.__testSetSingle(list);
       this.__getRidOf(list);
     },
+
 
     testListGetMulti : function()
     {
@@ -185,6 +195,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__testGetMulti(list);
       this.__getRidOf(list);
     },
+
 
     testListSetMulti : function()
     {
@@ -202,12 +213,14 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__getRidOf(group);
     },
 
+
     testRadioGroupSetSingle : function()
     {
       var group = this.__createRadioGroup();
       this.__testSetSingle(group);
       this.__getRidOf(group);
     },
+
 
     testRadioButtonGroupGetSingle : function()
     {
@@ -216,12 +229,14 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__getRidOf(group);
     },
 
+
     testRadioButtonGroupSetSingle : function()
     {
       var group = this.__createRadioButtonGroup();
       this.__testSetSingle(group);
       this.__getRidOf(group);
     },
+
 
     testTreeGetSingle : function()
     {
@@ -231,6 +246,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       widget.destroy();
     },
 
+
     testTreeSetSingle : function()
     {
       var widget = this.__createTree();
@@ -238,6 +254,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__testSetSingle(widget, children);
       widget.destroy();
     },
+
 
     testTreeGetMulti : function()
     {
@@ -248,6 +265,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       widget.destroy();
     },
 
+
     testTreeSetMulti : function()
     {
       var widget = this.__createTree();
@@ -256,8 +274,5 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.__testSetMulti(widget, children);
       widget.destroy();
     }
-
-
-
   }
 });
