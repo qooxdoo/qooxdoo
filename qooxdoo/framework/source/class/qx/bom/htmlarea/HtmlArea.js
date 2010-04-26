@@ -2876,10 +2876,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       {
         var contentDocument = this.getContentDocument();
         var elementToFocus = contentDocument.getElementById("__elementToFocus__");
-        contentDocument.documentElement.focus();
+        
+        this.getContentWindow().focus();
+        qx.bom.Element.focus(this.getContentBody());
 
         if (elementToFocus) {
-          qx.bom.Selection.set(elementToFocus, 0, 0);
+          this._selectElement(elementToFocus);
         } else {
           this.__checkForContentAndSetDefaultContent();
         }
@@ -2935,14 +2937,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       "gecko" : function()
       {
-        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        // important to check for all childNodes (text nodes inclusive) rather than only check for
+        // child element nodes
+        var childs = this.getContentBody().childNodes;
         
-        if (childElements.length == 0) {
+        if (childs.length == 0) {
           return false;
-        } else if (childElements.length == 1) {
+        } else if (childs.length == 1) {
           // consider a BR element with "_moz_dirty" attribute as empty content
-          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br") && 
-                   qx.bom.element.Attribute.get(childElements[0], "_moz_dirty") != null);
+          return !(childs[0] && qx.dom.Node.isNodeName(childs[0], "br") && 
+                   qx.bom.element.Attribute.get(childs[0], "_moz_dirty") != null);
         } else {
           return true; 
         }
@@ -2950,13 +2954,15 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       
       "webkit" : function()
       {
-        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        // important to check for all childNodes (text nodes inclusive) rather than only check for
+        // child element nodes
+        var childs = this.getContentBody().childNodes;
         
-        if (childElements.length == 0) {
+        if (childs.length == 0) {
           return false;
-        } else if (childElements.length == 1) {
+        } else if (childs.length == 1) {
           // consider a solely BR element as empty content
-          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "br"));
+          return !(childs[0] && qx.dom.Node.isNodeName(childs[0], "br"));
         } else {
           return true; 
         }
@@ -2964,13 +2970,15 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       
       "default" : function()
       {
-        var childElements = qx.dom.Hierarchy.getChildElements(this.getContentBody());
+        // important to check for all childNodes (text nodes inclusive) rather than only check for
+        // child element nodes
+        var childs = this.getContentBody().childNodes;
         
-        if (childElements.length == 0) {
+        if (childs.length == 0) {
           return false;
-        } else if (childElements.length == 1) {
-          return !(childElements[0] && qx.dom.Node.isNodeName(childElements[0], "p") && 
-                   childElements[0].firstChild == null); 
+        } else if (childs.length == 1) {
+          return !(childs[0] && qx.dom.Node.isNodeName(childs[0], "p") && 
+                   childs[0].firstChild == null); 
         } else {
           return true;
         }
