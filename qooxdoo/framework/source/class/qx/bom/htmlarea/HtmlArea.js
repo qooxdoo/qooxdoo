@@ -2913,15 +2913,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       "gecko" : function()
       {
         var contentDocument = this.getContentDocument();
+        var elementToFocus = contentDocument.getElementById("__elementToFocus__");
         contentDocument.documentElement.focus();
 
-        var elementToFocus = contentDocument.getElementById("__elementToFocus__");
-        if (elementToFocus)
-        {
-          qx.bom.element.Attribute.reset(elementToFocus, "id");
+        if (elementToFocus) {
           qx.bom.Selection.set(elementToFocus, 0, 0);
-        }
-        else {
+        } else {
           this.__checkForContentAndSetDefaultContent();
         }
       },
