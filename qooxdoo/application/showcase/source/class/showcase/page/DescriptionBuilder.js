@@ -25,7 +25,7 @@ qx.Class.define("showcase.page.DescriptionBuilder",
       qx.core.Setting.get("qx.version") + "/demobrowser/",
     _apiPrefix : "http://demo.qooxdoo.org/" +
       qx.core.Setting.get("qx.version") +"/apiviewer/",
-    _manualPrefix : "http://qooxdoo.org/documentation/1.0/",
+    _manualPrefix : "http://qooxdoo.org/documentation/1.1/",
 
 
     build : function(header, text, tryThis, features, manual, demos, api)
