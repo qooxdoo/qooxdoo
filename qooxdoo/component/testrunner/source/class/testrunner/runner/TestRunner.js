@@ -57,9 +57,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     var params = location.search;
 
-    // Determine test to preselect: Use the test namespace as a default
-    this.__setCurrentTestArray(this.nameSpace);
-    // then check the history
+    // Determine test to preselect: Check the history
     var history = qx.bom.History.getInstance();
     if (history.getState()) {
       this.__setCurrentTestArray(history.getState());
@@ -895,8 +893,6 @@ qx.Class.define("testrunner.runner.TestRunner",
             if (level < 2 && !that.getCurrentTest())
             {
               t.setOpen(true);
-              // Store node to select:
-              initalSelected = t;
             }
 
             if (that.getCurrentTest()) {
@@ -967,8 +963,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       if (initalSelected) {
         fulltree.setSelection([initalSelected]);
       }
-
-      if (selectedElement)  // try to re-select previously selected element
+      else if (selectedElement)  // try to re-select previously selected element
       {
         var element = selectedElement.widgetLinkFull.getParent();
 
@@ -980,6 +975,15 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         // Finally select the element
         selectedElement.widgetLinkFull.getTree().setSelection([selectedElement.widgetLinkFull]);
+      }
+      else {
+        var node = fulltree.getRoot();
+        for (var i=0; i<3; i++) {
+          if (node.hasChildren()) {
+            node = node.getChildren()[0];
+          }
+        }
+        fulltree.setSelection([node]);
       }
 
     },  // leftReloadTree
