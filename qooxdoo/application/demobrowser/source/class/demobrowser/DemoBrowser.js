@@ -76,7 +76,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Commands & Menu Bar
     this.__makeCommands();
-    this.add(this.__makeToolBar());
+    this.__menuBar = this.__makeToolBar();
+    this.add(this.__menuBar);
 
 
     // Main Split Pane
@@ -95,7 +96,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
-    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+    if (qx.core.Variant.isSet("qx.contrib", "on"))
+    {
       var versionComposite = new qx.ui.container.Composite();
       versionComposite.setLayout(new qx.ui.layout.HBox(3));
       leftComposite.add(versionComposite);
@@ -193,8 +195,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     stack.resetSelection();
     stack.exclude();
 
-
-
     // Back button and bookmark support
     this._history = qx.bom.History.getInstance();
     this._history.addListener("request", function(e)
@@ -207,6 +207,14 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
+    this.__menuElements =
+    [
+      this._runbutton,
+      this.__sobutt,
+      this.__playgroundButton,
+      this.__viewPart,
+      this.__themePart
+    ];
 
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
@@ -249,9 +257,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     __searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
-
+    __menuElements : null,
     __versionFilter : null,
     __versionTags : {},
+    __sobutt : null,
+    __viewPart : null,
+    __themePart : null,
+
 
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
@@ -304,20 +316,23 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __setCurrentJSCode : function(code) {
+    __setCurrentJSCode : function(code)
+    {
       var playable = !!code;
 
       var currentTags = this.__tree.getSelection()[0].getUserData("tags");
       if (currentTags) {
         playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
       }
-      this.__playgroundButton.setEnabled(playable);
+
       this.__currentJSCode = code;
     },
 
 
-    __toPlayground : function() {
-      if (this.__currentJSCode) {
+    __toPlayground : function()
+    {
+      if (this.__currentJSCode)
+      {
         var code = this.__currentJSCode;
         var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
         var url = this.playgroundUrl + "#" + encodeURIComponent(codeJson);
@@ -388,6 +403,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._navPart.add(this._stopbutton);
       this._stopbutton.setVisibility("excluded");
 
+      // Avoid flickering of the buttons are exchanged
+      this._runbutton.setMinWidth(60);
+      this._stopbutton.setMinWidth(60);
+
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
       prevbutt.addListener("execute", this.playPrev, this);
@@ -404,6 +423,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
+      this.__sobutt = sobutt;
       this._navPart.add(sobutt);
 
       // -- to playground
@@ -429,10 +449,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -----------------------------------------------------
 
       var menuPart = new qx.ui.toolbar.Part;
+      this.__themePart = menuPart;
       bar.add(menuPart);
 
-      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      {
         var themeMenu = new qx.ui.menu.Menu;
+        
+        this.__themeMenu = themeMenu;
 
         var t1 = new qx.ui.menu.RadioButton("Modern Theme");
         var t2 = new qx.ui.menu.RadioButton("Classic Theme");
@@ -459,7 +483,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var menu = new qx.ui.menu.Menu;
 
-      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      {
         var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
         summaryBtn.setCommand(this._cmdObjectSummary);
         menu.add(summaryBtn);
@@ -483,10 +508,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -----------------------------------------------------
 
       var viewPart = new qx.ui.toolbar.Part;
+      this.__viewPart = viewPart;
       bar.addSpacer();
       bar.add(viewPart);
 
-      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      {
         var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
         htmlView.setToolTipText("Display HTML source");
         var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
@@ -796,7 +823,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      */
-    stopSample : function(e) {
+    stopSample : function(e)
+    {
       this.setPlayDemos("current");
       this._stopbutton.setVisibility("excluded");
       this._runbutton.setVisibility("visible");
@@ -842,6 +870,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.__logDone = false;
         this.__iframe.setSource(url);
+      }
+
+      // Toggle menu buttons
+      if (url == this.defaultUrl) {
+        this.disableMenuButtons();
+      } else {
+        this.enableMenuButtons();
       }
 
       this._currentSample = value;
@@ -1285,6 +1320,28 @@ qx.Class.define("demobrowser.DemoBrowser",
       return bsrc.get();
     },
 
+    /**
+     * Diables all menu buttons which functionality only works with a selected
+     * demo.
+     */
+    disableMenuButtons : function() 
+    {
+      var elements = this.__menuElements;      
+      for(i=0; i<elements.length; i++) {
+        elements[i].setEnabled(false);
+      }
+    },
+
+    /**
+     * Enables all menu buttons which functionality only works with a selected
+     * demo.
+     */
+    enableMenuButtons : function() {
+      var elements = this.__menuElements;      
+      for(i=0; i<elements.length; i++) {
+        elements[i].setEnabled(true);
+      }
+    },
 
     __beautyHtml : function (str)
     {
