@@ -546,6 +546,11 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __loaderCallback : function(source, imageInfo)
     {
+      // Ignore the callback on already disposed images
+      if (this.$$disposed === true) {
+        return;
+      }
+      
       // Ignore when the source has already been modified
       if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
         return;
