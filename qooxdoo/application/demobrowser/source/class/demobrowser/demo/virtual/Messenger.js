@@ -143,14 +143,14 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 //      controller.addTarget(inpStatus, "value", "status", true);
 
       this.messenger.bind(
-        "selection[0].status", inpStatus, 
+        "selection[0].status", inpStatus,
         "modelSelection",
         {
           converter: function(data) {
             return [data]
-          } 
+          }
         }
-      );      
+      );
 
       inpStatus.bind("selection", this.messenger, "selection[0].status", {
         converter : function(data) {

@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
         this.debug("Sending selection: " + input1.getTextSelection());
       });
       controls.add(btnSendTextSelection);
-      
+
       var btnSendTextSelectionStart = new qx.ui.form.Button("Send start of selection");
       btnSendTextSelectionStart.setFocusable(false);
       btnSendTextSelectionStart.setKeepFocus(true);
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
         this.debug("Sending selection: " + input1.getTextSelectionStart());
       });
       controls.add(btnSendTextSelectionStart);
-      
+
       var btnSendTextSelectionEnd = new qx.ui.form.Button("Send end of selection");
       btnSendTextSelectionEnd.setFocusable(false);
       btnSendTextSelectionEnd.setKeepFocus(true);

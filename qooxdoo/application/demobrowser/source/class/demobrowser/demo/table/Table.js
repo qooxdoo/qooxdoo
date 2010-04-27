@@ -31,7 +31,7 @@
  * A table with virtual scrolling, model-view-controller, renderer,
  * editing, sorting, column resizing, column reordering,
  * column hiding.
- * 
+ *
  * @tag noPlayground
  * @tag showcase
  */

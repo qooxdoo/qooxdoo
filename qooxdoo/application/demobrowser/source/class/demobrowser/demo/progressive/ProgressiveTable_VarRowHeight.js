@@ -14,7 +14,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
   members :
   {
     __loadCount : null,
-    
+
     main : function()
     {
       this.base(arguments);

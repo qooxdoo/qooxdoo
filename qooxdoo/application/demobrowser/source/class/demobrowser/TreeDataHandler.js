@@ -363,7 +363,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
     {
       var classname = "";
       var tests = [];
-      
+
       classloop:
       for (var i=0; i<this.tmap.length; i++)
       {

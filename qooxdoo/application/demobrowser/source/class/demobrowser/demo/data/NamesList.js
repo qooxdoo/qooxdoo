@@ -25,7 +25,7 @@
 
 /**
  * @tag databinding
- */ 
+ */
 qx.Class.define("demobrowser.demo.data.NamesList",
 {
   extend : qx.application.Standalone,

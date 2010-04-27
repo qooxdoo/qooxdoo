@@ -138,7 +138,7 @@ qx.Class.define("demobrowser.demo.data.Form",
       }
 
       // invoke the serialization
-      sendButton.addListener("execute", function() {
+      sendButton.addListener("execute", function() {
         if (manager.validate()) {
           alert("You are sending: " + qx.util.Serializer.toUriParameter(model, qxSerializer));
         }

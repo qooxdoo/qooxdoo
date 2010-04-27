@@ -1,7 +1,7 @@
 qx.Class.define("performance.test.mock.SlimComposite",
 {
   extend : qx.ui.container.Composite,
-  
+
   members :
   {
     elementMock : {
@@ -9,13 +9,13 @@ qx.Class.define("performance.test.mock.SlimComposite",
       setStyle : function() {},
       dispose : function() {}
     },
-    
+
     _createContentElement : function() {
-      return this.elementMock; 
+      return this.elementMock;
     },
-    
+
     getContentElement : function() {
       return this.getContainerElement();
     }
-  }  
+  }
 });

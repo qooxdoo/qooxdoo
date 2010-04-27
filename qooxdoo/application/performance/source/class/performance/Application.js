@@ -32,7 +32,7 @@ qx.Class.define("performance.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -60,7 +60,7 @@ qx.Class.define("performance.Application",
 
       // Document is the application root
       var doc = this.getRoot();
-			
+
       // Add button to document at fixed coordinates
       doc.add(button1, {left: 100, top: 50});
 

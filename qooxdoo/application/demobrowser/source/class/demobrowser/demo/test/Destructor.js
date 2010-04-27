@@ -31,14 +31,14 @@ qx.Class.define("demobrowser.demo.test.Destructor",
     __data : null,
     __round : 0,
     __timer : null,
-    
+
     main : function()
     {
       // Call super class
       this.base(arguments);
 
       this.__data = [];
-      
+
       // Test labels
       // this.currentTest = this.testLabels;
       this.currentTest = this.testWindows;

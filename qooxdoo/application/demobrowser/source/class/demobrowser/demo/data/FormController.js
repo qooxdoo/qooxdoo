@@ -72,7 +72,7 @@ qx.Class.define("demobrowser.demo.data.FormController",
 
 
       // serialization and reset /////////
-      saveButton.addListener("execute", function() {
+      saveButton.addListener("execute", function() {
         if (form.validate()) {
           alert("You are saving: " + qx.util.Serializer.toJson(model));
         }

@@ -74,7 +74,7 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
         bindItem : function(controller, item, id) {
           controller.bindProperty("name", "label", null, item, id);
           controller.bindProperty("online", "value", null, item, id);
-          controller.bindPropertyReverse("online", "value", null, item, id);          
+          controller.bindPropertyReverse("online", "value", null, item, id);
         }
       };
       controller.setDelegate(delegate);

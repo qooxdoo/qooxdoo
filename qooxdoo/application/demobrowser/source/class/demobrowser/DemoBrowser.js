@@ -24,7 +24,7 @@
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
-#asset(qx/icon/Tango/16/actions/edit-find.png) 
+#asset(qx/icon/Tango/16/actions/edit-find.png)
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
@@ -95,33 +95,33 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
-    // search    
+    // search
     var searchComposlite = new qx.ui.container.Composite();
     searchComposlite.setLayout(new qx.ui.layout.HBox(3));
     searchComposlite.setAppearance("textfield");
     leftComposite.add(searchComposlite);
-    
+
     var searchIcon = new qx.ui.basic.Image("icon/16/actions/edit-find.png");
     searchComposlite.add(searchIcon);
-    
+
     this.__searchTextField = new qx.ui.form.TextField();
     this.__searchTextField.setLiveUpdate(true);
     this.__searchTextField.setAppearance("widget");
     this.__searchTextField.setPlaceholder("Filter...");
     this.__searchTextField.addListener("changeValue", function(e) {
       this.filter(e.getData());
-    }, this);    
+    }, this);
     searchComposlite.add(this.__searchTextField, {flex: 1});
-    
+
     // create the status of the tree
     this.__status = new qx.ui.basic.Label("");
     this.__status.setAppearance("widget");
     this.__status.setWidth(80);
     this.__status.setTextAlign("right");
     searchComposlite.add(this.__status);
-            
-    mainsplit.add(infosplit, 1);    
-    
+
+    mainsplit.add(infosplit, 1);
+
     this.__tree = this.__makeTree();
     leftComposite.add(this.__tree, {flex: 1});
 
@@ -237,7 +237,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __sobutt : null,
     __viewPart : null,
     __themePart : null,
-    
+
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
 
@@ -287,21 +287,21 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sampUrl = this.__iframe.getWindow().location.href;
       window.open(sampUrl, "_blank");
     },
-    
-    
+
+
     __setCurrentJSCode : function(code) {
       var playable = !!code;
-      
+
       var currentTags = this.__tree.getSelection()[0].getUserData("tags");
       if (currentTags) {
-        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground"); 
+        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
       }
       this.__playgroundButton.setEnabled(playable);
       this.__currentJSCode = code;
     },
-    
-    
-    __toPlayground : function() {    
+
+
+    __toPlayground : function() {
       if (this.__currentJSCode) {
         var code = this.__currentJSCode;
         var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
@@ -395,19 +395,19 @@ qx.Class.define("demobrowser.DemoBrowser",
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
       this._navPart.add(sobutt);
-      
+
       // -- to playground
       var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
       playgroundButton.addListener("execute", this.__toPlayground, this);
       playgroundButton.setToolTipText("Open demo in the playground");
       playgroundButton.setEnabled(false);
-      
+
       // Loading demos into IE fails most of the time because IE truncates
-      // long URLs 
+      // long URLs
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         playgroundButton.exclude();
       }
-      
+
       this.__playgroundButton = playgroundButton;
       this._navPart.add(playgroundButton);
 
@@ -702,7 +702,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
-            t.setUserData("tags", currNode.tags);            
+            t.setUserData("tags", currNode.tags);
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
@@ -892,9 +892,9 @@ qx.Class.define("demobrowser.DemoBrowser",
           // Register to logger
           this.logappender.$$id = null;
           this.logappender.clear();
-          
+
           try {
-            fwindow.qx.log.Logger.register(this.logappender);            
+            fwindow.qx.log.Logger.register(this.logappender);
           } catch (e) {
             // if the logger is not available, ignore it
             return;
@@ -926,17 +926,17 @@ qx.Class.define("demobrowser.DemoBrowser",
      * This method filters the folders in the tree.
      * @param term {String} The search term.
      */
-    filter : function(term) 
+    filter : function(term)
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
       var items = this.__tree.getRoot().getItems(true, true);
-      
+
       var showing = 0;
       var count = 0;
       for (var i = 0; i < items.length; i++) {
         var folder = items[i];
         var parent = folder.getParent();
-        
+
         // check for the tags
         var tags = folder.getUserData("tags");
         var inTags = false;
@@ -946,15 +946,15 @@ qx.Class.define("demobrowser.DemoBrowser",
             if (inTags) {
               break;
             }
-          };          
+          };
         }
 
         if (folder.getChildren().length == 0) {
           count++;
         }
 
-        if (inTags || !folder.getLabel().search(searchRegExp) ||
-            !parent.getLabel().search(searchRegExp))
+        if (inTags || !folder.getLabel().search(searchRegExp) ||
+            !parent.getLabel().search(searchRegExp))
         {
           if (folder.getChildren().length == 0) {
             showing++;
@@ -966,7 +966,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           folder.exclude();
         }
       }
-      
+
       // special case for the empty sting
       if (term == "") {
         var folders = this.__tree.getRoot().getItems(false, true);
@@ -975,13 +975,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         // close all folders
         for (var i = 0; i < folders.length; i++) {
           // don't close the current selected
-          if (folders[i] == selection[0] || folders[i] == selection[0].getParent()) {
+          if (folders[i] == selection[0] || folders[i] == selection[0].getParent()) {
             continue;
           }
           folders[i].setOpen(false);
         }
       }
-      
+
       // update the status
       this.__status.setValue(showing + "/" + count);
     },
@@ -1039,10 +1039,10 @@ qx.Class.define("demobrowser.DemoBrowser",
           reqJSFile.setProhibitCaching(false);
           reqJSFile.addListener("completed", function(evt2) {
             var jsCode = evt2.getContent();
-            
+
             // store the current visible code
             this.__setCurrentJSCode(jsCode);
-            
+
             if (jsCode) {
               // set the javascript code to the javascript page
               this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
@@ -1204,9 +1204,9 @@ qx.Class.define("demobrowser.DemoBrowser",
      * Diables all menu buttons which functionality only works with a selected
      * demo.
      */
-    disableMenuButtons : function() 
+    disableMenuButtons : function()
     {
-      var elements = this.__menuElements;      
+      var elements = this.__menuElements;
       for(i=0; i<elements.length; i++) {
         elements[i].setEnabled(false);
       }
@@ -1217,7 +1217,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * demo.
      */
     enableMenuButtons : function() {
-      var elements = this.__menuElements;      
+      var elements = this.__menuElements;
       for(i=0; i<elements.length; i++) {
         elements[i].setEnabled(true);
       }
@@ -1392,9 +1392,9 @@ qx.Class.define("demobrowser.DemoBrowser",
   {
     this.widgets = this.tests = this._sampleToTreeNodeMap = this.tree =
       this.logelem = null;
-    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar", 
-      "f1", "f2", "_history", "logappender", '_cmdObjectSummary', 
-      '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', 
+    this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar",
+      "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
+      '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });

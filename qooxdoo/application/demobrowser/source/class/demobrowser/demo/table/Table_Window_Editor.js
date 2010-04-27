@@ -23,7 +23,7 @@
  * can be as sophisticated as one likes, so are useful for when a cell's
  * data is composed of many discrete parts that could be edited
  * individually. In this example, the "A number" column is editable.
- * 
+ *
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Window_Editor",

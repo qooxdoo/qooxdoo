@@ -292,7 +292,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       if (listItem.classname != "qx.ui.form.ListItem") {
         return ;
       }
-      
+
       var sel = this.__list.getSortedSelection();
 
       for (var i=0, l=sel.length; i<l; i++)
