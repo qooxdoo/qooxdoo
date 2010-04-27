@@ -222,7 +222,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      *
      * @signature function(functionMap, classname)
      * @param functionMap {Object} a map with functions as values
-     * @classname {String} the name of the class, the functions are defined in
+     * @param classname {String} the name of the class, the functions are
+     *   defined in
      */
     setDisplayNames : qx.Bootstrap.setDisplayNames,
 
