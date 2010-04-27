@@ -46,11 +46,11 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the model selection again
       widget.setSelection([children[1], children[2]]);
-      this.assertEquals(2, widget.getModelSelection().getLength(), "Wrong length");      
+      this.assertEquals(2, widget.getModelSelection().getLength(), "Wrong length");
       this.assertTrue(widget.getModelSelection().contains(2));
       this.assertTrue(widget.getModelSelection().contains(3));
     },
-    
+
 
     __testSetSingle : function(widget, children)
     {

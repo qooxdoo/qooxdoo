@@ -603,7 +603,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      *
      * @param redoInfo {Object} Redo info object
      * @return {Boolean}
-     * @singature function(redoInfo)
+     * @signature function(redoInfo)
      */
     __redoCustom : qx.core.Variant.select("qx.client", {
       "mshtml|webkit" : function(redoInfo)

@@ -187,7 +187,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Entries with includes, but without style are automatically merged
-      // by the ID handling in {link #getEntry}. When there is no style method in the
+      // by the ID handling in {@link #getEntry}. When there is no style method in the
       // final object the appearance is empty and null could be returned.
       if (!entry.style) {
         return null;

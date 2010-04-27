@@ -214,9 +214,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
     /**
-     * Set the names of alls functions defined in the given map
+     * Set the names of all functions defined in the given map
      *
-     * @signaure function(functionMap, classname)
+     * @signature function(functionMap, classname)
      * @param functionMap {Object} a map with functions as values
      * @classname {String} the name of the class, the functions are defined in
      */

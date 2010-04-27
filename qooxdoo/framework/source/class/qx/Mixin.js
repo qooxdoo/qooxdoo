@@ -275,7 +275,7 @@ qx.Bootstrap.define("qx.Mixin",
      * mixins these includes plus... (deep)
      *
      * @param mixins {Mixin[] ? []} List of mixins
-     * @returns {Array} List of all mixins
+     * @return {Array} List of all mixins
      */
     flatten : function(mixins)
     {

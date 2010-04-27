@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * Reset the value of the anonymous property to its previous state. Each call
      * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
      *
-     * @deprected 'It is not needed anymore.'
+     * @deprecated 'It is not needed anymore.'
      */
     _restoreAnonymousState : function()
     {

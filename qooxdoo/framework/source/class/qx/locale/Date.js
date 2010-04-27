@@ -173,7 +173,7 @@ qx.Class.define("qx.locale.Date",
 
 
     /**
-     * Return localized date format string to be used with @{link qx.util.format.DateFormat}.
+     * Return localized date format string to be used with {@link qx.util.format.DateFormat}.
      *
      * @param size {String} format of the date format.
      *      Possible values: "short", "medium", "long", "full"

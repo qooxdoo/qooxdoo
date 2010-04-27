@@ -407,7 +407,7 @@ qx.Class.define("qx.bom.History",
         qx.core.Assert.assertNumber(value, "Invalid attribute 'value'.");
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee,
-          "The property 'timeoutInterval' has been deprected. The history manager" +
+          "The property 'timeoutInterval' has been deprecated. The history manager" +
             "now uses 'qx.event.Idle' for polling."
         );
       }
@@ -429,7 +429,7 @@ qx.Class.define("qx.bom.History",
       {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee,
-          "The property 'timeoutInterval' has been deprected. The history manager" +
+          "The property 'timeoutInterval' has been deprecated. The history manager" +
             "now uses 'qx.event.Idle' for polling."
         );
       }
@@ -450,7 +450,7 @@ qx.Class.define("qx.bom.History",
       {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee,
-          "The property 'timeoutInterval' has been deprected. The history manager" +
+          "The property 'timeoutInterval' has been deprecated. The history manager" +
             "now uses 'qx.event.Idle' for polling."
         );
       }

@@ -21,7 +21,7 @@
  *
  * The right way to use the filter is to create a instance of it and
  * sort all properties in ({@link #sortIn}). After all properties are sorted in
- * which needed to be filtered / sorted, the {@lin #getResult} method returns
+ * which needed to be filtered / sorted, the {@link #getResult} method returns
  * a object containing the sorted / filtered properties.
  *
  * <pre class='javascript'>
