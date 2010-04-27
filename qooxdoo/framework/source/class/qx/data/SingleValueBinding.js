@@ -928,7 +928,7 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * This method takes the given value, checks if the user has given a
      * converter and converts the value to its target type. If no converter is
-     * given by the user, the {@link #__defaultConvertion} will try to convert
+     * given by the user, the {@link #__defaultConversion} will try to convert
      * the value.
      *
      * @param value {var} The value which possibly should be converted.
@@ -966,7 +966,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           target.constructor, lastProperty
         );
         var check = propertieDefinition == null ? "" : propertieDefinition.check;
-        return this.__defaultConvertion(value, check);
+        return this.__defaultConversion(value, check);
       }
     },
 
@@ -1002,7 +1002,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetCheck {String} The value of the check property. That usually
      *   contains the target type.
      */
-    __defaultConvertion : function(data, targetCheck) {
+    __defaultConversion : function(data, targetCheck) {
       var dataType = qx.lang.Type.getClass(data);
 
       // to integer
