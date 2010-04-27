@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       refine : true,
       init   : "htmlarea"
     },
-    
+
     /**
      * Default font family to use when e.g. user removes all content
      */
@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     focusable :
     {
       refine : true,
-      init : true 
+      init : true
     }
   },
 
@@ -402,8 +402,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__postPonedProperties["UseUndoRedo"] = value;
       }
     },
-    
-    
+
+
     _applyDefaultFontFamily : function(value, old)
     {
       if (this.__editorComponent != null) {
@@ -412,8 +412,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__postPonedProperties["DefaultFontFamily"] = value;
       }
     },
-    
-    
+
+
     _applyDefaultFontSize : function(value, old)
     {
       if (this.__editorComponent != null) {
@@ -1308,27 +1308,27 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this.__blockerElement.setStyle("display", "none");
       }
     },
-    
-    
+
+
     /*
     -----------------------------------------------------------------------------
       FOCUS MANAGEMENT
     -----------------------------------------------------------------------------
     */
-    
+
     // overridden
     focus : function()
     {
       this.base(arguments);
-      
+
       this.__focusContent();
-    },   
-    
+    },
+
     // overridden
     tabFocus : function()
     {
       this.base(arguments);
-      
+
       this.__focusContent();
     },
 
@@ -1345,8 +1345,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
       }
     }
   },
-  
-  
+
+
 
 
   /*

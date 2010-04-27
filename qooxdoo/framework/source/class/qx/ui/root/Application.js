@@ -102,9 +102,9 @@ qx.Class.define("qx.ui.root.Application",
        */
       if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body 
+        // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body
         // element seems to be available in the DOM, if the HTML file did not
-        // contain a body tag explicitly. Unfortunately, it cannot be added 
+        // contain a body tag explicitly. Unfortunately, it cannot be added
         // here dynamically.
         if (!doc.body) {
           alert("The application could not be started due to a missing body tag in the HTML file!");
