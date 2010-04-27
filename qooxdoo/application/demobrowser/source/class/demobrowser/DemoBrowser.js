@@ -209,7 +209,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     this.__menuElements =
     [
-      this._runbutton,
       this.__sobutt,
       this.__playgroundButton,
       this.__viewPart,
@@ -1327,7 +1326,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     disableMenuButtons : function()
     {
       var elements = this.__menuElements;
-      for(i=0; i<elements.length; i++) {
+      for(var i=0; i<elements.length; i++) {
         elements[i].setEnabled(false);
       }
     },
@@ -1338,7 +1337,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     enableMenuButtons : function() {
       var elements = this.__menuElements;
-      for(i=0; i<elements.length; i++) {
+      for(var i=0; i<elements.length; i++) {
         elements[i].setEnabled(true);
       }
     },
