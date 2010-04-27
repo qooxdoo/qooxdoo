@@ -614,7 +614,7 @@ qx.Class.define("playground.Application",
       } catch(ex) {
         var exc = ex;
       }
-      
+
       // run the code
       try {
         // save the current registry
