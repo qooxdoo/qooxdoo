@@ -35,7 +35,7 @@ qx.Class.define("inspector.objects2.table.HashModel",
       var data = [];
       for (var i = 0; i < objects.length; i++) {
         var object = objects[i];
-        data.push([object.toHashCode(), object.classname]);
+        data.push([parseInt(object.toHashCode()), object.classname]);
       }
 
       return data;
