@@ -53,9 +53,6 @@
  * ending brackets for those methods without parameters!
  * For the correct usage, take an additional look at the documentation of the
  * {@link qx.core.Property} class.
- *
- * @experimental Used as a base for the data binding. Perhaps the API can change
- * during the development process of the data binding components.
  */
 qx.Class.define("qx.util.Validate",
 {

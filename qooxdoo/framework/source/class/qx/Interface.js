@@ -184,7 +184,7 @@ qx.Bootstrap.define("qx.Interface",
      * (resolved recursively)
      *
      * @param ifaces {Interface[] ? []} List of interfaces to be resolved
-     * @returns {Array} List of all interfaces
+     * @return {Array} List of all interfaces
      */
     flatten : function(ifaces)
     {

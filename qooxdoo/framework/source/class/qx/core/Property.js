@@ -536,7 +536,7 @@ qx.Bootstrap.define("qx.core.Property",
         }
       }
 
-      // @deprecation warning (came in with 1.1)
+      // @deprecated warning (came in with 1.1)
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (config.dispose)

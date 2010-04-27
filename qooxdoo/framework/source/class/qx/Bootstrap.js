@@ -107,7 +107,7 @@ qx.Bootstrap = {
       }
 
       var statics = config.statics || {};
-      // use getKeys to include the shaddowed in IE
+      // use getKeys to include the shadowed in IE
       for (var i=0, keys=qx.Bootstrap.getKeys(statics), l=keys.length; i<l; i++) {
         var key = keys[i];
         clazz[key] = statics[key];
@@ -115,7 +115,7 @@ qx.Bootstrap = {
 
       proto = clazz.prototype;
       var members = config.members || {};
-      // use getKeys to include the shaddowed in IE
+      // use getKeys to include the shadowed in IE
       for (var i=0, keys=qx.Bootstrap.getKeys(members), l=keys.length; i<l; i++) {
         var key = keys[i];
         proto[key] = members[key];
@@ -218,9 +218,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
     /**
-     * Set the names of alls functions defined in the given map
+     * Set the names of all functions defined in the given map
      *
-     * @signaure function(functionMap, classname)
+     * @signature function(functionMap, classname)
      * @param functionMap {Object} a map with functions as values
      * @classname {String} the name of the class, the functions are defined in
      */

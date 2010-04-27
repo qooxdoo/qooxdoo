@@ -32,7 +32,7 @@
  * @childControl hue-saturation-pane {qx.ui.container.Composite} shows the hue saturation and the handle to select
  * @childControl hue-saturation-field {qx.ui.basic.Image} hue saturation image which shows all available colors
  * @childControl hue-saturation-handle {qx.ui.basic.Image} handle to select the color using the mouse
- * @childCOntrol brightness-pane {qx.ui.container.Composite} shows the brightness field and the handle to select
+ * @childControl brightness-pane {qx.ui.container.Composite} shows the brightness field and the handle to select
  * @childControl brightness-field {qx.ui.basic.Image} brightness image which shows all brightness steps
  * @childControl brightness-handle {qx.ui.basic.Image} brightness handle to select the brightness using the mouse
  * @childControl preset-field-set {qx.ui.groupbox.GroupBox} groupbox holding all preset colors

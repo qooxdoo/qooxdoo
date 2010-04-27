@@ -1272,7 +1272,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      *  Returns the node where the selection ends
      *
-     *  @return{Node?null} focus node or null if not initialized
+     *  @return {Node?null} focus node or null if not initialized
      */
     getFocusNode : function() {
       return this.__editorComponent != null ? this.__editorComponent.getFocusNode() : null;

@@ -26,7 +26,7 @@
  * @appearance table-focus-indicator {qx.ui.core.Widget}
  *
  * @childControl header {qx.ui.table.pane.Header} header pane
- * @childContol pane {qx.ui.table.pane.Pane} table pane to show the data
+ * @childControl pane {qx.ui.table.pane.Pane} table pane to show the data
  * @childControl focus-indicator {qx.ui.table.pane.FocusIndicator} shows the current focused cell
  * @childControl resize-line {qx.ui.core.Widget} resize line widget
  * @childControl scrollbar-x {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar}
