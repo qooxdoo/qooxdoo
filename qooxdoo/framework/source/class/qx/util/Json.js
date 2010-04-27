@@ -419,7 +419,7 @@ qx.Class.define("qx.util.Json",
       this.__beautify = beautify;
       this.__indent = this.BEAUTIFYING_LINE_END;
 
-      // Start convertion
+      // Start conversion
       var result = this.__convert(obj, "");
       if (typeof result != "string") {
         result = null;

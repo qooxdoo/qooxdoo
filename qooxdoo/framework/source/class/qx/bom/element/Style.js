@@ -214,7 +214,7 @@ qx.Class.define("qx.bom.element.Style",
     },
 
 
-    /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
+    /** {Map} Caches hyphened style names e.g. marginTop => margin-top. */
     __hyphens : {},
 
 

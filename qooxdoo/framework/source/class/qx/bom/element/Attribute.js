@@ -79,7 +79,7 @@ qx.Class.define("qx.bom.element.Attribute",
   statics :
   {
 
-    /** Internal map of attribute convertions */
+    /** Internal map of attribute conversions */
     __hints :
     {
       // Name translation table (camelcase is important for some attributes)
