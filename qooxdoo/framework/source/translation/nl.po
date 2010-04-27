@@ -337,34 +337,34 @@ msgstr[1] "%1 van %2 rijen"
 msgid "Reset column widths"
 msgstr "Kolombreedte herstellen"
 
-#: qx/util/Validate.js:90
+#: qx/util/Validate.js:87
 msgid "%1 is not a number."
 msgstr "%1 is geen nummer."
 
-#: qx/util/Validate.js:123
+#: qx/util/Validate.js:120
 msgid "'%1' is not an email address."
 msgstr "'%1' is geen email adres."
 
-#: qx/util/Validate.js:153
+#: qx/util/Validate.js:150
 msgid "%1 is not a string."
 msgstr "%1 is geen string."
 
-#: qx/util/Validate.js:184
+#: qx/util/Validate.js:181
 msgid "%1 is not an url."
 msgstr "%1 is geen url."
 
-#: qx/util/Validate.js:216
+#: qx/util/Validate.js:213
 msgid "%1 is not a color! %2"
 msgstr "%1 is geen kleur! %2"
 
-#: qx/util/Validate.js:242
+#: qx/util/Validate.js:239
 msgid "%1 is not in the range from [%2, %3]."
 msgstr "%1 is niet in het bereik van [%2, %3]."
 
-#: qx/util/Validate.js:264
+#: qx/util/Validate.js:261
 msgid "%1 is not in %2"
 msgstr "%1 is niet in %2"
 
-#: qx/util/Validate.js:287
+#: qx/util/Validate.js:284
 msgid "%1 does not fit %2."
 msgstr "%1 past niet %2."
