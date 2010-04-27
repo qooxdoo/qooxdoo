@@ -550,7 +550,7 @@ qx.Class.define("qx.ui.basic.Image",
       if (this.$$disposed === true) {
         return;
       }
-      
+
       // Ignore when the source has already been modified
       if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
         return;
