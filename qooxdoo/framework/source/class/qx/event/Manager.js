@@ -736,6 +736,20 @@ qx.Class.define("qx.event.Manager",
       delete this.__listeners[targetKey];
       return true;
     },
+    
+    
+    /**
+     * Internal helper for deleting the internal listener  data structure for 
+     * the given targetKey.
+     * 
+     * @param targetKey {String} Hash code for the object to delete its 
+     *   listeners.
+     * 
+     * @internal
+     */
+    deleteAllListeners : function(targetKey) {
+      delete this.__listeners[targetKey];        
+    },    
 
 
     /**

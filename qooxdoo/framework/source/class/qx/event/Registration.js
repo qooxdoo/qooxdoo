@@ -172,6 +172,22 @@ qx.Class.define("qx.event.Registration",
     removeAllListeners : function(target) {
       return this.getManager(target).removeAllListeners(target);
     },
+    
+    
+    /**
+     * Internal helper for deleting the listeners map used during shutdown.
+     * 
+     * @param target {Object} The event target to delete the internal map for
+     *    all event listeners.
+     * 
+     * @internal
+     */
+    deleteAllListeners : function(target) {
+      var targetKey = target.$$hash;
+      if (targetKey) {
+        this.getManager(target).deleteAllListeners(targetKey);        
+      }
+    },    
 
 
     /**

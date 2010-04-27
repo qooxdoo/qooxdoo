@@ -895,6 +895,9 @@ qx.Class.define("qx.core.Object",
     if (!qx.core.ObjectRegistry.inShutDown) {
       // Cleanup event listeners
       qx.event.Registration.removeAllListeners(this);
+    } else {
+      // on shutdown, just clear the internal listener map
+      qx.event.Registration.deleteAllListeners(this);
     }
 
     // Cleanup object registry
