@@ -370,4 +370,3 @@ msgstr "%1 non è contenuto in %2"
 #: qx/util/Validate.js:287
 msgid "%1 does not fit %2."
 msgstr "%1 non corrisponde a %2."
-
