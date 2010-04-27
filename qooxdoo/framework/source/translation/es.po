@@ -5,14 +5,14 @@ msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-20 17:10+0200\n"
-"PO-Revision-Date: 2008-08-25 19:59-0500\n"
-"Last-Translator: Camilo Aguilar <camilo DOT aguila AT gmail DOT com>\n"
+"PO-Revision-Date: 2010-04-26 19:59-0500\n"
+"Last-Translator: Carsten Rammoser <carsten AT rammoser DOT com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: COLOMBIA\n"
+"X-Poedit-Country: GERMANY\n"
 
 #: qx/locale/Key.js:80
 msgid "key_short_Backspace"
@@ -277,7 +277,7 @@ msgstr "Selector de color"
 
 #: qx/ui/control/ColorSelector.js:258
 msgid "Visual"
-msgstr ""
+msgstr "Visual"
 
 #: qx/ui/control/ColorSelector.js:318
 msgid "Presets"
@@ -321,7 +321,7 @@ msgstr "Año siguiente"
 
 #: qx/ui/form/validation/Manager.js:35
 msgid "This field is required"
-msgstr ""
+msgstr "Este cuadro es obligatorio"
 
 #: qx/ui/table/Table.js:1809
 msgid "one row"
@@ -341,32 +341,32 @@ msgstr "Reestablecer anchos de columnas"
 
 #: qx/util/Validate.js:90
 msgid "%1 is not a number."
-msgstr ""
+msgstr "%1 no es un número."
 
 #: qx/util/Validate.js:123
 msgid "'%1' is not an email address."
-msgstr ""
+msgstr "'%1' no es un correo electrónico."
 
 #: qx/util/Validate.js:153
 msgid "%1 is not a string."
-msgstr ""
+msgstr "%1 no es una cadena de caracteres."
 
 #: qx/util/Validate.js:184
 msgid "%1 is not an url."
-msgstr ""
+msgstr "%1 no es un url."
 
 #: qx/util/Validate.js:216
 msgid "%1 is not a color! %2"
-msgstr ""
+msgstr "%1 no es un color! %2"
 
 #: qx/util/Validate.js:242
 msgid "%1 is not in the range from [%2, %3]."
-msgstr ""
+msgstr "%1 no se encuentra en el rango [%2, %3]."
 
 #: qx/util/Validate.js:264
 msgid "%1 is not in %2"
-msgstr ""
+msgstr "%1 no se encuentra en %2"
 
 #: qx/util/Validate.js:287
 msgid "%1 does not fit %2."
-msgstr ""
+msgstr "%1 no corresponde con %2."
