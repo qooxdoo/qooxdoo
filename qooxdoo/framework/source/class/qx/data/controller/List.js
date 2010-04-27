@@ -417,7 +417,7 @@ qx.Class.define("qx.data.controller.List",
      * Internal method used to sync the selection. The controller uses the
      * widget queue to schedule the selection update. An asynchron handling of
      * the selection is needed because the bindings (event listeners for the
-     * binding) need to be executed befor the selection is updated.
+     * binding) need to be executed before the selection is updated.
      * @internal
      */
     syncWidget : function()
@@ -462,7 +462,7 @@ qx.Class.define("qx.data.controller.List",
     /**
      * Helper method which removes and adds the change listener of the
      * controller to the model. This is sometimes necessary to ensure that the
-     * listener of the controller ist executed as last listener of the chain.
+     * listener of the controller is executed as the last listener of the chain.
      */
     __moveChangeListenerAtTheEnd : function() {
       var model = this.getModel();
@@ -920,7 +920,7 @@ qx.Class.define("qx.data.controller.List",
 
 
     /**
-     * Theis helper is repsonsible for removing the filter and setting the
+     * This helper is responsible for removing the filter and setting the
      * controller to a valid state without a filtering.
      */
     __removeFilter : function()

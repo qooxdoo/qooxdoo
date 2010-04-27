@@ -58,7 +58,7 @@ qx.Class.define("qx.event.message.Bus",
     },
 
     /**
-     * checks if subsciption is already present
+     * checks if subscription is already present
      * if you supply the callback function, match only the exact message monitor
      * otherwise match all monitors that have the given message
      *
@@ -179,7 +179,7 @@ qx.Class.define("qx.event.message.Bus",
 
 
     /**
-     * checks if subsciption is already present
+     * checks if subscription is already present
      * if you supply the callback function, match only the exact message monitor
      * otherwise match all monitors that have the given message
      *

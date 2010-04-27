@@ -30,7 +30,7 @@
  * The first parameter of this call is the root DOM element of the decoration.
  * The resize call can be repeated as needed.
  *
- * It is also possible to alter the bakground color of an decoration using the
+ * It is also possible to alter the background color of an decoration using the
  * {@link #tint} method.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",

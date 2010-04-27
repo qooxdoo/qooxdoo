@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.layout.Util",
      * Supports positive and negative margins.
      * Collapsing find the largest positive and the largest
      * negative value. Afterwards the result is computed through the
-     * substraction of the negative from the positive value.
+     * subtraction of the negative from the positive value.
      *
      * @param varargs {arguments} Any number of configured margins
      * @return {Integer} The collapsed margin

@@ -348,8 +348,8 @@ qx.Class.define("qx.ui.layout.Grid",
      * overridden on a per cell basis by setting the cell's content widget's
      * <code>alignX</code> and <code>alignY</code> properties.
      *
-     * If on a grid cell both row and a column alignmnet is set, the horizontal
-     * alignmnet is taken from the column and the vertical alignment is taken
+     * If on a grid cell both row and a column alignment is set, the horizontal
+     * alignment is taken from the column and the vertical alignment is taken
      * from the row.
      *
      * @param column {Integer} Column index
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * <code>alignX</code> and <code>alignY</code> properties.
      *
      * If on a grid cell both row and a column alignment is set, the horizontal
-     * alignmnet is taken from the column and the vertical alignment is taken
+     * alignment is taken from the column and the vertical alignment is taken
      * from the row.
      *
      * @param row {Integer} Row index

@@ -574,7 +574,7 @@
        * Detects the offset parent of the first element
        *
        * @signature function()
-       * @return {Collection} Detected offset parent capsulated into a new collection instance
+       * @return {Collection} Detected offset parent encapsulated into a new collection instance
        */
       getOffsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
 

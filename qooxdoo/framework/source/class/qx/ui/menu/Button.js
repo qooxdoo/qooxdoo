@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.menu.Button",
   /**
    * @param label {String} Initial label
    * @param icon {String} Initial icon
-   * @param command {qx.ui.core.Command} Intial command (shortcut)
+   * @param command {qx.ui.core.Command} Initial command (shortcut)
    * @param menu {qx.ui.menu.Menu} Initial sub menu
    */
   construct : function(label, icon, command, menu)

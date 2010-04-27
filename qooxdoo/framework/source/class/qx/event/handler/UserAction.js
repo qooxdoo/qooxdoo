@@ -20,7 +20,7 @@
 
 /**
  * This handler accepts the useraction event fired by the keyboard and
- * and mouse handlers after a user triggered action has occured.
+ * and mouse handlers after a user triggered action has occurred.
  */
 qx.Class.define("qx.event.handler.UserAction",
 {

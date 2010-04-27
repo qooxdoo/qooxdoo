@@ -39,7 +39,7 @@ qx.Class.define("qx.bom.client.Transport",
      * only. Technically, this is not correct when pipelining is enabled (which
      * it currently is only for IE 8 and Opera). In this case, the number
      * returned will be too low, as one connection supports multiple pipelined
-     * requests. This is acceppted for now because pipelining cannot be
+     * requests. This is accepted for now because pipelining cannot be
      * detected from JavaScript and because modern browsers have enough
      * parallel connections already - it's unlikely an app will require more
      * than 4 parallel XMLHttpRequests to one server at a time.

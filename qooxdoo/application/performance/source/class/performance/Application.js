@@ -52,7 +52,7 @@ qx.Class.define("performance.Application",
      * Parses the url parameters and tries to find the classes to test.
      * The pattern is like <code>index.html?testclass=qx.test</code>
      *
-     * @return {String} the class/namespae to test
+     * @return {String} the class/namespace to test
      */
     __getClassNameFromUrl : function()
     {

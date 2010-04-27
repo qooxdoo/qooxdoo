@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-     * Handler method which hadles the key press. It forwards all key event
+     * Handler method which handles the key press. It forwards all key event
      * to the opened date chooser except the escape key event. Escape closes
      * the popup.
      * If the list is cloned, all key events will not be processed further.

@@ -968,7 +968,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
 
 
     /**
-      * Adds the occured changes to the undo history and
+      * Adds the occurred changes to the undo history and
       * sets a flag for the redo action.
       *
       * @param changeInfo {Object ? String} Infos of the change.
@@ -1217,7 +1217,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
             if (this.__selectedNode.style.width != checkNode.style.width ||
                 this.__selectedNode.style.height != checkNode.style.height)
             {
-              // A change occured -> add undo step and update the stored element
+              // A change occurred -> add undo step and update the stored element
               this.__addInternalUndoStep();
               this.__selectedNode = checkNode.cloneNode(true);
             }
@@ -1251,7 +1251,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
                   tableNode.style.height != this.__selectedNode.style.height ||
                   tableNode.innerHTML != this.__selectedNode.innerHTML)
               {
-                // A change occured -> add undo step and update the stored element
+                // A change occurred -> add undo step and update the stored element
                 this.__addInternalUndoStep();
                 this.__selectedNode = tableNode.cloneNode(true);
               }

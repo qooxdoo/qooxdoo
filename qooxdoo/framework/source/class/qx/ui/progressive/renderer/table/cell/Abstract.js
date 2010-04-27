@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
     },
 
     /**
-     * Retreve any extra attributes the cell renderer wants applied to this
+     * Retrieve any extra attributes the cell renderer wants applied to this
      * cell.  Extra attributes could be such things as
      * "onclick='handleClick()';"
      *
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
     },
 
     /**
-     * Retreve the HTML content to be added to the cell div.
+     * Retrieve the HTML content to be added to the cell div.
      *
      * @param cellInfo {Object}
      *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class

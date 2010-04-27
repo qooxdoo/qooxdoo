@@ -591,7 +591,7 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
     /**
-     * Whether the value is an object. Note that buildin types like Window are
+     * Whether the value is an object. Note that built-in types like Window are
      * not reported to be objects.
      *
      * @param value {var} Value to check.

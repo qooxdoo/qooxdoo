@@ -76,7 +76,7 @@ qx.Class.define("qx.html.Flash",
     },
 
     /**
-     * Creates the DOM Flash movie with all nedded attributes and
+     * Creates the DOM Flash movie with all needed attributes and
      * <code>FlashVars</code>.
      */
     createFlash : function()

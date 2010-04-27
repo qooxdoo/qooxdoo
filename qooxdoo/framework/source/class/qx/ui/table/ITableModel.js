@@ -100,7 +100,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
 
     /**
      *
-     * Returns the data of one row. This function may be overriden by models which hold
+     * Returns the data of one row. This function may be overridden by models which hold
      * all data of a row in one object. By using this function, clients have a way of
      * quickly retrieving the entire row data.
      *

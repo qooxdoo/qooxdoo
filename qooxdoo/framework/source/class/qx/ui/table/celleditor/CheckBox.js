@@ -19,7 +19,7 @@
 
 /**
  * For editing boolean data in a checkbox. It is advisable to use this in
- * conjuntion with {@link qx.ui.table.cellrenderer.Boolean}.
+ * conjunction with {@link qx.ui.table.cellrenderer.Boolean}.
  */
 qx.Class.define("qx.ui.table.celleditor.CheckBox",
 {

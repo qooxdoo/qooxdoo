@@ -91,7 +91,7 @@ qx.Class.define("qx.event.Manager",
      * Returns a unique ID which may be used in combination with a target and
      * a type to identify an event entry.
      *
-     * @return {String} The next free identifier (auto-incremened)
+     * @return {String} The next free identifier (auto-incremented)
      */
     getNextUniqueId : function() {
       return (this.__lastUnique++) + "";
@@ -263,7 +263,7 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * This method might be used to temporarly remove all events
+     * This method might be used to temporally remove all events
      * directly attached to the given target. This do not work
      * have any effect on bubbling events normally.
      *

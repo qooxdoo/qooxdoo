@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
 
     /**
-     * Internal mehtod for builing the lookup table.
+     * Internal method for building the lookup table.
      */
     __buildUpLookupTable : function()
     {
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
      * Checks, if the given delegate is valid or if a specific method is given.
      *
      * @param delegate {Object} The delegate object.
-     * @param specificMethod {String} The name of the mehtod to search for.
+     * @param specificMethod {String} The name of the method to search for.
      * @return {Boolean} True, if everything was ok.
      */
     _containsDelegateMethod : function (delegate, specificMethod)
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
 
     /**
-     * Returns the delegate mehtod given my its name.
+     * Returns the delegate method given my its name.
      *
      * @param method {String} The name of the delegate method.
      * @return {Function|null} The requested method or null, if no method is set.

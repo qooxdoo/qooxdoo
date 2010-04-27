@@ -196,7 +196,7 @@ qx.Class.define("qx.test.event.GlobalError",
       var wasNativeHandled = false;
 
       var self = this;
-      // append a native onerror mehtod
+      // append a native onerror method
       window.onerror = function(ex) {
         wasNativeHandled = true;
         self.assertEquals("Doofer Fehler", ex.toString());

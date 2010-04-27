@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Get the column in which the tree is to be displayed.
      *
      * @return {Integer}
-     *   The column in whcih the tree is to be displayed
+     *   The column in which the tree is to be displayed
      */
     getTreeColumn : function()
     {

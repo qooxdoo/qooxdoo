@@ -119,7 +119,7 @@ qx.Class.define("qx.bom.Window",
      *
      * *Important infos for native modal windows*
      *
-     * If you want to reference the openenr window from within the native modal
+     * If you want to reference the opened window from within the native modal
      * window you need to use
      *
      * <pre class='javascript'>

@@ -114,14 +114,14 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Fired on resize (after layouting) of the widget.
+     * Fired on resize (after layout) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
     resize : "qx.event.type.Data",
 
     /**
-     * Fired on move (after layouting) of the widget.
+     * Fired on move (after layout) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */

@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   {
     /**
      * If the value is <code>true</code> the manager allows an empty selection,
-     * otherwise the firt selectable element returned from the
+     * otherwise the first selectable element returned from the
      * <code>qx.ui.core.ISingleSelectionProvider</code> will be selected.
      */
     allowEmptySelection :
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     */
 
     /**
-     * Set selectet element.
+     * Set selected element.
      *
      * If passes value is <code>null</code>, the selection will be reseted.
      *
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     /**
      * Checks if passed element is a child element.
      *
-     * @param item {qx.ui.core.Widget} Elemet to check if child element.
+     * @param item {qx.ui.core.Widget} Element to check if child element.
      * @return {Boolean} <code>true</code> if element is child element,
      *    <code>false</code> otherwise.
      */

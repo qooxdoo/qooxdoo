@@ -1125,7 +1125,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // Clone the node
       var nodeClone = node.cloneNode(true);
 
-      // Replace all ">" with space "> " to creat new word borders
+      // Replace all ">" with space "> " to create new word borders
       nodeClone.innerHTML = nodeClone.innerHTML.replace(/>/gi, "> ");
       // Remove all line breaks
       nodeClone.innerHTML = nodeClone.innerHTML.replace(/\n/gi, " ");
@@ -1706,7 +1706,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         {
           if (qx.core.Variant.isSet("qx.client", "gecko"))
           {
-            // FF Bug (Backspace etc. doesnt work if we dont set it twice)
+            // FF Bug (Backspace etc. doesn't work if we dont set it twice)
             doc.designMode = (onOrOff !== false) ? 'Off' : 'On';
           }
 

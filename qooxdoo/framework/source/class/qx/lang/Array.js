@@ -267,7 +267,7 @@ qx.Class.define("qx.lang.Array",
 
 
     /**
-     * Remmove all elements from the array
+     * Remove all elements from the array
      *
      * @param arr {Array} the array
      * @return {Array} empty array

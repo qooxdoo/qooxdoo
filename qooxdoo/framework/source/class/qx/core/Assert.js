@@ -826,7 +826,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Internal herlper for checking the instance of a qooxdoo object using the
+     * Internal helper for checking the instance of a qooxdoo object using the
      * classname.
      *
      * @param object {var} The object to check.

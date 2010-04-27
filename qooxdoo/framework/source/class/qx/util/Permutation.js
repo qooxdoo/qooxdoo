@@ -25,7 +25,7 @@ qx.Class.define("qx.util.Permutation",
      *  { a: 2, b: "b" }
      * </pre>
      *
-     * @param options {Map} map with array values to generate the permuations of
+     * @param options {Map} map with array values to generate the permutations of
      * @param callback {Function} This callback is called for each permuted map
      * @param context {Object} The callback's <code>this</code> context.
      */

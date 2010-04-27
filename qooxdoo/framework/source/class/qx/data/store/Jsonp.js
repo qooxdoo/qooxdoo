@@ -100,7 +100,7 @@ qx.Class.define("qx.data.store.Jsonp",
 
 
     /**
-     * Handles the completeion of the request and the building of the model.
+     * Handles the completion of the request and the building of the model.
      *
      * @param data {Object} The JSON data from the request.
      */

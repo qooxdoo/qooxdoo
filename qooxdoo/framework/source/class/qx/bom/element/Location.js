@@ -550,7 +550,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimensions.For supported modes please
+     * the document dimensions. For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @param elem {Element} DOM element to query
@@ -565,7 +565,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.For supported modes please
+     * the document dimensions. For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @param elem {Element} DOM element to query
@@ -580,7 +580,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.For supported modes please
+     * the document dimensions. For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @param elem {Element} DOM element to query

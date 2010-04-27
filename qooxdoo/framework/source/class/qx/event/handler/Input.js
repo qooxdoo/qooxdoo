@@ -417,7 +417,7 @@ qx.Class.define("qx.event.handler.Input",
 
 
     /**
-     * Blur event listener for opera cancles the timeout of the input event.
+     * Blur event listener for opera cancels the timeout of the input event.
      *
      * @signature function(e)
      * @param e {Event} DOM event object

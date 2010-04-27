@@ -29,10 +29,10 @@ qx.Class.define("qx.locale.Number",
   statics :
   {
     /**
-     * Get deciaml separator for number formatting
+     * Get decimal separator for number formatting
      *
      * @param locale {String} optional locale to be used
-     * @return {String} deciaml separator.
+     * @return {String} decimal separator.
      */
     getDecimalSeparator : function(locale) {
       return qx.locale.Manager.getInstance().localize("cldr_number_decimal_separator", [], locale)

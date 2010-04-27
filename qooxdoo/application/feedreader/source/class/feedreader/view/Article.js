@@ -94,7 +94,7 @@ qx.Class.define("feedreader.view.Article",
       var html = this.__getArticleHtml();
       this.setHtml(html);
 
-      // flush all elements (neede to access the content of the dom element)
+      // flush all elements (needed to access the content of the dom element)
       qx.html.Element.flush();
 
       // get the dom element containing the html of the article

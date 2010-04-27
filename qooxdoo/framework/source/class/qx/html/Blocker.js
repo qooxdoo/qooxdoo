@@ -80,7 +80,7 @@ qx.Class.define("qx.html.Blocker",
 
 
     /**
-     * Refreshes the curser by setting it to <code>null</code> and then to the
+     * Refreshes the cursor by setting it to <code>null</code> and then to the
      * old value.
      */
     __refreshCursor : function() {

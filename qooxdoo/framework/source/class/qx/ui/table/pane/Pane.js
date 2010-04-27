@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Whenever the content of the table panehas been updated (rendered)
      * trigger a paneUpdated event. This allows the canvas cellrenderer to act
-     * once the new cells have beeen integrated in the dom.
+     * once the new cells have been integrated in the dom.
      */
     "paneUpdated" : "qx.event.type.Event"
   },

@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           if (found >= start)
           {
             // Reduce min by the distance of the lead item to the visible
-            // bottom edge. This is needed instead of a simple substraction
+            // bottom edge. This is needed instead of a simple subtraction
             // of the inner height to keep the last lead visible on page key
             // presses. This is the behavior of native toolkits as well.
             min -= innerHeight + scrollTop - widget.getItemBottom(lead);

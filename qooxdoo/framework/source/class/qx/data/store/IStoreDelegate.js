@@ -33,7 +33,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
   members :
   {
     /**
-     * Determinates the user defined class for the given properties string.
+     * Determines the user defined class for the given properties string.
      * This class could contain additional methods but needs to have the
      * properties with the given names. Also every property needs to have a
      * change event.

@@ -23,7 +23,7 @@
  * Includes support for HTML and style attributes. Elements also have
  * got a powerful children and visibility management.
  *
- * Processes DOM insertion and modification with a advanced logic
+ * Processes DOM insertion and modification with advanced logic
  * to reduce the real transactions.
  *
  * From the view of the parent you can use the following children management

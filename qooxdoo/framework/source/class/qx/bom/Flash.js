@@ -100,7 +100,7 @@ qx.Class.define("qx.bom.Flash",
         win = window;
       }
 
-      //Check parametes and check if element for flash is in DOM, befor call create swf.
+      //Check parameters and check if element for flash is in DOM, before call creates swf.
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertElement(element, "Invalid parameter 'element'.");

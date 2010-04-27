@@ -49,7 +49,7 @@ qx.Class.define("qx.util.StringSplit",
      *   The separator is treated as a string or a  regular expression. If separator is
      *   omitted, the array returned contains one element consisting of the entire string.
      * @param limit {Integer?} Integer specifying a limit on the number of splits to be found.
-     * @return {String[]} splitted string
+     * @return {String[]} split string
      */
     split : function(string, separator, limit)
     {

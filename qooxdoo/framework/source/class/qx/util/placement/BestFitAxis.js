@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Places the object according to the target. If parts of the object are aoutside
+ * Places the object according to the target. If parts of the object are outside
  * of the axis' range the object's start is adjusted so that the overlap between
  * the object and the axis is maximized.
  */

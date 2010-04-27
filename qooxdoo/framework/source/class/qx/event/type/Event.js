@@ -214,7 +214,7 @@ qx.Class.define("qx.event.type.Event",
      * Get whether the default action has been prevented
      *
      * @tape member
-     * @return {Boolean} Whether the default action has benn prevented
+     * @return {Boolean} Whether the default action has been prevented
      */
     getDefaultPrevented : function() {
       return !!this._preventDefault;

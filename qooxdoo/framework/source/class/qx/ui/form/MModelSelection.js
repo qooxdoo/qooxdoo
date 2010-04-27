@@ -38,7 +38,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
   events :
   {
     /**
-     * Pseudo event. It will never be fired becasue the array itself can not
+     * Pseudo event. It will never be fired because the array itself can not
      * be changed. But the event description is needed for the data binding.
      */
     changeModelSelection : "qx.event.type.Data"
@@ -125,7 +125,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
 
     /**
      * Takes the given models in the array and searches for the corresponding
-     * selecables. If an selectable does have that model attached, it will be
+     * selectables. If an selectable does have that model attached, it will be
      * selected.
      *
      * *Attention:* This method can have a time complexity of O(n^2)!

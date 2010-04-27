@@ -25,8 +25,8 @@
  * This class is used to create radio groups of {@link qx.ui.form.RadioButton}
  * instances.
  *
- * This widget takes care of the layouting of the added items. If you want to
- * take full control of the layouting and just use the selection behavior,
+ * This widget takes care of the layout of the added items. If you want to
+ * take full control of the layout and just use the selection behavior,
  * take a look at the {@link qx.ui.form.RadioGroup} object for a loose coupling.
  */
 qx.Class.define("qx.ui.form.RadioButtonGroup",

@@ -219,7 +219,7 @@ qx.Class.define("qx.bom.element.Style",
 
 
     /**
-     * Hypenate the given string. Replaces upper case letters with lower case
+     * Hyphenate the given string. Replaces upper case letters with lower case
      * letters prefixed with a hyphen.
      *
      * @param propName {String} A CSS property name

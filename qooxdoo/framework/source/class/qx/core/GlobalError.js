@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.core.GlobalError",
 
 
     /**
-     * Get the source excetion
+     * Get the source exception
      *
      * @return {Error} source exception
      */

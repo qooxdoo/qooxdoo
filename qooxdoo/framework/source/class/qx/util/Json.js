@@ -272,7 +272,7 @@ qx.Class.define("qx.util.Json",
      * that after a date has been sent from the client to
      * the server, converted by the server into whatever
      * native type the date will be stored or manipulated
-     * in, convered back to JSON, and received back at the
+     * in, converted back to JSON, and received back at the
      * client, a comparison of the sent and received Date
      * object should yield identity.  This means that even
      * if the server does not natively operate on

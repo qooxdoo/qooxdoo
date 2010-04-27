@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.Part",
 
     /**
      * Loaded closure packages have to call this method to indicate
-     * successful loading and to get thir closure stored.
+     * successful loading and to get their closure stored.
      *
      * @param id {String} The id of the package.
      * @param closure {Function} The wrapped code of the package.
@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.Part",
      * Internal addListener for closure packages.
      *
      * @internal
-     * @param pkg {qx.io.part.ClosurePackage} The colosure package to listen
+     * @param pkg {qx.io.part.ClosurePackage} The closure package to listen
      *   for.
      * @param callback {Function} The method to call when the package is loaded.
      */
@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.Part",
 
 
     /**
-     * Internal herlper method to save the closure and notify that the load.
+     * Internal helper method to save the closure and notify that the load.
      *
      * @internal
      * @param id {String} The hash of the package.
@@ -227,7 +227,7 @@ qx.Bootstrap.define("qx.Part",
 
 
     /**
-     * Inthern mehtod for testing purposes which returns the internal parts
+     * Internal method for testing purposes which returns the internal parts
      * store.
      *
      * @internal

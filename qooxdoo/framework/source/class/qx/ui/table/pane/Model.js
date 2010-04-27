@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Returns the model index of the column at the position <code>xPos</code>.
      *
-     * @param xPos {Integer} the x postion in the table pane of the column.
+     * @param xPos {Integer} the x position in the table pane of the column.
      * @return {Integer} the model index of the column.
      */
     getColumnAtX : function(xPos)
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.table.pane.Model",
      * Returns the x position of the column <code>col</code>.
      *
      * @param col {Integer} the model index of the column.
-     * @return {Integer} the x postion in the table pane of the column.
+     * @return {Integer} the x position in the table pane of the column.
      */
     getX : function(col)
     {

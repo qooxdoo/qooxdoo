@@ -22,7 +22,7 @@
  * manner, starting at the container's top/left position, placing children left to right
  * (like a HBox) until the there's no remaining room for the next child. When
  * out of room on the current line of elements, a new line is started, cleared
- * below the tallest child of the preceeding line -- a bit like using 'float'
+ * below the tallest child of the preceding line -- a bit like using 'float'
  * in CSS, except that a new line wraps all the way back to the left.
  *
  * *Features*

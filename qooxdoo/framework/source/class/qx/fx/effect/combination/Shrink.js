@@ -83,7 +83,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     },
 
     /**
-     * Transition function to modify the movment process.
+     * Transition function to modify the movement process.
      */
     moveTransition :
     {
