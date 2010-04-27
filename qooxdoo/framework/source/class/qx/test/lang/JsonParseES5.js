@@ -34,7 +34,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
   {
     setUp : function()
     {
-      // we only test the internal JSON and not the buildin browser
+      // we only test the internal JSON and not the built-in browser
       // functionality
       this.JSON = new qx.lang.JsonImpl();
     },

@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
     /**
      * Signals that the validation is done. This is not needed on synchronous
      * validation (validation is done right after the call) but very important
-     * in the case a asynchronous validator will be used.
+     * in the case an asynchronous validator will be used.
      */
     "complete" : "qx.event.type.Event"
   },
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
     /**
      * Invokes the validation. If only synchronous validators are set, the
      * result of the whole validation is available at the end of the method
-     * and can be returned. If a asynchronous validator is set, the result
+     * and can be returned. If an asynchronous validator is set, the result
      * is still unknown at the end of this method so nothing will be returned.
      * In both cases, a {@link #complete} event will be fired if the validation
      * has ended. The result of the validation can then be accessed with the
@@ -516,7 +516,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
     /**
      * Checks if all asynchronous validators have validated so the result
-     * is final and the {@link #complete} event can be fired. If thats not
+     * is final and the {@link #complete} event can be fired. If that's not
      * the case, nothing will happen in the method.
      */
     __checkValidationComplete : function() {

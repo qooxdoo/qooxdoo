@@ -21,7 +21,7 @@
  * Behavior to support pre-rendering of invisible areas of a virtual scroller.
  * If applied to a scroller it will start a timer and increase the rendered area
  * of the scroller after a certain period of time. Subsequent scrolling will not
- * have to render this pre-computated area again.
+ * have to render this pre-computed area again.
  *
  * EXPERIMENTAL!
  */

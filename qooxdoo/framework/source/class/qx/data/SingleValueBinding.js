@@ -82,7 +82,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   object.
      * @param options {Map} A map containing the options.
      *   <li>converter: A converter function which takes two parameters
-     *       and should return the converted value. The first parameter ist the
+     *       and should return the converted value. The first parameter is the
      *       data so convert and the second one is the corresponding model
      *       object, which is only set in case of the use of an controller.
      *       If no conversion has been done, the given value should be
@@ -114,7 +114,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get the property names
       var propertyNames = sourcePropertyChain.split(".");
 
-      // stuff thats needed to store for the listener function
+      // stuff that's needed to store for the listener function
       var arrayIndexValues =
         this.__checkForArrayInPropertyChain(propertyNames);
       var sources = [];
@@ -449,7 +449,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
 
     /**
-     * Helper for updating the target. Gets the current set data from the soure
+     * Helper for updating the target. Gets the current set data from the source
      * and set that on the target.
      *
      * @param sourceObject {qx.core.Object} The source of the binding.
@@ -667,7 +667,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   target object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
-     * @param sourceObject {qx.core.Object} The shource object of the binding (
+     * @param sourceObject {qx.core.Object} The source object of the binding (
      *   used for the onUpdate callback).
      */
     __setInitialValue : function(value, targetObject, targetPropertyChain, options, sourceObject)

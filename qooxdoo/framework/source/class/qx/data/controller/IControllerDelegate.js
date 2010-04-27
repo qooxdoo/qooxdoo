@@ -33,7 +33,7 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
   members :
   {
     /**
-     * Gives the user the opertunity to set individual styles and properties
+     * Gives the user the opportunity to set individual styles and properties
      * on the by the controller created widgets.
      *
      * @param item {var} Item to modify.

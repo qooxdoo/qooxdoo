@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     */
 
     /**
-     * Scolls pane on mousewheel events
+     * Scrolls pane on mousewheel events
      *
      * @param e {qx.event.type.Mouse} the mouse event
      */

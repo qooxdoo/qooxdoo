@@ -237,7 +237,7 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Number of millieseconds before the request is being timed out.
+     * Number of milliseconds before the request is being timed out.
      *
      * If this property is null, the timeout for the request comes is the
      * qx.io.remote.RequestQueue's property defaultTimeout.
@@ -776,7 +776,7 @@ qx.Class.define("qx.io.remote.Request",
      * Retrieve the value of a header which was previously set
      *
      * @param vId {String} The id of the header value being requested
-     * @return {String} The value of the header wiith the specified id
+     * @return {String} The value of the header with the specified id
      */
     getRequestHeader : function(vId) {
       return this.__requestHeaders[vId] || null;

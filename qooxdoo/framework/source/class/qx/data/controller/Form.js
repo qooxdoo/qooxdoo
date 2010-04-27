@@ -103,14 +103,14 @@ qx.Class.define("qx.data.controller.Form",
      * The form controller uses for setting up the bindings the fundamental
      * binding layer, the {@link qx.data.SingleValueBinding}. To achieve a
      * binding in both directions, two bindings are neede. With this method,
-     * you have the oppertunity to set the options used for the bindings.
+     * you have the opportunity to set the options used for the bindings.
      *
      * @param name {String} The name of the form item for which the options
      *   should be used.
      * @param model2target {Map} Options map used for the binding from model
      *   to target. The possible options can be found in the
      *   {@link qx.data.SingleValueBinding} class.
-     * @param target2model {Map} Optiosn map used for the binding from target
+     * @param target2model {Map} Options map used for the binding from target
      *   to model. The possible options can be found in the
      *   {@link qx.data.SingleValueBinding} class.
      */

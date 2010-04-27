@@ -27,7 +27,7 @@
  * real properties. The class also fires events to allow easy access
  * to status changes.
  *
- * Automatically adds a few HTTP headers to requests depdending on
+ * Automatically adds a few HTTP headers to requests depending on
  * the configuration.
  */
 qx.Class.define("qx.io.HttpRequest",
@@ -215,7 +215,7 @@ qx.Class.define("qx.io.HttpRequest",
 
 
     /**
-     * Number of millieseconds before the request is being timed out.
+     * Number of milliseconds before the request is being timed out.
      */
     timeout :
     {

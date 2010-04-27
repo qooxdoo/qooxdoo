@@ -43,7 +43,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param a1 {var} first argument of the method to call
      * @param a2 {var} second argument of the method to call
      * @param a3 {var} third argument of the method to call
-     * @return {var} The return value of the forwared method
+     * @return {var} The return value of the forward method
      */
     __forward : function(functionName, a1, a2, a3)
     {

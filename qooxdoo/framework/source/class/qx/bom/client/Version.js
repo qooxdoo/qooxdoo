@@ -44,8 +44,8 @@
  *
  * This class uses a custom, more intuitive, version scheme than the
  * default engine versions. These are most often not that published by
- * the vendors and even when they might only differ minor and make comparisions
- * quite complex and errornous.
+ * the vendors and even when they might only differ minor and make comparisons
+ * quite complex and erroneous.
  *
  * * MSIE 6 (Trident ?) => 2
  * * MSIE 7 (Trident ?) => 3

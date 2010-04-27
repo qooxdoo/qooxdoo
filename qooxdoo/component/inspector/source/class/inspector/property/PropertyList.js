@@ -310,7 +310,7 @@ qx.Class.define("inspector.property.PropertyList", {
               // add the property row to the reference array
               this._propertyRows[classnames[i][key] + "." + key] = {container: groupLayout, row: row};
 
-              // layouting
+              // layout
               groupLayout.getLayout().setRowAlign(row, "left", "middle");
               groupLayout.getLayout().setRowMinHeight(row, 20);
 

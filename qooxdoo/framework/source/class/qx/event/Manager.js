@@ -91,7 +91,7 @@ qx.Class.define("qx.event.Manager",
      * Returns a unique ID which may be used in combination with a target and
      * a type to identify an event entry.
      *
-     * @return {String} The next free identifier (auto-incremened)
+     * @return {String} The next free identifier (auto-incremented)
      */
     getNextUniqueId : function() {
       return (this.__lastUnique++).toString(36);

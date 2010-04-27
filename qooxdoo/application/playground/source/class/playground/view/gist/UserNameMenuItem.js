@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * A special menu item contining a label and a textfield.
+ * A special menu item containing a label and a textfield.
  */
 qx.Class.define("playground.view.gist.UserNameMenuItem",
 {

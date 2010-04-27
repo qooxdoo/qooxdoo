@@ -72,7 +72,7 @@ qx.Class.define("qx.bom.element.Style",
 
   statics :
   {
-    /** Internal map of style property convertions */
+    /** Internal map of style property conversions */
     __hints :
     {
       // Style property name correction (at element.style level)
@@ -170,7 +170,7 @@ qx.Class.define("qx.bom.element.Style",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
+    /** {Map} Caches hyphened style names e.g. marginTop => margin-top. */
     __hyphens : {},
 
 

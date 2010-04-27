@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
      *     Numbers are formatted with two fractional digits.
      *   </li>
      *   <li>
-     *     Dates areformated in the default format of
+     *     Dates are formatted in the default format of
      *     {@link qx.util.format.DateFormat}.
      *   </li>
      *   <li>

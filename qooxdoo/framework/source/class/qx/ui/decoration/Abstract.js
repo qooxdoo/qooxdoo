@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.decoration.Abstract",
 
 
     /**
-     * Abstract method. Should return a map contraining the default insets of
+     * Abstract method. Should return a map containing the default insets of
      * the decorator. This could look like this:
      * <pre>
      * return {

@@ -27,7 +27,7 @@ qx.Class.define("qx.data.marshal.Json",
   implement : [qx.data.marshal.IMarshaler],
 
   /**
-   * @param delegate {Object} An object containing one of the mehtods described
+   * @param delegate {Object} An object containing one of the methods described
    *   in {@link qx.data.store.IStoreDelegate}.
    */
   construct : function(delegate)

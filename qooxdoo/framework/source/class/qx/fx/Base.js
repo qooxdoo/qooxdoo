@@ -158,7 +158,7 @@ qx.Class.define("qx.fx.Base",
      },
 
      /**
-      * Function which modifies the effect-specific property during the transtion
+      * Function which modifies the effect-specific property during the transition
       * between "from" and "to" value.
       */
      transition :

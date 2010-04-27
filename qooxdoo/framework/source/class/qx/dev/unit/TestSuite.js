@@ -83,7 +83,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
 //      }
 //      catch (ex)
 //      {
-//        window.alert("An error occured while adding test classes/namespaces\nPlease try a different test file.");
+//        window.alert("An error occurred while adding test classes/namespaces\nPlease try a different test file.");
 //      }
     },
 

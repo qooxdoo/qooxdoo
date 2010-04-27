@@ -186,11 +186,11 @@ qx.Class.define("qx.ui.form.Form",
     */
 
     /**
-     * Accessor mehtod for the renderer which returns all added items in a
+     * Accessor method for the renderer which returns all added items in a
      * array containing a map of all items:
      * {title: title, items: [], labels: [], names: []}
      *
-     * @return {Array} An array contining all necessary data for the renderer.
+     * @return {Array} An array containing all necessary data for the renderer.
      * @internal
      */
     getGroups : function()
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.form.Form",
 
 
     /**
-     * Accessor mehtod for the renderer which returns all added buttons in an
+     * Accessor method for the renderer which returns all added buttons in an
      * array.
      * @return {Array} An array containing all added buttons.
      * @internal

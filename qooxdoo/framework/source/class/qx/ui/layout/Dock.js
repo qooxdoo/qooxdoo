@@ -770,7 +770,7 @@ qx.Class.define("qx.ui.layout.Dock",
 
 
     /**
-     * Computes the dimensions each separater on both the <code>x</code> and
+     * Computes the dimensions each separator on both the <code>x</code> and
      * <code>y</code> axis needs.
      *
      * @return {Map} Map with the keys <code>x</code> and

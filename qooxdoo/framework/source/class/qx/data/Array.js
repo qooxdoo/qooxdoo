@@ -60,7 +60,7 @@ qx.Class.define("qx.data.Array",
     // check for a number (length)
     } else if (typeof param == "number") {
       this.__array = new Array(param);
-    // check for a array itself
+    // check for an array itself
     } else if (param instanceof Array) {
       this.__array = qx.lang.Array.clone(param);
 
@@ -364,7 +364,7 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Replacement function for the setting of a array value.
+     * Replacement function for the setting of an array value.
      * array[0] = "a" should be array.setItem(0, "a").
      * A change event will be fired.
      *
@@ -512,7 +512,7 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Remmove all elements from the array.
+     * Remove all elements from the array.
      */
     removeAll : function() {
       // remove all possible added event listeners

@@ -57,7 +57,7 @@ qx.Class.define("qx.lang.Type",
 
 
     /**
-     * Whether the value is an object. Note that buildin types like Window are
+     * Whether the value is an object. Note that built-in types like Window are
      * not reported to be objects.
      *
      * @signature function(value)

@@ -413,7 +413,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
-     * @param target {Elment} event target of the DOM event.
+     * @param target {Element} event target of the DOM event.
      *
      * @signature function(domEvent, type, target)
      */
@@ -447,7 +447,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
-     * @param target {Elment} event target of the DOM event.
+     * @param target {Element} event target of the DOM event.
      *
      * @signature function(domEvent, type, target)
      */
@@ -478,7 +478,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
-     * @param target {Elment} event target of the DOM event.
+     * @param target {Element} event target of the DOM event.
      *
      * @signature function(domEvent, type, target)
      */
@@ -506,7 +506,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
-     * @param target {Elment} event target of the DOM event.
+     * @param target {Element} event target of the DOM event.
      *
      * @signature function(domEvent, type, target)
      */

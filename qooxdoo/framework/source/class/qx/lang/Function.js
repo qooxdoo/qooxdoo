@@ -366,7 +366,7 @@ qx.Class.define("qx.lang.Function",
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
      * @param varargs {arguments ? null} The arguments to pass to the function.
-     * @return {var} The binded function.
+     * @return {var} The bound function.
      */
     listener : function(func, self, varargs)
     {

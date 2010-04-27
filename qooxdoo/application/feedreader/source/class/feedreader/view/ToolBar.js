@@ -113,7 +113,7 @@ qx.Class.define("feedreader.view.ToolBar",
     __removeBtn : null,
 
     /**
-     * Return the button which removed the feeds. This is neede to enable /
+     * Return the button which removed the feeds. This is needed to enable /
      * disable the button from the main application.
      *
      * @return {qx.ui.toolbar.Button}

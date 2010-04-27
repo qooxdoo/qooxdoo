@@ -112,10 +112,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     __allowMenuOpenHover : false,
 
     /**
-     * Indicate if a menu could be opend on haver or not.
+     * Indicate if a menu could be opened on hover or not.
      *
      * @internal
-     * @param value {Boolean} <code>true</code> if a menu could be opend,
+     * @param value {Boolean} <code>true</code> if a menu could be opened,
      *    <code>false</code> otherwise.
      */
     _setAllowMenuOpenHover : function(value) {
@@ -123,10 +123,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     /**
-     * Return if a menu could be opend on haver or not.
+     * Return if a menu could be opened on hover or not.
      *
      * @internal
-     * @return {Boolean} <code>true</code> if a menu could be opend,
+     * @return {Boolean} <code>true</code> if a menu could be opened,
      *    <code>false</code> otherwise.
      */
     _isAllowMenuOpenHover : function () {

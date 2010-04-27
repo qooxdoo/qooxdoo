@@ -142,7 +142,7 @@ qx.Class.define("qx.bom.Document",
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      *
      * NOTE: Opera 9.5x and 9.6x have wrong value for the scrollWidth property,
-     * if a element use negative value for top and left to be outside the vieport!
+     * if a element use negative value for top and left to be outside the viewport!
      * See: http://bugzilla.qooxdoo.org/show_bug.cgi?id=2869
      */
     getWidth : function(win)
@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.Document",
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      *
      * NOTE: Opera 9.5x and 9.6x have wrong value for the scrollWidth property,
-     * if a element use negative value for top and left to be outside the vieport!
+     * if a element use negative value for top and left to be outside the viewport!
      * See: http://bugzilla.qooxdoo.org/show_bug.cgi?id=2869
      */
     getHeight : function(win)
