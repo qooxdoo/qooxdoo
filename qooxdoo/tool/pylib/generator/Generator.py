@@ -1406,7 +1406,7 @@ class Generator(object):
                 excRegex = map(textutil.toRegExpS, excludePatt)
                 excRegex = re.compile("|".join(excRegex))
             else:
-                excRegex = re.compile(".")  # catch-all
+                excRegex = re.compile("^$")  # catch-none
 
             classesFiltered = (c for c in classes if not excRegex.search(c))
             return classesFiltered
