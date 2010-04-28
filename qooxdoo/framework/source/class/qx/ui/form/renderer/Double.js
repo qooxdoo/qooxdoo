@@ -161,7 +161,9 @@ qx.Class.define("qx.ui.form.renderer.Double",
   destruct : function() {
     // first, remove all buttons from the botton row because they
     // should not be disposed
-    this._buttonRow.removeAll();
-    this._disposeObjects("_buttonRow");
+    if (this._buttonRow) {
+      this._buttonRow.removeAll();
+      this._disposeObjects("_buttonRow");      
+    }
   }
 });

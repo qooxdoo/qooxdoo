@@ -2,5 +2,6 @@ qooxdoo/framework/cache
 qooxdoo/application/playground/test
 qooxdoo/application/performance/test
 qooxdoo/application/performance/build
+qooxdoo/application/portal/build
 qooxdoo/application/performance/source/script
 .settings/*
