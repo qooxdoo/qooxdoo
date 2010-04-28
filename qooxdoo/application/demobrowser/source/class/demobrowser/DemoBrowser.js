@@ -236,6 +236,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __sobutt : null,
     __viewPart : null,
     __themePart : null,
+    __menuElements : null,
 
     defaultUrl : "demo/welcome.html",
     playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
