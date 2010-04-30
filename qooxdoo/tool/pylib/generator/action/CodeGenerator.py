@@ -21,7 +21,6 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
@@ -31,6 +30,7 @@ from ecmascript                 import compiler
 from misc                       import filetool, json, Path
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
+from misc.NameSpace             import NameSpace
 from misc                       import securehash as sha
         
 
@@ -535,8 +535,13 @@ class CodeGenerator(object):
         return qxlibs
 
 
+    ##
+    # Create a data structure to be textually included in the final script
+    # that represents information about relevant resources, like images, style
+    # sheets, etc. 
+    # For images, this information includes pre-calculated sizes, and
+    # being part of a combined image.
     def generateResourceInfoCode(self, script, settings, libs, format=False):
-        """Pre-calculate image information (e.g. sizes)"""
 
         # some helper functions
         def replaceWithNamespace(imguri, liburi, libns):
@@ -565,7 +570,6 @@ class CodeGenerator(object):
         #                                 "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
         # @param combinedUriFromMetafile |String| the path of the combined image, as
         #                                         recorded in the .meta file
-
         def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
             # normalize paths (esp. "./x" -> "x")
             (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,
@@ -592,22 +596,24 @@ class CodeGenerator(object):
         #                              these are necessary to compute the image id's of the contained imgs
         # @param combinedImageObject |ImgInfoFmt| an ImgInfoFmt wrapper object for the combined image
         #                             (interesting for the lib and type info)
-
         def processCombinedImg(script, data, meta_fname, combinedImageUri, combinedImageShortUri, combinedImageObject):
             # make sure lib and type info for the combined image are present
             assert combinedImageObject.lib, combinedImageObject.type
+            self._console.debug("Processing combined image: %r" % meta_fname)
+            self._console.indent()
 
             # see if we have cached the contents (json) of this .meta file
             cacheId = "imgcomb-%s" % meta_fname
             imgDict = self._cache.read(cacheId, meta_fname)
             if imgDict == None:
                 mfile = open(meta_fname)
-                imgDict = simplejson.loads(mfile.read())
+                imgDict = json.loads(mfile.read())
                 mfile.close()
                 self._cache.write(cacheId, imgDict)
 
             # now loop through the dict structure from the .meta file
             for imagePath, imageSpec_ in imgDict.items():
+                self._console.debug("found embedded image: %r" % imagePath)
                 # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
 
                 imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
@@ -629,14 +635,13 @@ class CodeGenerator(object):
                 # and store it in the data structure
                 imageFlat            = imageObject.flatten()  # this information takes precedence over existing
                 data[imageShortUri]  = imageFlat
-                addResourceToPackage(script, classToResourceMap, imageShortUri, imageFlat)
 
+            self._console.outdent()
             return
 
         ##
         # finds the package that needs this resource <assetId> and adds it
         # TODO: this might be very expensive (lots of lookup's)
-
         def addResourceToPackage(script, classToResourceMap, assetId, resvalue):
             classesUsing = set(())
             for clazz, assetSet in classToResourceMap.items():
@@ -650,10 +655,114 @@ class CodeGenerator(object):
             return
 
 
+        ##
+        # checks whether the image is a combined image, by looking for a
+        # .meta file
+        def isCombinedImage(resourcePath):
+            meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
+            return os.path.exists(meta_fname)
+
+
+        ##
+        # create the final form of the data to be returned by generateResourceInfoCode
+        def serialize(filteredResources, resdata):
+            for resId, resval in filteredResources.items():
+                # build up resdata
+                if isinstance(resval, ImgInfoFmt):
+                    resvalue = resval.flatten()
+                else:  # handle other resources
+                    resvalue = resval
+                resdata[resId] = resvalue
+                addResourceToPackage(script, classToResourceMap, resId, resvalue)  # register the resource with the package needing it
+
+            # handle tree structure of resource info
+            if resources_tree:
+                resdata = resdata._data
+
+            return resdata
+
+
+        ##
+        # get the resource Id and resource value
+        def addResource(resource):
+            ##
+            # compute the resource value of an image for the script
+            def imgResVal(resource):
+                imgId = resource
+
+                # Cache or generate
+                if (imgId  in imgLookupTable and
+                    imgLookupTable[imgId ]["time"] > os.stat(imgId ).st_mtime):
+                    imageInfo = imgLookupTable[imgId ]["content"]
+                else:
+                    imageInfo = self._imageInfo.getImageInfo(imgId , assetId)
+                    imgLookupTable[imgId ] = {"time": time.time(), "content": imageInfo}
+
+                # Now process the image information
+                # use an ImgInfoFmt object, to abstract from flat format
+                imgfmt = ImgInfoFmt()
+                imgfmt.lib = lib['namespace']
+                if not 'type' in imageInfo:
+                    raise RuntimeError, "Unable to get image info from file: %s" % imgId 
+                imgfmt.type = imageInfo['type']
+
+                # Add this image
+                # imageInfo = {width, height, filetype}
+                if not 'width' in imageInfo or not 'height' in imageInfo:
+                    raise RuntimeError, "Unable to get image info from file: %s" % imgId 
+                imgfmt.width  = imageInfo['width']
+                imgfmt.height = imageInfo['height']
+                imgfmt.type   = imageInfo['type']
+
+                return imgfmt
+
+            # ----------------------------------------------------------
+            assetId = extractAssetPart(librespath,resource)
+            assetId = Path.posifyPath(assetId)
+            if imgpatt.search(resource): # handle images
+                resvalue = imgResVal(resource)
+            else:  # handle other resources
+                resvalue = lib['namespace']
+            return assetId, resvalue
+
+
+        def addCombinedImage(combinedResource, combinedId, combinedObj):
+            '''this does basically what processCombinedImg does, but with no side effects'''
+            # Read the .meta file
+            # it doesn't seem worth to apply caching here
+            meta_fname   = os.path.splitext(combinedResource)[0]+'.meta'
+            meta_content = filetool.read(meta_fname)
+            imgDict      = json.loads(meta_content)
+            embeddedDict = {}
+
+            # Loop through the images of the .meta file
+            for imageId, imageSpec_ in imgDict.items():
+                self._console.debug("found embedded image: %r" % imageId)
+                # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
+
+                imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
+
+                # add combined info
+                imageObject.mappedId = combinedId
+                imageObject.mtype    = combinedObj.type
+                imageObject.mlib     = combinedObj.lib
+
+                # and store it in the data structure
+                embeddedDict[imageId] = imageObject
+
+            return embeddedDict
+
+
+            
+
+
         # -- main --------------------------------------------------------------
 
-        compConf = self._job.get("compile-options")
-        compConf = ExtMap(compConf)
+        self._console.info("Analyzing assets...")
+        self._console.indent()
+
+        compConf       = self._job.get("compile-options")
+        compConf       = ExtMap(compConf)
         resources_tree = compConf.get("code/resources-tree", False)
         
         resdata = {}
@@ -663,12 +772,8 @@ class CodeGenerator(object):
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
-        self._console.info("Analyzing assets...")
-        self._console.indent()
-
-        self._imageInfo      = ImageInfo(self._console, self._cache)
-
-        resourceFilter, classToResourceMap= self._resourceHandler.getResourceFilterByAssets(self._classList)
+        self._imageInfo                = ImageInfo(self._console, self._cache)
+        assetFilter, classToResourceMap= self._resourceHandler.getResourceFilterByAssets(self._classList)
 
         # read img cache file
         cacheId = "imginfo-%s" % self._config._fname
@@ -676,77 +781,43 @@ class CodeGenerator(object):
         if imgLookupTable == None:
             imgLookupTable = {}
 
+        filteredResources = {}          # type {resId : ImgFmt|string}
+        combinedImages    = {}          # type {imgId : obj(info : ImgFmt, embeds : {imgId : ImgFmt})
+        # 1st pass gathering relevant images and other resources from the libraries
         for lib in libs:
-            #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            # TODO: scanning for resources should be handled in the LibraryPath class
-            resourceList = self._resourceHandler.findAllResources([lib], resourceFilter)
-            # resourceList = [[file1,uri1],[file2,uri2],...]
+            resourceList = self._resourceHandler.findAllResources([lib], None)
+            # resourceList = [file1,file2,...]
             for resource in resourceList:
-                ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
-                #assetId = extractAssetPart(libresuri, resource[1])
-                assetId = extractAssetPart(librespath,resource)
-                assetId = Path.posifyPath(assetId)
-
-                if imgpatt.search(resource): # handle images
-                    imgpath= resource
-                    #imguri = resource[1]
-                    imguri = resource
-
-                    # cache or generate
-                    if (imgpath in imgLookupTable and
-                        imgLookupTable[imgpath]["time"] > os.stat(imgpath).st_mtime):
-                        imageInfo = imgLookupTable[imgpath]["content"]
-                    else:
-                        imageInfo = self._imageInfo.getImageInfo(imgpath, assetId)
-                        imgLookupTable[imgpath] = {"time": time.time(), "content": imageInfo}
-
-                    # use an ImgInfoFmt object, to abstract from flat format
-                    imgfmt = ImgInfoFmt()
-                    imgfmt.lib = lib['namespace']
-                    if not 'type' in imageInfo:
-                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
-                    imgfmt.type = imageInfo['type']
-
-                    # check for a combined image and process the contained images
-                    meta_fname = os.path.splitext(imgpath)[0]+'.meta'
-                    if os.path.exists(meta_fname):  # add included imgs
-                        processCombinedImg(script, resdata, meta_fname, imguri, assetId, imgfmt)
-
-                    # add this image directly
-                    # imageInfo = {width, height, filetype}
-                    if not 'width' in imageInfo or not 'height' in imageInfo:
-                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
-                    imgfmt.width, imgfmt.height, imgfmt.type = (
-                        imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                    # check if img is already registered as part of a combined image
-                    if assetId in resdata:
-                        x = ImgInfoFmt()
-                        x.fromFlat(resdata[assetId])
-                        if x.mappedId:
-                            continue  # don't overwrite the combined entry
-                    resvalue = imgfmt.flatten()
-
-                elif skippatt.search(resource[0]):
+                if skippatt.search(resource):
                     continue
+                if assetFilter(resource):  # add those anyway
+                    resId, resVal = addResource(resource)
+                    filteredResources[resId] = resVal
+                if isCombinedImage(resource):  # register those for later evaluation
+                    combObj         = NameSpace()
+                    combId, combImgFmt     = addResource(resource)
+                    combObj.info           = combImgFmt
+                    combObj.embeds         = addCombinedImage(resource, combId, combImgFmt)
+                    combinedImages[combId] = combObj
 
-                else:  # handle other resources
-                    resvalue = lib['namespace']
-                
-                resdata[assetId] = resvalue
-                addResourceToPackage(script, classToResourceMap, assetId, resvalue)  # register the resource with the package needing it
+        # 2nd pass patching simple image infos with combined info
+        for combId, combImg in combinedImages.items():  # combImg.embeds = {resId : ImgFmt}
+            for embId in combImg.embeds:
+                if embId in filteredResources.keys():
+                    lib = filteredResources[embId].lib
+                    filteredResources[embId]      = combImg.embeds[embId] # replace info with combined info
+                    filteredResources[embId].lib  = lib  # restore original lib
+                    if combId not in filteredResources.keys():  # every used combined image has to be added on its own
+                        filteredResources[combId] = combImg.info
 
-
-        # wpbasti: Image data is not part relevant yet.
-
+        # 3rd pass serializing the info from filteredResources
+        resdata = serialize(filteredResources, resdata)
+        
         # write img cache file
         cache.write(cacheId, imgLookupTable)
-
         self._console.outdent()
 
-        if resources_tree:
-            resdata = resdata._data
-        
         return resdata
 
 
