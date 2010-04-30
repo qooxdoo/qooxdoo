@@ -544,100 +544,10 @@ class CodeGenerator(object):
     def generateResourceInfoCode(self, script, settings, libs, format=False):
 
         # some helper functions
-        def replaceWithNamespace(imguri, liburi, libns):
-            pre,libsfx,imgsfx = Path.getCommonPrefix(liburi, imguri)
-            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-            imgshorturi = os.path.join("${%s}" % libns, imgsfx)
-            return imgshorturi
-
         def extractAssetPart(libresuri, imguri):
             pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
             if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
             return imgsfx                # use the bare img suffix as its asset Id
-
-        ##
-        # calculate the uri of the clipped image, by taking the uri of the combined image,
-        # "substracting" its asset id (the right end), taking what remains (the left
-        # part), extracting the asset id of the clipped image, and pre-fixing it with the
-        # left part of the combined image uri.
-        # imageUri = (combinedUri - combinedAssetId) + imageAssetId
-        #
-        # @param uriFromMetafile |String| the path of the clipped image from when the meta file was generated,
-        #                                 like: "./source/resource/qx/decoration/Modern/..."
-        # @param trueCombinedUri |String| the uri of the combined image, as returned from
-        #                                 the library scan and adapted for the current
-        #                                 application, like: 
-        #                                 "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-        # @param combinedUriFromMetafile |String| the path of the combined image, as
-        #                                         recorded in the .meta file
-        def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
-            # normalize paths (esp. "./x" -> "x")
-            (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,
-                                                    (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
-            # get the "wrong" left part of the combined image, as used in the .meta file (in mappedUriPrefix)
-            trueUriPrefix, mappedUriPrefix, _ = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
-            # ...and strip it from clipped image, to get a correct image id (in uriSuffix)
-            _, _, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
-            # ...then compose the correct prefix with the correct suffix
-            normalUri = os.path.normpath(os.path.join(trueUriPrefix, uriSuffix))
-            return normalUri
-
-        ##
-        # - reads through the entries of a .meta file, which is the contents of a combined image
-        # - for each contained image:
-        #   - computes the image id ("short uri")
-        #   - collects the list of interesting values (width, height, ..., combined image, ...)
-        #   - and adds these as key:value to the general data map of images
-        #
-        # @param data |{imageId:[width, height, ...]}|  general map for qx.$$resource in loader
-        # @param meta_fname |String| file path of the .meta file
-        # @param combinedImageUri |String| uri of the combined image
-        # @param combinedImageShortUri |String| short uri (image/asset id) of the combined image
-        #                              these are necessary to compute the image id's of the contained imgs
-        # @param combinedImageObject |ImgInfoFmt| an ImgInfoFmt wrapper object for the combined image
-        #                             (interesting for the lib and type info)
-        def processCombinedImg(script, data, meta_fname, combinedImageUri, combinedImageShortUri, combinedImageObject):
-            # make sure lib and type info for the combined image are present
-            assert combinedImageObject.lib, combinedImageObject.type
-            self._console.debug("Processing combined image: %r" % meta_fname)
-            self._console.indent()
-
-            # see if we have cached the contents (json) of this .meta file
-            cacheId = "imgcomb-%s" % meta_fname
-            imgDict = self._cache.read(cacheId, meta_fname)
-            if imgDict == None:
-                mfile = open(meta_fname)
-                imgDict = json.loads(mfile.read())
-                mfile.close()
-                self._cache.write(cacheId, imgDict)
-
-            # now loop through the dict structure from the .meta file
-            for imagePath, imageSpec_ in imgDict.items():
-                self._console.debug("found embedded image: %r" % imagePath)
-                # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
-
-                imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
-
-                # have to normalize the uri's from the meta file
-                #imageUri = normalizeImgUri(imagePath, combinedImageUri, imageObject.mappedId)
-                imageUri = imagePath
-
-                ## replace lib uri with lib namespace in imageUri
-                imageShortUri = extractAssetPart(librespath, imageUri)
-                imageShortUri = Path.posifyPath(imageShortUri)
-
-                # now put all elements of the image object together
-                imageObject.mappedId = combinedImageShortUri        # correct the mapped uri of the combined image
-                imageObject.lib      = combinedImageObject.lib
-                imageObject.mtype    = combinedImageObject.type
-                imageObject.mlib     = combinedImageObject.lib
-
-                # and store it in the data structure
-                imageFlat            = imageObject.flatten()  # this information takes precedence over existing
-                data[imageShortUri]  = imageFlat
-
-            self._console.outdent()
-            return
 
         ##
         # finds the package that needs this resource <assetId> and adds it
@@ -751,9 +661,6 @@ class CodeGenerator(object):
                 embeddedDict[imageId] = imageObject
 
             return embeddedDict
-
-
-            
 
 
         # -- main --------------------------------------------------------------
