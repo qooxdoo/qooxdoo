@@ -567,12 +567,14 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      */
     __setupInvalidateListener : function()
     {
-      var self = this;
       var element = this.getContainerElement().getDomElement();
+      
+      var invalidateEditor = function(e) {
+        this.__editorComponent.invalidateEditor();
+      };
+      var boundFunction = qx.lang.Function.bind(invalidateEditor, this);
 
-      qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", qx.event.GlobalError.observeMethod(function(e) {
-        self.__editorComponent.invalidateEditor();
-      }));
+      qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", qx.event.GlobalError.observeMethod(boundFunction));
     },
 
 
