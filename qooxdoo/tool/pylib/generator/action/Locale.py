@@ -358,17 +358,19 @@ class Locale(object):
 
     def createPoFile(self):
         po = polib.POFile()
-        now = util.nowString()
+        withMeta = self._context["jobconf"].get("translate/pofile-with-metadata", True)
+        if withMeta:
+            now = util.nowString()
 
-        po.metadata['Project-Id-Version']   = '1.0'
-        po.metadata['Report-Msgid-Bugs-To'] = 'you@your.org'
-        po.metadata['POT-Creation-Date']    = now
-        po.metadata['PO-Revision-Date']     = now
-        po.metadata['Last-Translator']      = 'you <you@your.org>'
-        po.metadata['Language-Team']        = 'Team <yourteam@your.org>'
-        po.metadata['MIME-Version']         = '1.0'
-        po.metadata['Content-Type']         = 'text/plain; charset=utf-8'
-        po.metadata['Content-Transfer-Encoding'] = '8bit'
+            po.metadata['Project-Id-Version']   = '1.0'
+            po.metadata['Report-Msgid-Bugs-To'] = 'you@your.org'
+            po.metadata['POT-Creation-Date']    = now
+            po.metadata['PO-Revision-Date']     = now
+            po.metadata['Last-Translator']      = 'you <you@your.org>'
+            po.metadata['Language-Team']        = 'Team <yourteam@your.org>'
+            po.metadata['MIME-Version']         = '1.0'
+            po.metadata['Content-Type']         = 'text/plain; charset=utf-8'
+            po.metadata['Content-Transfer-Encoding'] = '8bit'
 
         return po
 
