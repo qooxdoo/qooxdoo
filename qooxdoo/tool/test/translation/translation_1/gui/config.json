@@ -12,10 +12,12 @@
     }
   ],
 
+  /*
   "export" :
   [
     "testPOFile"
   ],
+  */
 
   "let" :
   {
@@ -35,10 +37,15 @@
       "cache" : { "compile" : "${CACHE}" }  
     }
 
-    ,"testPOFile" :
-    {
-      "run" : ["translation", "testPOFile-compare", "testPOFile-teardown"]
-    }
+    /*
+     * Run the (fairly) standard 'translation' job on the sample app, and
+     * compare the resulting .po file; the '*-compare' job will bomb if the
+     * files are not equal.
+     */
+    ,"testPOFile" : 
+    { 
+      "desc": "run the standard translation job on the sample app, and compare the .po file", 
+      "run" : ["testPOFile-translation", "testPOFile-compare", "testPOFile-teardown"] }
 
     ,"testPOFile-translation" :
     {
