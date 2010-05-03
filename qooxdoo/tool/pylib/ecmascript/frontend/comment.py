@@ -410,7 +410,7 @@ def parseText(intext, format=True):
 def parseDetail(attrib, format=True):
     text = attrib["text"]
 
-    if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
+    if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
         match = R_NAMED_TYPE.search(text)
     else:
         match = R_SIMPLE_TYPE.search(text)
@@ -418,7 +418,7 @@ def parseDetail(attrib, format=True):
     if match:
         text = text[match.end(0):]
 
-        if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
+        if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
             attrib["name"] = match.group(1)
             #print ">>> NAME: %s" % match.group(1)
             remain = match.group(3)

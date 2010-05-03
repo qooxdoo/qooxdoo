@@ -132,6 +132,7 @@ def handleClassDefinition(docTree, item, variant):
     handleDeprecated(classNode, commentAttributes)
     handleAccess(classNode, commentAttributes)
     handleAppearance(item, classNode, className, commentAttributes)
+    handleChildControls(item, classNode, className, commentAttributes)
 
     try:
         children = classMap.children
@@ -647,7 +648,7 @@ def handleEvents(item, classNode):
 def handleAppearance(item, classNode, className, commentAttributes):
     """
     handles the declaration of appearances and widget states
-    by evaluating the @state and @apprearance attributes
+    by evaluating the @state and @appearance attributes
     """
     appearances = {}
     thisAppearance = []
@@ -741,6 +742,21 @@ def handleAccess(docNode, commentAttributes):
 
     if access != "public":
         docNode.set("access", access)
+
+
+def handleChildControls(item, classNode, className, commentAttributes):
+    childControls = {}
+    for attrib in commentAttributes:
+        if attrib["category"] == "childControl":            
+            childControlName = attrib["name"]
+            childControlNode = tree.Node("childControl")
+            childControlNode.set("name", childControlName)
+            
+            if not attrib.has_key("type"):
+                printDocError(item, "No type defined for child control '%s' of class %s" %(childControlName,className))
+            addTypeInfo(childControlNode, attrib, item)            
+            
+            classNode.addListChild("childControls", childControlNode)
 
 
 
