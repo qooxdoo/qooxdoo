@@ -1,0 +1,25 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2010-05-03 15:26+0100\n"
+"PO-Revision-Date: 2010-05-03 15:26+0100\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gui/Application.js:81
+msgid "Lookup Key"
+msgstr ""
+
+#. Lookup needs comment
+#: gui/Application.js:82
+msgid "Second Key"
+msgstr ""
+
+#: gui/Application.js:83
+msgid "Third Key"
+msgstr ""

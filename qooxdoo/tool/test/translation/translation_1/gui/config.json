@@ -1,0 +1,61 @@
+/*
+ * Test Translation
+ * The test jobs currently require a POSIX shell (bash etc.) to do their work.
+ */
+{
+  "name"    : "Test Translation",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "testPOFile"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "gui",
+    "QOOXDOO_PATH" : "../../../../..",
+    "QXTHEME"      : "gui.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : "."
+  }
+
+  ,"jobs" :
+  {
+    "test-settings" :
+    {
+      "cache" : { "compile" : "${CACHE}" }  
+    }
+
+    ,"testPOFile" :
+    {
+      "run" : ["translation", "testPOFile-compare", "testPOFile-teardown"]
+    }
+
+    ,"testPOFile-translation" :
+    {
+      "extend" : ["test-settings", "translation"],
+      "translate" : { "pofile-with-metadata" : false }
+    }
+
+    ,"testPOFile-compare" :
+    {
+      "extend" : ["test-settings"],
+      "shell" : { "command" : "diff -q source/translation/en.po compare/source/translation/en.po" }
+    }
+
+    ,"testPOFile-teardown" :
+    {
+      "extend" : ["test-settings"],
+      "shell" : { "command" : "rm source/translation/en.po" }
+    }
+  }
+}

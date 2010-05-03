@@ -1,0 +1,16 @@
+# 
+msgid ""
+msgstr ""
+
+#: gui/Application.js:81
+msgid "Lookup Key"
+msgstr ""
+
+#. Lookup needs comment
+#: gui/Application.js:82
+msgid "Second Key"
+msgstr ""
+
+#: gui/Application.js:83
+msgid "Third Key"
+msgstr ""
