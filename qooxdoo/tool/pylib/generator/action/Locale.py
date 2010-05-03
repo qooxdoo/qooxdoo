@@ -192,15 +192,18 @@ class Locale(object):
 
         for locale in selectedLocales:
             self._console.debug("Processing: %s" % locale)
+            self._console.indent()
 
             entry = allLocales[locale]
             po = polib.pofile(entry["path"])
             po.merge(pot)
             po.sort()
+            self._console.debug("Percent translated: %d" % (po.percent_translated(),))
             #po.save(entry["path"])
             poString = str(po)
             #poString = self.recoverBackslashEscapes(poString)
             filetool.save(entry["path"], poString)
+            self._console.outdent()
 
         self._console.outdent()
         self._console.outdent()
