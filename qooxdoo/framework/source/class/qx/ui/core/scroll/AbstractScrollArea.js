@@ -563,7 +563,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
         barX.show();
         barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width));
-        barX.setKnobFactor(paneSize.width / scrollSize.width);
+        barX.setKnobFactor((scrollSize.width === 0) ? 0 : paneSize.width / scrollSize.width);
       }
       else
       {
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
         barY.show();
         barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height));
-        barY.setKnobFactor(paneSize.height / scrollSize.height);
+        barY.setKnobFactor((scrollSize.height === 0) ? 0 : paneSize.height / scrollSize.height);
       }
       else
       {
