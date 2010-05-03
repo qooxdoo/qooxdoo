@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Generate outer HTML
-      var outerStyles = '';
+      var outerStyles = 'line-height:0;';
 
       var width = this.getWidthTop();
       if (width > 0) {
