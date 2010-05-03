@@ -111,11 +111,11 @@ class ImageClipping(object):
             self._console.warn("No images to combine; skipping")
         else:
             filetool.directory(os.path.dirname(combined))
-            (fileDescriptor, tempPath) = tempfile.mkstemp(text=True)
+            (fileDescriptor, tempPath) = tempfile.mkstemp(text=True, dir=os.curdir)
             temp = os.fdopen(fileDescriptor, "w")
             temp.write("\n".join(clips))
             temp.close()
-            cmd = montage_cmd % (orientation, "@" + tempPath, combined)
+            cmd = montage_cmd % (orientation, "@" + os.path.basename(tempPath), combined)
             rc = os.system(cmd)
             os.unlink(tempPath)
             if rc != 0:
