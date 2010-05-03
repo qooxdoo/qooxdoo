@@ -748,6 +748,9 @@ qx.Class.define("apiviewer.dao.Class",
         case "superMixins" :
           this._superMixins = this._createNodeList(childNode, apiviewer.dao.ClassItem, this, childNode.type);
           break;
+        case "childControls" :
+          this._childControls = this._createNodeList(childNode, apiviewer.dao.ClassItem, this, childNode.type);
+          break;
         case "desc":
           this._desc = childNode.attributes.text || "";
           break;
