@@ -445,9 +445,7 @@ class Locale(object):
         try:
             translation = self._findTranslationBlocks(tree, [])
         except NameError, detail:
-            self._console.error("Could not extract translation from %s!" % fileId)
-            self._console.error("%s" % detail)
-            sys.exit(1)
+            raise RuntimeError("Could not extract translation from %s!\n%s" % (fileId, detail))
 
         if len(translation) > 0:
             self._console.debug("Found %s translation strings" % len(translation))
@@ -482,7 +480,7 @@ class Locale(object):
     def _addTranslationBlock(self, method, data, node, var):
         entry = {
             "method" : method,
-            "line" : node.get("line"),
+            "line"   : node.get("line"),
             "column" : node.get("column")
         }
 
@@ -491,12 +489,15 @@ class Locale(object):
         # trc(hint, msgid, args)
         # marktr(msgid)
 
-        if method == "trn" or method == "trc": no=2
-        else: no=1
+        if method == "trn" or method == "trc": minArgc=2
+        else: minArgc=1
 
         params = node.getChild("params", False)
         if not params or not params.hasChildren():
             raise NameError("Invalid param data for localizable string method at line %s!" % node.get("line"))
+
+        if len(params.children) < minArgc:
+            raise NameError("Invalid number of parameters %s at line %s" % (len(params.children), node.get("line")))
 
         strings = []
         for child in params.children:
@@ -509,26 +510,31 @@ class Locale(object):
             elif child.type == "operation":
                 strings.append(self._concatOperation(child))
 
-            elif len(strings) < no:
-                raise NameError("Unsupported param of type %s at line %s" % (child.type, child.get("line")))
+            elif len(strings) < minArgc:
+                self._console.warn("Unknown expression as argument to translation method at line %s" % (child.get("line"),))
 
-            # Ignore remaining params (arguments)
-            if len(strings) == no:
+            # Ignore remaining (run time) arguments
+            if len(strings) == minArgc:
                 break
 
-        if len(strings) != no:
-            raise NameError("Invalid number of parameters %s at line %s" % (len(strings), node.get("line")))
+        lenStrings = len(strings)
+        if lenStrings > 0:
+            if method == "trc":
+                entry["hint"] = strings[0]
+                if lenStrings > 1 and strings[1]:  # msgid must not be ""
+                    entry["id"]   = strings[1]
+            else:
+                if strings[0]:
+                    entry["id"] = strings[0]
 
-        if method == "trc":
-            entry["hint"] = strings[0]
-            entry["id"] = strings[1]
-        else:
-            entry["id"] = strings[0]
+            if method == "trn" and lenStrings > 1:
+                entry["plural"] = strings[1]
 
-        if method == "trn":
-            entry["plural"] = strings[1]
+        # register the entry only if we have a proper key
+        if "id" in entry:
+            data.append(entry)
 
-        data.append(entry)
+        return
 
 
 
@@ -546,6 +552,6 @@ class Locale(object):
                 result += second.get("value")
 
         except tree.NodeAccessException:
-            raise NameError("Unsupported param of type at line %s" % node.get("line"))
+            self._console.warn("Unknown expression as argument to translation method at line %s" % (node.get("line"),))
 
         return result
