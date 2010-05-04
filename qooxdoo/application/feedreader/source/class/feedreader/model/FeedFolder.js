@@ -16,11 +16,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Data model for a feed folder.
+ */
 qx.Class.define("feedreader.model.FeedFolder",
 {
   extend : qx.core.Object,
 
-
+  /**
+   * @param title {String} The name of the folder.
+   */
   construct : function(title)
   {
     this.base(arguments);
