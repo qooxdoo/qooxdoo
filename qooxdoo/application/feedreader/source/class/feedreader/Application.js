@@ -260,7 +260,7 @@ qx.Class.define("feedreader.Application",
       // bind the enabled property of the remove feed button
       options = {converter: this._category2enabledConverter};
       this.__treeController.bind(
-        "selection[0].category", this.__toolBarView.getRemoveButton(), "enabled", options
+        "selection[0]", this.__toolBarView.getRemoveButton(), "enabled", options
       );
     },
 
@@ -270,10 +270,7 @@ qx.Class.define("feedreader.Application",
      * button.
      */
     _category2enabledConverter : function(data) {
-      if (data == "user") {
-        return true;
-      }
-      return false;
+      return !!data && data.getCategory() == "user";
     },
 
 
