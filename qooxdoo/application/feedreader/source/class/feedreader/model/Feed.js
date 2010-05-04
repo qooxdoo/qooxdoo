@@ -74,7 +74,6 @@ qx.Class.define("feedreader.model.Feed",
     /** The currently selected article */
     selectedArticle :
     {
-      check : "feedreader.model.Article",
       nullable: true
     },
 

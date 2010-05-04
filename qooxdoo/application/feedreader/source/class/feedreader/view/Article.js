@@ -131,11 +131,28 @@ qx.Class.define("feedreader.view.Article",
       // build the article html using a StringBuilder
       var html = new qx.util.StringBuilder();
 
+      // some of the values may be missing
+      var date = (article.getPubDate && article.getPubDate()) || "";
+      
+      // normalize the content
+      var description = "";
+      if (article.getDescription) {
+        description = article.getDescription();
+      } else if (article.getContent) {
+        description = article.getContent().getContent && article.getContent().getContent();
+      }
+      
+      // link handling
+      var link = article.getLink();
+      if (link.getHref) {
+        link = link.getHref();
+      }
+
       html.add("<div class='container'>");
       html.add("<h1 class='blog'>", article.getTitle(), "</h1>");
-      html.add("<div class='date'>", article.getDate(), "</div>");
-      html.add("<div class='description'>", article.getContent(), "</div>");
-      html.add("<a target='_blank' href='", article.getLink(), "'>read more ...</a>");
+      html.add("<div class='date'>", date, "</div>");
+      html.add("<div class='description'>", description, "</div>");
+      html.add("<a target='_blank' href='", link, "'>read more ...</a>");
       html.add("</div>");
 
       return html.get();
