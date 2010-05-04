@@ -20,7 +20,7 @@ msgstr "Vordefinierte Quellen"
 msgid "User Feeds"
 msgstr "Eigene Quellen"
 
-#: feedreader/Application.js:529
+#: feedreader/Application.js:531
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -28,29 +28,21 @@ msgstr "FeedReader (qooxdoo powered)"
 msgid "Add a feed"
 msgstr "Feed hinzufügen"
 
-#: feedreader/view/AddFeedWindow.js:90
+#: feedreader/view/AddFeedWindow.js:94
 msgid "Feed Information"
 msgstr "Feed Information"
 
-#: feedreader/view/AddFeedWindow.js:97
-msgid "Title:"
-msgstr "Titel:"
+#: feedreader/view/AddFeedWindow.js:101
+msgid "Title"
+msgstr "Titel"
 
-#: feedreader/view/AddFeedWindow.js:100
-msgid "URL:"
-msgstr "URL:"
+#: feedreader/view/AddFeedWindow.js:105
+msgid "URL"
+msgstr "URL"
 
-#: feedreader/view/AddFeedWindow.js:112
+#: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Hinzufügen"
-
-#: feedreader/view/AddFeedWindow.js:136
-msgid "Please enter a title."
-msgstr "Bitte geben Sie einen Titel an."
-
-#: feedreader/view/AddFeedWindow.js:144
-msgid "Please enter a url."
-msgstr "Bitte geben Sie eine URL an."
 
 #: feedreader/view/List.js:50
 msgid "Posts"

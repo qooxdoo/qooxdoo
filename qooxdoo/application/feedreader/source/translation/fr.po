@@ -21,7 +21,7 @@ msgstr "Fils statiques"
 msgid "User Feeds"
 msgstr "Fils de l'utilisateur"
 
-#: feedreader/Application.js:529
+#: feedreader/Application.js:531
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
@@ -29,29 +29,21 @@ msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 msgid "Add a feed"
 msgstr "Ajouter un fil"
 
-#: feedreader/view/AddFeedWindow.js:90
+#: feedreader/view/AddFeedWindow.js:94
 msgid "Feed Information"
 msgstr "Information sur le fil"
 
-#: feedreader/view/AddFeedWindow.js:97
-msgid "Title:"
-msgstr "Titre:"
+#: feedreader/view/AddFeedWindow.js:101
+msgid "Title"
+msgstr "Titre"
 
-#: feedreader/view/AddFeedWindow.js:100
-msgid "URL:"
-msgstr "URL:"
+#: feedreader/view/AddFeedWindow.js:105
+msgid "URL"
+msgstr "URL"
 
-#: feedreader/view/AddFeedWindow.js:112
+#: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Ajouter"
-
-#: feedreader/view/AddFeedWindow.js:136
-msgid "Please enter a title."
-msgstr "S'il-vous-plaît, entrez un titre."
-
-#: feedreader/view/AddFeedWindow.js:144
-msgid "Please enter a url."
-msgstr "S'il-vous-plaît, entrez une url."
 
 #: feedreader/view/List.js:50
 msgid "Posts"

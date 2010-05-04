@@ -22,7 +22,7 @@ msgstr "Feeds Estáticos"
 msgid "User Feeds"
 msgstr "Feeds del Usuario"
 
-#: feedreader/Application.js:529
+#: feedreader/Application.js:531
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -30,29 +30,21 @@ msgstr "FeedReader (qooxdoo powered)"
 msgid "Add a feed"
 msgstr "Agregar Feed"
 
-#: feedreader/view/AddFeedWindow.js:90
+#: feedreader/view/AddFeedWindow.js:94
 msgid "Feed Information"
 msgstr "Información del Feed"
 
-#: feedreader/view/AddFeedWindow.js:97
-msgid "Title:"
-msgstr "Título:"
+#: feedreader/view/AddFeedWindow.js:101
+msgid "Title"
+msgstr "Título"
 
-#: feedreader/view/AddFeedWindow.js:100
-msgid "URL:"
-msgstr "URL:"
+#: feedreader/view/AddFeedWindow.js:105
+msgid "URL"
+msgstr "URL"
 
-#: feedreader/view/AddFeedWindow.js:112
+#: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Agregar"
-
-#: feedreader/view/AddFeedWindow.js:136
-msgid "Please enter a title."
-msgstr "Por favor ingrese un título"
-
-#: feedreader/view/AddFeedWindow.js:144
-msgid "Please enter a url."
-msgstr "Por favor ingrese una url"
 
 #: feedreader/view/List.js:50
 msgid "Posts"
@@ -97,3 +89,15 @@ msgstr "Abre la ventana de preferencias"
 #: feedreader/view/ToolBar.js:102
 msgid "Help"
 msgstr "Ayuda"
+
+#~ msgid "Please enter a title."
+#~ msgstr "Por favor ingrese un título"
+
+#~ msgid "Please enter a url."
+#~ msgstr "Por favor ingrese una url"
+
+#~ msgid "Title:"
+#~ msgstr "Título:"
+
+#~ msgid "URL:"
+#~ msgstr "URL:"
