@@ -204,6 +204,10 @@ qx.Class.define("apiviewer.TreeUtil",
       {
         constName = "ICON_APPEARANCE";
       }
+      else if (node instanceof dao.ChildControl)
+      {
+        constName = "ICON_CLASS";
+      }
       else
       {
         throw new Error("Unknown node type: " + node.type);

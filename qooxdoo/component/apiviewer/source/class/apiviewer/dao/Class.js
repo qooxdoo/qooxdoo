@@ -435,6 +435,15 @@ qx.Class.define("apiviewer.dao.Class",
       return this._superMixins;
     },
 
+    
+    /**
+     * Get all child controls
+     *
+     * @return {apiviewer.dao.ChildControl[]} All child controls.
+     */
+    getChildControls : function() {
+      return this._childControls;
+    },
 
     /* COMPLEX FUNCTIONS */
 
@@ -516,7 +525,8 @@ qx.Class.define("apiviewer.dao.Class",
         "constants" : "getConstants",
         "appearances" : "getAppearances",
         "superInterfaces" : "getSuperInterfaces",
-        "superMixins" : "getSuperMixins"
+        "superMixins" : "getSuperMixins",
+        "childControls" : "getChildControls"
       };
 
       if (listName == "constructor") {
@@ -728,6 +738,7 @@ qx.Class.define("apiviewer.dao.Class",
       this._see = [];
       this._superInterfaces = [];
       this._superMixins = [];
+      this._childControls = [];
     },
 
 
@@ -749,7 +760,7 @@ qx.Class.define("apiviewer.dao.Class",
           this._superMixins = this._createNodeList(childNode, apiviewer.dao.ClassItem, this, childNode.type);
           break;
         case "childControls" :
-          this._childControls = this._createNodeList(childNode, apiviewer.dao.ClassItem, this, childNode.type);
+          this._childControls = this._createNodeList(childNode, apiviewer.dao.ChildControl, this, childNode.type);
           break;
         case "desc":
           this._desc = childNode.attributes.text || "";

@@ -47,6 +47,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods"));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.ChildControlsPanel("childControls", "child controls"));
 
     this.getContentElement().setAttribute("id", "ClassViewer");
     apiviewer.ui.ClassViewer.instance = this;
