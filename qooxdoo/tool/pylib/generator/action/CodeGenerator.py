@@ -549,6 +549,7 @@ class CodeGenerator(object):
 
         ##
         # finds the package that needs this resource <assetId> and adds it
+        # (polymorphic in the 4th param, use either simpleResVal *or* combImgObj as kwarg)
         # TODO: this might be very expensive (lots of lookup's)
         def addResourceToPackages(script, classToResourceMap, assetId, simpleResVal=None, combImgObj=None):
 
