@@ -550,27 +550,27 @@ class CodeGenerator(object):
         ##
         # finds the package that needs this resource <assetId> and adds it
         # TODO: this might be very expensive (lots of lookup's)
-        def addResourceToPackages(script, classToResourceMap, assetId, resval):
+        def addResourceToPackages(script, classToResourceMap, assetId, simpleResVal=None, combImgObj=None):
 
             ##
             # match an asset id or a combined image object
             def assetRexMatchItem(assetRex, item):
-                # assetId
-                if isinstance(item, types.StringTypes):
-                    return assetRex.match(item)
-                # combined image = object(used:True/False, embeds: {id:ImgInfoFmt}, info:ImgInfoFmt)
-                else:
+                if combImgObj:
+                    # combined image = object(used:True/False, embeds: {id:ImgInfoFmt}, info:ImgInfoFmt)
                     for embId in item.embeds:
                         if assetRex.match(embId):
                             return True
                     return False
+                else:
+                    # assetId
+                    return assetRex.match(item)
 
             # --------------------------------------------------------
-            if isinstance(resval, NameSpace):
-                resvalue = resval.info.flatten()
-                checkval = resval
+            if combImgObj:
+                resvalue = combImgObj.info.flatten()
+                checkval = combImgObj
             else:
-                resvalue = resval
+                resvalue = simpleResVal
                 checkval = assetId
 
             classesUsing = set(())
@@ -610,12 +610,12 @@ class CodeGenerator(object):
                     resvalue = resval
                 resdata[resId] = resvalue
                 # register the resource with the package needing it
-                addResourceToPackages(script, classToResourceMap, resId, resvalue)
+                addResourceToPackages(script, classToResourceMap, resId, simpleResVal=resvalue)
 
             # for combined images, we have to check their embedded images against the packages
             for combId, combImg in combinedImages.items():
                 if combImg.used == True:
-                    addResourceToPackages(script, classToResourceMap, combId, combImg)
+                    addResourceToPackages(script, classToResourceMap, combId, combImgObj=combImg)
 
             # handle tree structure of resource info
             if resources_tree:
