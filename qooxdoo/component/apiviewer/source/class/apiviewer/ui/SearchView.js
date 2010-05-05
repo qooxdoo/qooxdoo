@@ -31,6 +31,7 @@ qx.Class.define("apiviewer.ui.SearchView",
   *****************************************************************************
   */
 
+
   construct : function()
   {
     this.base(arguments);
