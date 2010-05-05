@@ -630,6 +630,13 @@ class QxTest:
     return dummyLogFile
 
 
+  def runTestsWrapped(self, appConf):
+    try:
+      self.runTests(appConf)
+    except Exception, e:
+      self.log("Error running tests for %s: %s" %(appConf["appName"], e.message) )
+
+
   ##
   # Launches the actual tests (Simulations) for defined applications
   #
