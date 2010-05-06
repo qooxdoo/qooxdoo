@@ -904,6 +904,22 @@ class Generator(object):
             return
 
 
+        def depsToTerms(classDepsIter):
+            
+            depends = {}
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
+                if classId not in depends:
+                    depends[classId]         = {}
+                    depends[classId]['load'] = []
+                    depends[classId]['run']  = []
+                depends[classId][loadOrRun].append(depId)
+
+            for classId, classDeps in depends.items():
+                self._console.info("depends(%r, %r, %r)" % (classId, classDeps['load'], classDeps['run']))
+
+            return
+
+
         def depsToConsole(classDepsIter):
             oPackageId = oClassId = oLoadOrRun = ''
             self._console.indent()
@@ -1016,6 +1032,8 @@ class Generator(object):
                 depsToJsonFile(lookupUsingDeps(packages), depsLogConf)
             elif mainformat == 'flare':
                 depsToFlareFile(lookupUsingDeps(packages), depsLogConf)
+            elif mainformat == 'term':
+                depsToTerms(lookupUsingDeps(packages))
             else:
                 depsToConsole(lookupUsingDeps(packages))
             
