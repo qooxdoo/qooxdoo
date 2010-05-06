@@ -210,10 +210,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__menuElements =
     [
       this.__sobutt,
-      this.__playgroundButton,
       this.__viewPart,
       this.__themePart
     ];
+    
+    if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      this.__menuElements.push(this.__playgroundButton);
+    }
 
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
@@ -258,10 +261,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     __currentJSCode : null,
     __menuElements : null,
     __versionFilter : null,
-    __versionTags : {},
+    __versionTags : null,
     __sobutt : null,
     __viewPart : null,
     __themePart : null,
+    __themeMenu : null,
+    __menuBar : null,
+    __versionSelect : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -1456,6 +1462,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       "on" : function(tagList)
       {
+        if (!this.__versionTags) {
+          this.__versionTags = {};
+        }
         for (var i=0,l=tagList.length; i<l; i++) {
           var tag = tagList[i];
           if (tag.indexOf("qxVersion") == 0) {
@@ -1477,8 +1486,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       "on" : function()
       {
-        versions = [];
-        for (tag in this.__versionTags) {
+        var versions = [];
+        for (var tag in this.__versionTags) {
           versions.push(tag.substr(tag.indexOf("_") + 1) );
         }
         versions.sort();
