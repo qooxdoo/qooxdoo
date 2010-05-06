@@ -634,7 +634,7 @@ class QxTest:
     try:
       self.runTests(appConf)
     except Exception, e:
-      self.log("Error running tests for %s: %s" %(appConf["appName"], e.message) )
+      self.log("Error running tests for %s: %s" %(appConf["appName"], repr(e)) )
 
 
   ##
