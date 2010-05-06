@@ -141,11 +141,13 @@ qx.Class.define("feedreader.view.Article",
       } else if (article.getContent) {
         description = article.getContent().getContent && article.getContent().getContent();
       }
-      
+              
       // link handling
       var link = article.getLink();
       if (link.getHref) {
         link = link.getHref();
+      } else if (link instanceof qx.data.Array) {
+        link = link.getItem(0).getHref();
       }
 
       html.add("<div class='container'>");
