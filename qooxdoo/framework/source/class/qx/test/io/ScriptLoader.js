@@ -89,7 +89,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
         return;
       }
 
-      this.loader.load("http://qooxdoo.org/foo.js", function(status)
+      this.loader.load(location.protocol + "//qooxdoo.org/foo.js", function(status)
       {
         this.resume(function()
         {

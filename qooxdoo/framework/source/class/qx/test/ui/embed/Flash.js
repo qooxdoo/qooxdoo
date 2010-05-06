@@ -210,8 +210,8 @@ qx.Class.define("qx.test.ui.embed.Flash",
 
     __testReload : function(method)
     {
-      // skip this test, because runs only with a webserver
-      if (location.protocol != "http:") {
+      // skip this test because it only runs with a webserver
+      if (location.protocol.indexOf("http") !== 0) {
         this.warn("Skipped test 'testReload', because a webserver " +
           "is needed to run this test.");
         return;
@@ -252,8 +252,8 @@ qx.Class.define("qx.test.ui.embed.Flash",
 
     testExternalInterface : function()
     {
-      // skip this test, because runs only with a webserver
-      if (location.protocol != "http:") {
+      // skip this test because it only runs with a webserver
+      if (location.protocol.indexOf("http") !== 0) {
         this.warn("Skipped test 'testExternalInterface', because a webserver " +
           "is needed to run this test.");
         return;
