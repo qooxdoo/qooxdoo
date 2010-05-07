@@ -36,11 +36,11 @@ from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.LibraryPath      import LibraryPath
-from generator.code.ResourceHandler  import ResourceHandler
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
 from generator.code.CodeGenerator    import CodeGenerator
+from generator.resource.ResourceHandler  import ResourceHandler
 from generator.action.ImageInfo      import ImgInfoFmt
 from generator.action.ImageClipping  import ImageClipping
 from generator.action.ApiLoader      import ApiLoader
