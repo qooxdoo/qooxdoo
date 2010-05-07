@@ -21,7 +21,7 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
 from generator.code.Part        import Part

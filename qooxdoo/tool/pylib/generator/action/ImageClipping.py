@@ -37,7 +37,7 @@ import sys
 import os
 import glob
 import shutil
-from generator.action.ImageInfo import ImageInfo
+from generator.resource.ImageInfo import ImageInfo
 from misc import filetool
 import tempfile
 
