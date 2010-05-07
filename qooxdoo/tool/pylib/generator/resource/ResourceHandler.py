@@ -111,22 +111,30 @@ class ResourceHandler(object):
     # filter is a positivie filter (ie. the things you *want*)
     def findAllResources1(self, libraries, filter=None, useCombImgs=True):
 
-        combinedImages    = []
+        combinedImages    = set(())
 
         # go through all libs (weighted) and collect necessary resources
         for lib in libraries:
             for resource in self.findLibResources(lib, ):
-                if filter and filter(resource):
-                    yield resource
                 if self.isCombinedImage(resource):
-                    combinedImages.append(resource)
+                    combinedImages.add(resource)
+                if (filter and not filter(resource)):
+                    continue
+                else:
+                    yield resource
 
         # go through the combined images
-        for combpath in combinedImages:
-            combimg = CombinedImage(combpath)
-            for embimg in combimg.getEmbeddedImages():
-                if filter and filter(embimg):
-                    yield combpath
+        if filter:
+            for combpath in combinedImages:
+                combimg = CombinedImage(combpath)
+                for embimg in combimg.getEmbeddedImages():
+                    if filter(embimg):
+                        yield combpath
+                        break  # one match is enough
+        else: 
+            # if there is no filter, the comb. images have been added in the 
+            # first loop
+            pass
 
         return
 
