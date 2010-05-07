@@ -21,9 +21,9 @@
 
 import re, os, sys, types
 
-from misc import filetool
+from misc import filetool, Path, json
 from misc.imginfo import ImgInfo
-from misc import Path
+from generator import Context
 
 memcache = {}
 
@@ -91,7 +91,7 @@ class ImgInfoFmt(object):
                 self.top       = serialspec[5]
             # but init those members anyway, so they are not undefined
             else:
-                self.mappedId = None
+                self.mappedId  = None
                 self.left      = None
                 self.top       = None
         # if there are (additional) keyword args, use them
@@ -151,3 +151,39 @@ class ImgInfoFmt(object):
             self.mtype     = None
             self.mlib      = None
 
+
+##
+# Class to represent a combined image to the generator, i.e. essentially
+# the information of the .meta file without exposing its file layout.
+
+class CombinedImage(object):
+
+    def __init__(self, path=None):
+        self._console = Context.console
+        self.embedded = {}
+        if path:
+            self.parseMetaFile(path)
+
+    def parseMetaFile(self, path):
+        # Read the .meta file
+        # it doesn't seem worth to apply caching here
+        meta_fname   = os.path.splitext(path)[0]+'.meta'
+        meta_content = filetool.read(meta_fname)
+        imgDict      = json.loads(meta_content)
+
+        # Loop through the images of the .meta file
+        for imageId, imageSpec_ in imgDict.items():
+            self._console.debug("found embedded image: %r" % imageId)
+            # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
+
+            imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file
+            self.embedded[imageId] = imageObject
+
+        return
+
+    def getEmbeddedImages(self):
+        result = {}
+        for img, imgObj in self.embedded.items():
+            result[img] = imgObj
+        
+        return result

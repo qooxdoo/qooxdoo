@@ -77,6 +77,9 @@ class Generator(object):
 
         console = self._console
         console.resetFilter()   # reset potential filters from a previous job
+        Context.console = context['console']
+        
+        return
 
 
 
@@ -1100,7 +1103,7 @@ class Generator(object):
             libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], resourceFilter)
+            resList  = self._resourceHandler.findAllResources1([lib], resourceFilter)
 
             # for each needed resource
             for res in resList:

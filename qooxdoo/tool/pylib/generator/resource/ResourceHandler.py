@@ -23,6 +23,7 @@ import re, string, types, sys, os
 
 from generator.code.LibraryPath import LibraryPath
 from misc import Path
+from generator.resource.ImageInfo import CombinedImage
 
 class ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -110,26 +111,37 @@ class ResourceHandler(object):
     # filter is a positivie filter (ie. the things you *want*)
     def findAllResources1(self, libraries, filter=None, useCombImgs=True):
 
+        combinedImages    = []
+
         # go through all libs (weighted) and collect necessary resources
         for lib in libraries:
             for resource in self.findLibResources(lib, ):
                 if filter and filter(resource):
                     yield resource
-                if isCombinedImage(resource):
-                    registerCombImg(resource, combimgs)
+                if self.isCombinedImage(resource):
+                    combinedImages.append(resource)
 
         # go through the combined images
-        for combimg in combimgs:
-            for embimg in getEmbeddedImages(combimg):
+        for combpath in combinedImages:
+            combimg = CombinedImage(combpath)
+            for embimg in combimg.getEmbeddedImages():
                 if filter and filter(embimg):
-                    yield combimg
+                    yield combpath
 
         return
 
 
     ##
+    # checks whether the image is a combined image, by looking for a
+    # .meta file
+    def isCombinedImage(self, resourcePath):
+        meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
+        return os.path.exists(meta_fname)
+
+
+    ##
     # Yield the resources of a single lib
-    def findLibResources(self, lib, filter):
+    def findLibResources(self, lib, filter=None):
 
         def getCache(lib):
             cacheId = "resinlib-%s" % lib._path
