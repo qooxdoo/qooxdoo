@@ -154,11 +154,23 @@ class Class(object):
     #   Compile Interface
     # --------------------------------------------------------------------------
 
-    def compiled(variants):
-        compiled = u''
-        tree = self.optimize(self.ast)
-        compiled =compiler.compile(tree)
-        return compiled
+    def _getAst(self):
+        pass
+
+    ast = property(_getAst)
+
+    def getCode(self, compile_options=None, variants=None, source_with_comments=False):
+        result = u''
+        # source versions
+        if not compile_options:
+            result = filetool.read(self.path)
+            if not source_with_comments:
+                result = strip_comments(result)
+        # compiled versions
+        else:
+            tree = self.optimize(self.ast, compile_options, variants)
+            result =compiler.compile(tree)
+        return result
 
     # --------------------------------------------------------------------------
     #   Dependencies Interface
