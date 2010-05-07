@@ -41,6 +41,8 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     this.base(arguments, value);
     this.initWrap();
+
+    this.addListener("mousewheel", this._onMousewheel, this);
   },
 
 
@@ -67,6 +69,13 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : "textarea"
+    },
+
+    /** Factor for scrolling the <code>TextArea</code> with the mouse wheel. */
+    singleStep :
+    {
+      check : "Integer",
+      init : 20
     }
   },
 
@@ -81,6 +90,24 @@ qx.Class.define("qx.ui.form.TextArea",
 
   members :
   {
+    /**
+     * Handles the mouse wheel for scrolling the <code>TextArea</code>.
+     * 
+     * @param e {qx.event.type.MouseWheel} mouse wheel event.
+     */
+    _onMousewheel : function(e) {
+      var contentElement = this.getContentElement(); 
+      var scrollY = contentElement.getScrollY();
+
+      contentElement.scrollToY(scrollY + e.getWheelDelta() * this.getSingleStep());
+      
+      var newScrollY = contentElement.getScrollY();
+
+      if (newScrollY != scrollY) {
+        e.stop();        
+      }
+    },
+
     /*
     ---------------------------------------------------------------------------
       FIELD API
