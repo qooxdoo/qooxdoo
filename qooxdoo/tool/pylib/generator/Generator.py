@@ -40,7 +40,7 @@ from generator.code.ResourceHandler  import ResourceHandler
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
-from generator.action.CodeGenerator  import CodeGenerator
+from generator.code.CodeGenerator    import CodeGenerator
 from generator.action.ImageInfo      import ImgInfoFmt
 from generator.action.ImageClipping  import ImageClipping
 from generator.action.ApiLoader      import ApiLoader
