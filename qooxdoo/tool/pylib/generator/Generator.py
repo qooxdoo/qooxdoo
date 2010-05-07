@@ -41,8 +41,8 @@ from generator.code.Package          import Package
 from generator.code.Part             import Part
 from generator.code.CodeGenerator    import CodeGenerator
 from generator.resource.ResourceHandler  import ResourceHandler
+from generator.resource.ImageClipping    import ImageClipping
 from generator.action.ImageInfo      import ImgInfoFmt
-from generator.action.ImageClipping  import ImageClipping
 from generator.action.ApiLoader      import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
