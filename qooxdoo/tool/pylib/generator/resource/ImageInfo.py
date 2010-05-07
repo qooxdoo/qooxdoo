@@ -160,7 +160,9 @@ class CombinedImage(object):
 
     def __init__(self, path=None):
         self._console = Context.console
-        self.embedded = {}
+        self.embeds = {}     # embedded images dict
+        self.info   = None   # ImgInfoFmt obj
+        self.used   = False  # is this comb.img used in the app
         if path:
             self.parseMetaFile(path)
 
@@ -177,13 +179,13 @@ class CombinedImage(object):
             # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
 
             imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file
-            self.embedded[imageId] = imageObject
+            self.embeds[imageId] = imageObject
 
         return
 
     def getEmbeddedImages(self):
         result = {}
-        for img, imgObj in self.embedded.items():
+        for img, imgObj in self.embeds.items():
             result[img] = imgObj
         
         return result

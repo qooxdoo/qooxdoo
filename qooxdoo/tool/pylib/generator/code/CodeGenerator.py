@@ -21,7 +21,7 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
 from generator.code.Part        import Part
@@ -727,11 +727,12 @@ class CodeGenerator(object):
                     resId, resVal = addResource(resource)
                     filteredResources[resId] = resVal
                 if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
-                    combObj         = NameSpace()
-                    combObj.used    = False
+                    combObj     = CombinedImage(resource)
                     combId, combImgFmt     = addResource(resource)
+                    #combObj         = NameSpace()
+                    #combObj.used    = False
+                    #combObj.embeds         = addCombinedImage(resource, combId, combImgFmt)
                     combObj.info           = combImgFmt
-                    combObj.embeds         = addCombinedImage(resource, combId, combImgFmt)
                     combinedImages[combId] = combObj
 
         # 2nd pass patching simple image infos with combined info
