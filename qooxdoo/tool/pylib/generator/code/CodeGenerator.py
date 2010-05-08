@@ -718,7 +718,7 @@ class CodeGenerator(object):
         # 1st pass gathering relevant images and other resources from the libraries
         for lib in libs:
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            resourceList = self._resourceHandler.findAllResources([lib], None)
+            resourceList = self._resourceHandler.findAllResources1([lib], None)
             # resourceList = [file1,file2,...]
             for resource in resourceList:
                 if skippatt.search(resource):
