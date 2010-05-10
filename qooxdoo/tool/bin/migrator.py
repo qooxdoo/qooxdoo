@@ -21,7 +21,7 @@
 
 import re, os, sys, shutil, logging, optparse
 import qxenviron
-from optparseext.ExtendAction import ExtendAction
+from misc.ExtendAction import ExtendAction
 from misc import filetool
 from misc import textutil
 from ecmascript.frontend import tokenizer

@@ -34,7 +34,7 @@
 import sys, os, optparse, string, types, pprint, copy
 import qxenviron
 
-from optparseext.ExtendAction import ExtendAction
+from misc.ExtendAction import ExtendAction
 from ecmascript import compiler
 from ecmascript.frontend import tokenizer, treegenerator, treeutil
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer

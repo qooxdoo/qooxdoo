@@ -22,7 +22,7 @@
 
 import os, re, sys, types
 import urllib, shutil
-import optparse, optparseext
+import optparse, misc
 from Wget import Wget
 
 

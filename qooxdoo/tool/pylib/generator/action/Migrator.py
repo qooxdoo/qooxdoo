@@ -25,7 +25,7 @@
 ##
 
 import re, os, sys, shutil, logging, optparse
-from optparseext import ExtendAction
+from misc import ExtendAction
 from misc import filetool
 from misc import textutil
 from misc.NameSpace import NameSpace
