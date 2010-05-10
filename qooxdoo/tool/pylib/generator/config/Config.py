@@ -482,7 +482,7 @@ class Config(object):
         for jobName in jobNames:
             job = self.getJob(jobName)
             if not job:
-                raise RuntimeError, "No such job: \"%s\"" % jobname
+                raise RuntimeError, "No such job: \"%s\"" % jobName
             else:
                 job.resolveExtend(cfg=self)
         
