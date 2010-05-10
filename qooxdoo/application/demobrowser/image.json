@@ -1,5 +1,6 @@
+// IMAGE CLIPPING AND COMBINING JOBS
+// call only through config.json, for macro settings
 {
-  // IMAGE CLIPPING AND COMBINING JOBS
   "jobs" :
   {
     
@@ -15,8 +16,7 @@
    
       "cache" :
       {
-        // path to your cache folder
-        "compile" : "../../cache"
+        "compile" : "${CACHE}"
       },
 
       "combine-images" :
