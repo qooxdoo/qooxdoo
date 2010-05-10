@@ -9,7 +9,8 @@
 
       "let" :
       {
-        "RESPATH" : "./source/resource"
+        "RESPATH"   : "./source/resource",
+        "QXRESPATH" : "${QOOXDOO_PATH}/framework/source/resource"
       },
    
       "cache" :
@@ -36,6 +37,28 @@
               }
             ],
             "layout" : "horizontal"
+          },
+          "${RESPATH}/demobrowser/demo/test/combined/icons22.png" :
+          {
+            "prefix": [ "${RESPATH}" ],
+            "input" :
+            [
+              {
+                "prefix": [ "${QXRESPATH}" ],
+                "files" :
+                [
+                  "${QXRESPATH}/qx/icon/Tango/22/actions/dialog-ok.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/places/folder-open.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/actions/help-about.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/actions/view-refresh.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/actions/process-stop.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/apps/internet-feed-reader.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/actions/dialog-cancel.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/places/folder.png"
+                ]
+              }
+            ],
+            "layout" : "vertical"
           }
         }
       }

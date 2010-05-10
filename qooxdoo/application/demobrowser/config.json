@@ -21,6 +21,9 @@
         "build-files",
         "build-resources"
       ]
+    },
+    {
+      "path" : "image.json"
     }
   ],
 
@@ -33,6 +36,7 @@
     "clean",
     "distclean",
     "fix",
+    "image-combine",
     "info",
     "inspector",
     "lint",
