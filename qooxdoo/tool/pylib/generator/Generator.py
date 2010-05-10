@@ -77,6 +77,9 @@ class Generator(object):
 
         console = self._console
         console.resetFilter()   # reset potential filters from a previous job
+        Context.console = context['console']
+        
+        return
 
 
 

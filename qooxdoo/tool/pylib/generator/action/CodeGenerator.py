@@ -21,7 +21,7 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.action.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
 from generator.code.Part        import Part
@@ -593,14 +593,6 @@ class CodeGenerator(object):
 
 
         ##
-        # checks whether the image is a combined image, by looking for a
-        # .meta file
-        def isCombinedImage(resourcePath):
-            meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
-            return os.path.exists(meta_fname)
-
-
-        ##
         # create the final form of the data to be returned by generateResourceInfoCode
         def serialize(filteredResources, combinedImages, resdata):
             for resId, resval in filteredResources.items():
@@ -669,33 +661,6 @@ class CodeGenerator(object):
             return assetId, resvalue
 
 
-        def addCombinedImage(combinedResource, combinedId, combinedObj):
-            '''this does basically what processCombinedImg does, but with no side effects'''
-            # Read the .meta file
-            # it doesn't seem worth to apply caching here
-            meta_fname   = os.path.splitext(combinedResource)[0]+'.meta'
-            meta_content = filetool.read(meta_fname)
-            imgDict      = json.loads(meta_content)
-            embeddedDict = {}
-
-            # Loop through the images of the .meta file
-            for imageId, imageSpec_ in imgDict.items():
-                self._console.debug("found embedded image: %r" % imageId)
-                # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
-
-                imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
-
-                # add combined info
-                imageObject.mappedId = combinedId
-                imageObject.mtype    = combinedObj.type
-                imageObject.mlib     = combinedObj.lib
-
-                # and store it in the data structure
-                embeddedDict[imageId] = imageObject
-
-            return embeddedDict
-
-
         # -- main --------------------------------------------------------------
 
         self._console.info("Analyzing assets...")
@@ -732,14 +697,12 @@ class CodeGenerator(object):
                 if skippatt.search(resource):
                     continue
                 if assetFilter(resource):  # add those anyway
-                    resId, resVal = addResource(resource)
+                    resId, resVal            = addResource(resource)
                     filteredResources[resId] = resVal
-                if isCombinedImage(resource):  # register those for later evaluation
-                    combObj         = NameSpace()
-                    combObj.used    = False
+                if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
+                    combObj                = CombinedImage(resource) # this parses also the .meta file
                     combId, combImgFmt     = addResource(resource)
                     combObj.info           = combImgFmt
-                    combObj.embeds         = addCombinedImage(resource, combId, combImgFmt)
                     combinedImages[combId] = combObj
 
         # 2nd pass patching simple image infos with combined info
