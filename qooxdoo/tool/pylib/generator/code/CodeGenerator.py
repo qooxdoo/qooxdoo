@@ -661,33 +661,6 @@ class CodeGenerator(object):
             return assetId, resvalue
 
 
-        def addCombinedImage(combinedResource, combinedId, combinedObj):
-            '''this does basically what processCombinedImg does, but with no side effects'''
-            # Read the .meta file
-            # it doesn't seem worth to apply caching here
-            meta_fname   = os.path.splitext(combinedResource)[0]+'.meta'
-            meta_content = filetool.read(meta_fname)
-            imgDict      = json.loads(meta_content)
-            embeddedDict = {}
-
-            # Loop through the images of the .meta file
-            for imageId, imageSpec_ in imgDict.items():
-                self._console.debug("found embedded image: %r" % imageId)
-                # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
-
-                imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
-
-                # add combined info
-                imageObject.mappedId = combinedId
-                imageObject.mtype    = combinedObj.type
-                imageObject.mlib     = combinedObj.lib
-
-                # and store it in the data structure
-                embeddedDict[imageId] = imageObject
-
-            return embeddedDict
-
-
         # -- main --------------------------------------------------------------
 
         self._console.info("Analyzing assets...")
@@ -718,20 +691,17 @@ class CodeGenerator(object):
         # 1st pass gathering relevant images and other resources from the libraries
         for lib in libs:
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            resourceList = self._resourceHandler.findAllResources1([lib], None)
+            resourceList = self._resourceHandler.findAllResources([lib], None)
             # resourceList = [file1,file2,...]
             for resource in resourceList:
                 if skippatt.search(resource):
                     continue
                 if assetFilter(resource):  # add those anyway
-                    resId, resVal = addResource(resource)
+                    resId, resVal            = addResource(resource)
                     filteredResources[resId] = resVal
                 if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
-                    combObj     = CombinedImage(resource)
+                    combObj                = CombinedImage(resource) # this parses also the .meta file
                     combId, combImgFmt     = addResource(resource)
-                    #combObj         = NameSpace()
-                    #combObj.used    = False
-                    #combObj.embeds         = addCombinedImage(resource, combId, combImgFmt)
                     combObj.info           = combImgFmt
                     combinedImages[combId] = combObj
 

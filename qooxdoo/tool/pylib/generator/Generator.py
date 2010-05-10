@@ -1103,7 +1103,7 @@ class Generator(object):
             libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources1([lib], resourceFilter)
+            resList  = self._resourceHandler.findAllResources([lib], resourceFilter)
 
             # for each needed resource
             for res in resList:
