@@ -249,6 +249,28 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertTrue(qx.lang.Array.contains(keys, "valueOf"), "Test valueOf");
       this.assertTrue(qx.lang.Array.contains(keys, "constructor"), "Test constructor");
       this.assertTrue(qx.lang.Array.contains(keys, "prototype"), "Test prototype");
+    },
+
+    testGetKeysWithExtendObject : function()
+    {
+      function ObjectA() {
+        this.A = 10;
+      };
+
+      function ObjectB() {
+        this.B = 11;
+      };
+
+      ObjectB.prototype = new ObjectA();
+
+      var objB = new ObjectB();
+      this.assertEquals(10, objB.A, "Object extension fails!");
+      this.assertEquals(11, objB.B, "Object extension fails!");
+
+      var keys = qx.Bootstrap.getKeys(objB);
+      this.assertEquals(1, keys.length, "Expected length wrong!");
+      this.assertFalse(qx.lang.Array.contains(keys, "A"), "Test property A!");
+      this.assertTrue(qx.lang.Array.contains(keys, "B"), "Test property B!");
     }
   }
 });
