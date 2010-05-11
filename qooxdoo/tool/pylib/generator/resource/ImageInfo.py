@@ -162,7 +162,6 @@ class CombinedImage(object):
         self._console = Context.console
         self.embeds = {}     # embedded images dict
         self.info   = None   # ImgInfoFmt obj
-        self.used   = False  # is this comb.img used in the app
         if path:
             self.parseMetaFile(path)
 
