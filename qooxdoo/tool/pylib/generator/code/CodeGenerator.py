@@ -920,6 +920,9 @@ class CodeGenerator(object):
             plugCode = filetool.read(self._config.absPath(decodeUrisFile))  # let it bomb if file can't be read
             vals["DecodeUrisPlug"] = plugCode.strip()
         
+        # Enable "?nocache=...." for script loading?
+        vals["NoCacheParam"] = "true" if self._job.get("compile-options/uris/add-nocache-param", True) else "false"
+
         # Locate and load loader basic script
         template = loadTemplate(bootCode)
 

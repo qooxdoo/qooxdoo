@@ -108,6 +108,10 @@
           "file" : "${ROOT}/source/script/${APPLICATION}.js",
           "app-root" : "source"
         },
+        "uris" : 
+        {
+          "add-nocache-param" : true
+        },
         "code" :
         {
           "locales" : "${LOCALES}"
@@ -152,6 +156,10 @@
         {
           "file" : "${ROOT}/source/script/${APPLICATION}.js",
           "app-root" : "source"
+        },
+        "uris" : 
+        {
+          "add-nocache-param" : true
         },
         "code" :
         {
@@ -286,8 +294,9 @@
         },
         "uris"   :
         {
-          "script"   : "script"
-          //,"resource" : "resource"
+          "script"   : "script",
+          //"resource" : "resource",
+          "add-nocache-param" : false
         },
         "code"   :
         {
