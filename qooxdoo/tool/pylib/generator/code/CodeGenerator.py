@@ -602,12 +602,19 @@ class CodeGenerator(object):
                 else:  # handle other resources
                     resvalue = resval
                 resdata[resId] = resvalue
+            return resdata
+
+
+        ##
+        # loop through resources, invoking addResourceToPackages
+        def addResourcesToPackages(resdata, combinedImages, classToResourceMap):
+            for resId, resvalue in resdata.items():
                 # register the resource with the package needing it
                 addResourceToPackages(script, classToResourceMap, resId, simpleResVal=resvalue)
 
             # for combined images, we have to check their embedded images against the packages
             for combId, combImg in combinedImages.items():
-                if combId in filteredResources:
+                if combId in resdata:
                     addResourceToPackages(script, classToResourceMap, combId, combImgObj=combImg)
 
             # handle tree structure of resource info
@@ -729,8 +736,11 @@ class CodeGenerator(object):
         # 2nd pass patching simple image infos with combined info
         filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
 
-        # 3rd pass serializing the info from filteredResources
-        resdata = serialize(filteredResources, combinedImages, resdata)
+        # 3rd pass consume the info from filteredResources in various ways
+        resdata     = serialize(filteredResources, combinedImages, resdata)
+        addResourcesToPackages(resdata, combinedImages, classToResourceMap)
+        if resources_tree:
+            resdata = resdata.getData()
         
         # write img cache file
         cache.write(cacheId, imgLookupTable)
