@@ -395,7 +395,7 @@ class QxTest:
       self.log("Creating build log directory %s" %buildConf["buildLogDir"])
       os.mkdir(buildConf["buildLogDir"])
     
-    for target in buildConf["targets"]:
+    for target in sorted(buildConf["targets"]):
       self.buildStatus[target] = {
         "BuildError"  : False
       }
@@ -418,17 +418,13 @@ class QxTest:
           buildcmd = os.path.join(buildConf["stageDir"], target + "application", "trunk", "demo", "default", "generate.py")
         else:
           buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
-        
-        if target == "bom":
-          buildcmd += " build"
-        else:
-          buildcmd += " build,source-all"
-        
+
+        buildcmd += " " + ",".join(buildConf["targets"][target])
         status, std, err = invokePiped(buildcmd)
         
         if status > 0:          
           self.logBuildErrors(buildLogFile, target, buildcmd, err)              
-          self.buildStatus[target]["BuildError"] = "Unknown build error"
+          self.buildStatus[target]["BuildError"] = err.rstrip('\n')
     
     self.storeBuildStatus()
 
@@ -959,18 +955,16 @@ class QxTest:
     
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
+    
     req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
     
     try:
         response = urllib2.urlopen(req)    
-    except urllib2.URLError, e:
-        self.log("Unable to contact report server: Error %s" %e.reason)
-        return
-    except urllib2.HTTPError, e:
-        errMsg = ""
-        if (e.code):
-            errMsg = repr(e.code)
-        self.log.error("Report server couldn't store report: %s" %errMsg)
+    except Exception, e:
+        msg = repr(e)
+        if hasattr(e, "code"):
+          msg += " Code: " + repr(e.code)
+        self.log("Unable to contact report server: Error %s" %msg)
         return
       
     content = response.read()    
