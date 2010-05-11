@@ -53,7 +53,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.0/widget/Scroll' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/1.1/widget/Scroll' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.container.Scroll",

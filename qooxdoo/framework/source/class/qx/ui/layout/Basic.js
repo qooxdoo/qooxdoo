@@ -57,7 +57,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.0/layout/basic'>
+ * <a href='http://qooxdoo.org/documentation/1.1/layout/basic'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Basic",
