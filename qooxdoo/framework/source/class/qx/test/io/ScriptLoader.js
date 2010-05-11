@@ -88,8 +88,12 @@ qx.Class.define("qx.test.io.ScriptLoader",
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
-
-      this.loader.load(location.protocol + "//qooxdoo.org/foo.js", function(status)
+      
+      var protocol = location.protocol;
+      if (protocol.indexOf("file:") == 0) {
+        protocol = "http:"
+      }
+      this.loader.load(protocol + "//qooxdoo.org/foo.js", function(status)
       {
         this.resume(function()
         {
