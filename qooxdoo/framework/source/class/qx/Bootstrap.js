@@ -382,15 +382,17 @@ qx.Bootstrap.define("qx.Bootstrap",
       "BROKEN_IE" : function(map)
       {
         var arr = [];
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var key in map) {
-          arr.push(key);
+          if (hasOwnProperty.call(map, key)) {
+            arr.push(key);  
+          }
         }
 
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible with the ECMA standard!!
         // This is why this checks are needed.
         var shadowedKeys = qx.Bootstrap.__shadowedKeys;
-        var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var i=0, a=shadowedKeys, l=a.length; i<l; i++)
         {
           if (hasOwnProperty.call(map, a[i])) {
@@ -405,8 +407,11 @@ qx.Bootstrap.define("qx.Bootstrap",
       {
         var arr = [];
 
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var key in map) {
-          arr.push(key);
+          if (hasOwnProperty.call(map, key)) {
+            arr.push(key);
+          }
         }
 
         return arr;
