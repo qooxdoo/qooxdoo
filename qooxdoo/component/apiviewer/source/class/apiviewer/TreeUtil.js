@@ -206,7 +206,7 @@ qx.Class.define("apiviewer.TreeUtil",
       }
       else if (node instanceof dao.ChildControl)
       {
-        constName = "ICON_CLASS";
+        constName = "ICON_CHILDCONTROL";
       }
       else
       {
@@ -386,7 +386,10 @@ qx.Class.define("apiviewer.TreeUtil",
     ICON_CONSTANT : "apiviewer/image/constant18.gif",
 
     /** {string} The icon URL of an appearance. */
-    ICON_APPEARANCE : "apiviewer/image/constant18.gif"
+    ICON_APPEARANCE : "apiviewer/image/constant18.gif",
+    
+    /** {string} The icon URL of a child control. */
+    ICON_CHILDCONTROL : "apiviewer/image/class18.gif"
   },
 
 
@@ -437,7 +440,8 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_CTOR,
       statics.ICON_METHOD_PROT,
       statics.ICON_METHOD_PRIV,
-      statics.ICON_CONSTANT
+      statics.ICON_CONSTANT,
+      statics.ICON_CHILDCONTROL
     ];
   }
 });

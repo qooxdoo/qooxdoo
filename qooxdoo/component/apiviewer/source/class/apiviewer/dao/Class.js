@@ -479,7 +479,8 @@ qx.Class.define("apiviewer.dao.Class",
         "getEvents",
         "getProperties",
         "getConstants",
-        "getAppearances"
+        "getAppearances",
+        "getChildControls"
       ];
 
       for (var i=0; i<itemListNames.length; i++)

@@ -25,12 +25,12 @@ qx.Class.define("apiviewer.ui.SearchView",
 {
   extend : qx.ui.container.Composite,
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-
 
   construct : function()
   {
@@ -360,7 +360,8 @@ qx.Class.define("apiviewer.ui.SearchView",
         "property_private":9,
         "event":10,
         "constructor":11,
-        "constant":12
+        "constant":12,
+        "childControl":13
       };
       // Get the filename
       var iconfile = a.substr(a.lastIndexOf("/")+1);
