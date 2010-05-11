@@ -149,7 +149,7 @@ qx.Class.define("qx.util.AliasManager",
     {
       var dynamic = this._getDynamic();
 
-      if (path !== null) {
+      if (path != null) {
         path = this._preprocess(path);
       }
 
