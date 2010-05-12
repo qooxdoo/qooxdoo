@@ -911,6 +911,8 @@ class QxTest:
 
     cmd += " browserId=\"" + browser + "\""
 
+    cmd += " branch=" + self.testConf["qxBranch"]
+    
     if options:
       for opt in options:
         cmd += ' "' + opt + '"'
