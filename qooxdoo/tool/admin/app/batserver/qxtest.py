@@ -427,6 +427,8 @@ class QxTest:
           self.buildStatus[target]["BuildError"] = err.rstrip('\n')
     
     self.storeBuildStatus()
+    self.trunkrev = self.getLocalRevision()
+    self.storeRevision()
 
   ##
   # Runs an SVN update on a Simulator contribution checkout
@@ -994,7 +996,7 @@ class QxTest:
       "test_hostos" : self.os,
       "test_hostid" : "",
       "test_type" : self.testConf["runType"],
-      "revision" : self.trunkrev,
+      "revision" : self.getLocalRevision(),
       "branch" : self.testConf["qxBranch"],
       "start_date" : start_date,
       "end_date" : time.strftime(self.timeFormat),
