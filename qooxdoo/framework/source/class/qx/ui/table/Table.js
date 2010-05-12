@@ -2019,7 +2019,7 @@ qx.Class.define("qx.ui.table.Table",
           id.push(arr[i].addListener.apply(arr[i], arguments));
         }
         // join the id's of every event with "
-        return id.join('"')
+        return id.join('"');
       }
       else
       {
