@@ -67,11 +67,12 @@ qx.Class.define("qx.test.Part",
       this.assertEquals("2", packages[1].getId());
 
       // check package uris
-      var pkg2 = packages[1];
-      this.assertJsonEquals(
-        ["3.1.js", "3.2.js"],
-        pkg2.getUrls()
-      );
+      var pkg2     = packages[1];
+      var pkg2Urls = pkg2.getUrls();
+      var refUrls  = loader.uris[2];
+      for (var s=0; s<refUrls.length; s++){
+        this.assertMatch(pkg2Urls[s], new RegExp(refUrls[s] + ".*")); // matches "?nocache=..." if present
+      }
     },
 
 
