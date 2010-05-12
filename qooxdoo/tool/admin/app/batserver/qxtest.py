@@ -960,7 +960,13 @@ class QxTest:
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
     
-    req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
+    if sys.version[:3] == "2.5":
+      import socket
+      import urllib2
+      socket.setdefaulttimeout(120)
+      req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
+    else:
+      req = urllib2.Request(self.testConf["reportServerUrl"], postdata, 120)
     
     try:
         response = urllib2.urlopen(req)    
