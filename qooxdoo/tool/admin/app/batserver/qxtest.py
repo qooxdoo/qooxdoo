@@ -977,23 +977,23 @@ class QxTest:
     
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
-    
-    if sys.version[:3] == "2.5":
-      import socket
-      import urllib2
-      socket.setdefaulttimeout(120)
-      req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
-    else:
-      req = urllib2.Request(self.testConf["reportServerUrl"], postdata, 120)
+        
+    req = urllib2.Request(self.testConf["reportServerUrl"], postdata)
     
     try:
-        response = urllib2.urlopen(req)    
+      if sys.version[:3] == "2.5":
+        import socket
+        import urllib2
+        socket.setdefaulttimeout(120)
+        response = urllib2.urlopen(req)
+      else:
+        response = urllib2.urlopen(req, 120)
     except Exception, e:
-        msg = repr(e)
-        if hasattr(e, "code"):
-          msg += " Code: " + repr(e.code)
-        self.log("Unable to contact report server: Error %s" %msg)
-        return
+      msg = repr(e)
+      if hasattr(e, "code"):
+        msg += " Code: " + repr(e.code)
+      self.log("Unable to contact report server: Error %s" %msg)
+      return
       
     content = response.read()    
     self.log("Report server response: " + content)
