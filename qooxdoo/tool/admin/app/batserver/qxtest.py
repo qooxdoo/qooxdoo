@@ -987,7 +987,7 @@ class QxTest:
         socket.setdefaulttimeout(120)
         response = urllib2.urlopen(req)
       else:
-        response = urllib2.urlopen(req, 120)
+        response = urllib2.urlopen(req, None, 120)
     except Exception, e:
       msg = repr(e)
       if hasattr(e, "code"):
