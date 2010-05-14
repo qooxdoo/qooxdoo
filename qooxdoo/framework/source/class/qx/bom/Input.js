@@ -172,9 +172,9 @@ qx.Class.define("qx.bom.Input",
         // These flags are required to detect self-made property-change
         // events during value modification. They are used by the Input
         // event handler to filter events.
-        element.__inValueSet = true;
+        element.$$inValueSet = true;
         element.value = value;
-        element.__inValueSet = null;
+        element.$$inValueSet = null;
       }
       else
       {
