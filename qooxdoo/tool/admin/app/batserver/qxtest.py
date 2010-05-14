@@ -74,8 +74,6 @@ class QxTest:
     self.mailConf = mailConf
     self.autConf = autConf
     self.browserConf = browserConf
-    self.trunkrev = None
-    self.buildStatus = {}
 
     self.timeFormat = '%Y-%m-%d_%H-%M-%S'
     self.startTimeString = time.strftime(self.timeFormat)
@@ -84,12 +82,8 @@ class QxTest:
     self.logFile.write("################################################################################\n")
     self.log("Starting " + self.testType + " test session.")    
 
-    if self.testType == "local":
-      self.getLocalRevision()
-      self.buildStatus = self.getLocalBuildStatus()
-    elif self.testType == "remote":
-      self.getRemoteRevision()
-      self.buildStatus = self.getRemoteBuildStatus()
+    self.qxRevision = self.getRevision()
+    self.buildStatus = self.getBuildStatus()
     
     self.sim = False      
     if ('simulateTest' in self.testConf):
@@ -378,7 +372,7 @@ class QxTest:
       if ('buildLogDir' in buildConf):        
         buildLogFile.close()
 
-    self.trunkrev = self.getLocalRevision()
+    self.qxRevision = self.getLocalRevision()
     self.storeRevision()
     
     
@@ -427,7 +421,7 @@ class QxTest:
           self.buildStatus[target]["BuildError"] = err.rstrip('\n')
     
     self.storeBuildStatus()
-    self.trunkrev = self.getLocalRevision()
+    self.qxRevision = self.getLocalRevision()
     self.storeRevision()
 
   ##
@@ -473,6 +467,7 @@ class QxTest:
   # Reads the build status stored by a previous test run from the file system
   # @return Build status dictionary
   def getLocalBuildStatus(self):
+    status = {}
     try:
       import json
     except ImportError, e:
@@ -480,8 +475,7 @@ class QxTest:
         import simplejson as json
       except ImportError, e:
         self.log("ERROR: simplejson module not found, unable to get build status!")
-        return False
-    status = {}
+        return status
     path = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
     if not os.path.isfile(path):
       return status
@@ -544,15 +538,36 @@ class QxTest:
     return status
 
 
+  def getBuildStatus(self):
+    if self.testType == "local":
+      return self.getLocalBuildStatus()
+    elif self.testType == "remote":
+      return self.getRemoteBuildStatus()
+    else:
+      return {}
+  
+  
+  def getRevision(self):
+    if self.testType == "local":
+      return self.getLocalRevision()
+    elif self.testType == "remote":
+      return self.getRemoteRevision()
+    else:
+      return False
+
+
   ##
   # Retrieves a local qooxdoo SVN checkout's revision number
   #
   # @return The revision number (String)
   def getLocalRevision(self):
     ret,out,err = invokePiped("svnversion " + self.testConf["qxPathAbs"])
+    if ret > 0:
+      self.log("Error determining SVN revision: " + err)
+      return False
+      
     rev = out.rstrip('\n')
-    self.trunkrev = rev
-    self.log("Local qooxdoo checkout at revision " + self.trunkrev)
+    self.log("Local qooxdoo checkout at revision " + rev)
     return rev
   
 
@@ -560,14 +575,18 @@ class QxTest:
   # Writes the current revision number of the local qooxdoo checkout to a file
   # named 'revision.txt' in the qooxdoo checkout's root directory.
   def storeRevision(self):
+    if not self.qxRevision:
+      self.log("No SVN revision number to store!")
+      return
+      
     fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
     if (self.sim):
-      self.log("SIMULATION: Storing revision number " + self.trunkrev 
+      self.log("SIMULATION: Storing revision number " + self.qxRevision 
                + " in file " + fPath)
     else:  
-      self.log("Storing revision number " + self.trunkrev + " in file " + fPath)
+      self.log("Storing revision number " + self.qxRevision + " in file " + fPath)
       rFile = codecs.open(fPath, 'w', 'utf-8')
-      rFile.write(self.trunkrev)
+      rFile.write(self.qxRevision)
       rFile.close()
 
 
@@ -597,8 +616,7 @@ class QxTest:
       if not found:
         self.log("ERROR: Remote revision has unexpected format: %s")
       else:
-        self.trunkrev = rev
-        self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
+        self.log("Remote qooxdoo checkout at revision " + rev)
         return rev
 
 
@@ -1002,13 +1020,16 @@ class QxTest:
       "test_hostos" : self.os,
       "test_hostid" : "",
       "test_type" : self.testConf["runType"],
-      "revision" : self.getLocalRevision(),
+      "revision" : "",
       "branch" : self.testConf["qxBranch"],
       "start_date" : start_date,
       "end_date" : time.strftime(self.timeFormat),
       "simulations": [],
       "dev_run" : True
     }
+    
+    if self.qxRevision:
+      testRun["revision"] = self.qxRevision
     
     if "autQxPath" in self.autConf:
       testRun["aut_qxpath"] = self.autConf["autQxPath"]
@@ -1071,8 +1092,8 @@ class QxTest:
     
     if ('hostId' in self.mailConf):
       self.mailConf['subject'] += " " + self.mailConf['hostId']
-    if (self.trunkrev):
-      self.mailConf['subject'] += " (%s r%s)" %(self.testConf["qxBranch"],self.trunkrev)
+    if (self.qxRevision):
+      self.mailConf['subject'] += " (%s r%s)" %(self.testConf["qxBranch"],self.qxRevision)
     if (aut in self.buildStatus):
       if (self.buildStatus[aut]["BuildError"]):
         self.mailConf['subject'] += " BUILD ERROR"
@@ -1299,7 +1320,11 @@ class QxTest:
 
         if "reportServerUrl" in self.testConf:
           try:
-            qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], self.trunkrev, self.testConf["qxBranch"])
+            if self.qxRevision:
+              revision = self.qxRevision
+            else:
+              revision = ""
+            qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], revision, self.testConf["qxBranch"])
           except Exception, e:
             self.logError(e, "Error trying to send Lint results to report server")
 
