@@ -529,7 +529,7 @@ qx.Class.define("qx.event.handler.Input",
 
         if (prop === "value" && (target.type === "text" || target.type === "password" || target.tagName.toLowerCase() === "textarea"))
         {
-          if (!target.__inValueSet) {
+          if (!target.$$inValueSet) {
             qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
           }
         }
