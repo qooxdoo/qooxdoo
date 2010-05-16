@@ -746,8 +746,24 @@ class Generator(object):
         
         depsLogConf = ExtMap(depsLogConf)
 
+        ##
+        # A generator to yield all used-by-dependencies of classes in packages
+        def lookupUsedByDeps(packages):
+            for packageId, package in enumerate(packages):
+                for classId in sorted(package.classes):
+                    for otherClassId in package.classes:
+                        otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
+                        if classId in (x.name for x in otherClassDeps["load"]):
+                            yield (packageId, classId, otherClassId, 'load')
+                        if classId in (x.name for x in otherClassDeps["run"]):
+                            yield (packageId, classId, otherClassId, 'run')
+
+            return
+
+
+        ##
+        # A generator to yield all using-dependencies of classes in packages
         def lookupUsingDeps(packages):
-            # a generator to yield all using-dependencies of classes in packages
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
                     classDeps = self._depLoader.getDeps(classId, variants)
@@ -994,6 +1010,7 @@ class Generator(object):
                     color = "blue"
                 gr.add_node(cid, attrs=[("color", color)])
             return
+
 
         def usedByDeps(depsLogConf):
             for packageId, package in enumerate(packages):
