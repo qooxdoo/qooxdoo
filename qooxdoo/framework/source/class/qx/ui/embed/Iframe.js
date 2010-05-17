@@ -43,9 +43,6 @@
 qx.Class.define("qx.ui.embed.Iframe",
 {
   extend : qx.ui.embed.AbstractIframe,
-  include : qx.ui.core.MNativeOverflow,
-
-
 
 
   /*
@@ -120,6 +117,17 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "Boolean",
       init : false,
       apply : "_applyNativeHelp"
+    },
+
+    /**
+     * Whether the widget should have scrollbars.
+     */
+    scrollbar :
+    {
+      check : ["auto", "no", "yes"],
+      nullable : true,
+      themeable : true,
+      apply : "_applyScrollbar"
     }
   },
 
@@ -342,6 +350,206 @@ qx.Class.define("qx.ui.embed.Iframe",
         qx.bom.Iframe.getWindow(iframeDomElement).stop();
         iframeDomElement.src = this.getSource();
       }
+    },
+
+
+    // property apply
+    _applyScrollbar : function(value) {
+      this.getContentElement().setAttribute("scrolling", value);
+    },
+
+
+    /*
+    *****************************************************************************
+       DEPRECATED METHODS
+    *****************************************************************************
+    */
+
+    /**
+     * Sets the values of the property group <code>overflow</code>.
+     *
+     * @param overflowX {var} Sets the value of the property <code>overflowX</code>.
+     * @param overflowY {var} Sets the value of the property <code>overflowY</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    setOverflow : function(overflowX, overflowY)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      if (arguments[0] instanceof Array)
+      {
+        this.setOverflowX(overflowX[0]);
+        this.setOverflowY(overflowX[1]);
+      }
+      else
+      {
+        this.setOverflowX(overflowX);
+        this.setOverflowY(overflowY);
+      }
+    },
+
+    /**
+     * Resets the user value of the property <code>overflow</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    resetOverflow : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      this.resetOverflowX();
+      this.resetOverflowY();
+    },
+
+    /**
+     * Sets the values of the property <code>overflowX</code>.
+     *
+     * @param value {var} New value for property <code>overflowX</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    setOverflowX : function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(value, ["hidden", "visible", "scroll", "auto", null]);
+      }
+
+      this.getContentElement().setStyle("overflowX", value);
+    },
+
+    /**
+     * Returns the (computed) value of the property <code>overflowX</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     *
+     * @return {var} value of the property.
+     */
+    getOverflowX : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      return this.getContentElement().getStyle("overflowX");
+    },
+
+    /**
+     * Calls the apply method and dispatches the change event of the property
+     * <code>overflowX</code> with the default value defined by the class developer.
+     * This function can only be called from the constructor of a class.
+     *
+     * @param value {var} Initial value for property <code>overflowX</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    initOverflowX : function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      this.setOverflowX(value);
+    },
+
+    /**
+     * Resets the user value of the property <code>overflowX</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    resetOverflowX : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      this.setOverflowX(null);
+    },
+
+    /**
+     * Sets the values of the property <code>overflowY</code>.
+     *
+     * @param value {var} New value for property <code>overflowY</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    setOverflowY : function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(value, ["hidden", "visible", "scroll", "auto", null]);
+      }
+
+      this.getContentElement().setStyle("overflowY", value);
+    },
+
+    /**
+     * Returns the (computed) value of the property <code>overflowY</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     *
+     * @return {var} value of the property.
+     */
+    getOverflowY : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      return this.getContentElement().getStyle("overflowY");
+    },
+
+    /**
+     * Calls the apply method and dispatches the change event of the property
+     * <code>overflowY</code> with the default value defined by the class developer.
+     * This function can only be called from the constructor of a class.
+     *
+     * @param value {var} Initial value for property <code>overflowY</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    initOverflowY : function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      this.setOverflowY(value);
+    },
+
+    /**
+     * Resets the user value of the property <code>overflowY</code>.
+     *
+     * @deprecated Since 1.2 please use the 'scrollbar' property instead.
+     */
+    resetOverflowY : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the 'scrollbar' property instead."
+      );
+
+      this.setOverflowY(null);
     }
   },
 
