@@ -748,16 +748,15 @@ class Generator(object):
 
         ##
         # A generator to yield all used-by-dependencies of classes in packages
+        # may not report used-by relations of a specific class in sequence
         def lookupUsedByDeps(packages):
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
-                    for otherClassId in package.classes:
-                        otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
-                        if classId in (x.name for x in otherClassDeps["load"]):
-                            yield (packageId, classId, otherClassId, 'load')
-                        if classId in (x.name for x in otherClassDeps["run"]):
-                            yield (packageId, classId, otherClassId, 'run')
-
+                    classDeps = self._depLoader.getDeps(classId, variants)
+                    for dep in classDeps["load"]:
+                        yield (packageId, dep.name, classId, 'load')  # the packageId is somewhat bogus here
+                    for dep in classDeps["run"]:
+                        yield (packageId, dep.name, classId, 'run')
             return
 
 
@@ -827,7 +826,7 @@ class Generator(object):
             
             return
 
-        def depsToDotFile(depsLogConf, gr):
+        def depsToDotFile(classDepsIter, depsLogConf):
 
             def getNodeAttribs(classId, useCompiledSize=False, optimize=[]):
                 # return color according to size
@@ -837,22 +836,23 @@ class Generator(object):
                     'compiled' : (8000, 2000),
                     'source'   : (20000, 5000)
                 }
-                if useCompiledSize:
-                    fsize = self._treeCompiler.getCompiledSize(classId, variants, optimize, recompile=True)
-                    mode  = 'compiled'
-                else:
-                    fsize = self._classes[classId]['size']
-                    mode  = 'source'
+                if classId in self._classes:
+                    if useCompiledSize:
+                        fsize = self._treeCompiler.getCompiledSize(classId, variants, optimize, recompile=True)
+                        mode  = 'compiled'
+                    else:
+                        fsize = self._classes[classId]['size']
+                        mode  = 'source'
 
-                if fsize > sizes[mode][0]:
-                    color = "red"
-                    fontsize = 15
-                elif fsize > sizes[mode][1]:
-                    color = "green"
-                    fontsize = 13
-                else:
-                    color = "blue"
-                    fontsize = 10
+                    if fsize > sizes[mode][0]:
+                        color = "red"
+                        fontsize = 15
+                    elif fsize > sizes[mode][1]:
+                        color = "green"
+                        fontsize = 13
+                    else:
+                        color = "blue"
+                        fontsize = 10
 
                 if fontsize:
                     attribs.append(("fontsize",fontsize))
@@ -918,7 +918,11 @@ class Generator(object):
                 addEdges(gr, gr1, st, st_nodes, mode)
                 return gr1
 
-            gr1 = createPrinterGraph(gr, depsLogConf)
+            phase = depsLogConf.get('phase', None)
+            gr    = graph.digraph()
+            #graphAddNodes(gr, script.classes)
+            graphAddEdges(classDepsIter, gr, phase)
+            gr1   = createPrinterGraph(gr, depsLogConf)
             writeDotFile(gr1, depsLogConf)
             return
 
@@ -989,8 +993,10 @@ class Generator(object):
             runAttrs  = []
 
             for (packageId, classId, depId, loadOrRun) in classDepsIter:
-                if not gr.has_node(depId):         # skip dependencies outside includes/excludes
-                    continue
+                if not gr.has_node(classId):
+                    graphAddNode(gr, classId)
+                if not gr.has_node(depId):
+                    graphAddNode(gr, depId)
                 if loadOrRun == 'load' and pLoadOrRun != "runtime":
                     gr.add_edge(classId, depId, attrs = loadAttrs)
                 elif loadOrRun == 'run' and pLoadOrRun != "loadtime":
@@ -1001,6 +1007,11 @@ class Generator(object):
 
         def graphAddNodes(gr, clsList):
             for cid in clsList:
+                graphAddNode(gr, cid)
+
+
+        def graphAddNode(gr, cid):
+            if cid in self._classes:
                 fsize = self._classes[cid]['size']
                 if fsize > 20000:
                     color = "red"
@@ -1008,54 +1019,67 @@ class Generator(object):
                     color = "green"
                 else:
                     color = "blue"
-                gr.add_node(cid, attrs=[("color", color)])
+            else:
+                color = "blue"
+            gr.add_node(cid, attrs=[("color", color)])
             return
 
 
         def usedByDeps(depsLogConf):
-            for packageId, package in enumerate(packages):
-                self._console.info("Package %s" % packageId)
-                self._console.indent()
 
-                for part in parts.values():
-                    if package in part.packages:
-                        self._console.info("Part %s" % part.name)
+            mainformat = depsLogConf.get('format', None)
+            classDepsIter = lookupUsedByDeps(packages)
 
-                for classId in sorted(package.classes):
-                    self._console.info("Class: %s" % classId)
+            if mainformat == 'dot':
+                depsToDotFile(classDepsIter, depsLogConf)
+            elif mainformat == 'json':
+                depsToJsonFile(classDepsIter, depsLogConf)
+            elif mainformat == 'flare':
+                depsToFlareFile(classDepsIter, depsLogConf)
+            elif mainformat == 'term':
+                depsToTerms(classDepsIter)
+            else:
+                for packageId, package in enumerate(packages):
+                    self._console.info("Package %s" % packageId)
                     self._console.indent()
 
-                    for otherClassId in package.classes:
-                        otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
+                    for part in parts.values():
+                        if package in part.packages:
+                            self._console.info("Part %s" % part.name)
 
-                        if classId in (x.name for x in otherClassDeps["load"]):
-                            self._console.info("Used by: %s (load)" % otherClassId)
+                    for classId in sorted(package.classes):
+                        self._console.info("Class: %s" % classId)
+                        self._console.indent()
 
-                        if classId in (x.name for x in otherClassDeps["run"]):
-                            self._console.info("Used by: %s (run)" % otherClassId)
+                        for otherClassId in package.classes:
+                            otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
+                            if classId in (x.name for x in otherClassDeps["load"]):
+                                self._console.info("Used by: %s (load)" % otherClassId)
+
+                            if classId in (x.name for x in otherClassDeps["run"]):
+                                self._console.info("Used by: %s (run)" % otherClassId)
+
+                        self._console.outdent()
                     self._console.outdent()
-                self._console.outdent()
 
             return
 
         def usingDeps(depsLogConf):
 
-            dset       = depsLogConf.get('using/phase', None)
             mainformat = depsLogConf.get('format', None)
+            classDepsIter = lookupUsingDeps(packages)
+
             if mainformat == 'dot':
-                gr = graph.digraph()
-                graphAddNodes(gr, script.classes)
-                graphAddEdges(lookupUsingDeps(packages), gr, dset)
-                depsToDotFile(depsLogConf, gr)
+                depsToDotFile(classDepsIter, depsLogConf)
             elif mainformat == 'json':
-                depsToJsonFile(lookupUsingDeps(packages), depsLogConf)
+                depsToJsonFile(classDepsIter, depsLogConf)
             elif mainformat == 'flare':
-                depsToFlareFile(lookupUsingDeps(packages), depsLogConf)
+                depsToFlareFile(classDepsIter, depsLogConf)
             elif mainformat == 'term':
-                depsToTerms(lookupUsingDeps(packages))
+                depsToTerms(classDepsIter)
             else:
-                depsToConsole(lookupUsingDeps(packages))
+                depsToConsole(classDepsIter)
             
             return
 
