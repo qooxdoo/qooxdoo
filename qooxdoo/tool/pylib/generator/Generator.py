@@ -735,17 +735,6 @@ class Generator(object):
     #
     def runLogDependencies(self, script):
 
-        depsLogConf = self._job.get("log/dependencies", False)
-        if not depsLogConf:
-           return
-
-        packages   = script.packagesSortedSimple()
-        parts      = script.parts
-        variants   = script.variants
-
-        
-        depsLogConf = ExtMap(depsLogConf)
-
         ##
         # A generator to yield all used-by-dependencies of classes in packages
         # may not report used-by relations of a specific class in sequence
@@ -918,6 +907,8 @@ class Generator(object):
                 addEdges(gr, gr1, st, st_nodes, mode)
                 return gr1
 
+            # -- Main (depsToDotFile) ------------------------------------------
+
             phase = depsLogConf.get('phase', None)
             gr    = graph.digraph()
             #graphAddNodes(gr, script.classes)
@@ -956,10 +947,11 @@ class Generator(object):
             return depsMap
 
 
-        def depsToConsole1(classDepsIter):
+        def depsToConsole(classDepsIter, type):
             oPackageId = ''
             self._console.indent()
             self._console.indent()
+            relstring = "Uses" if type == "using" else "Used by"
             depsMap = collectDispersedDependencies(classDepsIter)
 
             for classId in sorted(depsMap.keys()):
@@ -981,55 +973,11 @@ class Generator(object):
 
                 self._console.indent()
                 for depId in depsLoad:
-                    self._console.info("Used by: %s (load)" % depId)
+                    self._console.info("%s: %s (load)" % (relstring, depId))
                 for depId in depsRun:
-                    self._console.info("Used by: %s (run)" % depId)
+                    self._console.info("%s: %s (run)"  % (relstring, depId))
                 self._console.outdent()
                     
-            self._console.outdent()
-            self._console.outdent()
-            return
-
-
-        def depsToConsole(classDepsIter):
-            oPackageId = oClassId = oLoadOrRun = ''
-            self._console.indent()
-            self._console.indent()
-
-            for (packageId, classId, depId, loadOrRun) in classDepsIter:
-                if packageId != oPackageId:
-                    oPackageId = packageId
-                    self._console.outdent()
-                    self._console.outdent()
-                    self._console.outdent()
-                    self._console.info("Package %s" % packageId)
-                    self._console.indent()
-                    for partId in parts:
-                        if packageId in (x.id for x in parts[partId].packages):
-                            self._console.info("Part %s" % partId)
-                    self._console.indent()
-                    self._console.indent()
-                            
-                if classId != oClassId:
-                    oClassId   = classId
-                    oLoadOrRun = ''         # reset this
-                    self._console.outdent()
-                    self._console.outdent()
-                    self._console.info("Class: %s" % classId)
-                    self._console.indent()
-                    self._console.indent()
-
-                if loadOrRun != oLoadOrRun:
-                    oLoadOrRun = loadOrRun
-                    self._console.outdent()
-                    if loadOrRun == 'load':
-                        self._console.info("Uses (load):")
-                    elif loadOrRun == 'run':
-                        self._console.info("Uses (run):")
-                    self._console.indent()
-
-                self._console.info("%s" % depId)
-
             self._console.outdent()
             self._console.outdent()
             return
@@ -1073,10 +1021,13 @@ class Generator(object):
             return
 
 
-        def usedByDeps(depsLogConf):
+        def logDeps(depsLogConf, type):
 
             mainformat = depsLogConf.get('format', None)
-            classDepsIter = lookupUsedByDeps(packages)
+            if type == "using":
+                classDepsIter = lookupUsingDeps(packages)
+            else:
+                classDepsIter = lookupUsedByDeps(packages)
 
             if mainformat == 'dot':
                 depsToDotFile(classDepsIter, depsLogConf)
@@ -1087,64 +1038,30 @@ class Generator(object):
             elif mainformat == 'term':
                 depsToTerms(classDepsIter)
             else:
-                depsToConsole1(classDepsIter)
-                return
-                for packageId, package in enumerate(packages):
-                    self._console.info("Package %s" % packageId)
-                    self._console.indent()
-
-                    for part in parts.values():
-                        if package in part.packages:
-                            self._console.info("Part %s" % part.name)
-
-                    for classId in sorted(package.classes):
-                        self._console.info("Class: %s" % classId)
-                        self._console.indent()
-
-                        for otherClassId in package.classes:
-                            otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
-
-                            if classId in (x.name for x in otherClassDeps["load"]):
-                                self._console.info("Used by: %s (load)" % otherClassId)
-
-                            if classId in (x.name for x in otherClassDeps["run"]):
-                                self._console.info("Used by: %s (run)" % otherClassId)
-
-                        self._console.outdent()
-                    self._console.outdent()
-
-            return
-
-        def usingDeps(depsLogConf):
-
-            mainformat = depsLogConf.get('format', None)
-            classDepsIter = lookupUsingDeps(packages)
-
-            if mainformat == 'dot':
-                depsToDotFile(classDepsIter, depsLogConf)
-            elif mainformat == 'json':
-                depsToJsonFile(classDepsIter, depsLogConf)
-            elif mainformat == 'flare':
-                depsToFlareFile(classDepsIter, depsLogConf)
-            elif mainformat == 'term':
-                depsToTerms(classDepsIter)
-            else:
-                depsToConsole(classDepsIter)
+                depsToConsole(classDepsIter, type)
             
             return
 
-        # -----------------------------------------------
+        # -- Main (runLogDependencies) ------------------
+
+        depsLogConf = self._job.get("log/dependencies", False)
+        if not depsLogConf:
+           return
+
+        packages   = script.packagesSortedSimple()
+        parts      = script.parts
+        variants   = script.variants
+        
+        depsLogConf = ExtMap(depsLogConf)
 
         self._console.info("Dependency logging...")
         self._console.indent()
 
         type = depsLogConf.get('type', None)
-        if type == "used-by":
-            usedByDeps(depsLogConf)
-        elif type == "using":
-            usingDeps(depsLogConf)
+        if type in ("used-by", "using"):
+            logDeps(depsLogConf, type)
         else:
-            self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % mode)
+            self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % type)
 
         self._console.outdent()
         return
