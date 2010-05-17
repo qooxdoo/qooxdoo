@@ -943,6 +943,54 @@ class Generator(object):
             return
 
 
+        def collectDispersedDependencies(classDepsIter):
+            depsMap = {}
+            # collect relations of a single class
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
+                if classId not in depsMap:
+                    depsMap[classId] = (packageId, [], [])
+                if loadOrRun == "load":
+                    depsMap[classId][1].append(depId)
+                elif loadOrRun == "run":
+                    depsMap[classId][2].append(depId)
+            return depsMap
+
+
+        def depsToConsole1(classDepsIter):
+            oPackageId = ''
+            self._console.indent()
+            self._console.indent()
+            depsMap = collectDispersedDependencies(classDepsIter)
+
+            for classId in sorted(depsMap.keys()):
+                classVals = depsMap[classId]
+                packageId = classVals[0]
+                depsLoad  = classVals[1]
+                depsRun   = classVals[2]
+
+                if packageId != oPackageId:
+                    oPackageId = packageId
+                    self._console.outdent()
+                    self._console.info("Package %s" % packageId)
+                    self._console.indent()
+                    for partId in parts:
+                        if packageId in (x.id for x in parts[partId].packages):
+                            self._console.info("Part %s" % partId)
+                            
+                self._console.info("Class: %s" % classId)
+
+                self._console.indent()
+                for depId in depsLoad:
+                    self._console.info("Used by: %s (load)" % depId)
+                for depId in depsRun:
+                    self._console.info("Used by: %s (run)" % depId)
+                self._console.outdent()
+                    
+            self._console.outdent()
+            self._console.outdent()
+            return
+
+
         def depsToConsole(classDepsIter):
             oPackageId = oClassId = oLoadOrRun = ''
             self._console.indent()
@@ -1039,6 +1087,8 @@ class Generator(object):
             elif mainformat == 'term':
                 depsToTerms(classDepsIter)
             else:
+                depsToConsole1(classDepsIter)
+                return
                 for packageId, package in enumerate(packages):
                     self._console.info("Package %s" % packageId)
                     self._console.indent()
