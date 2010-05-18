@@ -320,7 +320,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _onMousewheel : function(e)
     {
       var target = e.getTarget();
-      var popup = this.getChildControl("popup");
+      var popup = this.getChildControl("popup", true);
+
+      if (popup == null) {
+        return;
+      }
 
       if (qx.ui.core.Widget.contains(popup, target)) {
         // needed for ComboBox widget inside an inline application
