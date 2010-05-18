@@ -23,7 +23,7 @@
 import re, os, sys, zlib, optparse, types, string, glob
 import functools, codecs, operator
 
-from misc import filetool, textutil, util, Path, PathType
+from misc import filetool, textutil, util, Path, PathType, json
 from misc.PathType import PathType
 from ecmascript import compiler
 from ecmascript.frontend             import treegenerator, tokenizer
@@ -49,7 +49,6 @@ from generator.action.ActionLib      import ActionLib
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
-import simplejson
 from robocopy import robocopy
 import graph
 
@@ -134,11 +133,6 @@ class Generator(object):
             },
 
             "compile-dist" :
-            {
-              "type" : "JCompileJob",
-            },
-
-            "dashlet" :
             {
               "type" : "JCompileJob",
             },
@@ -437,7 +431,7 @@ class Generator(object):
         def printVariantInfo(variantSetNum, variants, variantSets, variantData):
             if len(variantSets) < 2:  # only log when more than 1 set
                 return
-            variantStr = simplejson.dumps(variants,ensure_ascii=False)
+            variantStr = json.dumps(variants,ensure_ascii=False)
             self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
 
             # Debug variant combination
@@ -598,29 +592,28 @@ class Generator(object):
             script          = Script()  # a new Script object represents the target code
             script.variants = variants
             # set source/build version
-            if ("compile-source" in jobTriggers or
-                ("compile" in jobTriggers and config.get("compile/type", "") == "source")):
-                script.buildType = "source"
-            elif ("compile-dist" in jobTriggers or
-                ("compile" in jobTriggers and config.get("compile/type", "") == "build")):
-                script.buildType = "build"
+            if "compile" in jobTriggers:
+                if config.get("compile/type", "") == "source":
+                    script.buildType = "source"
+                elif config.get("compile/type", "") == "build":
+                    script.buildType = "build"
 
             # get current class list
             script.classes  = computeClassList(includeWithDeps, excludeWithDeps, 
                                                includeNoDeps, excludeNoDeps, variants, script=script)
+            # prepare 'script' object
+            if set(("compile", "log")).intersection(jobTriggers):
+                partsConfigFromClassList(excludeWithDeps, script)
+
             # Execute real tasks
             if "copy-resources" in jobTriggers:
                 self.runResources(script.classes)
-            if set(("compile", "compile-source", "compile-dist")).intersection(jobTriggers):
+            if "compile" in jobTriggers:
                 # get parts config; sets
                 # script.boot
                 # script.parts['boot']=[0,1,3]
                 # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
-                partsConfigFromClassList(excludeWithDeps, script)
-
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
-            if "dashlet" in jobTriggers:
-                self.runDashlet(script)
 
             # debug tasks
             self.runLogDependencies(script)
@@ -782,7 +775,7 @@ class Generator(object):
             else:
                 indent     = None
                 separators = (',', ':')
-            open(file, 'w').write(simplejson.dumps(data, sort_keys=True, indent=indent, separators=separators))
+            open(file, 'w').write(json.dumps(data, sort_keys=True, indent=indent, separators=separators))
             
             return
 
@@ -811,7 +804,7 @@ class Generator(object):
             else:
                 indent = None
                 separators = (',', ':')
-            open(file, 'w').write(simplejson.dumps(output, sort_keys=True, indent=indent, separators=separators))
+            open(file, 'w').write(json.dumps(output, sort_keys=True, indent=indent, separators=separators))
             
             return
 
@@ -1381,7 +1374,7 @@ class Generator(object):
             bname += '.meta'
             meta_fname = os.path.join(os.path.dirname(image), bname)
             self._console.debug("writing meta file %s" % meta_fname)
-            filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False, sort_keys=True))
+            filetool.save(meta_fname, json.dumps(config, ensure_ascii=False, sort_keys=True))
             self._console.outdent()
             
         self._console.outdent()
@@ -1568,21 +1561,6 @@ class Generator(object):
             self._console.outdent()
 
         return
-
-
-    def runDashlet(self, script):
-
-        # - Main ---------------------------------------------------------------
-
-        if not isinstance(self._job.get("dashlet", False), types.DictType):
-            return
-
-        # create dashlet structure
-        # copy source tree
-        # create compiled classes
-
-        return
-
 
 
     def _splitIncludeExcludeList(self, data):
