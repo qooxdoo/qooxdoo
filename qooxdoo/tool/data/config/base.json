@@ -75,15 +75,7 @@
     {
       "desc"    : "common settings for base.json jobs",
 
-      "extend"  : ["libraries"],
-
-      "include" :
-      [
-        "${APPLICATION_MAIN_CLASS}",
-        "${QXTHEME}"
-      ],
-
-      "cache" : "${CACHE_KEY}",
+      "extend"  : ["libraries", "includes", "cache"],
 
       "settings" :
       {
