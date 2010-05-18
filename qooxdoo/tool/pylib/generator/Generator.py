@@ -611,13 +611,13 @@ class Generator(object):
             # Execute real tasks
             if "copy-resources" in jobTriggers:
                 self.runResources(script.classes)
+            if set(("compile", "compile-source", "compile-dist", "log")).intersection(jobTriggers):
+                partsConfigFromClassList(excludeWithDeps, script)
             if set(("compile", "compile-source", "compile-dist")).intersection(jobTriggers):
                 # get parts config; sets
                 # script.boot
                 # script.parts['boot']=[0,1,3]
                 # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
-                partsConfigFromClassList(excludeWithDeps, script)
-
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
             if "dashlet" in jobTriggers:
                 self.runDashlet(script)
