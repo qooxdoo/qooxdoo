@@ -326,7 +326,8 @@ class TestRun:
         if not simulationOptions:
             simulationOptions = self.getConfigSetting("simulationOptions", None, currentAppConf)
         if not simulationOptions:
-            simulationOptions = self.getConfigSetting("testRun/simulationOptions", None)
+            simulationOptions = self.getConfigSetting("testRun/simulationOptions", [])
+        simulationOptions.append("branch=%s" %self.getConfigSetting("testRun/branch", "unknown branch"))
         simConf["simulationOptions"] = simulationOptions
         
         simulationScript = self.getConfigSetting("simulationScript", None, browserConf)
