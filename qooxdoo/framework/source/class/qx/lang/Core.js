@@ -46,7 +46,7 @@
  * * Array.every()
  * * String.quote()
  */
-qx.Class.define("qx.lang.Core",
+qx.Bootstrap.define("qx.lang.Core",
 {
   statics :
   {
@@ -58,11 +58,7 @@ qx.Class.define("qx.lang.Core",
      * @signature function()
      * @return {String} Error message
      */
-    errorToString : qx.lang.Object.select(
-      (
-        !Error.prototype.toString ||
-        Error.prototype.toString() == "[object Error]"
-      ) ? "emulated" : "native",
+    errorToString :
       {
         "native" : Error.prototype.toString,
 
@@ -70,7 +66,7 @@ qx.Class.define("qx.lang.Core",
           return this.message;
         }
       }
-    ),
+    [(!Error.prototype.toString || Error.prototype.toString() == "[object Error]") ? "emulated" : "native"],
 
 
     /**
@@ -92,7 +88,7 @@ qx.Class.define("qx.lang.Core",
      * @return {Integer} Returns the first index at which a given element can
      *    be found in the array, or <code>-1</code> if it is not present.
      */
-    arrayIndexOf : qx.lang.Object.select(Array.prototype.indexOf ? "native" :"emulated",
+    arrayIndexOf :
     {
       "native" : Array.prototype.indexOf,
 
@@ -113,7 +109,7 @@ qx.Class.define("qx.lang.Core",
 
         return -1;
       }
-    }),
+    }[Array.prototype.indexOf ? "native" : "emulated"],
 
 
     /**
@@ -137,7 +133,7 @@ qx.Class.define("qx.lang.Core",
      * @return {Integer} Returns the last index at which a given element can be
      *    found in the array, or <code>-1</code> if it is not present.
      */
-    arrayLastIndexOf : qx.lang.Object.select(Array.prototype.lastIndexOf ? "native" :"emulated",
+    arrayLastIndexOf :
     {
       "native" : Array.prototype.lastIndexOf,
 
@@ -158,7 +154,7 @@ qx.Class.define("qx.lang.Core",
 
         return -1;
       }
-    }),
+    }[Array.prototype.lastIndexOf ? "native" : "emulated"],
 
 
     /**
@@ -193,7 +189,7 @@ qx.Class.define("qx.lang.Core",
      * @param obj {Object} Object to use as this when executing callback.
      * @return {void}
      */
-    arrayForEach : qx.lang.Object.select(Array.prototype.forEach ? "native" :"emulated",
+    arrayForEach :
     {
       "native" : Array.prototype.forEach,
 
@@ -208,7 +204,7 @@ qx.Class.define("qx.lang.Core",
           }
         }
       }
-    }),
+    }[Array.prototype.forEach ? "native" : "emulated"],
 
 
     /**
@@ -248,7 +244,7 @@ qx.Class.define("qx.lang.Core",
      * @return {Array} Returns a new array with all elements that pass the test
      *    implemented by the provided function.
      */
-    arrayFilter : qx.lang.Object.select(Array.prototype.filter ? "native" :"emulated",
+    arrayFilter :
     {
       "native" : Array.prototype.filter,
 
@@ -270,7 +266,7 @@ qx.Class.define("qx.lang.Core",
 
         return res;
       }
-    }),
+    }[Array.prototype.filter ? "native" : "emulated"],
 
 
     /**
@@ -305,7 +301,7 @@ qx.Class.define("qx.lang.Core",
      * @return {Array} Returns a new array with the results of calling a provided
      *    function on every element in this array.
      */
-    arrayMap : qx.lang.Object.select(Array.prototype.map ? "native" :"emulated",
+    arrayMap :
     {
       "native" : Array.prototype.map,
 
@@ -324,7 +320,7 @@ qx.Class.define("qx.lang.Core",
 
         return res;
       }
-    }),
+    }[Array.prototype.map ? "native" : "emulated"],
 
 
     /**
@@ -362,7 +358,7 @@ qx.Class.define("qx.lang.Core",
      *    array passes the test implemented by the provided function,
      *    <code>false</code> otherwise.
      */
-    arraySome : qx.lang.Object.select(Array.prototype.some ? "native" :"emulated",
+    arraySome :
     {
       "native" : Array.prototype.some,
 
@@ -382,7 +378,7 @@ qx.Class.define("qx.lang.Core",
 
         return false;
       }
-    }),
+    }[Array.prototype.some ? "native" : "emulated"],
 
 
     /**
@@ -420,7 +416,7 @@ qx.Class.define("qx.lang.Core",
      *    array pass the test implemented by the provided function,
      *    <code>false</code> otherwise.
      */
-    arrayEvery : qx.lang.Object.select(Array.prototype.every ? "native" :"emulated",
+    arrayEvery :
     {
       "native" : Array.prototype.every,
 
@@ -440,7 +436,7 @@ qx.Class.define("qx.lang.Core",
 
         return true;
       }
-    }),
+    }[Array.prototype.every ? "native" :"emulated"],
 
 
     /**
@@ -455,14 +451,14 @@ qx.Class.define("qx.lang.Core",
      * @return {String} Returns a string with double quotes and escapes all
      *    double quotes and backslashes within the string.
      */
-    stringQuote : qx.lang.Object.select(String.prototype.quote ? "native" :"emulated",
+    stringQuote :
     {
       "native" : String.prototype.quote,
 
       "emulated" : function() {
         return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
       }
-    })
+    }[String.prototype.quote ? "native" : "emulated"]
   }
 });
 
