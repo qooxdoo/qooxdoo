@@ -172,10 +172,10 @@ class SeleniumServer:
             
     __inst = None
 
-    def __init__(self, config={}):
+    def __init__(self, config={}, simulate=False, logger=None):
         # Check whether we already have an instance
         if SeleniumServer.__inst is None:
-            SeleniumServer.__inst = SeleniumServer.__impl(config)
+            SeleniumServer.__inst = SeleniumServer.__impl(config, simulate, logger)
 
         # Store instance reference in the handle
         self.__dict__['_SeleniumServer__inst'] = SeleniumServer.__inst
