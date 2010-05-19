@@ -358,6 +358,7 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__blockerCount--;
       if (this.__blockerCount < 1) {
         this.__unblock();
+        this.__blockerCount = 0;
       }
     },
 
