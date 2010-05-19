@@ -66,7 +66,11 @@ qx.Class.define("qx.html.Image",
         var scale = this._getProperty("scale");
         var repeat = scale ? "scale" : "no-repeat";
 
-        qx.bom.element.Decoration.update(elem, source, repeat, styles);
+        // Source can be null in certain circumstances.
+        // See bug #3701 for details.
+        if (source != null) {
+          qx.bom.element.Decoration.update(elem, source, repeat, styles);
+        }
       }
     },
 

@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     _applyIcon : function(value, old)
     {
       var atom = this.getChildControl("atom");
-      value == null ? atom.resetIcon : atom.setIcon(value);
+      value == null ? atom.resetIcon() : atom.setIcon(value);
     },
 
 
