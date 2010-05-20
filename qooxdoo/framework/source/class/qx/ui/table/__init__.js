@@ -35,7 +35,7 @@
  * fixed columns that stay always visible on the left (or right) while the
  * other columns can be scrolled away.
  *
- * Take the demo http://demo.qooxdoo.org/current/demobrowser/html/example/Table_1.html
+ * Take the demo http://demo.qooxdoo.org/current/demobrowser/#table~Table.html
  * as example: If you make your browser window
  * very small (or make one of the columns very wide) so the table needs
  * horizontal scrolling, then the left column stays always visible. This is
@@ -51,8 +51,5 @@
  *
  * The selection of a table is managed by {@link qx.ui.table.selection.Manager}.
  *
- * *Example*
- *
- * *External Documentation*
  *
  */
