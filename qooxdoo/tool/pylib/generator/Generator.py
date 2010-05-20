@@ -775,7 +775,7 @@ class Generator(object):
             else:
                 indent     = None
                 separators = (',', ':')
-            open(file, 'w').write(json.dumps(data, sort_keys=True, indent=indent, separators=separators))
+            filetool.save(file, json.dumps(data, sort_keys=True, indent=indent, separators=separators))
             
             return
 
@@ -834,7 +834,7 @@ class Generator(object):
             else:
                 indent     = None
                 separators = (',', ':')
-            open(file, 'w').write(json.dumps(data, sort_keys=True, indent=indent, separators=separators))
+            filetool.save(file, json.dumps(data, sort_keys=True, indent=indent, separators=separators))
             
             return
 
@@ -864,7 +864,7 @@ class Generator(object):
             else:
                 indent = None
                 separators = (',', ':')
-            open(file, 'w').write(json.dumps(output, sort_keys=True, indent=indent, separators=separators))
+            filetool.save(file, json.dumps(output, sort_keys=True, indent=indent, separators=separators))
             
             return
 
@@ -934,7 +934,7 @@ class Generator(object):
                 file = depsLogConf.get('dot/file', "deps.dot")
                 dot = gr1.write(fmt='dotwt')
                 self._console.info("Writing dependency graph to file: %s" % file)
-                open(file, 'w').write(dot)
+                filetool.save(file, dot)
                 return
 
             def getFormatMode(depsLogConf):
