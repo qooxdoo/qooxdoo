@@ -229,7 +229,7 @@ class Generator(object):
             _classesObj = {}
             _docs = {}
             _translations = {}
-            _libs = {}
+            _libs = {}          # {"name.space" : LibraryPath}
             if not isinstance(library, types.ListType):
                 return (_namespaces, _classes, _docs, _translations, _libs)
 
@@ -779,6 +779,66 @@ class Generator(object):
             
             return
 
+
+        def depsToProviderFormat(classDepsIter, depsLogConf):
+            data = {}
+            # Class deps
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+                if classId not in data:
+                    data[classId] = {}
+                    data[classId]["load"] = []
+                    data[classId]["run"] = []
+
+                data[classId][loadOrRun].append(depId)
+            # transform dep items
+            for key, val in data.items():
+                newval = []
+                for ldep in val["load"]:
+                    newdep = ldep.replace(".", "/")
+                    newdep += ".js"
+                    newval.append(newdep)
+                val["load"] = newval
+                newval = []
+                for ldep in val["run"]:
+                    newdep = ldep.replace(".", "/")
+                    newdep += ".js"
+                    newval.append(newdep)
+                val["run"] = newval
+
+            # Resource deps
+            assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
+            classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
+            for classId in classToResources:
+                data[classId]["run"].extend(classToResources[classId])
+                
+            # Message key deps
+            for classId in data:
+                classKeys = self._locale.getTranslation(classId, {})
+                transKeys = ["translation#" + x['id'] for x in classKeys]
+                data[classId]["run"].extend(transKeys)
+
+            # transform dep keys ("qx.Class" -> "qx/Class.js")
+            for key, val in data.items():
+                newkey = key.replace(".", "/")
+                newkey += ".js"
+                data[newkey] = data[key]
+                del data[key]
+
+            # write to file
+            file = depsLogConf.get('json/file', "deps.json")
+            self._console.info("Writing dependency data to file: %s" % file)
+            pretty = depsLogConf.get('json/pretty', None)
+            if pretty:
+                indent     = 2
+                separators = (', ', ': ')
+            else:
+                indent     = None
+                separators = (',', ':')
+            open(file, 'w').write(json.dumps(data, sort_keys=True, indent=indent, separators=separators))
+            
+            return
+
+
         def depsToFlareFile(classDepsIter, depsLogConf):
             data = {}
             for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
@@ -1030,6 +1090,8 @@ class Generator(object):
                 depsToFlareFile(classDepsIter, depsLogConf)
             elif mainformat == 'term':
                 depsToTerms(classDepsIter)
+            elif mainformat == 'provider':
+                depsToProviderFormat(classDepsIter, depsLogConf)
             else:
                 depsToConsole(classDepsIter, type)
             

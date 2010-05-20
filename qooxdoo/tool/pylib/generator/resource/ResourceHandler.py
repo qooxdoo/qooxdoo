@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, string, types, sys, os
+import re, string, types, sys, os, collections
 
 from generator.code.LibraryPath import LibraryPath
 from misc import Path
@@ -76,6 +76,7 @@ class ResourceHandler(object):
 
     ##
     # Yield the resources of a single lib
+    # @param lib jobconf.get("library", [])
     def findLibResources(self, lib, filter=None):
 
         def getCache(lib):
@@ -166,6 +167,58 @@ class ResourceHandler(object):
                 return False
 
         return filter
+
+
+    def assetsMatchResource(self, assetSet, resource, resId):
+        isCombined = False
+        if self.isCombinedImage(resource):
+            isCombined = True
+            combimg = CombinedImage(resource)
+            embImgs = combimg.getEmbeddedImages()
+
+        for assetRex in assetSet:
+            if isCombined:
+                for embId in embImgs:
+                    if assetRex.match(embId):
+                        return True
+            else:
+                return assetRex.match(resId)
+
+        return False
+
+
+    def assetIdFromPath(self, resource, lib):
+        def extractAssetPart(libresuri, imguri):
+            pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
+            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+            return imgsfx                # use the bare img suffix as its asset Id
+
+        librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
+        assetId = extractAssetPart(librespath, resource)
+        assetId = Path.posifyPath(assetId)
+        return assetId
+
+
+
+    ##
+    # return a map {classId : [resourceId, ...]}, based on libs
+    def getResourcesByClass(self, libs, classToAssetHints):
+        classToResources = collections.defaultdict(list)
+        for lib in libs:
+            allResources = [x for x in self.findAllResources([lib])]
+            # lookup table for resource id's
+            resIds       = {}
+            for res in allResources:
+                resIds[res] = self.assetIdFromPath(res, lib)
+
+            # try to match classes to resources in this lib
+            for classId, assetSet in classToAssetHints.items():
+                for resource in allResources:
+                    resId = resIds[resource]
+                    if self.assetsMatchResource(assetSet, resource, resId):
+                        classToResources[classId].append(resId)
+
+        return classToResources
 
 
     def _getResourcelistFromClasslist(self, classList):
