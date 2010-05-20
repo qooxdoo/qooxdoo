@@ -1,9 +1,29 @@
 #! /usr/bin/env python
 
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Daniel Wagner (d_wagner)
+#
+################################################################################
+
 import os, sys, re, optparse, codecs, demjson
 import qxenviron
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
+from misc.copytool import CopyTool
 
 global console
 console = Log(None, "info")
@@ -27,9 +47,9 @@ class Repository:
     
     for root, dirs, files in os.walk(self.dir, topdown=True):
       for dir in dirs:
-        #if dir == "Bugs":
-        #  dirs.remove("Bugs")
-        #  continue
+        if dir == "Bugs":
+          dirs.remove("Bugs")
+          continue
         path = os.path.join(root,dir)
         manifestPath = os.path.join(path, "Manifest.json")
         
@@ -70,6 +90,7 @@ class Repository:
         libraryType = None
         
       if not self.validator.isValid(libraryName, libraryType, libraryVersion, libraryQxVersions):
+        console.debug("Skipping excluded library %s")
         continue
       
       if libraryName not in libraries:
@@ -89,7 +110,7 @@ class Repository:
     return libraries
 
 
-  def buildAllDemos(self, demoVersion="build", demoBrowser=None):
+  def buildAllDemos(self, demoVersion="build", demoBrowser=None, copyDemos=False):
     if demoBrowser:
       demoBrowser = os.path.abspath(demoBrowser)
     console.info("Generating demos for all known libraries")
@@ -118,15 +139,25 @@ class Repository:
           if variant == "source" or variant == "build":
             continue
           status = version.buildDemo(variant, demoVersion)
+          # DEBUG: status = {"buildError" : None}
           if demoBrowser and not status["buildError"]:
-            htmlfile = self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
+            if copyDemos:
+              sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
+              targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variant)
+              #self.copyDemo(sourceDir, targetDir)
+              copier = CopyTool(sourceDir, targetDir, update=True)
+              copier.copy()
+              self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser, local=True)
+            else:
+              self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
+            
             libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
             validDemo = True
       
       if validDemo:
         demoData.append(libraryData)
 
-    if demoBrowser:      
+    if demoBrowser:
       #jsonData = json.dumps(demoData, sort_keys=True, indent=4)
       jsonData = demjson.encode(demoData, strict=False, compactly=False)
       dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
@@ -149,12 +180,13 @@ class Repository:
         console.debug(out)
         if ret > 0:
           console.error(err)
-    console.outdent()    
-  
+    console.outdent()
+
+
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
   # modifying the demo_template.html file in the demobrowser's resource dir.
   # This file simply does a meta redirect to the generated demo. 
-  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser):    
+  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser, local=False):    
     #get some needed info from the demobrowser's manifest
     dbManifest = getDataFromJsonFile(os.path.join(demoBrowser, "Manifest.json"))
     dbResourcePath = dbManifest["provides"]["resource"]
@@ -173,15 +205,17 @@ class Repository:
     
     demoPath = os.path.join( self.libraries[libraryName][versionName].path, "demo", variantName, demoVersion)
     # the demo's HTML file lives under source|build/demo/libraryName
-    demoUrl = "../../../" + self.getDemoUrl(demoBrowser, demoPath)
+    if local:
+      demoUrl = "/".join([versionName, variantName, demoVersion])
+    else:
+      demoUrl = "../../../" + self.getDemoUrl(demoBrowser, demoPath)
     
     for line in sourceFile:
       targetFile.write(line.replace("$LIBRARY", demoUrl))
     
     targetFile.close()
-    return targetFilePath
-  
-  
+
+
   # attempts to calculate a relative link from the Demo Browser to the Demo.
   def getDemoUrl(self, demoBrowser, demo):    
     demoUrl = ""
@@ -416,6 +450,11 @@ def getComputedConf():
     help="Path of the Demobrowser that will display the repository's demo apps."
   )
   
+  parser.add_option(
+    "--copy-demos", dest="copydemos", action="store_true",
+    help="Copy the generated build version of each demo to the demobrowser's demo directory."
+  )
+  
   (options, args) = parser.parse_args()
 
   return (options, args)
@@ -489,7 +528,7 @@ def main():
         if options.demobrowser:
           if not os.path.isabs(options.demobrowser):
             options.demobrowser = os.path.abspath(options.demobrowser)
-          repository.buildAllDemos(job[6:], options.demobrowser)
+          repository.buildAllDemos(job[6:], options.demobrowser, options.copydemos)
         else:
           repository.buildAllDemos(job[6:])
 
