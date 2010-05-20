@@ -619,6 +619,7 @@ class Generator(object):
             self.runLogDependencies(script)
             self.runPrivateDebug()
             self.runLogUnusedClasses(script)
+            self.runLogResources(script)
             #self.runClassOrderingDebug(partPackages, packageClasses, variants)
 
         self._console.info("Done")
@@ -692,6 +693,8 @@ class Generator(object):
                     self._console.info("Unused class: %s" % cid)
             self._console.outdent()
         self._console.outdent()
+
+        return
 
 
 
@@ -1119,6 +1122,31 @@ class Generator(object):
             self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % type)
 
         self._console.outdent()
+        return
+
+
+    def runLogResources(self, script):
+        if not self._job.get("log/resources", False):
+            return
+
+        packages   = script.packagesSortedSimple()
+        parts      = script.parts
+        variants   = script.variants
+
+        self._console.info("Dumping resource info...");
+        self._console.indent()
+
+        allresources = {}
+        # get resource info
+        # -- the next call is fake, just to populate package.data.resources!
+        _ = self._codeGenerator.generateResourceInfoCode(script, self._settings, self._job.get("library",[]))
+        for packageId, package in enumerate(packages):
+            allresources.update(package.data.resources)
+        
+        file = self._job.get("log/resources/file", "resources.json")
+        filetool.save(file, json.dumpsCode(allresources))
+        self._console.outdent()
+
         return
 
 

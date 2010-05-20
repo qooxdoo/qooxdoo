@@ -173,7 +173,6 @@ class CodeGenerator(object):
         boot       = script.boot
         variants   = script.variants
 
-        self._classList    = script.classes
         self._treeCompiler = treeCompiler
         self._variants     = variants
 
@@ -720,7 +719,7 @@ class CodeGenerator(object):
             resdata = ExtMap()
 
         self._imageInfo                = ImageInfo(self._console, self._cache)
-        assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(self._classList)
+        assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(script.classes)
 
         # read img cache file
         cacheId = "imginfo-%s" % self._config._fname
