@@ -1,0 +1,41 @@
+====== List ======
+A List widget has items with plane text and/or icon.
+
+
+
+==== Preview Image ====
+{{:documentation:1.2:widget:list.png?530|List}}
+
+
+
+==== Features ====
+  * Horizontal and vertical orientation.
+  * Single selection.
+  * Multi selection.
+  * Additive selection.
+  * One selection.
+  * Drag selection.
+  * Quick selection.
+  * Items with plane text and/or icon.
+  * Context menu support.
+
+
+
+==== Description====
+A List widget can be used to show a list of items. These items could selected in different modes:
+  * ''single'': Only one or none could be selected. 
+  * ''multi'': One, more or none could be selected.
+  * ''additive'': The same selection like ''multi'', but each item, which the user clicked on it is added or removed to the selection.
+  * ''one'': The same selection like ''single'', but one must selected.
+
+The item which are added to the list are ''ListItem''. For more details see: [[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ListItem|ListItem]].
+
+==== Demos ====
+Here are some links that demonstrate the usage of the widget:\\
+  * [[http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-List.html|List Demo]] 
+  * [[http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-DragDrop.html|Lists with Drag and Drop]]
+  * [[http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Resizer.html|List with re-size support]]
+
+==== API ====
+Here is a link to the API of the Widget:\\
+[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List|qx.ui.form.List]]

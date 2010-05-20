@@ -1,0 +1,29 @@
+====== Layout Reference ======
+
+qooxdoo comes with some of the most common layout managers. The following layout managers are supported by qooxdoo:
+
+  * **[[.:Layout:Basic]]**: The Basic layout is used to position the children at absolute top/left coordinates.
+  *  **[[.:Layout:Canvas]]**: The Canvas layout is an extended Basic layout. It is possible to position a widget relative to the right or bottom edge of the available space. The Canvas layout furthermore supports dimension and location measures in percent.
+  * **[[.:Layout:Box]]**: The Box layouts arranges their children back-to-back. The horizontal box layout arranges widgets in a horizontal row, from left to right, while the vertical box layout arranges widgets in a vertical column, from top to bottom. 
+  * ** [[.:Layout:Flow]]**: The Flow layout places widget next to each other from left to right. If the available width is not sufficient an automatic line break is inserted.
+  * **[[.:Layout:Dock]]**: A Dock layout attaches the children to the edges of the available space.
+  *  **[[.:Layout:Grid]]**: The Grid layout arranges items in a two dimensional grid. Widgets can be placed into the grid’s cells and may span multiple rows and columns.
+  * **[[.:Layout:Grow]]**: The Grow layout stretches all children to the full available size but still respects limits configured by min/max values.
+
+There are a few more layouts bundled with the default qooxdoo distribution but those are mostly intended for use by a specific component. For example the [[.:widget:Atom]] uses the [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Atom|Atom Layout]], the [[.:widget:SplitPane]] uses the two split layouts [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane.HLayout|HLayout]] and [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane.VLayout|VLayout]].
+
+Through the simple API it should be quite easy to write custom layouts if the included ones do not meet demands. Simply derive from the  [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract|Abstract]] layout and start with a refined version of the method ''[[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract~renderLayout|renderLayout()]]''.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

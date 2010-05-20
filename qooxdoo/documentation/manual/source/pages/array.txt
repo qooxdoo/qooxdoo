@@ -1,0 +1,39 @@
+====== Array Reference ======
+
+qooxdoo has a few classes that concern arrays. Some of them are special wrappers and others are extensions. Here is a list of all classes which have something to do with arrays in qooxdoo.
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.data.Array|qx.data.Array]]**: The data array is a special array used in the data binding context of qooxdoo. It does not extend the native array of JavaScript but is a wrapper for it. All the native methods are included in the implementation and it also fires events if the content or the length of the array changes in any way. Also the //.length// property is available on the array.
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.type.BaseArray|qx.type.BaseArray]]**: This class is the common superclass for all array classes in qooxdoo. It supports all of the shiny 1.6 JavaScript array features like //forEach// and //map//. This class may be instantiated instead of the native Array if one wants to work with a feature-unified Array instead of the native one. This class uses native features wherever possible but fills all missing implementations with custom code.
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.type.Array|qx.type.Array]]**: An extended array class which adds a lot of often used convenience methods to the regular array like //remove// or //contains//.
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.lang.Array|qx.lang.Array]]**: Provides static helper functions for arrays with a lot of often used convenience methods like //remove// or //contains//. 
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.lang.Core|qx.lang.Core]]**: Adds some methods to array to lift every browser to the same level. The methods are:
+    * indexOf
+    * lastIndexOf
+    * forEach
+    * filter
+    * map
+    * some
+    * every
+
+  * **[[http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.lang.Generics|qx.lang.Generics]]** : Support [[http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics|string/array generics]] as introduced with JavaScript 1.6 for all browsers. 
+    * join
+    * reverse
+    * sort
+    * push
+    * pop
+    * shift
+    * unshift
+    * splice
+    * concat
+    * slice
+    * indexOf
+    * lastIndexOf
+    * forEach
+    * map
+    * filter
+    * some
+    * every

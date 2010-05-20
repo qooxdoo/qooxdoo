@@ -1,0 +1,7 @@
+====== Architecture ======
+
+
+
+===== UI Architecture =====
+
+{{:documentation:1.2:architecture_ui_new.png?nolink|:documentation:1.2:architecture_ui_new.png}}

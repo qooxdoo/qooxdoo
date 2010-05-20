@@ -1,0 +1,47 @@
+====== HTML Editing ======
+
+HtmlArea is a html editing widget which is part of the framework. This widget is available as [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.bom.htmlarea.HtmlArea|low-level]] and [[http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.embed.HtmlArea|UI-level]] implementation. The first targets traditional webpages / single-page applications and the latter Rich Internet Applications (RIA) as preferred usecase.
+
+Here you can find some interesting technical info.
+
+
+===== Demo =====
+
+[[http://demo.qooxdoo.org/1.2/demobrowser/#widget~HtmlArea.html|{{:documentation:1.2:htmlarea_screenshot_1_0.png?567x289|HtmlArea in qx 1.2 screenshot}}]]
+
+
+===== Setup =====
+
+One important step is necessary to get the HtmlArea up and running. 
+
+<note>
+If you setup the component without handing the **source** parameter you have to place a **blank.html** file next to your applications **index.html**.
+</note>
+
+This is necessary due the [[http://taossa.com/index.php/2007/02/08/same-origin-policy/|Same-Origin Policy]] implemented by most browsers.
+
+
+
+===== Features =====
+  * [[.:ui_html_editing:featurelist|Feature List]]
+  * [[.:ui_html_editing:technicalfeaturelist|Technical Feature List]]
+
+===== Integration Guide =====
+  * [[.:ui_html_editing:integration_guide|Integrate the HtmlArea in your application]]
+  * [[.:ui_html_editing:available_shortcuts|Available keyboard shortcuts]]
+  * [[.:ui_html_editing:recommendations|Recommendations]]
+
+
+===== Technical Background =====
+
+  * [[.:ui_html_editing:html_editing_in_general|General information about HTML Editing]]
+  * [[.:ui_html_editing:copy_and_paste|Copy and Paste]]
+  * [[.:ui_html_editing:textalign|Text Align]]
+  * [[.:ui_html_editing:browser_bugs|Browser Bugs]]
+  * [[.:ui_html_editing:default_paragraph_handling|Default Paragraph Handling]]
+
+===== Implementation Details =====
+
+  * [[.:ui_html_editing:undo_redo|Undo and Redo]]
+  * [[.:ui_html_editing:paragraph_handling|Paragraph Handling]]
+  * [[.:ui_html_editing:list_handling|List Handling]]
