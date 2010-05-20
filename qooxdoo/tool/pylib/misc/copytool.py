@@ -19,9 +19,14 @@
 #
 ################################################################################
 
-import os
+import os, sys
+import optparse
 import shutil
 import filecmp
+
+libPath = os.path.abspath(os.path.join(os.pardir))
+sys.path.append(libPath)
+from misc.ExtendAction import ExtendAction
 
 class CopyTool:
     def __init__(self, source, targetDir, exclude=[], create=True, update=False):       
@@ -107,3 +112,53 @@ class CopyTool:
                 continue
             entryPath = os.path.join(sourceDir, entry)
             self.__copyFileToDir(entryPath, targetPath)
+
+
+def getComputedConf():
+    parser = optparse.OptionParser(option_class=ExtendAction)
+    
+    usage_str = '''%prog [options] SOURCE TARGET
+  
+  copy file or directory SOURCE to directory TARGET'''
+    
+    parser.set_usage(usage_str)
+  
+    parser.add_option(
+      "-u", "--update-only", dest="update", action="store_true", default=False,
+      help="only overwrite existing files if the source file is newer"
+    )
+    
+    parser.add_option(
+      "-n", "--no-new-dirs", dest="create", action="store_false", default=True,
+      help="do not create any source directories that don't already exist in the target path"
+    )
+    
+    parser.add_option(
+      "-x", "--exclude", dest="exclude", default=[], action="extend", type="string",
+      help="list of file or directory names that should not be copied"
+    )
+    
+    (options, args) = parser.parse_args()
+  
+    return (options, args)
+
+
+def main():
+    (options,args) = getComputedConf()
+    
+    if not len(args) == 2:
+        print "Missing argument, use -h for help."
+        sys.exit(1)
+
+    copier = CopyTool(args[0], args[1], exclude=options.exclude, create=options.create, update=options.update)
+    copier.copy()
+
+
+if __name__ == '__main__':
+    try:
+        main()
+  
+    except KeyboardInterrupt:
+        print
+        print "  * Keyboard Interrupt"
+        sys.exit(1)
