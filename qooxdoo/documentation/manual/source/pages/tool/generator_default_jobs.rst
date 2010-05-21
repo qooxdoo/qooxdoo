@@ -1,0 +1,163 @@
+Default Generator Jobs
+**********************
+
+<note>
+This page is work in progress, and information provided might be preliminary or incomplete.
+</note>
+
+This page describes the jobs that are automatically available to all skeleton-based applications (particularly, applications with config.json files that include the framework's *application.json* config file). Mainly this is just a reference list with short descriptions of what the jobs do. But in some cases, there is comprehensive documentation about the interface of this job and how it can be parametrized (This would usually require changing your *config.json* configuration file).
+
+Action Jobs
+===========
+
+These jobs can be invoked with the generator, e.g. as ``generate.py <jobname>``.
+
+api
+---
+Create api doc for the current library. Use the following macros to tailor the scope of classes that are going to show up in the customized apiviewer application:
+
+::
+    "API_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
+    "API_EXCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
+
+The syntax for the class pattern is like those for the *[[generator_config_ref#include|include]]* config key.
+
+build
+-----
+Create build version of current application.
+
+clean
+-----
+Remove local cache and generated .js files (source/build).
+
+distclean
+---------
+Remove the cache and all generated artefacts of this library (source, build, ...).
+
+fix
+---
+Normalize whitespace in .js files of the current library (tabs, eol, ...).
+
+info
+----
+Running this job will print out various information about your setup on the console. Information includes your qooxdoo and Python version, whether source and/or build version of your app has been built, stats on the cache, asf.
+
+inspector
+---------
+Create an instance of the Inspector in the current application. The inspector is a debugging tool that allows you to inspect your custom application while running. You need to run the *source* job first, the run the *inspector* job. You will then be able to open the file ``source/inspector.html`` in your browser. The source version of your application will be loaded into the inspector automatically.
+
+lint
+----
+Check the source code of the .js files of the current library.
+
+migration
+---------
+Migrate the .js files of the current library to the current qooxdoo version.
+
+pretty
+------
+Pretty-formatting of the source code of the current library.
+
+source
+------
+Create source version of current application.
+
+source-all
+----------
+Create source version of current application, with all classes.
+
+test
+----
+Create a test runner app for unit tests of the current library. 
+
+  * Use the following macro to tailor the scope of classes in which unit test classes are searched for:
+::
+    "TEST_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
+
+ The syntax for the class pattern is like those for the *[[generator_config_ref#include|include]]* config key.
+
+  * The libraries from the <#libraries> job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
+
+  * If you want to break out from the reliance on the *libraries* job altogether, or have very specific settings that must be applied to the test application, you can provide a custom includer job *common-tests* which may contain a custom *library* key and other keys. But then you have to make sure it contains the Testrunner library as well.
+::
+    "common-tests" :
+    {
+      "extend"    : [ "libraries" ],
+
+      "let" :      { "LOCALES" : ["de", "de_DE", "fr", "fr_FR" ] },
+
+      "library" :
+      [
+        { "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json" },
+        { "manifest" : "${TESTRUNNER_ROOT}/Manifest.json" }
+      ],
+
+      "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
+
+      "settings" :
+      {
+        "qx.theme" : "${QXTHEME}",
+        "qx.globalErrorHandling" : "on"
+      },
+
+      "cache" :
+      {
+        "compile" : "${CACHE}"
+      }
+    }
+
+ This allows you to tailor most of the parameters that influence the creation of the test application.
+
+test-source
+-----------
+Create a test runner app for unit tests (source version) of the current library.
+
+The same customization interface applies as for the default <#test> job.
+
+test-inline
+-----------
+Create an inline test runner app for unit tests of the current library.
+
+The same customization interface applies as for the default <#test> job.
+
+test-native
+-----------
+Create a native test runner app for unit tests of the current library.
+
+The same customization interface applies as for the default <#test> job.
+
+translation
+-----------
+Create .po files for current library.
+
+Includer Jobs
+=============
+
+These jobs don't do anything sensible on their own, so it is no use to invoke them with the generator. But they can be used in the application's ``config.json``, to modify the behaviour of other jobs, as they pick up their definitions.
+
+common
+------
+
+Common includer job for many default jobs, mostly used internally. You should usually not need to use it; if you do, use with care.
+
+libraries
+---------
+This job should take a single key, <generator_config_ref#library|library>.  The *libraries* job is filled by default with your application and the qooxdoo framework library, plus any additional libraries you specify in a custom *libraries* job you added to your application's *config.json*. Here, you can add additional libraries and/or contributions you want to use in your application. See the linked reference for more information on the library key. Various other jobs will evaluate the *libraries* job (like <#api>, <#test>), to work on a common set of libraries.
+
+::
+    "libraries" :
+    {
+      "library" : [ { "manifest" : "some/other/lib/Manifest.json" }]
+    }
+
+profiling
+---------
+Includer job, to activate profiling.
+
+log-parts
+---------
+Includer job, to activate verbose logging of part generation; use with the ``-v`` command line switch.
+
+log-dependencies
+----------------
+Includer job, to activate verbose logging of class dependencies; use with the ``-v`` command line switch.

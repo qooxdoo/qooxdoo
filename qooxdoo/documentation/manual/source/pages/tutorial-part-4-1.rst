@@ -1,0 +1,136 @@
+Tutorial Part 4.1: Form Handling
+********************************
+
+In the previous steps of this tutorial, we :doc:`laid the groundwork <pages/tutorial-part-1>` for a Twitter client application, gave it a :doc:`neat UI <pages/tutorial-part-2>` and implemented a :doc:`communication layer <pages/tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their Twitter user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API <pages/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
+
+Before we get started, make sure you're working on the version of the Twitter tutorial application tagged with `"Step 3" in the GitHub repository <http://github.com/wittemann/qooxdoo-tutorial/tree/Step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
+
+The plan
+========
+
+We want to create a new window with user name and password fields that pops up when the user clicks the "post" button. Provided the fields aren't empty, their values should be used in the YQL request that posts the Tweet. Seems simple enough, so let's get right down to business.
+
+Creating the login window
+=========================
+
+We start by creating a new class called twitter.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
+
+::
+    qx.Class.define("twitter.LoginWindow",
+    {
+      extend : qx.ui.window.Window,
+      construct : function()
+      {
+        this.base(arguments, "Login", "twitter/t_small-c.png");
+      }
+    });
+
+The Login window will only contain the form, which takes care of its own layout. So for the window itself, a Basic layout will suffice. We'll also make the window modal:
+
+::
+    var layout = new qx.ui.layout.Basic();
+        this.setLayout(layout);
+        this.setModal(true);
+
+Adding the Form
+===============
+
+Now it's time to add a form and populate it with a pair of fields:
+
+::
+    var form = new qx.ui.form.Form();
+        var username = new qx.ui.form.TextField();
+        username.setRequired(true);
+        form.add(username, "Username", null, "username");
+        var password = new qx.ui.form.PasswordField();
+        password.setRequired(true);
+        form.add(password, "Password", null, "password");
+
+Note how the fields are marked as required. This is a simple kind of validation and in this case it's all we need, which is why the third argument for ``form.add`` is null instead of a validation function. Required fields will be displayed with an asterisk (*) next to their label.
+
+The next step is to add a dash of data binding awesomeness:
+
+::
+    var controller = new qx.data.controller.Form(null, form);
+        var model = controller.createModel();
+
+Just like in the previous tutorial, we create a `controller <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.controller.Form>`_ without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
+
+The form still needs a "submit" button, so we'll add one, plus a "cancel" button to close the window:
+
+::
+    var loginbutton = new qx.ui.form.Button("Login");
+        form.addButton(loginbutton);
+        var cancelbutton = new qx.ui.form.Button("Cancel");
+        form.addButton(cancelbutton);
+        cancelbutton.addListener("execute", function() {
+          this.close();
+        }, this);
+
+That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in `form renderer <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.form.renderer>`_ classes worry about the form's layout:
+
+::
+    var renderer = new qx.ui.form.renderer.Single(form);
+        this.add(renderer);
+
+The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
+
+Accessing the form values
+=========================
+
+Similar to MainWindow, we'll use an event to notify the other parts of our application of changes to the form. As you'll remember, the "event" section is on the same level as the constructor in the class declaration:
+
+::
+    events : {
+        "changeLoginData" : "qx.event.type.Data"
+      },
+
+Then we add a listener to the submit button that retrieves the values from the model object and attaches them to a data event, making sure the form validates, i.e. both fields aren't empty.
+
+::
+    loginbutton.addListener("execute", function() {
+          if (form.validate()) {
+            var loginData = {
+              username : controller.getModel().getUsername(),
+              password : controller.getModel().getPassword()
+            };
+            this.fireDataEvent("changeLoginData", loginData);
+            this.close();
+          }
+        }, this);
+
+And that's it for the LoginWindow class. Now to integrate it with the other parts of the application. ``TwitterService.post`` currently uses ``prompt()`` to ask for the user name and password, so we'll remove these two lines. Instead, we add two new arguments to the method:
+
+::
+    post : function(message, username, password)
+
+The ``post()`` method is called from the main application class, so let's take another look at Application.js. We want to display the login window before posting, so we'll modify the "post" event listener's callback function (line 79). We need to create an instance of ``twitter.LoginWindow`` and attach a listener to its "changeLoginData" event which calls service.post() with the username and password values from the event data. We also want to make sure that only one LoginWindow instance is used during the application's runtime. This is a good idea because creating and disposing widgets is quite expensive in terms of CPU time. In our application, it also means users won't have to retype their login data for every post.
+
+::
+    // post handling
+          main.addListener("post", function(e) {
+          var msg = e.getData();
+          if (!this.__loginWindow) {
+            this.__loginWindow = new twitter.LoginWindow();
+            this.__loginWindow.addListener("changeLoginData", function(ev) {
+              var loginData = ev.getData();
+              service.post(msg, loginData.username, loginData.password);
+            });
+            this.__loginWindow.moveTo(320,30);
+            this.__loginWindow.open();
+          }
+          else {
+            this.__loginWindow.open();
+          }
+        }, this);
+
+OK, time to run ``generate.py source`` and load the application in a browser to make sure everything works like it's supposed to.
+
+|Twitter client application with login window|
+
+.. |Twitter client application with login window| image:: /pages/tutorials/step41.png
+
+Twitter client application with login window
+
+And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-1-Forms>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
+
