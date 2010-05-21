@@ -9,4 +9,5 @@ qooxdoo/component/inspector/source/script
 qooxdoo/component/inspector/build
 qooxdoo/component/inspector/test
 qooxdoo/component/inspector/api
+qooxdoo/documentation/manual/build
 .settings/*
