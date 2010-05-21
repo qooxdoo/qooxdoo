@@ -64,8 +64,7 @@ class SeleniumServer:
                     if e.code == 403:
                         status = True
             except Exception, e:
-                self.log.error("Error while checking if Selenium server is running:")
-                self.log.logError(e)
+                self.log.error("Error while checking if Selenium server is running: %s" %str(e))
         
             return status
     
@@ -143,9 +142,9 @@ class SeleniumServer:
                     time.sleep(5)
                     return
             except URLError, e:
-                self.log.warn("Selenium server shutdown failed: %s" %repr(e))
+                self.log.warn("Selenium server shutdown failed: %s" %str(e))
             except Exception, e:
-                self.log.error("Error shutting down Selenium server: %s" %repr(e))
+                self.log.error("Error shutting down Selenium server: %s" %str(e))
                 
             self.kill()
           

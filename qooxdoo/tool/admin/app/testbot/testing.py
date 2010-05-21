@@ -143,7 +143,7 @@ class TestRun:
             try:
                 self.buildStatus = util.getJsonFromUrl(jUrl)
             except Exception, e:
-                self.log.error("Error while getting remote build status: " + repr(e))
+                self.log.error("Error while getting remote build status: " + str(e))
         
         if testType == "local":
             try:
@@ -252,7 +252,7 @@ class TestRun:
                 return
         
         self.log.info("Running simulations for %s" %app)
-        
+        testStartDate = util.getTimestamp()
         for browser in appConf["browsers"]:
             if manageSeleniumServer and individualServer:
                 seleniumServer = SeleniumServer(seleniumConfig, logger=self.log)
@@ -281,14 +281,14 @@ class TestRun:
               "autHost" : self.getConfigSetting("testRun/host", ""),
               "autQxPath" : self.getConfigSetting("testRun/qxPath", ""),
               "autPath" : appConf["path"],
-              "startDate" : util.getTimestamp(),
+              "startDate" : testStartDate,
               "testHostName" : self.getConfigSetting("base/testHostName", ""),
               "testHostId" : self.getConfigSetting("base/testHostId", ""),
             }
             try:
               self.reportResults(reportServer, simConf["testLogFile"], reportConf, simConf["ignoreLogEntries"])
             except Exception, e:
-              self.log.error("Error sending dummy report: " + repr(e))
+              self.log.error("Error sending report: " + str(e))
     
 
     def getSimulationConfig(self, autName, configKey, browserConf):
@@ -379,7 +379,7 @@ class TestRun:
             try:
               self.reportResults(reportServer, dummyLogFile, reportConf)
             except Exception, e:
-              self.log.error("Error sending dummy report: " + repr(e))
+              self.log.error("Error sending dummy report: " + str(e))
         
 
     def prepareTestLog(self, logDir=os.getcwd(), appName="Unknown"):
@@ -511,8 +511,7 @@ class TestRun:
                 self.log.info("Sending report email: Subject: %s Recipient: %s" %(mailConf['subject'], mailConf['mailTo']))
                 util.sendMultipartMail(mailConf)
             except Exception, e:
-                self.log.error("Failed to send report email")
-                self.log.logError(e)
+                self.log.error("Failed to send report email: " + str(e))
             else:
                 self.log.info("Report email sent successfully")
     
@@ -543,8 +542,7 @@ class TestRun:
             response = reporting.sendResultToReportServer(reportServerUrl, testRunDict, "testRun")
             self.log.info("Report server response: %s" %response)
         except Exception, e:
-            self.log.error("Error sending test report to server")
-            self.log.logError(e)
+            self.log.error("Error sending test report to server: " + str(e))
     
 
     def getTestRunDict(self, config):

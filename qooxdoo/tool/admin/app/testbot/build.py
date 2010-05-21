@@ -48,8 +48,7 @@ class Builder():
             if not os.path.isdir(buildLogDir):
                 os.mkdir(buildLogDir)
         except Exception, e:
-            self.log.error("Failed to create build log directory %s" %buildLogDir)
-            self.log.logError(e)
+            self.log.error("Failed to create build log directory %s: " %(buildLogDir, str(e)))
             return False
           
         buildLog = os.path.join(buildLogDir, target + '_' + util.getTimestamp() + '.log')
@@ -57,8 +56,7 @@ class Builder():
         try:
             buildLogFile = codecs.open(buildLog, 'a', 'utf-8')
         except Exception, e:
-            self.log.error("Error while opening build log file")
-            self.logError(e)
+            self.log.error("Error while opening build log file: %s" %str(e))
           
         return buildLogFile
 
@@ -153,13 +151,13 @@ class Builder():
             statusFile = codecs.open(path, 'r', 'utf-8')
             statusJson = statusFile.read()
         except Exception, e:
-            log.Logger().warn("Unable to open build status file %s" %path)
+            log.Logger().warn("Unable to open build status file %s: %s" %(path,str(e)))
         
         try:
             buildStatus = json.loads(statusJson)
             log.Logger().debug("Build status retrieved from file %s" %path)
         except Exception, e:
-            log.Logger().warn("Unable to parse build status from file %s" %path)
+            log.Logger().warn("Unable to parse build status from file %s: %s" %(path,str(e)))
         
         return buildStatus
 
@@ -171,14 +169,14 @@ class Builder():
             try:
                 util.svnRevert(rootPath)
             except Exception, e:
-                self.log.error("Error reverting SVN: " + repr(e))
+                self.log.error("Error reverting SVN: " + str(e))
         
         if self.config["svnUpdate"]:
             try:
                 util.svnUpdate(rootPath)
                 self.log.info("Updated to revision %s" %util.getSvnVersion(rootPath))
             except Exception, e:
-                self.log.error("Error updating SVN: " + repr(e))
+                self.log.error("Error updating SVN: " + str(e))
         
         self.log.info("Building all configured targets.")
         for target in self.config["targets"]:
