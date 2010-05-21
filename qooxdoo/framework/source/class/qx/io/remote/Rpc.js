@@ -357,11 +357,64 @@ qx.Class.define("qx.io.remote.Rpc",
     __previousServerSuffix : null,
     __currentServerSuffix : null,
 
-    /*
-    ---------------------------------------------------------------------------
-      CORE METHODS
-    ---------------------------------------------------------------------------
-    */
+    /**
+     * Factory method to create a request object. By default, a POST request
+     * will be made, and the expected response type will be
+     * "application/json". Classes extending this one may override this method
+     * to obtain a Request object with different parameters.
+     *
+     * @return {qx.io.remote.Request}
+     */
+    createRequest: function()
+    {
+      return new qx.io.remote.Request(this.getUrl(),
+	                              "POST",
+	                              "application/json");
+    },
+        
+    /**
+     * Factory method to create the object containing the remote procedure
+     * call data. By default, a qooxdoo-style RPC request is built, which
+     * contains the following members: "service", "method", "id", and
+     * "params". If a different style of RPC request is desired, a class
+     * extending this one may override this method.
+     *
+     * @param id {Integer}
+     *   The unique sequence number of this request.
+     *
+     * @param method {String}
+     *   The name of the method to be called
+     *
+     * @param parameters {Array}
+     *   An array containing the arguments to the called method.
+     *
+     * @param serverData {Any}
+     *   "Out-of-band" data to be provided to the server.
+     *
+     * @return {Object}
+     *   The object to be converted to JSON and passed to the JSON-RPC
+     *   server.
+     */
+    createRpcData: function(id, method, parameters, serverData)
+    {
+      // Create the rpc data object
+      var requestObject =
+        {
+          "service" : method == "refreshSession" ? null : this.getServiceName(),
+	  "method"  : method,
+	  "id"	    : id,
+	  "params"  : parameters
+        };
+      
+      // Only add the server_data member if there is actually server data
+      if (serverData)
+      {
+        requestObject.server_data = serverData;
+      }
+      
+      return requestObject;
+    },
+        
 
     /**
      * Internal RPC call method
@@ -396,27 +449,16 @@ qx.Class.define("qx.io.remote.Rpc",
         argsArray.push(args[i]);
       }
 
-      var req = new qx.io.remote.Request(this.getUrl(),
-                                         "POST",
-                                         "application/json");
+      var req = this.createRequest();
 
-      var requestObject =
-      {
-        "service" : (refreshSession ? null : this.getServiceName()),
-        "method"  : whichMethod,
-        "id"      : req.getSequenceNumber(),
-        "params"  : argsArray
-      };
-
-      // additional field 'server_data' optionally included, below
-      // See if there's any out-of-band data to be sent to the server
+      // Get any additional out-of-band data to be sent to the server
       var serverData = this.getServerData();
 
-      if (serverData !== null)
-      {
-        // There is.  Send it.
-        requestObject.server_data = serverData;
-      }
+      // Create the request object
+      var rpcData = this.createRpcData(req.getSequenceNumber(),
+                                       whichMethod,
+                                       argsArray,
+                                       serverData);
 
       req.setCrossDomain(this.getCrossDomain());
 
@@ -583,7 +625,7 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished(eventType, eventTarget);
       });
 
-      req.setData(qx.util.Json.stringify(requestObject));
+      req.setData(qx.util.Json.stringify(rpcData));
       req.setAsynchronous(callType > 0);
 
       if (req.getCrossDomain())
