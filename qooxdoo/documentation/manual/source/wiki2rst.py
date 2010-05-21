@@ -11,6 +11,7 @@ def convertToRst(opening,closing):
     return conversionParseAction
 
 ns12 = ":1.2:"
+headLevel = 0
 
 def internalLink(url):
     url = url[url.find(ns12)+len(ns12):]
@@ -84,9 +85,22 @@ def convertToRst_I(s,l,t):
     return ret
 
 def convertHeading(linechar):
+    mylevel = [x[1] for x,y in linechars.items() if y==linechar][0]
+    mylevel = int(mylevel)
     def parseAction(s,l,t):
+        global headLevel
+        if headLevel > 0 and mylevel - headLevel > 1: # new header skips a level
+            # insert intermediate headers to assure consistency
+            prehead = ""
+            for i in range(1, mylevel - headLevel):
+                lchar = linechars["h"+str(headLevel+i)]
+                prehead += "XXX\n" + 3 * lchar + "\n\n"
+        else:
+            prehead = ""
+        headLevel = mylevel
         txt = t[0].strip()
-        return txt + "\n" + linechar * len(txt)
+        txt = prehead + txt + "\n" + linechar * len(txt)
+        return txt
     return parseAction
 
 def reindentBlock(s,n):
@@ -99,8 +113,12 @@ def convertCodeBlock(s,l,t):
     # t = [ 'code', ['javascript'], False, 'qx.Class.define(....)', '</code>']
     # TODO: the next leaves the :: on a line of its own, where it should be 
     # appended to the previous paragraph!
+    if len(t) < 5:
+        code = t[2]
+    else
+        code = t[3]
     res = "::\n\n"
-    res += reindentBlock(t[3], 4)
+    res += reindentBlock(code, 4)
     res += "\n"
     return res
 
@@ -117,7 +135,8 @@ def htmlBlock(s,l,t):
                          stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     ret = p.communicate(s)[0]
     # postprocess
-    if ret.endswith('\n'):
+    ret = ret.replace(os.linesep, "\n")
+    if ret.endswith("\n"):
         ret = ret[:-1]
     #ret = ret.decode('ascii', 'replace')
     #eout("%r" % ret)
@@ -176,6 +195,8 @@ def rmEmptyLines(s):
     return repeatedNewlines.transformString(s)
 
 def transform(path):
+    global headLevel
+    headLevel = 0    # reset heading level for new document
     wikiInput = codecs.open(path, "rU", "utf-8").read()
     rstString = wikiMarkup.transformString(wikiInput)
     # first pass leaves many blank lines, collapse these down
