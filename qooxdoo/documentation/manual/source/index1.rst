@@ -1,9 +1,10 @@
 Manual 1.2
 **********
 
-<note>This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of <:documentation|released versions>.</note> 
+<note>This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of :doc:`released versions <:documentation>`.</note> 
 
 ::
+
     qx.Class.define("qx.MyClass", {
       construct: function() {
         this.initMyProperty([1, 2, 4, 8]);
@@ -104,8 +105,8 @@ References
 Low Level Framework
 ===================
 
-  * <lowleveloverview|Overview>
-  * <lowlevelscenarios|Scenarios>
+  * :doc:`Overview <lowleveloverview>`
+  * :doc:`Scenarios <lowlevelscenarios>`
 
 Tutorials
 ---------
