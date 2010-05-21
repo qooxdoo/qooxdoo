@@ -66,8 +66,11 @@ def convertToRst_I(s,l,t):
         url = "/" + url   # need to 'absolutize' internal img refs, http://sphinx.pocoo.org/rest.html#images
     else:
         #raise ParseFatalException(s,l,"invalid URL link reference: " + t[0])
-        print >> sys.stderr, ("invalid image reference: " + t[0])
-        return t[0]
+        #print >> sys.stderr, ("invalid image reference: " + t[0])
+        #return t[0]
+        pass  # should do as is
+    # remove trailing artifacts
+    url = re.sub(r'\?.*$', '', url)
 
     # Handle text
     if not text:

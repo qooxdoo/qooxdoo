@@ -15,7 +15,7 @@ qx.Class.define("qx.MyClass", {
 
 <html><h4><img src="http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache" width="22" height="22"/> Windows</h4></html>
 
-{{:documentation:1.2:layout:flow.png|:documentation:1.2:layout:flow.png}}
+{{:documentation:1.2:layout:flow.png?2342|:documentation:1.2:layout:flow.png}}
 
 ===== Getting Started =====
  

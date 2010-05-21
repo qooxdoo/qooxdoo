@@ -80,6 +80,9 @@ exclude_trees = []
 # output. They are ignored by default.
 #show_authors = False
 
+# Highlight language
+highlight_language = 'javascript'
+
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
