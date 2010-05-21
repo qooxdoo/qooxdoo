@@ -311,6 +311,11 @@ qx.Class.define("qx.lang.Function",
      * myBoundFunction(); // this will make the element myElement red.
      * </pre>
      *
+     * If you find yourself using this static method a lot, you may be
+     * interested in the bindTo() method in the mixin qx.core.MBindTo.
+     *
+     * @see qx.core.MBindTo
+     *
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
      * @param varargs {arguments ? null} The arguments to pass to the function.
