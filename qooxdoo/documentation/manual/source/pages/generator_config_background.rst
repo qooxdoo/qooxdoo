@@ -115,7 +115,7 @@ How Job References are Resolved
 How to add a new Component
 ==========================
 
-qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the Apiviewer, Testrunner and Inspector. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction <.:tool:generator_config_articles#include_key_top-level_-_adding_features|here>.
+qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the Apiviewer, Testrunner and Inspector. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction :doc:`here <.:tool:generator_config_articles#include_key_top-level_-_adding_features>`.
 
 Basics
 ------
@@ -147,7 +147,7 @@ Using the basic principles outlined above, there are **two practical ways** how 
   * **Macros**
   * **Includer Jobs**
 
-In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the <.:tool:generator_default_jobs|list of default jobs>).
+In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <.:tool:generator_default_jobs>`).
 
 Parameterizing a remote job through Macros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -157,17 +157,20 @@ Macros are a simple way to pass information around. The component job uses a mac
 A typical example is the BUILD_PATH macro. The component job stores its output in a file like this:
 
 ::
-    </code>
+
+    "outfile" : "${BUILD_PATH}/job_output.js"
 
 The component will usually provide a sensible default for the macro, e.g.
 
 ::
-    </code>
+
+    "BUILD_PATH" : "./script"
 
 The invoking context can now tailor the output path by overriding the BUILD_PATH macro:
 
 ::
-    </code>
+
+    "BUILD_PATH" : "my/other/path"
 
 and running the component job with this macro binding will cause the output be written in the alternate directory. Of course you have to make sure the new macro binding is in effect when the component job is being run (see also further down for this). In the simplest case you just put the macro definition in the *global let section* of the application *config.json*. As these let bindings are included in every job of the config, also to the jobs that are imported from other configs, these bindings apply to effectively every job that is accessible through this config. As it is applied very early, the binding in this let section take precedence over bindings of the same macros defined in imported jobs. Thus it is possible to pass the new binding into a job defined in another configuration file.
 
@@ -181,13 +184,15 @@ A more powerful but also more complex way to taylor a remote job is through an *
 The component job would *extend* the includer job in its own definition:
 
 ::
-    </code>
+
+    "extend" : [ "includer-job" ]
 
 Again, the component would usually provide an *includer-job* of its own, with sensible defaults.
 
 The invoking context can then tailor the remote job by tailoring the includer job:
 
 ::
+
     "includer-job" :
         {
            "library" : { ... },
@@ -206,6 +211,7 @@ So how would you typically use these mechanisms to a new default job for qooxdoo
   * Split the component's *config.json* into two.This is usually helpful to keep config settings for the component that are just necessary to develop the component itself, from the definitions that are interesing to other applications that want to run the "exported" job(s) of that component. See e.g. the *Testrunner* application, where the configuration is split between the local *config.json* and the includeable *testrunner.json*.
   * Include the export config of the component in *application.json*.This will usually be done with a dedicated name space prefix, like 
 ::
+
     {
            "path" : "path/to/component/component.json",
            "as"   : "comp"   // something meaningful
@@ -214,11 +220,13 @@ So how would you typically use these mechanisms to a new default job for qooxdoo
   * Create a new job in *application.json*.Choose a name as you would want it to appear to the end user when he invokes ``generate.py x``. Optionally, add a descriptive *"desc"* key that will appear next to the job's name in the listing.
   * Make this job extend the component's job you want to make available, e.g. like 
 ::
+
     "extend" : [ "comp::build" ] // "build" is the job you want in most cases 
 
   * Add further keys, like a *let* section with macros you want to override, or other job keys.
   * If the component's job honors an includer job, define such a job in *application.json*. You will usually also need to prefix it with the component's "as" prefix you used above: 
 ::
+
     "comp::<includer job name>" : { <includer job keys>... } 
  The component's worker job will automatically include your includer job.
   * Add the job to the *export* list in the skeletons that should support it.The skeletons' *config.json* usually contain an *export* key, to filter the list of jobs a user will see with *generate.py x* down to the interesting jobs. Adding the new job name will make sure the users sees it.

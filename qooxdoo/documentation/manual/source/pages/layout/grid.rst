@@ -2,6 +2,9 @@ Grid
 ****
 The grid layout manager arranges the items in a two dimensional grid. Widgets can be placed into the grid's cells and may span multiple rows and columns.
 
+XXX
+===
+
 Preview Image
 -------------
 

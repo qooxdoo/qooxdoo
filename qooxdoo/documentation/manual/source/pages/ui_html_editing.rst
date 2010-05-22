@@ -23,28 +23,28 @@ This is necessary due the `Same-Origin Policy <http://taossa.com/index.php/2007/
 
 Features
 ========
-  * <.:ui_html_editing:featurelist|Feature List>
-  * <.:ui_html_editing:technicalfeaturelist|Technical Feature List>
+  * :doc:`Feature List <.:ui_html_editing:featurelist>`
+  * :doc:`Technical Feature List <.:ui_html_editing:technicalfeaturelist>`
 
 Integration Guide
 =================
-  * <.:ui_html_editing:integration_guide|Integrate the HtmlArea in your application>
-  * <.:ui_html_editing:available_shortcuts|Available keyboard shortcuts>
-  * <.:ui_html_editing:recommendations|Recommendations>
+  * :doc:`Integrate the HtmlArea in your application <.:ui_html_editing:integration_guide>`
+  * :doc:`Available keyboard shortcuts <.:ui_html_editing:available_shortcuts>`
+  * :doc:`Recommendations <.:ui_html_editing:recommendations>`
 
 Technical Background
 ====================
 
-  * <.:ui_html_editing:html_editing_in_general|General information about HTML Editing>
-  * <.:ui_html_editing:copy_and_paste|Copy and Paste>
-  * <.:ui_html_editing:textalign|Text Align>
-  * <.:ui_html_editing:browser_bugs|Browser Bugs>
-  * <.:ui_html_editing:default_paragraph_handling|Default Paragraph Handling>
+  * :doc:`General information about HTML Editing <.:ui_html_editing:html_editing_in_general>`
+  * :doc:`Copy and Paste <.:ui_html_editing:copy_and_paste>`
+  * :doc:`Text Align <.:ui_html_editing:textalign>`
+  * :doc:`Browser Bugs <.:ui_html_editing:browser_bugs>`
+  * :doc:`Default Paragraph Handling <.:ui_html_editing:default_paragraph_handling>`
 
 Implementation Details
 ======================
 
-  * <.:ui_html_editing:undo_redo|Undo and Redo>
-  * <.:ui_html_editing:paragraph_handling|Paragraph Handling>
-  * <.:ui_html_editing:list_handling|List Handling>
+  * :doc:`Undo and Redo <.:ui_html_editing:undo_redo>`
+  * :doc:`Paragraph Handling <.:ui_html_editing:paragraph_handling>`
+  * :doc:`List Handling <.:ui_html_editing:list_handling>`
 

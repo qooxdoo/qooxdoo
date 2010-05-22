@@ -2,6 +2,9 @@ PasswordField
 *************
 The PasswordField widget is a special TextField witch show the input hidden.
 
+XXX
+===
+
 Preview Image
 -------------
 |PasswordField|
@@ -19,7 +22,7 @@ Description
 -----------
 The PasswordField is a special TextField for password input. The PasswordField hide the text input.
 
-The act is the same like the TextField, for more details see: <.:TextField>
+The act is the same like the TextField, for more details see: :doc:`.:TextField`
 
 Demos
 -----

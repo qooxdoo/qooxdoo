@@ -1,7 +1,7 @@
 Technical Feature List
 **********************
 
-In comparison to the <.:featurelist> of the HtmlArea this page describes some technical insights of the component. If you plan to get to know some details of how to develop a WYSIWYG component and want to learn the pitfalls of the different browser implementations this is good place to start.
+In comparison to the :doc:`.:featurelist` of the HtmlArea this page describes some technical insights of the component. If you plan to get to know some details of how to develop a WYSIWYG component and want to learn the pitfalls of the different browser implementations this is good place to start.
 
 Startup
 =======
@@ -49,6 +49,7 @@ At least IE has problems whenever a native command (*execCommand* method) does m
 Luckily qooxdoo does offer this customization out-of-the-box. The application developer only has to set the properties *keepFocus* to *true* and *focusable* to *false*.
 
 ::
+
     button.set({
       focusable: false,
       keepFocus: true

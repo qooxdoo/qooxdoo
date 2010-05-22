@@ -3,6 +3,9 @@ Widget
 
 This is the base class for all widgets.
 
+XXX
+===
+
 Features
 --------
   * Integration with event system

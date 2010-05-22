@@ -2,11 +2,14 @@ SelectBox
 *********
 The SelectBox has the same act like the ComboBox, but the SelectBox doesn't allow user input only selection is allowed.
 
+XXX
+===
+
 Preview Image
 -------------
 |SelectBox|
 
-.. |SelectBox| image:: /pages/widget/selectbox.png?540
+.. |SelectBox| image:: /pages/widget/selectbox.png
 
 Features
 --------
@@ -18,7 +21,7 @@ Description
 -----------
 The SelectBox has the same act like the ComboBox, but the SelectBox doesn’t allow user input only selection is allowed. 
 
-For more details about ComboBox see: <.:ComboBox>
+For more details about ComboBox see: :doc:`.:ComboBox`
 
 Demos
 -----

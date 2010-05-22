@@ -3,7 +3,7 @@ RPC with a Python server
 
 **qooxdoo includes an advanced RPC mechanism for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details.** 
 
-As described in the <rpc|RPC overview>, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Python-based server.
+As described in the :doc:`RPC overview <rpc>`, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Python-based server.
 
 Setup
 =====
@@ -20,7 +20,7 @@ A backend based on qxjsonrpc can be run as
 
 You can find examples in the downloaded qxjsonrpc archive.
 
-**NOTE:** The qxjsonrpc package is very young, it should not be used in production. Bug reports are always welcome. Send your reports to <python@cx.hu?subject=qooxdoo%20wiki|Viktor Ferenczi>. Thank you in advance.
+**NOTE:** The qxjsonrpc package is very young, it should not be used in production. Bug reports are always welcome. Send your reports to :doc:`Viktor Ferenczi <python@cx.hu?subject=qooxdoo%20wiki>`. Thank you in advance.
 
 Writing your own services
 =========================

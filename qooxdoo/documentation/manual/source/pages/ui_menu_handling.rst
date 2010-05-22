@@ -27,6 +27,7 @@ Simple Example
 Here is a simple menu example:
 
 ::
+
     // Create the menu
     var menu = new qx.ui.menu.Menu();
 
@@ -63,11 +64,12 @@ Complex Menu Sample
 ===================
 This example should show how to create a menu structure with submenu and how to handle with groups.
 
-Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the <..:Widget:Menu>.
+Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`..:Widget:Menu`.
 
 This code snippet show how to create a "ToolBar" with to menu items "File" and "View":
 
 ::
+
     // Create the toolbar and add to the DOM
     var toolBar = new qx.ui.toolbar.ToolBar();      
     this.getRoot().add(toolBar, {
@@ -111,6 +113,7 @@ There are a couple of things to note here:
 The next code snipped should explain how to create a menu, which contain RadioButtons, but only one could be selected:
 
 ::
+
     __getSyntaxMenu : function()
     {
       var syntaxMenu = new qx.ui.menu.Menu();

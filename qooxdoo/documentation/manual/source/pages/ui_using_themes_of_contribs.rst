@@ -17,6 +17,7 @@ Adjust your configuration
 The interesting part of the ``config.json`` looks like this:
 
 ::
+
     ...
     "jobs" :
       {
@@ -45,6 +46,7 @@ If you use the latest GUI skeleton template you will get an own appearance theme
 Include the ``TileView`` appearance:
 
 ::
+
     qx.Theme.define("yourApp.theme.Appearance",
     {
       extend : qx.theme.modern.Appearance,
@@ -67,6 +69,7 @@ Known issues
 The following code which could reside in your ``Application`` class **won't** work:
 
 ::
+
     qx.Theme.include(qx.theme.modern.Appearance, tileview.theme.Appearance);
 
 The reason is that this include above will be resolved at **runtime** which does not work anymore. The first solution is resolved at **loading time**, so the include is already performed at startup.

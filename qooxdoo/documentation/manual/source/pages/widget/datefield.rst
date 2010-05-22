@@ -2,6 +2,9 @@ DateField
 *********
 A DateField widget can be used for date input. The input can be done in to kinds. The first kind is to chose a date from a date chose, which is a part of the DateField. The second kind is to write the date direct in the input field.
 
+XXX
+===
+
 Preview Image
 -------------
 |DateField|

@@ -2,6 +2,9 @@ Widget name
 ***********
 **TODO:** * write some general stuff about the widget *
 
+XXX
+===
+
 Preview Image
 -------------
 **TODO:** * one manually taken preview image of the widget *

@@ -3,6 +3,9 @@ GroupBox
 
 A Groupbox is a widget to group a set of form elements in a visual way.
 
+XXX
+===
+
 Preview Image
 -------------
 

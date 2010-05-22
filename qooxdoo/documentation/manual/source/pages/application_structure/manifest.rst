@@ -4,6 +4,7 @@ Manifest.json
 `Manifest files <http://en.wikipedia.org/wiki/Manifest_file>`_ serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more "informal" part (keyed ``info``), which is more interesting for human readers, and a technical part (named ``provides``) that is used in the processing of generator configurations. Here is a brief sample with all the possible keys:
 
 ::
+
     {
       "info" : 
       {

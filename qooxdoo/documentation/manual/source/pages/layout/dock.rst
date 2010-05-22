@@ -3,6 +3,9 @@ Dock
 
 Docks children to one of the edges.
 
+XXX
+===
+
 Preview Image
 -------------
 

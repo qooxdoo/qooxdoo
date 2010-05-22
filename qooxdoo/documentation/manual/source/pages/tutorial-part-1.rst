@@ -23,7 +23,7 @@ The first step is to get a working qooxdoo application where we can start our de
 
 ::
 
-    </code>
+    create-application.py -n twitter
 
 After that, we should check if everything works as expected. Change the directory to twitter and run ``./generate.py source``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/twitter/Application.js`` with your favorite editor and we are set up for development!
 
@@ -87,5 +87,4 @@ At this point, your application should look like this.
 
 Thats it for the first part. If you want to have the `code from the tutorial <http://github.com/wittemann/qooxdoo-tutorial/tree/Step1>`_, take a look at the project on github and just fork the project.
 The next part of the tutorial will contain the building of the rest of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
-
 

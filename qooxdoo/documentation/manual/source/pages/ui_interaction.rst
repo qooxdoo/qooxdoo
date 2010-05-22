@@ -7,6 +7,7 @@ Register listeners
 To register listeners to a widget or other qooxdoo object just call ``addListener()`` with the given event type and callback method on them. The method will be executed every time the event happens. Some type of events are bubbling up the parent widget chain (mouse events, ...) while others are only fired on the original object (property changes, ...). A typical registration might look like this:
 
 ::
+
     obj.addListener("changeColor", this._onChangeColor, this);
 
 The first parameter is the name of the event. The events supported by an object are listed in the API documentation of each class in the "Events" section. The second argument is a pointer to a function to call. The function could also be defined inline (in a closure). The third argument defines the context in which the function is executed. This argument is optional and defaults to the object which is listened to e.g. a listener on the button changes call a function on a button.
@@ -61,6 +62,7 @@ Working with Commands
 Creating new commands is as easy as possible. A shortcut can be defined easily through the constructor e.g.:
 
 ::
+
     var find = new qx.event.Command("Ctrl+F");
     find.addListener("execute", this._onFind, this);
 
@@ -79,11 +81,13 @@ To make a widget focusable just enable the property ``focusable`` (`API <http://
 Every widget could function as a focus root. To register a widget as a focus root just call the method ``addRoot()`` of the ``FocusHandler`` like this:
 
 ::
+
     qx.ui.core.FocusHandler.getInstance().addRoot(myWidget);
 
 Related to the focus is the activation. Focus is limited to widgets which are marked as ``focusable`` whereas every widget could be activated. Normally the activation moves around while clicking on widgets (during the ``mouseup`` event). The focus is applied to the next parent which is focusable while the activation directly happens on the widget clicked on. Activation is mainly used for the keyboard support (key events start bubbling from the active widget). Compared to the focus there is no visual highlight for this state. To change the currently focused or active widget just call ``focus()`` or ``activate()`` on them:
 
 ::
+
     myInputField.focus();
 
 The properties ``keepFocus`` and ``keepActive`` are more targeted to advanced users and developers of custom widgets. Both prevent that the focus or active state moves away (from the widget which has it currently) to the widget which has the specified property disabled. This makes sense for complex widgets like a ComboBox where the activation should be kept on the ComboBox itself when selecting items from the popup list.

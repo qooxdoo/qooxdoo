@@ -15,6 +15,7 @@ This is how a single source file should look like:
 Example:
 
 ::
+
     /* ************************************************************************
 
        Copyright:

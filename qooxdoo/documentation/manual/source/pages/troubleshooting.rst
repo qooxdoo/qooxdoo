@@ -1,6 +1,9 @@
 Troubleshooting
 ***************
 
+XXX
+===
+
 Python 3.0
 ----------
 
@@ -19,12 +22,13 @@ Making interpreter available
 The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
 </note>
 
-After your successful <requirements#tools|Python installation>, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
+After your successful :doc:`Python installation <requirements#tools>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
 
 Suppose you installed Python to its default location ``C:\Python26``, open a Windows command shell (choose menu ``Start -> Run...`` and type ``cmd``). The following command prepends the installation folder to the value of ``PATH``, separated by a semicolon:
 
 ::
-    </code>
+
+    set PATH=C:\Python26;%PATH%
 
 When you now execute ``python -V``, it should print out its version number.
 
@@ -40,14 +44,17 @@ The following is only required when installing the Windows package from `Python.
 In a standard Python installation on Windows, the ``.py`` file extension gets associated with the Python interpreter. This allows you to invoke .py files directly. You can check that in the following way at a command prompt:
 
 ::
-    </code>
+
+    C:\>assoc .py
+    .py=Python.File
 
 If this doesn't work, you can add a file association through ``Windows Explorer -> Extras -> Folder Options -> File Types``.
 
 If for any reason you cannot use a file association for .py files, you can still invoke the Python interpreter directly, passing the original command line as arguments. In this case, make sure to provide a path prefix for the script name, even for scripts in the same directory, like so (this will be fixed later):
 
 ::
-    </code>
+
+    python ./generate.py source
 
 Windows Vista
 -------------
@@ -57,7 +64,8 @@ To run qooxdoo's Python-based tools without problems, it is important to have Py
 Administrators installing Python "for all" users on Windows Vista *either* need to be logged in as user ``Administrator``, *or* use the runas command, as in:
 
 ::
-    </code>
+
+    runas /user:Administrator "msiexec /i <path>\<file>.msi"
 
 Windows 7
 ---------

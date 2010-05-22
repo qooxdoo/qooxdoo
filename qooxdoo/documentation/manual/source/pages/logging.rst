@@ -13,5 +13,6 @@ The name of the method defines the log level your log message will get. If you w
 So for writing a log message just call:
 
 ::
+
     this.debug("Hello world");
 

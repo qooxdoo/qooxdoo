@@ -11,7 +11,12 @@ Files and Folder Structure
 The qooxdoo SDK has a dedicated ``tool`` folder that contains all elements that make up the tool chain. The general structure is like this:
 
 ::
-    </code>
+
+    tool
+       |- app   -- helper apps
+       |- bin    -- stand-alone programs and scripts
+       |- data  -- various data files
+       |- pylib  -- Python modules
 
 The generator is actually the program under ``tool/bin/generator.py``. 
 
@@ -26,14 +31,37 @@ Command-line Options
 Since the generator is nearly complete driven by its config files, there are very few command-line options:
 
 ::
-    </code>
+
+    shell> generator.py -h
+    Usage: generator.py [options] job,...
+
+    Arguments:
+      job,...               a list of jobs (like 'source' or 'copy-files',
+                            without the quotes) to run
+      x                     use 'x' (or some undefined job name) to get a 
+                            list of all available jobs from the configuration file
+
+    Options:
+      -h, --help            show this help message and exit
+      -c CFGFILE, --config=CFGFILE
+                            path to configuration file containing job definitions
+                            (default: config.json)
+      -q, --quiet           quiet output mode (extra quiet)
+      -v, --verbose         verbose output mode (extra verbose)
+      -w, --config-verbose  verbose output mode of configuration processing
+      -l FILENAME, --logfile=FILENAME
+                            log file
+      -s, --stacktrace      enable stack traces on fatal exceptions
+      -m KEY:VAL, --macro=KEY:VAL
+                            define/overwrite a global 'let' macro KEY with value
+                            VAL
 
 The most important options are the path of the config file to use (*-c* option), and the list of jobs to execute. The *-m* option allows Json-type values, scalars like strings and numbers, but also maps *{...}* and lists *[...]*.
 
 Configuration Files
 ===================
 
-The singe most-important way to control the actions of the generator is through specialized config files. These files have a `JSON <http://www.json.org>`_ syntax and contain the definitions for the various jobs the generator is supposed to execute. There is a <generator_config|whole section> in this manual dedicated to these config files.
+The singe most-important way to control the actions of the generator is through specialized config files. These files have a `JSON <http://www.json.org>`_ syntax and contain the definitions for the various jobs the generator is supposed to execute. There is a :doc:`whole section <generator_config>` in this manual dedicated to these config files.
 
 Usage Patterns
 ==============
@@ -53,12 +81,28 @@ Default Jobs
 Arguments like ``source`` or ``api``, as shown in the previous section, are so called *jobs* in qooxdoo lingo. If you are working on a skeleton-based application you automatically get a whole list of such pre-defined jobs to work with. For a quick overview, invoke the generator script with an undefined job argument, like
 
 ::
-    </code>
+
+    generate.py X
 
 This gives you a list of all jobs available through your current config file, many of them with a few words of explanation about what they do:
 
 ::
-    </code>
 
-For an exhaustive reference of these default jobs, see the <generator_default_jobs|default jobs page>.
+    - api          -- create api doc for the current library
+      - build        -- create build version of current application
+      - clean        -- remove local cache and generated .js files (source/build)
+      - distclean    -- remove the cache and all generated artefacts of this library (source, build, ...)
+      - fix          -- normalize whitespace in .js files of the current library (tabs, eol, ...)
+      - inspector    -- (since 0.8.2) create an inspector instance in the current library
+      - lint         -- check the source code of the .js files of the current library
+      - migration    -- migrate the .js files of the current library to the current qooxdoo version
+      - pretty       -- pretty-formatting of the source code of the current library
+      - profiling    -- includer job, to activate profiling
+      - source       -- create source version of current application
+      - source-all   -- create source version of current application, with all classes
+      - test         -- create a test runner app for unit tests of the current library
+      - test-source          -- create a test runner app for unit tests (source version) of the current library
+      - translation          -- create .po files for current library
+
+For an exhaustive reference of these default jobs, see the :doc:`default jobs page <generator_default_jobs>`.
 

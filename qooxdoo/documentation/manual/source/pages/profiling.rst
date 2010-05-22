@@ -32,7 +32,7 @@ In order to interpret the results correctly it is important to know the limitati
   * The profiler adds some overhead to each function call. The profiler takes this overhead into account in the calculation of the own time but there can still be a small inaccuracy.
   * The result of ``new Date()``, which is used for timing, has a granularity of about 10ms on many patforms, so it is hard to measure especially small functions accurately.
   * The application is slowed down because profiling is done by wrapping each function. Profiling should always be turned off in production code before deployment.
-  * Turning on profiling currently breaks most applications in Safari 3.0.2 due to a very limited maximum recursion depth of only 100 (<Bug>226|Bugzilla Bug 226>). Since the profiler has to wrap each function, the call stack is doubled, which is just too much for Safari.
+  * Turning on profiling currently breaks most applications in Safari 3.0.2 due to a very limited maximum recursion depth of only 100 (:doc:`Bugzilla Bug 226 <Bug>226>`). Since the profiler has to wrap each function, the call stack is doubled, which is just too much for Safari.
 
 Summary
 =======

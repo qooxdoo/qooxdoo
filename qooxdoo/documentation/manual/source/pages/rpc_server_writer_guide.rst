@@ -90,7 +90,7 @@ response. The response is a single object serialized using JSON.
 It has three properties:
 
   * ``result`` - The Object that was returned by the invoked method. This must be ``null`` in case there was an error invoking the method.
-  * ``error`` - An <#the_error_object|Error Object> if there was an error invoking the method. It must be ``null`` if there was no error.  Note that determination of whether an error occurred is based on this property being ``null``, not on result being ``null``.  It is perfectly legal for both to be ``null``, indicating a valid result with value ``null``.
+  * ``error`` - An :doc:`Error Object <#the_error_object>` if there was an error invoking the method. It must be ``null`` if there was no error.  Note that determination of whether an error occurred is based on this property being ``null``, not on result being ``null``.  It is perfectly legal for both to be ``null``, indicating a valid result with value ``null``.
   * ``id`` - This must be the same id as the request it is responding to. 
 
 The Error Object

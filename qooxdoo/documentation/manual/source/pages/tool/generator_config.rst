@@ -7,6 +7,7 @@ Overview
 The configuration file that drives the generator adheres to the `JSON specification <http://json.org/>`_. It has the following general structure:
 
 ::
+
     {
       "jobs" :
       {
@@ -20,9 +21,9 @@ The configuration file that drives the generator adheres to the `JSON specificat
 The job names ``job1``, ..., ``jobN`` are freely chooseable but must form a valid key. JavaScript-style comments (/*...*/ and %%//%%...) are permissible but only in rather robust places, like after a comma or directly after opening or before closing parentheses, but e.g. not between a key and its value.
 
 Quick links:
-  * <generator_config_ref>
-  * <generator_config_macros>
-  * <generator_config_articles|Configuration Detail Articles>
+  * :doc:`generator_config_ref`
+  * :doc:`generator_config_macros`
+  * :doc:`Configuration Detail Articles <generator_config_articles>`
   * :doc:`Implementation Background Information <pages/generator_config_background>`
 
 Example
@@ -31,6 +32,7 @@ Example
 Here is an example of a minimal config file that defines a single job to create the source version of an application:
 
 ::
+
     {
       "jobs" :
       {
@@ -81,7 +83,7 @@ Here is an example of a minimal config file that defines a single job to create 
 Syntax
 ======
 
-Apart from the general Json rules, you can place '=' in front of job and key names, to indicate that this feature should prevail as specified when configs get merged. See <generator_config_articles#job_shadowing_and_partial_overriding|here> for more details on that. The config system also allows the use of *macros*, details of which can be found <generator_config_articles#let_key|here>.
+Apart from the general Json rules, you can place '=' in front of job and key names, to indicate that this feature should prevail as specified when configs get merged. See :doc:`here <generator_config_articles#job_shadowing_and_partial_overriding>` for more details on that. The config system also allows the use of *macros*, details of which can be found :doc:`here <generator_config_articles#let_key>`.
 
 Valid Job Keys
 ==============
@@ -146,44 +148,44 @@ Listing of Keys in Context
 
 This shows the complete possible contents of the top-level configuration map. Further information is linked from the respective keys.
 
-  * **<generator_config_ref#name|name>**A name or descriptive text for the configuration file.
+  * **:doc:`name <generator_config_ref#name>`**A name or descriptive text for the configuration file.
 
-  * **<generator_config_ref#include_top-level|include>**Include external config files. Takes a list of maps, where each map specifies an external configuration file, and options how to include it. (See special section on the <generator_config_articles#include_key_top-level_-_adding_features|include key>)
+  * **:doc:`include <generator_config_ref#include_top-level>`**Include external config files. Takes a list of maps, where each map specifies an external configuration file, and options how to include it. (See special section on the :doc:`include key <generator_config_articles#include_key_top-level_-_adding_features>`)
 
-  * **<generator_config_ref#let_top-level|let>**Define default macros. Takes a map (see the description of the job-level 'let' further down). This let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+  * **:doc:`let <generator_config_ref#let_top-level>`**Define default macros. Takes a map (see the description of the job-level 'let' further down). This let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
 
-  * **<generator_config_ref#export|export>**List of jobs to be exported if this config file is included by another.
+  * **:doc:`export <generator_config_ref#export>`**List of jobs to be exported if this config file is included by another.
 
-  * **<generator_config_ref#jobs|jobs>**Map of jobs. Each key is the name of a job.
+  * **:doc:`jobs <generator_config_ref#jobs>`**Map of jobs. Each key is the name of a job.
     * *<jobname>*Each job's value is a map describing the job. The describing map can have any number of the following keys:
-      * **<generator_config_ref#api|api>**Triggers the generation of a custom Apiviewer application.
-      * **<generator_config_ref#asset-let|asset-let>**Defines macros that will be replaced in #asset hints in source files. (See special section on the <generator_config_articles#asset-let_key|"asset-let" key>).
-      * **<generator_config_ref#cache|cache>**Define the path to cache directories, most importantly to the compile cache. (See special section on the <generator_config_articles#cache_key> key).
-      * **<generator_config_ref#clean-files|clean-files>**Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
-      * **<generator_config_ref#combine-images|combine-images>**Triggers creation of a combined image file that contains various images.
-      * **<generator_config_ref#compile-dist|compile-dist>**Triggers the generation of the build version of the application.
-      * **<generator_config_ref#compile-source|compile-source>**Triggers generation of the source version of the application.
-      * **<generator_config_ref#copy-files|copy-files>**Triggers files/directories to be copied, usually between source and build version.
-      * **<generator_config_ref#copy-resources|copy-resources>**Triggers the copying of resources, usually between source and build version.
-      * **<generator_config_ref#dependencies|dependencies>**Fine-tune the processing of class dependencies.
-      * **<generator_config_ref#desc|desc>**A string describing the job.
-      * **<generator_config_ref#exclude|exclude>**List classes to be excluded from the job. Takes an array of class specifiers.
-      * **<generator_config_ref#extend|extend>**Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of "inherits" their settings. (See the special section on <generator_config_articles#extend_key|"extend" semantics>).
-      * **<generator_config_ref#fix-files|fix-files>**Fix white space in source files.
-      * **<generator_config_ref#include|include>**List classes to be processed in the job. Takes an array of class specifiers.
-      * **<generator_config_ref#let|let>**Define macros. Takes a map where each key defines a macro and the value its expansion. (See the special section on <generator_config_articles#let_key|macros>).
-      * **<generator_config_ref#library|library>**Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the "manifest" specification. (See special section on <generator_config_articles#manifes_ files|Manifest files>).
-      * **<generator_config_ref#lint-check|lint-check>**Check source code with a lint-like utility.
-      * **<generator_config_ref#log|log>**Tailor log output of job.
-      * **<generator_config_ref#migrate-files|migrate-files>**Migrate source code to the current qooxdoo version.
-      * **<generator_config_ref#packages|packages>**Define packages for the application. (See special section on <generator_config_articles#packages_key|packages>).
-      * **<generator_config_ref#pretty-print|pretty-print>**Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
-      * **<generator_config_ref#require|require>**Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
-      * **<generator_config_ref#run|run>**Define a list of jobs to run in place of the current job. (See the special section on <generator_config_articles#run_key|"run" semantics>).
-      * **<generator_config_ref#settings|settings>**Define qooxdoo settings for the generated application.
-      * **<generator_config_ref#shell|shell>**Triggers the execution of an  external command.
-      * **<generator_config_ref#slice-images|slice-images>**Triggers cutting images into regions.
-      * **<generator_config_ref#translate|translate>**(Re-)generate .po files from source classes.
-      * **<generator_config_ref#use|use>**Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
-      * **<generator_config_ref#variants|variants>**Define variants for the generated application.
+      * **:doc:`api <generator_config_ref#api>`**Triggers the generation of a custom Apiviewer application.
+      * **:doc:`asset-let <generator_config_ref#asset-let>`**Defines macros that will be replaced in #asset hints in source files. (See special section on the :doc:`"asset-let" key <generator_config_articles#asset-let_key>`).
+      * **:doc:`cache <generator_config_ref#cache>`**Define the path to cache directories, most importantly to the compile cache. (See special section on the :doc:`generator_config_articles#cache_key` key).
+      * **:doc:`clean-files <generator_config_ref#clean-files>`**Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
+      * **:doc:`combine-images <generator_config_ref#combine-images>`**Triggers creation of a combined image file that contains various images.
+      * **:doc:`compile-dist <generator_config_ref#compile-dist>`**Triggers the generation of the build version of the application.
+      * **:doc:`compile-source <generator_config_ref#compile-source>`**Triggers generation of the source version of the application.
+      * **:doc:`copy-files <generator_config_ref#copy-files>`**Triggers files/directories to be copied, usually between source and build version.
+      * **:doc:`copy-resources <generator_config_ref#copy-resources>`**Triggers the copying of resources, usually between source and build version.
+      * **:doc:`dependencies <generator_config_ref#dependencies>`**Fine-tune the processing of class dependencies.
+      * **:doc:`desc <generator_config_ref#desc>`**A string describing the job.
+      * **:doc:`exclude <generator_config_ref#exclude>`**List classes to be excluded from the job. Takes an array of class specifiers.
+      * **:doc:`extend <generator_config_ref#extend>`**Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of "inherits" their settings. (See the special section on :doc:`"extend" semantics <generator_config_articles#extend_key>`).
+      * **:doc:`fix-files <generator_config_ref#fix-files>`**Fix white space in source files.
+      * **:doc:`include <generator_config_ref#include>`**List classes to be processed in the job. Takes an array of class specifiers.
+      * **:doc:`let <generator_config_ref#let>`**Define macros. Takes a map where each key defines a macro and the value its expansion. (See the special section on :doc:`macros <generator_config_articles#let_key>`).
+      * **:doc:`library <generator_config_ref#library>`**Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the "manifest" specification. (See special section on :doc:`Manifest files <generator_config_articles#manifes_ files>`).
+      * **:doc:`lint-check <generator_config_ref#lint-check>`**Check source code with a lint-like utility.
+      * **:doc:`log <generator_config_ref#log>`**Tailor log output of job.
+      * **:doc:`migrate-files <generator_config_ref#migrate-files>`**Migrate source code to the current qooxdoo version.
+      * **:doc:`packages <generator_config_ref#packages>`**Define packages for the application. (See special section on :doc:`packages <generator_config_articles#packages_key>`).
+      * **:doc:`pretty-print <generator_config_ref#pretty-print>`**Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
+      * **:doc:`require <generator_config_ref#require>`**Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
+      * **:doc:`run <generator_config_ref#run>`**Define a list of jobs to run in place of the current job. (See the special section on :doc:`"run" semantics <generator_config_articles#run_key>`).
+      * **:doc:`settings <generator_config_ref#settings>`**Define qooxdoo settings for the generated application.
+      * **:doc:`shell <generator_config_ref#shell>`**Triggers the execution of an  external command.
+      * **:doc:`slice-images <generator_config_ref#slice-images>`**Triggers cutting images into regions.
+      * **:doc:`translate <generator_config_ref#translate>`**(Re-)generate .po files from source classes.
+      * **:doc:`use <generator_config_ref#use>`**Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
+      * **:doc:`variants <generator_config_ref#variants>`**Define variants for the generated application.
 

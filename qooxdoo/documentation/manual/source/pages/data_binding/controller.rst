@@ -37,6 +37,7 @@ The last method named ``createItem`` gives the user the chance to add something 
 The following code shows how such a delegate could look like.
 
 ::
+
     var delegate = {
       configureItem : function(item) {
         item.setPadding(3);
@@ -59,6 +60,7 @@ The most simple and lightweight controller is the object controller. It connects
 Take a look at the following code example to see the object controller in action:
 
 ::
+
     // create two sliders
     var slider1 = new qx.ui.form.Slider();
     var slider2 = new qx.ui.form.Slider();
@@ -77,6 +79,7 @@ A list controller could - as the name suggests - be used for list-like widgets. 
 The following code snippet shows how to bind an array of strings to a list widget:
 
 ::
+
     // create the model
     var model = new qx.data.Array(["a", "b", "c", "d", "e"]);
     // create a list widget
@@ -95,6 +98,7 @@ Of course, also the tree does have its own controller. With that controller the 
 Imagine that a model class called Node is available containing the two already mentioned properties called ch for the children and n for the name. The following code will bind a data model containing Node objects to a tree widget:
 
 ::
+
     // create the model
     var rootNode = new qx.Node();
     rootNode.setN("root");
@@ -110,10 +114,11 @@ After that code snippet, every change in the name or of the children will be aut
 
 Form Controller
 ---------------
-Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a <#Object_Controller|Object controller> for the bidirectional bindings.
+Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a :doc:`Object controller <#Object_Controller>` for the bidirectional bindings.
 The usage equals to the usage of all other controllers. The main properties of it are the model and target property. Given both, the controller connects the model and the target. An additional feature of the form controller is the possibility to create the model for a given form. See the following code to get an idea of using it. 
 
 ::
+
     // a form is available as 'form'
     // create the controller
     var formController = new qx.data.controller.Form(null, form);
@@ -129,6 +134,7 @@ Combining Controller
 As a more advanced example we connect the selection of a tree to a list. Therefore we extend the code sample of the tree controller section.
 
 ::
+
     // create a list widget
     var list = new qx.ui.form.List();
     // create the controller

@@ -3,6 +3,9 @@ Spacer
 
 A Spacer is a "virtual" widget, which can be placed into any layout and takes the space a normal widget of the same size would take.
 
+XXX
+===
+
 Features
 --------
   *  Spacers are invisible and very light weight because they don't require any DOM modifications 

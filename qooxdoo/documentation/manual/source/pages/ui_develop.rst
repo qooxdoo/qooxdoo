@@ -33,6 +33,7 @@ qooxdoo supports a mechanism called child controls. A child control is a widget 
 Instances for the supported child controls are created dynamically as needed. A widget developer just need to override the method ``_createChildControlImpl``, let the method work on the customized controls, and just calls the super class method when the incoming ID is not supported. For example such a method might look like:
 
 ::
+
     _createChildControlImpl : function(id)
     {
       var control;
@@ -74,7 +75,7 @@ This means that even the deepest child control can be easily accessed for theme 
 
 As mentioned a key always starts with the appearance of the first widget which is not itself a child control. Appearance values of the inner widgets are ignored as long as they are used as a child control. Instead the ID of the child control is used. The ``/`` is used for separating the child controls. All widgets added through user code start with an own appearance. For example the items of the ``List`` widget have the appearance ``list-item``. Their appearance key is also ``list-item`` and not ``list/item``.
 
-For details about styling please refer to <ui_theming|the theming article>.
+For details about styling please refer to :doc:`the theming article <ui_theming>`.
 
 HTML Elements
 =============
@@ -89,7 +90,7 @@ There might be some other elements depending on the configuration:
 
 For a author of a widget the content element is normally the most important one followed by the container element. The other elements are quite uninteresting. It is good to know that they are there, but one typically have less to do with them.
 
-Both elements are instances of ``qx.html.Element`` and this way come with a cross-browser fixed API to apply styles and attributes to the DOM nodes. All of these things can be done without the need that the DOM element is created or inserted. For details on ``qx.html.Element`` please have a look at <HTML Element Handling|the technical documentation>.
+Both elements are instances of ``qx.html.Element`` and this way come with a cross-browser fixed API to apply styles and attributes to the DOM nodes. All of these things can be done without the need that the DOM element is created or inserted. For details on ``qx.html.Element`` please have a look at :doc:`the technical documentation <HTML Element Handling>`.
 
 The elements are accessible through the function ``getContentElement()`` respectively ``getContainerElement()``. The elements are stored privately in each widget instance and are only accessible through the methods in derived classes.
 

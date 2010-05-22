@@ -2,6 +2,9 @@ ToolTip
 *******
 A Tooltip provides additional information for widgets when the user hovers over a widget. This information can consist in plain text, but also include an icon and complex HTML code.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/tooltip.png|

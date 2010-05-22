@@ -15,7 +15,7 @@ Here some screenshots:
 
 .. |Classic theme| image:: /pages/manual/window_classic_theme.png
 
-While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  <.:ui_custom_themes#overriding_themes|extending existing ones> or they can be <.:ui_custom_themes#custom_themes|created from scratch>.
+While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :doc:`extending existing ones <.:ui_custom_themes#overriding_themes>` or they can be :doc:`created from scratch <.:ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 
@@ -35,6 +35,7 @@ each of them referencing to a specialized theme. So you can think of a meta them
 Sample of a meta theme:
 
 ::
+
     qx.Theme.define("qx.theme.Modern",
     {
       meta :
@@ -56,7 +57,9 @@ A color theme defines all colors used by the framework. Each color is defined by
 
 <note>The best way to organize your color names is to use **semantic ones** like ``background``, ``text-input`` or ``text-disabled``. This way it is easier to use one color for multiple widgets.</note>
 
-Part of a sample color theme::
+Part of a sample color theme:
+
+::
 
     /**
      * sample color theme
@@ -90,13 +93,14 @@ Decoration Theme
 ================
 
 Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border or add a shadow. 
-In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the <.:ui_decorators|decorator article> to get more information.
+In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the :doc:`decorator article <.:ui_decorators>` to get more information.
 
 <note>It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.</note>
 
 How a decoration theme can look like:
 
 ::
+
     /* *********************************************
 
     #asset(sample/decoration/myDecorationTheme/*)
@@ -199,6 +203,7 @@ This theme is all about the information of the fonts used throughout your applic
 To demonstrate how compact and powerful a font theme can look like, take a look at the **complete** font theme of the Modern theme:
 
 ::
+
     /**
      * The modern font theme.
      */
@@ -256,6 +261,7 @@ As qooxdoo uses the free available `Tango <http://tango.freedesktop.org/Tango_De
 Complete code for the ``tango`` icon theme:
 
 ::
+
     /**
      * Tango icons
      */
@@ -270,7 +276,7 @@ Appearance Theme
 
 The appearance theme is by far the biggest theme. Its task is to describe every themable widget and their child controls. Since the widgets are styled using decorators, colors, fonts and icons the appearance theme uses the definitions of all the other themes namely the decoration, color, font and icon theme. You can think of the appearance theme as the central meeting point where the other themes (decorator, color, font and icon) get together.
 
-To discover the power of the appearance theme please take a look at the <.:ui_appearance|corresponding article> which should let you get an idea of the whole picture.
+To discover the power of the appearance theme please take a look at the :doc:`corresponding article <.:ui_appearance>` which should let you get an idea of the whole picture.
 
 Applying Themes
 ===============
@@ -278,11 +284,15 @@ Applying Themes
 Typically, your application will have a certain, pre-defined theme known *at build-time*. The best way to associate such a default outlook with your application is to use the config.json variable ``QXTHEME`` inside the "let" section. Setting this variable to a fully-qualified meta theme class lets the build process handle the proper inclusion and linkage of the theme classes automatically. E.g.:
 
 ::
-    </code>
+
+    ...
+    QXTHEME : my.theme.Cool,
+    ...
 
 It is also possible to set a certain appearance *at runtime*:
 
 ::
+
     qx.theme.manager.Meta.getInstance().setTheme(my.theme.Cool); 
 
 For appearance, color, border, icon and widget themes, you can use similar classes in the `qx.theme.manager <http://demo.qooxdoo.org/current/apiviewer/#qx.theme.manager>`_ package.

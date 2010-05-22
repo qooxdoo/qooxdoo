@@ -13,6 +13,7 @@ The whole magic is done within the ``config.json`` file of your application.
 To setup the needed jobs and to not interfere with already defined ones you have to include the defined jobs with an own scope. This is owed to the fact that it is not possible to define a job twice. 
 
 ::
+
     {
       "name"    : "MyApplication config.json",
 

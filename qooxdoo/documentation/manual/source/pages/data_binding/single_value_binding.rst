@@ -10,6 +10,7 @@ Binding a single property to another property
 The simplest form of single value binding is to bind one property to another. Technically the source property needs to fire a change event. Without that no binding is possible. But if this requirement is met, the binding itself is quite simple. You can see this in the following code snippet, which binds two properties of the label content together:
 
 ::
+
     var label1 = new qx.ui.basic.Label();
     var label2 = new qx.ui.basic.Label();
 
@@ -27,6 +28,7 @@ In some cases in the framework, there is only a change event and no property. Fo
 The API is almost the same as in the property binding case.
 
 ::
+
     var textField = new qx.ui.form.TextField();
     var label = new qx.ui.basic.Label();
 
@@ -39,6 +41,7 @@ Bind a property chain to another property
 A more advanced feature of the single value binding is to bind a hierarchy of properties to a target property. To understand what that means take a look at the following code. For using that code a qooxdoo class is needed which is named ``Node`` and does have a ``child`` and a ``name`` property, both firing change events.
 
 ::
+
     // create the object hierarchy
     var a = new Node("a");      // set the name to „a“
     var b = new Node("b");      // set the name to „b“
@@ -55,6 +58,7 @@ Bind an array to a property
 The next step in binding would be the ability to bind a value of an array. That's possible but the array needs to be a special data array because the binding component needs to know when the array changes one of its values. Such an array is the ``qx.data.Array`` class. It wraps the native array and adds the change event to every change in the array. The following code example shows what a binding of an array could look like. As a precondition there is an object ``a`` having a property of the ``qx.data.Array`` type and that array containing strings.
 
 ::
+
     // bind the first array element to a label's content
     a.bind("array[0]", labelFirst, "content");
 
@@ -96,6 +100,7 @@ For everyone who is interested on how that whole thing works, here are some smal
 Every binding function maps to the event binding function. This is where the heart of the data binding lies. In that function a listener will be added to the source object listening to the change event. The key part of the listener is the following code part.
 
 ::
+
     targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);            
 
 In that line the listener sets the data given by the data event to the target property.

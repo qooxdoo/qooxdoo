@@ -2,6 +2,9 @@ RepeatButton
 ************
 The RepeatButton is a special button, which fires an event, while the mouse button is pressed on the button. 
 
+XXX
+===
+
 Preview Image
 -------------
 |RepeatButton|

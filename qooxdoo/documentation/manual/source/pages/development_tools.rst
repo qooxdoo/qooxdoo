@@ -3,10 +3,13 @@ Development Tools
 
 Editing or IDE support for JavaScript or qooxdoo is still quite limited. If you happen to know some practical solutions, please feel free to add them below.
 
+XXX
+===
+
 Eclipse
 -------
 
-Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project <:contrib:project:QXDT> aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the <:contrib:project:QXDT> documentation.
+Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project :doc:`:contrib:project:QXDT` aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the :doc:`:contrib:project:QXDT` documentation.
 
 Spket IDE
 ---------

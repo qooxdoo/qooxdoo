@@ -33,6 +33,7 @@ At application startup the initial state should be read from the history manager
 This is the code to read the initial state (`getState API documentation <http://api.qooxdoo.org/#qx.bom.History~getState>`_):
 
 ::
+
     var state = qx.bom.History.getInstance().getState();
 
 Add Event Listener to History Changes
@@ -41,6 +42,7 @@ Add Event Listener to History Changes
 Each time the history changes by hitting the browser's back or forward button, the history manager dispatches a ``request`` event. The event object holds information about the new state. The application must add an event listener to this event and update the application state (`request API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History~request>`_):
 
 ::
+
     qx.bom.History.getInstance().addListener("request", function(e) 
     {
       var state = e.getData();
@@ -55,7 +57,8 @@ Update History on Application State Changes
 Every time the application state changes, the history manager must be informed about the new state. A state change in the API viewer would for example occur if the user selects another class (`addToHistory API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History~addToHistory>`_).
 
 ::
-    </code>
+
+    qx.bom.History.getInstance().addToHistory(state, title);
 
 The first parameter is the state encoded as a string, which will be set as the URL fragment identifier. The second parameter is optional and may contain a string, which is set as the title of the browser window for this state.
 

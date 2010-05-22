@@ -2,6 +2,9 @@ ToggleButton
 ************
 The ToggleButton widget is a classic GUI ToggleButton with to states: pressed or not pressed.
 
+XXX
+===
+
 Preview Image
 -------------
 |ToggleButton|

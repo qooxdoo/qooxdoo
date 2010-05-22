@@ -2,7 +2,7 @@ Defining Properties
 *******************
 
 <note>
-Please also take a look at <property_features> to get an compact overview of the available features.
+Please also take a look at :doc:`property_features` to get an compact overview of the available features.
 </note>
 
 When to use properties?
@@ -13,7 +13,9 @@ Dynamic properties in qooxdoo are extremely powerful and convenient. As they sup
 Basic property declaration
 ==========================
 
-The following code creates a property ``myProperty`` and the corresponding functions like ``setMyProperty()`` and ``getMyProperty()``.  ::
+The following code creates a property ``myProperty`` and the corresponding functions like ``setMyProperty()`` and ``getMyProperty()``. 
+
+::
 
     qx.Class.define(
     ...
@@ -28,7 +30,7 @@ You should define at least one of the attributes ``init``, ``nullable`` or ``inh
 As an alternative to the ``init`` key you could set the init value of the property by calling an initializing function ``this.initMyProperty(value)`` in the constructor. See below for details.
 </note>
 
-Please also have a look at the <Properties Quickref|Quick Reference>.
+Please also have a look at the :doc:`Quick Reference <Properties Quickref>`.
 
 Working with the property value
 ===============================
@@ -48,6 +50,7 @@ Example
 ^^^^^^^
 
 ::
+
     properties : {
       width : { apply : "_applyWidth" }
     },
@@ -73,7 +76,9 @@ Events are only useful for public properties. Events for protected and private p
 </note>
 
 Example
-^^^^^^^ ::
+^^^^^^^
+
+::
 
     properties : {
       label : { event : "changeLabel" }
@@ -100,6 +105,7 @@ Init value in declaration
 The *preferred* way for regular init values is to simply declare them by an ``init`` key in the property configuration map. You can use this key standalone or in combination with ``nullable`` and/or ``inheritable``.
 
 ::
+
     properties : {
       myProperty : { init : "hello" }
     }
@@ -112,11 +118,12 @@ Alternatively, you could set the init value of the property in the constructor o
 Using an initializing function ``this.init<i>Property</i>(value)``
  in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level. 
 
-Another scenario would be to use a localizable init value when <.:internationalization|internationalizing your application>: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
+Another scenario would be to use a localizable init value when :doc:`internationalizing your application <.:internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
 
 <note>You need to add a ``deferredInit:true`` to the property configuration to allow for a deferred initialization for reference types as mentioned above.</note>
 
 ::
+
     qx.Class.define("qx.MyClass", {
       construct: function() {
         this.initMyProperty([1, 2, 4, 8]);
@@ -138,6 +145,7 @@ Like calling the ``this.init<i>Property</i>(value)``
  method itself, you could call the setter and use the defined init value as parameter. This will call the apply method, not like in the usual cases when setting the same value which is aready set. 
 
 ::
+
     constructor : function()
     {
       this.base(arguments);
@@ -165,6 +173,7 @@ Like calling the ``this.init<i>Property</i>(value)``
 This example illustrates how the behavior differs from the default behavior of the property system due to the already mentioned inconsistency between init and applied value.
 
 ::
+
     constructor : function()
     {
       this.base(arguments);
@@ -216,6 +225,7 @@ Derived classes can refine the init value of a property defined by their super c
 Normally properties could not be overridden. This is the reason for the ``refine`` flag . The flag informs the implementation that the developer is aware of the feature and the modification which should be applied.
 
 ::
+
     properties : {
       width : { refine : true, init : 100 }
     }
@@ -225,7 +235,7 @@ This will change the default value at definition time. ``refine`` is a better so
 Checking incoming values
 ========================
 
-You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the <.:defining_properties:#validation_incoming_values|validation section>.
+You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :doc:`validation section <.:defining_properties:#validation_incoming_values>`.
 
 Predefined types
 ----------------
@@ -240,6 +250,7 @@ You can check against one of these predefined types:
 Due to the fact that JavaScript only supports the ``Number`` data type, ``Float`` and ``Double`` are handled identically to ``Number``. Both are still useful, though, as they are supported by the Javadoc-like comments and the API viewer.
 
 ::
+
     properties : {
       width : { init : 0, check: "Integer" }
     }
@@ -250,6 +261,7 @@ Possible values
 One can define an explicit list of possible values:
 
 ::
+
     properties : {
       color: { init : "black", check : [ "red", "blue", "orange" ] }
     }
@@ -264,6 +276,7 @@ Instance checks
 It is also possible to only allow for instances of a class. This is not an explicit class name check, but rather an ``instanceof`` check. This means also instances of *any* class derived from the given class will be accepted. The class is defined using a string, thereby to not influencing the load time dependencies of a class.
 
 ::
+
     properties : {
       logger : { nullable : true, check : "qx.log.Logger" }
     }
@@ -274,6 +287,7 @@ Interface checks
 The incoming value can be checked against an interface, i.e. the value (typically an instance of a class) must implement the given interface. The interface is defined using a string, thereby not influencing the load time dependencies of a class.
 
 ::
+
     properties : {
       application : { check : "qx.application.IApplication" }
     }
@@ -284,6 +298,7 @@ Implementing custom checks
 Custom checks are possible as well, using a custom function defined inside the property definition. This is useful for all complex checks which could not be solved with the built-in possibilities documented above.
 
 ::
+
     properties : 
     {
       progress : 
@@ -303,6 +318,7 @@ Alternative solution
 As an alternative to the custom check *function*, you may also define a *string* which will directly be incorporated into the setters and used in a very efficient way. The above example could be coded like this:
 
 ::
+
     properties : 
     {
       progress : 
@@ -324,6 +340,7 @@ Using a predefined validator
 If you use predefined validators, they will throw a validation error for you. You can find a set of predefined validators in  qx.util.Validate. The following example shows the usage of a range validator.
 
 ::
+
     properties : {
       application : { validate : qx.util.Validate.range(0, 100) }
     }
@@ -333,6 +350,7 @@ Using a custom validator
 If the predefined validators are not enough for you validation, you can specify your own validator. 
 
 ::
+
     properties : {
       application : { validate : function(value) {
           if (value > 10) {
@@ -350,6 +368,7 @@ Validation method as member
 You can define a validation method as a member of the class containing the property. If you have such a member validator, you can just specify the method name as a sting
 
 ::
+
     properties : {
       application : { validate : "_validateApplication" }
     }
@@ -360,11 +379,19 @@ Enabling theme support
 The property system supports *multiple values per property* as explained in the paragraph about the init values. The theme value is another possible value that can be stored in a property. It has a lower priority than the user value and a higher priority than the init value. The ``setThemed`` and ``resetThemed`` methods are part of qooxdoo's theme layer and should not be invoked by the user directly.
 
 ::
-    </code>
+
+    setter                                    value                   resetter
+
+    setProperty(value)            ^           user           |        resetProperty()
+                                  |                          |
+    setThemedProperty(value)   Priority       theme      Fallback     resetThemedProperty()
+                                  |                          |
+    initProperty([value])         |           init           v        n.a.
 
 To enable theme support it is sufficient to add a ``themeable`` key to the property definition and set its value to ``true``.
 
 ::
+
     properties : {
       width : { themeable : true, init : 100, check : "Number" }
     }
@@ -387,6 +414,7 @@ Each property may also have an explicit user value of string ``"inherit"``. The 
 To mark a property as inheritable simply add the key ``inheritable`` and set it to ``true``:
 
 ::
+
     properties : {
       color : { inheritable : true, nullable : true }
     }
@@ -394,6 +422,7 @@ To mark a property as inheritable simply add the key ``inheritable`` and set it 
 Optionally, you can configure an init value of ``inherit``. This is especially a good idea if the property should not be nullable:
 
 ::
+
     properties : {
       color : { inheritable : true, init: "inherit" }
     }
@@ -432,6 +461,7 @@ Defining property groups
 Property groups is a convenient feature as it automatically generates setters and resetters (but no getters) for a group of properties. A definition of such a group reads:
 
 ::
+
     properties : {
       location : { group : [ "left", "top" ] }
     }
@@ -439,6 +469,7 @@ Property groups is a convenient feature as it automatically generates setters an
 As you can see, property groups are defined in the same map as "regular" properties. From a user perspective the API with setters and resetters is equivalent to the API of regular properties:
 
 ::
+
     obj.setLocation( 50, 100);
 
     // instead of
@@ -448,9 +479,10 @@ As you can see, property groups are defined in the same map as "regular" propert
 Shorthand support
 -----------------
 
-Additionaly, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is ``shorthand``, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the <understanding_properties|user manual>. The definition of such a property group reads:
+Additionaly, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is ``shorthand``, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the :doc:`user manual <understanding_properties>`. The definition of such a property group reads:
 
 ::
+
     properties : 
     {
       padding : 
@@ -463,6 +495,7 @@ Additionaly, you may also provide a mode which modifies the incoming data before
 For example, this would allow to set the property in the following way:
 
 ::
+
     obj.setPadding( 10, 20 );
 
     // instead of

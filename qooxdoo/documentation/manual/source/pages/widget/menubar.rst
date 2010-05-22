@@ -2,11 +2,14 @@ MenuBar
 *******
 The MenuBar is a Widget to create a classic menu bar for an application.
 
+XXX
+===
+
 Preview Image
 -------------
 |:MenuBar|
 
-.. |:MenuBar| image:: /pages/widget/menubar.png?540
+.. |:MenuBar| image:: /pages/widget/menubar.png
 
 Features
 --------
@@ -14,7 +17,7 @@ Features
 
 Description
 -----------
-The MenuBar contains items ``qx.ui.menubar.Button`` to open a submenu ``qx.ui.menu.Menu`` that can handle user interactions. For more information about menus see <.:Menu>.
+The MenuBar contains items ``qx.ui.menubar.Button`` to open a submenu ``qx.ui.menu.Menu`` that can handle user interactions. For more information about menus see :doc:`.:Menu`.
 
 Demos
 -----

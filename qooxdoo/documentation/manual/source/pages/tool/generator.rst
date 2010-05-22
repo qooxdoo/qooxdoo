@@ -4,8 +4,8 @@ Generator Overview
 This is a high-level overview of some important generator features.
 
 Quick links:
-  * <generator_usage>
-  * <generator_config|Configuration file details>
+  * :doc:`generator_usage`
+  * :doc:`Configuration file details <generator_config>`
 
 Configuration
 =============

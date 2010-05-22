@@ -3,6 +3,7 @@ Source Code Validation
 qooxdoo includes its own Javascript validator, **Ecmalint**, which application developers can use to check their source files for errors. It is started by running the *lint* generator job in an application directory:
 
 ::
+
     ./generate.py lint
 
 Critical Warnings
@@ -38,7 +39,7 @@ Potentially non-local private data field
 Protected data field
 --------------------
 **Hint:** Protected data fields are deprecated. Better use private fields in combination with getter and setter methods.\\
-**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding <Bug>2095|bug report>.
+**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding :doc:`bug report <Bug>2095>`.
 
 Undeclared private data field
 -----------------------------
@@ -59,7 +60,11 @@ Explicitly ignoring messages
 Starting with qooxdoo 0.8.3 the following three doc comments can be used to explicitly ignore specific lint messages:
 
 ::
-    </code>
+
+    @lint ignoreUnused(x, y)
+    @lint ignoreDeprecated(alert)
+    @lint ignoreUndefined(button1, foo)
+    @lint ignoreReferenceField(field)
 
 Before lint prints a warning it walks up the AST and looks for the next enclosing API doc comment. Usually these comments should be placed in method JsDoc comments or in the class comment.
 

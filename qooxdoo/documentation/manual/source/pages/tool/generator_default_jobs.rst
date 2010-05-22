@@ -17,6 +17,7 @@ api
 Create api doc for the current library. Use the following macros to tailor the scope of classes that are going to show up in the customized apiviewer application:
 
 ::
+
     "API_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
     "API_EXCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
@@ -72,14 +73,16 @@ Create a test runner app for unit tests of the current library.
 
   * Use the following macro to tailor the scope of classes in which unit test classes are searched for:
 ::
+
     "TEST_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
  The syntax for the class pattern is like those for the *[[generator_config_ref#include|include]]* config key.
 
-  * The libraries from the <#libraries> job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
+  * The libraries from the :doc:`#libraries` job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
 
   * If you want to break out from the reliance on the *libraries* job altogether, or have very specific settings that must be applied to the test application, you can provide a custom includer job *common-tests* which may contain a custom *library* key and other keys. But then you have to make sure it contains the Testrunner library as well.
 ::
+
     "common-tests" :
     {
       "extend"    : [ "libraries" ],
@@ -112,19 +115,19 @@ test-source
 -----------
 Create a test runner app for unit tests (source version) of the current library.
 
-The same customization interface applies as for the default <#test> job.
+The same customization interface applies as for the default :doc:`#test` job.
 
 test-inline
 -----------
 Create an inline test runner app for unit tests of the current library.
 
-The same customization interface applies as for the default <#test> job.
+The same customization interface applies as for the default :doc:`#test` job.
 
 test-native
 -----------
 Create a native test runner app for unit tests of the current library.
 
-The same customization interface applies as for the default <#test> job.
+The same customization interface applies as for the default :doc:`#test` job.
 
 translation
 -----------
@@ -142,9 +145,10 @@ Common includer job for many default jobs, mostly used internally. You should us
 
 libraries
 ---------
-This job should take a single key, <generator_config_ref#library|library>.  The *libraries* job is filled by default with your application and the qooxdoo framework library, plus any additional libraries you specify in a custom *libraries* job you added to your application's *config.json*. Here, you can add additional libraries and/or contributions you want to use in your application. See the linked reference for more information on the library key. Various other jobs will evaluate the *libraries* job (like <#api>, <#test>), to work on a common set of libraries.
+This job should take a single key, :doc:`library <generator_config_ref#library>`.  The *libraries* job is filled by default with your application and the qooxdoo framework library, plus any additional libraries you specify in a custom *libraries* job you added to your application's *config.json*. Here, you can add additional libraries and/or contributions you want to use in your application. See the linked reference for more information on the library key. Various other jobs will evaluate the *libraries* job (like :doc:`#api`, :doc:`#test`), to work on a common set of libraries.
 
 ::
+
     "libraries" :
     {
       "library" : [ { "manifest" : "some/other/lib/Manifest.json" }]

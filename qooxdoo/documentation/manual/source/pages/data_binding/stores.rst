@@ -26,6 +26,7 @@ createModel (static)
 This method is static and can be used to invoke both methods at once. By that, you can create models for a given JavaScript objects with one line of code:
 
 ::
+
     var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 
 JSON Store
@@ -36,22 +37,25 @@ The JSON store takes an URL, fetches the given data from that URL and converts t
 The following code shows how to use the JSON data store.
 
 ::
+
     var url = "json/data.json";
     var store = new qx.data.store.Json(url); 
 
 After setting the URL during the creation process, the loading will begin immediately. As soon as the data is loaded and converted, you can access the model with the following code.
 
 ::
+
     store.getModel();
 
 JSONP Store
 -----------
 
-The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the <#JSON Store|JSON store> but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
+The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the :doc:`JSON store <#JSON Store>` but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
 
 The following code shows how to use the JSONP data store.
 
 ::
+
     var url = "json/data.json";
     var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 
@@ -62,11 +66,12 @@ YQL Store
 
 YQL is the `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_. Yahoo! describes it as 
 *"[...] an expressive SQL-like language that lets you query, filter, and join data across Web services."*
-Based on the <#JSONP Store|JSONP store>, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
+Based on the :doc:`JSONP store <#JSONP Store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
 
 The following code demonstrates how to fetch some twitter messages.
 
 ::
+
     var query = "select * from twitter.user.timeline where id='wittemann'";
     var store = new qx.data.store.YQL(query);
 
@@ -76,6 +81,7 @@ Combining with controllers
 As described in the section above, you can access the model in the property after loading. The best solution is to use the model with a controller and then bind the the model properties with single value binding together. The code for this could look something like this.
 
 ::
+
     store.bind("model", controller, "model");  
 
 Using the single value binding, the binding handles all the stuff related with the loading of the model data. That means that the data will be available in the controller as soon as its available in the store.

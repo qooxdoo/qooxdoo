@@ -2,6 +2,9 @@ Spinner
 *******
 A Spinner widget is a control that allows you to adjust a numerical value, typically within an allowed range e.g.: month of a year (range 1 – 12).
 
+XXX
+===
+
 Preview Image
 -------------
 |Spinner|

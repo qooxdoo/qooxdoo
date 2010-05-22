@@ -6,6 +6,7 @@ This system is (as everything else in qooxdoo) completely event based. It curren
 For all your communication needs you need to create a new instance of Request:
 
 ::
+
     var req = new qx.io.remote.Request(url, "GET", "text/plain");
 
 Constructor arguments of Request:
@@ -79,6 +80,7 @@ Simple example
 ==============
 
 ::
+
     // get text from the server
     req = new qx.io.remote.Request(val.getLabel(), "GET", "text/plain");
     // request a javascript file from the server

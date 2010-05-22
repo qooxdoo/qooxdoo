@@ -2,11 +2,14 @@ Window
 ******
 The window widget is similar to Windows’ MDI child windows.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/window.png|
 
-.. |pages/widget/window.png| image:: /pages/widget/window.png?540
+.. |pages/widget/window.png| image:: /pages/widget/window.png
 
 Features
 --------

@@ -2,6 +2,9 @@ CheckBox
 ********
 A CheckBox widget for Boolean values.
 
+XXX
+===
+
 Preview Image
 -------------
 |CheckBox|

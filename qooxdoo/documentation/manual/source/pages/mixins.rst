@@ -12,6 +12,7 @@ Defining a Mixin
 Example:
 
 ::
+
     qx.Mixin.define("name",
     {
       include: [SuperMixins],
@@ -34,7 +35,7 @@ Example:
 |destruct|Function|An optional mixin destructor.|
 |statics|Map|Map of static members of the mixin. The statics will not get copied into the target class. They remain accessible from the mixin. This is the same behaviour as for statics in interfaces|
 |members|Map|Map of members of the mixin.|
-|properties|Map|Map of <defining_properties|property definitions>.|
+|properties|Map|Map of :doc:`property definitions <defining_properties>`.|
 |events|Map|Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.|
 
 Using a Mixin
@@ -45,6 +46,7 @@ Here a short example to see, how to use mixins (``MMixinA``, ``MMixinB``) with a
 The first mixin: 
 
 ::
+
     qx.Mixin.define("demo.MMixinA",
     {
       properties: {
@@ -66,6 +68,7 @@ The first mixin:
 The second mixin:
 
 ::
+
     qx.Mixin.define("demo.MMixinB",
     {
       properties: {
@@ -87,6 +90,7 @@ The second mixin:
 The usage in the class:
 
 ::
+
     qx.Class.define("demo.ClassC", 
     {
       extend : qx.core.Object,
@@ -106,6 +110,7 @@ The usage in the class:
 The result is when calling the method ``methodC()`` of ``ClassC``:
 
 ::
+
     var classC = new demo.ClassC;
     var result = classC .methodC();
     /*
@@ -120,4 +125,4 @@ The result is when calling the method ``methodC()`` of ``ClassC``:
 Mixin Quick Reference
 =====================
 
-  * <mixin_quickref> -  a quick syntax reference for mixins.
+  * :doc:`mixin_quickref` -  a quick syntax reference for mixins.

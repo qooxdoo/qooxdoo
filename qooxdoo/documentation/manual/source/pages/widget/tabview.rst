@@ -5,6 +5,9 @@ between them by using a list of buttons.
 
 The buttons are positioned on one of the tab view's edges.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/tabview.png|

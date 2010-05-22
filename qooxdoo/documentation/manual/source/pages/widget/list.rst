@@ -2,11 +2,14 @@ List
 ****
 A List widget has items with plane text and/or icon.
 
+XXX
+===
+
 Preview Image
 -------------
 |List|
 
-.. |List| image:: /pages/widget/list.png?530
+.. |List| image:: /pages/widget/list.png
 
 Features
 --------

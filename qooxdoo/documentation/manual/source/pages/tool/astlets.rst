@@ -10,33 +10,77 @@ This serves mainly internal purposes and should not be relevant for a qooxdoo ap
 
 The notation is a simplified tree structure that names token symbols and their nesting through indentation. "|" denotes alternatives.
 
+XXX
+===
+
 a[i]
 ----
 
 ::
-    </code>
+
+    accessor
+      identifier ("a")
+      key
+        variable
+          identifier ("i")
 
 a()
 ---
 
 ::
-    </code>
+
+    call
+      operand
+        variable
+          identifier ("a")
+      params
 
 a = b
 -----
 
 ::
-    </code>
+
+    assignment
+      left
+        variable
+          identifier ("a")
+      right
+        variable
+          identifier("b")
 
 a.b.c(d)
 --------
 
 ::
-    </code>
+
+    call
+      operand
+        variable
+          identifier ("a")
+          identifier ("b")
+          identifier ("c")
+      params
+        variable
+          identifier ("d")
 
 a.b().c(d)
 ----------
 
 ::
-    </code>
+
+    accessor
+      left
+        call
+          operand
+            variable
+              identifier ("a")
+              identifier ("b")
+      right
+        call
+          operand
+            variable
+              identifier ("c")
+          params
+            variable
+              identifier ("d")
 

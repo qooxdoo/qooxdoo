@@ -3,6 +3,9 @@ Label
 
 The Label widget is used to display either plain text or rich text with HTML markup.
 
+XXX
+===
+
 Preview Image
 -------------
 

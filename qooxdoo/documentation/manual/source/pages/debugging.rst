@@ -14,7 +14,17 @@ Included in the latter is qx.dev.Debug.debugObject() which will print out a comp
 This is taken from a firebug interactive session:
 
 ::
-    </code>
+
+    >>> var myTest = {a:1, b:[2,3], c:4}
+    >>> qx.dev.Debug.debugObject(myTest)
+    1665905: Object, count=3:
+    ------------------------------------------------------------
+    a: 1
+    b: Array
+     0: 2
+     1: 3
+    c: 4
+    ==================================
 
 Memory leaks
 ============
@@ -30,7 +40,7 @@ AJAX
 Debugging Tools
 ===============
 
-<documentation:general:debugging_tools|Some browser-specific tools> allow for a powerful and often convenient way of debugging applications.
+:doc:`Some browser-specific tools <documentation:general:debugging_tools>` allow for a powerful and often convenient way of debugging applications.
 
 Code Instrumentation Idioms
 ===========================
@@ -45,7 +55,8 @@ With ``this.debug()`` you can print out any string you want to see in the consol
 Example:
 
 ::
-    </code>
+
+    this.debug("I found this value for myVar: "+myVar);
 
 console.log()
 -------------
@@ -53,7 +64,9 @@ console.log()
 In contrast to this.debug(), if you pass an object reference to ``console.log()`` Firebug will provide you with a nice hyperlink to the live object which you can follow to inspect the object in a structured way. This is much easier to navigate than to skim through pages of source output.
 
 ::
-    </code>
+
+    var b = new qx.ui.form.Button();
+    console.log(b);
 
 this.trace()
 ------------
@@ -61,7 +74,8 @@ this.trace()
 Will log the current stack trace using the defined logger. This can be useful to inspect from which method the current function was called.
 
 ::
-    </code>
+
+    this.trace() 
 
 Getting at your Objects
 =======================
@@ -74,7 +88,8 @@ qx.core.Init.getApplication()
 In your running app, the singlton ``Init`` object provides you with the ``getApplication()`` method, to access the root object of your application. All members and sub-members that you have attached to your application class in your code are accessible this way.
 
 ::
-    </code>
+
+    qx.core.Init.getApplication();
 
 Firebug Usage Idioms
 ====================
@@ -85,5 +100,6 @@ Firebug Usage Idioms
 Getting at your application objects fast is a common requirement when debugging. A useful idiom (or usage pattern) with Firebug is to press the *"Inspect"* button and select the visible page element you are interested in. This will take Firebug to its HTML tab in a split-pane view. The left side holds the HTML code underlying your selection (which is probably not very enlightening). The right side though has a *"DOM"* tab, among others. Selecting this will show a display of the underlying DOM node, which features a ``qx_Widget`` attribute. This attribute is added to the outermost HTML tag representing a qooxdoo widget. For complex widgets that are made up of nested HTML elements, make sure to select the outermost container node that actually has this attribute ``qx_Widget``. It takes you straight to the qooxdoo object associated with the selected DOM node.
 
 ::
-    </code>
+
+    Inspect -> Web page element -> HTML tab -> right side -> DOM tab -> qx_Widget link
 

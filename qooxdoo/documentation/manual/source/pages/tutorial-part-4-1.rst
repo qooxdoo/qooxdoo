@@ -16,6 +16,7 @@ Creating the login window
 We start by creating a new class called twitter.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
 
 ::
+
     qx.Class.define("twitter.LoginWindow",
     {
       extend : qx.ui.window.Window,
@@ -28,6 +29,7 @@ We start by creating a new class called twitter.LoginWindow that inherits from `
 The Login window will only contain the form, which takes care of its own layout. So for the window itself, a Basic layout will suffice. We'll also make the window modal:
 
 ::
+
     var layout = new qx.ui.layout.Basic();
         this.setLayout(layout);
         this.setModal(true);
@@ -38,6 +40,7 @@ Adding the Form
 Now it's time to add a form and populate it with a pair of fields:
 
 ::
+
     var form = new qx.ui.form.Form();
         var username = new qx.ui.form.TextField();
         username.setRequired(true);
@@ -51,6 +54,7 @@ Note how the fields are marked as required. This is a simple kind of validation 
 The next step is to add a dash of data binding awesomeness:
 
 ::
+
     var controller = new qx.data.controller.Form(null, form);
         var model = controller.createModel();
 
@@ -59,6 +63,7 @@ Just like in the previous tutorial, we create a `controller <http://demo.qooxdoo
 The form still needs a "submit" button, so we'll add one, plus a "cancel" button to close the window:
 
 ::
+
     var loginbutton = new qx.ui.form.Button("Login");
         form.addButton(loginbutton);
         var cancelbutton = new qx.ui.form.Button("Cancel");
@@ -70,6 +75,7 @@ The form still needs a "submit" button, so we'll add one, plus a "cancel" button
 That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in `form renderer <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.form.renderer>`_ classes worry about the form's layout:
 
 ::
+
     var renderer = new qx.ui.form.renderer.Single(form);
         this.add(renderer);
 
@@ -81,6 +87,7 @@ Accessing the form values
 Similar to MainWindow, we'll use an event to notify the other parts of our application of changes to the form. As you'll remember, the "event" section is on the same level as the constructor in the class declaration:
 
 ::
+
     events : {
         "changeLoginData" : "qx.event.type.Data"
       },
@@ -88,6 +95,7 @@ Similar to MainWindow, we'll use an event to notify the other parts of our appli
 Then we add a listener to the submit button that retrieves the values from the model object and attaches them to a data event, making sure the form validates, i.e. both fields aren't empty.
 
 ::
+
     loginbutton.addListener("execute", function() {
           if (form.validate()) {
             var loginData = {
@@ -102,11 +110,13 @@ Then we add a listener to the submit button that retrieves the values from the m
 And that's it for the LoginWindow class. Now to integrate it with the other parts of the application. ``TwitterService.post`` currently uses ``prompt()`` to ask for the user name and password, so we'll remove these two lines. Instead, we add two new arguments to the method:
 
 ::
+
     post : function(message, username, password)
 
 The ``post()`` method is called from the main application class, so let's take another look at Application.js. We want to display the login window before posting, so we'll modify the "post" event listener's callback function (line 79). We need to create an instance of ``twitter.LoginWindow`` and attach a listener to its "changeLoginData" event which calls service.post() with the username and password values from the event data. We also want to make sure that only one LoginWindow instance is used during the application's runtime. This is a good idea because creating and disposing widgets is quite expensive in terms of CPU time. In our application, it also means users won't have to retype their login data for every post.
 
 ::
+
     // post handling
           main.addListener("post", function(e) {
           var msg = e.getData();

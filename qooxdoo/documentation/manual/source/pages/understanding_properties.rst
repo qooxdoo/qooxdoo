@@ -11,6 +11,7 @@ Let's say we have a property ``width`` for an object ``obj``.
 As is a good practice in regular high-level programming languages you should not access object properties directly:
 
 ::
+
     // NOT RECOMMENDED: direct access to properties
     obj.width = 200;  // setting a value
     var w = obj.width;  // getting the current value
@@ -18,6 +19,7 @@ As is a good practice in regular high-level programming languages you should not
 Instead you should work with properties only through so-called *accessor methods* ("getters") and *mutator methods* ("setters"): 
 
 ::
+
     // direct access is no good practice
     obj.setWidth(200);  // setting a value
     var w = obj.getWidth();  // getting the current value
@@ -27,6 +29,7 @@ Of course, directly accessing properties may be faster because no indirection by
 A typical implementation of the accessor and mutator methods would look like the following, where those instance methods are declared in the ``members`` section of the class definition:
 
 ::
+
     // ordinary example #1
     members:
     {
@@ -44,6 +47,7 @@ A typical implementation of the accessor and mutator methods would look like the
 Something that is very familiar to the typical programmer of Java or any other comparable language. Still, it is not very convenient. Even this trivial implementation of only the basic feature requires a lot of keystrokes. More advanced features like type checks, performance optimizations, firing events for value changes, etc. need to be coded by hand. An improved version of the setter could read:
 
 ::
+
     // ordinary example #2
     members:
     {
@@ -77,6 +81,7 @@ qooxdoo's dynamic properties are a perfect example of the framework's three virt
 Let's see how the above example can be written using the new property implementation. The property itself is declared in the ``properties`` section of the class definition. Only if some property-specific code needs to be run in the setter, an additional ``apply`` method has to be given:
 
 ::
+
     // qooxdoo version of ordinary example #2
     properties : {
       width : { check : "Number", apply : "applyWidth" }
@@ -105,6 +110,7 @@ Each property may optionally behave as an observable. This means it can send out
 For example, if you would like the ``element`` property of a Widget instance ``widget`` to fire an event named ``"changeElement"`` any time the value changes. If this happens, you would like to set the DOM element's content:
 
 ::
+
     widget.addEventListener("changeElement", function(e) {
       e.getValue().innerHTML = "Hello World";
     });
@@ -132,11 +138,13 @@ Property Groups
 Property groups is a layer above the property system explained in the last paragraphs. They make it possible to set multiple values in one step using one ``set`` call. ``qx.ui.core.Widget`` supports the property group ``padding``. ``padding`` simply sets the ``paddingLeft``, ``paddingRight``, ``paddingTop`` and ``paddingBottom`` property.
 
 ::
+
     widget.setPadding(10, 20, 30, 40);
 
 The result is identical to:
 
 ::
+
     widget.setPaddingTop(10);
     widget.setPaddingRight(20);
     widget.setPaddingBottom(30);
@@ -150,6 +158,7 @@ Shorthand support
 One more thing. The property group handling also supports some CSS like magic like the shorthand mode for example. This means that you can define only some edges in one call and the others get filled automatically:
 
 ::
+
     // four arguments
     widget.setPadding(top, right, bottom, left);
 
@@ -167,6 +176,7 @@ As you can see this can also reduce the code base and make it more userfriendly.
 BTW: The values of a property group can also be given an array as first argument e.g. these two lines work identically:
 
 ::
+
     // arguments list
     widget.setPadding(10, 20, 30, 40);
 
@@ -174,5 +184,5 @@ BTW: The values of a property group can also be given an array as first argument
     widget.setPadding([10, 20, 30, 40]);
 
 <note>
-For more information regarding declaration, usage and internal functionality please see the  <defining_properties|the developer documentation>.
+For more information regarding declaration, usage and internal functionality please see the  :doc:`the developer documentation <defining_properties>`.
 </note>

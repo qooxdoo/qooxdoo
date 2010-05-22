@@ -36,6 +36,7 @@ The two properties ``keepFocus`` and ``focusable`` have to be used together to g
 Example code snippet
 
 ::
+
     button = new qx.ui.toolbar.Button(null, iconURL);
     button.set({ focusable : false, keepFocus : true });
 
@@ -48,5 +49,5 @@ As always: the component is far from perfect, don't hesitate to file a bug repor
 Keyboard Shortcuts
 ==================
 
-Since you can use <.:available_shortcuts|keyboard shortcuts> to manipulate the content you should not implement shortcuts with the same key bindings. 
+Since you can use :doc:`keyboard shortcuts <.:available_shortcuts>` to manipulate the content you should not implement shortcuts with the same key bindings. 
 A possibility to disable the shortcuts completely will soon be available. See `Bug #1193 <http://bugzilla.qooxdoo.org/show_bug.cgi?id=1193>`_ for details.

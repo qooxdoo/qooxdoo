@@ -6,11 +6,13 @@ This explains how to enable a gzipped qooxdoo.js without having this possibility
 If you have php at the server, you can write in your html file:
 
 ::
+
     <script type="text/javascript" src="<<path>>/qooxdoo.php"></script>
 
 Then you create a file called qooxdoo.php with this content:
 
 ::
+
     <?php
        /**
        * @author     Oliver Vogel <o.vogel@muv.com>

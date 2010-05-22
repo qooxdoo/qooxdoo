@@ -3,6 +3,9 @@ Migration Notes (from 0.7.x)
 
 Some notes about the things to be careful during the migration of the widgets for qooxdoo 1.2.
 
+XXX
+===
+
 Simple Renamings
 ----------------
 

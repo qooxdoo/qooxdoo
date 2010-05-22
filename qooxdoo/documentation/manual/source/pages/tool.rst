@@ -1,5 +1,5 @@
 Tooling
 *******
 
-See the <.#Tooling |main manual index> for a list of documents in this section.
+See the :doc:`main manual index <.#Tooling >` for a list of documents in this section.
 

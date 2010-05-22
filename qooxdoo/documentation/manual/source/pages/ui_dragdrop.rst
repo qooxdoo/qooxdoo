@@ -15,6 +15,7 @@ Basics
 To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Widget~draggable>`_ and  `droppable <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Widget~droppable>`_ must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
 
 ::
+
     var dragTarget = new qx.ui.form.List;
     dragTarget.setDraggable(true);
 
@@ -24,6 +25,7 @@ To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/1.2/api
 The basic drag&drop should start working with these properties enabled, but it will show the no-drop cursor over all potential target. To fix this one needs to register actions (and optionally data types) supported by the drag target. This can be done during the ``dragstart`` event which is fired on the drag target:
 
 ::
+
     dragTarget.addListener("dragstart", function(e) {
       e.addAction("move");
     });
@@ -31,6 +33,7 @@ The basic drag&drop should start working with these properties enabled, but it w
 The drop target can then add a listener to react for the ``drop`` event.
 
 ::
+
     dropTarget.addListener("drop", function(e) {
       alert(e.getRelatedTarget());
     });
@@ -45,6 +48,7 @@ qooxdoo also supports advanced data handling in drag&drop sessions. The basic id
 To register some types write a listener for ``dragstart``:
 
 ::
+
     source.addListener("dragstart", function(e)
     {
       e.addAction("move");
@@ -58,6 +62,7 @@ This is basically only the registration for the types which could be theoratical
 The preparation of the data (if not directly available) is done lazy by the ``droprequest`` event which will explained later. The next step is to let the target work with the incoming data. The following code block appends all the dropped children to the end of the list.
 
 ::
+
     target.addListener("drop", function(e)
     {
       var items = e.getData("qx/list-items");
@@ -69,6 +74,7 @@ The preparation of the data (if not directly available) is done lazy by the ``dr
 The last step needed to get the thing fly is to prepare the data for being dragged around. This might look like the following example:
 
 ::
+
     source.addListener("droprequest", function(e)
     {
       var type = e.getCurrentType();
@@ -92,6 +98,7 @@ Support Multiple Actions
 One thing one might consider is to add support for multiple actions. In the above example it would be imaginable to copy or move the items around. To make this possible one could add all supported actions during the ``drag`` event. This might look like the following:
 
 ::
+
     source.addListener("dragstart", function(e)
     {
       // Register supported actions
@@ -106,6 +113,7 @@ One thing one might consider is to add support for multiple actions. In the abov
 The action to use is modifyable by the user through pressing of modifier keys during the drag&drop process. The preparation of the data is done through the ``droprequest`` as well. Here one can use the action (call ``e.getCurrentAction()`` to get the selected action) to apply different modifications on the original data. A modified version of the above listed code might look like the following:
 
 ::
+
     source.addListener("droprequest", function(e)
     {
       var action = e.getCurrentAction();
@@ -157,6 +165,7 @@ Runtime checks
 There are a few other pleasantries. For example it is possible for ``droppable`` widgets to ignore a specific incoming data type. This can be done by preventing the default action on the incoming ``dragover`` event:
 
 ::
+
     target.addListener("dragover", function(e)
     {
       if (someRunTimeCheck()) {
@@ -169,6 +178,7 @@ This could be used to dynamically accepting or disallowing specific types of dro
 Something comparable is possible during the ``dragstart`` event:
 
 ::
+
     source.addListener("dragstart", function(e)
     {
       if (someRunTimeCheck()) {
@@ -204,6 +214,7 @@ Reordering items
 Items may also be reordered inside one widget using the drag&drop API. This action is normally not directly data related and may be used without adding any types to the drag&drop session.
 
 ::
+
     reorder.addListener("dragstart", function(e) {
       e.addAction("move");
     });

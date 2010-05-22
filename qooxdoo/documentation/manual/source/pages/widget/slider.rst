@@ -2,6 +2,9 @@ Slider
 ******
 The Slider widget is the classic widget for controlling a bounded value.
 
+XXX
+===
+
 Preview Image
 -------------
 |Slider|

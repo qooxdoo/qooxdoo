@@ -12,12 +12,12 @@ To make use of the RPC, you need to set up a server backend first.
 
 Configuration of each server backend needs slightly different treatment. Please see the page relevant to you:
 
-  * **<rpc_java|Java>**
-  * **<rpc_php|PHP>**
-  * **<rpc_perl|Perl>**
-  * **<rpc_python|Python>**
+  * **:doc:`Java <rpc_java>`**
+  * **:doc:`PHP <rpc_php>`**
+  * **:doc:`Perl <rpc_perl>`**
+  * **:doc:`Python <rpc_python>`**
 
-Your favorite language is missing? Feel free to write your own qooxdoo RPC server, consult the <rpc_server_writer_guide> for details.
+Your favorite language is missing? Feel free to write your own qooxdoo RPC server, consult the :doc:`rpc_server_writer_guide` for details.
 
 Making remote calls
 ===================
@@ -28,6 +28,7 @@ Basic call syntax
 To make remote calls, you need to create an instance of the Rpc class:
 
 ::
+
     var rpc = new qx.io.remote.Rpc(
         "http://localhost:8080/qooxdoo/.qxrpc",
         "qooxdoo.test"
@@ -38,6 +39,7 @@ The first parameter is the URL of the backend (in this example a Java backend on
 When you have the Rpc instance, you can make synchronous and asynchronous calls:
 
 ::
+
     // synchronous call
     try {
         var result = rpc.callSync("echo", "Test");
@@ -80,7 +82,7 @@ The following table lists the data types supported by the Java backend and the c
 |java.util.Map |Object|
 |JavaBean |Object|
 
-The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a ``java.util.Map``, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of <understanding_properties|qooxdoo properties>.)
+The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a ``java.util.Map``, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of :doc:`qooxdoo properties <understanding_properties>`.)
 
 JavaBeans are converted in a similar way. The properties of the JavaBean become JavaScript properties and vice versa. If a JavaScript object contains properties for which no corresponding setters exist in the JavaBean, they are ignored.
 
@@ -94,6 +96,7 @@ Aborting a call
 You can abort an asynchronous call while it's still being performed:
 
 ::
+
     // Rpc instantiation and handler function left out for brevity
 
     var callref = rpc.callAsync(handler, "echo", "Test");
@@ -111,6 +114,7 @@ When you make a synchronous call, you can catch an exception to handle errors. I
 The following example shows how errors can be handled:
 
 ::
+
     // creation of the Rpc instance left out for brevity
 
     var showDetails = function(details) {
@@ -156,6 +160,7 @@ Cross-domain calls
 Using the qooxdoo RPC implementation, you can also make calls across domain boundaries. On the client side, all you have to do is specify the correct destination URL in the Rpc constructor and set the crossDomain property to ``true``:
 
 ::
+
     var rpc = new qx.io.remote.Rpc("http://targetdomain.com/appname/.qxrpc");
     rpc.setCrossDomain(true);
 
@@ -170,6 +175,7 @@ Java
 Writing your own remotely callable methods is very easy. Just create a class like this:
 
 ::
+
     package my.package;
 
     import net.sf.qooxdoo.rpc.RemoteService;
@@ -196,6 +202,7 @@ Accessing the session
 There is one instance of a service class per session. To get access to the current session, you can provide an *injection* method called ``setQooxdooEnvironment``:
 
 ::
+
     package my.package;
 
     import javax.servlet.http.HttpSession;
@@ -229,6 +236,7 @@ Automatic client configuration
 The Java RPC backend contains an auto-config mechanism, mainly used for automatically detecting the server URL. You can access it by including the following script tag in your HTML page:
 
 ::
+
     <html>
         <head>
             <!-- ... -->
@@ -239,11 +247,13 @@ The Java RPC backend contains an auto-config mechanism, mainly used for automati
 Provided the HTML page is part of the webapp (and not loaded via file:%%*%%...), and provided that you didn't change the default mapping of the RpcServlet (''.qxrpc''), any request to http:*server/app/foo/bar.qxrpc (or anything else that ends with .qxrpc) will always be directed to the RpcServlet. The RpcServlet fills a structure with basic information about the server. It may answer with something like
 
 ::
+
     qx.core.ServerSettings = {serverPathPrefix: 'http://server/app', ...}
 
 and this is used by the ``makeServerURL()`` helper method in the RPC class. You can use this when instantiating an RPC instance:
 
 ::
+
     var rpc = new qx.io.remote.Rpc(
         qx.io.remote.Rpc.makeServerURL(),
         "my.package.MyService"
@@ -264,6 +274,7 @@ It can be useful to create your own version of qooxdoo's ``RpcServlet``. Some of
 The following example code shows how all of this can be done:
 
 ::
+
     package my.package;
 
     import java.lang.reflect.InvocationTargetException;
@@ -344,6 +355,7 @@ The following example code shows how all of this can be done:
 To make use of class hinting on the client side, you have to send objects with a ``class`` attribute:
 
 ::
+
     rpc.callAsync(handler, "testMethod",
         {"class": "my.package.SubClassA",
          property1: 123,

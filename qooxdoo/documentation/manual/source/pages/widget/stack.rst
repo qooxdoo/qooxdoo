@@ -2,6 +2,9 @@ Stack
 *****
 The stack container is a container widget, which puts its child widgets on top of each other and only the topmost widget is visible.
 
+XXX
+===
+
 Features
 --------
   * Two size hint modes.

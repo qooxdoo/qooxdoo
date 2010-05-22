@@ -13,6 +13,7 @@ If you want to stick with an existing theme and only like to add or modify some 
 For example you like to add some appearances (of your own widgets) to the Modern theme you can simply extend the appearance theme of the Modern theme.
 
 ::
+
     qx.Theme.define("myApplication.theme.Appearance",
     {
       extend : qx.theme.modern.Appearance,
@@ -38,6 +39,7 @@ For example you like to add some appearances (of your own widgets) to the Modern
 To enable your own appearance theme you also have to extend the Meta theme and set your appearance theme.
 
 ::
+
     qx.Theme.define("myApplication.theme.Theme",
     {
       title : "my meta theme",
@@ -55,6 +57,7 @@ To enable your own appearance theme you also have to extend the Meta theme and s
 At last you have to tell the generator to actually use your meta theme. Therefore you have to edit your ``config.json`` file and add/edit the key ``QXTHEME`` in the ``let`` block.
 
 ::
+
     "let" :
       {
         "APPLICATION"  : "myApplication",

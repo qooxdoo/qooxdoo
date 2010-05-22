@@ -8,11 +8,12 @@ Path Names
 
 A lot of entries in a config file take path names as their values (top-level "include", "manifest" keys of a library entry, output path of compile keys, asf.).  Quite a few of them, like the top-level include paths, are interpreted **relative** to the config file in which they appear, and this relation is retained no matter from where you reference the config file. 
 
-This might not hold true in each and every case, though. For some keys you might have to take care of relative paths yourself. The authoritative reference is always the corresponding documentation of the <generator_config_ref|individual config keys>. If a key takes a path value it will state if and how these values are interpreted. Please check there.
+This might not hold true in each and every case, though. For some keys you might have to take care of relative paths yourself. The authoritative reference is always the corresponding documentation of the :doc:`individual config keys <generator_config_ref>`. If a key takes a path value it will state if and how these values are interpreted. Please check there.
 
 A good help when dealing with paths is also to use macros, if you need to abstract away from a value appearing multiple times. E.g.
 
 ::
+
     "let" : {"MyRoot": ".", "BUILD_PATH" : "build"}
     "myjob" : { ... "build_dir" : "${MyRoot}/${BUILD_PATH}" ... }
 
@@ -36,8 +37,14 @@ Some config keys take file paths as their attributes. Where specified, *file glo
 | ? | matches any single character (regexp: .)|
 | [] | matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)|
 
+XXX
+---
+
+XXX
+^^^
+
 Examples
---------
+""""""""
 
 Given a set of files like ``file9.js,  file10.js,  file11.js``, here are some file globs and their resolution:
 
@@ -67,7 +74,7 @@ The build system allows you to tailor where those resources are stored, so you c
     - without dedicated I18N parts: class data is allocated in each individual package, corresponding to the contained class code that needs it
     - with dedicated I18N parts: class data is in dedicated I18N packages
 
-The term *"dedicated I18N parts"* refers to the possibility to split translated strings and CLDR data out in separate parts, one for each language (see <generator_config_ref#packages|packages/i18n-with-boot>). Like with other parts, those parts have to be actively loaded by the application (using `qx.io.PartLoader.require <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.io.PartLoader>`_).
+The term *"dedicated I18N parts"* refers to the possibility to split translated strings and CLDR data out in separate parts, one for each language (see :doc:`packages/i18n-with-boot <generator_config_ref#packages>`). Like with other parts, those parts have to be actively loaded by the application (using `qx.io.PartLoader.require <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.io.PartLoader>`_).
 
 In the build version without dedicated I18N parts (case 2.1), those class data is stored as is needed by the code of the package. This may mean that the same data is stored in multiple packages, as e.g. two packages might use the same image or translated string. This is to ensure optimal independence of packages among each other so they can be loaded independently, and is resolved at the browser (ie. resource data is stored uniquely in memory).
 
@@ -91,6 +98,7 @@ A word of advice is also in place for the time being: Cache management is not op
 Config files let you define simple macros with the ``let`` key. The value of a macro can be a string or another JSON-permissible value (map, array, ...). You refer to a macro value in a job definition by using ``${<macro_name>}``. 
 
 ::
+
     "let": {"MyApp" : "demobrowser"}
       ...
       "myjob" : { "settings" : {"qx.application" : "${MyApp}.Application"}}
@@ -98,11 +106,13 @@ Config files let you define simple macros with the ``let`` key. The value of a m
 If the value of the macro is a string you can use a reference to it in other strings, and the macro reference will be replaced by its value. You can have multiple macro references in one string. Usually, these macro references will show up in map values or array elements, but can also be used in map keys.
 
 ::
+
     "myjob" : {"${MyApp}.resourceUri" : "resource"}
 
 If the value of the macro is something other than a string, things are a bit more restrictive. References to those macros can not be used in map keys (for obvious reasons). The reference has still to be in a string, but the macro reference has to be **the only contents** of that string. The entire string will then be replaced by the value of the macro. That means, you can do something like this:
 
 ::
+
     "let" : {"MYLIST" : [1,2,3], ...},
       "myjob" : { "joblist" : "${MYLIST}", ...}
 
@@ -126,9 +136,9 @@ Logging is an important part of any reasonably complex application. The Generato
 Job resolution
 --------------
 
-``extend`` and ``run`` keywords are currently the only keywords that reference other jobs. These references have to be resolved, by looking them up (or "evaluating" the names) in some context. One thing to note here is that job names are evaluated **in the context of the current job map**. As you will see (see section on <#include_key_top-level_-_adding_features|top-level "include"s>), a single configuration might eventually contain jobs from multiple config files, the local job definitions, and zero to many imported job maps (from other config files), which again might contain imported configs. From within any map, only those jobs are referenceable that are **contained** somewhere in this map. Unqualified names (like "myjob") are taken to refer to jobs on the same level as the current job, path-like names (containing "/") are taken to signify a job in some nested name space down from the current level. Particularly, this means you can never reference a job in a map which is "parallel" to the current job map. It's only jobs on the same level or deeper.
+``extend`` and ``run`` keywords are currently the only keywords that reference other jobs. These references have to be resolved, by looking them up (or "evaluating" the names) in some context. One thing to note here is that job names are evaluated **in the context of the current job map**. As you will see (see section on :doc:`top-level "include"s <#include_key_top-level_-_adding_features>`), a single configuration might eventually contain jobs from multiple config files, the local job definitions, and zero to many imported job maps (from other config files), which again might contain imported configs. From within any map, only those jobs are referenceable that are **contained** somewhere in this map. Unqualified names (like "myjob") are taken to refer to jobs on the same level as the current job, path-like names (containing "/") are taken to signify a job in some nested name space down from the current level. Particularly, this means you can never reference a job in a map which is "parallel" to the current job map. It's only jobs on the same level or deeper.
 
-This is particularly important for imported configs (imported with a top-level "include" keyword, see further <#include_key_top-level_-_adding_features|down>). Those configs get attached to the local "jobs" map under a dedicated key (their "name space" if you will). If in this imported map there is a "run" job (see the <#extending_jobs|next section>) using unqualified job names, these job names will be resolved using the imported map, not the top-level map. If the nested "run" job uses path-like job names, these jobs will be searched for **relative** to the nested map. You get it?!
+This is particularly important for imported configs (imported with a top-level "include" keyword, see further :doc:`down <#include_key_top-level_-_adding_features>`). Those configs get attached to the local "jobs" map under a dedicated key (their "name space" if you will). If in this imported map there is a "run" job (see the :doc:`next section <#extending_jobs>`) using unqualified job names, these job names will be resolved using the imported map, not the top-level map. If the nested "run" job uses path-like job names, these jobs will be searched for **relative** to the nested map. You get it?!
 
 Extending jobs
 --------------
@@ -153,16 +163,33 @@ Additionally to the above described features, with the configuration system you 
     * create jobs in your local configuration with *same names* as those imported from another configuration file. The local job will take precedence and "shadow" the imported job; the imported job gets automatically added to the local job's ``extend`` list.
     * extend one job by another by only *partially specifying* job features. The extending job can specify only the specific parts it wants to re-define. The jobs will then be merged as described above, giving precedence to local definitions of simple data types and combining complex values (list and maps); in the case of maps this is a deep merging process. Here is a sample of overriding an imported job (``build-script``), only specifying a single setting, and relying on the rest to be provided by the imported job of same name:
 ::
-    </code>
+
+    "build-script" : {
+      "compile-options" : {
+        "code" : {
+          "format" : true
+        }
+      }
+    }
 
 You can again use ``=`` to control the merging:
     * *selectively block* merging of features by using ``=`` in front of the key name, like:
 ::
-    </code>
+
+    ...
+      {
+        "=open-curly" : ...,
+        ...
+      }
+    ...
 
     * override an imported job *entirely* by guarding the local job with ``=`` like:
 ::
-    </code>
+
+    "jobs" : {
+      "=build-script" : {...},
+      ...
+    }
 
 "run" Key
 =========
@@ -174,9 +201,10 @@ In the overall queue of jobs to be performed, the initial job is replaced by the
 "asset-let" Key
 ===============
 
-The ``asset-let`` key is basically a <#let_key|macro> definition for ``#asset`` compiler hints, but with a special semantics. Keys defined in the "asset-let" map will be looked for in *#asset* hints in source files. Like with macros, references have to be in curly braces and prefixed with ``$``. So a "asset-let" entry in the config might look like this:
+The ``asset-let`` key is basically a :doc:`macro <#let_key>` definition for ``#asset`` compiler hints, but with a special semantics. Keys defined in the "asset-let" map will be looked for in *#asset* hints in source files. Like with macros, references have to be in curly braces and prefixed with ``$``. So a "asset-let" entry in the config might look like this:
 
 ::
+
     "asset-let" :
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
@@ -186,12 +214,17 @@ The ``asset-let`` key is basically a <#let_key|macro> definition for ``#asset`` 
 and a corresponding *#asset* hint might use it as:
 
 ::
-    </code>
+
+    #asset(qx/icon/${qx.icontheme}/${mySizes}/*)
 
 The values of these macros are lists, and each reference will be expanded into all possible values with all possible combinations. So the above asset declaration would essentially be expanded into:
 
 ::
-    </code>
+
+    #asset(qx/icon/Tango/16/*)
+    #asset(qx/icon/Tango/32/*)
+    #asset(qx/icon/Oxygen/16/*)
+    #asset(qx/icon/Oxygen/32/*)
 
 "library" Key and Manifest Files
 ================================
@@ -208,10 +241,11 @@ Contrib libraries
 
 Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :doc:`Manifest.json <pages/application_structure/manifest>` file with appropriate contents.
 
-If the contribution resides on your local file system, there is actually no difference to any other library. Specify the relative path to its Manifest file and you're basically set. The really new part comes when the contribution resides online, in the <:contrib|qooxdoo-contrib> repository. Then you use a special syntax to specify the location of the Manifest file. It is URL-like with a ``contrib`` scheme and will usually look like this:
+If the contribution resides on your local file system, there is actually no difference to any other library. Specify the relative path to its Manifest file and you're basically set. The really new part comes when the contribution resides online, in the :doc:`qooxdoo-contrib <:contrib>` repository. Then you use a special syntax to specify the location of the Manifest file. It is URL-like with a ``contrib`` scheme and will usually look like this:
 
 ::
-    </code>
+
+    contrib://<ContributionName>/<Version>/<ManifestFile>
 
 The contribution source tree will then be downloaded from the repository, the generator will adjust to the local path, and the contribution is then used just like a local library. A consideration that comes into play here is the question where to put the files locally:
 
@@ -220,7 +254,11 @@ The contribution source tree will then be downloaded from the repository, the ge
 So, for example an entry for the "trunk" version of the "HtmlArea" contribution with default download location would look like this:
 
 ::
-    </code>
+
+    {
+      "manifest" : "contrib://HtmlArea/trunk/Manifest.json",
+      "uri"          : "../cache-downloads/HtmlArea/trunk"
+    }
 
   * Mind that the ``uri`` parameter reflects the path from your application's ``index.html`` to the local root directory of the contribution (wherever that is in your particular case).
 
@@ -266,7 +304,9 @@ Construction of URIs through the Generator
 So how does the generator create all of those URIs in the final application code? All those URIs are constructed through the following three components:
 
 ::
-    </code>
+
+    to_libraryroot  + library_internal_path + resource_path
+           [1]                [2]                 [3]
 
 So for example a graphics file in the qooxdoo framework might get referenced using the following components 
   * [1] *"../../qooxdoo-1.2-sdk/framework/"* 
@@ -289,10 +329,12 @@ Part *[1]* is exactly what you specify with the *uri* subkey of an entry in the 
 If you don't specifying the *uri* key with your libraries (which is usually the case), the generator will calculate a value for *[1]*, using the following information:
 
 ::
-    </code>
+
+    applicationroot_to_configdir + configdir_to_libraryroot
+                [1.2]                      [1.2]
 
 The parts have the following meaning:
-  * **[1.2]** : Path from the Web application's root to the configuration file's directory; this information is derived from the *paths/app-root* key of the <generator_config_ref#compile-options> config key.
+  * **[1.2]** : Path from the Web application's root to the configuration file's directory; this information is derived from the *paths/app-root* key of the :doc:`generator_config_ref#compile-options` config key.
   * **[1.2]** : Path from the configuration file's directory to the root directory of the library (the one containing the *Manifest.json* file); this information is immediately available from the library's *[[generator_config_ref#library|manifest]]* key.
 
 For the **build** version, dedicated keys *[[generator_config_ref#compile-options|uris/script]]* and  *[[generator_config_ref#compile-options|uris/resource]]* are available (as there is virtually only one "library"). The values of both keys cover the scope of components [1] + [2] in the first figure.
@@ -310,7 +352,7 @@ While either are optional in their respective contexts, it is mandatory to *at l
 Overriding the 'uri' settings of libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Libraries you specify in your own config (with the <generator_config_ref#library|library> key) are in your hand, and you can provide ``uri`` parameters as you see fit. If you want to tweak the "uri" setting of a library entry that is added by including another config file (e.g. the default *application.json*), you simply re-define the library entry of that particular library locally. The generator will realize that both entries refer to the same library, and your local settings will take precedence.
+Libraries you specify in your own config (with the :doc:`library <generator_config_ref#library>` key) are in your hand, and you can provide ``uri`` parameters as you see fit. If you want to tweak the "uri" setting of a library entry that is added by including another config file (e.g. the default *application.json*), you simply re-define the library entry of that particular library locally. The generator will realize that both entries refer to the same library, and your local settings will take precedence.
 
 You can specify ``library`` keys in your own config in these ways:
   * You either define a local job which either shaddows or "extends" an imported job, and provide this local job with a ``library`` key. Or,
@@ -319,12 +361,12 @@ You can specify ``library`` keys in your own config in these ways:
 "packages" Key
 ==============
 
-For a general introduction to parts and packages see this separate :doc:`document <pages/parts_overview>`. Here is more information on specifics of the <generator_config_ref#packages> config key.
+For a general introduction to parts and packages see this separate :doc:`document <pages/parts_overview>`. Here is more information on specifics of the :doc:`generator_config_ref#packages` config key.
 
 parts/<part_name>/include
 -------------------------
 
-The way the part system is currently implemented has some caveats in the way *parts/*/include* keys and the general <generator_config_ref#include> key interact:
+The way the part system is currently implemented has some caveats in the way *parts/*/include* keys and the general :doc:`generator_config_ref#include` key interact:
 
 a) The general "include" key, i.e. the class list with all dependencies fully expanded, provides the "master list" of classes for the given application. All classes given in the part "include"s, including all their dependencies, are checked against this list. If any of those classes is not in the master list, it will not be included in the app.
 
@@ -360,12 +402,14 @@ Here are the details:
   * Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a separate file, with a *-<locale>.js* ending, and alongside the normal script code. So if your script code is in the path *script/myapp.js*, translation and CLDR data for the *en_US* locale will be in the file *script/myapp-en_US.js*.
   * The structure of each file is a simple JSON-style map: 
 ::
+
     { "<locale>" : { "Translations" : {<translations_map>},
                             {"Locales"        : {<cldr_map>}
     }
 
   * In the loader script , the name and location of those i18n files will be registered, in a variable ``qx.$$i18n``, which is a map which has a ``"uris"`` sub-key. It looks like this: 
 ::
+
     { "uris" : { "en_US" : "<tag:file>",
                       "de"       : "<tag:file>",
                      ...
@@ -400,7 +444,8 @@ Practically, there are two steps involved in using external jobs:
 
   - You have to *[[generator_config_ref#include_top-level|include]]* the external configuration file that contains the relevant job definitions. Do so will result in the external jobs being added to the list of jobs of your local configuration. E.g. you can use
 ::
-    </code>
+
+    generator.py ?
  to get a list of all available jobs; the external jobs will be among this list.
   - There are now two way to utilize these jobs:
     * You can either invoke them directly from the command line, passing them as arguments to the generator.
@@ -418,16 +463,22 @@ Add-In Protocol
 In order to include an add-in feature in an existing app, you first have to ``include`` its job config. On the top-level of the config map, e.g. specify to include the Apiviewer config:
 
 ::
-    </code>
 
-The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandator key therein is the file path to the external config file (see <generator_config_ref#include_top-level|here> for all the gory details). A config can only include what the external config is willing to *[[generator_config_ref#export|export]]*. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
+    "include" : [{"path": "../apiviewer/config.json"}]
+
+The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandator key therein is the file path to the external config file (see :doc:`here <generator_config_ref#include_top-level>` for all the gory details). A config can only include what the external config is willing to *[[generator_config_ref#export|export]]*. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
 
 If you want to fine-tune the behaviour of such an imported job, you define a local job that extends it. Imported jobs are referenced like any job in the current config, either by their plain name (the default), or, if you specify the ``as`` key in the include, by a composite name ``<as_value>::<original_name>``. Suppose you used an ``"as" : "apiconf"`` in your include, and you wanted to extend the Apiviewer's ``build-script`` job, this could look like this:
 
 ::
-    </code>
 
-As a third step, the local job will usually have to provide additional information for the external job to succeed. Which exactly these are depends on the add-in (and should eventually be documented there). See the section specific to the <#api_viewer|APIViewer> for a concrete example.
+    "myapi-script" :
+    {
+      "extend" : ["apiconf::build-script"]
+      ...
+    }
+
+As a third step, the local job will usually have to provide additional information for the external job to succeed. Which exactly these are depends on the add-in (and should eventually be documented there). See the section specific to the :doc:`APIViewer <#api_viewer>` for a concrete example.
 
 API Viewer
 ----------
@@ -435,6 +486,7 @@ API Viewer
 For brevity, let's jump right in into a config fragment that has all necessary ingredients. These are explained in more detail afterwards.
 
 ::
+
     {
       "include" : [{"as" : "apiconf", "path" : "../apiviewer/config.json"}],
       "jobs" : {
@@ -465,25 +517,31 @@ So in short, the ``ROOT``, ``BUILD_PATH``, ``API_INCLUDE`` and ``API_EXCLUDE`` m
 "optimize" Key
 ==============
 
-The *optimize* key is a subkey of the <generator_config_ref#compile-dist> key. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. Currently, there are four categories which can be optimized.
+The *optimize* key is a subkey of the :doc:`generator_config_ref#compile-dist` key. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. Currently, there are four categories which can be optimized.
+
+XXX
+---
+
+XXX
+^^^
 
 strings
--------
+"""""""
 
 With string optimization, strings are extracted from the class definition and put into lexical variables. The occurrences of the strings in the class definition is then replaced by the variable name. This mainly benefits IE6 and repetitive references to the same string literal.
 
 variables
----------
+"""""""""
 
 Long variable names are made short. Lexical variables (those declared with a *var* statement) are replaced by generated names that are much shorter (1-2 characters on average). Dependending on the original code, this can result in significant space savings.
 
 privates
---------
+""""""""
 
 This is less an optimization in space or time, but rather a way to enforce privates. Private members of a class (those beginning with %%"__"%%) are replaced with generated names, and are substituted throughout the class. If some other class is accessing those privates, these references are not updated and will eventually fail when the access happens. This will lead to a runtime error.
 
 basecalls
----------
+"""""""""
 
 Calls to *[[documentation:1.2:classes#inheritance|this.base()]]*, which invoke the corresponding superclass method, are inlined, i.e. the superclass method call  is inserted in place of the this.base() call.
 

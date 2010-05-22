@@ -13,6 +13,7 @@ Usage
 To create an effect instance the desired effect and pass the DOM element, which should be used for the animation, as parameter. The effect can be configured by changing the properties like ``from``, ``to``, ``duration`` and more. Once the effect is set up, it can be started by calling the ``start()`` method of the effect.
 
 ::
+
     var element = document.getElementById("dlAmount");
     var attention = new qx.fx.effect.core.Highlight(element);
 
@@ -28,6 +29,7 @@ Queueing effecs
 Every effect has a ``delay`` property which can be set to the amount of seconds the effect should wait before it should be executed after calling the ``start()`` method on it. You can use this property to arrange effects in the order you want them to be executed.
 
 ::
+
     var el = button1.getContainerElement().getDomElement();
 
     var psEffect = new qx.fx.effect.combination.Pulsate(el);
@@ -52,6 +54,7 @@ Writing own effects
 To create own effects, create a new class and extend from ``qx.fx.Base`` and overwrite the ``update()`` methode. You can access the DOM element of the effect by calling ``this._getElement()``.
 
 ::
+
     qx.Class.define("fxdemo.flickerBackground",
     {
       extend : qx.fx.Base,
@@ -74,18 +77,46 @@ List of effects
 ===============
 
 The ``qx.fx.effect`` package contains 14 effects:
-  * **ColorFlow**Changes the background color of an element to a given initial. After that the effects waits a given amount of time before it modifies to background color back to the initial value.
-  * **Drop**	Moves the element to the given direction while fading it out.
-  * **Fade**	Fades in the specified element: it changes to opacity from a given value to another. If target value is 0, it will hide the element, if value is 1, it will show it using the “display” property.
-  * **Fold**	Shrinks the element in width and height until it gets invisible.
-  * **Grow**Resizes the element from initial dimensions to final dimensions.
-  * **Highlight**Cycles the background color of the element from initial to final color.
-  * **Move**Moves to element to the given coordinates.
-  * **Puff**	Resizes the element from zero to the original size of the elment and fades it in at the same time.
-  * **Pulsate**Fades the element in and out several times.
-  * **Scale**This effect scales the specified element (and its content, optionally) by given percentages.
-  * **Scroll**Scrolls to specified coordinates on given element.
-  * **Shake**Moves the element forwards and backwards several times.
-  * **Shrink**Resizes the element from initial to given dimensions.
-  * **Switch**Flickers the element one time and then folds it in.
+  * **ColorFlow**
+
+Changes the background color of an element to a given initial. After that the effects waits a given amount of time before it modifies to background color back to the initial value.
+  * **Drop**
+
+	Moves the element to the given direction while fading it out.
+  * **Fade**
+
+	Fades in the specified element: it changes to opacity from a given value to another. If target value is 0, it will hide the element, if value is 1, it will show it using the “display” property.
+  * **Fold**
+
+	Shrinks the element in width and height until it gets invisible.
+  * **Grow**
+
+Resizes the element from initial dimensions to final dimensions.
+  * **Highlight**
+
+Cycles the background color of the element from initial to final color.
+  * **Move**
+
+Moves to element to the given coordinates.
+  * **Puff**
+
+	Resizes the element from zero to the original size of the elment and fades it in at the same time.
+  * **Pulsate**
+
+Fades the element in and out several times.
+  * **Scale**
+
+This effect scales the specified element (and its content, optionally) by given percentages.
+  * **Scroll**
+
+Scrolls to specified coordinates on given element.
+  * **Shake**
+
+Moves the element forwards and backwards several times.
+  * **Shrink**
+
+Resizes the element from initial to given dimensions.
+  * **Switch**
+
+Flickers the element one time and then folds it in.
 

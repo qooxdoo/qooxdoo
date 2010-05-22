@@ -20,6 +20,7 @@ Add Parts to your Config
 In your configuration file, add the following job (assuming you are using a standard GUI application with a name space of *custom*):
 
 ::
+
     "build-script": 
     {
       "packages" :
@@ -46,6 +47,7 @@ Add Part Loading to your Class Code
 At a suitable spot in your application code, you have to load the *settings* part, e.g. when the "Open Settings Dialog" button is pressed. We put the loading action in the click event listener of the button:
 
 ::
+
     var settingsButton = new qx.ui.toolbar.Button("Open Settings Dialog");
 
     settingsButton.addListener("execute", function(e)
@@ -71,7 +73,7 @@ The main thing to note here is that upon pressing the "Open Settings Dialog" but
 
 The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the task that should be done once the part is successfully loaded. As you can see, the *custom.Settings* class, which is loaded with this part, is being instantiated.
 
-These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this <.:tool:generator_config_articles#packages_key | article>. For full details on the *packages* configuration key, see the <.:tool:generator_config_ref#packages_0.8.1 | configuration reference>. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/ >`_.
+These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :doc:`article <.:tool:generator_config_articles#packages_key >`. For full details on the *packages* configuration key, see the :doc:`configuration reference <.:tool:generator_config_ref#packages_0.8.1 >`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/ >`_.
 
 Advanced Usage: Part Collapsing
 ===============================
@@ -111,7 +113,9 @@ Collapsing By Package Size
 
 Collapsing by package size is straight forward. You can specify a minimal package size (in KB) that applies to all packages of your application. If a package's size, and it is its *compiled* size that matteres here, is beneath this threshold the package will be merged into another. This avoids the problem of too much fragmentation of classes over packages, and trades optimally distributing the classes (to always load only necessary classes) for minimizing net requests (when loading packages for a part). 
 
-Collapsing by size is disabled by default. You enable it by specifying size attributes in your parts configuration::
+Collapsing by size is disabled by default. You enable it by specifying size attributes in your parts configuration:
+
+::
 
     "packages" :
     {
@@ -128,7 +132,9 @@ The *min-package* setting defines a general lower bound for package sizes, the *
 Collapsing By Load Order
 ------------------------
 
-Collapsing by load order is always useful when you know in advance the order of at least some of your parts, as they are loaded during the app's run time. This is e.g. the case when you have a part that uses other parts to do its work (a big dialogue that has sub-controls like a tabview). The enclosing part is always loaded before its sub-parts can be used. Or there is a part that is only accessible after it has been enabled in another part. These situations can be captured by assigning a load order to (some of) your parts in your configuration.  ::
+Collapsing by load order is always useful when you know in advance the order of at least some of your parts, as they are loaded during the app's run time. This is e.g. the case when you have a part that uses other parts to do its work (a big dialogue that has sub-controls like a tabview). The enclosing part is always loaded before its sub-parts can be used. Or there is a part that is only accessible after it has been enabled in another part. These situations can be captured by assigning a load order to (some of) your parts in your configuration.
+
+::
 
     "packages" :
     {

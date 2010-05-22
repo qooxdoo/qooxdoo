@@ -13,9 +13,15 @@ Here is a list of widgets which support single and/or multi selection:
     * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`_
     * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`_
 
+XXX
+===
+
+XXX
+---
+
 What was wrong with the old API in 0.8.x?
-==============================================
-The  <documentation:0.8:ui_selection|old selection API> had different methods for single and multi selection and partially different events, because an interface describing the specification was missing. To offer a consistend API an interface specification was needed. The standardization has shown, that having only one interface for single and multi selection is not enough, because it would be possible to have different events for multi and single selection (remember all multi selection widgets also supports single selection).
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The  :doc:`old selection API <documentation:0.8:ui_selection>` had different methods for single and multi selection and partially different events, because an interface describing the specification was missing. To offer a consistend API an interface specification was needed. The standardization has shown, that having only one interface for single and multi selection is not enough, because it would be possible to have different events for multi and single selection (remember all multi selection widgets also supports single selection).
 
 One possible solution was to have the same methods and events for single and multi selection. This is possible if the single and multi selection both work with arrays. Due to that fact it is possible to change widgets without having to worry about the selection method, because the method and event names don't change.
 
@@ -23,13 +29,14 @@ Selection Interfaces
 ====================
 |Selection API Interfaces|
 
-.. |Selection API Interfaces| image:: /pages/new_selection_api.png?nolink=nolink
+.. |Selection API Interfaces| image:: /pages/new_selection_api.png
 
 Event
 -----
 Both selections fire a ``changeSelection`` event if the selection has changed. Listeners can register the event to be notified about the changes. The event contains an array with the new selected widgets. If the array is empty no widgets are selected. 
 
 ::
+
     list.addListener("changeSelection", function(e)
     {
       var selection = e.getData();
@@ -69,6 +76,7 @@ Due to the small changes the configuration for the selection mode hasn't changed
 </note>
 
 ::
+
     list.setSelectionMode("multi");
 
 Selection Options
@@ -78,6 +86,7 @@ This options change the way a selection is created or modified. Per default item
   * **Drag:** Multiselection of items through dragging the mouse in pressed states. Only possible for the modes *multi* and *additive*.
 
 ::
+
     list.setDragSelection(true);
 
 How to use the selection API
@@ -89,6 +98,7 @@ Single Selection
 The example below shows how to use the single selection API, this example uses the `SelectBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`_ widget:
 
 ::
+
     // creates the SelectBox
     var selectBox = new qx.ui.form.SelectBox();
     this.getRoot().add(selectBox, {top: 20, left: 20});
@@ -114,7 +124,10 @@ The example below shows how to use the single selection API, this example uses t
 The output should be:
 
 ::
-    </code>
+
+    (1) Selected (event): ListItem0
+    (2) Selected (event): ListItem5
+    (3) Selected (selectBox): ListItem5
 
 The SelectBox's implemention doesn't allow empty selections, so if the first item is added to the SelectBox it will be selected (1). (2) occurs, due to the selection and (3) from ``getSelection``.
 
@@ -124,6 +137,7 @@ Multi Selection
 The next example uses the `List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_ widget:
 
 ::
+
     // creates the List and sets the selection mode
     var list = new qx.ui.form.List();
     list.setSelectionMode("multi");
@@ -149,7 +163,9 @@ The next example uses the `List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.
 The output could look like this:
 
 ::
-    </code>
+
+    (1) Selection (event): qx.ui.form.ListItem[1p],qx.ui.form.ListItem[2a]
+    (2) Selection (list): qx.ui.form.ListItem[1p],qx.ui.form.ListItem[2a]
 
 How to migrate from the 0.8.x to the 1.2.x selection API
 ========================================================
@@ -167,8 +183,11 @@ By changing the framework applications, like the `Demo Browser <http://demo.qoox
   - Run ``generate.py source``, start your application and test your changes again.
   - If there are now errors or deprecation warnings by testing your code, you have finished the migration. 
 
+XXX
+---
+
 What does 'rename' the method/event mean?
---------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It means to replace the old method/event names with the new method/event names, but don't forget to customize the **method parameter** and **return values**!!! If you only rename the method/event-names you will get many errors!!!
 
@@ -180,6 +199,7 @@ Example for renaming 'setSelected' to 'setSelection'
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     this.__group.setSelected(firstItem);
 
       /*
@@ -193,6 +213,7 @@ Example renaming 'getSelected' to 'getSelection'
 """"""""""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     var selectedGroup = this.__group.getSelected();
 
       /*
@@ -206,6 +227,7 @@ Example renaming 'changeSelected' to 'changeSelection'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     this.__group.addListener("changeSelected", function(event) {
         var selectedGroup = event.getData();
       });

@@ -2,11 +2,14 @@ Toolbar
 *******
 The ToolBar widget is responsible for displaying a toolbar in the application. Therefore it is a container for Buttons, RadioButtons, CheckBoxes and Separators.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/toolbar.jpg|
 
-.. |pages/widget/toolbar.jpg| image:: /pages/widget/toolbar.jpg?540
+.. |pages/widget/toolbar.jpg| image:: /pages/widget/toolbar.jpg
 
 Features
 --------

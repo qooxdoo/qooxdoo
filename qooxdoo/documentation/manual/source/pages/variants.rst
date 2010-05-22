@@ -39,6 +39,7 @@ The generator selects for browser optimized builds only the code which is needed
 Code like this was very common in older versions of qooxdoo:
 
 ::
+
     if (qx.core.Client.getInstance().isMshtml()) {
       // some Internet Explorer specific code
     } else if(qx.core.Client.getInstance().isOpera()){
@@ -50,6 +51,7 @@ Code like this was very common in older versions of qooxdoo:
 Using ``Variants`` the same code looks like this:
 
 ::
+
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       // some Internet Explorer specific code
     } else if(qx.core.Variant.isSet("qx.client", "opera")){
@@ -66,6 +68,7 @@ Config changes
 The browser-specific code above let's you distinguish the different browsers inside your application code. In order to serve different versions of your application for specific browsers you have to slightly change your ``config.json`` to let the generator do the magic.
 
 ::
+
     /* part of your "config.json" */
     "jobs" :
     {
@@ -94,6 +97,7 @@ The generator will generate as many versions of your application as the number o
 If you specify more than one variant with multiple values, e.g.
 
 ::
+
     /* multiple variants with multiple values */
     "variants" :
     {
@@ -113,6 +117,7 @@ Often one wants to add additional checks and assertions to the code but don't wa
 Example:
 
 ::
+
     function foo(a, b) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         if ( (arguments.length != 2) || (typeof a != "string") ) {
@@ -135,6 +140,7 @@ Method: select()
  If the whole definition of a function should be selected the ``select`` method can be used as follows:
 
 ::
+
     var f = qx.core.Variant.select("qx.client", {
       "gecko": function() { ... },
       "mshtml|opera": function() { ... },
@@ -143,7 +149,8 @@ Method: select()
 
 Depending on the value of the 
 ::
-    </code>
+
+    "qx.client"
  variant the corresponding function is selected. The first case is selected if the variant is "gecko", the second is selected if the variant is "mshtml" or "opera" and the third function is the default one. It is selected if none of the other keys match the variant.
 
 Method: isSet()
@@ -160,6 +167,7 @@ statement.
 Example:
 
 ::
+
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       // some Internet Explorer specific code
     } else if(qx.core.Variant.isSet("qx.client", "opera")){

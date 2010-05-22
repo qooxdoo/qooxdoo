@@ -11,12 +11,14 @@ But increasingly, people are using complex name spaces in their qooxdoo projects
 So expanding on this notion of name spaces and packages, you can have a complex name space as the root for packages under this name space. But this only plays a role when creating the initial structure of applications and managing them in the build process. On the class level, you will not be able to see where the name space ends and the package identifiers start. Also, the directory path leading to a class will reflect this, so you will have a class
 
 ::
+
     qx.Class.define("org.myorg.webclient.util.ClassA", {...})
 
 living in a path like
 
 ::
-    </code>
+
+    .../source/class/org/myorg/webclient/util/ClassA.js
 
 The only noticealbe difference on this level to applications with simple name spaces is only the sequence of quasi "empty" directories (apart from subdirectories) leading up to the level where the actual class files start.
 
@@ -25,10 +27,17 @@ Showcase
 
 Here is a simple walk-through through a showcase, where two applications with complex name spaces are being set up, and one is used as a library by the other.
 
+XXX
+---
+
+XXX
+^^^
+
 Create two new apps with complex name spaces
 """"""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     thron7@pcthron7> create-application.py -n jbb1 -s a.b.c
      >>> Copy skeleton into the output directory: ./jbb1
      >>> Patching file './jbb1/generate.py'
@@ -63,6 +72,7 @@ Add a lib class to jbb2
 """""""""""""""""""""""
 
 ::
+
     thron7@pcthron7> cat > jbb2/source/class/d/e/f/ClassA.js
     qx.Class.define("d.e.f.ClassA", {});
     ^D
@@ -71,6 +81,7 @@ Edit jbb1/config.json to use the jbb2 lib in jbb1
 """""""""""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     {
       "name"    : "jbb1",
 
@@ -110,6 +121,7 @@ Modify jbb1's Application.js, to use the ClassA from jbb2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 ::
+
     qx.Class.define("a.b.c.Application",
     {
       extend : qx.application.Standalone,
@@ -127,7 +139,9 @@ Modify jbb1's Application.js, to use the ClassA from jbb2
     });
 
 Run the generator in jbb1
-""""""""""""""""""""""""" ::
+"""""""""""""""""""""""""
+
+::
 
     thron7@pcthron7> cd jbb1; ./generate.py source
 

@@ -3,6 +3,9 @@ HTML Embed
 
 The Html widget embeds plain HTML code into the application.
 
+XXX
+===
+
 Preview Image
 -------------
 

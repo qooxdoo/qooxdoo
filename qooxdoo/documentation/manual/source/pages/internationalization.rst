@@ -16,6 +16,7 @@ To translate an application, all translatable strings must be marked using one o
 You can use these methods right away for your own classes if they are derived from ``qx.ui.core.Widget`` or ``qx.application.AbstractGui``. If that's not the case you have to include the mixin qx.locale.MTranslation manually:
 
 ::
+
     qx.Class.define("custom.MyClass",
     {
       extend : qx.core.Object,
@@ -24,19 +25,27 @@ You can use these methods right away for your own classes if they are derived fr
     });
 
 <note>
-You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See <documentation:general:javascript_best_practises#using_self_for_closures> for details using ``self`` as a local variable name.
+You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See :doc:`documentation:general:javascript_best_practises#using_self_for_closures` for details using ``self`` as a local variable name.
 </note>
+
+XXX
+---
+
+XXX
+^^^
 
 Example
 """""""
 Change original code like this:
 
 ::
+
     var button = new qx.ui.form.Button("Hello World");
 
 to:
 
 ::
+
     var button = new qx.ui.form.Button(this.tr("Hello World"));
 
 In the following, the four methods are explained in more detail:
@@ -45,16 +54,18 @@ tr
 ^^
 
 ::
+
     var button = new qx.ui.form.Button(this.tr("Hello World"));
 
 Marks the string ``Hello World`` for translation and returns an instance of ``qx.locale.String``. The ``toString()`` method of the returned object performs the actual translation based on the current locale.
 
-There is one *exception* to the simple rule that all strings can just be replaced by wrapping them in an appropriate ``this.tr()`` function call: if init values of <understanding_properties|dynamic properties> are meant to be localizable, the init value has either to be set in the class constructor using ``this.tr()``, or ``qx.locale.Manager.tr()`` has to be used inside the property declaration. See documentation on <defining_properties#defining_an_init_value|Defining an init value> for details.
+There is one *exception* to the simple rule that all strings can just be replaced by wrapping them in an appropriate ``this.tr()`` function call: if init values of :doc:`dynamic properties <understanding_properties>` are meant to be localizable, the init value has either to be set in the class constructor using ``this.tr()``, or ``qx.locale.Manager.tr()`` has to be used inside the property declaration. See documentation on :doc:`Defining an init value <defining_properties#defining_an_init_value>` for details.
 
 trn
 ^^^
 
 ::
+
     var n = 2;
     var label = new qx.ui.basic.Label(this.trn("Copied one file.", "Copied %1 files.", n, n));
 
@@ -64,6 +75,7 @@ trc
 ^^^
 
 ::
+
     var n = 2;
     var label = new qx.ui.basic.Label(this.trc("Helpful comment for the translator", "Hello World"));
 
@@ -75,6 +87,7 @@ marktr
 Sometimes it is necessary to mark a string for translation but not yet perform the translation.
 
 ::
+
     var s = this.marktr("Hello");
 
 Marks the string ``Hello`` for translation and returns the string unmodified.
@@ -90,14 +103,20 @@ Extract the Messages
 After the source code has been prepared, the desired languages of the application may be specified in ``config.json``, in the ``LOCALES`` macro within the global ``let`` section, for example
 
 ::
-    </code>
+
+    "let" :
+      {
+        // ...
+        "LOCALES"       : ["de", "fr"]
+      },
 
 This would add a German and a French translation to the project. For a more exhaustive list of available locales see `here <http://unicode.org/cldr/apps/survey>`_.
 
 A run of 
 
 ::
-    </code>
+
+    generate.py translation
 
 will generate a ``.po`` file for each configured locale, with all translatable strings of the application (These files are usually stored in the ``source/translation`` folder of the application). 
 
@@ -105,7 +124,7 @@ If a specified translation does not yet exist, a new translation file will be cr
 
 If such a file already exists, the newly extracted strings will be merged with this file, retaining all existing translations. 
 
-Therefore, you can re-run ``generate.py translation`` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (s. further <#update_the_application|down>).
+Therefore, you can re-run ``generate.py translation`` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (s. further :doc:`down <#update_the_application>`).
 
 Translate the Messages
 ======================
@@ -131,6 +150,7 @@ Run the translated Application
 By default the application tries to use the browser's default language. You can change the language of the application by using ``qx.locale.Manager``. For example, the following sets the language of the application to French:
 
 ::
+
     qx.locale.Manager.getInstance().setLocale("fr");
 
 The qooxdoo widgets are supposed to update their contents on a locale change. Custom widgets may have to be modified to allow for an update on locale change. To inform the application of a language change, qooxdoo fires a ``changeLocale`` event.
@@ -138,5 +158,6 @@ The qooxdoo widgets are supposed to update their contents on a locale change. Cu
 A widget that needs custom update logic may listen to this event:
 
 ::
+
     qx.locale.Manager.getInstance().addListener("changeLocale", this._update, this);
 

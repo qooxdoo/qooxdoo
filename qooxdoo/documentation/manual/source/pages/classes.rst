@@ -9,6 +9,7 @@ Declaration
 Here is the most basic definition of a regular, non-static class ``qx.test.Cat``. It has a constructor so that instances can be created. It also needs to extend some existing class, here we take the root class of all qooxdoo classes: 
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       extend: qx.core.Object,
       construct : function() { /* ... */ }
@@ -19,6 +20,7 @@ As you can see, the ``define()`` method takes two arguments, the fully-qualified
 An instance of this class is created and its constructor is called by the usual statement:
 
 ::
+
     var kitty = new qx.test.Cat;
 
 Members
@@ -39,6 +41,7 @@ A static member of a class can be one of the following:
 In the ``Cat`` class we may attach a class variable ``LEGS`` (where uppercase notation is a common coding convention) and a class method ``makeSound()``, both in a ``statics`` section of the class declaration:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       /* ... */
       statics : {
@@ -50,6 +53,7 @@ In the ``Cat`` class we may attach a class variable ``LEGS`` (where uppercase no
 Accessing those class members involves the fully-qualified class name:
 
 ::
+
     var foo = qx.test.Cat.LEGS;
     alert(qx.test.Cat.makeSound());
 
@@ -64,6 +68,7 @@ An instance member of a class can be one of the following:
 They may be defined in the ``members`` section of the class declaration:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       ...
       members: {
@@ -75,6 +80,7 @@ They may be defined in the ``members`` section of the class declaration:
 Accessing those members involves an instance of the class:
 
 ::
+
     var kitty = new qx.test.Cat;
     kitty.name = "Sweetie";
     alert(kitty.getName());
@@ -96,6 +102,7 @@ Reference types include all other types, e.g. ``Array``, ``Function``, ``RegExp`
 You have to be careful when using complex data types in the class declaration, because they are shared by default:
 
 ::
+
     members:
     {
       foo: [1, 2, 4]   // all instances would start to share this data structure
@@ -104,6 +111,7 @@ You have to be careful when using complex data types in the class declaration, b
 If you do *not* want that instances share the same data, you should defer the actual initialization into the constructor:
 
 ::
+
     construct: function()
     {
       this.foo = [1, 2, 4];   // each instance would get assigned its own data structure
@@ -144,6 +152,7 @@ Static Classes
 A static class is not instantiated and only contains static members. Setting its type to ``static`` makes sure only such static members, no constructor and so on are given in the class definition. Otherwise error messages are presented to the developer:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       type : "static"
       ...
@@ -155,6 +164,7 @@ Abstract Classes
 An abstract class may not be instantiated. It merely serves as a superclass that needs to be derived from. Concrete classes (or concrete members of such derived classes) contain the actual implementation of the abstract members. If an abstract class is to be instantiated, an error message is presented to the developer.
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       type : "abstract"
       ...
@@ -166,6 +176,7 @@ Singletons
 The singleton design pattern makes sure, only a single instance of a class may be created. Every time an instance is requested, either the already created instance is returned or, if no instance is available yet, a new one is created and returned. Requesting the instance of such a singleton class is done by using the ``getInstance()`` method.
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       type : "singleton"
       ...
@@ -174,32 +185,37 @@ The singleton design pattern makes sure, only a single instance of a class may b
 Inheritance
 ===========
 
+XXX
+---
+
 Single Inheritance
------------------------
+^^^^^^^^^^^^^^^^^^
 
 JavaScript supports the concept of single inheritance. It does not support (true) multiple inheritance like C++. Most people agree on the fact that such a concept tends to be very complex and error-prone. There are other ways to shoot you in the foot. qooxdoo only allows for single inheritance as well:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       extend: qx.test.Animal
     });
 
 Multiple Inheritance
------------------------
+^^^^^^^^^^^^^^^^^^^^
 
 Not supported. There are more practical and less error-prone solutions that allow for typical features of multiple inheritance: Interfaces and Mixins (see below).
 
 Polymorphism (Overriding)
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 qooxdoo does, of course, allow for polymorphism, that is most easily seen in the ability to override methods in derived classes.
 
 Calling the Superclass Constructor
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is hard to come up with an appealing syntax and efficient implementation for calling the superclass constructor from the constructor of a derived class. You simply cannot top Java's ``super()`` here. At least there is some generic way that does not involve to use the superclass name explicitly:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       extend: qx.test.Animal,
       construct: function(x) {
@@ -212,11 +228,12 @@ Unfortunately, to mimic a ``super()`` call the special variable ``arguments`` is
 ``this.base(arguments, x)`` is internally mapped to ``arguments.callee.base.call(this, x)`` (The *.base* property is maintained for every method through qooxdoo's class system). The latter form can be handled by JavaScript natively, which means it is quite efficient. As an optimization during the build process such a rewrite is done automatically for your deployable application.
 
 Calling an Overridden Method
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Calling an overridden superclass method from within the overriding method (i.e. both methods have the same name) is similar to calling the superclass constructor:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       extend: qx.test.Animal,
       members: {
@@ -227,15 +244,16 @@ Calling an overridden superclass method from within the overriding method (i.e. 
     });
 
 Calling the Superclass Method or Constructor with all parameters
------------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This variant allows to pass all the parameters (unmodified):
 
 ::
+
     qx.Class.define("qx.test.Animal", {
       members: {
         makeSound : function(howManyTimes) {
-           ...
+           ....
         }
       }
     });
@@ -252,11 +270,12 @@ This variant allows to pass all the parameters (unmodified):
     });
 
 Calling another Static Method
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is an example for calling a static member without using a fully-qualified class name (compare to ``this.base(arguments)`` above):
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       extend: qx.test.Animal,
       statics : {
@@ -278,9 +297,10 @@ In purely static classes for calling a static method from another static method,
 Interfaces
 ==========
 
-The class system supports <interfaces>. The implementation is based on the feature set of Java interfaces. Most relevant features of Java-like interfaces are supported. A class can define which interface or multiple interfaces it implements by using the ``implement`` key:
+The class system supports :doc:`interfaces`. The implementation is based on the feature set of Java interfaces. Most relevant features of Java-like interfaces are supported. A class can define which interface or multiple interfaces it implements by using the ``implement`` key:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       implement : [qx.test.IPet, qx.test.IFoo]
     });
@@ -288,7 +308,7 @@ The class system supports <interfaces>. The implementation is based on the featu
 Mixins
 ======
 
-Unlike interfaces, <mixins> do contain concrete implementations of methods. They borrow some ideas from Ruby and similar scripting languages.
+Unlike interfaces, :doc:`mixins` do contain concrete implementations of methods. They borrow some ideas from Ruby and similar scripting languages.
 
 Features:
   * Add mixins to the definition of a class: All members of the mixin are added to the class definition.
@@ -298,6 +318,7 @@ Features:
 The concrete implementations of mixins are used in a class through the key ``include``:
 
 ::
+
     qx.Class.define("qx.test.Cat", {
       include : [qx.test.MPet, qx.test.MSleep]
     });
@@ -315,7 +336,7 @@ Some of the most prominent features include:
   * Mixins (Ruby-like)
   * Easy calling of super classes (constructor or methods)
   * Better concepts for ``private``, ``protected`` and ``public`` members
-  * Powerful dynamic <understanding_properties|properties>
+  * Powerful dynamic :doc:`properties <understanding_properties>`
   * Migration support for existing applications
   * Browser specific builds (Gecko, Mshtml, Opera, Webkit)
   * Simplified settings
@@ -344,5 +365,5 @@ More runtime checks
 Class Declaration Quick Ref
 ---------------------------
 
-  * <class_quickref> - a quick syntax overview
+  * :doc:`class_quickref` - a quick syntax overview
 

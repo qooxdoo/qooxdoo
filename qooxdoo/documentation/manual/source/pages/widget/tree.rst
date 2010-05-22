@@ -2,6 +2,9 @@ Tree
 ****
 The tree package contains classes that allow you to build up visual trees, like the ones you are familiar with e.g. for browsing your file system. Expanding and collapsing tree nodes is handled automatically by showing or hiding the contained subtree structure.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/tree.png|

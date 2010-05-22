@@ -117,7 +117,7 @@ def convertCodeBlock(s,l,t):
         code = t[2]
     else:
         code = t[3]
-    res = "::\n\n"
+    res = "\n::\n\n"
     res += reindentBlock(code, 4)
     res += "\n"
     return res
@@ -232,4 +232,4 @@ if __name__ == "__main__":
     if wikiInput:
         res = wikiMarkup.transformString(wikiInput)
         res = rmEmptyLines(res)
-        print res
+        print res.encode('ascii', 'xmlcharrefreplace')

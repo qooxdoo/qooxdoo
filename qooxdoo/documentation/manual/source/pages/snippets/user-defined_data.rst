@@ -8,6 +8,7 @@ You can store arbitrary user-defined data in any qooxdoo object using the ``setU
 For example:
 
 ::
+
     MyObject.setUserData("MyData", "123");
     MyObject.debug("MyData = " + MyObject.getUserData("MyData"));
 

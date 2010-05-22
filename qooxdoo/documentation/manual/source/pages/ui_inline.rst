@@ -25,10 +25,11 @@ Setup An Inline Application
 This section only applies to qooxdoo ``0.8.2`` and newer.
 </note>
 
-The setup of an inline application is done by using the ``create-application`` script described at the <.:helloworld#create_your_application|Hello World> page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
+The setup of an inline application is done by using the ``create-application`` script described at the :doc:`Hello World <.:helloworld#create_your_application>` page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
 
 ::
-    </code>
+
+    /opt/qooxdoo-sdk/tool/bin/create_application.py -n myapp -t inline
 
 Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demostrates the different integration approaches which are described at the next section.
 
@@ -45,6 +46,7 @@ Which way you choose, depends on what you like to achieve. Technically both shar
 Instead of using ``qx.application.Standalone`` as a base application class you need to extend from ``qx.application.Inline`` as a starting point. So basically your (empty) application looks like this:
 
 ::
+
     qx.Class.define("myPortal.Application",
     {
       extend : qx.application.Inline,
@@ -68,6 +70,7 @@ Adding a widget to the page without regarding the page flow is a no-brainer. Jus
 <note>Absolute positioning demands no existing DOM node in the target document.</note>
 
 ::
+
     qx.Class.define("myPortal.Application",
     {
       extend : qx.application.Inline,
@@ -97,6 +100,7 @@ To add widgets at certain locations inside the page you can create or reuse DOM 
 <note>You need to define specific DOM nodes in your document which act as islands for the qooxdoo widgets.</note>
 
 ::
+
     qx.Class.define("myPortal.Application",
     {
       extend : qx.application.Inline,

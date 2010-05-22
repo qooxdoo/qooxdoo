@@ -13,6 +13,7 @@ Implement your subclass
 For the correct implementation of the remote table model you have to define/overwrite two methods ``_loadRowCount`` and ``_loadRowData``. Both are automatically called by the table widget.
 
 ::
+
     qx.Class.define("myApplication.table.RemoteDataModel",
     {
       extend : qx.ui.table.model.Remote,
@@ -79,6 +80,7 @@ Using your remote model
 Now that you set up the remote table model the table component can use it.
 
 ::
+
     var remoteTableModelInstance = new myApplication.table.RemoteDataModel();
     yourTableInstance.setTableModel(remoteTableModelInstance);
 
@@ -91,6 +93,7 @@ The table component offers sortable columns to let the user sort the data the wa
 Since you have to pull the data yourself into the table once the user changes the sorting criteria you have to update the table data. You have to enhance the ``_loadRowData`` method with this information to inform your backend how to sort the data.
 
 ::
+
     // "_loadRowData" with sorting support
     _loadRowData : function(firstRow, lastRow)
     {
@@ -123,6 +126,7 @@ The backend has to deliver the requested data in a JSON data structure in order 
 For example 
 
 ::
+
     var remoteModel = new myApplication.table.RemoteDataModel();
 
     // first param: displayed names, second param: IDs
@@ -131,6 +135,7 @@ For example
 Then the data delivered by the backend should have the following structure:
 
 ::
+
     result = {[  
       { "first" : "John", "last" : "Doe"  },
       { "first" : "Homer", "last" : "Simpson"  },

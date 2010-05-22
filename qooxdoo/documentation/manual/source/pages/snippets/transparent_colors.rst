@@ -4,6 +4,7 @@ Transparent colors
 To set a transparent color for any widget do the following:
 
 ::
+
     // text color
     myWidget.setTextColor("transparent");
 

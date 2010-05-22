@@ -1,7 +1,7 @@
 Setup a low-level library
 *************************
 
-A low-level library is interesting for all those who like to use the <.:low_level_apis|low-level APIs> of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
+A low-level library is interesting for all those who like to use the :doc:`low-level APIs <.:low_level_apis>` of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
 
 Create a low-level skeleton
 ===========================
@@ -9,12 +9,14 @@ Create a low-level skeleton
 To create your low-level application skeleton you can let do the tool-chain the heavy lifting and use the ``create-application.py`` script to generate the skeleton.
 
 ::
-    </code>
+
+    $QOOXDOO_PATH/tool/bin/create-application.py -n appName -t bom -o $OUTPUT-DIR
 
 The ``t`` parameter is the important one to define the application as a ``bom`` type application. To show all available options of this mighty script just type 
 
 ::
-    </code>
+
+    $QOOXDOO_PATH/tool/bin/create-application.py ?
 
 Generate qooxdoo build
 ======================
@@ -24,7 +26,8 @@ Looking at the output of your generated low-level library skeleton you first rea
 Before you can descend to the low-levels you have to generate a javascript file containing the qooxdoo low-level classes.
 
 ::
-    </code>
+
+    ./generate.py build
 
 This pre-defined job is all you have to execute to start right away.
 
@@ -38,6 +41,7 @@ Ready to code
 As already mentioned implementing your logic is a no-brainer. Just grab the existing ``index.html`` file and start right away.
 
 ::
+
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.2//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>

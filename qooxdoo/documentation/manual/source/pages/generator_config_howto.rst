@@ -12,7 +12,7 @@ Sometimes you may wish to create a library-style build of just qooxdoo framework
 
 You roughly have to take these steps to accomplish that:
   - define a set of classes you want to include
-  - An important thing to keep in mind here is that the architecture of qooxdoo is designed around <generator_config_background#application_startup|running whole applications>, not just providing a set of library classes. That means that once the qooxdoo runtime starts it will
+  - An important thing to keep in mind here is that the architecture of qooxdoo is designed around :doc:`running whole applications <generator_config_background#application_startup>`, not just providing a set of library classes. That means that once the qooxdoo runtime starts it will
   * create a runtime environment (vars, core classes and objects, etc.)
   * look for a main application class to run
 
@@ -33,6 +33,7 @@ E.g., provided you had those two packages and an index.html, in it you
 could say
 
 ::
+
     <!-- you need some inline stuff first -->
       <script type="text/javascript">
         qxsettings = { "qx.application" : "Application" };  // if that's 
@@ -53,6 +54,7 @@ go into the source/build job output. If you are working against trunk,
 put these two job definitions in your config.json:
 
 ::
+
     "source" : {
          "=include" : [ "=${APPLICATION}.*" ]
       },
@@ -74,6 +76,7 @@ effort on your side to sort things out.
 (Old quickstart config.json)
 
 ::
+
     {
       "jobs" :
       {

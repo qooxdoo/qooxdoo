@@ -2,6 +2,9 @@ ComboBox
 ********
 A ComboBox widget is used to select items from a list or allow customer input. The items in a ComboBox supports plane text and/or icons.  
 
+XXX
+===
+
 Preview Image
 -------------
 |ComboBox|
@@ -16,7 +19,7 @@ Features
 
 Description
 -----------
-A ComboBox is like a <.:TextField>  with a drop down of predefined values. The main difference to the <.:SelectBox> is that the user can enter individual values or choose from the predefined ones. The items in the predefined list supports plane text and/or icons. The items which can be added to the list are ``qx.ui.form.ListItem`` items. 
+A ComboBox is like a :doc:`.:TextField`  with a drop down of predefined values. The main difference to the :doc:`.:SelectBox` is that the user can enter individual values or choose from the predefined ones. The items in the predefined list supports plane text and/or icons. The items which can be added to the list are ``qx.ui.form.ListItem`` items. 
 
 Please note that the ComboBox supports no auto-	completion.
 

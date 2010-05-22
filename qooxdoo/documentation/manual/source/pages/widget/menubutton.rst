@@ -2,6 +2,9 @@ MenuButton
 **********
 The MenuButton looks like a normal button, but it opens a menu when clicking on it.
 
+XXX
+===
+
 Preview Image
 -------------
 |MenuButton|
@@ -19,7 +22,7 @@ Description
 -----------
 The MenuButton looks like a normal button, but it opens a menu when clicking on it.
 
-For using a menu see: <.:Menu>
+For using a menu see: :doc:`.:Menu`
 
 Demos
 -----

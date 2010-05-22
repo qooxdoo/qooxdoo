@@ -2,6 +2,9 @@ PopUp
 *****
 Popups are widgets, which can be placed on top of the application.
 
+XXX
+===
+
 Preview Image
 -------------
 |pages/widget/popup.png|

@@ -1,12 +1,12 @@
 Image clipping and combining
 ****************************
-qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like <.:ui_theming|appearance or decoration theme>.
+qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme <.:ui_theming>`.
 
 Setup
 =====
 
 <note>
-To be able to use image clipping and combining you need an installed <tools_beyond_python_sdk|ImageMagick> package.
+To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools_beyond_python_sdk>` package.
 </note>
 
 To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 
@@ -16,6 +16,7 @@ To use the two features you have to create a config file which can be used by th
 At the first look the configuration file for the image jobs is basically the same as a normal application configuration file.
 
 ::
+
     {
       "jobs" :
       {
@@ -42,6 +43,7 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
 <note>Mainly, the clipping is needed to prepare the source image for the use as a ``baseImage`` for the ``grid`` decorator. All clipped images of the core framework are used as baseImages for grid decorators.</note>
 
 ::
+
     "image-clipping" :
     {
        "extend" : ["common"],
@@ -74,7 +76,7 @@ For the case ``border-width``: One image says more than thousand words :)
 The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4.
 
 <note>
-For more information see the <.:tool/generator_config_ref#slice-images|slice-image> section.
+For more information see the :doc:`slice-image <.:tool/generator_config_ref#slice-images>` section.
 </note>
 
 Image combining
@@ -82,6 +84,7 @@ Image combining
 Opposite to image clipping the image combining takes multiple images as source and generates one ``combined`` image out of them. 
 
 ::
+
     "image-combine" :
     {
        "extend" : ["common"],
@@ -113,7 +116,7 @@ Basically the structure is the same as for the ``image-clipping`` jobs. Let's ta
 <note>The layout depends on the sizes of the source images. Best suited for combining are always images with the same sizes. For most cases the ``horizontal`` layout is the better choice</note>
 
 <note>
-For more information take a look at the <.:tool/generator_config_ref#combine-images|combine-images> section.
+For more information take a look at the :doc:`combine-images <.:tool/generator_config_ref#combine-images>` section.
 </note>
 
 Run image jobs
@@ -121,14 +124,17 @@ Run image jobs
 If you are finished with the definition of your images to clip and/or to combine you can use the ``generator`` to actually let them created for you.
 
 ::
-    </code>
+
+    ./generate.py -c image.json image-clipping
 
 ::
-    </code>
+
+    ./generate.py -c image.json image-combine
 
 If you include the following job in your ``image.json`` jobs list
 
 ::
+
     "images" :
     {
        "run" : [ "image-clipping", "image-combine" ]
@@ -137,7 +143,8 @@ If you include the following job in your ``image.json`` jobs list
 the execution of
 
 ::
-    </code>
+
+    ./generate.py -c image.json images
 
 will run both jobs at once.
 

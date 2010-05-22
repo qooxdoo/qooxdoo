@@ -20,6 +20,7 @@ Declaring resources in the code
 You have to declare the resources you like to use in your application code in an ``#asset`` compiler hint near the top of your source file.
 
 ::
+
     /* ***
 
     #asset(myapp/icons/16/folder-open.png)
@@ -31,6 +32,7 @@ This is essential, since these hints are evaluated during the compile step, whic
 Instead of adding meta information for each individual resource, you may as well use simple (shell) wildcards to specify a whole set of resources:
 
 ::
+
     /* ***
 
     #asset(myapp/icons/16/*)
@@ -47,6 +49,7 @@ Once you declared the resource in your code you can equip any widget with this r
 Here is an example:
 
 ::
+
     var button = new qx.ui.form.Button("Button B", "myapp/icons/16/folder-open.png");
 
 Using qooxdoo icons with widgets
@@ -59,6 +62,7 @@ If you want to use some of the icons as resources that are part of the icon them
   - Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. Please note that this is available starting with qooxdoo 0.8.1, but it could possibly be changed or even removed in future releases.
 
 ::
+
     /*
     #asset(myapp/icons/16/utilities-dictionary.png)
     #asset(qx/icon/Oxygen/16/apps/utilities-dictionary.png)
@@ -74,7 +78,22 @@ If you want to use some of the icons as resources that are part of the icon them
 When you use the third method above and you do not use the *Modern* theme, you must edit ``config.json`` in order to have the meta theme's icons and the explicitly given icon theme in sync:
 
 ::
-    </code>
+
+    {
+      "name"    : "myapp",
+
+      ...
+
+      "let" :
+      {
+        "APPLICATION"  : "myapp",
+        ...
+        "QXTHEME"      : "qx.theme.Classic",
+        "QXICONTHEME"  : ["Oxygen"],
+        ...
+        "ROOT"         : "."
+      }
+    }
 
 Obtaining the URL for a resource
 ================================
@@ -82,6 +101,7 @@ Obtaining the URL for a resource
 To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ResourceManager>`_:
 
 ::
+
     var iframe = new
     qx.ui.embed.Iframe(qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"));
 

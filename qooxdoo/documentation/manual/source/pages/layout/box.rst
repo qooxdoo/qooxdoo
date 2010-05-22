@@ -3,6 +3,9 @@ HBox/VBox
 
 The box layouts lay out their children one after the other. The horizontal box layout lays out widgets in a horizontal row, from left to right, while the vertical box layout lays out widgets in a vertical column, from top to bottom.
 
+XXX
+===
+
 Preview Image
 -------------
 

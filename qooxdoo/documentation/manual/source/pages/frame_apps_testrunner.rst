@@ -4,7 +4,8 @@ The qooxdoo Test Runner
 "Test Runner" is a `unit testing <http://en.wikipedia.org/wiki/Unit_test>`_ framework that fully supports testing qooxdoo classes. It is similar to but does not require JSUnit or any other JavaScript unit testing framework. If you look at the component section of a qooxdoo distribution under ``component/testrunner/``, you will find the Test Runner sources, together with a mockup test class. In the ``framework/`` section you can create a Test Runner instance with all test classes from the qooxdoo framework by running:
 
 ::
-    </code>
+
+    ./generate.py test
 
 Test Runner provides a convenient interface to test classes that have been written to that end. You can run single tests, or run a whole suite of them at once.
 
@@ -21,7 +22,7 @@ The Test Runner framework can also be deployed for *your own* application. It pr
 How to deploy Test Runner for your own development
 ==================================================
 
-This section assumes that your qooxdoo application bears on the structure of the qooxdoo <helloworld#create_your_application|skeleton> application. Then this is what you have to do:
+This section assumes that your qooxdoo application bears on the structure of the qooxdoo :doc:`skeleton <helloworld#create_your_application>` application. Then this is what you have to do:
 
 Writing Test Classes
 --------------------
@@ -34,7 +35,7 @@ Writing Test Classes
     * In order to communicate the test results back to the Test Runner framework exceptions are used. No exception means the test went fine, throwing an exception from the test method signals a failure. Return values from the test methods are not evaluated.
     * To model your test method behaviour, you can use the methods inherited from ``qx.dev.unit.TestCase`` which encapsulate exceptions in the form of assertions:
       * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
-      * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see <variants|Variants>). 
+      * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see :doc:`Variants <variants>`). 
       * See the documentation for the ``[[http://demo.qooxdoo.org/1.2/apiviewer/#qx.dev.unit.TestCase|qx.dev.unit.TestCase]]`` class for more information on the available assertions.
 Asynchronous Tests
 ^^^^^^^^^^^^^^^^^^
@@ -45,6 +46,7 @@ Starting with qooxdoo 0.8.2, the unit testing framework supports asynchronous te
 Here's an example: In our test, we want to send an AJAX request to the local web server, then assert if the response is what we expect it to be.
 
 ::
+
     testAjaxRequest : function()
     {
       var request = new qx.io.remote.Request("/myWebApp/index.html");
@@ -64,7 +66,8 @@ Create the Test Application
   * Run ``generate.py test`` from the top-level directory of your application. This will generate the appropriate test application for you, which will be available in the subfolder ``test`` as ``test/index.html``. Open this file in your browser and run your tests.
   * Equally, you can invoke ``generate.py test-source``. This will generate the test application, but allows you to use the *source* version of your application to run the tests on. In doing so the test application links directly into the source tree of your application. This allows for `test-driven development <http://en.wikipedia.org/wiki/Test-driven_development>`_ where you simultaneously develop your source classes, the test classes and run the tests. All you need to do is to change the URL of the "test backend application" (the textfield in the upper middle of the TestRunner frame) from ``tests.html`` (which is the default) to ``tests-source.html``. (Caveat: If ``generate.py test-source`` is the first thing you do, you might get an error when TestRunner starts, since the default tests.html has not been built; just change the URL and continue). For example, the resulting URL will look something like this: 
 ::
-    </code>
+
+    html/tests-source.html?testclass=<your_app_name> 
  After that, you just reload the backend application by hitting the reload button to the right to see and test your changes in the TestRunner.
   * If you're working on an application based on qx.application.Native or qx.application.Inline (e.g. by starting with an Inline skeleton), you can run ``generate.py test-native`` or ``generate.py test-inline`` to create a test application of the same type as your actual application. The TestRunner's index file will be called ``index-native.html`` or ``index-inline.html``, respectively.
 

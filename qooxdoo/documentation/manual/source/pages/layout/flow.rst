@@ -7,6 +7,9 @@ This layout manager is available since qooxdoo 0.8.3.
 
 A basic layout, which supports positioning of child widgets in a 'flowing' manner, starting at the container's top/left position, placing children left to right (like a HBox) until the there's no remaining room for the next child. When out of room on the current line of elements, a new line is started, cleared below the tallest child of the preceeding line -- a bit like using 'float' in CSS, except that a new line wraps all the way back to the left.
 
+XXX
+===
+
 Preview Image
 -------------
 

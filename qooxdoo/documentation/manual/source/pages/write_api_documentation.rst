@@ -13,6 +13,7 @@ Description texts may also include HTML tags for a better structuring.
 An example:
 
 ::
+
     /**
      * Shows a message to the user.
      *
@@ -27,6 +28,7 @@ This comment describes the method ``showMessage``. At the beginning there is a s
 The docgenerator recognises the following structures:
 
 ::
+
     /** Class definitions (resp. constructors). */
     qx.Class.define("mypackage.MyClass",
     {
@@ -132,6 +134,7 @@ In these cases the method signature can be declared inside the documentation com
 Example:
 
 ::
+
     members :
       {
         /**
@@ -149,6 +152,7 @@ Example
 Example for a fully extended doc comment:
 
 ::
+
     /**
     * Handles a drop.
     *
@@ -167,7 +171,9 @@ Example for a fully extended doc comment:
     };
 
 This comment is shown in the API viewer like this:?	
-:documentation:developer:apiviewer-example.png|Example output of the API viewer
+|Example output of the API viewer|
+
+.. |Example output of the API viewer| image:: :documentation:developer:apiviewer-example.png
 
 Handling of data types
 ======================

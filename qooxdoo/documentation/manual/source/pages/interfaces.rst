@@ -17,6 +17,7 @@ Interface definitions look very similar to normal class definitions.
 Example:
 
 ::
+
     qx.Interface.define("qx.test.ISample",
      {
        extend: [SuperInterfaces],
@@ -46,6 +47,9 @@ Example:
        }
     });
 
+XXX
+---
+
 Definition
 ^^^^^^^^^^
 
@@ -54,7 +58,7 @@ Interfaces are declared using ``qx.Interface.define``. Interface names start by 
 Properties
 ^^^^^^^^^^
 
-Properties in interfaces state that each class implementing this interface must have a property of the given name. The <defining_properties|property definition> is not evaluated and may be empty.
+Properties in interfaces state that each class implementing this interface must have a property of the given name. The :doc:`property definition <defining_properties>` is not evaluated and may be empty.
 
 Members
 ^^^^^^^
@@ -67,6 +71,7 @@ Statics
 Statics behave exactly like statics defined in mixins and qooxdoo classes. They are accessible through their fully-qualified name. For example, the static varaiable ``PI`` could be used like this:
 
 ::
+
     var a = 2 * qx.test.ISample.PI * (r*r);
 
 Events
@@ -82,6 +87,7 @@ With ``implement`` key of the class declaration, a list of interfaces can be lis
 Example:
 
 ::
+
     qx.Class.define("qx.test.Sample",
      {
        implement: [qx.test.ISample],
@@ -118,4 +124,4 @@ It is further possible to use interfaces as property checks.
 Interfaces Quick Ref
 ====================
 
-  * <interface_quickref> - a syntax quick reference for interfaces
+  * :doc:`interface_quickref` - a syntax quick reference for interfaces

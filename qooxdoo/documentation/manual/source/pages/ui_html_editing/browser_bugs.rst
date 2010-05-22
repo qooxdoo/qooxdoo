@@ -19,5 +19,9 @@ Webkit/Safari
 
   * Setting a background color for text on *collapsed* selection is not working like in Gecko or IE. Instead of setting the background color and allowing the user to type ahead in the new background color (like in Gecko/IE) nothing happens. The current solution in the HtmlArea is to select the word currently under the caret and to set the background color on this selection. Working on a user-selection works as expected.
 
-  * Deleting a block element (e.g. an <p> tag) can cause an element to contain *two* text nodes::contrib:project:htmlarea:webkit_bug.png|:contrib:project:htmlarea:webkit_bug.pngThis wrong behavior  can cause problems with selections.
+  * Deleting a block element (e.g. an <p> tag) can cause an element to contain *two* text nodes:|:contrib:project:htmlarea:webkit_bug.png|
+
+.. |:contrib:project:htmlarea:webkit_bug.png| image:: :contrib:project:htmlarea:webkit_bug.png
+
+This wrong behavior  can cause problems with selections.
 

@@ -5,7 +5,10 @@ The scroll bar widget exists as a custom qooxdoo scroll bar and a native browser
 
 Which one is used as default can be controlled by the ``qx.nativeScrollBars`` setting.
 
-Scroll bars are used e.g. by the <.:Scroll> container. Usually a scroll bar is not used directly.
+Scroll bars are used e.g. by the :doc:`.:Scroll` container. Usually a scroll bar is not used directly.
+
+XXX
+===
 
 Preview Image
 -------------

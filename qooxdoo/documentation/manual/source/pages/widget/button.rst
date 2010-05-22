@@ -2,6 +2,9 @@ Button
 ******
 A Button widget is used to display plain text and/or an icon. The button supports mouse and key events. 
 
+XXX
+===
+
 Preview Image
 -------------
 |Button widget|

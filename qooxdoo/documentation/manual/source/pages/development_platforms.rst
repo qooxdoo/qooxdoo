@@ -4,7 +4,7 @@ Development Platforms
 Built-in Development Platform
 =============================
 
-A typical qooxdoo-based web application is created by leveraging the power of the built-in tools in combination with a client-side programming model based on object-oriented JavaScript. For more information please see the <:about|introdcution> or consult the <.:|manual>.
+A typical qooxdoo-based web application is created by leveraging the power of the built-in tools in combination with a client-side programming model based on object-oriented JavaScript. For more information please see the :doc:`introdcution <:about>` or consult the :doc:`manual <.:>`.
 
 Alternative Development Platforms
 =================================

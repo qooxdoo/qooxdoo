@@ -1,7 +1,7 @@
 Available Keyboard Shortcuts
 ****************************
 
- The result of using the shortcuts ``Control + Enter`` and ``Shift + Enter`` are explained at the <.paragraph_handling|Paragraph Handling> page.
+ The result of using the shortcuts ``Control + Enter`` and ``Shift + Enter`` are explained at the :doc:`Paragraph Handling <.paragraph_handling>` page.
 
 The following keyboard shortcuts are implemented at the moment:
 

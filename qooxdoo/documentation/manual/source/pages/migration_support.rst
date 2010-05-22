@@ -9,11 +9,13 @@ For the moment lets assume all the migration steps can be handled automatically.
   * Then, after you have unpacked the new qooxdoo SDK on your system, change references to the framework in your ``config.json`` and possibly in ``generate.py`` to point to the new version (look for "QOOXDOO_PATH").
   * Then change to your application's top-level directory and invoke the command
 ::
-    </code>
+
+    generate.py migration
 
   * Follow the instructions of the migration script, particularly allow the cache to be deleted.
 
 You now have up-to-date source files in your application. Run 
 ::
-    </code>
+
+    generate.py source
  to check that the generation progress goes through and test your application's run time behavior.

@@ -16,7 +16,7 @@ the legacy qooxdoo 0.7 code from the qooxdoo 1.2 framework. If your app still wo
 
 `Future Embed <http://demo.qooxdoo.org/1.2/demobrowser/index.html#legacy~EmbedFuture_Layout.html>`_ (`API <http://demo.qooxdoo.org/1.2/apiviewer/#qx.legacy.ui.embed.Future>`_)
 
-<migration_notes_from_07>
+:doc:`migration_notes_from_07`
 
 Porting an application
 ======================
@@ -32,7 +32,15 @@ Run the ``create-application.py`` from your ``tool/bin`` folder and specify name
 <note>``../tool/bin/create-application.py -n feedreader -t migration``</note>
 
 ::
-    </code>
+
+    >>> Copy skeleton into the output directory: ./feedreader
+    >>> Patching file './feedreader/config.json'
+    >>> Patching file './feedreader/generate.py'
+    >>> Patching file './feedreader/Manifest.json'
+    >>> Patching file './feedreader/source/index.html'
+    >>> Patching file './feedreader/source/class/feedreader/Application.js'
+    >>> Patching file './feedreader/source/class/feedreader/test/DemoTest.js'
+    >>> DONE
 
 The generator will create a new folder named *feedreader* inside your application folder.
 
@@ -42,7 +50,9 @@ Generate a source version
 qooxdoo 1.2 comes with a new build process for generating your application. Instead of calling ``make source`` in your application's folder, you now have to enter ``./generate.py source``:
 
 ::
-    </code>
+
+    cd ~/workspace/qooxdoo.trunk/application/feedreader/
+    ./generate.py source
 
 After running this command open the file ``index.html`` in the ``source`` folder in your web browser.
 
@@ -51,7 +61,7 @@ After running this command open the file ``index.html`` in the ``source`` folder
 Modify the config.json
 ----------------------
 
-With the new generator come new configuration files. A file named ``config.json`` replaces the ``Makefile``. Open the ``config.json`` and enter your settings. You can check the <migration_makefile|Makefile migration> for changes in these settings. If in doubt, leave this step for later and continue using the pre-configured ``config.json``.
+With the new generator come new configuration files. A file named ``config.json`` replaces the ``Makefile``. Open the ``config.json`` and enter your settings. You can check the :doc:`Makefile migration <migration_makefile>` for changes in these settings. If in doubt, leave this step for later and continue using the pre-configured ``config.json``.
 
 Copy the application's files
 ----------------------------
@@ -59,7 +69,8 @@ Copy the application's files
 An application's folder structure does not change in 1.2, so you can just copy all your JavaScript classes or application resources to your new application.
 
 ::
-    </code>
+
+    cp -r ~/workspace/qooxdoo.legacy_0_7_x/frontend/application/feedreader/source ./
 
 Choose a way of migrating
 -------------------------
@@ -76,7 +87,7 @@ Most likely the application's GUI part is the most difficult of all parts. Maint
 
 On the other hand, creating a legacy application has the advantage of changing the most important parts automatically and keep your application running during the migration. You can then port your code to the new APIs step by step. But you want to make sure you get rid of the compatibility layer eventually.
 
-The remainder of this document assumes that you are using path 1. and are transforming your project into a legacy application. If you decide to go with alternative 2. and do a fully manual port, the <migration_notes_from_07|migration notes> might be of help.
+The remainder of this document assumes that you are using path 1. and are transforming your project into a legacy application. If you decide to go with alternative 2. and do a fully manual port, the :doc:`migration notes <migration_notes_from_07>` might be of help.
 
 Running the migration script
 ----------------------------
@@ -86,17 +97,50 @@ The generator will traverse your classes and add the prefix *legacy* to all qoox
 <note>``./generate.py migration``</note>
 
 ::
-    </code>
+
+    NOTE:    To apply only the necessary changes to your project, we
+             need to know the qooxdoo version it currently works with.
+
+    Please enter your current qooxdoo version [0.7.3] :   
 
 Enter your qooxdoo version or just hit return if you are using the latest version.
 
 ::
-    </code>
+
+    MIGRATION SUMMARY:
+
+    Current qooxdoo version:   0.7.3
+    Upgrade path:              1.2-pre1 -> 1.2-pre2 -> 1.2-beta1 -> 1.2-rc1 -> 1.2
+
+    Affected Classes:
+        feedreader.view.Header
+        feedreader.view.Article
+        feedreader.view.Tree
+        feedreader.PreferenceWindow
+        feedreader.view.ToolBar
+        feedreader.FeedParser
+        feedreader.view.Table
+        feedreader.Application
+        feedreader.test.DemoTest
+
+    NOTE:    It is advised to do a 'make distclean' before migrating any files.
+             If you choose 'yes', a subprocess will be invoked to run distclean,
+             and after completion you will be prompted if you want to
+             continue with the migration. If you choose 'no', the making distclean
+             step will be skipped (which might result in potentially unnecessary
+             files being migrated).
+
+    Do you want to run 'make distclean' now? [yes] : 
 
 Enter "yes".
 
 ::
-    </code>
+
+    WARNING: The migration process will update the files in place. Please make
+             sure, you have a backup of your project. The complete output of the
+             migration process will be logged to 'migration.log'.
+
+    Do you want to start the migration now? [no] : 
 
 Enter "yes".
 
@@ -109,6 +153,7 @@ Manual work
 Open ``config.json`` and add this block of code in the ``jobs`` section:
 
 ::
+
     "common" :
     {
       "include" : 
@@ -126,21 +171,25 @@ Open ``config.json`` and add this block of code in the ``jobs`` section:
 Then change
 
 ::
+
     "extend" : ["appconf::build"]
 
 to 
 
 ::
+
     "extend" : ["common", "appconf::build"]
 
 and
 
 ::
+
     "extend" : ["appconf::source"]
 
 to 
 
 ::
+
     "extend" : ["common", "appconf::source"]
 
 Porting parts
@@ -163,22 +212,26 @@ In order to use the "Future Embeds" widgets you have to change the ``Application
 Change
 
 ::
+
     extend : qx.legacy.application.Gui
 
 into
 
 ::
+
     extend : qx.application.Inline,
     include : [qx.legacy.application.MGuiCompat],
 
 and 
 
 ::
+
     this.base(arguments);
 
 into
 
 ::
+
     this.base(arguments);
     this.compat();
 
@@ -188,7 +241,7 @@ In our demo application (Feedreader), we have to change the name of the overridd
 In 0.8 ``close()`` and ``terminate()`` are **not** called by the framework.
 In 0.8.1 ``close()`` will be called during when a ``onbeforeunload`` event is fired by the browser. It is possible to stop the unload process if the application's ``close()`` method returns an string. (This string will be shown in a ``confirm()`` dialog to inform the user about the unload process.)</note>
 
-We have a list of <migration_notes_from_07|GUI Changes> (currently work in progress) containing detailed information.
+We have a list of :doc:`GUI Changes <migration_notes_from_07>` (currently work in progress) containing detailed information.
 
 Run ``./generate.py source`` once again, since some classes (e.g. ``MGuiCompat``) have been added to the application.
 
@@ -205,12 +258,14 @@ All 1.2 widgets have to be placed inside a ``qx.legacy.embed.Future``.
 So replace
 
 ::
+
     this._treeView = new feedreader.view.Tree(this);
     horSplitPane.addLeft(this._treeView);
 
 with
 
 ::
+
     this._treeView = new feedreader.view.Tree(this);
 
     var future = new qx.legacy.ui.embed.Future().set({
@@ -229,26 +284,31 @@ Apply widget-specific changes
 Now open ``feedreader/view/Tree.js`` and replace
 
 ::
+
     extend : qx.legacy.ui.tree.Tree,
 
 with
 
 ::
+
     extend : qx.ui.tree.Tree,
 
 and
 
 ::
+
     var folder = new qx.legacy.ui.tree.TreeFolder(db[url].title);
 
 with
 
 ::
+
     var folder = new qx.ui.tree.TreeFolder(db[url].title);
 
 and
 
 ::
+
     this.set(
     {
       height   : "100%",
@@ -261,6 +321,7 @@ and
 with
 
 ::
+
     this.setDecorator(null);
 
     var root = new qx.ui.tree.TreeFolder("Feeds");
@@ -272,21 +333,25 @@ with
 and
 
 ::
+
     this.getManager().addEventListener("changeSelection", this._onChangeSelection, this);
 
 with
 
 ::
+
     this.addListener("changeSelection", this._onChangeSelection, this);
 
 and finally
 
 ::
+
     this.add(folder);
 
 with
 
 ::
+
     this._root.add(folder);
 
 Again, run ``./generate.py source`` and reload the application.

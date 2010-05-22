@@ -7,11 +7,12 @@ I hope you remember the layout of the application we are trying to build. If not
 
 |twitter mockup1|
 
-.. |twitter mockup1| image:: /pages/tutorials/twittermockup1.png?540
+.. |twitter mockup1| image:: /pages/tutorials/twittermockup1.png
 
 The first thing we need to do is to set a layout for our window. You can see that the text area and the button are side by side while all the other elements are ordered vertically. But all elements are aligned in a grid so we should choose a grid layout for that. We can add the grid layout in our own window class. Just add these lines of code in ``MainWindow.js``:
 
 ::
+
     // add the layout
         var layout = new qx.ui.layout.Grid(0, 0);
         this.setLayout(layout);
@@ -24,6 +25,7 @@ Layout and Toolbar
 First, we need to create the toolbar before we can add it. Creating the toolbar and adding it is straight forward.
 
 ::
+
     // toolbar
         var toolbar = new qx.ui.toolbar.ToolBar();
         this.add(toolbar, {row: 0, column: 0});
@@ -36,6 +38,7 @@ List and Layout, again
 Adding the list should look familiar now.
 
 ::
+
     // list
         var list = new qx.ui.form.List();
         this.add(list, {row: 1, column: 0});
@@ -45,6 +48,7 @@ Now its time to see our work in the browser. But again, we have added new class 
 First, get rid of that padding we don't need. The window object has a default content padding which we just  to set to ``0``.
 
 ::
+
     this.setContentPadding(0);
 
 Put that line in your windows constructor and the padding is gone.
@@ -52,6 +56,7 @@ Put that line in your windows constructor and the padding is gone.
 Next, we take care of the size of the list. The layout does not know which column(s) or row(s) it should stretch. So we need to tell the layout which one it should use:
 
 ::
+
     layout.setRowFlex(1, 1);
         layout.setColumnFlex(0, 1);
 
@@ -60,6 +65,7 @@ The first line tells the layout to keep the second row (the row for the list) fl
 The last thing we need to fix was the invisible toolbar. If you know the reason why it's not visible, you sure know how to fix it. It contains not a single element so it won't be visible. Fixing it means adding an element, in our case we just add the reload button. We already know how to create and add widgets so just add the following lines of code.
 
 ::
+
     // reload button
         var reloadButton = new qx.ui.toolbar.Button("Reload");
         toolbar.add(reloadButton);
@@ -72,6 +78,7 @@ Text Area and Button
 After that success, we can got to the next task, adding the text area and "Post" button. This is also straight forward like we have seen in all the other adding scenarios.
 
 ::
+
     // textarea
         var textarea = new qx.ui.form.TextArea();
         this.add(textarea, {row: 2, column: 0});
@@ -85,6 +92,7 @@ This time, we have to add the button in the second column to get the button and 
 Like the last time, the result is not quite what we want it to be. The list and toolbar do not fill the whole window. But that's a home-made problem because we extended our grid to two columns by adding the post button. The list and the toolbar need to span both available columns to have the result we want. But that's easy too, add ``colSpan: 2`` to the layout properties used by adding the list and the toolbar. Your code should look like this:
 
 ::
+
     this.add(toolbar, {row: 0, column: 0, colSpan: 2});
         // ...
         this.add(list, {row: 1, column: 0, colSpan: 2});
@@ -99,6 +107,7 @@ The UI now looks like the one we have seen in the mockup. But how does the UI co
 These two events we add to our window. Adding events is a two step process. First, we need to declare what kind of event we want to fire. Therefore, we add an events section alongside to the constructor section of the window class definition:
 
 ::
+
     events :
       {
         "reload" : "qx.event.type.Event",
@@ -110,6 +119,7 @@ As you can see in the snippet here, it ends with a comma. It always depends on w
 Declaring the events is the first step of the process. The second part is firing the events! Let's take a look at the reload event. It needs to be fired when the reload button was triggered (or "was executed" in qooxdoo parlance). The button itself fires an event on execution so we could use this event to fire our own reload event.
 
 ::
+
     reloadButton.addListener("execute", function() {
           this.fireEvent("reload");
         }, this);
@@ -119,6 +129,7 @@ Here we see two things: First, how to add an event listener and second, that fir
 The next case is a bit different but also easy.
 
 ::
+
     postButton.addListener("execute", function() {
           this.fireDataEvent("post", textarea.getValue());
         }, this);
@@ -126,6 +137,7 @@ The next case is a bit different but also easy.
 This time, we call the ``fireDataEvent`` method to get a data event fired. The second parameter is the data to embed in the event. We simply use the value of the text area. That's it for adding the events. To test both events we add a debug listener for each event in out application code, in the main() method of Application.js:
 
 ::
+
     main.addListener("reload", function() {
             this.debug("reload");
           }, this);
@@ -142,11 +154,13 @@ Finishing Touches
 As a last task, we can give the UI some finishing touches. Wouldn't it be nice if the text area had a placeholder text saying you should enter your message here? Easy task!
 
 ::
+
     textarea.setPlaceholder("Enter your message here...");
 
 Another nice tweak could be a twitter logo in the windows caption bar. Just download this `logo from twitter <http://twitter-badges.s3.amazonaws.com/t_small-c.png>`_ and save it in the ``source/resource/twitter`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
 
 ::
+
     this.base(arguments, "twitter", "twitter/t_small-c.png");
 
 This time, we added a new reference to an image. Like with class dependencies, we need to run the generator once more. After that, the image should be in the windows caption bar.
@@ -154,11 +168,13 @@ This time, we added a new reference to an image. Like with class dependencies, w
 Two more minor things are left to finish. First, the button does not look very good. Why don't we just give it a fixed width to fit its height.
 
 ::
+
     postButton.setWidth(60);
 
 The last task is a bit more complicated than the other tweaks before. As you probably know, twitter messages have a maximum length of 140 characters. So disabling the post button if the entered message has more the 140 characters could help us out in the communication layer. A twitter message with no text at all is also useless and we can disable the post button in that case. To get that we need to know when the text was changed in the text area. Fortunately, the text area has a data event for text changes we can listen to:
 
 ::
+
     textarea.addListener("input", function(e) {
           var value = e.getData();
           postButton.setEnabled(value.length < 140 && value.length > 0);
@@ -169,13 +185,14 @@ The event handler has only two rows. The first gets the changed text of the text
 The last thing we should consider is the startup of the application. The text area is empty but the button is enabled. Disabling the button on startup is the way to go here.
 
 ::
+
     postButton.setEnabled(false);
 
 Now go back to the browser and test your new tweaks. It should look like this.
 
 |step 2|
 
-.. |step 2| image:: /pages/tutorials/step21.png?540
+.. |step 2| image:: /pages/tutorials/step21.png
 
 That's it for building the UI. Again, if you want to take a `look at the code <http://github.com/wittemann/qooxdoo-tutorial/tree/Step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!

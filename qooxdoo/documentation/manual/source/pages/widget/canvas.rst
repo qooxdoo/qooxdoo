@@ -4,6 +4,9 @@ Canvas
 This widget embed the `HTML canvas element <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html#the-canvas>`_.
 <note> It does not work with Internet Explorer</note>
 
+XXX
+===
+
 Preview Image
 -------------
 

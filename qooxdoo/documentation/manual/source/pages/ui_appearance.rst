@@ -7,6 +7,7 @@ Theme Structure
 A theme normally consists of a set of entries. Each entry has a key which is basically some kind of selector which matches to a specific widgets. Missing selectors are presented as a warning when developing with debug code enabled.
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :
@@ -50,6 +51,7 @@ Aliases
 A entry can be defined with two different values, a string or a map. The first option is named "alias", it is basically a string, redirecting to another selector. In the ``Spinner`` example from above we may just want to use aliases for the buttons. See the example:
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :
@@ -76,6 +78,7 @@ Such an alias also redirects all child controls of the left hand selector to the
 This is super convenient for simple cases and additionally it is still possible to selectively override definitions for specific child controls.
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :
@@ -105,6 +108,7 @@ Entries
 The more complex full entry is a map with several sub entries where all are optional:
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :
@@ -138,6 +142,7 @@ Let's start with the ``style`` sub entry. The value under this key should be a f
 It is required in this case that all properties applied in one state need to be applied it all states. Something like this is seen as bad style and may result into wrong styling:
 
 ::
+
     style : function(states)
     {
       var result = {};
@@ -153,6 +158,7 @@ It is required in this case that all properties applied in one state need to be 
 The good version always should define the else case as well:
 
 ::
+
     style : function(states)
     {
       var result = {};
@@ -186,6 +192,7 @@ Child Control Aliases
 Child control aliases are compared to the normal aliases mentioned above, just define aliases for the child controls. They do not redirect the local selector to the selector defined by the alias. An example to make this more clear:
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :
@@ -219,6 +226,7 @@ The result mapping would look like the following:
 As you can see the ``spinner/upbutton`` is kept in its original state. This allows one to just refine a specific outer part of a complex widget instead of the whole widget. It is also possible to include the orignal part of the ``button`` into the ``spinner/upbutton`` as well. This is useful to just override a few properties like seen in the following example:
 
 ::
+
     qx.Theme.define("qx.theme.modern.Appearance",
     {
       appearances :

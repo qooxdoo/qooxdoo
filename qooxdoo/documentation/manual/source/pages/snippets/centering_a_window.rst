@@ -1,7 +1,9 @@
 How to center a window on screen?
 *********************************
 
-Here is the solution::
+Here is the solution:
+
+::
 
     var win = new qx.ui.window.Window();
     ....

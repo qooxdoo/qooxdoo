@@ -12,19 +12,20 @@ Normally, JavaScript automatically cleans up. There is a built-in garbage collec
 
 To help the buggy engines to collect the memory correctly it is helpful to dereference complex objects from each other, e.g. instances from maps, arrays and other instances. You don't need to delete primitive types like strings, booleans and numbers.
 
-qooxdoo has solved this issue from the beginning using the included "dispose" methods which could be overridden and extended by each class. qooxdoo 0.7 introduced <:documentation:0.7:class_declaration|a new class declaration>. This class declaration supports real "destructors" as known from other languages. These destructors are part of the class declaration. The new style makes it easier to write custom destructor/disposer methods because there are many new helper methods and the whole process has been streamlined to a great extend.
+qooxdoo has solved this issue from the beginning using the included "dispose" methods which could be overridden and extended by each class. qooxdoo 0.7 introduced :doc:`a new class declaration <:documentation:0.7:class_declaration>`. This class declaration supports real "destructors" as known from other languages. These destructors are part of the class declaration. The new style makes it easier to write custom destructor/disposer methods because there are many new helper methods and the whole process has been streamlined to a great extend.
 
 Disposing an application
 ========================
 
 You can dispose any qooxdoo based application by simply calling ``qx.core.ObjectRegistry.shutdown()``. The simplest possibility is to use the command line included in Firebug. Another possibility is to add a HTML link or a button to your application which executes this command.  
 
-You can look at the dispose behaviour of your app if you set the disposer into a verbose mode and then invoke it deliberately while your app is running. This will usually render your app unusable, but you will get all those messages hinting you at object properties that might need to be looked after. How-To instructions can be found <#how_to_test_the_destructor|here>. But mind that the disposer output contains only hints, that still need human interpretation.
+You can look at the dispose behaviour of your app if you set the disposer into a verbose mode and then invoke it deliberately while your app is running. This will usually render your app unusable, but you will get all those messages hinting you at object properties that might need to be looked after. How-To instructions can be found :doc:`here <#how_to_test_the_destructor>`. But mind that the disposer output contains only hints, that still need human interpretation.
 
 Example destructor
 ==================
 
 ::
+
     destruct : function()
     {
       this._disposeFields("_data", "_moreData");  // Deprecated, instead assign directly to 'null'
@@ -50,7 +51,13 @@ The variant ``qx.debug`` must be ``on``. The setting ``qx.disposerDebugLevel`` m
 Log output from these settings should look something like this:
 
 ::
-    </code>
+
+    35443 DEBUG: testgui.Report[1004]: Disposing: [object testgui.Report]FireBug.js (line 75)
+    Missing destruct definition for '_scroller' in qx.ui.table.pane.FocusIndicator[1111]: [object qx.ui.table.pane.Scroller]Log.js (line 557)
+    Missing destruct definition for '_lastMouseDownCell' in qx.ui.table.pane.Scroller[1083]: [object Object]Log.js (line 557)
+    036394 DEBUG: testgui.Form[3306]: Disposing: [object testgui.Form]FireBug.js (line 75)
+    Missing destruct definition for '_dateFormat' in qx.ui.component.DateChooserButton[3579]: [object qx.util.format.DateFormat]Log.js (line 557)
+    Missing destruct definition for '_dateFormat' in qx.ui.component.DateChooserButton[3666]: [object qx.util.format.DateFormat]Log.js (line 557)
 
 The nice thing here is that the log messages already indicate which dispose method to use: Every *"Missing destruct..."* line contains a hint to the type of member that is not being disposed properly, in the *"[object ...]"* part of the line. As a rule of thumb
 

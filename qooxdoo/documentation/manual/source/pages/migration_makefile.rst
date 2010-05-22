@@ -25,7 +25,7 @@ Makefile Migration
 | APPLICATION_ICON | N/A |
 | APPLICATION_FILES | ``[[.:tool:generator_config_ref#copy-files|copy-files/files]]`` |
 | APPLICATION_LOCALES | ``[[.:tool:generator_config_ref#let_top-level|let/LOCALES]]`` |
-| APPLICATION_HTML_TO_ROOT_URI | ``[[.:tool:generator_config_ref#library|library/uri]]`` of individual library (see also dedicated <.:tool:generator_config_articles#uri_handling|article> |
+| APPLICATION_HTML_TO_ROOT_URI | ``[[.:tool:generator_config_ref#library|library/uri]]`` of individual library (see also dedicated :doc:`article <.:tool:generator_config_articles#uri_handling>` |
 | APPLICATION_COMPLETE_BUILD | by overwriting the ``[[.:tool:generator_config_ref#include|include]]`` key (default: false)  |
 | APPLICATION_COMPLETE_SOURCE | by using dedicated job ``source-all``  |
 | APPLICATION_COMPLETE_API | by setting ``[[.:tool:generator_config_ref#let_top-level|let/API_INCLUDE]]`` |
@@ -42,7 +42,7 @@ Makefile Migration
 | APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY | N/A |
 | APPLICATION_OPTIMIZE_REMOVE_ASPECTS | N/A |
 | APPLICATION_ENABLE_GUI | N/A, replaced by customized builds using ``[[.:tool:generator_config_ref#include|include]]`` |
-| APPLICATION_RESOURCE_FILTER | N/A (always enabled, i.e. all source files need <ui_resources|#asset> declarations) |
+| APPLICATION_RESOURCE_FILTER | N/A (always enabled, i.e. all source files need :doc:`#asset <ui_resources>` declarations) |
 | APPLICATION_INCLUDES | ``[[.:tool:generator_config_ref#include|include]]``|
 | APPLICATION_THEME | ``[[.:tool:generator_config_ref#let_top-level|let/QXTHEME]]``|
 | APPLICATION_THEME_COLOR | N/A (all set in the theme class(es)) |

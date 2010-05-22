@@ -3,12 +3,12 @@ RPC with a Perl server
 
 **qooxdoo includes an advanced RPC mechanism for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details.** 
 
-As described in the <rpc|RPC overview>, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Perl-based server.
+As described in the :doc:`RPC overview <rpc>`, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Perl-based server.
 
 Setup
 =====
 
-Get a copy of the qooxdoo perl backend (Qooxdoo::JSONRPC) from our sourceforge <https://sourceforge.net/project/showfiles.php?group_id=190279|download area>. In the archive you will find a README.txt file as well as a README.CONFIGURE which contains details of how to set up the server. The steps involved are:
+Get a copy of the qooxdoo perl backend (Qooxdoo::JSONRPC) from our sourceforge :doc:`download area <https://sourceforge.net/project/showfiles.php?group_id=190279>`. In the archive you will find a README.txt file as well as a README.CONFIGURE which contains details of how to set up the server. The steps involved are:
 
   * First, make sure that you have the Perl JSON module installed. This can be found on CPAN, and if you can't get it prepackaged, can be installed with
 

@@ -4,6 +4,7 @@ How to implement a context-menu?
 Implementing a context-menu is as easy as never before. 
 
 ::
+
     var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
     container.setPadding(20);
     this.getRoot().add(container);

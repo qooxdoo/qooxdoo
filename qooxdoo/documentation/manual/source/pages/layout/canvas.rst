@@ -1,7 +1,10 @@
 Canvas
 ******
 
-The Canvas is an extended <Basic> layout. It is possible to position a widget relative to the right or bottom edge of the available space. The Canvas layout further has support for percent dimensions and locations.
+The Canvas is an extended :doc:`Basic` layout. It is possible to position a widget relative to the right or bottom edge of the available space. The Canvas layout further has support for percent dimensions and locations.
+
+XXX
+===
 
 Preview Image
 -------------

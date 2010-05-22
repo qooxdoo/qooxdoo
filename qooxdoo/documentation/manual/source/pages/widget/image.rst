@@ -3,6 +3,9 @@ Image
 
 As the name suggest, the Image widget is used to display image files.
 
+XXX
+===
+
 Preview Image
 -------------
 

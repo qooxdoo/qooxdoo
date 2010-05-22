@@ -28,7 +28,7 @@ Initialize Incrementally
 
   * Normally big applications consist of multiple parts which are not visibile initially. This is true for many things like hidden tab pages or not yet opened dialogs.
   * As the entire load process and evaluation of JavaScript costs precious time, it is a good idea to load functionality only when needed ("on demand").
-  * The newly created <.:tool:generator|Generator 2> (still alpha) makes it possible to easily split application logic into so-named "parts". This experimental feature will be available with 0.7.3 in a preliminary version and is expected to be integrated into future 0.8 releases. Besides the alpha status this new generator is already used by some large applications.
+  * The newly created :doc:`Generator 2 <.:tool:generator>` (still alpha) makes it possible to easily split application logic into so-named "parts". This experimental feature will be available with 0.7.3 in a preliminary version and is expected to be integrated into future 0.8 releases. Besides the alpha status this new generator is already used by some large applications.
   * To allow such a functionality, it is a good idea to separate application parts from each other as good as possible. It is still possible to connect them using callbacks: The usage of another part of the application is checked in all places and in the place where the initialisation should happen a callback is inserted which waits for the initialization of the new classes.
 
 Avoid Hacks
@@ -74,6 +74,7 @@ var address = {
 A function *could* refer to this data directly by accessing the data fields.
 
 ::
+
     // Attention: Not recommended coding style!
     function printContact(addressData) {
       var contact = addressData.firstname;

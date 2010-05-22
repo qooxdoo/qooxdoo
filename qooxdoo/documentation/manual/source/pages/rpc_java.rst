@@ -13,6 +13,7 @@ The Java backend comes with a ``build.xml`` file that generates a web applicatio
 To build the test WAR, simply follow these steps on the command line:
 
 ::
+
     cd /qooxdoo/frontend
     make build
     cd /qooxdoo/backend/java

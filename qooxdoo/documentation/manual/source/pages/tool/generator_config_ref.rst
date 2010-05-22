@@ -11,6 +11,7 @@ add-script
 Add a pre-fabricated JS file to the application. Takes a list.
 
 ::
+
     "add-script" :
     [
       {
@@ -18,7 +19,7 @@ Add a pre-fabricated JS file to the application. Takes a list.
       }
     ]
 
-<note>peer-keys: <#compile></note>
+<note>peer-keys: :doc:`#compile`</note>
 
   * **uri** *(required)* : URI with which the script will be loaded, relative to the index.html.
 
@@ -28,12 +29,13 @@ api
 Triggers the generation of a custom Apiviewer application. Takes a map.
 
 ::
+
     "api" :
     {
       "path" : "<path>"
     }
 
-<note>peer-keys: <#cache>, <#include>, <#library></note>
+<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
 
   * **path** *(required)* : Path where the Apiviewer application is to be stored, relative to the current directory.
 
@@ -43,6 +45,7 @@ asset-let
 Defines macros that will be replaced in #asset hints. Takes a map.
 
 ::
+
     "asset-let" :
     {
       "<macro_name>" : [ "foo", "bar", "baz" ]
@@ -51,7 +54,7 @@ Defines macros that will be replaced in #asset hints. Takes a map.
 Each entry is 
   * <macro_name> : [<list of replacement strings>] Like with macros, references (through '${macro_name}') to these keys in #asset hints in source files will be replaced. Unlike macros, each listed value will be used, and the result is the list of all ensuing expressions, so that all resulting assets will be honored. 
 
-<generator_config_articles#asset-let_key|Special section>
+:doc:`Special section <generator_config_articles#asset-let_key>`
 
 cache
 =====
@@ -59,6 +62,7 @@ cache
 Define the paths to cache directories, particularly to the compile cache. Takes a map.
 
 ::
+
     "cache" :
     {
       "compile"     : "<path>",
@@ -68,10 +72,10 @@ Define the paths to cache directories, particularly to the compile cache. Takes 
 
 Possible keys are 
   * **compile** : path to the "main" cache, the directory where compile results are cached, relative to the current (default:  *"[[generator_config_macros|${CACHE}]]"*)
-  * **downloads** : directory where to put downloads (e.g. contrib:%%*%% libraries), relative to the current (default: *"<generator_config_macros|${CACHE}>/downloads"//)
+  * **downloads** : directory where to put downloads (e.g. contrib:%%*%% libraries), relative to the current (default: *":doc:`${CACHE} <generator_config_macros>`/downloads"//)
   * **invalidate-on-tool-change** : when true, the *compile* cache (but not the downloads) will be cleared whenever the tool chain is newer (relevant mainly for trunk users; default: *true*)
 
-<generator_config_articles#cache_key|Special section>
+:doc:`Special section <generator_config_articles#cache_key>`
 
 clean-files
 ===========
@@ -79,6 +83,7 @@ clean-files
 Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc. Takes a map.
 
 ::
+
     "clean-files" :
     {
       "<doc_string>" :
@@ -88,11 +93,11 @@ Triggers clean-up of files and directories within a project and the framework, e
       ]
     }
 
-<note>peer-keys: <#cache></note>
+<note>peer-keys: :doc:`#cache`</note>
 
 Each key is a doc string that will be used in logging when deleting the corresponding files.
   * <doc_string> : arbitrary string
-  * <path>       : file/path to be deleted; may be relative to config file location; <generator_config_articles#file_globs | file globs> allowed
+  * <path>       : file/path to be deleted; may be relative to config file location; :doc:`file globs <generator_config_articles#file_globs >` allowed
 
 combine-images
 ==============
@@ -100,6 +105,7 @@ combine-images
 Triggers the creation of combined image files that contain various other images. Takes a map. *This action key requires an external program (ImageMagic) to run successfully.*
 
 ::
+
     "combine-images" :
     {
       "images" :
@@ -119,7 +125,7 @@ Triggers the creation of combined image files that contain various other images.
       }
     }
 
-<note>peer-keys: <#cache></note>
+<note>peer-keys: :doc:`#cache`</note>
 
   * **images** : map with combine entries
     * <output_image> : path of output file; may be relative to the config file location
@@ -127,7 +133,7 @@ Triggers the creation of combined image files that contain various other images.
       * **layout** : either "horizontal" or "vertical"; defines the layout of images within the combined image (default: "horizontal")
       * **input** *(required)*: list of groups of input files, each group sharing the same prefix; each group consists of:
          * **prefix** *(required)*: takes a list; analogous to the *prefix* attribute of the ouput image, the first element of the setting will be stripped from the path of each input file, and replaced by an optional second element, to obtain the corresponding image id
-         * **files** : the list of input image files (<generator_config_articles#file_globs | file globs> allowed); may be relative to config file location 
+         * **files** : the list of input image files (:doc:`file globs <generator_config_articles#file_globs >` allowed); may be relative to config file location 
 
 The image id's of both the input and output files will be collected in an accompanying *<output_name>.meta* file, for later processing by the generator when creating source and build versions of the app. You may move these files around after creation, but you'll have to keep the combined image and its .meta file together in the same directory. At generation time, the generator will look for an accompanying .meta file for every image file it finds in a library. The combined image's image id will be refreshed from its current location relative to the library's resource path. But the clipped images (the images inside the combined image) will be registered under the image id's given in the .meta file (and for browser that don't support combined images, they'll have to be available on disk under this exact image id).
 
@@ -137,12 +143,13 @@ compile
 Triggers the generation of a source or build version of the app. Takes a map. 
 
 ::
+
     "compile" :
     {
       "type" : "(source|build)"
     }
 
-<note>peer-keys: <#compile-options>, <#cache>, <#include>, <#library></note>
+<note>peer-keys: :doc:`#compile-options`, :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
 
 Generate Javascript file(s) for the application that can be loaded in the browser. This includes an inital file that acts as a bootstrap/loader file, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
 
@@ -155,6 +162,7 @@ compile-options
 Specify various options for compile (and other) keys. Takes a map.
 
 ::
+
     "compile-options" :
     {
       "paths" :
@@ -194,7 +202,7 @@ Possible keys are (*<type> refers to the [[#compile|compile/type]], e.g. source 
   * **code** : code options
     * **format** : whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
     * **locales** : a list of locales to include (default: *["C"]*)
-    * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) <generator_config_articles#optimize_key|special section>
+    * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) :doc:`special section <generator_config_articles#optimize_key>`
     * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
 
 copy-files
@@ -203,6 +211,7 @@ copy-files
 Triggers files/directories to be copied. Takes a map.
 
 ::
+
     "copy-files" :
     {
       "files"     : [ "<path>", "<path>" ],
@@ -210,7 +219,7 @@ Triggers files/directories to be copied. Takes a map.
       "target"  : "<path>"
     }
 
-<note>peer-keys: <#cache></note>
+<note>peer-keys: :doc:`#cache`</note>
 
 Possible keys are 
   * **files** *(required)* : an array of files/directories to copy; entries will be interpreted relative to the ``source`` key value
@@ -223,17 +232,18 @@ copy-resources
 Triggers the copying of resources. Takes a map.
 
 ::
+
     "copy-resources" :
     {
       "target" : "<path>"
     }
 
-<note>peer-keys: <#cache>, <#include>, <#library></note>
+<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
 
 Possible keys are 
   * **target** : root target directory to copy resources to; may be relative to the config file location (default: "build")
 
-Unlike <#copy-files>, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shaddow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the <#library> key.
+Unlike :doc:`#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shaddow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :doc:`#library` key.
 
 dependencies
 ============
@@ -241,6 +251,7 @@ dependencies
 Allows you to influence the way class dependencies are processed by the generator. Takes a map.
 
 ::
+
     "dependencies" : 
     {
       "follow-static-initializers"  : (true|false),
@@ -256,6 +267,7 @@ desc
 Provides some descriptive text for the job.
 
 ::
+
     "desc" : "Some text."
 
 The descriptive string provided here will be used when listing jobs on the command line. (Be aware since this is a normal job key it will be passed on through job inheritance, so when you look at a specific job in the job listing you might see the job description of some ancestor job).
@@ -266,6 +278,7 @@ exclude
 Exclude classes to be processed in the job. Takes an array of class specifiers.
 
 ::
+
     "exclude" : ["qx.util.*"]
 
 The class specifiers can include simple wildcards like 'qx.util.*' denoting a whole set of classes. A leading '=' in front of a class specifier means 'without dependencies' (like '=qx.util.*'). These classes are e.g. excluded from the generated Javascript.
@@ -276,6 +289,7 @@ export
 List of jobs to be exported if this config file is included by another, or to the generator if it is an argument.
 
 ::
+
     "export" : ["job1", "job2", "job3"]
 
 Only exported jobs will be seen by importing config files. If the current configuration file is used as an argument to the generator (either implicitly or explicitly with *-c*), these are the jobs the generator will list with *generate.py x*, and only these jobs will be runnable with *generate.py <jobname>*.
@@ -286,11 +300,12 @@ extend
 Extend the current job with other jobs. Takes an array of job names.
 
 ::
+
     "extend" : [ "job1", "job2", "job3" ]
 
 The information of these (previously defined) jobs are merged into the current job description. Keys and their values missing in the current description are added, existing keys take precedence and are retained (with some keys that are merged).
 
-<generator_config_articles#extend_key|Special section>
+:doc:`Special section <generator_config_articles#extend_key>`
 
 fix-files
 =========
@@ -298,13 +313,14 @@ fix-files
 Fix white space in Javascript class files. Takes a map.
 
 ::
+
     "fix-files" : 
     {
       "eol-style" : "(LF|CR|CRLF)",
       "tab-width" : 2
     }
 
-<note>peer-keys: <#library></note>
+<note>peer-keys: :doc:`#library`</note>
 
 *fix-files* will normalize white space in source code, by converting tabs to spaces, removing trailing white space in lines, and unifying the line end character sequence.
 
@@ -318,6 +334,7 @@ include
 Include classes to be processed in the job. Takes an array of class specifiers.
 
 ::
+
     "include" : ["qx.util.*"]
 
 The class specifiers can include simple wildcards like 'qx.util.*' denoting a whole set of classes. A leading '=' in front of a class specifier means 'without dependencies' (like '=qx.util.*'). These classes are e.g. included in generated Javascript.
@@ -328,6 +345,7 @@ include (top-level)
 Include external config files. Takes a list of maps. 
 
 ::
+
     "include" : 
     [
       {
@@ -344,7 +362,7 @@ Within each specifying map, you can specify
   * **import** : List of job names to import; this list will be intersected with the ``export`` list of the external config, and the resulting list of jobs will be included. :  A single entry can also be a map of the form *{"name": <jobname>, "as": <alias>}*, so you can import individual jobs under a different name.
   * **block** : List of job names to block during import; this is the opposite of the ``import`` key and allows you to block certain jobs from being imported (helpful if you want to import most but not all of the jobs offered by the external configuration).
 
-<generator_config_articles#include_key_top-level_-_adding_features|Special section>
+:doc:`Special section <generator_config_articles#include_key_top-level_-_adding_features>`
 
 jobs
 ====
@@ -352,12 +370,13 @@ jobs
 Define jobs for the generator. Takes a map.
 
 ::
+
     "jobs" :
     {
       "<job_name>" : { <job_definition> }
     }
 
-Job definitions can take a lot of the predefined keys that are listed on this page (see the <generator_config_articles#listing_of_keys_in_context|overview> to get a comprehensive list). The can hold "actions" (keys that cause the generator to perform some action), or just settings (which makes them purely declarative). The latter case is only useful if those jobs are included by others (through the <#extend> key, and thus hold settings that are used by several jobs (thereby saving you from typing).
+Job definitions can take a lot of the predefined keys that are listed on this page (see the :doc:`overview <generator_config_articles#listing_of_keys_in_context>` to get a comprehensive list). The can hold "actions" (keys that cause the generator to perform some action), or just settings (which makes them purely declarative). The latter case is only useful if those jobs are included by others (through the :doc:`#extend` key, and thus hold settings that are used by several jobs (thereby saving you from typing).
 
 let
 ===
@@ -365,6 +384,7 @@ let
 Define macros. Takes a map.
 
 ::
+
     "let" :
     {
       "<macro_name>"  : "<string>",
@@ -376,12 +396,12 @@ Each key defines a macro and the value of its expansion. The expansion may conta
 
   * <macro_name> : The name of the macro.
 
-<generator_config_articles#let_key|Special section>
+:doc:`Special section <generator_config_articles#let_key>`
 
 let (top-level)
 ===============
 
-Define default macros. Takes a map (see the other <#let|'let'>). Everything of the normal 'let' applies here, except that this let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+Define default macros. Takes a map (see the other :doc:`'let' <#let>`). Everything of the normal 'let' applies here, except that this let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
 
 library
 =======
@@ -389,6 +409,7 @@ library
 Define libraries to be taken into account for this job. Takes an array of maps.
 
 ::
+
     "library" :
     [
       {
@@ -403,7 +424,7 @@ Each map can contain the keys
   * **uri** : URI prefix from your HTML file to the directory of the library's "Manifest" file
   * **namespace** : alternative name space string, which takes precedence of the one provided by the library's "Manifest" file.
 
-<generator_config_articles#library_key_and_manifest_files|Special section>
+:doc:`Special section <generator_config_articles#library_key_and_manifest_files>`
 
 lint-check
 ==========
@@ -411,12 +432,13 @@ lint-check
 Check Javscript source code with a lint-like utility. Takes a map.
 
 ::
+
     "lint-check" :
     {
       "allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
     }
 
-<note>peer-keys: <#library>, <#include></note>
+<note>peer-keys: :doc:`#library`, :doc:`#include`</note>
 
 Keys are:
   * **allowed-globals** : list of names that are not to be reported as bad use of globals
@@ -427,6 +449,7 @@ log
 Configure log/reporting features. Takes a map.
 
 ::
+
     "log" :
     {
       "classes-unused" : [ "custom.*", "qx.util.*" ],
@@ -462,7 +485,7 @@ Configure log/reporting features. Takes a map.
       }
     }
 
-<note>peer-keys: <#cache>, <#include>, <#library>, <#variants></note>
+<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`, :doc:`#variants`</note>
 
 This key allows you to enable logging features along various axes. 
   * **classes-unused** : Report unused classes for the name space patterns given in the list.
@@ -486,7 +509,7 @@ This key allows you to enable logging features along various axes.
       * **file** : output file path (default *deps.dot*)
       * **radius** : include only nodes that are within the given radius (or graph distance) to the root node
       * **compiled-class-size** : use compiled class size to highlight graph nodes, rather than source file sizes; if true classes might have to be compiled to determine their compiled size, which could cause the log job to run longer (default *true*)
-      * **optimize** : if **compiled-class-size** is true, provide optimization settings here so classes are compiled with the correct optimizations; see <#compile-options|compile-options/code/optimize> for possible values (default [])
+      * **optimize** : if **compiled-class-size** is true, provide optimization settings here so classes are compiled with the correct optimizations; see :doc:`compile-options/code/optimize <#compile-options>` for possible values (default [])
     * **json**:  
       * **file** : output file path (default *deps.json*)
       * **pretty** : produce formatted Json, with spaces and indentation; if *false* produce compact format (default: *false*)
@@ -494,7 +517,7 @@ This key allows you to enable logging features along various axes.
       * **file** : output file path (default *flare.json*)
       * **pretty** : produce formatted Json, with spaces and indentation; if *false* produce compact format (default: *false*)
 
-<generator_config_articles#log_key|Special section>.
+:doc:`Special section <generator_config_articles#log_key>`.
 
 migrate-files
 =============
@@ -502,6 +525,7 @@ migrate-files
 Migrate source files to current qooxdoo version. Takes a map.
 
 ::
+
     "migrate-files" :
     {
        "from-version" : "0.7",
@@ -518,6 +542,7 @@ name
 Provides some descriptive text for the whole configuration file.
 
 ::
+
     "name" : "Some text."
 
 packages
@@ -526,6 +551,7 @@ packages
 Define packages for this app. Takes a map.
 
 ::
+
     "packages" :
     {
       "parts"  : 
@@ -549,7 +575,7 @@ Define packages for this app. Takes a map.
       "verifier-bombs-on-error"      : (true|false)
     }
 
-<note>peer-keys: <#compile>, <#library>, <#include></note>
+<note>peer-keys: :doc:`#compile`, :doc:`#library`, :doc:`#include`</note>
 
 Keys are 
   * **parts** : map of part names and their properties
@@ -562,11 +588,11 @@ Keys are
     * **min-package-unshared** : minimal size of an unshared package in KB (default: <min-package>)
   * **init** : name of the initial part, i.e. the part to be loaded first (default: *"boot"*)
   * **loader-with-boot** : whether loader information should be included with the boot part, or be separate; if set false, the loader package will contain no class code (default: *true*)
-  * **i18n-with-boot** : whether internationalization information (translations, CLDR data, ...) should be included with the boot part, or be separate; if set false, the loader package will contain no i18n data; see <generator_config_articles#packages_key|special section> (default: *true*)
+  * **i18n-with-boot** : whether internationalization information (translations, CLDR data, ...) should be included with the boot part, or be separate; if set false, the loader package will contain no i18n data; see :doc:`special section <generator_config_articles#packages_key>` (default: *true*)
   * **additional-merge-constraints** (*experimental*) : if set to true, will cause additional constraints to be applied when merging packages; might result in more packages per part after part collapsing (default: *false*)
   * **verifier-bombs-on-error** (*experimental*) : whether the part verifier should raise an exception, or just warn and continue (default: *true*)
 
-<generator_config_articles#packages_key|Special section>
+:doc:`Special section <generator_config_articles#packages_key>`
 
 pretty-print
 ============
@@ -574,6 +600,7 @@ pretty-print
 Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
 
 ::
+
     "pretty-print" : 
     {
       "general" :
@@ -600,7 +627,7 @@ Triggers code beautification of source class files (in-place-editing). An empty 
       }
     }
 
-<note>peer-keys: <#library>, <#include></note>
+<note>peer-keys: :doc:`#library`, :doc:`#include`</note>
 Keys are:
   * **general** : General settings.
     * **indent-string** : "<whitespace_string>", e.g. "\t" for tab (default: "  " (2spaces))
@@ -621,6 +648,7 @@ require
 Define prerequisite classes needed at load time. Takes a map.
 
 ::
+
     "require" :
     {
       "<class_name>" : [ "qx.util", "qx.fx" ]
@@ -635,17 +663,19 @@ run
 Define a list of jobs to run. Takes an array of job names.
 
 ::
+
     "run" : [ "<job1>", "<job2>", "<job3>" ]
 
 These jobs will all be run in place of the defining job (which is sort of a 'meta-job'). All further settings in the defining job will be inherited by the listed jobs (so be careful of side effects).
 
-<generator_config_articles#run_key|Special section>
+:doc:`Special section <generator_config_articles#run_key>`
 
 settings
 ========
 Define qooxdoo settings. Takes a map.
 
 ::
+
     "settings" :
     {
       "qx.application" : "myapp"
@@ -660,20 +690,23 @@ shell
 Triggers the execution of an  external command. Takes a map.
 
 ::
+
     "shell" :
     {
       "command" : "echo foo bar baz"
     }
 
-<note>peer-keys: <#cache></note>
+<note>peer-keys: :doc:`#cache`</note>
 
 Possible keys are 
   * **command** : command string to execute by shell*Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\' on Windows, etc.). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So instead of writing 
 ::
-    </code>
+
+    "cp file1 file2"
  you should write 
 ::
-    </code>
+
+    "cp ./file1 ./file2"
  and it will work from everywhere.
 
 slice-images
@@ -682,6 +715,7 @@ slice-images
 Triggers cutting images into regions. Takes a map.     
 
 ::
+
     "slice-images" :
     {
       "images" : 
@@ -694,7 +728,7 @@ Triggers cutting images into regions. Takes a map.
       }
     }
 
-<note>peer-keys: <#cache></note>
+<note>peer-keys: :doc:`#cache`</note>
 
   * **images** : map with slice entries.
   * <input_image> :  path to input file for the slicing; may be relative to config file location
@@ -707,6 +741,7 @@ translate
 (Re-)generate the .po files (usually located in ``source/translation``) from source classes. Takes a map. The source classes of the  specified name space are scanned for translatable strings. Those strings are extracted and put into map files (.po files), one for each language. Those .po files can then be edited to contain the proper translations of the source strings. For a new locale, a new file will be generated. For existing .po files, re-running the job will add and remove entries as appropriate, but otherwise keep existing translations.
 
 ::
+
     "translate" :
     {
       "namespaces"               : [ "qx.util" ],
@@ -715,7 +750,7 @@ translate
       "poentry-with-occurrences" : (true|false)
     }
 
-<note>peer-keys: <#cache>, <#library></note>
+<note>peer-keys: :doc:`#cache`, :doc:`#library`</note>
 
   * **namespaces** *(required)* : List of name spaces for which .po files should be updated.
   * **locales** :  List of locale identifiers to update.
@@ -728,6 +763,7 @@ use
 Define prerequisite classes needed at run time. Takes a map.
 
 ::
+
     "use" :
     {
       "<class_name>" : [ "qx.util", "qx.fx" ]
@@ -742,6 +778,7 @@ variants
 Define variants for the current app. Takes a map.
 
 ::
+
     "variants" :
     {
       "qx.debug" : [ "on" , "off" ]

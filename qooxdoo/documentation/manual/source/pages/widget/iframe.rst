@@ -3,12 +3,15 @@ Iframe
 
 Container widget for internal frames (iframes). An iframe can display any HTML page inside the widget.
 
+XXX
+===
+
 Preview Image
 -------------
 
 |pages/widget/iframe.png|
 
-.. |pages/widget/iframe.png| image:: /pages/widget/iframe.png?550
+.. |pages/widget/iframe.png| image:: /pages/widget/iframe.png
 
 Features
 --------

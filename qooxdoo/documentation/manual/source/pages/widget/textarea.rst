@@ -2,6 +2,9 @@ TextArea
 ********
 A TextArea some long text. The TextArea is classic GUI element.
 
+XXX
+===
+
 Preview Image
 -------------
 |TextArea|

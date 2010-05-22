@@ -45,6 +45,7 @@ It is possible to initialize these data fileds in the members section with primi
 BAD:
 
 ::
+
     members :
     {
       __myArray : [], // <-- don't do this!
@@ -56,6 +57,7 @@ BAD:
 GOOD:
 
 ::
+
     construct : function()
     {
       this.base(arguments);
@@ -98,6 +100,7 @@ To avoid any runtime errors it is recommended to not name your variables like na
 Consider the following:
 
 ::
+
     var myIframe = new qx.ui.embed.Iframe(mySourceURL);
 
     ...
@@ -119,6 +122,7 @@ We modified the prototype of the ``array`` class to add some  functions to it, b
 So loop trough an array with an normal loop:
 
 ::
+
     var a = [1, 2, 3];
     for(var i=0, l=a.length; i<l; i++) {
       this.debug(a[i]);

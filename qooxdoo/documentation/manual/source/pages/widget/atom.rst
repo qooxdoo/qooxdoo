@@ -3,6 +3,9 @@ Atom
 
 The Atom groups an image with a label with support for different alignments. It is a building block for many other widgets like Buttons or Tooltips.
 
+XXX
+===
+
 Preview Image
 -------------
 

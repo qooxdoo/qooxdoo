@@ -4,6 +4,7 @@ An Aspect Template Class
 Here is a code template which you may copy to your application namespace and adapt it to implement aspects in your qooxdoo application. For a far more advanced sample look at qx.dev.Profile.
 
 ::
+
     /**
      * AspectTemplate.js -- template class to use qooxdoo aspects
      *
@@ -88,6 +89,7 @@ Here is a code template which you may copy to your application namespace and ada
 A job in your configuration could look something like this:
 
 ::
+
     "source" : 
           {
             "require" :
@@ -106,4 +108,4 @@ A job in your configuration could look something like this:
             }
           }
 
-If you need some more information on configuring the generator, take a look at the <.:tool:generator_config_ref>.
+If you need some more information on configuring the generator, take a look at the :doc:`.:tool:generator_config_ref`.

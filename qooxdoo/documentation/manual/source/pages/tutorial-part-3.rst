@@ -20,11 +20,13 @@ Creating the Data Access Class
 Now, that we know how we want to communicate, we can tackle the first task, fetching the friends timeline. twitter offers a `JSONP service for that <http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-friends_timeline>`_ which we can use. Luckily, twitter also takes care of the login process on the server side so we don't need to bother with that in the client. The following URL returns the friends timeline wrapped in a JavaScript method call (that's what JSONP is about):
 
 ::
-    </code>
+
+    http://twitter.com/statuses/friends_timeline.json?callback=methodName
 
 Now we know how to get the data from twitter. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``TwitterService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
 
 ::
+
     qx.Class.define("twitter.TwitterService",
     {
       extend : qx.core.Object,
@@ -39,6 +41,7 @@ Fetching the Data
 As you can see, we omitted the constructor because we don't need it currently. But we already added a members block because we want to add a ``method`` named ``fetchTweets``:
 
 ::
+
     fetchTweets : function() {
 
         }
@@ -46,6 +49,7 @@ As you can see, we omitted the constructor because we don't need it currently. B
 Now it's time to get this method working. But how do we load the data in qooxdoo? As it is a JSONP service, we can use the :doc:`JSONP data store <pages/data_binding/stores#jsonp_store>` contained in the data binding layer of qooxdoo. But we only want to create it once and not every time the method is called. Thats why we save the store as a private instance member and check for the existence of it before we create the store. Just take a look at the method implementation to see how it works.
 
 ::
+
     if (this.__store == null) {
             var url = "http://twitter.com/statuses/friends_timeline.json";
             this.__store = new qx.data.store.Jsonp(url, null, "callback");
@@ -61,6 +65,7 @@ But where does the data go? The store has a property called model where the data
 We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``TwitterService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
 
 ::
+
     properties : {
         tweets : {
           nullable: true,
@@ -78,6 +83,7 @@ The real advantage here is the ``event`` key which tells the qooxdoo property sy
 Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding <pages/data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ::
+
     this.__store.bind("model", this, "tweets");
 
 This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the twitter service. Thats all we need to do in the twitter service class for fetching the data. Now its time to bring the data to the UI.
@@ -88,11 +94,13 @@ Bring the tweets to the UI
 For that task we need to go back to our ``Application.js`` file and create an instance of the new service:
 
 ::
+
     var service = new twitter.TwitterService();
 
 You remember the debug listener we added in the last tutorial? Now we change the reload listener to fetch the tweets:
 
 ::
+
     // reload handling
           main.addListener("reload", function() {
             service.fetchTweets();
@@ -101,6 +109,7 @@ You remember the debug listener we added in the last tutorial? Now we change the
 Thats the first step of getting the data connected with the UI. We talk the whole time of data in general without even knowing how the data really looks like. Adding the following lines shows a dump of the fetched data in your debugging console.
 
 ::
+
     service.addListener("changeTweets", function(e) {
             this.debug(qx.dev.Debug.debugProperties(e.getData()));
           }, this);
@@ -112,11 +121,13 @@ But how do we connect the available data to the UI? qooxdoo offers :doc:`control
 Switch to the ``MainWindow.js`` file which implements the view and search for the line where you created the list. We need to implement an accessor for it so its a good idea to store the list as a private instance member:
 
 ::
+
     this.__list = new qx.ui.form.List();
 
 Of course, we need to change every occurance of the old identifier ``list`` to the new ``%%this.__list%%``. Next, we add an accessor method for the list in the members section:
 
 ::
+
     getList : function() {
           return this.__list;
         }
@@ -127,18 +138,21 @@ Data Binding Magic
 That was an easy one! Now back to the application code in ``Application.js``. We need to set up the already mentioned controller. Creating the controller is also straight forward:
 
 ::
+
     // create the controller
           var controller = new qx.data.controller.List(null, main.getList());
 
 The first parameter takes a model we don't have right now so we just set it to null. The second parameter takes the target, the list. Next, we need to specify what the controller should use as label, and what to use as icon:
 
 ::
+
     controller.setLabelPath("text");
           controller.setIconPath("user.profile_image_url");
 
 The last thing we need to do is to connect the data to the controller. For that, we use the already introduced bind method, which every qooxdoo object has:
 
 ::
+
     service.bind("tweets", controller, "model");
 
 As soon as the tweets are available the controller will know about it and show the data in the list. How about a test of the whole thing right now? You need (again) to tell the generator to build the source version of the application.
@@ -148,12 +162,14 @@ After the application has been loaded in the browser, I guess you see nothing un
 The first thing is quite easy. We just add a fetch at the end of our application code and that will initiate the whole process of getting the data to the UI:
 
 ::
+
     // start the loading on startup
           service.fetchTweets();
 
 The other two problems have to be configured when creating the items for the list. But wait, we don't create the list items ourselves. Something in the data binding layer is doing that for us and that something is the controller we created. So we need to tell it how to configure the UI elements it is creating. For exactly such scenarios the controller has a way to handle code from the user, a `delegate <http://en.wikipedia.org/wiki/Delegation_pattern>`_. You can implement the delegate method ``configureItem`` to manipulate the list item the controller creates:
 
 ::
+
     controller.setDelegate({
             configureItem : function(item) {
               item.getChildControl("icon").setWidth(48);

@@ -6,10 +6,13 @@ This tutorial is a step-by-step instruction on how to get started with qooxdoo b
 Setup the Framework
 ===================
 
+XXX
+---
+
 Requirements
 ^^^^^^^^^^^^
 
-Please make sure to have read the detailed <Requirements>. To recap, there are only a few requirements for full-featured qooxdoo application development:\\
+Please make sure to have read the detailed :doc:`Requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:\\
 \\
   * *client*: any major web browser
   * *server*: any HTTP-aware backend. During development the local file system should also be ok
@@ -33,34 +36,36 @@ It is easy to setup your own application using the platform-independent script `
 . It will create a skeleton application in a directory you specify, that is automatically configured to work with your version of the qooxdoo framework.
 
 To create a new skeleton with ``create-application.py``
- you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for <#Windows>, <#Cygwin> or <#Mac, Linux>
+ you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :doc:`#Windows`, :doc:`#Cygwin` or :doc:`#Mac, Linux`
 
 <note>
-If you have any problems setting up the qooxdoo tool chain, please see some additional help for <troubleshooting|troubleshooting>.
+If you have any problems setting up the qooxdoo tool chain, please see some additional help for :doc:`troubleshooting <troubleshooting>`.
 </note>
 
 Windows |image0|
-^^^^^^^^^^^^^^^^
+----------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
 Installing `ActivePython <http://www.activestate.com/Products/activepython/index.mhtml>`_ for Windows is trivial. Now lets create an application named ``custom`` in ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``: 
 
 ::
-    </code>
+
+    C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 Cygwin |image0|
-~~~~~~~~~~~~~~~
+---------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
 
 To create your application ``custom`` to ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``, call the script as follows:
 
 ::
-    </code>
+
+    /cygdrive/c/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=C:
 
 Mac |image0| , Linux |image1|
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/macosx.png?w=22&h=22&cache=cache
 .. |image1| image:: http://qooxdoo.org/_media/documentation/linux.png?w=22&h=22&cache=cache
@@ -68,7 +73,8 @@ Mac |image0| , Linux |image1|
 To create an application ``custom`` in your home directory, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-1.2-sdk``, call the script as follows:
 
 ::
-    </code>
+
+    /opt/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=.
 
 Run your Application
 ====================
@@ -76,7 +82,9 @@ Run your Application
 Now that your application is setup, lets generate a version that can be opened in your browser. Move to the newly created application directory and kick off the automatic build process:
 
 ::
-    </code>
+
+    cd C:/custom
+    generate.py source-all
 
 Under non-Windows systems you might have to prefix the command with the local directory, i.e. execute ``./generate.py source-all`` instead.
 
@@ -86,7 +94,7 @@ After the application has been generated, open ``source/index.html`` file in you
 
 |Running application|
 
-.. |Running application| image:: /pages/manual/running_application.png?500
+.. |Running application| image:: /pages/manual/running_application.png
 
 Write Application Code
 ======================
@@ -103,7 +111,12 @@ Debugging
 In your newly created application you have certainly noticed the following code:
 
 ::
-    </code>
+
+    if (qx.core.Variant.isSet("qx.debug", "on"))
+    {
+      qx.log.appender.Native;
+      qx.log.appender.Console;
+    }
 
 This code turns on two different ways of "logging", i.e. capturing and printing out information about the operation of your application. 
 
@@ -111,7 +124,7 @@ This code turns on two different ways of "logging", i.e. capturing and printing 
 
 |Debug application|
 
-.. |Debug application| image:: /pages/manual/debug_application.png?500
+.. |Debug application| image:: /pages/manual/debug_application.png
 
 The reason for enclosing the two logging classes in a so-called "debug" variant is explained in more detail in the next section. It ensures that logging is only turned on in the development version (i.e. "source" version) of your app. It will automatically be turned off in the final version of your app that is to be deployed:
 
@@ -121,7 +134,8 @@ Deployment
 The development version of a qooxdoo app is called the "source" version, the deployment version of an app is called "build" version. It is easily generated by executing
 
 ::
-    </code>
+
+    generate.py build
 
 After successful completion let the browser open ``index.html`` from the newly created ``build`` folder. Although you probably won't see a difference between this deployment version of your app and the previous "source" version, it should have started up faster.
 
@@ -139,13 +153,14 @@ qooxdoo supports inline comments that are similar to Javadoc or JSDoc comments. 
 From those comments a complete, interactive API reference can be generated:
 
 ::
-    </code>
+
+    generate.py api
 
 To start the "API Viewer" application, open ``index.html`` from the newly created ``api`` folder in your browser. It includes fully cross-linked and searchable documentation of your application classes as well as the framework classes.
 
 |API Viewer|
 
-.. |API Viewer| image:: /pages/manual/api_viewer.png?500
+.. |API Viewer| image:: /pages/manual/api_viewer.png
 
 Unit Testing
 ============
@@ -153,13 +168,14 @@ Unit Testing
 You might have noticed the ``test/DemoTest.js`` file in the ``source/class`` folder of your application. This class demonstrates how to define "unit tests" for your application. qooxdoo comes with its own unit testing framework, it does not require any additional software installation. Simply execute the following command:
 
 ::
-    </code>
+
+    generate.py test
 
 Open ``index.html`` from the newly created top-level ``test`` folder in your browser. The "Testrunner" application allows you to select and run the tests under your application namespace:
 
 |Testrunner application|
 
-.. |Testrunner application| image:: /pages/manual/testrunner.png?500
+.. |Testrunner application| image:: /pages/manual/testrunner.png
 
-You may skip the rather advanced topic of unit tests while continuing to extend your custom application code. In case you are interested in test-driven development and creating your own unit tests, please see the corresponding <unit_testing|Unit Testing> documentation.
+You may skip the rather advanced topic of unit tests while continuing to extend your custom application code. In case you are interested in test-driven development and creating your own unit tests, please see the corresponding :doc:`Unit Testing <unit_testing>` documentation.
 

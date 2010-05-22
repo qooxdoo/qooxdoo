@@ -4,6 +4,7 @@ How to set the focus to a widget in a window?
 Here is the solution:
 
 ::
+
     var win = new qx.ui.window.Window();
     var field = new qx.ui.form.TextField;
     win.add(field)

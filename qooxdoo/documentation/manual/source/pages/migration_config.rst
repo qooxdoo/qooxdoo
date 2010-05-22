@@ -16,6 +16,7 @@ compile-dist
 The ``compile-dist`` key can simply be renamed to ``compile-options``, together with an added ``compile`` key.
 
 ::
+
     "compile-dist" :          "compile-options" : 
     {                         {
       ...               =>      ...
@@ -29,6 +30,7 @@ compile-source
 Here is the mapping from the old ``compile-source`` keys to the new ``compile-options`` keys. The path-like expressions denote sub-keys.
 
 ::
+
     "compile-source" :          "compile-options" : 
     {                           {
       "file"                      "paths/file"          
