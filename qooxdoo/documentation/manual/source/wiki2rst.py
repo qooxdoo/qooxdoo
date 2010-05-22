@@ -94,7 +94,7 @@ def convertHeading(linechar):
             prehead = ""
             for i in range(1, mylevel - headLevel):
                 lchar = linechars["h"+str(headLevel+i)]
-                prehead += "XXX\n" + 3 * lchar + "\n\n"
+                prehead += "\nXXX\n" + 3 * lchar + "\n\n"
         else:
             prehead = ""
         headLevel = mylevel
@@ -115,7 +115,7 @@ def convertCodeBlock(s,l,t):
     # appended to the previous paragraph!
     if len(t) < 5:
         code = t[2]
-    else
+    else:
         code = t[3]
     res = "::\n\n"
     res += reindentBlock(code, 4)
