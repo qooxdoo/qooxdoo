@@ -134,28 +134,36 @@ qx.Class.define("qx.dev.Debug",
           // Is this child a recursive item?
           if (typeof (obj[prop]) == "object")
           {
-            // Yup.  Determine the type and add it to the message
-            if (obj[prop] instanceof Array)
+            try
             {
-              message += sol(level) + prop + ": " + "Array" + eol;
-            }
-            else if (obj[prop] === null)
-            {
-              message += sol(level) + prop + ": " + "null" + eol;
-              continue;
-            }
-            else if (obj[prop] === undefined)
-            {
-              message += sol(level) + prop + ": " + "undefined" + eol;
-              continue;
-            }
-            else
-            {
-              message += sol(level) + prop + ": " + "Object" + eol;
-            }
+              // Yup.  Determine the type and add it to the message
+              if (obj[prop] instanceof Array)
+              {
+                message += sol(level) + prop + ": " + "Array" + eol;
+              }
+              else if (obj[prop] === null)
+              {
+                message += sol(level) + prop + ": " + "null" + eol;
+                continue;
+              }
+              else if (obj[prop] === undefined)
+              {
+                message += sol(level) + prop + ": " + "undefined" + eol;
+                continue;
+              }
+              else
+              {
+                message += sol(level) + prop + ": " + "Object" + eol;
+              }
 
-            // Recurse into it to display its children.
-            displayObj(obj[prop], level + 1, maxLevel);
+              // Recurse into it to display its children.
+              displayObj(obj[prop], level + 1, maxLevel);
+            }
+            catch (e)
+            {
+              message += 
+                sol(level) + prop + ": EXCEPTION expanding property" + eol;
+            }
           }
           else
           {
