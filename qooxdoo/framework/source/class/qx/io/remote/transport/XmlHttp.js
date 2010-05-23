@@ -417,7 +417,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             this.setState("sending");
           }
 
-          return this.failed();
+          this.failed();
+          return;
         }
       }
 
