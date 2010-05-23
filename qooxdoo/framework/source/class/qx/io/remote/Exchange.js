@@ -382,6 +382,25 @@ qx.Class.define("qx.io.remote.Exchange",
         case -1:
           return "Not available";
 
+        case 0:
+          // Attempt to generate a potentially meaningful error.
+          // Get the current URL
+          var url = window.location.href;
+
+          // Are we on a local page obtained via file: protocol?
+          if (qx.lang.String.startsWith(url.toLowerCase(), "file:"))
+          {
+            // Yup. Can't issue remote requests from here.
+            return ("Unknown status code. " +
+                    "Possibly due to application URL using 'file:' protocol?");
+          }
+          else
+          {
+            return ("Unknown status code. " +
+                    "Possibly due to a cross-domain request?");
+          }
+          break;
+
         case 200:
           return "Ok";
 
