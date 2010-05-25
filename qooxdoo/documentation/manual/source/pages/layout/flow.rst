@@ -1,23 +1,31 @@
+.. _pages/layout/flow#flow:
+
 Flow
 ****
 
-<note info>
-This layout manager is available since qooxdoo 0.8.3.
-</note>
+.. note::
+
+    This layout manager is available since qooxdoo 0.8.3.
+
+xxx
 
 A basic layout, which supports positioning of child widgets in a 'flowing' manner, starting at the container's top/left position, placing children left to right (like a HBox) until the there's no remaining room for the next child. When out of room on the current line of elements, a new line is started, cleared below the tallest child of the preceeding line -- a bit like using 'float' in CSS, except that a new line wraps all the way back to the left.
 
 XXX
 ===
 
+.. _pages/layout/flow#preview_image:
+
 Preview Image
 -------------
 
-|pages/layout/flow.png|
+|layout/flow.png|
 
-.. |pages/layout/flow.png| image:: /pages/layout/flow.png
+.. |layout/flow.png| image:: /layout/flow.png
 
 This image shows a gallery implemented using a Flow layout.
+
+.. _pages/layout/flow#features:
 
 Features
 --------
@@ -30,6 +38,8 @@ Features
   * Height for width calculations
   * Auto-sizing
 
+.. _pages/layout/flow#description:
+
 Description
 -----------
 
@@ -39,14 +49,20 @@ It is possible to specify a horizontal alignment for all children. This is equiv
 
 This layout supports ``height for width``, which means that given a fixed width it can calculate the required height.
 
+.. _pages/layout/flow#layout_properties:
+
 Layout properties
 -----------------
   * **lineBreak** *(Boolean)*: If set to ``true`` a forced line break will happen after this child widget.
+
+.. _pages/layout/flow#demos:
 
 Demos
 -----
 Here are some links that demonstrate the usage of the layout:\\
   * `Flow layout demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Flow.html>`_
+
+.. _pages/layout/flow#api:
 
 API
 ---

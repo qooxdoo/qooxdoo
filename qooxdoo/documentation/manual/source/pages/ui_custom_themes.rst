@@ -1,9 +1,13 @@
+.. _pages/ui_custom_themes#custom_themes:
+
 Custom Themes
 *************
 
 There are certain circumstances when the built-in themes are no more sufficient for your application and your needs. You need to create a custom theme because you have either self-written widgets you wish to style or you like to change the theming of your application overall.
 
 Basically you have two choices to create a custom theme depending on your needs and the amount you want to change. The next two sections describe both briefly.
+
+.. _pages/ui_custom_themes#extending_themes:
 
 Extending Themes
 ================
@@ -68,7 +72,12 @@ At last you have to tell the generator to actually use your meta theme. Therefor
 
 After editing your ``config.json`` the very last step is to generate your application sources and you're done. Now you can adjust and extend your appearance theme to suit your needs.
 
-<note>These steps are also applicable for the other themes.</note>
+.. note::
+
+    These steps are also applicable for the other themes.
+xxx
+
+.. _pages/ui_custom_themes#custom_themes:
 
 Custom Themes
 =============

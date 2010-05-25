@@ -1,3 +1,5 @@
+.. _pages/snippets/compress_qooxdoo.js_without_mod_deflate#compress_qooxdoo_without_mod_deflate:
+
 Compress qooxdoo without mod_deflate
 ************************************
 

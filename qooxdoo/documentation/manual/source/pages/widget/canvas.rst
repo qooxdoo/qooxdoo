@@ -1,18 +1,28 @@
+.. _pages/widget/canvas#canvas:
+
 Canvas
 ******
 
 This widget embed the `HTML canvas element <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html#the-canvas>`_.
-<note> It does not work with Internet Explorer</note>
+
+.. note::
+
+    It does not work with Internet Explorer
+xxx
 
 XXX
 ===
 
+.. _pages/widget/canvas#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/canvas.png|
+|widget/canvas.png|
 
-.. |pages/widget/canvas.png| image:: /pages/widget/canvas.png
+.. |widget/canvas.png| image:: /widget/canvas.png
+
+.. _pages/widget/canvas#features:
 
 Features
 --------
@@ -24,15 +34,21 @@ Since this widget is embedding the HTML canvas element the core features of this
    * width and height of the canvas element as properties
    * support for synronized widht and height coordinates
 
+.. _pages/widget/canvas#description:
+
 Description
 -----------
 
 Taken from the WHATWG website: "The canvas element represents a resolution-dependent bitmap canvas, which can be used for rendering graphs, game graphics, or other visual images on the fly."
 
+.. _pages/widget/canvas#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Canvas demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Canvas.html>`_
+
+.. _pages/widget/canvas#api:
 
 API
 ---

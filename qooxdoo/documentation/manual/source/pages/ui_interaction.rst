@@ -1,5 +1,9 @@
+.. _pages/ui_interaction#interaction:
+
 Interaction
 ***********
+
+.. _pages/ui_interaction#register_listeners:
 
 Register listeners
 ==================
@@ -16,6 +20,8 @@ The method is called with the event object as the first and only argument. The e
 
 Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event object are reused during the application runtime. Keeping event instances referenced somewhere is not a good idea! When some of the data is needed later during the application runtime it is best to store the data and not the event object e.g. store coordinates instead of the mouse event object.
 
+.. _pages/ui_interaction#event_phases:
+
 Event Phases
 ============
 
@@ -24,6 +30,8 @@ In the browser most user input events like mouse or keyboard events are propagat
 In the capturing phase, the event is first dispatched on the root widget. Than it is dispatched on all widgets down the widget tree until the event target is reached. Now the event enters the bubbling phase. In this phase the event is dispatched in the other direction starting from the event target up to the root widget.
 
 Most of the time only the bubbling phase is used but sometimes the capturing phase can be very useful. For example a capturing listener for "mousedown" events on the root widget is guaranteed to receive every "mousedown" event even if the target widget calls ``stopPropagation()`` on the event. Further it can be used to block events from sub widgets.
+
+.. _pages/ui_interaction#mouse_events:
 
 Mouse Events
 ============
@@ -36,6 +44,8 @@ During every mouse event it is possible to check the status of modifier keys pre
 
 Also have a look at `the API documentation of the MouseEvent <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
 
+.. _pages/ui_interaction#event_capturing:
+
 Event Capturing
 ===============
 
@@ -45,6 +55,8 @@ If a widget is the capturing widget, all mouse events will be dispatched on this
 
 Mouse capturing is used inside of qooxdoo e.g. in menus, split panes or sliders.
 
+.. _pages/ui_interaction#keyboard_support:
+
 Keyboard Support
 ================
 
@@ -53,6 +65,8 @@ DOM3-like event handling was the prototype for qooxdoo's key event support. This
 All the typical key sequence events ``keyup``, ``keydown`` and ``keypress`` support the key identifier. The ``keypress`` event is repeated during the time the key is pressed. This way ``keypress`` is the best candidate for most action related keyboard events. Only use ``keyup`` and ``keydown`` when you *really* depend on the status of the key otherwise please prefer the ``keypress`` event.
 
 To handle character inputs e.g. on text boxes, there is a special ``keyinput`` event which has nice unified accessors ``getChar()`` and ``getCharCode()`` to detect the pressed character. This even respects the effects modifier keys have automatically e.g. supporting German umlauts. The API lists all available methods of the used `KeyInput <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.KeyInput>`_ event.
+
+.. _pages/ui_interaction#working_with_commands:
 
 Working with Commands
 =====================
@@ -67,6 +81,8 @@ Creating new commands is as easy as possible. A shortcut can be defined easily t
     find.addListener("execute", this._onFind, this);
 
 The command is easily attachable to many types of Buttons etc. Some of them, like the ``MenuButtons``, automatically display the configured shortcut as well. As seen above the Commands also make use of the key identifiers.
+
+.. _pages/ui_interaction#focus_handling:
 
 Focus Handling
 ==============

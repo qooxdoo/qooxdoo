@@ -1,3 +1,5 @@
+.. _pages/profiling#profiling_applications:
+
 Profiling Applications
 **********************
 
@@ -5,10 +7,14 @@ qooxdoo has build in a cross-browser, pure JavaScript profiler. If the profiler 
 
 Since the profiler is implemented in pure JavaScript, it is totally cross-browser and works on any supported browser.
 
+.. _pages/profiling#how_to_enable_the_profiler:
+
 How to enable the Profiler
 ==========================
 
 Basically set the variant ``qx.aspects`` to ``on`` and be sure to include the class `qx.dev.Profile <http://api.qooxdoo.org/#qx.dev.Profile>`_. The class should be included before other classes.
+
+.. _pages/profiling#how_to_use_the_profiler:
 
 How to use the Profiler
 =======================
@@ -24,6 +30,8 @@ Profiling a certain action:
   * Stop profiling using ``qx.dev.Profile.stop()``
   * Open the profiler output window: ``qx.dev.Profile.showResults(50)``. The parameter specifies how many items to display. Default value is set to 100. The output will be sorted by the total own time of each method. Alternatively you can work with the raw profiling data returned by ``qx.dev.Profile.getProfileData()``.
 
+.. _pages/profiling#limitations:
+
 Limitations
 ===========
 
@@ -34,11 +42,16 @@ In order to interpret the results correctly it is important to know the limitati
   * The application is slowed down because profiling is done by wrapping each function. Profiling should always be turned off in production code before deployment.
   * Turning on profiling currently breaks most applications in Safari 3.0.2 due to a very limited maximum recursion depth of only 100 (:doc:`Bugzilla Bug 226 <Bug>226>`). Since the profiler has to wrap each function, the call stack is doubled, which is just too much for Safari.
 
+.. _pages/profiling#summary:
+
 Summary
 =======
 
 The output of the profiler can be of great value to find hot spots and time-consuming code. The timing data should be interpreted rather qualitatively than quantitatively, though, due to constraints of this approach.
 
-<note>
-The application is slowed down because profiling is done by wrapping each function. Profiling should always be turned off in production code before deployment.
-</note>
+.. note::
+
+    The application is slowed down because profiling is done by wrapping each function. Profiling should always be turned off in production code before deployment.
+
+xxx
+

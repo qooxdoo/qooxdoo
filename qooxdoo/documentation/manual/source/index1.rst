@@ -1,7 +1,11 @@
+.. _index#manual_1.2:
+
 Manual 1.2
 **********
 
-<note>This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of :doc:`released versions <:documentation>`.</note> 
+.. note::
+
+    This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
 
 ::
 
@@ -23,11 +27,15 @@ Manual 1.2
 
 .. |pages/layout/flow.png| image:: /pages/layout/flow.png
 
+.. _index#getting_started:
+
 Getting Started
 ===============
 
   * :doc:`pages/requirements`
-  * :doc:`pages/helloworld` - ***"A must-read introduction"***
+  * :doc:`pages/helloworld` - **"A must-read introduction"**
+
+.. _index#tutorial:
 
 Tutorial
 ========
@@ -36,6 +44,8 @@ Tutorial
   * :doc:`pages/tutorial-part-2`
   * :doc:`pages/tutorial-part-3`
   * :doc:`pages/tutorial-part-4-1`
+
+.. _index#sdk:
 
 SDK
 ===
@@ -46,8 +56,12 @@ SDK
   * :doc:`pages/code_structure`
   * :doc:`pages/architecture`
 
+.. _index#gui_toolkit:
+
 GUI Toolkit
 ===========
+
+.. _index#documents:
 
 Documents
 ---------
@@ -70,14 +84,20 @@ Documents
   * :doc:`pages/ui_using_themes_of_contribs` Using themes of contributions in your application
   * :doc:`pages/ui_html_editing` Overview of HTML editing capabilities
 
+.. _index#references:
+
 References
 ----------
 
   * :doc:`pages/widget`
   * :doc:`pages/layout`
 
+.. _index#core_framework:
+
 Core Framework
 ==============
+
+.. _index#object_orientation:
 
 Object Orientation
 ------------------
@@ -89,6 +109,8 @@ Object Orientation
   * :doc:`pages/interfaces`  ( :doc:`Quick Ref <pages/interface_quickref>` )
   * :doc:`pages/mixins`  ( :doc:`Quick Ref <pages/mixin_quickref>` )
 
+.. _index#properties:
+
 Properties
 ----------
 
@@ -97,10 +119,14 @@ Properties
   * :doc:`pages/defining_properties`
   * :doc:`Quick Ref <pages/properties_quickref>`
 
+.. _index#references:
+
 References
 ----------
 
   * :doc:`Array Reference <pages/array>`
+
+.. _index#low_level_framework:
 
 Low Level Framework
 ===================
@@ -108,12 +134,16 @@ Low Level Framework
   * :doc:`Overview <lowleveloverview>`
   * :doc:`Scenarios <lowlevelscenarios>`
 
+.. _index#tutorials:
+
 Tutorials
 ---------
 
   * :doc:`pages/setup_a_low-level_library`
   * :doc:`pages/low_level_apis` (Query and modify styles, attributes, ...)
   * :doc:`pages/back-button_and_bookmark_support`
+
+.. _index#tech_documents:
 
 Tech Documents
 --------------
@@ -123,6 +153,8 @@ Tech Documents
   * :doc:`pages/event_layer_impl`
   * :doc:`pages/focus_layer_impl`
   * :doc:`pages/qooxdoo_animation`
+
+.. _index#communication:
 
 Communication
 =============
@@ -135,8 +167,12 @@ There are two forms of client-server communication supported:
     * RPC Servers: :doc:`Java <pages/rpc_java>`, :doc:`PHP <pages/rpc_php>`, :doc:`Perl <pages/rpc_perl>`,  :doc:`Python <pages/rpc_python>`
     * :doc:`pages/rpc_server_writer_guide` 
 
+.. _index#development:
+
 Development
 ===========
+
+.. _index#debugging:
 
 Debugging
 ---------
@@ -145,11 +181,15 @@ Debugging
   * :doc:`pages/debugging`
   * :doc:`pages/unit_testing`
 
+.. _index#performance:
+
 Performance
 -----------
 
   * :doc:`pages/memory_management`
   * :doc:`pages/profiling`
+
+.. _index#other:
 
 Other
 -----
@@ -174,8 +214,12 @@ Other
 
   * :doc:`pages/internet_explorer_specific_settings`
 
+.. _index#tooling:
+
 Tooling
 =======
+
+.. _index#general:
 
 General
 -------
@@ -184,12 +228,11 @@ General
   * :doc:`pages/tool/generator_usage`
   * :doc:`pages/tool/generator_default_jobs`
   * :doc:`Generator Configuration Overview <pages/tool/generator_config>`
-  * |Generator Cheat Sheet (PDF)|
-
-.. |Generator Cheat Sheet (PDF)| image:: /pages/tool/generator_cheat_sheet_1.0.0-1.pdf
-
-  * :doc:`Snippets (Tool-related) <pages/snippets#Tooling>`
+  * :doc:`Generator Cheat Sheet (PDF) </pages/tool/generator_cheat_sheet_1.0.0-1.pdf>`
+  * :ref:`Snippets (Tool-related) <snippets#Tooling>`
   * :doc:`pages/tool/source_code_validation`
+
+.. _index#generator_configuration:
 
 Generator Configuration
 -----------------------
@@ -198,8 +241,12 @@ Generator Configuration
   * :doc:`Configuration Macro Reference <pages/tool/generator_config_macros>`
   * :doc:`Configuration Detail Articles <pages/tool/generator_config_articles>`
 
+.. _index#specific_topics:
+
 Specific Topics
 ---------------
+
+.. _index#parts:
 
 Parts
 ^^^^^
@@ -207,13 +254,18 @@ Parts
   * :doc:`Overview <pages/parts_overview>`
   * :doc:`Using Parts <pages/parts_using>`
   * Reference:
-    * :doc:`Generator Configuration <pages/tool/generator_config_ref#packages >`
-    * `qooxdoo API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.io.PartLoader >`_
+
+    * :ref:`Generator Configuration <pages/tool/generator_config_ref#packages>`
+    * `qooxdoo API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.io.PartLoader>`_
+
+.. _index#code_compilation:
 
 Code Compilation
 ^^^^^^^^^^^^^^^^
 
   * :doc:`ASTlets <pages/tool/astlets>` - AST fragments as they are generated
+
+.. _index#migration:
 
 Migration
 =========

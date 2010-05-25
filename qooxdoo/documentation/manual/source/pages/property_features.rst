@@ -1,5 +1,9 @@
+.. _pages/property_features#property_features:
+
 Property Features
 *****************
+
+.. _pages/property_features#value_checks:
 
 Value checks
 ============
@@ -11,12 +15,16 @@ Value checks
   * custom check defined by a string which will be compiled into the resulting setters (faster than the above variant)
   * define multiple possible (primitive) values using an array
 
+.. _pages/property_features#validation:
+
 Validation
 ==========
 
   * Validation in both, ``development`` and ``build`` version
   * Predefined validators for default validation
   * Throws a special ``validation error``
+
+.. _pages/property_features#advanced_value_handling:
 
 Advanced value handling
 =======================
@@ -28,10 +36,14 @@ Advanced value handling
   * Properties must be explicitely configured as ``nullable`` (like in .Net). The default is ``false`` which means that incoming ``null`` values will result in an exception.
   * Accessing nullable properties with ``undefined`` values will result in a normalization to ``null``.
 
+.. _pages/property_features#convenience:
+
 Convenience
 ===========
 
   * Convenient toggle method for boolean properties
+
+.. _pages/property_features#notification:
 
 Notification
 ============
@@ -39,12 +51,16 @@ Notification
   * Support for a custom apply rountine
   * Event firing with a custom named event
 
+.. _pages/property_features#initialization:
+
 Initialization
 ==============
 
 qooxdoo automatically correctly initializes properties. This is true for both, properties which have defined an ``init`` value and also for the other properties which are ``nullable``. This means that after you have created an instance the properties correctly reflect the applied value. Default values assigned by ``init`` also execute the configured ``apply`` methods and dispatch configured events to inform already added listeners. 
 
-:doc:`.:Property Features:Behavior`
+:doc:`Property Features/Behavior`
+
+.. _pages/property_features#performance:
 
 Performance
 ===========
@@ -53,15 +69,23 @@ Automatic optimization of all setters to the optimal highly-tuned result code. I
 
 Please note that after the definition point of a property the setters are not yet available. Wrappers for them will be created with the first instance and the final code will be generated with the first use of such a setter. This first use will also automatically unwrap the property setter to directly use the generated one.
 
+.. _pages/property_features#memory_managment:
+
 Memory managment
 ================
 
-Automatic memory management. This means all so-configured properties which contain complex data objects get automatically disposed with the object disposal. The affected built-in types are already auto-configured this way. Also all properties which need an instance of a class, defined by using a classname as ``check`` are automatically handled. <note>
-Note that this does not actually call dispose() on the object but just removes the property value etc i.e. dereferences the object. You still need to call dispose() if necessary.
-</note>
+Automatic memory management. This means all so-configured properties which contain complex data objects get automatically disposed with the object disposal. The affected built-in types are already auto-configured this way. Also all properties which need an instance of a class, defined by using a classname as ``check`` are automatically handled. 
+.. note::
+
+    Note that this does not actually call dispose() on the object but just removes the property value etc i.e. dereferences the object. You still need to call dispose() if necessary.
+
+xxx
 
 For all other properties which contain complex data the developer must add a ``dispose`` key with a value of ``true`` to the property declaration. For example if there is no ``check`` defined or the ``check`` definition points to a function.
 
-<note>
-This is not needed for primitive types like strings and numbers.
-</note>
+.. note::
+
+    This is not needed for primitive types like strings and numbers.
+
+xxx
+

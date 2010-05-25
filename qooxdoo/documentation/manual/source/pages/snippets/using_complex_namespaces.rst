@@ -1,5 +1,9 @@
+.. _pages/snippets/using_complex_namespaces#using_complex_name_spaces:
+
 Using Complex Name Spaces
 *************************
+
+.. _pages/snippets/using_complex_namespaces#overview:
 
 Overview
 ========
@@ -22,6 +26,8 @@ living in a path like
 
 The only noticealbe difference on this level to applications with simple name spaces is only the sequence of quasi "empty" directories (apart from subdirectories) leading up to the level where the actual class files start.
 
+.. _pages/snippets/using_complex_namespaces#showcase:
+
 Showcase
 ========
 
@@ -32,6 +38,8 @@ XXX
 
 XXX
 ^^^
+
+.. _pages/snippets/using_complex_namespaces#create_two_new_apps_with_complex_name_spaces:
 
 Create two new apps with complex name spaces
 """"""""""""""""""""""""""""""""""""""""""""
@@ -68,6 +76,8 @@ Create two new apps with complex name spaces
      >>> Patching file './jbb2/source/class/d/e/f/theme/Appearance.js'
      >>> DONE
 
+.. _pages/snippets/using_complex_namespaces#add_a_lib_class_to_jbb2:
+
 Add a lib class to jbb2
 """""""""""""""""""""""
 
@@ -76,6 +86,8 @@ Add a lib class to jbb2
     thron7@pcthron7> cat > jbb2/source/class/d/e/f/ClassA.js
     qx.Class.define("d.e.f.ClassA", {});
     ^D
+
+.. _pages/snippets/using_complex_namespaces#edit_jbb1/config.json_to_use_the_jbb2_lib_in_jbb1:
 
 Edit jbb1/config.json to use the jbb2 lib in jbb1
 """""""""""""""""""""""""""""""""""""""""""""""""
@@ -117,6 +129,8 @@ Edit jbb1/config.json to use the jbb2 lib in jbb1
       }
     }
 
+.. _pages/snippets/using_complex_namespaces#modify_jbb1s_application.js,_to_use_the_classa_from_jbb2:
+
 Modify jbb1's Application.js, to use the ClassA from jbb2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -137,6 +151,8 @@ Modify jbb1's Application.js, to use the ClassA from jbb2
         }
       }
     });
+
+.. _pages/snippets/using_complex_namespaces#run_the_generator_in_jbb1:
 
 Run the generator in jbb1
 """""""""""""""""""""""""

@@ -1,3 +1,5 @@
+.. _pages/mixin_quickref#mixin_quick_ref:
+
 Mixin Quick Ref
 ***************
 

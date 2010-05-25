@@ -1,7 +1,9 @@
+.. _pages/ui_html_editing/available_shortcuts#available_keyboard_shortcuts:
+
 Available Keyboard Shortcuts
 ****************************
 
- The result of using the shortcuts ``Control + Enter`` and ``Shift + Enter`` are explained at the :doc:`Paragraph Handling <.paragraph_handling>` page.
+ The result of using the shortcuts ``Control + Enter`` and ``Shift + Enter`` are explained at the :doc:`Paragraph Handling <paragraph_handling>` page.
 
 The following keyboard shortcuts are implemented at the moment:
 

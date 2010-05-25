@@ -1,9 +1,13 @@
+.. _pages/tool/generator_config_ref#reference_listing_of_config_keys:
+
 Reference Listing of Config Keys
 ********************************
 
 This page contains the complete list of configuration keys and their sub-structures.
 
 Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should to be present in the job for the current key to function properly. E.g. the key ``[[#compile]]`` will use the peer-key ``[[#cache]]`` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
+
+.. _pages/tool/generator_config_ref#add-script:
 
 add-script
 ==========
@@ -19,9 +23,14 @@ Add a pre-fabricated JS file to the application. Takes a list.
       }
     ]
 
-<note>peer-keys: :doc:`#compile`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#compile`
+xxx
 
   * **uri** *(required)* : URI with which the script will be loaded, relative to the index.html.
+
+.. _pages/tool/generator_config_ref#api:
 
 api
 ===
@@ -35,9 +44,14 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
       "path" : "<path>"
     }
 
-<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
+xxx
 
   * **path** *(required)* : Path where the Apiviewer application is to be stored, relative to the current directory.
+
+.. _pages/tool/generator_config_ref#asset-let:
 
 asset-let
 =========
@@ -54,7 +68,9 @@ Defines macros that will be replaced in #asset hints. Takes a map.
 Each entry is 
   * <macro_name> : [<list of replacement strings>] Like with macros, references (through '${macro_name}') to these keys in #asset hints in source files will be replaced. Unlike macros, each listed value will be used, and the result is the list of all ensuing expressions, so that all resulting assets will be honored. 
 
-:doc:`Special section <generator_config_articles#asset-let_key>`
+:ref:`Special section <pages/tool/generator_config_articles#asset-let_key>`
+
+.. _pages/tool/generator_config_ref#cache:
 
 cache
 =====
@@ -75,7 +91,9 @@ Possible keys are
   * **downloads** : directory where to put downloads (e.g. contrib:%%*%% libraries), relative to the current (default: *":doc:`${CACHE} <generator_config_macros>`/downloads"//)
   * **invalidate-on-tool-change** : when true, the *compile* cache (but not the downloads) will be cleared whenever the tool chain is newer (relevant mainly for trunk users; default: *true*)
 
-:doc:`Special section <generator_config_articles#cache_key>`
+:ref:`Special section <pages/tool/generator_config_articles#cache_key>`
+
+.. _pages/tool/generator_config_ref#clean-files:
 
 clean-files
 ===========
@@ -93,11 +111,16 @@ Triggers clean-up of files and directories within a project and the framework, e
       ]
     }
 
-<note>peer-keys: :doc:`#cache`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+xxx
 
 Each key is a doc string that will be used in logging when deleting the corresponding files.
   * <doc_string> : arbitrary string
-  * <path>       : file/path to be deleted; may be relative to config file location; :doc:`file globs <generator_config_articles#file_globs >` allowed
+  * <path>       : file/path to be deleted; may be relative to config file location; :ref:`file globs <pages/tool/generator_config_articles#file_globs>` allowed
+
+.. _pages/tool/generator_config_ref#combine-images:
 
 combine-images
 ==============
@@ -125,7 +148,10 @@ Triggers the creation of combined image files that contain various other images.
       }
     }
 
-<note>peer-keys: :doc:`#cache`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+xxx
 
   * **images** : map with combine entries
     * <output_image> : path of output file; may be relative to the config file location
@@ -133,9 +159,11 @@ Triggers the creation of combined image files that contain various other images.
       * **layout** : either "horizontal" or "vertical"; defines the layout of images within the combined image (default: "horizontal")
       * **input** *(required)*: list of groups of input files, each group sharing the same prefix; each group consists of:
          * **prefix** *(required)*: takes a list; analogous to the *prefix* attribute of the ouput image, the first element of the setting will be stripped from the path of each input file, and replaced by an optional second element, to obtain the corresponding image id
-         * **files** : the list of input image files (:doc:`file globs <generator_config_articles#file_globs >` allowed); may be relative to config file location 
+         * **files** : the list of input image files (:ref:`file globs <pages/tool/generator_config_articles#file_globs>` allowed); may be relative to config file location 
 
 The image id's of both the input and output files will be collected in an accompanying *<output_name>.meta* file, for later processing by the generator when creating source and build versions of the app. You may move these files around after creation, but you'll have to keep the combined image and its .meta file together in the same directory. At generation time, the generator will look for an accompanying .meta file for every image file it finds in a library. The combined image's image id will be refreshed from its current location relative to the library's resource path. But the clipped images (the images inside the combined image) will be registered under the image id's given in the .meta file (and for browser that don't support combined images, they'll have to be available on disk under this exact image id).
+
+.. _pages/tool/generator_config_ref#compile:
 
 compile
 =======
@@ -149,12 +177,17 @@ Triggers the generation of a source or build version of the app. Takes a map.
       "type" : "(source|build)"
     }
 
-<note>peer-keys: :doc:`#compile-options`, :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#compile-options`, :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
+xxx
 
 Generate Javascript file(s) for the application that can be loaded in the browser. This includes an inital file that acts as a bootstrap/loader file, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
 
 Possible keys are 
   * **type** : which version of the application should be generated (default: *source*)
+
+.. _pages/tool/generator_config_ref#compile-options:
 
 compile-options
 ===============
@@ -202,8 +235,10 @@ Possible keys are (*<type> refers to the [[#compile|compile/type]], e.g. source 
   * **code** : code options
     * **format** : whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
     * **locales** : a list of locales to include (default: *["C"]*)
-    * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) :doc:`special section <generator_config_articles#optimize_key>`
+    * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
     * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
+
+.. _pages/tool/generator_config_ref#copy-files:
 
 copy-files
 ==========
@@ -219,12 +254,17 @@ Triggers files/directories to be copied. Takes a map.
       "target"  : "<path>"
     }
 
-<note>peer-keys: :doc:`#cache`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+xxx
 
 Possible keys are 
   * **files** *(required)* : an array of files/directories to copy; entries will be interpreted relative to the ``source`` key value
   * **source** : root directory to copy from; may be relative to config file location (default: "source")
   * **target**  : root directory to copy to; may be relative to config file location (default: "build")
+
+.. _pages/tool/generator_config_ref#copy-resources:
 
 copy-resources
 ==============
@@ -238,12 +278,17 @@ Triggers the copying of resources. Takes a map.
       "target" : "<path>"
     }
 
-<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
+xxx
 
 Possible keys are 
   * **target** : root target directory to copy resources to; may be relative to the config file location (default: "build")
 
-Unlike :doc:`#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shaddow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :doc:`#library` key.
+Unlike :ref:`pages/tool/generator_config_ref#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shaddow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :ref:`pages/tool/generator_config_ref#library` key.
+
+.. _pages/tool/generator_config_ref#dependencies:
 
 dependencies
 ============
@@ -261,6 +306,8 @@ Allows you to influence the way class dependencies are processed by the generato
   * **follow-static-initializers** *(experimental!)*: Try to resolve dependencies introduced in class definitions when calling static methods to initialize map keys (default: *false*).
   * **sort-topological** *(experimental!)*: Sort the classes using a topological sorting of the load-time dependency graph (default: *false*).
 
+.. _pages/tool/generator_config_ref#desc:
+
 desc
 ====
 
@@ -271,6 +318,8 @@ Provides some descriptive text for the job.
     "desc" : "Some text."
 
 The descriptive string provided here will be used when listing jobs on the command line. (Be aware since this is a normal job key it will be passed on through job inheritance, so when you look at a specific job in the job listing you might see the job description of some ancestor job).
+
+.. _pages/tool/generator_config_ref#exclude:
 
 exclude
 =======
@@ -283,6 +332,8 @@ Exclude classes to be processed in the job. Takes an array of class specifiers.
 
 The class specifiers can include simple wildcards like 'qx.util.*' denoting a whole set of classes. A leading '=' in front of a class specifier means 'without dependencies' (like '=qx.util.*'). These classes are e.g. excluded from the generated Javascript.
 
+.. _pages/tool/generator_config_ref#export:
+
 export
 ======
 
@@ -293,6 +344,8 @@ List of jobs to be exported if this config file is included by another, or to th
     "export" : ["job1", "job2", "job3"]
 
 Only exported jobs will be seen by importing config files. If the current configuration file is used as an argument to the generator (either implicitly or explicitly with *-c*), these are the jobs the generator will list with *generate.py x*, and only these jobs will be runnable with *generate.py <jobname>*.
+
+.. _pages/tool/generator_config_ref#extend:
 
 extend
 ======
@@ -305,7 +358,9 @@ Extend the current job with other jobs. Takes an array of job names.
 
 The information of these (previously defined) jobs are merged into the current job description. Keys and their values missing in the current description are added, existing keys take precedence and are retained (with some keys that are merged).
 
-:doc:`Special section <generator_config_articles#extend_key>`
+:ref:`Special section <pages/tool/generator_config_articles#extend_key>`
+
+.. _pages/tool/generator_config_ref#fix-files:
 
 fix-files
 =========
@@ -320,13 +375,18 @@ Fix white space in Javascript class files. Takes a map.
       "tab-width" : 2
     }
 
-<note>peer-keys: :doc:`#library`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#library`
+xxx
 
 *fix-files* will normalize white space in source code, by converting tabs to spaces, removing trailing white space in lines, and unifying the line end character sequence.
 
 Possible keys are
   * **eol-style** : determines which line end character sequence to use (default: *LF*)
   * **tab-width** : the number of spaces to replace tabs with (default: *2*)
+
+.. _pages/tool/generator_config_ref#include:
 
 include
 =======
@@ -338,6 +398,8 @@ Include classes to be processed in the job. Takes an array of class specifiers.
     "include" : ["qx.util.*"]
 
 The class specifiers can include simple wildcards like 'qx.util.*' denoting a whole set of classes. A leading '=' in front of a class specifier means 'without dependencies' (like '=qx.util.*'). These classes are e.g. included in generated Javascript.
+
+.. _pages/tool/generator_config_ref#include_top-level:
 
 include (top-level)
 ===================
@@ -362,7 +424,9 @@ Within each specifying map, you can specify
   * **import** : List of job names to import; this list will be intersected with the ``export`` list of the external config, and the resulting list of jobs will be included. :  A single entry can also be a map of the form *{"name": <jobname>, "as": <alias>}*, so you can import individual jobs under a different name.
   * **block** : List of job names to block during import; this is the opposite of the ``import`` key and allows you to block certain jobs from being imported (helpful if you want to import most but not all of the jobs offered by the external configuration).
 
-:doc:`Special section <generator_config_articles#include_key_top-level_-_adding_features>`
+:ref:`Special section <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`
+
+.. _pages/tool/generator_config_ref#jobs:
 
 jobs
 ====
@@ -376,7 +440,9 @@ Define jobs for the generator. Takes a map.
       "<job_name>" : { <job_definition> }
     }
 
-Job definitions can take a lot of the predefined keys that are listed on this page (see the :doc:`overview <generator_config_articles#listing_of_keys_in_context>` to get a comprehensive list). The can hold "actions" (keys that cause the generator to perform some action), or just settings (which makes them purely declarative). The latter case is only useful if those jobs are included by others (through the :doc:`#extend` key, and thus hold settings that are used by several jobs (thereby saving you from typing).
+Job definitions can take a lot of the predefined keys that are listed on this page (see the :ref:`overview <pages/tool/generator_config_articles#listing_of_keys_in_context>` to get a comprehensive list). The can hold "actions" (keys that cause the generator to perform some action), or just settings (which makes them purely declarative). The latter case is only useful if those jobs are included by others (through the :ref:`pages/tool/generator_config_ref#extend` key, and thus hold settings that are used by several jobs (thereby saving you from typing).
+
+.. _pages/tool/generator_config_ref#let:
 
 let
 ===
@@ -396,12 +462,16 @@ Each key defines a macro and the value of its expansion. The expansion may conta
 
   * <macro_name> : The name of the macro.
 
-:doc:`Special section <generator_config_articles#let_key>`
+:ref:`Special section <pages/tool/generator_config_articles#let_key>`
+
+.. _pages/tool/generator_config_ref#let_top-level:
 
 let (top-level)
 ===============
 
-Define default macros. Takes a map (see the other :doc:`'let' <#let>`). Everything of the normal 'let' applies here, except that this let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+Define default macros. Takes a map (see the other :ref:`'let' <pages/tool/generator_config_ref#let>`). Everything of the normal 'let' applies here, except that this let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+
+.. _pages/tool/generator_config_ref#library:
 
 library
 =======
@@ -424,7 +494,9 @@ Each map can contain the keys
   * **uri** : URI prefix from your HTML file to the directory of the library's "Manifest" file
   * **namespace** : alternative name space string, which takes precedence of the one provided by the library's "Manifest" file.
 
-:doc:`Special section <generator_config_articles#library_key_and_manifest_files>`
+:ref:`Special section <pages/tool/generator_config_articles#library_key_and_manifest_files>`
+
+.. _pages/tool/generator_config_ref#lint-check:
 
 lint-check
 ==========
@@ -438,10 +510,15 @@ Check Javscript source code with a lint-like utility. Takes a map.
       "allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
     }
 
-<note>peer-keys: :doc:`#library`, :doc:`#include`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#include`
+xxx
 
 Keys are:
   * **allowed-globals** : list of names that are not to be reported as bad use of globals
+
+.. _pages/tool/generator_config_ref#log:
 
 log
 ===
@@ -485,7 +562,10 @@ Configure log/reporting features. Takes a map.
       }
     }
 
-<note>peer-keys: :doc:`#cache`, :doc:`#include`, :doc:`#library`, :doc:`#variants`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#variants`
+xxx
 
 This key allows you to enable logging features along various axes. 
   * **classes-unused** : Report unused classes for the name space patterns given in the list.
@@ -509,7 +589,7 @@ This key allows you to enable logging features along various axes.
       * **file** : output file path (default *deps.dot*)
       * **radius** : include only nodes that are within the given radius (or graph distance) to the root node
       * **compiled-class-size** : use compiled class size to highlight graph nodes, rather than source file sizes; if true classes might have to be compiled to determine their compiled size, which could cause the log job to run longer (default *true*)
-      * **optimize** : if **compiled-class-size** is true, provide optimization settings here so classes are compiled with the correct optimizations; see :doc:`compile-options/code/optimize <#compile-options>` for possible values (default [])
+      * **optimize** : if **compiled-class-size** is true, provide optimization settings here so classes are compiled with the correct optimizations; see :ref:`compile-options/code/optimize <pages/tool/generator_config_ref#compile-options>` for possible values (default [])
     * **json**:  
       * **file** : output file path (default *deps.json*)
       * **pretty** : produce formatted Json, with spaces and indentation; if *false* produce compact format (default: *false*)
@@ -517,7 +597,9 @@ This key allows you to enable logging features along various axes.
       * **file** : output file path (default *flare.json*)
       * **pretty** : produce formatted Json, with spaces and indentation; if *false* produce compact format (default: *false*)
 
-:doc:`Special section <generator_config_articles#log_key>`.
+:ref:`Special section <pages/tool/generator_config_articles#log_key>`.
+
+.. _pages/tool/generator_config_ref#migrate-files:
 
 migrate-files
 =============
@@ -536,6 +618,8 @@ This key will invoke the mechanical migration tool of qooxdoo, which will run th
   * **from-version** : qooxdoo version of the code before migration
   * **migrate-html** : whether to patch .html files in the application (e.g. the index.html)
 
+.. _pages/tool/generator_config_ref#name:
+
 name
 ====
 
@@ -544,6 +628,8 @@ Provides some descriptive text for the whole configuration file.
 ::
 
     "name" : "Some text."
+
+.. _pages/tool/generator_config_ref#packages:
 
 packages
 ========
@@ -575,7 +661,10 @@ Define packages for this app. Takes a map.
       "verifier-bombs-on-error"      : (true|false)
     }
 
-<note>peer-keys: :doc:`#compile`, :doc:`#library`, :doc:`#include`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#compile`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#include`
+xxx
 
 Keys are 
   * **parts** : map of part names and their properties
@@ -588,11 +677,13 @@ Keys are
     * **min-package-unshared** : minimal size of an unshared package in KB (default: <min-package>)
   * **init** : name of the initial part, i.e. the part to be loaded first (default: *"boot"*)
   * **loader-with-boot** : whether loader information should be included with the boot part, or be separate; if set false, the loader package will contain no class code (default: *true*)
-  * **i18n-with-boot** : whether internationalization information (translations, CLDR data, ...) should be included with the boot part, or be separate; if set false, the loader package will contain no i18n data; see :doc:`special section <generator_config_articles#packages_key>` (default: *true*)
+  * **i18n-with-boot** : whether internationalization information (translations, CLDR data, ...) should be included with the boot part, or be separate; if set false, the loader package will contain no i18n data; see :ref:`special section <pages/tool/generator_config_articles#packages_key>` (default: *true*)
   * **additional-merge-constraints** (*experimental*) : if set to true, will cause additional constraints to be applied when merging packages; might result in more packages per part after part collapsing (default: *false*)
   * **verifier-bombs-on-error** (*experimental*) : whether the part verifier should raise an exception, or just warn and continue (default: *true*)
 
-:doc:`Special section <generator_config_articles#packages_key>`
+:ref:`Special section <pages/tool/generator_config_articles#packages_key>`
+
+.. _pages/tool/generator_config_ref#pretty-print:
 
 pretty-print
 ============
@@ -627,7 +718,11 @@ Triggers code beautification of source class files (in-place-editing). An empty 
       }
     }
 
-<note>peer-keys: :doc:`#library`, :doc:`#include`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#include`
+xxx
+
 Keys are:
   * **general** : General settings.
     * **indent-string** : "<whitespace_string>", e.g. "\t" for tab (default: "  " (2spaces))
@@ -641,6 +736,8 @@ Keys are:
     * **open-curly** : Settings for the opening curly brace '{'.
       * **newline-before** : "(a|A|n|N|m|M)" Whether to insert a line break before the opening curly always (aA), never (nN) or mixed (mM) depending on block complexity (default: "m")
       * **indent-before** : (true|false) Whether to indent the opening curly if it is on a new line (default: false)
+
+.. _pages/tool/generator_config_ref#require:
 
 require
 =======
@@ -657,6 +754,8 @@ Define prerequisite classes needed at load time. Takes a map.
 Each key is a 
   * <class_name> : each value is an array of required classes for this class.
 
+.. _pages/tool/generator_config_ref#run:
+
 run
 ===
 
@@ -668,7 +767,9 @@ Define a list of jobs to run. Takes an array of job names.
 
 These jobs will all be run in place of the defining job (which is sort of a 'meta-job'). All further settings in the defining job will be inherited by the listed jobs (so be careful of side effects).
 
-:doc:`Special section <generator_config_articles#run_key>`
+:ref:`Special section <pages/tool/generator_config_articles#run_key>`
+
+.. _pages/tool/generator_config_ref#settings:
 
 settings
 ========
@@ -684,6 +785,8 @@ Define qooxdoo settings. Takes a map.
 Possible keys are valid 
   * <qooxdoo_settings> : along with their desired values
 
+.. _pages/tool/generator_config_ref#shell:
+
 shell
 =====
 
@@ -696,7 +799,10 @@ Triggers the execution of an  external command. Takes a map.
       "command" : "echo foo bar baz"
     }
 
-<note>peer-keys: :doc:`#cache`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+xxx
 
 Possible keys are 
   * **command** : command string to execute by shell*Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\' on Windows, etc.). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So instead of writing 
@@ -708,6 +814,8 @@ Possible keys are
 
     "cp ./file1 ./file2"
  and it will work from everywhere.
+
+.. _pages/tool/generator_config_ref#slice-images:
 
 slice-images
 ============
@@ -728,12 +836,17 @@ Triggers cutting images into regions. Takes a map.
       }
     }
 
-<note>peer-keys: :doc:`#cache`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+xxx
 
   * **images** : map with slice entries.
   * <input_image> :  path to input file for the slicing; may be relative to config file location
   * **prefix** *(required)* : file name prefix used for the output files; will be interpreted relative to the input file location (so a plain name will result in output files in the same directory, but you can also navigate away with ``../../....`` etc.)
   * **border-width** : pixel width to cut into original image when slicing borders etc.
+
+.. _pages/tool/generator_config_ref#translate:
 
 translate
 =========
@@ -750,12 +863,17 @@ translate
       "poentry-with-occurrences" : (true|false)
     }
 
-<note>peer-keys: :doc:`#cache`, :doc:`#library`</note>
+.. note::
+
+    peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#library`
+xxx
 
   * **namespaces** *(required)* : List of name spaces for which .po files should be updated.
   * **locales** :  List of locale identifiers to update.
   * **pofile-with-metadata** : Whether meta data is automatically added to a *new* .po file; on existing .po files the meta data is retained (default: *true*)
   * **poentry-with-occurrences** : Whether each PO entry is preceded by ``#:`` comments in the *.po* files, which indicate in which source file(s) and line number(s) this key is used (default: *true*)
+
+.. _pages/tool/generator_config_ref#use:
 
 use
 ===
@@ -771,6 +889,8 @@ Define prerequisite classes needed at run time. Takes a map.
 
 Each key is a 
   * <class_name> : each value is an array of used classes of this class.
+
+.. _pages/tool/generator_config_ref#variants:
 
 variants
 ========
@@ -789,5 +909,5 @@ Possible keys are valid
 
 As soon as you specify more than one element in the list value for a variant, the generator will generate different builds for each element. If the current job has multiple variants defined, some of them with multiple elements in the value, the generator will generate a variant **for each possible combination** of the given values.
 
-:doc:`Special section <pages/variants>`
+:doc:`Special section <variants>`
 

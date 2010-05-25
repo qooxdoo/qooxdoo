@@ -1,7 +1,11 @@
+.. _pages/ui_html_editing/textalign#text_align:
+
 Text align
 **********
 
 The text align of a selction can be modified using the following exec commands: ``JustifyLeft``, ``JustifyCenter``, ``JustifyRight`` and ``JustifyFull``.
+
+.. _pages/ui_html_editing/textalign#browsers:
 
 Browsers
 ========
@@ -9,6 +13,8 @@ Browsers
   * **IE**: Text align is applied on the paragraph which contains the selection.
   * **Gecko** and **Opera**: Text align is applied on selection only. The selection gets surrounded by a ``<div>`` tag containing a ``text-align`` style attribute.
   * **Webkit**: Applies ``text-align`` style attribute on every ``<div>`` element that is (partly) selected.
+
+.. _pages/ui_html_editing/textalign#problems:
 
 Problems
 ========

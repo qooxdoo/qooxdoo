@@ -1,9 +1,15 @@
+.. _pages/rpc_java#java_rpc:
+
 Java RPC
 ********
 
-<note>
-This information refers to releases up to 0.7.x. It needs to be updated for the current releases 1.2.x.
-</note>
+.. note::
+
+    This information refers to releases up to 0.7.x. It needs to be updated for the current releases 1.2.x.
+
+xxx
+
+.. _pages/rpc_java#building_a_qooxdoo_test_application:
 
 Building a qooxdoo test application
 ===================================
@@ -22,6 +28,8 @@ To build the test WAR, simply follow these steps on the command line:
 Now deploy the WAR in a Java web server of your choice (e.g. `Apache Tomcat <http://tomcat.apache.org/>`_). You can then point your browser to one of the RPC test pages (e.g. ` <http://localhost:8080/qooxdoo/sample/html/test/RPC_1.html>`_) to see the RPC mechanism in action.
 
 Future qooxdoo releases may also include a pre-built Java backend.
+
+.. _pages/rpc_java#building_your_own_applications:
 
 Building your own applications
 ==============================

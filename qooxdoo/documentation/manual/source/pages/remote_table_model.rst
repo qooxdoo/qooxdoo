@@ -1,3 +1,5 @@
+.. _pages/remote_table_model#using_the_remote_table_model:
+
 Using the remote table model
 ****************************
 
@@ -6,6 +8,8 @@ The remote table should be used whenever you want to show large amount of data i
 As this table model loads its data on-demand from a backend, only those rows are loaded that are near the area the user is currently viewing. If the user scrolls, the rows he will see soon are loaded asynchroniously in the background. All loaded data is managed in a cache that automatically removes the last resently used rows when it gets full.
 
 To get this model up and running you have to implement the actual loading of the row data by yourself in a subclass.
+
+.. _pages/remote_table_model#implement_your_subclass:
 
 Implement your subclass
 =======================
@@ -74,6 +78,8 @@ For the correct implementation of the remote table model you have to define/over
       }
     });
 
+.. _pages/remote_table_model#using_your_remote_model:
+
 Using your remote model
 -----------------------
 
@@ -85,6 +91,8 @@ Now that you set up the remote table model the table component can use it.
     yourTableInstance.setTableModel(remoteTableModelInstance);
 
 That's all you need to ensure your table is using your remote model.
+
+.. _pages/remote_table_model#sorting_your_data:
 
 Sorting your data
 -----------------
@@ -118,6 +126,8 @@ Since you have to pull the data yourself into the table once the user changes th
         req.send();
     }
 
+.. _pages/remote_table_model#backend:
+
 Backend
 =======
 
@@ -144,6 +154,8 @@ Then the data delivered by the backend should have the following structure:
     ]};
 
 Moreover, the backend has to deliver the row count, i. e. the number of rows the table contains. This is what the ``_loadRowCount`` function of your subclass expects to get. Please make sure that the URLs ``http://localhost/services/getTableCount.php`` and ``http://localhost/services/getTableRowData.php`` of your subclass point to the right location.
+
+.. _pages/remote_table_model#summary:
 
 Summary
 =======

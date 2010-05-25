@@ -1,3 +1,5 @@
+.. _pages/ui_html_editing/list_handling#list_handling:
+
 List Handling
 *************
 

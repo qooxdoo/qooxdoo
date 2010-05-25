@@ -1,3 +1,5 @@
+.. _pages/frame_apps_testrunner#the_qooxdoo_test_runner:
+
 The qooxdoo Test Runner
 ***********************
 
@@ -13,16 +15,22 @@ Test Runner provides a convenient interface to test classes that have been writt
 <a href="http:*demo.qooxdoo.org/1.2.x/testrunner"><img src="http:*qooxdoo.org/_media/testrunner.png" alt="Test Runner" width="270" height="203"></a>
 </html>
 
-<note>
-See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/1.2.x/testrunner/>`_. 
-</note>
+.. note::
+
+    See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/1.2.x/testrunner/>`_. 
+
+xxx
 
 The Test Runner framework can also be deployed for *your own* application. It provides a GUI, a layer of infrastructure and a certain interface for arbitrary test classes. So now you can write your own test classes and take advantage of the Test Runner environment.
+
+.. _pages/frame_apps_testrunner#how_to_deploy_test_runner_for_your_own_development:
 
 How to deploy Test Runner for your own development
 ==================================================
 
-This section assumes that your qooxdoo application bears on the structure of the qooxdoo :doc:`skeleton <helloworld#create_your_application>` application. Then this is what you have to do:
+This section assumes that your qooxdoo application bears on the structure of the qooxdoo :ref:`skeleton <pages/helloworld#create_your_application>` application. Then this is what you have to do:
+
+.. _pages/frame_apps_testrunner#writing_test_classes:
 
 Writing Test Classes
 --------------------
@@ -37,6 +45,8 @@ Writing Test Classes
       * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
       * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see :doc:`Variants <variants>`). 
       * See the documentation for the ``[[http://demo.qooxdoo.org/1.2/apiviewer/#qx.dev.unit.TestCase|qx.dev.unit.TestCase]]`` class for more information on the available assertions.
+.. _pages/frame_apps_testrunner#asynchronous_tests:
+
 Asynchronous Tests
 ^^^^^^^^^^^^^^^^^^
 Starting with qooxdoo 0.8.2, the unit testing framework supports asynchronous tests. This enables testing for methods that aren't called directly, such as event handlers:
@@ -59,6 +69,8 @@ Here's an example: In our test, we want to send an AJAX request to the local web
 
       this.wait(10000);
     }
+
+.. _pages/frame_apps_testrunner#create_the_test_application:
 
 Create the Test Application
 ---------------------------

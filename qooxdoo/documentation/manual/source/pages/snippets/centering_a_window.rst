@@ -1,3 +1,5 @@
+.. _pages/snippets/centering_a_window#how_to_center_a_window_on_screen:
+
 How to center a window on screen?
 *********************************
 

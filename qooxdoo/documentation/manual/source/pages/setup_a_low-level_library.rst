@@ -1,7 +1,11 @@
+.. _pages/setup_a_low-level_library#setup_a_low-level_library:
+
 Setup a low-level library
 *************************
 
-A low-level library is interesting for all those who like to use the :doc:`low-level APIs <.:low_level_apis>` of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
+A low-level library is interesting for all those who like to use the :doc:`low-level APIs <low_level_apis>` of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
+
+.. _pages/setup_a_low-level_library#create_a_low-level_skeleton:
 
 Create a low-level skeleton
 ===========================
@@ -18,6 +22,8 @@ The ``t`` parameter is the important one to define the application as a ``bom`` 
 
     $QOOXDOO_PATH/tool/bin/create-application.py ?
 
+.. _pages/setup_a_low-level_library#generate_qooxdoo_build:
+
 Generate qooxdoo build
 ======================
 
@@ -31,9 +37,13 @@ Before you can descend to the low-levels you have to generate a javascript file 
 
 This pre-defined job is all you have to execute to start right away.
 
-<note>
-The generated build script is a compilation of low-level classes, but it does **not** provide all classes of the *qx.bom* or *qx.dom* namespace. Please take a look at the provide *config.json* file to determine which file is included. The low-level wrapper of the XmlHttpRequest object ( *qx.bom.Request* ) is **not** provided by default.
-</note>
+.. note::
+
+    The generated build script is a compilation of low-level classes, but it does **not** provide all classes of the *qx.bom* or *qx.dom* namespace. Please take a look at the provide *config.json* file to determine which file is included. The low-level wrapper of the XmlHttpRequest object ( *qx.bom.Request* ) is **not** provided by default.
+
+xxx
+
+.. _pages/setup_a_low-level_library#ready_to_code:
 
 Ready to code
 =============

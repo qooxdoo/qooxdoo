@@ -1,3 +1,5 @@
+.. _pages/data_binding/controller#controller:
+
 Controller
 ==========
 
@@ -9,11 +11,15 @@ You may miss the table controller. The currently available table will not be cha
 
 In the following section, the selection will be discussed because it's a common feature of the list and tree controller. The delegation mechanism is another common feature of those two controllers and will also be described. After that, each of the available controllers will be discussed in detail.
 
+.. _pages/data_binding/controller#selection:
+
 Selection
 ---------
 
 Usually the selection of view components like the tree or the list handle their selection with tree folder or list items. As a user of data binding, you don‘t want to convert the view widgets to the model widgets. Therefore, the controller does that mapping for you. There is a selection array available on the controller containing the currently selected model items. When using the selection of the controller, there is no need to deal with view widgets like ListItems. 
 It is also possible to change the array in place and add / remove something from the selection. As it is a data array, you can use all methods defined by that array to manipulate the selection of the corresponding controller.
+
+.. _pages/data_binding/controller#delegate:
 
 Delegate
 --------
@@ -22,13 +28,19 @@ The list and tree controller are responsible for creating and binding the child 
 
 In total, there are three methods which relate to the topic of creating and binding the child view widgets.
 
+.. _pages/data_binding/controller#configureitem:
+
 configureItem
 ^^^^^^^^^^^^^
 The ``configureItem`` function is the function which you can use if you just want to modify the created default widgets. This gives you the opportunity to set the labels to rich for example or modify anything else in the child widget. But this is not the place where you want to change / add the binding behavior. 
 
+.. _pages/data_binding/controller#binditem:
+
 bindItem
 ^^^^^^^^
 That place is the ``bindItem`` method. But you don't want to use the single value binding all on your own and bind the stuff. Therefore, the controller offers you a method called ``bindProperty``, which takes the source path to the data, the target property name and the options for the single value binding. The other two parameters will just mapped through. But keep in mind that if you use this function, the default binding of the label and the icon is gone and the properties used for those bindings do not work anymore. If you still want to have the default binding, use the ``bindDefaultProperties`` method and pass the two given parameters through. But keep in mind that the bindings set up with these two methods are unidirectional, from the model to the view. If you want to have b binding from the view to the model, use the ``bindPropertyReverse`` which takes the same arguments as the ``bindProperty`` method.
+
+.. _pages/data_binding/controller#createitem:
 
 createItem
 ^^^^^^^^^^
@@ -53,6 +65,8 @@ The following code shows how such a delegate could look like.
 
 The delegate defines, that ``CheckBox``es should be used as child view items. As the ``CheckBox``es don't have an icon, the ``bindItem`` function needs to re-specify the bindings. It binds the name and the online property of the model to the label and checked property of the ``CheckBox``.
 
+.. _pages/data_binding/controller#object_controller:
+
 Object Controller
 -----------------
 
@@ -72,6 +86,8 @@ Take a look at the following code example to see the object controller in action
 This code snippet ensures that every value set by slider1 will automatically be set as value of slider two.
 As you can see, the object controller only wraps the fundamental single-value binding, trying to make its usage a little bit easier.
 
+.. _pages/data_binding/controller#list_controller:
+
 List Controller
 ---------------
 
@@ -90,6 +106,8 @@ The following code snippet shows how to bind an array of strings to a list widge
 Now every change in the model array will invoke a change in the list widget.
 
 As a unique feature of the list controller a filtering method is included. You can assign a filter function to the controller and the results will be filtered using your given function.
+
+.. _pages/data_binding/controller#tree_controller:
 
 Tree Controller
 ---------------
@@ -112,9 +130,11 @@ Imagine that a model class called Node is available containing the two already m
 
 After that code snippet, every change in the name or of the children will be automatically mapped into the tree view. Selecting one of the tree folders will put the corresponding Node object into the selection array of the controller.
 
+.. _pages/data_binding/controller#form_controller:
+
 Form Controller
 ---------------
-Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a :doc:`Object controller <#Object_Controller>` for the bidirectional bindings.
+Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a :ref:`Object controller <pages/data_binding/controller#Object_Controller>` for the bidirectional bindings.
 The usage equals to the usage of all other controllers. The main properties of it are the model and target property. Given both, the controller connects the model and the target. An additional feature of the form controller is the possibility to create the model for a given form. See the following code to get an idea of using it. 
 
 ::
@@ -125,8 +145,10 @@ The usage equals to the usage of all other controllers. The main properties of i
     // create the model
     var model = formController.createModel();
 
-If you nee additional information on forms, see :doc:`form handling documentation <pages/ui_form_handling#form_object>`.
+If you nee additional information on forms, see :ref:`form handling documentation <pages/ui_form_handling#form_object>`.
 After executing this code, the controller and the model variable do have the model available and therefore, the controller can set up the bindings.
+
+.. _pages/data_binding/controller#combining_controller:
 
 Combining Controller
 --------------------

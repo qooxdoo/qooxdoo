@@ -1,3 +1,5 @@
+.. _pages/snippets/transparent_colors#transparent_colors:
+
 Transparent colors
 ******************
 

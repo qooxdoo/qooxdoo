@@ -1,3 +1,5 @@
+.. _pages/widget/slider#slider:
+
 Slider
 ******
 The Slider widget is the classic widget for controlling a bounded value.
@@ -5,11 +7,15 @@ The Slider widget is the classic widget for controlling a bounded value.
 XXX
 ===
 
+.. _pages/widget/slider#preview_image:
+
 Preview Image
 -------------
 |Slider|
 
-.. |Slider| image:: /pages/widget/slider.png
+.. |Slider| image:: /widget/slider.png
+
+.. _pages/widget/slider#features:
 
 Features
 --------
@@ -17,15 +23,21 @@ Features
   * Horizontal and vertical orientation.
   * Configurable steps.
 
+.. _pages/widget/slider#description:
+
 Description
 -----------
 The Slider widget is the classic widget for controlling a bounded value. It lets the user move a slider handle along a horizontal or vertical groove and translates the handle’s position into an integer value within the defined range.
+
+.. _pages/widget/slider#demos:
 
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Slider demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Slider.html>`_
   * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+
+.. _pages/widget/slider#api:
 
 API
 ---

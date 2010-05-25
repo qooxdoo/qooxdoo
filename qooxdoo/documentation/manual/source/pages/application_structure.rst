@@ -1,12 +1,16 @@
+.. _pages/application_structure#application_structure:
+
 Application Structure
 *********************
+
+.. _pages/application_structure#structural_overview:
 
 Structural Overview
 ===================
 
 A qooxdoo application has a well-organized file structure. For an application named ``custom``, everything is located within the application folder ``custom``. Indentation denotes file system nesting:\\
 \\
-    * **``source``** - this folder always exists, as it contains the :doc:`development version <helloworld#run_your_application>` of your app
+    * **``source``** - this folder always exists, as it contains the :ref:`development version <pages/helloworld#run_your_application>` of your app
       * ``index.html`` - usually the only HTML file a qooxdoo application needs. Typically it hardly includes any markup, as the entire qooxdoo application is available as an external JavaScript file
       * ``class`` - all JavaScript classes
         * ``custom`` - this is the top-level namespace of your classes, often identical to the application name
@@ -18,18 +22,20 @@ A qooxdoo application has a well-organized file structure. For an application na
       * ``translation`` - if you choose to develop your app for multiple languages, put your translation files into this directory
         * ``en.po`` - and the other ``.po`` files for the languages your app supports. The respective locale is used as a file name, e.g. ``it.po``, ``pt_BR.po``, ...
 \\
-    * **``build``** - this folder is created and/or updated for each :doc:`deployment version <helloworld#deployment>` of your app using ``generate.py build``
+    * **``build``** - this folder is created and/or updated for each :ref:`deployment version <pages/helloworld#deployment>` of your app using ``generate.py build``
       * ``index.html`` - identical to the one of the ``source`` version
       * ``script`` - contains the generated JavaScript code of your application
         * ``custom.js`` - this JavaScript file is included from ``index.html``. In the ``build`` version this single file contains all the JavaScript code your application requires, in a compressed and optimized form. If you are developing a large-scale application, you can split it into so-called parts that can be loaded on-demand.
       * ``resource`` - if your application classes contain appropriate ``#asset()`` meta information, those resources are automatically copied to this target folder. Your application is then self-contained and may be transferred to an external hosting environment.
 \\
-    * **``api``** - contains a searchable :doc:`API viewer <helloworld#api_reference>` specific to your application, simply created by ``generate.py api``. As it is self-consistent, it may be copied anywhere and be run offline
-    * **``test``** - a standalone :doc:`Test runner <[[helloworld#unit_testing>` for unit tests you may create for your app, created by ``generate.py test``
+    * **``api``** - contains a searchable :ref:`API viewer <pages/helloworld#api_reference>` specific to your application, simply created by ``generate.py api``. As it is self-consistent, it may be copied anywhere and be run offline
+    * **``test``** - a standalone :ref:`Test runner <[[helloworld#unit_testing>` for unit tests you may create for your app, created by ``generate.py test``
 \\
     * ``[[.:application_structure:manifest|Manifest.json]]`` - every qooxdoo app has such a Manifest file for some meta information
     * ``[[.:tool:generator_config|config.json]]`` - configuration file for the build process and all other integrated developer tools
     * ``[[.:tool:generator_usage#generate.py]]`` - you use this platform-independent script for all kinds of tasks and tools, most importantly to generate the development as well as the deployment version of your app
+
+.. _pages/application_structure#in_other_words:
 
 In Other Words
 ==============

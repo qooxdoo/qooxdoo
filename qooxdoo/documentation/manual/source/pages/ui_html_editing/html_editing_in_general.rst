@@ -1,16 +1,26 @@
+.. _pages/ui_html_editing/html_editing_in_general#html_editing_in_general:
+
 HTML Editing In General
 ***********************
 
+.. _pages/ui_html_editing/html_editing_in_general#external_information:
+
 External Information
 ====================
+
+.. _pages/ui_html_editing/html_editing_in_general#general_infos:
 
 General infos
 -------------
 
     * `Rich HTML editing - Part 1 <http://dev.opera.com/articles/view/rich-html-editing-in-the-browser-part-1/>`_
 
+.. _pages/ui_html_editing/html_editing_in_general#browsers:
+
 Browsers
 --------
+
+.. _pages/ui_html_editing/html_editing_in_general#mozilla_midas:
 
 Mozilla ("Midas")
 ^^^^^^^^^^^^^^^^^
@@ -22,6 +32,8 @@ Mozilla ("Midas")
     * `Source code (see list under MidasCommand in nsHTMLDocument.cpp) <http://lxr.mozilla.org/seamonkey/ident?i=MidasCommand>`_
     * `DOM Client Object Cross-Reference <http://developer.mozilla.org/en/docs/DOM_Client_Object_Cross-Reference>`_
 
+.. _pages/ui_html_editing/html_editing_in_general#ie_html_edit:
+
 IE ("HTML Edit")
 ^^^^^^^^^^^^^^^^
 
@@ -30,10 +42,14 @@ IE ("HTML Edit")
     * `Overview of Command Identifiers <http://msdn.microsoft.com/workshop/author/dhtml/reference/commandids.asp>`_
    * `A Note about the DHTML Editing Control in IE7+ <http://blogs.msdn.com/ie/archive/2006/06/27/648850.aspx>`_
 
+.. _pages/ui_html_editing/html_editing_in_general#opera:
+
 Opera
 ^^^^^
 
     * `Opera Browser Wiki <http://operawiki.info/TextAreaEditor/>`_
+
+.. _pages/ui_html_editing/html_editing_in_general#safari:
 
 Safari
 ^^^^^^
@@ -43,12 +59,16 @@ Safari
     * `execCommand list <http://lists.apple.com/archives/Webcore-dev/2005/May/msg00013.html>`_
     * `WYSIWYG comes to Safari 1.3 <http://allforces.com/2005/04/19/wysiwyg-comes-to-safari-13/>`_
 
+.. _pages/ui_html_editing/html_editing_in_general#compatibility:
+
 Compatibility
 -------------
 
     * `The Mozile project <http://mozile.mozdev.org/0.8/doc/jsdoc/>`_ contains code which adapts Internet Explorer's Selection object to an interface like Mozilla's.
     * `Converting your app from IE to Midas <http://www.mozilla.org/editor/ie2midas.html>`_
     * `execCommand compatibility <http://www.quirksmode.org/dom/execCommand.html>`_
+
+.. _pages/ui_html_editing/html_editing_in_general#general:
 
 General
 -------
@@ -57,6 +77,8 @@ General
     * `cmsreview.com <http://www.cmsreview.com/WYSIWYG/OpenSource/directory.html>`_
     * `geniisoft.com <http://www.geniisoft.com/showcase.nsf/WebEditors>`_
     * `Web-Based Rich Text Editors Compared <http://bulletproofbox.com/web-based-rich-text-editors-compared>`_
+
+.. _pages/ui_html_editing/html_editing_in_general#overview_of_exisiting_wysiwyg_editors:
 
 Overview of exisiting WYSIWYG editors
 =====================================
@@ -88,6 +110,8 @@ Overview of exisiting WYSIWYG editors
 | `Loki <http://apps.carleton.edu/opensource/loki/>`_ | GPL | |
 |  |  |  |
 | `Whizzywig <http://www.unverse.net/>`_ | - | | 
+
+.. _pages/ui_html_editing/html_editing_in_general#browser-specific_overview_of_execcommand:
 
 Browser-specific overview of "execCommand"
 ==========================================

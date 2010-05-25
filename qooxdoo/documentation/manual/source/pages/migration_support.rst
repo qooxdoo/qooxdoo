@@ -1,3 +1,5 @@
+.. _pages/migration_support#migration_support:
+
 Migration Support
 *****************
 

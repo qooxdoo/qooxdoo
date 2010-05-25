@@ -1,5 +1,9 @@
+.. _pages/back-button_and_bookmark_support#back-button_and_bookmark_support:
+
 Back-Button and Bookmark Support
 ********************************
+
+.. _pages/back-button_and_bookmark_support#overview:
 
 Overview
 ========
@@ -7,6 +11,8 @@ Overview
 Many Ajax applications break the browser back button and bookmarking support. Since the main page is never reloaded, the URL of the application never changes and no new entries are added to the browser history.
 
 Fortunately it is possible to restore the expected behavior with a JavaScript history manager like the one included with qooxdoo (`qx.bom.History <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History>`_).
+
+.. _pages/back-button_and_bookmark_support#adding_history_support_to_an_application:
 
 Adding History support to an Application
 ========================================
@@ -18,12 +24,16 @@ To add history support to an application four basic steps are required:
   - add event listener to history changes
   - update history on application state changes
 
+.. _pages/back-button_and_bookmark_support#identify_application_states:
+
 Identify Application States
 ===========================
 
 The first step to add history support to an Ajax application is to identify the application states, which should be added to the history. This state must be encoded into a string, which will be set as the fragment identifier of the URL (the part after the '#' sign).
 
 What exactly the application state is depends on the application. It can range from coarse grained states for basic application navigation to fine grained undo/redo steps. The API viewer uses e.g. the currently displayed class as its state. 
+
+.. _pages/back-button_and_bookmark_support#retrieve_initial_application_state:
 
 Retrieve Initial Application State
 ==================================
@@ -35,6 +45,8 @@ This is the code to read the initial state (`getState API documentation <http://
 ::
 
     var state = qx.bom.History.getInstance().getState();
+
+.. _pages/back-button_and_bookmark_support#add_event_listener_to_history_changes:
 
 Add Event Listener to History Changes
 =====================================
@@ -50,6 +62,8 @@ Each time the history changes by hitting the browser's back or forward button, t
       // application specific state update
       this.setApplicationState(state);
     }, this);
+
+.. _pages/back-button_and_bookmark_support#update_history_on_application_state_changes:
 
 Update History on Application State Changes
 ===========================================

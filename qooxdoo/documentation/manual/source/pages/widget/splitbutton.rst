@@ -1,3 +1,5 @@
+.. _pages/widget/splitbutton#splitbutton:
+
 SplitButton
 ***********
 The SpliteButton acts like a normal button, but it opens a menu when clicking on the arrow.
@@ -5,11 +7,15 @@ The SpliteButton acts like a normal button, but it opens a menu when clicking on
 XXX
 ===
 
+.. _pages/widget/splitbutton#preview_image:
+
 Preview Image
 -------------
 |SplitButton|
 
-.. |SplitButton| image:: /pages/widget/splitbutton.png
+.. |SplitButton| image:: /widget/splitbutton.png
+
+.. _pages/widget/splitbutton#features:
 
 Features
 --------
@@ -18,17 +24,23 @@ Features
   * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
   * Menu support.
 
+.. _pages/widget/splitbutton#description:
+
 Description
 -----------
 The SpliteButton acts like a normal button, but it opens a menu when clicking on the arrow. The menu could contain a history list or something like this.
 
-For using a menu see: :doc:`.:Menu`
+For using a menu see: :doc:`Menu`
+
+.. _pages/widget/splitbutton#demos:
 
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Menu demo that contains a SplitButton <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_
   * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+
+.. _pages/widget/splitbutton#api:
 
 API
 ---

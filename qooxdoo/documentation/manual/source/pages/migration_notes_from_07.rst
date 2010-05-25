@@ -1,3 +1,5 @@
+.. _pages/migration_notes_from_07#migration_notes_from_0.7.x:
+
 Migration Notes (from 0.7.x)
 ****************************
 
@@ -5,6 +7,8 @@ Some notes about the things to be careful during the migration of the widgets fo
 
 XXX
 ===
+
+.. _pages/migration_notes_from_07#simple_renamings:
 
 Simple Renamings
 ----------------
@@ -27,6 +31,8 @@ Simple Renamings
     * ``qx.application.???._postload()`` => ``qx.application.???.finalize()``
     * ``qx.ui.selection.RadioManager`` => ``qx.ui.form.RadioGroup``
     * ``beforeAppear`` => ``appear``
+
+.. _pages/migration_notes_from_07#more_elaborate_changes:
 
 More Elaborate Changes
 ----------------------
@@ -57,6 +63,8 @@ More Elaborate Changes
       * ``over`` => ``hovered``
       * ``focus`` => ``focused``
 
+.. _pages/migration_notes_from_07#deprecated:
+
 Deprecated
 ----------
 
@@ -68,6 +76,8 @@ Deprecated
   * ``qx.ui.core.Widget.isMaterialized`` => not needed any longer
   * ``qx.ui.core.ClientDocument.isMaterialized`` => not needed any longer
   * ``qx.core.Version`` no longer exists
+
+.. _pages/migration_notes_from_07#missing:
 
 Missing
 -------

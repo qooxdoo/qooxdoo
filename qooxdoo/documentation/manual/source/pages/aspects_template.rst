@@ -1,3 +1,5 @@
+.. _pages/aspects_template#an_aspect_template_class:
+
 An Aspect Template Class
 ************************
 
@@ -108,4 +110,4 @@ A job in your configuration could look something like this:
             }
           }
 
-If you need some more information on configuring the generator, take a look at the :doc:`.:tool:generator_config_ref`.
+If you need some more information on configuring the generator, take a look at the :doc:`tool/generator_config_ref`.

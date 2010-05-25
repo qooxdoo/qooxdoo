@@ -1,3 +1,5 @@
+.. _pages/widget/menubutton#menubutton:
+
 MenuButton
 **********
 The MenuButton looks like a normal button, but it opens a menu when clicking on it.
@@ -5,11 +7,15 @@ The MenuButton looks like a normal button, but it opens a menu when clicking on 
 XXX
 ===
 
+.. _pages/widget/menubutton#preview_image:
+
 Preview Image
 -------------
 |MenuButton|
 
-.. |MenuButton| image:: /pages/widget/menubutton.png
+.. |MenuButton| image:: /widget/menubutton.png
+
+.. _pages/widget/menubutton#features:
 
 Features
 --------
@@ -18,17 +24,23 @@ Features
   * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
   * Menu support.
 
+.. _pages/widget/menubutton#description:
+
 Description
 -----------
 The MenuButton looks like a normal button, but it opens a menu when clicking on it.
 
-For using a menu see: :doc:`.:Menu`
+For using a menu see: :doc:`Menu`
+
+.. _pages/widget/menubutton#demos:
 
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Menu demo that contains a MenuButton <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_
   * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+
+.. _pages/widget/menubutton#api:
 
 API
 ---

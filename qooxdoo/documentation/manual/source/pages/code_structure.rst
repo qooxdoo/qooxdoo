@@ -1,3 +1,5 @@
+.. _pages/code_structure#code_structure:
+
 Code Structure
 **************
 

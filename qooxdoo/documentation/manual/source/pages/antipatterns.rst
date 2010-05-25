@@ -1,7 +1,11 @@
+.. _pages/antipatterns#anti-patterns:
+
 Anti-Patterns
 *************
 
 This page should give you an overview (in no particular order) about programming pattern you should avoid.
+
+.. _pages/antipatterns#dont_break_encapsulation:
 
 Don't break encapsulation
 =========================
@@ -10,20 +14,28 @@ This is pretty straightforward when you're developing in OO-way. You violate the
 
 The point to mention this here again is that calling ``private methods`` of other classes can break the build version of a qooxdoo application. Since qooxdoo uses private optimization by default one cannot rely on the names of the private methods of another class. If violate this can end up with a runtime error very difficult to debug.
 
+.. _pages/antipatterns#creating_multiple_instances_of_the_same_widget:
+
 Creating multiple instances of the same widget
 ==============================================
 
 Do not create multiple instances of a widget which is added/removed multiple times when it is sufficient to e.g. only change the data represented by the widget.
+
+.. _pages/antipatterns#synchronous_requests:
 
 Synchronous requests
 =====================
 
 Using synchronous requests will block the whole GUI until the response is received. Always use asynchronous requests to give the control back to the user.
 
+.. _pages/antipatterns#long-running_tasks:
+
 Long-running tasks
 ==================
 
 Running intensive tasks on the client should not be an option. Such tasks should reside on the server-side. If it not possible (or not desired) there should be at least a reasonable feedback to the user about the intensive task currently running.  If long-running tasks can be split into a sequence of small tasks, the Progressive (qx.ui.progressive.Progressive) widget may allow you to progressive execute the sequence of small tasks without blocking other operation of your application.  Organizing your application around a finite state machine (qx.util.fsm.FiniteStateMachine) may also help to avoid the pitfalls of long-running tasks.
+
+.. _pages/antipatterns#inline_functions:
 
 Inline functions
 =================
@@ -34,6 +46,8 @@ Using anonymous inline functions has several disadvantages:
   - other programmers will not find them at first glance
   - they might not appear in an IDE's outline view
 So please avoid using them. :-)
+
+.. _pages/antipatterns#reference_types_in_member_section:
 
 Reference types in member section
 ==================================
@@ -77,6 +91,8 @@ GOOD:
 
 For the same reason reference types should not be used as ``init`` values in property definitions.
 
+.. _pages/antipatterns#abundandly_requiring_other_classes:
+
 Abundandly "requiring" other classes
 =====================================
 
@@ -90,6 +106,8 @@ There are exactly 4 ways to establish a load-time requirement of a class:
   * **"require" config key**:All classes listed for a particular class in the generator Json configuration file under the "require" key makes those classes requires for the key class.
 
 All those possibilities should be avoided or at least used as sparingly as possible. Those requires make dependency tracking difficult and furthermore impedes partitioning the application into parts if this is desired.
+
+.. _pages/antipatterns#do_not_name_variables_like_native_objects:
 
 Do not name variables like native objects
 ==========================================
@@ -113,6 +131,8 @@ Consider the following:
     // will end up in "build" version with
     p.body.appendChild(myChildNode);
     // assuming the "document" variable is optimized with "p" as variable name
+
+.. _pages/antipatterns#do_not_use_for-in-loops_for_arrays:
 
 Do not use for-in-loops for arrays
 ===================================

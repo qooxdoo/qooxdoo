@@ -1,3 +1,5 @@
+.. _pages/layout/canvas#canvas:
+
 Canvas
 ******
 
@@ -6,12 +8,16 @@ The Canvas is an extended :doc:`Basic` layout. It is possible to position a widg
 XXX
 ===
 
+.. _pages/layout/canvas#preview_image:
+
 Preview Image
 -------------
 
-|pages/layout/canvas.png|
+|layout/canvas.png|
 
-.. |pages/layout/canvas.png| image:: /pages/layout/canvas.png
+.. |layout/canvas.png| image:: /layout/canvas.png
+
+.. _pages/layout/canvas#features:
 
 Features
 --------
@@ -23,14 +29,18 @@ Features
   * Auto sizing (ignoring percent values)
   * Margins (also negative ones)
 
+.. _pages/layout/canvas#description:
+
 Description
 -----------
 
-In addition to the Basic layout the Canvas layout adds support for ``right`` and ``bottom`` layout properties. These allows to position a child in distance from the right or bottom edge of the available space. The canvas also adds support for  :doc:`percent <pages/ui_layouting#percent>` locations and dimensions (layout properties ``width`` and ``height``). Percents are defined as a string value (otherwise using the same layout property) with a "%" postfix.
+In addition to the Basic layout the Canvas layout adds support for ``right`` and ``bottom`` layout properties. These allows to position a child in distance from the right or bottom edge of the available space. The canvas also adds support for  :ref:`percent <pages/ui_layouting#percent>` locations and dimensions (layout properties ``width`` and ``height``). Percents are defined as a string value (otherwise using the same layout property) with a "%" postfix.
 
 It is possible to stretch a between the left and right edge by specifying layout properties for both ``left`` and ``right``. The same is of cause true for ``top`` and ``bottom``. To define a distance which is identially to each edge e.g. stretch a child to between all sides there is the ``edge`` property. This property accepts the same values are supported by the other location properties (including percents). Please keep in mind that often a Grow Layout might be the better choice when ``edge`` was planned to use in conjunction with a Canvas Layout.
 
 The size hint of a widget configured with a Canvas layout is determined such that each child can be positioned at the specified location and can have its preferred size and margin. For this computation the layout ignores all widgets, which have a percent size or position, because These sizes depend on the actual rendered size and are not known upfront.
+
+.. _pages/layout/canvas#layout_properties:
 
 Layout properties
 -----------------
@@ -41,6 +51,8 @@ Layout properties
   * **width** *(String)*: A percent width e.g. ``40%``.
   * **height** *(String)*: A percent height e.g. ``60%``.
 
+.. _pages/layout/canvas#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the layout:\\
@@ -50,6 +62,8 @@ Here are some links that demonstrate the usage of the layout:\\
   * [[
 http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_LeftRight.html|Canvas showing left and right attachment of children]]
   * `Canvas with children having minimum and maximum dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_MinMaxSizes.html>`_
+
+.. _pages/layout/canvas#api:
 
 API
 ---

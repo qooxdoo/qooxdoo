@@ -1,13 +1,19 @@
+.. _pages/helloworld#hello_world:
+
 Hello World
 ***********
 
 This tutorial is a step-by-step instruction on how to get started with qooxdoo by creating your very first application.
+
+.. _pages/helloworld#setup_the_framework:
 
 Setup the Framework
 ===================
 
 XXX
 ---
+
+.. _pages/helloworld#requirements:
 
 Requirements
 ^^^^^^^^^^^^
@@ -19,15 +25,21 @@ Please make sure to have read the detailed :doc:`Requirements`. To recap, there 
   * *operating system*: any
   * *tools*: Python required
 
+.. _pages/helloworld#download:
+
 Download
 ^^^^^^^^
 
 Go to the `Download <http://qooxdoo.org/download>`_ section and grab the latest stable Software Development Kit (SDK).
 
+.. _pages/helloworld#installation:
+
 Installation
 ^^^^^^^^^^^^
 
 Unzip the SDK archive.
+
+.. _pages/helloworld#create_your_application:
 
 Create your Application
 =======================
@@ -36,14 +48,16 @@ It is easy to setup your own application using the platform-independent script `
 . It will create a skeleton application in a directory you specify, that is automatically configured to work with your version of the qooxdoo framework.
 
 To create a new skeleton with ``create-application.py``
- you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :doc:`#Windows`, :doc:`#Cygwin` or :doc:`#Mac, Linux`
+ you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :ref:`pages/helloworld#Windows`, :ref:`pages/helloworld#Cygwin` or :ref:`pages/helloworld#Mac, Linux`
 
-<note>
-If you have any problems setting up the qooxdoo tool chain, please see some additional help for :doc:`troubleshooting <troubleshooting>`.
-</note>
+.. note::
+
+    If you have any problems setting up the qooxdoo tool chain, please see some additional help for :doc:`troubleshooting <troubleshooting>`.
+
+xxx
 
 Windows |image0|
-----------------
+-----------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
@@ -54,7 +68,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
     C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 Cygwin |image0|
----------------
+-----------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
 
@@ -76,6 +90,8 @@ To create an application ``custom`` in your home directory, change to your home 
 
     /opt/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=.
 
+.. _pages/helloworld#run_your_application:
+
 Run your Application
 ====================
 
@@ -94,7 +110,9 @@ After the application has been generated, open ``source/index.html`` file in you
 
 |Running application|
 
-.. |Running application| image:: /pages/manual/running_application.png
+.. |Running application| image:: /manual/running_application.png
+
+.. _pages/helloworld#write_application_code:
 
 Write Application Code
 ======================
@@ -104,6 +122,8 @@ The folder ``source/class`` contains all your application classes. When starting
 The method ``main()`` contains the entire code of your little skeleton app. Even if you haven't done any qooxdoo programming before, you should be able to figure out what the code does. Get familiar with the code and change it, e.g. modify the label of the button, move the button to another position or add a second button.
 
 To see the changes, you just have to refresh your document in the browser, e.g. by hitting ``F5``. During development there usually is no need to re-generate this so-called "source" version of your app. Only if you later introduce new classes or if dependencies between classes change, you would have to regenerate your app. To do so, execute ``generate.py source-all`` (to include all source classes) or ``generate.py source`` (to only include the required classes) before refreshing your browser.
+
+.. _pages/helloworld#debugging:
 
 Debugging
 =========
@@ -124,9 +144,11 @@ This code turns on two different ways of "logging", i.e. capturing and printing 
 
 |Debug application|
 
-.. |Debug application| image:: /pages/manual/debug_application.png
+.. |Debug application| image:: /manual/debug_application.png
 
 The reason for enclosing the two logging classes in a so-called "debug" variant is explained in more detail in the next section. It ensures that logging is only turned on in the development version (i.e. "source" version) of your app. It will automatically be turned off in the final version of your app that is to be deployed:
+
+.. _pages/helloworld#deployment:
 
 Deployment
 ==========
@@ -145,6 +167,8 @@ Manually creating such a "custom build" from your application class (or classes)
 
 A lot of debugging code is also removed when a "build" is generated, that would only be useful during development of your application, e.g. printing out informative warnings or coding hints. Just like the logging code in the section above, you can put arbitrary code into such "variants", which may then be automatically removed during "conditional compilation" of the build process. This lets you receive information on your app when you're developing it, but removes this for your final code, so your end users don't see it.
 
+.. _pages/helloworld#api_reference:
+
 API Reference
 =============
 
@@ -160,7 +184,9 @@ To start the "API Viewer" application, open ``index.html`` from the newly create
 
 |API Viewer|
 
-.. |API Viewer| image:: /pages/manual/api_viewer.png
+.. |API Viewer| image:: /manual/api_viewer.png
+
+.. _pages/helloworld#unit_testing:
 
 Unit Testing
 ============
@@ -175,7 +201,7 @@ Open ``index.html`` from the newly created top-level ``test`` folder in your bro
 
 |Testrunner application|
 
-.. |Testrunner application| image:: /pages/manual/testrunner.png
+.. |Testrunner application| image:: /manual/testrunner.png
 
 You may skip the rather advanced topic of unit tests while continuing to extend your custom application code. In case you are interested in test-driven development and creating your own unit tests, please see the corresponding :doc:`Unit Testing <unit_testing>` documentation.
 

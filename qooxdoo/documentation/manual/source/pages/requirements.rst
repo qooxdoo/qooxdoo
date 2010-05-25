@@ -1,9 +1,13 @@
+.. _pages/requirements#requirements:
+
 Requirements
 ************
 
 Here are the requirements for developing and deploying a qooxdoo application. A typical qooxdoo application is a JavaScript-based "fat-client" that runs in a web browser. It does not enforce any specific backend components, any HTTP-aware server should be fine. The framework comes with a powerful tool chain, that helps both in developing and deploying applications.
 
 It is very straightforward to satisfy the requirements for those three topics (client, server, tools).
+
+.. _pages/requirements#client:
 
 Client
 ======
@@ -36,7 +40,9 @@ A qooxdoo application runs in all major web browsers - with identical look & fee
 
   Chrome 2+\\
 
-Not only the *end users* of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system. Most built-in developer :doc:`#tools` (e.g. for debugging, profiling) work cross-browser as well.
+Not only the *end users* of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system. Most built-in developer :ref:`pages/requirements#tools` (e.g. for debugging, profiling) work cross-browser as well.
+
+.. _pages/requirements#server:
 
 Server
 ======
@@ -45,38 +51,40 @@ Developing a qooxdoo application does not require a server. Its static applicati
 
 Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
 
-Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism <RPC>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* :doc:`RPC backends <:contrib:project#backend>` for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide <pages/rpc_server_writer_guide>`.
+Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism <RPC>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide <rpc_server_writer_guide>`.
 
 If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
+
+.. _pages/requirements#tools:
 
 Tools
 =====
 
 qooxdoo comes with a platform-independent and user-friendly tool chain. It is required for *creating and developing* a qooxdoo application. It is *not* needed for running an application.
 
-The tool chain only requires to have `Python <http://www.python.org>`_ installed. Use a standard **Python 2.x** release, version 2.5 or above. **Python 3** is currently **:doc:`not supported <documentation:python_3_support>`**! As a qooxdoo user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can very easily be installed:
+The tool chain only requires to have `Python <http://www.python.org>`_ installed. Use a standard **Python 2.x** release, version 2.5 or above. **Python 3** is currently **`not supported <http://qooxdoo.org/documentation/python_3_support>`_**! As a qooxdoo user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can very easily be installed:
 
 <html>
 <!--
 ^ When using ... ^ ... do the following: ^
-| |image441|
+| |image280|
 
-.. |image441| image:: documentation:windows.png
+.. |image280| image:: documentation:windows.png
 
  Windows |  `install ActivePython <http://www.activestate.com/Products/activepython/>`_|
-| |image46|
+| |image609|
 
-.. |image46| image:: documentation:cygwin.png
+.. |image609| image:: documentation:cygwin.png
 
  Cygwin | :doc:`use package manager <>`|
-| |image281|
+| |image765|
 
-.. |image281| image:: documentation:macosx.png
+.. |image765| image:: documentation:macosx.png
 
  Mac | nothing to be done |
-| |image69|
+| |image186|
 
-.. |image69| image:: documentation:linux.png
+.. |image186| image:: documentation:linux.png
 
  Linux | use package manager |
 -->
@@ -88,7 +96,7 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
 It is trivial! Just `download and install <http://www.activestate.com/Products/activepython/>`_ the excellent **ActivePython** package. Its default settings of the installation wizard are fine, there is nothing to configure. 
-*(It is no longer recommended to use the Windows package from [[http:*www.python.org/download/releases/2.6.1/|Python.org]], as this requires additional manual :doc:`configuration <troubleshooting#windows>`).//
+*(It is no longer recommended to use the Windows package from [[http:*www.python.org/download/releases/2.6.1/|Python.org]], as this requires additional manual :ref:`configuration <pages/troubleshooting#windows>`).//
 
 |image0| Cygwin
 ^^^^^^^^^^^^^^^

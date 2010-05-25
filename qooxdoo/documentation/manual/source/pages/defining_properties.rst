@@ -1,14 +1,22 @@
+.. _pages/defining_properties#defining_properties:
+
 Defining Properties
 *******************
 
-<note>
-Please also take a look at :doc:`property_features` to get an compact overview of the available features.
-</note>
+.. note::
+
+    Please also take a look at :doc:`property_features` to get an compact overview of the available features.
+
+xxx
+
+.. _pages/defining_properties#when_to_use_properties:
 
 When to use properties?
 =======================
 
 Dynamic properties in qooxdoo are extremely powerful and convenient. As they support advanced features like validation, events and so on, they might not be quite as lean and fast as an ordinarily coded property that only supports a setter and getter. If you do not need these advanced features or the variable you want to store is *extremely* time critical, it might be better not to use qooxdoo's dynamic properties in those cases. You might instead want to create your own setters and getters (if needed) and store the value just as a hidden private variable (e.g. ``__varName``) inside your object.
+
+.. _pages/defining_properties#basic_property_declaration:
 
 Basic property declaration
 ==========================
@@ -26,11 +34,15 @@ The following code creates a property ``myProperty`` and the corresponding funct
 
 You should define at least one of the attributes ``init``, ``nullable`` or ``inheritable``. Otherwise, the first call to the getter would stop with an exception because the computed value is not (yet) defined.
 
-<note>
-As an alternative to the ``init`` key you could set the init value of the property by calling an initializing function ``this.initMyProperty(value)`` in the constructor. See below for details.
-</note>
+.. note::
+
+    As an alternative to the ``init`` key you could set the init value of the property by calling an initializing function ``this.initMyProperty(value)`` in the constructor. See below for details.
+
+xxx
 
 Please also have a look at the :doc:`Quick Reference <Properties Quickref>`.
+
+.. _pages/defining_properties#working_with_the_property_value:
 
 Working with the property value
 ===============================
@@ -39,12 +51,16 @@ You have multiple possibilities to react on each property change. With *change* 
 
 As a class developer the easiest solution with the best performance is to define an apply method. As a user of a class (the one who creates instances) it is the best to simply attach an event listener to the instance, if such an corresponding event is provided in the property declaration.
 
+.. _pages/defining_properties#defining_an_apply_method:
+
 Defining an apply method
 ------------------------
 
 To attach an apply method you must add a key ``apply`` to your configuration which points to a name of a functions which needs to be available in your ``members`` section. As the apply method normally should not be called directly, it is always a good idea to make the method at least protected by prefixing the name with an underscore ``_``.
 
 The return value of the apply method is ignored.  The second parameter is optional and may be left out.
+
+.. _pages/defining_properties#example:
 
 Example
 ^^^^^^^
@@ -64,6 +80,8 @@ Example
 
 The applying method is only called when the value has changed. 
 
+.. _pages/defining_properties#providing_an_event_interface:
+
 Providing an event interface
 ----------------------------
 
@@ -71,9 +89,13 @@ For the users of a class it is in many cases a nice idea to also support an even
 
 qooxdoo fires a ``qx.event.type.Data`` which supports the methods ``getData()`` and ``getOldData()`` to allow easy access to the new and old property value, respectively.
 
-<note warn>
-Events are only useful for public properties. Events for protected and private properties are usually not a good idea.
-</note>
+.. note::
+
+    Events are only useful for public properties. Events for protected and private properties are usually not a good idea.
+
+xxx
+
+.. _pages/defining_properties#example:
 
 Example
 ^^^^^^^
@@ -89,15 +111,21 @@ Example
       alert(e.getValue());
     });
 
+.. _pages/defining_properties#supporting_init_values:
+
 Supporting init values
 ======================
 
 Init values are supported by all properties. These values are stored separately by the property engine. This way it is possible to fallback to the init value when property values are being reset.
 
+.. _pages/defining_properties#defining_an_init_value:
+
 Defining an init value
 ----------------------
 
 There are two ways to set an init value of a property. 
+
+.. _pages/defining_properties#init_value_in_declaration:
 
 Init value in declaration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -110,6 +138,8 @@ The *preferred* way for regular init values is to simply declare them by an ``in
       myProperty : { init : "hello" }
     }
 
+.. _pages/defining_properties#init_value_in_constructor:
+
 Init value in constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -118,9 +148,12 @@ Alternatively, you could set the init value of the property in the constructor o
 Using an initializing function ``this.init<i>Property</i>(value)``
  in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level. 
 
-Another scenario would be to use a localizable init value when :doc:`internationalizing your application <.:internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
+Another scenario would be to use a localizable init value when :doc:`internationalizing your application <internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
 
-<note>You need to add a ``deferredInit:true`` to the property configuration to allow for a deferred initialization for reference types as mentioned above.</note>
+.. note::
+
+    You need to add a ``deferredInit:true`` to the property configuration to allow for a deferred initialization for reference types as mentioned above.
+xxx
 
 ::
 
@@ -132,6 +165,8 @@ Another scenario would be to use a localizable init value when :doc:`internation
         myProperty : { deferredInit : true}
       }
     };
+
+.. _pages/defining_properties#applying_an_init_value:
 
 Applying an init value
 ----------------------
@@ -213,9 +248,13 @@ In the above example you can see the different usage possibilities regarding pro
 
 If an ``init`` value is given in the property declaration, the init method does not accept any parameters. The init methods always use the predefined init values. In cases where there is no ``init`` value given in the property declaration, it is possible to call the init method with one parameter, which represents the init value. This may be useful to apply reference types to each instance. Thus they would not be shared between instances.
 
-<note warn>
-Please remember that init values are not for incoming user values. Please use ``init`` only for class defined things, not for user values. Otherwise you torpedo the multi-value idea behind the dynamic properties.
-</note>
+.. note::
+
+    Please remember that init values are not for incoming user values. Please use ``init`` only for class defined things, not for user values. Otherwise you torpedo the multi-value idea behind the dynamic properties.
+
+xxx
+
+.. _pages/defining_properties#refining_init_values:
 
 Refining init values
 ====================
@@ -232,10 +271,14 @@ Normally properties could not be overridden. This is the reason for the ``refine
 
 This will change the default value at definition time. ``refine`` is a better solution than a simple ``set`` call inside the constructor because it the initial value is stored in a separate namespace as the user value and so it is possible for the user to fall back to the default value suggested by the developer of a class.
 
+.. _pages/defining_properties#checking_incoming_values:
+
 Checking incoming values
 ========================
 
-You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :doc:`validation section <.:defining_properties:#validation_incoming_values>`.
+You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :ref:`validation section <defining_properties/#validation_incoming_values>`.
+
+.. _pages/defining_properties#predefined_types:
 
 Predefined types
 ----------------
@@ -255,6 +298,8 @@ Due to the fact that JavaScript only supports the ``Number`` data type, ``Float`
       width : { init : 0, check: "Integer" }
     }
 
+.. _pages/defining_properties#possible_values:
+
 Possible values
 ---------------
 
@@ -266,9 +311,13 @@ One can define an explicit list of possible values:
       color: { init : "black", check : [ "red", "blue", "orange" ] }
     }
 
-<note>
-Providing a list of possible values only works with primitive types (like strings and numbers), but not with reference types (like objects, functions, etc.).
-</note>
+.. note::
+
+    Providing a list of possible values only works with primitive types (like strings and numbers), but not with reference types (like objects, functions, etc.).
+
+xxx
+
+.. _pages/defining_properties#instance_checks:
 
 Instance checks
 ---------------
@@ -281,6 +330,8 @@ It is also possible to only allow for instances of a class. This is not an expli
       logger : { nullable : true, check : "qx.log.Logger" }
     }
 
+.. _pages/defining_properties#interface_checks:
+
 Interface checks
 ----------------
 
@@ -291,6 +342,8 @@ The incoming value can be checked against an interface, i.e. the value (typicall
     properties : {
       application : { check : "qx.application.IApplication" }
     }
+
+.. _pages/defining_properties#implementing_custom_checks:
 
 Implementing custom checks
 --------------------------
@@ -312,6 +365,8 @@ Custom checks are possible as well, using a custom function defined inside the p
 
 This example demonstrates how to handle numeric values which only accept a given range of numbers (here 0 .. 100). The possibilities for custom checks are only limited by the developer's fantasy. ;-)
 
+.. _pages/defining_properties#alternative_solution:
+
 Alternative solution
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -330,10 +385,14 @@ As an alternative to the custom check *function*, you may also define a *string*
 
 This is more efficient, particularly for checks involving rather small tests, as it omits the function call that would be needed in the variant above.
 
+.. _pages/defining_properties#validation_incoming_values:
+
 Validation incoming values
 ==========================
 
 Validation of a property can prevent the property from being set if it is not valid. In that case, a validation error should be thrown by the validator function. Otherwise, the validator can just do nothing.
+
+.. _pages/defining_properties#using_a_predefined_validator:
 
 Using a predefined validator
 ----------------------------
@@ -344,6 +403,8 @@ If you use predefined validators, they will throw a validation error for you. Yo
     properties : {
       application : { validate : qx.util.Validate.range(0, 100) }
     }
+
+.. _pages/defining_properties#using_a_custom_validator:
 
 Using a custom validator
 ------------------------
@@ -362,6 +423,8 @@ If the predefined validators are not enough for you validation, you can specify 
       }
     }
 
+.. _pages/defining_properties#validation_method_as_member:
+
 Validation method as member
 ---------------------------
 
@@ -372,6 +435,8 @@ You can define a validation method as a member of the class containing the prope
     properties : {
       application : { validate : "_validateApplication" }
     }
+
+.. _pages/defining_properties#enabling_theme_support:
 
 Enabling theme support
 ======================
@@ -396,9 +461,13 @@ To enable theme support it is sufficient to add a ``themeable`` key to the prope
       width : { themeable : true, init : 100, check : "Number" }
     }
 
-<note>
-``themeable`` should only be enabled for truely *theme-relevant* properties like color and decorator, but not for *functional* properties like enabled, tabIndex, etc.
-</note>
+.. note::
+
+    ``themeable`` should only be enabled for truely *theme-relevant* properties like color and decorator, but not for *functional* properties like enabled, tabIndex, etc.
+
+xxx
+
+.. _pages/defining_properties#working_with_inheritance:
 
 Working with inheritance
 ========================
@@ -427,6 +496,8 @@ Optionally, you can configure an init value of ``inherit``. This is especially a
       color : { inheritable : true, init: "inherit" }
     }
 
+.. _pages/defining_properties#inheritable_css_properties:
+
 Inheritable CSS properties
 --------------------------
 
@@ -439,9 +510,13 @@ To give you an idea for what kind of custom properties inheritance is particular
   * ``list-style``
   * ``text-align``
 
-<note>
-This list of CSS properties is only meant for orientation and does not reflect any of qooxdoo widget properties.
-</note>
+.. note::
+
+    This list of CSS properties is only meant for orientation and does not reflect any of qooxdoo widget properties.
+
+xxx
+
+.. _pages/defining_properties#internal_methods:
 
 Internal methods
 ================
@@ -454,6 +529,8 @@ The property documentation in the user manual explains the public, non-internal 
 : For properties with ``appearance`` enabled. Used to store a separate value for the appearance of this property. Used by the appearance layer.
   * ``this.resetThemed<i>Property</i>(value)``
 : For properties with ``appearance`` enabled. Used to reset the separately stored appearance value of this property. Used by the appearance layer.
+
+.. _pages/defining_properties#defining_property_groups:
 
 Defining property groups
 ========================
@@ -475,6 +552,8 @@ As you can see, property groups are defined in the same map as "regular" propert
     // instead of
     // obj.setLeft(50);
     // obj.setTop(100);
+
+.. _pages/defining_properties#shorthand_support:
 
 Shorthand support
 -----------------

@@ -1,7 +1,11 @@
+.. _pages/understanding_properties#understanding_properties:
+
 Understanding Properties
 ************************
 
 qooxdoo comes with its own convenient and sophisticated property management system. In order to understand its power it may be helpful to have a look at the ordinary property handling in plain JavaScript first:
+
+.. _pages/understanding_properties#ordinary_property_handling:
 
 Ordinary Property Handling
 ==========================
@@ -73,6 +77,8 @@ Something that is very familiar to the typical programmer of Java or any other c
 
 Large part of the code found here is for managing the validation and storage of the incoming data. The property-specific user code is rather short. 
 
+.. _pages/understanding_properties#qooxdoo_property_handling:
+
 qooxdoo Property Handling
 =========================
 
@@ -100,6 +106,8 @@ The apply method may optionally be defined for each property you add to your cla
 
 Despite needing much less explicit code (keep in mind, for *every* property), it actually contains at least as many features as the hand-tuned code: The type of the property is checked automatically (``Number`` in the example above). Moreover, new values are only stored (and the optional apply method called) if different from the existing values. A tiny but important optimization.
 
+.. _pages/understanding_properties#change_events:
+
 Change Events
 -------------
 
@@ -117,6 +125,8 @@ For example, if you would like the ``element`` property of a Widget instance ``w
 
 The anonymous function acts as an event handler that receives the event object as variable ``e``. Calling the predefined method ``getValue()`` returns the new value of property ``element``.
 
+.. _pages/understanding_properties#available_methods:
+
 Available Methods
 =================
 
@@ -131,6 +141,8 @@ Additionally, all properties of boolean type (declared by ``check: "Boolean"``) 
 
   * ``isPropertyName()``: Identical to ``getPropertyName()``.
   * ``togglePropertyName()``: Toggles between true and false.
+
+.. _pages/understanding_properties#property_groups:
 
 Property Groups
 ===============
@@ -151,6 +163,8 @@ The result is identical to:
     widget.setPaddingLeft(40);
 
 As you can see the property groups are a nice really convenient feature. 
+
+.. _pages/understanding_properties#shorthand_support:
 
 Shorthand support
 -----------------
@@ -183,6 +197,9 @@ BTW: The values of a property group can also be given an array as first argument
     // first argument as array
     widget.setPadding([10, 20, 30, 40]);
 
-<note>
-For more information regarding declaration, usage and internal functionality please see the  :doc:`the developer documentation <defining_properties>`.
-</note>
+.. note::
+
+    For more information regarding declaration, usage and internal functionality please see the  :doc:`the developer documentation <defining_properties>`.
+
+xxx
+

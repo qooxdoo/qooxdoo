@@ -1,3 +1,5 @@
+.. _pages/low_level_apis#low-level_apis:
+
 Low-Level APIs
 **************
 
@@ -6,11 +8,16 @@ This document describes the functionality of the low-level API classes in:
   * `qx.dom <http://api.qooxdoo.org/#qx.dom>`_
   * `qx.xml <http://api.qooxdoo.org/#qx.xml>`_
 
+.. _pages/low_level_apis#qx.bom_-_browser_object_model:
+
 qx.bom - Browser Object Model
 =============================
 The classes contained in the ``qx.bom`` namespace provide a cross-browser abstraction layer for object classes of the browser JavaScript runtime. 
 
-<note>This layer is heavily used by higher-level classes but can also be used stand-alone for low-level manipulations.</note>
+.. note::
+
+    This layer is heavily used by higher-level classes but can also be used stand-alone for low-level manipulations.
+xxx
 
 The BOM classes mainly consists of the following three parts:
    * DOM element manipulation
@@ -18,6 +25,8 @@ The BOM classes mainly consists of the following three parts:
    * powerful low-level helper classes
 
 See the API reference of `qx.bom <http://api.qooxdoo.org/#qx.bom>`_ for more details.
+
+.. _pages/low_level_apis#dom_element_manipulation:
 
 DOM element manipulation
 ------------------------
@@ -37,6 +46,8 @@ The following manipulations are offered by the ``qx.bom.element`` package:
    * Background images and support for the clip property
    * Cursor property
 
+.. _pages/low_level_apis#wrapper_for_native_layers/objects:
+
 Wrapper for native layers/objects
 ---------------------------------
 These classes are offer an unique and powerful way to deal with native layers and objects. Wrappers exist for:
@@ -49,6 +60,8 @@ These classes are offer an unique and powerful way to deal with native layers an
    * several native controls like ``iframe``, ``form elements``, ``label`` and ``image`` elements
 
 As every object or layer is abstracted by a corresponding qooxdoo class you can use these BOM classes to interact without worrying about the underlying browser used.
+
+.. _pages/low_level_apis#additional_classes:
 
 Additional classes
 ------------------
@@ -64,6 +77,8 @@ Features include:
    * helper class for the client's viewport
    * helper class for VML
 
+.. _pages/low_level_apis#qx.dom_-_cross-browser_dom_manipulation:
+
 qx.dom - Cross-browser DOM manipulation
 =======================================
 
@@ -75,6 +90,8 @@ Currently the ``qx.dom`` package consists of three classes:
    * **Node**: basic node creation and type detection
 
 See the API reference of `qx.dom <http://api.qooxdoo.org/#qx.dom>`_ for more details.
+
+.. _pages/low_level_apis#qx.xml_-_xml_handling:
 
 qx.xml - XML handling
 =====================

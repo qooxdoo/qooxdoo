@@ -1,3 +1,5 @@
+.. _pages/framework_structure#framework_structure:
+
 Framework Structure
 *******************
 

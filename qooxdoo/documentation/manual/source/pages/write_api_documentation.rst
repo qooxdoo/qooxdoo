@@ -1,7 +1,11 @@
+.. _pages/write_api_documentation#writing_api_documentation:
+
 Writing API Documentation
 *************************
 
 For documenting the qooxdoo API special comments in the source code (so-called "doc comments") are used. The doc comments in qooxdoo are similar to `JSDoc comments <http://jsdoc.sourceforge.net/>`_ or `Javadoc <http://java.sun.com/j2se/1.5.0/docs/tooldocs/windows/javadoc.html>`_ comments. To account for some qooxdoo specific needs there are certain differences to the two systems mentioned above.
+
+.. _pages/write_api_documentation#the_structure_of_a_documentation_comment:
 
 The structure of a documentation comment
 ========================================
@@ -71,6 +75,8 @@ The docgenerator recognises the following structures:
 
 The class description is taken as the first comment in the file which starts with ``%%/**%%``. Therefore if you have a comment at the start of the file which has a first line of ``%%/**********%%``, that will be taken as the class description, overriding any comment above the class itself. Therefore use ``%%/* *********%%`` or ``%%/* ==========%%`` etc.
 
+.. _pages/write_api_documentation#inline_markup:
+
 Inline Markup
 =============
 
@@ -81,10 +87,14 @@ Running text can be formatted using inline markup which uses special characters 
 
 There is no escape character, so in order to e.g. enter a literal "*@*" into the text, use the HTML entity equivalent ("*&#64;*" in this case).
 
+.. _pages/write_api_documentation#supported_attributes:
+
 Supported attributes
 ====================
 
 Within a doc comment the following attributes are supported:
+
+.. _pages/write_api_documentation#@param_only_for_methods_and_constructors::
 
 @param (only for methods and constructors):
 -------------------------------------------
@@ -95,15 +105,21 @@ When the parameter is optional, the curly brackets include the default value in 
 
 You can also define multiple possible types. Example: ``{Boolean | Integer ? 0}``
 
+.. _pages/write_api_documentation#@return_only_for_methods::
+
 @return (only for methods):
 ---------------------------
 
 Describes the return value. After the ``@return`` comes the type in curly brackets followed by the description text.
 
+.. _pages/write_api_documentation#@throws_only_for_methods_and_constructors::
+
 @throws (only for methods and constructors):
 --------------------------------------------
 
 Describes in which cases an exception is thrown.
+
+.. _pages/write_api_documentation#@see::
 
 @see:
 -----
@@ -119,10 +135,14 @@ Some examples:
 
 After this target description an alternative text may follow. If missing the target description is shown.
 
+.. _pages/write_api_documentation#@link::
+
 @link:
 ------
 
 The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for linking to other structures within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
+
+.. _pages/write_api_documentation#@signature::
 
 @signature:
 -----------
@@ -145,6 +165,8 @@ Example:
          */
         sayTrue: qx.lang.Function.returnTrue;
       }
+
+.. _pages/write_api_documentation#example:
 
 Example
 =======
@@ -175,6 +197,8 @@ This comment is shown in the API viewer like this:?
 
 .. |Example output of the API viewer| image:: :documentation:developer:apiviewer-example.png
 
+.. _pages/write_api_documentation#handling_of_data_types:
+
 Handling of data types
 ======================
 
@@ -186,6 +210,8 @@ The following types are accepted:
   * Other classes: Here the full qualified name is specified (e.g. ``qx.ui.core.Widget``). If the referenced class is in the same package as the currently documented class, the plain class name is sufficient (e.g. ``Widget``).
 
 Arrays are specified by appending one or more ``[]`` to the type. E.g.: ``String[]`` or ``Integer[][]``.
+
+.. _pages/write_api_documentation#__init__.js_files:
 
 __init__.js Files
 =================

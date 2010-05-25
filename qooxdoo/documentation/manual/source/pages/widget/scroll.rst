@@ -1,3 +1,5 @@
+.. _pages/widget/scroll#scroll:
+
 Scroll
 ******
 
@@ -6,17 +8,23 @@ Scroll
 XXX
 ===
 
+.. _pages/widget/scroll#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/scroll.jpg|
+|widget/scroll.jpg|
 
-.. |pages/widget/scroll.jpg| image:: /pages/widget/scroll.jpg
+.. |widget/scroll.jpg| image:: /widget/scroll.jpg
+
+.. _pages/widget/scroll#features:
 
 Features
 --------
   * Themeable scroll bars
   * Scroll bar visibility can be set independently for the X- and Y-axis. Possible values are ``auto`` (default), ``on`` and ``off``  
+
+.. _pages/widget/scroll#description:
 
 Description
 -----------
@@ -25,6 +33,8 @@ This widget can be used if the container's content is larger than the container 
 
 Note that this class can only have one child widget and no configurable layout. The layout is fixed and cannot be changed.
 
+.. _pages/widget/scroll#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
@@ -32,6 +42,8 @@ Here are some links that demonstrate the usage of the widget:\\
   * `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
   * `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
   * `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`_
+
+.. _pages/widget/scroll#api:
 
 API
 ---

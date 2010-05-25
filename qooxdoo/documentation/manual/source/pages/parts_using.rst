@@ -1,5 +1,9 @@
+.. _pages/parts_using#using_parts:
+
 Using Parts
 ***********
+
+.. _pages/parts_using#basic_usage:
 
 Basic Usage
 ===========
@@ -13,6 +17,8 @@ To use parts in your application, you have to do two things:
 Here is an example:
 
 Suppose you have a settings dialog in your application that is only needed occasionally. You want to save the memory footprint of the involved classes, and only load the dialog on demand when the user hits an "Open Settings Dialog" button during a session. If the user doesn't invoke the dialog, the necessary classes are not loaded and the application uses less memory in the browser. In all cases, application start-up is faster since less code has to be loaded initially.
+
+.. _pages/parts_using#add_parts_to_your_config:
 
 Add Parts to your Config
 ------------------------
@@ -40,6 +46,8 @@ In your configuration file, add the following job (assuming you are using a stan
     }
 
 This will override the default *build-script* job, instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main *[[:documentation:1.2:tool:generator_config_ref#include|include]]* list of class patterns for you application (the example mirrors this list of a standard GUI app). In the *settings* part, you carve out some top-level classes or name spaces that constitute the part you want to specify. In the example, this is just the name of the top-level dialog class.
+
+.. _pages/parts_using#add_part_loading_to_your_class_code:
 
 Add Part Loading to your Class Code
 -----------------------------------
@@ -73,7 +81,9 @@ The main thing to note here is that upon pressing the "Open Settings Dialog" but
 
 The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the task that should be done once the part is successfully loaded. As you can see, the *custom.Settings* class, which is loaded with this part, is being instantiated.
 
-These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :doc:`article <.:tool:generator_config_articles#packages_key >`. For full details on the *packages* configuration key, see the :doc:`configuration reference <.:tool:generator_config_ref#packages_0.8.1 >`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/ >`_.
+These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages_0.8.1>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/>`_.
+
+.. _pages/parts_using#advanced_usage:_part_collapsing:
 
 Advanced Usage: Part Collapsing
 ===============================
@@ -81,6 +91,8 @@ Advanced Usage: Part Collapsing
 *(0.8.3+)*
 
 This section reflects part collapsing as it is realized in qooxdoo version 0.8.3 and above.
+
+.. _pages/parts_using#motivation_and_background:
 
 Motivation and Background
 -------------------------
@@ -95,6 +107,8 @@ But there are situations where you might want to give up on this optimal distrib
 
 These are situations where *part collapsing* is usefull, where packages are merged into one another. This is discussed in the next sections.
 
+.. _pages/parts_using#how_packages_are_merged:
+
 How Packages are Merged
 -----------------------
 
@@ -107,6 +121,8 @@ Obviously, it is crucial that the target package is referenced in all those part
 After the source package has been merged into the target package, and has been removed from all parts, there are two cases:
   * For parts that referenced both (source and target) package initially, there is no difference. The same set of classes is delivered, with the only difference that they come in one, as opposed to two, packages.
   * Parts that only reference the target package now reference more classes then they really need. But this should be acceptable, as either negligible (in the case of merging packages by size), since the additional weight is marginal; or as without negative effect (in the case of merging by load order), since the "overladen" package is supposed to be loaded earlier with some other part, and will already be available when this part is loaded.
+
+.. _pages/parts_using#collapsing_by_package_size:
 
 Collapsing By Package Size
 --------------------------
@@ -128,6 +144,8 @@ Collapsing by size is disabled by default. You enable it by specifying size attr
     }
 
 The *min-package* setting defines a general lower bound for package sizes, the *min-package-unshared*, which defaults to *min-package* if not given, allows you to refine this value specifically for those packages which pertain to only one part.
+
+.. _pages/parts_using#collapsing_by_load_order:
 
 Collapsing By Load Order
 ------------------------

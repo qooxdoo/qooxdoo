@@ -4,6 +4,8 @@ td {padding: 5px 0px 5px 0px; border-bottom: 1px solid gray}
 </style>
 </html>
 
+.. _pages/migration_makefile#makefile_migration:
+
 Makefile Migration
 ******************
 
@@ -25,7 +27,7 @@ Makefile Migration
 | APPLICATION_ICON | N/A |
 | APPLICATION_FILES | ``[[.:tool:generator_config_ref#copy-files|copy-files/files]]`` |
 | APPLICATION_LOCALES | ``[[.:tool:generator_config_ref#let_top-level|let/LOCALES]]`` |
-| APPLICATION_HTML_TO_ROOT_URI | ``[[.:tool:generator_config_ref#library|library/uri]]`` of individual library (see also dedicated :doc:`article <.:tool:generator_config_articles#uri_handling>` |
+| APPLICATION_HTML_TO_ROOT_URI | ``[[.:tool:generator_config_ref#library|library/uri]]`` of individual library (see also dedicated :ref:`article <pages/tool/generator_config_articles#uri_handling>` |
 | APPLICATION_COMPLETE_BUILD | by overwriting the ``[[.:tool:generator_config_ref#include|include]]`` key (default: false)  |
 | APPLICATION_COMPLETE_SOURCE | by using dedicated job ``source-all``  |
 | APPLICATION_COMPLETE_API | by setting ``[[.:tool:generator_config_ref#let_top-level|let/API_INCLUDE]]`` |

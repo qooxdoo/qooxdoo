@@ -1,3 +1,5 @@
+.. _pages/snippets/problems_with_this_in_event_handlers#problems_with_this_in_event_handlers:
+
 Problems with "this" in event handlers
 **************************************
 

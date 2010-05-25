@@ -1,20 +1,26 @@
+.. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_twitter_app:
+
 Tutorial Part 1: The Beginning of a twitter App
 ***********************************************
+
+.. _pages/tutorial-part-1#the_missing_manual:
 
 The Missing Manual
 ==================
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial <pages/helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/1.2/feedreader>`_.
+We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial <helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/1.2/feedreader>`_.
 
 As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
 |twitter mockup.png|
 
-.. |twitter mockup.png| image:: /pages/tutorials/twittermockup1.png
+.. |twitter mockup.png| image:: /tutorials/twittermockup1.png
 
-If you take a closer look at the mockup, you see a :doc:`window <pages/widget/window>` containing a :doc:`toolbar <pages/widget/toolbar>`, a :doc:`list <pages/widget/list>`, a :doc:`text area <pages/widget/textarea>` and a :doc:`button <pages/widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
+If you take a closer look at the mockup, you see a :doc:`window <widget/window>` containing a :doc:`toolbar <widget/toolbar>`, a :doc:`list <widget/list>`, a :doc:`text area <widget/textarea>` and a :doc:`button <widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
-In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :doc:`"Hello World" tutorial <pages/helloworld>`. We rely on some of the fundamentals explained there.
+In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :doc:`"Hello World" tutorial <helloworld>`. We rely on some of the fundamentals explained there.
+
+.. _pages/tutorial-part-1#getting_started:
 
 Getting started
 ===============
@@ -29,7 +35,7 @@ After that, we should check if everything works as expected. Change the director
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
-The first part is to create a Window. As the :doc:`Window <pages/widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
+The first part is to create a Window. As the :doc:`Window <widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
 
 ::
 
@@ -52,6 +58,8 @@ To test the window, we need to create an instance of it in the main application.
           main.open();
 
 Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py source`` and open the page in the browser. You should see a window in the top left corner having the name "twitter".
+
+.. _pages/tutorial-part-1#programming_as_configuring:
 
 Programming as Configuring
 ==========================
@@ -83,7 +91,7 @@ At this point, your application should look like this.
 
 |step 1|
 
-.. |step 1| image:: /pages/tutorials/step11.png
+.. |step 1| image:: /tutorials/step11.png
 
 Thats it for the first part. If you want to have the `code from the tutorial <http://github.com/wittemann/qooxdoo-tutorial/tree/Step1>`_, take a look at the project on github and just fork the project.
 The next part of the tutorial will contain the building of the rest of the UI. If you have feedback or want to see something special in further tutorials, just let us know!

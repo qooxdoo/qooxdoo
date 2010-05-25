@@ -1,3 +1,5 @@
+.. _pages/widget/image#image:
+
 Image
 *****
 
@@ -6,12 +8,16 @@ As the name suggest, the Image widget is used to display image files.
 XXX
 ===
 
+.. _pages/widget/image#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/image.jpg|
+|widget/image.jpg|
 
-.. |pages/widget/image.jpg| image:: /pages/widget/image.jpg
+.. |widget/image.jpg| image:: /widget/image.jpg
+
+.. _pages/widget/image#features:
 
 Features
 --------
@@ -21,10 +27,14 @@ Features
   * Configurable second image for the disabled state
   * Support for PNG files with alpha transparency in all browsers (including IE6)
 
+.. _pages/widget/image#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Image demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Image.html>`_ 
+
+.. _pages/widget/image#api:
 
 API
 ---

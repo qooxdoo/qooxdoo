@@ -1,3 +1,5 @@
+.. _pages/widget/groupbox#groupbox:
+
 GroupBox
 ********
 
@@ -6,12 +8,16 @@ A Groupbox is a widget to group a set of form elements in a visual way.
 XXX
 ===
 
+.. _pages/widget/groupbox#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/groupbox_complete.png|
+|widget/groupbox_complete.png|
 
-.. |pages/widget/groupbox_complete.png| image:: /pages/widget/groupbox_complete.png
+.. |widget/groupbox_complete.png| image:: /widget/groupbox_complete.png
+
+.. _pages/widget/groupbox#features:
 
 Features
 --------
@@ -21,6 +27,8 @@ Features
     * additional check boxes
     * additional radio buttons
 
+.. _pages/widget/groupbox#description:
+
 Description
 -----------
 
@@ -28,11 +36,15 @@ The GroupBox offers the possibility to visual group several form elements togeth
 
 Additionally it is possible to use checkboxes or radio-buttons within the legend to enable or disable the connected groupBox (and their child elements) completely. This feature is most important for complex forms with multiple choices.
 
+.. _pages/widget/groupbox#demos:
+
 Demos
 -----
 
 Here are some links that demonstrate the usage of the widget:\\
   * `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-GroupBox.html>`_
+
+.. _pages/widget/groupbox#api:
 
 API
 ---

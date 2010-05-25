@@ -1,3 +1,5 @@
+.. _pages/ui_theming#theming:
+
 Theming
 *******
 
@@ -9,15 +11,17 @@ qooxdoo includes two themes:
 Here some screenshots:
 |Modern theme|
 
-.. |Modern theme| image:: /pages/manual/window_modern_theme.png
+.. |Modern theme| image:: /manual/window_modern_theme.png
 
 |Classic theme|
 
-.. |Classic theme| image:: /pages/manual/window_classic_theme.png
+.. |Classic theme| image:: /manual/window_classic_theme.png
 
-While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :doc:`extending existing ones <.:ui_custom_themes#overriding_themes>` or they can be :doc:`created from scratch <.:ui_custom_themes#custom_themes>`.
+While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/ui_custom_themes#overriding_themes>` or they can be :ref:`created from scratch <pages/ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
+
+.. _pages/ui_theming#meta_theme:
 
 Meta Theme
 ==========
@@ -50,12 +54,17 @@ Sample of a meta theme:
 
 This section describes the different types of themes which are used for theming a whole application.
 
+.. _pages/ui_theming#color_theme:
+
 Color Theme
 ===========
 
 A color theme defines all colors used by the framework. Each color is defined by an unique name and a value which can be written as hex, rgb or named color. This defined name is usable throughout the whole framework and your application.
 
-<note>The best way to organize your color names is to use **semantic ones** like ``background``, ``text-input`` or ``text-disabled``. This way it is easier to use one color for multiple widgets.</note>
+.. note::
+
+    The best way to organize your color names is to use **semantic ones** like ``background``, ``text-input`` or ``text-disabled``. This way it is easier to use one color for multiple widgets.
+xxx
 
 Part of a sample color theme:
 
@@ -89,13 +98,18 @@ Following names are recognized as named colors: ``black``, ``white``, ``silver``
 
 The color values are set in the class `qx.util.ColorUtil <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ColorUtil>`_
 
+.. _pages/ui_theming#decoration_theme:
+
 Decoration Theme
 ================
 
 Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border or add a shadow. 
-In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the :doc:`decorator article <.:ui_decorators>` to get more information.
+In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the :doc:`decorator article <ui_decorators>` to get more information.
 
-<note>It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.</note>
+.. note::
+
+    It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
+xxx
 
 How a decoration theme can look like:
 
@@ -193,12 +207,17 @@ How a decoration theme can look like:
 
 Noted the ``#asset`` at the top and the ``resource`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available `here <http://qooxdoo.org/documentation/1.2/ui_resources#declaring_resources_in_the_code>`_
 
+.. _pages/ui_theming#font_theme:
+
 Font Theme
 ==========
 
 This theme is all about the information of the fonts used throughout your application. As the number of types/variants of fonts used with application isn't that big the font theme is normally a compact one. 
 
-<note>It is always a good idea to limit the number of types or variants of fonts to create a homogenous look.</note>
+.. note::
+
+    It is always a good idea to limit the number of types or variants of fonts to create a homogenous look.
+xxx
 
 To demonstrate how compact and powerful a font theme can look like, take a look at the **complete** font theme of the Modern theme:
 
@@ -250,6 +269,8 @@ To demonstrate how compact and powerful a font theme can look like, take a look 
       }
     });
 
+.. _pages/ui_theming#icon_theme:
+
 Icon Theme
 ==========
 
@@ -271,12 +292,16 @@ Complete code for the ``tango`` icon theme:
       icons : {}
     });
 
+.. _pages/ui_theming#appearance_theme:
+
 Appearance Theme
 ================
 
 The appearance theme is by far the biggest theme. Its task is to describe every themable widget and their child controls. Since the widgets are styled using decorators, colors, fonts and icons the appearance theme uses the definitions of all the other themes namely the decoration, color, font and icon theme. You can think of the appearance theme as the central meeting point where the other themes (decorator, color, font and icon) get together.
 
-To discover the power of the appearance theme please take a look at the :doc:`corresponding article <.:ui_appearance>` which should let you get an idea of the whole picture.
+To discover the power of the appearance theme please take a look at the :doc:`corresponding article <ui_appearance>` which should let you get an idea of the whole picture.
+
+.. _pages/ui_theming#applying_themes:
 
 Applying Themes
 ===============

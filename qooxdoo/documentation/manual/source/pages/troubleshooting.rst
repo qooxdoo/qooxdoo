@@ -1,8 +1,12 @@
+.. _pages/troubleshooting#troubleshooting:
+
 Troubleshooting
 ***************
 
 XXX
 ===
+
+.. _pages/troubleshooting#python_3.0:
 
 Python 3.0
 ----------
@@ -12,17 +16,23 @@ Please make sure that you use a regular **Python 2.x** release (v2.4 or above). 
 
 Execute ``python -V`` in a console to get the installed Python version.
 
+.. _pages/troubleshooting#windows:
+
 Windows
 -------
+
+.. _pages/troubleshooting#making_interpreter_available:
 
 Making interpreter available
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-<note>
-The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
-</note>
+.. note::
 
-After your successful :doc:`Python installation <requirements#tools>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
+    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
+
+xxx
+
+After your successful :ref:`Python installation <pages/requirements#tools>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
 
 Suppose you installed Python to its default location ``C:\Python26``, open a Windows command shell (choose menu ``Start -> Run...`` and type ``cmd``). The following command prepends the installation folder to the value of ``PATH``, separated by a semicolon:
 
@@ -34,12 +44,16 @@ When you now execute ``python -V``, it should print out its version number.
 
 The modification of the ``PATH`` variable as described above is only *temporary*. In order not to repeat the command each time you open a new command shell, modify the ``PATH`` variable permanently: in ``Start -> Preferences -> System`` choose ``Environment variables`` under the ``Advanced`` tab. Edit the system variable ``Path`` by prepending ``C:\Python26;``.
 
+.. _pages/troubleshooting#file_association:
+
 File association
 ^^^^^^^^^^^^^^^^
 
-<note>
-The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
-</note>
+.. note::
+
+    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
+
+xxx
 
 In a standard Python installation on Windows, the ``.py`` file extension gets associated with the Python interpreter. This allows you to invoke .py files directly. You can check that in the following way at a command prompt:
 
@@ -56,6 +70,8 @@ If for any reason you cannot use a file association for .py files, you can still
 
     python ./generate.py source
 
+.. _pages/troubleshooting#windows_vista:
+
 Windows Vista
 -------------
 
@@ -67,10 +83,14 @@ Administrators installing Python "for all" users on Windows Vista *either* need 
 
     runas /user:Administrator "msiexec /i <path>\<file>.msi"
 
+.. _pages/troubleshooting#windows_7:
+
 Windows 7
 ---------
 
 It has been reported that you need to use the PowerShell that comes with Windows 7 for the tools to work properly. The simple command shell doesn't seem to be sufficient. To launch the PowerShell, hit the *WIN+R* keys and enter ``powershell``.
+
+.. _pages/troubleshooting#mac_os_x:
 
 Mac OS X
 --------

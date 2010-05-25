@@ -1,3 +1,5 @@
+.. _pages/tool/generator_config_macros#configuration_macro_reference:
+
 Configuration Macro Reference
 *****************************
 

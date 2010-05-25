@@ -1,7 +1,12 @@
+.. _pages/widget/themediframe#themediframe:
+
 ThemedIframe
 ************
 
-<note>This widget is available since qooxdoo 0.8.3</note>
+.. note::
+
+    This widget is available since qooxdoo 0.8.3
+xxx
 
 Container widget for internal frames (iframes). An iframe can display any HTML page inside the widget. 
 

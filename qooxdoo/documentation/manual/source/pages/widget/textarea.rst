@@ -1,3 +1,5 @@
+.. _pages/widget/textarea#textarea:
+
 TextArea
 ********
 A TextArea some long text. The TextArea is classic GUI element.
@@ -5,11 +7,15 @@ A TextArea some long text. The TextArea is classic GUI element.
 XXX
 ===
 
+.. _pages/widget/textarea#preview_image:
+
 Preview Image
 -------------
 |TextArea|
 
-.. |TextArea| image:: /pages/widget/textfield.png
+.. |TextArea| image:: /widget/textfield.png
+
+.. _pages/widget/textarea#features:
 
 Features
 --------
@@ -18,9 +24,13 @@ Features
     * Read only support.
     * Automatic wrap around.
 
+.. _pages/widget/textarea#description:
+
 Description
 -----------
 The TextArea is like a TextField, but for longer text input. So the TextArea supports a automatic wrap around which can be deactivated, when it is undesired.
+
+.. _pages/widget/textarea#demos:
 
 Demos
 -----
@@ -28,6 +38,8 @@ Here are some links that demonstrate the usage of the widget:\\
   * `Shows different TextArea demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TextField.html>`_
   * `Shows a dialog demo with an TextArea <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Dialog.html>`_
   * `Show a form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+
+.. _pages/widget/textarea#api:
 
 API
 ---

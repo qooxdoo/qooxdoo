@@ -1,3 +1,5 @@
+.. _pages/class_quickref#class_declaration_quick_ref:
+
 Class Declaration Quick Ref
 ***************************
 

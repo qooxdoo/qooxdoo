@@ -1,7 +1,11 @@
+.. _pages/tutorial-part-3#tutorial_part_3:_time_for_communication:
+
 Tutorial Part 3: Time for Communication
 ***************************************
 
-After we created the application and the main window in the :doc:`first tutorial <pages/tutorial-part-1>` part and finished the UI in the :doc:`second <pages/tutorial-part-2>`, we will build the communication layer today. With that part the application should be ready to use.
+After we created the application and the main window in the :doc:`first tutorial <tutorial-part-1>` part and finished the UI in the :doc:`second <tutorial-part-2>`, we will build the communication layer today. With that part the application should be ready to use.
+
+.. _pages/tutorial-part-3#pre-evaluation:
 
 Pre-Evaluation
 ==============
@@ -13,6 +17,8 @@ First, we need to specify what's the data we need to transfer. For that, we need
 
 So it's clear that we need to fetch the friends timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <http://apiwiki.twitter.com/Twitter-API-Documentation>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
+
+.. _pages/tutorial-part-3#creating_the_data_access_class:
 
 Creating the Data Access Class
 ==============================
@@ -35,6 +41,8 @@ Now we know how to get the data from twitter. Its time for us to go back to the 
       }
     });
 
+.. _pages/tutorial-part-3#fetching_the_data:
+
 Fetching the Data
 =================
 
@@ -46,7 +54,7 @@ As you can see, we omitted the constructor because we don't need it currently. B
 
         }
 
-Now it's time to get this method working. But how do we load the data in qooxdoo? As it is a JSONP service, we can use the :doc:`JSONP data store <pages/data_binding/stores#jsonp_store>` contained in the data binding layer of qooxdoo. But we only want to create it once and not every time the method is called. Thats why we save the store as a private instance member and check for the existence of it before we create the store. Just take a look at the method implementation to see how it works.
+Now it's time to get this method working. But how do we load the data in qooxdoo? As it is a JSONP service, we can use the :ref:`JSONP data store <pages/data_binding/stores#jsonp_store>` contained in the data binding layer of qooxdoo. But we only want to create it once and not every time the method is called. Thats why we save the store as a private instance member and check for the existence of it before we create the store. Just take a look at the method implementation to see how it works.
 
 ::
 
@@ -58,9 +66,9 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
             this.__store.reload();
           }
 
-We already added the code in case the store exists. In that case, we can just invoke a reload. I also mentioned that the instance member should be private. The two underscores (``%%__%%``) :doc:`mark the member as private in qooxdoo <pages/oo_feature_summary#access>`. The creation of the store or the reload method call starts the fetching of the data.
+We already added the code in case the store exists. In that case, we can just invoke a reload. I also mentioned that the instance member should be private. The two underscores (``%%__%%``) :ref:`mark the member as private in qooxdoo <pages/oo_feature_summary#access>`. The creation of the store or the reload method call starts the fetching of the data.
 
-But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :doc:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properites <pages/understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property <pages/defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
+But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properites <understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property <defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
 
 We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``TwitterService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
 
@@ -78,15 +86,17 @@ We named our property tweets and added two configuration keys for it:
   * ``nullable`` describse that the property can be null
   * ``event`` takes the name of the event fired on a change of the property
 
-The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding <pages/data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation <pages/properties_quickref>`.
+The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding <data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation <properties_quickref>`.
 
-Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding <pages/data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
+Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding <data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ::
 
     this.__store.bind("model", this, "tweets");
 
 This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the twitter service. Thats all we need to do in the twitter service class for fetching the data. Now its time to bring the data to the UI.
+
+.. _pages/tutorial-part-3#bring_the_tweets_to_the_ui:
 
 Bring the tweets to the UI
 ==========================
@@ -116,7 +126,7 @@ Thats the first step of getting the data connected with the UI. We talk the whol
 
 Now it's time for a test. We added a new classes so we need to invoke the generator and load the index file of the application. Hit the reload button of the browser and see the data in your debugging console. The important thing you should see is that the data is an array containing objects holding the items we want to access: the twitter message as ``text`` and ``"user.profile_image_url"`` for the users profile picture. After evaluating what we want to use, we can delete the debugging listener.
 
-But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers <pages/data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
+But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers <data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
 
 Switch to the ``MainWindow.js`` file which implements the view and search for the line where you created the list. We need to implement an accessor for it so its a good idea to store the list as a private instance member:
 
@@ -131,6 +141,8 @@ Of course, we need to change every occurance of the old identifier ``list`` to t
     getList : function() {
           return this.__list;
         }
+
+.. _pages/tutorial-part-3#data_binding_magic:
 
 Data Binding Magic
 ==================
@@ -183,9 +195,11 @@ You see that the method has one parameter which is the current UI element which 
 
 |step 3|
 
-.. |step 3| image:: /pages/tutorials/step3.png
+.. |step 3| image:: /tutorials/step3.png
 
 Now it should be the way we like it to be. Sure it's not perfect because it has no error handling but that should be good enough for the tutorial.
+
+.. _pages/tutorial-part-3#posting_tweets:
 
 Posting tweets
 ==============

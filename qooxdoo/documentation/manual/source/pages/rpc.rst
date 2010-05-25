@@ -1,9 +1,13 @@
+.. _pages/rpc#rpc_remote_procedure_call:
+
 RPC (Remote Procedure Call)
 ***************************
 
 **qooxdoo includes an advanced RPC mechanism for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details.** 
 
 The qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol, and qooxdoo provides server backends for Java, PHP, and Perl projects. A Python backend library is also provided by a third party. All parameters and return values are automatically converted between JavaScript and the server-side language.
+
+.. _pages/rpc#setup:
 
 Setup
 =====
@@ -19,8 +23,12 @@ Configuration of each server backend needs slightly different treatment. Please 
 
 Your favorite language is missing? Feel free to write your own qooxdoo RPC server, consult the :doc:`rpc_server_writer_guide` for details.
 
+.. _pages/rpc#making_remote_calls:
+
 Making remote calls
 ===================
+
+.. _pages/rpc#basic_call_syntax:
 
 Basic call syntax
 -----------------
@@ -66,6 +74,8 @@ You can also use qooxdoo event listeners for asynchronous calls - just use ``cal
 
 One difference between the qooxdoo RPC and other RPC implementations are client stubs. These are small wrapper classes that provide the same methods as the corresponding server classes, so they can be called like ordinary JavaScript methods. In qooxdoo, there are no such stubs by default, so you have to provide the method name as a string. The advantage is that there's no additional build step for generating stubs, and it's also not necessary to "register" your server classes at runtime (which would be a prerequisite for dynamic stub generation). If you really want or need client stubs, you currently have to write the stubs (or a generator for them) yourself. Future qooxdoo versions may include such a generator.
 
+.. _pages/rpc#parameter_and_result_conversion:
+
 Parameter and result conversion
 -------------------------------
 
@@ -90,6 +100,8 @@ For performance reasons, recursive conversion of JavaBeans and Maps is performed
 
 Besides the fully-automatic conversions, there's also a class hinting mechanism. You can use it in case you need to send a specific sub-class to the server (see below for details). However, it can't be used to instantiate classes without a default constructor yet. Future qooxdoo versions may provide more extensive class hinting support.
 
+.. _pages/rpc#aborting_a_call:
+
 Aborting a call
 ---------------
 
@@ -105,6 +117,8 @@ You can abort an asynchronous call while it's still being performed:
 
     rpc.abort(callref);
       // the handler will be called with an abort exception
+
+.. _pages/rpc#error_handling:
 
 Error handling
 --------------
@@ -154,6 +168,8 @@ The ``code`` depends on the origin. For the server and application origins, the 
 |qx.io.remote.Rpc.localError.timeout|A timeout occurred.|
 |qx.io.remote.Rpc.localError.abort|The call was aborted.|
 
+.. _pages/rpc#cross-domain_calls:
+
 Cross-domain calls
 ------------------
 
@@ -166,8 +182,12 @@ Using the qooxdoo RPC implementation, you can also make calls across domain boun
 
 On the server side, you need to configure the backend to accept cross-domain calls (see the documentation comments in the various backend implementations).
 
+.. _pages/rpc#writing_your_own_services:
+
 Writing your own services
 =========================
+
+.. _pages/rpc#java:
 
 Java
 ----
@@ -195,6 +215,8 @@ All you need to do is include this class in your webapp (together with the qooxd
   - All methods that should be remotely available must be declared to throw a ``RemoteServiceException``.
 
 Both requirements are there to protect arbitrary Java code from being called.
+
+.. _pages/rpc#accessing_the_session:
 
 Accessing the session
 ^^^^^^^^^^^^^^^^^^^^^
@@ -227,8 +249,12 @@ There is one instance of a service class per session. To get access to the curre
 
 The environment provides access to the current request (via ``getRequest``) and the RpcServlet instance that is handling the current call (via ``getRpcServlet``).
 
+.. _pages/rpc#advanced_java_topics:
+
 Advanced Java topics
 ====================
+
+.. _pages/rpc#automatic_client_configuration:
 
 Automatic client configuration
 ------------------------------
@@ -260,6 +286,8 @@ and this is used by the ``makeServerURL()`` helper method in the RPC class. You 
     );
 
 This way, you don't need to hardcode the URL of the service. Your client code will work without modifications, no matter what the name of your application is or where it is deployed. By generating absolute URLs you don't have to worry about moving around web pages and scripts in the directory structure, which is a common shortcoming of relative URLs. The auto-configration feature is also convenient if you need to embed a session id into the URL.
+
+.. _pages/rpc#subclassing_rpcservlet:
 
 Subclassing RpcServlet
 ----------------------

@@ -1,3 +1,5 @@
+.. _pages/snippets/focusing_a_widget_in_a_window#how_to_set_the_focus_to_a_widget_in_a_window:
+
 How to set the focus to a widget in a window?
 *********************************************
 

@@ -1,3 +1,5 @@
+.. _pages/snippets/implementing_a_contextmenu#how_to_implement_a_context-menu:
+
 How to implement a context-menu?
 ********************************
 

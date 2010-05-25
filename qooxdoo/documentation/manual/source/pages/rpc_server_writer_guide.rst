@@ -1,8 +1,12 @@
+.. _pages/rpc_server_writer_guide#rpc_server_writer_guide:
+
 RPC Server Writer Guide
 ***********************
 
 Writing a new JSON-RPC server for use with qooxdoo is fairly easy.  If you
 follow these rules, you should end up with a conformant implementation. See also the other `available qooxdoo RPC servers <http://qooxdoo.org/documentation/RPC>`_.
+
+.. _pages/rpc_server_writer_guide#json:
 
 JSON
 ====
@@ -10,6 +14,8 @@ JSON
 With the exception of the formatting of Javascript ``Date`` objects, all
 communication between client and server is formated as JSON, as described
 and documented at http://json.org.
+
+.. _pages/rpc_server_writer_guide#date_objects:
 
 Date Objects
 ------------
@@ -43,11 +49,15 @@ A resulting Date representation might therefore be:
 
     new Date(Date.UTC(2006,5,20,22,18,42,223))
 
+.. _pages/rpc_server_writer_guide#whitespace:
+
 Whitespace
 ^^^^^^^^^^
 
     * when generating these date strings, implementations SHOULD NOT add white space before/after/between any of the fields within the date string 
     * when parsing these date strings, implementations SHOULD allow white space before/after/between any of the fields within the date string 
+
+.. _pages/rpc_server_writer_guide#numbers:
 
 Numbers
 ^^^^^^^
@@ -58,6 +68,8 @@ Numbers
 Within the JSON protocol and in JSON messages between peers, ``Date`` objects
 are always passed as UTC.
 
+.. _pages/rpc_server_writer_guide#rpc:
+
 RPC
 ===
 
@@ -67,6 +79,8 @@ http:*json-rpc.org, specifically http:*json-rpc.org/wiki/specification.
 This document introduces a number of differences to that specification,
 based on real-life implementation discoveries and needs.  This portion of
 this document is an edited version of the JSON-RPC specification.
+
+.. _pages/rpc_server_writer_guide#request_method_invocation:
 
 request (method invocation)
 ---------------------------
@@ -81,6 +95,8 @@ It has four properties:
   * ``params`` - An Array of objects to pass as arguments to the method.
   * ``id`` - The request id. This can be of any type. It is used to match the response with the request that it is replying to.  (qooxdoo always sends an integer value for id.)
 
+.. _pages/rpc_server_writer_guide#response:
+
 response
 --------
 
@@ -90,13 +106,17 @@ response. The response is a single object serialized using JSON.
 It has three properties:
 
   * ``result`` - The Object that was returned by the invoked method. This must be ``null`` in case there was an error invoking the method.
-  * ``error`` - An :doc:`Error Object <#the_error_object>` if there was an error invoking the method. It must be ``null`` if there was no error.  Note that determination of whether an error occurred is based on this property being ``null``, not on result being ``null``.  It is perfectly legal for both to be ``null``, indicating a valid result with value ``null``.
+  * ``error`` - An :ref:`Error Object <pages/rpc_server_writer_guide#the_error_object>` if there was an error invoking the method. It must be ``null`` if there was no error.  Note that determination of whether an error occurred is based on this property being ``null``, not on result being ``null``.  It is perfectly legal for both to be ``null``, indicating a valid result with value ``null``.
   * ``id`` - This must be the same id as the request it is responding to. 
+
+.. _pages/rpc_server_writer_guide#the_error_object:
 
 The Error Object
 ================
 
 An error object contains two properties, ``origin`` and ``code``:
+
+.. _pages/rpc_server_writer_guide#origin:
 
 origin
 ------
@@ -109,6 +129,8 @@ origin
   * ``4`` = the client determined that an error occurred, e.g. timeout
 
 A conforming server implementation MUST send value ``1`` or ``2`` and MAY NOT send any other value, for origin.  A client may detect Transport or locally-ascertained errors, but a server will never return those.
+
+.. _pages/rpc_server_writer_guide#code:
 
 code
 ----
@@ -131,10 +153,14 @@ One of these values of code SHALL be sent if origin = ``1``, i.e. if the server 
 
 If origin = ``2``, i.e. the application (invoked method) detected the error, the value of the code property is entirely by agreement between the invoking client and the and invoked method.
 
+.. _pages/rpc_server_writer_guide#message:
+
 message
 -------
 
 ``message`` - A free-form textual message describing the error.
+
+.. _pages/rpc_server_writer_guide#other_errors:
 
 Other Errors
 ============
@@ -144,6 +170,8 @@ JSON-RPC request SHOULD be simple text strings returned to the invoker,
 describing the error.  A web browser user who accidentally hits the URL of a
 JSON-RPC server should receive a textual, not Error Object, response,
 indicating that the server is expecting a JSON-RPC request.
+
+.. _pages/rpc_server_writer_guide#transport:
 
 Transport
 =========
@@ -164,6 +192,8 @@ A server SHOULD issue an ``Other Error`` (textual reply) if it detects a
 Content Type other than the two supported ones.  It SHOULD also issue an
 ``Other Error`` if a form was received but the form either does not contain a
 ``_data_ field`` or if fields other than ``_data_ exist`` in the form.
+
+.. _pages/rpc_server_writer_guide#testing_a_new_server:
 
 Testing A New Server
 ====================

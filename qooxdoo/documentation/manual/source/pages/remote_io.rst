@@ -1,3 +1,5 @@
+.. _pages/remote_io#ajax:
+
 AJAX
 ****
 
@@ -15,6 +17,8 @@ Constructor arguments of Request:
   - Method: You can choose between POST and GET.
   - Response mimetype: What mimetype do you await as response
 
+.. _pages/remote_io#mimetypes_supported:
+
 Mimetypes supported
 ===================
 
@@ -24,9 +28,14 @@ Mimetypes supported
   * text/javascript
   * application/json
 
-<note>``text/javascript`` and ``application/json`` will be directly evaluated. As content you will get the return value.</note>
+.. note::
+
+    ``text/javascript`` and ``application/json`` will be directly evaluated. As content you will get the return value.
+xxx
 
 If you use the iframe transport implementation the functionality of the type is more dependent on the server side response than for the XMLHttp case. For example the text/html mimetypes really need the response in HTML and can't convert it. This also depends greatly on the mimetype sent out by the server.
+
+.. _pages/remote_io#request_data:
 
 Request data
 ============
@@ -38,7 +47,12 @@ Request data
     * ``setData(value)``: Sets the data which should be sent with the request (only useful for POST)
     * ``getData()``: Returns the data currently set for the request
 
-<note>Parameters are always sent as part of the URL, even if you select POST. If you select POST, use the setData method to set the data for the request body.</note>
+.. note::
+
+    Parameters are always sent as part of the URL, even if you select POST. If you select POST, use the setData method to set the data for the request body.
+xxx
+
+.. _pages/remote_io#request_configuration_properties:
 
 Request configuration (properties)
 ==================================
@@ -52,6 +66,8 @@ Request configuration (properties)
     * ``crossDomain``: Enable/disable cross-domain transfers. This is ``false`` by default. If you need to acquire data from a server of a different domain you would need to setup this as ``true``. (**Caution:** this would switch to "script" transport, which is a security risk as you evaluate code from an external source. Please understand the security issues involved.)
     * ``fileUpload``: Indicate that the request will be used for a file upload. The request will be used for a file upload. This switches the concrete implementation that is used for sending the request from ``qx.io.remote.transport.XmlHttp`` to ``qx.io.remote.IFrameTransport``, because only the latter can handle file uploads.
 
+.. _pages/remote_io#available_events:
+
 Available events
 ================
 
@@ -64,6 +80,8 @@ Available events
 
 The last four events give you a ``qx.event.type.Data`` as the first parameter of the event handler. As always for ``qx.event.type.Data`` you can access the stored data using ``getData()``. The return value of this function is an instance of ``qx.io.remote.Response``.
 
+.. _pages/remote_io#response_object:
+
 Response object
 ===============
 
@@ -74,7 +92,12 @@ The response object ``qx.io.remote.Response`` stores all the returning data of a
     * ``getResponseHeaders``: Return all available response headers. This is a hash-map using typical key-values pairs.
     * ``getStatusCode``: Returns the HTTP status code.
 
-<note>Response headers and status code information are not supported for iframe based communication!</note>
+.. note::
+
+    Response headers and status code information are not supported for iframe based communication!
+xxx
+
+.. _pages/remote_io#simple_example:
 
 Simple example
 ==============

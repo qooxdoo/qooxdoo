@@ -1,7 +1,11 @@
+.. _pages/internationalization#internationalization:
+
 Internationalization
 ********************
 
 This page describes how to translate either a new or an existing qooxdoo-based application. It shows how to *prepare* the application, *extract* and *translate* the messages and finally *update* and *run* the translated application.
+
+.. _pages/internationalization#prepare_the_application:
 
 Prepare the Application
 =======================
@@ -24,15 +28,19 @@ You can use these methods right away for your own classes if they are derived fr
       ...
     });
 
-<note>
-You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See :doc:`documentation:general:javascript_best_practises#using_self_for_closures` for details using ``self`` as a local variable name.
-</note>
+.. note::
+
+    You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See ` <http://qooxdoo.org/documentation/general/javascript_best_practises#using_self_for_closures>`_ for details using ``self`` as a local variable name.
+
+xxx
 
 XXX
 ---
 
 XXX
 ^^^
+
+.. _pages/internationalization#example:
 
 Example
 """""""
@@ -50,6 +58,8 @@ to:
 
 In the following, the four methods are explained in more detail:
 
+.. _pages/internationalization#tr:
+
 tr
 ^^
 
@@ -59,7 +69,9 @@ tr
 
 Marks the string ``Hello World`` for translation and returns an instance of ``qx.locale.String``. The ``toString()`` method of the returned object performs the actual translation based on the current locale.
 
-There is one *exception* to the simple rule that all strings can just be replaced by wrapping them in an appropriate ``this.tr()`` function call: if init values of :doc:`dynamic properties <understanding_properties>` are meant to be localizable, the init value has either to be set in the class constructor using ``this.tr()``, or ``qx.locale.Manager.tr()`` has to be used inside the property declaration. See documentation on :doc:`Defining an init value <defining_properties#defining_an_init_value>` for details.
+There is one *exception* to the simple rule that all strings can just be replaced by wrapping them in an appropriate ``this.tr()`` function call: if init values of :doc:`dynamic properties <understanding_properties>` are meant to be localizable, the init value has either to be set in the class constructor using ``this.tr()``, or ``qx.locale.Manager.tr()`` has to be used inside the property declaration. See documentation on :ref:`Defining an init value <pages/defining_properties#defining_an_init_value>` for details.
+
+.. _pages/internationalization#trn:
 
 trn
 ^^^
@@ -71,6 +83,8 @@ trn
 
 Translate a message but take differences between singular and plural forms into account. The first argument represents the singular form, while the second argument represents the plural form. If the third argument is 1 the singular form is chosen, if it is bigger than 1 the plural form is chosen. All remaining parameters are the inputs for the format string. 
 
+.. _pages/internationalization#trc:
+
 trc
 ^^^
 
@@ -80,6 +94,8 @@ trc
     var label = new qx.ui.basic.Label(this.trc("Helpful comment for the translator", "Hello World"));
 
 Translate the message as the ``tr`` method, but providing an additional comment which can be used to add some contextual information for the translator. This meanigful comment hopefully helps the translator at its work to find the correct translation for the given string.
+
+.. _pages/internationalization#marktr:
 
 marktr
 ^^^^^^
@@ -92,10 +108,14 @@ Sometimes it is necessary to mark a string for translation but not yet perform t
 
 Marks the string ``Hello`` for translation and returns the string unmodified.
 
+.. _pages/internationalization#format_strings:
+
 Format Strings
 ^^^^^^^^^^^^^^
 
 Since sentences in different languages can have different structures, it is always better to prefer a format string over string concatenation to compose messages. This is why the methods above all support format strings like ``Copied %1 files`` as messages and a variable number of additional arguments. The additional arguments are converted to strings and inserted into the original message. ``%`` is used as an escape character and the number following ``%`` references the corresponding additional argument.
+
+.. _pages/internationalization#extract_the_messages:
 
 Extract the Messages
 ====================
@@ -124,7 +144,9 @@ If a specified translation does not yet exist, a new translation file will be cr
 
 If such a file already exists, the newly extracted strings will be merged with this file, retaining all existing translations. 
 
-Therefore, you can re-run ``generate.py translation`` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (s. further :doc:`down <#update_the_application>`).
+Therefore, you can re-run ``generate.py translation`` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (s. further :ref:`down <pages/internationalization#update_the_application>`).
+
+.. _pages/internationalization#translate_the_messages:
 
 Translate the Messages
 ======================
@@ -137,12 +159,16 @@ Some of the programs that support manipulation of ``.po`` files are:
   * `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
   * `KBabel <http://kbabel.kde.org/>`_ (Linux)
 
+.. _pages/internationalization#update_the_application:
+
 Update the Application
 ======================
 
 After editing and saving the ``.po`` files, the next ``generate.py source`` run integrates the translations into your application's source version. To get the effect of the new translations it can simply be reloaded in your browser.
 
 If the source code changes, e.g. by adding, removing or changing translatable strings, it can be merged with the existing translation files just by calling ``generate.py translation`` again. Moreover, each ``generate.py source`` - or ``generate.py build`` if you are about to deploy your application - will pick up all current translatable strings from the source files and will merge them on the fly with the information from the .po files, using the result for the corresponding build job. This way, the generated application always contains all current translatable strings (But of course only those from the .po files can have actual translations with them).
+
+.. _pages/internationalization#run_the_translated_application:
 
 Run the translated Application
 ==============================

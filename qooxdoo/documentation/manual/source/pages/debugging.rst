@@ -1,7 +1,11 @@
+.. _pages/debugging#debugging_applications:
+
 Debugging Applications
 **********************
 
 You have several options at hand when it comes to debugging a qooxdoo application.
+
+.. _pages/debugging#introspection:
 
 Introspection
 =============
@@ -26,10 +30,14 @@ This is taken from a firebug interactive session:
     c: 4
     ==================================
 
+.. _pages/debugging#memory_leaks:
+
 Memory leaks
 ============
 
   * Setting ``qx.disposerDebugLevel``
+
+.. _pages/debugging#ajax:
 
 AJAX
 ====
@@ -37,15 +45,21 @@ AJAX
   * Setting ``qx.ioRemoteDebug``
   * Setting ``qx.ioRemoteDebugData``
 
+.. _pages/debugging#debugging_tools:
+
 Debugging Tools
 ===============
 
-:doc:`Some browser-specific tools <documentation:general:debugging_tools>` allow for a powerful and often convenient way of debugging applications.
+`Some browser-specific tools <http://qooxdoo.org/documentation/general/debugging_tools>`_ allow for a powerful and often convenient way of debugging applications.
+
+.. _pages/debugging#code_instrumentation_idioms:
 
 Code Instrumentation Idioms
 ===========================
 
 These are helpful idioms you might want to include in your code, i.e. you use them at *programming time*.
+
+.. _pages/debugging#this.debug:
 
 this.debug()
 ------------
@@ -58,6 +72,8 @@ Example:
 
     this.debug("I found this value for myVar: "+myVar);
 
+.. _pages/debugging#console.log:
+
 console.log()
 -------------
 
@@ -68,6 +84,8 @@ In contrast to this.debug(), if you pass an object reference to ``console.log()`
     var b = new qx.ui.form.Button();
     console.log(b);
 
+.. _pages/debugging#this.trace:
+
 this.trace()
 ------------
 
@@ -77,10 +95,14 @@ Will log the current stack trace using the defined logger. This can be useful to
 
     this.trace() 
 
+.. _pages/debugging#getting_at_your_objects:
+
 Getting at your Objects
 =======================
 
 This section shows you how to access objects of your application at *run time*, i.e. while it executes. Access to those objects is possible through JavaScript, either in the form of another piece of JavaScript code, or - especially interesting for debugging - from an interactive shell, like Firebug or Venkman, that allows for interactive input and execution of JavaScript commands.
+
+.. _pages/debugging#qx.core.init.getapplication:
 
 qx.core.Init.getApplication()
 -----------------------------
@@ -91,8 +113,12 @@ In your running app, the singlton ``Init`` object provides you with the ``getApp
 
     qx.core.Init.getApplication();
 
+.. _pages/debugging#firebug_usage_idioms:
+
 Firebug Usage Idioms
 ====================
+
+.. _pages/debugging#inspect:
 
 "Inspect"
 ---------

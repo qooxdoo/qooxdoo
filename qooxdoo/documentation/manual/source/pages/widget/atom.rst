@@ -1,3 +1,5 @@
+.. _pages/widget/atom#atom:
+
 Atom
 ****
 
@@ -6,12 +8,16 @@ The Atom groups an image with a label with support for different alignments. It 
 XXX
 ===
 
+.. _pages/widget/atom#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/atom.jpg|
+|widget/atom.jpg|
 
-.. |pages/widget/atom.jpg| image:: /pages/widget/atom.jpg
+.. |widget/atom.jpg| image:: /widget/atom.jpg
+
+.. _pages/widget/atom#features:
 
 Features
 --------
@@ -19,10 +25,14 @@ Features
   * Toggle display of "image" "label" or "both"
   * Configurable icon position
 
+.. _pages/widget/atom#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `A simple Atom demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Atom.html>`_
+
+.. _pages/widget/atom#api:
 
 API
 ---

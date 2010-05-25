@@ -1,25 +1,29 @@
+.. _pages/ui_menu_handling#menu_handling:
+
 Menu Handling
 *************
 Menus are well-established user interface elements in GUIs. They are popup-like controls that provide simple or cascading lists of buttons. Typical uses show menus opening off from buttons in tool bars, or popping up as context menus on mouse right-clicks e.g. on a tree element. 
 
 Here are a few examples:
 
-|pages/file_menu.png|
+|file_menu.png|
 
-.. |pages/file_menu.png| image:: /pages/file_menu.png
+.. |file_menu.png| image:: /file_menu.png
 
-|pages/complex_menu.png|
+|complex_menu.png|
 
-.. |pages/complex_menu.png| image:: /pages/complex_menu.png
+.. |complex_menu.png| image:: /complex_menu.png
 
-|pages/context_menu.png|
+|context_menu.png|
 
-.. |pages/context_menu.png| image:: /pages/context_menu.png
+.. |context_menu.png| image:: /context_menu.png
 
 The `Demobrowser <http://demo.qooxdoo.org/1.2/demobrowser/#widget-Menu.html>`_ provides further examples.
 
 Menus can be constructed in a qooxdoo application using widgets from the `qx.ui.menu <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.menu>`_ name space.
 The main class from this package is ``Menu``. Other classes allow you to tailor the appearance and the behaviour of the menu you create. You can even use checkboxes and radiobuttons inside your menus.
+
+.. _pages/ui_menu_handling#simple_example:
 
 Simple Example
 ==============
@@ -60,11 +64,13 @@ There are a couple of things to note here:
   * You can supply missing or updated features after the widget's creation; e.g. the callback function for the ``closeButton`` is provided in a separate method call to ``addListener()``.
   * The canonical event for the selection of a menu button is the ``execute`` event. (This is in line with other button flavors throughout the qooxdoo framework, e.g. the regular ``qx.ui.form.Button``).
 
+.. _pages/ui_menu_handling#complex_menu_sample:
+
 Complex Menu Sample
 ===================
 This example should show how to create a menu structure with submenu and how to handle with groups.
 
-Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`..:Widget:Menu`.
+Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`./Widget/Menu`.
 
 This code snippet show how to create a "ToolBar" with to menu items "File" and "View":
 
@@ -145,8 +151,12 @@ You can see, that the menu contains ``RadioButton`` and all ``RadioButton`` shou
 
 To add a ``RadioButton`` to the ``RadioGroup`` call the ``add()`` method from the ``RadioGroup``. The parameter from ``add()`` is a variable number of items which should be added. You can see that the code calls a ``langGroup.add.apply()`` method to add the ``RadioButton`` from the "C Dialect" submenu. This is no qooxdoo construction, the ``apply()`` method is a construction from JavaScript and it is not important to know how thus the method works.
 
+.. _pages/ui_menu_handling#additional_menu_topics:
+
 Additional Menu Topics
 ======================
+.. _pages/ui_menu_handling#menu_positioning:
+
 Menu positioning
 ----------------
 

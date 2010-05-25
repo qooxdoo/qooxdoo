@@ -1,5 +1,9 @@
+.. _pages/ui_overview#overview:
+
 Overview
 ********
+
+.. _pages/ui_overview#widgets:
 
 Widgets
 =======
@@ -12,12 +16,16 @@ Another framework class which extends ``LayoutItem`` is `Spacer <http://demo.qoo
 
 To structure an interface it is common to insert widgets into each other. Each child is displayed within the screen area occupied by its parent. The hierarchical structure is also used to hide or show specific areas. This means for instance, that hiding a parent hides its children as well. Another example would be when a widget is being disposed, all the child widgets it contains are automatically being disposed as well.
 
+.. _pages/ui_overview#composites:
+
 Composites
 ==========
 
 As mentioned a few sentences above the normal ``Widget`` does not have public methods to manage the children. This is to allow the normal Widget to be used for inheritance. To allow the creation of structures in applications, the ``Composite`` was created.
 
 `Composite <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Composite>`_ extends ``Widget`` and publishes the whole children and layout management of the ``Widget`` to the public. Typically it is used as a container for other widgets. Children can be managed through the methods ``add()``, ``remove()``, etc. In application code Composites are used to structure the interface. 
+
+.. _pages/ui_overview#roots:
 
 Roots
 =====
@@ -36,6 +44,8 @@ Both roots are attached directly to the document. The ``Application`` is automat
 The instantiation of the required root widget is normally nothing the developer has to do. It is done by the application class the developer choose to extend. The next chapter will explain the concept behind applications in detail.
 
 As even the ``Page`` root is attached to the document it would be still not possible to place children into a specific existing column or box into the existing layout. However the developer of the web page may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Inline>`_. They need an existing DOM element to do their work (maybe using some type of ``getElementById``).  The reason for the overall need, even when working with these isles, for the ``Page`` root is that all dynamically floating elements like tooltips, menus, windows etc. are automatically placed into this root. This makes positioning of such elements a lot easier.
+
+.. _pages/ui_overview#applications:
 
 Applications
 ============

@@ -1,3 +1,5 @@
+.. _pages/array#array_reference:
+
 Array Reference
 ***************
 

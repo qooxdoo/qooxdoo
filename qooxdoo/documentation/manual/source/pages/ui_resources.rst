@@ -1,7 +1,11 @@
+.. _pages/ui_resources#resources:
+
 Resources
 *********
 
 Resources comprise images, icons, style sheet, Flash files, helper HTML files, and so forth. The framework itself provides many icons and some other useful resources you can use right away in your application without any customization. This article however explains how to specify and use own resources for your application.
+
+.. _pages/ui_resources#technical_overview:
 
 Technical overview
 ==================
@@ -13,6 +17,8 @@ So if there is a resource in your "myapp" application under the path ``myapp/sou
 To find the corresponding file during a build, qooxdoo searches all those paths of all the libraries your application is using. The first hit will be regarded as the resource you want to use. (During the generation of a ``build`` version of your app, these resource files will be copied to the ``build`` folder, so your build version can be self-contained).
 
 The libraries are searched in the order they are declared in your config.json file. This usually means that your own resource folder comes first, then the framework's resource folder, and then the resource folders of all further libraries you have included. This way, you can *shadow* resources of like names, e.g. by adding a file ``qx/static/blank.gif`` under your source/resource folder you will shadow the file of the same resource id in the framework.
+
+.. _pages/ui_resources#declaring_resources_in_the_code:
 
 Declaring resources in the code
 ===============================
@@ -41,6 +47,8 @@ Instead of adding meta information for each individual resource, you may as well
 
 This is all you need to configure, if your application code uses any of the icons in the given folder.
 
+.. _pages/ui_resources#using_resources_with_widgets:
+
 Using resources with widgets
 ============================
 
@@ -51,6 +59,8 @@ Here is an example:
 ::
 
     var button = new qx.ui.form.Button("Button B", "myapp/icons/16/folder-open.png");
+
+.. _pages/ui_resources#using_qooxdoo_icons_with_widgets:
 
 Using qooxdoo icons with widgets
 ================================
@@ -94,6 +104,8 @@ When you use the third method above and you do not use the *Modern* theme, you m
         "ROOT"         : "."
       }
     }
+
+.. _pages/ui_resources#obtaining_the_url_for_a_resource:
 
 Obtaining the URL for a resource
 ================================

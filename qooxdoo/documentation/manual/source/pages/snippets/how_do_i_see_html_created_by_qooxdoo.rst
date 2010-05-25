@@ -1,3 +1,5 @@
+.. _pages/snippets/how_do_i_see_html_created_by_qooxdoo#how_do_i_see_html_created_by_qooxdoo:
+
 How do I see HTML created by qooxdoo?
 *************************************
 

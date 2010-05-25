@@ -1,12 +1,18 @@
+.. _pages/ui_inline#inline_widgets:
+
 Inline Widgets
 **************
 
 This page describes how you could use qooxdoo widgets inside HTML-dominated pages. This use case is different from creating a regular, "standalone" qooxdoo application.
 
+.. _pages/ui_inline#target_audience:
+
 Target Audience
 ===============
 
 Integrating qooxdoo widgets into existing HTML pages could be interesting to all users who already have (many) existing pages, often some kind of "portal",  and therefore don't want to transform these into a standalone rich internet application (RIA). 
+
+.. _pages/ui_inline#online_demos:
 
 Online Demos
 ============
@@ -18,20 +24,26 @@ Take a look at the online demos to see the use of inline widgets in action.
    * `Dynamic resize for Inline <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Inline_Dynamic_Resize.html>`_
    * `Inline window <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Inline_Window.html>`_
 
+.. _pages/ui_inline#setup_an_inline_application:
+
 Setup An Inline Application
 ===========================
 
-<note>
-This section only applies to qooxdoo ``0.8.2`` and newer.
-</note>
+.. note::
 
-The setup of an inline application is done by using the ``create-application`` script described at the :doc:`Hello World <.:helloworld#create_your_application>` page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
+    This section only applies to qooxdoo ``0.8.2`` and newer.
+
+xxx
+
+The setup of an inline application is done by using the ``create-application`` script described at the :ref:`Hello World <pages/helloworld#create_your_application>` page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
 
 ::
 
     /opt/qooxdoo-sdk/tool/bin/create_application.py -n myapp -t inline
 
 Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demostrates the different integration approaches which are described at the next section.
+
+.. _pages/ui_inline#ways_of_integration:
 
 Ways of Integration
 ===================
@@ -62,12 +74,17 @@ Instead of using ``qx.application.Standalone`` as a base application class you n
       }
     });
 
+.. _pages/ui_inline#absolute_positioning:
+
 Absolute Positioning
 --------------------
 
 Adding a widget to the page without regarding the page flow is a no-brainer. Just create the desired widget and add it to the application root. As the application root is an instance of `qx.ui.layout.Basic <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Basic>`_ you only can use ``left`` and ``top`` coordinates to position your widgets.
 
-<note>Absolute positioning demands no existing DOM node in the target document.</note>
+.. note::
+
+    Absolute positioning demands no existing DOM node in the target document.
+xxx
 
 ::
 
@@ -90,6 +107,8 @@ Adding a widget to the page without regarding the page flow is a no-brainer. Jus
       }
     });
 
+.. _pages/ui_inline#page_flow:
+
 Page Flow
 ---------
 
@@ -97,7 +116,10 @@ However, the former solution won't fit for e.g. a portal where the page is divid
 
 To add widgets at certain locations inside the page you can create or reuse DOM nodes, which act as islands, where the qooxdoo widgets live in with regards to the page flow.
 
-<note>You need to define specific DOM nodes in your document which act as islands for the qooxdoo widgets.</note>
+.. note::
+
+    You need to define specific DOM nodes in your document which act as islands for the qooxdoo widgets.
+xxx
 
 ::
 

@@ -1,3 +1,5 @@
+.. _pages/ui_html_editing/default_paragraph_handling#default_paragraph_handling:
+
 Default Paragraph Handling
 **************************
 
@@ -6,6 +8,8 @@ This section describes how browsers and other applications react on different ke
 **P** = paragraph (``<p>`` tag)
 
 **LB** = line break  (``<br />`` tag)
+
+.. _pages/ui_html_editing/default_paragraph_handling#browsers:
 
 Browsers
 ========
@@ -52,6 +56,8 @@ td.tbl{background-color:white;text-align:center;}
 </table> 
 </div> 
 </html>
+
+.. _pages/ui_html_editing/default_paragraph_handling#word_processors_/_e-mail_clients:
 
 Word processors / E-mail clients
 ================================

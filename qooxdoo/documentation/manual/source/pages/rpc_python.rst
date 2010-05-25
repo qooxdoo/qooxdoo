@@ -1,9 +1,13 @@
+.. _pages/rpc_python#rpc_with_a_python_server:
+
 RPC with a Python server
 ************************
 
 **qooxdoo includes an advanced RPC mechanism for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details.** 
 
 As described in the :doc:`RPC overview <rpc>`, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Python-based server.
+
+.. _pages/rpc_python#setup:
 
 Setup
 =====
@@ -21,6 +25,8 @@ A backend based on qxjsonrpc can be run as
 You can find examples in the downloaded qxjsonrpc archive.
 
 **NOTE:** The qxjsonrpc package is very young, it should not be used in production. Bug reports are always welcome. Send your reports to :doc:`Viktor Ferenczi <python@cx.hu?subject=qooxdoo%20wiki>`. Thank you in advance.
+
+.. _pages/rpc_python#writing_your_own_services:
 
 Writing your own services
 =========================
@@ -63,10 +69,14 @@ The RPC call was actually made using the HTTP GET method. You can achieve the sa
 
 You can change the arguments to be passed to the method by altering the params array in the address bar. Multiple numbers or even floating point values can be added. If you does not add params at all the total won't change.
 
+.. _pages/rpc_python#a_more_advanced_example:
+
 A more advanced example
 =======================
 
 To be done.
+
+.. _pages/rpc_python#using_sessions:
 
 Using sessions
 ==============
@@ -74,6 +84,8 @@ Using sessions
 @qxjsonrpc.session
 
 To be done.
+
+.. _pages/rpc_python#running_as_part_of_a_web_server:
 
 Running as part of a WEB server
 ===============================

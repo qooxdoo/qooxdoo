@@ -1,3 +1,5 @@
+.. _pages/mixins#mixins:
+
 Mixins
 ******
 
@@ -5,6 +7,8 @@ Mixins are collections of code and variables, which can be merged into
 other classes. They are similar to classes but can not be instantiated. Unlike interfaces they do contain implementation code. Typically they are made up of only a few members that allow for a generic implementation of some very specific functionality.
 
 Mixins are used to share functionality without using inheritance and to extend/patch the functionality of existing classes. 
+
+.. _pages/mixins#defining_a_mixin:
 
 Defining a Mixin
 ================
@@ -37,6 +41,8 @@ Example:
 |members|Map|Map of members of the mixin.|
 |properties|Map|Map of :doc:`property definitions <defining_properties>`.|
 |events|Map|Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.|
+
+.. _pages/mixins#using_a_mixin:
 
 Using a Mixin
 =============
@@ -121,6 +127,8 @@ The result is when calling the method ``methodC()`` of ``ClassC``:
      * Hello, I'm method B! 
      * Nice to meet you. Thanks for your help!
      */
+
+.. _pages/mixins#mixin_quick_reference:
 
 Mixin Quick Reference
 =====================

@@ -1,3 +1,5 @@
+.. _pages/development_tools#development_tools:
+
 Development Tools
 *****************
 
@@ -6,10 +8,14 @@ Editing or IDE support for JavaScript or qooxdoo is still quite limited. If you 
 XXX
 ===
 
+.. _pages/development_tools#eclipse:
+
 Eclipse
 -------
 
-Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project :doc:`:contrib:project:QXDT` aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the :doc:`:contrib:project:QXDT` documentation.
+Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project ` <http://qooxdoo.org/contrib/project/QXDT>`_ aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the ` <http://qooxdoo.org/contrib/project/QXDT>`_ documentation.
+
+.. _pages/development_tools#spket_ide:
 
 Spket IDE
 ---------
@@ -18,12 +24,16 @@ Spket IDE
 
 *Please note: there is a hotfix available for people working with the qooxdoo SVN checkout instead of the qooxdoo SDK. See the [[http:*forums.spket.com/viewtopic.php?p=1330#1330|download link]] in the Spket forum. Thanks, Eric!// 
 
+.. _pages/development_tools#aptana_ide:
+
 Aptana IDE
 ----------
 
 The `Aptana IDE <http://www.aptana.com>`_ is a free, open-source, cross-platform, JavaScript-focused development environment for building Ajax applications. It features code assist on JavaScript, HTML, and CSS languages, FTP/SFTP support and a JavaScript debugger to troubleshoot your code. It is available for Windows, Mac OS, Linux and also as an Eclipse plugin.
 
 There is some initial support for qooxdoo in the latest Aptana (nightly builds). The new class definition introduced in qooxdoo 0.7 is supported by an outline view that shows the typical sections like ``extend``, ``statics``, ``members``, etc. For instance, you can easily navigate to any instance method just by selecting the corresponding entry in the outline view.
+
+.. _pages/development_tools#jseclipse:
 
 JSEclipse
 ---------
@@ -40,10 +50,14 @@ JSEclipse is a plugin for the Eclipse environment that helps developers code Jav
     * Support for popular JavaScript libraries (Dojo, Prototype, YUI, qooxdoo (currently for 0.5.x only)).
     * Support for JavaDoc documentation and multi-line comments.
 
+.. _pages/development_tools#textmate:
+
 TextMate
 --------
 
 There is up-to-date qooxdoo support for TextMate. Please see the `blog post <http://news.qooxdoo.org/textmate-qooxdoo-bundle>`_ and the `project info <http://qooxdoo.org/contrib/project/textmate>`_ for this excellent qooxdoo bundle. 
+
+.. _pages/development_tools#emacs:
 
 Emacs
 -----

@@ -1,4 +1,6 @@
+.. _pages/snippets/demobrowser#demo_browser:
+
 Demo Browser
 ************
-The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <pages/generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
+The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
 

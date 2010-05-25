@@ -1,3 +1,5 @@
+.. _pages/oo_introduction#introduction_to_object_orientation:
+
 Introduction to Object Orientation
 **********************************
 
@@ -11,6 +13,8 @@ The main actors of qooxdoo OO are:
 
 When trying to get a grip of the framework code, you should probably understand all those three concepts. As a regular application developer you often get by with ignoring interfaces and mixins when starting and just getting familiar with *classes*.
 
+.. _pages/oo_introduction#classes:
+
 Classes
 =======
 
@@ -23,15 +27,21 @@ There are several types of classes available, which are specified by the ``type`
   * **abstract class**: Does not allow an instance to be created. Typically classes derive from it and provide concrete implementations. ``type`` is ``abstract``.
   * **singleton**: Not more than a single instance of the class may exists at any time. A static method ``getInstance()`` returns the instance. Use ``type : "singleton"``.
 
+.. _pages/oo_introduction#interfaces:
+
 Interfaces
 ==========
 
 qooxdoo's interfaces are similar to the ones in Java. Similar to the declaration of class they are created by ``qx.Interface.define(name, config)``. They specify an "interface" (typically a set of empty methods), that classes must implement.
 
+.. _pages/oo_introduction#mixins:
+
 Mixins
 ======
 
 Mixins are a very practical concept that not all programming languages provide. Unlike interfaces, which require a class to provide concrete implementations to fulfill the interface contract, mixins do include code. This code needs to be generic, if it is "mixed into" different existing classes. Mixins usually cover only a single aspect of functionality and therefore tend to be small. They are declared by ``qx.Mixin.define(name, config)``.
+
+.. _pages/oo_introduction#inheritance:
 
 Inheritance
 ===========

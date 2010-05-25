@@ -1,15 +1,21 @@
+.. _pages/classmap#class_map:
+
 Class Map
 *********
 
+.. _pages/classmap#maintainers:
+
 Maintainers
 ============
-`core developers <http://qooxdoo.org/about/developers#core_developers >`_
+`core developers <http://qooxdoo.org/about/developers#core_developers>`_
   * MW : Martin Wittemann
   * JW : Jonathan Weiß
   * AS : Alexander Steitz
   * DW : Daniel Wagner
   * TH : Thomas Herchenröder
   * CS : Christian Schmidt
+
+.. _pages/classmap#apps:
 
 Apps
 ----
@@ -25,6 +31,8 @@ Apps
 | **DW **  |         app-testrunner |
 | **TH **  |         app-skeleton   |
 
+.. _pages/classmap#core:
+
 Core
 ----
 ^Maintainer^Bugzilla-Component^Description^
@@ -36,6 +44,8 @@ Core
 | **CS**   |        core-lang       | Language features (qx.lang.*,...) |
 | **AS**   |        core-application| Application features (qx.application.*) |
 
+.. _pages/classmap#development:
+
 Development
 -----------
 ^Maintainer^Bugzilla-Component^Description^
@@ -45,12 +55,16 @@ Development
 | **DL**  |         dev-util-fsm| Finite State Machine (qx.util.fsm.*) |
 | **DW**  |         dev-testing | Unit testing |
 
+.. _pages/classmap#transport:
+
 Transport
 ---------
 ^Maintainer^Bugzilla-Component^Description^
 | **AS**  |         io       | General transportation |
 | **MW**  |         io-part  | Partloading (qx.Part, qx.io.part.*) |
 | **AS**  |         io-remote| Remote handling (qx.io.remote.*) |
+
+.. _pages/classmap#tooling:
 
 Tooling
 -------
@@ -64,6 +78,8 @@ Tooling
 | **TH**   | tool-migration | 'migration' job (functionality, data) |
 | **DW** | tool-test-automation | automatic testing infrastructure (batserver etc.) |
 
+.. _pages/classmap#low_level:
+
 Low Level
 ---------
 ^Maintainer^Bugzilla-Component^Description^
@@ -74,6 +90,8 @@ Low Level
 | **AS**  |         lowlevel-html         | HTML layer (qx.html.*) |
 | **DW**  |         lowlevel-xml          | XML handling (qx.xml.*) |
 | **JW**	|         lowlevel-animation    | Animations (qx.fx.*) |
+
+.. _pages/classmap#ui:
 
 UI
 --
@@ -95,6 +113,8 @@ UI
 | **CS**  |         ui-embeds         | Embed able widgets like iframe (qx.ui.embed.*) | 
 | **JW**  |         ui-bars           | Toolbar, Slidebar, Scrollbar, MenuBar |
 | **AS**  |         ui-theming        | Whole theming layer (Themes + Management)|
+
+.. _pages/classmap#other:
 
 Other
 -----

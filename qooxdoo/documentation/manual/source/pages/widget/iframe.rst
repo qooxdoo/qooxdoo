@@ -1,3 +1,5 @@
+.. _pages/widget/iframe#iframe:
+
 Iframe
 ******
 
@@ -6,12 +8,16 @@ Container widget for internal frames (iframes). An iframe can display any HTML p
 XXX
 ===
 
+.. _pages/widget/iframe#preview_image:
+
 Preview Image
 -------------
 
-|pages/widget/iframe.png|
+|widget/iframe.png|
 
-.. |pages/widget/iframe.png| image:: /pages/widget/iframe.png
+.. |widget/iframe.png| image:: /widget/iframe.png
+
+.. _pages/widget/iframe#features:
 
 Features
 --------
@@ -20,16 +26,22 @@ Features
   * fires a ``load`` event when the page fully loaded
   * integrates a blocker element to prevents the iframe to handle key or mouse events
 
+.. _pages/widget/iframe#description:
+
 Description
 -----------
 
 The iframe is a container widget for displaying any HTML page. It integrates seamlessly in your application though it can be styled like any other qooxdoo widget and offers an ``load`` event to control the page that's loaded within the widget. And the built-in blocker element prevents the native iframe element to handle any key or mouse event to ensure that  e.g. the user navigates away by clicking a hyperlink.
+
+.. _pages/widget/iframe#demos:
 
 Demos
 -----
 
 Here are some links that demonstrate the usage of the widget:\\
   * `Iframe demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Iframe.html>`_
+
+.. _pages/widget/iframe#api:
 
 API
 ---

@@ -1,7 +1,11 @@
+.. _pages/classes#classes:
+
 Classes
 *******
 
 qooxdoo's class definition is a concise and compact way to define new classes. Due to its closed form the JavaScript code that handles the actual class definition already "knows" all parts of the class at definition time. This allows for many useful checks during development as well as clever optimizations during the build process.  
+
+.. _pages/classes#declaration:
 
 Declaration
 ===========
@@ -23,12 +27,16 @@ An instance of this class is created and its constructor is called by the usual 
 
     var kitty = new qx.test.Cat;
 
+.. _pages/classes#members:
+
 Members
 -------
 
 Members of a class come in two flavors: 
   * Class members (also called "static" members) are attached to the class itself, not to individual instances
   * Instance members are attached to each individual instance of a class
+
+.. _pages/classes#class_members:
 
 Class Members
 -------------
@@ -56,6 +64,8 @@ Accessing those class members involves the fully-qualified class name:
 
     var foo = qx.test.Cat.LEGS;
     alert(qx.test.Cat.makeSound());
+
+.. _pages/classes#instance_members:
 
 Instance Members
 ----------------
@@ -85,13 +95,17 @@ Accessing those members involves an instance of the class:
     kitty.name = "Sweetie";
     alert(kitty.getName());
 
+.. _pages/classes#primitive_types_vs._reference_types:
+
 Primitive Types vs. Reference Types
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 There is a fundamental JavaScript language feature that could lead to problems, if not properly understood. It centers around the different behavior in the assignment of JavaScript's two data types (*primitive types* vs. *reference types*). 
 
-<note>
-Please make sure you understand the following explanation to avoid possible future coding errors.</note>
+.. note::
+
+    Please make sure you understand the following explanation to avoid possible future coding errors.
+xxx
 
 Primitive types include ``Boolean``, ``Number``, ``String``, ``null`` and the rather unusual ``undefined``. If such a primitive type is assigned to an instance variable in the class declaration, it behaves as if each instance had a copy of that value. They are never shared among instances.
 
@@ -121,6 +135,8 @@ If you do *not* want that instances share the same data, you should defer the ac
       foo: null   // to be initialized in the constructor
     }
 
+.. _pages/classes#access:
+
 Access
 ------
 
@@ -141,10 +157,14 @@ There are some possibilities to enforce or at least check the various degrees of
     * checking  instance of ``this`` in protected methods
     * ...
 
+.. _pages/classes#special_types_of_classes:
+
 Special Types of Classes
 ------------------------
 
 Besides a "regular" class there is built-in support for the following special types:
+
+.. _pages/classes#static_classes:
 
 Static Classes
 ^^^^^^^^^^^^^^
@@ -158,6 +178,8 @@ A static class is not instantiated and only contains static members. Setting its
       ...
     });
 
+.. _pages/classes#abstract_classes:
+
 Abstract Classes
 ^^^^^^^^^^^^^^^^
 
@@ -169,6 +191,8 @@ An abstract class may not be instantiated. It merely serves as a superclass that
       type : "abstract"
       ...
     });
+
+.. _pages/classes#singletons:
 
 Singletons
 ^^^^^^^^^^
@@ -182,11 +206,15 @@ The singleton design pattern makes sure, only a single instance of a class may b
       ...
     });
 
+.. _pages/classes#inheritance:
+
 Inheritance
 ===========
 
 XXX
 ---
+
+.. _pages/classes#single_inheritance:
 
 Single Inheritance
 ^^^^^^^^^^^^^^^^^^
@@ -199,15 +227,21 @@ JavaScript supports the concept of single inheritance. It does not support (true
       extend: qx.test.Animal
     });
 
+.. _pages/classes#multiple_inheritance:
+
 Multiple Inheritance
 ^^^^^^^^^^^^^^^^^^^^
 
 Not supported. There are more practical and less error-prone solutions that allow for typical features of multiple inheritance: Interfaces and Mixins (see below).
 
+.. _pages/classes#polymorphism_overriding:
+
 Polymorphism (Overriding)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 qooxdoo does, of course, allow for polymorphism, that is most easily seen in the ability to override methods in derived classes.
+
+.. _pages/classes#calling_the_superclass_constructor:
 
 Calling the Superclass Constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -227,6 +261,8 @@ Unfortunately, to mimic a ``super()`` call the special variable ``arguments`` is
 
 ``this.base(arguments, x)`` is internally mapped to ``arguments.callee.base.call(this, x)`` (The *.base* property is maintained for every method through qooxdoo's class system). The latter form can be handled by JavaScript natively, which means it is quite efficient. As an optimization during the build process such a rewrite is done automatically for your deployable application.
 
+.. _pages/classes#calling_an_overridden_method:
+
 Calling an Overridden Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -242,6 +278,8 @@ Calling an overridden superclass method from within the overriding method (i.e. 
         }
       }
     });
+
+.. _pages/classes#calling_the_superclass_method_or_constructor_with_all_parameters:
 
 Calling the Superclass Method or Constructor with all parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -269,6 +307,8 @@ This variant allows to pass all the parameters (unmodified):
       }
     });
 
+.. _pages/classes#calling_another_static_method:
+
 Calling another Static Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -294,6 +334,8 @@ The syntax for accessing static variables simply is ``this.self(arguments).someS
 
 In purely static classes for calling a static method from another static method, you can directly use the ``this`` keyword, e.g. ``this.someStaticMethod(x)``. 
 
+.. _pages/classes#interfaces:
+
 Interfaces
 ==========
 
@@ -304,6 +346,8 @@ The class system supports :doc:`interfaces`. The implementation is based on the 
     qx.Class.define("qx.test.Cat", {
       implement : [qx.test.IPet, qx.test.IFoo]
     });
+
+.. _pages/classes#mixins:
 
 Mixins
 ======
@@ -323,8 +367,12 @@ The concrete implementations of mixins are used in a class through the key ``inc
       include : [qx.test.MPet, qx.test.MSleep]
     });
 
+.. _pages/classes#related_topics:
+
 Related Topics
 ==============
+
+.. _pages/classes#feature_summary:
 
 Feature summary
 ---------------
@@ -342,6 +390,8 @@ Some of the most prominent features include:
   * Simplified settings
   * More runtime checks for the application development phase
 
+.. _pages/classes#browser_optimized_builds:
+
 Browser optimized builds
 ------------------------
 
@@ -353,7 +403,9 @@ Features:
     * Loader script which automatically loads the correct version
     * Maybe toggle other optimizations for specific browsers as well (for example, do string optimizations only in IE)
 
-See :doc:`pages/variants` for more details.
+See :doc:`variants` for more details.
+
+.. _pages/classes#more_runtime_checks:
 
 More runtime checks
 -------------------
@@ -361,6 +413,8 @@ More runtime checks
   * More runtime checks in the source version
   * Strip the checks from the build version
   * Remove debugging code from the build version
+
+.. _pages/classes#class_declaration_quick_ref:
 
 Class Declaration Quick Ref
 ---------------------------

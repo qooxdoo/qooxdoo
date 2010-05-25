@@ -1,12 +1,18 @@
+.. _pages/ui_widgets#widgets:
+
 Widgets
 *******
+
+.. _pages/ui_widgets#labels:
 
 Labels
 ======
 
 Labels are one of the basic building blocks in applications. The qooxdoo Label supports two modes, one which combines simple single line text content with the possibility to automatically render an ellipsis in cases where not enough room is available. This is often the best choice for all types of simple labels and is the default mode in qooxdoo. Through technical restrictions it is not possible to insert HTML in a so-configured instance. The other mode allows rich content (HTML) and adds the option for multi-line content together with an advanced mechanism called *Height4Width* which automatically re-wraps content based on the available width. This mode however could not handle automatic ellipsis (also makes less sense in multiline labels, still also not possible technological).
 
-More details: :doc:`.:Widget:Label`
+More details: :doc:`Widget/Label`
+
+.. _pages/ui_widgets#images:
 
 Images
 ======
@@ -17,14 +23,18 @@ This data also makes it possible to allow semi-automatic image sprites, a featur
 
 A major restriction of this technology is that the options to resize images client-side are crippled (the normal image is rendered through a background-image defintion and allows no stretching at all). The alternate mode renders the image using a normal image element. This is a good alternative when a application part depends on this scaling feature but should normally not be used if not necessary.
 
-More details: :doc:`.:Widget:Image`
+More details: :doc:`Widget/Image`
+
+.. _pages/ui_widgets#atoms:
 
 Atoms
 =====
 
 Atoms are in qooxdoo for quite some time now. Basically this widget combines an Image with a Label and allows some alignment options to them. Both content types are optional and toggle-able. The Atom supports shrinking like the Label while keeping the image intact. Atoms are used by many higher level widgets like Buttons (in Tab Views, Toolbars, ...) or List Items etc.
 
-More details: :doc:`.:Widget:Atom`
+More details: :doc:`Widget/Atom`
+
+.. _pages/ui_widgets#buttons:
 
 Buttons
 =======
@@ -33,7 +43,9 @@ The Button is basically an Atom with some additional events. All relevant render
 
 The Button can be connected to a Command (class to work with key bindings etc.) and fires an ``execute`` event when clicked (or activated via keyboard). The Repeat Button fires the ``execute`` in an interval while being pressed. The Toggle Button (which toggles between checked and unchecked) is an exception to this and fires a ``change`` event on each transition of the ``checked`` property.
 
-More details: :doc:`.:Widget:Button`
+More details: :doc:`Widget/Button`
+
+.. _pages/ui_widgets#text_fields:
 
 Text Fields
 ===========
@@ -42,7 +54,9 @@ The Text Field is one of the major used form elements. It fires two events. The 
 
 The Text Field supports basic label alignment to ``left``, ``center`` or ``right``. Protecting user inputs is possible through the property ``enabled`` or ``readOnly``. Disabling a widget greys it out and makes it unresponsive for all types of interaction while ``readOnly`` only prevents the modification of the value and has normally no special visual indication when enabled.
 
-More details: :doc:`.:Widget:TextField`
+More details: :doc:`Widget/TextField`
+
+.. _pages/ui_widgets#popups:
 
 Popups
 ======
@@ -55,7 +69,9 @@ Popups are normally automatically hidden when the user works somewhere else in t
 
 With ``bringToFront`` and ``sendToBack`` the popups zIndex could be controlled in relation to other visible popups.
 
-More details: :doc:`.:Widget:Popup`
+More details: :doc:`Widget/Popup`
+
+.. _pages/ui_widgets#tooltips:
 
 Tooltips
 ========
@@ -64,5 +80,5 @@ Tooltips are basically Popups with an Atom in them. But Tooltips improves on man
 
 While this is not needed normally, every popup can be configured with a individual timeout. This is useful when building separate type of tooltips e.g. displaying system notifications etc.
 
-More details: :doc:`.:Widget:ToolTip`
+More details: :doc:`Widget/ToolTip`
 

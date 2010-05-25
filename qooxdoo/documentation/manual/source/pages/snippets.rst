@@ -1,14 +1,22 @@
+.. _pages/snippets#user_snippets:
+
 User Snippets
 *************
 
 These code snippets have come mainly from the `mailing list <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`_. If you find a mistake in any of the snippets, or have an improvement, or have a snippet of your own, please ``Login`` to this wiki and edit these pages.
 
+.. _pages/snippets#general:
+
 General
 =======
 
+.. _pages/snippets#demo_browser:
+
 Demo Browser
 ------------
-The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <pages/tool/generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
+The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <tool/generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
+
+.. _pages/snippets#show_html_created_by_qooxdoo:
 
 Show HTML created by qooxdoo
 ----------------------------
@@ -33,6 +41,8 @@ You can create a shortcut for this on the toolbar.
 
 :doc:`See this Ajaxian article for the original source <Ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.
 
+.. _pages/snippets#running_a_source_version_from_a_web_server:
+
 Running a Source Version from a Web Server
 ------------------------------------------
 
@@ -44,11 +54,13 @@ So if you find yourself in the situation where you need to run a *source* versio
 
   * Make the *source* directory of your application accessible to the web server, so that it is reachable through a valid URL like *http:%%*%%your.web.server/path/to/yourapp/source/index.html//.
   * Make sure all components that are used by your application, as there are the qooxdoo SDK itself, and any additional qooxdoo library or contribution that you use, are equally accessible by the web server.
-    * In the case of contribs referenced through the *contrib:%%*%%* pseudo protocol in your application configuration, these are downloaded and stored in the download cache directory (config key *:doc:`cache/downloads <pages/tool/generator_config_ref#cache>`//), so make sure this path is included in your considerations.
+    * In the case of contribs referenced through the *contrib:%%*%%* pseudo protocol in your application configuration, these are downloaded and stored in the download cache directory (config key *:ref:`cache/downloads <pages/tool/generator_config_ref#cache>`//), so make sure this path is included in your considerations.
 
   * Make sure the relative paths on the web server match those on your file system, e.g. if your app lives on the file system at */a/b/A/myapp* and your qooxdoo installation is at */a/b/Z/qooxdoo-sdk* and the server path to your app is */web/apps/myapp* then make sure the server path to qooxdoo is */web/Z/qooxdoo-sdk* so that relative references like *../Z/qooxdoo-sdk* will work under the web server.
 
 A simple way to achieve this is to map the DocumentRoot or an Alias to a directory in your file system that is *a common parent* to *all* involved qooxdoo components of your app.
+
+.. _pages/snippets#relax_firefox_3_file_uri_restriction:
 
 Relax Firefox 3 File URI Restriction
 ------------------------------------
@@ -59,8 +71,12 @@ Firefox 3 will by default employ a strict `same-origin-policy <http://en.wikiped
 
     security.fileuri.strict_origin_policy : false
 
+.. _pages/snippets#coding:
+
 Coding
 ======
+
+.. _pages/snippets#center_a_window_on_screen:
 
 Center a window on screen
 -------------------------
@@ -91,6 +107,8 @@ This solution works even if we don't know the real size of the window, because i
 
 Before the window is shown and know its real size, we place it at the center. We use the ``resize`` event instead of the ``appear`` event to prevent any flickering, because when using the ``appear`` event the window is already visible and then moved to the center. With the ``resize`` you can center the window right after the inserting in the DOM (the widget resizes) and avoid any flickering.
 
+.. _pages/snippets#focus_a_widget_inside_a_window:
+
 Focus a widget inside a window
 ------------------------------
 
@@ -108,6 +126,8 @@ Here is the solution:
     win.open();
 
 Setting the focus at the textfield widget is done in a post-process, so you do not have to use any event listener methods to achieve this.
+
+.. _pages/snippets#implement_a_context-menu:
 
 Implement a context-menu
 ------------------------
@@ -149,6 +169,8 @@ Implementing a context-menu is as easy as never before.
 
 This little code snippet is taken from the `online demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_. Just right-click at the list.
 
+.. _pages/snippets#disable_the_browser_context_menu:
+
 Disable the browser context menu
 --------------------------------
 
@@ -157,6 +179,8 @@ qooxdoo does show the default right-click browser menu. How can I disable it?
 ::
 
     qx.core.Init.getApplication().getRoot().setNativeContextMenu(false);
+
+.. _pages/snippets#problems_with_this_in_event_handlers:
 
 Problems with "this" in event handlers
 --------------------------------------
@@ -182,6 +206,8 @@ When the handler gets triggered by a "changeSomething" event, the alert of the h
 
     anotherWidget.addListener("changeSomething", this._someHandler, this);
 
+.. _pages/snippets#transparent_colors:
+
 Transparent colors
 ------------------
 
@@ -197,6 +223,8 @@ To set a transparent color for any widget do the following:
 
 As the ``transparent`` color is part of every color theme in qooxdoo, you set this color by simply use this string.
 
+.. _pages/snippets#user-defined_data:
+
 User-defined data
 -----------------
 
@@ -210,6 +238,8 @@ For example:
 
     MyObject.setUserData("MyData", "123");
     MyObject.debug("MyData = " + MyObject.getUserData("MyData"));
+
+.. _pages/snippets#modal_windows:
 
 Modal windows
 -------------
@@ -225,6 +255,8 @@ The blocker is included in every root widget (`qx.ui.root.Application <http://de
     });
 
 If you want to use this feature not inside a widget based object but inside a qx.application.Standalone, use this.getRoot() instead of this.getApplication.Root().
+
+.. _pages/snippets#add_a_flash_movie_to_a_window:
 
 Add a flash movie to a window
 -----------------------------
@@ -252,6 +284,8 @@ This short snippet also applies if just want to add a flash movie to your qooxdo
 
     win.open();
 
+.. _pages/snippets#table_celleditors:_stop_editing_on_value_change:
+
 Table Celleditors: Stop editing on value change
 -----------------------------------------------
 
@@ -274,6 +308,8 @@ To achieve this you can add the following to the cell editor classes
 
       ...
     }
+
+.. _pages/snippets#enabling_drag_and_drop_in_virtual_widgets:
 
 Enabling drag and drop in virtual widgets
 -----------------------------------------
@@ -344,6 +380,8 @@ To enable drag and drop features at virtual widgets you currently have to manipu
       }
     }),
 
+.. _pages/snippets#finding_out_which_qooxdoo_widget_generated_a_given_dom_element:
+
 Finding out which qooxdoo widget generated a given DOM element
 --------------------------------------------------------------
 
@@ -366,6 +404,8 @@ I have found this useful for testing with `Selenium <http://seleniumhq.org/>`_. 
                 }
                 // the domElement has no qooxdoo counterpart - returns `undefined`
           };
+
+.. _pages/snippets#display_contextual_help_inside_a_tooltip:
 
 Display contextual help inside a toolTip
 ----------------------------------------
@@ -399,6 +439,8 @@ Suppose you like to display a contextual help inside a toolTip widget by request
       this._helpToolTip.setLabel(content);
     };
 
+.. _pages/snippets#adding_scrollbars_to_a_desktop_widget:
+
 Adding scrollbars to a Desktop widget
 -------------------------------------
 
@@ -411,6 +453,8 @@ By default a Desktop widget does not display scrollbars if a wiget get positione
       allowShrinkY : false
     });
     var desktop = new qx.ui.window.Desktop(windowManager);
+
+.. _pages/snippets#activate_the_focus_handler_at_low-level:
 
 Activate the focus handler at low-level
 ---------------------------------------
@@ -434,12 +478,16 @@ this element.
 The events are fired at the BODY element (which is the fallback if no element
 is active).
 
+.. _pages/snippets#keypress_and_keyup_listener_at_input_elements:
+
 keypress and keyup listener at input elements
 ---------------------------------------------
 
-<note>
-This snippet is about low-level functionality when adding listener to e.g. *input* elements. The high-level textfield widget does provide the *input* event for monitoring the value changes.
-</note>
+.. note::
+
+    This snippet is about low-level functionality when adding listener to e.g. *input* elements. The high-level textfield widget does provide the *input* event for monitoring the value changes.
+
+xxx
 
 Suppose you like to get informed when the user types into a certain input element you probably dealing with the question: should I use the *keypress* or the *keyup* event listener?
 
@@ -471,14 +519,18 @@ The interesting thing is that the *keypress* event is fired **before** the input
 The *keyUp* event on the other hand does get you the right value because this event is fired **after** the value is inserted.
 Drawback for the *keyup* listener: if the user holds the key only **one event** is fired at the end.
 
+.. _pages/snippets#reducing_requests_when_using_the_remote_table_model:
+
 Reducing requests when using the Remote Table Model
 ---------------------------------------------------
 
-<note>
-As of r19372, the actions suggested in this snippet are no longer required. The mutex %%__loadRowCountRequestRunning%% has been added within qx.ui.table.model.Remote to prevent multiple concurrent calls to the user’s _loadRowCount() method. To revert to the original behavior, set the remote model's property blockConcurrentLoadRowCount to *false*.
-</note>
+.. note::
 
-This snippet is assuming you've already read the article about :doc:`.:remote_table_model`.
+    As of r19372, the actions suggested in this snippet are no longer required. The mutex %%__loadRowCountRequestRunning%% has been added within qx.ui.table.model.Remote to prevent multiple concurrent calls to the user’s _loadRowCount() method. To revert to the original behavior, set the remote model's property blockConcurrentLoadRowCount to *false*.
+
+xxx
+
+This snippet is assuming you've already read the article about :doc:`remote_table_model`.
 
 Normally the remote table model does fire several requests when starting up to retrieve the information about the row count. 
 Since several table components need this value they are requesting this value on their own resulting in multiple requests to the backend (as long as the value is retrieved and stored).
@@ -525,6 +577,8 @@ To omit this behaviour you can only allow one request for the row count to be fi
       }
     }
 
+.. _pages/snippets#integrating_maps_google,_yahoo,_openlayers,_...:
+
 Integrating Maps (Google, Yahoo, OpenLayers, ...)
 -------------------------------------------------
 
@@ -534,6 +588,8 @@ It should be pretty straightforward to integrate qooxdoo with free map software.
   * `Google maps <http://old.nabble.com/embedding-google-maps-td24805482.html>`_
   * `OpenStreetMap <http://old.nabble.com/Openstreet-map-td24932920.html>`_
   * `OpenLayers <http://old.nabble.com/integrating-openlayers-with-qooxdoo-td22417744.html>`_
+
+.. _pages/snippets#using_a_bom_application_inside_a_frameset_in_ie:
 
 Using a BOM application inside a frameset in IE
 -----------------------------------------------
@@ -555,8 +611,12 @@ However below is a solution to deal with this behaviour.
       }
     }
 
+.. _pages/snippets#tooling:
+
 Tooling
 =======
+
+.. _pages/snippets#create_client-specific_variants_of_your_application:
 
 Create client-specific variants of your application
 ---------------------------------------------------
@@ -592,10 +652,12 @@ Suppose you have a client-detection at your site and you want to serve your visi
       }
     }
 
+.. _pages/snippets#support_for_finding_potential_memory_leaks:
+
 Support for finding potential memory leaks
 ------------------------------------------
 
-You know that :doc:`.:memory_management` is an important task and you would like to check your application against potential memory leaks? Then read on :)
+You know that :doc:`memory_management` is an important task and you would like to check your application against potential memory leaks? Then read on :)
 
 The best way to achieve this is to create a new job by extend the existing ``source`` job. This lets you easily switch between your normal development and a special version of your application to track down memory issues.
 
@@ -631,6 +693,8 @@ When you generated your application with the ``source-disposerDebug`` job all yo
     qx.core.ObjectRegistry.shutdown();
 
 at the Firebug console. This starts the destruct mechanism of your application and you can analyze the given messages to improve your application.
+
+.. _pages/snippets#compress_qooxdoo_without_mod_deflate:
 
 Compress qooxdoo without mod_deflate
 ------------------------------------
@@ -680,10 +744,14 @@ I know, it is NOT JavaScript but maybe it is a good idea to add this to the qoox
 
 `Contributed by Oliver Vogel, here <http://www.nabble.com/speed-up-loading-time-of-qooxdoo-t1234762.html>`_.
 
+.. _pages/snippets#setting_a_different_application_root:
+
 Setting a different application root
 ------------------------------------
 
-See :doc:`separate document <.:snippets:setting_a_different_application_root>`.
+See :doc:`separate document <snippets/setting_a_different_application_root>`.
+
+.. _pages/snippets#setting_a_different_main_application_class:
 
 Setting a different main application class
 ------------------------------------------
@@ -726,6 +794,8 @@ In a GUI skeleton you could achieve this like so:
 
 The ``=`` in front of the *include* key is important, since you need to overrride the whole list of included names.
 
+.. _pages/snippets#adding_non-qooxdoo_code_to_your_application:
+
 Adding non-qooxdoo code to your application
 -------------------------------------------
 
@@ -738,21 +808,27 @@ As of today, there is no complete integration of foreign code into a qooxdoo app
   * To integrate the code in your application, you can use ``<script>`` tags in your index.html. In your qooxdoo class code you can then access the classes and functions provided by the foreign JS code module.
   * Have a look at the code of the `Playground <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/playground/>`_ application that uses CodeMirror code.
 
+.. _pages/snippets#using_complex_name_spaces:
+
 Using complex name spaces
 -------------------------
 
-Increasingly, people use complex name spaces in their applications, e.g. following the Java style with name spaces like ``org.myorg.webclient.utils``. See this :doc:`separate document <.:snippets:using_complex_namespaces>` for more details on using complex name spaces.
+Increasingly, people use complex name spaces in their applications, e.g. following the Java style with name spaces like ``org.myorg.webclient.utils``. See this :doc:`separate document <snippets/using_complex_namespaces>` for more details on using complex name spaces.
+
+.. _pages/snippets#creating_an_apiviewer_that_covers_all_used_libraries/contributions:
 
 Creating an Apiviewer that covers all used libraries/contributions
 ------------------------------------------------------------------
 
-You can create a local version of the :doc:`Apiviewer <:application#api_viewer>` application by running ``[[.:tool:generator_default_jobs#api | generate.py api]]`` in your application. By default, though, only your own application classes and the framework classes are taken into account and displayed in the generated Apiviewer. If you are using additional qooxdoo libraries and/or contributions in your application (which requires you to list them in the ``libraries`` job in your config), and want them included in a local Apiviewer, you have to overwrite the :doc:`API_INCLUDE <.:tool:generator_config_macros >`  macro, to get the lib classes documented in Apiviewer. Add this to your config.json's ``let`` section:
+You can create a local version of the `Apiviewer <http://qooxdoo.org/application#api_viewer>`_ application by running ``[[.:tool:generator_default_jobs#api | generate.py api]]`` in your application. By default, though, only your own application classes and the framework classes are taken into account and displayed in the generated Apiviewer. If you are using additional qooxdoo libraries and/or contributions in your application (which requires you to list them in the ``libraries`` job in your config), and want them included in a local Apiviewer, you have to overwrite the :doc:`API_INCLUDE <tool/generator_config_macros>`  macro, to get the lib classes documented in Apiviewer. Add this to your config.json's ``let`` section:
 
 ::
 
     API_INCLUDE : ["qx.*","${APPLICATION}.*", "lib1.*", "contrib2.*"]
 
 The first two, ``"qx.*"`` and ``"${APPLICATION}"``, should always be in; then, add the name spaces of  libs/contribs as desired, to have the data in the generated Apiviewer.
+
+.. _pages/snippets#finding_your_system-wide_tmp_directory:
 
 Finding your System-wide TMP Directory
 --------------------------------------
@@ -765,16 +841,16 @@ If you are using the default settings, the cache path for your generator runs is
 
 <html>
 <!--
-  * :doc:`.:snippets:using_gsoap_and_wsdl_with_qooxdoo` 
-  * :doc:`.:snippets:using_cpaint_with_qooxdoo`
-  * :doc:`.:snippets:comboboxex_in_gridlayout`
-  * :doc:`.:snippets:rounded_borders`
-  * :doc:`.:snippets:treevirtual_draganddrop_mixin`
-  * :doc:`.:snippets:simple_jsonrpc_testpage`
-  * :doc:`.:snippets:simple_iframe_progress_bar_for_jsonrpc`
-  * :doc:`.:snippets:communicating_with_the_system_clipboard`
-  * :doc:`.:snippets:multi_window_application`
-  * :doc:`.:snippets:asynchronous_user_interaction`
+  * :doc:`snippets/using_gsoap_and_wsdl_with_qooxdoo` 
+  * :doc:`snippets/using_cpaint_with_qooxdoo`
+  * :doc:`snippets/comboboxex_in_gridlayout`
+  * :doc:`snippets/rounded_borders`
+  * :doc:`snippets/treevirtual_draganddrop_mixin`
+  * :doc:`snippets/simple_jsonrpc_testpage`
+  * :doc:`snippets/simple_iframe_progress_bar_for_jsonrpc`
+  * :doc:`snippets/communicating_with_the_system_clipboard`
+  * :doc:`snippets/multi_window_application`
+  * :doc:`snippets/asynchronous_user_interaction`
 -->
 </html>
 

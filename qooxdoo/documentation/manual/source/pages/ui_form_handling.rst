@@ -1,11 +1,17 @@
+.. _pages/ui_form_handling#form_handling:
+
 Form Handling
 *************
 
 The ``qx.ui.form`` package contains several classes to for constructing forms. Some widgets -- like ``Button``, ``List`` or ``TextField`` -- may look familiar if you have worked with HTML before, but this package also contains more complex widgets that you may know from your operating system and/or native desktop applications (e.g. ``Spinner``, ``Slider`` or ``DateField``).
 
+.. _pages/ui_form_handling#idea:
+
 Idea
 ====
 The idea of the form API is to make handling of form widgets as simple as possible, but also as generic as possible within the entire framework. There has been a thorough `discussion <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2099>`_ on what's the best solution and how to design a solid API. This is what we ended up with. 
+
+.. _pages/ui_form_handling#demos:
 
 Demos
 =====
@@ -14,15 +20,21 @@ If you like to see some of the form management of qooxdoo in action, take a look
 XXX
 ---
 
+.. _pages/ui_form_handling#widgets:
+
 Widgets
 ^^^^^^^
   * `All form widgets <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
   * `All form widgets with invalid states <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormInvalids.html>`_
 
+.. _pages/ui_form_handling#validation_and_resetting:
+
 Validation and Resetting
 ^^^^^^^^^^^^^^^^^^^^^^^^
   * `Synchronous and asynchronous form validation <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormValidator.html>`_
   * `Validation on different pages <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~MultiPageForm.html>`_
+
+.. _pages/ui_form_handling#rendering:
 
 Rendering
 ^^^^^^^^^
@@ -31,23 +43,29 @@ Rendering
   * `Single column form using placeholders <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererPlaceholder.html>`_
   * `Custom form layout <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererCustom.html>`_
 
+.. _pages/ui_form_handling#data_binding:
+
 Data Binding
 ^^^^^^^^^^^^
   * `Manual form binding <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~Form.html>`_
   * `Form Controller <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~FormController.html>`_
 
+.. _pages/ui_form_handling#interfaces:
+
 Interfaces
 ==========
 The whole form API is defined by a couple of interfaces. These interfaces contain the most important methods and events for the form widgets. The following listing shows the interfaces, what's their purpose and how you can benefit from them.
+
+.. _pages/ui_form_handling#form:
 
 Form
 ----
 
 The interface called ``qx.ui.form.IForm`` defines a set of methods and events for every visible form widget. It contains the listed events and methods.  
 
-|pages/iform.png|
+|iform.png|
 
-.. |pages/iform.png| image:: /pages/iform.png
+.. |iform.png| image:: /iform.png
 
 As you can see, the interface defines accessors for four different properties. 
    * The enabled property is usually inherited from the widget class and is for switching of form element. 
@@ -55,26 +73,30 @@ As you can see, the interface defines accessors for four different properties.
    * The valid property is a boolean flag containing ``true`` if the content of the widget is valid, but the form widgets does not have any kind of code to set this property. It needs to be set from outside. If it is set to ``false``, the appearance will change automatically and signals the invalid state properly. 
    * The invalidMessage property should contain a message, which will be shown in an invalid tooltip if the valid flag is set to ``false``. If no message is given, no tooltip will appear.
 
+.. _pages/ui_form_handling#executable:
+
 Executable
 ----------
 
 The ``qx.ui.form.IExecutable`` interface defines the essential parts for all executable widgets. The best example for a executable widget is a button. It defines the following events and methods.
 
-|pages/iexecutable.png|
+|iexecutable.png|
 
-.. |pages/iexecutable.png| image:: /pages/iexecutable.png
+.. |iexecutable.png| image:: /iexecutable.png
 
 As you can see, the interface defines accessors for only one property. 
    * The command property can take a ``qx.event.Command``. The execute method executes the given command.
+
+.. _pages/ui_form_handling#range:
 
 Range
 -----
 
 The ``qx.ui.form.IRange`` interface defines the essential parts for all widgets dealing with ranges. It defines the following methods.
 
-|pages/irange.png|
+|irange.png|
 
-.. |pages/irange.png| image:: /pages/irange.png
+.. |irange.png| image:: /irange.png
 
 As you can see, the interface defines accessors for four properties.
    * The minimum of the range is defined by the Minimum property.
@@ -82,10 +104,14 @@ As you can see, the interface defines accessors for four properties.
    * Each range does have a single step value which is defined by the SingleStep property.
    * As the single step, there is a page step in every range which is defined by the PageStep property.
 
+.. _pages/ui_form_handling#number_/_string_/_color_/_date_/_boolean:
+
 Number / String / Color / Date / Boolean
 ----------------------------------------
 
 Each of the listed interfaces define the same methods and events. The only difference in the interfaces is - like the name says - the type of the data processed by the implementing widget. With that solution, we have the same API for every form widget but can still determinate which type of value the widget expects by checking for the different interfaces.
+
+.. _pages/ui_form_handling#interfaces:
 
 Interfaces
 ^^^^^^^^^^
@@ -97,12 +123,14 @@ Interfaces
 
 The color interface takes a string which has to be formated like `usual colors <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ColorUtil>`_ in qooxdoo.
 
-|pages/iformvalue.png|
+|iformvalue.png|
 
-.. |pages/iformvalue.png| image:: /pages/iformvalue.png
+.. |iformvalue.png| image:: /iformvalue.png
 
 As you can see, the interface can be implemented with only one property.
    * The value property takes the value of the widget. This is for example a boolean in a checkbox widget or a string in a textfield widget.
+
+.. _pages/ui_form_handling#model_/_modelselection:
 
 Model / ModelSelection
 ----------------------
@@ -111,16 +139,18 @@ Most of the form items handling a selection had a value property in the old API.
 
 |Diagram of IModel|
 
-.. |Diagram of IModel| image:: /pages/imodel.png
+.. |Diagram of IModel| image:: /imodel.png
 
 The model property can be used to store additional data which is represented by the widget. The data does not need to be a string like in the old value property. You can store references to objects, numbers, strings and so on.
 Accessing the model is very easy. Every widget containing a widget implementing the ``qx.ui.form.IModel`` interface has its own interface to access the current selected model.
 
 |Diagram of IModelSelection|
 
-.. |Diagram of IModelSelection| image:: /pages/imodelselection.png
+.. |Diagram of IModelSelection| image:: /imodelselection.png
 
 As you can see in the diagram, you can get the current selected model and also set the selection using the models.
+
+.. _pages/ui_form_handling#widgets:
 
 Widgets
 =======
@@ -650,6 +680,8 @@ td {border: 1px solid black; padding:5px}
 </table>
 </html>
 
+.. _pages/ui_form_handling#sample_usage:
+
 Sample Usage
 ============
 
@@ -711,6 +743,8 @@ The last example shows how to use the ``IForm`` interface and how to mark a widg
 
 All examples work in the playground application.
 
+.. _pages/ui_form_handling#migrating_to_the_new_api:
+
 Migrating to the new API
 ========================
 
@@ -718,6 +752,8 @@ There are some important topics you have to take care if you want to migrate fro
 
 XXX
 ---
+
+.. _pages/ui_form_handling#iformelement:
 
 IFormElement
 ^^^^^^^^^^^^
@@ -730,17 +766,25 @@ The previous form interface called ``qx.ui.form.IFormElement`` is deprecated now
 
 This works identical to the old code. The HTML name property will not be set after the call in both cases.
 
+.. _pages/ui_form_handling#checkbox_and_radiobutton:
+
 CheckBox and RadioButton
 ^^^^^^^^^^^^^^^^^^^^^^^^
 Widgets like CheckBox or RadioButton had a ``checked`` property for their state. This  property is deprecated and is now called ``value``.
+
+.. _pages/ui_form_handling#changevalue_on_list_and_selectbox:
 
 changeValue on List and SelectBox
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 It was quite common to use the ``changeValue`` event of a ``SelectBox`` or ``List`` to handle a change of the selection. Due to the removal of ``value``, the ``changeValue`` event has also been removed. Please use the ``changeSelection`` event instead.
 
+.. _pages/ui_form_handling#label:
+
 Label
 ^^^^^
 The former ``content`` property of the Label class has been renamed to make it consistent with the rest of the framework. So the new name is like in every other widget: ``value``.
+
+.. _pages/ui_form_handling#validation:
 
 Validation
 ==========
@@ -749,7 +793,7 @@ We tried to keep the API as minimal as possible but in the same way, as flexible
 
 |The validation package|
 
-.. |The validation package| image:: /pages/validationmanager.png
+.. |The validation package| image:: /validationmanager.png
 
 The events, properties and methods can be divided into three groups:
 
@@ -769,11 +813,15 @@ The events, properties and methods can be divided into three groups:
 
 The first part with which the application developer gets in contact is the add method. It takes form items and a validator. But what are form items?
 
+.. _pages/ui_form_handling#requirements:
+
 Requirements
 ------------
-Form items need two things. First of all, it is necessary that the given form item can handle an invalid state and has an invalid message. This is guaranteed by the :doc:`IForm <documentation:1.2#Form>` interface already introduced. But thats not all, the manager needs to acces the value of the form item. Therefore, the form item need to specify a value property. This value property is defined in the :doc:`data specific form interfaces <documentation:1.2#Number / String / Color / Date / Boolean>` also introduced above. So all widgets implementing the ``IForm`` interface and one of the value defining interfaces can be used by the validation. For a list which widget implement which interface, take a look at the :doc:`widgets section <documentation:1.2#widgets>` in the document.
+Form items need two things. First of all, it is necessary that the given form item can handle an invalid state and has an invalid message. This is guaranteed by the `IForm <http://qooxdoo.org/documentation/1.2#Form>`_ interface already introduced. But thats not all, the manager needs to acces the value of the form item. Therefore, the form item need to specify a value property. This value property is defined in the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#Number / String / Color / Date / Boolean>`_ also introduced above. So all widgets implementing the ``IForm`` interface and one of the value defining interfaces can be used by the validation. For a list which widget implement which interface, take a look at the `widgets section <http://qooxdoo.org/documentation/1.2#widgets>`_ in the document.
 
 Now that we know what the manager can validate, its time to learn how to validate. In general, there are two different approaches in validation. The first approach is a client side validation, which is in common cases synchronous. On the other hand, a server side validation is asynchronous in most cases. We will cover both possibilities in the following sections.
+
+.. _pages/ui_form_handling#synchronous:
 
 Synchronous
 -----------
@@ -784,6 +832,8 @@ The following subsections cover some common scenarios of synchronous validation.
     var manager = new qx.ui.form.validation.Manager();
     var textField = new qx.ui.form.TextField();
     var checkBox = new qx.ui.form.CheckBox();
+
+.. _pages/ui_form_handling#required_form_fields:
 
 Required Form Fields
 ^^^^^^^^^^^^^^^^^^^^
@@ -796,6 +846,8 @@ One of the most obvious validation is a validation for a non empty field. This c
 
 The validation manager will take all the necessary steps to mark the field as invalid as soon as the validate method will be invoked, if the text field is empty.
 
+.. _pages/ui_form_handling#default_validator:
+
 Default Validator
 ^^^^^^^^^^^^^^^^^
 Another common use case of validation is to check for specific input types like email adresses, urls or similar. For those common checks, qooxdoo offers a set of predefined validators in ``qx.util.Validate``. The example here shows the usage of a predefined email validator.
@@ -803,6 +855,8 @@ Another common use case of validation is to check for specific input types like 
 ::
 
     manager.add(textField, qx.util.Validate.email());
+
+.. _pages/ui_form_handling#custom_validator:
 
 Custom Validator
 ^^^^^^^^^^^^^^^^
@@ -814,6 +868,8 @@ The example here checks if the value of the text field has at least a length of 
     manager.add(textField, function(value) {
       return value.length >= 3;
     });
+
+.. _pages/ui_form_handling#validation_in_the_context_of_the_form:
 
 Validation in the context of the form
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -832,6 +888,8 @@ All shown validation rules validate each form item in its own context. But it mi
       textField.setValid(true);
       return true;
     });
+
+.. _pages/ui_form_handling#asynchronous:
 
 Asynchronous
 ------------
@@ -855,13 +913,17 @@ The only difference to the synchronous case is the wrapping of your validator fu
 
 |Asynchronous form validation|
 
-.. |Asynchronous form validation| image:: /pages/sd-asyncvalidate-540x308.png
+.. |Asynchronous form validation| image:: /sd-asyncvalidate-540x308.png
 
 The asynchronous validation can not only be used for form items. Also the manager itself can handle instances of the AsyncValidator as validator.
+
+.. _pages/ui_form_handling#serialization:
 
 Serialization
 =============
 Entering data into a form is one part of the process. But that entered data needs to be send to the server most of the time. So serialization is a big topic when it comes to forms. We decided not to integrate the serialization in one form manager responsible for validation and serialization.
+
+.. _pages/ui_form_handling#idea:
 
 Idea
 ----
@@ -870,9 +932,11 @@ Sounds like :doc:`data binding <data_binding>`? It is data binding!
 
 |Serialization in qooxdoo|
 
-.. |Serialization in qooxdoo| image:: /pages/serialization.png
+.. |Serialization in qooxdoo| image:: /serialization.png
 
 But you don't have to connect all these widgets yourself. We do offer a object controller which can take care of most of the work. But where do you get the model? Writing a specific qooxdoo class for every form sounds like a bit overkill. But qooxdoo has a solution for that, too. The creation of classes and model instances is already part of the data binding and can also be used here. Sounds weired? Take a look at the following common scenarios to see how it works.
+
+.. _pages/ui_form_handling#common_scenarios:
 
 Common Scenarios
 ----------------
@@ -907,11 +971,15 @@ That way, the serialization in completely cut of from the form itself. So hidden
 
 Keep in mind that you create a model with that and you can access every property you created using the default getter and setter.
 
-I guess some of you are asking yourself: "What if i want to convert the values for serialization. My server needs some different values...". That brings in the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding which already includes conversion. Take a look at the :doc:`data binding documentation <data_binding#optionsconversion_and_validation>` for more information on the conversion.
+I guess some of you are asking yourself: "What if i want to convert the values for serialization. My server needs some different values...". That brings in the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding which already includes conversion. Take a look at the :ref:`data binding documentation <pages/data_binding#optionsconversion_and_validation>` for more information on the conversion.
+
+.. _pages/ui_form_handling#need_something_special:
 
 Need something special?
 ^^^^^^^^^^^^^^^^^^^^^^^
 In some cases, you might want to have something really special like serializing one value only if another value has a special value or something else. In that case, you can write your own serializer which can handle the serialization the way you need to.
+
+.. _pages/ui_form_handling#resetting:
 
 Resetting
 =========
@@ -922,16 +990,20 @@ So we decided to create a standalone implementation for resetting called ``qx.ui
 
 |Resetter Class|
 
-.. |Resetter Class| image:: /pages/resetter.png
+.. |Resetter Class| image:: /resetter.png
 
 Like the task of resetting itself, the API is not too complicated. We do have one method for adding items, and another one for reseting all added items. 
 
 XXX
 ---
 
+.. _pages/ui_form_handling#how_it_works:
+
 How It Works
 ^^^^^^^^^^^^
-Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the :doc:`data specific form interfaces <documentation:1.2#Number / String / Color / Date / Boolean>` or implementing the :doc:`selection API <ui_selection2>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
+Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#Number / String / Color / Date / Boolean>`_ or implementing the :doc:`selection API <ui_selection2>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
+
+.. _pages/ui_form_handling#sample_usage:
 
 Sample Usage
 ^^^^^^^^^^^^
@@ -968,15 +1040,19 @@ The following sample shows how to use the resetter with three input fields, a te
     });
     this.getRoot().add(resetButton, {left: 120, top: 10});
 
+.. _pages/ui_form_handling#form_object:
+
 Form Object
 ===========
 We have already covered most parts of form handling. But one thing we spared out completely until now is layouting the form items. Thats where the ``qx.ui.form.Form`` comes in play.
 
+.. _pages/ui_form_handling#what_is_it:
+
 What is it?
 -----------
 The qooxdoo form is a object, which includes three main parts. 
-  * :doc:`Validation <documentation:1.2#validation>` using the ``qx.ui.form.validation.Manager`` class
-  * :doc:`Resetting <documentation:1.2#resetting>` using the ``qx.ui.form.Resetter`` class
+  * `Validation <http://qooxdoo.org/documentation/1.2#validation>`_ using the ``qx.ui.form.validation.Manager`` class
+  * `Resetting <http://qooxdoo.org/documentation/1.2#resetting>`_ using the ``qx.ui.form.Resetter`` class
   * Handling the layout of the form
 As we have already talked about the first two items, I'll cover the last item in a more detailed way.
 
@@ -984,7 +1060,9 @@ The layout of a form is in most cases application specific. It depends on the sp
 To get that, we applied a pattern used widely across the qooxdoo framework, which takes all UI related code to renderer classes. These renderer are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
 |qx.ui.form.Form|
 
-.. |qx.ui.form.Form| image:: /pages/form.png
+.. |qx.ui.form.Form| image:: /form.png
+
+.. _pages/ui_form_handling#renderer:
 
 Renderer
 --------
@@ -996,15 +1074,19 @@ Sure you have recognized the difference to the API of the form itself. You add t
 You may ask yourself why we didn't use the layouts, we usually use in such scenarios if we ant to render widgets on the screen. It may be necessary, that a rendere contains even more than one widget. Imagine a wizard or a form shared among different tabs. Thats all not possible using layouts instead of renderer widgets.
 
 The following sections show the renderer included in qooxdoo, which you can use out of the box.
+.. _pages/ui_form_handling#default_single_column:
+
 Default (Single Column)
 ^^^^^^^^^^^^^^^^^^^^^^^
 If you don't care about renderer and you don't specify a rendere, the default renderer is used and thats a single column renderer.
 
 |Default renderer|
 
-.. |Default renderer| image:: /pages/singlerenderer.png
+.. |Default renderer| image:: /singlerenderer.png
 
 As you can see in the picture, the rendere adds an asterisk to every required field, adds a colon at the end of every label and defines the vertical layout.
+
+.. _pages/ui_form_handling#double_column:
 
 Double Column
 ^^^^^^^^^^^^^
@@ -1012,7 +1094,9 @@ The double column renderer has the same features like the already introduced sin
 
 |Double Renderer|
 
-.. |Double Renderer| image:: /pages/doublerenderer.png
+.. |Double Renderer| image:: /doublerenderer.png
+
+.. _pages/ui_form_handling#single_column_with_placeholer:
 
 Single Column with Placeholer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1020,7 +1104,9 @@ This renderer is more a demo showing how easy it can be to implement your own re
 
 |Placeholder Renderer|
 
-.. |Placeholder Renderer| image:: /pages/placeholderrenderer.png
+.. |Placeholder Renderer| image:: /placeholderrenderer.png
+
+.. _pages/ui_form_handling#sample_usage:
 
 Sample Usage
 ------------
@@ -1096,7 +1182,7 @@ Running this code will create a form as described above and will look like this.
 
 |Result of the code example|
 
-.. |Result of the code example| image:: /pages/codesampleform.png
+.. |Result of the code example| image:: /codesampleform.png
 
 If you want to get another look & feel, you can specify a different renderer in the createView method. 
 
@@ -1110,12 +1196,16 @@ If you want to get another look & feel, you can specify a different renderer in 
 
 Just give it a try in the `playground <http://demo.qooxdoo.org/1.2.x/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520create%2520the%2520first%2520two%2520input%2520fields%250Avar%2520firstname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Afirstname.setRequired(true)%253B%250Avar%2520lastname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Alastname.setRequired(true)%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520group%250Aform.addGroupHeader(%2522Name%2522)%253B%250Aform.add(firstname%252C%2520%2522Firstname%2522)%253B%250Aform.add(lastname%252C%2520%2522Lastname%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520second%2520group%250Aform.addGroupHeader(%2522Contact%2522)%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Email%2522%252C%2520qx.util.Validate.email())%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Phone%2522)%253B%250A%250A%252F%252F%2520add%2520a%2520save%2520button%250Avar%2520savebutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Save%2522)%253B%250Asavebutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520if%2520(form.validate())%2520%257B%250A%2520%2520%2520%2520alert(%2522You%2520can%2520save%2520now...%2522)%253B%250A%2520%2520%257D%250A%257D)%253B%250Aform.addButton(savebutton)%253B%250A%250A%252F%252F%2520add%2520a%2520reset%2520button%250Avar%2520resetbutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Reset%2522)%253B%250Aresetbutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520form.reset()%253B%250A%257D)%253B%250Aform.addButton(resetbutton)%253B%250A%250A%252F%252F%2520create%2520the%2520view%2520and%2520add%2520it%250Athis.getRoot().add(form.createView()%252C%2520%257Bleft%253A%252010%252C%2520top%253A%252010%257D)%253B%22%7D>`_.
 
+.. _pages/ui_form_handling#form_controller:
+
 Form Controller
 ===============
 
 Data binding for a form certainly is a handy feature. Using a model to access data in the form brings form handling to another level of abstraction. That's exactly what the form controller offers.
 
-The form controller is fully covered in the :doc:`data binding documentation <data_binding#form_controller>`.
+The form controller is fully covered in the :ref:`data binding documentation <pages/data_binding#form_controller>`.
+
+.. _pages/ui_form_handling#sample_usage:
 
 Sample Usage
 ------------
@@ -1164,7 +1254,7 @@ The final step for data binding is creating the actual model.
 Take a look at the following sequence diagram to see how it internally works.
 |Creation of the model|
 
-.. |Creation of the model| image:: /pages/sd-createmodel-473x400.png
+.. |Creation of the model| image:: /sd-createmodel-473x400.png
 
 Now we have managed to setup a form and a model connected by bidirectional bindings. So we can simply use the model to set values in the form.
 
@@ -1178,6 +1268,8 @@ Now we have managed to setup a form and a model connected by bidirectional bindi
 As you can see here, the properties (and therefore setters) are defined according to the names we gave the text fields when adding them.
 
 `See the code in action <http://demo.qooxdoo.org/1.2.x/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520TextField%2520(Salutation%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Salutation%2522)%253B%250A%252F%252F%2520add%2520the%2520second%2520TextField%2520(FirstName%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522First%2520Name%2522)%253B%250A%252F%252F%2520add%2520the%2520third%2520TextField%2520(last%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Last%2520Name%2522%252C%2520null%252C%2520%2522last%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520form%2520to%2520the%2520root%250Athis.getRoot().add(form.createView())%253B%250A%250A%252F%252F%2520create%2520the%2520controller%2520with%2520the%2520form%250Avar%2520controller%2520%253D%2520new%2520qx.data.controller.Form(null%252C%2520form)%253B%250A%252F%252F%2520create%2520the%2520model%250Avar%2520model%2520%253D%2520controller.createModel()%253B%250A%250A%252F%252F%2520set%2520some%2520values%2520in%2520the%2520form%250Amodel.setSalutation(%2522Mr.%2522)%253B%250Amodel.setFirstName(%2522Martin%2522)%253B%250Amodel.setLast(%2522Wittemann%2522)%253B%250A%22%7D>`_ in the playground.
+
+.. _pages/ui_form_handling#still_to_come...:
 
 Still to come...
 ================

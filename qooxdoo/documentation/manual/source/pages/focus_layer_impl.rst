@@ -1,5 +1,9 @@
+.. _pages/focus_layer_impl#the_focus_layer:
+
 The Focus Layer
 ***************
+
+.. _pages/focus_layer_impl#history:
 
 History
 =======
@@ -10,6 +14,8 @@ In previous versions of the focus handling we forced the application to our own 
 
 However this came with quite some costs. For example it's quite hard to catch all the edge cases when a input field loses the focus nor is it possible to recover the focus correctly when the browser does something after switching the window (send back/bring to front etc.). To listen on the browser might improve some types of out-of-sync problems in the previous versions. We caught most things correctly though, but it is quite hard to get 100% accuracy.
 
+.. _pages/focus_layer_impl#focus_support:
+
 Focus Support
 =============
 
@@ -19,15 +25,21 @@ The new system tries to connect with all available native events which could hel
 
 It supports the events ``focusin``, ``focus``, ``focusout`` and ``blur`` on DOM nodes. It also supports ``focus`` and ``blur`` events on the ``window``. There is support for ``activate`` and ``deactivate`` events on DOM nodes to track keyboard activation. It has the properties ``focus`` and ``active`` to ask for the currently focused or activated DOM node.
 
+.. _pages/focus_layer_impl#activation_support:
+
 Activation Support
 ==================
 
 The activation, as part of the focus system, is also done by this manager. The keyboard handler for example asks the focus system which DOM element is the active one to start the bubble sequences for all keyboard events on this element. As the keyboard layer sits on top of the DOM and implements the event phases on its own there is no need to inform the browser about the active DOM node as it is simply not relevant when using this layer. It is also quite important as in every browser tested the methods to activate a DOM node (if available at all) might also influence the focus which creates some problems.
 
+.. _pages/focus_layer_impl#window_focus/blur:
+
 Window Focus/Blur
 =================
 
 The handler also manages the focus state of the top-level window. It fires the ``blur`` and ``focus`` events on the ``window`` object one can listen to. Natively, these events are fired all over just by clicking somewhere in the document. The issue is to detect the *real* ``focus``/``blur`` events. This is implemented through some type of internal state representation.
+
+.. _pages/focus_layer_impl#text_selection:
 
 Text Selection
 ==============
@@ -37,6 +49,8 @@ Focus handling in qooxdoo also solves a lot of related issues. For example the w
 The only thing needed for the focus handler here is to add an attribute ``qxSelectable`` with the value ``off`` to the node which should not be selectable. I don't know about a way which is easier to solve this need. 
 
 Behind the scenes qooxdoo dynamically applies styles like ``user-select`` or attributes like ``unselectable``. There are a lot of bugs in the browser when keeping these attributes or styles statically applied to the nodes so they are applied as needed dynamically which works surprisingly well. In Internet Explorer the handler stops the event ``selectstart`` for the affected elements.
+
+.. _pages/focus_layer_impl#prevent_defaults:
 
 Prevent Defaults
 ================
@@ -52,6 +66,8 @@ Another unwanted side effect of some browsers is the possibility to drag around 
 Other then this, most of these prevention is implemented internally through a ``preventDefault`` call on the global ``mousedown`` event when a specific target is detected. This has some side effects though. When preventing such a core event it means that most browsers also stop any type of selection happening through the mouse. This also stops them from focusing the DOM node natively. The qooxdoo code uses some explicit ``focus`` calls on the DOM nodes to fix this.
 
 Please note that some settings may have side effects on other things. For example, to make a text region selectable but not activate able is not possible with the current implementation. This has not really a relevance in real-world applications, but may be still interesting to know about.
+
+.. _pages/focus_layer_impl#finally:
 
 Finally
 =======

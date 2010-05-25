@@ -1,3 +1,5 @@
+.. _pages/ui_dragdrop#drag_&_drop:
+
 Drag & Drop
 ***********
 
@@ -8,6 +10,8 @@ qooxdoo comes with a powerful event-based layer which supports drag&drop with fu
 You may like to see an example first:
 
   * `Drag&Drop for Lists <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~DragDrop.html>`_
+
+.. _pages/ui_dragdrop#basics:
 
 Basics
 ======
@@ -39,6 +43,8 @@ The drop target can then add a listener to react for the ``drop`` event.
     });
 
 The listener now shows an alert box which should present the identification ID (classname + hash code) of the drag target. Theoretically this could already be used to transfer data from A to B.
+
+.. _pages/ui_dragdrop#data_handling:
 
 Data Handling
 =============
@@ -91,6 +97,8 @@ The last step needed to get the thing fly is to prepare the data for being dragg
         // TODO: support for HTML markup
       }
     });
+
+.. _pages/ui_dragdrop#support_multiple_actions:
 
 Support Multiple Actions
 ------------------------
@@ -159,6 +167,8 @@ Like known from major operating systems there are exactly three actions supporte
 
 which could be combined in any way the developer likes. qooxdoo renders a matching cursor depending on the currently selected action during the drag&drop sequence. The event ``dragchange`` is fired on the source widget on every change of the currently selected action.
 
+.. _pages/ui_dragdrop#runtime_checks:
+
 Runtime checks
 ==============
 
@@ -188,6 +198,8 @@ Something comparable is possible during the ``dragstart`` event:
 
 This prevents the drag of data from the source widget when some runtime condition is not solved. This is especially useful to call some external functionality to check whether a desired action is possible. In this case it might also depend on the other properties of the source widget e.g. in a mail program it is possible to drag the selection of the tree to another folder, with one exception: the inbox. This could easily solved with such a feature.
 
+.. _pages/ui_dragdrop#drag_session:
+
 Drag Session
 ============
 
@@ -207,6 +219,8 @@ A typical sequence of events could look like this:
   - ``drop`` on target (once)
   - ``droprequest`` on source (normally once)
   - ``dragend`` on source (once)
+
+.. _pages/ui_dragdrop#reordering_items:
 
 Reordering items
 ================

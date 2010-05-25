@@ -1,7 +1,11 @@
+.. _pages/generator_config_background#generator_configuration_background_information:
+
 Generator Configuration Background Information
 **********************************************
 
 This page gives some background information about how the configuration system is deployed in the SDK. It is interesting if you want to understand some of the inner workings and how things play together. *It is not necessary to know these details if you just want to use the configuration system.*
+
+.. _pages/generator_config_background#cascading_configurations:
 
 Cascading Configurations
 ========================
@@ -9,6 +13,8 @@ Cascading Configurations
 The configuration system of qooxdoo is fairly generic and versatile, and it allows you to write stand-alone configuration files from scratch, with just the configuration documentation at hand. But since a lot of configuration options are boilerplate, have to be re-used in various parts of a config, and are applicable to a broad range of applications and libraries, a significant effort has been put into making configuration settings re-usable, and shipping common configuration settings with the SDK. The two major tools in this regard are including one config file from another (through the top-level *include* key), and re-using jobs (through *run* and *extend* keys).
 
 If you create a new application with *create-application.py* you'll find a pre-configured *config.json* in the application directory that is ready to run. When you look into it, you'll find that it provides - besides a handful of macro definitions - only an *include* key to the SDK's central application configuration file, *application.json*.
+
+.. _pages/generator_config_background#application.json_and_base.json:
 
 application.json and base.json
 ------------------------------
@@ -27,6 +33,8 @@ Why splitting all those jobs into two configuration files? The answer is to dise
 
 Naturally, all these standard jobs are tailored with some sensible defaults. These defaults should be fine for all but a few custom applications. But of course the configuration system has to provide ways to deviate from the standard settings, and without too much repetition. (These different needs of applications are even mirrored in the SDK itself, where some applications are contempt with the default settings like the *Feedreader*, while others need more specific settings, as is the case e.g. with the *Demobrowser*. See their configuration files for more details).
 
+.. _pages/generator_config_background#the_use_of_macros:
+
 The Use of Macros
 =================
 
@@ -36,6 +44,8 @@ Within the configuration system, macros (defined with *let* keys) serve a  coupl
   * to pass parameters into jobs
 
 The last usage is probably the most delicate. Jobs provided by external components or libraries to the deploying application need to learn certain facts about this application, in order to do their job well. As a consequence some components require dedicated macros to be set by the application, e.g the *API%%_%%INCLUDE* and *API%%_%%EXCLUDE* macros that are required for the *api* job. This is a way of parameterizing jobs. Unfortunately, since every job winds up with a flat set of macros that are available to it (you can think of it as a job having a "global name space" for macros), macros have to be globally unique within the set of configuration files that is used for the particular application.
+
+.. _pages/generator_config_background#application_startup:
 
 Application Startup
 ===================
@@ -48,10 +58,14 @@ When the application is loaded, qooxdoo first establishes and starts a runtime e
 
 Once this is established, the qooxdoo runtime starts the *main()* method of the main application class (made known to it through the *qx.application* setting). From there, the application classes  take over and create the application, through instantiating further classes (like IO classes or GUI widgets), setting properties and invoking methods on them.
 
+.. _pages/generator_config_background#config_processing:
+
 Config Processing
 =================
 
 This is an account of the principles that rule the processing of config files.
+
+.. _pages/generator_config_background#when_the_config_file_is_read:
 
 When the Config File is Read
 ----------------------------
@@ -59,6 +73,8 @@ When the Config File is Read
   * The Json data structure is parsed into an internal data structure; this is standard Json processing.
   * If the config file contains a global *[[.:tool:generator_config_ref#let]]* section these macros are expanded among themselves (for macros referencing other macros) temporarily. This intermediate *let* map is then used for other top-level keys, to expand potential macros and finalize their values. E.g. a global *[[.:tool:generator_config_ref#include_top-level | include]]* key might use macros to encode paths to other config files. Then these macros are resolved with the local knowledge to derive real paths. The *[[.:tool:generator_config_ref#jobs]]* key and the *let* key itself are explicitly not expanded, to allow for later (re-) evaluation in another config file.
   * If there is a global *include* key, the listed config files are included (next section).
+
+.. _pages/generator_config_background#when_another_config_file_is_included:
 
 When another Config File is Included
 ------------------------------------
@@ -75,6 +91,8 @@ When another Config File is Included
     * If, on the other hand, a job of such name already exists, a new, conflict-free name is generated for the new job, and this name is added to the conflicting job's *extend* key, so the existing job will inherit the new job's features.
   * Finally, the new job is added to the current config's list of jobs.
 
+.. _pages/generator_config_background#when_jobs_are_merged:
+
 When Jobs are Merged
 --------------------
 
@@ -87,6 +105,8 @@ When Jobs are Merged
     * If the key value is a reference value (list or map) then
       * in the case of a list, the elements of the source list are uniquely appended to the target list, i.e. duplicates are omitted in the process.
       * in the case of a map, the merge process is applied recursively.
+
+.. _pages/generator_config_background#the_job_expansion_process:
 
 The Job Expansion Process
 -------------------------
@@ -103,6 +123,8 @@ The Job Expansion Process
   * The last two steps are repeated until no more jobs are on the agenda that have unresolved *extend* or *run* keys.
   * Now each job has found its final job definition, and is run by the Generator.
 
+.. _pages/generator_config_background#how_job_references_are_resolved:
+
 How Job References are Resolved
 -------------------------------
 
@@ -112,10 +134,14 @@ How Job References are Resolved
     * the config in which the job was originally defined; this may be different from the current config, since the job might have been obtained by inclusion of an external configuration file.
   * The last point is interesting since a job in the current config might be referencing a job "foo" which might not be present in the current config, e.g. due to filtering this job during import (there are various ways to do this). So the job has to be looked for in one of the external config files. The original config file is chosen since there might be more the one imported config file, and each of those might be defining a "foo" job.
 
+.. _pages/generator_config_background#how_to_add_a_new_component:
+
 How to add a new Component
 ==========================
 
-qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the Apiviewer, Testrunner and Inspector. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction :doc:`here <.:tool:generator_config_articles#include_key_top-level_-_adding_features>`.
+qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the Apiviewer, Testrunner and Inspector. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction :ref:`here <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`.
+
+.. _pages/generator_config_background#basics:
 
 Basics
 ------
@@ -128,15 +154,19 @@ The answer to the question how to pass information into a job is generally two-f
 
 Macros in global *let* sections are included automatically into jobs within the current configuration file; they are directly integrated into a job's own *let* key. Jobs themselves can be related to each other, but for this you have to be aware of a general property of jobs in the configuration system:
 
-<note warning>
-Within the generator's configuration system, there is only a **single mechanism how two jobs can pass information** between - and thus influence - each other:
+.. note::
 
-**Through Job Extending.**
-</note>
+    Within the generator's configuration system, there is only a **single mechanism how two jobs can pass information** between - and thus influence - each other:
+
+    **Through Job Extending.**
+
+xxx
 
 That means one job has to extend the other, either directly or indirectly (via intermediate "extend" jobs), in order to share information between the jobs.
 
 This also means that the question which job extends which (the *extension order*, if you will) is curcial, as the settings in the extending job always take precedence over those of any extended job. The extending job also has some possibilties to control which keys are being modified by the extended jobs. Within the "extend" list of jobs, those to the left take precedence over those on the right.
+
+.. _pages/generator_config_background#preparing_the_component:
 
 Preparing the component
 -----------------------
@@ -147,7 +177,9 @@ Using the basic principles outlined above, there are **two practical ways** how 
   * **Macros**
   * **Includer Jobs**
 
-In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <.:tool:generator_default_jobs>`).
+In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <tool/generator_default_jobs>`).
+
+.. _pages/generator_config_background#parameterizing_a_remote_job_through_macros:
 
 Parameterizing a remote job through Macros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -176,6 +208,8 @@ and running the component job with this macro binding will cause the output be w
 
 If you want a more fine-grained control over the scope of a specific macro, you can add a new job definition into your config of the *same name* as the job you want to tweak (but mind any name spacing of names introduced through the *as* key in *include* keys, see further). Through automatic inheritance the remote job will become a parent of the local job. If you give the local job a *let* section with the required macro, this binding will only take effect for the named job (and those extending it), but not for others.
 
+.. _pages/generator_config_background#parameterizing_a_remote_job_through_includer_jobs:
+
 Parameterizing a remote job through Includer Jobs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -202,6 +236,8 @@ The invoking context can then tailor the remote job by tailoring the includer jo
         }
 
 Supplying a job with the name of the includer job will make the component's worker job use this definition for its own extend list (through *job shadowing*). As with macros, the invoking application and the component have to agree about the name of the includer job. After that, you can essentially pass all kinds of job keys into the remote job. There is virtually no limit, but usually you will only want to set a few significant keys (Again, this is part of the protocol between application and component and should be stated clearly in the component's documentation). You should also bear in mind the general rules fo job extending, particularly that the main job's settings (the component job in our case) will take precedence over the settings of the includer job, and that the main job can choose to block certain keys from being modified by included jobs.
+
+.. _pages/generator_config_background#adding_a_new_job:
 
 Adding a new job
 ----------------

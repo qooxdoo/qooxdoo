@@ -1,3 +1,5 @@
+.. _pages/image_handling#image_handling:
+
 Image Handling
 **************
 

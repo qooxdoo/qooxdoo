@@ -1,3 +1,5 @@
+.. _pages/migration_config#configuration_migration:
+
 Configuration Migration
 ***********************
 
@@ -5,10 +7,14 @@ Most changes to qooxdoo's configuration system are additions, which are backward
 
 A few changes, though, affect existing keys. Since, as of today,  there is no automatic conversion of configuration files, adaptions to the new standard have to made by hand.
 
+.. _pages/migration_config#compile-dist_/_compile-source:
+
 compile-dist / compile-source
 =============================
 
 The ``[[.tool:generator_config_ref#compile-dist]]`` and ``[[.tool:generator_config_ref#compile-source]]`` keys have been superseded by ``[[.tool:generator_config_ref#compile-options]]`` and ``[[.tool:generator_config_ref#compile]]``.  Here is how to migrate the old keys to the new.
+
+.. _pages/migration_config#compile-dist:
 
 compile-dist
 ------------
@@ -23,6 +29,8 @@ The ``compile-dist`` key can simply be renamed to ``compile-options``, together 
     }                         }                              
 
     "compile" : { "type" : "build" }
+
+.. _pages/migration_config#compile-source:
 
 compile-source
 --------------
@@ -43,6 +51,9 @@ Here is the mapping from the old ``compile-source`` keys to the new ``compile-op
 
     "compile" : { "type" : "source" }
 
-<note>
-NOTE: If you are extending or overriding one of the standard build jobs, namely ``source-script`` or ``build-script``, you can leave out the ``compile`` key as this will be provided by the standard job.
-</note>
+.. note::
+
+    NOTE: If you are extending or overriding one of the standard build jobs, namely ``source-script`` or ``build-script``, you can leave out the ``compile`` key as this will be provided by the standard job.
+
+xxx
+

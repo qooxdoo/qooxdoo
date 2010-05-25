@@ -1,9 +1,15 @@
+.. _pages/generator_config_howto#generator_config_howto:
+
 Generator Config Howto
 **********************
 
-<note>
-This is highly experimental info around qooxdoo 1.2. So it may need modification and improvement to be applied to newer qooxdoo versions.
-</note>
+.. note::
+
+    This is highly experimental info around qooxdoo 1.2. So it may need modification and improvement to be applied to newer qooxdoo versions.
+
+xxx
+
+.. _pages/generator_config_howto#how_can_i_create_an_all-in-one_qooxdoo_library:
 
 How can I create an "all-in-one" qooxdoo library?
 =================================================
@@ -12,7 +18,7 @@ Sometimes you may wish to create a library-style build of just qooxdoo framework
 
 You roughly have to take these steps to accomplish that:
   - define a set of classes you want to include
-  - An important thing to keep in mind here is that the architecture of qooxdoo is designed around :doc:`running whole applications <generator_config_background#application_startup>`, not just providing a set of library classes. That means that once the qooxdoo runtime starts it will
+  - An important thing to keep in mind here is that the architecture of qooxdoo is designed around :ref:`running whole applications <pages/generator_config_background#application_startup>`, not just providing a set of library classes. That means that once the qooxdoo runtime starts it will
   * create a runtime environment (vars, core classes and objects, etc.)
   * look for a main application class to run
 

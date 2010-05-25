@@ -1,3 +1,5 @@
+.. _pages/widget/window#window:
+
 Window
 ******
 The window widget is similar to Windows’ MDI child windows.
@@ -5,11 +7,15 @@ The window widget is similar to Windows’ MDI child windows.
 XXX
 ===
 
+.. _pages/widget/window#preview_image:
+
 Preview Image
 -------------
-|pages/widget/window.png|
+|widget/window.png|
 
-.. |pages/widget/window.png| image:: /pages/widget/window.png
+.. |widget/window.png| image:: /widget/window.png
+
+.. _pages/widget/window#features:
 
 Features
 --------
@@ -19,6 +25,8 @@ Features
   * Minimize and maximize a window
   * Open and close a window
   * Resize a window
+
+.. _pages/widget/window#description:
 
 Description
 -----------
@@ -35,6 +43,8 @@ The package ``qx.ui.window`` contain two other classes that can be used to creat
   * The `Desktop <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Desktop>`_ can act as container for windows. It can be used to define a clipping region for internal windows.
   * The `Manager <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Manager>`_ handle the z-order and modality blocking of windows managed the connected desktop.
 
+.. _pages/widget/window#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
@@ -42,6 +52,8 @@ Here are some links that demonstrate the usage of the widget:\\
   * `Windows with using a Desktop <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Desktop.html>`_
   * `A window containing a table demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#table~Table.html>`_
   * `A calculator demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Calculator.html>`_
+
+.. _pages/widget/window#api:
 
 API
 ---

@@ -1,3 +1,5 @@
+.. _pages/widget/list#list:
+
 List
 ****
 A List widget has items with plane text and/or icon.
@@ -5,11 +7,15 @@ A List widget has items with plane text and/or icon.
 XXX
 ===
 
+.. _pages/widget/list#preview_image:
+
 Preview Image
 -------------
 |List|
 
-.. |List| image:: /pages/widget/list.png
+.. |List| image:: /widget/list.png
+
+.. _pages/widget/list#features:
 
 Features
 --------
@@ -23,6 +29,8 @@ Features
   * Items with plane text and/or icon.
   * Context menu support.
 
+.. _pages/widget/list#description:
+
 Description
 -----------
 A List widget can be used to show a list of items. These items could selected in different modes:
@@ -33,12 +41,16 @@ A List widget can be used to show a list of items. These items could selected in
 
 The item which are added to the list are ``ListItem``. For more details see: `ListItem <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ListItem>`_.
 
+.. _pages/widget/list#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `List Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-List.html>`_ 
   * `Lists with Drag and Drop <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-DragDrop.html>`_
   * `List with re-size support <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Resizer.html>`_
+
+.. _pages/widget/list#api:
 
 API
 ---

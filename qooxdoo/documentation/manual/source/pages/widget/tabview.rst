@@ -1,3 +1,5 @@
+.. _pages/widget/tabview#tabview:
+
 TabView
 *******
 The tab view stacks several pages above each other and allows to switch
@@ -8,11 +10,15 @@ The buttons are positioned on one of the tab view's edges.
 XXX
 ===
 
+.. _pages/widget/tabview#preview_image:
+
 Preview Image
 -------------
-|pages/widget/tabview.png|
+|widget/tabview.png|
 
-.. |pages/widget/tabview.png| image:: /pages/widget/tabview.png
+.. |widget/tabview.png| image:: /widget/tabview.png
+
+.. _pages/widget/tabview#features:
 
 Features
 --------
@@ -23,6 +29,8 @@ Features
     * right
   * Overflow handling for tabs
 
+.. _pages/widget/tabview#description:
+
 Description
 -----------
 
@@ -32,10 +40,14 @@ A TabView widgets contains of two parts:
 
 A Page contains widgets to be shown in a TabView and usually has a label and icon to identify it.
 
+.. _pages/widget/tabview#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Horizontal and vertical TabViews with a different amount of pages <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~TabView.html>`_
+
+.. _pages/widget/tabview#api:
 
 API
 ---

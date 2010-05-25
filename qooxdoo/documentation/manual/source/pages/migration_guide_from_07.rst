@@ -1,3 +1,5 @@
+.. _pages/migration_guide_from_07#migration_guide_from_0.7.x:
+
 Migration Guide (from 0.7.x)
 ****************************
 
@@ -18,10 +20,14 @@ the legacy qooxdoo 0.7 code from the qooxdoo 1.2 framework. If your app still wo
 
 :doc:`migration_notes_from_07`
 
+.. _pages/migration_guide_from_07#porting_an_application:
+
 Porting an application
 ======================
 
 The following step-by-step tutorial demonstrates how to migrate an 0.7 app to qooxdoo 1.2. The feedreader demo application is used as a real-life example. Watch the various milestones in this process that you should get to successfully.
+
+.. _pages/migration_guide_from_07#create_a_new_application:
 
 Create a new application
 ------------------------
@@ -29,7 +35,10 @@ Create a new application
 The best way to start porting your existing application is to create an empty 1.2 application.
 Run the ``create-application.py`` from your ``tool/bin`` folder and specify name and type of your application. The additional parameter ensures that this app is properly configured to hold an app for migration.
 
-<note>``../tool/bin/create-application.py -n feedreader -t migration``</note>
+.. note::
+
+    ``../tool/bin/create-application.py -n feedreader -t migration``
+xxx
 
 ::
 
@@ -43,6 +52,8 @@ Run the ``create-application.py`` from your ``tool/bin`` folder and specify name
     >>> DONE
 
 The generator will create a new folder named *feedreader* inside your application folder.
+
+.. _pages/migration_guide_from_07#generate_a_source_version:
 
 Generate a source version
 -------------------------
@@ -58,10 +69,14 @@ After running this command open the file ``index.html`` in the ``source`` folder
 
 **Checkpoint 1**: You should see a button named *First button*. 
 
+.. _pages/migration_guide_from_07#modify_the_config.json:
+
 Modify the config.json
 ----------------------
 
 With the new generator come new configuration files. A file named ``config.json`` replaces the ``Makefile``. Open the ``config.json`` and enter your settings. You can check the :doc:`Makefile migration <migration_makefile>` for changes in these settings. If in doubt, leave this step for later and continue using the pre-configured ``config.json``.
+
+.. _pages/migration_guide_from_07#copy_the_applications_files:
 
 Copy the application's files
 ----------------------------
@@ -71,6 +86,8 @@ An application's folder structure does not change in 1.2, so you can just copy a
 ::
 
     cp -r ~/workspace/qooxdoo.legacy_0_7_x/frontend/application/feedreader/source ./
+
+.. _pages/migration_guide_from_07#choose_a_way_of_migrating:
 
 Choose a way of migrating
 -------------------------
@@ -89,12 +106,17 @@ On the other hand, creating a legacy application has the advantage of changing t
 
 The remainder of this document assumes that you are using path 1. and are transforming your project into a legacy application. If you decide to go with alternative 2. and do a fully manual port, the :doc:`migration notes <migration_notes_from_07>` might be of help.
 
+.. _pages/migration_guide_from_07#running_the_migration_script:
+
 Running the migration script
 ----------------------------
 
 The generator will traverse your classes and add the prefix *legacy* to all qooxdoo classes. This will result in a *working* qooxdoo 0.7 application inside the new 1.2 environment. Here is a sample run of the migration job:
 
-<note>``./generate.py migration``</note>
+.. note::
+
+    ``./generate.py migration``
+xxx
 
 ::
 
@@ -146,9 +168,15 @@ Enter "yes".
 
 Check ``migration.log`` for messages that contain *foo.js has been modified. Storing modifications ...* to insure that the migration process worked.
 
+.. _pages/migration_guide_from_07#manual_work:
+
 Manual work
 -----------
-<note>This is only needed for qooxdoo 1.2. If you are using 0.8.1 or higher (trunk version as well) just skip this part.</note>
+
+.. note::
+
+    This is only needed for qooxdoo 1.2. If you are using 0.8.1 or higher (trunk version as well) just skip this part.
+xxx
 
 Open ``config.json`` and add this block of code in the ``jobs`` section:
 
@@ -192,6 +220,8 @@ to
 
     "extend" : ["common", "appconf::source"]
 
+.. _pages/migration_guide_from_07#porting_parts:
+
 Porting parts
 -------------
 Run ``./generate.py source`` once again.
@@ -200,7 +230,12 @@ Run ``./generate.py source`` once again.
 
 Congratulations, you have a 0.7 application inside a qooxdoo 1.2 environment.
 
-<note>Please note that your application runs in quirks mode since this is needed to render legacy widgets correctly. The document mode *shouldn't be* a problem if you have a single page application (RIA). If you want to work with HTML just add a valid doctype to the index.html.</note>
+.. note::
+
+    Please note that your application runs in quirks mode since this is needed to render legacy widgets correctly. The document mode *shouldn't be* a problem if you have a single page application (RIA). If you want to work with HTML just add a valid doctype to the index.html.
+xxx
+
+.. _pages/migration_guide_from_07#adjust_the_application_class:
 
 Adjust the application class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -237,9 +272,12 @@ into
 
 In our demo application (Feedreader), we have to change the name of the overridden method ``postload()`` to ``finalize()``.
 
-<note>Please note that the application lifecycle has changed:
-In 0.8 ``close()`` and ``terminate()`` are **not** called by the framework.
-In 0.8.1 ``close()`` will be called during when a ``onbeforeunload`` event is fired by the browser. It is possible to stop the unload process if the application's ``close()`` method returns an string. (This string will be shown in a ``confirm()`` dialog to inform the user about the unload process.)</note>
+.. note::
+
+    Please note that the application lifecycle has changed:
+    In 0.8 ``close()`` and ``terminate()`` are **not** called by the framework.
+    In 0.8.1 ``close()`` will be called during when a ``onbeforeunload`` event is fired by the browser. It is possible to stop the unload process if the application's ``close()`` method returns an string. (This string will be shown in a ``confirm()`` dialog to inform the user about the unload process.)
+xxx
 
 We have a list of :doc:`GUI Changes <migration_notes_from_07>` (currently work in progress) containing detailed information.
 
@@ -247,8 +285,12 @@ Run ``./generate.py source`` once again, since some classes (e.g. ``MGuiCompat``
 
 **Checkpoint 3**: Your application should still be working.
 
+.. _pages/migration_guide_from_07#migrate_the_tree_widget:
+
 Migrate the tree widget
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _pages/migration_guide_from_07#add_a_future-embed:
 
 Add a Future-Embed
 """"""""""""""""""
@@ -277,6 +319,8 @@ with
     horSplitPane.addLeft(future);
 
 This will create a widget that uses all available space for its content, the ``feedreader.view.Tree``.
+
+.. _pages/migration_guide_from_07#apply_widget-specific_changes:
 
 Apply widget-specific changes
 """""""""""""""""""""""""""""

@@ -1,3 +1,5 @@
+.. _pages/widget/toolbar#toolbar:
+
 Toolbar
 *******
 The ToolBar widget is responsible for displaying a toolbar in the application. Therefore it is a container for Buttons, RadioButtons, CheckBoxes and Separators.
@@ -5,11 +7,15 @@ The ToolBar widget is responsible for displaying a toolbar in the application. T
 XXX
 ===
 
+.. _pages/widget/toolbar#preview_image:
+
 Preview Image
 -------------
-|pages/widget/toolbar.jpg|
+|widget/toolbar.jpg|
 
-.. |pages/widget/toolbar.jpg| image:: /pages/widget/toolbar.jpg
+.. |widget/toolbar.jpg| image:: /widget/toolbar.jpg
+
+.. _pages/widget/toolbar#features:
 
 Features
 --------
@@ -22,6 +28,8 @@ Features
   * Separation into parts
   * Separator handles
 
+.. _pages/widget/toolbar#description:
+
 Description
 -----------
 The qx.ui.toolbar package, which contains all stuff needed for the toolbar widget, has the main class called ToolBar. The ToolBar class is the main container for the rest of the classes. 
@@ -33,6 +41,8 @@ If you want to group your buttons in the toolbar, you can do this with parts. Th
   * SplitButtons
 This buttons can also be added directly to the toolbar if no parts are needed.
 For further structuring the toolbar, a Separator is available in the package which can be added.
+
+.. _pages/widget/toolbar#diagram:
 
 Diagram
 -------
@@ -113,12 +123,16 @@ digraph G {
 }
 </graphviz>
 
+.. _pages/widget/toolbar#demos:
+
 Demos
 -----
 Here are some links that demonstrate the usage of the widget:\\
   * `Toolbar with all features <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~ToolBar.html>`_
   * `Toolbar in a browser demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Browser.html>`_
   * `Toolbar with other menus <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_
+
+.. _pages/widget/toolbar#api:
 
 API
 ---

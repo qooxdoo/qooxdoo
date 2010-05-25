@@ -1,7 +1,14 @@
+.. _pages/property_features/behavior#initialization_behavior:
+
 Initialization Behavior
 ***********************
 
-<note>This document summarizes some thoughts about the behavior of the initialization of properties and the changed of the behavior recently discovered. So please keep in mind that the containing information may change.</note>
+.. note::
+
+    This document summarizes some thoughts about the behavior of the initialization of properties and the changed of the behavior recently discovered. So please keep in mind that the containing information may change.
+xxx
+
+.. _pages/property_features/behavior#the_problem:
 
 The Problem
 ===========
@@ -40,10 +47,14 @@ As far, everything behaves as desired. But if set the init value instead of a ne
       a.setA(a.getA()); // changeA fired (first set)
       a.setA(a.getA()); // changeA NOT fired (every other set)
 
+.. _pages/property_features/behavior#history:
+
 History
 =======
 An interesting point about this behavior is the history of it. It was introduced with qooxdoo 1.2 and is since that initial 1.2 release in every release included. 
 The behavior in the 0.7 legacy branch is different. It does not fire a change event when setting the init value, which is the correct and expected behavior.
+
+.. _pages/property_features/behavior#why_not_just_change_it_back_as_it_was:
 
 Why not just change it back as it was?
 ======================================

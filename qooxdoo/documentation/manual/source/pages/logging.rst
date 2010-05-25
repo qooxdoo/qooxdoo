@@ -1,7 +1,11 @@
+.. _pages/logging#logging_system:
+
 Logging System
 **************
 
 The logging API allows for a definition of what is logged and where it is logged, while trying to keep usage as simple as possible. The logging system in 1.2 should be easier to use than in the previous versions. 
+
+.. _pages/logging#writing_log_messages:
 
 Writing Log Messages
 ====================

@@ -1,3 +1,5 @@
+.. _pages/ui_html_editing/featurelist#feature_list:
+
 Feature List
 ************
 
@@ -5,8 +7,12 @@ This page aims to describe the features of the HtmlArea component. *Aims* becaus
 
 This page should get you a good overview of what you can expect from this HTML editing component.
 
+.. _pages/ui_html_editing/featurelist#end-user_features:
+
 End-User Features
 =================
+
+.. _pages/ui_html_editing/featurelist#text_formatting:
 
 Text Formatting
 ---------------
@@ -24,6 +30,8 @@ Text Formatting
 
   * Font Family
 
+.. _pages/ui_html_editing/featurelist#alignment:
+
 Alignment
 ---------
 
@@ -36,6 +44,8 @@ line to show the line-breaking behaviour
 
   * This demonstration text is justify aligned and covers more than one
 line to show the line-breaking behaviour
+
+.. _pages/ui_html_editing/featurelist#lists:
 
 Lists
 -----
@@ -54,6 +64,8 @@ Lists
   </ol>
 </html>
 
+.. _pages/ui_html_editing/featurelist#inserting:
+
 Inserting
 ---------
 
@@ -64,11 +76,15 @@ Inserting
 
   * HTML code
 
+.. _pages/ui_html_editing/featurelist#document_wide_formatting:
+
 Document Wide Formatting
 ------------------------
 
   * Background Image
   * Background Color
+
+.. _pages/ui_html_editing/featurelist#additional_features:
 
 Additional Features
 -------------------
@@ -78,8 +94,12 @@ Additional Features
   * Indent / Outdent
   * Undo / Redo
 
+.. _pages/ui_html_editing/featurelist#developer_features:
+
 Developer Features
 ==================
+
+.. _pages/ui_html_editing/featurelist#events:
 
 Events
 ------
@@ -88,6 +108,8 @@ Events
   * Current cursor context
   * Contextmenu
   * Focus / Focus out
+
+.. _pages/ui_html_editing/featurelist#content_manipulation:
 
 Content Manipulation
 --------------------
@@ -98,12 +120,16 @@ Content Manipulation
   * Reset content
   * Context Information of current focused node (e.g. to update a toolbar widget)
 
+.. _pages/ui_html_editing/featurelist#advanced_paragraph-handling:
+
 Advanced Paragraph-Handling
 ---------------------------
 
   * Keeps formatting across multiple paragraphs
   * Type of line-break adjustable (new paragraph or new line)
   * Support for ``Shift+Enter`` and ``Ctrl+Enter`` to insert single line-break
+
+.. _pages/ui_html_editing/featurelist#additional_features:
 
 Additional Features
 -------------------

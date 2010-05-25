@@ -14,6 +14,8 @@ th { padding-bottom: 7px }
 </style>
 </html>
 
+.. _pages/variants#working_with_variants:
+
 Working with Variants
 *********************
 
@@ -28,6 +30,8 @@ The generator is able to set a variant and remove all code paths which are not
 selected by the variant.
 
 Variants are used to implement browser optimized builds and to remove debugging code from the build version.  It is very similar to conditional compilation in C/C++.
+
+.. _pages/variants#browser_optimized_builds:
 
 Browser optimized builds
 ========================
@@ -61,6 +65,8 @@ Using ``Variants`` the same code looks like this:
     }
 
 The variant ``qx.client`` is always set to the current browser, so this code works exactly like the first version. What is new is that the ``generator`` knows about variants and is able to optimize the build for one value of a variant and remove the unused code for all other values of the variant.
+
+.. _pages/variants#config_changes:
 
 Config changes
 --------------
@@ -109,6 +115,8 @@ a compile output is produced **for each possible combination** of all the multi-
 
 You would then also use multiple compile macros in the output file name, e.g. *${APPLICATION}-{qx.client}-{qx.debug}.js*, in order to distinguish those different outputs  (otherwise one compile output is copied over the other, and you are left with only the output for the last variation).
 
+.. _pages/variants#removal_of_debugging_code:
+
 Removal of debugging code
 =========================
 
@@ -127,12 +135,16 @@ Example:
 
 This check is now only enabled in the source version. By default ``qx.debug`` is set to ``off`` in build versions, and "on" in source versions.
 
+.. _pages/variants#using_variants:
+
 Using variants
 ==============
 
 Variants are used to select certain code paths. Each variant has a name and exactly one value from a limited list of allowed values. The variant names have a namespace prefix to avoid name conflicts. The value of a variant is immutable and once set cannot be altered in the JavaScript code.
 
 Variants can be used in two ways. They can be used to select code using ``if`` statements or to select whole functions.
+
+.. _pages/variants#method:_select:
 
 Method: select()
 ----------------
@@ -152,6 +164,8 @@ Depending on the value of the
 
     "qx.client"
  variant the corresponding function is selected. The first case is selected if the variant is "gecko", the second is selected if the variant is "mshtml" or "opera" and the third function is the default one. It is selected if none of the other keys match the variant.
+
+.. _pages/variants#method:_isset:
 
 Method: isSet()
 ---------------
@@ -176,6 +190,8 @@ Example:
       // common code for all other browsers
     }
 
+.. _pages/variants#framework_variants:
+
 Framework variants
 ==================
 
@@ -186,6 +202,8 @@ The following variants are being provided by the framework:
 | ``qx.debug`` Debugging code | ``on``, ``off`` | ``on`` |
 | ``qx.aspects`` Aspect-oriented programming (AOP) | ``on``, ``off`` | ``off`` |
 | ``qx.dynlocale`` Dynamic locale switch | ``on``, ``off`` | ``on`` |
+
+.. _pages/variants#custom_variants:
 
 Custom variants
 ===============

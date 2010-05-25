@@ -1,3 +1,5 @@
+.. _pages/snippets/user-defined_data#user-defined_data:
+
 User-defined data
 *****************
 

@@ -1,3 +1,5 @@
+.. _pages/rpc_perl#rpc_with_a_perl_server:
+
 RPC with a Perl server
 **********************
 
@@ -5,10 +7,12 @@ RPC with a Perl server
 
 As described in the :doc:`RPC overview <rpc>`, qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol. This page describes how to set up and implement a Perl-based server.
 
+.. _pages/rpc_perl#setup:
+
 Setup
 =====
 
-Get a copy of the qooxdoo perl backend (Qooxdoo::JSONRPC) from our sourceforge :doc:`download area <https://sourceforge.net/project/showfiles.php?group_id=190279>`. In the archive you will find a README.txt file as well as a README.CONFIGURE which contains details of how to set up the server. The steps involved are:
+Get a copy of the qooxdoo perl backend (Qooxdoo::JSONRPC) from our sourceforge :doc:`download area <https///sourceforge.net/project/showfiles.php?group_id=190279>`. In the archive you will find a README.txt file as well as a README.CONFIGURE which contains details of how to set up the server. The steps involved are:
 
   * First, make sure that you have the Perl JSON module installed. This can be found on CPAN, and if you can't get it prepackaged, can be installed with
 
@@ -40,6 +44,8 @@ If you get "Can't locate Qooxdoo/JSONRPC.pm in @INC" then you didn't get you lib
   * You can now point your web browser at the following address, and confirm that you get the JSON-RPC protocol error shown above.
 
       http://localhost/cgi-bin/jsonrpc.pl
+
+.. _pages/rpc_perl#writing_your_own_services:
 
 Writing your own services
 =========================
@@ -85,6 +91,8 @@ You can also see how the method has done a check on the supplied parameters, and
 Now, let's give it a try using the RPC_1.html test harness. Change the URL to be the address of jsonrpc.pl, for example /cgi-bin/jsonrpc.pl, the service to be example.wiki and the method to be add. Finally, supply a list of numbers in the final field and click 'Send to server' to see a result.
 
 If you get an error, particularly a server error, have a look in Apache's error_log to see if there is an error recorded. There is also a debug flag in JSONRPC.pm which can be enabled. All being well, you should receive a popup with the result.
+
+.. _pages/rpc_perl#a_more_advanced_example:
 
 A more advanced example
 =======================

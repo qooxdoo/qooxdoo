@@ -1,5 +1,9 @@
+.. _pages/ui_html_editing/browser_bugs#browser_bugs:
+
 Browser Bugs
 ************
+
+.. _pages/ui_html_editing/browser_bugs#gecko:
 
 Gecko
 =====
@@ -9,10 +13,14 @@ Gecko
 
   * **Undo/Redo** : it *could* happen that 2 content changes occuring right after another leading Gecko to remove both of these 2 changes in **one** undo step. This is especially important for the undo/redo stacks of the HtmlArea.
 
+.. _pages/ui_html_editing/browser_bugs#internet_explorer:
+
 Internet Explorer
 =================
 
   * If you want to use the ``pasteHTML()`` function, you have to select the textrange first using ``select()``.
+
+.. _pages/ui_html_editing/browser_bugs#webkit/safari:
 
 Webkit/Safari
 =============

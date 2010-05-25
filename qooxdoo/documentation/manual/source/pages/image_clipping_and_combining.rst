@@ -1,17 +1,26 @@
+.. _pages/image_clipping_and_combining#image_clipping_and_combining:
+
 Image clipping and combining
 ****************************
-qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme <.:ui_theming>`.
+qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme <ui_theming>`.
+
+.. _pages/image_clipping_and_combining#setup:
 
 Setup
 =====
 
-<note>
-To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools_beyond_python_sdk>` package.
-</note>
+.. note::
+
+    To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools_beyond_python_sdk>` package.
+
+xxx
 
 To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 
 
-<note>It is recommended to use the same file name for the config file as in the core framework to better reflect its purpose: ``image.json``</note>
+.. note::
+
+    It is recommended to use the same file name for the config file as in the core framework to better reflect its purpose: ``image.json``
+xxx
 
 At the first look the configuration file for the image jobs is basically the same as a normal application configuration file.
 
@@ -36,11 +45,16 @@ At the first look the configuration file for the image jobs is basically the sam
 
 The described ``common`` is used to setup the basic settings which are used by the specific jobs ``image-clipping`` and ``image-combine`` which are described at the following sections.
 
+.. _pages/image_clipping_and_combining#image_clipping:
+
 Image clipping
 --------------
 Clipping images is needed whenever you have a base image, e.g. a complete image for your button with rounded borders, to strip them into several parts. 
 
-<note>Mainly, the clipping is needed to prepare the source image for the use as a ``baseImage`` for the ``grid`` decorator. All clipped images of the core framework are used as baseImages for grid decorators.</note>
+.. note::
+
+    Mainly, the clipping is needed to prepare the source image for the use as a ``baseImage`` for the ``grid`` decorator. All clipped images of the core framework are used as baseImages for grid decorators.
+xxx
 
 ::
 
@@ -69,15 +83,19 @@ Each entry in the ``images`` block represents one source image to clip.
 
 For the case ``border-width``: One image says more than thousand words :)
 
-|pages/groupbox_clipping.png|
+|groupbox_clipping.png|
 
-.. |pages/groupbox_clipping.png| image:: /pages/groupbox_clipping.png
+.. |groupbox_clipping.png| image:: /groupbox_clipping.png
 
 The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4.
 
-<note>
-For more information see the :doc:`slice-image <.:tool/generator_config_ref#slice-images>` section.
-</note>
+.. note::
+
+    For more information see the :ref:`slice-image <pages/tool/generator_config_ref#slice-images>` section.
+
+xxx
+
+.. _pages/image_clipping_and_combining#image_combining:
 
 Image combining
 ---------------
@@ -113,11 +131,18 @@ Basically the structure is the same as for the ``image-clipping`` jobs. Let's ta
    * ``files`` is an array which takes the several images to combine as arguments - the use of wildcards like ``*`` or ``[tb]`` are allowed
    * the ``layout`` key takes the two possible values ``horizontal`` or ``vertical`` and determines the alignment of the source images inside the combined images
 
-<note>The layout depends on the sizes of the source images. Best suited for combining are always images with the same sizes. For most cases the ``horizontal`` layout is the better choice</note>
+.. note::
 
-<note>
-For more information take a look at the :doc:`combine-images <.:tool/generator_config_ref#combine-images>` section.
-</note>
+    The layout depends on the sizes of the source images. Best suited for combining are always images with the same sizes. For most cases the ``horizontal`` layout is the better choice
+xxx
+
+.. note::
+
+    For more information take a look at the :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` section.
+
+xxx
+
+.. _pages/image_clipping_and_combining#run_image_jobs:
 
 Run image jobs
 ==============
@@ -147,6 +172,8 @@ the execution of
     ./generate.py -c image.json images
 
 will run both jobs at once.
+
+.. _pages/image_clipping_and_combining#benefits:
 
 Benefits
 ========

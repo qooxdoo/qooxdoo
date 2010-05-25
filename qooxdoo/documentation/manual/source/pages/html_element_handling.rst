@@ -1,7 +1,11 @@
+.. _pages/html_element_handling#html_element_handling:
+
 HTML Element Handling
 *********************
 
 This document describes the ideas and concepts behind the classes in the ``qx.html`` namespace (`API <http://api.qooxdoo.org/#qx.html>`_). qooxdoo also comes with a basic low-level abstraction API for DOM manipulation. For details about this API please have a look at the :doc:`corresponding documentation <low_level_apis>`.
+
+.. _pages/html_element_handling#idea:
 
 Idea
 ====
@@ -16,6 +20,8 @@ In details this means:
   - **Normalized API**: Working with HTML DOM elements usually involves many browser switches. Especially when it comes to reading and setting of attributes or styles. For each style one has to remember whether a normalization method should be called or if the value can be set directly. ``qx.html.Element`` does this kind of normalization transparently. The browser normalization is based on the :doc:`existing low-level APIs <low_level_apis>`.
   - **Convenience methods**: These elements have additional convenience API, which is not available on pure DOM elements. They have e.g. the functionality to manage children with methods like ``addBefore()`` or ``moveAfter()``.
 
+.. _pages/html_element_handling#typical_use_cases:
+
 Typical Use Cases
 =================
 
@@ -23,6 +29,8 @@ Typical Use Cases
   * Massively building DOM elements from data structures
 
 It may be used for smaller things as well, but brings in quite some overhead. The size of the API, additional to a basic low-level package of qooxdoo is about 20 KB (5 KB gzipped). Also it consumes a bit more memory when all underlying DOM elements are created. Keep in mind that the instances are around all the time. Even when all jobs for a instance are done at the moment.
+
+.. _pages/html_element_handling#features:
 
 Features
 ========
@@ -38,38 +46,54 @@ Features
   * Automatic interaction with event managers (``addListener()``, ``removeListener()``, ...)
   * Connection to focus/activation handler
 
+.. _pages/html_element_handling#specific_html_elements:
+
 Specific HTML Elements
 ======================
+
+.. _pages/html_element_handling#roots:
 
 Roots
 -----
 
 A root is one essential element type when dealing with the API. Every user of ``qx.html.Element`` needs at least one instance of ``qx.html.Root`` to insert children to it. The root is always marked as being visible and is typically the body DOM element or any other directly inserted element. This element can be assigned to be used by the root using the method ``useElement()``.
 
+.. _pages/html_element_handling#labels:
+
 Labels
 ------
 
 Used for all types of text content. Supports text or HTML content togglable using the ``setRich()`` method. When using the text mode ellipsis is supports in all browsers to show an indication when the text is larger than the available space. Highly depends on the API of `qx.bom.Label <http://api.qooxdoo.org#qx.bom.Label>`_.
+
+.. _pages/html_element_handling#images:
 
 Images
 ------
 
 An element pre-configured as a ``IMG`` tag. Supports scaled and unscaled images. Supports image clipping (without scaling) to more efficiently deal with a lot of images. Depends on the API brought in by `qx.bom.element.Decoration <http://api.qooxdoo.org#qx.bom.element.Decoration>`_.
 
+.. _pages/html_element_handling#input:
+
 Input
 -----=
 
 This element is used for all types of input fields. The type can be given using a constructor parameter. It allows configuration of the ``value`` and the text wrapping (requires type ``textarea``). Depends on the API brought in by `qx.bom.Input <http://api.qooxdoo.org#qx.bom.Input>`_.
+
+.. _pages/html_element_handling#iframe:
 
 Iframe
 ------
 
 This element is used to create iframes to embed content from other sources to the DOM. It wraps the features of `qx.bom.Iframe <http://api.qooxdoo.org#qx.bom.Iframe>`_. Supports to configure the source of the iframe as well as its name. Comes with accessors to the document or window object of the iframe.
 
+.. _pages/html_element_handling#canvas:
+
 Canvas
 ------
 
 Renders a `HTML5 Canvas <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html>`_ to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
+
+.. _pages/html_element_handling#the_queue:
 
 The Queue
 =========

@@ -1,13 +1,15 @@
+.. _pages/tutorial-part-2#tutorial_part_2:_finishing_the_ui:
+
 Tutorial Part 2: Finishing the UI
 *********************************
 
-In the :doc:`first part <pages/tutorial-part-1>` of the tutorial, we built a basic window for our target application, a twitter client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
+In the :doc:`first part <tutorial-part-1>` of the tutorial, we built a basic window for our target application, a twitter client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
 
 I hope you remember the layout of the application we are trying to build. If not, here is a little reminder.
 
 |twitter mockup1|
 
-.. |twitter mockup1| image:: /pages/tutorials/twittermockup1.png
+.. |twitter mockup1| image:: /tutorials/twittermockup1.png
 
 The first thing we need to do is to set a layout for our window. You can see that the text area and the button are side by side while all the other elements are ordered vertically. But all elements are aligned in a grid so we should choose a grid layout for that. We can add the grid layout in our own window class. Just add these lines of code in ``MainWindow.js``:
 
@@ -17,7 +19,9 @@ The first thing we need to do is to set a layout for our window. You can see tha
         var layout = new qx.ui.layout.Grid(0, 0);
         this.setLayout(layout);
 
-But a layout without any content is boring so we should add some content to see if it's working. Lets add the first two elements to the window, the :doc:`toolbar <pages/widget/toolbar>` and the :doc:`list <pages/widget/list>` view.
+But a layout without any content is boring so we should add some content to see if it's working. Lets add the first two elements to the window, the :doc:`toolbar <widget/toolbar>` and the :doc:`list <widget/list>` view.
+
+.. _pages/tutorial-part-2#layout_and_toolbar:
 
 Layout and Toolbar
 ==================
@@ -31,6 +35,8 @@ First, we need to create the toolbar before we can add it. Creating the toolbar 
         this.add(toolbar, {row: 0, column: 0});
 
 This will add the toolbar to the grid layout of our main window. The only thing you should take care of is the second parameter of .add(). It contains a map with layout properties. You can see the available layout properties in the `API of the layout <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Grid>`_, in this case of the grid layout. Here, we use only the row and column property to tell the layout that this is the element in the first row and column (rows and columns start at index 0, you guessed it).
+
+.. _pages/tutorial-part-2#list_and_layout,_again:
 
 List and Layout, again
 ======================
@@ -72,6 +78,8 @@ The last thing we need to fix was the invisible toolbar. If you know the reason 
 
 Now its time to see if all the fixes work. But be sure to run the generator before you reload the browser page because we added (again) another class (the button). Now everything should look the way we want it to be.
 
+.. _pages/tutorial-part-2#text_area_and_button:
+
 Text Area and Button
 ====================
 
@@ -98,6 +106,8 @@ Like the last time, the result is not quite what we want it to be. The list and 
         this.add(list, {row: 1, column: 0, colSpan: 2});
 
 This time, we did not add a new class dependency so we can just reload the index file and see the result.
+
+.. _pages/tutorial-part-2#breathing_life_into_the_ui:
 
 Breathing Life into the UI
 ==========================
@@ -148,6 +158,8 @@ This time, we call the ``fireDataEvent`` method to get a data event fired. The s
 
 You can see in the event listener functions that we use the qooxdoo debugging function ``debug``. Now it's time to test the whole UI. Open the index file in a browser you like and see the UI. If you want to see the debugging messages you have to open either a the debugging tool of your chosen browser or use the qooxdoo debugging console. Press F7 to get the qooxdoo console visible.
 
+.. _pages/tutorial-part-2#finishing_touches:
+
 Finishing Touches
 =================
 
@@ -192,7 +204,7 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 |step 2|
 
-.. |step 2| image:: /pages/tutorials/step21.png
+.. |step 2| image:: /tutorials/step21.png
 
 That's it for building the UI. Again, if you want to take a `look at the code <http://github.com/wittemann/qooxdoo-tutorial/tree/Step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!
