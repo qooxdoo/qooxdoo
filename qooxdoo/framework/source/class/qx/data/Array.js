@@ -543,22 +543,41 @@ qx.Class.define("qx.data.Array",
     /**
      * Append the items of the given array.
      *
-     * @param array {Array} The items of this array will be appended.
+     * @param array {Array|qx.data.IListData} The items of this array will 
+     * be appended.
      * @throws An exception if the second argument is not an array.
      */
     append : function(array)
-    {
+    {  
+      // qooxdoo array support
+      if (array instanceof qx.data.Array) {
+        array = array.toArray();
+      }
+      
       // this check is important because opera throws an uncatchable error if
       // apply is called without an array as argument.
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertArray(array, "The parameter must be an array.");
       }
+      
       // add a listener to the new items
       for (var i = 0; i < array.length; i++) {
         this._applyEventPropagation(array[i], null, this.__array.length + i);
       }
       Array.prototype.push.apply(this.__array, array);
+      
+      var oldLength = this.length;
       this.__updateLength();
+      
+      // fire the change event
+      this.fireDataEvent("change",
+        {
+          start: oldLength,
+          end: this.length - 1,
+          type: "add",
+          items: array
+        }, null
+      );
     },
 
 
