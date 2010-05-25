@@ -13,7 +13,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Mixin to add a bindTo method to a class, making it easy to bind a function
  * to an object instance for use in lieu of calls to static method
  * qx.lang.Function.bind().

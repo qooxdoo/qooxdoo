@@ -196,9 +196,12 @@ qx.Class.define("qx.log.appender.RingBuffer",
     },
     
     /**
-     * Adds a number to an ringbuffer index. Does a modulus calculation, i. e. if the 
-     * index leaves the ringbuffer space it will wrap around to the other end of 
-     * the ringbuffer
+     * Adds a number to an ringbuffer index. Does a modulus calculation, 
+     * i. e. if the index leaves the ringbuffer space it will wrap around to 
+     * the other end of the ringbuffer.
+     * 
+     * @param idx {Number} The current index.
+     * @param addMe {Number} The number to add.
      */
     __addToIndex : function (idx, addMe){
       var max = this.getMaxMessages();
