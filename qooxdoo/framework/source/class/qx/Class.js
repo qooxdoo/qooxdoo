@@ -1404,13 +1404,10 @@ qx.Bootstrap.define("qx.Class",
         if (members.hasOwnProperty(key))
         {
           var method = members[key];
-
-          // Hot fix for bug #3709
-          if (!method) {
-            continue;
-          }
           
-          if (method.self == clazz) {
+          // check if method is available because null values can be stored as
+          // init values on classes e.g. [BUG #3709]
+          if (method && method.self == clazz) {
             method.self = wrapper;
           }
         }
