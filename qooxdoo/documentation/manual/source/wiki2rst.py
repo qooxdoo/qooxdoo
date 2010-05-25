@@ -14,9 +14,20 @@ ns12 = ":1.2:"
 headLevel = 0
 
 def internalLink(url):
-    url = url[url.find(ns12)+len(ns12):]
-    url = "pages/" + url
+    # manual url
+    if url.find(ns12)>-1:
+        url = url[url.find(ns12)+len(ns12):]
+    # wiki url
+    else:
+        if url.startswith("."):
+            url = url[1:]
+        url = "http://qooxdoo.org/" + url   
+    if currentInput.endswith("index.txt"):
+        url = "pages/" + url
     url = url.replace(":", "/")
+    url, ext = os.path.splitext(url)
+    if not ext:
+        url += ".html"
     return url
 
 
@@ -33,15 +44,11 @@ def convertToRst_A(s,l,t):
     # Handle url
     if url.startswith("http://"):
         return '`%s <%s>`_' % (text,url)
-    # handle document:1.2:
-    elif url.find(ns12)>-1:
-        url = internalLink(url)
-    # handle generator_config_articles#log_key
+    # handle intrawiki link
     else:
-        #raise ParseFatalException(s,l,"invalid URL link reference: " + t[0])
-        #print >> sys.stderr, ("invalid URL link reference: " + t[0])
-        #return '<%s>' %t[0]
-        pass  # use as is
+        url = internalLink(url)
+
+    # put together with text
     if text:
         return ':doc:`%s <%s>`' % (text,url)
     else:
@@ -196,7 +203,9 @@ def rmEmptyLines(s):
 
 def transform(path):
     global headLevel
+    global currentInput
     headLevel = 0    # reset heading level for new document
+    currentInput = path
     wikiInput = codecs.open(path, "rU", "utf-8").read()
     rstString = wikiMarkup.transformString(wikiInput)
     # first pass leaves many blank lines, collapse these down
