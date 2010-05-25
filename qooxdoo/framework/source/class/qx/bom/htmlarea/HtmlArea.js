@@ -3650,6 +3650,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
       Registration.removeListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
       Registration.removeListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Force unload of the iframe. Unload event is not fired when htmlarea is disposed.
+        // Needed to dispose event manager (which is reg. on the unload event of the iframe) + to fix "no typing in text fields possible, when editor
+        // has the focus and gets disposed when hidden".
+        qx.bom.Iframe.setSource(this.__iframe, "about:blank");
+      }
     } catch (ex) {};
 
     this._disposeObjects("__commandManager");
