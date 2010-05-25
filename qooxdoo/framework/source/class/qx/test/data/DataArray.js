@@ -333,6 +333,10 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals("three", this.__a.getItem(2), "append does not work");
       this.assertEquals("4", this.__a.getItem(3), "append does not work");
       this.assertEquals("5", this.__a.getItem(4), "append does not work");
+      
+      // check if qx arrays work
+      this.__a.append(new qx.data.Array(["sechs"]));
+      this.assertEquals("sechs", this.__a.getItem(5), "append does not work");    
     },
 
 
@@ -410,6 +414,22 @@ qx.Class.define("qx.test.data.DataArray",
       }, "Change event not fired!");
       a.dispose();
     },
+    
+    testAppendEvent: function() {
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      var self = this;
+      this.assertEventFired(a, "change", function () {
+        a.append([4, 5]);
+      }, function(e) {
+        self.assertEquals(3, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(4, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("add", e.getData().type, "Wrong type in the event.");
+        self.assertEquals(4, e.getData().items[0], "Wrong item array in the event.");
+        self.assertEquals(5, e.getData().items[1], "Wrong item array in the event.");        
+      }, "Change event not fired!");
+      a.dispose();
+    },    
 
     testShiftEvent: function() {
       // test for the event
