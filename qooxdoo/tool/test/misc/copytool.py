@@ -25,6 +25,7 @@ import sys
 import shutil
 import stat
 import filecmp
+import tempfile
 
 libDir = os.path.abspath(os.path.join(os.pardir, os.pardir, "pylib"))
 sys.path.append(libDir)
@@ -33,53 +34,56 @@ from misc.copytool import CopyTool
 class TestCopyTool(unittest.TestCase):
 
     def setUp(self):
-        file("file1", "w")
-        file("file2", "w")
-        os.mkdir("dir1")
-        os.mkdir("dir2")
+        self.copier = CopyTool()
+        self.tempDir = tempfile.mkdtemp()
+        self.file1 = os.path.join(self.tempDir, "file1")
+        file(self.file1, "w")
+        self.file2 = os.path.join(self.tempDir, "file2")
+        file(self.file2, "w")
+        self.dir1 = os.path.join(self.tempDir, "dir1")
+        os.mkdir(self.dir1)
+        self.dir2 = os.path.join(self.tempDir, "dir2")
+        os.mkdir(self.dir2)
 
     def tearDown(self):
-        os.remove("file1")
-        os.remove("file2")
-        shutil.rmtree("dir1", True)
-        shutil.rmtree("dir2", True)
+        shutil.rmtree(self.tempDir)
     
     def testNoSource(self):
         target = os.getcwd()
-        copier = CopyTool("nothing.txt", target)
-        self.failUnlessRaises(IOError, copier.copy)
+        self.copier.parse_args(["nothing.txt", target])
+        self.failUnlessRaises(IOError, self.copier.do_work)
     
     def testNoTarget(self):
-        copier = CopyTool("file1", "nothing", create=False)
-        self.failUnlessRaises(IOError, copier.copy)
-        
+        self.copier.parse_args(["--no-new-dirs", self.file1, "nothing"])
+        self.failUnlessRaises(IOError, self.copier.do_work)
+    
     def testInvalidTarget(self):
-        copier = CopyTool("file1", "file2")
-        self.failUnlessRaises(Exception, copier.copy)
-        
+        self.copier.parse_args([self.file1, self.file2])
+        self.failUnlessRaises(Exception, self.copier.do_work)
+    
     def testFile(self):
-        copier = CopyTool("file1", "dir1")
-        copier.copy()
-        self.failUnless(os.path.isfile(os.path.join("dir1", "file1")), "Source file was not copied to target directory!")
+        self.copier.parse_args([self.file1, self.dir1])
+        self.copier.do_work()
+        self.failUnless(os.path.isfile(os.path.join(self.dir1, self.file1)), "Source file was not copied to target directory!")
     
     def testCreateDir(self):
-        copier = CopyTool("file1", "newDir")
-        copier.copy()
+        self.copier.parse_args([self.file1, "newDir"])
+        self.copier.do_work()
         self.failUnless(os.path.isdir("newDir"), "Directory was not created!")
         shutil.rmtree("newDir")
-        
+    
     def testOverwriteProtectedFile(self):
-        source = file("file1", "w")
+        source = file(self.file1, "w")
         source.write("source")
         source.close()
         
-        targetPath = os.path.join("dir2", "file1")
+        targetPath = os.path.join(self.dir2, "file1")
         target = file(targetPath, "w")
         # set target read-only
         os.chmod(targetPath, stat.S_IRUSR)
         
-        copier = CopyTool("file1", "dir2")
-        copier.copy()
+        self.copier.parse_args([self.file1, self.dir2])
+        self.copier.do_work()
         
         copied = file(targetPath, "r")
         copiedContent = copied.read()
@@ -88,35 +92,32 @@ class TestCopyTool(unittest.TestCase):
         self.failUnless(copiedContent == "source", "Failed to overwrite readonly file!")
     
     def testContinueAfterFailedFileCopy(self):
-        os.makedirs(os.path.join("dir1", "aaa"))
-        file(os.path.join("dir1", "aaa", "file"), "w")
-        os.makedirs(os.path.join("dir1", "zzz"))
-        file(os.path.join("dir1", "zzz", "file"), "w")
+        os.makedirs(os.path.join(self.dir1, "aaa"))
+        file(os.path.join(self.dir1, "aaa", "file"), "w")
+        os.makedirs(os.path.join(self.dir1, "zzz"))
+        file(os.path.join(self.dir1, "zzz", "file"), "w")
         
-        os.makedirs(os.path.join("dir2", "dir1"))
-        os.makedirs(os.path.join("dir2", "dir1", "aaa"), 0444)
-        os.makedirs(os.path.join("dir2", "dir1", "zzz"))
+        os.makedirs(os.path.join(self.dir2, "dir1"))
+        os.makedirs(os.path.join(self.dir2, "dir1", "aaa"), 0444)
+        os.makedirs(os.path.join(self.dir2, "dir1", "zzz"))
         
-        copier = CopyTool("dir1", "dir2")
-        copier.copy()
-        self.failUnless(os.path.exists(os.path.join("dir2", "dir1", "zzz", "file")), "Stopped working after failed copy!")
-    
-    #TODO:
-    #def testContinueAfterFailedDirCreation
+        self.copier.parse_args([self.dir1, self.dir2])
+        self.copier.do_work()
+        self.failUnless(os.path.exists(os.path.join(self.dir2, "dir1", "zzz", "file")), "Stopped working after failed copy!")
     
     def testUpdate(self):
-        source = file("file1", "w")
+        source = file(self.file1, "w")
         source.write("source")
         source.close()
-        sourceMtime = os.stat("file1").st_mtime
+        sourceMtime = os.stat(self.file1).st_mtime
         # make source file older
-        os.utime("file1", (sourceMtime - 20000000, sourceMtime - 20000000))
+        os.utime(self.file1, (sourceMtime - 20000000, sourceMtime - 20000000))
         
-        targetPath = os.path.join("dir2", "file1")
+        targetPath = os.path.join(self.dir2, "file1")
         file(targetPath, "w")
         
-        copier = CopyTool("file1", "dir2", update=True)
-        copier.copy()
+        self.copier.parse_args(["--update-only", self.file1, self.dir2])
+        self.copier.do_work()
         
         target = file(targetPath, "r")
         targetContent = target.read()
@@ -124,46 +125,47 @@ class TestCopyTool(unittest.TestCase):
 
         self.failIf(targetContent == "source", "Newer target file was overwritten!")
         
-        copier = CopyTool("file1", "dir2", update=False)
-        copier.copy()
+        copier = CopyTool()
+        copier.parse_args([self.file1, self.dir2])
+        copier.do_work()
 
         target = file(targetPath, "r")
         targetContent = target.read()
         shutil.rmtree(targetPath, True)
 
         self.failIf(targetContent != "source", "Newer target file was not overwritten!")
-        
+    
     def testDirectorySimple(self):
-        copier = CopyTool("dir1", "dir2")
-        copier.copy()
-        self.failUnless(os.path.isdir(os.path.join("dir2", "dir1")), "Source file was not copied to target!")
-        
+        self.copier.parse_args([self.dir1, self.dir2])
+        self.copier.do_work()
+        self.failUnless(os.path.isdir(os.path.join(self.dir2, "dir1")), "Source file was not copied to target!")
+    
     def testDirectoryDeep(self):
-        file(os.path.join("dir1", "file1"), "w")
-        file(os.path.join("dir1", "file2"), "w")
-        os.makedirs(os.path.join("dir1", "dir1_1", "dir1_1_1"))
-        file(os.path.join("dir1", "dir1_1", "file1"), "w")
-        file(os.path.join("dir1", "dir1_1", "file2"), "w")
-        file(os.path.join("dir1", "dir1_1", "dir1_1_1", "file1"), "w")
-        file(os.path.join("dir1", "dir1_1", "dir1_1_1", "file2"), "w")
+        file(os.path.join(self.dir1, "file1"), "w")
+        file(os.path.join(self.dir1, "file2"), "w")
+        os.makedirs(os.path.join(self.dir1, "dir1_1", "dir1_1_1"))
+        file(os.path.join(self.dir1, "dir1_1", "file1"), "w")
+        file(os.path.join(self.dir1, "dir1_1", "file2"), "w")
+        file(os.path.join(self.dir1, "dir1_1", "dir1_1_1", "file1"), "w")
+        file(os.path.join(self.dir1, "dir1_1", "dir1_1_1", "file2"), "w")
         
-        copier = CopyTool("dir1", "dir2")
-        copier.copy()
-        comp = filecmp.cmp(os.path.join("dir1", "file1"), os.path.join("dir2", "dir1", "file1"))
+        self.copier.parse_args([self.dir1, self.dir2])
+        self.copier.do_work()
+        comp = filecmp.cmp(os.path.join(self.dir1, "file1"), os.path.join(self.dir2, "dir1", "file1"))
         self.failUnless(comp, "Source file was not copied to target!")
-        comp = filecmp.cmp(os.path.join("dir1", "file2"), os.path.join("dir2", "dir1", "file2"))
+        comp = filecmp.cmp(os.path.join(self.dir1, "file2"), os.path.join(self.dir2, "dir1", "file2"))
         self.failUnless(comp, "Source file was not copied to target!")
-        comp = filecmp.cmp(os.path.join("dir1", "dir1_1", "file1"), os.path.join("dir2", "dir1", "dir1_1", "file1"))
+        comp = filecmp.cmp(os.path.join(self.dir1, "dir1_1", "file1"), os.path.join(self.dir2, "dir1", "dir1_1", "file1"))
         self.failUnless(comp, "Source file was not copied to target!")
-        comp = filecmp.cmp(os.path.join("dir1", "dir1_1", "file2"), os.path.join("dir2", "dir1", "dir1_1", "file2"))
+        comp = filecmp.cmp(os.path.join(self.dir1, "dir1_1", "file2"), os.path.join(self.dir2, "dir1", "dir1_1", "file2"))
         self.failUnless(comp, "Source file was not copied to target!")
-        comp = filecmp.cmp(os.path.join("dir1", "dir1_1", "dir1_1_1", "file1"), os.path.join("dir2", "dir1", "dir1_1", "dir1_1_1", "file1"))
+        comp = filecmp.cmp(os.path.join(self.dir1, "dir1_1", "dir1_1_1", "file1"), os.path.join(self.dir2, "dir1", "dir1_1", "dir1_1_1", "file1"))
         self.failUnless(comp, "Source file was not copied to target!")
-        comp = filecmp.cmp(os.path.join("dir1", "dir1_1", "dir1_1_1", "file2"), os.path.join("dir2", "dir1", "dir1_1", "dir1_1_1", "file2"))
+        comp = filecmp.cmp(os.path.join(self.dir1, "dir1_1", "dir1_1_1", "file2"), os.path.join(self.dir2, "dir1", "dir1_1", "dir1_1_1", "file2"))
         self.failUnless(comp, "Source file was not copied to target!")    
     
     def testDirectoryUpdate(self):
-        sourceDir = os.path.join("dir1", "dir1_1")
+        sourceDir = os.path.join(self.dir1, "dir1_1")
         os.mkdir(sourceDir)
         sourceOlderPath = os.path.join(sourceDir, "file1")
         sourceOlder = file(sourceOlderPath, "w")
@@ -176,7 +178,7 @@ class TestCopyTool(unittest.TestCase):
         sourceNewer.write("sourceNewer")
         sourceNewer.close()
         
-        targetDir = os.path.join("dir2", "dir1", "dir1_1")
+        targetDir = os.path.join(self.dir2, "dir1", "dir1_1")
         os.makedirs(targetDir)
         targetNewerPath = os.path.join(targetDir, "file1")
         targetNewer = file(targetNewerPath, "w")
@@ -190,8 +192,8 @@ class TestCopyTool(unittest.TestCase):
         #make source file older
         os.utime(targetOlderPath, (sourceMtime - 20000000, sourceMtime - 20000000))
         
-        copier = CopyTool("dir1", "dir2", update=True)
-        copier.copy()
+        self.copier.parse_args(["--update-only", self.dir1, self.dir2])
+        self.copier.do_work()
         targetOlder = file(targetOlderPath, "r")
         targetOlderContent = targetOlder.read()
         self.failIf(targetOlderContent == "targetOlder", "Older target file was not updated!")
@@ -199,15 +201,16 @@ class TestCopyTool(unittest.TestCase):
         targetNewer = file(targetNewerPath, "r")
         targetNewerContent = targetNewer.read()
         self.failIf(targetNewerContent == "sourceOlder", "Newer target file was overwritten!")
-        
+    
     def testExclude(self):
-        copier = CopyTool("dir1", "dir2", exclude=["dir1"])
-        copier.copy()
-        self.failIf(os.path.exists(os.path.join("dir2", "dir1")), "Excluded directory was copied!")
-        copier = CopyTool("file1", "dir2", exclude=["file1"])
-        copier.copy()
-        self.failIf(os.path.exists(os.path.join("dir2", "file1")), "Excluded file was copied!")
-
+        self.copier.parse_args(["-x", "dir1", self.dir1, self.dir2])
+        self.copier.do_work()
+        self.failIf(os.path.exists(os.path.join(self.dir2, "dir1")), "Excluded directory was copied!")
+        copier = CopyTool()
+        copier.parse_args(["-x", "file1", self.dir1, self.dir2])
+        copier.do_work()
+        self.failIf(os.path.exists(os.path.join(self.dir2, "file1")), "Excluded file was copied!")
+    
 
 if __name__ == '__main__':
     unittest.main()
