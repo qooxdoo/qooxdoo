@@ -40,10 +40,13 @@ File Globs
 
 Some config keys take file paths as their attributes. Where specified, *file globs* are allowed, as supported by the underlying Python module. File globs are file paths containing simple metacharacters, which are similar to but not quite identical with metacharacters from regular expressions. Here are the legal metacharacters and their meanings:
 
-^ Metacharacter   ^  Meaning ^
-| * | matches any string of zero or more characters (regexp: .*)|
-| ? | matches any single character (regexp: .)|
-| [] | matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)|
+=================  ==================================================================================================================
+ Metacharacter       Meaning                                                                                                           
+=================  ==================================================================================================================
+ *                  matches any string of zero or more characters (regexp: .*)                                                         
+ ?                  matches any single character (regexp: .)                                                                           
+ []                 matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)  
+=================  ==================================================================================================================
 
 XXX
 ---
@@ -58,10 +61,13 @@ Examples
 
 Given a set of files like ``file9.js,  file10.js,  file11.js``, here are some file globs and their resolution:
 
-^File Glob ^ Resolution ^
-| file*    | file9.js,  file10.js and file11.js |
-| file?.js | file9.js |
-| file1[01].js | file10.js and file11.js |
+==============  ====================================
+File Glob        Resolution                           
+==============  ====================================
+ file*           file9.js,  file10.js and file11.js   
+ file?.js        file9.js                             
+ file1[01].js    file10.js and file11.js              
+==============  ====================================
 
 .. _pages/tool/generator_config_articles#class_data:
 
@@ -100,7 +106,7 @@ In the build version without dedicated I18N parts (case 2.1), those class data i
 Compile cache
 -------------
 
-The main payload of the ``[[generator_config_ref#cache_key|cache]]`` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
+The main payload of the ``:ref:`cache <pages/tool/generator_config_ref#cache_key>``` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
 
 The default for the cache directory is beneath the system TMP directory. To find out where this is either run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this :ref:`snippet <pages/snippets#finding_your_system-wide_tmp_directory>`.
 
@@ -152,7 +158,7 @@ xxx
 "log" Key
 =========
 
-Logging is an important part of any reasonably complex application. The Generator does a fair bit of logging to the console by default, listing the jobs it performs, adding details of important processing steps and reporting on errors and potential inconsistencies. The ``[[generator_config_ref#log|log]]`` key lets you specify further options and tailor the Generator console output to your needs. You can e.g. add logging of unused classes in a  particular library/name space.
+Logging is an important part of any reasonably complex application. The Generator does a fair bit of logging to the console by default, listing the jobs it performs, adding details of important processing steps and reporting on errors and potential inconsistencies. The ``:ref:`log <pages/tool/generator_config_ref#log>``` key lets you specify further options and tailor the Generator console output to your needs. You can e.g. add logging of unused classes in a  particular library/name space.
 
 .. _pages/tool/generator_config_articles#extend_key:
 
@@ -267,7 +273,7 @@ The values of these macros are lists, and each reference will be expanded into a
 "library" Key and Manifest Files
 ================================
 
-The ``[[generator_config_ref#library]]`` key of a configuration holds information about source locations that will be considered in a job (much like the CLASSPATH in Java). Each element specifies one such library. The term "library" is meant here in the broadest sense; everything that has a qooxdoo class structure with source code can be considered a library in this context. This includes applications like the Showcase or the Feedreader, add-ins like the Testrunner or the Apiviewer, contribs from the qooxdoo-contrib repository like the Inspector, or of course the qooxdoo framework library itself. The main purpose of any such library entry is to provide the path to its "Manifest" file.
+The ``:ref:`pages/tool/generator_config_ref#library``` key of a configuration holds information about source locations that will be considered in a job (much like the CLASSPATH in Java). Each element specifies one such library. The term "library" is meant here in the broadest sense; everything that has a qooxdoo class structure with source code can be considered a library in this context. This includes applications like the Showcase or the Feedreader, add-ins like the Testrunner or the Apiviewer, contribs from the qooxdoo-contrib repository like the Inspector, or of course the qooxdoo framework library itself. The main purpose of any such library entry is to provide the path to its "Manifest" file.
 
 .. _pages/tool/generator_config_articles#manifest_files:
 
@@ -304,7 +310,7 @@ So, for example an entry for the "trunk" version of the "HtmlArea" contribution 
 
   * Mind that the ``uri`` parameter reflects the path from your application's ``index.html`` to the local root directory of the contribution (wherever that is in your particular case).
 
-  * You can configure a different download directory using the ``[[generator_config_ref#cache]]/downloads`` key. If this key is specified the given path will be used as root directory for the downloaded contribs. Again, remember to reflect this path in the ``uri`` key of your contrib library entry.
+  * You can configure a different download directory using the ``:ref:`pages/tool/generator_config_ref#cache`/downloads`` key. If this key is specified the given path will be used as root directory for the downloaded contribs. Again, remember to reflect this path in the ``uri`` key of your contrib library entry.
 
 .. _pages/tool/generator_config_articles#uri_handling:
 
@@ -326,7 +332,7 @@ The first important thing to note is:
 
 xxx
 
-Within qooxdoo the *[[#library_key_and_manifest_files|library]]* is a fundamental concept, and libraries in this sense contain all the things you are able to include in the final Web application, such as
+Within qooxdoo the *:ref:`library <pages/tool/generator_config_articles#library_key_and_manifest_files>`* is a fundamental concept, and libraries in this sense contain all the things you are able to include in the final Web application, such as
 class files (.js),
 graphics (.gif, .png, ...),
 static HTML pages (.htm, .html),
@@ -369,8 +375,8 @@ to produce the final URI
 &nbsp;&nbsp;&nbsp;<small><i>"../../qooxdoo-1.2-sdk/framework/source/resource/qx/icon/Oxygen/16/actions/go-up.png"</i></small><br></html>
 
 These general parts have the following meaning:
-  * **[1]** : URI path to the library root (as will be valid when running the app in the browser). If you specify the *[[generator_config_ref#library|uri]]* parameter of the library's entry in your config, this is what gets used here.
-  * **[2]** : Path segment within the specific library. This is taken from the library's *[[documentation:1.2:application_structure:manifest|Manifest.json]]*. The consumer of the library has no influence on it.
+  * **[1]** : URI path to the library root (as will be valid when running the app in the browser). If you specify the *:ref:`uri <pages/tool/generator_config_ref#library>`* parameter of the library's entry in your config, this is what gets used here.
+  * **[2]** : Path segment within the specific library. This is taken from the library's *:doc:`Manifest.json <application_structure/manifest>`*. The consumer of the library has no influence on it.
   * **[3]** : Path segment leading to the specific resource. This is the path of the resource as found under the library's resource root directory.
 
 .. _pages/tool/generator_config_articles#library_base_uris_in_the_source_version:
@@ -389,9 +395,9 @@ If you don't specifying the *uri* key with your libraries (which is usually the 
 
 The parts have the following meaning:
   * **[1.2]** : Path from the Web application's root to the configuration file's directory; this information is derived from the *paths/app-root* key of the :ref:`pages/tool/generator_config_ref#compile-options` config key.
-  * **[1.2]** : Path from the configuration file's directory to the root directory of the library (the one containing the *Manifest.json* file); this information is immediately available from the library's *[[generator_config_ref#library|manifest]]* key.
+  * **[1.2]** : Path from the configuration file's directory to the root directory of the library (the one containing the *Manifest.json* file); this information is immediately available from the library's *:ref:`manifest <pages/tool/generator_config_ref#library>`* key.
 
-For the **build** version, dedicated keys *[[generator_config_ref#compile-options|uris/script]]* and  *[[generator_config_ref#compile-options|uris/resource]]* are available (as there is virtually only one "library"). The values of both keys cover the scope of components [1] + [2] in the first figure.
+For the **build** version, dedicated keys *:ref:`uris/script <pages/tool/generator_config_ref#compile-options>`* and  *:ref:`uris/resource <pages/tool/generator_config_ref#compile-options>`* are available (as there is virtually only one "library"). The values of both keys cover the scope of components [1] + [2] in the first figure.
 
 Since *[1.2]* is always known (otherwise the whole library would not be found), only *[1.2]* has to be given in the config. The features of this approach, in contrast to specifying *[1]*, are:
   * **The application root can be specified individually for each compile job.** This means you could have more than one application root in your project, e.g. when your main application offers an iframe, into which another application from the same project is loaded; qooxdoo's `Demobrowser <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ application takes advantage of exactly that.
@@ -501,7 +507,7 @@ After that, the corresponding locale is ready to be used in the normal way in yo
 
 Within qooxdoo there are a couple of features that are not so much applications although they share a lot of the classical application structure. The APIViewer and TestRunner are good examples for those. (In the recent repository re-org, they have been filed under *component* correspondingly). They are applications but receive their actual meaning from other applications: An APIViewer in the form of class documentation it presents, the TestRunner in the form of providing an environment to other application's test classes. On their own, both applications are "empty", and the goal is it to use them in the context of another, self-contained application. The old build system supported make targets like 'api' and 'test' to that end.
 
-While you can always include other applications' *classes* in your project (by adding an entry for them to the *[[generator_config_ref#library|library]]* key of your config), you wouldn't want to repeat all the necessary job entries to actually build this external app in your environment. So the issue here is not to re-use classes, but *jobs*.
+While you can always include other applications' *classes* in your project (by adding an entry for them to the *:ref:`library <pages/tool/generator_config_ref#library>`* key of your config), you wouldn't want to repeat all the necessary job entries to actually build this external app in your environment. So the issue here is not to re-use classes, but *jobs*.
 
 .. _pages/tool/generator_config_articles#re-using_jobs:
 
@@ -512,16 +518,16 @@ So, the general issue we want to solve is to import entire job definitions in ou
 
 Practically, there are two steps involved in using external jobs:
 
-  - You have to *[[generator_config_ref#include_top-level|include]]* the external configuration file that contains the relevant job definitions. Do so will result in the external jobs being added to the list of jobs of your local configuration. E.g. you can use
+  - You have to *:ref:`include <pages/tool/generator_config_ref#include_top-level>`* the external configuration file that contains the relevant job definitions. Do so will result in the external jobs being added to the list of jobs of your local configuration. E.g. you can use
 ::
 
     generator.py ?
  to get a list of all available jobs; the external jobs will be among this list.
   - There are now two way to utilize these jobs:
     * You can either invoke them directly from the command line, passing them as arguments to the generator.
-    * Or you define local jobs that *[[generator_config_ref#extend|extend]]* them.
+    * Or you define local jobs that *:ref:`extend <pages/tool/generator_config_ref#extend>`* them.
 
-In the former case the only way to influence the behaviour of the external job is through macros: The external job has to parameterize its workings with macro references, you have to know them and provide values for them that are suitable for your environment (A typical example would be output paths that you need to customize). Your values will take precendence over any values that might be defined in the external config. But this also means you will have to know the job, know the macros it uses, provide values for them (e.g. in the global *[[generator_config_ref#let_top-level|let]]* of your config), resolve conflicts if other jobs happen to use the same macros, and so forth. 
+In the former case the only way to influence the behaviour of the external job is through macros: The external job has to parameterize its workings with macro references, you have to know them and provide values for them that are suitable for your environment (A typical example would be output paths that you need to customize). Your values will take precendence over any values that might be defined in the external config. But this also means you will have to know the job, know the macros it uses, provide values for them (e.g. in the global *:ref:`let <pages/tool/generator_config_ref#let_top-level>`* of your config), resolve conflicts if other jobs happen to use the same macros, and so forth. 
 
 In the latter case, you have more control over the settings of the external job that you are actually using. Here as well, you can provide macro definitions that parameterize the behaviour of the job you are extending. But you can also supply more job keys that will either shaddow the keys of the same name in the external job, or will be extended by them. In any case you will have more control over the effects of the external job.
 
@@ -538,7 +544,7 @@ In order to include an add-in feature in an existing app, you first have to ``in
 
     "include" : [{"path": "../apiviewer/config.json"}]
 
-The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandator key therein is the file path to the external config file (see :ref:`here <pages/tool/generator_config_ref#include_top-level>` for all the gory details). A config can only include what the external config is willing to *[[generator_config_ref#export|export]]*. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
+The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandator key therein is the file path to the external config file (see :ref:`here <pages/tool/generator_config_ref#include_top-level>` for all the gory details). A config can only include what the external config is willing to *:ref:`export <pages/tool/generator_config_ref#export>`*. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
 
 If you want to fine-tune the behaviour of such an imported job, you define a local job that extends it. Imported jobs are referenced like any job in the current config, either by their plain name (the default), or, if you specify the ``as`` key in the include, by a composite name ``<as_value>::<original_name>``. Suppose you used an ``"as" : "apiconf"`` in your include, and you wanted to extend the Apiviewer's ``build-script`` job, this could look like this:
 
@@ -627,5 +633,5 @@ This is less an optimization in space or time, but rather a way to enforce priva
 basecalls
 """""""""
 
-Calls to *[[documentation:1.2:classes#inheritance|this.base()]]*, which invoke the corresponding superclass method, are inlined, i.e. the superclass method call  is inserted in place of the this.base() call.
+Calls to *:ref:`this.base() <pages/classes#inheritance>`*, which invoke the corresponding superclass method, are inlined, i.e. the superclass method call  is inserted in place of the this.base() call.
 

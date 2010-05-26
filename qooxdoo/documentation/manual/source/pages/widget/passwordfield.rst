@@ -30,7 +30,7 @@ Description
 -----------
 The PasswordField is a special TextField for password input. The PasswordField hide the text input.
 
-The act is the same like the TextField, for more details see: :doc:`TextField`
+The act is the same like the TextField, for more details see: :doc:`textfield`
 
 .. _pages/widget/passwordfield#demos:
 

@@ -5,7 +5,7 @@ Reference Listing of Config Keys
 
 This page contains the complete list of configuration keys and their sub-structures.
 
-Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should to be present in the job for the current key to function properly. E.g. the key ``[[#compile]]`` will use the peer-key ``[[#cache]]`` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
+Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should to be present in the job for the current key to function properly. E.g. the key ``:ref:`pages/tool/generator_config_ref#compile``` will use the peer-key ``:ref:`pages/tool/generator_config_ref#cache``` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
 
 .. _pages/tool/generator_config_ref#add-script:
 
@@ -87,7 +87,7 @@ Define the paths to cache directories, particularly to the compile cache. Takes 
     }
 
 Possible keys are 
-  * **compile** : path to the "main" cache, the directory where compile results are cached, relative to the current (default:  *"[[generator_config_macros|${CACHE}]]"*)
+  * **compile** : path to the "main" cache, the directory where compile results are cached, relative to the current (default:  *":doc:`${CACHE} <generator_config_macros>`"*)
   * **downloads** : directory where to put downloads (e.g. contrib:%%*%% libraries), relative to the current (default: *":doc:`${CACHE} <generator_config_macros>`/downloads"//)
   * **invalidate-on-tool-change** : when true, the *compile* cache (but not the downloads) will be cleared whenever the tool chain is newer (relevant mainly for trunk users; default: *true*)
 
@@ -220,9 +220,9 @@ Specify various options for compile (and other) keys. Takes a map.
       }
     }
 
-Output Javascript file(s) are generated into dirname(<file>), with <file> being the primary file. Within the files, references to other script files are generated using the <script> URI prefix, references to resources will use a <resource> URI prefix. If <file> is not given, the ``APPLICATION`` macro has to be set in the global ``[[generator_config#listing_of_keys_in_context|let]]`` section with a proper name, in order to determine a default output file name.
+Output Javascript file(s) are generated into dirname(<file>), with <file> being the primary file. Within the files, references to other script files are generated using the <script> URI prefix, references to resources will use a <resource> URI prefix. If <file> is not given, the ``APPLICATION`` macro has to be set in the global ``:ref:`let <pages/tool/generator_config#listing_of_keys_in_context>``` section with a proper name, in order to determine a default output file name.
 
-Possible keys are (*<type> refers to the [[#compile|compile/type]], e.g. source or build*)
+Possible keys are (*<type> refers to the :ref:`compile/type <pages/tool/generator_config_ref#compile>`, e.g. source or build*)
   * **paths** : paths for the generated output
     * **file** : the path to the compile output file; can be relative to the config's directory (default: *<type>/script/<appname>.js*)
     * **app-root** : relative (in the above sense) path to the directory containing the app’s HTML page (relevant for *source* version; default: *./<type>*)

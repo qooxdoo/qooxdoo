@@ -817,7 +817,7 @@ The first part with which the application developer gets in contact is the add m
 
 Requirements
 ------------
-Form items need two things. First of all, it is necessary that the given form item can handle an invalid state and has an invalid message. This is guaranteed by the `IForm <http://qooxdoo.org/documentation/1.2#Form>`_ interface already introduced. But thats not all, the manager needs to acces the value of the form item. Therefore, the form item need to specify a value property. This value property is defined in the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#Number / String / Color / Date / Boolean>`_ also introduced above. So all widgets implementing the ``IForm`` interface and one of the value defining interfaces can be used by the validation. For a list which widget implement which interface, take a look at the `widgets section <http://qooxdoo.org/documentation/1.2#widgets>`_ in the document.
+Form items need two things. First of all, it is necessary that the given form item can handle an invalid state and has an invalid message. This is guaranteed by the `IForm <http://qooxdoo.org/documentation/1.2#form>`_ interface already introduced. But thats not all, the manager needs to acces the value of the form item. Therefore, the form item need to specify a value property. This value property is defined in the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#number / string / color / date / boolean>`_ also introduced above. So all widgets implementing the ``IForm`` interface and one of the value defining interfaces can be used by the validation. For a list which widget implement which interface, take a look at the `widgets section <http://qooxdoo.org/documentation/1.2#widgets>`_ in the document.
 
 Now that we know what the manager can validate, its time to learn how to validate. In general, there are two different approaches in validation. The first approach is a client side validation, which is in common cases synchronous. On the other hand, a server side validation is asynchronous in most cases. We will cover both possibilities in the following sections.
 
@@ -1001,7 +1001,7 @@ XXX
 
 How It Works
 ^^^^^^^^^^^^
-Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#Number / String / Color / Date / Boolean>`_ or implementing the :doc:`selection API <ui_selection2>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
+Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#number / string / color / date / boolean>`_ or implementing the :doc:`selection API <ui_selection2>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
 
 .. _pages/ui_form_handling#sample_usage:
 

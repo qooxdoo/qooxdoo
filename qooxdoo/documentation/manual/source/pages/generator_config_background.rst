@@ -71,7 +71,7 @@ When the Config File is Read
 ----------------------------
 
   * The Json data structure is parsed into an internal data structure; this is standard Json processing.
-  * If the config file contains a global *[[.:tool:generator_config_ref#let]]* section these macros are expanded among themselves (for macros referencing other macros) temporarily. This intermediate *let* map is then used for other top-level keys, to expand potential macros and finalize their values. E.g. a global *[[.:tool:generator_config_ref#include_top-level | include]]* key might use macros to encode paths to other config files. Then these macros are resolved with the local knowledge to derive real paths. The *[[.:tool:generator_config_ref#jobs]]* key and the *let* key itself are explicitly not expanded, to allow for later (re-) evaluation in another config file.
+  * If the config file contains a global *:ref:`pages/tool/generator_config_ref#let`* section these macros are expanded among themselves (for macros referencing other macros) temporarily. This intermediate *let* map is then used for other top-level keys, to expand potential macros and finalize their values. E.g. a global *:ref:`include <pages/tool/generator_config_ref#include_top-level>`* key might use macros to encode paths to other config files. Then these macros are resolved with the local knowledge to derive real paths. The *:ref:`pages/tool/generator_config_ref#jobs`* key and the *let* key itself are explicitly not expanded, to allow for later (re-) evaluation in another config file.
   * If there is a global *include* key, the listed config files are included (next section).
 
 .. _pages/generator_config_background#when_another_config_file_is_included:

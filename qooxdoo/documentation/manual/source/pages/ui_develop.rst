@@ -102,7 +102,7 @@ There might be some other elements depending on the configuration:
 
 For a author of a widget the content element is normally the most important one followed by the container element. The other elements are quite uninteresting. It is good to know that they are there, but one typically have less to do with them.
 
-Both elements are instances of ``qx.html.Element`` and this way come with a cross-browser fixed API to apply styles and attributes to the DOM nodes. All of these things can be done without the need that the DOM element is created or inserted. For details on ``qx.html.Element`` please have a look at :doc:`the technical documentation <HTML Element Handling>`.
+Both elements are instances of ``qx.html.Element`` and this way come with a cross-browser fixed API to apply styles and attributes to the DOM nodes. All of these things can be done without the need that the DOM element is created or inserted. For details on ``qx.html.Element`` please have a look at :doc:`the technical documentation <html element handling>`.
 
 The elements are accessible through the function ``getContentElement()`` respectively ``getContainerElement()``. The elements are stored privately in each widget instance and are only accessible through the methods in derived classes.
 

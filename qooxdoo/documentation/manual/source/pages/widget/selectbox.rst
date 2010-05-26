@@ -29,7 +29,7 @@ Description
 -----------
 The SelectBox has the same act like the ComboBox, but the SelectBox doesn’t allow user input only selection is allowed. 
 
-For more details about ComboBox see: :doc:`ComboBox`
+For more details about ComboBox see: :doc:`combobox`
 
 .. _pages/widget/selectbox#demos:
 

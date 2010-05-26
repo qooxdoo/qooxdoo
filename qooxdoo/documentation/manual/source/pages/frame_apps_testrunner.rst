@@ -44,7 +44,7 @@ Writing Test Classes
     * To model your test method behaviour, you can use the methods inherited from ``qx.dev.unit.TestCase`` which encapsulate exceptions in the form of assertions:
       * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
       * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see :doc:`Variants <variants>`). 
-      * See the documentation for the ``[[http://demo.qooxdoo.org/1.2/apiviewer/#qx.dev.unit.TestCase|qx.dev.unit.TestCase]]`` class for more information on the available assertions.
+      * See the documentation for the ```qx.dev.unit.TestCase <http://demo.qooxdoo.org/1.2/apiviewer/#qx.dev.unit.TestCase>`_`` class for more information on the available assertions.
 .. _pages/frame_apps_testrunner#asynchronous_tests:
 
 Asynchronous Tests

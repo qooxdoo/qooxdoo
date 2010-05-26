@@ -25,7 +25,7 @@ Features
 
 Description
 -----------
-The MenuBar contains items ``qx.ui.menubar.Button`` to open a submenu ``qx.ui.menu.Menu`` that can handle user interactions. For more information about menus see :doc:`Menu`.
+The MenuBar contains items ``qx.ui.menubar.Button`` to open a submenu ``qx.ui.menu.Menu`` that can handle user interactions. For more information about menus see :doc:`menu`.
 
 .. _pages/widget/menubar#demos:
 

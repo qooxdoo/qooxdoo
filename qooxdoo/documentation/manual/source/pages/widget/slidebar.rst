@@ -29,7 +29,7 @@ Features
 Description
 -----------
 
-The SlideBar widget can be used as a replacement for a :doc:`Scroll` container if scrolling is only needed in one direction. In contrast to the Scroll container the SlideBar uses :doc:`RepeatButtons <RepeatButton>` instead of scroll bars to do the scrolling. It is used e.g. in :doc:`tab views <TabView>`. 
+The SlideBar widget can be used as a replacement for a :doc:`scroll` container if scrolling is only needed in one direction. In contrast to the Scroll container the SlideBar uses :doc:`RepeatButtons <repeatbutton>` instead of scroll bars to do the scrolling. It is used e.g. in :doc:`tab views <tabview>`. 
 
 .. _pages/widget/slidebar#demos:
 

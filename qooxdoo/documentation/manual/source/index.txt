@@ -2,20 +2,7 @@
 
 <note>This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of [[:documentation|released versions]].</note> 
 
-<code javascript>
-qx.Class.define("qx.MyClass", {
-  construct: function() {
-    this.initMyProperty([1, 2, 4, 8]);
-  },
-  properties : {
-    myProperty : { deferredInit : true}
-  }
-};
-</code>
 
-<html><h4><img src="http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache" width="22" height="22"/> Windows</h4></html>
-
-{{:documentation:1.2:layout:flow.png?2342|:documentation:1.2:layout:flow.png}}
 
 ===== Getting Started =====
  

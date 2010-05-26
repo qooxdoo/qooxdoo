@@ -82,34 +82,37 @@ General
 
 Overview of exisiting WYSIWYG editors
 =====================================
-^ Editor   ^ License    ^ Pro/Con ^
-| `YUI RTE <http://developer.yahoo.com/yui/editor/>`_ | BSD | **Pro**works with all well-known browsers ( IE / Gecko / Opera / Safari / Konquerer )**Con**Still in Beta (although the final release version should be out soon). |
-|  |  |  |
-| `Xinha <http://xinha.python-hosting.com/>`_ | HTMLArea (BSD based) | |
-|  |  |  |
-| `RTE <http://www.kevinroth.com/rte/>`_ | Creative Commons | |
-|  |  |  |
-| `RTEF <http://www.rtef.info/>`_ | MIT | **Pro**works with all well-known browsers ( IE / Gecko / Opera / Safari / Konquerer )**Con**no user-feedback e.g. which font or size is currently used |
-|  |  |  |
-| `WYMEditor <http://www.wymeditor.org/en/>`_ | MIT/GPL | **Pro**produces XHTML, uses CSS**Con**currently only available for IE and Gecko |
-|  |  |  |
-| `dojo <http://dojotoolkit.org/docs/rich_text.html>`_ | BSD | |
-|  |  |  |
-| `TinyMCE <http://tinymce.moxiecode.com/>`_ | LGPL | |
-|  |  |  |
-| `FCKEdit <http://www.fckeditor.net/demo/default.html>`_ | GPL, LGPL and MPL | |
-|  |  |  |
-| `Solmetra <http://www.solmetra.com/en/>`_ | GPL | |
-|  |  |  |
-| `FreeRTE <http://www.freerichtexteditor.com/>`_ | Creative Commons | |
-|  |  |  |
-| `CMSimple <http://www.cmsimple.dk/>`_ | AGPL | |
-|  |  |  |
-| `XStandard lite <http://www.xstandard.com>`_ | Freeware | |
-|  |  |  |
-| `Loki <http://apps.carleton.edu/opensource/loki/>`_ | GPL | |
-|  |  |  |
-| `Whizzywig <http://www.unverse.net/>`_ | - | | 
+=============================================  =====================  ======================
+ Editor                                         License                Pro/Con                
+=============================================  =====================  ======================
+ [[http://developer.yahoo.com/yui/editor/      YUI RTE]]               BSD                    
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://xinha.python-hosting.com/            Xinha]]                 HTMLArea (BSD based)   
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.kevinroth.com/rte/               RTE]]                   Creative Commons       
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.rtef.info/                       RTEF]]                  MIT                    
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.wymeditor.org/en/                WYMEditor]]             MIT/GPL                
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://dojotoolkit.org/docs/rich_text.html  dojo]]                  BSD                    
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://tinymce.moxiecode.com/               TinyMCE]]               LGPL                   
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.fckeditor.net/demo/default.html  FCKEdit]]               GPL, LGPL and MPL      
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.solmetra.com/en/                 Solmetra]]              GPL                    
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.freerichtexteditor.com/          FreeRTE]]               Creative Commons       
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.cmsimple.dk/                     CMSimple]]              AGPL                   
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.xstandard.com                    XStandard lite]]        Freeware               
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://apps.carleton.edu/opensource/loki/   Loki]]                  GPL                    
+ <html>&nbsp;</html>                            <html>&nbsp;</html>    <html>&nbsp;</html>    
+ [[http://www.unverse.net/                     Whizzywig]]             -                      
+=============================================  =====================  ======================
 
 .. _pages/ui_html_editing/html_editing_in_general#browser-specific_overview_of_execcommand:
 

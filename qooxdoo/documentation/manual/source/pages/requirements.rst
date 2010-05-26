@@ -51,7 +51,7 @@ Developing a qooxdoo application does not require a server. Its static applicati
 
 Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
 
-Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism <RPC>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide <rpc_server_writer_guide>`.
+Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism <rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide <rpc_server_writer_guide>`.
 
 If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
 
@@ -67,24 +67,24 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 <html>
 <!--
 ^ When using ... ^ ... do the following: ^
-| |image280|
+| |image136|
 
-.. |image280| image:: documentation:windows.png
+.. |image136| image:: documentation:windows.png
 
  Windows |  `install ActivePython <http://www.activestate.com/Products/activepython/>`_|
-| |image609|
+| |image772|
 
-.. |image609| image:: documentation:cygwin.png
+.. |image772| image:: documentation:cygwin.png
 
  Cygwin | :doc:`use package manager <>`|
-| |image765|
+| |image17|
 
-.. |image765| image:: documentation:macosx.png
+.. |image17| image:: documentation:macosx.png
 
  Mac | nothing to be done |
-| |image186|
+| |image784|
 
-.. |image186| image:: documentation:linux.png
+.. |image784| image:: documentation:linux.png
 
  Linux | use package manager |
 -->

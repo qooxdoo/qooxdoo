@@ -21,4 +21,4 @@ There is also a simpler form for IE that will open up the XML in a new window:
 
 You can create a shortcut for this on the toolbar.
 
-:doc:`See this Ajaxian article for the original source <Ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.
+:doc:`See this Ajaxian article for the original source <ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.

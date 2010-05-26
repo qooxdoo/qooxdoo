@@ -3,7 +3,7 @@
 Migration Guide
 ***************
 
-If you are migrating from a legacy verison of qooxdoo to 1.2, namely from a **0.7.x** release, please do a *two-step* migration to 1.2. Firstly, migrate to *[[:about:release_notes:0.8.3|qooxdoo 0.8.3]]*, following the instructions in the `corresponding manual <http://qooxdoo.org/documentation/0.8#migration>`_. You will need a qooxdoo 0.8.3 SDK to go through the process, so fetch one from the :doc:`download location <https///sourceforge.net/projects/qooxdoo/files/>`. This is necessary as there have been major changes in qooxdoo which require the infrastructure of the intermediate version to bridge. Then, follow the remaining steps in this document.
+If you are migrating from a legacy verison of qooxdoo to 1.2, namely from a **0.7.x** release, please do a *two-step* migration to 1.2. Firstly, migrate to *`qooxdoo 0.8.3 <http://qooxdoo.org/about/release_notes/0.8.3>`_*, following the instructions in the `corresponding manual <http://qooxdoo.org/documentation/0.8#migration>`_. You will need a qooxdoo 0.8.3 SDK to go through the process, so fetch one from the :doc:`download location <https///sourceforge.net/projects/qooxdoo/files/>`. This is necessary as there have been major changes in qooxdoo which require the infrastructure of the intermediate version to bridge. Then, follow the remaining steps in this document.
 
 For those migrating from a **0.8.x** release of qooxdoo to 1.2, it may require little more than just running the ``migration`` job in your application, and then potentially applying further manual changes to your code. 
 

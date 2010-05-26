@@ -29,7 +29,7 @@ Create api doc for the current library. Use the following macros to tailor the s
     "API_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
     "API_EXCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
-The syntax for the class pattern is like those for the *[[generator_config_ref#include|include]]* config key.
+The syntax for the class pattern is like those for the *:ref:`include <pages/tool/generator_config_ref#include>`* config key.
 
 .. _pages/tool/generator_default_jobs#build:
 
@@ -108,7 +108,7 @@ Create a test runner app for unit tests of the current library.
 
     "TEST_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
- The syntax for the class pattern is like those for the *[[generator_config_ref#include|include]]* config key.
+ The syntax for the class pattern is like those for the *:ref:`include <pages/tool/generator_config_ref#include>`* config key.
 
   * The libraries from the :ref:`pages/tool/generator_default_jobs#libraries` job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
 

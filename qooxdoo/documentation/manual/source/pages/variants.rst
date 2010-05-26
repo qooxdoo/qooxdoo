@@ -197,11 +197,14 @@ Framework variants
 
 The following variants are being provided by the framework:
 
-^ Variant ^ Allowed values ^ Default value ^
-| ``qx.client`` Client detection | ``gecko``, ``mshtml``, ``opera``, ``webkit`` | *auto-detected* |
-| ``qx.debug`` Debugging code | ``on``, ``off`` | ``on`` |
-| ``qx.aspects`` Aspect-oriented programming (AOP) | ``on``, ``off`` | ``off`` |
-| ``qx.dynlocale`` Dynamic locale switch | ``on``, ``off`` | ``on`` |
+===========================================================  ==============================================  ===================
+ Variant                                                      Allowed values                                  Default value       
+===========================================================  ==============================================  ===================
+ ''qx.client'' \\ Client detection \\ \\                      ''gecko'', ''mshtml'', ''opera'', ''webkit''    //auto-detected//   
+ ''qx.debug'' \\ Debugging code \\ \\                         ''on'', ''off''                                 ''on''              
+ ''qx.aspects'' \\ Aspect-oriented programming (AOP) \\ \\    ''on'', ''off''                                 ''off''             
+ ''qx.dynlocale'' \\ Dynamic locale switch \\ \\              ''on'', ''off''                                 ''on''              
+===========================================================  ==============================================  ===================
 
 .. _pages/variants#custom_variants:
 

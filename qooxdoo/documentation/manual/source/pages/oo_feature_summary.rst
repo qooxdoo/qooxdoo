@@ -354,7 +354,7 @@ The closed form of the class definition does not allow immediate access to other
 
 .. note::
 
-    If the feature of accessing previously defined members is not absolutely neccessary, *the ''defer'' should *not* be used in the class definition*. It is missing some important capabilities compared to the regular members definition and it cannot take advantage of many crucial features of the build process (documentation, optimization, etc.).
+    If the feature of accessing previously defined members is not absolutely neccessary, *the ``defer`` should *not* be used in the class definition*. It is missing some important capabilities compared to the regular members definition and it cannot take advantage of many crucial features of the build process (documentation, optimization, etc.).
 
 xxx
 

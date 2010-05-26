@@ -12,7 +12,7 @@ This is how a single source file should look like:
     * **#require**(classpattern)  -- other class that has to be added to the application *before* this class
     * **#asset**(resourcepattern)  -- resources that are used by this class (required if the class uses resources)
     * **#ignore**(classname)  -- unknown global symbol (like e.g. a class name) that the compiler should not complain about (ie. you know will be available in the running application)
-  * a **single Definition**:One call to a *define()* method, such as *qx.([[classes|Class]]|[[ui_theming|Theme]]|[[interfaces|Interface]]|[[mixins|Mixin]]|...).define()*.
+  * a **single Definition**:One call to a *define()* method, such as *qx.(:doc:`Class <classes>`|:doc:`Theme <ui_theming>`|:doc:`Interface <interfaces>`|:doc:`Mixin <mixins>`|...).define()*.
 
 Example:
 

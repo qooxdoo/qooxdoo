@@ -7,13 +7,15 @@ from pyparsing import *
 
 def convertToRst(opening,closing):
     def conversionParseAction(s,l,t):
-        return opening + t[0] + closing
+        return opening + wikiMarkup.transformString(t[0]) + closing
     return conversionParseAction
 
 ns12 = ":1.2:"
 headLevel = 0
 
 def internalLink(url):
+    # wiki links are all-lowercase
+    url = url.lower()
     # manual url
     if url.find(ns12)>-1:
         url = url[url.find(ns12)+len(ns12):]
@@ -41,6 +43,8 @@ def internalLink(url):
 fileset = set(())
 def absolutizeUrl(url):
     # generator_config_articles#packages_key -> pages/tool/generator_config_article#packages_key
+    # force all-lowercase
+    url = url.lower()
     if url.find('#'):  # strip fragment id
         fragment = url[url.find('#'):]
         base = url[:url.find('#')]
@@ -51,6 +55,7 @@ def absolutizeUrl(url):
         for file in files:
             fbase,ext = os.path.splitext(file)
             fullbase = os.path.join(root, fbase)
+            fullbase = fullbase.lower()
             if fullbase.endswith(base):
                 fileset.add(fullbase)
                 return fullbase + fragment

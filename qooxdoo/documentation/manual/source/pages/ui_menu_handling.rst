@@ -70,7 +70,7 @@ Complex Menu Sample
 ===================
 This example should show how to create a menu structure with submenu and how to handle with groups.
 
-Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`./Widget/Menu`.
+Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`./widget/menu`.
 
 This code snippet show how to create a "ToolBar" with to menu items "File" and "View":
 

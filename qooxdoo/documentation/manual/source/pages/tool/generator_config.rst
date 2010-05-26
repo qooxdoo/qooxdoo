@@ -216,4 +216,3 @@ This shows the complete possible contents of the top-level configuration map. Fu
       * **:ref:`use <pages/tool/generator_config_ref#use>`**Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
       * **:ref:`variants <pages/tool/generator_config_ref#variants>`**Define variants for the generated application.
 
-

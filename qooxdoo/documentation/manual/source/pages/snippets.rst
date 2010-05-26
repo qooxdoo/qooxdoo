@@ -39,7 +39,7 @@ There is also a simpler form for IE that will open up the XML in a new window:
 
 You can create a shortcut for this on the toolbar.
 
-:doc:`See this Ajaxian article for the original source <Ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.
+:doc:`See this Ajaxian article for the original source <ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.
 
 .. _pages/snippets#running_a_source_version_from_a_web_server:
 
@@ -804,7 +804,7 @@ At times you might need to incorporate code into your qooxdoo application that f
 As of today, there is no complete integration of foreign code into a qooxdoo application. But here are some hints:
 
   * You can compress and optimize non-qooxdoo code using the ``tool/bin/compile.py`` frontend of the compiler. compile.py works on individual files. Use ``compile.py --help`` to familiarize yourself with the options. You have to capture the output into a file.
-  * You can use the *[[.:tool:generator_config_ref#copy-files|copy-files]]* config key, to copy JS files between source and build version.
+  * You can use the *:ref:`copy-files <pages/tool/generator_config_ref#copy-files>`* config key, to copy JS files between source and build version.
   * To integrate the code in your application, you can use ``<script>`` tags in your index.html. In your qooxdoo class code you can then access the classes and functions provided by the foreign JS code module.
   * Have a look at the code of the `Playground <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/playground/>`_ application that uses CodeMirror code.
 
@@ -820,7 +820,7 @@ Increasingly, people use complex name spaces in their applications, e.g. followi
 Creating an Apiviewer that covers all used libraries/contributions
 ------------------------------------------------------------------
 
-You can create a local version of the `Apiviewer <http://qooxdoo.org/application#api_viewer>`_ application by running ``[[.:tool:generator_default_jobs#api | generate.py api]]`` in your application. By default, though, only your own application classes and the framework classes are taken into account and displayed in the generated Apiviewer. If you are using additional qooxdoo libraries and/or contributions in your application (which requires you to list them in the ``libraries`` job in your config), and want them included in a local Apiviewer, you have to overwrite the :doc:`API_INCLUDE <tool/generator_config_macros>`  macro, to get the lib classes documented in Apiviewer. Add this to your config.json's ``let`` section:
+You can create a local version of the `Apiviewer <http://qooxdoo.org/application#api_viewer>`_ application by running ``:ref:`generate.py api <pages/tool/generator_default_jobs#api>``` in your application. By default, though, only your own application classes and the framework classes are taken into account and displayed in the generated Apiviewer. If you are using additional qooxdoo libraries and/or contributions in your application (which requires you to list them in the ``libraries`` job in your config), and want them included in a local Apiviewer, you have to overwrite the :doc:`API_INCLUDE <tool/generator_config_macros>`  macro, to get the lib classes documented in Apiviewer. Add this to your config.json's ``let`` section:
 
 ::
 

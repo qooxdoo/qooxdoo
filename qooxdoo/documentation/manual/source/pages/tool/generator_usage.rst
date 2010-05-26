@@ -29,7 +29,7 @@ The generator is actually the program under ``tool/bin/generator.py``.
 generate.py
 ===========
 
-To make it easier to invoke the generator, each library in the SDK (framework, applications, components) contains a ``generate.py`` script that is really just a proxy for the generator itself. It is also part of each project structure created by the ``[[documentation:1.2:helloworld#create_your_application|create-application.py]]`` wizard. The aim is to hide the actual path to the generator program.
+To make it easier to invoke the generator, each library in the SDK (framework, applications, components) contains a ``generate.py`` script that is really just a proxy for the generator itself. It is also part of each project structure created by the ``:ref:`create-application.py <pages/helloworld#create_your_application>``` wizard. The aim is to hide the actual path to the generator program.
 
 .. _pages/tool/generator_usage#command-line_options:
 

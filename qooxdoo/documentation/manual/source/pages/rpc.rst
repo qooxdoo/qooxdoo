@@ -83,14 +83,17 @@ All method parameters and result values are automatically converted to and from 
 
 The following table lists the data types supported by the Java backend and the corresponding JavaScript types:
 
-^Java type ^JavaScript type^
-|int, long, double, Integer, Long, Double |number|
-|boolean, Boolean |boolean|
-|String |String|
-|java.util.Date |Date|
-|Array (of any of the supported types) |Array|
-|java.util.Map |Object|
-|JavaBean |Object|
+=========================================  ===============
+Java type                                  JavaScript type  
+=========================================  ===============
+int, long, double, Integer, Long, Double   number           
+boolean, Boolean                           boolean          
+String                                     String           
+java.util.Date                             Date             
+Array (of any of the supported types)      Array            
+java.util.Map                              Object           
+JavaBean                                   Object           
+=========================================  ===============
 
 The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a ``java.util.Map``, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of :doc:`qooxdoo properties <understanding_properties>`.)
 
@@ -156,17 +159,23 @@ The following example shows how errors can be handled:
 
 The following ``origin``s are defined:
 
-^ Constant ^ Meaning ^
-| qx.io.remote.Rpc.origin.server | The error occurred on the server (e.g. when a non-existing method is called). |
-| qx.io.remote.Rpc.origin.application|The error occurred inside the server application (i.e. during a method call in non-qooxdoo code). |
-| qx.io.remote.Rpc.origin.transport | The error occurred in the communication layer (e.g. when the Rpc instance was constructed with an URL where no backend is deployed, resulting in an HTTP 404 error). |
-| qx.io.remote.Rpc.origin.local | The error occurred locally (when the call timed out or when it was aborted). |
+====================================  ======================================================================================================================================================================
+ Constant                              Meaning                                                                                                                                                                
+====================================  ======================================================================================================================================================================
+ qx.io.remote.Rpc.origin.server        The error occurred on the server (e.g. when a non-existing method is called).                                                                                          
+ qx.io.remote.Rpc.origin.application  The error occurred inside the server application (i.e. during a method call in non-qooxdoo code).                                                                       
+ qx.io.remote.Rpc.origin.transport     The error occurred in the communication layer (e.g. when the Rpc instance was constructed with an URL where no backend is deployed, resulting in an HTTP 404 error).   
+ qx.io.remote.Rpc.origin.local         The error occurred locally (when the call timed out or when it was aborted).                                                                                           
+====================================  ======================================================================================================================================================================
 
 The ``code`` depends on the origin. For the server and application origins, the possible codes are defined by the backend implementation. For transport errors, it's the HTTP status code. For local errors, the following codes are defined:
 
-^Constant^Meaning^
-|qx.io.remote.Rpc.localError.timeout|A timeout occurred.|
-|qx.io.remote.Rpc.localError.abort|The call was aborted.|
+===================================  =====================
+Constant                             Meaning                
+===================================  =====================
+qx.io.remote.Rpc.localError.timeout  A timeout occurred.    
+qx.io.remote.Rpc.localError.abort    The call was aborted.  
+===================================  =====================
 
 .. _pages/rpc#cross-domain_calls:
 
@@ -270,7 +279,7 @@ The Java RPC backend contains an auto-config mechanism, mainly used for automati
         </head>
     </html>
 
-Provided the HTML page is part of the webapp (and not loaded via file:%%*%%...), and provided that you didn't change the default mapping of the RpcServlet (''.qxrpc''), any request to http:*server/app/foo/bar.qxrpc (or anything else that ends with .qxrpc) will always be directed to the RpcServlet. The RpcServlet fills a structure with basic information about the server. It may answer with something like
+Provided the HTML page is part of the webapp (and not loaded via file:%%*%%...), and provided that you didn't change the default mapping of the RpcServlet (``.qxrpc``), any request to http:*server/app/foo/bar.qxrpc (or anything else that ends with .qxrpc) will always be directed to the RpcServlet. The RpcServlet fills a structure with basic information about the server. It may answer with something like
 
 ::
 

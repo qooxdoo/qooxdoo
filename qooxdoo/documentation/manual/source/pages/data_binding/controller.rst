@@ -134,7 +134,7 @@ After that code snippet, every change in the name or of the children will be aut
 
 Form Controller
 ---------------
-Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a :ref:`Object controller <pages/data_binding/controller#Object_Controller>` for the bidirectional bindings.
+Also forms do have a special controller. The form controller uses a ``qx.ui.form.Form`` as target and a :ref:`Object controller <pages/data_binding/controller#object_controller>` for the bidirectional bindings.
 The usage equals to the usage of all other controllers. The main properties of it are the model and target property. Given both, the controller connects the model and the target. An additional feature of the form controller is the possibility to create the model for a given form. See the following code to get an idea of using it. 
 
 ::

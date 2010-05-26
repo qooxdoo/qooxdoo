@@ -64,7 +64,7 @@ After setting the URL during the creation process, the loading will begin immedi
 JSONP Store
 -----------
 
-The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the :ref:`JSON store <pages/data_binding/stores#JSON Store>` but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
+The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the :ref:`JSON store <pages/data_binding/stores#json store>` but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
 
 The following code shows how to use the JSONP data store.
 
@@ -82,7 +82,7 @@ YQL Store
 
 YQL is the `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_. Yahoo! describes it as 
 *"[...] an expressive SQL-like language that lets you query, filter, and join data across Web services."*
-Based on the :ref:`JSONP store <pages/data_binding/stores#JSONP Store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
+Based on the :ref:`JSONP store <pages/data_binding/stores#jsonp store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
 
 The following code demonstrates how to fetch some twitter messages.
 
@@ -113,5 +113,5 @@ What if you want to to bring your own code to the generated model classes or if 
   * Add your code by supporting a superclass for the created model classes.
   * Add your code as a mixin to the created model classes.
   * Use your own class instead of the created model classes.
-Take a look at the API-Documentation of the ``[[http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.store.IStoreDelegate|qx.data.store.IStoreDelegate]]`` to see the available methods and how to implement them.
+Take a look at the API-Documentation of the ```qx.data.store.IStoreDelegate <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.store.IStoreDelegate>`_`` to see the available methods and how to implement them.
 

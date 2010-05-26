@@ -30,7 +30,7 @@ Description
 -----------
 The MenuButton looks like a normal button, but it opens a menu when clicking on it.
 
-For using a menu see: :doc:`Menu`
+For using a menu see: :doc:`menu`
 
 .. _pages/widget/menubutton#demos:
 

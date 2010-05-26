@@ -45,7 +45,7 @@ In your configuration file, add the following job (assuming you are using a stan
       }
     }
 
-This will override the default *build-script* job, instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main *[[:documentation:1.2:tool:generator_config_ref#include|include]]* list of class patterns for you application (the example mirrors this list of a standard GUI app). In the *settings* part, you carve out some top-level classes or name spaces that constitute the part you want to specify. In the example, this is just the name of the top-level dialog class.
+This will override the default *build-script* job, instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main *:ref:`include <pages/tool/generator_config_ref#include>`* list of class patterns for you application (the example mirrors this list of a standard GUI app). In the *settings* part, you carve out some top-level classes or name spaces that constitute the part you want to specify. In the example, this is just the name of the top-level dialog class.
 
 .. _pages/parts_using#add_part_loading_to_your_class_code:
 

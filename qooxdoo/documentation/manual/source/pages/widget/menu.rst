@@ -37,11 +37,11 @@ Description
 The Menu widget is used in combination with other widgets. The other widgets has an instance from the menu and it's shown by user interactions. Each item in a menu can get an command key, that is used to get keyboard support for the user.
 
 Here a some widgets that uses a menu for user interaction:
-  * :doc:`MenuBar`
-  * :doc:`Toolbar`
-  * :doc:`MenuButton`
-  * :doc:`SplitButton`
-  * :doc:`List`
+  * :doc:`menubar`
+  * :doc:`toolbar`
+  * :doc:`menubutton`
+  * :doc:`splitbutton`
+  * :doc:`list`
 
 The package ``qx.ui.menu`` has a collection of needed classes for creating a menu structure. The ``qx.ui.menu.Menu`` class is the container class for the menu structure and has items as child. Here are some item that can be used to create the structure:
   * `Button <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.menu.Button>`_

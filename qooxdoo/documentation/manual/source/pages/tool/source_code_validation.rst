@@ -59,7 +59,7 @@ Potentially non-local private data field
 Protected data field
 --------------------
 **Hint:** Protected data fields are deprecated. Better use private fields in combination with getter and setter methods.\\
-**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding :doc:`bug report <Bug>2095>`.
+**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding :doc:`bug report <bug>2095>`.
 
 .. _pages/tool/source_code_validation#undeclared_private_data_field:
 

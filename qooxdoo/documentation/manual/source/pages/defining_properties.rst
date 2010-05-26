@@ -40,7 +40,7 @@ You should define at least one of the attributes ``init``, ``nullable`` or ``inh
 
 xxx
 
-Please also have a look at the :doc:`Quick Reference <Properties Quickref>`.
+Please also have a look at the :doc:`Quick Reference <properties quickref>`.
 
 .. _pages/defining_properties#working_with_the_property_value:
 

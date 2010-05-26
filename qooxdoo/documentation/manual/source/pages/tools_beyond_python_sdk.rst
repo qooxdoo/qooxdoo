@@ -11,13 +11,16 @@ Python Modules
 ==============
 * (included with the qooxdoo SDK) *
 
-^ Module ^ License ^
-| `elementtree <http://effbot.org/zone/element-index.htm>`_ | `old-style Python <http://effbot.org/zone/copyright.htm>`_ `(HPND) <http://www.opensource.org/licenses/historical.php>`_|
-|`graph <http://code.google.com/p/python-graph>`_ | `MIT <http://www.opensource.org/licenses/mit-license.php>`_ |
-| `polib <http://code.google.com/p/polib>`_ | `MIT <http://www.opensource.org/licenses/mit-license.php>`_ |
-| `robocopy <http://code.activestate.com/recipes/231501/>`_ | `Python <http://www.python.org/psf/license/>`_ (see `Note <http://code.activestate.com/help/terms/>`_)|
-| `simplejson <http://code.activestate.com/help/terms/>`_ |`MIT <http://pypi.python.org/pypi/simplejson>`_|
-| `textile <http://code.google.com/p/pytextile/>`_ | `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_ |
+==============================================  ==============
+ Module                                          License        
+==============================================  ==============
+ [[http://effbot.org/zone/element-index.htm     elementtree]]   
+[[http://code.google.com/p/python-graph         graph]]         
+ [[http://code.google.com/p/polib               polib]]         
+ [[http://code.activestate.com/recipes/231501/  robocopy]]      
+ [[http://code.activestate.com/help/terms/       simplejson]]   
+ [[http://code.google.com/p/pytextile/           textile]]      
+==============================================  ==============
 
 .. _pages/tools_beyond_python_sdk#other:
 

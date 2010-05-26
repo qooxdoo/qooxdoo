@@ -31,9 +31,9 @@ A qooxdoo application has a well-organized file structure. For an application na
     * **``api``** - contains a searchable :ref:`API viewer <pages/helloworld#api_reference>` specific to your application, simply created by ``generate.py api``. As it is self-consistent, it may be copied anywhere and be run offline
     * **``test``** - a standalone :ref:`Test runner <[[helloworld#unit_testing>` for unit tests you may create for your app, created by ``generate.py test``
 \\
-    * ``[[.:application_structure:manifest|Manifest.json]]`` - every qooxdoo app has such a Manifest file for some meta information
-    * ``[[.:tool:generator_config|config.json]]`` - configuration file for the build process and all other integrated developer tools
-    * ``[[.:tool:generator_usage#generate.py]]`` - you use this platform-independent script for all kinds of tasks and tools, most importantly to generate the development as well as the deployment version of your app
+    * ``:doc:`Manifest.json <application_structure/manifest>``` - every qooxdoo app has such a Manifest file for some meta information
+    * ``:doc:`config.json <tool/generator_config>``` - configuration file for the build process and all other integrated developer tools
+    * ``:ref:`pages/tool/generator_usage#generate.py``` - you use this platform-independent script for all kinds of tasks and tools, most importantly to generate the development as well as the deployment version of your app
 
 .. _pages/application_structure#in_other_words:
 
@@ -46,5 +46,5 @@ The most important of these sudirectories is of course *source* since it contain
 
 The *build* dir (created with 'generate.py build') has a very similar structure as the *source* dir, with *script*, and *resource* subdirs. The main difference is that everything that is necessary for your application to run is copied under this common root, and that the generator output script in *build/script* contains the actual class definitions, not just references to their source files. The *build* dir is therefore self-contained, and doesn't have references that point outside of it.
 
-Create some vanilla skeleton apps (with *[[helloworld#create_your_application|tool/bin/create-application.py]]*) and look at their initial file structure, to get a feel for it. Tailor the *source/class/<namespace>/Application.js* as the main application class, add further classes to your needs, and let the tool chain take care of the rest. You will have to run 'generate.py source' initially, and then whenever you use further classes in your code, and you can just try out your app opening *source/index.html* directly in your browser, reloading it to see changes to the code. If you are comfortable with that, run a 'generate.py build' and open *build/index.html* in your browser. If that is fine, copy the whole 'build' tree to your web server.
+Create some vanilla skeleton apps (with *:ref:`tool/bin/create-application.py <pages/helloworld#create_your_application>`*) and look at their initial file structure, to get a feel for it. Tailor the *source/class/<namespace>/Application.js* as the main application class, add further classes to your needs, and let the tool chain take care of the rest. You will have to run 'generate.py source' initially, and then whenever you use further classes in your code, and you can just try out your app opening *source/index.html* directly in your browser, reloading it to see changes to the code. If you are comfortable with that, run a 'generate.py build' and open *build/index.html* in your browser. If that is fine, copy the whole 'build' tree to your web server.
 

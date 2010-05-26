@@ -30,7 +30,7 @@ Description
 -----------
 The SpliteButton acts like a normal button, but it opens a menu when clicking on the arrow. The menu could contain a history list or something like this.
 
-For using a menu see: :doc:`Menu`
+For using a menu see: :doc:`menu`
 
 .. _pages/widget/splitbutton#demos:
 

@@ -12,7 +12,7 @@ A few changes, though, affect existing keys. Since, as of today,  there is no au
 compile-dist / compile-source
 =============================
 
-The ``[[.tool:generator_config_ref#compile-dist]]`` and ``[[.tool:generator_config_ref#compile-source]]`` keys have been superseded by ``[[.tool:generator_config_ref#compile-options]]`` and ``[[.tool:generator_config_ref#compile]]``.  Here is how to migrate the old keys to the new.
+The ``:ref:`pages/tool/generator_config_ref#compile-dist``` and ``:ref:`pages/tool/generator_config_ref#compile-source``` keys have been superseded by ``:ref:`pages/tool/generator_config_ref#compile-options``` and ``:ref:`pages/tool/generator_config_ref#compile```.  Here is how to migrate the old keys to the new.
 
 .. _pages/migration_config#compile-dist:
 

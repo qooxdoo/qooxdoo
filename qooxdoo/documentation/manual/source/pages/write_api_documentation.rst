@@ -73,7 +73,9 @@ The docgenerator recognises the following structures:
       MY_CONSTANT : 100
     },
 
-The class description is taken as the first comment in the file which starts with ``%%/**%%``. Therefore if you have a comment at the start of the file which has a first line of ``%%/**********%%``, that will be taken as the class description, overriding any comment above the class itself. Therefore use ``%%/* *********%%`` or ``%%/* ==========%%`` etc.
+The class description is taken as the first comment in the file which starts with ``%%/**%%``. Therefore if you have a comment at the start of the file which has a first line of ``%%/**********%%``, that will be taken as the class description, overriding any comment above the class itself. Therefore use ``%%/* *********%%`` or ``%%/* .. _pages/write_api_documentation#:
+
+%%`` etc.
 
 .. _pages/write_api_documentation#inline_markup:
 
@@ -218,4 +220,4 @@ __init__.js Files
 
 While using doc comments in class files where they are interleaved with the class code is straight forward, this is not so trivial if you want to provide documentation for a *package*, i.e. a collection of classes under a common name space (like *qx.ui.core*, *qx.util*, etc.).
 
-In order to fill this gap you can add a *__init__.js* file to a package. This file should only contain a single doc comment that describes the package as a whole. These files are then scanned during a ``generate.py api`` run and the documentation is inserted at the package nodes of the resulting documentation tree.
+In order to fill this gap you can add a **init*.js* file to a package. This file should only contain a single doc comment that describes the package as a whole. These files are then scanned during a ``generate.py api`` run and the documentation is inserted at the package nodes of the resulting documentation tree.

@@ -13,7 +13,7 @@ XXX
 Eclipse
 -------
 
-Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project ` <http://qooxdoo.org/contrib/project/QXDT>`_ aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the ` <http://qooxdoo.org/contrib/project/QXDT>`_ documentation.
+Since Eclipse 3.4 an advanced editing support for regular JavaScript is available (called `JSDT <http://wiki.eclipse.org/JSDT>`_). On top of this *native* JS support, the project ` <http://qooxdoo.org/contrib/project/qxdt>`_ aimed at providing qooxdoo-*specific* support. This project stalled, mostly due to technical difficulties at that early time of JSDT. The extensibility of JSDT is still a very interesting concept, so if you like to review the QXDT source code and start porting it to recent versions of Eclipse, please see the ` <http://qooxdoo.org/contrib/project/qxdt>`_ documentation.
 
 .. _pages/development_tools#spket_ide:
 

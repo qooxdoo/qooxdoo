@@ -56,7 +56,7 @@ The destructor code allows you an in-depth analysis of the destructors and finds
 
 To enable these checks you need to select a variant and configure a setting.
 
-The variant ``qx.debug`` must be ``on``. The setting ``qx.disposerDebugLevel`` must be at least at ``1`` to show not disposed qooxdoo objects. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. For a general analysis ``2`` should be enough. You need to add a setting named "qx.disposerDebugLevel" with the value ``2`` to your ``config.json``. See at the *[[.:snippets#support_for_finding_potential_memory_leaks|Support for finding potential memory leaks]]* snippet how to change your configuration.
+The variant ``qx.debug`` must be ``on``. The setting ``qx.disposerDebugLevel`` must be at least at ``1`` to show not disposed qooxdoo objects. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. For a general analysis ``2`` should be enough. You need to add a setting named "qx.disposerDebugLevel" with the value ``2`` to your ``config.json``. See at the *:ref:`Support for finding potential memory leaks <pages/snippets#support_for_finding_potential_memory_leaks>`* snippet how to change your configuration.
 
 Log output from these settings should look something like this:
 

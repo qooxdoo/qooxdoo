@@ -27,7 +27,7 @@ Features
 
 Description
 -----------
-A ComboBox is like a :doc:`TextField`  with a drop down of predefined values. The main difference to the :doc:`SelectBox` is that the user can enter individual values or choose from the predefined ones. The items in the predefined list supports plane text and/or icons. The items which can be added to the list are ``qx.ui.form.ListItem`` items. 
+A ComboBox is like a :doc:`textfield`  with a drop down of predefined values. The main difference to the :doc:`selectbox` is that the user can enter individual values or choose from the predefined ones. The items in the predefined list supports plane text and/or icons. The items which can be added to the list are ``qx.ui.form.ListItem`` items. 
 
 Please note that the ComboBox supports no auto-	completion.
 

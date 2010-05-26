@@ -18,7 +18,7 @@ XXX
 Requirements
 ^^^^^^^^^^^^
 
-Please make sure to have read the detailed :doc:`Requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:\\
+Please make sure to have read the detailed :doc:`requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:\\
 \\
   * *client*: any major web browser
   * *server*: any HTTP-aware backend. During development the local file system should also be ok
@@ -48,7 +48,7 @@ It is easy to setup your own application using the platform-independent script `
 . It will create a skeleton application in a directory you specify, that is automatically configured to work with your version of the qooxdoo framework.
 
 To create a new skeleton with ``create-application.py``
- you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :ref:`pages/helloworld#Windows`, :ref:`pages/helloworld#Cygwin` or :ref:`pages/helloworld#Mac, Linux`
+ you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :ref:`pages/helloworld#windows`, :ref:`pages/helloworld#cygwin` or :ref:`pages/helloworld#mac, linux`
 
 .. note::
 
@@ -57,7 +57,7 @@ To create a new skeleton with ``create-application.py``
 xxx
 
 Windows |image0|
------------------------------
+----------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
@@ -68,7 +68,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
     C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 Cygwin |image0|
------------------------------
+----------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
 
@@ -79,7 +79,7 @@ To create your application ``custom`` to ``C:``, with the qooxdoo SDK available 
     /cygdrive/c/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=C:
 
 Mac |image0| , Linux |image1|
------------------------------
+----------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/macosx.png?w=22&h=22&cache=cache
 .. |image1| image:: http://qooxdoo.org/_media/documentation/linux.png?w=22&h=22&cache=cache
