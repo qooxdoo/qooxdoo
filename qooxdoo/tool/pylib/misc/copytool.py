@@ -27,9 +27,14 @@ import filecmp
 sys.path.append(os.path.abspath(os.pardir))
 from misc.ExtendAction import ExtendAction
 
-class CopyTool(object):
-    def __init__(self):
+class DummyConsole(object):
+    def debug(self, msg):
         pass
+
+
+class CopyTool(object):
+    def __init__(self, console=DummyConsole()):
+        self.__console = console
 
   
     def do_work(self):
@@ -45,12 +50,14 @@ class CopyTool(object):
         
     
     def __copyFileToDir(self, sourceFile, targetDir):
+        self.__console.debug("Copying file %s to directory %s." %(sourceFile, targetDir))
         sourceFileName = os.path.basename(sourceFile)
         if sourceFileName in self.__exclude:
             return
         
         if not os.path.isdir(targetDir):
             if self.__create:
+                self.__console.debug("Creating directory %s." %targetDir)
                 os.makedirs(targetDir)
             else:
                 raise IOError(2, "No such directory: '%s'" %targetDir)
@@ -63,9 +70,11 @@ class CopyTool(object):
                     sourceMod = os.stat(sourceFile).st_mtime
                     targetMod = os.stat(targetPath).st_mtime
                     if targetMod > sourceMod:
+                        self.__console.debug("Existing file %s is newer than source file %s, ignoring it." %(targetPath, sourceFile))
                         return 
                 
                 if not os.access(targetPath, os.W_OK):
+                    self.__console.debug("Removing write-protected target File %s prior to copy." %targetPath)
                     os.remove(targetPath)
         
         try:
@@ -75,21 +84,25 @@ class CopyTool(object):
     
 
     def __copyDirToDir(self, sourceDir, targetDir):
+        self.__console.debug("Copying directory %s to %s." %(sourceDir, targetDir))
         sourceDirName = os.path.basename(sourceDir)
         if sourceDirName in self.__exclude:
+            self.__console.debug("Skipping excluded directory %s." %sourceDir)
             return
         targetPath = os.path.join(targetDir, sourceDirName)
         if not os.path.isdir(targetPath):
             if self.__create:
+                self.__console.debug("Creating directory %s." %targetDir)
                 os.makedirs(targetPath)
             else:
                 raise IOError(2, "No such directory: '%s'" %targetPath)
         
         compare = filecmp.dircmp(sourceDir, targetPath)
         for entry in compare.left_only:
-            if entry in self.__exclude:
-                continue
             entryPath = os.path.join(sourceDir, entry)
+            if entry in self.__exclude:
+                self.__console.debug("Skipping excluded item %s." %entryPath)
+                continue
             
             if os.path.isfile(entryPath):
                 self.__copyFileToDir(entryPath, targetPath)
@@ -97,15 +110,19 @@ class CopyTool(object):
                 self.__copyDirToDir(entryPath, targetPath)
         
         for entry in compare.common_dirs:
+            entryPath = os.path.join(sourceDir, entry)
             if entry in self.__exclude:
+                self.__console.debug("Skipping excluded directory %s." %entryPath)
                 continue
-            entryPath = os.path.join(sourceDir, entry)  
+
             self.__copyDirToDir(entryPath, targetPath)
             
         for entry in compare.common_files:
-            if entry in self.__exclude:
-                continue
             entryPath = os.path.join(sourceDir, entry)
+            if entry in self.__exclude:
+                self.__console.debug("Skipping excluded file %s." %entryPath)
+                continue
+            
             self.__copyFileToDir(entryPath, targetPath)
 
 
