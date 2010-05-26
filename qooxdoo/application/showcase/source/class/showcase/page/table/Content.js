@@ -156,7 +156,6 @@ qx.Class.define("showcase.page.table.Content",
           row.push(rawData[i].explicit !== "0");
           rows.push(row);
         };
-        console.log("rows", rows[18]);
         tableModel.setData(rows);
       });
     }
