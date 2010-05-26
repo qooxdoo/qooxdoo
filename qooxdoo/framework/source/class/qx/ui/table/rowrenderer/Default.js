@@ -204,6 +204,40 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
     getRowClass : function(rowInfo) {
       return "";
+    },
+    
+    /**
+     * Add extra attributes to each row.
+     *
+     * @param rowInfo {Object}
+     *   The following members are available in rowInfo:
+     *   <dl>
+     *     <dt>table {qx.ui.table.Table}</dt>
+     *     <dd>The table object</dd>
+     *
+     *     <dt>styleHeight {Integer}</dt>
+     *     <dd>The height of this (and every) row</dd>
+     *
+     *     <dt>row {Integer}</dt>
+     *     <dd>The number of the row being added</dd>
+     *
+     *     <dt>selected {Boolean}</dt>
+     *     <dd>Whether the row being added is currently selected</dd>
+     *
+     *     <dt>focusedRow {Boolean}</dt>
+     *     <dd>Whether the row being added is currently focused</dd>
+     *
+     *     <dt>rowData {Array}</dt>
+     *     <dd>The array row from the data model of the row being added</dd>
+     *   </dl>
+     *
+     * @return {String}
+     *   Any additional attributes and their values that should be added to the
+     *   div tag for the row.
+     */
+    getRowAttributes : function(rowInfo)
+    {
+      return "";
     }
   },
 

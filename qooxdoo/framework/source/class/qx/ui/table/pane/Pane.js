@@ -534,6 +534,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
         rowHtml.push('<div ');
 
+        var rowAttributes = rowRenderer.getRowAttributes(cellInfo);
+        if (rowAttributes) {
+          rowHtml.push(rowAttributes);
+        }
+
         var rowClass = rowRenderer.getRowClass(cellInfo);
         if (rowClass) {
           rowHtml.push('class="', rowClass, '" ');
