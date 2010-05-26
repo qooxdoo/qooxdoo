@@ -145,8 +145,9 @@ class Repository:
               sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
               targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variant)
               #self.copyDemo(sourceDir, targetDir)
-              copier = CopyTool(sourceDir, targetDir, update=True)
-              copier.copy()
+              copier = CopyTool()
+              copier.parse_args(["-u", sourceDir, targetDir])
+              copier.do_work()
               self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser, local=True)
             else:
               self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
