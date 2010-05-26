@@ -385,9 +385,11 @@ class LibraryVersion:
   
   
   def buildDemo(self, demoVariant = "default", demoVersion = "build"):
-    demoBuildStatus = {
-      "svnRevision" : self.getSvnRevision()
-    }
+    demoBuildStatus = {}
+    try:
+      demoBuildStatus["svnRevision"] = self.getSvnRevision()
+    except:
+      pass
     
     if not self.hasDemoDir:
       msg = "Library %s version %s has no demo folder!" %(self.library.dir, self.dir)
