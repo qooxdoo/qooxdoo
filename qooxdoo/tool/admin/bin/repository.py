@@ -74,7 +74,7 @@ class Repository:
       try:
         manifest = getDataFromJsonFile(manifestPath)
       except Exception, e:
-        console.error(e.message)
+        console.error(str(e))
       
       if not "info" in manifest:
         console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
@@ -400,7 +400,7 @@ class LibraryVersion:
     try:
       rcode, output, errout = self.runGenerator(demoVersion, subPath)
     except Exception, e:
-      msg = "Error running generator: " + e.message
+      msg = "Error running generator: " + str(e)
       console.error(e)
       demoBuildStatus["buildError"] = msg 
       return demoBuildStatus
