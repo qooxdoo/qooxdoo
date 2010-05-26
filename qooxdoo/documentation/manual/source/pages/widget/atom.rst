@@ -15,7 +15,7 @@ Preview Image
 
 |widget/atom.jpg|
 
-.. |widget/atom.jpg| image:: /widget/atom.jpg
+.. |widget/atom.jpg| image:: widget/atom.jpg
 
 .. _pages/widget/atom#features:
 

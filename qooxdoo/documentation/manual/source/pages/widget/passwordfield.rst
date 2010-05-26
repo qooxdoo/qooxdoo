@@ -13,7 +13,7 @@ Preview Image
 -------------
 |PasswordField|
 
-.. |PasswordField| image:: /widget/passwordfield.png
+.. |PasswordField| image:: widget/passwordfield.png
 
 .. _pages/widget/passwordfield#features:
 

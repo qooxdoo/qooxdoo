@@ -13,7 +13,7 @@ Preview Image
 -------------
 |List|
 
-.. |List| image:: /widget/list.png
+.. |List| image:: widget/list.png
 
 .. _pages/widget/list#features:
 

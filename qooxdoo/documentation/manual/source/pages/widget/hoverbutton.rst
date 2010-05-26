@@ -13,7 +13,7 @@ Preview Image
 -------------
 |HoverButton|
 
-.. |HoverButton| image:: /widget/button.png
+.. |HoverButton| image:: widget/button.png
 
 .. _pages/widget/hoverbutton#features:
 

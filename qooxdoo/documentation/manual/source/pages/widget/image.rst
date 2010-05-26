@@ -15,7 +15,7 @@ Preview Image
 
 |widget/image.jpg|
 
-.. |widget/image.jpg| image:: /widget/image.jpg
+.. |widget/image.jpg| image:: widget/image.jpg
 
 .. _pages/widget/image#features:
 

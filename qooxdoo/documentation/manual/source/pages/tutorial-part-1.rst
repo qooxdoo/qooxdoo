@@ -14,7 +14,7 @@ As you sure have read in the headline, we are building a simple twitter applicat
 
 |twitter mockup.png|
 
-.. |twitter mockup.png| image:: /tutorials/twittermockup1.png
+.. |twitter mockup.png| image:: tutorials/twittermockup1.png
 
 If you take a closer look at the mockup, you see a :doc:`window <widget/window>` containing a :doc:`toolbar <widget/toolbar>`, a :doc:`list <widget/list>`, a :doc:`text area <widget/textarea>` and a :doc:`button <widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
@@ -91,7 +91,7 @@ At this point, your application should look like this.
 
 |step 1|
 
-.. |step 1| image:: /tutorials/step11.png
+.. |step 1| image:: tutorials/step11.png
 
 Thats it for the first part. If you want to have the `code from the tutorial <http://github.com/wittemann/qooxdoo-tutorial/tree/Step1>`_, take a look at the project on github and just fork the project.
 The next part of the tutorial will contain the building of the rest of the UI. If you have feedback or want to see something special in further tutorials, just let us know!

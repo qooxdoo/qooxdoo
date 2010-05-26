@@ -13,7 +13,7 @@ Preview Image
 -------------
 |SplitButton|
 
-.. |SplitButton| image:: /widget/splitbutton.png
+.. |SplitButton| image:: widget/splitbutton.png
 
 .. _pages/widget/splitbutton#features:
 

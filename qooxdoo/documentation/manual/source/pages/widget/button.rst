@@ -13,7 +13,7 @@ Preview Image
 -------------
 |Button widget|
 
-.. |Button widget| image:: /widget/button.png
+.. |Button widget| image:: widget/button.png
 
 .. _pages/widget/button#features:
 

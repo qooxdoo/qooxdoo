@@ -57,7 +57,7 @@ To create a new skeleton with ``create-application.py``
 xxx
 
 Windows |image0|
-----------------------------------
+--------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
@@ -68,7 +68,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
     C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 Cygwin |image0|
-----------------------------------
+--------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
 
@@ -79,7 +79,7 @@ To create your application ``custom`` to ``C:``, with the qooxdoo SDK available 
     /cygdrive/c/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=C:
 
 Mac |image0| , Linux |image1|
-----------------------------------
+--------------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/macosx.png?w=22&h=22&cache=cache
 .. |image1| image:: http://qooxdoo.org/_media/documentation/linux.png?w=22&h=22&cache=cache
@@ -110,7 +110,7 @@ After the application has been generated, open ``source/index.html`` file in you
 
 |Running application|
 
-.. |Running application| image:: /manual/running_application.png
+.. |Running application| image:: manual/running_application.png
 
 .. _pages/helloworld#write_application_code:
 
@@ -144,7 +144,7 @@ This code turns on two different ways of "logging", i.e. capturing and printing 
 
 |Debug application|
 
-.. |Debug application| image:: /manual/debug_application.png
+.. |Debug application| image:: manual/debug_application.png
 
 The reason for enclosing the two logging classes in a so-called "debug" variant is explained in more detail in the next section. It ensures that logging is only turned on in the development version (i.e. "source" version) of your app. It will automatically be turned off in the final version of your app that is to be deployed:
 
@@ -184,7 +184,7 @@ To start the "API Viewer" application, open ``index.html`` from the newly create
 
 |API Viewer|
 
-.. |API Viewer| image:: /manual/api_viewer.png
+.. |API Viewer| image:: manual/api_viewer.png
 
 .. _pages/helloworld#unit_testing:
 
@@ -201,7 +201,7 @@ Open ``index.html`` from the newly created top-level ``test`` folder in your bro
 
 |Testrunner application|
 
-.. |Testrunner application| image:: /manual/testrunner.png
+.. |Testrunner application| image:: manual/testrunner.png
 
 You may skip the rather advanced topic of unit tests while continuing to extend your custom application code. In case you are interested in test-driven development and creating your own unit tests, please see the corresponding :doc:`Unit Testing <unit_testing>` documentation.
 

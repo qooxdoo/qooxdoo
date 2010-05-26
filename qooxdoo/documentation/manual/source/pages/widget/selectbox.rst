@@ -13,7 +13,7 @@ Preview Image
 -------------
 |SelectBox|
 
-.. |SelectBox| image:: /widget/selectbox.png
+.. |SelectBox| image:: widget/selectbox.png
 
 .. _pages/widget/selectbox#features:
 

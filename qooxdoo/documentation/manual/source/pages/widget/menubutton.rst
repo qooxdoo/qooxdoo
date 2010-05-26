@@ -13,7 +13,7 @@ Preview Image
 -------------
 |MenuButton|
 
-.. |MenuButton| image:: /widget/menubutton.png
+.. |MenuButton| image:: widget/menubutton.png
 
 .. _pages/widget/menubutton#features:
 

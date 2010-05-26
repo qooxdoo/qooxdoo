@@ -48,6 +48,9 @@ def absolutizeUrl(url):
     if url.find('#'):  # strip fragment id
         fragment = url[url.find('#'):]
         base = url[:url.find('#')]
+    else:
+        fragment = ""
+        base     = url
     for knownbase in fileset:
         if knownbase.endswith(base):
             return knownbase + fragment
@@ -113,20 +116,24 @@ def convertToRst_I(s,l,t):
         text= ""
     text = text.strip()
 
+    # remove trailing artifacts
+    url = re.sub(r'\?.*$', '', url)
     # Handle url
     if url.startswith("http://"):
         pass
     # handle document:1.2:
     elif url.find(ns12)>-1:
         url = internalLink(url)
-        url = "/" + url   # need to 'absolutize' internal img refs, http://sphinx.pocoo.org/rest.html#images
+        #base,ext = os.path.splitext(url)
+        #url = absolutizeUrl(url)
+        #url += ext
+        if url.startswith("path/"):
+            url = "/" + url   # need to 'absolutize' internal img refs, http://sphinx.pocoo.org/rest.html#images
     else:
         #raise ParseFatalException(s,l,"invalid URL link reference: " + t[0])
         #print >> sys.stderr, ("invalid image reference: " + t[0])
         #return t[0]
         pass  # should do as is
-    # remove trailing artifacts
-    url = re.sub(r'\?.*$', '', url)
 
     # TODO: if the image ref is within the text flow, ret will break the text!
     # (which is not often the case)
@@ -257,22 +264,26 @@ def convertNoteBlock(s,l,t):
 def eout(s):
     print >> sys.stderr, s
 
-def htmlBlock(s,l,t):
-    import subprocess
-    eout("  converting HTML with pandoc")
-    # preprocess
-    s = t[0]
-    s = s.replace("&nbsp;", " ")
-    p = subprocess.Popen(['pandoc', '--from=html', '--to=rst'],
-                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    ret = p.communicate(s)[0]
-    # postprocess
-    ret = ret.replace(os.linesep, "\n")
-    if ret.endswith("\n"):
-        ret = ret[:-1]
-    #ret = ret.decode('ascii', 'replace')
-    #eout("%r" % ret)
-    return ret
+def convertHtml(i):
+    def htmlBlock(s,l,t,):
+        import subprocess
+        eout("  converting HTML with pandoc")
+        #eout(t)
+        # preprocess
+        s = t[i]
+        s = "<html>" + s + "</html>"
+        s = s.replace("&nbsp;", " ")
+        p = subprocess.Popen(['pandoc', '--from=html', '--to=rst'],
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        ret = p.communicate(s)[0]
+        # postprocess
+        ret = ret.replace(os.linesep, "\n")
+        if ret.endswith("\n"):
+            ret = ret[:-1]
+        #ret = ret.decode('ascii', 'replace')
+        #eout("%r" % ret)
+        return ret
+    return htmlBlock
     
 
 # these are the sphinx recommended heading ornaments
@@ -297,9 +308,17 @@ h4         = QuotedString("====").setParseAction(convertHeading(linechars["h4"])
 h5         = QuotedString("===").setParseAction(convertHeading(linechars["h5"]))
 h6         = QuotedString("==").setParseAction(convertHeading(linechars["h6"]))
 code       = QuotedString("''").setParseAction(convertToRst("``","``"))
-html       = QuotedString("<html>", endQuoteChar="</html>").setParseAction(htmlBlock)
+myHtmlBlock = convertHtml(0)
+html       = QuotedString("<html>", endQuoteChar="</html>").setParseAction(myHtmlBlock)
 imgRef     = QuotedString("{{",endQuoteChar="}}").setParseAction(convertToRst_I)
 br         = Literal(r'\\ ').setParseAction(replaceWith(""))
+
+htmlOpen,htmlClose = makeHTMLTags("html")
+htmlEmb = htmlOpen + SkipTo(htmlClose) + htmlClose
+#myHtmlBlock  = functools.partial(htmlBlock, i=2)
+myHtmlBlock = convertHtml(2)
+htmlEmb.setParseAction(myHtmlBlock)
+#htmlEmb.setParseAction(htmlBlock)
 
 codeOpen, codeClose = makeHTMLTags("code")
 codeBlock  = codeOpen + SkipTo(codeClose, ) + codeClose

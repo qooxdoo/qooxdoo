@@ -13,7 +13,7 @@ Preview Image
 -------------
 |CheckBox|
 
-.. |CheckBox| image:: /widget/checkbox.png
+.. |CheckBox| image:: widget/checkbox.png
 
 .. _pages/widget/checkbox#features:
 

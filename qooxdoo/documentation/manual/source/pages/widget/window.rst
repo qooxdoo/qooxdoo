@@ -13,7 +13,7 @@ Preview Image
 -------------
 |widget/window.png|
 
-.. |widget/window.png| image:: /widget/window.png
+.. |widget/window.png| image:: widget/window.png
 
 .. _pages/widget/window#features:
 

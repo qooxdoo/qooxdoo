@@ -14,7 +14,7 @@ Preview Image
 
 |layout/grid.png|
 
-.. |layout/grid.png| image:: /layout/grid.png
+.. |layout/grid.png| image:: layout/grid.png
 
 This image show two nested grids with column and row spans.
 

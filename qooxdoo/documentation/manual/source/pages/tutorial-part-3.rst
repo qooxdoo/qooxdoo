@@ -195,7 +195,7 @@ You see that the method has one parameter which is the current UI element which 
 
 |step 3|
 
-.. |step 3| image:: /tutorials/step3.png
+.. |step 3| image:: tutorials/step3.png
 
 Now it should be the way we like it to be. Sure it's not perfect because it has no error handling but that should be good enough for the tutorial.
 

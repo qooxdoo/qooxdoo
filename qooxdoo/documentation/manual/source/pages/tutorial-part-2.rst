@@ -9,7 +9,7 @@ I hope you remember the layout of the application we are trying to build. If not
 
 |twitter mockup1|
 
-.. |twitter mockup1| image:: /tutorials/twittermockup1.png
+.. |twitter mockup1| image:: tutorials/twittermockup1.png
 
 The first thing we need to do is to set a layout for our window. You can see that the text area and the button are side by side while all the other elements are ordered vertically. But all elements are aligned in a grid so we should choose a grid layout for that. We can add the grid layout in our own window class. Just add these lines of code in ``MainWindow.js``:
 
@@ -204,7 +204,7 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 |step 2|
 
-.. |step 2| image:: /tutorials/step21.png
+.. |step 2| image:: tutorials/step21.png
 
 That's it for building the UI. Again, if you want to take a `look at the code <http://github.com/wittemann/qooxdoo-tutorial/tree/Step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!

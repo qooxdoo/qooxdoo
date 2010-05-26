@@ -16,7 +16,7 @@ Preview Image
 -------------
 |widget/tabview.png|
 
-.. |widget/tabview.png| image:: /widget/tabview.png
+.. |widget/tabview.png| image:: widget/tabview.png
 
 .. _pages/widget/tabview#features:
 

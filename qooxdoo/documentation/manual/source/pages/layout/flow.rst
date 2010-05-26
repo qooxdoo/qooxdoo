@@ -21,7 +21,7 @@ Preview Image
 
 |layout/flow.png|
 
-.. |layout/flow.png| image:: /layout/flow.png
+.. |layout/flow.png| image:: layout/flow.png
 
 This image shows a gallery implemented using a Flow layout.
 

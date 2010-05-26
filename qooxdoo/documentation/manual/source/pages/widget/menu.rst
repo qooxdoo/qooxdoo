@@ -13,7 +13,7 @@ Preview Image
 -------------
 |:Menu|
 
-.. |:Menu| image:: /widget/menu.png
+.. |:Menu| image:: widget/menu.png
 
 .. _pages/widget/menu#features:
 

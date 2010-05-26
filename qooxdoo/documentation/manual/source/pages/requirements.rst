@@ -67,24 +67,24 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 <html>
 <!--
 ^ When using ... ^ ... do the following: ^
-| |image136|
+| |image600|
 
-.. |image136| image:: documentation:windows.png
+.. |image600| image:: documentation:windows.png
 
  Windows |  `install ActivePython <http://www.activestate.com/Products/activepython/>`_|
-| |image772|
+| |image345|
 
-.. |image772| image:: documentation:cygwin.png
+.. |image345| image:: documentation:cygwin.png
 
  Cygwin | :doc:`use package manager <>`|
-| |image17|
+| |image583|
 
-.. |image17| image:: documentation:macosx.png
+.. |image583| image:: documentation:macosx.png
 
  Mac | nothing to be done |
-| |image784|
+| |image594|
 
-.. |image784| image:: documentation:linux.png
+.. |image594| image:: documentation:linux.png
 
  Linux | use package manager |
 -->

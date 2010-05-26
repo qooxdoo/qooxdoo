@@ -15,7 +15,7 @@ Preview Image
 
 |widget/htmlembed.png|
 
-.. |widget/htmlembed.png| image:: /widget/htmlembed.png
+.. |widget/htmlembed.png| image:: widget/htmlembed.png
 
 .. _pages/widget/html#features:
 

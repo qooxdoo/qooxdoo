@@ -13,7 +13,7 @@ Preview Image
 -------------
 |TextField|
 
-.. |TextField| image:: /widget/textfield.png
+.. |TextField| image:: widget/textfield.png
 
 .. _pages/widget/textfield#features:
 

@@ -20,7 +20,7 @@ Preview Image
 
 |widget/canvas.png|
 
-.. |widget/canvas.png| image:: /widget/canvas.png
+.. |widget/canvas.png| image:: widget/canvas.png
 
 .. _pages/widget/canvas#features:
 

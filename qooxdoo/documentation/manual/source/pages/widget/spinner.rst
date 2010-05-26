@@ -13,7 +13,7 @@ Preview Image
 -------------
 |Spinner|
 
-.. |Spinner| image:: /widget/spinner.png
+.. |Spinner| image:: widget/spinner.png
 
 .. _pages/widget/spinner#features:
 
