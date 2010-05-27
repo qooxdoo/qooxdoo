@@ -13,7 +13,7 @@ Preview Image
 -------------
 |widget/tree.png|
 
-.. |widget/tree.png| image:: widget/tree.png
+.. |widget/tree.png| image:: /pages/widget/tree.png
 
 .. _pages/widget/tree#features:
 

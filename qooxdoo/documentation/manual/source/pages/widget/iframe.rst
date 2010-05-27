@@ -15,7 +15,7 @@ Preview Image
 
 |widget/iframe.png|
 
-.. |widget/iframe.png| image:: widget/iframe.png
+.. |widget/iframe.png| image:: /pages/widget/iframe.png
 
 .. _pages/widget/iframe#features:
 

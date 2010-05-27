@@ -27,7 +27,8 @@ def internalLink(url):
             url = url[2:]
         if url.startswith("."):
             url = url[1:]
-        if url.startswith(":") or url.startswith("documentation"):
+        if (url.startswith(":") or url.startswith("documentation") or 
+            url.startswith("about")):
             if url.startswith(":"):
                 url = url[1:]
             url = "http*//qooxdoo.org/" + url
@@ -41,11 +42,11 @@ def internalLink(url):
     return url
 
 fileset = set(())
-def absolutizeUrl(url):
+def absolutizeUrl(url, withext=False):
     # generator_config_articles#packages_key -> pages/tool/generator_config_article#packages_key
     # force all-lowercase
     url = url.lower()
-    if url.find('#'):  # strip fragment id
+    if url.find('#')>-1:  # strip fragment id
         fragment = url[url.find('#'):]
         base = url[:url.find('#')]
     else:
@@ -58,7 +59,10 @@ def absolutizeUrl(url):
         for file in files:
             fbase,ext = os.path.splitext(file)
             fullbase = os.path.join(root, fbase)
+            if withext:
+                fullbase += ext
             fullbase = fullbase.lower()
+            fullbase = os.path.normpath(fullbase)  # get rid of leading "./"
             if fullbase.endswith(base):
                 fileset.add(fullbase)
                 return fullbase + fragment
@@ -124,10 +128,8 @@ def convertToRst_I(s,l,t):
     # handle document:1.2:
     elif url.find(ns12)>-1:
         url = internalLink(url)
-        #base,ext = os.path.splitext(url)
-        #url = absolutizeUrl(url)
-        #url += ext
-        if url.startswith("path/"):
+        url = absolutizeUrl(url, withext=True)
+        if url.startswith("pages/"):
             url = "/" + url   # need to 'absolutize' internal img refs, http://sphinx.pocoo.org/rest.html#images
     else:
         #raise ParseFatalException(s,l,"invalid URL link reference: " + t[0])
@@ -382,10 +384,11 @@ def main(path):
 if __name__ == "__main__":
     wikiInput = ""
     if len(sys.argv)>1:
-        if os.path.isfile(sys.argv[1]):
-            currentInput = sys.argv[1]
-            dirroot = os.path.dirname(sys.argv[1]) or '.'
-            wikiInput = codecs.open(sys.argv[1], "rU", "utf-8").read()
+        if len(sys.argv)>2:
+            if os.path.isfile(sys.argv[2]):
+                currentInput = sys.argv[2]
+                dirroot = os.path.dirname(sys.argv[1]) or '.'
+                wikiInput = codecs.open(sys.argv[2], "rU", "utf-8").read()
         elif os.path.isdir(sys.argv[1]):
             main(sys.argv[1])
     else:

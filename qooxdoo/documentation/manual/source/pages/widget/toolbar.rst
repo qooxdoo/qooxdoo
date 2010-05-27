@@ -13,7 +13,7 @@ Preview Image
 -------------
 |widget/toolbar.jpg|
 
-.. |widget/toolbar.jpg| image:: widget/toolbar.jpg
+.. |widget/toolbar.jpg| image:: /pages/widget/toolbar.jpg
 
 .. _pages/widget/toolbar#features:
 

@@ -15,7 +15,7 @@ Preview Image
 
 |layout/dock.png|
 
-.. |layout/dock.png| image:: layout/dock.png
+.. |layout/dock.png| image:: /pages/layout/dock.png
 
 .. _pages/layout/dock#features:
 

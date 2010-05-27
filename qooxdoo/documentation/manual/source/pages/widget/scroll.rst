@@ -15,7 +15,7 @@ Preview Image
 
 |widget/scroll.jpg|
 
-.. |widget/scroll.jpg| image:: widget/scroll.jpg
+.. |widget/scroll.jpg| image:: /pages/widget/scroll.jpg
 
 .. _pages/widget/scroll#features:
 

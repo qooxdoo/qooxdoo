@@ -15,7 +15,7 @@ Preview Image
 
 |widget/slidebar.jpg|
 
-.. |widget/slidebar.jpg| image:: widget/slidebar.jpg
+.. |widget/slidebar.jpg| image:: /pages/widget/slidebar.jpg
 
 .. _pages/widget/slidebar#features:
 

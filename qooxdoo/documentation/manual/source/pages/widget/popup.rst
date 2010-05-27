@@ -13,7 +13,7 @@ Preview Image
 -------------
 |widget/popup.png|
 
-.. |widget/popup.png| image:: widget/popup.png
+.. |widget/popup.png| image:: /pages/widget/popup.png
 
 .. _pages/widget/popup#features:
 

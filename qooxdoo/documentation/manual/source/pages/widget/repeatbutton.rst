@@ -13,7 +13,7 @@ Preview Image
 -------------
 |RepeatButton|
 
-.. |RepeatButton| image:: widget/button.png
+.. |RepeatButton| image:: /pages/widget/button.png
 
 .. _pages/widget/repeatbutton#features:
 

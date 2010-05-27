@@ -148,7 +148,7 @@ OK, time to run ``generate.py source`` and load the application in a browser to 
 
 |Twitter client application with login window|
 
-.. |Twitter client application with login window| image:: tutorials/step41.png
+.. |Twitter client application with login window| image:: /pages/tutorials/step41.png
 
 Twitter client application with login window
 

@@ -15,7 +15,7 @@ Preview Image
 -------------
 |widget/splitpane.png|
 
-.. |widget/splitpane.png| image:: widget/splitpane.png
+.. |widget/splitpane.png| image:: /pages/widget/splitpane.png
 
 .. _pages/widget/splitpane#features:
 

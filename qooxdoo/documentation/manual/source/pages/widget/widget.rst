@@ -36,7 +36,7 @@ Diagram
 
 |widget/widget.png|
 
-.. |widget/widget.png| image:: widget/widget.png
+.. |widget/widget.png| image:: /pages/widget/widget.png
 
 A widget consists of at least three HTML elements. The container element, which is added to the parent widget has two child Element: The "decoration" and the "content" element. The decoration element has a lower z-Index and contains markup to render the widget's background and border using an implementation of ``qx.ui.decoration.IDecorator``.The content element is positioned inside the "container" element to respect paddings and contains the "real" widget element.
 

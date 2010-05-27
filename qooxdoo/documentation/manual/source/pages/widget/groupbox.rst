@@ -15,7 +15,7 @@ Preview Image
 
 |widget/groupbox_complete.png|
 
-.. |widget/groupbox_complete.png| image:: widget/groupbox_complete.png
+.. |widget/groupbox_complete.png| image:: /pages/widget/groupbox_complete.png
 
 .. _pages/widget/groupbox#features:
 

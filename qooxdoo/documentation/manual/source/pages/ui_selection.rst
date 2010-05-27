@@ -35,7 +35,7 @@ Selection Interfaces
 ====================
 |Selection API Interfaces|
 
-.. |Selection API Interfaces| image:: new_selection_api.png
+.. |Selection API Interfaces| image:: /pages/new_selection_api.png
 
 .. _pages/ui_selection#event:
 

@@ -13,7 +13,7 @@ Preview Image
 -------------
 |ToggleButton|
 
-.. |ToggleButton| image:: widget/togglebuttom.png
+.. |ToggleButton| image:: /pages/widget/togglebuttom.png
 
 .. _pages/widget/togglebutton#features:
 

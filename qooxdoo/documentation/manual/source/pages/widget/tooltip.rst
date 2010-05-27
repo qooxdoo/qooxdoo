@@ -13,7 +13,7 @@ Preview Image
 -------------
 |widget/tooltip.png|
 
-.. |widget/tooltip.png| image:: widget/tooltip.png
+.. |widget/tooltip.png| image:: /pages/widget/tooltip.png
 
 .. _pages/widget/tooltip#features:
 

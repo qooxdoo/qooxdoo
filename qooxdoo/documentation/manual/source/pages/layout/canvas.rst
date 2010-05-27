@@ -15,7 +15,7 @@ Preview Image
 
 |layout/canvas.png|
 
-.. |layout/canvas.png| image:: layout/canvas.png
+.. |layout/canvas.png| image:: /pages/layout/canvas.png
 
 .. _pages/layout/canvas#features:
 

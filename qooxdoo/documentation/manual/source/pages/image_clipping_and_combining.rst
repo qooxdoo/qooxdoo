@@ -85,7 +85,7 @@ For the case ``border-width``: One image says more than thousand words :)
 
 |groupbox_clipping.png|
 
-.. |groupbox_clipping.png| image:: groupbox_clipping.png
+.. |groupbox_clipping.png| image:: /pages/groupbox_clipping.png
 
 The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4.
 

@@ -15,7 +15,7 @@ Preview Image
 
 |widget/label.jpg|
 
-.. |widget/label.jpg| image:: widget/label.jpg
+.. |widget/label.jpg| image:: /pages/widget/label.jpg
 
 .. _pages/widget/label#features:
 

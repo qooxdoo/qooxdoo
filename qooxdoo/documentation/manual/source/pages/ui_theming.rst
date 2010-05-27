@@ -11,11 +11,11 @@ qooxdoo includes two themes:
 Here some screenshots:
 |Modern theme|
 
-.. |Modern theme| image:: manual/window_modern_theme.png
+.. |Modern theme| image:: /pages/manual/window_modern_theme.png
 
 |Classic theme|
 
-.. |Classic theme| image:: manual/window_classic_theme.png
+.. |Classic theme| image:: /pages/manual/window_classic_theme.png
 
 While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/ui_custom_themes#overriding_themes>` or they can be :ref:`created from scratch <pages/ui_custom_themes#custom_themes>`.
 

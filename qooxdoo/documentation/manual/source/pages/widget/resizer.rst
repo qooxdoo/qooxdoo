@@ -15,7 +15,7 @@ Preview Image
 
 |widget/resizer.jpg|
 
-.. |widget/resizer.jpg| image:: widget/resizer.jpg
+.. |widget/resizer.jpg| image:: /pages/widget/resizer.jpg
 
 .. _pages/widget/resizer#features:
 

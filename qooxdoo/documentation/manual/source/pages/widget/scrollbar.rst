@@ -19,7 +19,7 @@ Preview Image
 
 |widget/scrollbars.png|
 
-.. |widget/scrollbars.png| image:: widget/scrollbars.png
+.. |widget/scrollbars.png| image:: /pages/widget/scrollbars.png
 
 .. _pages/widget/scrollbar#features:
 

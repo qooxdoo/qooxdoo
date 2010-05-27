@@ -14,7 +14,7 @@ Preview Image
 -------------
 |layout/basic.png|
 
-.. |layout/basic.png| image:: layout/basic.png
+.. |layout/basic.png| image:: /pages/layout/basic.png
 
 .. _pages/layout/basic#features:
 

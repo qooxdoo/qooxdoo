@@ -13,7 +13,7 @@ Preview Image
 -------------
 |ComboBox|
 
-.. |ComboBox| image:: widget/combobox.png
+.. |ComboBox| image:: /pages/widget/combobox.png
 
 .. _pages/widget/combobox#features:
 

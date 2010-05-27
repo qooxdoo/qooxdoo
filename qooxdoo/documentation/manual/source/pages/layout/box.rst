@@ -15,7 +15,7 @@ Preview Image
 
 |layout/hbox.png|
 
-.. |layout/hbox.png| image:: layout/hbox.png
+.. |layout/hbox.png| image:: /pages/layout/hbox.png
 
 .. _pages/layout/box#features:
 

@@ -13,7 +13,7 @@ Preview Image
 -------------
 |DateField|
 
-.. |DateField| image:: widget/datefield.png
+.. |DateField| image:: /pages/widget/datefield.png
 
 .. _pages/widget/datefield#features:
 

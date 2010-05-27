@@ -13,7 +13,7 @@ Preview Image
 -------------
 |Slider|
 
-.. |Slider| image:: widget/slider.png
+.. |Slider| image:: /pages/widget/slider.png
 
 .. _pages/widget/slider#features:
 
