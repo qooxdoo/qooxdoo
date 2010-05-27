@@ -31,6 +31,8 @@ from misc.ExtendAction import ExtendAction
 class DummyConsole(object):
     def debug(self, msg):
         pass
+    def error(self, msg):
+        print msg
 
 
 class CopyTool(object):
@@ -82,12 +84,12 @@ class CopyTool(object):
                         try:
                             os.chmod(targetPath, stat.S_IWUSR)
                         except Exception, e:
-                            print "Unable to overwrite read-only file %s: %s" %(str(e), targetPath)
+                            self.__console.error("Unable to overwrite read-only file %s: %s" %(str(e), targetPath))
         
         try:
             shutil.copy(sourceFile, targetPath)
         except (IOError, OSError), e:
-            print e
+            self.__console.error("Error copying file %s to dir %s: %s" %(sourceFile, targetPath, str(e)))
     
 
     def __copyDirToDir(self, sourceDir, targetDir):
@@ -160,7 +162,7 @@ copy file or directory SOURCE to directory TARGET'''
         (options, args) = parser.parse_args(argumentList)
         
         if not len(args) == 2:
-            print "Missing argument, use -h for help."
+            self.__console.error( "Missing argument, use -h for help.")
             sys.exit(1)
         
         self.__source = os.path.abspath(args[0])
