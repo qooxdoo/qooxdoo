@@ -1,0 +1,205 @@
+276 ./index.rst
+150 ./pages/antipatterns.rst
+46 ./pages/application_structure/manifest.rst
+63 ./pages/application_structure.rst
+14 ./pages/architecture.rst
+43 ./pages/array.rst
+112 ./pages/aspects_template.rst
+78 ./pages/back-button_and_bookmark_support.rst
+423 ./pages/classes.rst
+140 ./pages/classmap.rst
+80 ./pages/class_quickref.rst
+44 ./pages/code_structure.rst
+168 ./pages/data_binding/controller.rst
+123 ./pages/data_binding/single_value_binding.rst
+117 ./pages/data_binding/stores.rst
+70 ./pages/data_binding.rst
+131 ./pages/debugging.rst
+578 ./pages/defining_properties.rst
+66 ./pages/development_tools.rst
+161 ./pages/enterprise_application_development.rst
+29 ./pages/event_layer_impl.rst
+76 ./pages/focus_layer_impl.rst
+35 ./pages/framework_structure.rst
+25 ./pages/framework_unit_testing.rst
+85 ./pages/frame_apps_testrunner.rst
+269 ./pages/generator_config_background.rst
+146 ./pages/generator_config_howto.rst
+207 ./pages/helloworld.rst
+102 ./pages/html_element_handling.rst
+185 ./pages/image_clipping_and_combining.rst
+10 ./pages/image_handling.rst
+146 ./pages/interfaces.rst
+46 ./pages/interface_quickref.rst
+189 ./pages/internationalization.rst
+32 ./pages/internet_explorer_specific_settings.rst
+13 ./pages/introduction_sdk.rst
+66 ./pages/layout/basic.rst
+93 ./pages/layout/box.rst
+72 ./pages/layout/canvas.rst
+75 ./pages/layout/dock.rst
+71 ./pages/layout/flow.rst
+77 ./pages/layout/grid.rst
+43 ./pages/layout/grow.rst
+19 ./pages/layout.rst
+22 ./pages/logging.rst
+106 ./pages/low_level_apis.rst
+77 ./pages/memory_management.rst
+59 ./pages/migration_config.rst
+30 ./pages/migration_guide.rst
+408 ./pages/migration_guide_from_07.rst
+85 ./pages/migration_makefile.rst
+86 ./pages/migration_notes_from_07.rst
+22 ./pages/migration_support.rst
+135 ./pages/mixins.rst
+55 ./pages/mixin_quickref.rst
+418 ./pages/oo_feature_summary.rst
+52 ./pages/oo_introduction.rst
+19 ./pages/parts_overview.rst
+183 ./pages/parts_using.rst
+57 ./pages/profiling.rst
+65 ./pages/properties_quickref.rst
+86 ./pages/property_features/behavior.rst
+91 ./pages/property_features.rst
+104 ./pages/qooxdoo_animation.rst
+134 ./pages/remote_io.rst
+164 ./pages/remote_table_model.rst
+11 ./pages/reporting_bugs.rst
+83 ./pages/requirements.rst
+402 ./pages/rpc.rst
+40 ./pages/rpc_java.rst
+153 ./pages/rpc_perl.rst
+58 ./pages/rpc_php.rst
+94 ./pages/rpc_python.rst
+253 ./pages/rpc_server_writer_guide.rst
+74 ./pages/setup_a_low-level_library.rst
+24 ./pages/snippets/centering_a_window.rst
+48 ./pages/snippets/compress_qooxdoo.js_without_mod_deflate.rst
+6 ./pages/snippets/demobrowser.rst
+192 ./pages/snippets/different_application_root.rst
+21 ./pages/snippets/focusing_a_widget_in_a_window.rst
+11 ./pages/snippets/how_do_i_enable_the_browser_context_menu.rst
+23 ./pages/snippets/how_do_i_see_html_created_by_qooxdoo.rst
+42 ./pages/snippets/implementing_a_contextmenu.rst
+26 ./pages/snippets/problems_with_this_in_event_handlers.rst
+194 ./pages/snippets/setting_a_different_application_root.rst
+15 ./pages/snippets/transparent_colors.rst
+16 ./pages/snippets/user-defined_data.rst
+194 ./pages/snippets/using_complex_namespaces.rst
+856 ./pages/snippets.rst
+100 ./pages/tool/astlets.rst
+91 ./pages/tool/generator.rst
+218 ./pages/tool/generator_config.rst
+637 ./pages/tool/generator_config_articles.rst
+24 ./pages/tool/generator_config_macros.rst
+920 ./pages/tool/generator_config_ref.rst
+218 ./pages/tool/generator_default_jobs.rst
+122 ./pages/tool/generator_usage.rst
+104 ./pages/tool/source_code_validation.rst
+7 ./pages/tool.rst
+31 ./pages/tools_beyond_python_sdk.rst
+100 ./pages/troubleshooting.rst
+98 ./pages/tutorial-part-1.rst
+211 ./pages/tutorial-part-2.rst
+217 ./pages/tutorial-part-3.rst
+156 ./pages/tutorial-part-4-1.rst
+333 ./pages/ui_appearance.rst
+91 ./pages/ui_custom_themes.rst
+54 ./pages/ui_decorators.rst
+134 ./pages/ui_develop.rst
+253 ./pages/ui_dragdrop.rst
+1279 ./pages/ui_form_handling.rst
+82 ./pages/ui_form_handling2/namespace.rst
+19 ./pages/ui_html_editing/available_shortcuts.rst
+35 ./pages/ui_html_editing/browser_bugs.rst
+35 ./pages/ui_html_editing/copy_and_paste.rst
+105 ./pages/ui_html_editing/default_paragraph_handling.rst
+139 ./pages/ui_html_editing/featurelist.rst
+229 ./pages/ui_html_editing/html_editing_in_general.rst
+68 ./pages/ui_html_editing/integration_guide.rst
+13 ./pages/ui_html_editing/list_handling.rst
+129 ./pages/ui_html_editing/paragraph_handling.rst
+46 ./pages/ui_html_editing/recommendations.rst
+77 ./pages/ui_html_editing/technicalfeaturelist.rst
+22 ./pages/ui_html_editing/textalign.rst
+71 ./pages/ui_html_editing/undo_redo.rst
+66 ./pages/ui_html_editing.rst
+147 ./pages/ui_inline.rst
+110 ./pages/ui_interaction.rst
+227 ./pages/ui_layouting.rst
+166 ./pages/ui_menu_handling.rst
+62 ./pages/ui_overview.rst
+119 ./pages/ui_resources.rst
+289 ./pages/ui_selection.rst
+324 ./pages/ui_theming.rst
+89 ./pages/ui_using_themes_of_contribs.rst
+84 ./pages/ui_widgets.rst
+205 ./pages/understanding_properties.rst
+15 ./pages/unit_testing.rst
+213 ./pages/variants.rst
+41 ./pages/widget/atom.rst
+46 ./pages/widget/button.rst
+57 ./pages/widget/canvas.rst
+49 ./pages/widget/checkbox.rst
+48 ./pages/widget/combobox.rst
+41 ./pages/widget/composite.rst
+45 ./pages/widget/datefield.rst
+53 ./pages/widget/groupbox.rst
+46 ./pages/widget/hoverbutton.rst
+58 ./pages/widget/html.rst
+51 ./pages/widget/iframe.rst
+43 ./pages/widget/image.rst
+52 ./pages/widget/label.rst
+59 ./pages/widget/list.rst
+125 ./pages/widget/menu.rst
+43 ./pages/widget/menubar.rst
+49 ./pages/widget/menubutton.rst
+49 ./pages/widget/passwordfield.rst
+43 ./pages/widget/popup.rst
+47 ./pages/widget/repeatbutton.rst
+48 ./pages/widget/resizer.rst
+52 ./pages/widget/scroll.rst
+46 ./pages/widget/scrollbar.rst
+49 ./pages/widget/selectbox.rst
+47 ./pages/widget/slidebar.rst
+46 ./pages/widget/slider.rst
+31 ./pages/widget/spacer.rst
+48 ./pages/widget/spinner.rst
+49 ./pages/widget/splitbutton.rst
+48 ./pages/widget/splitpane.rst
+38 ./pages/widget/stack.rst
+56 ./pages/widget/tabview.rst
+48 ./pages/widget/template.rst
+48 ./pages/widget/textarea.rst
+49 ./pages/widget/textfield.rst
+14 ./pages/widget/themediframe.rst
+46 ./pages/widget/togglebutton.rst
+141 ./pages/widget/toolbar.rst
+46 ./pages/widget/tooltip.rst
+187 ./pages/widget/tree.rst
+55 ./pages/widget/widget.rst
+62 ./pages/widget/window.rst
+64 ./pages/widget.rst
+222 ./pages/write_api_documentation.rst
+
+
+n.txt:
+# perl -ane '$s+=$F[0];END{print $s,"\n"}' l.txt
+21457
+
+# wc -l l.txt
+183
+
+In [2]: 21457 / 5
+Out[2]: 4291
+
+
+bash-3.2$ perl -ane '$s+=$F[0];if($s>4300){print "$F[1]\n";$s=0};END{print $s,"
+\n"}' l.txt
+./pages/internationalization.rst
+./pages/snippets/different_application_root.rst
+./pages/tutorial-part-3.rst
+./pages/ui_selection.rst
+
+
+
