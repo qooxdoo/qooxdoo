@@ -66,5 +66,5 @@ The views for data binding can be almost any widget out of qooxdoo's rich set of
 Demos, API and CheatSheet
 =========================
 You should now have a basic idea of qooxdoo's data binding, so to see it in action, take a look at the `online demos <http://demo.qooxdoo.org/1.2/demobrowser/index.html#data>`_ and the `API reference <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data>`_. 
-If you want to start programming, maybe the :doc:`CheatSheet </pages/databindingcheatsheet.pdf>` can help you during your programming.
+If you want to start programming, maybe the :download:`CheatSheet </pages/databindingcheatsheet.pdf>` can help you during your programming.
 
