@@ -1,273 +1,255 @@
-.. qooxdoo documentation master file, created by
-   sphinx-quickstart on Thu May 20 09:23:10 2010.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. _index#manual_1.2:
 
-Welcome to qooxdoo's documentation!
-###################################
+Manual 1.2
+**********
 
-Contents:
+.. note::
 
-.. toctree::
-   :maxdepth: 2
+    This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
 
-Indices and tables
-##################
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-<note>This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of [[:documentation|released versions]].</note> ::
-
-  qx.Class.define("qx.MyClass", {
-    construct: function() {
-      this.initMyProperty([1, 2, 4, 8]);
-    },
-    properties : {
-      myProperty : { deferredInit : true}
-    }
-  };
+.. _index#getting_started:
 
 Getting Started
-***************
- 
+===============
+
   * :doc:`pages/requirements`
-  * [[.:1.2:helloworld]] - *"A must-read introduction"*
+  * :doc:`pages/helloworld` - **"A must-read introduction"**
 
-
+.. _index#tutorial:
 
 Tutorial
-********
+========
 
-  * [[documentation:1.2:tutorial-part-1]]
-  * [[documentation:1.2:tutorial-part-2]]
-  * [[documentation:1.2:tutorial-part-3]]
-  * [[documentation:1.2:tutorial-part-4-1]]
+  * :doc:`pages/tutorial-part-1`
+  * :doc:`pages/tutorial-part-2`
+  * :doc:`pages/tutorial-part-3`
+  * :doc:`pages/tutorial-part-4-1`
+
+.. _index#sdk:
 
 SDK
-***
+===
 
-  * [[.:1.2:introduction_sdk]]
-  * [[.:1.2:framework_structure]]
-  * [[.:1.2:application_structure]]
-  * [[.:1.2:code_structure]]
-  * [[.:1.2:architecture]]
+  * :doc:`pages/introduction_sdk`
+  * :doc:`pages/framework_structure`
+  * :doc:`pages/application_structure`
+  * :doc:`pages/code_structure`
+  * :doc:`pages/architecture`
 
-
+.. _index#gui_toolkit:
 
 GUI Toolkit
-***********
+===========
 
-
-
-
-
+.. _index#documents:
 
 Documents
-=========
+---------
 
-  * [[.:1.2:ui_overview]] \\ Definition of widgets, roots, applications, ...
-  * [[.:1.2:ui_layouting]] \\ Layout managers, panes, visibility, ...
-  * [[.:1.2:ui_widgets]] \\ Existing widget overview, ...
-  * [[.:1.2:ui_interaction]] \\ Mouse, keyboard, focus, ...
-  * [[.:1.2:ui_resources]] \\ Using images and other non-class files, ...
-  * [[.:1.2:ui_selection]] \\ Selecting widgets and working with ranges
-  * [[.:1.2:ui_dragdrop]] \\ Powerful Drag&Drop with built-in data handling support
-  * [[.:1.2:ui_inline]] \\ Using widgets inline in HTML-dominated web pages
-  * [[.:1.2:ui_theming]] \\ High-level overview of theming capabilities
-  * [[.:1.2:ui_appearance]] \\ Detailed explanation to work with appearances
-  * [[.:1.2:ui_custom_themes]] \\ Write custom themes
-  * [[.:1.2:ui_decorators]] \\ Working with decorators, defining new ones, writing custom ones, ...
-  * [[.:1.2:ui_develop]] \\ Developing custom widgets, understanding child controls, HTML elements, ...
-  * [[.:1.2:ui_form_handling]] \\ Creating complex forms using classes like Button, TextField, List, ...
-  * [[.:1.2:ui_menu_handling]] \\ Creating simple and complex menus
-  * [[.:1.2:ui_using_themes_of_contribs]] \\ Using themes of contributions in your application
-  * [[.:1.2:ui_html_editing]] \\ Overview of HTML editing capabilities
+  * :doc:`pages/ui_overview` Definition of widgets, roots, applications, ...
+  * :doc:`pages/ui_layouting` Layout managers, panes, visibility, ...
+  * :doc:`pages/ui_widgets` Existing widget overview, ...
+  * :doc:`pages/ui_interaction` Mouse, keyboard, focus, ...
+  * :doc:`pages/ui_resources` Using images and other non-class files, ...
+  * :doc:`pages/ui_selection` Selecting widgets and working with ranges
+  * :doc:`pages/ui_dragdrop` Powerful Drag&Drop with built-in data handling support
+  * :doc:`pages/ui_inline` Using widgets inline in HTML-dominated web pages
+  * :doc:`pages/ui_theming` High-level overview of theming capabilities
+  * :doc:`pages/ui_appearance` Detailed explanation to work with appearances
+  * :doc:`pages/ui_custom_themes` Write custom themes
+  * :doc:`pages/ui_decorators` Working with decorators, defining new ones, writing custom ones, ...
+  * :doc:`pages/ui_develop` Developing custom widgets, understanding child controls, HTML elements, ...
+  * :doc:`pages/ui_form_handling` Creating complex forms using classes like Button, TextField, List, ...
+  * :doc:`pages/ui_menu_handling` Creating simple and complex menus
+  * :doc:`pages/ui_using_themes_of_contribs` Using themes of contributions in your application
+  * :doc:`pages/ui_html_editing` Overview of HTML editing capabilities
+
+.. _index#references:
 
 References
-==========
+----------
 
-  * [[.:1.2:widget]]
-  * [[.:1.2:layout]]
+  * :doc:`pages/widget`
+  * :doc:`pages/layout`
 
+.. _index#core_framework:
 
 Core Framework
-**************
-
-Object Orientation
-==================
-
-  * [[.:1.2:oo_introduction]]
-  * [[.:1.2:oo_feature_summary]]
-
-  * [[.:1.2:classes]] <html>&nbsp;</html> ( [[.:1.2:class_quickref|Quick Ref]] )
-  * [[.:1.2:interfaces]] <html>&nbsp;</html> ( [[.:1.2:interface_quickref|Quick Ref]] )
-  * [[.:1.2:mixins]] <html>&nbsp;</html> ( [[.:1.2:mixin_quickref|Quick Ref]] )
-
-Properties
-==========
-
-  * [[.:1.2:understanding_properties]]
-  * [[.:1.2:property_features]]
-  * [[.:1.2:defining_properties]]
-  * [[.:1.2:properties_quickref|Quick Ref]]
-
-References
-==========
-
-  * [[.:1.2:array|Array Reference]]
-
-
-
-Low Level Framework
-*******************
-
-  * [[lowleveloverview|Overview]]
-  * [[lowlevelscenarios|Scenarios]]
-
-
-
-
-
-
-Tutorials
-=========
-
-  * [[.:1.2:setup_a_low-level_library]]
-  * [[.:1.2:low_level_apis]] (Query and modify styles, attributes, ...)
-  * [[.:1.2:back-button_and_bookmark_support]]
-
-
-
-Tech Documents
 ==============
 
-  * [[.:1.2:html_element_handling]]
-  * [[.:1.2:image_handling]]
-  * [[.:1.2:event_layer_impl]]
-  * [[.:1.2:focus_layer_impl]]
-  * [[.:1.2:qooxdoo_animation]]
+.. _index#object_orientation:
 
+Object Orientation
+------------------
+
+  * :doc:`pages/oo_introduction`
+  * :doc:`pages/oo_feature_summary`
+
+  * :doc:`pages/classes`  ( :doc:`Quick Ref <pages/class_quickref>` )
+  * :doc:`pages/interfaces`  ( :doc:`Quick Ref <pages/interface_quickref>` )
+  * :doc:`pages/mixins`  ( :doc:`Quick Ref <pages/mixin_quickref>` )
+
+.. _index#properties:
+
+Properties
+----------
+
+  * :doc:`pages/understanding_properties`
+  * :doc:`pages/property_features`
+  * :doc:`pages/defining_properties`
+  * :doc:`Quick Ref <pages/properties_quickref>`
+
+.. _index#references:
+
+References
+----------
+
+  * :doc:`Array Reference <pages/array>`
+
+.. _index#low_level_framework:
+
+Low Level Framework
+===================
+
+  * :doc:`Overview <lowleveloverview>`
+  * :doc:`Scenarios <lowlevelscenarios>`
+
+.. _index#tutorials:
+
+Tutorials
+---------
+
+  * :doc:`pages/setup_a_low-level_library`
+  * :doc:`pages/low_level_apis` (Query and modify styles, attributes, ...)
+  * :doc:`pages/back-button_and_bookmark_support`
+
+.. _index#tech_documents:
+
+Tech Documents
+--------------
+
+  * :doc:`pages/html_element_handling`
+  * :doc:`pages/image_handling`
+  * :doc:`pages/event_layer_impl`
+  * :doc:`pages/focus_layer_impl`
+  * :doc:`pages/qooxdoo_animation`
+
+.. _index#communication:
 
 Communication
-*************
+=============
 
 There are two forms of client-server communication supported:
 
-  * [[.:1.2:remote_io|Low-level AJAX calls]]
+  * :doc:`Low-level AJAX calls <pages/remote_io>`
   * Higher-level Remote Procedure Calls (RPC)
-    * [[.:1.2:rpc]]
-    * RPC Servers: [[.:1.2:rpc_java|Java]], [[.:1.2:rpc_php|PHP]], [[.:1.2:rpc_perl|Perl]],  [[.:1.2:rpc_python|Python]]
-    * [[.:1.2:rpc_server_writer_guide]] 
+    * :doc:`pages/rpc`
+    * RPC Servers: :doc:`Java <pages/rpc_java>`, :doc:`PHP <pages/rpc_php>`, :doc:`Perl <pages/rpc_perl>`,  :doc:`Python <pages/rpc_python>`
+    * :doc:`pages/rpc_server_writer_guide` 
 
-
+.. _index#development:
 
 Development
-***********
-
-Debugging
-=========
-
-  * [[.:1.2:logging]]
-  * [[.:1.2:debugging]]
-  * [[.:1.2:unit_testing]]
-
-
-Performance
 ===========
 
-  * [[.:1.2:memory_management]]
-  * [[.:1.2:profiling]]
+.. _index#debugging:
+
+Debugging
+---------
+
+  * :doc:`pages/logging`
+  * :doc:`pages/debugging`
+  * :doc:`pages/unit_testing`
+
+.. _index#performance:
+
+Performance
+-----------
+
+  * :doc:`pages/memory_management`
+  * :doc:`pages/profiling`
+
+.. _index#other:
 
 Other
-=====
-  * [[.:1.2:snippets]]
-  * [[.:1.2:enterprise_application_development]]
-  * [[.:1.2:antipatterns]]
+-----
+  * :doc:`pages/snippets`
+  * :doc:`pages/enterprise_application_development`
+  * :doc:`pages/antipatterns`
 
-  * [[.:1.2:variants]]
-  * [[.:1.2:internationalization|Internationalization, Localization]]
-  * [[.:1.2:image_clipping_and_combining]]
+  * :doc:`pages/variants`
+  * :doc:`Internationalization, Localization <pages/internationalization>`
+  * :doc:`pages/image_clipping_and_combining`
 
-  * [[.:1.2:remote_table_model]]
-  * [[.:1.2:data_binding]]
+  * :doc:`pages/remote_table_model`
+  * :doc:`pages/data_binding`
 
-  * [[.:1.2:write_api_documentation]]
-  * [[.:1.2:reporting_bugs]]
+  * :doc:`pages/write_api_documentation`
+  * :doc:`pages/reporting_bugs`
 
-  * [[.:1.2:development_platforms]]
-  * [[.:1.2:development_tools]]
+  * :doc:`pages/development_platforms`
+  * :doc:`pages/development_tools`
 
-  * [[.:1.2:aspects_template]]
+  * :doc:`pages/aspects_template`
 
-  * [[.:1.2:internet_explorer_specific_settings]]
+  * :doc:`pages/internet_explorer_specific_settings`
 
-
+.. _index#tooling:
 
 Tooling
-*******
-
-
-
-
-
-
-
-
-General
 =======
 
-  * [[.:1.2:tool:generator]]
-  * [[.:1.2:tool:generator_usage]]
-  * [[.:1.2:tool:generator_default_jobs]]
-  * [[.:1.2:tool:generator_config|Generator Configuration Overview]]
-  * {{:documentation:1.2:tool:generator_cheat_sheet_1.0.0-1.pdf|Generator Cheat Sheet (PDF)}}
-  * [[.:1.2:snippets#Tooling| Snippets (Tool-related)]]
-  * [[.:1.2:tool:source_code_validation]]
+.. _index#general:
 
+General
+-------
 
+  * :doc:`pages/tool/generator`
+  * :doc:`pages/tool/generator_usage`
+  * :doc:`pages/tool/generator_default_jobs`
+  * :doc:`Generator Configuration Overview <pages/tool/generator_config>`
+  * :doc:`Generator Cheat Sheet (PDF) </pages/tool/generator_cheat_sheet_1.0.0-1.pdf>`
+  * :ref:`Snippets (Tool-related) <snippets#Tooling>`
+  * :doc:`pages/tool/source_code_validation`
 
-
-
+.. _index#generator_configuration:
 
 Generator Configuration
-=======================
+-----------------------
 
-  * [[.:1.2:tool:generator_config_ref| Configuration Key Reference]]
-  * [[.:1.2:tool:generator_config_macros| Configuration Macro Reference]]
-  * [[.:1.2:tool:generator_config_articles| Configuration Detail Articles]]
+  * :doc:`Configuration Key Reference <pages/tool/generator_config_ref>`
+  * :doc:`Configuration Macro Reference <pages/tool/generator_config_macros>`
+  * :doc:`Configuration Detail Articles <pages/tool/generator_config_articles>`
 
-
-
-
-
-
-
-
+.. _index#specific_topics:
 
 Specific Topics
-===============
+---------------
+
+.. _index#parts:
 
 Parts
------
+^^^^^
 
-  * [[.:1.2:parts_overview| Overview]]
-  * [[.:1.2:parts_using| Using Parts]]
+  * :doc:`Overview <pages/parts_overview>`
+  * :doc:`Using Parts <pages/parts_using>`
   * Reference:
-    * [[.:1.2:tool:generator_config_ref#packages | Generator Configuration]]
-    * [[http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.io.PartLoader | qooxdoo API]]
+
+    * :ref:`Generator Configuration <pages/tool/generator_config_ref#packages>`
+    * `qooxdoo API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.io.PartLoader>`_
+
+.. _index#code_compilation:
 
 Code Compilation
-----------------
+^^^^^^^^^^^^^^^^
 
-  * [[.:1.2:tool:astlets| ASTlets]] - AST fragments as they are generated
+  * :doc:`ASTlets <pages/tool/astlets>` - AST fragments as they are generated
+
+.. _index#migration:
 
 Migration
-*********
+=========
 
+  * :doc:`pages/migration_guide`
 
-
-
-  * [[.:1.2:migration_guide]]
 
