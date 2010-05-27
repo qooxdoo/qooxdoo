@@ -175,7 +175,7 @@ copy file or directory SOURCE to directory TARGET'''
 def main():
     copier = CopyTool()
     copier.parse_args()
-    copier.copy()
+    copier.do_work()
 
 
 if __name__ == '__main__':
