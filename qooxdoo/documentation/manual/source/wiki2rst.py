@@ -182,7 +182,7 @@ def convertHeading(linechar):
         # create jump label
         path,ext = os.path.splitext(currentInput)
         anchor   = wikianchor(txt)
-        label = ".. _" + path + "#" + anchor + ":\n\n"
+        label = "\n.. _" + path + "#" + anchor + ":\n\n"
 
         # put it together
         txt = prehead + label + txt + "\n" + linechar * len(txt)

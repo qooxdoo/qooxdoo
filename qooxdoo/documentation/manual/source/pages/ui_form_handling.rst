@@ -1074,6 +1074,7 @@ Sure you have recognized the difference to the API of the form itself. You add t
 You may ask yourself why we didn't use the layouts, we usually use in such scenarios if we ant to render widgets on the screen. It may be necessary, that a rendere contains even more than one widget. Imagine a wizard or a form shared among different tabs. Thats all not possible using layouts instead of renderer widgets.
 
 The following sections show the renderer included in qooxdoo, which you can use out of the box.
+
 .. _pages/ui_form_handling#default_single_column:
 
 Default (Single Column)
