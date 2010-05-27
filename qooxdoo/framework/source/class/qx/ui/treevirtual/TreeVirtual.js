@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     this.setFocusCellOnMouseMove(true);
 
     // In a tree we don't typically want a visible cell focus indicator
-    this.setShowCellFocusIndicator(false);
+//    this.setShowCellFocusIndicator(false);
 
     // Get the list of pane scrollers
     var scrollers = this._getPaneScrollerArr();

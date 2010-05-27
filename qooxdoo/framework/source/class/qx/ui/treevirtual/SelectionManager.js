@@ -81,37 +81,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
 
     /**
-     * Handles a key down event that moved the focus (E.g. up, down, home,
-     *  end, ...).
-     *
-     * @param index {Integer} the index that is currently focused.
-     * @param evt {Map} the key event.
-     * @return {void}
-     */
-    handleMoveKeyDown : function(index, evt)
-    {
-      var selectionModel = this.getSelectionModel();
-
-      switch(evt.getModifiers())
-      {
-        case 0:
-          break;
-
-        case qx.event.type.Dom.SHIFT_MASK:
-          var anchor = selectionModel.getAnchorSelectionIndex();
-
-          if (anchor == -1) {
-            selectionModel.setSelectionInterval(index, index);
-          } else {
-            selectionModel.setSelectionInterval(anchor, index);
-          }
-
-          break;
-      }
-    },
-
-
-    /**
      * Handles a select event.  First we determine if the click was on the
      * open/close button and toggle the opened/closed state as necessary.
      * Then, if the click was not on the open/close button or if the table's
@@ -134,6 +103,16 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // Determine the column containing the tree
         var treeCol = dataModel.getTreeColumn();
 
+        // Get the focused column
+        var focusedCol = tree.getFocusedColumn();
+
+        // If the click is not in the tree column, ...
+        if (focusedCol != treeCol)
+        {
+          // ... then let the Table selection manager deal with it
+          return false;
+        }
+
         // If the cell hasn't been focused automatically...
         if (evt instanceof qx.event.type.Mouse)
         {
@@ -148,17 +127,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
                                                evt.getViewportTop());
             }
           }
-        }
-
-        // Get the focused column
-        var focusedCol = tree.getFocusedColumn();
-
-        // If the click is not in the tree column, ...
-        if (focusedCol != treeCol)
-        {
-          // ... then start the editor for the cell (if one is defined)
-          tree.startEditing();
-          return false;
         }
 
         // Get the node to which this event applies
@@ -234,9 +202,8 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
       // If we haven't been told not to do the selection...
       if (!bNoSelect)
       {
-        // then call the Selection Manager's method to do it.
-        var Sm = qx.ui.table.selection.Manager;
-        Sm.prototype._handleSelectEvent.call(this, index, evt);
+        // then call the superclass to handle it.
+        this.base(arguments, index, evt);
       }
     },
 
