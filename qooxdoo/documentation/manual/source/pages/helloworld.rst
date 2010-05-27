@@ -57,7 +57,7 @@ To create a new skeleton with ``create-application.py``
 xxx
 
 Windows |image0|
-~~~~~~~~~~~~~~~~
+----------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
 
@@ -68,7 +68,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
     C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 Cygwin |image0|
-~~~~~~~~~~~~~~~
+---------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
 
@@ -79,7 +79,7 @@ To create your application ``custom`` to ``C:``, with the qooxdoo SDK available 
     /cygdrive/c/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=C:
 
 Mac |image0| , Linux |image1|
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 .. |image0| image:: http://qooxdoo.org/_media/documentation/macosx.png?w=22&h=22&cache=cache
 .. |image1| image:: http://qooxdoo.org/_media/documentation/linux.png?w=22&h=22&cache=cache
