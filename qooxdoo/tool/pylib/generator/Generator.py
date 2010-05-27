@@ -1328,6 +1328,14 @@ class Generator(object):
             return
 
         shellcmd = self._job.get("shell/command", "")
+        if isinstance(shellcmd, list):
+            for cmd in shellcmd:
+                self.runShellCommand(cmd)
+        else:
+            self.runShellCommand(shellcmd)
+
+
+    def runShellCommand(self, shellcmd):    
         rc = 0
         self._shellCmd       = ShellCmd()
 
