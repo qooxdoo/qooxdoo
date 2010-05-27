@@ -1332,9 +1332,9 @@ qx.Class.define("qx.ui.table.Table",
             case "PageDown":
               var scroller = this.getPaneScroller(0);
               var pane = scroller.getTablePane();
-              var rowCount = pane.getVisibleRowCount() - 1;
               var rowHeight = this.getRowHeight();
               var direction = (identifier == "PageUp") ? -1 : 1;
+              rowCount = pane.getVisibleRowCount() - 1;
               scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
               this.moveFocusedCell(0, direction * rowCount);
               break;
