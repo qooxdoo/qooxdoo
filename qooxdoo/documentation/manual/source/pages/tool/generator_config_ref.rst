@@ -531,6 +531,10 @@ Configure log/reporting features. Takes a map.
     {
       "classes-unused" : [ "custom.*", "qx.util.*" ],
       "privates"       : ("on"|"off"),
+      "resources"      :
+      {
+        "file"         : "<filename>"
+      }
       "filter"         : 
       {
         "debug"        : [ "generator.code.PartBuilder.*" ]
@@ -539,7 +543,7 @@ Configure log/reporting features. Takes a map.
       {
         "type"         : ("using"|"used-by"),
         "phase"        : ("runtime"|"loadtime")
-        "format"       : ("txt"|"dot"|"json"|"flare"|"term"),
+        "format"       : ("txt"|"dot"|"json"|"provider"|"flare"|"term"),
         "dot"          :
         {
           "root"           : "custom.Application",
@@ -570,17 +574,20 @@ xxx
 This key allows you to enable logging features along various axes. 
   * **classes-unused** : Report unused classes for the name space patterns given in the list.
   * **privates** : print out list of classes that use a specific private member
+  * **resources**: writes the map of resource infos for the involved classes to a json-formatted file
+    * **file** : output file path (default *resources.json*)
   * **filter** : allows you to define certain log filter 
     * **debug** : in debug ("verbose") logging enabled with the ``-v`` command line switch, only print debug messages from generator modules that match the given pattern
   * **dependencies** : print out dependency relations of classes
     * **type** *(required)*: which kind of dependencies to log
       * ``using``: dependencies of the current class to other classes; uses the **using** key; supports ``txt``, ``dot``, ``json`` and ``flare`` output formats
       * ``used-by``: dependencies of other classes to the current class; supports only ``txt`` format
-    * **phase** : limit logging to runtime or loadtime dependencies
+    * **phase** : limit logging to runtime or loadtime dependencies (default: *both*)
     * **format** : format of the dependency output (default: *txt*)
       * ``txt``: textual output to the console
       * ``dot``: generation of a Graphviz dot file; uses the **dot** key
       * ``json``: "native" Json data structure (reflecting the hierarchy of the txt output class -> [run|load]); uses the **json** key
+      * ``provider``: similar to the ``json`` output, but all id's are given as path suffixes (slashes between name spaces, file extensions), and dependencies are extended with resource id's and translatable string keys (as ``translation#<key>``); uses the **json** key
       * ``flare``: Json output suitable for Prefuse Flare depencency graphs; uses the **flare** key
       * ``term``: textual output to the console, in the form of a term *depends(<class>, [<load-deps>,...], [<run-deps>,...])*
     * **dot**:  
