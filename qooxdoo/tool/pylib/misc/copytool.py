@@ -23,6 +23,7 @@ import os, sys
 import optparse
 import shutil
 import filecmp
+import stat
 
 sys.path.append(os.path.abspath(os.pardir))
 from misc.ExtendAction import ExtendAction
@@ -75,7 +76,13 @@ class CopyTool(object):
                 
                 if not os.access(targetPath, os.W_OK):
                     self.__console.debug("Removing write-protected target File %s prior to copy." %targetPath)
-                    os.remove(targetPath)
+                    try:
+                        os.remove(targetPath)
+                    except WindowsError:
+                        try:
+                            os.chmod(targetPath, stat.S_IWUSR)
+                        except Exception, e:
+                            print "Unable to overwrite read-only file %s: %s" %(str(e), targetPath)
         
         try:
             shutil.copy(sourceFile, targetPath)
