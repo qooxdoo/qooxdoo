@@ -403,7 +403,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           control.setZIndex(1000);
           control.addListener("mouseup", this._onMouseupFocusIndicator, this);
           this.__paneClipper.add(control);
-          control.exclude();
+          control.show();             // must be active for editor to operate
+          control.setDecorator(null); // it can be initially invisible, though.
           break;
 
         case "resize-line":
@@ -468,11 +469,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _applyShowCellFocusIndicator : function(value, old)
     {
       if(value) {
+        this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
         this._updateFocusIndicator();
       }
       else {
         if(this.__focusIndicator) {
-          this.__focusIndicator.hide();
+          this.__focusIndicator.setDecorator(null);
         }
       }
     },
@@ -1789,6 +1791,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this.__focusIndicator.addState("editing");
           this.__focusIndicator.setKeepActive(false);
 
+          // Make the focus indicator visible during editing
+          this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
+
           this.__cellEditor.focus();
           this.__cellEditor.activate();
         }
@@ -1805,6 +1810,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     stopEditing : function()
     {
+      // If the focus indicator is not being shown normally...
+      if (! this.getShowCellFocusIndicator())
+      {
+        // ... then hide it again
+        this.__focusIndicator.setDecorator(null);
+      }
+
       this.flushEditor();
       this.cancelEditing();
     },
@@ -2234,10 +2246,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateFocusIndicator : function()
     {
-      if(!this.getShowCellFocusIndicator()) {
-        return;
-      }
-
       var table = this.getTable();
 
       if (!table.getEnabled()) {
