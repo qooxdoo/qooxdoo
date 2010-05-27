@@ -208,7 +208,7 @@ qx.Class.define("qx.dom.Hierarchy",
 
       // Offset parent is a good start to test. It omits document detection
       // and function calls.
-      if (!element.offsetParent) {
+      if (!element.parentNode || !element.offsetParent) {
         return false;
       }
 
