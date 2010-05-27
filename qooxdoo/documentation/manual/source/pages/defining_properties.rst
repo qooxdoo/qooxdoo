@@ -38,9 +38,7 @@ You should define at least one of the attributes ``init``, ``nullable`` or ``inh
 
     As an alternative to the ``init`` key you could set the init value of the property by calling an initializing function ``this.initMyProperty(value)`` in the constructor. See below for details.
 
-xxx
-
-Please also have a look at the :doc:`Quick Reference <properties quickref>`.
+Please also have a look at the :doc:`Quick Reference <properties_quickref>`.
 
 .. _pages/defining_properties#working_with_the_property_value:
 
@@ -60,7 +58,7 @@ To attach an apply method you must add a key ``apply`` to your configuration whi
 
 The return value of the apply method is ignored.  The second parameter is optional and may be left out.
 
-.. _pages/defining_properties#example:
+.. _pages/defining_properties#example_value:
 
 Example
 ^^^^^^^
@@ -95,7 +93,7 @@ qooxdoo fires a ``qx.event.type.Data`` which supports the methods ``getData()`` 
 
 xxx
 
-.. _pages/defining_properties#example:
+.. _pages/defining_properties#example_event:
 
 Example
 ^^^^^^^
@@ -153,7 +151,6 @@ Another scenario would be to use a localizable init value when :doc:`internation
 .. note::
 
     You need to add a ``deferredInit:true`` to the property configuration to allow for a deferred initialization for reference types as mentioned above.
-xxx
 
 ::
 
@@ -276,7 +273,7 @@ This will change the default value at definition time. ``refine`` is a better so
 Checking incoming values
 ========================
 
-You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :ref:`validation section <defining_properties/#validation_incoming_values>`.
+You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :ref:`validation section <pages/defining_properties#validation_incoming_values>`.
 
 .. _pages/defining_properties#predefined_types:
 
@@ -285,10 +282,10 @@ Predefined types
 
 You can check against one of these predefined types:
 
-  * ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``
-  * ``Object``, ``Array``, ``Map``
-  * ``Class``, ``Mixin``, ``Interface``, ``Theme``
-  * ``Error``, ``RegExp``, ``Function``, ``Date``, ``Node``, ``Element``, ``Document``, ``Window``, ``Event``
+* ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``
+* ``Object``, ``Array``, ``Map``
+* ``Class``, ``Mixin``, ``Interface``, ``Theme``
+* ``Error``, ``RegExp``, ``Function``, ``Date``, ``Node``, ``Element``, ``Document``, ``Window``, ``Event``
 
 Due to the fact that JavaScript only supports the ``Number`` data type, ``Float`` and ``Double`` are handled identically to ``Number``. Both are still useful, though, as they are supported by the Javadoc-like comments and the API viewer.
 
@@ -503,18 +500,16 @@ Inheritable CSS properties
 
 To give you an idea for what kind of custom properties inheritance is particularly useful, the following list of prominent CSS properties which support inheritance may be a good orientation:
 
-  * ``color``
-  * ``cursor``
-  * ``font``, ``font-family``, ...
-  * ``line-height``
-  * ``list-style``
-  * ``text-align``
+* ``color``
+* ``cursor``
+* ``font``, ``font-family``, ...
+* ``line-height``
+* ``list-style``
+* ``text-align``
 
 .. note::
 
     This list of CSS properties is only meant for orientation and does not reflect any of qooxdoo widget properties.
-
-xxx
 
 .. _pages/defining_properties#internal_methods:
 
@@ -523,12 +518,9 @@ Internal methods
 
 The property documentation in the user manual explains the public, non-internal methods for each property. However, there are some more, which are not meant for public use:
 
-  * ``this.reset<i>Property</i>(value)``
-: For properties which are inheritable. Used by the inheritance system to transfer values from parent to child widgets.
-  * ``this.setThemed<i>Property</i>(value)``
-: For properties with ``appearance`` enabled. Used to store a separate value for the appearance of this property. Used by the appearance layer.
-  * ``this.resetThemed<i>Property</i>(value)``
-: For properties with ``appearance`` enabled. Used to reset the separately stored appearance value of this property. Used by the appearance layer.
+* ``this.resetProperty(value)`` : For properties which are inheritable. Used by the inheritance system to transfer values from parent to child widgets.
+* ``this.setThemedProperty(value)`` : For properties with ``appearance`` enabled. Used to store a separate value for the appearance of this property. Used by the appearance layer.
+* ``this.resetThemedProperty(value)`` : For properties with ``appearance`` enabled. Used to reset the separately stored appearance value of this property. Used by the appearance layer.
 
 .. _pages/defining_properties#defining_property_groups:
 

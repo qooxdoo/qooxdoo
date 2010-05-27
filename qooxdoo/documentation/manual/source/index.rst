@@ -212,9 +212,6 @@ Other
 * :doc:`pages/write_api_documentation`
 * :doc:`pages/reporting_bugs`
 
-* :doc:`pages/development_platforms`
-* :doc:`pages/development_tools`
-
 * :doc:`pages/aspects_template`
 
 * :doc:`pages/internet_explorer_specific_settings`

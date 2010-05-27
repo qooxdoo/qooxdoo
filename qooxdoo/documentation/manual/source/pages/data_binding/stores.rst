@@ -37,7 +37,7 @@ This method is static and can be used to invoke both methods at once. By that, y
 
 ::
 
-    var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
+  var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 
 .. _pages/data_binding/stores#json_store:
 
@@ -50,28 +50,28 @@ The following code shows how to use the JSON data store.
 
 ::
 
-    var url = "json/data.json";
-    var store = new qx.data.store.Json(url); 
+  var url = "json/data.json";
+  var store = new qx.data.store.Json(url); 
 
 After setting the URL during the creation process, the loading will begin immediately. As soon as the data is loaded and converted, you can access the model with the following code.
 
 ::
 
-    store.getModel();
+  store.getModel();
 
 .. _pages/data_binding/stores#jsonp_store:
 
 JSONP Store
 -----------
 
-The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the :ref:`JSON store <pages/data_binding/stores#json store>` but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
+The `JSONP <http://ajaxian.com/archives/jsonp-json-with-padding>`_ store is based on the :ref:`JSON store <pages/data_binding/stores#json_store>` but uses a script tag for loading the data. Therefore, a parameter name for the callback and an URL must be specified.
 
 The following code shows how to use the JSONP data store.
 
 ::
 
-    var url = "json/data.json";
-    var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
+  var url = "json/data.json";
+  var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 
 After setting the URL and the callback parameter name during the creation process, the loading will begin immediately.
 
@@ -82,14 +82,14 @@ YQL Store
 
 YQL is the `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_. Yahoo! describes it as 
 *"[...] an expressive SQL-like language that lets you query, filter, and join data across Web services."*
-Based on the :ref:`JSONP store <pages/data_binding/stores#jsonp store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
+Based on the :ref:`JSONP store <pages/data_binding/stores#jsonp_store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
 
 The following code demonstrates how to fetch some twitter messages.
 
 ::
 
-    var query = "select * from twitter.user.timeline where id='wittemann'";
-    var store = new qx.data.store.YQL(query);
+  var query = "select * from twitter.user.timeline where id='wittemann'";
+  var store = new qx.data.store.YQL(query);
 
 .. _pages/data_binding/stores#combining_with_controllers:
 
@@ -100,7 +100,7 @@ As described in the section above, you can access the model in the property afte
 
 ::
 
-    store.bind("model", controller, "model");  
+  store.bind("model", controller, "model");  
 
 Using the single value binding, the binding handles all the stuff related with the loading of the model data. That means that the data will be available in the controller as soon as its available in the store.
 
@@ -110,8 +110,8 @@ How to get my own code into the model?
 --------------------------------------
 
 What if you want to to bring your own code to the generated model classes or if you even want to use your own model classes? Thats possible by adding and implementing a delegate to the data store. You can either
-  * Add your code by supporting a superclass for the created model classes.
-  * Add your code as a mixin to the created model classes.
-  * Use your own class instead of the created model classes.
+* Add your code by supporting a superclass for the created model classes.
+* Add your code as a mixin to the created model classes.
+* Use your own class instead of the created model classes.
 Take a look at the API-Documentation of the ```qx.data.store.IStoreDelegate <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.store.IStoreDelegate>`_`` to see the available methods and how to implement them.
 
