@@ -1088,6 +1088,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       switch(keyIdentifier)
       {
         case "control":
+        case "shift":
         case "left":
         case "right":
         case "up":
