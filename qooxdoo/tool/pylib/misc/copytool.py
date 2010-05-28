@@ -98,7 +98,12 @@ class CopyTool(object):
         if sourceDirName in self.__exclude:
             self.__console.debug("Skipping excluded directory %s." %sourceDir)
             return
-        targetPath = os.path.join(targetDir, sourceDirName)
+        
+        if self.__synchronize:
+            targetPath = targetDir
+        else:
+            targetPath = os.path.join(targetDir, sourceDirName)
+        
         if not os.path.isdir(targetPath):
             if self.__create:
                 self.__console.debug("Creating directory %s." %targetDir)
@@ -133,8 +138,8 @@ class CopyTool(object):
                 continue
             
             self.__copyFileToDir(entryPath, targetPath)
-
-
+    
+    
     def parse_args(self, argumentList=sys.argv[1:]):
         parser = optparse.OptionParser(option_class=ExtendAction)
         
@@ -144,6 +149,11 @@ copy file or directory SOURCE to directory TARGET'''
         
         parser.set_usage(usage_str)
       
+        parser.add_option(
+          "-s", "--synchronize", dest="synchronize", action="store_true", default=False,
+          help="synchronize the contents of the source and target directories"
+        )
+        
         parser.add_option(
           "-u", "--update-only", dest="update", action="store_true", default=False,
           help="only overwrite existing files if the source file is newer"
@@ -167,6 +177,7 @@ copy file or directory SOURCE to directory TARGET'''
         
         self.__source = os.path.abspath(args[0])
         self.__targetDir = os.path.abspath(args[1])
+        self.__synchronize = options.synchronize
         self.__exclude = options.exclude
         self.__create = options.create
         self.__update = options.update

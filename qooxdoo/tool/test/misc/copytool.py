@@ -210,6 +210,26 @@ class TestCopyTool(unittest.TestCase):
         copier.parse_args(["-x", "file1", self.dir1, self.dir2])
         copier.do_work()
         self.failIf(os.path.exists(os.path.join(self.dir2, "file1")), "Excluded file was copied!")
+        
+    def testSynchronizeDirectories(self):
+        syncSourcePath = os.path.join(self.dir1, "sourceFile")
+        syncSource = file(syncSourcePath, "w")
+        syncTargetPath = os.path.join(self.dir2, "sourceFile")
+        
+        self.copier.parse_args(["--synchronize", self.dir1, self.dir2])
+        self.copier.do_work()
+        self.failIf(os.path.isdir(os.path.join(self.dir2, "dir1")), "Directory was copied but should have been synchronized!")
+        self.failUnless(os.path.isfile(syncTargetPath), "Directory contents not synchronized!")
+        
+    def testSynchronizeDirectoriesCreate(self):
+        syncSourcePath = os.path.join(self.dir1, "sourceFile")
+        syncSource = file(syncSourcePath, "w")
+        syncTargetDir = os.path.join(self.tempDir, "sync")
+        syncTargetPath = os.path.join(syncTargetDir, "sourceFile")
+        
+        self.copier.parse_args(["--synchronize", self.dir1, syncTargetDir])
+        self.copier.do_work()
+        self.failUnless(os.path.isfile(syncTargetPath), "Directory contents not synchronized!")
     
 
 if __name__ == '__main__':
