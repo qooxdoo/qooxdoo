@@ -30,15 +30,7 @@ You can use these methods right away for your own classes if they are derived fr
 
 .. note::
 
-    You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See ` <http://qooxdoo.org/documentation/general/javascript_best_practises#using_self_for_closures>`_ for details using ``self`` as a local variable name.
-
-xxx
-
-XXX
----
-
-XXX
-^^^
+    You can also use ``self`` instead of ``this`` when you use the translation features inside a closure e.g. ``self.tr()``. See `using self for closures <http://qooxdoo.org/documentation/general/javascript_best_practises#using_self_for_closures>`_ for details using ``self`` as a local variable name.
 
 .. _pages/internationalization#example:
 
