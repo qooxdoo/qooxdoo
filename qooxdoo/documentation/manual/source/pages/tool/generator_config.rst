@@ -29,7 +29,7 @@ Quick links:
 * :doc:`generator_config_ref`
 * :doc:`generator_config_macros`
 * :doc:`Configuration Detail Articles <generator_config_articles>`
-* :doc:`Implementation Background Information </pages/generator_config_background>`
+* :doc:`Implementation Background Information <generator_config_background>`
 
 .. _pages/tool/generator_config#example:
 

@@ -39,11 +39,11 @@ The Use of Macros
 =================
 
 Within the configuration system, macros (defined with *let* keys) serve a  couple of purposes:
-  * to keep the use of a specific value consistent within a configuration file (this is how macros are used in many languages)
-  * to customize settings of imported jobs so they can be controlled by the importing configuration
-  * to pass parameters into jobs
+* to keep the use of a specific value consistent within a configuration file (this is how macros are used in many languages)
+* to customize settings of imported jobs so they can be controlled by the importing configuration
+* to pass parameters into jobs
 
-The last usage is probably the most delicate. Jobs provided by external components or libraries to the deploying application need to learn certain facts about this application, in order to do their job well. As a consequence some components require dedicated macros to be set by the application, e.g the *API%%_%%INCLUDE* and *API%%_%%EXCLUDE* macros that are required for the *api* job. This is a way of parameterizing jobs. Unfortunately, since every job winds up with a flat set of macros that are available to it (you can think of it as a job having a "global name space" for macros), macros have to be globally unique within the set of configuration files that is used for the particular application.
+The last usage is probably the most delicate. Jobs provided by external components or libraries to the deploying application need to learn certain facts about this application, in order to do their job well. As a consequence some components require dedicated macros to be set by the application, e.g the *API_INCLUDE* and *API_EXCLUDE* macros that are required for the *api* job. This is a way of parameterizing jobs. Unfortunately, since every job winds up with a flat set of macros that are available to it (you can think of it as a job having a "global name space" for macros), macros have to be globally unique within the set of configuration files that is used for the particular application.
 
 .. _pages/generator_config_background#application_startup:
 
@@ -52,7 +52,7 @@ Application Startup
 
 While this is not particularly a generator config topic, it has some implications on configuration issues just as well.
 
-An "application" as seen from the qooxdoo point of view is just a set of classes that are run on top of what could be called the qooxdoo runtime system. (In that respect qooxdoo is similar to other object-hosting frameworks, e.g. the *[[http:*en.wikipedia.org/wiki/Perl_Object_Environment|Perl Object Environment (POE)]]// with the main difference being that POE can host multiple applications and switch between them).
+An "application" as seen from the qooxdoo point of view is just a set of classes that are run on top of what could be called the qooxdoo runtime system. (In that respect qooxdoo is similar to other object-hosting frameworks, e.g. the `Perl Object Environment (POE) <http://en.wikipedia.org/wiki/Perl_Object_Environment>`_ with the main difference being that POE can host multiple applications and switch between them).
 
 When the application is loaded, qooxdoo first establishes and starts a runtime environment. This comprises of things as divers as defining a handful of global variables and data structures, to setting up its object system, to creating instances of system classes e.g. for logging or event handling.
 
@@ -70,69 +70,73 @@ This is an account of the principles that rule the processing of config files.
 When the Config File is Read
 ----------------------------
 
-  * The Json data structure is parsed into an internal data structure; this is standard Json processing.
-  * If the config file contains a global *:ref:`pages/tool/generator_config_ref#let`* section these macros are expanded among themselves (for macros referencing other macros) temporarily. This intermediate *let* map is then used for other top-level keys, to expand potential macros and finalize their values. E.g. a global *:ref:`include <pages/tool/generator_config_ref#include_top-level>`* key might use macros to encode paths to other config files. Then these macros are resolved with the local knowledge to derive real paths. The *:ref:`pages/tool/generator_config_ref#jobs`* key and the *let* key itself are explicitly not expanded, to allow for later (re-) evaluation in another config file.
-  * If there is a global *include* key, the listed config files are included (next section).
+* The Json data structure is parsed into an internal data structure; this is standard Json processing.
+* If the config file contains a global :ref:`pages/tool/generator_config_ref#let` section these macros are expanded among themselves (for macros referencing other macros) temporarily. This intermediate *let* map is then used for other top-level keys, to expand potential macros and finalize their values. E.g. a global :ref:`include <pages/tool/generator_config_ref#include_top-level>` key might use macros to encode paths to other config files. Then these macros are resolved with the local knowledge to derive real paths. The :ref:`pages/tool/generator_config_ref#jobs` key and the *let* key itself are explicitly not expanded, to allow for later (re-) evaluation in another config file.
+* If there is a global *include* key, the listed config files are included (next section).
 
 .. _pages/generator_config_background#when_another_config_file_is_included:
 
 When another Config File is Included
 ------------------------------------
 
-  * The external config file is processes like the original file (previous section); i.e. the initial parsing and including process is applied recursively. The process is checked for cyclic references.
-  * Then, every job in the *jobs* key of the external config file is processed in the following manner.
-  * For each external job, a new job for the current config file is created. This is to apply a local *let* section, so it can take preference over the external's job *let* settings. This is done next.
-  * A potential global *let* section is included into the new job, as if this was a normal *let* key of the job.
-  * Then, the external job is merged into the new job (see next section).
-  * A reference to the external config is added to the new job; this way, the original context is retained. This can be important to resolve references to other jobs in the right context.
-  * For the new job a job name is constructed:
-    * If the external config is included without *"as"* parameter, the original name is used. If it is included with *"as"* parameter, its value is prependend to the original name.
-    * If no job of the same name already exists in the config, nothing further is done.
-    * If, on the other hand, a job of such name already exists, a new, conflict-free name is generated for the new job, and this name is added to the conflicting job's *extend* key, so the existing job will inherit the new job's features.
-  * Finally, the new job is added to the current config's list of jobs.
+* The external config file is processes like the original file (previous section); i.e. the initial parsing and including process is applied recursively. The process is checked for cyclic references.
+* Then, every job in the *jobs* key of the external config file is processed in the following manner.
+* For each external job, a new job for the current config file is created. This is to apply a local *let* section, so it can take preference over the external's job *let* settings. This is done next.
+* A potential global *let* section is included into the new job, as if this was a normal *let* key of the job.
+* Then, the external job is merged into the new job (see next section).
+* A reference to the external config is added to the new job; this way, the original context is retained. This can be important to resolve references to other jobs in the right context.
+* For the new job a job name is constructed:
+  * If the external config is included without *"as"* parameter, the original name is used. If it is included with *"as"* parameter, its value is prependend to the original name.
+  * If no job of the same name already exists in the config, nothing further is done.
+  * If, on the other hand, a job of such name already exists, a new, conflict-free name is generated for the new job, and this name is added to the conflicting job's *extend* key, so the existing job will inherit the new job's features.
+* Finally, the new job is added to the current config's list of jobs.
 
 .. _pages/generator_config_background#when_jobs_are_merged:
 
 When Jobs are Merged
 --------------------
 
-  * When two jobs are merged, which happens during *extend* and *run* expansion, and config file inclusion, there is a *source* job, which is merged into the *target* job, so there are distinct roles and a direction of the merging.
-  * The basic principle is that the target job takes preference over the settings in the source job, like with OO inheritance where child classes can override parent features.
-  * If a key of the source job is missing in the target job, it is added to the target job.
-  * If a key of the source job is present in the target job, and has a "=" leading the key name, then the source key is discarded, and is not taken into account for the merging.
-  * If a key of the source job is present in the target job, and is not protected by the "=" sigil, the following happens:
-    * If the key value is a scalar value (string, number, boolean), the target value takes precedence and the source value is discarded.
-    * If the key value is a reference value (list or map) then
-      * in the case of a list, the elements of the source list are uniquely appended to the target list, i.e. duplicates are omitted in the process.
-      * in the case of a map, the merge process is applied recursively.
+* When two jobs are merged, which happens during *extend* and *run* expansion, and config file inclusion, there is a *source* job, which is merged into the *target* job, so there are distinct roles and a direction of the merging.
+* The basic principle is that the target job takes preference over the settings in the source job, like with OO inheritance where child classes can override parent features.
+* If a key of the source job is missing in the target job, it is added to the target job.
+* If a key of the source job is present in the target job, and has a "=" leading the key name, then the source key is discarded, and is not taken into account for the merging.
+* If a key of the source job is present in the target job, and is not protected by the "=" sigil, the following happens:
+
+  * If the key value is a scalar value (string, number, boolean), the target value takes precedence and the source value is discarded.
+  * If the key value is a reference value (list or map) then
+
+    * in the case of a list, the elements of the source list are uniquely appended to the target list, i.e. duplicates are omitted in the process.
+    * in the case of a map, the merge process is applied recursively.
 
 .. _pages/generator_config_background#the_job_expansion_process:
 
 The Job Expansion Process
 -------------------------
 
-  * After all include files have been processes, the list of jobs in this config is final. At this stage it can be decided whether the requested jobs (the jobs that are passed as arguments to the generator) are among them and can be run.
-  * Each job in the list of requested jobs (the "agenda" if you will) is expanded in the following way.
-  * Then, a potential *run* key has to be processed:
-    * For each job in the *run* a new job is created ("synthetic jobs"). This is so they can inherit stuff. The definition of the original job is used - with the *run* key stripped - as the template for all of these jobs, so they have all the original job features.
-    * Each job from the original *run* key is then added to the *extend* key of its corresponding synthetic job, so they inherit from their run jobs.
-    * The list of synthetic jobs is now added to the agenda in place of the original job that had the *run* key.
-  * A potential *extend* key has to be processed:
-    * For each element in the *extend* key, the corresponding job is searched (see special section below).
-    * Each of those jobs are merged into the current one, in the order they appear in the list. This also means that features of each job in the list take precedence over those of jobs that come right to it.
-  * The last two steps are repeated until no more jobs are on the agenda that have unresolved *extend* or *run* keys.
-  * Now each job has found its final job definition, and is run by the Generator.
+* After all include files have been processes, the list of jobs in this config is final. At this stage it can be decided whether the requested jobs (the jobs that are passed as arguments to the generator) are among them and can be run.
+* Each job in the list of requested jobs (the "agenda" if you will) is expanded in the following way.
+* Then, a potential *run* key has to be processed:
+  * For each job in the *run* a new job is created ("synthetic jobs"). This is so they can inherit stuff. The definition of the original job is used - with the *run* key stripped - as the template for all of these jobs, so they have all the original job features.
+  * Each job from the original *run* key is then added to the *extend* key of its corresponding synthetic job, so they inherit from their run jobs.
+  * The list of synthetic jobs is now added to the agenda in place of the original job that had the *run* key.
+* A potential *extend* key has to be processed:
+  * For each element in the *extend* key, the corresponding job is searched (see special section below).
+  * Each of those jobs are merged into the current one, in the order they appear in the list. This also means that features of each job in the list take precedence over those of jobs that come right to it.
+* The last two steps are repeated until no more jobs are on the agenda that have unresolved *extend* or *run* keys.
+* Now each job has found its final job definition, and is run by the Generator.
 
 .. _pages/generator_config_background#how_job_references_are_resolved:
 
 How Job References are Resolved
 -------------------------------
 
-  * *extend* and *run* keys in a job reference other jobs by name. These names have to be resolved to their actual job definitions, in order to complete the expansion of the referencing job.
-  * When name resolution has to be done, there are two contexts in which the referenced name is looked for:
-    * the current config
-    * the config in which the job was originally defined; this may be different from the current config, since the job might have been obtained by inclusion of an external configuration file.
-  * The last point is interesting since a job in the current config might be referencing a job "foo" which might not be present in the current config, e.g. due to filtering this job during import (there are various ways to do this). So the job has to be looked for in one of the external config files. The original config file is chosen since there might be more the one imported config file, and each of those might be defining a "foo" job.
+* *extend* and *run* keys in a job reference other jobs by name. These names have to be resolved to their actual job definitions, in order to complete the expansion of the referencing job.
+* When name resolution has to be done, there are two contexts in which the referenced name is looked for:
+
+  * the current config
+  * the config in which the job was originally defined; this may be different from the current config, since the job might have been obtained by inclusion of an external configuration file.
+
+* The last point is interesting since a job in the current config might be referencing a job "foo" which might not be present in the current config, e.g. due to filtering this job during import (there are various ways to do this). So the job has to be looked for in one of the external config files. The original config file is chosen since there might be more the one imported config file, and each of those might be defining a "foo" job.
 
 .. _pages/generator_config_background#how_to_add_a_new_component:
 
@@ -149,18 +153,15 @@ Basics
 Usually, you simply want to run a job already defined for the component, such as the *build* job that creates an optimized version of it. But in virtually all cases such a component needs to be passed information about the application that tries to build it. This ranges from simple things like the output path, where a script is stored, over the information which class libraries the application uses (think of the application's test classes for the *Testrunner*),  up to arbitrary modification of job settings (variants, compile options, ...). So, generally speaking, you need to pass some information to, or *parameterize*, the component job. These kinds of modifications are discussed in this section.
 
 The answer to the question how to pass information into a job is generally two-fold:
-  * **Macros in global *let* sections**
-  * **Other Jobs**
+
+* **Macros in global let sections**
+* **Other Jobs**
 
 Macros in global *let* sections are included automatically into jobs within the current configuration file; they are directly integrated into a job's own *let* key. Jobs themselves can be related to each other, but for this you have to be aware of a general property of jobs in the configuration system:
 
 .. note::
 
-    Within the generator's configuration system, there is only a **single mechanism how two jobs can pass information** between - and thus influence - each other:
-
-    **Through Job Extending.**
-
-xxx
+  Within the generator's configuration system, there is only a **single mechanism** how two jobs can pass information between - and thus influence - each other:  **Through Job Extending.**
 
 That means one job has to extend the other, either directly or indirectly (via intermediate "extend" jobs), in order to share information between the jobs.
 
@@ -174,10 +175,11 @@ Preparing the component
 On that basis we will look at concrete ways to apply this when invoking a component job. The job of the component that is to be run is often referred to as the *"remote job"*, as it is defined remotely to the invoking application, which will be referred to as the *"invoking context"*.
 
 Using the basic principles outlined above, there are **two practical ways** how component jobs can receive information from the invoking context:
-  * **Macros**
-  * **Includer Jobs**
 
-In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <tool/generator_default_jobs>`).
+* **Macros**
+* **Includer Jobs**
+
+In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <generator_default_jobs>`).
 
 .. _pages/generator_config_background#parameterizing_a_remote_job_through_macros:
 
@@ -190,19 +192,19 @@ A typical example is the BUILD_PATH macro. The component job stores its output i
 
 ::
 
-    "outfile" : "${BUILD_PATH}/job_output.js"
+  "outfile" : "${BUILD_PATH}/job_output.js"
 
 The component will usually provide a sensible default for the macro, e.g.
 
 ::
 
-    "BUILD_PATH" : "./script"
+  "BUILD_PATH" : "./script"
 
 The invoking context can now tailor the output path by overriding the BUILD_PATH macro:
 
 ::
 
-    "BUILD_PATH" : "my/other/path"
+  "BUILD_PATH" : "my/other/path"
 
 and running the component job with this macro binding will cause the output be written in the alternate directory. Of course you have to make sure the new macro binding is in effect when the component job is being run (see also further down for this). In the simplest case you just put the macro definition in the *global let section* of the application *config.json*. As these let bindings are included in every job of the config, also to the jobs that are imported from other configs, these bindings apply to effectively every job that is accessible through this config. As it is applied very early, the binding in this let section take precedence over bindings of the same macros defined in imported jobs. Thus it is possible to pass the new binding into a job defined in another configuration file.
 
@@ -219,7 +221,7 @@ The component job would *extend* the includer job in its own definition:
 
 ::
 
-    "extend" : [ "includer-job" ]
+  "extend" : [ "includer-job" ]
 
 Again, the component would usually provide an *includer-job* of its own, with sensible defaults.
 
@@ -227,13 +229,13 @@ The invoking context can then tailor the remote job by tailoring the includer jo
 
 ::
 
-    "includer-job" :
-        {
-           "library" : { ... },
-           "variants" : { ... },
-           "compile-options" : { ... },
-           ...
-        }
+  "includer-job" :
+      {
+         "library" : { ... },
+         "variants" : { ... },
+         "compile-options" : { ... },
+         ...
+      }
 
 Supplying a job with the name of the includer job will make the component's worker job use this definition for its own extend list (through *job shadowing*). As with macros, the invoking application and the component have to agree about the name of the includer job. After that, you can essentially pass all kinds of job keys into the remote job. There is virtually no limit, but usually you will only want to set a few significant keys (Again, this is part of the protocol between application and component and should be stated clearly in the component's documentation). You should also bear in mind the general rules fo job extending, particularly that the main job's settings (the component job in our case) will take precedence over the settings of the includer job, and that the main job can choose to block certain keys from being modified by included jobs.
 
@@ -244,26 +246,24 @@ Adding a new job
 
 So how would you typically use these mechanisms to a new default job for qooxdoo that will build the new component in a custom application? Here is a list of the steps:
 
-  * Split the component's *config.json* into two.This is usually helpful to keep config settings for the component that are just necessary to develop the component itself, from the definitions that are interesing to other applications that want to run the "exported" job(s) of that component. See e.g. the *Testrunner* application, where the configuration is split between the local *config.json* and the includeable *testrunner.json*.
-  * Include the export config of the component in *application.json*.This will usually be done with a dedicated name space prefix, like 
-::
+* Split the component's *config.json* into two.This is usually helpful to keep config settings for the component that are just necessary to develop the component itself, from the definitions that are interesing to other applications that want to run the "exported" job(s) of that component. See e.g. the *Testrunner* application, where the configuration is split between the local *config.json* and the includeable *testrunner.json*.
+* Include the export config of the component in *application.json*. This will usually be done with a dedicated name space prefix, like ::
 
     {
-           "path" : "path/to/component/component.json",
-           "as"   : "comp"   // something meaningful
-        }
+      "path" : "path/to/component/component.json",
+      "as"   : "comp"   // something meaningful
+    }
 
-  * Create a new job in *application.json*.Choose a name as you would want it to appear to the end user when he invokes ``generate.py x``. Optionally, add a descriptive *"desc"* key that will appear next to the job's name in the listing.
-  * Make this job extend the component's job you want to make available, e.g. like 
-::
+* Create a new job in *application.json*.Choose a name as you would want it to appear to the end user when he invokes ``generate.py x``. Optionally, add a descriptive *"desc"* key that will appear next to the job's name in the listing.
+* Make this job extend the component's job you want to make available, e.g. like ::
 
-    "extend" : [ "comp::build" ] // "build" is the job you want in most cases 
+  "extend" : [ "comp::build" ] // "build" is the job you want in most cases 
 
-  * Add further keys, like a *let* section with macros you want to override, or other job keys.
-  * If the component's job honors an includer job, define such a job in *application.json*. You will usually also need to prefix it with the component's "as" prefix you used above: 
-::
+* Add further keys, like a *let* section with macros you want to override, or other job keys.
+* If the component's job honors an includer job, define such a job in *application.json*. You will usually also need to prefix it with the component's "as" prefix you used above::
 
     "comp::<includer job name>" : { <includer job keys>... } 
- The component's worker job will automatically include your includer job.
-  * Add the job to the *export* list in the skeletons that should support it.The skeletons' *config.json* usually contain an *export* key, to filter the list of jobs a user will see with *generate.py x* down to the interesting jobs. Adding the new job name will make sure the users sees it.
+
+  The component's worker job will automatically include your includer job.
+* Add the job to the *export* list in the skeletons that should support it.The skeletons' *config.json* usually contain an *export* key, to filter the list of jobs a user will see with *generate.py x* down to the interesting jobs. Adding the new job name will make sure the users sees it.
 
