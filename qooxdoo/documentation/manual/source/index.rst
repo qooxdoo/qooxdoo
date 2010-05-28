@@ -216,6 +216,13 @@ Other
 
 * :doc:`pages/internet_explorer_specific_settings`
 
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/tool
+
+
 .. _index#tooling:
 
 Tooling
