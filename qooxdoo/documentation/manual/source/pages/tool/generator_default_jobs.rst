@@ -7,7 +7,6 @@ Default Generator Jobs
 
     This page is work in progress, and information provided might be preliminary or incomplete.
 
-xxx
 
 This page describes the jobs that are automatically available to all skeleton-based applications (particularly, applications with config.json files that include the framework's *application.json* config file). Mainly this is just a reference list with short descriptions of what the jobs do. But in some cases, there is comprehensive documentation about the interface of this job and how it can be parametrized (This would usually require changing your *config.json* configuration file).
 
@@ -29,7 +28,7 @@ Create api doc for the current library. Use the following macros to tailor the s
     "API_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
     "API_EXCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
-The syntax for the class pattern is like those for the *:ref:`include <pages/tool/generator_config_ref#include>`* config key.
+The syntax for the class pattern is like those for the :ref:`include <pages/tool/generator_config_ref#include>` config key.
 
 .. _pages/tool/generator_default_jobs#build:
 
@@ -103,17 +102,15 @@ test
 ----
 Create a test runner app for unit tests of the current library. 
 
-  * Use the following macro to tailor the scope of classes in which unit test classes are searched for:
-::
+* Use the following macro to tailor the scope of classes in which unit test classes are searched for::
 
     "TEST_INCLUDE" = ["<class_patt1>", "<class_patt2>", ...]
 
- The syntax for the class pattern is like those for the *:ref:`include <pages/tool/generator_config_ref#include>`* config key.
+  The syntax for the class pattern is like those for the :ref:`include <pages/tool/generator_config_ref#include>` config key.
 
-  * The libraries from the :ref:`pages/tool/generator_default_jobs#libraries` job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
+* The libraries from the :ref:`pages/tool/generator_default_jobs#libraries` job will be included when building the test application (the application containing your unit tests is a separate application which is loaded into the runner application).
 
-  * If you want to break out from the reliance on the *libraries* job altogether, or have very specific settings that must be applied to the test application, you can provide a custom includer job *common-tests* which may contain a custom *library* key and other keys. But then you have to make sure it contains the Testrunner library as well.
-::
+* If you want to break out from the reliance on the *libraries* job altogether, or have very specific settings that must be applied to the test application, you can provide a custom includer job *common-tests* which may contain a custom *library* key and other keys. But then you have to make sure it contains the Testrunner library as well. ::
 
     "common-tests" :
     {
@@ -141,7 +138,7 @@ Create a test runner app for unit tests of the current library.
       }
     }
 
- This allows you to tailor most of the parameters that influence the creation of the test application.
+  This allows you to tailor most of the parameters that influence the creation of the test application.
 
 .. _pages/tool/generator_default_jobs#test-source:
 

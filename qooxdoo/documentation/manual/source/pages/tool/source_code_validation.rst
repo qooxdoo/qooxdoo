@@ -18,9 +18,9 @@ Critical Warnings
 Use of undefined or global identifier
 -------------------------------------
 This warning indicates that an unknown global variable is used. This can be caused by:
-  * The variable is not declared as local variable using ``var``
-  * The variable name is misspelled
-  * It is OK to use this global but EcmaLint does not know about it. This can be fixed by passing the variable name as known variable to the EcmaLint call or by adding a ``@lint ignoreGlobal(VARIABLE_NAME)`` doc comment to the method's API doc comment
+* The variable is not declared as local variable using ``var``
+* The variable name is misspelled
+* It is OK to use this global but EcmaLint does not know about it. This can be fixed by passing the variable name as known variable to the EcmaLint call or by adding a ``@lint ignoreGlobal(VARIABLE_NAME)`` doc comment to the method's API doc comment
 
 .. _pages/tool/source_code_validation#unused_identifier:
 
@@ -58,8 +58,9 @@ Potentially non-local private data field
 
 Protected data field
 --------------------
-**Hint:** Protected data fields are deprecated. Better use private fields in combination with getter and setter methods.\\
-**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding :doc:`bug report <bug>2095>`.
+**Hint:** Protected data fields are deprecated. Better use private fields in combination with getter and setter methods.
+
+**Comment:** It appears that this isn't an issue that is generically to be solved as the hint suggest. See the corresponding `bug report <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2095>`_.
 
 .. _pages/tool/source_code_validation#undeclared_private_data_field:
 

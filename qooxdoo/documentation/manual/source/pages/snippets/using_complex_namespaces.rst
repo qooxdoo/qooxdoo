@@ -33,16 +33,10 @@ Showcase
 
 Here is a simple walk-through through a showcase, where two applications with complex name spaces are being set up, and one is used as a library by the other.
 
-XXX
----
-
-XXX
-^^^
-
 .. _pages/snippets/using_complex_namespaces#create_two_new_apps_with_complex_name_spaces:
 
 Create two new apps with complex name spaces
-""""""""""""""""""""""""""""""""""""""""""""
+--------------------------------------------
 
 ::
 
@@ -79,7 +73,7 @@ Create two new apps with complex name spaces
 .. _pages/snippets/using_complex_namespaces#add_a_lib_class_to_jbb2:
 
 Add a lib class to jbb2
-"""""""""""""""""""""""
+--------------------------------------------
 
 ::
 
@@ -90,7 +84,7 @@ Add a lib class to jbb2
 .. _pages/snippets/using_complex_namespaces#edit_jbb1/config.json_to_use_the_jbb2_lib_in_jbb1:
 
 Edit jbb1/config.json to use the jbb2 lib in jbb1
-"""""""""""""""""""""""""""""""""""""""""""""""""
+-------------------------------------------------
 
 ::
 
@@ -132,7 +126,7 @@ Edit jbb1/config.json to use the jbb2 lib in jbb1
 .. _pages/snippets/using_complex_namespaces#modify_jbb1s_application.js,_to_use_the_classa_from_jbb2:
 
 Modify jbb1's Application.js, to use the ClassA from jbb2
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+------------------------------------------------------------
 
 ::
 
@@ -155,7 +149,7 @@ Modify jbb1's Application.js, to use the ClassA from jbb2
 .. _pages/snippets/using_complex_namespaces#run_the_generator_in_jbb1:
 
 Run the generator in jbb1
-"""""""""""""""""""""""""
+------------------------------------------------------------
 
 ::
 

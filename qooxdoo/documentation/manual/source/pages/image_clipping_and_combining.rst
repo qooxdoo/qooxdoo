@@ -11,7 +11,7 @@ Setup
 
 .. note::
 
-    To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools_beyond_python_sdk>` package.
+    To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools/tools_beyond_python_sdk>` package.
 
 xxx
 
