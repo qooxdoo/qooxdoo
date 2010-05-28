@@ -39,24 +39,25 @@ There is also a simpler form for IE that will open up the XML in a new window:
 
 You can create a shortcut for this on the toolbar.
 
-:doc:`See this Ajaxian article for the original source <ajaxian>ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`.
+`See this Ajaxian article for the original source <http://ajaxian.com/archives/ie-tip-cheeky-way-to-see-the-current-state-of-the-page>`_.
 
 .. _pages/snippets#running_a_source_version_from_a_web_server:
 
 Running a Source Version from a Web Server
 ------------------------------------------
 
-The basic programming model of qooxdoo suggests that you develop your application in its :doc:`source <>` version, and once you're satisfied create the :doc:`build <>` version of it, which is then deployed on a web server. qooxdoo's *build* versions of an application are self-contained, they encompass all script files, resources like images and style sheets, and any helper files that are necessary for the application. You can safely copy the *build* directory to the document forrest of a web server, or zip it up in an archive and send it by mail; the recipient will be able to unpack it and run the application without flaws.
+The basic programming model of qooxdoo suggests that you develop your application in its ``source`` version, and once you're satisfied create the ``build`` version of it, which is then deployed on a web server. qooxdoo's *build* versions of an application are self-contained, they encompass all script files, resources like images and style sheets, and any helper files that are necessary for the application. You can safely copy the *build* directory to the document forrest of a web server, or zip it up in an archive and send it by mail; the recipient will be able to unpack it and run the application without flaws.
 
 In contrast, the *source* version is run off of the file system most of the time (i.e. opening it with the *file:* protocol in your browser). The source script just references source code and resources with relative paths, wherever they happen to be on your file system. This usually doesn't lend itself well to being run from a web server. Even if you include the *source* directory of your application in an server-accessible path (somewhere down from its DocumentRoot or one of the defined Aliases), chances are that the source script references files which are **outside** the document scope of the web server.
 
 So if you find yourself in the situation where you need to run a *source* version of your app from a web server, mind the following hints:
 
-  * Make the *source* directory of your application accessible to the web server, so that it is reachable through a valid URL like *http:%%*%%your.web.server/path/to/yourapp/source/index.html//.
-  * Make sure all components that are used by your application, as there are the qooxdoo SDK itself, and any additional qooxdoo library or contribution that you use, are equally accessible by the web server.
-    * In the case of contribs referenced through the *contrib:%%*%%* pseudo protocol in your application configuration, these are downloaded and stored in the download cache directory (config key *:ref:`cache/downloads <pages/tool/generator_config_ref#cache>`//), so make sure this path is included in your considerations.
+* Make the *source* directory of your application accessible to the web server, so that it is reachable through a valid URL like *http://your.web.server/path/to/yourapp/source/index.html*.
+* Make sure all components that are used by your application, as there are the qooxdoo SDK itself, and any additional qooxdoo library or contribution that you use, are equally accessible by the web server.
 
-  * Make sure the relative paths on the web server match those on your file system, e.g. if your app lives on the file system at */a/b/A/myapp* and your qooxdoo installation is at */a/b/Z/qooxdoo-sdk* and the server path to your app is */web/apps/myapp* then make sure the server path to qooxdoo is */web/Z/qooxdoo-sdk* so that relative references like *../Z/qooxdoo-sdk* will work under the web server.
+  * In the case of contribs referenced through the *contrib://* pseudo protocol in your application configuration, these are downloaded and stored in the download cache directory (config key :ref:`cache/downloads <pages/tool/generator_config_ref#cache>`), so make sure this path is included in your considerations.
+
+* Make sure the relative paths on the web server match those on your file system, e.g. if your app lives on the file system at */a/b/A/myapp* and your qooxdoo installation is at */a/b/Z/qooxdoo-sdk* and the server path to your app is */web/apps/myapp* then make sure the server path to qooxdoo is */web/Z/qooxdoo-sdk* so that relative references like *../Z/qooxdoo-sdk* will work under the web server.
 
 A simple way to achieve this is to map the DocumentRoot or an Alias to a directory in your file system that is *a common parent* to *all* involved qooxdoo components of your app.
 
@@ -83,11 +84,9 @@ Center a window on screen
 
 Here is the solution:
 
-<html>
-<!--
-<button onclick="window.open('http://demo.qooxdoo.org/1.2.x/playground#{code:\``+encodeURIComponent(this.parentNode.parentNode.getElementsByTagName('pre')[0].innerHTML.replace(/(<[^>]*?>|&amp;nbsp;)/g, ``)) + '\'}')">Run ...</button>
--->
-</html>
+..
+  <button onclick="window.open('http://demo.qooxdoo.org/1.2.x/playground#{code:\``+encodeURIComponent(this.parentNode.parentNode.getElementsByTagName('pre')[0].innerHTML.replace(/(<[^>]*?>|&amp;nbsp;)/g, ``)) + '\'}')">Run ...</button>
+
 ::
 
     var win = new qx.ui.window.Window();
@@ -487,8 +486,6 @@ keypress and keyup listener at input elements
 
     This snippet is about low-level functionality when adding listener to e.g. *input* elements. The high-level textfield widget does provide the *input* event for monitoring the value changes.
 
-xxx
-
 Suppose you like to get informed when the user types into a certain input element you probably dealing with the question: should I use the *keypress* or the *keyup* event listener?
 
 These code snippet should help you with your decision:
@@ -527,8 +524,6 @@ Reducing requests when using the Remote Table Model
 .. note::
 
     As of r19372, the actions suggested in this snippet are no longer required. The mutex %%__loadRowCountRequestRunning%% has been added within qx.ui.table.model.Remote to prevent multiple concurrent calls to the user’s _loadRowCount() method. To revert to the original behavior, set the remote model's property blockConcurrentLoadRowCount to *false*.
-
-xxx
 
 This snippet is assuming you've already read the article about :doc:`remote_table_model`.
 
@@ -584,10 +579,10 @@ Integrating Maps (Google, Yahoo, OpenLayers, ...)
 
 It should be pretty straightforward to integrate qooxdoo with free map software. Here are some pointers that should get you started for integrating with ...
 
-  * `Yahoo maps <http://n2.nabble.com/yahoo-maps-breaks-qooxdoo-tp3271487p3274572.html>`_
-  * `Google maps <http://old.nabble.com/embedding-google-maps-td24805482.html>`_
-  * `OpenStreetMap <http://old.nabble.com/Openstreet-map-td24932920.html>`_
-  * `OpenLayers <http://old.nabble.com/integrating-openlayers-with-qooxdoo-td22417744.html>`_
+* `Yahoo maps <http://n2.nabble.com/yahoo-maps-breaks-qooxdoo-tp3271487p3274572.html>`_
+* `Google maps <http://old.nabble.com/embedding-google-maps-td24805482.html>`_
+* `OpenStreetMap <http://old.nabble.com/Openstreet-map-td24932920.html>`_
+* `OpenLayers <http://old.nabble.com/integrating-openlayers-with-qooxdoo-td22417744.html>`_
 
 .. _pages/snippets#using_a_bom_application_inside_a_frameset_in_ie:
 
@@ -839,8 +834,7 @@ If you are using the default settings, the cache path for your generator runs is
 
     python -c "import tempfile; print tempfile.gettempdir()"
 
-<html>
-<!--
+..
   * :doc:`snippets/using_gsoap_and_wsdl_with_qooxdoo` 
   * :doc:`snippets/using_cpaint_with_qooxdoo`
   * :doc:`snippets/comboboxex_in_gridlayout`
@@ -851,6 +845,3 @@ If you are using the default settings, the cache path for your generator runs is
   * :doc:`snippets/communicating_with_the_system_clipboard`
   * :doc:`snippets/multi_window_application`
   * :doc:`snippets/asynchronous_user_interaction`
--->
-</html>
-

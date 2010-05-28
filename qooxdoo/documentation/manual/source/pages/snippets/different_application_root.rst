@@ -8,7 +8,6 @@ It is ``strongly recommended`` that you stick with the skeleton file structure, 
 .. note::
 
     The ``application root`` is defined as the relative path to the directory containing the application’s HTML based on the directory the configuration file (typically ``config.json``) is located. Changing the ``application root`` is only relevant within the ``source`` version.
-xxx
 
 .. _pages/snippets/different_application_root#adjusting_the_config.json:
 
@@ -186,7 +185,7 @@ To summarize the above:
   * include the jobs from the ``application.json`` with an own scope to create own jobs
   * set up the ``common`` job with all needed data
   * adjust the ``source`` job - currently only runs the ``source-script`` job, but this way you are safe for later modifications/extensions
-  * adjust the ``source-script`` job to your needs - the important key is ``root`` (see :ref:`here <pages/tool/generator_config_ref#compile-source>` for details)
+  * adjust the ``source-script`` job to your needs - the important key is ``app-root`` (see :ref:`here <pages/tool/generator_config_ref#compile-options>` for details)
 
 If you choose this approach you have additionally setup a config which allows you to simply change every default job you need to. Hopefully the default jobs will do the job as they are set up with sensible defaults.
 
