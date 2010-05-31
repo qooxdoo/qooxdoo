@@ -2,7 +2,7 @@
 
 Image clipping and combining
 ****************************
-qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme <ui_theming>`.
+qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme </pages/gui_toolkit/ui_theming>`.
 
 .. _pages/image_clipping_and_combining#setup:
 
@@ -11,16 +11,14 @@ Setup
 
 .. note::
 
-    To be able to use image clipping and combining you need an installed :doc:`ImageMagick <tools/tools_beyond_python_sdk>` package.
+    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/tool/tools_beyond_python_sdk>` package.
 
-xxx
 
 To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 
 
 .. note::
 
     It is recommended to use the same file name for the config file as in the core framework to better reflect its purpose: ``image.json``
-xxx
 
 At the first look the configuration file for the image jobs is basically the same as a normal application configuration file.
 
@@ -54,7 +52,6 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
 .. note::
 
     Mainly, the clipping is needed to prepare the source image for the use as a ``baseImage`` for the ``grid`` decorator. All clipped images of the core framework are used as baseImages for grid decorators.
-xxx
 
 ::
 
@@ -77,15 +74,15 @@ xxx
 
 Each entry in the ``images`` block represents one source image to clip. 
 
-   * value of the key has to be the path to this image
-   * the ``prefix`` entry will set the filename for all of your splitted images. The resulting images will follow the rule ``prefix+imagepart`` where ``imagepart`` will be e.g. ``tl`` or ``br`` (for top-left and bottom-right)
-   * the entry ``border-width`` is to define the part of the image which the rounded border occupies. If you look at your baseImage you can determine the "border-width" by select a rectangle (which your graphic tool) which occupies the rounded border completely
+ * value of the key has to be the path to this image
+ * the ``prefix`` entry will set the filename for all of your splitted images. The resulting images will follow the rule ``prefix+imagepart`` where ``imagepart`` will be e.g. ``tl`` or ``br`` (for top-left and bottom-right)
+ * the entry ``border-width`` is to define the part of the image which the rounded border occupies. If you look at your baseImage you can determine the "border-width" by select a rectangle (which your graphic tool) which occupies the rounded border completely
 
 For the case ``border-width``: One image says more than thousand words :)
 
 |groupbox_clipping.png|
 
-.. |groupbox_clipping.png| image:: /pages/groupbox_clipping.png
+.. |groupbox_clipping.png| image:: groupbox_clipping.png
 
 The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4.
 
@@ -93,7 +90,6 @@ The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` 
 
     For more information see the :ref:`slice-image <pages/tool/generator_config_ref#slice-images>` section.
 
-xxx
 
 .. _pages/image_clipping_and_combining#image_combining:
 
@@ -127,20 +123,18 @@ Opposite to image clipping the image combining takes multiple images as source a
 
 Basically the structure is the same as for the ``image-clipping`` jobs. Let's take a look at the details.
 
-   * value of the key has to the path of the combined image to create
-   * ``files`` is an array which takes the several images to combine as arguments - the use of wildcards like ``*`` or ``[tb]`` are allowed
-   * the ``layout`` key takes the two possible values ``horizontal`` or ``vertical`` and determines the alignment of the source images inside the combined images
+* value of the key has to the path of the combined image to create
+* ``files`` is an array which takes the several images to combine as arguments - the use of wildcards like ``*`` or ``[tb]`` are allowed
+* the ``layout`` key takes the two possible values ``horizontal`` or ``vertical`` and determines the alignment of the source images inside the combined images
 
 .. note::
 
     The layout depends on the sizes of the source images. Best suited for combining are always images with the same sizes. For most cases the ``horizontal`` layout is the better choice
-xxx
 
 .. note::
 
     For more information take a look at the :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` section.
 
-xxx
 
 .. _pages/image_clipping_and_combining#run_image_jobs:
 
@@ -179,7 +173,7 @@ Benefits
 ========
 There are several benefits for setting the image clipping and combining up
 
-    * less HTTP requests meaning better performance when using combined images
-    * widgets using the ``grid`` decorator are easier to use. If you do not use clipping you have to slice the baseImage and name the parts manually
-    * state changes are faster with combined images as the browser does not have to change the source if the displayed image. Instead he only changes the value of the CSS property ``background-position`` to display the desired part of the combined image
+* less HTTP requests meaning better performance when using combined images
+* widgets using the ``grid`` decorator are easier to use. If you do not use clipping you have to slice the baseImage and name the parts manually
+* state changes are faster with combined images as the browser does not have to change the source if the displayed image. Instead he only changes the value of the CSS property ``background-position`` to display the desired part of the combined image
 
