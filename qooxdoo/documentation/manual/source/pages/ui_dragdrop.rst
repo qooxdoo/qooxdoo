@@ -16,7 +16,7 @@ You may like to see an example first:
 Basics
 ======
 
-To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Widget~draggable>`_ and  `droppable <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Widget~droppable>`_ must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
+To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~draggable>`_ and  `droppable <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~droppable>`_ must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
 
 ::
 
