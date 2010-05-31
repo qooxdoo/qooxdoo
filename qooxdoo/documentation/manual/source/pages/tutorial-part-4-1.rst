@@ -19,7 +19,7 @@ We want to create a new window with user name and password fields that pops up w
 Creating the login window
 =========================
 
-We start by creating a new class called twitter.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
+We start by creating a new class called twitter.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
 
 ::
 
@@ -37,8 +37,8 @@ The Login window will only contain the form, which takes care of its own layout.
 ::
 
     var layout = new qx.ui.layout.Basic();
-        this.setLayout(layout);
-        this.setModal(true);
+    this.setLayout(layout);
+    this.setModal(true);
 
 .. _pages/tutorial-part-4-1#adding_the_form:
 
@@ -50,12 +50,12 @@ Now it's time to add a form and populate it with a pair of fields:
 ::
 
     var form = new qx.ui.form.Form();
-        var username = new qx.ui.form.TextField();
-        username.setRequired(true);
-        form.add(username, "Username", null, "username");
-        var password = new qx.ui.form.PasswordField();
-        password.setRequired(true);
-        form.add(password, "Password", null, "password");
+    var username = new qx.ui.form.TextField();
+    username.setRequired(true);
+    form.add(username, "Username", null, "username");
+    var password = new qx.ui.form.PasswordField();
+    password.setRequired(true);
+    form.add(password, "Password", null, "password");
 
 Note how the fields are marked as required. This is a simple kind of validation and in this case it's all we need, which is why the third argument for ``form.add`` is null instead of a validation function. Required fields will be displayed with an asterisk (*) next to their label.
 
@@ -64,30 +64,30 @@ The next step is to add a dash of data binding awesomeness:
 ::
 
     var controller = new qx.data.controller.Form(null, form);
-        var model = controller.createModel();
+    var model = controller.createModel();
 
-Just like in the previous tutorial, we create a `controller <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.controller.Form>`_ without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
+Just like in the previous tutorial, we create a `controller <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.data.controller.Form>`_ without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
 
 The form still needs a "submit" button, so we'll add one, plus a "cancel" button to close the window:
 
 ::
 
     var loginbutton = new qx.ui.form.Button("Login");
-        form.addButton(loginbutton);
-        var cancelbutton = new qx.ui.form.Button("Cancel");
-        form.addButton(cancelbutton);
-        cancelbutton.addListener("execute", function() {
-          this.close();
-        }, this);
+    form.addButton(loginbutton);
+    var cancelbutton = new qx.ui.form.Button("Cancel");
+    form.addButton(cancelbutton);
+    cancelbutton.addListener("execute", function() {
+      this.close();
+    }, this);
 
-That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in `form renderer <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.form.renderer>`_ classes worry about the form's layout:
+That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in `form renderer <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.form.renderer>`_ classes worry about the form's layout:
 
 ::
 
     var renderer = new qx.ui.form.renderer.Single(form);
-        this.add(renderer);
+    this.add(renderer);
 
-The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
+The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
 
 .. _pages/tutorial-part-4-1#accessing_the_form_values:
 
@@ -99,23 +99,23 @@ Similar to MainWindow, we'll use an event to notify the other parts of our appli
 ::
 
     events : {
-        "changeLoginData" : "qx.event.type.Data"
-      },
+      "changeLoginData" : "qx.event.type.Data"
+    },
 
 Then we add a listener to the submit button that retrieves the values from the model object and attaches them to a data event, making sure the form validates, i.e. both fields aren't empty.
 
 ::
 
     loginbutton.addListener("execute", function() {
-          if (form.validate()) {
-            var loginData = {
-              username : controller.getModel().getUsername(),
-              password : controller.getModel().getPassword()
-            };
-            this.fireDataEvent("changeLoginData", loginData);
-            this.close();
-          }
-        }, this);
+      if (form.validate()) {
+        var loginData = {
+          username : controller.getModel().getUsername(),
+          password : controller.getModel().getPassword()
+        };
+        this.fireDataEvent("changeLoginData", loginData);
+        this.close();
+      }
+    }, this);
 
 And that's it for the LoginWindow class. Now to integrate it with the other parts of the application. ``TwitterService.post`` currently uses ``prompt()`` to ask for the user name and password, so we'll remove these two lines. Instead, we add two new arguments to the method:
 
@@ -128,21 +128,21 @@ The ``post()`` method is called from the main application class, so let's take a
 ::
 
     // post handling
-          main.addListener("post", function(e) {
-          var msg = e.getData();
-          if (!this.__loginWindow) {
-            this.__loginWindow = new twitter.LoginWindow();
-            this.__loginWindow.addListener("changeLoginData", function(ev) {
-              var loginData = ev.getData();
-              service.post(msg, loginData.username, loginData.password);
-            });
-            this.__loginWindow.moveTo(320,30);
-            this.__loginWindow.open();
-          }
-          else {
-            this.__loginWindow.open();
-          }
-        }, this);
+    main.addListener("post", function(e) {
+      var msg = e.getData();
+      if (!this.__loginWindow) {
+        this.__loginWindow = new twitter.LoginWindow();
+        this.__loginWindow.addListener("changeLoginData", function(ev) {
+          var loginData = ev.getData();
+          service.post(msg, loginData.username, loginData.password);
+        });
+        this.__loginWindow.moveTo(320,30);
+        this.__loginWindow.open();
+      }
+      else {
+        this.__loginWindow.open();
+      }
+    }, this);
 
 OK, time to run ``generate.py source`` and load the application in a browser to make sure everything works like it's supposed to.
 
