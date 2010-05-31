@@ -33,8 +33,8 @@ Members
 -------
 
 Members of a class come in two flavors: 
-  * Class members (also called "static" members) are attached to the class itself, not to individual instances
-  * Instance members are attached to each individual instance of a class
+* Class members (also called "static" members) are attached to the class itself, not to individual instances
+* Instance members are attached to each individual instance of a class
 
 .. _pages/classes#class_members:
 
@@ -43,8 +43,8 @@ Class Members
 
 A static member of a class can be one of the following:
 
-  * Class Variable
-  * Class Method
+* Class Variable
+* Class Method
 
 In the ``Cat`` class we may attach a class variable ``LEGS`` (where uppercase notation is a common coding convention) and a class method ``makeSound()``, both in a ``statics`` section of the class declaration:
 
@@ -72,8 +72,8 @@ Instance Members
 
 An instance member of a class can be one of the following:
 
-  * Instance Variable
-  * Instance Method
+* Instance Variable
+* Instance Method
 
 They may be defined in the ``members`` section of the class declaration:
 
@@ -105,7 +105,6 @@ There is a fundamental JavaScript language feature that could lead to problems, 
 .. note::
 
     Please make sure you understand the following explanation to avoid possible future coding errors.
-xxx
 
 Primitive types include ``Boolean``, ``Number``, ``String``, ``null`` and the rather unusual ``undefined``. If such a primitive type is assigned to an instance variable in the class declaration, it behaves as if each instance had a copy of that value. They are never shared among instances.
 
@@ -142,20 +141,20 @@ Access
 
 In many object-oriented classes a concept exists that is referred to as "access" or "visibility" of members (well, or even classes, etc.). Based on the well-known access modifiers of Java, the following three types exist for qooxdoo members:
 
-  * *public*: To be accessed from any class/instance
-  * *protected*: To be accessed only from derived classes or their instances
-  * *private*: To be accessed only from the defining class/instance
+* *public*: To be accessed from any class/instance
+* *protected*: To be accessed only from derived classes or their instances
+* *private*: To be accessed only from the defining class/instance
 
 Unfortunately, JavaScript is very limited in *enforcing* those protection mechanisms. Therefore, the following coding convention is to be used to declare the access type of members:
 
-  * *public*: members may *not* start with an underscore
-  * *protected*: members start with a single underscore ``_``
-  * *private*: members start with a double underscore ``__``
+* *public*: members may *not* start with an underscore
+* *protected*: members start with a single underscore ``_``
+* *private*: members start with a double underscore ``__``
 
 There are some possibilities to enforce or at least check the various degrees of accessibility:
-    * automatic renaming of private members in the build version could trigger errors when testing the final app
-    * checking  instance of ``this`` in protected methods
-    * ...
+* automatic renaming of private members in the build version could trigger errors when testing the final app
+* checking  instance of ``this`` in protected methods
+* ...
 
 .. _pages/classes#special_types_of_classes:
 
@@ -355,9 +354,9 @@ Mixins
 Unlike interfaces, :doc:`mixins` do contain concrete implementations of methods. They borrow some ideas from Ruby and similar scripting languages.
 
 Features:
-  * Add mixins to the definition of a class: All members of the mixin are added to the class definition.
-  * Add a mixin to a class after the class is defined. Enhances the functionality but is not allowed to overwrite existing members.
-  * Patch existing classes. Change the implementation of existing methods. Should normally be avoided but, as some projects may need to patch qooxdoo, we better define a clean way to do so. 
+* Add mixins to the definition of a class: All members of the mixin are added to the class definition.
+* Add a mixin to a class after the class is defined. Enhances the functionality but is not allowed to overwrite existing members.
+* Patch existing classes. Change the implementation of existing methods. Should normally be avoided but, as some projects may need to patch qooxdoo, we better define a clean way to do so. 
 
 The concrete implementations of mixins are used in a class through the key ``include``:
 
@@ -379,16 +378,16 @@ Feature summary
 
 Some of the most prominent features include: 
 
-  * Closed form of class declaration
-  * Interfaces (Java-like)
-  * Mixins (Ruby-like)
-  * Easy calling of super classes (constructor or methods)
-  * Better concepts for ``private``, ``protected`` and ``public`` members
-  * Powerful dynamic :doc:`properties <understanding_properties>`
-  * Migration support for existing applications
-  * Browser specific builds (Gecko, Mshtml, Opera, Webkit)
-  * Simplified settings
-  * More runtime checks for the application development phase
+* Closed form of class declaration
+* Interfaces (Java-like)
+* Mixins (Ruby-like)
+* Easy calling of super classes (constructor or methods)
+* Better concepts for ``private``, ``protected`` and ``public`` members
+* Powerful dynamic :doc:`properties <understanding_properties>`
+* Migration support for existing applications
+* Browser specific builds (Gecko, Mshtml, Opera, Webkit)
+* Simplified settings
+* More runtime checks for the application development phase
 
 .. _pages/classes#browser_optimized_builds:
 
@@ -398,26 +397,27 @@ Browser optimized builds
 Methods can be tagged to be specific for just one browser. The class system and the generator are responsible for selecting the correct version of the method for the current browser. The generator may create optimized builds and strip out all methods, which are not needed for a given browser.
 
 Features:
-  * Runtime selection of the correct method depending on the current browser
-  * Optimized builds
-    * Loader script which automatically loads the correct version
-    * Maybe toggle other optimizations for specific browsers as well (for example, do string optimizations only in IE)
+* Runtime selection of the correct method depending on the current browser
+* Optimized builds
 
-See :doc:`variants` for more details.
+  * Loader script which automatically loads the correct version
+  * Maybe toggle other optimizations for specific browsers as well (for example, do string optimizations only in IE)
+
+See :doc:`/pages/development/variants` for more details.
 
 .. _pages/classes#more_runtime_checks:
 
 More runtime checks
 -------------------
 
-  * More runtime checks in the source version
-  * Strip the checks from the build version
-  * Remove debugging code from the build version
+* More runtime checks in the source version
+* Strip the checks from the build version
+* Remove debugging code from the build version
 
 .. _pages/classes#class_declaration_quick_ref:
 
 Class Declaration Quick Ref
 ---------------------------
 
-  * :doc:`class_quickref` - a quick syntax overview
+* :doc:`class_quickref` - a quick syntax overview
 

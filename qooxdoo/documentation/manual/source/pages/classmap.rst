@@ -7,34 +7,43 @@ Class Map
 
 Maintainers
 ============
-`core developers <http://qooxdoo.org/about/developers#core_developers>`_
-  * MW : Martin Wittemann
-  * JW : Jonathan Weiß
-  * AS : Alexander Steitz
-  * DW : Daniel Wagner
-  * TH : Thomas Herchenröder
-  * CS : Christian Schmidt
+
+.. list-table::
+   :header-rows: 1
+
+   * - `core developers <http://qooxdoo.org/about/developers#core_developers>`_
+   * - MW : Martin Wittemann
+   * - JW : Jonathan Weiß
+   * - AS : Alexander Steitz
+   * - DW : Daniel Wagner
+   * - TH : Thomas Herchenröder
+   * - CS : Christian Schmidt
 
 .. _pages/classmap#apps:
 
 Apps
 ----
-^Maintainer^Bugzilla-Component^Description^
-| **JW **  |         app					  | General applications |
-| **JW **  |         app-demobrowser|
-| **MW **  |         app-feedreader |
-| **MW **  |         app-playground |
-| **AS **  |         app-portal     |
-| **MW **  |         app-showcase   |
-| **JW **  |         app-apiviewer  |
-| **CS **  |         app-inspector  |
-| **DW **  |         app-testrunner |
-| **TH **  |         app-skeleton   |
+
+==========  ========================  ===========================================
+Maintainer  Bugzilla-Component        Description                                  
+==========  ========================  ===========================================
+**JW**           app					         General applications 
+**JW**           app-demobrowser
+**MW**           app-feedreader 
+**MW**           app-playground 
+**AS**           app-portal     
+**MW**           app-showcase  
+**JW**           app-apiviewer  
+**CS**           app-inspector  
+**DW**           app-testrunner 
+**TH**           app-skeleton   
+==========  ========================  ===========================================
 
 .. _pages/classmap#core:
 
 Core
 ----
+
 ==========  ========================  ===========================================
 Maintainer  Bugzilla-Component        Description                                  
 ==========  ========================  ===========================================
@@ -51,6 +60,7 @@ Maintainer  Bugzilla-Component        Description
 
 Development
 -----------
+
 ==========  =====================  ======================================
 Maintainer  Bugzilla-Component     Description                             
 ==========  =====================  ======================================
@@ -65,6 +75,7 @@ Maintainer  Bugzilla-Component     Description
 
 Transport
 ---------
+
 ==========  ==================  =====================================
 Maintainer  Bugzilla-Component  Description                            
 ==========  ==================  =====================================
@@ -77,6 +88,7 @@ Maintainer  Bugzilla-Component  Description
 
 Tooling
 -------
+
 ==========  =========================  ===================================================
 Maintainer  Bugzilla-Component         Description                                          
 ==========  =========================  ===================================================
@@ -94,6 +106,7 @@ Maintainer  Bugzilla-Component         Description
 
 Low Level
 ---------
+
 ==========  ===============================  =========================
 Maintainer  Bugzilla-Component               Description                
 ==========  ===============================  =========================
@@ -110,6 +123,7 @@ Maintainer  Bugzilla-Component               Description
 
 UI
 --
+
 ==========  ===========================  =====================================================
 Maintainer  Bugzilla-Component           Description                                            
 ==========  ===========================  =====================================================
@@ -136,6 +150,10 @@ Maintainer  Bugzilla-Component           Description
 
 Other
 -----
-^Maintainer^Bugzilla-Component^Description^
-| **DW**  |          documentation| API-Doc in common |
-| **MW**  |          other| All not fitting elsewhere |
+
+==========  ===========================  =====================================================
+Maintainer  Bugzilla-Component           Description                                            
+==========  ===========================  =====================================================
+ **DW**            documentation          API-Doc in common
+ **MW**            other                  All not fitting elsewhere
+==========  ===========================  =====================================================
