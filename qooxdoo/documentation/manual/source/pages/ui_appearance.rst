@@ -34,12 +34,12 @@ In a classic ``Button`` there is a child control ``icon`` for example. The appea
 
 It is also possible that a widget, which is a child control itself, uses another child control. Generally the mechanism prepands the ID of each parent which is also a child control to the front of the selector. For example:
 
-<html><pre>
-- pane
-  - level1
-    - level2
-      - level3
-</pre></html>
+::
+
+  - pane
+    - level1
+      - level2
+        - level3
 
 the generated selector would be ``pane/level1/level2/level3``. For ``pane`` which is not a child control of any other widget the appearance ID is used. For all others the child control ID is used. Again ``pane`` is not managed by any other widget so it is basically added by the developer of the application to another widget while ``level1`` to ``level3`` are managed by some type of combined widget and are added to each other without the work of the application developer. 
 
@@ -77,11 +77,11 @@ So we have mastered one essential part for appearance themes. It is basically th
 
 Such an alias also redirects all child controls of the left hand selector to the right hand selector. This means that the icon inside the button is automatically redirected as well. Internally this mapping looks like this:
 
-<html><pre>
-"spinner/upbutton" => "button"
-"spinner/upbutton/icon" => "button/icon"
-"spinner/upbutton/label" => "button/label"
-</pre></html>
+::
+
+  "spinner/upbutton" => "button"
+  "spinner/upbutton/icon" => "button/icon"
+  "spinner/upbutton/label" => "button/label"
 
 This is super convenient for simple cases and additionally it is still possible to selectively override definitions for specific child controls.
 
@@ -104,11 +104,11 @@ This is super convenient for simple cases and additionally it is still possible 
 
 Internally the above results into the following remapping:
 
-<html><pre>
-"spinner/upbutton" => "button"
-"spinner/upbutton/icon" => "myimage"
-"spinner/upbutton/label" => "button/label"
-</pre></html>
+::
+  
+  "spinner/upbutton" => "button"
+  "spinner/upbutton/icon" => "myimage"
+  "spinner/upbutton/label" => "button/label"
 
 .. _pages/ui_appearance#entries:
 
@@ -233,11 +233,11 @@ Child control aliases are compared to the normal aliases mentioned above, just d
 
 The result mapping would look like the following:
 
-<html><pre>
-"spinner/upbutton" => "spinner/upbutton"
-"spinner/upbutton/icon" => "button/image"
-"spinner/upbutton/label" => "button/label"
-</pre></html>
+::
+
+  "spinner/upbutton" => "spinner/upbutton"
+  "spinner/upbutton/icon" => "button/image"
+  "spinner/upbutton/label" => "button/label"
 
 As you can see the ``spinner/upbutton`` is kept in its original state. This allows one to just refine a specific outer part of a complex widget instead of the whole widget. It is also possible to include the orignal part of the ``button`` into the ``spinner/upbutton`` as well. This is useful to just override a few properties like seen in the following example:
 
