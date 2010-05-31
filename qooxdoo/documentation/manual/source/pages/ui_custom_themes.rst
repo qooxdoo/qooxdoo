@@ -75,12 +75,11 @@ After editing your ``config.json`` the very last step is to generate your applic
 .. note::
 
     These steps are also applicable for the other themes.
-xxx
 
-.. _pages/ui_custom_themes#custom_themes:
+.. _pages/ui_custom_themes#define_custom_themes:
 
-Custom Themes
-=============
+Define Custom Themes
+====================
 
 A custom theme is an own meta theme and the corresponding themes build from scratch. The main part of this work is mainly the appearance theme and the content of the other themes is mostly defined by the appearance theme, since this theme is the one who uses fonts, icons, decorators and colors.
 
