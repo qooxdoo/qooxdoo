@@ -43,7 +43,7 @@ Other
    development/write_api_documentation
    development/reporting_bugs
 
-   aspects_template
+   development/aspects_template
 
-   internet_explorer_specific_settings
+   development/internet_explorer_specific_settings
 

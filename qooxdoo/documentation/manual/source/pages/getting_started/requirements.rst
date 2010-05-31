@@ -16,15 +16,15 @@ A qooxdoo application runs in all major web browsers - with identical look & fee
 
 .. list-table::
 
-   * - .. image:: /pages/ie.png 
+   * - .. image:: ie.png 
      - Internet Explorer 6+
-   * - .. image:: /pages/ff.png 
+   * - .. image:: ff.png 
      - Firefox 2+
-   * - .. image:: /pages/opera.png 
+   * - .. image:: opera.png 
      - Opera 9+
-   * - .. image:: /pages/safari.png 
+   * - .. image:: safari.png 
      - Safari 3+
-   * - .. image:: /pages/chrome.png 
+   * - .. image:: chrome.png 
      - Chrome 2+
 
 Not only the *end users* of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system. Most built-in developer :ref:`pages/requirements#tools` (e.g. for debugging, profiling) work cross-browser as well.
@@ -38,7 +38,7 @@ Developing a qooxdoo application does not require a server. Its static applicati
 
 Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
 
-Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism <rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide <rpc_server_writer_guide>`.
+Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism </pages/communication/rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide </pages/communication/rpc_server_writer_guide>`.
 
 If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
 
@@ -55,7 +55,7 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 |image0| Windows
 ^^^^^^^^^^^^^^^^
 
-.. |image0| image:: /pages/windows.png
+.. |image0| image:: windows.png
 
 It is trivial! Just `download and install <http://www.activestate.com/Products/activepython/>`_ the excellent **ActivePython** package. Its default settings of the installation wizard are fine, there is nothing to configure. 
 (It is no longer recommended to use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, as this requires additional manual :ref:`configuration <pages/troubleshooting#windows>`).
@@ -63,21 +63,21 @@ It is trivial! Just `download and install <http://www.activestate.com/Products/a
 |image1| Cygwin
 ^^^^^^^^^^^^^^^
 
-.. |image1| image:: /pages/cygwin.png
+.. |image1| image:: cygwin.png
 
 `Cygwin <http://www.cygwin.com/>`_ can be used as an optional free and powerful Unix-like environment for Windows. You won't need a native Python installation, just make sure to include Cygwin's **built-in** Python as an additional package when using Cygwin's `setup program <http://cygwin.com/setup.exe>`_.
 
 |image2| Mac
 ^^^^^^^^^^^^
 
-.. |image2| image:: /pages/macosx.png
+.. |image2| image:: macosx.png
 
 Python is **pre-installed** on Max OS X. No additional software needs to be installed, but on older systems it might need an update.
 
 |image3| Linux
 ^^^^^^^^^^^^^^
 
-.. |image3| image:: /pages/linux.png
+.. |image3| image:: linux.png
 
 Python often comes **pre-installed** with your favorite distribution. If not, simply use your package manager to install Python.
 

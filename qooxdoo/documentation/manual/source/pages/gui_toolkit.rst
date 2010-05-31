@@ -24,7 +24,7 @@ Topics
    gui_toolkit/ui_form_handling
    gui_toolkit/ui_menu_handling
    gui_toolkit/ui_using_themes_of_contribs
-   gui_toolkit/ui_html_editing
+   ui_html_editing
 
 .. _index#references_gui:
 

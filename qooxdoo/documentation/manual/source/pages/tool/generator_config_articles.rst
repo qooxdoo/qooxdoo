@@ -435,7 +435,7 @@ You can specify ``library`` keys in your own config in these ways:
 "packages" Key
 ==============
 
-For a general introduction to parts and packages see this separate :doc:`document </pages/parts_overview>`. Here is more information on specifics of the :ref:`pages/tool/generator_config_ref#packages` config key.
+For a general introduction to parts and packages see this separate :doc:`document </pages/development/parts_overview>`. Here is more information on specifics of the :ref:`pages/tool/generator_config_ref#packages` config key.
 
 .. _pages/tool/generator_config_articles#parts/<part_name>/include:
 

@@ -47,8 +47,8 @@ Parts
 
 .. toctree::
 
-   parts_overview
-   parts_using
+   development/parts_overview
+   development/parts_using
 
 Reference
 ^^^^^^^^^^^^

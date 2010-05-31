@@ -66,7 +66,7 @@ A simple way to achieve this is to map the DocumentRoot or an Alias to a directo
 Relax Firefox 3 File URI Restriction
 ------------------------------------
 
-Firefox 3 will by default employ a strict `same-origin-policy <http://en.wikipedia.org/wiki/Same_origin_policy>`_ concerning file URIs, ie. URIs loaded with the ``%%file://%%`` protocol. This can lead to errors when you run the *source* version of your app from the file system, particularly when your app uses :doc:`parts <parts_overview>`. In order to relax this strict policy for file URIs, enter ``about:config`` in the location bar of your browser and apply the following setting:
+Firefox 3 will by default employ a strict `same-origin-policy <http://en.wikipedia.org/wiki/Same_origin_policy>`_ concerning file URIs, ie. URIs loaded with the ``%%file://%%`` protocol. This can lead to errors when you run the *source* version of your app from the file system, particularly when your app uses :doc:`parts <development/parts_overview>`. In order to relax this strict policy for file URIs, enter ``about:config`` in the location bar of your browser and apply the following setting:
 
 ::
 
