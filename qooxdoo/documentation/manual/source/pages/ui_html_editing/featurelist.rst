@@ -17,17 +17,13 @@ End-User Features
 Text Formatting
 ---------------
 
-  * **Bold**
-  * *Italic*
+  * Bold
+  * Italic
   * Underline
-
-  * <del>Strikethrough</del>
+  * Strikethrough
   * Text Color
-
   * Background Color
-
   * Font Size
-
   * Font Family
 
 .. _pages/ui_html_editing/featurelist#alignment:
@@ -35,34 +31,18 @@ Text Formatting
 Alignment
 ---------
 
-  * This demonstration text is left aligned and covers more than one
-line to show the line-breaking behaviour
-
-  * This demonstration text is center aligned
-
-  * This demonstration text is right aligned
-
-  * This demonstration text is justify aligned and covers more than one
-line to show the line-breaking behaviour
+  * Left
+  * Center
+  * Right
+  * Justify
 
 .. _pages/ui_html_editing/featurelist#lists:
 
 Lists
 -----
 
-<html>
-  <ul>
-    <li>Unordered</li>
-    <li>lists</li>
-  </ul>
-</html>
-
-<html>
-  <ol>
-    <li>Ordered</li>
-    <li>lists</li>
-  </ol>
-</html>
+  * Unordered lists
+  * Ordered lists
 
 .. _pages/ui_html_editing/featurelist#inserting:
 
@@ -72,8 +52,7 @@ Inserting
   * Tables
   * Images
   * Horizontal rulers
-  * `Hyperlink <#>`_
-
+  * Hyperlink
   * HTML code
 
 .. _pages/ui_html_editing/featurelist#document_wide_formatting:
