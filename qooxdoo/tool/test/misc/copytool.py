@@ -222,12 +222,14 @@ class TestCopyTool(unittest.TestCase):
         self.failUnless(os.path.isfile(syncTargetPath), "Directory contents not synchronized!")
         
     def testSynchronizeDirectoriesCreate(self):
-        syncSourcePath = os.path.join(self.dir1, "sourceFile")
+        syncSourceDir = os.path.join(self.dir1, "subDir")
+        os.makedirs(syncSourceDir)
+        syncSourcePath = os.path.join(syncSourceDir, "sourceFile")
         syncSource = file(syncSourcePath, "w")
-        syncTargetDir = os.path.join(self.tempDir, "sync")
-        syncTargetPath = os.path.join(syncTargetDir, "sourceFile")
         
-        self.copier.parse_args(["--synchronize", self.dir1, syncTargetDir])
+        syncTargetPath = os.path.join(self.dir2, "subDir", "sourceFile")
+        
+        self.copier.parse_args(["--synchronize", self.dir1, self.dir2])
         self.copier.do_work()
         self.failUnless(os.path.isfile(syncTargetPath), "Directory contents not synchronized!")
     

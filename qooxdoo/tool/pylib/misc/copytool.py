@@ -92,14 +92,14 @@ class CopyTool(object):
             self.__console.error("Error copying file %s to dir %s: %s" %(sourceFile, targetPath, str(e)))
     
 
-    def __copyDirToDir(self, sourceDir, targetDir):
+    def __copyDirToDir(self, sourceDir, targetDir, recursive=False):
         self.__console.debug("Copying directory %s to %s." %(sourceDir, targetDir))
         sourceDirName = os.path.basename(sourceDir)
         if sourceDirName in self.__exclude:
             self.__console.debug("Skipping excluded directory %s." %sourceDir)
             return
         
-        if self.__synchronize:
+        if self.__synchronize and not recursive:
             targetPath = targetDir
         else:
             targetPath = os.path.join(targetDir, sourceDirName)
@@ -121,7 +121,7 @@ class CopyTool(object):
             if os.path.isfile(entryPath):
                 self.__copyFileToDir(entryPath, targetPath)
             if os.path.isdir(entryPath):
-                self.__copyDirToDir(entryPath, targetPath)
+                self.__copyDirToDir(entryPath, targetPath, True)
         
         for entry in compare.common_dirs:
             entryPath = os.path.join(sourceDir, entry)
@@ -129,7 +129,7 @@ class CopyTool(object):
                 self.__console.debug("Skipping excluded directory %s." %entryPath)
                 continue
 
-            self.__copyDirToDir(entryPath, targetPath)
+            self.__copyDirToDir(entryPath, targetPath, True)
             
         for entry in compare.common_files:
             entryPath = os.path.join(sourceDir, entry)
