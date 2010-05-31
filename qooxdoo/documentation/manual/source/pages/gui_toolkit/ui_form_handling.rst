@@ -5,7 +5,7 @@ Form Handling
 
 The ``qx.ui.form`` package contains several classes to for constructing forms. Some widgets -- like ``Button``, ``List`` or ``TextField`` -- may look familiar if you have worked with HTML before, but this package also contains more complex widgets that you may know from your operating system and/or native desktop applications (e.g. ``Spinner``, ``Slider`` or ``DateField``).
 
-.. _pages/ui_form_handling#idea:
+.. _pages/ui_form_handling#idea_1:
 
 Idea
 ====
@@ -20,37 +20,41 @@ If you like to see some of the form management of qooxdoo in action, take a look
 XXX
 ---
 
-.. _pages/ui_form_handling#widgets:
+.. _pages/ui_form_handling#widgets_1:
 
 Widgets
 ^^^^^^^
-  * `All form widgets <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
-  * `All form widgets with invalid states <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormInvalids.html>`_
+
+* `All form widgets <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `All form widgets with invalid states <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormInvalids.html>`_
 
 .. _pages/ui_form_handling#validation_and_resetting:
 
 Validation and Resetting
 ^^^^^^^^^^^^^^^^^^^^^^^^
-  * `Synchronous and asynchronous form validation <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormValidator.html>`_
-  * `Validation on different pages <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~MultiPageForm.html>`_
+
+* `Synchronous and asynchronous form validation <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormValidator.html>`_
+* `Validation on different pages <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~MultiPageForm.html>`_
 
 .. _pages/ui_form_handling#rendering:
 
 Rendering
 ^^^^^^^^^
-  * `Single column form <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRenderer.html>`_
-  * `Double column form <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererDouble.html>`_
-  * `Single column form using placeholders <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererPlaceholder.html>`_
-  * `Custom form layout <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererCustom.html>`_
+
+* `Single column form <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRenderer.html>`_
+* `Double column form <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererDouble.html>`_
+* `Single column form using placeholders <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererPlaceholder.html>`_
+* `Custom form layout <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~FormRendererCustom.html>`_
 
 .. _pages/ui_form_handling#data_binding:
 
 Data Binding
 ^^^^^^^^^^^^
-  * `Manual form binding <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~Form.html>`_
-  * `Form Controller <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~FormController.html>`_
 
-.. _pages/ui_form_handling#interfaces:
+* `Manual form binding <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~Form.html>`_
+* `Form Controller <http://demo.qooxdoo.org/1.2.x/demobrowser/#data~FormController.html>`_
+
+.. _pages/ui_form_handling#interfaces_2:
 
 Interfaces
 ==========
@@ -65,13 +69,14 @@ The interface called ``qx.ui.form.IForm`` defines a set of methods and events fo
 
 |iform.png|
 
-.. |iform.png| image:: /pages/iform.png
+.. |iform.png| image:: iform.png
 
 As you can see, the interface defines accessors for four different properties. 
-   * The enabled property is usually inherited from the widget class and is for switching of form element. 
-   * The required property is just a boolean flag signaling that the form widget is required. This can be used by some kind of form manager or form widget to display the status of the widget.
-   * The valid property is a boolean flag containing ``true`` if the content of the widget is valid, but the form widgets does not have any kind of code to set this property. It needs to be set from outside. If it is set to ``false``, the appearance will change automatically and signals the invalid state properly. 
-   * The invalidMessage property should contain a message, which will be shown in an invalid tooltip if the valid flag is set to ``false``. If no message is given, no tooltip will appear.
+
+* The enabled property is usually inherited from the widget class and is for switching of form element. 
+* The required property is just a boolean flag signaling that the form widget is required. This can be used by some kind of form manager or form widget to display the status of the widget.
+* The valid property is a boolean flag containing ``true`` if the content of the widget is valid, but the form widgets does not have any kind of code to set this property. It needs to be set from outside. If it is set to ``false``, the appearance will change automatically and signals the invalid state properly. 
+* The invalidMessage property should contain a message, which will be shown in an invalid tooltip if the valid flag is set to ``false``. If no message is given, no tooltip will appear.
 
 .. _pages/ui_form_handling#executable:
 
@@ -82,10 +87,11 @@ The ``qx.ui.form.IExecutable`` interface defines the essential parts for all exe
 
 |iexecutable.png|
 
-.. |iexecutable.png| image:: /pages/iexecutable.png
+.. |iexecutable.png| image:: iexecutable.png
 
 As you can see, the interface defines accessors for only one property. 
-   * The command property can take a ``qx.event.Command``. The execute method executes the given command.
+
+* The command property can take a ``qx.event.Command``. The execute method executes the given command.
 
 .. _pages/ui_form_handling#range:
 
@@ -96,13 +102,14 @@ The ``qx.ui.form.IRange`` interface defines the essential parts for all widgets 
 
 |irange.png|
 
-.. |irange.png| image:: /pages/irange.png
+.. |irange.png| image:: irange.png
 
 As you can see, the interface defines accessors for four properties.
-   * The minimum of the range is defined by the Minimum property.
-   * The maximum of the range is defined by the Maximum property.
-   * Each range does have a single step value which is defined by the SingleStep property.
-   * As the single step, there is a page step in every range which is defined by the PageStep property.
+
+* The minimum of the range is defined by the Minimum property.
+* The maximum of the range is defined by the Maximum property.
+* Each range does have a single step value which is defined by the SingleStep property.
+* As the single step, there is a page step in every range which is defined by the PageStep property.
 
 .. _pages/ui_form_handling#number_/_string_/_color_/_date_/_boolean:
 
@@ -111,24 +118,25 @@ Number / String / Color / Date / Boolean
 
 Each of the listed interfaces define the same methods and events. The only difference in the interfaces is - like the name says - the type of the data processed by the implementing widget. With that solution, we have the same API for every form widget but can still determinate which type of value the widget expects by checking for the different interfaces.
 
-.. _pages/ui_form_handling#interfaces:
+.. _pages/ui_form_handling#interfaces_1:
 
 Interfaces
 ^^^^^^^^^^
-   * Number : ``qx.ui.form.INumberForm``
-   * String : ``qx.ui.form.IStringForm``
-   * Color : ``qx.ui.form.IColorForm``
-   * Date : ``qx.ui.form.IDateForm``
-   * Boolean : ``qx.ui.form.IBooleanForm``
+
+* Number : ``qx.ui.form.INumberForm``
+* String : ``qx.ui.form.IStringForm``
+* Color : ``qx.ui.form.IColorForm``
+* Date : ``qx.ui.form.IDateForm``
+* Boolean : ``qx.ui.form.IBooleanForm``
 
 The color interface takes a string which has to be formated like `usual colors <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ColorUtil>`_ in qooxdoo.
 
 |iformvalue.png|
 
-.. |iformvalue.png| image:: /pages/iformvalue.png
+.. |iformvalue.png| image:: iformvalue.png
 
 As you can see, the interface can be implemented with only one property.
-   * The value property takes the value of the widget. This is for example a boolean in a checkbox widget or a string in a textfield widget.
+* The value property takes the value of the widget. This is for example a boolean in a checkbox widget or a string in a textfield widget.
 
 .. _pages/ui_form_handling#model_/_modelselection:
 
@@ -139,548 +147,550 @@ Most of the form items handling a selection had a value property in the old API.
 
 |Diagram of IModel|
 
-.. |Diagram of IModel| image:: /pages/imodel.png
+.. |Diagram of IModel| image:: imodel.png
 
 The model property can be used to store additional data which is represented by the widget. The data does not need to be a string like in the old value property. You can store references to objects, numbers, strings and so on.
 Accessing the model is very easy. Every widget containing a widget implementing the ``qx.ui.form.IModel`` interface has its own interface to access the current selected model.
 
 |Diagram of IModelSelection|
 
-.. |Diagram of IModelSelection| image:: /pages/imodelselection.png
+.. |Diagram of IModelSelection| image:: imodelselection.png
 
 As you can see in the diagram, you can get the current selected model and also set the selection using the models.
 
-.. _pages/ui_form_handling#widgets:
+.. _pages/ui_form_handling#widgets_2:
 
 Widgets
 =======
-The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets <widget>` documentation. 
+The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets </pages/widget/widget>` documentation. 
 
-<html>
-<style type="text/css">
-table {border: 1px solid black; border-collapse:collapse; background-color: white}
-td {border: 1px solid black; padding:5px}
-</style>
+.. raw:: html
 
-<table>
-<tbody>
-  <tr>
-    <td>&nbsp;</td>
-    <td><strong>IForm</strong></td>
-    <td><strong>IExecutable</strong></td>
-    <td><strong>IRange</strong></td>
-    <td><strong>INumber<br>Form</strong></td>
-    <td><strong>IString<br>Form</strong></td>
-    <td><strong>IColor<br>Form</strong></td>
-    <td><strong>IDate<br>Form</strong></td>
-    <td><strong>IBoolean<br>Form</strong></td>
-    <td><strong>IModel</strong></td>
-    <td><strong>IModel<br>Selection</strong></td>
-  </tr>
+    <html>
+    <style type="text/css">
+    table {border: 1px solid black; border-collapse:collapse; background-color: white}
+    td {border: 1px solid black; padding:5px}
+    </style>
 
-  <tr>
-    <td>Label</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+    <table>
+    <tbody>
+      <tr>
+        <td>&nbsp;</td>
+        <td><strong>IForm</strong></td>
+        <td><strong>IExecutable</strong></td>
+        <td><strong>IRange</strong></td>
+        <td><strong>INumber<br>Form</strong></td>
+        <td><strong>IString<br>Form</strong></td>
+        <td><strong>IColor<br>Form</strong></td>
+        <td><strong>IDate<br>Form</strong></td>
+        <td><strong>IBoolean<br>Form</strong></td>
+        <td><strong>IModel</strong></td>
+        <td><strong>IModel<br>Selection</strong></td>
+      </tr>
 
-  <tr>
-    <td colspan="11"><strong>Text Input</strong></td>
-  </tr>
+      <tr>
+        <td>Label</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>TextField</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Text Input</strong></td>
+      </tr>
 
-  <tr>    
-    <td>TextArea</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>TextField</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>PasswordField</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>TextArea</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>
-    <td colspan="11"><strong>Supported Text Input</strong></td>
-  </tr>
+      <tr>    
+        <td>PasswordField</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>ComboBox</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Supported Text Input</strong></td>
+      </tr>
 
-  <tr>    
-    <td>DateField</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr> 
+      <tr>    
+        <td>ComboBox</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>
-    <td colspan="11"><strong>Number Input</strong></td>
-  </tr>
+      <tr>    
+        <td>DateField</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr> 
 
-  <tr>    
-    <td>Slider</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Number Input</strong></td>
+      </tr>
 
-  <tr>    
-    <td>Spinner</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr> 
+      <tr>    
+        <td>Slider</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>
-    <td colspan="11"><strong>Boolean Input</strong></td>
-  </tr>
+      <tr>    
+        <td>Spinner</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr> 
 
-  <tr>    
-    <td>CheckBox</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>
+        <td colspan="11"><strong>Boolean Input</strong></td>
+      </tr>
 
-  <tr> 
-    <td>RadioButton</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>CheckBox</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>
-    <td colspan="11"><strong>Color Input</strong></td>
-  </tr>
+      <tr> 
+        <td>RadioButton</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>ColorPopup</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Color Input</strong></td>
+      </tr>
 
-  <tr>    
-    <td>ColorSelector</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>ColorPopup</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>
-    <td colspan="11"><strong>Date Input</strong></td>
-  </tr>
+      <tr>    
+        <td>ColorSelector</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>DateChooser</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Date Input</strong></td>
+      </tr>
 
-  <tr>
-    <td colspan="11"><strong>Selections</strong></td>
-  </tr>
+      <tr>    
+        <td>DateChooser</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>SelectBox</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Selections</strong></td>
+      </tr>
 
-  <tr>    
-    <td>List</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-  </tr>
+      <tr>    
+        <td>SelectBox</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+      </tr>  
 
-  <tr>    
-    <td>ListItem</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>List</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+      </tr>
 
-  <tr>    
-    <td>tree.Tree</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-  </tr>
+      <tr>    
+        <td>ListItem</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>    
-    <td>tree.TreeFolder</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>tree.Tree</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+      </tr>
 
-  <tr>    
-    <td>tree.TreeFile</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>tree.TreeFolder</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>
-    <td colspan="11"><strong>Grouping</strong></td>
-  </tr>
+      <tr>    
+        <td>tree.TreeFile</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>    
-    <td>GroupBox</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Grouping</strong></td>
+      </tr>
 
-  <tr>    
-    <td>CheckGroupBox</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>GroupBox</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>RadioGroupBox</td>
-    <td>X</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>CheckGroupBox</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>RadioGroup</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-  </tr> 
+      <tr>    
+        <td>RadioGroupBox</td>
+        <td>X</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>RadioButtonGroup</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-  </tr>  
+      <tr>    
+        <td>RadioGroup</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+      </tr> 
 
-  <tr>
-    <td colspan="11"><strong>Buttons</strong></td>
-  </tr>
+      <tr>    
+        <td>RadioButtonGroup</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+      </tr>  
 
-  <tr>    
-    <td>Button</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td colspan="11"><strong>Buttons</strong></td>
+      </tr>
 
-  <tr>    
-    <td>MenuButton</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>Button</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>
-    <td>RepeatButton</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>MenuButton</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>SplitButton</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>
+        <td>RepeatButton</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>ToggleButton</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>    
+        <td>SplitButton</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>    
-    <td>tabView.Button</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>ToggleButton</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-  <tr>   
-    <td>menu.CheckBox</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>tabView.Button</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>    
-    <td>menu.RedioButton</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>  
+      <tr>   
+        <td>menu.CheckBox</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
 
-  <tr>    
-    <td>menu.Button</td>
-    <td>&nbsp;</td>
-    <td>X</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>    
+        <td>menu.RedioButton</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>  
 
-</tbody>
-</table>
-</html>
+      <tr>    
+        <td>menu.Button</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
 
-.. _pages/ui_form_handling#sample_usage:
+    </tbody>
+    </table>
+    </html>
+
+.. _pages/ui_form_handling#sample_usage_1:
 
 Sample Usage
 ============
@@ -770,46 +780,55 @@ This works identical to the old code. The HTML name property will not be set aft
 
 CheckBox and RadioButton
 ^^^^^^^^^^^^^^^^^^^^^^^^
+
 Widgets like CheckBox or RadioButton had a ``checked`` property for their state. This  property is deprecated and is now called ``value``.
 
 .. _pages/ui_form_handling#changevalue_on_list_and_selectbox:
 
 changeValue on List and SelectBox
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 It was quite common to use the ``changeValue`` event of a ``SelectBox`` or ``List`` to handle a change of the selection. Due to the removal of ``value``, the ``changeValue`` event has also been removed. Please use the ``changeSelection`` event instead.
 
 .. _pages/ui_form_handling#label:
 
 Label
 ^^^^^
+
 The former ``content`` property of the Label class has been renamed to make it consistent with the rest of the framework. So the new name is like in every other widget: ``value``.
 
 .. _pages/ui_form_handling#validation:
 
 Validation
 ==========
+
 Form validation is essential in most of the common use cases of forms. Thats why qooxdoo supports the application developer with a validation component named ``qx.ui.form.validation.Manager``. This manager is responsible for managing the form items, which need to be validated.
 We tried to keep the API as minimal as possible but in the same way, as flexible as possible. The following class diagram shows the user API of the component.
 
 |The validation package|
 
-.. |The validation package| image:: /pages/validationmanager.png
+.. |The validation package| image:: validationmanager.png
 
 The events, properties and methods can be divided into three groups:
 
-  * **Validation**
-    * getValid()
-    * isValid()
-    * validate()
-    * validator  -  property
-    * complete  -  event
-    * changeValid  -  event
-  * **Form Item Management**
-    * add(formItem, validator)
-    * reset()
-  * **Invalid Messages**
-    * getInvalidMessages()
-    * invalidMessage  -  property
+* **Validation**
+
+  * getValid()
+  * isValid()
+  * validate()
+  * validator  -  property
+  * complete  -  event
+  * changeValid  -  event
+
+* **Form Item Management**
+
+  * add(formItem, validator)
+  * reset()
+
+* **Invalid Messages**
+
+  * getInvalidMessages()
+  * invalidMessage  -  property
 
 The first part with which the application developer gets in contact is the add method. It takes form items and a validator. But what are form items?
 
@@ -913,7 +932,7 @@ The only difference to the synchronous case is the wrapping of your validator fu
 
 |Asynchronous form validation|
 
-.. |Asynchronous form validation| image:: /pages/sd-asyncvalidate-540x308.png
+.. |Asynchronous form validation| image:: sd-asyncvalidate-540x308.png
 
 The asynchronous validation can not only be used for form items. Also the manager itself can handle instances of the AsyncValidator as validator.
 
@@ -923,16 +942,16 @@ Serialization
 =============
 Entering data into a form is one part of the process. But that entered data needs to be send to the server most of the time. So serialization is a big topic when it comes to forms. We decided not to integrate the serialization in one form manager responsible for validation and serialization.
 
-.. _pages/ui_form_handling#idea:
+.. _pages/ui_form_handling#idea_2:
 
 Idea
 ----
 The main idea of that was to ensure, that it works good together with features like a form widget and the corresponding data binding components. So we decided to split the problem into two different parts. The first part is storing the data held in the view components into a model. The second part takes that model and serializes the data in the model.
-Sounds like :doc:`data binding <data_binding>`? It is data binding! 
+Sounds like :doc:`data binding </pages/data_binding/data_binding>`? It is data binding! 
 
 |Serialization in qooxdoo|
 
-.. |Serialization in qooxdoo| image:: /pages/serialization.png
+.. |Serialization in qooxdoo| image:: serialization.png
 
 But you don't have to connect all these widgets yourself. We do offer a object controller which can take care of most of the work. But where do you get the model? Writing a specific qooxdoo class for every form sounds like a bit overkill. But qooxdoo has a solution for that, too. The creation of classes and model instances is already part of the data binding and can also be used here. Sounds weired? Take a look at the following common scenarios to see how it works.
 
@@ -971,7 +990,7 @@ That way, the serialization in completely cut of from the form itself. So hidden
 
 Keep in mind that you create a model with that and you can access every property you created using the default getter and setter.
 
-I guess some of you are asking yourself: "What if i want to convert the values for serialization. My server needs some different values...". That brings in the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding which already includes conversion. Take a look at the :ref:`data binding documentation <pages/data_binding#optionsconversion_and_validation>` for more information on the conversion.
+I guess some of you are asking yourself: "What if i want to convert the values for serialization. My server needs some different values...". That brings in the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding which already includes conversion. Take a look at the :ref:`data binding documentation <pages/data_binding/single_value_binding#options_conversion_and_validation>` for more information on the conversion.
 
 .. _pages/ui_form_handling#need_something_special:
 
@@ -984,13 +1003,15 @@ In some cases, you might want to have something really special like serializing 
 Resetting
 =========
 A third useful feature of a form besides validation and serialization is resetting the whole form with one call. Sounds not too complicated that a separate class is needed. But we decided to do it anyway for some reasons.
-  * The validation manager is not the right place for reseting becaus it handles only the validation.
-  * The form widget, responsible for layouting forms, is a good place, but we don't want to force developers to use the form if they just want the reset feature.
+
+* The validation manager is not the right place for reseting becaus it handles only the validation.
+* The form widget, responsible for layouting forms, is a good place, but we don't want to force developers to use the form if they just want the reset feature.
+
 So we decided to create a standalone implementation for resetting called ``qx.ui.form.Resetter``. 
 
 |Resetter Class|
 
-.. |Resetter Class| image:: /pages/resetter.png
+.. |Resetter Class| image:: resetter.png
 
 Like the task of resetting itself, the API is not too complicated. We do have one method for adding items, and another one for reseting all added items. 
 
@@ -1001,9 +1022,9 @@ XXX
 
 How It Works
 ^^^^^^^^^^^^
-Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#number / string / color / date / boolean>`_ or implementing the :doc:`selection API <ui_selection2>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
+Technically, its not really a challenge thanks to the new form API. You can add all items, having either a value property defined by one of the `data specific form interfaces <http://qooxdoo.org/documentation/1.2#number / string / color / date / boolean>`_ or implementing the :doc:`selection API <ui_selection>` of qooxdoo. On every add. the resetter grabs the current value and stores it. On a reset all stored values are set back.
 
-.. _pages/ui_form_handling#sample_usage:
+.. _pages/ui_form_handling#sample_usage_2:
 
 Sample Usage
 ^^^^^^^^^^^^
@@ -1051,24 +1072,28 @@ We have already covered most parts of form handling. But one thing we spared out
 What is it?
 -----------
 The qooxdoo form is a object, which includes three main parts. 
-  * `Validation <http://qooxdoo.org/documentation/1.2#validation>`_ using the ``qx.ui.form.validation.Manager`` class
-  * `Resetting <http://qooxdoo.org/documentation/1.2#resetting>`_ using the ``qx.ui.form.Resetter`` class
-  * Handling the layout of the form
+
+* `Validation <http://qooxdoo.org/documentation/1.2#validation>`_ using the ``qx.ui.form.validation.Manager`` class
+* `Resetting <http://qooxdoo.org/documentation/1.2#resetting>`_ using the ``qx.ui.form.Resetter`` class
+* Handling the layout of the form
+
 As we have already talked about the first two items, I'll cover the last item in a more detailed way.
 
 The layout of a form is in most cases application specific. It depends on the space available in the application and much other factors. Thats why qooxdoo has this flexible form layouting tool, which includes a set of default possibilities to layout a form. On of the main requirements of the solution was the extensibility so everyone could have the layout as his application requires.
 To get that, we applied a pattern used widely across the qooxdoo framework, which takes all UI related code to renderer classes. These renderer are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
 |qx.ui.form.Form|
 
-.. |qx.ui.form.Form| image:: /pages/iform.png
+.. |qx.ui.form.Form| image:: iform.png
 
 .. _pages/ui_form_handling#renderer:
 
 Renderer
 --------
 As the diagram shows, qooxdoo provides an interface for FormRenderer, the ``IFormRenderer`` interface. It defines two methods, one for adding a group of form items and one for adding buttons. 
-  * addItems(items : qx.ui.form.IForm[], names : String[], title : String) : void
-  * addButton(button : qx.ui.form.Button) : void
+
+* addItems(items : qx.ui.form.IForm[], names : String[], title : String) : void
+* addButton(button : qx.ui.form.Button) : void
+
 Sure you have recognized the difference to the API of the form itself. You add the widgets one by one to the form but the renderer gets always a group of widgets at once. This gives the renderer additional information which it may need to render the form based on the number of groups rather then on the number of widgets.
 
 You may ask yourself why we didn't use the layouts, we usually use in such scenarios if we ant to render widgets on the screen. It may be necessary, that a rendere contains even more than one widget. Imagine a wizard or a form shared among different tabs. Thats all not possible using layouts instead of renderer widgets.
@@ -1083,7 +1108,7 @@ If you don't care about renderer and you don't specify a rendere, the default re
 
 |Default renderer|
 
-.. |Default renderer| image:: /pages/singlerenderer.png
+.. |Default renderer| image:: singlerenderer.png
 
 As you can see in the picture, the rendere adds an asterisk to every required field, adds a colon at the end of every label and defines the vertical layout.
 
@@ -1095,7 +1120,7 @@ The double column renderer has the same features like the already introduced sin
 
 |Double Renderer|
 
-.. |Double Renderer| image:: /pages/doublerenderer.png
+.. |Double Renderer| image:: doublerenderer.png
 
 .. _pages/ui_form_handling#single_column_with_placeholer:
 
@@ -1105,9 +1130,9 @@ This renderer is more a demo showing how easy it can be to implement your own re
 
 |Placeholder Renderer|
 
-.. |Placeholder Renderer| image:: /pages/placeholderrenderer.png
+.. |Placeholder Renderer| image:: placeholderrenderer.png
 
-.. _pages/ui_form_handling#sample_usage:
+.. _pages/ui_form_handling#sample_usage_3:
 
 Sample Usage
 ------------
@@ -1183,7 +1208,7 @@ Running this code will create a form as described above and will look like this.
 
 |Result of the code example|
 
-.. |Result of the code example| image:: /pages/codesampleform.png
+.. |Result of the code example| image:: codesampleform.png
 
 If you want to get another look & feel, you can specify a different renderer in the createView method. 
 
@@ -1204,9 +1229,9 @@ Form Controller
 
 Data binding for a form certainly is a handy feature. Using a model to access data in the form brings form handling to another level of abstraction. That's exactly what the form controller offers.
 
-The form controller is fully covered in the :ref:`data binding documentation <pages/data_binding#form_controller>`.
+The form controller is fully covered in the :ref:`data binding documentation <pages/data_binding/controller#form_controller>`.
 
-.. _pages/ui_form_handling#sample_usage:
+.. _pages/ui_form_handling#sample_usage_4:
 
 Sample Usage
 ------------
@@ -1255,7 +1280,7 @@ The final step for data binding is creating the actual model.
 Take a look at the following sequence diagram to see how it internally works.
 |Creation of the model|
 
-.. |Creation of the model| image:: /pages/sd-createmodel-473x400.png
+.. |Creation of the model| image:: sd-createmodel-473x400.png
 
 Now we have managed to setup a form and a model connected by bidirectional bindings. So we can simply use the model to set values in the form.
 
@@ -1275,5 +1300,5 @@ As you can see here, the properties (and therefore setters) are defined accordin
 Still to come...
 ================
 
-   * `A way to create a form out of a JSON definition <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2685>`_
+* `A way to create a form out of a JSON definition <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2685>`_
 

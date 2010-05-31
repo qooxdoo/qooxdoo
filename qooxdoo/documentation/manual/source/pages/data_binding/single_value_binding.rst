@@ -78,7 +78,7 @@ The next step in binding would be the ability to bind a value of an array. That'
 You can use any numeric value in the brackets or the string value ``last`` which maps to ``length - 1``. That way you can easily map the top of a stack to something else.
 For binding of an array the same method will be used as for the binding of chains. So there is also the possibility to combine these two things and use arrays in such property chains.
 
-.. _pages/data_binding/single_value_binding#options:_conversion_and_validation:
+.. _pages/data_binding/single_value_binding#options_conversion_and_validation:
 
 Options: Conversion and Validation
 ----------------------------------
