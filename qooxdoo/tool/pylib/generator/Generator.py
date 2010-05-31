@@ -50,7 +50,6 @@ from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
 import graph
-from robocopy import robocopy
 
 class Generator(object):
 
@@ -1715,10 +1714,8 @@ class Generator(object):
         # non-existing target file from a non-existing target directory :-)
         generator = self
         #generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
-        #copier = copytool.CopyTool(generator._console)
-        #args      = ['-s', '-u', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
-        copier = robocopy.PyRobocopier(generator._console)
-        args      = ['-c', '-s', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]        
+        copier = copytool.CopyTool(generator._console)
+        args      = ['-s', '-u', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
         copier.parse_args(args)
         copier.do_work()
 
