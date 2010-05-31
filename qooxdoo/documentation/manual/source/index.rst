@@ -17,11 +17,6 @@
    #
    ################################################################################
 
-.. The next one will not produce any output, but gets us rid of a lot of warnings :)
-
-.. toctree::
-   :maxdepth: 2
-
 .. _index#manual_1.2:
 
 Manual 1.2

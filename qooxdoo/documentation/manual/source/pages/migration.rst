@@ -3,5 +3,5 @@ Migration
 
 .. toctree::
 
-   migration_guide
+   migration/migration_guide
 

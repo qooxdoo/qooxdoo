@@ -6,28 +6,28 @@ Object Orientation
 
 .. toctree::
 
-   oo_introduction
-   oo_feature_summary
-   classes
-   class_quickref
-   interfaces
-   interface_quickref
-   mixins
-   mixin_quickref
+   core/oo_introduction
+   core/oo_feature_summary
+   core/classes
+   core/class_quickref
+   core/interfaces
+   core/interface_quickref
+   core/mixins
+   core/mixin_quickref
 
 Properties
 ==========
 
 .. toctree::
 
-  understanding_properties
-  property_features
-  defining_properties
-  properties_quickref
+  core/understanding_properties
+  core/property_features
+  core/defining_properties
+  core/properties_quickref
 
 References
 ==========
 
 .. toctree::
 
-   array
+   core/array

@@ -7,8 +7,8 @@ First Steps
 
 .. toctree::
 
-   requirements
-   "A must-read introduction" <helloworld>
+   getting_started/requirements
+   "A must-read introduction" <getting_started/helloworld>
 
 .. _index#tutorial:
 
@@ -17,10 +17,10 @@ Tutorial
 
 .. toctree::
 
-   tutorial-part-1
-   tutorial-part-2
-   tutorial-part-3
-   tutorial-part-4-1
+   tutorials/tutorial-part-1
+   tutorials/tutorial-part-2
+   tutorials/tutorial-part-3
+   tutorials/tutorial-part-4-1
 
 .. _index#sdk:
 
@@ -29,9 +29,9 @@ SDK
 
 .. toctree::
 
-   introduction_sdk
-   framework_structure
-   application_structure
-   code_structure
-   architecture
+   getting_started/introduction_sdk
+   getting_started/framework_structure
+   getting_started/application_structure
+   getting_started/code_structure
+   getting_started/architecture
 

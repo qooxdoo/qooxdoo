@@ -8,9 +8,9 @@ Debugging
 
 .. toctree::
 
-   logging
-   debugging
-   unit_testing
+   development/logging
+   development/debugging
+   development/unit_testing
 
 .. _index#performance:
 
@@ -19,8 +19,8 @@ Performance
 
 .. toctree::
 
-   memory_management
-   profiling
+   development/memory_management
+   development/profiling
 
 .. _index#other:
 
@@ -30,18 +30,18 @@ Other
 .. toctree::
 
    snippets
-   enterprise_application_development
-   antipatterns
+   development/enterprise_application_development
+   development/antipatterns
 
-   variants
-   Internationalization, Localization <internationalization>
-   image_clipping_and_combining
+   development/variants
+   Internationalization, Localization <development/internationalization>
+   development/image_clipping_and_combining
 
-   remote_table_model
-   data_binding
+   development/remote_table_model
+   data_binding/data_binding
 
-   write_api_documentation
-   reporting_bugs
+   development/write_api_documentation
+   development/reporting_bugs
 
    aspects_template
 

@@ -19,9 +19,9 @@ Tutorials
 
 .. toctree::
 
-   setup_a_low-level_library
-   low_level_apis
-   back-button_and_bookmark_support
+   low_level/setup_a_low-level_library
+   low_level/low_level_apis
+   low_level/back-button_and_bookmark_support
 
 
 Technical Topics
@@ -29,9 +29,9 @@ Technical Topics
 
 .. toctree::
 
-   html_element_handling
-   image_handling
-   event_layer_impl
-   focus_layer_impl
-   qooxdoo_animation
+   low_level/html_element_handling
+   low_level/image_handling
+   low_level/event_layer_impl
+   low_level/focus_layer_impl
+   low_level/qooxdoo_animation
 

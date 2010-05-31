@@ -8,7 +8,7 @@ Low-level AJAX Calls
 
 .. toctree::
 
-   remote_io
+   communication/remote_io
 
 
 Higher-level Remote Procedure Calls (RPC)
@@ -16,16 +16,16 @@ Higher-level Remote Procedure Calls (RPC)
 
 .. toctree::
 
-   rpc
+   communication/rpc
 
 RPC Servers
 -----------
 
 .. toctree::
    
-   rpc_java
-   rpc_php
-   rpc_perl
-   rpc_python
-   rpc_server_writer_guide
+   communication/rpc_java
+   communication/rpc_php
+   communication/rpc_perl
+   communication/rpc_python
+   communication/rpc_server_writer_guide
 
