@@ -42,7 +42,7 @@ Each entry of the theme is automatically made available using the ``setDecorator
 Writing Decorators
 ==================
 
-It is easily possible to write custom decorators. `The interface <http://api.qooxdoo.org/#qx.ui.decoration.IDecorator>`_ is quite trivial to implement. There are only five methods which needs to be implemented:
+It is easily possible to write custom decorators. `The interface <hhttp://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.decoration.IDecorator>`_ is quite trivial to implement. There are only five methods which needs to be implemented:
 
   * ``getInsets``: Returns a map of insets (space the decorator needs) e.g. the border width
   * ``getMarkup``: Returns the initial markup needed to build the decorator. This is executed by each widget using the decorator. This method may not be used by some decorators and this way is defined as an empty method.
