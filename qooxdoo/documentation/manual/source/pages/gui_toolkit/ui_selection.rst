@@ -34,7 +34,7 @@ Selection Interfaces
 ====================
 |Selection API Interfaces|
 
-.. |Selection API Interfaces| image:: /pages/new_selection_api.png
+.. |Selection API Interfaces| image:: /pages/gui_toolkit/new_selection_api.png
 
 .. _pages/ui_selection#event:
 
@@ -60,7 +60,7 @@ The ``ISingleSelection`` interface specifies the methods for single selection ha
 
 The re-using of the methods requires a uniform handling for setting and getting the current selection. This has been achieved by using an array for the selection handling, see ``setSelection`` and ``getSelection``.
 
-.. _pages/ui_selection#single_selection:
+.. _pages/ui_selection#single_selection_methods:
 
 Single Selection
 ================
@@ -70,7 +70,7 @@ The widget itself configures the mixin for allowing an empty selection or not. D
 
 The user interactions (mouse and keyboard) are managed from the widget, which only calls the selection methods if the user interaction has an effect on the selection. So the selection management and the user interaction handling are separated. This is one thing that has changed with the new selection API.
 
-.. _pages/ui_selection#multi_selection:
+.. _pages/ui_selection#multi_selection_methods:
 
 Multi Selection
 ===============
@@ -220,7 +220,7 @@ It means to replace the old method/event names with the new method/event names, 
 
 The examples below show some use cases, for renaming the old methods/events. 
 
-All examples started with step (1) searching for ``qx.ui.form.SelectBox``. We found the variable ``%%__group%%`` that references a ``SelectBox`` instance.
+All examples started with step (1) searching for ``qx.ui.form.SelectBox``. We found the variable ``__group`` that references a ``SelectBox`` instance.
 
 .. _pages/ui_selection#example_for_renaming_setselected_to_setselection:
 

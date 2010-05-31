@@ -36,7 +36,7 @@ UML Diagram
 .. _pages/widget/tree#dependencies:
 
 Dependencies
------------
+------------
 |widget/tree_dependencies_uml.png|
 
 .. |widget/tree_dependencies_uml.png| image:: /pages/widget/tree_dependencies_uml.png

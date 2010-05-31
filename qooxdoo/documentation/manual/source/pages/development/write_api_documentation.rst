@@ -94,7 +94,7 @@ Supported attributes
 
 Within a doc comment the following attributes are supported:
 
-.. _pages/write_api_documentation#@param_only_for_methods_and_constructors::
+.. _pages/write_api_documentation#param::
 
 @param (only for methods and constructors):
 -------------------------------------------
@@ -105,21 +105,21 @@ When the parameter is optional, the curly brackets include the default value in 
 
 You can also define multiple possible types. Example: ``{Boolean | Integer ? 0}``
 
-.. _pages/write_api_documentation#@return_only_for_methods::
+.. _pages/write_api_documentation#return::
 
 @return (only for methods):
 ---------------------------
 
 Describes the return value. After the ``@return`` comes the type in curly brackets followed by the description text.
 
-.. _pages/write_api_documentation#@throws_only_for_methods_and_constructors::
+.. _pages/write_api_documentation#throws::
 
 @throws (only for methods and constructors):
 --------------------------------------------
 
 Describes in which cases an exception is thrown.
 
-.. _pages/write_api_documentation#@see::
+.. _pages/write_api_documentation#see::
 
 @see:
 -----
@@ -135,14 +135,14 @@ Some examples:
 
 After this target description an alternative text may follow. If missing the target description is shown.
 
-.. _pages/write_api_documentation#@link::
+.. _pages/write_api_documentation#link::
 
 @link:
 ------
 
 The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for linking to other structures within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
 
-.. _pages/write_api_documentation#@signature::
+.. _pages/write_api_documentation#signature::
 
 @signature:
 -----------
@@ -195,7 +195,7 @@ Example for a fully extended doc comment:
 This comment is shown in the API viewer like this:
 |Example output of the API viewer|
 
-.. |Example output of the API viewer| image:: /pages/apiviewer-example.png
+.. |Example output of the API viewer| image:: /pages/development/apiviewer-example.png
 
 .. _pages/write_api_documentation#handling_of_data_types:
 

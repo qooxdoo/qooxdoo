@@ -8,57 +8,57 @@ Widget Reference
 Core Widgets
 ============
 
-:doc:`widget/widget`, :doc:`widget/spacer`, :doc:`widget/scrollbar`
+:doc:`widget`, :doc:`spacer`, :doc:`scrollbar`
 
 .. _pages/widget#content_widgets:
 
 Content Widgets
 ===============
 
-:doc:`widget/label`, :doc:`widget/image`, :doc:`widget/atom`, :doc:`widget/tree`
+:doc:`label`, :doc:`image`, :doc:`atom`, :doc:`tree`
 
 .. _pages/widget#container_widgets:
 
 Container Widgets
 =================
 
-:doc:`widget/composite`, :doc:`widget/scroll`, :doc:`widget/stack`, :doc:`widget/slidebar`, :doc:`widget/resizer`
+:doc:`composite`, :doc:`scroll`, :doc:`stack`, :doc:`slidebar`, :doc:`resizer`
 
 .. _pages/widget#building_blocks:
 
 Building Blocks
 ===============
 
-:doc:`widget/toolbar`, :doc:`widget/tabview`, :doc:`widget/splitpane`, :doc:`widget/groupbox`, :doc:`widget/menubar`
+:doc:`toolbar`, :doc:`tabview`, :doc:`splitpane`, :doc:`groupbox`, :doc:`menubar`
 
 .. _pages/widget#popups:
 
 Popups
 ======
 
-:doc:`widget/popup`, :doc:`widget/tooltip`, :doc:`widget/menu`, :doc:`widget/window`
+:doc:`popup`, :doc:`tooltip`, :doc:`menu`, :doc:`window`
 
 .. _pages/widget#embed_widgets:
 
 Embed Widgets
 =============
 
-:doc:`widget/canvas`, :doc:`widget/html`, :doc:`widget/iframe`
+:doc:`canvas`, :doc:`html`, :doc:`iframe`
 
 .. _pages/widget#form_widgets:
 
 Form Widgets
 ============
-:doc:`widget/button`, :doc:`widget/togglebutton`, :doc:`widget/repeatbutton`, :doc:`widget/hoverbutton`, :doc:`widget/splitbutton`, :doc:`widget/menubutton` 
+:doc:`button`, :doc:`togglebutton`, :doc:`repeatbutton`, :doc:`hoverbutton`, :doc:`splitbutton`, :doc:`menubutton` 
 
-:doc:`widget/textfield`, :doc:`widget/passwordfield`, :doc:`widget/spinner`, :doc:`widget/datefield`, :doc:`widget/textarea`
+:doc:`textfield`, :doc:`passwordfield`, :doc:`spinner`, :doc:`datefield`, :doc:`textarea`
 
-:doc:`widget/combobox`, :doc:`widget/selectbox`
+:doc:`combobox`, :doc:`selectbox`
 
-:doc:`widget/checkbox`, :doc:`widget/list`, :doc:`widget/slider`
+:doc:`checkbox`, :doc:`list`, :doc:`slider`
 
 .. _pages/widget#other:
 
 Other
 =====
-:doc:`Template for new widgets <widget/template>`
+:doc:`Template for new widgets <template>`
