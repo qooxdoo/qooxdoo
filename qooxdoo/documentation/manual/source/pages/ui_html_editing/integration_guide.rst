@@ -5,9 +5,7 @@ Integrate the HtmlArea into your application
 
 .. note::
 
-    This explanations mainly do address the ``0.8+ based`` HtmlArea component.
-
-xxx
+  This explanations mainly do address the ``0.8+ based`` HtmlArea component.
 
 This page does explain what you should consider when integrating the HtmlArea component in your application. However, it does **not** explain how to setup the component itself, it's rather an integration guide to avoid pitfalls. 
 
