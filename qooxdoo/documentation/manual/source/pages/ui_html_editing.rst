@@ -3,7 +3,7 @@
 HTML Editing
 ************
 
-HtmlArea is a html editing widget which is part of the framework. This widget is available as `low-level <http://demo.qooxdoo.org/1.2/apiviewer/#qx.bom.htmlarea.HtmlArea>`_ and `UI-level <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.embed.HtmlArea>`_ implementation. The first targets traditional webpages / single-page applications and the latter Rich Internet Applications (RIA) as preferred usecase.
+HtmlArea is a html editing widget which is part of the framework. This widget is available as `low-level <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.htmlarea.HtmlArea>`_ and `UI-level <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.embed.HtmlArea>`_ implementation. The first targets traditional webpages / single-page applications and the latter Rich Internet Applications (RIA) as preferred usecase.
 
 Here you can find some interesting technical info.
 
@@ -12,7 +12,11 @@ Here you can find some interesting technical info.
 Demo
 ====
 
-`{{:documentation:1.2:htmlarea_screenshot_1_0.png?567x289|HtmlArea in qx 1.2 screenshot}} <http://demo.qooxdoo.org/1.2/demobrowser/#widget~HtmlArea.html>`_
+.. image:: /pages/htmlarea_screenshot_1_0.png
+   :width: 515px
+   :alt: HtmlArea screenshot
+   :align: center
+   :target: http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~HtmlArea.html
 
 .. _pages/ui_html_editing#setup:
 
@@ -23,9 +27,7 @@ One important step is necessary to get the HtmlArea up and running.
 
 .. note::
 
-    If you setup the component without handing the **source** parameter you have to place a **blank.html** file next to your applications **index.html**.
-
-xxx
+  If you setup the component without handing the **source** parameter you have to place a **blank.html** file next to your applications **index.html**.
 
 This is necessary due the `Same-Origin Policy <http://taossa.com/index.php/2007/02/08/same-origin-policy/>`_ implemented by most browsers.
 
