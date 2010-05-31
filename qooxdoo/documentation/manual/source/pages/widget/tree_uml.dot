@@ -1,0 +1,69 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+        center = true
+
+        node [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            shape = "record"
+        ]
+
+        Tree [
+            label = "{Tree}"
+        ]
+
+        Abstract_Tree_Item [
+            label = "{\<\<Abstract\>\>\nAbstractTreeItem}"
+        ]
+
+        TreeFolder [
+            label = "{TreeFolder}"
+        ]
+
+        TreeFile [
+            label = "{TreeFile}"
+        ]
+
+        edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            arrowtail = "odiamond"
+            arrowhead = "none"
+            label = " root"
+            headlabel = "     0..1"
+        ]
+        Tree -> Abstract_Tree_Item
+
+        edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            arrowtail = "odiamond"
+            arrowhead = "none"
+            label = " parent"
+            headlabel = "0..1"
+        ]
+        Abstract_Tree_Item -> Abstract_Tree_Item
+
+         edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            arrowtail = "odiamond"
+            arrowhead = "none"
+            label = "  children"
+            headlabel = "*"
+        ]
+        Abstract_Tree_Item -> Abstract_Tree_Item
+
+        edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            arrowtail = "empty"
+            arrowhead = "none"
+            label = ""
+            headlabel = ""
+        ]
+
+        Abstract_Tree_Item -> TreeFolder
+        Abstract_Tree_Item -> TreeFile        
+}

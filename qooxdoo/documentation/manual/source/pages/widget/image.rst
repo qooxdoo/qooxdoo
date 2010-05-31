@@ -5,9 +5,6 @@ Image
 
 As the name suggest, the Image widget is used to display image files.
 
-XXX
-===
-
 .. _pages/widget/image#preview_image:
 
 Preview Image
@@ -21,23 +18,24 @@ Preview Image
 
 Features
 --------
-  * Scaling the image
-  * Image clipping (combine multiple images into one single image)
-  * Auto sizing
-  * Configurable second image for the disabled state
-  * Support for PNG files with alpha transparency in all browsers (including IE6)
+* Scaling the image
+* Image clipping (combine multiple images into one single image)
+* Auto sizing
+* Configurable second image for the disabled state
+* Support for PNG files with alpha transparency in all browsers (including IE6)
 
 .. _pages/widget/image#demos:
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Image demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Image.html>`_ 
+Here are some links that demonstrate the usage of the widget:
+
+* `Image demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Image.html>`_ 
 
 .. _pages/widget/image#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.basic.Atom <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.basic.Atom>`_ 
+| Here is a link to the API of the Widget:
+| `qx.ui.basic.Atom <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.basic.Atom>`_ 
 

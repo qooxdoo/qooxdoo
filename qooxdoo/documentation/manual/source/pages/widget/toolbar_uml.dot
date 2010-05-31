@@ -1,0 +1,74 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            shape = "record"
+        ]
+
+        edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+        ]
+
+        ToolBar [
+            label = "{ToolBar}"
+        ]
+
+        Part [
+            label = "{Part}"
+        ]
+
+        PartHandle [
+            label = "{PartHandle }"
+        ]
+
+        Button [
+            label = "{Button}"
+        ]
+
+         RadioButton [
+            label = "{RadioButton}"
+        ]
+
+        CheckBox [
+            label = "{CheckBox}"
+        ]
+
+        Separator [
+            label = "{Separator }"
+        ]              
+
+        edge [
+          arrowtail = "ediamond"
+          arrowhead = "none"
+
+          labeldistance = 1.5
+          labelangle = 10
+
+          headlabel = "*"
+        ]
+
+        ToolBar -> Part
+        ToolBar -> CheckBox
+        ToolBar -> RadioButton
+        ToolBar -> Button
+        ToolBar -> Separator
+
+        Part -> CheckBox
+        Part -> Button
+        Part -> Separator
+        Part -> RadioButton
+
+        edge [
+          arrowtail = "ediamond"
+          arrowhead = "none"
+
+          headlabel = "1"
+        ]
+
+        Part -> PartHandle
+
+}

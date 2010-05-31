@@ -4,9 +4,6 @@ Spinner
 *******
 A Spinner widget is a control that allows you to adjust a numerical value, typically within an allowed range e.g.: month of a year (range 1 – 12).
 
-XXX
-===
-
 .. _pages/widget/spinner#preview_image:
 
 Preview Image
@@ -19,9 +16,9 @@ Preview Image
 
 Features
 --------
-  * Mouse support.
-  * Configurable steps.
-  * Supports number format.
+* Mouse support.
+* Configurable steps.
+* Supports number format.
 
 .. _pages/widget/spinner#description:
 
@@ -35,14 +32,15 @@ An optional `NumberFormat <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.form
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Spinner demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Spinner.html>`_
-  * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Spinner demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Spinner.html>`_
+* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/spinner#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.form.Spinner <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.Spinner>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.Spinner <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.Spinner>`_
 

@@ -5,9 +5,6 @@ Label
 
 The Label widget is used to display either plain text or rich text with HTML markup.
 
-XXX
-===
-
 .. _pages/widget/label#preview_image:
 
 Preview Image
@@ -21,11 +18,10 @@ Preview Image
 
 Features
 --------
-
-  * Auto sizing
-  * Ellipsis: If the label does not fit into the widget bounds an ellipsis ("...") is rendered at the end of the label. (Only in text mode)
-  * "height for width": If the widget's width is too small to display the text in one line the text is wrapped and a new size hint is calculated. (Only in HTML mode)
-  * Configurable fonts, text colors and text alignment
+* Auto sizing
+* Ellipsis: If the label does not fit into the widget bounds an ellipsis ("...") is rendered at the end of the label. (Only in text mode)
+* "height for width": If the widget's width is too small to display the text in one line the text is wrapped and a new size hint is calculated. (Only in HTML mode)
+* Configurable fonts, text colors and text alignment
 
 .. _pages/widget/label#description:
 
@@ -38,15 +34,16 @@ The Label supports two different modes. The text and the HTML mode. The mode can
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `A label demo with differently configured labels <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Label.html>`_
-  * `Height for width demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-HeightForWidth.html>`_
-  * `Label reflow <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-Label_Reflow.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `A label demo with differently configured labels <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Label.html>`_
+* `Height for width demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-HeightForWidth.html>`_
+* `Label reflow <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-Label_Reflow.html>`_
 
 .. _pages/widget/label#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.basic.Label <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.basic.Label>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.basic.Label <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.basic.Label>`_
 

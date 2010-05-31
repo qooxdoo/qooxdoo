@@ -9,9 +9,6 @@ Which one is used as default can be controlled by the ``qx.nativeScrollBars`` se
 
 Scroll bars are used e.g. by the :doc:`scroll` container. Usually a scroll bar is not used directly.
 
-XXX
-===
-
 .. _pages/widget/scrollbar#preview_image:
 
 Preview Image
@@ -25,22 +22,23 @@ Preview Image
 
 Features
 --------
-  * Fully themable scroll bar (qooxdoo scroll bar)
-  * Size of the scroll bar knob can be adjusted
+* Fully themable scroll bar (qooxdoo scroll bar)
+* Size of the scroll bar knob can be adjusted
 
 .. _pages/widget/scrollbar#demos:
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Scroll bar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~ScrollBar.html>`_
-  * `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Scroll bar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~ScrollBar.html>`_
+* `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
 
 .. _pages/widget/scrollbar#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-  * `qx.ui.core.ScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.ScrollBar>`_
-  * `qx.ui.core.NativeScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.NativeScrollBar>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.core.ScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.ScrollBar>`_
+| `qx.ui.core.NativeScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.NativeScrollBar>`_
 

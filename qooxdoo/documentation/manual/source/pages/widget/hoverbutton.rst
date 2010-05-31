@@ -4,9 +4,6 @@ HoverButton
 ***********
 The HoverButton is an :doc:`atom`, which fires repeatedly execute events while the mouse is over the widget. 
 
-XXX
-===
-
 .. _pages/widget/hoverbutton#preview_image:
 
 Preview Image
@@ -19,9 +16,9 @@ Preview Image
 
 Features
 --------
-  * Contain text and/or icon.
-  * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
-  * Event interval is adjustable.
+* Contain text and/or icon.
+* Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
+* Event interval is adjustable.
 
 .. _pages/widget/hoverbutton#description:
 
@@ -33,14 +30,15 @@ The HoverButton is an :doc:`atom`, which fires repeatedly execute events while t
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
-  * `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
+* `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/hoverbutton#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.form.HoverButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RepeatButton>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.HoverButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RepeatButton>`_
 

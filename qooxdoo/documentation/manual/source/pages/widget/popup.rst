@@ -4,9 +4,6 @@ PopUp
 *****
 Popups are widgets, which can be placed on top of the application.
 
-XXX
-===
-
 .. _pages/widget/popup#preview_image:
 
 Preview Image
@@ -19,7 +16,7 @@ Preview Image
 
 Features
 --------
-  * Auto hide property
+* Auto hide property
 
 .. _pages/widget/popup#description:
 
@@ -31,13 +28,14 @@ Popups are automatically added to the application root and are used to display m
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Simple example for the PopUp widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Popup.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Simple example for the PopUp widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Popup.html>`_
 
 .. _pages/widget/popup#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.popup>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.popup <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.popup>`_
 

@@ -3,10 +3,7 @@
 Scroll
 ******
 
-``Scroll`` is a container, which allows vertical and horizontal scrolling if the contents is larger than the container.
-
-XXX
-===
+``Scroll`` is a container, which allows vertical and horizontal scrolling if the content is larger than the container.
 
 .. _pages/widget/scroll#preview_image:
 
@@ -21,8 +18,8 @@ Preview Image
 
 Features
 --------
-  * Themeable scroll bars
-  * Scroll bar visibility can be set independently for the X- and Y-axis. Possible values are ``auto`` (default), ``on`` and ``off``  
+* Themeable scroll bars
+* Scroll bar visibility can be set independently for the X- and Y-axis. Possible values are ``auto`` (default), ``on`` and ``off``  
 
 .. _pages/widget/scroll#description:
 
@@ -37,16 +34,17 @@ Note that this class can only have one child widget and no configurable layout. 
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
-  * `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
-  * `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
-  * `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
+* `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
+* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
+* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`_
 
 .. _pages/widget/scroll#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.container.Scroll <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.Scroll>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.container.Scroll <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.Scroll>`_
 

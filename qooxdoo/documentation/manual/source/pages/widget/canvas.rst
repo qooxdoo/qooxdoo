@@ -8,10 +8,6 @@ This widget embed the `HTML canvas element <http://www.whatwg.org/specs/web-apps
 .. note::
 
     It does not work with Internet Explorer
-xxx
-
-XXX
-===
 
 .. _pages/widget/canvas#preview_image:
 
@@ -27,12 +23,12 @@ Preview Image
 Features
 --------
 
-Since this widget is embedding the HTML canvas element the core features of this widget are limited by the canvas element itself respective by the implementation of the different browsers. However, the widget offers this features on top:
+Since this widget is embedding the HTML canvas element the core features of this widget are limited by the canvas element itself respective by the implementation of the different browsers. However, the widget offers these features on top:
 
-   * fires a ``redraw`` event whenever the dimensions of the canvas element has changed or the canvas element needs an update
-   * update method for the canvas element
-   * width and height of the canvas element as properties
-   * support for synronized widht and height coordinates
+* fires a ``redraw`` event whenever the dimensions of the canvas element has changed or the canvas element needs an update
+* update method for the canvas element
+* width and height of the canvas element as properties
+* support for synronized widht and height coordinates
 
 .. _pages/widget/canvas#description:
 
@@ -45,13 +41,14 @@ Taken from the WHATWG website: "The canvas element represents a resolution-depen
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Canvas demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Canvas.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Canvas demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Canvas.html>`_
 
 .. _pages/widget/canvas#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`Canvas API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Canvas>`_
+| Here is a link to the API of the Widget:
+| `Canvas API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Canvas>`_
 

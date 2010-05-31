@@ -6,25 +6,24 @@ Selection Handling
 The framework contains a couple of widgets which support selection handling. These are divided into widgets that support ``Single Selection`` and others that support ``Multi Selection``. A widget which supports multi selection also supports single selection.
 
 Here is a list of widgets which support single and/or multi selection:
-  * Multi Selection:
-    * `Tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`_
-    * `List <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_
-  * Single Selection:
-    * `SelectBox <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`_
-    * `RadioGroup <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RadioGroup>`_
-    * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`_
-    * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`_
 
-XXX
-===
+* Multi Selection:
+  
+  * `Tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`_
+  * `List <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_
 
-XXX
----
+* Single Selection:
+  
+  * `SelectBox <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`_
+  * `RadioGroup <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RadioGroup>`_
+  * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`_
+  * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`_
 
 .. _pages/ui_selection#what_was_wrong_with_the_old_api_in_0.8.x:
 
 What was wrong with the old API in 0.8.x?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================================
+
 The  `old selection API <http://qooxdoo.org/documentation/0.8/ui_selection>`_ had different methods for single and multi selection and partially different events, because an interface describing the specification was missing. To offer a consistend API an interface specification was needed. The standardization has shown, that having only one interface for single and multi selection is not enough, because it would be possible to have different events for multi and single selection (remember all multi selection widgets also supports single selection).
 
 One possible solution was to have the same methods and events for single and multi selection. This is possible if the single and multi selection both work with arrays. Due to that fact it is possible to change widgets without having to worry about the selection method, because the method and event names don't change.
@@ -59,7 +58,7 @@ Selection Methods
 -----------------
 The ``ISingleSelection`` interface specifies the methods for single selection handling. Since the methods of the single selecting interface are re-used, the ``IMultiSelection`` only extends the interface with methods for multi selection handling.
 
-The re-suing of the methods requires a uniform handling for setting and getting the current selection. This has been achieved by using an array for the selection handling, see ``setSelection`` and ``getSelection``.
+The re-using of the methods requires a uniform handling for setting and getting the current selection. This has been achieved by using an array for the selection handling, see ``setSelection`` and ``getSelection``.
 
 .. _pages/ui_selection#single_selection:
 
@@ -82,16 +81,15 @@ The multi selection implementation has hardly changed. The widgets supporting mu
 Selection Modes
 ---------------
 Due to the small changes the configuration for the selection mode hasn't changed. The widgets also suport the property ``selectionMode`` with these different modes:
-  * **single:** Only one element or none at all can be selected.
-  * **one:** Exactly one item is selected if possible. The first selectable item is selected per default.
-  * **multi:**  Multiple items can be selected by using the modifier keys together with mouse or keyboard actions. This type also allows empty selections.
-  * **adaptive:** Easy Web-2.0 selection mode: multiple items can be selected without modifier keys. Empty selections are possible.
+
+* **single:** Only one element or none at all can be selected.
+* **one:** Exactly one item is selected if possible. The first selectable item is selected per default.
+* **multi:**  Multiple items can be selected by using the modifier keys together with mouse or keyboard actions. This type also allows empty selections.
+* **adaptive:** Easy Web-2.0 selection mode: multiple items can be selected without modifier keys. Empty selections are possible.
 
 .. note::
 
     *Multi* and *Adaptive* selections are dealing with **selection ranges**, *Single* and *One* are dealing with one **selected item**.
-
-xxx
 
 ::
 
@@ -102,8 +100,9 @@ xxx
 Selection Options
 -----------------
 This options change the way a selection is created or modified. Per default items can be selected by holding down the mouse button and hovering them or by holding down the modifier key and pressing the arrow keys to traverse them.
-  * **Quick:** One item can be selected by hovering it (no need to click on it or hit keys) Only possible for modes *single* and *one*.
-  * **Drag:** Multiselection of items through dragging the mouse in pressed states. Only possible for the modes *multi* and *additive*.
+
+* **Quick:** One item can be selected by hovering it (no need to click on it or hit keys) Only possible for modes *single* and *one*.
+* **Drag:** Multiselection of items through dragging the mouse in pressed states. Only possible for the modes *multi* and *additive*.
 
 ::
 
@@ -202,24 +201,20 @@ How to migrate from the 0.8.x to the 1.2.x selection API
 
     The old selection API is set to deprecated. This mean that the old selection API can still be used, but deprecation warnings occur in the source version of the application. So the old code runs with using the old selection API, but in the future the deprecated methods will be removed, so please change as soon as possible to the new selection API. 
 
-xxx
-
 By changing the framework applications, like the `Demo Browser <http://demo.qooxdoo.org/1.2.x/demobrowser/>`_, to the new selection API, useful steps have been found:
-  - Search for only one widget, that use the old selection API, in the source code.
-  - Replace the old method/event with the new one, but only for the classes that contains a reference from the widget.
-  - Run ``generate.py source``, start the application and test your changes.
-  - If the application runs without errors go to step one and chose the next widget, otherwise fix the problem.
-  - If you have searched for all widget and renamed the old methods/events in these classes, search for the old method/event-names in the complete source code and rename them, if they are really using the old API.
-  - Run ``generate.py source``, start your application and test your changes again.
-  - If there are now errors or deprecation warnings by testing your code, you have finished the migration. 
 
-XXX
----
+* Search the source code for only one widget that uses the old selection API.
+* Replace the old method/event with the new one, but only for the classes that contain a reference from the widget.
+* Run ``generate.py source``, start the application and test your changes.
+* If the application runs without errors go to step one and choose the next widget, otherwise fix the problem.
+* If you have searched for all widgets and renamed the old methods/events in these classes, search for the old method/event names in the complete source code and rename them if they are really using the old API.
+* Run ``generate.py source``, start your application and test your changes again.
+* If there are no errors or deprecation warnings while testing your code, you have finished the migration.
 
 .. _pages/ui_selection#what_does_rename_the_method/event_mean:
 
 What does 'rename' the method/event mean?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 It means to replace the old method/event names with the new method/event names, but don't forget to customize the **method parameter** and **return values**!!! If you only rename the method/event-names you will get many errors!!!
 
@@ -230,7 +225,7 @@ All examples started with step (1) searching for ``qx.ui.form.SelectBox``. We fo
 .. _pages/ui_selection#example_for_renaming_setselected_to_setselection:
 
 Example for renaming 'setSelected' to 'setSelection'
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -246,7 +241,7 @@ Example for renaming 'setSelected' to 'setSelection'
 .. _pages/ui_selection#example_renaming_getselected_to_getselection:
 
 Example renaming 'getSelected' to 'getSelection'
-""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -262,7 +257,7 @@ Example renaming 'getSelected' to 'getSelection'
 .. _pages/ui_selection#example_renaming_changeselected_to_changeselection:
 
 Example renaming 'changeSelected' to 'changeSelection'
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -284,6 +279,4 @@ Example renaming 'changeSelected' to 'changeSelection'
     Be careful with mindless renaming methods and events, because an error only occurs if the code part is executed.
 
     So if you are not sure that the method or event is the right to rename, then add a **TODO** comment and rename it later, by trying to execute this code part, if this is relay a old method/event a deprecation warning occurs. 
-
-xxx
 

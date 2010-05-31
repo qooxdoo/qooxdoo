@@ -5,9 +5,6 @@ SlideBar
 
 The SlideBar is a container widget, which provides scrolling in one dimension (vertical or horizontal).
 
-XXX
-===
-
 .. _pages/widget/slidebar#preview_image:
 
 Preview Image
@@ -21,8 +18,8 @@ Preview Image
 
 Features
 --------
-  * Supports ``vertical`` and ``horizontal`` orientation
-  * Hides the scroll buttons if the content fits into the scroll container
+* Supports ``vertical`` and ``horizontal`` orientation
+* Hides the scroll buttons if the content fits into the scroll container
 
 .. _pages/widget/slidebar#description:
 
@@ -35,13 +32,14 @@ The SlideBar widget can be used as a replacement for a :doc:`scroll` container i
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `SlideBar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-SlideBar.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `SlideBar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-SlideBar.html>`_
 
 .. _pages/widget/slidebar#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.container.SlideBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.SlideBar>`_
 

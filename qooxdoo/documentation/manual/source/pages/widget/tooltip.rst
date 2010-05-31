@@ -4,9 +4,6 @@ ToolTip
 *******
 A Tooltip provides additional information for widgets when the user hovers over a widget. This information can consist in plain text, but also include an icon and complex HTML code.
 
-XXX
-===
-
 .. _pages/widget/tooltip#preview_image:
 
 Preview Image
@@ -19,9 +16,9 @@ Preview Image
 
 Features
 --------
-  * ToolTip can contain an icon
-  * ToolTip's label can contain HTML
-  * Show/hide delay
+* ToolTip can contain an icon
+* ToolTip's label can contain HTML
+* Show/hide delay
 
 .. _pages/widget/tooltip#description:
 
@@ -34,13 +31,14 @@ A ToolTip can be configured to contain an icon and label and to be shown/hidden 
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Demonstrates regular and shared ToolTips <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Tooltip.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Demonstrates regular and shared ToolTips <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Tooltip.html>`_
 
 .. _pages/widget/tooltip#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.tooltip>`_
+| Here is a link to the API of the Widget:
+| `complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.tooltip>`_
 

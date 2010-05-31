@@ -4,9 +4,6 @@ ToggleButton
 ************
 The ToggleButton widget is a classic GUI ToggleButton with to states: pressed or not pressed.
 
-XXX
-===
-
 .. _pages/widget/togglebutton#preview_image:
 
 Preview Image
@@ -19,9 +16,9 @@ Preview Image
 
 Features
 --------
-  * Contain text and/or icon.
-  * Mouse and keyboard support.
-  * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
+* Contain text and/or icon.
+* Mouse and keyboard support.
+* Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 
 .. _pages/widget/togglebutton#description:
 
@@ -33,14 +30,15 @@ The widget is a classic GUI element, that support to states: pressed and not pre
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
-  * `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
+* `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/togglebutton#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.form.ToggleButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ToggleButton>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.ToggleButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ToggleButton>`_
 

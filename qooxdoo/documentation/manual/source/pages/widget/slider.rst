@@ -4,9 +4,6 @@ Slider
 ******
 The Slider widget is the classic widget for controlling a bounded value.
 
-XXX
-===
-
 .. _pages/widget/slider#preview_image:
 
 Preview Image
@@ -19,9 +16,9 @@ Preview Image
 
 Features
 --------
-  * Mouse support.
-  * Horizontal and vertical orientation.
-  * Configurable steps.
+* Mouse support.
+* Horizontal and vertical orientation.
+* Configurable steps.
 
 .. _pages/widget/slider#description:
 
@@ -33,14 +30,15 @@ The Slider widget is the classic widget for controlling a bounded value. It lets
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Slider demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Slider.html>`_
-  * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Slider demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Slider.html>`_
+* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/slider#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.form.Slider <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.Slider>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.Slider <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.Slider>`_
 

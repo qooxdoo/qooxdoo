@@ -1,19 +1,3 @@
-<html>
-<style type="text/css">
-table.inline td{
-  width: 160px;
-}
-
-table.inline tr td:first-child{
-  width: 120px;
-}
-
-td { padding-top: 5px; padding-right: 5px }
-th { padding-bottom: 7px }
-
-</style>
-</html>
-
 .. _pages/variants#working_with_variants:
 
 Working with Variants
@@ -133,7 +117,7 @@ Example:
       }
     }
 
-This check is now only enabled in the source version. By default ``qx.debug`` is set to ``off`` in build versions, and "on" in source versions.
+This check is now only enabled in the source version. By default ``qx.debug`` is set to ``off`` in build versions, and ``on`` in source versions.
 
 .. _pages/variants#using_variants:
 
@@ -163,7 +147,8 @@ Depending on the value of the
 ::
 
     "qx.client"
- variant the corresponding function is selected. The first case is selected if the variant is "gecko", the second is selected if the variant is "mshtml" or "opera" and the third function is the default one. It is selected if none of the other keys match the variant.
+ 
+variant the corresponding function is selected. The first case is selected if the variant is "gecko", the second is selected if the variant is "mshtml" or "opera" and the third function is the default one. It is selected if none of the other keys match the variant.
 
 .. _pages/variants#method:_isset:
 
@@ -200,10 +185,10 @@ The following variants are being provided by the framework:
 ===========================================================  ==============================================  ===================
  Variant                                                      Allowed values                                  Default value       
 ===========================================================  ==============================================  ===================
- ''qx.client'' \\ Client detection \\ \\                      ''gecko'', ''mshtml'', ''opera'', ''webkit''    //auto-detected//   
- ''qx.debug'' \\ Debugging code \\ \\                         ''on'', ''off''                                 ''on''              
- ''qx.aspects'' \\ Aspect-oriented programming (AOP) \\ \\    ''on'', ''off''                                 ''off''             
- ''qx.dynlocale'' \\ Dynamic locale switch \\ \\              ''on'', ''off''                                 ''on''              
+ ``qx.client`` Client detection                               ``gecko``, ``mshtml``, ``opera``, ``webkit``    *auto-detected*
+ ``qx.debug`` Debugging code                                  ``on``, ``off``                                 ``on``              
+ ``qx.aspects`` Aspect-oriented programming (AOP)             ``on``, ``off``                                 ``off``             
+ ``qx.dynlocale`` Dynamic locale switch                       ``on``, ``off``                                 ``on``              
 ===========================================================  ==============================================  ===================
 
 .. _pages/variants#custom_variants:

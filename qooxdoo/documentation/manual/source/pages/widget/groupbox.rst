@@ -5,9 +5,6 @@ GroupBox
 
 A Groupbox is a widget to group a set of form elements in a visual way.
 
-XXX
-===
-
 .. _pages/widget/groupbox#preview_image:
 
 Preview Image
@@ -21,11 +18,10 @@ Preview Image
 
 Features
 --------
-
-  * Different legend types
-    * icon and text
-    * additional check boxes
-    * additional radio buttons
+* Different legend types
+* icon and text
+* additional check boxes
+* additional radio buttons
 
 .. _pages/widget/groupbox#description:
 
@@ -41,13 +37,14 @@ Additionally it is possible to use checkboxes or radio-buttons within the legend
 Demos
 -----
 
-Here are some links that demonstrate the usage of the widget:\\
-  * `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-GroupBox.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-GroupBox.html>`_
 
 .. _pages/widget/groupbox#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox>`_
+Here is a link to the API of the Widget:
+`qx.ui.groupbox.GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox>`_
 

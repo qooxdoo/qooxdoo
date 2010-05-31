@@ -5,10 +5,11 @@ Theming
 
 qooxdoo includes two themes:
 
-  * ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo 1.2
-  * ``Classic`` - a more lightweight, MS Windows oriented theme
+* ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo 1.2
+* ``Classic`` - a more lightweight, MS Windows oriented theme
 
 Here some screenshots:
+
 |Modern theme|
 
 .. |Modern theme| image:: /pages/manual/window_modern_theme.png
@@ -17,7 +18,7 @@ Here some screenshots:
 
 .. |Classic theme| image:: /pages/manual/window_classic_theme.png
 
-While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/ui_custom_themes#overriding_themes>` or they can be :ref:`created from scratch <pages/ui_custom_themes#custom_themes>`.
+While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 
@@ -28,11 +29,11 @@ Meta Theme
 
 A meta theme describes the whole theme itself by defining the specific parts. Each meta theme consists of five keys
 
-   * appearance
-   * color
-   * decoration
-   * font
-   * icon
+* appearance
+* color
+* decoration
+* font
+* icon
 
 each of them referencing to a specialized theme. So you can think of a meta theme as of collection whose parts can easily be changed.
 
@@ -64,7 +65,6 @@ A color theme defines all colors used by the framework. Each color is defined by
 .. note::
 
     The best way to organize your color names is to use **semantic ones** like ``background``, ``text-input`` or ``text-disabled``. This way it is easier to use one color for multiple widgets.
-xxx
 
 Part of a sample color theme:
 
@@ -109,9 +109,8 @@ In a decoration theme you can use several different decorators depending on the 
 .. note::
 
     It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
-xxx
 
-How a decoration theme can look like:
+What a decoration theme can look like:
 
 ::
 
@@ -217,7 +216,6 @@ This theme is all about the information of the fonts used throughout your applic
 .. note::
 
     It is always a good idea to limit the number of types or variants of fonts to create a homogenous look.
-xxx
 
 To demonstrate how compact and powerful a font theme can look like, take a look at the **complete** font theme of the Modern theme:
 

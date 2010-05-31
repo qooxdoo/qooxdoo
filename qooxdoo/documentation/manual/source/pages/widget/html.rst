@@ -5,9 +5,6 @@ HTML Embed
 
 The Html widget embeds plain HTML code into the application.
 
-XXX
-===
-
 .. _pages/widget/html#preview_image:
 
 Preview Image
@@ -21,13 +18,12 @@ Preview Image
 
 Features
 --------
-
-  * displays any valid HTML code
-  * CSS class support
-  * control whether the content is focusable
-  * control whether the content is selectable
-  * overflow support
-  * data event ``changeHtml`` is dispatched whenever content changes
+* displays any valid HTML code
+* CSS class support
+* control whether the content is focusable
+* control whether the content is selectable
+* overflow support
+* data event ``changeHtml`` is dispatched whenever content changes
 
 .. _pages/widget/html#description:
 
@@ -45,14 +41,15 @@ If you want to manipulate the styling of the displayed HTML code you can easily 
 Demos
 -----
 
-Here are some links that demonstrate the usage of the widget:\\
-  * `HTML embed demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-HtmlEmbed.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `HTML embed demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-HtmlEmbed.html>`_
 
 .. _pages/widget/html#api:
 
 API
 ---
 
-Here is a link to the API of the Widget:\\
-`HTML Embed API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Html>`_
+| Here is a link to the API of the Widget:
+| `HTML Embed API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Html>`_
 

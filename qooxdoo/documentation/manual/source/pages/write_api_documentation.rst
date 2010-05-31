@@ -10,7 +10,7 @@ For documenting the qooxdoo API special comments in the source code (so-called "
 The structure of a documentation comment
 ========================================
 
-A doc comment appears right before the structure (class, property, method or constant) it describes. It beginns with ``%%/**%%`` and ends with ``*/``. The rows in between start with a ``*`` followed by the text of the particular row. Within this frame there is a description text at the beginning. Afterwards attributes may follow, describing more aspects.
+A doc comment appears right before the structure (class, property, method or constant) it describes. It begins with ``/**`` and ends with ``*/``. The rows in between start with a ``*`` followed by the text of the particular row. Within this frame there is a description text at the beginning. Afterwards attributes may follow, describing more aspects.
 
 Description texts may also include HTML tags for a better structuring.
 
@@ -29,7 +29,7 @@ An example:
 
 This comment describes the method ``showMessage``. At the beginning there is a short text, describing the method itself. A ``@param`` attribute follows, describing the parameter ``text``.
 
-The docgenerator recognises the following structures:
+The docgenerator recognizes the following structures:
 
 ::
 
@@ -73,9 +73,7 @@ The docgenerator recognises the following structures:
       MY_CONSTANT : 100
     },
 
-The class description is taken as the first comment in the file which starts with ``%%/**%%``. Therefore if you have a comment at the start of the file which has a first line of ``%%/**********%%``, that will be taken as the class description, overriding any comment above the class itself. Therefore use ``%%/* *********%%`` or ``%%/* .. _pages/write_api_documentation#:
-
-%%`` etc.
+The class description is taken as the first comment in the file which starts with ``/**``. Therefore if you have a comment at the start of the file which has a first line of ``/**********``, that will be taken as the class description, overriding any comment above the class itself. Therefore use ``/* *********`` or ``/* ==========`` etc.
 
 .. _pages/write_api_documentation#inline_markup:
 
@@ -84,8 +82,8 @@ Inline Markup
 
 Running text can be formatted using inline markup which uses special characters around the target text:
 
-  * %%*strong%%* (will render as **strong**)
-  * %%*emphasis*%%  (will render as *emphasis*)
+* \*strong\* (will render as **strong**)
+* \_\_emphasis\_\_  (will render as *emphasis*)
 
 There is no escape character, so in order to e.g. enter a literal "*@*" into the text, use the HTML entity equivalent ("*&#64;*" in this case).
 
@@ -101,7 +99,7 @@ Within a doc comment the following attributes are supported:
 @param (only for methods and constructors):
 -------------------------------------------
 
-Describes a parameter. After the ``@param`` comes the name of the parameter. Afterwards the type follows in curly brackets (Example: ``{Integer}``), followed by the description text. Types are described more in detail in the next section.
+Describes a parameter. ``@param`` is followed by the name of the parameter. Following that is the type in curly brackets (Example: ``{Integer}``), followed by the description text. Types are described more in detail in the next section.
 
 When the parameter is optional, the curly brackets include the default value in addition to the type. The default value implies the value that has to be passed in, in order to get the same effect as when omitting the parameter. Example: ``{Boolean ? true}``
 
@@ -194,10 +192,10 @@ Example for a fully extended doc comment:
       ...
     };
 
-This comment is shown in the API viewer like this:?	
+This comment is shown in the API viewer like this:
 |Example output of the API viewer|
 
-.. |Example output of the API viewer| image:: :documentation:developer:apiviewer-example.png
+.. |Example output of the API viewer| image:: /pages/apiviewer-example.png
 
 .. _pages/write_api_documentation#handling_of_data_types:
 
@@ -207,9 +205,10 @@ Handling of data types
 Because JavaScript has no strong typing, the types of the parameters accepted by a method may not be read from the method's definition. For showing the accepted types in the API documentation the data type may be specified in the doc attributes ``@param`` and ``@return``.
 
 The following types are accepted:
-  * Primitive: ``var``, "void", "undefined"
-  * Builtin classes: ``Object``, ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``, ``Regexp``, ``Function``, ``Error``, ``Map``, ``Date`` and ``Element``
-  * Other classes: Here the full qualified name is specified (e.g. ``qx.ui.core.Widget``). If the referenced class is in the same package as the currently documented class, the plain class name is sufficient (e.g. ``Widget``).
+
+* Primitive: ``var``, "void", "undefined"
+* Builtin classes: ``Object``, ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``, ``Regexp``, ``Function``, ``Error``, ``Map``, ``Date`` and ``Element``
+* Other classes: Here the full qualified name is specified (e.g. ``qx.ui.core.Widget``). If the referenced class is in the same package as the currently documented class, the plain class name is sufficient (e.g. ``Widget``).
 
 Arrays are specified by appending one or more ``[]`` to the type. E.g.: ``String[]`` or ``Integer[][]``.
 
@@ -220,4 +219,4 @@ __init__.js Files
 
 While using doc comments in class files where they are interleaved with the class code is straight forward, this is not so trivial if you want to provide documentation for a *package*, i.e. a collection of classes under a common name space (like *qx.ui.core*, *qx.util*, etc.).
 
-In order to fill this gap you can add a **init*.js* file to a package. This file should only contain a single doc comment that describes the package as a whole. These files are then scanned during a ``generate.py api`` run and the documentation is inserted at the package nodes of the resulting documentation tree.
+In order to fill this gap you can add a __init.js__ file to a package. This file should only contain a single doc comment that describes the package as a whole. These files are then scanned during a ``generate.py api`` run and the documentation is inserted at the package nodes of the resulting documentation tree.

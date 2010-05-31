@@ -61,5 +61,4 @@ Form Widgets
 
 Other
 =====
-
-  * *:doc:`Template for new widgets <widget/template>`*
+:doc:`Template for new widgets <widget/template>`

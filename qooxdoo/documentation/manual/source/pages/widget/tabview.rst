@@ -7,9 +7,6 @@ between them by using a list of buttons.
 
 The buttons are positioned on one of the tab view's edges.
 
-XXX
-===
-
 .. _pages/widget/tabview#preview_image:
 
 Preview Image
@@ -22,21 +19,22 @@ Preview Image
 
 Features
 --------
-  * Tab positions:
-    * top
-    * bottom
-    * left
-    * right
-  * Overflow handling for tabs
+* Tab positions:
+  * top
+  * bottom
+  * left
+  * right
+* Overflow handling for tabs
 
 .. _pages/widget/tabview#description:
 
 Description
 -----------
 
-A TabView widgets contains of two parts:
-  * a ``qx.ui.container.SlideBar`` which contains a tab for every Page and can be positioned on every side of the TabView.
-  * a ``qx.ui.container.Stack`` which contains the Pages which can be added and removed at runtime.
+A TabView widget consists of two parts:
+
+* a ``qx.ui.container.SlideBar`` which contains a tab for every Page and can be positioned on every side of the TabView.
+* a ``qx.ui.container.Stack`` which contains the Pages which can be added and removed at runtime.
 
 A Page contains widgets to be shown in a TabView and usually has a label and icon to identify it.
 
@@ -44,13 +42,14 @@ A Page contains widgets to be shown in a TabView and usually has a label and ico
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Horizontal and vertical TabViews with a different amount of pages <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~TabView.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Horizontal and vertical TabViews with a different amount of pages <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~TabView.html>`_
 
 .. _pages/widget/tabview#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.tabview>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.tabview <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.tabview>`_
 

@@ -4,9 +4,6 @@ TextField
 *********
 The TextField widget is a classic GUI widget to edit text in a TextField.
 
-XXX
-===
-
 .. _pages/widget/textfield#preview_image:
 
 Preview Image
@@ -19,10 +16,10 @@ Preview Image
 
 Features
 --------
-  * Mouse and keyboard control.
-  * Configurable fonts and text alignment.
-  * Set maximum input length.
-  * Read only support.
+* Mouse and keyboard control.
+* Configurable fonts and text alignment.
+* Set maximum input length.
+* Read only support.
 
 .. _pages/widget/textfield#description:
 
@@ -34,16 +31,17 @@ The TextField widget has properties to set an alignment for the orientation and 
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Shows different TextField demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TextField.html>`_
-  * `Shows a dialog demo with some TextFields <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Dialog.html>`_
-  * `Show a form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
-  * `Shows a browser demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Browser.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Shows different TextField demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TextField.html>`_
+* `Shows a dialog demo with some TextFields <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Dialog.html>`_
+* `Show a form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `Shows a browser demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Browser.html>`_
 
 .. _pages/widget/textfield#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-  * `qx.ui.form.TextField <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.TextField>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.TextField <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.TextField>`_
 

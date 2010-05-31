@@ -4,9 +4,6 @@ RepeatButton
 ************
 The RepeatButton is a special button, which fires an event, while the mouse button is pressed on the button. 
 
-XXX
-===
-
 .. _pages/widget/repeatbutton#preview_image:
 
 Preview Image
@@ -19,10 +16,10 @@ Preview Image
 
 Features
 --------
-  * Contain text and/or icon.
-  * Mouse support.
-  * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
-  * Event interval is adjustable.
+* Contain text and/or icon.
+* Mouse support.
+* Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
+* Event interval is adjustable.
 
 .. _pages/widget/repeatbutton#description:
 
@@ -34,14 +31,15 @@ The RepeatButton is a special button, which fires an event, while the mouse butt
 
 Demos
 -----
-Here are some links that demonstrate the usage of the widget:\\
-  * `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
-  * `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+Here are some links that demonstrate the usage of the widget:
+
+* `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
+* `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/repeatbutton#api:
 
 API
 ---
-Here is a link to the API of the Widget:\\
-`qx.ui.form.RepeatButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RepeatButton>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.form.RepeatButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RepeatButton>`_
 
