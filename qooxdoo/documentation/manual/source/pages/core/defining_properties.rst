@@ -7,8 +7,6 @@ Defining Properties
 
     Please also take a look at :doc:`property_features` to get an compact overview of the available features.
 
-xxx
-
 .. _pages/defining_properties#when_to_use_properties:
 
 When to use properties?
@@ -91,8 +89,6 @@ qooxdoo fires a ``qx.event.type.Data`` which supports the methods ``getData()`` 
 
     Events are only useful for public properties. Events for protected and private properties are usually not a good idea.
 
-xxx
-
 .. _pages/defining_properties#example_event:
 
 Example
@@ -143,10 +139,9 @@ Init value in constructor
 
 Alternatively, you could set the init value of the property in the constructor of the class. This is only recommended for cases where a declaration of an init value as explained above is not sufficient.
 
-Using an initializing function ``this.init<i>Property</i>(value)``
- in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level. 
+Using an initializing function ``this.initMyProperty(value)`` in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level. 
 
-Another scenario would be to use a localizable init value when :doc:`internationalizing your application <internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
+Another scenario would be to use a localizable init value when :doc:`internationalizing your application </pages/development/internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
 
 .. note::
 
@@ -168,13 +163,11 @@ Another scenario would be to use a localizable init value when :doc:`internation
 Applying an init value
 ----------------------
 
-It is possible to apply the init value using an user-defined apply method. To do this call the init method ``this.init<i>Property</i>(value)``
- somewhere in your constructor - this "change" will than trigger calling the apply method. Of course, this only makes sense in cases where you have at least an ``apply`` or ``event`` entry in the property definition.
+It is possible to apply the init value using an user-defined apply method. To do this call the init method ``this.initMyProperty(value)`` somewhere in your constructor - this "change" will than trigger calling the apply method. Of course, this only makes sense in cases where you have at least an ``apply`` or ``event`` entry in the property definition.
 
 If you do not use the init method you must be sure that the instances created from the classes are in a consistent state. The getter will return the init value even if not initialized. This may be acceptable in some cases, e.g. for properties without ``apply`` or ``event``. But there are other cases, where the developer needs to be carefully and call the init method because otherwise the getter returns wrong information about the internal state (due to an inconsistency between init and applied value).
 
-Like calling the ``this.init<i>Property</i>(value)``
- method itself, you could call the setter and use the defined init value as parameter. This will call the apply method, not like in the usual cases when setting the same value which is aready set. 
+Like calling the ``this.initMyProperty(value)`` method itself, you could call the setter and use the defined init value as parameter. This will call the apply method, not like in the usual cases when setting the same value which is aready set. 
 
 ::
 
@@ -249,8 +242,6 @@ If an ``init`` value is given in the property declaration, the init method does 
 
     Please remember that init values are not for incoming user values. Please use ``init`` only for class defined things, not for user values. Otherwise you torpedo the multi-value idea behind the dynamic properties.
 
-xxx
-
 .. _pages/defining_properties#refining_init_values:
 
 Refining init values
@@ -273,7 +264,7 @@ This will change the default value at definition time. ``refine`` is a better so
 Checking incoming values
 ========================
 
-You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we stip of these checks for the build version. If you want a property validation, take a look at the :ref:`validation section <pages/defining_properties#validation_incoming_values>`.
+You can check incoming values by adding a ``check`` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we strip these checks for the build version. If you want a property validation, take a look at the :ref:`validation section <pages/defining_properties#validation_incoming_values>`.
 
 .. _pages/defining_properties#predefined_types:
 
@@ -311,8 +302,6 @@ One can define an explicit list of possible values:
 .. note::
 
     Providing a list of possible values only works with primitive types (like strings and numbers), but not with reference types (like objects, functions, etc.).
-
-xxx
 
 .. _pages/defining_properties#instance_checks:
 
@@ -360,7 +349,7 @@ Custom checks are possible as well, using a custom function defined inside the p
       }
     }
 
-This example demonstrates how to handle numeric values which only accept a given range of numbers (here 0 .. 100). The possibilities for custom checks are only limited by the developer's fantasy. ;-)
+This example demonstrates how to handle numeric values which only accept a given range of numbers (here 0 .. 100). The possibilities for custom checks are only limited by the developer's imagination. ;-)
 
 .. _pages/defining_properties#alternative_solution:
 
@@ -384,8 +373,8 @@ This is more efficient, particularly for checks involving rather small tests, as
 
 .. _pages/defining_properties#validation_incoming_values:
 
-Validation incoming values
-==========================
+Validation of incoming values
+=============================
 
 Validation of a property can prevent the property from being set if it is not valid. In that case, a validation error should be thrown by the validator function. Otherwise, the validator can just do nothing.
 
@@ -461,8 +450,6 @@ To enable theme support it is sufficient to add a ``themeable`` key to the prope
 .. note::
 
     ``themeable`` should only be enabled for truely *theme-relevant* properties like color and decorator, but not for *functional* properties like enabled, tabIndex, etc.
-
-xxx
 
 .. _pages/defining_properties#working_with_inheritance:
 
