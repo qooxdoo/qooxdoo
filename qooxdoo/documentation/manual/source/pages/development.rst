@@ -10,7 +10,6 @@ Debugging
 
    development/logging
    development/debugging
-   development/unit_testing
 
 .. _index#performance:
 
@@ -22,12 +21,37 @@ Performance
    development/memory_management
    development/profiling
 
-.. _index#other:
+Testing
+=======
 
-Other
+.. toctree::
+
+   development/unit_testing
+
+.. _index#parts:
+
+Parts
 =====
 
 .. toctree::
+
+   development/parts_overview
+   development/parts_using
+
+Further Resources
+-----------------
+
+* :ref:`Generator Configuration <pages/tool/generator_config_ref#packages>`
+* `qooxdoo API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.io.PartLoader>`_
+
+
+.. _index#other:
+
+Miscellaneous
+=============
+
+.. toctree::
+   :maxdepth: 2
 
    snippets
    development/enterprise_application_development
@@ -38,7 +62,6 @@ Other
    development/image_clipping_and_combining
 
    development/remote_table_model
-   data_binding/data_binding
 
    development/write_api_documentation
    development/reporting_bugs

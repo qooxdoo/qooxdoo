@@ -2,9 +2,6 @@ Getting Started
 ***************
 
 
-First Steps
-===========
-
 .. toctree::
 
    getting_started/requirements
@@ -12,8 +9,8 @@ First Steps
 
 .. _index#tutorial:
 
-Tutorial
-========
+Tutorials
+=========
 
 .. toctree::
 

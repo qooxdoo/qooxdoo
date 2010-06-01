@@ -7,7 +7,6 @@ Parts and Packages Overview
 
     This is still an experimental feature.
 
-xxx
 
 *Packages* are a concept that allows you to partition your application physically. The idea is to spread the entire application over multiple JavaScript files, in order to optimize download and startup behaviour. On page load only the essential first part of the application is loaded (commonly called the *boot* part), while others remain on the server and will only be loaded on demand. As a consequence, the initial code part is smaller, so it's faster to download, consumes less bandwidth and starts up faster in the browser. Other parts are then loaded on demand during the user session. This incures a bit of latency when the user enters a certain application path for the first time and the correpsonding part has to be loaded. On the other side, parts that pertain to a certain application path (e.g. an options dialogue) never have to be downloaded if this application path is not entered during the running session.
 

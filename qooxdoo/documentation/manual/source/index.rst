@@ -123,3 +123,10 @@ Migration
 
    pages/migration
 
+References
+==========
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/references
