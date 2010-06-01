@@ -43,7 +43,7 @@ Some config keys take file paths as their attributes. Where specified, *file glo
 =================  ==================================================================================================================
  Metacharacter       Meaning                                                                                                           
 =================  ==================================================================================================================
- *                  matches any string of zero or more characters (regexp: .*)                                                         
+ \*                 matches any string of zero or more characters (regexp: .*)                                                         
  ?                  matches any single character (regexp: .)                                                                           
  []                 matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)  
 =================  ==================================================================================================================

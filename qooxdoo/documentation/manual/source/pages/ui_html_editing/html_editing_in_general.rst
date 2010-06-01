@@ -162,29 +162,29 @@ Browser-specific overview of "execCommand"
      - Safari 
 
    * - Bold 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
 
    * - Italic 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Underline 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Strikethrough 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * -  
      -   
@@ -199,22 +199,22 @@ Browser-specific overview of "execCommand"
      -   
 
    * - BackColor 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - ForeColor 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - HiliteColor 
-     -  - 
+     -  x 
      -  
      -  
-     -  - 
+     -  x 
 
    * -  
      -   
@@ -229,40 +229,40 @@ Browser-specific overview of "execCommand"
      -  
 
    * - FontName 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - FontSize 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - IncreaseFontSize 
-     -  - 
+     -  x 
      -  
-     -  - 
+     -  x 
      -  
 
    * - DecreaseFontSize 
-     -  - 
+     -  x 
      -  
-     -  - 
+     -  x 
      -  
 
    * - Subscript 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Superscript 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * -  
      -   
@@ -277,28 +277,28 @@ Browser-specific overview of "execCommand"
      -   
 
    * - ContentReadOnly 
-     -  - 
+     -  x 
      -  
-     -  - 
+     -  x 
      -  
 
    * - StyleWidthCSS 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - UseCSS 
-     -  - 
+     -  x 
      -  
-     -  - 
+     -  x 
      -  
 
    * - RemoveFormat 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * -  
      -   
@@ -313,50 +313,50 @@ Browser-specific overview of "execCommand"
      -   
 
    * - Copy 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
      -  
-     -  - 
+     -  x 
 
    * - Paste 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
      -  
-     -  - 
+     -  x 
 
    * - Cut 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Delete 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Undo 
      -  
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
 
    * - Redo 
      -  
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
 
    * - Print 
      -  
-     -  - 
+     -  x 
      -  
-     -  - 
+     -  x 
 
    * - SaveAs 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
@@ -373,40 +373,40 @@ Browser-specific overview of "execCommand"
      -   
 
    * - JustifyLeft 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - JustifyCenter 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - JustifyRight 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - JustifyFull 
-     -  - 
+     -  x 
      -  
-     -  - 
-     -  - 
+     -  x 
+     -  x 
 
    * - Indent 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
      -  
-     -  - 
+     -  x 
 
    * - Outdent 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
      -  
-     -  - 
+     -  x 
 
    * -  
      -   
@@ -421,16 +421,16 @@ Browser-specific overview of "execCommand"
      -   
 
    * - CreateLink 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Unlink 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * -  
      -   
@@ -445,16 +445,16 @@ Browser-specific overview of "execCommand"
      -   
 
    * - InsertOrderedList 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - InsertUnorderedList 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * -  
      -   
@@ -469,56 +469,56 @@ Browser-specific overview of "execCommand"
      -   
 
    * - FormatBlock 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Heading 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - InsertParagraph 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - InsertImage 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - InsertButton 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertFieldset 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertHorizontalRule 
      -  
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
 
    * - InsertHTML 
-     -  - 
+     -  x 
      -  
-     -  - 
-     -  - 
+     -  x 
+     -  x 
 
    * - InsertIFrame 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
@@ -536,85 +536,85 @@ Browser-specific overview of "execCommand"
 
    * - InsertInputButton 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputCheckbox 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputFileUpload 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputHidden 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputImage 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputPassword 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputRadio 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputReset 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputSubmit 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertInputText 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertSelectDropdown 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertSelectListbox 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertTextArea 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - InsertMarquee 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
@@ -632,13 +632,13 @@ Browser-specific overview of "execCommand"
 
    * - CreateBookmark 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - UnBookmark 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
@@ -655,32 +655,32 @@ Browser-specific overview of "execCommand"
      -   
 
    * - SelectAll 
-     -  - 
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
+     -  x 
 
    * - Unselect 
      -  
-     -  - 
-     -  - 
-     -  - 
+     -  x 
+     -  x 
+     -  x 
 
    * - MultipleSelection 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - Overwrite 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - Refresh 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
@@ -698,48 +698,48 @@ Browser-specific overview of "execCommand"
 
    * - 2D-Position 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - AbsolutePosition 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - LiveResize 
      -  
-     -  - 
+     -  x 
      -  
      -  
 
    * - gethtml 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - contentReadOnly 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - insertBrOnReturn 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - enableObjectResizing 
-     -  - 
+     -  x 
      -  
      -  
      -  
 
    * - enableInlineTableEditing
-     -  - 
+     -  x 
      -  
      -  
      -  

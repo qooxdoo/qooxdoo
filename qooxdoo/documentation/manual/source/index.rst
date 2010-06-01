@@ -47,17 +47,6 @@ Getting Started
    pages/getting_started
 
 
-.. _index#gui_toolkit:
-
-GUI Toolkit
-===========
-
-.. toctree::
-   :maxdepth: 3
-
-   pages/gui_toolkit
-
-
 .. _index#core_framework:
 
 Core Framework
@@ -67,6 +56,17 @@ Core Framework
    :maxdepth: 3
 
    pages/core
+
+
+.. _index#gui_toolkit:
+
+GUI Toolkit
+===========
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/gui_toolkit
 
 
 .. _index#low_level_framework:
