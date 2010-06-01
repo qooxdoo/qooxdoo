@@ -39,7 +39,7 @@ Here are some links that demonstrate the usage of the widget:
 * `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
 * `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
 * `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
-* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`_
+* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`__
 
 .. _pages/widget/scroll#api:
 

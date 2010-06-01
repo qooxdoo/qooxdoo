@@ -55,7 +55,7 @@ To create a new skeleton with ``create-application.py`` you will need to follow 
 Windows |image0|
 ^^^^^^^^^^^^^^^^
 
-.. |image0| image:: http://qooxdoo.org/_media/documentation/windows.png?w=22&h=22&cache=cache
+.. |image0| image:: windows.png
 
 Installing `ActivePython <http://www.activestate.com/Products/activepython/index.mhtml>`_ for Windows is trivial. Now let's create an application named ``custom`` in ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``: 
 
@@ -68,7 +68,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
 Cygwin |image1|
 ^^^^^^^^^^^^^^^
 
-.. |image1| image:: http://qooxdoo.org/_media/documentation/cygwin.png?w=22&h=22&cache=cache
+.. |image1| image:: cygwin.png
 
 To create your application ``custom`` to ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``, call the script as follows:
 
@@ -81,8 +81,8 @@ To create your application ``custom`` to ``C:``, with the qooxdoo SDK available 
 Mac |image2| , Linux |image3|
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. |image2| image:: http://qooxdoo.org/_media/documentation/macosx.png?w=22&h=22&cache=cache
-.. |image3| image:: http://qooxdoo.org/_media/documentation/linux.png?w=22&h=22&cache=cache
+.. |image2| image:: macosx.png
+.. |image3| image:: linux.png
 
 To create an application ``custom`` in your home directory, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-1.2-sdk``, call the script as follows:
 

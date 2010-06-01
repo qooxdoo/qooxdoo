@@ -9,15 +9,15 @@ Here is a list of widgets which support single and/or multi selection:
 
 * Multi Selection:
   
-  * `Tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`_
-  * `List <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_
+  * `Tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`__
+  * `List <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`__
 
 * Single Selection:
   
-  * `SelectBox <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`_
-  * `RadioGroup <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RadioGroup>`_
-  * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`_
-  * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`_
+  * `SelectBox <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`__
+  * `RadioGroup <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RadioGroup>`__
+  * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`__
+  * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`__
 
 .. _pages/ui_selection#what_was_wrong_with_the_old_api_in_0.8.x:
 
@@ -118,7 +118,7 @@ How to use the selection API
 Single Selection
 ----------------
 
-The example below shows how to use the single selection API, this example uses the `SelectBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`_ widget:
+The example below shows how to use the single selection API, this example uses the `SelectBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`__ widget:
 
 ::
 
@@ -159,7 +159,7 @@ The SelectBox's implemention doesn't allow empty selections, so if the first ite
 Multi Selection
 ---------------
 
-The next example uses the `List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_ widget:
+The next example uses the `List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`__ widget:
 
 ::
 
