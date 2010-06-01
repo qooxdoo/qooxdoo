@@ -14,93 +14,55 @@ This section describes how browsers and other applications react on different ke
 Browsers
 ========
 
-<html>
-<style>
-td.tbl{background-color:white;text-align:center;}
-</style>
-<div style="background-color:black;width:450px;">
-<table style="width:100%;">
-
-<tr>
-<td class="tbl" align="left" width="140"></td>
-<td class="tbl" align="left">Firefox</td>
-<td class="tbl" align="left">MSIE</td>
-<td class="tbl" align="left">Opera</td>
-<td class="tbl" align="left">Webkit</td>
-</tr>
-
-<tr>
-<td class="tbl" align="left">&lt;enter&gt;</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">P</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">&lt;div&gt;</td>
-</tr>
-
-<tr>
-<td class="tbl" align="left">&lt;shift&gt; + &lt;enter&gt;</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">&lt;div&gt;</td> 
-</tr>
-
-<tr>
-  <td class="tbl" align="left">&lt;strg&gt; + &lt;enter&gt;</td>
-  <td class="tbl" align="left">---</td>
-  <td class="tbl" align="left">---</td>
-  <td class="tbl" align="left">---</td>
-  <td class="tbl" align="left">---</td> 
-</tr> 
-
-</table> 
-</div> 
-</html>
-
+.. list-table::
+   :header-rows: 1
+ 
+   * - 
+     - Firefox
+     - MSIE
+     - Opera
+     - Webkit
+   * - <enter>
+     - LB
+     - P
+     - LB
+     - <div>
+   * - <shift> + <enter>
+     - LB
+     - LB
+     - LB
+     - <div>
+   * - <strg> + <enter>
+     - ---
+     - ---
+     - ---
+     - ---
+    
 .. _pages/ui_html_editing/default_paragraph_handling#word_processors_/_e-mail_clients:
 
 Word processors / E-mail clients
 ================================
 
-<html>
-<style>
-td.tbl{background-color:white;text-align:center;}
-</style>
-<div style="background-color:black;width:450px;">
-<table style="width:100%;">
-
-<tr>
-<td class="tbl" align="left" width="140"></td>
-<td class="tbl" align="left">MS Word</td>
-<td class="tbl" align="left">OO Writer</td>
-<td class="tbl" align="left">Outlook</td>
-<td class="tbl" align="left">Thunderbird</td>
-</tr>
-
-<tr>
-<td class="tbl" align="left">&lt;enter&gt;</td>
-<td class="tbl" align="left">P</td>
-<td class="tbl" align="left">P</td>
-<td class="tbl" align="left">P</td>
-<td class="tbl" align="left">LB</td>
-</tr>
-
-<tr>
-<td class="tbl" align="left">&lt;shift&gt; + &lt;enter&gt;</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">LB</td>
-<td class="tbl" align="left">LB</td> 
-</tr>
-
-<tr>
-  <td class="tbl" align="left">&lt;strg&gt; + &lt;enter&gt;</td>
-  <td class="tbl" align="left">Page break</td>
-  <td class="tbl" align="left">P</td>
-  <td class="tbl" align="left">---</td>
-  <td class="tbl" align="left">LB</td> 
-</tr> 
-
-</table> 
-</div> 
-</html>
+.. list-table::
+   :header-rows: 1
+ 
+   * - 
+     - MS Word
+     - OO Writer
+     - Outlook
+     - Thunderbird
+   * - <enter>
+     - P
+     - P
+     - P
+     - LB
+   * - <shift> + <enter>
+     - LB
+     - LB
+     - LB
+     - LB
+   * - <strg> + <enter>
+     - Page break
+     - P
+     - ---
+     - LB

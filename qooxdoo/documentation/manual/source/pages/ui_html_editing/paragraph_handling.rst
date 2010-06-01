@@ -37,8 +37,6 @@ The default value of this property is ``true``. It controls whether a new paragr
 
     As every word processor the HtmlArea also supports inserting a normal line-break by using the key combination ``Shift+Enter``
 
-xxx
-
 .. _pages/ui_html_editing/paragraph_handling#insertlinebreakonctrlenter:
 
 insertLinebreakOnCtrlEnter

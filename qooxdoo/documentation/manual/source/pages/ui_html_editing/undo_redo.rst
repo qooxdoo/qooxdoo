@@ -16,7 +16,6 @@ It is possible to ``undo`` all of your steps but ``redo`` is only possible when 
 
     **This will break Undo/Redo functionality!**
 
-xxx
 
 .. _pages/ui_html_editing/undo_redo#implementation:_description_on_a_high-level:
 
