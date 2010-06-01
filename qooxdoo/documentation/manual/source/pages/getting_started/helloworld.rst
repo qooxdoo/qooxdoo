@@ -110,7 +110,7 @@ After the application has been generated, open ``source/index.html`` file in you
 
 |Running application|
 
-.. |Running application| image:: /pages/manual/running_application.png
+.. |Running application| image:: running_application.png
                          :width: 500 px
                          :target: ../../_images/running_application.png
 
@@ -146,7 +146,7 @@ This code turns on two different ways of "logging", i.e. capturing and printing 
 
 |Debug application|
 
-.. |Debug application| image:: /pages/manual/debug_application.png
+.. |Debug application| image:: debug_application.png
                        :width: 500 px
                        :target: ../../_images/debug_application.png
 
@@ -188,7 +188,7 @@ To start the "API Viewer" application, open ``index.html`` from the newly create
 
 |API Viewer|
 
-.. |API Viewer| image:: /pages/manual/api_viewer.png
+.. |API Viewer| image:: api_viewer.png
                 :width: 500 px
                 :target: ../../_images/api_viewer.png
 
@@ -207,7 +207,7 @@ Open ``index.html`` from the newly created top-level ``test`` folder in your bro
 
 |Testrunner application|
 
-.. |Testrunner application| image:: /pages/manual/testrunner.png
+.. |Testrunner application| image:: /pages/_static/testrunner.png
                             :width: 500 px
                             :target: ../../_images/testrunner.png
 

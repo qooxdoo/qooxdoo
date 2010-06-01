@@ -11,9 +11,10 @@ The qooxdoo Test Runner
 
 Test Runner provides a convenient interface to test classes that have been written to that end. You can run single tests, or run a whole suite of them at once.
 
-<html>
-<a href="http:*demo.qooxdoo.org/1.2.x/testrunner"><img src="http:*qooxdoo.org/_media/testrunner.png" alt="Test Runner" width="270" height="203"></a>
-</html>
+.. image:: /pages/_static/testrunner.png
+   :width: 270 px
+   :height: 203 px
+   :target: ../../_images/testrunner.png
 
 .. note::
 
