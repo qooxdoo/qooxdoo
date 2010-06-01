@@ -68,7 +68,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 
 We already added the code in case the store exists. In that case, we can just invoke a reload. I also mentioned that the instance member should be private. The two underscores (``__``) :ref:`mark the member as private in qooxdoo <pages/oo_feature_summary#access>`. The creation of the store or the reload method call starts the fetching of the data.
 
-But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properites <understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property <defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
+But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properites </pages/core/understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property </pages/core/defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
 
 We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``TwitterService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
 
@@ -86,9 +86,9 @@ We named our property tweets and added two configuration keys for it:
   * ``nullable`` describse that the property can be null
   * ``event`` takes the name of the event fired on a change of the property
 
-The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding <data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation <properties_quickref>`.
+The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding </pages/data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation </pages/core/properties_quickref>`.
 
-Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding <data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
+Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding </pages/data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ::
 
@@ -126,7 +126,7 @@ Thats the first step of getting the data connected with the UI. We talk the whol
 
 Now it's time for a test. We added a new classes so we need to invoke the generator and load the index file of the application. Hit the reload button of the browser and see the data in your debugging console. The important thing you should see is that the data is an array containing objects holding the items we want to access: the twitter message as ``text`` and ``"user.profile_image_url"`` for the users profile picture. After evaluating what we want to use, we can delete the debugging listener.
 
-But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers <data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
+But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers </pages/data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
 
 Switch to the ``MainWindow.js`` file which implements the view and search for the line where you created the list. We need to implement an accessor for it so its a good idea to store the list as a private instance member:
 

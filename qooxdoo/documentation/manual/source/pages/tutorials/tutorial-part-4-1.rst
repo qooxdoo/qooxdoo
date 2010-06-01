@@ -3,7 +3,7 @@
 Tutorial Part 4.1: Form Handling
 ********************************
 
-In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a Twitter client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their Twitter user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API <ui_form_handling>` that takes the pain out of creating form elements and handling user input.
+In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a Twitter client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their Twitter user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API </pages/gui_toolkit/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
 
 Before we get started, make sure you're working on the version of the Twitter tutorial application tagged with `"Step 3" in the GitHub repository <http://github.com/wittemann/qooxdoo-tutorial/tree/Step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
 
