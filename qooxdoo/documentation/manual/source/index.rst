@@ -26,6 +26,16 @@ Manual 1.2
 
   This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
 
+.. _index#introduction:
+
+Introduction
+============
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/introduction
+
 .. _index#getting_started:
 
 Getting Started

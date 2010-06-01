@@ -8,7 +8,7 @@ First Steps
 .. toctree::
 
    getting_started/requirements
-   "A must-read introduction" <getting_started/helloworld>
+   Hello World - "A must-read introduction" <getting_started/helloworld>
 
 .. _index#tutorial:
 
