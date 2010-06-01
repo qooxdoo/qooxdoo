@@ -162,7 +162,7 @@ As you can see in the diagram, you can get the current selected model and also s
 
 Widgets
 =======
-The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets </pages/widget/widget>` documentation. 
+The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets </pages/widget>` documentation. 
 
 .. raw:: html
 

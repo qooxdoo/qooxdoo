@@ -834,6 +834,16 @@ If you are using the default settings, the cache path for your generator runs is
 
     python -c "import tempfile; print tempfile.gettempdir()"
 
+
+Further Individual Snippets
+===========================
+
+.. toctree::
+   :maxdepth: 1
+
+   snippets/toctree
+
+.. The next section was commented out in the wiki page
 ..
   * :doc:`snippets/using_gsoap_and_wsdl_with_qooxdoo` 
   * :doc:`snippets/using_cpaint_with_qooxdoo`

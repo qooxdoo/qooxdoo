@@ -12,6 +12,7 @@ Widgets
 
 .. toctree::
 
+   widget
    gui_toolkit/ui_widgets
    gui_toolkit/ui_interaction
    gui_toolkit/ui_resources

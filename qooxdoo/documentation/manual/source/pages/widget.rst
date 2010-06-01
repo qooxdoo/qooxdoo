@@ -50,3 +50,12 @@ API
 | Here is a link to the API of the Widget:
 | `qx.ui.core.Widget <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.Widget>`_
 
+Specific Widgets
+----------------
+
+And here is a list of specific widget descriptions:
+
+.. toctree::
+   :maxdepth: 1
+
+   widget/toctree

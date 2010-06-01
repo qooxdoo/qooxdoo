@@ -6,6 +6,7 @@ Getting Started
 
    getting_started/requirements
    Hello World - "A must-read introduction" <getting_started/helloworld>
+   getting_started/troubleshooting
 
 .. _index#tutorial:
 
@@ -29,6 +30,8 @@ SDK
    getting_started/introduction_sdk
    getting_started/framework_structure
    getting_started/application_structure
+   getting_started/manifest
    getting_started/code_structure
    getting_started/architecture
+   tool/tools_beyond_python_sdk
 

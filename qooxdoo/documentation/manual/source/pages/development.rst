@@ -27,6 +27,8 @@ Testing
 .. toctree::
 
    development/unit_testing
+   development/frame_apps_testrunner
+   development/framework_unit_testing
 
 .. _index#parts:
 
@@ -56,6 +58,7 @@ Miscellaneous
    snippets
    development/enterprise_application_development
    development/antipatterns
+   development/development_tools
 
    development/variants
    Internationalization, Localization <development/internationalization>
