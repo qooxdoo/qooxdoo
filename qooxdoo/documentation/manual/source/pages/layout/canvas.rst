@@ -5,9 +5,6 @@ Canvas
 
 The Canvas is an extended :doc:`basic` layout. It is possible to position a widget relative to the right or bottom edge of the available space. The Canvas layout further has support for percent dimensions and locations.
 
-XXX
-===
-
 .. _pages/layout/canvas#preview_image:
 
 Preview Image
@@ -21,13 +18,13 @@ Preview Image
 
 Features
 --------
-  * Pixel dimensions and locations
-  * Percent dimensions and locations
-  * Stretching between left+right and top+bottom
-  * Minimum and maximum dimensions
-  * Children are automatically shrunk to their minimum dimensions if not enough space is available
-  * Auto sizing (ignoring percent values)
-  * Margins (also negative ones)
+* Pixel dimensions and locations
+* Percent dimensions and locations
+* Stretching between left+right and top+bottom
+* Minimum and maximum dimensions
+* Children are automatically shrunk to their minimum dimensions if not enough space is available
+* Auto sizing (ignoring percent values)
+* Margins (also negative ones)
 
 .. _pages/layout/canvas#description:
 
@@ -44,29 +41,28 @@ The size hint of a widget configured with a Canvas layout is determined such tha
 
 Layout properties
 -----------------
-  * **left** *(Integer|String)*: The left coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-  * **top** *(Integer|String)*: The top coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-  * **right** *(Integer|String)*: The right coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-  * **bottom** *(Integer|String)*: The bottom coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-  * **width** *(String)*: A percent width e.g. ``40%``.
-  * **height** *(String)*: A percent height e.g. ``60%``.
+* **left** *(Integer|String)*: The left coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
+* **top** *(Integer|String)*: The top coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
+* **right** *(Integer|String)*: The right coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
+* **bottom** *(Integer|String)*: The bottom coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
+* **width** *(String)*: A percent width e.g. ``40%``.
+* **height** *(String)*: A percent height e.g. ``60%``.
 
 .. _pages/layout/canvas#demos:
 
 Demos
 -----
-Here are some links that demonstrate the usage of the layout:\\
-  * `Canvas with pixel positions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Fixed.html>`_
+Here are some links that demonstrate the usage of the layout:
 
-  * `Canvas with percent positions and dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Percent.html>`_
-  * [[
-http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_LeftRight.html|Canvas showing left and right attachment of children]]
-  * `Canvas with children having minimum and maximum dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_MinMaxSizes.html>`_
+* `Canvas with pixel positions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Fixed.html>`_
+* `Canvas with percent positions and dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Percent.html>`_
+* `Canvas showing left and right attachment of children <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_LeftRight.html>`_
+* `Canvas with children having minimum and maximum dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_MinMaxSizes.html>`_
 
 .. _pages/layout/canvas#api:
 
 API
 ---
-Here is a link to the API of the layout manager:\\
-`qx.ui.layout.Canvas <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Canvas>`_
+| Here is a link to the API of the layout manager:
+| `qx.ui.layout.Canvas <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Canvas>`_
 

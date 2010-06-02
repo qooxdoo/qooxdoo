@@ -35,10 +35,9 @@ Create a new application
 The best way to start porting your existing application is to create an empty 1.2 application.
 Run the ``create-application.py`` from your ``tool/bin`` folder and specify name and type of your application. The additional parameter ensures that this app is properly configured to hold an app for migration.
 
-.. note::
+::
 
-    ``../tool/bin/create-application.py -n feedreader -t migration``
-xxx
+    ../tool/bin/create-application.py -n feedreader -t migration
 
 ::
 
@@ -93,8 +92,9 @@ Choose a way of migrating
 -------------------------
 
 To migrate your application to qooxdoo 1.2, you have two choices:
-  - Generate a legacy application and port it part by part
-  - Start with a 1.2 application and rewrite the GUI part of your application
+
+(1) Generate a legacy application and port it part by part
+(2) Start with a 1.2 application and rewrite the GUI part of your application
 
 Path 1. involves running the migration job (which is detailed further down). This job will re-write parts of your application to use the compatibility classes from the ``qx.legacy.*`` name space. After that your application should be (mostly) runnable with qooxdoo 1.2 without much manual code changes since the old APIs are retained in the ``qx.legacy.*`` name space.
 
@@ -113,10 +113,9 @@ Running the migration script
 
 The generator will traverse your classes and add the prefix *legacy* to all qooxdoo classes. This will result in a *working* qooxdoo 0.7 application inside the new 1.2 environment. Here is a sample run of the migration job:
 
-.. note::
+::
 
-    ``./generate.py migration``
-xxx
+    ./generate.py migration
 
 ::
 
@@ -176,7 +175,6 @@ Manual work
 .. note::
 
     This is only needed for qooxdoo 1.2. If you are using 0.8.1 or higher (trunk version as well) just skip this part.
-xxx
 
 Open ``config.json`` and add this block of code in the ``jobs`` section:
 
@@ -233,7 +231,6 @@ Congratulations, you have a 0.7 application inside a qooxdoo 1.2 environment.
 .. note::
 
     Please note that your application runs in quirks mode since this is needed to render legacy widgets correctly. The document mode *shouldn't be* a problem if you have a single page application (RIA). If you want to work with HTML just add a valid doctype to the index.html.
-xxx
 
 .. _pages/migration_guide_from_07#adjust_the_application_class:
 
@@ -277,7 +274,6 @@ In our demo application (Feedreader), we have to change the name of the overridd
     Please note that the application lifecycle has changed:
     In 0.8 ``close()`` and ``terminate()`` are **not** called by the framework.
     In 0.8.1 ``close()`` will be called during when a ``onbeforeunload`` event is fired by the browser. It is possible to stop the unload process if the application's ``close()`` method returns an string. (This string will be shown in a ``confirm()`` dialog to inform the user about the unload process.)
-xxx
 
 We have a list of :doc:`GUI Changes <migration_notes_from_07>` (currently work in progress) containing detailed information.
 

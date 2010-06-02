@@ -19,8 +19,8 @@ Using alpha-transparent PNGs
 
 IE7 and IE8 have built-in support for loading alpha-transparent PNGs. qooxdoo however does use the AlphaImageLoader for all IE versions whenever a PNG image has to be loaded. This has several reasons:
 
-   * Performance issues in IE8 - native alpha PNG support is slower when running IE8 standards mode
-   * Rendering bug in IE - reported at `Bug #1287 <http://bugzilla.qooxdoo.org/show_bug.cgi?id=1287>`_
+* Performance issues in IE8 - native alpha PNG support is slower when running IE8 standards mode
+* Rendering bug in IE - reported at `Bug #1287 <http://bugzilla.qooxdoo.org/show_bug.cgi?id=1287>`_
 
 .. _pages/internet_explorer_specific_settings#url-rewriting_under_https:
 

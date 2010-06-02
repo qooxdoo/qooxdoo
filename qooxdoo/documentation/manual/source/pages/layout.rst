@@ -49,5 +49,5 @@ The Grow layout stretches all children to the full available size but still resp
 
 There are a few more layouts bundled with the default qooxdoo distribution but those are mostly intended for use by a specific component. For example the :doc:`widget/atom` uses the `Atom Layout <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Atom>`_, the :doc:`widget/splitpane` uses the two split layouts `HLayout <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane.HLayout>`_ and `VLayout <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane.VLayout>`_.
 
-Through the simple API it should be quite easy to write custom layouts if the included ones do not meet demands. Simply derive from the  `Abstract <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract>`_ layout and start with a refined version of the method ```renderLayout() <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract~renderLayout>`_``.
+Through the simple API it should be quite easy to write custom layouts if the included ones do not meet demands. Simply derive from the  `Abstract <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract>`_ layout and start with a refined version of the method `renderLayout() <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Abstract~renderLayout>`_.
 

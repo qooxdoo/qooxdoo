@@ -12,7 +12,7 @@ A few changes, though, affect existing keys. Since, as of today,  there is no au
 compile-dist / compile-source
 =============================
 
-The ``:ref:`pages/tool/generator_config_ref#compile-dist``` and ``:ref:`pages/tool/generator_config_ref#compile-source``` keys have been superseded by ``:ref:`pages/tool/generator_config_ref#compile-options``` and ``:ref:`pages/tool/generator_config_ref#compile```.  Here is how to migrate the old keys to the new.
+The ``compile-dist`` and ``compile-source`` keys have been superseded by :ref:`pages/tool/generator_config_ref#compile-options` and :ref:`pages/tool/generator_config_ref#compile`.  Here is how to migrate the old keys to the new.
 
 .. _pages/migration_config#compile-dist:
 
@@ -54,6 +54,4 @@ Here is the mapping from the old ``compile-source`` keys to the new ``compile-op
 .. note::
 
     NOTE: If you are extending or overriding one of the standard build jobs, namely ``source-script`` or ``build-script``, you can leave out the ``compile`` key as this will be provided by the standard job.
-
-xxx
 

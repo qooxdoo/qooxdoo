@@ -42,10 +42,10 @@ Example destructor
       this._disposeMap("_registry");
     }
 
-  * ``_disposeFields``: Supports multiple arguments. Deleting each key name given from the instance. This is the fastest of the three methods. It basically does the same as the nullify used in qooxdoo 0.6. As of qooxdoo version 1.2 this method is deprecated and will log a warning. Instead assign directly to 'null'.
-  * ``_disposeObjects``: Supports multiple arguments. Dispose the objects (qooxdoo objects) under each key and finally delete the key from the instance like ``_disposeFields``.
-  * ``_disposeArray``: Disposes the array under the given key, but disposes all entries in this array first. It must contain instances of qx.core.Object only.
-  * ``_disposeMap``: Disposes the map under the given key, but disposes all entries in this map first. It must contain instances of qx.core.Object only.
+* ``_disposeFields``: Supports multiple arguments. Deleting each key name given from the instance. This is the fastest of the three methods. It basically does the same as the nullify used in qooxdoo 0.6. As of qooxdoo version 1.2 this method is deprecated and will log a warning. Instead assign directly to 'null'.
+* ``_disposeObjects``: Supports multiple arguments. Dispose the objects (qooxdoo objects) under each key and finally delete the key from the instance like ``_disposeFields``.
+* ``_disposeArray``: Disposes the array under the given key, but disposes all entries in this array first. It must contain instances of qx.core.Object only.
+* ``_disposeMap``: Disposes the map under the given key, but disposes all entries in this map first. It must contain instances of qx.core.Object only.
 
 .. _pages/memory_management#how_to_test_the_destructor:
 
@@ -56,7 +56,7 @@ The destructor code allows you an in-depth analysis of the destructors and finds
 
 To enable these checks you need to select a variant and configure a setting.
 
-The variant ``qx.debug`` must be ``on``. The setting ``qx.disposerDebugLevel`` must be at least at ``1`` to show not disposed qooxdoo objects. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. For a general analysis ``2`` should be enough. You need to add a setting named "qx.disposerDebugLevel" with the value ``2`` to your ``config.json``. See at the *:ref:`Support for finding potential memory leaks <pages/snippets#support_for_finding_potential_memory_leaks>`* snippet how to change your configuration.
+The variant ``qx.debug`` must be ``on``. The setting ``qx.disposerDebugLevel`` must be at least at ``1`` to show not disposed qooxdoo objects. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. For a general analysis ``2`` should be enough. You need to add a setting named "qx.disposerDebugLevel" with the value ``2`` to your ``config.json``. See at the :ref:`Support for finding potential memory leaks <pages/snippets#support_for_finding_potential_memory_leaks>` snippet how to change your configuration.
 
 Log output from these settings should look something like this:
 
@@ -71,7 +71,7 @@ Log output from these settings should look something like this:
 
 The nice thing here is that the log messages already indicate which dispose method to use: Every *"Missing destruct..."* line contains a hint to the type of member that is not being disposed properly, in the *"[object ...]"* part of the line. As a rule of thumb
 
-  * for native Javascript types (Number, String, Object, ...) use ``_disposeFields``
-  * for qooxdoo objects (e.g. qx.util.format.DateFormat, testgui.Report, ...) use ``_disposeObjects``
-  * for arrays or maps of qooxdoo objects use ``_disposeArray`` or ``_disposeMap``.
+* for native Javascript types (Number, String, Object, ...) use ``_disposeFields``
+* for qooxdoo objects (e.g. qx.util.format.DateFormat, testgui.Report, ...) use ``_disposeObjects``
+* for arrays or maps of qooxdoo objects use ``_disposeArray`` or ``_disposeMap``.
 

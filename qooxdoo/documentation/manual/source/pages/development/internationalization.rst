@@ -12,10 +12,10 @@ Prepare the Application
 
 To translate an application, all translatable strings must be marked using one of the following functions:
 
-  * ``this.tr()``: translate a message
-  * ``this.trn()``: translate a message that supports a plural form
-  * ``this.trc()``: translate a message and providing a comment
-  * ``this.marktr()``: mark a string for translation, but do not perform any translation
+* ``this.tr()``: translate a message
+* ``this.trn()``: translate a message that supports a plural form
+* ``this.trc()``: translate a message and providing a comment
+* ``this.marktr()``: mark a string for translation, but do not perform any translation
 
 You can use these methods right away for your own classes if they are derived from ``qx.ui.core.Widget`` or ``qx.application.AbstractGui``. If that's not the case you have to include the mixin qx.locale.MTranslation manually:
 
@@ -147,9 +147,9 @@ These ``.po`` files are the actual files you - or your translator ;-) - would ha
 
 Some of the programs that support manipulation of ``.po`` files are:
 
-  * `Poedit <http://www.poedit.net/>`_ (Windows, Mac OS X, Linux)
-  * `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
-  * `KBabel <http://kbabel.kde.org/>`_ (Linux)
+* `Poedit <http://www.poedit.net/>`_ (Windows, Mac OS X, Linux)
+* `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
+* `KBabel <http://kbabel.kde.org/>`_ (Linux)
 
 .. _pages/internationalization#update_the_application:
 

@@ -5,15 +5,12 @@ Grow
 
 The grow layout stretches all children to the full available size but still respects limits configured by min/max values.
 
-XXX
-===
-
 .. _pages/layout/grow#features:
 
 Features
 --------
-  * Auto-sizing
-  * Respects minimum and maximum child dimensions
+* Auto-sizing
+* Respects minimum and maximum child dimensions
 
 .. _pages/layout/grow#description:
 
@@ -32,12 +29,12 @@ The Grow layout does not have any layout properties.
 
 Alternative Names
 -----------------
-  * FitLayout (ExtJS)
+* FitLayout (ExtJS)
 
 .. _pages/layout/grow#api:
 
 API
 ---
-Here is a link to the API of the layout manager:\\
-`qx.ui.layout.Grow <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Grow>`_
+| Here is a link to the API of the layout manager:
+| `qx.ui.layout.Grow <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Grow>`_
 
