@@ -28,8 +28,7 @@ Manual 1.2
 
 .. _index#introduction:
 
-Introduction
-============
+.. Introduction
 
 .. toctree::
    :maxdepth: 3
@@ -38,8 +37,7 @@ Introduction
 
 .. _index#getting_started:
 
-Getting Started
-===============
+.. Getting Started
 
 .. toctree::
    :maxdepth: 3
@@ -49,8 +47,7 @@ Getting Started
 
 .. _index#core_framework:
 
-Core Framework
-==============
+.. Core Framework
 
 .. toctree::
    :maxdepth: 3
@@ -60,8 +57,7 @@ Core Framework
 
 .. _index#gui_toolkit:
 
-GUI Toolkit
-===========
+.. GUI Toolkit
 
 .. toctree::
    :maxdepth: 3
@@ -71,8 +67,7 @@ GUI Toolkit
 
 .. _index#low_level_framework:
 
-Low Level Framework
-===================
+.. Low Level Framework
 
 .. toctree::
    :maxdepth: 3
@@ -82,8 +77,7 @@ Low Level Framework
 
 .. _index#communication:
 
-Communication
-=============
+.. Communication
 
 .. toctree::
    :maxdepth: 3
@@ -93,8 +87,7 @@ Communication
 
 .. _index#development:
 
-Development
-===========
+.. Development
 
 .. toctree::
    :maxdepth: 3
@@ -104,8 +97,7 @@ Development
 
 .. _index#tooling:
 
-Tooling
-=======
+.. Tooling
 
 .. toctree::
    :maxdepth: 3
@@ -115,16 +107,14 @@ Tooling
 
 .. _index#migration:
 
-Migration
-=========
+.. Migration
 
 .. toctree::
    :maxdepth: 3
 
    pages/migration
 
-References
-==========
+.. References
 
 .. toctree::
    :maxdepth: 3
