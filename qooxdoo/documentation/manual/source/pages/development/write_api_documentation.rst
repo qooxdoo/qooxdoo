@@ -129,9 +129,10 @@ Adds a cross reference to another structure (class, property, method or constant
 If you refer to a structure within the same class, then the class name may be omitted. If you refer to a class in the same package, then the package name before the class may be omitted. In all other cases you have to specify the fully qualified class name (e.g. ``qx.ui.table.Table``).
 
 Some examples:
-  * ``qx.ui.form.Button`` refers to the class ``Button`` in the package ``qx.ui.form``.
-  * ``qx.constant.Type#NUMBER`` links to the constant ``NUMBER`` of the class ``qx.constant.Type``.
-  * ``qx.core.Init#defineMain`` refers to the method ``defineMain`` in the class ``qx.core.Init``
+
+* ``qx.ui.form.Button`` refers to the class ``Button`` in the package ``qx.ui.form``.
+* ``qx.constant.Type#NUMBER`` links to the constant ``NUMBER`` of the class ``qx.constant.Type``.
+* ``qx.core.Init#defineMain`` refers to the method ``defineMain`` in the class ``qx.core.Init``
 
 After this target description an alternative text may follow. If missing the target description is shown.
 

@@ -8,7 +8,7 @@ Widget Reference
 Core Widgets
 ============
 
-:doc:`widget`, :doc:`spacer`, :doc:`scrollbar`
+:doc:`Widget </pages/widget>`, :doc:`spacer`, :doc:`scrollbar`
 
 .. _pages/widget#content_widgets:
 

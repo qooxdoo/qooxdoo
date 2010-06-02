@@ -204,7 +204,7 @@ What a decoration theme can look like:
         }
     });
 
-Noted the ``#asset`` at the top and the ``resource`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available `here <http://qooxdoo.org/documentation/1.2/ui_resources#declaring_resources_in_the_code>`_
+Noted the ``#asset`` at the top and the ``resource`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available :ref:`here <pages/ui_resources#declaring_resources_in_the_code>`.
 
 .. _pages/ui_theming#font_theme:
 

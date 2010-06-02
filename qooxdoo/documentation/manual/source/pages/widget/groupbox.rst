@@ -45,6 +45,6 @@ Here are some links that demonstrate the usage of the widget:
 
 API
 ---
-Here is a link to the API of the Widget:
-`qx.ui.groupbox.GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.groupbox.GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox>`_
 

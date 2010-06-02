@@ -134,13 +134,13 @@ qooxdoo's dynamic properties not only make sure that all properties behave in a 
 The user is only confronted with a single interface, where the method names are easy to understand. 
 Each property creates (at least) the following set of methods:
 
-  * ``setPropertyName()``: Mutator method ("setter") to set a new property value.
-  * ``getPropertyName()``: Accessor method ("getter") that returns  the current value.
+* ``setPropertyName()``: Mutator method ("setter") to set a new property value.
+* ``getPropertyName()``: Accessor method ("getter") that returns  the current value.
 
 Additionally, all properties of boolean type (declared by ``check: "Boolean"``) provide the following convenience methods:
 
-  * ``isPropertyName()``: Identical to ``getPropertyName()``.
-  * ``togglePropertyName()``: Toggles between true and false.
+* ``isPropertyName()``: Identical to ``getPropertyName()``.
+* ``togglePropertyName()``: Toggles between true and false.
 
 .. _pages/understanding_properties#property_groups:
 
@@ -200,6 +200,4 @@ BTW: The values of a property group can also be given an array as first argument
 .. note::
 
     For more information regarding declaration, usage and internal functionality please see the  :doc:`the developer documentation <defining_properties>`.
-
-xxx
 
