@@ -20,6 +20,7 @@ Properties
   core/understanding_properties
   core/property_features
   core/defining_properties
+  core/property_behavior
 
 Data Binding
 ============
