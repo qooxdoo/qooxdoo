@@ -203,13 +203,13 @@ How to migrate from the 0.8.x to the 1.2.x selection API
 
 By changing the framework applications, like the `Demo Browser <http://demo.qooxdoo.org/1.2.x/demobrowser/>`_, to the new selection API, useful steps have been found:
 
-* Search the source code for only one widget that uses the old selection API.
-* Replace the old method/event with the new one, but only for the classes that contain a reference from the widget.
-* Run ``generate.py source``, start the application and test your changes.
-* If the application runs without errors go to step one and choose the next widget, otherwise fix the problem.
-* If you have searched for all widgets and renamed the old methods/events in these classes, search for the old method/event names in the complete source code and rename them if they are really using the old API.
-* Run ``generate.py source``, start your application and test your changes again.
-* If there are no errors or deprecation warnings while testing your code, you have finished the migration.
+(1) Search the source code for only one widget that uses the old selection API.
+(2) Replace the old method/event with the new one, but only for the classes that contain a reference from the widget.
+(3) Run ``generate.py source``, start the application and test your changes.
+(4) If the application runs without errors go to step one and choose the next widget, otherwise fix the problem.
+(5) If you have searched for all widgets and renamed the old methods/events in these classes, search for the old method/event names in the complete source code and rename them if they are really using the old API.
+(6) Run ``generate.py source``, start your application and test your changes again.
+(7) If there are no errors or deprecation warnings while testing your code, you have finished the migration.
 
 .. _pages/ui_selection#what_does_rename_the_method/event_mean:
 
