@@ -1,4 +1,4 @@
-.. _pages/ui_custom_themes#custom_themes:
+.. _pages/gui_toolkit/ui_custom_themes#custom_themes:
 
 Custom Themes
 *************
@@ -7,7 +7,7 @@ There are certain circumstances when the built-in themes are no more sufficient 
 
 Basically you have two choices to create a custom theme depending on your needs and the amount you want to change. The next two sections describe both briefly.
 
-.. _pages/ui_custom_themes#extending_themes:
+.. _pages/gui_toolkit/ui_custom_themes#extending_themes:
 
 Extending Themes
 ================
@@ -76,7 +76,7 @@ After editing your ``config.json`` the very last step is to generate your applic
 
     These steps are also applicable for the other themes.
 
-.. _pages/ui_custom_themes#define_custom_themes:
+.. _pages/gui_toolkit/ui_custom_themes#define_custom_themes:
 
 Define Custom Themes
 ====================

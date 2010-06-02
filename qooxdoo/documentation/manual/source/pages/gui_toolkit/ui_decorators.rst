@@ -1,9 +1,9 @@
-.. _pages/ui_decorators#decorators:
+.. _pages/gui_toolkit/ui_decorators#decorators:
 
 Decorators
 **********
 
-.. _pages/ui_decorators#introduction:
+.. _pages/gui_toolkit/ui_decorators#introduction:
 
 Introduction
 ============
@@ -12,7 +12,7 @@ Decorations are used to style widgets. The idea is to have an independent layer 
 
 Decorations are used for both, the ``shadow`` and the ``decorator`` property. They could be applied separately or together. There is no dependency between them.
 
-.. _pages/ui_decorators#using_decorators:
+.. _pages/gui_toolkit/ui_decorators#using_decorators:
 
 Using Decorators
 ================
@@ -21,7 +21,7 @@ Generally all decorators used should be part of the selected decorator theme. Th
 
 It is also regarded as bad style to make use of so-named inline decorators which are created by hand as part of a function call. The reason for this is that generally decorators defined by the theme may be used in multiple places. This means that widgets and application code should not directly deal with decorator instances.
 
-.. _pages/ui_decorators#custom_decorators:
+.. _pages/gui_toolkit/ui_decorators#custom_decorators:
 
 Custom Decorators
 =================
@@ -37,7 +37,7 @@ Custom decorators are created by extending the decorator theme and adding new on
 
 Each entry of the theme is automatically made available using the ``setDecorator``/``setShadow`` functions of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
 
-.. _pages/ui_decorators#writing_decorators:
+.. _pages/gui_toolkit/ui_decorators#writing_decorators:
 
 Writing Decorators
 ==================

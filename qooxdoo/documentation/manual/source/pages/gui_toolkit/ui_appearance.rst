@@ -1,9 +1,9 @@
-.. _pages/ui_appearance#appearance:
+.. _pages/gui_toolkit/ui_appearance#appearance:
 
 Appearance
 **********
 
-.. _pages/ui_appearance#theme_structure:
+.. _pages/gui_toolkit/ui_appearance#theme_structure:
 
 Theme Structure
 ===============
@@ -21,7 +21,7 @@ A theme normally consists of a set of entries. Each entry has a key which is bas
       }
     });
 
-.. _pages/ui_appearance#selectors:
+.. _pages/gui_toolkit/ui_appearance#selectors:
 
 Selectors
 =========
@@ -51,7 +51,7 @@ A classic example for this is the ``Spinner`` widget. A ``Spinner`` is basically
 
 Each of these selectors must be fulfilled by the selected appearance. Otherwise one get errors for the missing selector. Hopefully you got an idea.
 
-.. _pages/ui_appearance#aliases:
+.. _pages/gui_toolkit/ui_appearance#aliases:
 
 Aliases
 =======
@@ -110,7 +110,7 @@ Internally the above results into the following remapping:
   "spinner/upbutton/icon" => "myimage"
   "spinner/upbutton/label" => "button/label"
 
-.. _pages/ui_appearance#entries:
+.. _pages/gui_toolkit/ui_appearance#entries:
 
 Entries
 =======
@@ -144,7 +144,7 @@ The more complex full entry is a map with several sub entries where all are opti
       }
     });
 
-.. _pages/ui_appearance#style_method:
+.. _pages/gui_toolkit/ui_appearance#style_method:
 
 Style Method
 ------------
@@ -189,7 +189,7 @@ The ``undefined`` value means that no value should be applied. When qooxdoo runs
 
 One thing we have also seen in the example is that it is perfectly possible to create the return map using standard JavaScript and fill in keys during the runtime of the ``style`` method. This allows to use more complex statements to solve the requirements of today's themes were a lot of states or dependencies between states can have great impact on the result map.
 
-.. _pages/ui_appearance#includes:
+.. _pages/gui_toolkit/ui_appearance#includes:
 
 Includes
 --------
@@ -200,7 +200,7 @@ The results of the include block are merged with lower priority than the local d
 
 Includes do nothing to child controls. They just include exactly the given selector into the current selector.
 
-.. _pages/ui_appearance#child_control_aliases:
+.. _pages/gui_toolkit/ui_appearance#child_control_aliases:
 
 Child Control Aliases
 ---------------------
@@ -269,35 +269,35 @@ As you can see the ``spinner/upbutton`` is kept in its original state. This allo
 
 When ``alias`` and ``include`` are identically pointing to the same selector the result is identical to the real alias
 
-.. _pages/ui_appearance#base_calls:
+.. _pages/gui_toolkit/ui_appearance#base_calls:
 
 Base Calls
 ----------
 
 When extending themes the so-named ``base`` flag can be enabled to include the result of this selector of the derived theme into the local selector. This is quite comparable to the ``this.base(arguments, ...)`` call in member functions of typical qooxdoo classes. It do all the things the super class has done plus the local things. Please note that all local defintions have higher priority than the inheritance. See next paragraph for details.
 
-.. _pages/ui_appearance#priorities:
+.. _pages/gui_toolkit/ui_appearance#priorities:
 
 Priorities
 ----------
 
 Priority is quite an important topic when dealing with so many sources to fill a selector with styles. Logically the definitions of the ``style`` function are the ones with the highest priority followed by the ``include`` block. The least priority has the ``base`` flag for enabling the *base calls* in inherited themes.
 
-.. _pages/ui_appearance#states:
+.. _pages/gui_toolkit/ui_appearance#states:
 
 States
 ======
 
 A state is used for every visual state a widget may have. Every state has flag character. It could only be enabled or disabled via the API ``addState`` or ``removeState``. 
 
-.. _pages/ui_appearance#performance:
+.. _pages/gui_toolkit/ui_appearance#performance:
 
 Performance
 ===========
 
 qooxdoo has a lot of impressive caching ideas behind the whole appearance handling. As one could easily imagine all these features are quite expensive when they are made on every widget instance and more important, each time a state is modified.
 
-.. _pages/ui_appearance#appearance_queue:
+.. _pages/gui_toolkit/ui_appearance#appearance_queue:
 
 Appearance Queue
 ----------------
@@ -306,14 +306,14 @@ First of all we have the appearance queue. Widgets which are visible and inserte
 
 The queue also minimizes the effect of multiple state changes when they happen at once. All changes are combined into one lookup to the theme e.g. changing ``hovered`` and ``focused`` directly after each other would only result into one update instead of two. In a modern GUI typically each click influence a few widgets at once and in these widgets a few states at once so this optimization really pays of.
 
-.. _pages/ui_appearance#selector_caching:
+.. _pages/gui_toolkit/ui_appearance#selector_caching:
 
 Selector Caching
 ----------------
 
 Each widget comes with a appearance or was created as a child control of another widgets. Because the detection of the selector is quite complex with iterations up to the parent chain, the resulting selector of each widget is cached. The system benefits from the idea that child controls are never moved outside the parent they belong to. So a child controls which is cached once keeps the selector for lifetime. The only thing which could invalidate the selectors of a widget and all of its child controls is the change of the property ``appearance`` in the parent of the child control.
 
-.. _pages/ui_appearance#alias_caching:
+.. _pages/gui_toolkit/ui_appearance#alias_caching:
 
 Alias Caching
 -------------
@@ -322,7 +322,7 @@ The support for aliases is resolved once per application load. So after a while 
 
 The list of resolved aliases can be seen when printing out the map under ``qx.theme.manager.Appearance.getInstance().__aliasMap`` to the log console. It just contains the fully resolved alias (aliases may redirect to each other as well).
 
-.. _pages/ui_appearance#result_caching:
+.. _pages/gui_toolkit/ui_appearance#result_caching:
 
 Result Caching
 --------------

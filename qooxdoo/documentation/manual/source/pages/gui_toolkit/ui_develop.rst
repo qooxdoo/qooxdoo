@@ -1,11 +1,11 @@
-.. _pages/ui_develop#custom_widgets:
+.. _pages/gui_toolkit/ui_develop#custom_widgets:
 
 Custom Widgets
 **************
 
 Most widgets are built using a combination of already existing, more basic widgets. This is also true for custom widgets made for a specific application or as an extension to the existing feature set of qooxdoo.
 
-.. _pages/ui_develop#inheritance_structure:
+.. _pages/gui_toolkit/ui_develop#inheritance_structure:
 
 Inheritance Structure
 =====================
@@ -16,7 +16,7 @@ A good example: Most rich text editors implemented in JavaScript make use of a i
 
 The qooxdoo ``Spinner`` for example extends the ``Widget`` as well and adds a ``TextField`` and two ``RepeatButton`` instances. The layout is done by a Grid layout. All the children and the choosen layout are hidden from the outside. There are no public accessors for the layout or the children. This makes sense as no one is interested in the children of a ``Spinner`` widget. These methods would also mean a lot of bloat added to the API of such an widget.
 
-.. _pages/ui_develop#setup_content:
+.. _pages/gui_toolkit/ui_develop#setup_content:
 
 Setup Content
 =============
@@ -31,7 +31,7 @@ It is possible to use any layout available. To setup the layout just use ``_setL
 
 For details refer at the API documentation of `qx.ui.core.Widget <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget>`_.
 
-.. _pages/ui_develop#child_controls:
+.. _pages/gui_toolkit/ui_develop#child_controls:
 
 Child Controls
 ==============
@@ -65,7 +65,7 @@ Each child control should directly be adding itself to the parent. As mentioned 
   * ``_isChildControlVisible(id)``: Returns ``true`` when the child control with the given ID is created and visible.
   * ``hasChildControl(id)``: Returns ``true`` when the child control with the given ID is created.
 
-.. _pages/ui_develop#styling:
+.. _pages/gui_toolkit/ui_develop#styling:
 
 Styling
 =======
@@ -87,7 +87,7 @@ As mentioned a key always starts with the appearance of the first widget which i
 
 For details about styling please refer to :doc:`the theming article <ui_theming>`.
 
-.. _pages/ui_develop#html_elements:
+.. _pages/gui_toolkit/ui_develop#html_elements:
 
 HTML Elements
 =============
@@ -106,14 +106,14 @@ Both elements are instances of ``qx.html.Element`` and this way come with a cros
 
 The elements are accessible through the function ``getContentElement()`` respectively ``getContainerElement()``. The elements are stored privately in each widget instance and are only accessible through the methods in derived classes.
 
-.. _pages/ui_develop#custom_elements:
+.. _pages/gui_toolkit/ui_develop#custom_elements:
 
 Custom Elements
 ===============
 
 qooxdoo normally generates a bunch of styled ``div`` elements. Some widgets like iframes or images needs other elements though. Normally the only element which is replaced is the content element. To do this the method ``_createContentElement`` needs to be overwritten. The overwritten method should create a instance of ``qx.html.Element`` (or a derived class), configure it with some static attributes or styles, and finally return it. For most natively supported types there exist a class which can be used already. In special cases the widget author also needs to write a special low-level class which is derived from ``qx.html.Element``.
 
-.. _pages/ui_develop#working_with_events:
+.. _pages/gui_toolkit/ui_develop#working_with_events:
 
 Working with Events
 ===================
@@ -125,7 +125,7 @@ Events could be added to the html elements as well as to the child controls. The
 
 While ``XXX`` stands the name of the event or of the change happens. This will result into names like ``_onIframeLoad`` or ``_onContentInput``.
 
-.. _pages/ui_develop#anonymous_widgets:
+.. _pages/gui_toolkit/ui_develop#anonymous_widgets:
 
 Anonymous Widgets
 =================

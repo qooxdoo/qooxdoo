@@ -1,11 +1,11 @@
-.. _pages/tutorial-part-3#tutorial_part_3:_time_for_communication:
+.. _pages/tutorials/tutorial-part-3#tutorial_part_3:_time_for_communication:
 
 Tutorial Part 3: Time for Communication
 ***************************************
 
 After we created the application and the main window in the :doc:`first tutorial <tutorial-part-1>` part and finished the UI in the :doc:`second <tutorial-part-2>`, we will build the communication layer today. With that part the application should be ready to use.
 
-.. _pages/tutorial-part-3#pre-evaluation:
+.. _pages/tutorials/tutorial-part-3#pre-evaluation:
 
 Pre-Evaluation
 ==============
@@ -18,7 +18,7 @@ First, we need to specify what's the data we need to transfer. For that, we need
 So it's clear that we need to fetch the friends timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <http://apiwiki.twitter.com/Twitter-API-Documentation>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
 
-.. _pages/tutorial-part-3#creating_the_data_access_class:
+.. _pages/tutorials/tutorial-part-3#creating_the_data_access_class:
 
 Creating the Data Access Class
 ==============================
@@ -41,7 +41,7 @@ Now we know how to get the data from twitter. Its time for us to go back to the 
       }
     });
 
-.. _pages/tutorial-part-3#fetching_the_data:
+.. _pages/tutorials/tutorial-part-3#fetching_the_data:
 
 Fetching the Data
 =================
@@ -96,7 +96,7 @@ Now we need to connect the property of the store with the property of the *twitt
 
 This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the twitter service. Thats all we need to do in the twitter service class for fetching the data. Now its time to bring the data to the UI.
 
-.. _pages/tutorial-part-3#bring_the_tweets_to_the_ui:
+.. _pages/tutorials/tutorial-part-3#bring_the_tweets_to_the_ui:
 
 Bring the tweets to the UI
 ==========================
@@ -142,7 +142,7 @@ Of course, we need to change every occurance of the old identifier ``list`` to t
       return this.__list;
     }
 
-.. _pages/tutorial-part-3#data_binding_magic:
+.. _pages/tutorials/tutorial-part-3#data_binding_magic:
 
 Data Binding Magic
 ==================
@@ -199,7 +199,7 @@ You see that the method has one parameter which is the current UI element which 
 
 Now it should be the way we like it to be. Sure it's not perfect because it has no error handling but that should be good enough for the tutorial.
 
-.. _pages/tutorial-part-3#posting_tweets:
+.. _pages/tutorials/tutorial-part-3#posting_tweets:
 
 Posting tweets
 ==============

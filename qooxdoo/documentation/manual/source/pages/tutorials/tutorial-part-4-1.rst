@@ -1,4 +1,4 @@
-.. _pages/tutorial-part-4-1#tutorial_part_4.1:_form_handling:
+.. _pages/tutorials/tutorial-part-4-1#tutorial_part_4.1:_form_handling:
 
 Tutorial Part 4.1: Form Handling
 ********************************
@@ -7,14 +7,14 @@ In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-p
 
 Before we get started, make sure you're working on the version of the Twitter tutorial application tagged with `"Step 3" in the GitHub repository <http://github.com/wittemann/qooxdoo-tutorial/tree/Step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
 
-.. _pages/tutorial-part-4-1#the_plan:
+.. _pages/tutorials/tutorial-part-4-1#the_plan:
 
 The plan
 ========
 
 We want to create a new window with user name and password fields that pops up when the user clicks the "post" button. Provided the fields aren't empty, their values should be used in the YQL request that posts the Tweet. Seems simple enough, so let's get right down to business.
 
-.. _pages/tutorial-part-4-1#creating_the_login_window:
+.. _pages/tutorials/tutorial-part-4-1#creating_the_login_window:
 
 Creating the login window
 =========================
@@ -40,7 +40,7 @@ The Login window will only contain the form, which takes care of its own layout.
     this.setLayout(layout);
     this.setModal(true);
 
-.. _pages/tutorial-part-4-1#adding_the_form:
+.. _pages/tutorials/tutorial-part-4-1#adding_the_form:
 
 Adding the Form
 ===============
@@ -89,7 +89,7 @@ That's all the elements we need, let's get them displayed. We'll let one of qoox
 
 The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
 
-.. _pages/tutorial-part-4-1#accessing_the_form_values:
+.. _pages/tutorials/tutorial-part-4-1#accessing_the_form_values:
 
 Accessing the form values
 =========================
