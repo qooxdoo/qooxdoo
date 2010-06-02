@@ -5,9 +5,9 @@ qooxdoo Animation
 
 qooxdoo Animation is a low level animation layer which comes with several effects to animate DOM elements. An effect changes one or more attributes of a DOM element from a start to an end value in the given time either linear or using a transition function. Effects can be stacked in a queue and orderd by assigning a startup delay.
 
-  * `API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.fx>`_
-  * `Demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#animation~Login.html>`_
-  * `Issues <http://bugzilla.qooxdoo.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&product=framework&component=fx&long_desc_type=substring&long_desc=&bug_file_loc_type=allwordssubstr&bug_file_loc=&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&votes=&chfieldfrom=&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=>`_
+* `API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.fx>`_
+* `Demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#animation~Login.html>`_
+* `Issues <http://bugzilla.qooxdoo.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&product=framework&component=fx&long_desc_type=substring&long_desc=&bug_file_loc_type=allwordssubstr&bug_file_loc=&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&votes=&chfieldfrom=&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=>`_
 
 .. _pages/qooxdoo_animation#usage:
 
@@ -87,18 +87,19 @@ List of effects
 ===============
 
 The ``qx.fx.effect`` package contains 14 effects:
-  * **ColorFlow**Changes the background color of an element to a given initial. After that the effects waits a given amount of time before it modifies to background color back to the initial value.
-  * **Drop**	Moves the element to the given direction while fading it out.
-  * **Fade**	Fades in the specified element: it changes to opacity from a given value to another. If target value is 0, it will hide the element, if value is 1, it will show it using the “display” property.
-  * **Fold**	Shrinks the element in width and height until it gets invisible.
-  * **Grow**Resizes the element from initial dimensions to final dimensions.
-  * **Highlight**Cycles the background color of the element from initial to final color.
-  * **Move**Moves to element to the given coordinates.
-  * **Puff**	Resizes the element from zero to the original size of the elment and fades it in at the same time.
-  * **Pulsate**Fades the element in and out several times.
-  * **Scale**This effect scales the specified element (and its content, optionally) by given percentages.
-  * **Scroll**Scrolls to specified coordinates on given element.
-  * **Shake**Moves the element forwards and backwards several times.
-  * **Shrink**Resizes the element from initial to given dimensions.
-  * **Switch**Flickers the element one time and then folds it in.
+
+* **ColorFlow** Changes the background color of an element to a given initial. After that the effects waits a given amount of time before it modifies to background color back to the initial value.
+* **Drop**	Moves the element to the given direction while fading it out.
+* **Fade**	Fades in the specified element: it changes to opacity from a given value to another. If target value is 0, it will hide the element, if value is 1, it will show it using the “display” property.
+* **Fold**	Shrinks the element in width and height until it gets invisible.
+* **Grow** Resizes the element from initial dimensions to final dimensions.
+* **Highlight** Cycles the background color of the element from initial to final color.
+* **Move** Moves to element to the given coordinates.
+* **Puff**	Resizes the element from zero to the original size of the elment and fades it in at the same time.
+* **Pulsate** Fades the element in and out several times.
+* **Scale** This effect scales the specified element (and its content, optionally) by given percentages.
+* **Scroll** Scrolls to specified coordinates on given element.
+* **Shake** Moves the element forwards and backwards several times.
+* **Shrink** Resizes the element from initial to given dimensions.
+* **Switch** Flickers the element one time and then folds it in.
 
