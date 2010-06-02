@@ -12,7 +12,7 @@ We recently added more and more classes to the namespace and we figured out, tha
 .. _pages/ui_form_handling2/namespace#proposal_current:
 
 Proposal (current)
-=================
+==================
 
 ::
 

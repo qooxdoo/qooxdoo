@@ -33,14 +33,40 @@ Example:
       }
     });
 
-^ Configuration key ^ Type ^ Description ^
-|include|Mixin or Mixin[]|Single mixin or array of mixins, which will be merged into the mixin.|
-|construct|Function|An optional mixin constructor. It is called when instantiating a class that includes this mixin.|
-|destruct|Function|An optional mixin destructor.|
-|statics|Map|Map of static members of the mixin. The statics will not get copied into the target class. They remain accessible from the mixin. This is the same behaviour as for statics in interfaces|
-|members|Map|Map of members of the mixin.|
-|properties|Map|Map of :doc:`property definitions <defining_properties>`.|
-|events|Map|Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.|
+.. list-table::
+   :header-rows: 1
+
+   * - Configuration key
+     - Type
+     - Description
+
+   * - include
+     - Mixin or Mixin[]
+     - Single mixin or array of mixins, which will be merged into the mixin.
+
+   * - construct
+     - Function
+     - An optional mixin constructor. It is called when instantiating a class that includes this mixin.
+
+   * - destruct
+     - Function
+     - An optional mixin destructor.
+
+   * - statics
+     - Map
+     - Map of static members of the mixin. The statics will not get copied into the target class. They remain accessible from the mixin. This is the same behaviour as for statics in interfaces
+
+   * - members
+     - Map
+     - Map of members of the mixin.
+
+   * - properties
+     - Map
+     - Map of :doc:`property definitions <defining_properties>`.
+
+   * - events
+     - Map
+     - Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.
 
 .. _pages/mixins#using_a_mixin:
 
@@ -133,4 +159,4 @@ The result is when calling the method ``methodC()`` of ``ClassC``:
 Mixin Quick Reference
 =====================
 
-  * :doc:`mixin_quickref` -  a quick syntax reference for mixins.
+* :doc:`mixin_quickref` -  a quick syntax reference for mixins.

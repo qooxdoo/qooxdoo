@@ -63,7 +63,7 @@ Document Wide Formatting
 * Background Image
 * Background Color
 
-.. _pages/ui_html_editing/featurelist#additional_features:
+.. _pages/ui_html_editing/featurelist#additional_features_1:
 
 Additional Features
 -------------------
@@ -108,7 +108,7 @@ Advanced Paragraph-Handling
 * Type of line-break adjustable (new paragraph or new line)
 * Support for ``Shift+Enter`` and ``Ctrl+Enter`` to insert single line-break
 
-.. _pages/ui_html_editing/featurelist#additional_features:
+.. _pages/ui_html_editing/featurelist#additional_features_2:
 
 Additional Features
 -------------------
