@@ -9,7 +9,7 @@
     "THEME"        : "inspector.theme.Theme",
     "ICONTHEME"    : ["Tango"],    
     "INSPECTOR_ROOT"  : ".",
-    "BUILD_PATH"   : "${ROOT}/build",    
+    "INSPECTOR_PATH"   : "${ROOT}/build",    
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"]
   },
 
@@ -80,7 +80,7 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/script/inspector.js"
+          "file" : "${INSPECTOR_PATH}/script/inspector.js"
         },
         "uris"   :
         {
@@ -112,7 +112,7 @@
           "index.html"
         ],
 
-        "target" : "${BUILD_PATH}",
+        "target" : "${INSPECTOR_PATH}",
         "source" : "${INSPECTOR_ROOT}/source"
       }
     },
@@ -126,7 +126,7 @@
 
       "copy-resources" :
       {
-        "target"          : "${BUILD_PATH}",
+        "target"          : "${INSPECTOR_PATH}",
         "resource-filter" : true
       }
     },

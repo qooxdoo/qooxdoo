@@ -76,8 +76,8 @@
 
       "let"    :
       {
-        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector"
-        ,"BUILD_PATH"    : "${ROOT}/inspector"
+        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector",
+        "INSPECTOR_PATH"    : "${ROOT}/inspector"
       },
 
       "=run" : ["inspector-resources", "inspector-script", "inspector-files"]
@@ -94,7 +94,7 @@
           "index.html"
         ],
 
-        "target" : "${BUILD_PATH}",
+        "target" : "${INSPECTOR_PATH}",
         "source" : "${INSPECTOR_ROOT}/source/resource/inspector/html"
       }
     },
