@@ -13,7 +13,7 @@ If you have php at the server, you can write in your html file:
 
 Then you create a file called qooxdoo.php with this content:
 
-::
+.. code-block:: php
 
     <?php
        /**
@@ -46,4 +46,4 @@ Also, if you are writing your own webserver it is trivial to include this featur
 
 I know, it is NOT JavaScript but maybe it is a good idea to add this to the qooxdoo distribution (and it may be a good idea if one with Python or Perl or other experience ports this script to another server-side programming language).
 
-`Contributed by Oliver Vogel, here <http://www.nabble.com/speed-up-loading-time-of-qooxdoo-t1234762.html>`_.
+Contributed by `Oliver Vogel <http://www.nabble.com/speed-up-loading-time-of-qooxdoo-t1234762.html>`_.

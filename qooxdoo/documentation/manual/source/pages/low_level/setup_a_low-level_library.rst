@@ -41,8 +41,6 @@ This pre-defined job is all you have to execute to start right away.
 
     The generated build script is a compilation of low-level classes, but it does **not** provide all classes of the *qx.bom* or *qx.dom* namespace. Please take a look at the provide *config.json* file to determine which file is included. The low-level wrapper of the XmlHttpRequest object ( *qx.bom.Request* ) is **not** provided by default.
 
-xxx
-
 .. _pages/setup_a_low-level_library#ready_to_code:
 
 Ready to code
@@ -50,7 +48,7 @@ Ready to code
 
 As already mentioned implementing your logic is a no-brainer. Just grab the existing ``index.html`` file and start right away.
 
-::
+.. code-block:: html
 
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.2//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
