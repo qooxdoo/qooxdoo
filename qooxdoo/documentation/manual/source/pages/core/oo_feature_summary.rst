@@ -85,7 +85,6 @@ Static members, both methods and attributes, can be accessed by using the fully-
 
     You can use static members as constants, but the value can be changed in the run time!!
 
-xxx
 
 .. _pages/oo_feature_summary#instance_members:
 
@@ -134,7 +133,6 @@ Generic form. Requires no updates if class name changes. This code can optionall
 .. note::
 
     For ``this.self`` to be available, the class must have as a direct or indirect base class ``qx.core.Object``.
-xxx
 
 .. note::
 
@@ -158,7 +156,6 @@ xxx
         });
 
     Static functions can access other static functions directly through the ``this`` keyword.
-xxx
 
 .. _pages/oo_feature_summary#calling_the_superclass_constructor:
 
@@ -356,8 +353,6 @@ The closed form of the class definition does not allow immediate access to other
 
     If the feature of accessing previously defined members is not absolutely neccessary, *the ``defer`` should *not* be used in the class definition*. It is missing some important capabilities compared to the regular members definition and it cannot take advantage of many crucial features of the build process (documentation, optimization, etc.).
 
-xxx
-
 ::
 
     qx.Class.define("my.cool.Class",
@@ -380,7 +375,7 @@ xxx
 Browser specific methods
 ========================
 
-To maintain the closed form, browser switches on method level is done using :doc:`variants <variants>`. Since the generator knows about variants it is (optionally) possible to only keep the code for each specific browser and remove the implementation for all other browsers from the code and thus generate highly-optimized browser-specific builds. It is possible to use an logical "or" directly inside a variant key. If none of the keys matches the variant, the "default" key is used: 
+To maintain the closed form, browser switches on method level is done using :doc:`variants </pages/development/variants>`. Since the generator knows about variants it is (optionally) possible to only keep the code for each specific browser and remove the implementation for all other browsers from the code and thus generate highly-optimized browser-specific builds. It is possible to use an logical "or" directly inside a variant key. If none of the keys matches the variant, the "default" key is used: 
 ::
 
     members: 

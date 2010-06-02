@@ -6,7 +6,6 @@ Initialization Behavior
 .. note::
 
     This document summarizes some thoughts about the behavior of the initialization of properties and the changed of the behavior recently discovered. So please keep in mind that the containing information may change.
-xxx
 
 .. _pages/property_features/behavior#the_problem:
 
@@ -78,9 +77,11 @@ A good example in the framework where we rely on the behavior is the Spinner:
                 this._updateButtons();
     // ...
 
-The example shows the constructor and the apply of the value property. The problem begin in this case with the constructor parameter named "value", which is optional. So we have three cases to consider. 
-  - The value argument is undefined: The initValue method is called, which invokes the apply function for the property with the init value as value.
-  - A value is given different as the init value: So the value is not undefined and the setter for the value property will be called, which invokes the apply function.
-  - A value is given and its exactly the init value: In this case, the setter will be called with the init value. The old behavior calls the apply and invokes with that apply the _updateButtons method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
+The example shows the constructor and the apply of the value property. The problem begin in this case with the constructor parameter named "value", which is optional. So we have three cases to consider.
+
+#. The value argument is undefined: The initValue method is called, which invokes the apply function for the property with the init value as value.
+#. A value is given different as the init value: So the value is not undefined and the setter for the value property will be called, which invokes the apply function.
+#. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The old behavior calls the apply and invokes with that apply the _updateButtons method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
+
 The problem with the new behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maxiumum values is the same. Because only in that scenario, one of the buttons need to be disabled.
 

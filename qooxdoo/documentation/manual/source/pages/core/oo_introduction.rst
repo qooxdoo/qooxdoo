@@ -7,9 +7,9 @@ qooxdoo allows you to easily leverage many key concepts of object-oriented progr
 
 The main actors of qooxdoo OO are:
 
-  * **Classes**
-  * **Interfaces**
-  * **Mixins**
+* **Classes**
+* **Interfaces**
+* **Mixins**
 
 When trying to get a grip of the framework code, you should probably understand all those three concepts. As a regular application developer you often get by with ignoring interfaces and mixins when starting and just getting familiar with *classes*.
 
@@ -22,10 +22,10 @@ A "class" is a central concept in most object-oriented languages, and as a progr
 
 There are several types of classes available, which are specified by the ``type`` key within the ``config`` map:
 
-  * **regular class**: May contain *class* variables/methods (in a ``statics`` section) and *instance* variables/methods (in a ``members`` section). An instance of the class can be created using the ``new`` keyword, so a constructor needs to be given in ``construct``.
-  * **static class**: Only contains class variables and class methods. Often a helper or utility class. Use ``type : "static"``.
-  * **abstract class**: Does not allow an instance to be created. Typically classes derive from it and provide concrete implementations. ``type`` is ``abstract``.
-  * **singleton**: Not more than a single instance of the class may exists at any time. A static method ``getInstance()`` returns the instance. Use ``type : "singleton"``.
+* **regular class**: May contain *class* variables/methods (in a ``statics`` section) and *instance* variables/methods (in a ``members`` section). An instance of the class can be created using the ``new`` keyword, so a constructor needs to be given in ``construct``.
+* **static class**: Only contains class variables and class methods. Often a helper or utility class. Use ``type : "static"``.
+* **abstract class**: Does not allow an instance to be created. Typically classes derive from it and provide concrete implementations. ``type`` is ``abstract``.
+* **singleton**: Not more than a single instance of the class may exists at any time. A static method ``getInstance()`` returns the instance. Use ``type : "singleton"``.
 
 .. _pages/oo_introduction#interfaces:
 

@@ -11,8 +11,9 @@ Basic Usage
 Parts allow you partition your application into multiple Javascript files.There is an initial part, the *boot* part, that is loaded at application start-up. All other parts have  to be loaded explicitly in your application code.
 
 To use parts in your application, you have to do two things:
-  * declare the parts in your application's *config.json* configuration file
-  * load each part other than the boot part explicitly at suitable situations in your application code
+
+* declare the parts in your application's *config.json* configuration file
+* load each part other than the boot part explicitly at suitable situations in your application code
 
 Here is an example:
 
@@ -81,14 +82,12 @@ The main thing to note here is that upon pressing the "Open Settings Dialog" but
 
 The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the task that should be done once the part is successfully loaded. As you can see, the *custom.Settings* class, which is loaded with this part, is being instantiated.
 
-These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages_0.8.1>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/>`_.
+These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/>`_.
 
 .. _pages/parts_using#advanced_usage:_part_collapsing:
 
 Advanced Usage: Part Collapsing
 ===============================
-
-*(0.8.3+)*
 
 This section reflects part collapsing as it is realized in qooxdoo version 0.8.3 and above.
 
@@ -101,9 +100,9 @@ You as the application developer define *parts* to partition your application. q
 
 But there are situations where you might want to give up on this optimal distribution of classes across packages:
 
-  * when packages become **too small**; sometimes packages derived with the basic procedure turn out to be too small, and the benefit of loading no unnecessary classes is outweight by the fact that you have to make an additional net request to retrieve them.
+* when packages become **too small**; sometimes packages derived with the basic procedure turn out to be too small, and the benefit of loading no unnecessary classes is outweight by the fact that you have to make an additional net request to retrieve them.
 
-  * when you know the **order** in which parts are loaded during run time in advance; then it makes sense to be "greedy" in retrieving as many classes as possible in a single package, as other parts needing the same classes of the (now bigger) package, but are known to load later, can rely on those classes being loaded already, without being affected by the extra classes that get loaded. 
+* when you know the **order** in which parts are loaded during run time in advance; then it makes sense to be "greedy" in retrieving as many classes as possible in a single package, as other parts needing the same classes of the (now bigger) package, but are known to load later, can rely on those classes being loaded already, without being affected by the extra classes that get loaded. 
 
 These are situations where *part collapsing* is usefull, where packages are merged into one another. This is discussed in the next sections.
 
@@ -119,8 +118,9 @@ During what we call part collapsing, some packages are merged into others. That 
 Obviously, it is crucial that the target package is referenced in all those parts where the source package was referenced originally, so that a part is not loosing the classes of the source package. This is taken care of by the selection process that for any given source package picks an appropriate target package. (Target packages are searched for in the set of already defined packages, and there are no new packages being constructed during the collapsing process).
 
 After the source package has been merged into the target package, and has been removed from all parts, there are two cases:
-  * For parts that referenced both (source and target) package initially, there is no difference. The same set of classes is delivered, with the only difference that they come in one, as opposed to two, packages.
-  * Parts that only reference the target package now reference more classes then they really need. But this should be acceptable, as either negligible (in the case of merging packages by size), since the additional weight is marginal; or as without negative effect (in the case of merging by load order), since the "overladen" package is supposed to be loaded earlier with some other part, and will already be available when this part is loaded.
+
+* For parts that referenced both (source and target) package initially, there is no difference. The same set of classes is delivered, with the only difference that they come in one, as opposed to two, packages.
+* Parts that only reference the target package now reference more classes then they really need. But this should be acceptable, as either negligible (in the case of merging packages by size), since the additional weight is marginal; or as without negative effect (in the case of merging by load order), since the "overladen" package is supposed to be loaded earlier with some other part, and will already be available when this part is loaded.
 
 .. _pages/parts_using#collapsing_by_package_size:
 
