@@ -29,3 +29,10 @@ RPC Servers
    communication/rpc_python
    communication/rpc_server_writer_guide
 
+Specific Widget Communication
+=============================
+
+.. toctree::
+   
+   widget/table_remote_model
+

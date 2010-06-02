@@ -64,8 +64,6 @@ Miscellaneous
    Internationalization, Localization <development/internationalization>
    development/image_clipping_and_combining
 
-   development/remote_table_model
-
    development/write_api_documentation
    development/reporting_bugs
 

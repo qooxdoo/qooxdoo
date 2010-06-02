@@ -525,7 +525,7 @@ Reducing requests when using the Remote Table Model
 
     As of r19372, the actions suggested in this snippet are no longer required. The mutex %%__loadRowCountRequestRunning%% has been added within qx.ui.table.model.Remote to prevent multiple concurrent calls to the user’s _loadRowCount() method. To revert to the original behavior, set the remote model's property blockConcurrentLoadRowCount to *false*.
 
-This snippet is assuming you've already read the article about :doc:`remote_table_model`.
+This snippet is assuming you've already read the article about :doc:`/pages/widget/table_remote_model`.
 
 Normally the remote table model does fire several requests when starting up to retrieve the information about the row count. 
 Since several table components need this value they are requesting this value on their own resulting in multiple requests to the backend (as long as the value is retrieved and stored).
