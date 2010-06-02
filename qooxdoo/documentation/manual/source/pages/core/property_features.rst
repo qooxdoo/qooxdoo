@@ -58,7 +58,7 @@ Initialization
 
 qooxdoo automatically correctly initializes properties. This is true for both, properties which have defined an ``init`` value and also for the other properties which are ``nullable``. This means that after you have created an instance the properties correctly reflect the applied value. Default values assigned by ``init`` also execute the configured ``apply`` methods and dispatch configured events to inform already added listeners. 
 
-:doc:`/pages/property_features/behavior`
+:doc:`property_behavior`
 
 .. _pages/property_features#performance:
 
