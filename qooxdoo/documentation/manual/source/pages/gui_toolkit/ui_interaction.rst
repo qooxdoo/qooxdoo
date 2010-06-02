@@ -1,9 +1,9 @@
-.. _pages/ui_interaction#interaction:
+.. _pages/gui_toolkit/ui_interaction#interaction:
 
 Interaction
 ***********
 
-.. _pages/ui_interaction#register_listeners:
+.. _pages/gui_toolkit/ui_interaction#register_listeners:
 
 Register listeners
 ==================
@@ -12,7 +12,7 @@ To register listeners to a widget or other qooxdoo object just call ``addListene
 
 ::
 
-    obj.addListener("changeColor", this._onChangeColor, this);
+  obj.addListener("changeColor", this._onChangeColor, this);
 
 The first parameter is the name of the event. The events supported by an object are listed in the API documentation of each class in the "Events" section. The second argument is a pointer to a function to call. The function could also be defined inline (in a closure). The third argument defines the context in which the function is executed. This argument is optional and defaults to the object which is listened to e.g. a listener on the button changes call a function on a button.
 
@@ -20,7 +20,7 @@ The method is called with the event object as the first and only argument. The e
 
 Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event object are reused during the application runtime. Keeping event instances referenced somewhere is not a good idea! When some of the data is needed later during the application runtime it is best to store the data and not the event object e.g. store coordinates instead of the mouse event object.
 
-.. _pages/ui_interaction#event_phases:
+.. _pages/gui_toolkit/ui_interaction#event_phases:
 
 Event Phases
 ============
@@ -31,7 +31,7 @@ In the capturing phase, the event is first dispatched on the root widget. Than i
 
 Most of the time only the bubbling phase is used but sometimes the capturing phase can be very useful. For example a capturing listener for "mousedown" events on the root widget is guaranteed to receive every "mousedown" event even if the target widget calls ``stopPropagation()`` on the event. Further it can be used to block events from sub widgets.
 
-.. _pages/ui_interaction#mouse_events:
+.. _pages/gui_toolkit/ui_interaction#mouse_events:
 
 Mouse Events
 ============
@@ -44,7 +44,7 @@ During every mouse event it is possible to check the status of modifier keys pre
 
 Also have a look at `the API documentation of the MouseEvent <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
 
-.. _pages/ui_interaction#event_capturing:
+.. _pages/gui_toolkit/ui_interaction#event_capturing:
 
 Event Capturing
 ===============
@@ -55,7 +55,7 @@ If a widget is the capturing widget, all mouse events will be dispatched on this
 
 Mouse capturing is used inside of qooxdoo e.g. in menus, split panes or sliders.
 
-.. _pages/ui_interaction#keyboard_support:
+.. _pages/gui_toolkit/ui_interaction#keyboard_support:
 
 Keyboard Support
 ================
@@ -66,7 +66,7 @@ All the typical key sequence events ``keyup``, ``keydown`` and ``keypress`` supp
 
 To handle character inputs e.g. on text boxes, there is a special ``keyinput`` event which has nice unified accessors ``getChar()`` and ``getCharCode()`` to detect the pressed character. This even respects the effects modifier keys have automatically e.g. supporting German umlauts. The API lists all available methods of the used `KeyInput <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.KeyInput>`_ event.
 
-.. _pages/ui_interaction#working_with_commands:
+.. _pages/gui_toolkit/ui_interaction#working_with_commands:
 
 Working with Commands
 =====================
@@ -77,12 +77,12 @@ Creating new commands is as easy as possible. A shortcut can be defined easily t
 
 ::
 
-    var find = new qx.event.Command("Ctrl+F");
-    find.addListener("execute", this._onFind, this);
+  var find = new qx.event.Command("Ctrl+F");
+  find.addListener("execute", this._onFind, this);
 
 The command is easily attachable to many types of Buttons etc. Some of them, like the ``MenuButtons``, automatically display the configured shortcut as well. As seen above the Commands also make use of the key identifiers.
 
-.. _pages/ui_interaction#focus_handling:
+.. _pages/gui_toolkit/ui_interaction#focus_handling:
 
 Focus Handling
 ==============
@@ -98,13 +98,12 @@ Every widget could function as a focus root. To register a widget as a focus roo
 
 ::
 
-    qx.ui.core.FocusHandler.getInstance().addRoot(myWidget);
+  qx.ui.core.FocusHandler.getInstance().addRoot(myWidget);
 
 Related to the focus is the activation. Focus is limited to widgets which are marked as ``focusable`` whereas every widget could be activated. Normally the activation moves around while clicking on widgets (during the ``mouseup`` event). The focus is applied to the next parent which is focusable while the activation directly happens on the widget clicked on. Activation is mainly used for the keyboard support (key events start bubbling from the active widget). Compared to the focus there is no visual highlight for this state. To change the currently focused or active widget just call ``focus()`` or ``activate()`` on them:
 
 ::
 
-    myInputField.focus();
+  myInputField.focus();
 
 The properties ``keepFocus`` and ``keepActive`` are more targeted to advanced users and developers of custom widgets. Both prevent that the focus or active state moves away (from the widget which has it currently) to the widget which has the specified property disabled. This makes sense for complex widgets like a ComboBox where the activation should be kept on the ComboBox itself when selecting items from the popup list.
-

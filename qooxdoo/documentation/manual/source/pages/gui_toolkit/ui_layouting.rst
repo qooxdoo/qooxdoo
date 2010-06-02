@@ -14,7 +14,7 @@ Whenever the size of one widget changes, the layout engine will ask the layout m
 
 It is possible to place and size all children directly to static positions using `setUserBounds <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~setUserBounds>`_ as well, but this is quite uncommon and only used in very special cases. It is almost always better to position children using a layout manager. 
 
-The layout manager can be configured on any widget, but most classes only have the protected methods to control the layout. In fact it doesn't make sense to control the layout manager of a ``Spinner``, ``ComboBox``, etc. from outside. So this scenario is quite common. Some widgets however publish the layout API. One of them is the above mentioned :doc:`widget/composite` widget. It exposes the layout system and the whole children API.
+The layout manager can be configured on any widget, but most classes only have the protected methods to control the layout. In fact it doesn't make sense to control the layout manager of a ``Spinner``, ``ComboBox``, etc. from outside. So this scenario is quite common. Some widgets however publish the layout API. One of them is the above mentioned :doc:`/pages/widget/composite` widget. It exposes the layout system and the whole children API.
 
 The nature of layout managers is that each one has specialized options for its children. For example, one layout allows specifying a left position of a child in the canvas while another one works with rows and cells instead. Given this fact, the best place to handle these options is the layout itself. Every ``LayoutItem`` has the methods `setLayoutProperties <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~setLayoutProperties>`_ and `getLayoutProperties <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~getLayoutProperties>`_. Through this API the layout properties can be configured independendly from the layout. 
 
@@ -24,11 +24,11 @@ To make layout properties available in a convenient fashion each `add() <http://
 
 ::
 
-    var canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
-    canvas.add(new qx.ui.form.Button("Say Hello"), { 
-      left : 20,
-      top: 20
-    });
+  var canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+  canvas.add(new qx.ui.form.Button("Say Hello"), { 
+    left : 20,
+    top: 20
+  });
 
 This example places a button at the position 20x20 of the composite created. As you can see, the ``Composite`` widget has a convenient way -- using the constructor -- to define the layout it uses.
 
@@ -39,15 +39,15 @@ Panes
 
 Some widgets extend the ``Composite`` widget above. Typical examples here are:
 
-  * `TabView Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.Page>`_
-  * `Popup <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.popup.Popup>`_
+* `TabView Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.Page>`_
+* `Popup <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.popup.Popup>`_
 
 These have the same API like the composite. A slightly other type are so-called composite-like widgets. These widgets offer the same type of children management and layout management to the outside, but they redirect these properties to an inner pane.
 
 Typical widgets in this category are:
 
-  * `Window <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Window>`_
-  * `GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox.GroupBox>`_
+* `Window <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Window>`_
+* `GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox.GroupBox>`_
 
 .. _pages/ui_layouting#sensible_defaults:
 
@@ -75,21 +75,21 @@ In the first case we often see that an application reduces the size of the label
 
 ::
 
-    var label = new qx.ui.basic.Label().set({
-      value: "A long label text which has not enough room.",
-      width: 60
-    });
+  var label = new qx.ui.basic.Label().set({
+    value: "A long label text which has not enough room.",
+    width: 60
+  });
 
 The second case is handled by the `height for width <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~_getHeightForWidth>`_ support. Longly name but basically a really strong feature which is required quite often. It means that the height may depend on the actual width available. This especially makes sense for multi-line text where the wrapping may be influenced by the available width. The `Label <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.basic.Label>`_ widget includes support for this feature when using the `rich <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.basic.Label~rich>`_ output mode (HTML content).
 
 ::
 
-    var label = new qx.ui.basic.Label().set({
-      value: "A long label text with auto-wrapping. This also may 
-        contain <b style='color:red'>rich HTML</b> markup.",
-      rich : true,
-      width: 120
-    });
+  var label = new qx.ui.basic.Label().set({
+    value: "A long label text with auto-wrapping. This also may 
+      contain <b style='color:red'>rich HTML</b> markup.",
+    rich : true,
+    width: 120
+  });
 
 Finally this means that every widget can grow and shrink depending on the limitations given for the respective axis. Two easy accessors which disable growing or shrinking respectively are `allowGrowX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~allowGrowX>`_ and `allowShrinkX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~allowShrinkX>`_. When the growing is disabled the configured or automatically detected maximum size is ignored and configured to the preferred size. When the shrinking is disabled the configured or automatically detected minimum size is ignored and configured to the preferred size. Two convenient methods to controlling these features without knowing of the exact dimensions.
 
@@ -98,42 +98,42 @@ Finally this means that every widget can grow and shrink depending on the limita
 Overflow Handling
 =================
 
-This leads to the next question: how to handle scenarios where the content needs more room than provided by the parent but should not shrink. This is a common case for data widgets like `Lists <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_ or `Trees <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`_. Both extend the `ScrollArea <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.ScrollArea>`_ to provide scrollbars to handle overflowing content.
+This leads to the next question: how to handle scenarios where the content needs more room than provided by the parent but should not shrink. This is a common case for data widgets like `Lists <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_ or `Trees <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`_. Both extend the `AbstractScrollArea <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.scroll.AbstractScrollArea>`_ to provide scrollbars to handle overflowing content.
 
 The ``ScrollArea`` itself renders scrollbars in a custom way. It does not use the native scrollbars nor the native overflowing capabilities of the browser. Benefits of this decision are:
 
-  * Scroll bars can be themed.
-  * Optimal integration into layout system.
-  * Own implementation overrides browser quirks
+* Scroll bars can be themed.
+* Optimal integration into layout system.
+* Own implementation overrides browser quirks
 
-The scrollbars are `controlable in a way that is comparable to CSS <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.ScrollArea~scrollbarX>`_. It is possible to have both scrollbars marked as ``auto`` to automatically detect the needs of the content. Or any other combination where a scrollbar may be statically hidden or visible. Each bar can be controlled separately. It is possible to enable one scrollbar statically and make the other one auto-displayed and vice-versa.
-
-::
-
-    var big = new qx.ui.form.TextArea;
-    big.setWidth(600);
-    big.setHeight(600);
-
-    var area = new qx.ui.container.Scroll;
-    area.setWidth(200);
-    area.setHeight(200);
-    area.add(big);
-
-The ``ScrollArea`` provides all typically needed methods like `scrollToX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.ScrollArea~scrollToX>`_ to scroll to an absolute position or `scrollByX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.ScrollArea~scrollByX>`_ to scroll by the given amount. The widget also supports the scrolling of any child into the viewport. This feature is provided through the method `scrollItemIntoView <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.ScrollArea~scrollItemIntoView>`_. It just needs any child of the widget (at any depth).
+The scrollbars are `controlable in a way that is comparable to CSS <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.scroll.AbstractScrollArea~scrollbarX>`_. It is possible to have both scrollbars marked as ``auto`` to automatically detect the needs of the content. Or any other combination where a scrollbar may be statically hidden or visible. Each bar can be controlled separately. It is possible to enable one scrollbar statically and make the other one auto-displayed and vice-versa.
 
 ::
 
-    var list = new qx.ui.form.List();
-    var item;
-    for (var i=0; i<20; i++) 
-    {
-      item = new qx.ui.form.ListItem("Item #" + i);
-      list.add(item);
+  var big = new qx.ui.form.TextArea;
+  big.setWidth(600);
+  big.setHeight(600);
 
-      if (i == 12) {
-        list.select(item);
-      } 
-    }
+  var area = new qx.ui.container.Scroll;
+  area.setWidth(200);
+  area.setHeight(200);
+  area.add(big);
+
+The ``ScrollArea`` provides all typically needed methods like `scrollToX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.scroll.AbstractScrollArea~scrollToX>`_ to scroll to an absolute position or `scrollByX <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.scroll.AbstractScrollArea~scrollByX>`_ to scroll by the given amount. The widget also supports the scrolling of any child into the viewport. This feature is provided through the method `scrollItemIntoView <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~scrollChildIntoView>`_. It just needs any child of the widget (at any depth).
+
+::
+
+  var list = new qx.ui.form.List();
+  var item;
+  for (var i=0; i<20; i++) 
+  {
+    item = new qx.ui.form.ListItem("Item #" + i);
+    list.add(item);
+
+    if (i == 12) {
+      list.select(item);
+    } 
+  }
 
 One really interesting aspect of these scrolling features is, that they work all the time, even if the widget is not yet rendered. It is possible to scroll any ``ScrollArea`` before even rendered. It is even possible to scroll any child into view without the whole parent being visible. This is quite useful for selection handling (selected items should be visible). Selections of a list for example can be modified during the normal application runtime and are automatically applied and scrolled correctly after the first appearance on the screen.
 
@@ -148,7 +148,7 @@ These properties are normally defined with the addition to the parent widget. Th
 
 ::
 
-    parent.add(child, {left:20, top: 100});
+  parent.add(child, {left:20, top: 100});
 
 This is still good readble and directly defines the properties where the children is added to the parent (and the parent's layout). While this is the common use pattern of layout properties in qooxdoo applications, it is still possible to define layout properties afterwards using `setLayoutProperties <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem~setLayoutProperties>`_. The first parameter is like the second parameter in ``add`` and accepts a map of layout properties.
 
@@ -178,9 +178,9 @@ Please note that in shrinking mode flex has an analogous effect. As a flex value
 
 In contrast to qooxdoo 0.7 ``flex`` values are supplemental to the normal size values of a widget. First all children are positioned using their regular size hints. If after this step the combined size of the children is larger or smaller than the available size the ``flex`` value defines by how much each widget is stretched or shrunken.
 
-The ``flex`` property is supported by both ```Box Layouts <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.HBox>`_``, the ```Dock <http://demo.qooxdoo.org/0,8/apiviewer/#qx.ui.layout.Dock>`_`` Layout and the ```Grid <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Grid>`_`` (for columns and rows).
+The ``flex`` property is supported by both `Box Layouts <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.HBox>`_, the `Dock <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Dock>`_ Layout and the `Grid <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Grid>`_ (for columns and rows).
 
-In some way the ```SplitPane <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane>`_`` supports flex as well, but it behaves a bit different there as it is regarded as an alternative to the preferred size.
+In some way the `SplitPane <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.splitpane>`_ supports flex as well, but it behaves a bit different there as it is regarded as an alternative to the preferred size.
 
 .. _pages/ui_layouting#percent:
 
@@ -189,13 +189,13 @@ Percent
 
 With the above mentioned ``flex`` feature the use of percents is quite uncommon in most qooxdoo applications. Still, there are some cases where it might be interesting to define percent locations or dimensions.
 
-The ```Canvas <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Canvas>`_`` Layout for example allows a child's position to contain a percent value (e.g. the layout property ``left`` could be configured to ``20%``). When there are 1000 pixel available the so-configured child is placed at a left coordinate of 200 pixel. The final coordinate is automatically updated when the outer dimensions are modified.  
+The `Canvas <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Canvas>`_ Layout for example allows a child's position to contain a percent value (e.g. the layout property ``left`` could be configured to ``20%``). When there are 1000 pixel available the so-configured child is placed at a left coordinate of 200 pixel. The final coordinate is automatically updated when the outer dimensions are modified.  
 
-The `LayoutItem <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.LayoutItem>`_'s dimension properties only support integer values. To use percentage dimensions some qooxdoo layout managers allow to define width and height using layout properties. This dimensions are then *higher* prioritized than the width and height configured in the child using the *normal* properties. The limitations defined through ``minWidth`` etc. are still respected by the layout manager. Percentage dimensions are useful to allocate a specific part of the available space to a given widget without being dependent on the configuration of the other children. 
+The `LayoutItem <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.LayoutItem>`_'s dimension properties only support integer values. To use percentage dimensions some qooxdoo layout managers allow to define width and height using layout properties. This dimensions are then *higher* prioritized than the width and height configured in the child using the *normal* properties. The limitations defined through ``minWidth`` etc. are still respected by the layout manager. Percentage dimensions are useful to allocate a specific part of the available space to a given widget without being dependent on the configuration of the other children. 
 
 It is possible to combine ``flex`` with percent dimensions. This is good because it allows to define *approximations* like ``3`` times ``33%`` instead of being forced to fill the ``100%`` completely. With flex enabled the layout manager automatically arranges the children to fill the remaining pixels.
 
-The effects of percentage dimensions in box layouts are comparable to the result of flex in a ```SplitPane <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.splitpane>`_``. The resulting size is computed from the available space less all statically configured gaps like spacings or margins. Layout managers with support for percentage dimensions are the already mentioned ```Box <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.VBox>`_`` Layouts, but also the ```Canvas <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Canvas>`_`` Layout as well as the ```Dock <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.layout.Dock>`_`` Layout.
+The effects of percentage dimensions in box layouts are comparable to the result of flex in a `SplitPane <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.splitpane>`_. The resulting size is computed from the available space less all statically configured gaps like spacings or margins. Layout managers with support for percentage dimensions are the already mentioned `Box <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.VBox>`_ Layouts, but also the `Canvas <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Canvas>`_ Layout as well as the `Dock <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Dock>`_ Layout.
 
 .. _pages/ui_layouting#pre-configured_widgets:
 
@@ -204,10 +204,10 @@ Pre-configured Widgets
 
 There are a few containers in qooxdoo which use a predefined immutable layout for rendering their children. Currently these containers are included:
 
-  * :doc:`widget/scroll`: Provides auto-matic scrollbars for larger content. Does not influence the size of the content which is rendered at the preferred size. Allows scrolling of the content. Supports advanced features like offset calculation and scroll into view.
-  * :doc:`widget/stack`: Scales every widget to the available space and put one over another. Allows selection of which child should be visible. Used internally by TabView etc.
-  * :doc:`widget/slidebar`: Comparable to the Scroll Container but only provides automatic forward and backward arrows. Supports only one axis per instance: horizontal or vertical. Buttons are automatically displayed as needed. Supports automatic shrinking of the children (other than the Scroll Container).
-  * :doc:`widget/splitpane`: Divides the available space into two areas and provides a possibility to resize the panes for the user. Automatically respects the limitations of each child.
+* :doc:`/pages/widget/scroll`: Provides auto-matic scrollbars for larger content. Does not influence the size of the content which is rendered at the preferred size. Allows scrolling of the content. Supports advanced features like offset calculation and scroll into view.
+* :doc:`/pages/widget/stack`: Scales every widget to the available space and put one over another. Allows selection of which child should be visible. Used internally by TabView etc.
+* :doc:`/pages/widget/slidebar`: Comparable to the Scroll Container but only provides automatic forward and backward arrows. Supports only one axis per instance: horizontal or vertical. Buttons are automatically displayed as needed. Supports automatic shrinking of the children (other than the Scroll Container).
+* :doc:`/pages/widget/splitpane`: Divides the available space into two areas and provides a possibility to resize the panes for the user. Automatically respects the limitations of each child.
 
 .. _pages/ui_layouting#visibility_handling:
 
@@ -218,8 +218,8 @@ Every widget can be hidden and shown at any time during the application runtime.
 
 The ``visibility`` property is not commonly used in qooxdoo applications.There are a few nice accessor methods for each widget:
 
-  * To check the status of a widget: ``isVisible()``, ``isHidden()`` and ``isExcluded()``
-  * To modify the visibility: ``show()``, ``hide()`` and ``exclude()``
+* To check the status of a widget: ``isVisible()``, ``isHidden()`` and ``isExcluded()``
+* To modify the visibility: ``show()``, ``hide()`` and ``exclude()``
 
 Please note that for performance reasons invisible widgets are not rendered or updated to the DOM which means that especially initially invisible parts could improve the startup of a qooxdoo application e.g. alternate Tab Pages, closed Window instances, Menus, etc.
 
