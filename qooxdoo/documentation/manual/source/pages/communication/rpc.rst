@@ -16,10 +16,10 @@ To make use of the RPC, you need to set up a server backend first.
 
 Configuration of each server backend needs slightly different treatment. Please see the page relevant to you:
 
-  * **:doc:`Java <rpc_java>`**
-  * **:doc:`PHP <rpc_php>`**
-  * **:doc:`Perl <rpc_perl>`**
-  * **:doc:`Python <rpc_python>`**
+* :doc:`Java <rpc_java>`
+* :doc:`PHP <rpc_php>`
+* :doc:`Perl <rpc_perl>`
+* :doc:`Python <rpc_python>`
 
 Your favorite language is missing? Feel free to write your own qooxdoo RPC server, consult the :doc:`rpc_server_writer_guide` for details.
 
@@ -95,7 +95,7 @@ java.util.Map                              Object
 JavaBean                                   Object           
 =========================================  ===============
 
-The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a ``java.util.Map``, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of :doc:`qooxdoo properties <understanding_properties>`.)
+The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a ``java.util.Map``, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of :doc:`qooxdoo properties </pages/core/understanding_properties>`.)
 
 JavaBeans are converted in a similar way. The properties of the JavaBean become JavaScript properties and vice versa. If a JavaScript object contains properties for which no corresponding setters exist in the JavaBean, they are ignored.
 
@@ -157,7 +157,7 @@ The following example shows how errors can be handled:
     };
     rpc.callAsync(handler, "echo", "Test");
 
-The following ``origin``s are defined:
+The following ``origin``'s are defined:
 
 ====================================  ======================================================================================================================================================================
  Constant                              Meaning                                                                                                                                                                
@@ -220,8 +220,8 @@ Writing your own remotely callable methods is very easy. Just create a class lik
 
 All you need to do is include this class in your webapp (together with the qooxdoo backend classes), and it will be available for calls from JavaScript! You don't need to write or modify any configuration files, and you don't need to register this class anywhere. The only requirements are:
 
-  - The class has to implement the ``RemoteService`` interface. This is a so-called tagging interface, i.e. it has no methods.
-  - All methods that should be remotely available must be declared to throw a ``RemoteServiceException``.
+#. The class has to implement the ``RemoteService`` interface. This is a so-called tagging interface, i.e. it has no methods.
+#. All methods that should be remotely available must be declared to throw a ``RemoteServiceException``.
 
 Both requirements are there to protect arbitrary Java code from being called.
 
@@ -279,7 +279,7 @@ The Java RPC backend contains an auto-config mechanism, mainly used for automati
         </head>
     </html>
 
-Provided the HTML page is part of the webapp (and not loaded via file:%%*%%...), and provided that you didn't change the default mapping of the RpcServlet (``.qxrpc``), any request to http:*server/app/foo/bar.qxrpc (or anything else that ends with .qxrpc) will always be directed to the RpcServlet. The RpcServlet fills a structure with basic information about the server. It may answer with something like
+Provided the HTML page is part of the webapp (and not loaded via file:\*...), and provided that you didn't change the default mapping of the RpcServlet (``.qxrpc``), any request to ``http://server/app/foo/bar.qxrpc`` (or anything else that ends with .qxrpc) will always be directed to the RpcServlet. The RpcServlet fills a structure with basic information about the server. It may answer with something like
 
 ::
 
@@ -303,10 +303,10 @@ Subclassing RpcServlet
 
 It can be useful to create your own version of qooxdoo's ``RpcServlet``. Some of the benefits of subclassing it are:
 
-  - **Custom object conversion**: By creating your own subclass, you can provide code for custom conversion of objects. This is especially useful for classes that don't have a default constructor.
-  - **Detailed server logging**: You can hook your own code into the method calling mechanism, e.g. to provide detailed failure logging (the JavaScript side only receives rather generic errors).
-  - **Property filtering**: For methods that return JavaBeans, you can filter the properties that should be sent to the client. This can save a lot of bandwidth without having to completely wrap the result in a custom object.
-  - **Class hinting**: For security reasons, the class hinting mechanism isn't active by default (otherwise, client code could instantiate arbitrary server classes). By overriding a method, you can enable it on a case-by-case basis.
+#. **Custom object conversion**: By creating your own subclass, you can provide code for custom conversion of objects. This is especially useful for classes that don't have a default constructor.
+#. **Detailed server logging**: You can hook your own code into the method calling mechanism, e.g. to provide detailed failure logging (the JavaScript side only receives rather generic errors).
+#. **Property filtering**: For methods that return JavaBeans, you can filter the properties that should be sent to the client. This can save a lot of bandwidth without having to completely wrap the result in a custom object.
+#. **Class hinting**: For security reasons, the class hinting mechanism isn't active by default (otherwise, client code could instantiate arbitrary server classes). By overriding a method, you can enable it on a case-by-case basis.
 
 The following example code shows how all of this can be done:
 
