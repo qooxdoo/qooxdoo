@@ -12,14 +12,14 @@ A theme normally consists of a set of entries. Each entry has a key which is bas
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
-      {
-        selector : entry,
-        [...]
-      }
-    });
+      selector : entry,
+      [...]
+    }
+  });
 
 .. _pages/gui_toolkit/ui_appearance#selectors:
 
@@ -45,9 +45,9 @@ the generated selector would be ``pane/level1/level2/level3``. For ``pane`` whic
 
 A classic example for this is the ``Spinner`` widget. A ``Spinner`` is basically a Grid layout with a ``TextField`` and two ``RepeatButtons``. The three internal widgets are available under the sub control IDs ``textfield``, ``upbutton`` and ``downbutton``. The selectors for these kind of child controls are then:
 
-  * ``spinner/textfield``
-  * ``spinner/upbutton``
-  * ``spinner/downbutton``
+* ``spinner/textfield``
+* ``spinner/upbutton``
+* ``spinner/downbutton``
 
 Each of these selectors must be fulfilled by the selected appearance. Otherwise one get errors for the missing selector. Hopefully you got an idea.
 
@@ -60,18 +60,18 @@ A entry can be defined with two different values, a string or a map. The first o
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
-      {
-        [...],
+      [...],
 
-        "spinner/upbutton" : "button",
-        "spinner/downbutton" : "button",
+      "spinner/upbutton" : "button",
+      "spinner/downbutton" : "button",
 
-        [...]
-      }
-    });
+      [...]
+    }
+  });
 
 So we have mastered one essential part for appearance themes. It is basically the easiest part, but seen quite often. Compared to CSS you always have a full control about the styling of such an child control. There is no type of implicit inheritance. This may also be seen negatively, but most developers tend to like it more.
 
@@ -87,20 +87,20 @@ This is super convenient for simple cases and additionally it is still possible 
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
-      {
-        [...],
+      [...],
 
-        "myimage" : [...],    
+      "myimage" : [...],    
 
-        "spinner/upbutton" : "button",
-        "spinner/upbutton/icon" : "myimage",
+      "spinner/upbutton" : "button",
+      "spinner/upbutton/icon" : "myimage",
 
-        [...]
-      }
-    });
+      [...]
+    }
+  });
 
 Internally the above results into the following remapping:
 
@@ -119,30 +119,30 @@ The more complex full entry is a map with several sub entries where all are opti
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
+      [...],
+
+      "spinner/textfield" : 
       {
-        [...],
+        base : true/false,
+        include : String,
+        alias : String,
 
-        "spinner/textfield" : 
+        style : function(states) 
         {
-          base : true/false,
-          include : String,
-          alias : String,
+          return {
+            property : states.hovered ? value1 : value2,
+            [...]
+          };
+        }
+      },
 
-          style : function(states) 
-          {
-            return {
-              property : states.hovered ? value1 : value2,
-              [...]
-            };
-          }
-        },
-
-        [...]
-      }
-    });
+      [...]
+    }
+  });
 
 .. _pages/gui_toolkit/ui_appearance#style_method:
 
@@ -155,35 +155,35 @@ It is required in this case that all properties applied in one state need to be 
 
 ::
 
-    style : function(states)
-    {
-      var result = {};
+  style : function(states)
+  {
+    var result = {};
 
-      if (states.hovered) {
-        result.backgroundColor = "red";
-      }
-      // BAD: backgroundColor missing when widget isn't hovered!
-
-      return result;
+    if (states.hovered) {
+      result.backgroundColor = "red";
     }
+    // BAD: backgroundColor missing when widget isn't hovered!
+
+    return result;
+  }
 
 The good version always should define the else case as well:
 
 ::
 
-    style : function(states)
-    {
-      var result = {};
+  style : function(states)
+  {
+    var result = {};
 
-      if (states.hovered) {
-        result.backgroundColor = "red";
-      } else {
-        // GOOD: there should be a setting for all possible states
-        result.backgroundColor = undefined;
-      }
-
-      return result;
+    if (states.hovered) {
+      result.backgroundColor = "red";
+    } else {
+      // GOOD: there should be a setting for all possible states
+      result.backgroundColor = undefined;
     }
+
+    return result;
+  }
 
 The ``undefined`` value means that no value should be applied. When qooxdoo runs through the returned map it calls the ``reset`` method for properties with a value of ``undefined``. In most cases it would be also perfectly valid to use ``null`` instead of ``undefined``, but keep in mind that ``null`` is stored using the setter (explicit null) and this way it overrides values given through the inheritance or through the init values. In short this means that ``undefined`` is the better choice in almost all cases. 
 
@@ -209,27 +209,27 @@ Child control aliases are compared to the normal aliases mentioned above, just d
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
+      [...],
+
+      "spinner-upbutton" :
       {
-        [...],
+        alias : "button",
 
-        "spinner-upbutton" :
-        {
-          alias : "button",
-
-          style : function(states) {
-            return {
-              padding : 2,
-              icon : "decoration/arrows/up.gif"
-            }
+        style : function(states) {
+          return {
+            padding : 2,
+            icon : "decoration/arrows/up.gif"
           }
-        },
+        }
+      },
 
-        [...]
-      }
-    });
+      [...]
+    }
+  });
 
 The result mapping would look like the following:
 
@@ -243,29 +243,29 @@ As you can see the ``spinner/upbutton`` is kept in its original state. This allo
 
 ::
 
-    qx.Theme.define("qx.theme.modern.Appearance",
+  qx.Theme.define("qx.theme.modern.Appearance",
+  {
+    appearances :
     {
-      appearances :
+      [...],
+
+      "spinner-upbutton" :
       {
-        [...],
+        alias : "button",
+        include : "button",
 
-        "spinner-upbutton" :
+        style : function(states) 
         {
-          alias : "button",
-          include : "button",
-
-          style : function(states) 
-          {
-            return {
-              padding : 2,
-              icon : "decoration/arrows/up.gif"
-            }
+          return {
+            padding : 2,
+            icon : "decoration/arrows/up.gif"
           }
-        },
+        }
+      },
 
-        [...]
-      }
-    });
+      [...]
+    }
+  });
 
 When ``alias`` and ``include`` are identically pointing to the same selector the result is identical to the real alias
 
