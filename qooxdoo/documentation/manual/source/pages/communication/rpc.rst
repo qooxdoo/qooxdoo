@@ -270,7 +270,7 @@ Automatic client configuration
 
 The Java RPC backend contains an auto-config mechanism, mainly used for automatically detecting the server URL. You can access it by including the following script tag in your HTML page:
 
-::
+.. code-block:: html
 
     <html>
         <head>
