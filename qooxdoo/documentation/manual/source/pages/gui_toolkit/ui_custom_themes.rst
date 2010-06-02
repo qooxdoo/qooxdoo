@@ -18,63 +18,63 @@ For example you like to add some appearances (of your own widgets) to the Modern
 
 ::
 
-    qx.Theme.define("myApplication.theme.Appearance",
+  qx.Theme.define("myApplication.theme.Appearance",
+  {
+    extend : qx.theme.modern.Appearance,
+    title : "my appearance theme",
+
+    appearances :
     {
-      extend : qx.theme.modern.Appearance,
-      title : "my appearance theme",
-
-      appearances :
+      "my-widget" : 
       {
-        "my-widget" : 
-        {
-          alias : "atom",
+        alias : "atom",
 
-          style : function(states)
-          {
-            return {
-              width : 250,
-              decorator : "main"
-            };
-          }
+        style : function(states)
+        {
+          return {
+            width : 250,
+            decorator : "main"
+          };
         }
       }
-    });
+    }
+  });
 
 To enable your own appearance theme you also have to extend the Meta theme and set your appearance theme.
 
 ::
 
-    qx.Theme.define("myApplication.theme.Theme",
-    {
-      title : "my meta theme",
+  qx.Theme.define("myApplication.theme.Theme",
+  {
+    title : "my meta theme",
 
-      meta :
-      {
-        color : qx.theme.modern.Color,
-        decoration : qx.theme.modern.Decoration,
-        font : qx.theme.modern.Font,
-        icon : qx.theme.icon.Tango,
-        appearance : myApplication.theme.Appearance
-      }
-    });
+    meta :
+    {
+      color : qx.theme.modern.Color,
+      decoration : qx.theme.modern.Decoration,
+      font : qx.theme.modern.Font,
+      icon : qx.theme.icon.Tango,
+      appearance : myApplication.theme.Appearance
+    }
+  });
 
 At last you have to tell the generator to actually use your meta theme. Therefore you have to edit your ``config.json`` file and add/edit the key ``QXTHEME`` in the ``let`` block.
 
 ::
 
-    "let" :
-      {
-        "APPLICATION"  : "myApplication",
-        ...
-        "QXTHEME"      : "myApplication.theme.Theme"
-        ...
-      },
+  "let" :
+    {
+      "APPLICATION"  : "myApplication",
+      ...
+      "QXTHEME"      : "myApplication.theme.Theme"
+      ...
+    },
 
 After editing your ``config.json`` the very last step is to generate your application sources and you're done. Now you can adjust and extend your appearance theme to suit your needs.
 
 .. note::
 
-    These steps are also applicable for the other themes.
+  These steps are also applicable for the other themes.
 
 .. _pages/gui_toolkit/ui_custom_themes#define_custom_themes:
 
@@ -85,7 +85,7 @@ A custom theme is an own meta theme and the corresponding themes build from scra
 
 Creating the meta theme is a no-brainer and when creating the several themes you only have to consider some rules:
 
-   * every theme has its own root key which also defines its type. ``colors`` for a color theme, ``appearances`` for an appearance theme and so on
-   * every widget has to be equipped with an appearance, otherwise you'll get a warning at application startup
-   * every used color, decorator or font has to be defined, otherwise you'll get an error at application startup. So be sure to define all used colors, fonts and decorators and to test your application always in the source version to get the error messages
-   * be sure to include every image you use in your appearance theme by defining corresponding ``#asset`` directives.
+* every theme has its own root key which also defines its type. ``colors`` for a color theme, ``appearances`` for an appearance theme and so on
+* every widget has to be equipped with an appearance, otherwise you'll get a warning at application startup
+* every used color, decorator or font has to be defined, otherwise you'll get an error at application startup. So be sure to define all used colors, fonts and decorators and to test your application always in the source version to get the error messages
+* be sure to include every image you use in your appearance theme by defining corresponding ``#asset`` directives.
