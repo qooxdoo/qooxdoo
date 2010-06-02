@@ -23,9 +23,9 @@ Setup Content
 
 The following methods may be used to manage children: 
 
-  * ``_getChildren``
-  * ``_add``, ``_addAt``, ``_addBefore``, ``_addAfter``
-  * ``_remove``, ``_removeAt``, ``_removeAll``
+* ``_getChildren``
+* ``_add``, ``_addAt``, ``_addBefore``, ``_addAfter``
+* ``_remove``, ``_removeAt``, ``_removeAll``
 
 It is possible to use any layout available. To setup the layout just use ``_setLayout`` and to read it out afterwards use ``_getLayout``.
 
@@ -42,28 +42,28 @@ Instances for the supported child controls are created dynamically as needed. A 
 
 ::
 
-    _createChildControlImpl : function(id)
+  _createChildControlImpl : function(id)
+  {
+    var control;
+
+    switch(id)
     {
-      var control;
+      case "icon":
+        control = new qx.ui.basic.Image;
+        this._add(control);
+        break;
+    }  
 
-      switch(id)
-      {
-        case "icon":
-          control = new qx.ui.basic.Image;
-          this._add(control);
-          break;
-      }  
-
-      return control || this.base(arguments, id);
-    }
+    return control || this.base(arguments, id);
+  }
 
 Each child control should directly be adding itself to the parent. As mentioned before child controls are automatically created as needed. This basically means that if nobody asks for a specific child control it is never created or added. This is an important feature for dynamic widgets like as this reduces the initial memory and CPU usage. A child control is always executed when some code asks for the control. This can happen through different methods:
 
-  * ``getChildControl(id, notcreate)``: Returns the child control with the given ID. May return ``null`` when the second argument is ``true``. This is basically used to check if child control is already created and apply something to it. In some complexer scenarios this makes sense, but can be ignored for a moment.
-  * ``_showChildControl(id)``: Executes ``show()`` on the child control. This method also creates the control when not happend yet. It also returns the control to apply other properties to it.
-  * ``_excludeChildControl(id)``: Excludes the widget using ``exclude()``. When the control is not yet created the function do nothing. The method has no return value.
-  * ``_isChildControlVisible(id)``: Returns ``true`` when the child control with the given ID is created and visible.
-  * ``hasChildControl(id)``: Returns ``true`` when the child control with the given ID is created.
+* ``getChildControl(id, notcreate)``: Returns the child control with the given ID. May return ``null`` when the second argument is ``true``. This is basically used to check if child control is already created and apply something to it. In some complexer scenarios this makes sense, but can be ignored for a moment.
+* ``_showChildControl(id)``: Executes ``show()`` on the child control. This method also creates the control when not happend yet. It also returns the control to apply other properties to it.
+* ``_excludeChildControl(id)``: Excludes the widget using ``exclude()``. When the control is not yet created the function do nothing. The method has no return value.
+* ``_isChildControlVisible(id)``: Returns ``true`` when the child control with the given ID is created and visible.
+* ``hasChildControl(id)``: Returns ``true`` when the child control with the given ID is created.
 
 .. _pages/gui_toolkit/ui_develop#styling:
 
@@ -72,14 +72,14 @@ Styling
 
 Child controls are automatically supported by the appearance system. For every child control a selector is generated which starts with the first widget which is not a child control itself. Typical selectors look like:
 
-  * ``spinner/up-button``
-  * ``groupbox/legend``
-  * ``tree-item/icon``
+* ``spinner/up-button``
+* ``groupbox/legend``
+* ``tree-item/icon``
 
 As a container for child controls may be a child control for another container as well there are even more complex selectors possible:
 
-  * ``list/scrollbar-x/slider``
-  * ``splitbutton/button/icon``
+* ``list/scrollbar-x/slider``
+* ``splitbutton/button/icon``
 
 This means that even the deepest child control can be easily accessed for theme authors. As a author of a widget all styling of a widget should be defined in the appearance theme and not in the widget itself. The widget and the ``_createChildControlImpl`` method should only apply functional properties like ``zIndex`` or ``tabIndex``, but no decorations, colors or fonts for example.
 
@@ -96,9 +96,9 @@ A normal qooxdoo widget consists of at least two HTML Elements (`API <http://api
 
 There might be some other elements depending on the configuration:
 
-  * shadow: Placed into the container with negative offsets to be visible behind the original widget.
-  * decorator: Placed into the container with the same size as the container. Used to render all kind of decorators. 
-  * protector: Helper to fix some kind of hover issues when changing decorators during event sequences e.g. hover effects.
+* shadow: Placed into the container with negative offsets to be visible behind the original widget.
+* decorator: Placed into the container with the same size as the container. Used to render all kind of decorators. 
+* protector: Helper to fix some kind of hover issues when changing decorators during event sequences e.g. hover effects.
 
 For a author of a widget the content element is normally the most important one followed by the container element. The other elements are quite uninteresting. It is good to know that they are there, but one typically have less to do with them.
 
@@ -120,8 +120,8 @@ Working with Events
 
 Events could be added to the html elements as well as to the child controls. The names of the methods assigned should follow the following names for convention. 
 
-  * For the HTML elements use: ``_onContentXXX`` or ``_onContainerXXX``
-  * For the child controls use: ``_onIconXXX`` or ``_onFieldXXX`` etc.
+* For the HTML elements use: ``_onContentXXX`` or ``_onContainerXXX``
+* For the child controls use: ``_onIconXXX`` or ``_onFieldXXX`` etc.
 
 While ``XXX`` stands the name of the event or of the change happens. This will result into names like ``_onIframeLoad`` or ``_onContentInput``.
 

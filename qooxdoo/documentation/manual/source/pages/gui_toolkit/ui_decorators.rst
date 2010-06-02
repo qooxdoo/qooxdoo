@@ -28,12 +28,12 @@ Custom Decorators
 
 Custom decorators are created by extending the decorator theme and adding new ones or overwriting existing ones. Each decorator class comes with a set of properties for configuration of the instance. Following a short description of the available decorators:
 
-  * **Background**: Renders a background image or color
-  * **Uniform**: Like ``Background``, but adds support for a uniform border which is identical for all edges.
-  * **Single**: Like ``Background``, but adds support for separate borders for each edge.
-  * **Double**: Like ``Single`` but with the option to add two separate border to each edge.
-  * **Beveled**: Pseudo (lightweight) rounded border with support for inner glow. May contain a background image / gradient.
-  * **Grid**: Complex decorator based on nine images. Allows very customized styles (rounded borders, alpha transparency, gradients, ...). Optionally make use of image sprites to reduce image number.
+* **Background**: Renders a background image or color
+* **Uniform**: Like ``Background``, but adds support for a uniform border which is identical for all edges.
+* **Single**: Like ``Background``, but adds support for separate borders for each edge.
+* **Double**: Like ``Single`` but with the option to add two separate border to each edge.
+* **Beveled**: Pseudo (lightweight) rounded border with support for inner glow. May contain a background image / gradient.
+* **Grid**: Complex decorator based on nine images. Allows very customized styles (rounded borders, alpha transparency, gradients, ...). Optionally make use of image sprites to reduce image number.
 
 Each entry of the theme is automatically made available using the ``setDecorator``/``setShadow`` functions of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
 
@@ -44,11 +44,11 @@ Writing Decorators
 
 It is easily possible to write custom decorators. `The interface <hhttp://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.decoration.IDecorator>`_ is quite trivial to implement. There are only five methods which needs to be implemented:
 
-  * ``getInsets``: Returns a map of insets (space the decorator needs) e.g. the border width
-  * ``getMarkup``: Returns the initial markup needed to build the decorator. This is executed by each widget using the decorator. This method may not be used by some decorators and this way is defined as an empty method.
-  * ``init``: Normally used to initialize the given element using ``getMarkup``. Only executed once per element (read per widget).
-  * ``resize``: Resizes the given element to the given dimensions. Directly works on the DOM to manipulate the content of the element.
-  * ``tint``: Applies the given background color or resets it to the (optionally) locally defined background color. This method may not be used by some decorators and this way is defined as an empty method.
+* ``getInsets``: Returns a map of insets (space the decorator needs) e.g. the border width
+* ``getMarkup``: Returns the initial markup needed to build the decorator. This is executed by each widget using the decorator. This method may not be used by some decorators and this way is defined as an empty method.
+* ``init``: Normally used to initialize the given element using ``getMarkup``. Only executed once per element (read per widget).
+* ``resize``: Resizes the given element to the given dimensions. Directly works on the DOM to manipulate the content of the element.
+* ``tint``: Applies the given background color or resets it to the (optionally) locally defined background color. This method may not be used by some decorators and this way is defined as an empty method.
 
 One thing to additionally respect is that ``resize`` and ``tint`` should be as fast as possible. They should be as minimal as possible as they are executed on every switch to the decorator (e.g. hover effects). All things which are possible to do once, in ``getMarkup`` or ``init`` methods, should be done there for performance reasons. Decorators are regarded as imutable. Once they are used somewhere there is no need to be able to change them anymore.
 
