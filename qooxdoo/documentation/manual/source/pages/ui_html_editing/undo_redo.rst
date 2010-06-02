@@ -12,10 +12,9 @@ It is possible to ``undo`` all of your steps but ``redo`` is only possible when 
 
 .. note::
 
-    If you use the Undo/Redo functionality you have to make sure you are not manipulating the content of the HtmlArea by using the ``innerHTML`` property of an element.
+  If you use the Undo/Redo functionality you have to make sure you are not manipulating the content of the HtmlArea by using the ``innerHTML`` property of an element.
 
-    **This will break Undo/Redo functionality!**
-
+  **This will break Undo/Redo functionality!**
 
 .. _pages/ui_html_editing/undo_redo#implementation:_description_on_a_high-level:
 
@@ -39,10 +38,10 @@ Tracking changes using stacks
 -----------------------------
 Two stacks keep track of the changes which are done to the content: an **undo stack** and the corresponding **redo stack**. Currently each stack holds four different types of changes:
 
-  * Command
-  * Content-block
-  * Custom
-  * Internal
+* Command
+* Content-block
+* Custom
+* Internal
 
 Each entry in the stacks is represented by an object which holds additional info (the type above is among this info). 
 

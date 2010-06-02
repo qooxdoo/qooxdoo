@@ -47,8 +47,8 @@ Example code snippet
 
 ::
 
-    button = new qx.ui.toolbar.Button(null, iconURL);
-    button.set({ focusable : false, keepFocus : true });
+  button = new qx.ui.toolbar.Button(null, iconURL);
+  button.set({ focusable : false, keepFocus : true });
 
 .. _pages/ui_html_editing/integration_guide#no_own_focus_management:
 

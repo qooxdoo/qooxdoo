@@ -24,9 +24,9 @@ The toughest thing is to get the right behaviour for native scrollbars. In IE fo
 
 Anyway, the correct content wrap is important for 
 
-  * document is taking the whole space of the iframe
-  * no margins and paddings are set
-  * scrollbars are only shown if the user enters more content than space is available
+* document is taking the whole space of the iframe
+* no margins and paddings are set
+* scrollbars are only shown if the user enters more content than space is available
 
 .. _pages/ui_html_editing/technicalfeaturelist#editable_document:
 
@@ -64,10 +64,10 @@ Luckily qooxdoo does offer this customization out-of-the-box. The application de
 
 ::
 
-    button.set({
-      focusable: false,
-      keepFocus: true
-    });
+  button.set({
+    focusable: false,
+    keepFocus: true
+  });
 
 .. _pages/ui_html_editing/technicalfeaturelist#advanced_key_events:
 

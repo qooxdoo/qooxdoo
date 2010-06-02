@@ -15,16 +15,16 @@ So if you setup an own toolbar and decide to offer the user a possibility to cha
 
 To avoid this problem you should play safe and offer the following font families:
 
-   * Arial
-   * Arial Black
-   * Verdana
-   * Courier New
-   * Courier
-   * Georgia
-   * Impact
-   * Comic Sans MS
-   * Tahoma
-   * Lucida Console
+* Arial
+* Arial Black
+* Verdana
+* Courier New
+* Courier
+* Georgia
+* Impact
+* Comic Sans MS
+* Tahoma
+* Lucida Console
 
 A nice list of the most common font families is listed at `CodeStyle.org <http://www.codestyle.org/css/font-family/sampler-CombinedResults.shtml>`_
 
