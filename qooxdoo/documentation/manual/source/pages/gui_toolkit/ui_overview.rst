@@ -36,8 +36,8 @@ First of all every application developer needs to decide if an application shoul
 
 A standalone application normally only uses a really slimmed down set of HTML (in fact the file only functions as a wrapper to load the application code). It normally does not include any CSS files and often comes with an empty body element. In fact even simpler elements like headers, footers etc. are created using widgets (so they may benefit from typical qooxdoo features like internationalisation, theming etc.).
 
-  * `Application <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Application>`_: Build full-blown application from scratch. Target audience are developers of a completely qooxdoo based application.
-  * `Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Page>`_: Build applications as isles into existing content. Ideal for the more classic web developer. Needs to bring in know how of HTML & CSS for non-qooxdoo content.
+* `Application <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Application>`_: Build full-blown application from scratch. Target audience are developers of a completely qooxdoo based application.
+* `Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Page>`_: Build applications as isles into existing content. Ideal for the more classic web developer. Needs to bring in know how of HTML & CSS for non-qooxdoo content.
 
 Both roots are attached directly to the document. The ``Application`` is automatically stretched to the full size of the window and this ways allows to position elements in relation to the right or bottom edge etc. This is not possible using the ``Page`` root.
 
@@ -56,7 +56,7 @@ The first method each developer needs to get used to is the `main <http://demo.q
 
 There are different applications which could be used as a starting point for a custom application:
 
-  * `Standalone <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Standalone>`_: Uses the ``Application`` root to build full blown standalone qooxdoo applications
-  * `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Inline>`_: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
-  * `Native <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Native>`_: This class is for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
+* `Standalone <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Standalone>`_: Uses the ``Application`` root to build full blown standalone qooxdoo applications
+* `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Inline>`_: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
+* `Native <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Native>`_: This class is for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
 

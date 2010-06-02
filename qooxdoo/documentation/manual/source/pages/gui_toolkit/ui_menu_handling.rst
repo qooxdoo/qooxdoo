@@ -57,12 +57,13 @@ Here is a simple menu example:
     var button = new qx.ui.form.MenuButton("Menu", null, menu);
 
 There are a couple of things to note here:
-  * The main widget is the ``menu`` of type ``qx.ui.menu.Menu``.
-  * Menu buttons are of type ``qx.ui.menu.Button`` and are created individually.
-  * They are then added to the menu. The buttons will appear in the menu in the order they are added.
-  * The ``closeButton`` is created with the minimal set of parameters, namely just the string for the button label. For a more advanced solution, see the ``openButton``: you can optionally specify a button icon, and a command ``qx.event.Command`` that is invoked if the button or the shortcut is pressed/selected.
-  * You can supply missing or updated features after the widget's creation; e.g. the callback function for the ``closeButton`` is provided in a separate method call to ``addListener()``.
-  * The canonical event for the selection of a menu button is the ``execute`` event. (This is in line with other button flavors throughout the qooxdoo framework, e.g. the regular ``qx.ui.form.Button``).
+
+* The main widget is the ``menu`` of type ``qx.ui.menu.Menu``.
+* Menu buttons are of type ``qx.ui.menu.Button`` and are created individually.
+* They are then added to the menu. The buttons will appear in the menu in the order they are added.
+* The ``closeButton`` is created with the minimal set of parameters, namely just the string for the button label. For a more advanced solution, see the ``openButton``: you can optionally specify a button icon, and a command ``qx.event.Command`` that is invoked if the button or the shortcut is pressed/selected.
+* You can supply missing or updated features after the widget's creation; e.g. the callback function for the ``closeButton`` is provided in a separate method call to ``addListener()``.
+* The canonical event for the selection of a menu button is the ``execute`` event. (This is in line with other button flavors throughout the qooxdoo framework, e.g. the regular ``qx.ui.form.Button``).
 
 .. _pages/ui_menu_handling#complex_menu_sample:
 
@@ -70,7 +71,7 @@ Complex Menu Sample
 ===================
 This example should show how to create a menu structure with submenu and how to handle with groups.
 
-Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`./widget/menu`.
+Qooxdoo has some widgets that need a menu to handle user interaction. For this sample we will chose the ``qx.ui.toolbar.ToolBar`` to create the menu structure. To see a overview, witch widgets uses a menu, take a look in the :doc:`/pages/widget/menu`.
 
 This code snippet show how to create a "ToolBar" with to menu items "File" and "View":
 
