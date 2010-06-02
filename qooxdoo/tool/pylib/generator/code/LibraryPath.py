@@ -240,7 +240,7 @@ class LibraryPath(object):
 
     def _scanTranslationPath(self, path):
         if not os.path.exists(path):
-            raise ValueError("The given path does not contain a translation folder: %s" % path)
+            self._console.warn("The given path does not contain a translation folder: %s" % path)
 
         self._console.debug("Scanning translation folder...")
 

@@ -205,6 +205,8 @@ class Generator(object):
                 # for each interesting library part
                 for category in ["class", "translation", "resource"]:
                     catPath = os.path.normpath(os.path.join(lib["path"], lib[category]))
+                    if category == "translation" and not os.path.isdir(catPath):
+                        continue
                     # find youngest file
                     file, mtime = filetool.findYoungest(catPath)
                     youngFiles[mtime] = file
