@@ -189,6 +189,9 @@ latex_documents = [
 
 # Additional stuff for the LaTeX preamble.
 #latex_preamble = ''
+latex_elements = {
+    'preamble' : r'\setcounter{tocdepth}{3}'
+}
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
