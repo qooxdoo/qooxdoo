@@ -240,33 +240,56 @@ source-components:
 # DOCUMENTATION TARGETS
 ################################################################################
 
-build-docs:
+build-docs-html:
+	@(cd documentation/manual && make html)
+
+build-docs-pdf:
+	@(cd documentation/manual && make latex)
+	@(cd documentation/manual/build/latex && make all-pdf)
+
+build-docs: build-docs-html build-docs-pdf
 
 publish-docs:
 	@echo "  * Syncing HTML docs..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* qooxdoo@webtechfe-test01.schlund.de:/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+	@echo "  * Syncing PDF doc..."
+	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf qooxdoo@webtechfe-test01.schlund.de:/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+
+check-docs: check-docs-html check-docs-pdf
+
+check-docs-html:
+	@for TARGET in `echo "index.html pages/core.html pages/development.html pages/gui_toolkit.html"`; do F="documentation/manual/build/html/$$TARGET"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+
+check-docs-pdf:
+	@F="documentation/manual/build/latex/qooxdoo.pdf"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 );
 
 ################################################################################
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps inspector build-framework
+publish-build: build-apps inspector build-framework build-docs
 
-publish-check:
+publish-check: check-banner check-apps check-components check-framework check-docs
+	@echo "    - Looks good"
+
+check-banner:
 	@echo "  * Checking kit is complete..."
+
+check-apps:
 	@for TARGET in $(APPLICATIONS); do F="application/$$TARGET/build/script/$$TARGET.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+
+check-components:
 	@for TARGET in $(COMPONENTS); do \
      if [ "$$TARGET" = "inspector" ]; then \
        F="component/$$TARGET/build/script/$$TARGET.js"; \
        [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
      fi; \
   done
-	@for TARGET in $(FRAMEWORK_TARGETS); do F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
-	@echo "    - Looks good"
 
-publish: publish-check
-	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh root@qooxdoo.org 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
+check-framework:
+	@for TARGET in $(FRAMEWORK_TARGETS); do F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+
+publish-index:
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/
 	@cat tool/data/publish/index.html | \
@@ -275,6 +298,8 @@ publish: publish-check
 	@echo "  * Syncing index.html..."
 	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
+
+publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 	  echo "    - $$APPLICATION..."; \
@@ -292,4 +317,10 @@ publish: publish-check
 			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn component/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
+
+publish-backup:
+	@echo "  * Backing up devel version on server; this will take some time..."
+	@ssh root@qooxdoo.org 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
+
+publish: publish-check publish-backup publish-index publish-apps publish-docs
 
