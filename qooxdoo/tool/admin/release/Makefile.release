@@ -237,6 +237,16 @@ source-components:
 
 
 ################################################################################
+# DOCUMENTATION TARGETS
+################################################################################
+
+build-docs:
+
+publish-docs:
+	@echo "  * Syncing HTML docs..."
+	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* qooxdoo@webtechfe-test01.schlund.de:/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+
+################################################################################
 # PUBLISH TARGETS
 ################################################################################
 
