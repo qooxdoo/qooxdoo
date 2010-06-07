@@ -190,7 +190,8 @@ latex_documents = [
 # Additional stuff for the LaTeX preamble.
 #latex_preamble = ''
 latex_elements = {
-    'preamble' : r'\setcounter{tocdepth}{3}'
+    #'preamble' : r'\setcounter{tocdepth}{3}'  # this is *with* headers in index.rst
+    'preamble' : r'\setcounter{tocdepth}{2}'  # this is *without* headers in index.rst
 }
 
 # Documents to append as an appendix to all manuals.

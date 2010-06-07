@@ -120,3 +120,5 @@ Manual 1.2
    :maxdepth: 3
 
    pages/references
+
+**Download** offline version (`.pdf <qooxdoo.pdf>`__)
