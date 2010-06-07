@@ -80,6 +80,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 
   members :
   {
+     __spacerPool : null,
+
      /**
      * Returns the widget used to render the given cell. May return null if the
      * cell isn’t rendered currently rendered.
@@ -116,8 +118,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
        }
      },
 
-
-     __spacerPool : null,
 
     /**
      * Get the spacer widget, for empty cells
@@ -191,6 +191,16 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       //      +--##  |
       //         +---+
       //
+
+
+    if (qx.core.Variant.isSet("qx.debug", "on"))
+    {
+      this.assertPositiveInteger(firstRow);
+      this.assertPositiveInteger(firstColumn);
+      this.assertArray(rowSizes);
+      this.assertArray(columnSizes);
+    }
+
 
       var lastRow = firstRow + rowSizes.length - 1;
       var lastColumn = firstColumn + columnSizes.length - 1;
