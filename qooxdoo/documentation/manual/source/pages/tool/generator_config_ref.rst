@@ -40,7 +40,8 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 
   "api" :
   {
-    "path" : "<path>"
+    "path" : "<path>",
+    "verify" : [ "links" ]
   }
 
 .. note::
@@ -48,6 +49,8 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
 
 * **path** *(required)* : Path where the Apiviewer application is to be stored, relative to the current directory.
+
+  * **links** : Check internal documentation links (@link{...}) for consistency.
 
 .. _pages/tool/generator_config_ref#asset-let:
 
