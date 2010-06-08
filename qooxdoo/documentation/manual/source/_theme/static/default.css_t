@@ -78,7 +78,7 @@
 
 body {
     font-family: {{ theme_bodyfont }};
-    font-size: 14px;
+    font-size: 12px;
     line-height: 160%;
     background-color: {{ theme_footerbgcolor }};
     color: #000;
@@ -109,7 +109,7 @@ div.bodywrapper {
 
 div.body {
     color: {{ theme_textcolor }};
-    padding: 0 20px 30px 20px;
+    padding: 0px 20px 30px 0px;
     margin-left: 25px;
 }
 
@@ -246,11 +246,12 @@ div.sphinxsidebar input {
 
 a {
     color: {{ theme_linkcolor }};
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
     text-decoration: underline;
+    color : {{ theme_sidebarlinkcolor }}
 }
 
 div.body p, div.body dd, div.body li {
@@ -267,8 +268,17 @@ div.body h6 {
     font-family: {{ theme_headfont }};
     font-weight: bold;
     color: {{ theme_headtextcolor }};
-    margin: 20px -20px 10px -20px;
-    padding: 3px 0 3px 10px;
+    margin: 36px -20px 4px 0px;
+    padding: 3px 0 3px 0px;
+}
+
+div.body h3,
+div.body h4,
+div.body h5,
+div.body h6 {
+    color: #888; 
+    padding-bottom: 0px; 
+    margin-top: 25px;
 }
 
 div.body h1 { margin-top: 0; font-size: 24px; }
@@ -283,6 +293,10 @@ a.headerlink {
     font-size: 0.8em;
     padding: 0 4px 0 4px;
     text-decoration: none;
+}
+
+p {
+  margin: 0px;
 }
 
 a.headerlink:hover {
@@ -360,4 +374,12 @@ tt {
 
 .note tt {
     background: #d6d6d6;
+}
+
+img {
+    max-width: 540px;
+}
+
+ul {
+  padding-left: 15px;
 }
