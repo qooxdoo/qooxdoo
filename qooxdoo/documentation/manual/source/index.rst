@@ -26,6 +26,8 @@ Manual 1.2
 
   This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
 
+**Download** offline version (`.pdf <qooxdoo.pdf>`__)
+
 .. _index#introduction:
 
 .. Introduction
@@ -120,5 +122,3 @@ Manual 1.2
    :maxdepth: 3
 
    pages/references
-
-**Download** offline version (`.pdf <qooxdoo.pdf>`__)

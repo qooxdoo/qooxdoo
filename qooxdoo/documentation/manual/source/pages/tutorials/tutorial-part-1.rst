@@ -8,7 +8,7 @@ Tutorial Part 1: The Beginning of a twitter App
 The Missing Manual
 ==================
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial <helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/1.2/feedreader>`_.
+We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial </pages/getting_started/helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/1.2/feedreader>`_.
 
 As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
@@ -16,9 +16,9 @@ As you sure have read in the headline, we are building a simple twitter applicat
 
 .. |twitter mockup.png| image:: /pages/tutorials/twittermockup1.png
 
-If you take a closer look at the mockup, you see a :doc:`window <widget/window>` containing a :doc:`toolbar <widget/toolbar>`, a :doc:`list <widget/list>`, a :doc:`text area <widget/textarea>` and a :doc:`button <widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
+If you take a closer look at the mockup, you see a :doc:`window <../widget/window>` containing a :doc:`toolbar <../widget/toolbar>`, a :doc:`list <../widget/list>`, a :doc:`text area <../widget/textarea>` and a :doc:`button <../widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
-In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :doc:`"Hello World" tutorial <helloworld>`. We rely on some of the fundamentals explained there.
+In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :doc:`"Hello World" tutorial </pages/getting_started/helloworld>`. We rely on some of the fundamentals explained there.
 
 .. _pages/tutorial-part-1#getting_started:
 
@@ -35,7 +35,7 @@ After that, we should check if everything works as expected. Change the director
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
-The first part is to create a Window. As the :doc:`Window <widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
+The first part is to create a Window. As the :doc:`Window <../widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
 
 ::
 

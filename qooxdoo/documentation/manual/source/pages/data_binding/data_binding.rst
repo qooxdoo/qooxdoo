@@ -13,7 +13,7 @@ Data binding is a functionality that allows to connect data from a source to a t
 .. _pages/data_binding#the_main_idea:
 
 The main idea
-=============
+-------------
 
 The main idea of qooxdoo's data binding component is best summarized by the following diagram.
 |databindingarchitecture.jpg|
@@ -22,8 +22,6 @@ The main idea of qooxdoo's data binding component is best summarized by the foll
 
 As you can see data binding includes five major components, which will be described in more detail in the following sections.
 
-XXX
----
 
 .. _pages/data_binding#data:
 
@@ -37,7 +35,7 @@ The data part is where the raw data is stored and can be retrieved from. This ca
 Store
 ^^^^^
 
-The store component is responsible for fetching the data from its source and for including it into a data model of an application. For more info about the available store components see the :doc:`stores section <data_binding/stores>` below.
+The store component is responsible for fetching the data from its source and for including it into a data model of an application. For more info about the available store components see the :doc:`stores section <stores>` below.
 
 .. _pages/data_binding#model:
 
@@ -45,14 +43,14 @@ Model
 ^^^^^
 
 The model is the centerpiece of data binding. It holds the data and acts as an integration point for the store and for the controller. Almost all models are plain qooxdoo classes holding the data in properties, which are configured to fire events on every change. Since native JavaScript arrays do not fire events when items are changed, a complementary array is added for data binding purposes. It is available with most of the native array API as ``qx.data.Array``.
-But there is no need to manually write own model classes for every data source you want to work with. The stores provide a smart way to automatically create these classes during runtime. Take a look at the :doc:`stores section <data_binding/stores>` for details.
+But there is no need to manually write own model classes for every data source you want to work with. The stores provide a smart way to automatically create these classes during runtime. Take a look at the :doc:`stores section <stores>` for details.
 
 .. _pages/data_binding#controller:
 
 Controller
 ^^^^^^^^^^
 
-The main task of the controller components is to connect the data in the model to the view components. Details are available in the :doc:`controller section <data_binding/controller>`. The base layer of all controllers, the :doc:`Single Value Binding <data_binding/single_value_binding>` is explained later.
+The main task of the controller components is to connect the data in the model to the view components. Details are available in the :doc:`controller section <controller>`. The base layer of all controllers, the :doc:`Single Value Binding <single_value_binding>` is explained later.
 
 .. _pages/data_binding#view:
 

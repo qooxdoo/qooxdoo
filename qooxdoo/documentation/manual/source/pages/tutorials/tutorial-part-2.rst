@@ -19,7 +19,7 @@ The first thing we need to do is to set a layout for our window. You can see tha
         var layout = new qx.ui.layout.Grid(0, 0);
         this.setLayout(layout);
 
-But a layout without any content is boring so we should add some content to see if it's working. Lets add the first two elements to the window, the :doc:`toolbar <widget/toolbar>` and the :doc:`list <widget/list>` view.
+But a layout without any content is boring so we should add some content to see if it's working. Lets add the first two elements to the window, the :doc:`toolbar <../widget/toolbar>` and the :doc:`list <../widget/list>` view.
 
 .. _pages/tutorial-part-2#layout_and_toolbar:
 
