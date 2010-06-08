@@ -365,7 +365,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTipText(this.tr("Always reload application under test before testing"));
-
+      this.reloadswitch.addListener("changeValue", function(ev) {
+        var value = ev.getData() ? "1" : "0";
+        qx.bom.Cookie.set("autoReload", value);
+      });
+      
       // -- log level menu
       this.levelbox = this.__createLogLevelMenu();
 
@@ -1162,7 +1166,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           this.__state == 0;
           if (that.tests.firstrun)
           {
-            that.reloadswitch.setValue(true);
+            that.reloadswitch.setEnabled(true);
             that.tests.firstrun = false;
             that.widgets["statuspane.systeminfo"].setValue(that.tr("Enabled auto-reload"));
           }
@@ -1170,6 +1174,8 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.widgets["statuspane.systeminfo"].setValue(that.tr("Ready"));
           }
+          var autoReload = parseInt(qx.bom.Cookie.get("autoReload"), 10) ? true : false;
+          that.reloadswitch.setValue(autoReload);
         }
       }
 
@@ -1378,7 +1384,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["toolbar.runbutton"].setEnabled(true);
       this.widgets["toolbar.runbutton"].setVisibility("visible");
       this.widgets["toolbar.stopbutton"].setVisibility("excluded");
-      this.reloadswitch.setValue(false);  // disable for first run
+      this.reloadswitch.setEnabled(false);  // disable for first run
 
       if (this.tests.run_pending)
       {  // do we have pending tests to run?
