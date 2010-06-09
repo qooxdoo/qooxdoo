@@ -56,7 +56,12 @@ qx.Class.define("qx.event.type.MouseWheel",
         if (qx.bom.client.Browser.NAME == "chrome") {
           return -(this._native.wheelDelta / 120);
         } else {
-          return -(this._native.wheelDelta / 40);
+          var factor = 40;
+          // webkit increased mouse wheel speed with version 5 [BUG #3749]
+          if (qx.bom.client.Browser.VERSION >= 5) {
+            factor = 1200;
+          }
+          return -(this._native.wheelDelta / factor);
         }
       }
     })
