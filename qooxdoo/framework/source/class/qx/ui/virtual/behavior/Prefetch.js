@@ -38,25 +38,40 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
   /**
    * @param scroller {qx.ui.virtual.core.Scroller} The scroller to prefetch
-   * @param minLeft {Integer} minimim pixels to prefetch left to the view port
-   * @param maxLeft {Integer} maximum pixels to prefetch left to the view port
-   * @param minRight {Integer} minimim pixels to prefetch right to the view port
-   * @param maxRight {Integer} maximum pixels to prefetch right to the view port
-   * @param minAbove {Integer} minimim pixels to prefetch above the view port
-   * @param maxAbove {Integer} maximum pixels to prefetch above the view port
-   * @param minBelow {Integer} minimim pixels to prefetch below the view port
-   * @param maxBelow {Integer} maximum pixels to prefetch below the view port
-   */
-  construct : function(
-    scroller,
-    minLeft, maxLeft, minRight, maxRight,
-    minAbove, maxAbove, minBelow, maxBelow
-  )
+   * @param settings {Map} This map contains minimum and maximum pixels to
+   * prefetch near the view port.
+   * <ul>
+   *   <li>minLeft: minimim pixels to prefetch left to the view port</li>
+   *   <li>maxLeft: maximum pixels to prefetch left to the view port</li>
+   *   <li>minRight: minimim pixels to prefetch right to the view port</li>
+   *   <li>maxRight: maximum pixels to prefetch right to the view port</li>
+   *   <li>minAbove: minimim pixels to prefetch above the view port</li>
+   *   <li>maxAbove: maximum pixels to prefetch above the view port</li>
+   *   <li>minBelow: minimim pixels to prefetch below the view port</li>
+   *   <li>maxBelow: maximum pixels to prefetch below the view port</li>
+   * </ul>
+   */  
+  
+  construct : function(scroller, settings)
   {
+
+    if (qx.core.Variant.isSet("qx.debug", "on")) 
+    {
+      this.assertObject(settings);
+      this.assertPositiveInteger(settings.minLeft);
+      this.assertPositiveInteger(settings.maxLeft);
+      this.assertPositiveInteger(settings.minRight);
+      this.assertPositiveInteger(settings.maxRight);
+      this.assertPositiveInteger(settings.minAbove);
+      this.assertPositiveInteger(settings.maxAbove);
+      this.assertPositiveInteger(settings.minBelow);
+      this.assertPositiveInteger(settings.maxBelow);
+    }
+    
     this.base(arguments);
 
-    this.setPrefetchX(minLeft, maxLeft, minRight, maxRight);
-    this.setPrefetchY(minAbove, maxAbove, minBelow, maxBelow);
+    this.setPrefetchX(settings.minLeft, settings.maxLeft, settings.minRight, settings.maxRight);
+    this.setPrefetchY(settings.minAbove, settings.maxAbove, settings.minBelow, settings.maxBelow);
 
     this.__timer = new qx.event.Timer(this.getInterval());
     this.__timer.addListener("interval", this._onInterval, this);
