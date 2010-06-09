@@ -211,6 +211,22 @@ def unlock(path):
         os.unlink(lockfile)
 
 
+def walk(root, topdown=True, onerror=None, visitCount={}):
+    for root, dirs, files in os.walk(root, topdown, onerror):
+        for dirname in dirs:
+            fullPath = os.path.abspath(os.path.join(root, dirname))
+            if os.path.islink(fullPath):
+                targetHash = hash(dirname + os.path.abspath(os.readlink(fullPath)))
+                if not targetHash in visitCount:
+                    visitCount[targetHash] = 0
+                if visitCount[targetHash] == 0:
+                    visitCount[targetHash] += 1
+                    for r, d, f in walk(fullPath, topdown, onerror, visitCount):
+                        yield r, d, f
+        
+        yield root, dirs, files
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise RuntimeError, "Usage: %s <dirpath>" % sys.argv[0]
