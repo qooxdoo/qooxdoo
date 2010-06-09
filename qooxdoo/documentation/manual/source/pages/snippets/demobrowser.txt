@@ -1,2 +1,0 @@
-====== Demo Browser ======
-The **Demo Browser** has a large number of simple examples. You can use the [[http://demo.qooxdoo.org/1.2.x/demobrowser|online version]] or if you've downloaded and [[:documentation:1.2:generator_usage|built the SDK]], you can use your local copy in ''application/demobrowser/build'' subdirectory of your SDK installation.
