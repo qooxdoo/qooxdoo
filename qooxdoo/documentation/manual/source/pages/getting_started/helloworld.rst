@@ -43,7 +43,7 @@ Create your Application
 
 It is easy to setup your own application using the platform-independent script ``create-application.py``. It will create a skeleton application in a directory you specify, that is automatically configured to work with your version of the qooxdoo framework.
 
-To create a new skeleton with ``create-application.py`` you will need to follow some initial *platform-dependent* steps − even when the rest of your development is independent of the platform. Please see the appropriate section below for :ref:`pages/getting_started/helloworld#windows`, :ref:`pages/getting_started/helloworld#cygwin` or :ref:`pages/getting_started/helloworld#mac_linux`
+To create a new skeleton with ``create-application.py`` you will need to follow some initial *platform-dependent* steps - even when the rest of your development is independent of the platform. Please see the appropriate section below for :ref:`pages/getting_started/helloworld#windows`, :ref:`pages/getting_started/helloworld#cygwin` or :ref:`pages/getting_started/helloworld#mac_linux`
 
 .. note::
 
