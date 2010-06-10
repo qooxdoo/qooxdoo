@@ -11,13 +11,8 @@ qooxdoo (pronounced ['ku:ksdu:]) is a comprehensive and innovative framework for
 Framework
 =========
 
-qooxdoo is entirely class-based and tries to leverage the features of object-oriented JavaScript. It is fully based on namespaces and does not extend native JavaScript types to allow for easy integration with other libraries and existing user code. Most :ref:`modern browsers </documentation/1.0/requirements#browser_requirements>` are supported (e.g. Firefox, Internet Explorer, Opera, WebKit/Safari) and it is free of memory leaks. It comes with a `comprehensive API reference <http://api.qooxdoo.org>`_, that is auto-generated from Javadoc-like comments and from the syntax tree representing the code. The fast and complete JavaScript parser not only allows doc generation, but is an integral part of the automatic build process that makes optimizing, compressing, linking and deployment of custom applications very user-friendly. Internationalization and localization of applications for various countries and languages is a core feature and easy to use.  **`more ... <http://qooxdoo.org/about/framework>`_**
+qooxdoo is entirely class-based and tries to leverage the features of object-oriented JavaScript. It is fully based on namespaces and does not extend native JavaScript types to allow for easy integration with other libraries and existing user code. Most :ref:`modern browsers <pages/requirements#client>` are supported (e.g. Firefox, Internet Explorer, Opera, WebKit/Safari) and it is free of memory leaks. It comes with a `comprehensive API reference <http://api.qooxdoo.org>`_, that is auto-generated from Javadoc-like comments. The fast and complete JavaScript parser not only allows doc generation, but is an integral part of the automatic build process that makes optimizing, compressing, linking and deployment of custom applications very user-friendly. Internationalization and localization of applications for various countries and languages is a core feature and easy to use.  `more ... <http://qooxdoo.org/about/framework>`_
 
-<html>
-<div class="noteclassic beta" style="background-color:#C9E2FB">
-<a href="about/framework">Read more about Framework Features ...</a>
-</div>
-</html>
 
 .. _pages/introduction/about#gui_toolkit:
 
@@ -33,23 +28,23 @@ No HTML has to be used and augmented to define the interface. The qooxdoo develo
 AJAX
 ====
 
-While being a client-side and server-agnostic solution, the qooxdoo project does include complete implementations of RPC servers (currently Java, PHP, Perl, Python) to demonstrate some of its advanced client-server communcation. An abstract transport layer supports queues, timeouts and implementations via XMLHttpRequest, Iframes and Scripts. Like the rest of qooxdoo it fully supports event-based programming which greatly simplifies asynchronous communication.
+While being a client-side and server-agnostic solution, the qooxdoo project includes different communication facilities, and supports low-level XHR requests as well as an RPC API. An abstract transport layer supports queues, timeouts and implementations via XMLHttpRequest, Iframes and Scripts. Like the rest of qooxdoo it fully supports event-based programming which greatly simplifies asynchronous communication.
 
 .. _pages/introduction/about#more_information:
 
-More Information
-================
+More Information (online)
+=========================
 
-  * ` <http://qooxdoo.org/documentation/general/faq>`_
-  * ` <http://qooxdoo.org/license>`_
-  * ` <http://qooxdoo.org/about/framework>`_
+* `FAQ <http://qooxdoo.org/documentation/general/faq>`_
+* `License <http://qooxdoo.org/license>`_
+* `Framework Features <http://qooxdoo.org/about/framework>`_
 
-  * ` <http://qooxdoo.org/about/release notes>`_
-  * ` <http://qooxdoo.org/about/roadmap>`_
-  * ` <http://qooxdoo.org/about/developers>`_
-  * ` <http://qooxdoo.org/documentation/general/committers_guide>`_
+* `Release Notes <http://qooxdoo.org/about/release_notes>`_
+* `Roadmap <http://qooxdoo.org/about/roadmap>`_
+* `Developers <http://qooxdoo.org/about/developers>`_
+* `Committers Guide <http://qooxdoo.org/documentation/general/committers_guide>`_
 
-  * ` <http://qooxdoo.org/about/screenshots>`_
-  * ` <http://qooxdoo.org/about/media download>`_
+* `Screenshots <http://qooxdoo.org/about/screenshots>`_
+* `Media Download <http://qooxdoo.org/about/media_download>`_
 
 
