@@ -46,6 +46,7 @@ from generator.resource.ImageInfo        import ImgInfoFmt
 from generator.action.ApiLoader      import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
+from generator.action                import CodeProvider
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
@@ -74,6 +75,8 @@ class Generator(object):
 
         console = self._console
         console.resetFilter()   # reset potential filters from a previous job
+        Context.config  = context['config']  #config
+        Context.jobconf = context['jobconf'] #config.getJob(job)
         Context.console = context['console']
         
         return
@@ -158,6 +161,11 @@ class Generator(object):
             "pretty-print" :
             {
               "type" : "JClassDepJob",
+            },
+
+            "provider" :
+            {
+              "type" : "JCompileJob",
             },
 
             "shell" :
@@ -614,6 +622,9 @@ class Generator(object):
                 # script.parts['boot']=[0,1,3]
                 # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
+
+            if "provider" in jobTriggers:
+                CodeProvider.runProvider(script, self)
 
             # debug tasks
             self.runLogDependencies(script)

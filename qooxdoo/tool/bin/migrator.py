@@ -826,7 +826,7 @@ NOTE:    It is advised to do a 'generate.py distclean' before migrating any file
          step will be skipped (which might result in potentially unnecessary
          files being migrated).
 
-Do you want to run 'make distclean' now? [yes] : """)
+Do you want to run 'distclean' now? [yes] : """)
 
     if choice.lower() in ["j", "ja", "y", "yes", ""]:
         os.system("python ./generate.py distclean")
