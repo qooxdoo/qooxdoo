@@ -68,7 +68,7 @@ qx.Class.define("showcase.page.theme.Content",
       var showMonkey = true;
       var monkeyImage = new qx.ui.basic.Image("showcase/theme/affe.png").set({
         backgroundColor: "#525252",
-        padding: [50, 5]
+        padding: [50, 5, 5, 0]
       });
 
       calc.addListener("dblclick", function(e)
