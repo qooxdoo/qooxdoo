@@ -268,8 +268,8 @@ div.body h6 {
     font-family: {{ theme_headfont }};
     font-weight: bold;
     color: {{ theme_headtextcolor }};
-    margin: 36px -20px 4px 0px;
-    padding: 3px 0 3px 0px;
+    margin: 0px -20px 4px 0px;
+    padding: 16px 0 3px 0px;
 }
 
 div.body h3,
@@ -278,7 +278,7 @@ div.body h5,
 div.body h6 {
     color: #888; 
     padding-bottom: 0px; 
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 div.body h1 { margin-top: 0; font-size: 24px; }
