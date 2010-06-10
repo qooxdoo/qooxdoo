@@ -104,7 +104,7 @@ Now that your application is setup, lets generate a version that can be opened i
 
 Under non-Windows systems you might have to prefix the command with the local directory, i.e. execute ``./generate.py source-all`` instead.
 
-Please note, that the additional ``source-all`` target was introduced with qooxdoo 0.8.1. The regular ``source`` target now only includes those qooxdoo classes that are actually required by your app, not all the source classes.
+Please note, that the additional ``source-all`` target was introduced with qooxdoo 0.8.1. The regular ``source`` target now only includes those qooxdoo :term:`classes <Class>` that are actually required by your app, not all the source classes.
 
 After the application has been generated, open ``source/index.html`` file in your web browser to run your application and click the button:
 
