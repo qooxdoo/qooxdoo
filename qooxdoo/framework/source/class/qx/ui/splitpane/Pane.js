@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseOut : function(e)
     {
-      this._setLastMousePosition(-1, -1);
+      this._setLastMousePosition(-100, -100);
       this.__updateCursor();
     },
 
