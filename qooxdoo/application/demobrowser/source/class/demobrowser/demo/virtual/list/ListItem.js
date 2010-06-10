@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
     label :
     {
       nullable : true,
-      dispose : true,
+      dereference : true,
       check : "String"
     },
 

@@ -47,8 +47,16 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     // Creates the prefetch behavior
     new qx.ui.virtual.behavior.Prefetch(
       this,
-      0, 0, 0, 0,
-      400, 600, 400, 600
+      {
+        minLeft : 0,
+        maxLeft : 0,
+        minRight : 0,
+        maxRight : 0,
+        minAbove : 400,
+        maxAbove : 600,
+        minBelow : 400,
+        maxBelow : 600
+      }
     ).set({
       interval: 500
     });

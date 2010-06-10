@@ -52,8 +52,16 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     // Creates the prefetch behavior
     new qx.ui.virtual.behavior.Prefetch(
       this,
-      0, 0, 0, 0,
-      600, 800, 600, 800
+      {
+        minLeft : 0,
+        maxLeft : 0,
+        minRight : 0,
+        maxRight : 0,
+        minAbove : 600,
+        maxAbove : 800,
+        minBelow : 600,
+        maxBelow : 800
+      }
     ).set({
       interval: 500
     });

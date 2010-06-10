@@ -286,8 +286,16 @@ qx.Class.define("demobrowser.demo.virtual.WidgetGallery",
       // Creates the prefetch behavior
       new qx.ui.virtual.behavior.Prefetch(
         scroller,
-        0, 0, 0, 0,
-        200, 300, 600, 800
+        {
+          minLeft : 0,
+          maxLeft : 0,
+          minRight : 0,
+          maxRight : 0,
+          minAbove : 200,
+          maxAbove : 300,
+          minBelow : 600,
+          maxBelow : 800
+        }
       ).set({
         interval: 500
       });

@@ -65,8 +65,16 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       // Creates the prefetch behavior
       new qx.ui.virtual.behavior.Prefetch(
         scroller,
-        500, 600, 1000, 1200,
-        0, 0, 0, 0
+        {
+          minLeft : 500,
+          maxLeft : 600,
+          minRight : 1000,
+          maxRight : 1200,
+          minAbove : 0,
+          maxAbove : 0,
+          minBelow : 0,
+          maxBelow : 0
+        }
       );
     }
   }
