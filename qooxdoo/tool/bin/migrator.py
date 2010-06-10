@@ -819,10 +819,10 @@ WARNING: The JavaScript files will be pretty printed. You can customize the
          at http://qooxdoo.org/documentation/articles/code_style."""
 
     choice = raw_input("""
-NOTE:    It is advised to do a 'make distclean' before migrating any files.
+NOTE:    It is advised to do a 'generate.py distclean' before migrating any files.
          If you choose 'yes', a subprocess will be invoked to run distclean,
          and after completion you will be prompted if you want to
-         continue with the migration. If you choose 'no', the making distclean
+         continue with the migration. If you choose 'no', the distclean
          step will be skipped (which might result in potentially unnecessary
          files being migrated).
 
