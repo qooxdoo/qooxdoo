@@ -78,6 +78,67 @@ migration
 ---------
 Migrate the .js files of the current library to the current qooxdoo version.
 
+
+Running the migration job
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is a sample run of the migration job:
+
+::
+
+    ./generate.py migration
+
+::
+
+    NOTE:    To apply only the necessary changes to your project, we
+             need to know the qooxdoo version it currently works with.
+
+    Please enter your current qooxdoo version [1.0] :   
+
+Enter your qooxdoo version or just hit return if you are using the version given in square brackets.
+
+::
+
+    MIGRATION SUMMARY:
+
+    Current qooxdoo version:   1.0
+    Upgrade path:              1.0.1 -> 1.1 -> 1.2
+
+    Affected Classes:
+        feedreader.view.Header
+        feedreader.view.Article
+        feedreader.view.Tree
+        feedreader.PreferenceWindow
+        feedreader.view.ToolBar
+        feedreader.FeedParser
+        feedreader.view.Table
+        feedreader.Application
+        feedreader.test.DemoTest
+
+    NOTE:    It is advised to do a 'generate.py distclean' before migrating any files.
+             If you choose 'yes', a subprocess will be invoked to run distclean,
+             and after completion you will be prompted if you want to
+             continue with the migration. If you choose 'no', the distclean
+             step will be skipped (which might result in potentially unnecessary
+             files being migrated).
+
+    Do you want to run 'distclean' now? [yes] : 
+
+Enter "yes".
+
+::
+
+    WARNING: The migration process will update the files in place. Please make
+             sure, you have a backup of your project. The complete output of the
+             migration process will be logged to 'migration.log'.
+
+    Do you want to start the migration now? [no] : 
+
+Enter "yes".
+
+Check ``migration.log`` for messages that contain *foo.js has been modified. Storing modifications ...* to verify changes to class code.
+
+
 .. _pages/tool/generator_default_jobs#pretty:
 
 pretty
