@@ -109,6 +109,16 @@ Manual 1.2
    pages/tool
 
 
+.. _index#applications
+
+.. Standard Applications
+
+.. toctree::
+   :maxdepth: 2
+
+   pages/application
+
+
 .. _index#migration:
 
 .. Migration
