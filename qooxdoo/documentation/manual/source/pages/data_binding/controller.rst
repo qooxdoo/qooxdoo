@@ -4,9 +4,11 @@ Controller
 ==========
 
 The general idea of controllers is connecting a view component to a set of data stored in a model. The kind of controller you need depends on the view component. Currently there are three types of controller available: 
-  * Object Controller
-  * List Controller
-  * Tree controller
+
+* Object Controller
+* List Controller
+* Tree controller
+
 You may miss the table controller. The currently available table will not be changed and therefore will not implement data binding features. The new virtual table, which is currently under development, will be considered for data binding.
 
 In the following section, the selection will be discussed because it's a common feature of the list and tree controller. The delegation mechanism is another common feature of those two controllers and will also be described. After that, each of the available controllers will be discussed in detail.
