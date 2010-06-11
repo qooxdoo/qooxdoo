@@ -359,6 +359,29 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       newLabel.dispose();
       oldLabel.dispose();
     },
+    
+    
+    testDeepTargetChangeConverter : function()
+    {
+      var oldLabel = this.__b1.getLab();
+      var newLabel = new qx.test.data.singlevalue.TextFieldDummy("x");
+
+      qx.data.SingleValueBinding.bind(
+        this.__a, "name", this.__b1, "lab.value",
+        {converter : function(data) {return data + "..."}}
+      );
+
+      this.__b1.setLab(newLabel);
+      this.assertEquals("a...", this.__b1.getLab().getValue());
+
+      this.__a.setName("l");
+      this.assertEquals("a...", oldLabel.getValue());
+      this.assertEquals("l...", this.__b1.getLab().getValue());
+
+      newLabel.dispose();
+      oldLabel.dispose();
+    },
+
 
     testDeepTargetChange3 : function()
     {

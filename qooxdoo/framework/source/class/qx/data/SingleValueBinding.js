@@ -420,7 +420,7 @@ qx.Class.define("qx.data.SingleValueBinding",
            }
 
           qx.data.SingleValueBinding.__updateTarget(
-            sourceObject, sourcePropertyChain, targetObject, targetPropertyChain
+            sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
           );
         };
 
@@ -459,9 +459,11 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   be bind to.
      * @param targetPropertyChain {String} The property name of the target
      *   object.
+     * @param options {Map} The options map perhaps containing the user defined
+     *   converter.
      */
     __updateTarget : function(
-      sourceObject, sourcePropertyChain, targetObject, targetPropertyChain
+      sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
       var source = this.__getTargetFromChain(sourceObject, sourcePropertyChain);
@@ -494,6 +496,12 @@ qx.Class.define("qx.data.SingleValueBinding",
           var value = source["get" + qx.lang.String.firstUp(lastProperty)]();
         }
       }
+      
+      // convert the data before setting
+      value = qx.data.SingleValueBinding.__convertValue(
+        value, targetObject, targetPropertyChain, options
+      );
+      
       this.__setTargetValue(targetObject, targetPropertyChain, value);
     },
 
