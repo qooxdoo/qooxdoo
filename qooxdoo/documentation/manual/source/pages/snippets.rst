@@ -652,7 +652,7 @@ Suppose you have a client-detection at your site and you want to serve your visi
 Support for finding potential memory leaks
 ------------------------------------------
 
-You know that :doc:`memory_management` is an important task and you would like to check your application against potential memory leaks? Then read on :)
+You know that :doc:`/pages/development/memory_management` is an important task and you would like to check your application against potential memory leaks? Then read on :)
 
 The best way to achieve this is to create a new job by extend the existing ``source`` job. This lets you easily switch between your normal development and a special version of your application to track down memory issues.
 

@@ -18,7 +18,7 @@ Here some screenshots:
 
 .. |Classic theme| image:: window_classic_theme.png
 
-While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/ui_custom_themes#custom_themes>`.
+While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/gui_toolkit/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/gui_toolkit/ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 

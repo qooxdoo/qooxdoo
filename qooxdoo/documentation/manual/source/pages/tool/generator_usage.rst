@@ -29,7 +29,7 @@ The generator is actually the program under ``tool/bin/generator.py``.
 generate.py
 ===========
 
-To make it easier to invoke the generator, each library in the SDK (framework, applications, components) contains a ``generate.py`` script that is really just a proxy for the generator itself. It is also part of each project structure created by the :ref:`create-application.py <pages/helloworld#create_your_application>` wizard. The aim is to hide the actual path to the generator program.
+To make it easier to invoke the generator, each library in the SDK (framework, applications, components) contains a ``generate.py`` script that is really just a proxy for the generator itself. It is also part of each project structure created by the :ref:`create-application.py <pages/getting_started/helloworld#create_your_application>` wizard. The aim is to hide the actual path to the generator program.
 
 .. _pages/tool/generator_usage#command-line_options:
 
@@ -85,7 +85,7 @@ As a few quick hints at how you would invoke the generator, here are the most co
 * ``generate.py api``  -- when your application is getting complex and/or you want to have a local version of the standard `Apiviewer <http://api.qooxdoo.org>`_ application that includes the documentation of all of your application classes.
 * ``generate.py test``  -- when you have created unit test classes for your application and want to run them in the `Testrunner <http://demo.qooxdoo.org/1.2.x/testrunner>`_ frame application.
 
-The :doc:`/pages/helloworld` tutorial will give the complete steps how to start a project and get going.
+The :doc:`/pages/getting_started/helloworld` tutorial will give the complete steps how to start a project and get going.
 
 .. _pages/tool/generator_usage#default_jobs:
 

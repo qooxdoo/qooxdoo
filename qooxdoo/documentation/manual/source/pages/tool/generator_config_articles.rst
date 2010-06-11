@@ -283,14 +283,14 @@ The ``:ref:`pages/tool/generator_config_ref#library``` key of a configuration ho
 Manifest files
 --------------
 
-Manifest files serve to provide meta information for a library in a structured way. Their syntax is again JSON, and part of them is read by the generator, particularly the ``provides`` section. See :doc:`here </pages/application_structure/manifest>` for more information about manifest files.
+Manifest files serve to provide meta information for a library in a structured way. Their syntax is again JSON, and part of them is read by the generator, particularly the ``provides`` section. See :doc:`here </pages/getting_started/manifest>` for more information about manifest files.
 
 .. _pages/tool/generator_config_articles#contrib_libraries:
 
 Contrib libraries
 -----------------
 
-Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :doc:`Manifest.json </pages/application_structure/manifest>` file with appropriate contents.
+Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :doc:`Manifest.json </pages/getting_started/manifest>` file with appropriate contents.
 
 If the contribution resides on your local file system, there is actually no difference to any other library. Specify the relative path to its Manifest file and you're basically set. The really new part comes when the contribution resides online, in the `qooxdoo-contrib <http://qooxdoo.org/contrib>`_ repository. Then you use a special syntax to specify the location of the Manifest file. It is URL-like with a ``contrib`` scheme and will usually look like this:
 
@@ -381,7 +381,7 @@ to produce the final URI *"../../qooxdoo-1.2-sdk/framework/source/resource/qx/ic
 These general parts have the following meaning:
 
 * **[1]** : URI path to the library root (as will be valid when running the app in the browser). If you specify the :ref:`uri <pages/tool/generator_config_ref#library>` parameter of the library's entry in your config, this is what gets used here.
-* **[2]** : Path segment within the specific library. This is taken from the library's :doc:`Manifest.json </pages/application_structure/manifest>`. The consumer of the library has no influence on it.
+* **[2]** : Path segment within the specific library. This is taken from the library's :doc:`Manifest.json </pages/getting_started/manifest>`. The consumer of the library has no influence on it.
 * **[3]** : Path segment leading to the specific resource. This is the path of the resource as found under the library's resource root directory.
 
 .. _pages/tool/generator_config_articles#library_base_uris_in_the_source_version:

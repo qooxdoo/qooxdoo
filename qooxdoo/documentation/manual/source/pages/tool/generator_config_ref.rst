@@ -956,5 +956,5 @@ Possible keys are valid
 
 As soon as you specify more than one element in the list value for a variant, the generator will generate different builds for each element. If the current job has multiple variants defined, some of them with multiple elements in the value, the generator will generate a variant **for each possible combination** of the given values.
 
-:doc:`Special section </pages/variants>`
+:doc:`Special section </pages/development/variants>`
 

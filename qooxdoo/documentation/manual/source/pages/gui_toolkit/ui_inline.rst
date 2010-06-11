@@ -33,7 +33,7 @@ Setup An Inline Application
 
   This section only applies to qooxdoo ``0.8.2`` and newer.
 
-The setup of an inline application is done by using the ``create-application`` script described at the :ref:`Hello World <pages/helloworld#create_your_application>` page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
+The setup of an inline application is done by using the ``create-application`` script described at the :ref:`Hello World <pages/getting_started/helloworld#create_your_application>` page. You only have to add the additional option ``-t`` with the value ``inline`` and you're done.
 
 ::
 
