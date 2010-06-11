@@ -5,39 +5,39 @@ Framework Structure
 
 When exploring the framework source, the following overview will give you an idea about the file structure of qooxdoo:
 
-* **application** - sample applications (for end users)
+**application** - sample applications (for end users)
 
-  * ``demobrowser`` - for browsing a large number of demos (`online <http://demo.qooxdoo.org/1.2.x/demobrowser>`__)
-  * ``feedreader`` - a sample rich internet application (`online <http://demo.qooxdoo.org/1.2.x/feedreader>`__)
-  * ``portal`` - a showcase for low-level features, i.e. without widgets (`online <http://demo.qooxdoo.org/1.2.x/portal>`__)
-  * ``playground`` - an interactive playground without the need to install qooxdoo (`online <http://demo.qooxdoo.org/1.2.x/playground>`__)
+* ``demobrowser`` - for browsing a large number of demos (`online <http://demo.qooxdoo.org/1.2.x/demobrowser>`__)
+* ``feedreader`` - a sample rich internet application (`online <http://demo.qooxdoo.org/1.2.x/feedreader>`__)
+* ``portal`` - a showcase for low-level features, i.e. without widgets (`online <http://demo.qooxdoo.org/1.2.x/portal>`__)
+* ``playground`` - an interactive playground without the need to install qooxdoo (`online <http://demo.qooxdoo.org/1.2.x/playground>`__)
 
-* **component** - helper applications (used internally)
+**component** - helper applications (used internally)
 
-  * ``apiviewer`` - API reference (for ``generate.py api``) (`online <http://api.qooxdoo.org>`__)
-  * ``skeleton`` - blue print for custom applications (for ``create-application.py``)
-  * ``testrunner`` - unit testing framework (for ``generate.py test / test-source``) (`online <http://demo.qooxdoo.org/1.2.x/testrunner>`__)
+* ``apiviewer`` - API reference (for ``generate.py api``) (`online <http://api.qooxdoo.org>`__)
+* ``skeleton`` - blue print for custom applications (for ``create-application.py``)
+* ``testrunner`` - unit testing framework (for ``generate.py test / test-source``) (`online <http://demo.qooxdoo.org/1.2.x/testrunner>`__)
 
-* **framework** - main frontend part of the framework
+**framework** - main frontend part of the framework
 
-  * ``source``
+* ``source``
 
-    * ``class`` - JavaScript classes
-    * ``resource``
+  * ``class`` - JavaScript classes
+  * ``resource``
 
-      * ``qx`` - resources need to be namespaced, here it is ``qx``
+    * ``qx`` - resources need to be namespaced, here it is ``qx``
 
-        * ``decoration`` - images for the decorations, ``Modern`` and ``Classic``
-        * ``icon`` - icon themes that come with qooxdoo, ``Oxygen`` and ``Tango``
-        * ``static`` - other common resources like ``blank.gif``
+      * ``decoration`` - images for the decorations, ``Modern`` and ``Classic``
+      * ``icon`` - icon themes that come with qooxdoo, ``Oxygen`` and ``Tango``
+      * ``static`` - other common resources like ``blank.gif``
 
-      * ``source`` - contains original resources
+    * ``source`` - contains original resources
 
-    * ``translation`` - language-specific data as ``po`` files
+  * ``translation`` - language-specific data as ``po`` files
 
-* **tool** - tool chain of the framework 
+**tool** - tool chain of the framework 
 
-  * ``bin`` - various scripts are located here, most importantly ``generator.py``
-  * ``data`` - lots of data to be used by different tools, e.g. for localization, migration, etc.
-  * ``pylib`` - Python modules used by the platform-independent tool chain
+* ``bin`` - various scripts are located here, most importantly ``generator.py``
+* ``data`` - lots of data to be used by different tools, e.g. for localization, migration, etc.
+* ``pylib`` - Python modules used by the platform-independent tool chain
 
