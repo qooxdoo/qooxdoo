@@ -82,7 +82,6 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Row",
         allowGrowX: true
       }), {row: 0, column: 2});
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
       var rowLayer = new qx.ui.virtual.layer.Row("white", "#EEE");
       for (var i=0; i<10000; i++) {
         if (Math.random() > 0.7) {
