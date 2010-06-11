@@ -21,9 +21,11 @@ The simplest form of single value binding is to bind one property to another. Te
     label1.bind("content", label2, "content");
 
 ``label1`` is the source object to bind, with the following three arguments to that call: 
-  - The name of the property which should be the source of the binding.
-  - The target object which has the target property.
-  - The name of the property as the endpoint of the binding.
+
+#. The name of the property which should be the source of the binding.
+#. The target object which has the target property.
+#. The name of the property as the endpoint of the binding.
+
 With that code every change of the content property of ``label1`` will automatically synchronize the content property of ``label2``.
 
 .. _pages/data_binding/single_value_binding#binding_a_data_event_to_property:
