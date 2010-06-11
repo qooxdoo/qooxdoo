@@ -109,7 +109,7 @@ Manual 1.2
    pages/tool
 
 
-.. _index#applications
+.. _index#applications:
 
 .. Standard Applications
 
