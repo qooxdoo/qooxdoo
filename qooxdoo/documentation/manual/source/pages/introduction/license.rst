@@ -518,7 +518,7 @@ GNU Lesser General Public License, version 2.1
 |    necessary.  Here is a sample; alter the names:
 |
 |      Yoyodyne, Inc., hereby disclaims all copyright interest in the
-|      library `Frob' (a library for tweaking knobs) written by James Random Hacker.
+|      library \`Frob' (a library for tweaking knobs) written by James Random Hacker.
 |
 |      <signature of Ty Coon>, 1 April 1990
 |      Ty Coon, President of Vice
