@@ -41,10 +41,12 @@ Inline functions
 =================
 
 Using anonymous inline functions has several disadvantages:
-  - they are harder to debug
-  - API Viewer will not list them, therefore you can not comment them correctly
-  - other programmers will not find them at first glance
-  - they might not appear in an IDE's outline view
+
+#. they are harder to debug
+#. API Viewer will not list them, therefore you can not comment them correctly
+#. other programmers will not find them at first glance
+#. they might not appear in an IDE's outline view
+
 So please avoid using them. :-)
 
 .. _pages/antipatterns#reference_types_in_member_section:
