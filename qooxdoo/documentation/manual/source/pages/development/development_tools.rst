@@ -22,7 +22,7 @@ Spket IDE
 
 `Spket IDE <http://spket.com>`_ is a powerful toolkit for JavaScript development. Its editor provides features like code completion, syntax highlighting and content outline that helps developers productively create efficient code. It comes with specific `support for qooxdoo <http://www.spket.com/qooxdoo.html>`_.
 
-*Please note: there is a hotfix available for people working with the qooxdoo SVN checkout instead of the qooxdoo SDK. See the [[http:*forums.spket.com/viewtopic.php?p=1330#1330|download link]] in the Spket forum. Thanks, Eric!// 
+*Please note: there is a hotfix available for people working with the qooxdoo SVN checkout instead of the qooxdoo SDK. See the* `download link <http://forums.spket.com/viewtopic.php?p=1330#1330>`__ *in the Spket forum. Thanks, Eric!*
 
 .. _pages/development_tools#aptana_ide:
 
@@ -55,12 +55,12 @@ JSEclipse is a plugin for the Eclipse environment that helps developers code Jav
 TextMate
 --------
 
-There is up-to-date qooxdoo support for TextMate. Please see the `blog post <http://news.qooxdoo.org/textmate-qooxdoo-bundle>`_ and the `project info <http://qooxdoo.org/contrib/project/textmate>`_ for this excellent qooxdoo bundle. 
+There is up-to-date qooxdoo support for TextMate. Please see the `blog post <http://news.qooxdoo.org/textmate-qooxdoo-bundle>`__ and the `project info <http://qooxdoo.org/contrib/project/textmate>`_ for this excellent qooxdoo bundle. 
 
 .. _pages/development_tools#emacs:
 
 Emacs
 -----
 
-`js2-mode <http://code.google.com/p/js2-mode/>`_ offers improved JavaScript support in Emacs. While it doesn't include qooxdoo-specific support, it eventually aims to be competitive with other best-of-class JavaScript editors. Also see the original `blog post <http://steve-yegge.blogspot.com/2008/03/js2-mode-new-javascript-mode-for-emacs.html>`_
+`js2-mode <http://code.google.com/p/js2-mode/>`_ offers improved JavaScript support in Emacs. While it doesn't include qooxdoo-specific support, it eventually aims to be competitive with other best-of-class JavaScript editors. Also see the original `blog post <http://steve-yegge.blogspot.com/2008/03/js2-mode-new-javascript-mode-for-emacs.html>`__.
 
