@@ -147,7 +147,7 @@ The usage equals to the usage of all other controllers. The main properties of i
     // create the model
     var model = formController.createModel();
 
-If you nee additional information on forms, see :ref:`form handling documentation <pages/ui_form_handling#form_object>`.
+If you nee additional information on forms, see :ref:`form handling documentation <pages/gui_toolkit/ui_form_handling#form_object>`.
 After executing this code, the controller and the model variable do have the model available and therefore, the controller can set up the bindings.
 
 .. _pages/data_binding/controller#combining_controller:
