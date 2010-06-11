@@ -252,10 +252,12 @@ build-docs-pdf:
 build-docs: build-docs-html build-docs-pdf
 
 publish-docs:
-	@echo "  * Syncing HTML docs..."
+	@echo "  * Publishing HTML docs to staging host..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
-	@echo "  * Syncing PDF doc..."
+	@echo "  * Publishing PDF doc to staging host..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+	@echo "  * Pushing to production host..."
+	@ssh -A qooxdoo@webtechfe-test01.schlund.de /var/www/qooxdoo/bin/webtechfe01.mirror.sh
 
 check-docs: check-docs-html check-docs-pdf
 
