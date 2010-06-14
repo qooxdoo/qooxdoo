@@ -212,17 +212,20 @@ qx.Class.define("playground.Application",
         if (!confirm(this.tr("You changed the code of the current sample.|" +
           "Click OK to discard your changes.").replace(/\|/g, "\n")))
         {
-          return ;
+          return;
         }
       }
+      
+      var sampleName = e.getData();
 
       // set the new sample data
-      var newSample = this.__samples.get(e.getData());
+      var newSample = this.__samples.get(sampleName);
       // need to get the code from the editor in case he changes something
       // in the code
       this.__editor.setCode(newSample);
       this.setOriginCode(this.__editor.getCode());
 
+      this.__history.addToHistory(sampleName);
       this.setName(e.getData());
       // run the new sample
       this.run();
@@ -318,9 +321,9 @@ qx.Class.define("playground.Application",
 
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
-      if (state && this.__samples.isAvailable(name))
+      if (state && this.__samples.isAvailable(state))
       {
-        var sample = this.__samples.get(name);
+        var sample = this.__samples.get(state);
         code = sample;
 
       // check if a gist id is given
