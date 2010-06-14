@@ -70,7 +70,14 @@ qx.Class.define("feedreader.io.FeedLoader",
       var store = new qx.data.store.Yql(query, {manipulateData : function(data) {
         // if the query was sucessful
         if (data.query.results) {
-          return data.query.results.item || data.query.results.entry;          
+          data = data.query.results.item || data.query.results.entry;
+          // normalize titles
+          for (var i = 0; i < data.length; i++) {
+            if (!qx.lang.Type.isString(data[i].title)) {
+              data[i].title = data[i].title.content;
+            }
+          };
+          return data;
         }
         return "failed";
       }}, qx.bom.client.Feature.SSL);
