@@ -736,8 +736,9 @@ qx.Class.define("qx.event.handler.Keyboard",
        44 : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
       145 : "Scroll",       // The scroll lock key
        19 : "Pause",        // The pause/break key
-       91 : "Win",          // The Windows Logo key
-       93 : "Apps"          // The Application key (Windows Context Menu)
+       91 : qx.bom.client.Platform.MAC ? "cmd" : "Win", // The left Windows Logo key or left cmd key
+       92 : "Win",          // The right Windows Logo key or left cmd key       
+       93 : qx.bom.client.Platform.MAC ? "cmd" : "Apps" // The Application key (Windows Context Menu) or right cmd key
     },
 
 
