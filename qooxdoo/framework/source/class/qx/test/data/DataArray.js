@@ -171,6 +171,15 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals("two", this.__a.shift(), "Shift does not work.");
       this.assertEquals(1, this.__a.length, "Shift does not work.");
     },
+    
+    
+    testShiftWithEventPropagation : function() {
+      var data = { 
+        "bar" : [1,2,3,4,5] 
+      }; 
+      var model = qx.data.marshal.Json.createModel( data, true ); 
+      this.assertEquals(1, model.getBar().shift());
+    },
 
 
     testUnshift: function() {

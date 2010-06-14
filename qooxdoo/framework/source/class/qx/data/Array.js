@@ -217,7 +217,7 @@ qx.Class.define("qx.data.Array",
       var item = this.__array.shift();
       this.__updateLength();
       // remove the possible added event listener
-      this._applyEventPropagation(null, item);
+      this._applyEventPropagation(null, item, this.length -1);
       this.fireDataEvent("change",
         {
           start: 0,
