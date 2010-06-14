@@ -51,8 +51,8 @@ def _handleResources(script, generator):
 
     def createResourceInfo(res, resval):
         resinfo = [ { "target": "resource", "data": { res : resval }} ]
-        filetool.save(approot+"/data/resource/" + res + ".json", json.dumpsCode(resinfo))
-        return
+        #filetool.save(approot+"/data/resource/" + res + ".json", json.dumpsCode(resinfo))
+        return resinfo
 
     def copyResource(res):
         filetool.directory(approot+"/resource/"+os.path.dirname(res))
@@ -76,9 +76,13 @@ def _handleResources(script, generator):
     for packageId, package in enumerate(packages):
         allresources.update(package.data.resources)
     
+    resinfos = {}
     for res in allresources:
-        createResourceInfo(res, allresources[res])
+        resinfos[res] = createResourceInfo(res, allresources[res])
         copyResource(res)
+
+    filetool.save(approot+"/data/resource/resources.json", json.dumpsCode(resinfos))
+
     return
 
 
