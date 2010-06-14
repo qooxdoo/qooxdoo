@@ -33,7 +33,7 @@ def runProvider(script, generator):
     # generate resource info
     _handleResources(script, generator)
     # generate translation files
-    #_handleI18N()
+    _handleI18N(script, generator)
 
     return
 
@@ -79,14 +79,29 @@ def _handleResources(script, generator):
     return
 
 
-def _handleI18N():
+def _handleI18N(script, generator):
     filetool.directory("./provider/data/translation")
-    for lang in locales:
+    translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, script.variants, script.locales)
+
+    data_by_lang = {}
+
+    for trans_dat, loc_dat in translationMaps:  # (trans_dat, loc_dat) is per package
+        for lang in trans_dat:  # key = "en", "fr", ...
+            if lang not in data_by_lang:
+                data_by_lang[lang] = {}
+            data_by_lang[lang].update(trans_dat[lang])
+        for lang in loc_dat:  # key = "en", "fr", ...
+            if lang not in data_by_lang:
+                data_by_lang[lang] = {}
+            data_by_lang[lang].update(loc_dat[lang])  # we merge .po and cldr data in one map
+
+    for lang in data_by_lang:
         filename = "i18n-" + lang
         filemap  = {}
-        for key in translations[lang]:
-            filemap[key] = [ { "target" : "i18n", "data" : { key : translations[lang][key] }} ]
+        for key in data_by_lang[lang]:
+            filemap[key] = [ { "target" : "i18n", "data" : { key : data_by_lang[lang][key] }} ]
         # add: CLDR data!?
 
-        filetool.save("provider/data/translation/"+filename, json.dumpsCode(filemap))
+        filetool.save("provider/data/translation/"+filename+".json", json.dumpsCode(filemap))
+
     return

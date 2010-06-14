@@ -624,6 +624,7 @@ class Generator(object):
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             if "provider" in jobTriggers:
+                script.locales = config.get("compile-options/code/locales", [])
                 CodeProvider.runProvider(script, self)
 
             # debug tasks
@@ -809,13 +810,13 @@ class Generator(object):
                 newval = []
                 for ldep in val["load"]:
                     newdep = ldep.replace(".", "/")
-                    newdep += ".js"
+                    #newdep += ".js"
                     newval.append(newdep)
                 val["load"] = newval
                 newval = []
                 for ldep in val["run"]:
                     newdep = ldep.replace(".", "/")
-                    newdep += ".js"
+                    #newdep += ".js"
                     newval.append(newdep)
                 val["run"] = newval
 
@@ -823,18 +824,18 @@ class Generator(object):
             assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
             classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
             for classId in classToResources:
-                data[classId]["run"].extend(classToResources[classId])
+                data[classId]["run"].extend(["/resource/"+x for x in classToResources[classId]])
                 
             # Message key deps
             for classId in data:
                 classKeys = self._locale.getTranslation(classId, {})
-                transKeys = ["translation#" + x['id'] for x in classKeys]
+                transKeys = ["/translation/i18n-${lang}#" + x['id'] for x in classKeys]
                 data[classId]["run"].extend(transKeys)
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
             for key, val in data.items():
                 newkey = key.replace(".", "/")
-                newkey += ".js"
+                #newkey += ".js"
                 data[newkey] = data[key]
                 del data[key]
 
