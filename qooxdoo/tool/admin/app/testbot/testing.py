@@ -40,12 +40,10 @@ class TestRun:
         self.configuration = config
         if self.getConfigSetting("base/type", "") == "standalone-generator":
             self.configuration = self.getConfigFromGenerator()
-        
         self.log = logger
-        
         self.simulate = simulate
-        
         self.startDate = util.getTimestamp()
+        self.buildStatus = {}
         if "base" in self.configuration:
             self.configuration["base"]["testHostName"] = util.getHostName()
         
@@ -133,8 +131,6 @@ class TestRun:
     def runPackage(self):
         self.log.indent()
         testType = self.getConfigSetting("base/type", "standalone")
-        
-        self.buildStatus = {}
 
         if testType == "remote" and "testRun" in self.configuration:
             jUrl = self.getConfigSetting("testRun/host", "")
@@ -252,7 +248,6 @@ class TestRun:
                 return
         
         self.log.info("Running simulations for %s" %app)
-        testStartDate = util.getTimestamp()
         for browser in appConf["browsers"]:
             if manageSeleniumServer and individualServer:
                 seleniumServer = SeleniumServer(seleniumConfig, logger=self.log)
@@ -281,7 +276,7 @@ class TestRun:
               "autHost" : self.getConfigSetting("testRun/host", ""),
               "autQxPath" : self.getConfigSetting("testRun/qxPath", ""),
               "autPath" : appConf["path"],
-              "startDate" : testStartDate,
+              "startDate" : self.startDate,
               "testHostName" : self.getConfigSetting("base/testHostName", ""),
               "testHostId" : self.getConfigSetting("base/testHostId", ""),
             }
