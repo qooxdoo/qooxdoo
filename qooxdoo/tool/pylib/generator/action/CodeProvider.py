@@ -39,27 +39,30 @@ def runProvider(script, generator):
 
 
 def _handleCode(script):
-    filetool.directory("./provider/code")
+    approot = context.jobconf.get("provider/app-root", "./provider")
+    filetool.directory(approot + "/code")
     for clazz in script.classes:
         classId = clazz.replace(".","/") + ".js"
-        filetool.directory("provider/code/"+os.path.dirname(classId))
-        shutil.copy("source/class/"+classId, "provider/code/"+classId)
+        filetool.directory(approot+"/code/"+os.path.dirname(classId))
+        shutil.copy("source/class/"+classId, approot+"/code/"+classId)
     return
 
 def _handleResources(script, generator):
+
     def createResourceInfo(res, resval):
         resinfo = [ { "target": "resource", "data": { res : resval }} ]
-        filetool.save("provider/data/resource/" + res + ".json", json.dumpsCode(resinfo))
+        filetool.save(approot+"/data/resource/" + res + ".json", json.dumpsCode(resinfo))
         return
 
     def copyResource(res):
-        filetool.directory("provider/resource/"+os.path.dirname(res))
-        shutil.copy("source/resource/"+res, "provider/resource/"+res)
+        filetool.directory(approot+"/resource/"+os.path.dirname(res))
+        shutil.copy("source/resource/"+res, approot+"/resource/"+res)
         return
 
     # ----------------------------------------------------------------------
-    filetool.directory("./provider/data/resource")
-    filetool.directory("./provider/resource")
+    approot = context.jobconf.get("provider/app-root", "./provider")
+    filetool.directory(approot+"/data/resource")
+    filetool.directory(approot+"/resource")
     
     # quick copy of runLogResources, for fast results
     packages   = script.packagesSortedSimple()
@@ -80,7 +83,8 @@ def _handleResources(script, generator):
 
 
 def _handleI18N(script, generator):
-    filetool.directory("./provider/data/translation")
+    approot = context.jobconf.get("provider/app-root", "./provider")
+    filetool.directory(approot+"/data/translation")
     translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, script.variants, script.locales)
 
     data_by_lang = {}
@@ -102,6 +106,6 @@ def _handleI18N(script, generator):
             filemap[key] = [ { "target" : "i18n", "data" : { key : data_by_lang[lang][key] }} ]
         # add: CLDR data!?
 
-        filetool.save("provider/data/translation/"+filename+".json", json.dumpsCode(filemap))
+        filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(filemap))
 
     return
