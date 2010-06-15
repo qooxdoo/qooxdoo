@@ -171,7 +171,7 @@ qx.Class.define("qx.core.Object",
      */
     clone : function()
     {
-      var clazz = this.constructor
+      var clazz = this.constructor;
       var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
       var user = qx.core.Property.$$store.user;
@@ -219,7 +219,7 @@ qx.Class.define("qx.core.Object",
         {
           if (this["set" + qx.Bootstrap.firstUp(data)] != undefined) {
             this["set" + qx.Bootstrap.firstUp(data)](value);
-            return;
+            return this;
           }
 
           if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -309,7 +309,7 @@ qx.Class.define("qx.core.Object",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           qx.Bootstrap.error("No such property: " + prop);
-          return this;
+          return;
         }
       }
 
