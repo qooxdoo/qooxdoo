@@ -348,6 +348,17 @@ qx.Class.define("qx.data.controller.List",
         // as we changed only the labels of the items, the changeselection of
         // the target my be missing so we invoke it here
         this._changeTargetSelection();
+      } else {
+        var target = this.getTarget();
+        // if the model is set to null, we should remove all items in the target
+        if (target != null) {
+          // we need to remove the bidnings too so use the controller method
+          // for remving items
+          var length = target.getChildren().length;
+          for (var i = 0; i < length; i++) {
+            this.__removeItem();
+          };
+        }
       }
     },
 

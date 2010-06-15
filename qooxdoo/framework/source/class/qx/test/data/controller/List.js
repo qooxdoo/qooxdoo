@@ -78,6 +78,15 @@ qx.Class.define("qx.test.data.controller.List",
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
     },
+    
+    
+    testEmptyList: function() {
+      this.__setUpString();
+      this.__controller.setModel(null);
+      
+      // check that the list is empty
+      this.assertEquals(0, this.__list.getChildren().length);
+    },    
 
 
     testStringElementRemove: function() {
