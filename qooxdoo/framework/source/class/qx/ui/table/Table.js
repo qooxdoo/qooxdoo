@@ -1567,8 +1567,19 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @return {void}
      */
-    clearFocusedRowHighlight : function()
+    clearFocusedRowHighlight : function(evt)
     {
+      if(evt)
+      {
+        var relatedTarget = evt.getRelatedTarget();
+        if (
+          relatedTarget instanceof qx.ui.table.pane.Pane ||
+          relatedTarget instanceof qx.ui.table.pane.FocusIndicator
+         ) {
+           return ;
+         }
+      }
+
       // Remove focus from any cell that has it
       this.resetCellFocus();
 
