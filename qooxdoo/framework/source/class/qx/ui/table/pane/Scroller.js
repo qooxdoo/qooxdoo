@@ -2133,6 +2133,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    /**
+     * Return the pane clipper. It is sometimes required for special activities
+     * such as tracking events for drag&drop.
+     *
+     * @return {qx.ui.table.pane.Clipper}
+     *   The pane clipper for this scroller.
+     */
+    getPaneClipper : function()
+    {
+      return this.__paneClipper;
+    },
+
     // property apply method
     _applyScrollTimeout : function(value, old) {
       this._startInterval(value);
