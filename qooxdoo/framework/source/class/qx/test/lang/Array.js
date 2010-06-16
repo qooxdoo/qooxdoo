@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -92,7 +93,36 @@ qx.Class.define("qx.test.lang.Array",
       var a = [ ];
       var result = qx.lang.Array.max(a);
       this.assertEquals(null, result);
-    }
+    },
 
+
+    testRemove : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      qx.lang.Array.remove(a, 2);
+
+      this.assertJsonEquals(a, [ -3, -2, -1, 0, 1, 3 ]);
+      this.assertEquals(6, a.length);
+    },
+
+
+    testRemoveAt : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      qx.lang.Array.removeAt(a, 3);
+
+      this.assertJsonEquals(a, [ -3, -2, -1, 1, 2, 3 ]);
+      this.assertEquals(6, a.length);
+    },
+
+
+    testRemoveAll : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      qx.lang.Array.removeAll(a);
+
+      this.assertJsonEquals(a, []);
+      this.assertEquals(0, a.length);
+    }
   }
 });
