@@ -825,6 +825,11 @@ qx.Class.define("qx.event.handler.Focus",
           // This is mainly for supporting the keepFocus attribute.
           qx.bom.Event.preventDefault(e);
         }
+        // Bug #3771: No blur event is fired on the previously focused element
+        // unless we explicitly focus the body
+        else if (focusTarget === this._body) {
+          this.setFocus(focusTarget);          
+        }
       },
 
       "mshtml" : function(e)
