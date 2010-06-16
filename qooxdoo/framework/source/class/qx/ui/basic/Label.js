@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.basic.Label",
         // apply the white space style to the label to force it not
         // to wrap if wrap is set to false [BUG #3732]
         var whiteSpace = value ? "normal" : "nowrap";
-        this.getContentElement().setStyle("white-space", whiteSpace);        
+        this.getContentElement().setStyle("whiteSpace", whiteSpace);
       }
     },
 
