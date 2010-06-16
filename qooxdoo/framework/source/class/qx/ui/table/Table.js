@@ -1565,6 +1565,7 @@ qx.Class.define("qx.ui.table.Table",
      *
      *     table.addListener("mouseout", table.clearFocusedRowHighlight);
      *
+     * @param evt {qx.event.type.Mouse} Incoming mouse event
      * @return {void}
      */
     clearFocusedRowHighlight : function(evt)
