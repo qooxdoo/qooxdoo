@@ -32,9 +32,9 @@
 # ENTRY POINTS (for generator)
 #  - DependencyLoader.__init__()
 #  - DependencyLoader.getClassList()
-#  - DependencyLoader.sortClasses()
-#  - DependencyLoader.getMeta()
+#  - DependencyLoader.classlistFromInclude()
 #  - DependencyLoader.getCombinedDeps()
+#  - DependencyLoader.sortClasses()
 #
 ##
 
