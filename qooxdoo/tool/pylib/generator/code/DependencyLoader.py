@@ -230,13 +230,16 @@ class DependencyLoader(object):
         runFinal  = []
 
         # add static dependencies
-        static = self.getDeps(fileId, variants)
+        classObj = self._classesObj[fileId]
+        static   = classObj.dependencies(variants)
+        #static   = self.getDeps(fileId, variants)
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
 
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :
-            depsUnOpt = self.getDeps(fileId, {})  # get unopt deps
+            #depsUnOpt = self.getDeps(fileId, {})  # get unopt deps
+            depsUnOpt = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
             for depItem in depsUnOpt["load"]:
@@ -272,6 +275,7 @@ class DependencyLoader(object):
     # (#require, ...) as well as class code)
     # - interface method
     #
+    # TODO: This belongs to generator.code.Class
     def getDeps(self, fileId, variants):
 
         ##

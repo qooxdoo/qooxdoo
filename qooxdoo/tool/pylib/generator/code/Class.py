@@ -24,21 +24,41 @@
 ##
 
 import os, sys, re, types, codecs
-from ecmascript.frontend import treeutil, tokenizer, treegenerator, lang
+from misc                           import util, filetool
+from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
+from ecmascript.frontend.Script import Script
 from ecmascript.transform.optimizer import variantoptimizer
-from misc import util, filetool
+
+DefaultIgnoredNamesDynamic = None
+QXGLOBALS = [
+    #"clazz",
+    "qxvariants",
+    "qxsettings",
+    r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
+    ]
+
+_memo1_ = {}  # for memoizing getScript()
+_memo2_ = [None, None]
+
+GlobalSymbolsRegPatts = []
+for symb in lang.GLOBALS + QXGLOBALS:
+    GlobalSymbolsRegPatts.append(re.compile(r'^%s\b' % symb))
+GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
+
 
 class Class(object):
 
-    def __init__(self, id, path, library, context):
+
+    def __init__(self, id, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
-        global console, cache
+        global console, cache, DefaultIgnoredNamesDynamic
         self.id         = id   # qooxdoo name of class, classId
         self.path       = path  # file path of this class
         self.size       = -1
         self.encoding   = 'utf-8'
         self.library    = library
         self.context    = context
+        self._classesObj= container   # this is ugly, but curr. used to identify known names
         self.source     = u''  # source text of this class
         #self.ast        = None # ecmascript.frontend.tree instance
         self.scopes     = None # an ecmascript.frontend.Script instance
@@ -46,6 +66,8 @@ class Class(object):
 
         console = context["console"]
         cache   = context["cache"]
+
+        DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
 
 
     # --------------------------------------------------------------------------
@@ -208,9 +230,9 @@ class Class(object):
 
             load   = []
             run    = []
-            ignore = [DependencyItem(x,-1) for x in self._defaultIgnore]
+            ignore = [DependencyItem(x,-1) for x in DefaultIgnoredNamesDynamic]
 
-            console.debug("Gathering dependencies: %s" % fileId)
+            console.debug("Gathering dependencies: %s" % self.id)
             console.indent()
 
             # Read meta data
@@ -267,7 +289,7 @@ class Class(object):
 
         # handles cache and invokes worker function
 
-        classVariants    = clazz.classVariants()
+        classVariants    = self.classVariants()
         relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
 
@@ -281,7 +303,7 @@ class Class(object):
         # end:dependencies()
 
 
-    def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, warn, inFunction, variants):
+    def _analyzeClassDepsNode(self, node, loadtime, runtime, warn, inFunction, variants):
         # analyze a class AST for dependencies (compiler hints not treated here)
         # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
         # the "variants" param is only to support getMethodDeps()!
@@ -363,7 +385,7 @@ class Class(object):
                 target.append(DependencyItem(assembledId, lineno))
 
             if (not inFunction and  # only for loadtime items
-                self._jobconf.get("dependencies/follow-static-initializers", False) and
+                self.context['jobconf'].get("dependencies/follow-static-initializers", False) and
                 node.hasParentContext("call/operand")  # it's a method call
                ):  
                 deps = self.getMethodDeps(assembledId, assembled, variants)
@@ -376,7 +398,7 @@ class Class(object):
             if (assembledId and
                 assembledId in self._classesObj and       # we have a class id
                 assembledId != fileId and
-                self._jobconf.get("dependencies/follow-static-initializers", False) and
+                self.context['jobconf'].get("dependencies/follow-static-initializers", False) and
                 node.hasParentContext("call/operand")  # it's a method call
                ):
                 return True
@@ -395,13 +417,15 @@ class Class(object):
 
         # -----------------------------------------------------------
 
+        fileId = self.id
+
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
 
             # treat dependencies in defer as requires
             deferNode = checkDeferNode(assembled, node)
             if deferNode != None:
-                self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False, variants)
+                self._analyzeClassDepsNode(deferNode, loadtime, runtime, warn, False, variants)
 
             # try to reduce to a class name
             assembledId = reduceAssembled(assembled, node)
@@ -452,7 +476,7 @@ class Class(object):
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction, variants)
+                self._analyzeClassDepsNode(child, loadtime, runtime, warn, inFunction, variants)
 
         return
 
@@ -697,7 +721,7 @@ class Class(object):
 
         # ----------------------------------------------------------
 
-        fileEntry = self._classesObj[fileId]
+        fileEntry = self
         filePath = fileEntry.path
         cacheId = "meta-%s" % filePath
 

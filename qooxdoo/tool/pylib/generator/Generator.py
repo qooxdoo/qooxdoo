@@ -266,7 +266,7 @@ class Generator(object):
                 _classes.update(classes)
 
                 for key,entry in classes.items():
-                    clazz = Class(key, entry["path"], lib, self._context)
+                    clazz = Class(key, entry["path"], lib, self._context, _classesObj)
                     clazz.encoding = entry["encoding"]
                     clazz.size     = entry["size"]     # dependency logging uses this
                     clazz.package  = entry["package"]  # Apiloader uses this
@@ -547,7 +547,7 @@ class Generator(object):
         # get a class list with no variants (all-encompassing)
         #classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
         #                             excludeNoDeps, {}, verifyDeps=True, script=None)
-        classListProducer = functools.partial(
+        classListProducer = functools.partial(  # the args are complete, but invocation shall be later
                                computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
                                      excludeNoDeps, {}, verifyDeps=True, script=None)
         
@@ -607,8 +607,11 @@ class Generator(object):
                     script.buildType = "build"
 
             # get current class list
-            script.classes  = computeClassList(includeWithDeps, excludeWithDeps, 
-                                               includeNoDeps, excludeNoDeps, variants, script=script)
+            script.classes    = computeClassList(includeWithDeps, excludeWithDeps, 
+                                                 includeNoDeps, excludeNoDeps, variants, script=script)
+              # keep the list of class objects in sync
+            script.classesObj = [self._classesObj[id] for id in script.classes]
+
             # prepare 'script' object
             if set(("compile", "log")).intersection(jobTriggers):
                 partsConfigFromClassList(excludeWithDeps, script)
@@ -749,7 +752,8 @@ class Generator(object):
         def lookupUsedByDeps(packages):
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
-                    classDeps = self._depLoader.getDeps(classId, variants)
+                    classObj = ClassIdToObject[classId]
+                    classDeps = classObj.dependencies(variants)
                     for dep in classDeps["load"]:
                         yield (packageId, dep.name, classId, 'load')  # the packageId is somewhat bogus here
                     for dep in classDeps["run"]:
@@ -762,7 +766,8 @@ class Generator(object):
         def lookupUsingDeps(packages):
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
-                    classDeps = self._depLoader.getDeps(classId, variants)
+                    classObj = ClassIdToObject[classId]
+                    classDeps = classObj.dependencies(variants)
                     if classDeps["load"]:
                         for dep in classDeps["load"]:
                             yield (packageId, classId, dep.name, 'load')
@@ -1121,6 +1126,9 @@ class Generator(object):
         packages   = script.packagesSortedSimple()
         parts      = script.parts
         variants   = script.variants
+
+        # create a temp. lookup map to access Class() objects
+        ClassIdToObject = dict([(classObj.id, classObj) for classObj in script.classesObj])
         
         depsLogConf = ExtMap(depsLogConf)
 
