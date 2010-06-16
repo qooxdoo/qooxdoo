@@ -41,7 +41,8 @@ qx.Class.define("qx.io.remote.Request",
    *   Target url to issue the request to.
    *
    * @param vMethod {String}
-   *   Determines that type of request to issue (GET or POST). Default is GET.
+   *   Determines http method (GET, POST, PUT, etc.) to use. See "method" property
+   *   for valid values and default value.
    *
    * @param vResponseType {String}
    *   The mime type of the response. Default is text/plain.
