@@ -236,7 +236,7 @@ class Class(object):
             console.indent()
 
             # Read meta data
-            meta         = self.getMeta(self.id)
+            meta         = self.getMeta()
             metaLoad     = meta.get("loadtimeDeps", [])
             metaRun      = meta.get("runtimeDeps" , [])
             metaOptional = meta.get("optionalDeps", [])
@@ -658,7 +658,7 @@ class Class(object):
     }
 
 
-    def getMeta(self, fileId):
+    def getMeta(self, ):
 
         def _extractLoadtimeDeps(data, fileId):
             deps = []
@@ -723,6 +723,7 @@ class Class(object):
 
         fileEntry = self
         filePath = fileEntry.path
+        fileId   = self.id
         cacheId = "meta-%s" % filePath
 
         meta = cache.readmulti(cacheId, filePath)
@@ -764,6 +765,294 @@ class Class(object):
                 continue
 
         return result
+
+    ######################################################################
+    #  METHOD DEPENDENCIES SUPPORT
+    ######################################################################
+
+    def getMethodDeps(self, fileId, methodNameFQ, variants):
+        # find the dependencies of a specific method
+        # get the fileId class, find the node of methodNameFQ, and extract its
+        # dependencies (can only be runtime deps, since all inFunction)
+        # return the deps
+
+        def findMethodName(fileId, methodNameFQ):
+            mo = re.match(r'(?u)^%s\.(.+)$' % fileId, methodNameFQ)
+            if mo and mo.group(1):
+                return mo.group(1)
+            else:
+                return u''
+        
+        def findMethod(tree, methodName):
+            for node in treeutil.nodeIterator(tree, ["function"]):  # check function nodes
+                if node.hasParentContext("keyvalue/value"): # it's a key : function() member
+                    keyvalNode = node.parent.parent
+                    key = keyvalNode.get("key", False)
+                    if key and key == methodName:
+                        return node
+            return None
+
+        # get the method name
+        if fileId == methodNameFQ:  # corner case: the class is being called
+            methodName = "construct"
+        else:
+            methodName = findMethodName(fileId, methodNameFQ) # methodNameFQ - fileId = methodName
+        if methodName == "getInstance": # corner case: singletons get this from qx.Class
+            fileId = "qx.Class"
+
+        # get the class code
+        tree = self._classesObj[fileId].tree( variants)
+
+        # find the method node
+        funcNode   = findMethod(tree, methodName)
+        if not funcNode:
+            raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, fileId)
+
+        # get the deps of the method
+        runtime  = []
+        loadtime = []
+        warn     = []
+        self._analyzeClassDepsNode(fileId, funcNode, runtime, loadtime, warn, True, variants)
+
+        # remove reference to itself
+        while fileId in loadtime:
+            loadtime.remove(fileId)
+
+        return loadtime
+
+
+    ##
+    # find all run time dependencies of a given method, recursively
+    #
+    # this is supposed to be an improved version of getMethodDeps() that should be really
+    # exhaustive (and therefore reliable):
+    # - get the immediate runtime dependencies of the current method; for each of those dependencies:
+    # - if it is a "<name>.xxx" method/attribute:
+    #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
+    #   - add this class#method to dependencies
+    #   - recurse on dependencies of this class#method, adding them to the current dependencies
+    # currently only a thin wrapper around its recursive sibling, getMethodDepsR
+
+    def getMethodDeps1(self, classId, methodId, variants):
+
+        ##
+        # find the class the given <methodId> is defined in; start with the
+        # given class, inspecting its class map to find the method; if
+        # unsuccessful, recurse on the potential super class and mixins; return
+        # the defining class name, and the tree node defining the method
+        # (actually, the map value of the method name key, whatever that is)
+        #
+        # @out <string> class that defines method
+        # @out <tree>   tree node value of methodId in the class map
+
+        def findClassForMethod(clazzId, methodId, variants):
+
+            def classHasOwnMethod(classAttribs, methId):
+                candidates = {}
+                candidates.update(classAttribs.get("members",{}))
+                candidates.update(classAttribs.get("statics",{}))
+                if "construct" in classAttribs:
+                    candidates.update(dict((("construct", classAttribs.get("construct")),)))
+                if methId in candidates.keys():
+                    return candidates[methId]  # return the definition of the attribute
+                else:
+                    return None
+
+            # get the method name
+            if  methodId == u'':  # corner case: the class is being called
+                methodId = "construct"
+            elif methodId == "getInstance": # corner case: singletons get this from qx.Class
+                clazzId = "qx.Class"
+            # TODO: getter/setter are also not statically available!
+            # handle .call() ?!
+            if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
+                return True, True
+            elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+                return None, None
+
+            tree = self._classesObj[clazzId].tree( variants)
+            clazz = treeutil.findQxDefine(tree)
+            classAttribs = treeutil.getClassMap(clazz)
+            keyval = classHasOwnMethod(classAttribs, methodId)
+            if keyval:
+                return clazzId, keyval
+
+            # inspect inheritance/mixins
+            parents = []
+            extendVal = classAttribs.get('extend', None)
+            if extendVal:
+                extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
+                parents.extend(extendVal)
+            includeVal = classAttribs.get('include', None)
+            if includeVal:
+                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+                parents.extend(includeVal)
+
+            # go through all ancestors
+            for parClass in parents:
+                rclass, keyval = findClassForMethod(parClass, methodId, variants)
+                if rclass:
+                    return rclass, keyval
+            return None, None
+
+        ##
+        # split a composed identifier into its class and attribute part, so that
+        # <assembled> = <assembledId>.<attribute>
+
+        def splitClassAttribute(assembledId, assembled):
+            if assembledId == assembled:  # just a class id
+                clazzId   = assembledId
+                attribute = u''
+            else:
+                clazzId   = assembledId
+                attribute = assembled[ len(assembledId) +1 :] # a.b.c.d = a.b.c + '.' + d
+                
+            return clazzId, attribute
+
+
+        ##
+        # extract the class name from a composed identifier
+        # "qx.Class.define" -> "qx.Class"
+
+        def reduceAssembled(assembled, node):
+            assembledId = ''
+            if assembled in self._classesObj:
+                assembledId = assembled
+            elif "." in assembled:
+                for entryId in self._classesObj.keys() + ["this"]:
+                    if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
+                        if len(entryId) > len(assembledId): # take the longest match
+                            assembledId = entryId
+            return assembledId
+
+
+        ##
+        # find interesting identifiers in a (method) source tree; "interesting"
+        # means references to other methods within the qooxdoo world;
+        # returns the full identifiers
+
+        def getReferencesFromSource(fileId, node, runtime):
+            # the "variants" param is only to support getMethodDeps()!
+
+            ##
+            # currently interesting are 
+            # - 'new' operands ("new qx.ui.form.Button(...)"), and 
+            # - call operands ("qx.core.Variant.select(...)")
+
+            def isInterestingReference(assembled, node, fileId):
+                # check name in 'new ...' position
+                if (node.hasParentContext("instantiation/*/*/operand")
+                # check name in call position
+                or (node.hasParentContext("call/operand"))):
+                    # skip built-in classes (Error, document, RegExp, ...)
+                    for bi in lang.BUILTIN + ['clazz']:
+                        if re.search(r'^%s\b' % bi, assembled):
+                            return False
+                    # skip scoped vars - expensive, therefore last test
+                    if self._isScopedVar(assembled, node, fileId):
+                        return False
+                    else:
+                        return True
+
+                return False
+            
+            # -----------------------------------------------------------
+
+            if node.type == "variable":
+                assembled = (treeutil.assembleVariable(node))[0]
+
+                if isInterestingReference(assembled, node, fileId):
+                    runtime.append(assembled)
+
+            if node.hasChildren():
+                for child in node.children:
+                    getReferencesFromSource(fileId, child, runtime)
+
+            return
+
+
+
+        ##
+        # find dependencies of a method <methodId> that has been referenced from
+        # <classId>. recurse on the immediate dependencies in the method code.
+        #
+        # @param deps accumulator variable set((c1,m1), (c2,m2),...)
+        #
+        # returns a set of pairs each representing a signature (classId,
+        # methodId)
+
+        def getMethodDepsR(classId, methodId, variants, deps):
+            self._console.debug("%s#%s dependencies:" % (classId, methodId))
+            self._console.indent()
+
+            # Check cache
+            filePath= self._classesObj[classId].path
+            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
+            ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            if ndeps != None:
+                self._console.debug("using cached result")
+                #deps.update(ndeps)
+                self._console.outdent()
+                return ndeps
+
+            # Calculate deps
+
+            # find the defining class
+            clazzId, attribValNode = findClassForMethod(classId, methodId, variants)
+
+            # Get the method's immediate deps
+            deps_rt = []
+            getReferencesFromSource(clazzId, attribValNode, deps_rt)
+            ndeps= set(())
+            # put into right format
+            for dep in deps_rt:
+                assId = reduceAssembled(dep)
+                if assId == u'':  # unknown class
+                    self._console.info("Skipping unknown id: %r" % dep)
+                    continue
+                clazzId, methId = splitClassAttribute(assId, dep)
+                ndeps.add((clazzId,methId))
+
+            self._console.debug("Code references: %r" % list(ndeps))
+
+            # Recurse on the immediate deps
+            ndepslist = list(ndeps)
+            ndeps     = set(())   # will be re-populated with brushed values (e.g. 'this' gone)
+            for clazzId, methId in ndepslist:
+                if clazzId == "this":
+                    clazzId = classId
+                ndeps.add((clazzId, methId))
+                nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
+                if not nclazzId:
+                    self._console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
+                elif nclazzId == True:  # this must be a known global (like Error, Regexp, ...)
+                    self._console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
+                    continue
+                else:
+                    clazzId = nclazzId
+                    # cyclic check
+                    if (clazzId, methId) in deps:
+                    #if (clazzId, methId) == (classId, methodId):
+                        self._console.debug("Class.method already seen, skipping: %s#%s" % (clazzId, methId))
+                        continue
+                    else:
+                        ndeps.add((clazzId, methId))
+                        assert clazzId in self._classesObj
+                        r = getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
+                        ndeps.update(r)
+
+            # Cache update
+            self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
+            # accumulator update
+            #deps.update(ndeps)
+            self._console.debug("Recursive dependencies: %r" % list(ndeps))
+            self._console.outdent()
+            return ndeps
+
+        # - Main ---------------------
+        deps = getMethodDepsR(classId, methodId, variants, set(()))
+        return deps
+
 
 
 

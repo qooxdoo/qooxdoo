@@ -231,7 +231,8 @@ class ResourceHandler(object):
         self._genobj._console.indent()
         for clazz in classList:
             classMap[clazz] = set(())
-            classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
+            #classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
+            classRes = (self._genobj._classesObj[clazz].getMeta())['assetDeps'][:]
             iresult  = []
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
