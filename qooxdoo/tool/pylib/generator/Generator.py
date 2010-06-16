@@ -824,7 +824,7 @@ class Generator(object):
             assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
             classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
             for classId in classToResources:
-                data[classId]["run"].extend(["/resource/"+x for x in classToResources[classId]])
+                data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
                 
             # Message key deps
             for classId in data:
