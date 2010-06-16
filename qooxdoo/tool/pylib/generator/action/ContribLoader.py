@@ -30,14 +30,19 @@ class ContribLoader(object):
     def __init__(self):
         pass
 
+    # mirror line (16jun10):
+    # <a href="/viewvc/qooxdoo-contrib?view=revision&amp;revision=19517" title="Revision 19517">19517
+    revisionpatt = re.compile("\/viewvc\/qooxdoo-contrib\?view\=\S*?revision\=([0-9]+)")
+
     def getRevision(self, contrib):
         # returns: (updatedFromInternet?, currentRevision)
         rev_url = "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib
         data = urllib.urlopen(rev_url)
         for line in data:
-            match = re.compile("\/viewvc\/qooxdoo-contrib\?view\=rev\&amp;revision\=([0-9]+)").search(line)
+            match = self.revisionpatt.search(line)
             if match:
                 return match.group(1)
+        return ""
 
 
     def download(self, contrib, contrib_cache):
@@ -49,6 +54,9 @@ class ContribLoader(object):
                 externalRevision = self.getRevision(contrib)
             except IOError:
                 print >> sys.stderr, "Could not connect to the internet."
+                return (False, -1)
+            if not externalRevision:
+                print >> sys.stderr, "Could not determine current revision of \"%s\"" % contrib
                 return (False, -1)
 
         # get local revision nr
