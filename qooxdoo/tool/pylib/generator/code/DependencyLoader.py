@@ -39,10 +39,11 @@
 ##
 
 import sys, re, os, types
-
-from ecmascript.frontend import lang
-from misc.ExtMap import ExtMap
 import graph
+
+from misc.ExtMap                import ExtMap
+from ecmascript.frontend        import lang
+from generator.code.Class       import DependencyItem
 
 class DependencyLoader(object):
 
@@ -337,12 +338,3 @@ class DependencyLoader(object):
         classList = gr.topological_sorting()
 
         return classList
-
-
-
-class DependencyItem(object):
-    __slots__ = ('name', 'line')
-    def __init__(self, name, line):
-        self.name = name
-        self.line = line
-
