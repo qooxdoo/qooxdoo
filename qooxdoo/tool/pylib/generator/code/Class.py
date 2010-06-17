@@ -257,7 +257,7 @@ class Class(object):
                     if item in metaOptional:
                         pass
                     elif item in (x.name for x in load):
-                        console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
+                        console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
                     else:
                         load.append(dep)
 
@@ -269,7 +269,7 @@ class Class(object):
                     elif item in (x.name for x in load):
                         pass
                     elif item in (x.name for x in run):
-                        console.warn("%s: #use(%s) is auto-detected" % (fileId, item))
+                        console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
                     else:
                         run.append(dep)
 
