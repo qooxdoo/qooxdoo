@@ -427,6 +427,8 @@ class Locale(object):
 
 
 
+    ##
+    # returns translation = [[{'id':, 'plural':, 'hint':, 'method':, 'line':, 'column':}, ...]
     def getTranslation(self, fileId, variants):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]

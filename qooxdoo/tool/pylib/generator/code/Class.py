@@ -1061,6 +1061,8 @@ class DependencyItem(object):
     def __init__(self, name, line):
         self.name = name
         self.line = line
+    def __repr__(self):
+        return self.name
 
 
 # -- temp. module helper functions ---------------------------------------------
