@@ -1388,12 +1388,10 @@ qx.Bootstrap.define("qx.Class",
       for (var i=0, a=qx.Bootstrap.getKeys(clazz), l=a.length; i<l; i++)
       {
         key = a[i];
-        if (clazz.hasOwnProperty(key)) {
-          wrapper[key] = clazz[key];
-        }
+        wrapper[key] = clazz[key];
       }
 
-      // Hot fix for bug #3586
+      // fix prototype
       wrapper.prototype = clazz.prototype;
 
       // fix self references in members
@@ -1401,15 +1399,12 @@ qx.Bootstrap.define("qx.Class",
       for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
       {
         key = a[i];
-        if (members.hasOwnProperty(key))
-        {
-          var method = members[key];
+        var method = members[key];
           
-          // check if method is available because null values can be stored as
-          // init values on classes e.g. [BUG #3709]
-          if (method && method.self == clazz) {
-            method.self = wrapper;
-          }
+        // check if method is available because null values can be stored as
+        // init values on classes e.g. [BUG #3709]
+        if (method && method.self == clazz) {
+          method.self = wrapper;
         }
       }
 
