@@ -489,7 +489,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
       if (this.__contentBlockerCount.length < 1) {
         this.__unblockContent();
-        this.__contentBlockerCount = 0;
+        this.__contentBlockerCount = [];
       }
     },
 
@@ -510,7 +510,6 @@ qx.Class.define("qx.ui.core.Blocker",
       contentBlocker.setStyle("zIndex", null);
 
       this.__unblockContent();
-      this.__contentBlockerCount = 0;
     },
 
 
