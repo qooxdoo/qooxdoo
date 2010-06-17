@@ -754,10 +754,13 @@ class Generator(object):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
                     classDeps = classObj.dependencies(variants)
+                    ignored_names = [x.name for x in classDeps["ignore"]]
                     for dep in classDeps["load"]:
-                        yield (packageId, dep.name, classId, 'load')  # the packageId is somewhat bogus here
+                        if dep.name not in ignored_names:
+                            yield (packageId, classId, dep.name, 'load')  # the packageId is somewhat bogus here
                     for dep in classDeps["run"]:
-                        yield (packageId, dep.name, classId, 'run')
+                        if dep.name not in ignored_names:
+                            yield (packageId, classId, dep.name, 'run')
             return
 
 
@@ -768,11 +771,12 @@ class Generator(object):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
                     classDeps = classObj.dependencies(variants)
-                    if classDeps["load"]:
-                        for dep in classDeps["load"]:
+                    ignored_names = [x.name for x in classDeps["ignore"]]
+                    for dep in classDeps["load"]:
+                        if dep.name not in ignored_names:
                             yield (packageId, classId, dep.name, 'load')
-                    if classDeps["run"]:
-                        for dep in classDeps["run"]:
+                    for dep in classDeps["run"]:
+                        if dep.name not in ignored_names:
                             yield (packageId, classId, dep.name, 'run')
             return
 
