@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/**
+ * Experimental virtual list widget.
+ *
+ * EXPERIMENTAL!
+ */
 qx.Class.define("qx.ui.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
