@@ -178,8 +178,7 @@ qx.Class.define("qx.ui.list.List",
         old.removeListener("change", this._onModelChange, this);
       }
       
-      this.getPane().getRowConfig().setItemCount(value.getLength());
-      this.getPane().fullUpdate();
+      this.__updateRowCount();
     },
     
     _applySelection : function(value, old)
@@ -199,10 +198,8 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
     
-    _onModelChange : function(e)
-    {
-      this.getPane().getRowConfig().setItemCount(this.getModel().getLength());
-      this.getPane().fullUpdate();
+    _onModelChange : function(e) {
+      this.__updateRowCount();
     },
     
     _onSelectionChange : function(e)
@@ -215,15 +212,32 @@ qx.Class.define("qx.ui.list.List",
         this._manager.selectItem(index);
       }
       
-      var currentSelection = this._manager.getSelection();
-      if (selection.getLength() != currentSelection.length) {
-        var nativArray = selection.toArray();
-        qx.lang.Array.removeAll(nativArray);
-        qx.lang.Array.insertAt(nativArray, this.getDataFromRow(currentSelection[0]), 0);
-        selection.length = nativArray.length;
+      if (!this.__isSelectionLengthEqual()) {
+        this.__updateSelection();
       }
       
       this.getPane().fullUpdate();
+    },
+    
+    __updateRowCount : function()
+    {
+      this.getPane().getRowConfig().setItemCount(this.getModel().getLength());
+      this.getPane().fullUpdate();
+    },
+    
+    __isSelectionLengthEqual : function() {
+      return this.getSelection().getLength() == this._manager.getSelection().length; 
+    },
+    
+    __updateSelection : function()
+    {
+      var selection = this.getSelection();
+      var nativArray = selection.toArray();
+      var currentSelection = this._manager.getSelection();
+      
+      qx.lang.Array.removeAll(nativArray);
+      qx.lang.Array.insertAt(nativArray, this.getDataFromRow(currentSelection[0]), 0);
+      selection.length = nativArray.length;
     }
   },
 
