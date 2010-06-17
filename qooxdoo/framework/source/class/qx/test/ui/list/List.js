@@ -138,7 +138,12 @@ qx.Class.define("qx.test.ui.list.List",
       
       this.assertEquals(this.__model.getItem(1), item);
       this.assertTrue(selection.equals(new qx.data.Array([this.__model.getItem(1)])));
-      
+    },
+    
+    testInvalidSelection : function()
+    {
+      var selection = this.__list.getSelection();
+      selection.push(this.__model.getItem(1));
       selection.push(this.__model.getItem(2)); 
       this.flush();
       
@@ -148,7 +153,7 @@ qx.Class.define("qx.test.ui.list.List",
       var item = this.__list._manager.getSelectedItem();
       item = this.__list.getDataFromRow(item);
       
-      this.assertEquals(this.__model.getItem(2), item);  
+      this.assertEquals(this.__model.getItem(2), item); 
     }
   }
 });
