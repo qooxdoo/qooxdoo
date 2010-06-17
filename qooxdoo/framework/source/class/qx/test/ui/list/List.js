@@ -154,6 +154,24 @@ qx.Class.define("qx.test.ui.list.List",
       item = this.__list.getDataFromRow(item);
       
       this.assertEquals(this.__model.getItem(2), item); 
+    },
+    
+    testSelectionByUser : function() {
+      var selection = this.__list.getSelection();
+      
+      var self = this;
+      this.assertEventFired(selection, "change", 
+        function() 
+        {
+          this.__list._manager.selectedItem(3);
+          this.flush();
+        }, 
+        function(e)
+        {
+          var selected = e.getData();
+          this.assertEquals(this.__model.getItem(3), selected);
+        }
+      );
     }
   }
 });
