@@ -51,7 +51,7 @@ qx.Class.define("qx.test.ui.basic.Label",
       var l = new qx.ui.basic.Label();
       l.setRich(true);
       l.setWrap(true);
-      this.assertEquals("normal", l.getContentElement().getStyle("white-space"));
+      this.assertEquals("normal", l.getContentElement().getStyle("whiteSpace"));
       l.dispose();
     },
     
@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.basic.Label",
       var l = new qx.ui.basic.Label();
       l.setRich(true);      
       l.setWrap(false);
-      this.assertEquals("nowrap", l.getContentElement().getStyle("white-space"));
+      this.assertEquals("nowrap", l.getContentElement().getStyle("whiteSpace"));
       l.dispose();      
     }
   }
