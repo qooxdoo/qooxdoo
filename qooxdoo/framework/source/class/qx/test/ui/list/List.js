@@ -156,20 +156,30 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this.__model.getItem(2), item); 
     },
     
-    testSelectionByUser : function() {
+    _testSelectionByUserInteraction : function() {
+      var selection = this.__list.getSelection();
+      
+      this.__list._manager.selectItem(3);
+      this.flush();
+
+      this.assertEquals(1, selection.getLength());
+      this.assertEquals(this.__model.getItem(3), selection.getItem(0));
+    },
+    
+    _testSelectionEventByUserInteraction : function() {
       var selection = this.__list.getSelection();
       
       var self = this;
       this.assertEventFired(selection, "change", 
         function() 
         {
-          this.__list._manager.selectedItem(3);
-          this.flush();
+          self.__list._manager.selectItem(3);
+          self.flush();
         }, 
         function(e)
         {
           var selected = e.getData();
-          this.assertEquals(this.__model.getItem(3), selected);
+          this.assertEquals(self.__model.getItem(3), selected);
         }
       );
     }

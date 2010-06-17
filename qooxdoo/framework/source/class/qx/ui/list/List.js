@@ -160,6 +160,7 @@ qx.Class.define("qx.ui.list.List",
       );
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
+      this._manager.addListener("changeSelection", this._onChangeSelection, this);
     },
     
     __styleSelectabled : function(item) {
@@ -217,6 +218,19 @@ qx.Class.define("qx.ui.list.List",
       }
       
       this.getPane().fullUpdate();
+    },
+    
+    _onChangeSelection : function(e) {
+      // TODO
+      /*var selection = this.getSelection();
+      var currentSelection = e.getData();
+      
+      selection.removeAll();
+      for (var i = 0; i < currentSelection.length; i++)
+      {
+        var row = currentSelection[i];
+        selection.push(this.getDataFromRow(row));
+      }*/
     },
     
     __updateRowCount : function()
