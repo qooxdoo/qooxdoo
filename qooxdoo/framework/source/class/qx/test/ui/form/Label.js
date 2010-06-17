@@ -194,6 +194,15 @@ qx.Class.define("qx.test.ui.form.Label",
     testFocusRemoveCheckBox: function() {
       this.__formWidget = new qx.ui.form.CheckBox();
       this.__testFocusRemove();
+    },
+    
+    
+    testFocusNotFocusableTextField : function() {
+      this.__formWidget = new qx.ui.form.TextField();
+      this.__formWidget.setReadOnly(true);
+      this.__label.setBuddy(this.__formWidget);
+      
+      this.clickOn(this.__label);
     }
 
   },

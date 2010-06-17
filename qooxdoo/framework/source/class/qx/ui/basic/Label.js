@@ -410,7 +410,12 @@ qx.Class.define("qx.ui.basic.Label",
       if (value != null)
       {
         this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
-        this.__clickListenerId = this.addListener("click", value.focus, value);
+        this.__clickListenerId = this.addListener("click", function() {
+          // only focus focusable elements [BUG #3555]
+          if (value.isFocusable()) {
+            value.focus.apply(value);
+          }
+        }, this);
       }
     },
 
