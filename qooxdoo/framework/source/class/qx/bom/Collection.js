@@ -233,7 +233,12 @@
           return qx.bom.Collection.query("#" + id);
         }
 
-        return new qx.bom.Collection(elem);
+        // check if the element does exist
+        if (elem) {
+          return new qx.bom.Collection(elem);
+        } else {
+          return new qx.bom.Collection();
+        }
       },
 
 
