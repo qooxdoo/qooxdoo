@@ -262,7 +262,7 @@ class Locale(object):
         return blocks
 
 
-    def getTranslationData_1(self, classList, variants, targetLocales):
+    def getTranslationData_1(self, classList, variants, targetLocales, addUntranslatedEntries=False):
 
         def extractTranslations(pot,po):
             po.getIdIndex()
@@ -317,8 +317,10 @@ class Locale(object):
                 po = polib.pofile(path)
                 extractTranslations(pot,po)
 
-            translated = pot.translated_entries()
-            result.update(self.entriesToDict(translated))
+            poentries = pot.translated_entries()
+            if addUntranslatedEntries:
+                poentries.extend(pot.untranslated_entries())
+            result.update(self.entriesToDict(poentries))
 
             self._console.debug("Formatting %s entries" % len(result))
             blocks[locale] = result

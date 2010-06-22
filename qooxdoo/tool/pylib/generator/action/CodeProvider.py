@@ -89,7 +89,8 @@ def _handleResources(script, generator):
 def _handleI18N(script, generator):
     approot = context.jobconf.get("provider/app-root", "./provider")
     filetool.directory(approot+"/data/translation")
-    translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, script.variants, script.locales)
+    translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, 
+                                        script.variants, script.locales, addUntranslatedEntries=True)
 
     data_by_lang = {}
 
@@ -107,7 +108,11 @@ def _handleI18N(script, generator):
         filename = "i18n-" + lang
         filemap  = {}
         for key in data_by_lang[lang]:
-            filemap[key] = [ { "target" : "i18n", "data" : { key : data_by_lang[lang][key] }} ]
+            if data_by_lang[lang][key]:
+                filemap[key] = [ { "target" : "i18n", "data" : { key : data_by_lang[lang][key] }} ]
+            else:
+                filemap[key] = [ ]
+
         # add: CLDR data!?
 
         filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(filemap))

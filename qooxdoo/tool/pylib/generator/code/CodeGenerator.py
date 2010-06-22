@@ -472,7 +472,7 @@ class CodeGenerator(object):
         return variats
 
 
-    def getTranslationMaps(self, packages, variants, locales):
+    def getTranslationMaps(self, packages, variants, locales, addUntranslatedEntries=False):
         if "C" not in locales:
             locales.append("C")
 
@@ -485,7 +485,7 @@ class CodeGenerator(object):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
-            pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales) # .po data
+            pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales, addUntranslatedEntries) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
             if i18n_with_packages:
