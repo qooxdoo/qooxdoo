@@ -29,6 +29,7 @@
 import sys, os, re
 from ecmascript.frontend import tree, treegenerator, tokenizer, comment
 from ecmascript.frontend.treeutil import *
+from generator import Context
 
 
 
@@ -255,7 +256,12 @@ def handleMixins(item, classNode, docTree, className):
             classNode.addListChild("superMixins", node)
 
     else:
-        mixins = variableOrArrayNodeToArray(item)
+        try:
+            mixins = variableOrArrayNodeToArray(item)
+        except tree.NodeAccessException:
+            Context.console.warn("")
+            Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
+            return
         for mixin in mixins:
             mixinNode = getClassNode(docTree, mixin)
             includer = mixinNode.get("includer", False)

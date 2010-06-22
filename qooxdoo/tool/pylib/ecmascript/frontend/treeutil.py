@@ -404,6 +404,8 @@ def variableOrArrayNodeToArray(node):
 
     arr = []
     if node.type == "array":
+        if not node.hasChildren():
+            raise tree.NodeAccessException("node has no children", node)
         for child in node.children:
             if child.type == "variable":
                 arr.append((assembleVariable(child))[0])
