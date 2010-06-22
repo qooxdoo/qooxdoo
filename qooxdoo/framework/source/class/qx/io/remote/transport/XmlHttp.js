@@ -98,6 +98,27 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   },
 
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+    /**
+     * If true and the responseType property is set to "application/json", getResponseContent() will
+     * return a Javascript map containing the JSON contents, i. e. the result qx.util.Json.parse().
+     * If false, the raw string data will be returned and the parsing must be done manually. 
+     * This is usefull for special JSON dialects / extensions which are not supported by 
+     * qx.util.Json.
+     */
+    parseJson :
+    {
+      check : "Boolean",
+      init : true
+    }
+   },
 
 
   /*
@@ -773,8 +794,14 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           try {
             if (vText && vText.length > 0)
             {
-              var ret = qx.util.Json.parse(vText, false);
-              return (ret === 0 ? 0 : (ret || null));
+              var ret;
+              if (this.getParseJson()){
+                ret = qx.util.Json.parse(vText, false);
+                ret = (ret === 0 ? 0 : (ret || null));
+              } else {
+                ret = vText;
+              }
+              return ret;
             }
             else
             {

@@ -133,7 +133,20 @@ qx.Class.define("qx.io.remote.Request",
      * Sequence (id) number of a request, used to associate a response or error
      * with its initiating request.
      */
-    __seqNum : 0
+    __seqNum : 0,
+
+    /*
+     * Returns true if the given HTTP method allows a request body being transferred to the server. 
+     * This is currently POST and PUT. Other methods require their data being encoded into
+     * the URL
+     * 
+     * @param httpMethod {String} one of the values of the method property
+     * @return {Boolean} 
+     */
+    methodAllowsRequestBody : function(httpMethod){
+      return (httpMethod == "POST") || (httpMethod == "PUT");
+    }
+    
   },
 
 
@@ -330,7 +343,24 @@ qx.Class.define("qx.io.remote.Request",
     {
       check : "Boolean",
       init : false
-    }
+    },
+    
+    /**
+     * If true and the responseType property is set to "application/json", getContent() will
+     * return a Javascript map containing the JSON contents, i. e. the result qx.util.Json.parse().
+     * If false, the raw string data will be returned and the parsing must be done manually. 
+     * This is usefull for special JSON dialects / extensions which are not supported by 
+     * qx.util.Json.
+     * 
+     * Note that this is currently only respected by qx.io.remote.transport.XmlHttp, i. e. 
+     * if the transport used is the one using XMLHttpRequests. The other transports 
+     * do not support JSON parsing, so this property has no effect.
+     */
+    parseJson :
+    {
+      check : "Boolean",
+      init : true
+    }    
   },
 
 
@@ -712,7 +742,7 @@ qx.Class.define("qx.io.remote.Request",
     // property apply
     _applyMethod : function(value, old)
     {
-      if (value === "POST") {
+      if (qx.io.remote.Request.methodAllowsRequestBody(value)) {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       } else {
         this.removeRequestHeader("Content-Type");
