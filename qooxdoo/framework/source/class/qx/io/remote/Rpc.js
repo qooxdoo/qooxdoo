@@ -756,7 +756,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
 
     /**
-     * Makes an asynchronous server call and dispatch an event upon completion
+     * Makes an asynchronous server call and dispatches an event upon completion
      * or failure. The method arguments (if any) follow after the method name
      * (as normal JavaScript arguments, separated by commas, not as an array).
      *
@@ -772,8 +772,13 @@ qx.Class.define("qx.io.remote.Rpc",
      * convert the exception to a string.
      *
      *
-     * When a "completed" event is dispatched, the event data contains the
-     * JSON-RPC result.
+     * When a "completed" event is dispatched, the event data contains a
+     * map with the JSON-RPC sequence number and result:
+     * <p>
+     * {
+     *   id: rpc_id,
+     *   result: json-rpc result
+     * }
      *
      *
      * The return value of this method is a call reference that you can store
