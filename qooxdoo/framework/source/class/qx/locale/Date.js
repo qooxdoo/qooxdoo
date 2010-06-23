@@ -18,6 +18,11 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/*
+
+#cldr
+
+*/
 
 /**
  * Static class that provides localized date information (like names of week

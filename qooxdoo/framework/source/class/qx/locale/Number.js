@@ -18,6 +18,11 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/*
+
+#cldr
+
+*/
 
 /**
  * Provides information about locale-dependent number formatting (like the decimal

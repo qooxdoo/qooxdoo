@@ -654,11 +654,12 @@ class Class(object):
         "use"      : re.compile(r"^\s* \#use      \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
         "optional" : re.compile(r"^\s* \#optional \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
         "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
-        "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X)
+        "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X),
+        "cldr"     : re.compile(r"^\s*(\#cldr) (?:\(\s* ([^)]+?)  \s*\))?"                      , re.M|re.X),
     }
 
 
-    def getMeta(self, ):
+    def getMeta(self, metatype=""):
 
         def _extractLoadtimeDeps(data, fileId):
             deps = []
@@ -719,6 +720,15 @@ class Class(object):
             
             return deps
 
+        def _extractCLDRDeps(data):
+            cldr = []
+
+            # Adding explicit requirements
+            if self.HEAD["cldr"].findall(data):
+                cldr = [True]
+
+            return cldr
+
         # ----------------------------------------------------------
 
         fileEntry = self
@@ -728,7 +738,10 @@ class Class(object):
 
         meta = cache.readmulti(cacheId, filePath)
         if meta != None:
-            return meta
+            if metatype:
+                return meta[metatype]
+            else:
+                return meta
 
         meta = {}
 
@@ -744,11 +757,16 @@ class Class(object):
             meta["assetDeps"]    = _extractAssetDeps(content)
         except ValueError, e:
             raise ValueError, e.message + u' in: %r' % filePath
+        meta["cldr"]         = _extractCLDRDeps(content)
 
         console.outdent()
 
         cache.writemulti(cacheId, meta)
-        return meta
+
+        if metatype:
+            return meta[metatype]
+        else:
+            return meta
 
 
     def getOptionals(self, includeWithDeps):
@@ -1062,7 +1080,7 @@ class DependencyItem(object):
         self.name = name
         self.line = line
     def __repr__(self):
-        return self.name
+        return "<DepItem>:"+self.name
 
 
 # -- temp. module helper functions ---------------------------------------------

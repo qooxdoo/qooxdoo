@@ -486,7 +486,7 @@ class CodeGenerator(object):
             self._console.indent()
 
             pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales, addUntranslatedEntries) # .po data
-            loc_dat = self._locale.getLocalizationData(locales)  # cldr data
+            loc_dat = self._locale.getLocalizationData (package.classes, locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
             if i18n_with_packages:
                 package.data.translations.update(pac_dat)

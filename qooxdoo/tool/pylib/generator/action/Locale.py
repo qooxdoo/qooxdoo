@@ -62,11 +62,25 @@ class Locale(object):
 
 
 
-    def getLocalizationData(self, targetLocales):
+    def getLocalizationData(self, classList, targetLocales, ):
         self._console.debug("Generating localization data...")
         self._console.indent()
 
         data = {}
+
+        # check need for cldr data in this classlist
+        need_cldr = False
+        for classId in classList:
+            if self._classesObj[classId].getMeta('cldr'):
+                need_cldr = True
+                break
+
+        # early return
+        if not need_cldr:
+            return data
+
+
+        # else collect cldr data
         root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
 
         newlocales = targetLocales
@@ -95,20 +109,6 @@ class Locale(object):
 
         self._console.outdent()
         return data
-
-
-
-    def getTranslationDataX(self, targetLocales, namespace):
-        self._console.debug("Generating translation data for namespace %s..." % namespace)
-        self._console.indent()
-
-        data = []
-        for entry in targetLocales:
-            self._console.debug("Processing locale: %s" % entry)
-            # TODO
-
-        self._console.outdent()
-        return "".join(data)
 
 
 
