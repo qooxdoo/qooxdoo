@@ -59,6 +59,7 @@ qx.Class.define("inspector.Application",
     _widgetsButton : null,
     _consoleButton : null,
     _propertyButton : null,
+    _seleniumButton : null,
     _inspectButton : null,
     _selectedWidgetLabel : null,
     _urlTextField : null,
@@ -71,6 +72,7 @@ qx.Class.define("inspector.Application",
     _widgetsWindow : null,
     _consoleWindow : null,
     _propertyWindow : null,
+    _seleniumWindow : null,
 
     /*
      * Inspector
@@ -241,6 +243,8 @@ qx.Class.define("inspector.Application",
       this.__checkCookieFor("_consoleWindow", this._consoleButton, "console");
       // check the property window
       this.__checkCookieFor("_propertyWindow", this._propertyButton, "property");
+      // check the Selenium window
+      this.__checkCookieFor("_seleniumWindow", this._seleniumButton, "selenium");
     },
 
 
@@ -337,6 +341,15 @@ qx.Class.define("inspector.Application",
         "_consoleButton", "Console", "_consoleWindow",
         inspector.console.ConsoleWindow, "console",
         function() {
+        }
+      );
+      
+      // Selenium window
+      this.__createWindow(
+        "_seleniumButton", "Selenium", "_seleniumWindow",
+        inspector.selenium.SeleniumWindow, "selenium",
+        function() {
+          this._seleniumWindow.select(this._selector.getSelection());
         }
       );
 
@@ -457,6 +470,7 @@ qx.Class.define("inspector.Application",
       this._widgetsButton.setEnabled(value);
       this._consoleButton.setEnabled(value);
       this._propertyButton.setEnabled(value);
+      this._seleniumButton.setEnabled(value);
       this._inspectButton.setEnabled(value);
       this._selectedWidgetLabel.setEnabled(value);
     },
@@ -538,6 +552,12 @@ qx.Class.define("inspector.Application",
           this._propertyWindow.select(object, true);
         }
       }
+      
+      if (this._seleniumWindow != null && initiator != this._seleniumWindow) {
+        if (object != this._seleniumWindow.getSelection()) {
+          this._seleniumWindow.select(object, true);
+        }
+      }
 
       this.__inspectorModel.setInspected(object);
 
@@ -568,9 +588,9 @@ qx.Class.define("inspector.Application",
   {
     this._loadedWindow = null;
     this._disposeObjects("_container", "_toolbar", "_objectsButton",
-      "_widgetsButton", "_propertyButton", "_consoleButton",
+      "_widgetsButton", "_propertyButton", "_consoleButton", "_seleniumButton",
       "_inspectButton", "_selectedWidgetLabel", "_urlTextField",
       "_reloadButton", "_iFrame", "_selector", "_objectsWindow",
-      "_widgetsWindow", "_consoleWindow", "_propertyWindow");
+      "_widgetsWindow", "_consoleWindow", "_propertyWindow", "_seleniumWindow");
   }
 });
