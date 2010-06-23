@@ -269,17 +269,15 @@ qx.Class.define("qx.ui.table.model.Remote",
       }
 
       // Forget a possibly outstanding request
-      // (_loadRowCount will tell the listeners anyway, that the whole table changed)
+      // (_loadRowCount will tell the listeners anyway, that the whole table
+      // changed)
+      //
+      // NOTE: This will inform the listeners as soon as the new row count is
+      // known
       this.__firstRowToLoad = -1;
       this.__lastRowToLoad = -1;
-
-      // NOTE: This will inform the listeners as soon as the new row count is known
-      if (! this.__loadRowCountRequestRunning ||
-          ! this.getBlockConcurrentLoadRowCount())
-      {
-        this.__loadRowCountRequestRunning = true;
-        this._loadRowCount();
-      }
+      this.__loadRowCountRequestRunning = true;
+      this._loadRowCount();
     },
 
 
