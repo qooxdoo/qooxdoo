@@ -106,7 +106,7 @@ qx.Bootstrap.define("qx.io.part.Part",
      */
     preload : function(callback, self) {
       // Just do nothing because you can not preload regular parts.
-      // Also, loading the part here is not a good idea beacue it could break
+      // Also, loading the part here is not a good idea because it could break
       // the load order of the packages if someone uses preload right after
       // loading another part. So we just invoke the callback async.
       if (callback) {
@@ -177,7 +177,7 @@ qx.Bootstrap.define("qx.io.part.Part",
     /**
      * Helper for appending a listener for this part.
      *
-     * @param callback {Function} The callback to call when the part is loaded.
+     * @param callback {Function} The function to call when the part is loaded.
      * @param self {Object?} The context of the callback.
      * @param part {qx.io.part.Part|qx.io.part.ClosurePart} The part to listen
      *   to.
@@ -206,23 +206,23 @@ qx.Bootstrap.define("qx.io.part.Part",
     
 
     /**
-     * Method used to start up the application in case that not all necessary
-     * parts to initialize the application are in the boot part. [BUG #3793]
+     * Method used to start up the application in case not all parts 
+     * necessary to initialize the application are in the boot part. [BUG #3793]
      */
     _signalStartup : function() {
       // signal the application startup if not already done
-      if (!qx.$$loader.applicationHanderReady) {
+      if (!qx.$$loader.applicationHandlerReady) {
         qx.$$loader.signalStartup();
       }
     },
 
 
     /**
-     * Helper for checkig if the part is loaded completely.
+     * Helper for checking if the part is loaded completely.
      *
-     * @param callback {Function} The call which will be called if the part
-     *   is loaded completely.
-     * @param self {Object} The context of the callback.
+     * @param callback {Function} The function to be called if the part has 
+     *   been loaded completely.
+     * @param self {Object} The context of the callback function.
      * @return {Boolean} true, if the part is loading, complete or has an error.
      */
     _checkCompleteLoading : function(callback, self)
@@ -239,7 +239,7 @@ qx.Bootstrap.define("qx.io.part.Part",
         }
         return true;
       }
-      // add a listener if its currently loading
+      // add a listener if it is currently loading
       else if (readyState == "loading" && callback)
       {
         this._appendPartListener(callback, self, this);
