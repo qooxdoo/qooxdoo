@@ -74,6 +74,26 @@ class TestWalk(unittest.TestCase):
                 found.append(filename)
         
         self.failUnlessEqual(found, ["foo.txt"])
+        
+    
+    def testSymlinkMulti(self):
+        self.tempDirs.append(tempfile.mkdtemp())
+        symTarget = os.path.basename(self.tempDirs[1])
+        symTargetFile = file(os.path.join(self.tempDirs[1], "foo.txt"), "w") 
+        symTargetPath = os.path.join(self.tempDirs[0], symTarget)
+        os.symlink(self.tempDirs[1], symTargetPath)
+        
+        found1 = []
+        for root, dirs, files in filetool.walk(self.tempDirs[0]):
+            for filename in files:
+                found1.append(filename)
+        
+        found2 = []
+        for root, dirs, files in filetool.walk(self.tempDirs[0]):
+            for filename in files:
+                found2.append(filename)
+        
+        self.failUnlessEqual(found1, found2)
     
     
     def testSymlinkCyclic(self):
