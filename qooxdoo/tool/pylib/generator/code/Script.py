@@ -24,6 +24,7 @@
 #           application / library
 ##
 
+from misc                   import util
 from generator.code.Package import Package
 
 class Script(object):
@@ -52,24 +53,19 @@ class Script(object):
 
     ##
     # sort the packages in all parts
-    
     def sortParts(self):
         for part in self.parts.values():
             part.packagesSorted
             
     ##
     # return sorted array of script's packages
-    
     def packagesSortedSimple(self):
         return Package.simpleSort(self.packages)
 
     ##
-    # generates a sequence of consecutive powers of 2: 1, 2, 4, 8, ...
-     
-    def getPartBitMask(self, c=[0]):
-        bitmask = 1L<<c[0]
-        c[0] += 1
-        return bitmask
+    # generates part bitmasks
+    getPartBitMask  = util.powersOfTwoSequence().next
 
-
-
+    ##
+    # generates consecutive package numbers
+    getPackageNumber = util.numberSequence().next

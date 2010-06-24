@@ -69,8 +69,8 @@ class CodeGenerator(object):
             return fileUri
 
         ##
-        # returns the Javascript code for the initial ("boot") script as a string 
-
+        # returns the Javascript code for the initial ("boot") script as a string,
+        #  using the loader.tmpl template and filling its placeholders
         def generateBootCode(parts, packages, boot, script, compConf, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
 
             ##
@@ -927,20 +927,6 @@ class CodeGenerator(object):
                     continue
             packageFileName = self._resolveFileName(basename, self._variants, self._settings, suffix)
             yield packageFileName
-
-
-    def writePackages1(self, compiledPackages, script, startId=0):
-        for content, resolvedFilePath in zip(compiledPackages, self.packagesFileNames(script.baseScriptPath, len(compiledPackages))):
-            # Save result file
-            filetool.save(resolvedFilePath, content)
-
-            if script.scriptCompress:
-                filetool.gzip(resolvedFilePath, content)
-
-            self._console.debug("Done: %s" % self._computeContentSize(content))
-            self._console.debug("")
-
-        return
 
 
     def writePackages(self, packages, script):

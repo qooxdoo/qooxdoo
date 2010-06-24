@@ -142,7 +142,6 @@ def dictToList(d):
 
 ##
 # get the OS name and version
-
 def getPlatformInfo():
     import platform
     osPlatform = platform.system()
@@ -165,3 +164,22 @@ def getPlatformInfo():
         osVersion = "%s %s" % (linVer[0], linVer[1])
     
     return (osPlatform,osVersion)
+
+
+##
+# generates a sequence of consecutive powers of 2: 1, 2, 4, 8, ...
+def powersOfTwoSequence(c=0):
+    while True:
+        bitmask = 1L<<c
+        yield bitmask
+        c += 1
+
+
+##
+# generates a sequence of natural numbers: 0, 1, 2, 3, ...
+def numberSequence(c=0):
+    while True:
+        yield c
+        c += 1
+
+
