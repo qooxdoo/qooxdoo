@@ -135,7 +135,7 @@ qx.Class.define("qx.io.remote.Request",
      */
     __seqNum : 0,
 
-    /*
+    /**
      * Returns true if the given HTTP method allows a request body being transferred to the server. 
      * This is currently POST and PUT. Other methods require their data being encoded into
      * the URL
@@ -143,7 +143,7 @@ qx.Class.define("qx.io.remote.Request",
      * @param httpMethod {String} one of the values of the method property
      * @return {Boolean} 
      */
-    methodAllowsRequestBody : function(httpMethod){
+    methodAllowsRequestBody : function(httpMethod) {
       return (httpMethod == "POST") || (httpMethod == "PUT");
     }
     
