@@ -164,6 +164,13 @@ qx.Class.define("qx.event.handler.Application",
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
       {
+        // check if the application is already loaded. If not just don't fire 
+        // the ready event [BUG #3793]
+        var app = qx.core.Setting.get("qx.application");
+        if (!qx.Class.getByName(app)) {
+          return;
+        }
+        
         // If qx is loaded within a frame IE the document is ready before
         // the "ready" listener can be added. To avoid any startup issue check
         // for the availibility of the "ready" listener before firing the event.

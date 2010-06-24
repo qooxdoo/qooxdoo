@@ -184,7 +184,9 @@ qx.Bootstrap.define("qx.io.part.Part",
      */
     _appendPartListener : function(callback, self, part)
     {
+      var that = this;
       this._loader.addPartListener(this, function() {
+        that._signalStartup();
         callback.call(self, part._readyState);
       });
     },
@@ -199,6 +201,19 @@ qx.Bootstrap.define("qx.io.part.Part",
     {
       this._readyState = readyState;
       this._loader.notifyPartResult(this);
+    },
+    
+    
+
+    /**
+     * Method used to start up the application in case that not all necessary
+     * parts to initialize the application are in the boot part. [BUG #3793]
+     */
+    _signalStartup : function() {
+      // signal the application startup if not already done
+      if (!qx.$$loader.applicationHanderReady) {
+        qx.$$loader.signalStartup();
+      }
     },
 
 
@@ -216,7 +231,9 @@ qx.Bootstrap.define("qx.io.part.Part",
       var readyState = this._readyState;
       if (readyState == "complete" || readyState == "error") {
         if (callback) {
+          var that = this;
           setTimeout(function() {
+            that._signalStartup();
             callback.call(self, readyState);
           }, 0);
         }
