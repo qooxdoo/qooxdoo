@@ -332,7 +332,7 @@ qx.Bootstrap.define("qx.Class",
      * not include any methods or properties that are already available in the
      * class. This would only be possible using the {@link #patch} method.
      *
-     * @param clazz {Class} An existing class which should be modified by including the mixin.
+     * @param clazz {Class} An existing class which should be augmented by including a mixin.
      * @param mixin {Mixin} The mixin to be included.
      */
     include : function(clazz, mixin)
@@ -340,7 +340,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!mixin) {
-          throw new Error("Includes of mixins must be mixins. A dynamic mixin of class '" + clazz.classname + "' is undefined/null!");
+          throw new Error("The mixin to include into class '" + clazz.classname + "' is undefined/null!");
         }
 
         qx.Mixin.isCompatible(mixin, clazz);
@@ -352,7 +352,7 @@ qx.Bootstrap.define("qx.Class",
 
     /**
      * Include all features of the given mixin into the class. The mixin may
-     * include features which are already defined in the target class. Existing
+     * include features, which are already defined in the target class. Existing
      * features of equal name will be overwritten.
      * Please keep in mind that this functionality is not intended for regular
      * use, but as a formalized way (and a last resort) in order to patch
@@ -360,7 +360,7 @@ qx.Bootstrap.define("qx.Class",
      *
      * <b>WARNING</b>: You may break working classes and features.
      *
-     * @param clazz {Class} An existing class which should be modified by including the mixin.
+     * @param clazz {Class} An existing class which should be modified by including a mixin.
      * @param mixin {Mixin} The mixin to be included.
      */
     patch : function(clazz, mixin)
@@ -368,7 +368,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!mixin) {
-          throw new Error("Includes of mixins must be mixins. A dynamic mixin of class '" + clazz.classname + "' is undefined/null!");
+          throw new Error("The mixin to patch class '" + clazz.classname + "' is undefined/null!");
         }
 
         qx.Mixin.isCompatible(mixin, clazz);
@@ -1441,9 +1441,9 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Include all features of the mixin into the given class (recursive).
+     * Include all features of the mixin into the given class, recursively.
      *
-     * @param clazz {Class} The class where the mixin should be attached.
+     * @param clazz {Class} The class onto which the mixin should be attached.
      * @param mixin {Mixin} Include all features of this mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
      */
