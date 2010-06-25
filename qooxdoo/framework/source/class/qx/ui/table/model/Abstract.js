@@ -73,6 +73,21 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
 
     /**
+     * Initialize the table model <--> table interaction. The table model is
+     * passed to the table constructor, but the table model doesn't otherwise
+     * know anything about the table nor can it operate on table
+     * properties. This function provides the capability for the table model
+     * to specify characteristics of the table. It is called when the table
+     * model is applied to the table.
+     *
+     * @param table {qx.ui.table.Table}
+     *   The table to which this model is attached
+     */
+    init : function(table) {
+      // default implementation has nothing to do
+    },
+
+    /**
      * Abstract method
      * @throws {Error} An error if this method is called.
      */

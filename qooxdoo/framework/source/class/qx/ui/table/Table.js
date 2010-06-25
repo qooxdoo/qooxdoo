@@ -199,6 +199,15 @@ qx.Class.define("qx.ui.table.Table",
     }
 
     this.initStatusBarVisible();
+
+    // If the table model has an init() method...
+    tableModel = this.getTableModel();
+    if (tableModel.init && typeof(tableModel.init) == "function")
+    {
+      // ... then call it now to allow the table model to affect table
+      // properties.
+      tableModel.init(this);
+    }
   },
 
 
@@ -787,6 +796,15 @@ qx.Class.define("qx.ui.table.Table",
         0, value.getColumnCount()
       );
       this._onTableModelMetaDataChanged();
+
+      // If the table model has an init() method, call it. We don't, however,
+      // call it if this is the initial setting of the table model, as the
+      // scrollers are not yet initialized. In that case, the init method is
+      // called explicitly by the Table constructor.
+      if (old && tableModel.init && typeof(tableModel.init) == "function")
+      {
+        tableModel.init(this);
+      }
     },
 
 
