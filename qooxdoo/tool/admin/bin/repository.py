@@ -47,9 +47,6 @@ class Repository:
     
     for root, dirs, files in os.walk(self.dir, topdown=True):
       for dir in dirs:
-        if dir == "Bugs":
-          dirs.remove("Bugs")
-          continue
         path = os.path.join(root,dir)
         manifestPath = os.path.join(path, "Manifest.json")
         
@@ -466,53 +463,84 @@ def getComputedConf():
 class LibraryValidator():
   def __init__(self, config={}):
     self.config = self.setDefaults(config)
+    self.includes = self.config["libraries"]["include"]
     
   def setDefaults(self, config):
     if not config:
       config = {}
     
     if not "libraries" in config:
-      config["libraries"] = { 
-        "*" : {} 
+      config["libraries"] = {
+        "include" : {
+          "*" : {}
+        }
       }
-    for libName, lib in config["libraries"].iteritems():
+      
+    if not "include" in config["libraries"]:
+      config["libraries"]["include"] = {
+        "*" : {}
+      }
+    
+    for libName, lib in config["libraries"]["include"].iteritems():
       if not "types" in lib:
         lib["types"] = ["*"]
       if not "versions" in lib:
         lib["versions"] = ["*"]
       if not "qooxdoo-versions" in lib:
         lib["qooxdoo-versions"] = ["*"]
+    
     return config    
   
-  def isValidKey(self, key, map):
-    if "*" in map or key in map:
+  
+  def isValidKey(self, key, inc, exc={}):
+    if ("*" in inc or key in inc) and not ("*" in exc or key in exc):
       return True
     else:
       return False
+    
+
+  def isValidAttribute(self, libName, key, value):
+    if libName in self.includes:
+      includes = self.includes[libName][key]
+    elif "*" in self.includes:
+      includes = self.includes["*"][key]
+    else:
+      return False
+    
+    try:
+      excludes = self.config["libraries"]["exclude"][libName][key]
+    except KeyError:
+      excludes = {}
+    
+    return self.isValidKey(value, includes, excludes)    
+  
   
   def isValidLibrary(self, libName):
-    return self.isValidKey(libName, self.config["libraries"])
+    return self.isValidKey(libName, self.includes)
   
-  def isValidType(self, libName, type):
-    if not libName in self.config["libraries"]:
-      libName = "*"
-    return self.isValidKey(type, self.config["libraries"][libName]["types"])
   
   def isValidVersion(self, libName, version):
-    if not libName in self.config["libraries"]:
-      libName = "*"
-    return self.isValidKey(version, self.config["libraries"][libName]["versions"])
+    return self.isValidAttribute(libName, "versions", version)
+  
+  
+  def isValidType(self, libName, type):
+    return self.isValidAttribute(libName, "types", type)
+  
   
   def isValidQxVersion(self, libName, qxVersions):
-    if not libName in self.config["libraries"]:
-      libName = "*"
     for qxVer in qxVersions:
-      if self.isValidKey(qxVer, self.config["libraries"][libName]["qooxdoo-versions"]):
+      if self.isValidAttribute(libName, "qooxdoo-versions", qxVer):
         return True
     return False
   
+  
   def isValid(self, libName, type, version, qxVersions):
-    return self.isValidLibrary(libName) and self.isValidType(libName, type) and self.isValidVersion(libName, version) and self.isValidQxVersion(libName, qxVersions)
+    isValidLib = self.isValidLibrary(libName)
+    isValidType = self.isValidType(libName, type)
+    isValidVersion = self.isValidVersion(libName, version)
+    isValidQxVersion = self.isValidQxVersion(libName, qxVersions)
+    #print "library %s type %s version %s qxVersion %s" %(repr(isValidLib),repr(isValidType),repr(isValidVersion),repr(isValidQxVersion),)
+    return isValidLib and isValidType and isValidVersion and isValidQxVersion
 
 
 def main():
