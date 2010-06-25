@@ -140,7 +140,11 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
       okButton.addListener("execute", function(e){
         var selectedLanguage = radioManager.getSelection()[0].getUserData("language");
-        qx.locale.Manager.getInstance().setLocale(selectedLanguage);
+
+        qx.io.PartLoader.require([selectedLanguage], function ()
+        {
+          qx.locale.Manager.getInstance().setLocale(selectedLanguage);
+        }, this);
 
         this.close();
       }, this);
