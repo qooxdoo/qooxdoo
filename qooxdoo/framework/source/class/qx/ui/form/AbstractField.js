@@ -317,10 +317,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       // Add listener for input event
       el.addListener("input", this._onHtmlInput, this);
 
-      // Disable spellcheck in gecko
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        el.setAttribute("spellcheck", "false");
-      }
+      // Disable HTML5 spell checking
+      el.setAttribute("spellcheck", "false");
 
       // Block resize handle in Safari
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
