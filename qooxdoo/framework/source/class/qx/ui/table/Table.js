@@ -472,6 +472,21 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    /**
+     * Whether to reset the selection when a header cell is clicked. Since
+     * most data models do not have provisions to retain a selection after
+     * sorting, the default is to reset the selection in this case. Some data
+     * models, however, do have the capability to retain the selection, so
+     * when using those, this property should be set to false.
+     */
+    resetSelectionOnHeaderClick :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyResetSelectionOnHeaderClick"
+    },
+
+
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
@@ -1028,6 +1043,17 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].onKeepFirstVisibleRowCompleteChanged();
+      }
+    },
+
+
+    // property modifier
+    _applyResetSelectionOnHeaderClick : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].setResetSelectionOnHeaderClick(value);
       }
     },
 

@@ -276,6 +276,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
+     * Whether to reset the selection when a header cell is clicked. Since
+     * most data models do not have provisions to retain a selection after
+     * sorting, the default is to reset the selection in this case. Some data
+     * models, however, do have the capability to retain the selection, so
+     * when using those, this property should be set to false.
+     */
+    resetSelectionOnHeaderClick :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+
+    /**
      * Interval time (in milliseconds) for the table update timer.
      * Setting this to 0 clears the timer.
      */
@@ -1340,7 +1354,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           if (this.fireDataEvent("beforeSort", data))
           {
             tableModel.sortByColumn(col, ascending);
-            table.getSelectionModel().resetSelection();
+            if (this.getResetSelectionOnHeaderClick())
+            {
+              table.getSelectionModel().resetSelection();
+            }
           }
         }
       }
