@@ -551,7 +551,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
         rowHtml.push('>');
 
-        for (var x=0; x<colCount; x++)
+        var stopLoop = false;
+        for (x=0; x<colCount && !stopLoop; x++)
         {
           var col_def = cols[x];
           for (var attr in col_def) {
@@ -559,13 +560,22 @@ qx.Class.define("qx.ui.table.pane.Pane",
           }
           var col = cellInfo.col;
 
-          // AB: use the "getValue" method of the tableModel to get the cell's value
-          // working directly on the "rowData" object (-> cellInfo.rowData[col];) is not a solution
-          // because you can't work with the columnIndex -> you have to use the columnId of the columnIndex
-          // This is exactly what the method "getValue" does
+          // Use the "getValue" method of the tableModel to get the cell's
+          // value working directly on the "rowData" object
+          // (-> cellInfo.rowData[col];) is not a solution because you can't
+          // work with the columnIndex -> you have to use the columnId of the
+          // columnIndex This is exactly what the method "getValue" does
           cellInfo.value = tableModel.getValue(col, row);
           var cellRenderer = columnModel.getDataCellRenderer(col);
-          cellRenderer.createDataCellHtml(cellInfo, rowHtml);
+
+          // Allow a cell renderer to tell us not to draw any further cells in
+          // the row. Older, or traditional cell renderers don't return a
+          // value, however, from createDataCellHtml, so assume those are
+          // returning false.
+          //
+          // Tested with http://tinyurl.com/2wexyzl
+          stopLoop = 
+            cellRenderer.createDataCellHtml(cellInfo, rowHtml) || false;
         }
         rowHtml.push('</div>');
 

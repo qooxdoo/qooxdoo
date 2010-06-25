@@ -53,6 +53,15 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      *     create.
      * @param htmlArr {String[]} Target string container. The HTML of the data
      *     cell should be appended to this array.
+     *
+     * @return {Boolean|undefined}
+     *   A return value of <i>true</i> specifies that no additional cells in
+     *   the row shall be rendered. This may be used, for example, for
+     *   separator rows or for other special rendering purposes. Traditional
+     *   cell renderers had no defined return value, so returned nothing
+     *   (undefined). If this method returns either false or nothing, then
+     *   rendering continues with the next cell in the row, which the normal
+     *   mode of operation.
      */
     createDataCellHtml : function(cellInfo, htmlArr) {
       return true;
