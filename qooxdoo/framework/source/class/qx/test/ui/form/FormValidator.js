@@ -469,6 +469,49 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
       this.wait();
     },
+    
+    
+    testAsyncSelfContained2NotNullFailMixed: function() {
+      // BUG #3735
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
+        function(validator, value) {
+          window.setTimeout(function() {
+            validator.setValid(false, "fail");
+          }, 300);
+        }        
+      );
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
+        function(validator, value) {
+          window.setTimeout(function() {
+            validator.setValid(true, "WIN");
+          }, 500);
+        }        
+      );      
+
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);
+      
+      this.__username.setValid(false);
+      this.__password1.setValid(false);
+      this.__password2.setValid(false);
+
+      this.__manager.addListener("complete", function() {
+        this.resume(function() {
+          // check the status after the complete
+          this.assertFalse(this.__manager.isValid());
+          this.assertTrue(this.__username.getValid());
+          this.assertFalse(this.__password1.getValid());
+          this.assertTrue(this.__password2.getValid());
+        }, this);
+      }, this);
+
+      this.__username.setValue("a");
+      this.__manager.validate();
+
+      this.wait();
+    },    
 
 
     testAsyncSelfContained3NotNullHalfFail: function(){
