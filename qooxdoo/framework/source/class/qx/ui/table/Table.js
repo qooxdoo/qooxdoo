@@ -378,6 +378,19 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    /**
+     *  Whether the header cells are visible. When setting this to true,
+     *  you'll likely also want to set the {#columnVisibilityButtonVisible}
+     *  property to true as well, to entirely remove the header row.
+     */
+    headerCellsVisible :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyHeaderCellsVisible"
+    },
+
+
     /** The height of the header cells. */
     headerCellHeight :
     {
@@ -727,6 +740,18 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].updateVerScrollBarMaximum();
+      }
+    },
+
+
+    // property modifier
+    _applyHeaderCellsVisible : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++)
+      {
+        scrollerArr[i]._excludeChildControl("header");
       }
     },
 
