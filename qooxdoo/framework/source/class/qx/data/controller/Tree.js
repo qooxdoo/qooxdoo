@@ -360,6 +360,7 @@ qx.Class.define("qx.data.controller.Tree",
 
       // get the old ref and delete it
       var oldRef = this.__childrenRef[oldChildren.toHashCode()];
+      oldChildren.removeListenerById(oldRef.changeListenerId);      
       delete this.__childrenRef[oldChildren.toHashCode()];
       // remove the old change listener for the children
       oldRef.modelNode.removeListenerById(oldRef.changeChildernListenerId);
@@ -603,16 +604,19 @@ qx.Class.define("qx.data.controller.Tree",
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
       var model = treeFolder.getModel();
+      var childrenGetterName = "get" + qx.lang.String.firstUp(this.getChildPath());
 
       // if the model does have a child path
-      if (
-        model["get" + qx.lang.String.firstUp(this.getChildPath())] != undefined
-      )
+      if (model[childrenGetterName] != undefined)
       {
+        // remove the old children listener
+        var children = model[childrenGetterName]();
+        var oldRef = this.__childrenRef[children.toHashCode()];
+        children.removeListenerById(oldRef.changeListenerId);
+        model.removeListenerById(oldRef.changeChildernListenerId);
+                
         // delete the model reference
-        delete this.__childrenRef[
-          model["get" + qx.lang.String.firstUp(this.getChildPath())]().toHashCode()
-        ];
+        delete this.__childrenRef[children.toHashCode()];
       }
       // get the binding and remove it
       this.__removeBinding(model);
