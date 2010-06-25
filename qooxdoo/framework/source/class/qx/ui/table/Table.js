@@ -826,9 +826,9 @@ qx.Class.define("qx.ui.table.Table",
       // call it if this is the initial setting of the table model, as the
       // scrollers are not yet initialized. In that case, the init method is
       // called explicitly by the Table constructor.
-      if (old && tableModel.init && typeof(tableModel.init) == "function")
+      if (old && value.init && typeof(value.init) == "function")
       {
-        tableModel.init(this);
+        value.init(this);
       }
     },
 
