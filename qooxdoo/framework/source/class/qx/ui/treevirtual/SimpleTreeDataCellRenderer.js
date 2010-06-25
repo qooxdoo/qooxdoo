@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       // Add the indentation (optionally with tree lines)
       var indentation = this._addIndentation(cellInfo, pos);
-      html += indentation.html
+      html += indentation.html;
       pos = indentation.pos;
 
       // If needed, add extra content before icon
