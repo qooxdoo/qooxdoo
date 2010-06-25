@@ -32,7 +32,7 @@ def runProvider(script, generator):
     _handleCode(script)
     # generate resource info
     _handleResources(script, generator)
-    # generate translation files
+    # generate translation and CLDR files
     _handleI18N(script, generator)
 
     return
@@ -89,32 +89,45 @@ def _handleResources(script, generator):
 def _handleI18N(script, generator):
     approot = context.jobconf.get("provider/app-root", "./provider")
     filetool.directory(approot+"/data/translation")
+
+    # get i18n data
     translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, 
                                         script.variants, script.locales, addUntranslatedEntries=True)
 
+    # sort by lang
     data_by_lang = {}
-
     for trans_dat, loc_dat in translationMaps:  # (trans_dat, loc_dat) is per package
         for lang in trans_dat:  # key = "en", "fr", ...
             if lang not in data_by_lang:
-                data_by_lang[lang] = {}
-            data_by_lang[lang].update(trans_dat[lang])
+                data_by_lang[lang] = ({},{})  # data_by_lang[lang][0] = po, [1] = cldr
+            data_by_lang[lang][0].update(trans_dat[lang])
         for lang in loc_dat:  # key = "en", "fr", ...
             if lang not in data_by_lang:
-                data_by_lang[lang] = {}
-            data_by_lang[lang].update(loc_dat[lang])  # we merge .po and cldr data in one map
+                data_by_lang[lang] = ({},{})
+            data_by_lang[lang][1].update(loc_dat[lang])
 
+    # write translation and cldr files
     for lang in data_by_lang:
         filename = "i18n-" + lang
-        filemap  = {}
-        for key in data_by_lang[lang]:
-            if data_by_lang[lang][key]:
-                filemap[key] = [ { "target" : "i18n", "data" : { key : data_by_lang[lang][key] }} ]
+
+        # translations
+        transmap  = {}
+        translations = data_by_lang[lang][0]
+        for key in translations:
+            if translations[key]:
+                transmap[key] = [ { "target" : "i18n", "data" : { key : translations[key] }} ]
             else:
-                filemap[key] = [ ]
-
-        # add: CLDR data!?
-
-        filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(filemap))
+                transmap[key] = [ ]
+        filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(transmap))
+        
+        # cldr
+        localemap = {}
+        localekeys = data_by_lang[lang][1]
+        for key in localekeys:
+            if localekeys[key]:
+                localemap[key] = [ { "target" : "i18n", "data" : { key : localekeys[key] }} ]
+            else:
+                localemap[key] = [ ]
+        filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
 
     return

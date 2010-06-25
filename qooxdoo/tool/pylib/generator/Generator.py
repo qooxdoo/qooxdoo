@@ -812,20 +812,18 @@ class Generator(object):
                     data[classId] = {}
                     data[classId]["load"] = []
                     data[classId]["run"] = []
-
                 data[classId][loadOrRun].append(depId)
+
             # transform dep items
             for key, val in data.items():
                 newval = []
                 for ldep in val["load"]:
                     newdep = ldep.replace(".", "/")
-                    #newdep += ".js"
                     newval.append(newdep)
                 val["load"] = newval
                 newval = []
                 for ldep in val["run"]:
                     newdep = ldep.replace(".", "/")
-                    #newdep += ".js"
                     newval.append(newdep)
                 val["run"] = newval
 
@@ -841,6 +839,11 @@ class Generator(object):
                 transIds  = set(x['id'] for x in classKeys) # strip duplicates
                 transKeys = ["/translation/i18n-${lang}#" + x for x in transIds]
                 data[classId]["run"].extend(transKeys)
+
+            # CLDR dependency
+            for classId in data:
+                if self._classesObj[classId].getMeta("cldr"):
+                    data[classId]["run"].append("/locale/i18n-${lang}")
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
             for key, val in data.items():
