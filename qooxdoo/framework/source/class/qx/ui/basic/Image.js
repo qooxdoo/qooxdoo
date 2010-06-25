@@ -145,6 +145,27 @@ qx.Class.define("qx.ui.basic.Image",
       init : false
     }
   },
+  
+  
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired if the image source can not be loaded.
+     */
+    loadingFailed : "qx.event.type.Event",
+    
+    
+    /**
+     * Fired if the image has been loaded.
+     */
+    loaded : "qx.event.type.Event"
+  },
 
 
 
@@ -557,8 +578,12 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Output a warning if the image could not loaded and quit
-      if (imageInfo.failed) {
+      if (imageInfo.failed) 
+      {
         this.warn("Image could not be loaded: " + source);
+        this.fireEvent("loadingFailed");
+      } else {
+        this.fireEvent("loaded");
       }
 
       // Update image (again)

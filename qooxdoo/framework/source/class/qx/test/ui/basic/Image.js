@@ -29,6 +29,9 @@ qx.Class.define("qx.test.ui.basic.Image",
 
   members :
   {
+    __image : null,
+     
+    
     testSwitchScaling : function()
     {
       this.__image = new qx.ui.basic.Image;
@@ -50,6 +53,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       }
     },
 
+
     testSwitchPngToGif : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
@@ -66,6 +70,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       var tagNameAfter = image.getContentElement().getNodeName();
       this.assertTrue(tagNameAfter == "div");
     },
+
 
     testSwitchGifToPng : function()
     {
@@ -88,6 +93,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       }
     },
 
+
     testSwitchDimension : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
@@ -106,6 +112,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertEquals(image.getContentElement().getStyle("height"), height);
     },
 
+
     testSwitchWithDecorator : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
@@ -121,6 +128,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertEquals(image.getContainerElement().getChild(2), decorator);
     },
+
 
     testSwitchWithSelectable : function()
     {
@@ -138,6 +146,43 @@ qx.Class.define("qx.test.ui.basic.Image",
       var selectableAfter = image.getContentElement().getAttribute("qxselectable");
 
       this.assertEquals(selectable, selectableAfter);
-    }
+    },
+    
+    
+    testFailedEvent : function() {
+      var image = new qx.ui.basic.Image("affe.xyz" + Math.random());
+      image.addListener("loadingFailed", function() {
+        this.resume(function() {
+          // use a timeout to dipose the image because it needs to 
+          // end its processing after the event has been fired.
+          window.setTimeout(function() {
+            image.destroy();
+          });
+        });
+      }, this);
+
+      this.wait();
+    },
+    
+    
+    testLoadedEvent : function() {
+      var source = "../resource/qx/icon/Tango/32/places/folder.png";
+      if (qx.io.ImageLoader.isLoaded(source)) {
+        this.debug("testLoadedEvent skipped! Image already loaded.");
+        return;
+      }
+      var image = new qx.ui.basic.Image(source);
+      image.addListener("loaded", function() {
+        this.resume(function() {
+          // use a timeout to dipose the image because it needs to 
+          // end its processing after the event has been fired.
+          window.setTimeout(function() {
+            image.destroy();
+          });          
+        });
+      }, this);
+
+      this.wait();
+    }    
   }
 });
