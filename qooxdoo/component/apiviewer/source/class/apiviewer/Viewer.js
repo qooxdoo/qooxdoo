@@ -219,13 +219,10 @@ qx.Class.define("apiviewer.Viewer",
       this._detailLoader.setId("detail_loader");
       detailFrame.add(this._detailLoader, {edge : 0});
 
-      this._classViewer = new apiviewer.ui.ClassViewer;
-      this._classViewer.setId("class_viewer");
-      detailFrame.add(this._classViewer, {edge : 0});
-
-      this._packageViewer = new apiviewer.ui.PackageViewer;
-      this._packageViewer.setId("package_viewer");
-      detailFrame.add(this._packageViewer, {edge : 0});
+      this._tabView = new qx.ui.tabview.TabView();
+      this._tabView.setId("tabView");
+      this._tabView.exclude();
+      detailFrame.add(this._tabView, {edge : 0});
 
       return detailFrame;
     },
@@ -319,6 +316,6 @@ qx.Class.define("apiviewer.Viewer",
   destruct : function()
   {
     this._classTreeNodeHash = this.__toggleGroup = null;
-    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer", "_searchView");
+    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer", "_searchView", "_tabView");
   }
 });

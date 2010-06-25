@@ -82,6 +82,31 @@ qx.Theme.define("apiviewer.Appearance",
           textColor: "#134275"
         };
       }
+    },
+
+    "tabview" :
+    {
+      style : function(states)
+      {
+        return {
+          contentPadding : 0
+        }
+      }
+    },
+
+    "tabview/pane" :
+    {
+      style : function(states)
+      {
+        return {
+          minHeight : 100,
+
+          marginBottom : states.barBottom ? -1 : 0,
+          marginTop : states.barTop ? -1 : 0,
+          marginLeft : states.barLeft ? -1 : 0,
+          marginRight : states.barRight ? -1 : 0
+        };
+      }
     }
   }
 });

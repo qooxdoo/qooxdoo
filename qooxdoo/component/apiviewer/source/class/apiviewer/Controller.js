@@ -53,11 +53,8 @@ qx.Class.define("apiviewer.Controller",
     this._classLoader = new apiviewer.ClassLoader("./script");
 
     this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");
-    this._packageViewer = this._widgetRegistry.getWidgetById("package_viewer");
-    this.__bindViewer(this._packageViewer);
-
-    this._classViewer = this._widgetRegistry.getWidgetById("class_viewer");
-    this.__bindClassViewer();
+    this._tabViewController = new apiviewer.TabViewController(this._widgetRegistry);
+    this.__bindTabViewController();
 
     this._tree = this._widgetRegistry.getWidgetById("tree");
     this.__bindTree();
@@ -139,25 +136,34 @@ qx.Class.define("apiviewer.Controller",
 
 
     /**
-     * binds the events of the class viewer
+     * binds the events of the TabView controller
      */
-    __bindClassViewer : function()
+    __bindTabViewController : function()
     {
-      this._classViewer.addListener("classLinkClicked", function(e) {
-          this.__selectItem(e.getData());
+      this._tabViewController.addListener("classLinkClicked", function(evt) {
+          this.__selectItem(evt.getData());
       }, this);
 
-      this.__bindViewer(this._classViewer);
-    },
+      this._tabViewController.addListener("changeSelection", function(evt) {
+        var page = evt.getData()[0];
+        
+        if (this._ignoreTabViewSelection == true) {
+          return;
+        }
 
-
-    __bindViewer : function(viewer)
-    {
-      var uiModel = apiviewer.UiModel.getInstance();
-      uiModel.bind("showInherited", viewer, "showInherited");
-      uiModel.bind("expandProperties", viewer, "expandProperties");
-      uiModel.bind("showProtected", viewer, "showProtected");
-      uiModel.bind("showPrivate", viewer, "showPrivate");
+        if (page && page.getUserData("nodeName")) {
+          var nodeName = page.getUserData("nodeName");
+          var itemName = page.getUserData("itemName");
+          
+          if (itemName != null) {
+            this._updateHistory(nodeName + "#" + itemName);
+          } else {
+            this._updateHistory(nodeName);
+          }
+        } else {
+          this._tree.resetSelection();
+        }
+      }, this);
     },
 
 
@@ -266,6 +272,7 @@ qx.Class.define("apiviewer.Controller",
     _selectClass : function(classNode, callback, self)
     {
       this._detailLoader.exclude();
+      this._tabViewController.showTabView();
 
       var cb = callback ? qx.lang.Function.bind(callback, self) : function() {};
 
@@ -273,9 +280,7 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.classLoadDependendClasses(classNode, function(cls)
         {
-          this._packageViewer.exclude();
-          this._classViewer.setDocNode(cls);
-          this._classViewer.show();
+          this._tabViewController.openClass(cls);
           cb();
         }, this);
       }
@@ -283,9 +288,7 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.packageLoadDependendClasses(classNode, function()
         {
-          this._classViewer.exclude();
-          this._packageViewer.setDocNode(classNode);
-          this._packageViewer.show();
+          this._tabViewController.openPackage(classNode);
           cb();
         }, this);
       }
@@ -334,25 +337,23 @@ qx.Class.define("apiviewer.Controller",
       /**
        * @lint ignoreDeprecated(alert)
        */
+      this._ignoreTabViewSelection = true;
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
         if (itemName)
         {
-          if (!this._classViewer.showItem(itemName))
+          if (!this._tabViewController.showItem(itemName))
           {
             this.error("Unknown item of class '"+ className +"': " + itemName);
             alert("Unknown item of class '"+ className +"': " + itemName);
 
             this._updateHistory(className);
+            this._ignoreTabViewSelection = false;
             return;
           }
-        } else {
-          qx.event.Timer.once(function(e) {
-            this._classViewer.getContentElement().scrollToY(0);
-          }, this, 0);
         }
         this._updateHistory(fullItemName);
-
+        this._ignoreTabViewSelection = false;
       }, this);
 
     },
@@ -395,7 +396,6 @@ qx.Class.define("apiviewer.Controller",
   destruct : function()
   {
     this._widgetRegistry = null;
-    this._disposeObjects("_detailLoader", "_packageViewer",
-      "_classViewer", "_classLoader", "_tree", "_history");
+    this._disposeObjects("_detailLoader", "_classLoader", "_tree", "_history", "_tabViewController");
   }
 });

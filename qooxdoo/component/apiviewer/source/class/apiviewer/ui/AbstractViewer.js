@@ -131,12 +131,11 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     _init : function(pkg){
       this.__initHtml();
 
+      this.setDocNode(pkg);
+
       this.addListenerOnce("appear", function(){
         this._syncHtml();
-        this.setDocNode(pkg);
-
-        this._applyDocNode(this.__classNode)
-        this.exclude();
+        this._applyDocNode(this.__classNode);
       }, this);
     },
 
@@ -239,7 +238,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
-        panel.update(this, this.getDocNode());
+        panel.update(this, this.__classNode);
       }
     },
 

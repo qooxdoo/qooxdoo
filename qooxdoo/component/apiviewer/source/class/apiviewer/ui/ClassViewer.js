@@ -50,24 +50,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.ChildControlsPanel("childControls", "child controls"));
 
     this.getContentElement().setAttribute("id", "ClassViewer");
-    apiviewer.ui.ClassViewer.instance = this;
 
     this._init(new apiviewer.dao.Class({}));
   },
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /** This event if dispatched if one of the internal links is clicked */
-    "classLinkClicked" : "qx.event.type.Data"
-  },
-
 
 
   /*
@@ -582,19 +567,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           uiModel.setShowProtected(true);
         }
       }
-    },
-
-    /**
-     * Callback for internal links to other classes/items.
-     * This code is called directly from the generated HTML of the
-     * class viewer.
-     *
-     * @param itemName {String} the name of the item.
-     * @see Controller#selectItem
-     */
-    _onSelectItem : function(itemName)
-    {
-      this.fireDataEvent("classLinkClicked", itemName);
     },
 
 

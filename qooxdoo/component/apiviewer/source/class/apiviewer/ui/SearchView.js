@@ -408,7 +408,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       var selected = this._tableModel.getData()[sel];
       var controller = qx.core.Init.getApplication().controller;
       var uiModel = apiviewer.UiModel.getInstance();
-      var classViewer = controller._classViewer;
+      var tabViewController = controller._tabViewController;
 
       if (selected != undefined)
       {
@@ -443,14 +443,12 @@ qx.Class.define("apiviewer.ui.SearchView",
         controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
         {
           if (itemName) {
-            if (!classViewer.showItem(itemName))
+            if (!tabViewController.showItem(itemName))
             {
               controller.error("Unknown item of class '"+ className +"': " + itemName);
               alert("Unknown item of class '"+ className +"': " + itemName);
               return;
             }
-          } else {
-            classViewer.getContainerElement().scrollToY(0);
           }
           controller._updateHistory(fullItemName);
 
