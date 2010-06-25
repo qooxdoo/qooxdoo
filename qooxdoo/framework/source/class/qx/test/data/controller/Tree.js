@@ -944,7 +944,34 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
       this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
+    },
+    
+    
+    testRemoveEvents : function() 
+    {
+      // BUG #3566
 
+      var nodes = [];
+      for (var i = 0; i < 50; ++i)
+      {
+        nodes[i] = new qx.test.TreeNode();
+        if (i != 0) {
+          nodes[parseInt(Math.random() * i)].getChildren().push(nodes[i]);
+        }
+      }
+
+      var tree = new qx.ui.tree.Tree();
+      var controller = new qx.data.controller.Tree(nodes[0], tree, "children", "name");
+
+      for (var i = 0; i < nodes.length; ++i) {
+        nodes[i].getChildren().removeAll(); // THIS THROWS AN EXCEPTION ON 2ND ELEMENT...
+      }
+
+      tree.dispose();
+      controller.dispose();
+      for (var i = 0; i < nodes.length; ++i) {
+        nodes[i].dispose();
+      }
     }
 
   }
