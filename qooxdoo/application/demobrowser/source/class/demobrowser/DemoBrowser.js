@@ -37,6 +37,7 @@
 #asset(qx/icon/Tango/22/apps/utilities-log-viewer.png)
 #asset(qx/icon/Tango/22/apps/internet-web-browser.png)
 #asset(qx/icon/Tango/22/mimetypes/executable.png)
+#asset(qx/icon/Tango/22/actions/help-faq.png)
 
 ************************************************************************ */
 
@@ -151,9 +152,18 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.add(this.__tree, {flex: 1});
 
     var demoView = this.__makeDemoView();
-    infosplit.add(demoView, 2);
-
-
+    
+    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      this.__demoView = demoView;
+      this.__demoStack = new qx.ui.container.Stack();
+      this.__infoView = new demobrowser.Manifest();
+      this.__demoStack.add(demoView);
+      this.__demoStack.add(this.__infoView);
+      infosplit.add(this.__demoStack, 2);
+    } else {
+      infosplit.add(demoView, 2);
+    }
+    
     var htmlView = this.__makeHtmlCodeView();
     var jsView = this.__makeJsCodeView();
     var logView = this.__makeLogView();
@@ -268,6 +278,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     __themeMenu : null,
     __menuBar : null,
     __versionSelect : null,
+    __infoView : null,
+    __demoView : null,
+    __demoStack : null,
+    __infoViewBtn : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -507,7 +521,25 @@ qx.Class.define("demobrowser.DemoBrowser",
       debugButton.setToolTipText("Debugging options");
       menuPart.add(debugButton);
 
-
+      // MANIFEST VIEW
+      // -----------------------------------------------------
+      
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        var infoPart = new qx.ui.toolbar.Part();
+        bar.add(infoPart);
+        var infoViewBtn = this.__infoViewBtn = new qx.ui.toolbar.CheckBox(this.tr("Manifest"), "icon/22/actions/help-faq.png");
+        infoViewBtn.setEnabled(false);
+        infoViewBtn.setValue(false);
+        infoViewBtn.setToolTipText("Display information from the library's manifest file");
+        infoPart.add(infoViewBtn);
+        infoViewBtn.addListener("changeValue", function(e) {
+          if (e.getData()) {
+            this.__demoStack.setSelection([this.__infoView]);
+          } else {
+            this.__demoStack.setSelection([this.__demoView]);
+          };
+        }, this);
+      }
 
       // VIEWS
       // -----------------------------------------------------
@@ -530,7 +562,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         viewPart.add(htmlView);
         viewPart.add(jsView);
       }
-
+      
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
       logView.setToolTipText("Display log file");
 
@@ -674,6 +706,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       var treeNode = this.tree.getSelection()[0];
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        if (treeNode.getParent() == this.tree.getRoot()) {
+          //TODO: Display README information
+        } else if (modelNode.manifest) {
+          this.__infoView.setManifestData(modelNode.manifest);
+          this.__infoViewBtn.setEnabled(true);
+          this.__infoViewBtn.setValue(true);
+        }
+      }
     },
 
 
@@ -812,6 +853,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._runbutton.setVisibility("excluded");
       this._stopbutton.setVisibility("visible");
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        this.__infoViewBtn.setValue(false);
+      }
 
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");

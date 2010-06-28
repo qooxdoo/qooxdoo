@@ -159,6 +159,9 @@ qx.Class.define("demobrowser.TreeDataHandler",
         node.tags = struct.tests[j].tags;
         node.type = "test";  // tests are leaf nodes
         node.desc = struct.tests[j].desc;
+        if (qx.core.Variant.isSet("qx.contrib", "on")) {
+          node.manifest = struct.tests[j].manifest;
+        }
         tree.add(node);
       }
 
