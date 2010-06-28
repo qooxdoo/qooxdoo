@@ -438,10 +438,9 @@ class CodeGenerator(object):
 
             # attach file names (do this before calling generateBootScript)
             for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
+                package.file = os.path.basename(fileName)
                 if self._job.get("compile-options/paths/scripts-add-hash", False):
-                    package.file = self._fileNameWithHash(os.path.basename(fileName), package.hash)
-                else:
-                    package.file = fileName
+                    package.file = self._fileNameWithHash(package.file, package.hash)
 
             # generate and integrate boot code
             if loader_with_boot:
