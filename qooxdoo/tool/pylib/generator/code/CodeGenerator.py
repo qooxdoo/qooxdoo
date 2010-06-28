@@ -275,7 +275,6 @@ class CodeGenerator(object):
             self._console.info("Generating boot script...")
 
             if not self._job.get("packages/i18n-with-boot", True):
-                globalCodes = self.writeI18NFiles(globalCodes, script)
                 # remove I18N info from globalCodes, so they don't go into the loader
                 globalCodes["Translations"] = {}
                 globalCodes["Locales"]      = {}
@@ -393,6 +392,7 @@ class CodeGenerator(object):
         i18n_as_parts = not self._job.get("packages/i18n-with-boot", True)
         if i18n_as_parts:
             script = self.generateI18NParts(script, globalCodes)
+            self.writeI18NPackages(script)
 
         if compileType == "build":
 
@@ -585,7 +585,6 @@ class CodeGenerator(object):
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
     def generateI18NParts(self, script, globalCodes):
-        # TODO: This largely duplicates writeI18NFiles() !
 
         # for each locale code, collect mappings
         transKeys  = globalCodes['Translations'].keys()
@@ -615,7 +614,7 @@ class CodeGenerator(object):
             fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
             package.file = os.path.basename(fPath) # TODO: the use of os.path.basename is a hack
             package.hash = hash
-            #package.__localeflag = True            # TODO: temp. hack for writeI18NFiles()
+            #package.__localeflag = True            # TODO: temp. hack for writeI18NPackages()
             setattr(package,"__localeflag", True)   # TODO: getattr only works with setattr?!
 
         # Finalize the new packages and parts
@@ -945,7 +944,7 @@ class CodeGenerator(object):
             return filteredResources
 
 
-        # -- main --------------------------------------------------------------
+        # -- main - generateResourceInfoCode -----------------------------------
 
         self._console.info("Analyzing assets...")
         self._console.indent()
@@ -985,6 +984,7 @@ class CodeGenerator(object):
         self._console.outdent()
 
         return resdata
+        # end:generateResourceInfoCode()
 
 
     def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
@@ -1017,73 +1017,18 @@ class CodeGenerator(object):
 
 
     ##
-    # write 'Translations' and 'Locales' info out in dedicated files, so 
-    # they don't blow up the loader; collect both translations and locales
-    # info into a separate file for each locale code (e.g. 'en');
-    # add URI information for the created files to globalCodes
-    def writeI18NFiles(self, globalCodes, script):
-
-        # for each locale code, collect mappings
-        #transKeys  = globalCodes['Translations'].keys()
-        #localeKeys = globalCodes['Locales'].keys()
-        #newParts   = {}    # language codes to part objects,    {"C": part}
-        #newPackages= {}    # language codes to private package objects, {"C": package}
-        #for localeCode in set(transKeys + localeKeys):
-        #    # new: also provide a localeCode "part" with corresponding packages
-        #    part = Part(localeCode)
-        #    part.bit_mask = script.getPartBitMask()
-        #    newParts[localeCode] = part
-        #    package = Package(part.bit_mask)  # this might be modified later
-        #    newPackages[localeCode] = package
-        #    part.packages.append(package)
-
-        #    data = {}
-        #    data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
-        #    if localeCode in transKeys:
-        #        data[localeCode]['Translations']     = globalCodes['Translations'][localeCode]
-        #        package.data.translations[localeCode] = globalCodes['Translations'][localeCode]
-        #    if localeCode in localeKeys:
-        #        data[localeCode]['Locales']     = globalCodes['Locales'][localeCode]
-        #        package.data.locales[localeCode] = globalCodes['Locales'][localeCode]
-
-        #    # write to file
-        #    #dataS = json.dumpsCode(data)
+    # write packages of dedicated I18N parts
+    def writeI18NPackages(self, script):
 
         for package in script.packages:
             if getattr(package, "__localeflag", False):  # TODO: temp. work-around, to restrict writing to I18N packages
                 hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
                 dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
                 package.compiled = dataS
-                #fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-                #self.writePackage(dataS, fPath, script)
+                # write to file
                 self.writePackage(dataS, os.path.join(os.path.dirname(script.baseScriptPath), package.file), script)
-                #package.file = os.path.basename(fPath) # TODO: the use of os.path.basename is a hack
-                #package.hash = hash
 
-        ## Finalize the new packages and parts
-        ## - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
-        #for partId, part in newParts.items():
-        #    if newPackages["C"] not in part.packages:
-        #        package = newPackages["C"]
-        #        part.packages.append(package)   # all need "C"
-        #        package.id |= part.bit_mask     # adapt package's bit string
-        #    if len(partId) > 2 and partId[2] == "_":  # it's a sub-language -> include main language
-        #        mainlang = partId[:2]
-        #        if mainlang not in newPackages:
-        #            raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
-        #        if newPackages[mainlang] not in part.packages:
-        #            part.packages.append(newPackages[mainlang])   # add main language
-        #            newPackages[mainlang].id |= part.bit_mask     # adapt package's bit string
-
-        ## finally, sort packages
-        #for part in newParts.values():
-        #    part.packagesSorted
-
-        ## - add to script object
-        #script.parts.update([(x.name, x) for x in newParts.values()])  # TODO: update might overwrite exist. entries!
-        #script.packages.extend(newPackages.values())
-
-        return globalCodes
+        return
 
 
     def getAppName(self, memo={}):
