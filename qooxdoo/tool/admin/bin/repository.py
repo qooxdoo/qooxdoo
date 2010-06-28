@@ -207,6 +207,7 @@ class Repository:
       demoUrl = "/".join([versionName, variantName, demoVersion])
     else:
       demoUrl = "../../../" + self.getDemoUrl(demoBrowser, demoPath)
+    demoUrl += "/index.html"
     
     for line in sourceFile:
       targetFile.write(line.replace("$LIBRARY", demoUrl))
