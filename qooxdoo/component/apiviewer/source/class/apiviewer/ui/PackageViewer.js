@@ -46,7 +46,7 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "mixins", "mixin"));
     this.addInfoPanel(new apiviewer.ui.panels.PackagePanel("packages", "packages"));
 
-    this.getContentElement().setAttribute("id", "ClassViewer");
+    this.getContentElement().setAttribute("class", "ClassViewer");
 
     this._init(new apiviewer.dao.Package({}));
   },

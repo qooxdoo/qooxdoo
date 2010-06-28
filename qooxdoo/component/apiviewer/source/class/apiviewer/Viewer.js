@@ -210,7 +210,7 @@ qx.Class.define("apiviewer.Viewer",
     {
       var detailFrame = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 
-      detailFrame.getContentElement().setAttribute("id", "content");
+      detailFrame.getContentElement().setAttribute("class", "content");
 
       this._detailLoader = new qx.ui.embed.Html('<div style="padding:10px;"><h1><small>please wait</small>Loading data...</h1></div>');
       this._detailLoader.getContentElement().setAttribute("id", "SplashScreen");
