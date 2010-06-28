@@ -71,7 +71,10 @@ class Repository:
       try:
         manifest = getDataFromJsonFile(manifestPath)
       except Exception, e:
+        console.error("Could not read manifest file %s" %manifestPath)
+        console.indent()
         console.error(str(e))
+        console.outdent()
       
       if not "info" in manifest:
         console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
@@ -93,16 +96,21 @@ class Repository:
       if libraryName not in libraries:
         libraries[libraryName] = {}
       
+      console.info("Adding library %s version %s..." %(libraryName,libraryVersion), False)
       if libraryVersion not in libraries[libraryName]:
-        console.info("Adding library %s version %s" %(libraryName,libraryVersion))
         # create LibraryVersion instance
         versionPath = os.path.abspath(os.path.dirname(manifestPath))
         libVer = LibraryVersion(libraryVersion, libraryName, versionPath)
         libVer.manifest = manifest
         libraries[libraryName][libraryVersion] = libVer
+        console.write(" Done.", "info")
       else:
-        console.warn("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
+        console.write("")
+        console.indent()
+        console.error("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
+        console.outdent()
     
+    console.write("")
     console.outdent()
     return libraries
 
@@ -251,7 +259,8 @@ class Repository:
       "name": version + "-" + variant + ".html",
       "nr": variant.capitalize(),
       "tags": [library],
-      "title": library + " " + version + " " + variant
+      "title": library + " " + version + " " + variant,
+      "manifest" : self.libraries[library][version].getManifest()
     }
     
     qooxdooVersions = self.libraries[library][version].getManifest()["info"]["qooxdoo-versions"]
@@ -540,7 +549,6 @@ class LibraryValidator():
     isValidType = self.isValidType(libName, type)
     isValidVersion = self.isValidVersion(libName, version)
     isValidQxVersion = self.isValidQxVersion(libName, qxVersions)
-    #print "library %s type %s version %s qxVersion %s" %(repr(isValidLib),repr(isValidType),repr(isValidVersion),repr(isValidQxVersion),)
     return isValidLib and isValidType and isValidVersion and isValidQxVersion
 
 
