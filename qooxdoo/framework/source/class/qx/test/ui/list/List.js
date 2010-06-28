@@ -164,6 +164,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertEquals(1, selection.getLength());
       this.assertEquals(this.__model.getItem(2), selection.getItem(0));
+      this.assertEquals(2, this.__list._manager.getSelectedItem());
     },
     
     testSelectionEventByUserInteraction : function() {
@@ -180,6 +181,7 @@ qx.Class.define("qx.test.ui.list.List",
         {
           self.assertEquals(1, selection.getLength());
           self.assertEquals(self.__model.getItem(2), selection.getItem(0));
+          self.assertEquals(2, self.__list._manager.getSelectedItem());
         }
       );
     }

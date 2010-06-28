@@ -231,15 +231,8 @@ qx.Class.define("qx.ui.list.List",
       
       var selection = this.getSelection();
       var currentSelection = e.getData();
-      var newSelection = [];
-
-      for (var i = 0; i < currentSelection.length; i++)
-      {
-        var row = currentSelection[i];
-        newSelection.push(this.getDataFromRow(row));
-      }
       
-      selection.splice(0, selection.getLength(), newSelection);
+      selection.splice(0, selection.getLength(), this.getDataFromRow(currentSelection[0]));
     },
     
     __updateRowCount : function()
