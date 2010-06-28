@@ -31,9 +31,6 @@ qx.Class.define("qx.ui.list.List",
     this.base(arguments, 0, 1, 20, 100);
 
     this._init();
-    this._initBackground();
-    this._initLayer();
-    this._initSelectionManager();
 
     if(model != null) {
       this.initModel(model);
@@ -95,6 +92,10 @@ qx.Class.define("qx.ui.list.List",
     {
       this.addListener("resize", this._onResize, this);
       this.setScrollbarX("off");
+      
+      this._initBackground();
+      this._initLayer();
+      this._initSelectionManager();
     },
 
     _initBackground : function()
