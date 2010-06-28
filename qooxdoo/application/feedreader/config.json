@@ -29,6 +29,11 @@
   {
     "common" :
     {
+      "compile-options" :
+      {
+        "paths" : { "scripts-add-hash" : true }  
+      },
+
       "packages" : 
       {
         "loader-with-boot" : false,
