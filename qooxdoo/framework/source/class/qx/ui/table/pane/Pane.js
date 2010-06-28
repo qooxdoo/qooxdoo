@@ -568,6 +568,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
           cellInfo.value = tableModel.getValue(col, row);
           var cellRenderer = columnModel.getDataCellRenderer(col);
 
+          // Retrieve the current default cell style for this column.
+          cellInfo.style = cellRenderer.getDefaultCellStyle();
+
           // Allow a cell renderer to tell us not to draw any further cells in
           // the row. Older, or traditional cell renderers don't return a
           // value, however, from createDataCellHtml, so assume those are

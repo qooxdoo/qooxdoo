@@ -69,6 +69,21 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
   },
 
 
+  properties :
+  {
+    /**
+     * The default cell style. The value of this property will be provided
+     * to the cell renderer as cellInfo.style.
+     */
+    defaultCellStyle :
+    {
+      init : null,
+      check : "String",
+      nullable : true
+    }
+  },
+
+
   members :
   {
     /**
