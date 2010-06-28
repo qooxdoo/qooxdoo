@@ -125,12 +125,18 @@ class Repository:
     for libraryName in self.libraries:
       library = self.libraries[libraryName]
       libraryData = {
-        "classname": libraryName, 
-        "tests": []
+        "classname": libraryName,
+        "children" : []
       }
       validDemo = False
       for versionName in library:
         version = library[versionName]
+        
+        versionData = {
+          "classname" : versionName,
+          "tests" : [],
+          "manifest" : version.getManifest()
+        }
         
         if not version.hasDemoDir:
           continue
@@ -144,7 +150,8 @@ class Repository:
           if variant == "source" or variant == "build":
             continue
           status = version.buildDemo(variant, demoVersion)
-          # DEBUG: status = {"buildError" : None}
+          #DEBUG:
+          #status = {"buildError" : None}
           if demoBrowser and not status["buildError"]:
             if copyDemos:
               sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
@@ -157,14 +164,14 @@ class Repository:
             else:
               self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
             
-            libraryData["tests"].append(self.getDemoData(libraryName, versionName, variant))
+            versionData["tests"].append(self.getDemoData(libraryName, versionName, variant))
             validDemo = True
       
       if validDemo:
+        libraryData["children"].append(versionData)
         demoData.append(libraryData)
 
     if demoBrowser:
-      #jsonData = json.dumps(demoData, sort_keys=True, indent=4)
       jsonData = demjson.encode(demoData, strict=False, compactly=False)
       dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
       if not os.path.isdir(dbScriptDir):
@@ -201,20 +208,20 @@ class Repository:
     sourceFilePath = os.path.join(demoBrowser, dbResourcePath, dbNamespace, "demo_template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
     
-    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName) 
+    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName)
     
     if not os.path.isdir(targetDir):
       os.makedirs(targetDir)
-    targetFilePath = os.path.join(targetDir, versionName + "-" + variantName +  ".html")
+    targetFilePath = os.path.join(targetDir, variantName +  ".html")
     console.info("Copying HTML file for demo %s %s %s %s to the demobrowser" %(libraryName,versionName,variantName,demoVersion))
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
     
     demoPath = os.path.join( self.libraries[libraryName][versionName].path, "demo", variantName, demoVersion)
     # the demo's HTML file lives under source|build/demo/libraryName
     if local:
-      demoUrl = "/".join([versionName, variantName, demoVersion])
+      demoUrl = "/".join([variantName, demoVersion])
     else:
-      demoUrl = "../../../" + self.getDemoUrl(demoBrowser, demoPath)
+      demoUrl = "../../../../" + self.getDemoUrl(demoBrowser, demoPath)
     demoUrl += "/index.html"
     
     for line in sourceFile:
@@ -256,11 +263,10 @@ class Repository:
   
   def getDemoData(self, library, version, variant):
     demoDict = {
-      "name": version + "-" + variant + ".html",
+      "name": variant + ".html",
       "nr": variant.capitalize(),
       "tags": [library],
-      "title": library + " " + version + " " + variant,
-      "manifest" : self.libraries[library][version].getManifest()
+      "title": library + " " + version + " " + variant
     }
     
     qooxdooVersions = self.libraries[library][version].getManifest()["info"]["qooxdoo-versions"]

@@ -707,12 +707,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
       if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        if (treeNode.getParent() == this.tree.getRoot()) {
-          //TODO: Display README information
-        } else if (modelNode.manifest) {
-          this.__infoView.setManifestData(modelNode.manifest);
-          this.__infoViewBtn.setEnabled(true);
-          this.__infoViewBtn.setValue(true);
+        if (modelNode) {
+          if (treeNode.getParent() == this.tree.getRoot()) {
+            //TODO: Display README information
+          } else if (modelNode.manifest) {
+            this.__infoView.setManifestData(modelNode.manifest);
+            this.__infoViewBtn.setEnabled(true);
+            this.__infoViewBtn.setValue(true);
+          }
         }
       }
     },
@@ -859,6 +861,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
+        // contribDemobrowser has an additional hierarchy level
+        if (qx.core.Variant.isSet("qx.contrib", "on")) {
+          file = file.replace(".", "/");
+        }
         this.setCurrentSample(file);
       } else {
         this.playNext();

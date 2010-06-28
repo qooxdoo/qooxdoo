@@ -150,26 +150,31 @@ qx.Class.define("demobrowser.TreeDataHandler",
       function mysort(a, b) {
         return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0;
       }
-
-      struct.tests.sort(mysort);
-
-      for (var j=0; j<struct.tests.length; j++)
-      {
-        node = new demobrowser.Tree(struct.tests[j].name);
-        node.tags = struct.tests[j].tags;
-        node.type = "test";  // tests are leaf nodes
-        node.desc = struct.tests[j].desc;
-        if (qx.core.Variant.isSet("qx.contrib", "on")) {
-          node.manifest = struct.tests[j].manifest;
+      
+      if (struct.tests) {
+        struct.tests.sort(mysort);
+  
+        for (var j=0; j<struct.tests.length; j++)
+        {
+          node = new demobrowser.Tree(struct.tests[j].name);
+          node.tags = struct.tests[j].tags;
+          node.type = "test";  // tests are leaf nodes
+          node.desc = struct.tests[j].desc;
+          tree.add(node);
         }
-        tree.add(node);
       }
 
       // current children
       if (struct.children && struct.children.length)
       {
         for (var j=0; j<struct.children.length; j++) {
-          tree.add(this.readTree(struct.children[j]));
+          var subTree = this.readTree(struct.children[j]);
+          if (qx.core.Variant.isSet("qx.contrib", "on")) {
+            if (struct.children[j].manifest) {
+              subTree.manifest = struct.children[j].manifest;
+            }
+          }
+          tree.add(subTree);
         }
       }
 
