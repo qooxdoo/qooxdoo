@@ -60,7 +60,7 @@ qx.Class.define("${Namespace}.Application",
       
       /*
       -------------------------------------------------------------------------
-        USE AN EXISTING NODE TO ADD THE WIDGETS WITHIN THE PAGE FLOW
+        USE AN EXISTING NODE TO ADD WIDGETS INTO THE PAGE LAYOUT FLOW
       -------------------------------------------------------------------------
       */
       
@@ -95,25 +95,25 @@ qx.Class.define("${Namespace}.Application",
       // Add an event listener
       button1.addListener("execute", function(e) {
         alert("I'm a button inside an inline root widget!\n" + 
-              "I nicely fit into the page flow.");
+              "I nicely fit into the page layout flow.");
       });
 
 
       /*
       -------------------------------------------------------------------------
-        ADD THE WIDGETS WITH ABSOLUTE POSITIONING
+        ADD WIDGETS WITH ABSOLUTE POSITIONING
       -------------------------------------------------------------------------
       */
 
       // Create a button
-      var button2 = new qx.ui.form.Button("absolute positioned");
+      var button2 = new qx.ui.form.Button("absolutely positioned");
 
       // Add button to document at fixed coordinates
       this.getRoot().add(button2, {left: 500, top: 310});
 
       // Add an event listener
       button2.addListener("execute", function(e) {
-        alert("I'm an absolute positioned button!\n" + 
+        alert("I'm an absolutely positioned button!\n" + 
               "I overlay existing content.");
       });
     }
