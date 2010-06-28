@@ -40,7 +40,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 
   "api" :
   {
-    "path" : "<path>",
+    "path"   : "<path>",
     "verify" : [ "links" ]
   }
 
@@ -49,6 +49,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
 
 * **path** *(required)* : Path where the Apiviewer application is to be stored, relative to the current directory.
+* **verify** : Things to check during generation of API data.
 
   * **links** : Check internal documentation links (@link{...}) for consistency.
 
@@ -208,7 +209,8 @@ Specify various options for compile (and other) keys. Takes a map.
       "file"            : "<path>",
       "app-root"        : "<path>",            
       "gzip"            : (true|false),
-      "loader-template" : "<path>"
+      "loader-template" : "<path>",
+      "scripts-add-hash": (true|false)
     },
     "uris" :
     {
@@ -235,6 +237,7 @@ Possible keys are (<type> refers to the :ref:`compile/type <pages/tool/generator
   * **app-root** : relative (in the above sense) path to the directory containing the app’s HTML page (relevant for *source* version; default: *./<type>*)
   * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default template in ``tool/data/generator/loader.tmpl.js``
   * **gzip** : whether to gzip output file(s) (default: *false*)
+  * **scripts-add-hash** : whether the file name of generated script files should contain the script's hash code; the primary compile output file (see above) is exempted even if set to true (default: *false*)
 
 * **uris** : URIs used to reference code and resources
 
