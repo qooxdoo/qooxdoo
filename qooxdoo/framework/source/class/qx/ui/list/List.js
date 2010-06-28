@@ -78,6 +78,8 @@ qx.Class.define("qx.ui.list.List",
     _cellRenderer : null,
     
     _manager : null,
+    
+    __ignoreChangeSelection : false,
 
     getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
@@ -205,6 +207,7 @@ qx.Class.define("qx.ui.list.List",
     
     _onSelectionChange : function(e)
     {
+      this.__ignoreChangeSelection = true;
       var selection = this.getSelection();
       for (var i = 0; i < selection.getLength(); i++)
       {
@@ -216,21 +219,27 @@ qx.Class.define("qx.ui.list.List",
       if (!this.__isSelectionLengthEqual()) {
         this.__updateSelection();
       }
+      this.__ignoreChangeSelection = false;
       
       this.getPane().fullUpdate();
     },
     
     _onChangeSelection : function(e) {
-      // TODO
-      /*var selection = this.getSelection();
-      var currentSelection = e.getData();
+      if (this.__ignoreChangeSelection == true) {
+        return;
+      }
       
-      selection.removeAll();
+      var selection = this.getSelection();
+      var currentSelection = e.getData();
+      var newSelection = [];
+
       for (var i = 0; i < currentSelection.length; i++)
       {
         var row = currentSelection[i];
-        selection.push(this.getDataFromRow(row));
-      }*/
+        newSelection.push(this.getDataFromRow(row));
+      }
+      
+      selection.splice(0, selection.getLength(), newSelection);
     },
     
     __updateRowCount : function()
