@@ -64,8 +64,6 @@ class Locale(object):
 
     def getLocalizationData(self, classList, targetLocales, ):
         self._console.debug("Generating localization data...")
-        self._console.indent()
-
         data = {}
 
         # check need for cldr data in this classlist
@@ -81,6 +79,7 @@ class Locale(object):
 
 
         # else collect cldr data
+        self._console.indent()
         root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
 
         newlocales = targetLocales
