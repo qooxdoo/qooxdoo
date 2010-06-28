@@ -329,7 +329,28 @@ class CodeGenerator(object):
 
             return compiledContent
 
-        # -- Main --------------------------------------------------------------
+
+        ##
+        # takes an array of (po-data, locale-data) dict pairs
+        # merge all po data and all cldr data in a single dict each
+        def mergeTranslationMaps(transMaps):
+            poData = {}
+            cldrData = {}
+
+            for pac_dat, loc_dat in transMaps:
+                for loc in pac_dat:
+                    if loc not in poData:
+                        poData[loc] = {}
+                    poData[loc].update(pac_dat[loc])
+                for loc in loc_dat:
+                    if loc not in cldrData:
+                        cldrData[loc] = {}
+                    cldrData[loc].update(loc_dat[loc])
+
+            return (poData, cldrData)
+
+
+        # -- Main - runCompiled ------------------------------------------------
 
         # Early return
         compileType = self._job.get("compile/type", "")
@@ -387,12 +408,25 @@ class CodeGenerator(object):
             scriptUri   = None
 
         # Get global script data (like qxlibraries, qxresources,...)
-        globalCodes = self.generateGlobalCodes(script, libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
+        globalCodes                = {}
+        globalCodes["Settings"]    = settings
+        globalCodes["Variants"]    = self.generateVariantsCode(variants)
+        globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
+        # add synthetic output lib
+        if scriptUri: out_sourceUri= scriptUri
+        else:
+            out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
+            out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
+        globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
+        globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libs, format)
+        globalCodes["Translations"],\
+        globalCodes["Locales"]      = mergeTranslationMaps(translationMaps)
+
         # Potentally create dedicated I18N packages
         i18n_as_parts = not self._job.get("packages/i18n-with-boot", True)
         if i18n_as_parts:
             script = self.generateI18NParts(script, globalCodes)
-            self.writeI18NPackages(script)
+            self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
         if compileType == "build":
 
@@ -611,11 +645,12 @@ class CodeGenerator(object):
 
             # file name and hash code
             hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
+            dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            package.compiled = dataS
             fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            package.file = os.path.basename(fPath) # TODO: the use of os.path.basename is a hack
+            package.file = os.path.basename(fPath)
             package.hash = hash
-            #package.__localeflag = True            # TODO: temp. hack for writeI18NPackages()
-            setattr(package,"__localeflag", True)   # TODO: getattr only works with setattr?!
+            setattr(package,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
 
         # Finalize the new packages and parts
         # - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
@@ -644,59 +679,6 @@ class CodeGenerator(object):
         script.packages.extend(newPackages.values())
 
         return script
-
-
-    def generateGlobalCodes(self, script, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
-        # generate the global codes like qxlibraries, qxresources, ...
-        # and collect them in a common structure
-
-        def mergeTranslationMaps(transMaps):
-            # translationMaps is a pair (po-data, cldr-data) per package:
-            # translationMaps = [({'C':{},..},{'C':{},..}), (.,.), ..]
-            # this function merges all [0] elements into a common dict, and
-            # all [1] elements:
-            # return = ({'C':{},..}, {'C':{},..})
-            poData = {}
-            cldrData = {}
-
-            for pac_dat, loc_dat in transMaps:
-                for loc in pac_dat:
-                    if loc not in poData:
-                        poData[loc] = {}
-                    poData[loc].update(pac_dat[loc])
-                for loc in loc_dat:
-                    if loc not in cldrData:
-                        cldrData[loc] = {}
-                    cldrData[loc].update(loc_dat[loc])
-
-            return (poData, cldrData)
-
-
-        globalCodes  = {}
-
-        globalCodes["Settings"]    = settings
-
-        variantInfo = self.generateVariantsCode(variants)
-        globalCodes["Variants"]    = variantInfo
-
-        mapInfo = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
-        # add synthetic output lib
-        if scriptUri:
-            out_sourceUri = scriptUri
-        else:
-            out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
-            out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
-        mapInfo['__out__'] = { 'sourceUri': out_sourceUri }
-        globalCodes["Libinfo"]     = mapInfo
-
-        mapInfo = self.generateResourceInfoCode(script, settings, libs, format)
-        globalCodes["Resources"]    = mapInfo
-
-        locData = mergeTranslationMaps(translationMaps)
-        globalCodes["Translations"] = locData[0] # 0: .po data
-        globalCodes["Locales"]      = locData[1] # 1: cldr data
-
-        return globalCodes
 
 
     def generateVariantsCode(self, variants):
@@ -1002,8 +984,8 @@ class CodeGenerator(object):
     def writePackages(self, packages, script):
 
         for package in packages:
-            filePath = package.file
-            content = package.compiled
+            filePath = os.path.join(os.path.dirname(self._job.get("compile-options/paths/file")), package.file)
+            content  = package.compiled
             self.writePackage(content, filePath, script)
 
         return
@@ -1014,21 +996,6 @@ class CodeGenerator(object):
             filetool.gzip(filePath, content)
         else:
             filetool.save(filePath, content)
-
-
-    ##
-    # write packages of dedicated I18N parts
-    def writeI18NPackages(self, script):
-
-        for package in script.packages:
-            if getattr(package, "__localeflag", False):  # TODO: temp. work-around, to restrict writing to I18N packages
-                hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
-                dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
-                package.compiled = dataS
-                # write to file
-                self.writePackage(dataS, os.path.join(os.path.dirname(script.baseScriptPath), package.file), script)
-
-        return
 
 
     def getAppName(self, memo={}):
