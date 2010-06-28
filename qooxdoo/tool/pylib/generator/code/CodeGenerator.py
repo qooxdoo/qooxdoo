@@ -143,9 +143,8 @@ class CodeGenerator(object):
                             relpath    = OsPath(self._classes[clazz]["relpath"])
                             shortUri   = Uri(relpath.toUri())
                             packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
-
-
                     allUris.append(packageUris)
+
                 return allUris
 
             def loadTemplate(bootCode):
@@ -255,23 +254,6 @@ class CodeGenerator(object):
         # shallow layer above generateBootCode(), and its only client
         def generateBootScript(globalCodes, script, bootPackage="", compileType="build"):
 
-            ##
-            # returns list of lists, each containing destination file name of the corresp. part
-            # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
-            # rather: fixPackagesFiles()
-            def packagesOfFiles(fileUri, packages):
-                npackages = []
-                file = os.path.basename(fileUri)
-                if self._job.get("packages/loader-with-boot", True):
-                    totalLen = len(packages)
-                else:
-                    totalLen = len(packages) + 1
-                for packageId, packageFileName in enumerate(self.packagesFileNames(file, totalLen, classPackagesOnly=True)):
-                    npackages.append((packageFileName,))
-                    packages[packageId].file = packageFileName  # TODO: very unnice to fix this here
-                return npackages
-
-            # ----------------------------------------------------------------------------
             self._console.info("Generating boot script...")
 
             if not self._job.get("packages/i18n-with-boot", True):
@@ -286,7 +268,7 @@ class CodeGenerator(object):
 
             plugCodeFile = compConf.get("code/decode-uris-plug", False)
             if compileType == "build":
-                filepackages = packagesOfFiles(fileUri, packages)
+                filepackages = [(x.file,) for x in packages]
                 bootContent  = generateBootCode(parts, filepackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, compileType, plugCodeFile, format)
             else:
                 filepackages = [x.classes for x in packages]
@@ -450,18 +432,25 @@ class CodeGenerator(object):
             # - Put loader and packages together -------
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
             # handle loader and boot package
+            if not loader_with_boot:
+                loadPackage = Package(0)            # make a dummy Package for the loader
+                packages.insert(0, loadPackage)
+
+            # attach file names (do this before calling generateBootScript)
+            for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
+                if self._job.get("compile-options/paths/scripts-add-hash", False):
+                    package.file = self._fileNameWithHash(os.path.basename(fileName), package.hash)
+                else:
+                    package.file = fileName
+
+            # generate and integrate boot code
             if loader_with_boot:
+                # merge loader code with first package
                 bootCode = generateBootScript(globalCodes, script, packages[0].compiled)
                 packages[0].compiled = bootCode
             else:
                 loaderCode = generateBootScript(globalCodes, script)
-                loadPackage = Package(0)            # make a dummy Package for the loader
-                loadPackage.compiled = loaderCode
-                packages.insert(0, loadPackage)
-
-            # attach file names
-            for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
-                package.file = fileName
+                packages[0].compiled = loaderCode
 
             # write packages
             self.writePackages(packages, script)
@@ -567,6 +556,14 @@ class CodeGenerator(object):
         return fileName
 
 
+    def _fileNameWithHash(self, fname, hash):
+        filebase, fileext = os.path.splitext(fname)
+        filename = filebase
+        filename += "." + hash if hash else ""
+        filename += fileext
+        return filename
+
+
     def _computeContentSize(self, content):
         # Convert to utf-8 first
         content = unicode(content).encode("utf-8")
@@ -644,12 +641,14 @@ class CodeGenerator(object):
                 package.data.locales[localeCode] = globalCodes['Locales'][localeCode]
 
             # file name and hash code
-            hash, dataS = package.packageContent()  # TODO: this currently works only for pure data packages
-            dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            hash, dataS  = package.packageContent()  # TODO: this currently works only for pure data packages
+            dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             package.compiled = dataS
+            package.hash     = hash
             fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
             package.file = os.path.basename(fPath)
-            package.hash = hash
+            if self._job.get("compile-options/paths/scripts-add-hash", False):
+                package.file = self._fileNameWithHash(package.file, package.hash)
             setattr(package,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
 
         # Finalize the new packages and parts
