@@ -42,12 +42,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
 
     /**
-     * Either a string or a number, which define the vertical position
+     * Either a string or a number, which defines the horizontal position
      * of the background image.
      *
-     * If the value is an integer it is interpreted as pixel value otherwise
-     * the value is taken as CSS value. CSS the values are "center", "left" and
-     * "right".
+     * If the value is an integer it is interpreted as a pixel value, otherwise
+     * the value is taken to be a CSS value. For CSS, the values are "center",
+     * "left" and "right".
      */
     backgroundPositionX :
     {
@@ -57,12 +57,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
 
     /**
-     * Either a string or a number, which define the horizontal position
+     * Either a string or a number, which defines the vertical position
      * of the background image.
      *
-     * If the value is an integer it is interpreted as pixel value otherwise
-     * the value is taken as CSS value. CSS the values are "top", "middle" and
-     * "bottom".
+     * If the value is an integer it is interpreted as a pixel value, otherwise
+     * the value is taken to be a CSS value. For CSS, the values are "top",
+     * "middle" and "bottom".
      */
     backgroundPositionY :
     {
