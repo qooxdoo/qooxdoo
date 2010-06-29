@@ -298,7 +298,7 @@ qx.Class.define("playground.Application",
      */
     __onManualOpen : function() {
       var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
-      window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
+      window.open("http://manual.qooxdoo.org/" + arr[0] + "." + arr[1] + ".x/");
     },
 
 
