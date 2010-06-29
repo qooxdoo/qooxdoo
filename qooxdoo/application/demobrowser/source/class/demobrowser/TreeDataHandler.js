@@ -160,6 +160,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
           node.tags = struct.tests[j].tags;
           node.type = "test";  // tests are leaf nodes
           node.desc = struct.tests[j].desc;
+          node.manifest = struct.tests[j].manifest;
           tree.add(node);
         }
       }
@@ -175,6 +176,12 @@ qx.Class.define("demobrowser.TreeDataHandler",
             }
           }
           tree.add(subTree);
+        }
+      }
+      
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        if (struct.readme) {
+          tree.readme = struct.readme;
         }
       }
 

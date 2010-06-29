@@ -149,11 +149,28 @@ class Repository:
     return libraries
 
 
+  def getReadmeContent(self, path):
+    readmePath = False
+    readmeNames = ["README", "README.TXT", "README.txt", "readme", "readme.txt", "readme.TXT"]
+    for readme in readmeNames:
+      readmeFull = os.path.join(path, readme)
+      if os.path.isfile(readmeFull):
+        readmePath = readmeFull
+    if readmePath:
+      readmeFile = file(readmePath, "r")
+      readme = ""
+      for line in readmeFile.readlines():
+        readme += line.replace("\n", r'\n')
+      return readme
+    else:
+      return False
+
+
   def buildAllDemos(self, demoVersion="build", demoBrowser=None, copyDemos=False):
     if demoBrowser:
       demoBrowser = os.path.abspath(demoBrowser)
     console.info("Generating demos for all known libraries")
-    demoData = []
+    repositoryData = []
     console.indent()
     
     for libraryName in self.libraries:
@@ -162,6 +179,7 @@ class Repository:
         "classname": libraryName,
         "children" : []
       }
+      
       validDemo = False
       for versionName in library:
         version = library[versionName]
@@ -171,6 +189,24 @@ class Repository:
           "tests" : [],
           "manifest" : version.getManifest()
         }
+        
+        # getting the library's top-level readme here since we only have path
+        # information for the library versions
+        if not "readme" in libraryData:
+          libDir = os.path.dirname(version.path) 
+          readme = self.getReadmeContent(libDir)
+          if readme:
+            libraryData["readme"] = readme
+          else:
+            libraryData["readme"] = "No readme file found."
+        
+        # get the version's readme
+        if not "readme" in versionData:
+          readme = self.getReadmeContent(version.path)
+          if readme:
+            versionData["readme"] = readme
+          else:
+            versionData["readme"] = "No readme file found."
         
         if not version.hasDemoDir:
           continue
@@ -183,9 +219,9 @@ class Repository:
           # source/build dirs at this level means the demo has a non-standard structure
           if variant == "source" or variant == "build":
             continue
-          status = version.buildDemo(variant, demoVersion)
+          #status = version.buildDemo(variant, demoVersion)
           #DEBUG:
-          #status = {"buildError" : None}
+          status = {"buildError" : None}
           if demoBrowser and not status["buildError"]:
             if copyDemos:
               sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
@@ -198,15 +234,17 @@ class Repository:
             else:
               self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
             
-            versionData["tests"].append(self.getDemoData(libraryName, versionName, variant))
+            demoData = self.getDemoData(libraryName, versionName, variant)
+            demoData["manifest"] = version.getDemoManifest(variant)
+            versionData["tests"].append(demoData)
             validDemo = True
       
       if validDemo:
         libraryData["children"].append(versionData)
-        demoData.append(libraryData)
+        repositoryData.append(libraryData)
 
     if demoBrowser:
-      jsonData = demjson.encode(demoData, strict=False, compactly=False)
+      jsonData = demjson.encode(repositoryData, strict=False, compactly=False)
       dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
       if not os.path.isdir(dbScriptDir):
         os.mkdir(dbScriptDir)

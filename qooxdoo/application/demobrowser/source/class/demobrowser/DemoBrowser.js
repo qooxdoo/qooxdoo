@@ -157,8 +157,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__demoView = demoView;
       this.__demoStack = new qx.ui.container.Stack();
       this.__infoView = new demobrowser.Manifest();
-      this.__demoStack.add(demoView);
+      this.__readmeView = new demobrowser.Readme();
+      this.__demoStack.add(this.__demoView);
       this.__demoStack.add(this.__infoView);
+      this.__demoStack.add(this.__readmeView);
       infosplit.add(this.__demoStack, 2);
     } else {
       infosplit.add(demoView, 2);
@@ -279,9 +281,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     __menuBar : null,
     __versionSelect : null,
     __infoView : null,
+    __readmeView : null,
     __demoView : null,
     __demoStack : null,
-    __infoViewBtn : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -521,26 +523,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       debugButton.setToolTipText("Debugging options");
       menuPart.add(debugButton);
 
-      // MANIFEST VIEW
-      // -----------------------------------------------------
-      
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        var infoPart = new qx.ui.toolbar.Part();
-        bar.add(infoPart);
-        var infoViewBtn = this.__infoViewBtn = new qx.ui.toolbar.CheckBox(this.tr("Manifest"), "icon/22/actions/help-faq.png");
-        infoViewBtn.setEnabled(false);
-        infoViewBtn.setValue(false);
-        infoViewBtn.setToolTipText("Display information from the library's manifest file");
-        infoPart.add(infoViewBtn);
-        infoViewBtn.addListener("changeValue", function(e) {
-          if (e.getData()) {
-            this.__demoStack.setSelection([this.__infoView]);
-          } else {
-            this.__demoStack.setSelection([this.__demoView]);
-          };
-        }, this);
-      }
-
       // VIEWS
       // -----------------------------------------------------
 
@@ -708,12 +690,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tests.selected = this.tests.handler.getFullName(modelNode);
       if (qx.core.Variant.isSet("qx.contrib", "on")) {
         if (modelNode) {
-          if (treeNode.getParent() == this.tree.getRoot()) {
-            //TODO: Display README information
-          } else if (modelNode.manifest) {
+          if (modelNode.manifest) {
             this.__infoView.setManifestData(modelNode.manifest);
-            this.__infoViewBtn.setEnabled(true);
-            this.__infoViewBtn.setValue(true);
+            this.__demoStack.setSelection([this.__infoView]);
+          } 
+          else if (modelNode.readme) {
+            this.__readmeView.setTitle(treeNode.getLabel());
+            this.__readmeView.setReadmeData(modelNode.readme);
+            this.__demoStack.setSelection([this.__readmeView]);
+          } 
+          else {
+            this.__demoStack.setSelection([this.__demoView]);
           }
         }
       }
@@ -855,9 +842,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._runbutton.setVisibility("excluded");
       this._stopbutton.setVisibility("visible");
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        this.__infoViewBtn.setValue(false);
-      }
 
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
@@ -1571,6 +1555,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
-      '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution');
+      '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
+      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
+      "__viewPart", "viewGroup", "__menuBar", "infosplit", "__versionSelect",
+      "__searchTextField", "__status", "__tree", "__iframe", "__demoView",
+      "__demoStack", "__infoView", "__readmeView", "__menuElements",
+      "__logSync", "__versionTags");
   }
 });

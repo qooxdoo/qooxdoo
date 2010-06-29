@@ -36,7 +36,10 @@ qx.Class.define("demobrowser.Tree",
 
     this.label = arguments[0] || "";
     this.children = [];
+    this.tags = null;
     this.parent = null;
+    this.manifest = null;
+    this.readme = null;
   },
 
 
@@ -247,5 +250,7 @@ qx.Class.define("demobrowser.Tree",
   {
     this._disposeObjects("widgetLinkFull", "widgetLinkFlat", "parent");
     this._disposeArray("children");
+    this._disposeArray("tags");
+    this._disposeMap("manifest");
   }
 });
