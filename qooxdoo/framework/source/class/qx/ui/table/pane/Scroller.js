@@ -337,6 +337,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __lastResizeWidth : null,
 
     __lastMouseDownCell : null,
+    __firedClickEvent : false,
     __ignoreClick : null,
     __lastMousePageX : null,
     __lastMousePageY : null,
@@ -1127,6 +1128,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           row : row,
           col : col
         };
+        
+        // On the other hand, we need to know if we've issued the click event
+        // so we don't issue it twice, both from mouse-up on the focus
+        // indicator, and from the click even on the pane. Both possibilities
+        // are necessary, however, to maintain the qooxdoo order of events.
+        this.__firedClickEvent = false;
 
         var selectBeforeFocus = this.getSelectBeforeFocus();
 
@@ -1154,6 +1161,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _onMouseupFocusIndicator : function(e)
     {
       if (this.__lastMouseDownCell &&
+          !this.__firedClickEvent &&
           !this.isEditing() &&
           this.__focusIndicator.getRow() == this.__lastMouseDownCell.row &&
           this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col) 
@@ -1167,6 +1175,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
                          this.__lastMouseDownCell.col
                        ],
                        true);
+        this.__firedClickEvent = true;
       }
     },
 
@@ -1391,6 +1400,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         if (this.__focusIndicator.isHidden() ||
             (this.__lastMouseDownCell &&
+             !this.__firedClickEvent &&
              !this.isEditing() &&
              row == this.__lastMouseDownCell.row &&
              col == this.__lastMouseDownCell.col))
@@ -1399,6 +1409,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
                          qx.ui.table.pane.CellEvent,
                          [this, e, row, col],
                          true);
+          this.__firedClickEvent = true;
         }
       }
     },
