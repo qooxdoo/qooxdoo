@@ -35,10 +35,44 @@ class Repository:
     self.dir = os.path.abspath(repoDir)
     self.validator = LibraryValidator(config)
     
-    manifests = self.scanRepository()
+    if not self.hasExplicitIncludes():
+      manifests = self.scanRepository()
+    else:
+      try:
+        manifests = self.getExplicitManifests()
+        if len(manifests) == 0:
+          manifests = self.scanRepository()
+        else:
+          console.info("Got an explicit include list, skipping repository scan")
+      except Exception:
+        manifests = self.scanRepository()
+      
     self.libraries = self.getLibraries(manifests)
     
-    
+  def hasExplicitIncludes(self):
+    explicit = False
+    for (key, value) in self.validator.config["libraries"]["include"].iteritems():
+      if key == "*" or not "versions" in value:
+        return False
+      for ver in value["versions"]:
+        if ver == "*":
+            return False
+        else:
+          explicit = True
+    return explicit
+  
+  def getExplicitManifests(self):
+    manifests = []
+    for (key, value) in self.validator.config["libraries"]["include"].iteritems():
+      if not "versions" in value:
+        raise Exception("Insufficient configuration details for getExplicitManifests")
+      for ver in value["versions"]:
+        manifestPath = os.path.join(self.dir, key, ver, "Manifest.json")
+        if not os.path.isfile(manifestPath):
+          raise Exception("getExplicitManifest failed: Manifest not in expected location: %s" %manifestPath)
+        manifests.append(manifestPath)
+    return manifests
+  
   def scanRepository(self):
     console.info("Scanning %s" %self.dir)
     console.indent()
