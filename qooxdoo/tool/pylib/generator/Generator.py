@@ -805,14 +805,31 @@ class Generator(object):
 
 
         def depsToProviderFormat(classDepsIter, depsLogConf):
+            ##
+            # duplicates CodeProvider.passesOutputFilter
+            def passesOutputFilter(resId):
+                # must match some include expressions
+                if not filter(None, [x.search(resId) for x in inclregexps]):  # [None, None, _sre.match, None, _sre.match, ...]
+                    return False
+                # must not match any exclude expressions
+                if filter(None, [x.search(resId) for x in exclregexps]):
+                    return False
+                return True
+
+            inclregexps = self._job.get("provider/include", ["*"])
+            exclregexps = self._job.get("provider/exclude", [])
+            inclregexps = map(textutil.toRegExp, inclregexps)
+            exclregexps = map(textutil.toRegExp, exclregexps)
+
             data = {}
             # Class deps
             for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
-                if classId not in data:
-                    data[classId] = {}
-                    data[classId]["load"] = []
-                    data[classId]["run"] = []
-                data[classId][loadOrRun].append(depId)
+                if passesOutputFilter(classId):
+                    if classId not in data:
+                        data[classId] = {}
+                        data[classId]["load"] = []
+                        data[classId]["run"] = []
+                    data[classId][loadOrRun].append(depId)
 
             # transform dep items
             for key, val in data.items():
@@ -828,10 +845,12 @@ class Generator(object):
                 val["run"] = newval
 
             # Resource deps
+            # -- TODO: why are the next two lines so expensive?!
             assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
             classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
             for classId in classToResources:
-                data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
+                if classId in data:
+                    data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
                 
             # Message key deps
             for classId in data:

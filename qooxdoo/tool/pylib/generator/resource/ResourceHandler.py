@@ -181,8 +181,9 @@ class ResourceHandler(object):
                 for embId in embImgs:
                     if assetRex.match(embId):
                         return True
-            else:
-                return assetRex.match(resId)
+            # we deliberately include combined images here, in case someone #assets the combined image directly
+            if assetRex.match(resId):
+                return True
 
         return False
 

@@ -363,6 +363,42 @@
 
     // -- various jobs -------------------------------------------------
 
+
+    "provider" :
+    {
+      "desc"   : "create a provider structure, with code, dependency info, etc.",
+
+      "extend" : ["cache", "libraries", "includes"]
+
+      ,"let" :
+      {
+        "PROVIDER_ROOT" : "./provider"
+      }
+
+      ,"compile-options" : 
+      {
+        "code" : { "locales" : "${LOCALES}" }
+      }
+
+      ,"provider" : 
+      {
+        "app-root" : "${PROVIDER_ROOT}",
+        "include"  : ["${APPLICATION}.*"],
+        "exclude"  : ["${APPLICATION}.test.*"]
+      }
+
+      ,"log" : 
+      { 
+        "dependencies" : 
+        { 
+          "type" : "using", 
+          "format" : "provider",
+          "json" : {"pretty" : true, "file" : "${PROVIDER_ROOT}/dependencies.json"}
+        }
+      }
+    },
+
+
     "translation" :
     {
       "desc"    : "create .po files for current library",

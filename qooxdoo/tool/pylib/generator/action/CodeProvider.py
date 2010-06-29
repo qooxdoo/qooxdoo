@@ -26,10 +26,16 @@ from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from generator import Context as context
 
+global inclregexps, exclregexps
 
 def runProvider(script, generator):
+    global inclregexps, exclregexps
+    inclregexps = context.jobconf.get("provider/include", ["*"])
+    exclregexps = context.jobconf.get("provider/exclude", [])
+    inclregexps = map(textutil.toRegExp, inclregexps)
+    exclregexps = map(textutil.toRegExp, exclregexps)
     # copy class files
-    _handleCode(script)
+    _handleCode(script, generator)
     # generate resource info
     _handleResources(script, generator)
     # generate translation and CLDR files
@@ -38,13 +44,30 @@ def runProvider(script, generator):
     return
 
 
-def _handleCode(script):
+
+##
+# check resId (classId, ...) against include, exclude expressions
+def passesOutputfilter(resId, ):
+    # must match some include expressions
+    if not filter(None, [x.search(resId) for x in inclregexps]):  # [None, None, _sre.match, None, _sre.match, ...]
+        return False
+    # must not match any exclude expressions
+    if filter(None, [x.search(resId) for x in exclregexps]):
+        return False
+    return True
+
+def _handleCode(script, generator):
+
     approot = context.jobconf.get("provider/app-root", "./provider")
     filetool.directory(approot + "/code")
-    for clazz in script.classes:
-        classId = clazz.replace(".","/") + ".js"
-        filetool.directory(approot+"/code/"+os.path.dirname(classId))
-        shutil.copy("source/class/"+classId, approot+"/code/"+classId)
+
+    for clazz in script.classesObj:
+        if passesOutputfilter(clazz.id, ):
+            classAId   = clazz.id.replace(".","/") + ".js"
+            sourcepath = os.path.join(clazz.library['path'], clazz.library['class'], classAId) # TODO: this should be a class method
+            targetpath = approot + "/code/" + classAId
+            filetool.directory(os.path.dirname(targetpath))
+            shutil.copy(sourcepath, targetpath)
     return
 
 def _handleResources(script, generator):
@@ -78,8 +101,12 @@ def _handleResources(script, generator):
     
     resinfos = {}
     for res in allresources:
-        resinfos[res] = createResourceInfo(res, allresources[res])
-        copyResource(res)
+        # fake a classId-like resourceId ("a.b.c"), for filter matching
+        resId = os.path.splitext(res)[0]
+        resId = resId.replace("/", ".")
+        if passesOutputfilter(resId):
+            resinfos[res] = createResourceInfo(res, allresources[res])
+            copyResource(res)
 
     filetool.save(approot+"/data/resource/resources.json", json.dumpsCode(resinfos))
 
