@@ -747,38 +747,42 @@ class Generator(object):
     def runLogDependencies(self, script):
 
         ##
-        # A generator to yield all used-by-dependencies of classes in packages
+        # A generator to yield all using or used-by dependencies of classes in packages;
         # may not report used-by relations of a specific class in sequence
-        def lookupUsedByDeps(packages):
+        def lookupDeps(packages, depstype="using"):
+
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
                     classDeps = classObj.dependencies(variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
+
                     for dep in classDeps["load"]:
                         if dep.name not in ignored_names:
-                            yield (packageId, classId, dep.name, 'load')  # the packageId is somewhat bogus here
+                            if depstype == "using":
+                                yield (packageId, classId, dep.name, 'load')
+                            else:
+                                yield (packageId, dep.name, classId, 'load')  # the packageId is somewhat bogus here
+
                     for dep in classDeps["run"]:
                         if dep.name not in ignored_names:
-                            yield (packageId, classId, dep.name, 'run')
+                            if depstype == "using":
+                                yield (packageId, classId, dep.name, 'run')
+                            else:
+                                yield (packageId, dep.name, classId, 'run')
+
+                    load_names = [x.name for x in classDeps["load"]]
+                    run_names  = [x.name for x in classDeps["run"]]
+                    if not set(load_names).union(run_names).difference(ignored_names): # this class hasn't been yielded yet
+                        if depstype == "using":
+                            yield (packageId, classId, None, 'load')
+                            yield (packageId, classId, None, 'run')
+                        # "used-by" would need another approach; this could only be
+                        # decided once all classes have been processed, to see if a 
+                        # particular class has never been used by another
+
             return
 
-
-        ##
-        # A generator to yield all using-dependencies of classes in packages
-        def lookupUsingDeps(packages):
-            for packageId, package in enumerate(packages):
-                for classId in sorted(package.classes):
-                    classObj = ClassIdToObject[classId]
-                    classDeps = classObj.dependencies(variants)
-                    ignored_names = [x.name for x in classDeps["ignore"]]
-                    for dep in classDeps["load"]:
-                        if dep.name not in ignored_names:
-                            yield (packageId, classId, dep.name, 'load')
-                    for dep in classDeps["run"]:
-                        if dep.name not in ignored_names:
-                            yield (packageId, classId, dep.name, 'run')
-            return
 
         def depsToJsonFile(classDepsIter, depsLogConf):
             data = {}
@@ -829,7 +833,8 @@ class Generator(object):
                         data[classId] = {}
                         data[classId]["load"] = []
                         data[classId]["run"] = []
-                    data[classId][loadOrRun].append(depId)
+                    if depId != None:
+                        data[classId][loadOrRun].append(depId)
 
             # transform dep items
             for key, val in data.items():
@@ -1125,9 +1130,9 @@ class Generator(object):
 
             mainformat = depsLogConf.get('format', None)
             if type == "using":
-                classDepsIter = lookupUsingDeps(packages)
+                classDepsIter = lookupDeps(packages, depstype="using")
             else:
-                classDepsIter = lookupUsedByDeps(packages)
+                classDepsIter = lookupDeps(packages, depstype="used-by")
 
             if mainformat == 'dot':
                 depsToDotFile(classDepsIter, depsLogConf)
