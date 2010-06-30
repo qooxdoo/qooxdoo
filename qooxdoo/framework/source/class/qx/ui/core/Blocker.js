@@ -54,6 +54,11 @@ qx.Class.define("qx.ui.core.Blocker",
       widget.addListener("resize", this.__onResize, this);
     }
 
+    if (qx.Class.isDefined("qx.ui.root.Application") &&
+        widget instanceof qx.ui.root.Application) {
+      this.setKeepBlockerActive(true);
+    }
+
     this.__activeElements = [];
     this.__focusElements = [];
     this.__contentBlockerCount = [];
@@ -89,6 +94,18 @@ qx.Class.define("qx.ui.core.Blocker",
       init : 1,
       apply : "_applyOpacity",
       themeable: true
+    },
+
+
+    /**
+     * If this property is enabled, the blocker created with {@link #block} 
+     * will always stay activated. Take care that only one blocker instance
+     * will be kept active, otherwise your browser will freeze.
+     */
+    keepBlockerActive :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -558,7 +575,9 @@ qx.Class.define("qx.ui.core.Blocker",
      * Sets the blocker element to avtive.
      */
     __activateBlockerElement : function() {
-      this.getBlockerElement().activate();
+      if (this.getKeepBlockerActive()) {
+        this.getBlockerElement().activate();
+      }
     }
   },
 
