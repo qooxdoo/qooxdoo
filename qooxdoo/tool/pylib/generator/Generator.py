@@ -816,10 +816,11 @@ class Generator(object):
                 for classId in usedByLoad:
                     yield (packageId, depId, classId, 'load')
 
-                for classId in depsRun:
+                for classId in usedByRun:
                     yield (packageId, depId, classId, 'run')
 
-                if not usedByLoad + depsRun: # this class isn't used at all
+                if not usedByLoad + usedByRun: # this class isn't used at all
+                    # yield two empty relations, so that classId is at least visible to consumer
                     yield (packageId, depId, None, 'load')
                     yield (packageId, depId, None, 'run')
 
