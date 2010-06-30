@@ -84,7 +84,7 @@ qx.Class.define("qx.bom.Document",
       "mshtml" : function(win)
       {
         if(qx.bom.client.Engine.VERSION >= 8) {
-          return qx.bom.client.Engine.DOCUMENT_MODE === 5;
+          return (win||window).document.documentMode === 5;
         } else {
           return (win||window).document.compatMode !== "CSS1Compat";
         }
