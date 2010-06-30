@@ -78,9 +78,6 @@ qx.Class.define("demobrowser.Manifest", {
       this.add(nameLabel);
       
       this.add(this._getGroupBox("Info", value.info));
-      if (value.info.authors && qx.lang.Type.isArray(value.info.authors)) {
-        this.add(this._getAuthorsBox(value.info.authors));
-      }
     },
     
     _getGroupBox : function(title, info)
@@ -90,8 +87,19 @@ qx.Class.define("demobrowser.Manifest", {
       var rowCount = 0;
       for (var key in info) {
         var value = info[key];
-        if (key == "name" || key == "authors") {
+        if (key == "name") {
           continue;          
+        } else if (key == "authors")  {
+          var authors = "";
+          for (var i=0,l=value.length; i<l; i++) {
+            authors += value[i].name + " &lt;" + value[i].email + "&gt;<br/>"; 
+          }
+          var title = value.length > 1 ? "Authors" : "Author";
+          var keyValue = this._getKeyVal(title, authors);
+          container.add(keyValue[0], {row: rowCount, column: 0});
+          container.add(keyValue[1], {row: rowCount, column: 1});
+          rowCount++;
+        
         } else {
           if (qx.lang.Type.isArray(value)) {
             value = value.join(", ");
@@ -106,28 +114,12 @@ qx.Class.define("demobrowser.Manifest", {
       return container;
     },
     
-    _getAuthorsBox : function(authors)
-    {
-      var title = authors.length > 1 ? "Authors" : "Author";
-      var container = new qx.ui.groupbox.GroupBox(title);
-      container.setLayout(new qx.ui.layout.Grid(10, 10));
-      var rowCount = 0;
-      for (var i=0,l=authors.length; i<l; i++) {
-        var author = authors[i];
-        if (author.name && author.email) {
-          var keyValue = this._getKeyVal(author.name, author.email);
-          container.add(keyValue[0], {row: rowCount, column: 0});
-          container.add(keyValue[1], {row: rowCount, column: 1});
-          rowCount++;
-        }
-      }
-      
-      return container;
-    },
-    
     _getKeyVal : function(key, value)
     {
-      var label = new qx.ui.basic.Label(key.replace(/^.{1}/, key[0].toUpperCase()));
+      if (!key.indexOf("qooxdoo") == 0) {
+        key = key.replace(/^.{1}/, key[0].toUpperCase());
+      }
+      var label = new qx.ui.basic.Label(key);
       label.set({
         font: "bold",
         minWidth: 100
@@ -136,9 +128,9 @@ qx.Class.define("demobrowser.Manifest", {
       var content = new qx.ui.basic.Label();
       if (value.indexOf("http") == 0) {
         value = '<a href="' + value + '" target="_blank">' + value + "</a>";
-        content.setRich(true);
       }
       content.setValue(value);
+      content.setRich(true);
       
       return [label, content];
     },
