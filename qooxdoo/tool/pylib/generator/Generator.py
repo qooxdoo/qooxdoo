@@ -747,9 +747,16 @@ class Generator(object):
     def runLogDependencies(self, script):
 
         ##
-        # A generator to yield all using or used-by dependencies of classes in packages;
-        # may not report used-by relations of a specific class in sequence
-        def lookupDeps(packages, depstype="using"):
+        # A generator to yield all using dependencies of classes in packages;
+        def lookupUsingDeps(packages, ):
+
+            ##
+            # has classId been yielded?
+            def hasVisibleDeps(classId):
+                # judged from the contents of its deps arrays
+                load_names = [x.name for x in classDeps["load"]]
+                run_names  = [x.name for x in classDeps["run"]]
+                return set(load_names).union(run_names).difference(ignored_names)
 
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
@@ -759,27 +766,62 @@ class Generator(object):
 
                     for dep in classDeps["load"]:
                         if dep.name not in ignored_names:
-                            if depstype == "using":
-                                yield (packageId, classId, dep.name, 'load')
-                            else:
-                                yield (packageId, dep.name, classId, 'load')  # the packageId is somewhat bogus here
+                            yield (packageId, classId, dep.name, 'load')
 
                     for dep in classDeps["run"]:
                         if dep.name not in ignored_names:
-                            if depstype == "using":
-                                yield (packageId, classId, dep.name, 'run')
-                            else:
-                                yield (packageId, dep.name, classId, 'run')
+                            yield (packageId, classId, dep.name, 'run')
 
-                    load_names = [x.name for x in classDeps["load"]]
-                    run_names  = [x.name for x in classDeps["run"]]
-                    if not set(load_names).union(run_names).difference(ignored_names): # this class hasn't been yielded yet
-                        if depstype == "using":
-                            yield (packageId, classId, None, 'load')
-                            yield (packageId, classId, None, 'run')
-                        # "used-by" would need another approach; this could only be
-                        # decided once all classes have been processed, to see if a 
-                        # particular class has never been used by another
+                    if not hasVisibleDeps(classId):
+                        # yield two empty relations, so that classId is at least visible to consumer
+                        yield (packageId, classId, None, 'load')
+                        yield (packageId, classId, None, 'run')
+
+            return
+
+
+        ##
+        # A generator to yield all used-by dependencies of classes in packages;
+        # will report used-by relations of a specific class in sequence
+        def lookupUsedByDeps(packages, ):
+
+            depsMap = {}
+
+            # build up depsMap {"classId" : ("packageId", [<load_deps>,...], [<run_deps>, ...]) }
+            for packageId, package in enumerate(packages):
+                for classId in sorted(package.classes):
+                    if classId not in depsMap:
+                        depsMap[classId] = (packageId, [], [])
+                    classObj = ClassIdToObject[classId]
+                    classDeps = classObj.dependencies(variants)
+                    ignored_names = [x.name for x in classDeps["ignore"]]
+
+                    for dep in classDeps["load"]:
+                        if dep.name not in ignored_names:
+                            if dep.name not in depsMap:
+                                depsMap[dep.name] = (packageId, [], [])  # the packageId is bogus here
+                            depsMap[dep.name][1].append(classId)
+                    for dep in classDeps["run"]:
+                        if dep.name not in ignored_names:
+                            if dep.name not in depsMap:
+                                depsMap[dep.name] = (packageId, [], [])
+                            depsMap[dep.name][2].append(classId)
+
+            # yield depsMap
+            for depId, depVal in depsMap.items():
+                packageId   = depVal[0]
+                usedByLoad  = depVal[1]
+                usedByRun   = depVal[2]
+
+                for classId in usedByLoad:
+                    yield (packageId, depId, classId, 'load')
+
+                for classId in depsRun:
+                    yield (packageId, depId, classId, 'run')
+
+                if not usedByLoad + depsRun: # this class isn't used at all
+                    yield (packageId, depId, None, 'load')
+                    yield (packageId, depId, None, 'run')
 
             return
 
@@ -1130,9 +1172,9 @@ class Generator(object):
 
             mainformat = depsLogConf.get('format', None)
             if type == "using":
-                classDepsIter = lookupDeps(packages, depstype="using")
+                classDepsIter = lookupUsingDeps(packages,)
             else:
-                classDepsIter = lookupDeps(packages, depstype="used-by")
+                classDepsIter = lookupUsedByDeps(packages,)
 
             if mainformat == 'dot':
                 depsToDotFile(classDepsIter, depsLogConf)
