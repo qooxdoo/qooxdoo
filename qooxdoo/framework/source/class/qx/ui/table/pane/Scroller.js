@@ -1100,8 +1100,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      if (this.isEditing()) {
-        this.stopEditing();
+      if (table.isEditing()) {
+        table.stopEditing();
       }
 
       var pageX = e.getDocumentLeft();
