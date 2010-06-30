@@ -983,37 +983,49 @@ qx.Class.define("demobrowser.DemoBrowser",
     __onLogInterval : function(e)
     {
       var fwindow = this.__iframe.getWindow();
-      if (fwindow && fwindow.qx && fwindow.qx.log && fwindow.qx.log.appender)
+      
+      try
       {
-        if (!this.__logDone)
+        
+        // Do this in a try-catch block. For instance if a demobrowser runs from
+        // the local file system over the file:// protocol, there might be
+        // security restrictions when trying to access some fwindow properties
+        if (fwindow && fwindow.qx && fwindow.qx.log && fwindow.qx.log.appender)
         {
-          this.__logDone = true;
-
-          this.debug("Demo loaded: " + this._currentSample);
-
-          // Register to logger
-          this.logappender.$$id = null;
-          this.logappender.clear();
-
-          try {
-            fwindow.qx.log.Logger.register(this.logappender);
-          } catch (e) {
-            // if the logger is not available, ignore it
-            return;
-          }
-
-          // update state on example change
-          this._history.addToHistory(this._currentSample.replace("/", "~"), document.title);
-
-          // load sample source code
-          if (this._currentSampleUrl != this.defaultUrl) {
-            this.__getPageSource(this._currentSampleUrl);
+          if (!this.__logDone)
+          {
+            this.__logDone = true;
+  
+            this.debug("Demo loaded: " + this._currentSample);
+  
+            // Register to logger
+            this.logappender.$$id = null;
+            this.logappender.clear();
+  
+            try {
+              fwindow.qx.log.Logger.register(this.logappender);
+            } catch (e) {
+              // if the logger is not available, ignore it
+              return;
+            }
+  
+            // update state on example change
+            this._history.addToHistory(this._currentSample.replace("/", "~"), document.title);
+  
+            // load sample source code
+            if (this._currentSampleUrl != this.defaultUrl) {
+              this.__getPageSource(this._currentSampleUrl);
+            }
           }
         }
+        else
+        {
+          this.__logDone = false;
+        }
       }
-      else
+      catch(ex)
       {
-        this.__logDone = false;
+        this.__logDone = false;        
       }
     },
 
