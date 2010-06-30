@@ -352,7 +352,7 @@ def getDataFromJsonFile(path):
   try:
     jsonFile = codecs.open(path, "r", "UTF-8")
   except:
-    raise Exception("File %s not found" %jsonFile)
+    raise Exception("File %s not found" %path)
     
   data = jsonFile.read()
   jsonFile.close()
@@ -360,7 +360,7 @@ def getDataFromJsonFile(path):
   try:
     return demjson.decode(data, allow_comments=True)
   except Exception, e:
-    raise Exception("Couldn't parse JSON from file %s" %jsonFile)    
+    raise Exception("Couldn't parse JSON from file %s" %path)    
 
 
 class LibraryVersion:  
