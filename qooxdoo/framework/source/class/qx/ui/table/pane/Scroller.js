@@ -1744,9 +1744,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var xPos = this.getTablePaneModel().getX(col);
         var value = tableModel.getValue(col, row);
 
-        // Block headers
-        table.blockHeaderElements();
-
         this.__cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
 
         var cellInfo =
@@ -1882,9 +1879,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (this.isEditing() && ! this.__cellEditor.pendingDispose)
       {
-        // Unblock headers
-        this.getTable().unblockHeaderElements();
-
         if (this._cellEditorIsModalWindow)
         {
           this.__cellEditor.destroy();
