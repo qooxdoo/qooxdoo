@@ -219,9 +219,9 @@ class Repository:
           # source/build dirs at this level means the demo has a non-standard structure
           if variant == "source" or variant == "build":
             continue
-          #status = version.buildDemo(variant, demoVersion)
+          status = version.buildDemo(variant, demoVersion)
           #DEBUG:
-          status = {"buildError" : None}
+          #status = {"buildError" : None}
           if demoBrowser and not status["buildError"]:
             if copyDemos:
               sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
