@@ -56,12 +56,18 @@ def passesOutputfilter(resId, ):
         return False
     return True
 
+libraries = {}
+
 def _handleCode(script, generator):
 
     approot = context.jobconf.get("provider/app-root", "./provider")
     filetool.directory(approot + "/code")
 
     for clazz in script.classesObj:
+        # register library (for _handleResources)
+        if clazz.library['namespace'] not in libraries:
+            libraries[clazz.library['namespace']] = clazz.library
+
         if passesOutputfilter(clazz.id, ):
             classAId   = clazz.id.replace(".","/") + ".js"
             sourcepath = os.path.join(clazz.library['path'], clazz.library['class'], classAId) # TODO: this should be a class method
@@ -77,9 +83,11 @@ def _handleResources(script, generator):
         #filetool.save(approot+"/data/resource/" + res + ".json", json.dumpsCode(resinfo))
         return resinfo
 
-    def copyResource(res):
-        filetool.directory(approot+"/resource/"+os.path.dirname(res))
-        shutil.copy("source/resource/"+res, approot+"/resource/"+res)
+    def copyResource(res, library):
+        sourcepath = os.path.join(library['path'], library['resource'], res)
+        targetpath = approot + "/resource/" + res
+        filetool.directory(os.path.dirname(targetpath))
+        shutil.copy(sourcepath, targetpath)
         return
 
     # ----------------------------------------------------------------------
@@ -106,7 +114,9 @@ def _handleResources(script, generator):
         resId = resId.replace("/", ".")
         if passesOutputfilter(resId):
             resinfos[res] = createResourceInfo(res, allresources[res])
-            copyResource(res)
+            library_ns = allresources[res][3]
+            library    = libraries[library_ns]
+            copyResource(res, library)
 
     filetool.save(approot+"/data/resource/resources.json", json.dumpsCode(resinfos))
 
