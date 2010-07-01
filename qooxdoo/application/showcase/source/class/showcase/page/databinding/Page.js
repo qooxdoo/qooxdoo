@@ -71,10 +71,10 @@ qx.Class.define("showcase.page.databinding.Page",
     },
 
     __manual : {
-      "data_binding" : "Data Binding Concepts",
-      "data_binding/single_value_binding" : "Fundamental Layer",
-      "data_binding/controller" : "Controller",
-      "data_binding/stores" : "Data Stores"
+      "pages/data_binding/data_binding.html" : "Data Binding Concepts",
+      "pages/data_binding/single_value_binding.html" : "Fundamental Layer",
+      "pages/data_binding/controller.html" : "Controller",
+      "pages/data_binding/stores.html" : "Data Stores"
     },
 
     __demos : {

@@ -71,7 +71,7 @@ qx.Class.define("showcase.page.tree.Page",
     },
 
     __manual : {
-      "widget/tree": "The Tree Widget"
+      "pages/widget/tree.html": "The Tree Widget"
     },
 
     __demos : {

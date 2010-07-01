@@ -91,7 +91,7 @@ qx.Class.define("showcase.page.i18n.Page",
     },
 
     __manual : {
-      "internationalization" : "Internationalization"
+      "pages/development/internationalization.html" : "Internationalization"
     },
 
     __demos : {

@@ -65,9 +65,9 @@ qx.Class.define("showcase.page.animation.Page",
      },
 
      __manual : {
-       "qooxdoo_animation#usuage" : "Animation Usuage",
-       "qooxdoo_animation#queueing_effecs" : "Queueing effecs",
-       "qooxdoo_animation#writing_own_effects" : "Writing own effects"
+       "pages/low_level/qooxdoo_animation.html#usuage" : "Animation Usuage",
+       "pages/low_level/qooxdoo_animation.html#queueing_effecs" : "Queueing effecs",
+       "pages/low_level/qooxdoo_animation.html#writing_own_effects" : "Writing own effects"
      },
 
     __demos : {

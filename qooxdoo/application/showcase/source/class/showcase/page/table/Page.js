@@ -75,7 +75,7 @@ qx.Class.define("showcase.page.table.Page",
 
 
     __manual : {
-      "remote_table_model" : "Remote table model"
+      "pages/widget/table_remote_model.html" : "Remote table model"
     },
 
     __demos : {
