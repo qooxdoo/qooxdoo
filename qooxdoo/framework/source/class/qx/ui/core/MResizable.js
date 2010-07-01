@@ -131,6 +131,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __resizeLeft : null,
     __resizeTop : null,
     __resizeStart : null,
+    __resizeRange : null,
 
 
     RESIZE_TOP : 1,
@@ -201,6 +202,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Read size hint
       var hint = this.getSizeHint();
+      var range = this.__resizeRange;
 
       // Read original values
       var start = this.__resizeStart;
@@ -215,7 +217,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         (resizeActive & this.RESIZE_BOTTOM)
       )
       {
-        diff = e.getDocumentTop() - this.__resizeTop;
+        diff = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop())) - this.__resizeTop;
 
         if (resizeActive & this.RESIZE_TOP) {
           height -= diff;
@@ -239,7 +241,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         (resizeActive & this.RESIZE_RIGHT)
       )
       {
-        diff = e.getDocumentLeft() - this.__resizeLeft;
+        diff = Math.max(range.left, Math.min(range.right, e.getDocumentLeft())) - this.__resizeLeft;
 
         if (resizeActive & this.RESIZE_LEFT) {
           width -= diff;
@@ -359,6 +361,18 @@ qx.Mixin.define("qx.ui.core.MResizable",
         width : bounds.width,
         height : bounds.height,
         bounds : qx.lang.Object.clone(bounds)
+      };
+
+      // Compute range
+      var parent = this.getLayoutParent();
+      var parentLocation = parent.getContentLocation();
+      var parentBounds = parent.getBounds();
+      
+      this.__resizeRange = {
+        left : parentLocation.left,
+        top : parentLocation.top,
+        right : parentLocation.left + parentBounds.width,
+        bottom : parentLocation.top + parentBounds.height
       };
 
       // Show frame if configured this way
