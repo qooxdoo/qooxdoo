@@ -982,7 +982,8 @@ class CodeGenerator(object):
     def writePackages(self, packages, script):
 
         for package in packages:
-            filePath = os.path.join(os.path.dirname(self._job.get("compile-options/paths/file")), package.file)
+            filePath = self._config.absPath(self._job.get("compile-options/paths/file"))
+            filePath = os.path.join(os.path.dirname(filePath), package.file)
             content  = package.compiled
             self.writePackage(content, filePath, script)
 
@@ -990,6 +991,7 @@ class CodeGenerator(object):
 
     
     def writePackage(self, content, filePath, script):
+        console.debug("Writing script file %s" % filePath)
         if script.scriptCompress:
             filetool.gzip(filePath, content)
         else:
