@@ -77,38 +77,46 @@ qx.Class.define("demobrowser.Manifest", {
       nameLabel.setRich(true);
       this.add(nameLabel);
       
-      this.add(this._getGroupBox("Info", value.info));
+      this.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
     },
     
-    _getGroupBox : function(title, info)
+    _getGroupBox : function(title, infoList)
     {
       var container = new qx.ui.groupbox.GroupBox(title);
       container.setLayout(new qx.ui.layout.Grid(10, 10));
       var rowCount = 0;
-      for (var key in info) {
-        var value = info[key];
-        if (key == "name") {
-          continue;          
-        } else if (key == "authors")  {
-          var authors = "";
-          for (var i=0,l=value.length; i<l; i++) {
-            authors += value[i].name + " &lt;" + value[i].email + "&gt;<br/>"; 
-          }
-          var title = value.length > 1 ? "Authors" : "Author";
-          var keyValue = this._getKeyVal(title, authors);
-          container.add(keyValue[0], {row: rowCount, column: 0});
-          container.add(keyValue[1], {row: rowCount, column: 1});
-          rowCount++;
-        
-        } else {
-          if (qx.lang.Type.isArray(value)) {
-            value = value.join(", ");
-          }
-          var keyValue = this._getKeyVal(key, value);
-          container.add(keyValue[0], {row: rowCount, column: 0});
-          container.add(keyValue[1], {row: rowCount, column: 1});
-          rowCount++;
+      
+      for (var c=0,e=infoList.length; c<e; c++) {
+        if (!infoList[c]) {
+          continue;
         }
+        
+        for (var key in infoList[c]) {
+          var value = infoList[c][key];
+          if (key == "name") {
+            continue;          
+          } else if (key == "authors")  {
+            var authors = "";
+            for (var i=0,l=value.length; i<l; i++) {
+              authors += value[i].name + " &lt;" + value[i].email + "&gt;<br/>"; 
+            }
+            var title = value.length > 1 ? "Authors" : "Author";
+            var keyValue = this._getKeyVal(title, authors);
+            container.add(keyValue[0], {row: rowCount, column: 0});
+            container.add(keyValue[1], {row: rowCount, column: 1});
+            rowCount++;
+          
+          } else {
+            if (qx.lang.Type.isArray(value)) {
+              value = value.join(", ");
+            }
+            var keyValue = this._getKeyVal(key, value);
+            container.add(keyValue[0], {row: rowCount, column: 0});
+            container.add(keyValue[1], {row: rowCount, column: 1});
+            rowCount++;
+          }
+        }
+        
       }
       
       return container;
@@ -133,6 +141,37 @@ qx.Class.define("demobrowser.Manifest", {
       content.setRich(true);
       
       return [label, content];
+    },
+    
+    _getSortedInfo : function(info)
+    {
+      sortOrder = {
+        "summary" : 0,
+        "description" : 1,
+        "homepage" : 2,
+        "license" : 3,
+        "authors" : 4,
+        "version" : 5,
+        "qooxdoo-versions" : 6
+      };
+      
+      var sortedInfo = [];
+      var unsortedInfo = [];
+      
+      for (key in info) {
+        if (key in sortOrder) {
+          var map = {};
+          map[key] = info[key];
+          sortedInfo[sortOrder[key]] = map;
+        } else {
+          var map = {};
+          map[key] = info[key];
+          unsortedInfo.push(map);
+        }
+      }
+      
+      var infoList = sortedInfo.concat(unsortedInfo);
+      return infoList; 
     },
     
     _loadManifest : function(url)
