@@ -190,7 +190,8 @@ qx.Class.define("qx.util.TimerManager",
       {
         // ... then stop listening for the periodic timer
         qx.event.Idle.getInstance().removeListener("interval",
-                                                   this.__processQueue);
+                                                   this.__processQueue,
+                                                   this);
       }
     },
 
