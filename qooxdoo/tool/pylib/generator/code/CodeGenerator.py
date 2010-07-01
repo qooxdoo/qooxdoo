@@ -346,6 +346,7 @@ class CodeGenerator(object):
 
         self._treeCompiler = treeCompiler
         self._variants     = variants
+        self._script       = script
 
         self._console.info("Generate %s version..." % compileType)
         self._console.indent()
@@ -982,8 +983,7 @@ class CodeGenerator(object):
     def writePackages(self, packages, script):
 
         for package in packages:
-            filePath = self._config.absPath(self._job.get("compile-options/paths/file"))
-            filePath = os.path.join(os.path.dirname(filePath), package.file)
+            filePath = os.path.join(os.path.dirname(self._script.baseScriptPath), package.file)
             content  = package.compiled
             self.writePackage(content, filePath, script)
 
