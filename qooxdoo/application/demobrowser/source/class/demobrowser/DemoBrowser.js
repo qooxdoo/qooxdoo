@@ -832,7 +832,9 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      this.__demoStack.setSelection([this.__demoView]);
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        this.__demoStack.setSelection([this.__demoView]);
+      }
       // If the button was clicked, decide what to play based on tree selection
       if (e && e.getType() === "execute") {
         if (this.tests.selected === "") {
