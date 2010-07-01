@@ -382,6 +382,34 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
 
     /**
+     * Returns the node object specific to a currently visible row. In this
+     * simple tree data model, that's the same as retrieving the value of the
+     * tree column of the specified row.
+     *
+     * @throws {Error}
+     *   Thrown if the row index is out of bounds.
+     *   
+     * @param rowIndex {Integer}
+     *   The index of the row.
+     *   
+     * @return {Object}
+     *   The node object associated with the specified row.
+     */
+    getNode : function(rowIndex)
+    {
+      if (rowIndex < 0 || rowIndex >= this._rowArr.length)
+      {
+        throw new Error("this._rowArr row " +
+                        "(" + rowIndex + ") out of bounds: " +
+                        this._rowArr +
+                        " (0.." + (this._rowArr.length - 1) + ")");
+      }
+
+      return this._rowArr[rowIndex][this._treeColumn];
+    },
+
+
+    /**
      * Add a branch to the tree.
      *
      * @param parentNodeId {Integer}

@@ -654,7 +654,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             {
               // Get the focused node
               var focusedRow = this.getFocusedRow();
-              var node = dm.getValue(treeCol, focusedRow);
+              var node = dm.getNode(focusedRow);
 
               if (! node.bHideOpenClose)
               {
@@ -685,7 +685,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // Get the focused node
             var focusedRow = this.getFocusedRow();
             var treeCol = dm.getTreeColumn();
-            var node = dm.getValue(treeCol, focusedRow);
+            var node = dm.getNode(focusedRow);
 
             // If it's an open branch and open/close is allowed...
             if ((node.type ==
@@ -708,9 +708,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var dm = this.getDataModel();
 
             // Get the focused node
-            var focusedRow = this.getFocusedRow();
-            var treeCol = dm.getTreeColumn();
-            var node = dm.getValue(treeCol, focusedRow);
+            focusedRow = this.getFocusedRow();
+            treeCol = dm.getTreeColumn();
+            node = dm.getNode(focusedRow);
 
             // If it's a closed branch and open/close is allowed...
             if ((node.type ==
@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // Get the focused node
             var focusedRow = this.getFocusedRow();
             var treeCol = dm.getTreeColumn();
-            var node = dm.getValue(treeCol, focusedRow);
+            var node = dm.getNode(focusedRow);
 
             // If we're not at the top-level already...
             if (node.parentNodeId)
@@ -760,9 +760,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var dm = this.getDataModel();
 
             // Get the focused node
-            var focusedRow = this.getFocusedRow();
-            var treeCol = dm.getTreeColumn();
-            var node = dm.getValue(treeCol, focusedRow);
+            focusedRow = this.getFocusedRow();
+            treeCol = dm.getTreeColumn();
+            node = dm.getNode(focusedRow);
 
             // If we're on a branch and open/close is allowed...
             if ((node.type ==
@@ -859,7 +859,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
              j<=selectedRanges[i].maxIndex;
              j++)
         {
-          node = stdcm.getValue(stdcm.getTreeColumn(), j);
+          node = stdcm.getNode(j);
           stdcm.setState(node, { bSelected : true });
           selectedNodes.push(node);
         }
