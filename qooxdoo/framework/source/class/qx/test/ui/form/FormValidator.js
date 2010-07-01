@@ -71,6 +71,98 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
+    // context //////////////////////
+    testSyncContext : function() 
+    {
+      var self = this;
+      this.__manager.add(this.__username, function(value, formItem) {
+        self.assertEquals(1, this.a);
+      }, {a: 1});
+      
+      this.__manager.validate();
+    },
+    
+    
+    testSync2Context : function() 
+    {
+      var self = this;
+      this.__manager.add(this.__username, function(value, formItem) {
+        self.assertEquals(1, this.a);
+      }, {a: 1});
+      
+      this.__manager.add(this.__password1, function(value, formItem) {
+        self.assertEquals(2, this.a);
+      }, {a: 2});      
+      
+      this.__manager.validate();
+    },
+    
+    
+    testAsyncContext : function() 
+    {
+      var self = this;
+
+      var asyncValidator = new qx.ui.form.validation.AsyncValidator(
+        function(value, formItem) {
+          self.assertEquals(1, this.a);
+        }
+      );
+      
+      this.__manager.add(this.__username, asyncValidator, {a: 1});
+      
+      this.__manager.validate();      
+    },
+    
+    
+    testAsync2Context : function() 
+    {
+      var self = this;
+
+      var asyncValidator = new qx.ui.form.validation.AsyncValidator(
+        function(value, formItem) {
+          self.assertEquals(1, this.a);
+        }
+      );
+      
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
+        function(value, formItem) {
+          self.assertEquals(2, this.a);
+        }
+      );      
+      
+      this.__manager.add(this.__username, asyncValidator, {a: 1});
+      this.__manager.add(this.__password1, asyncValidator2, {a: 2});
+      
+      this.__manager.validate();      
+    },  
+    
+    
+    testSyncFormContext : function() 
+    {
+      var self = this;
+      this.__manager.setValidator(function() {
+        self.assertEquals(1, this.a);
+      });
+      this.__manager.setContext({a: 1});
+      
+      this.__manager.validate();
+    },
+    
+    
+    testAsyncFormContext : function() 
+    {
+      var self = this;
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
+        function() {
+          self.assertEquals(1, this.a);
+        })
+      );
+      this.__manager.setContext({a: 1});
+      
+      this.__manager.validate();
+    },    
+    // //////////////////////////////
+
 
     //  sync self contained ///////////////
     testSyncSelfContained1NotNull: function() {

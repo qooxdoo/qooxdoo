@@ -76,6 +76,18 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__tf1.dispose();
       this.__form.dispose();
     },
+    
+    
+    testValidationContext : function() 
+    {
+      var self = this;
+      // add the widgets
+      this.__form.add(this.__tf2, "TF2", function() {
+        self.assertEquals(1, this.a);
+      }, null, {a: 1});
+
+      this.__form.validate();    
+    },
 
 
     testAddTwo : function() {

@@ -70,17 +70,18 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      * @param value {var} The value of the form item.
      * @param manager {qx.ui.form.validation.Manager} A reference to the form
      *   manager.
+     * @param context {var?null} The context of the validator.
      *
      * @internal
      */
-    validate: function(item, value, manager) {
+    validate: function(item, value, manager, context) {
       // mark as item validator
       this.__usedForForm = false;
       // store the item and the manager
       this.__item = item;
       this.__manager = manager;
       // invoke the user set validator function
-      this.__validatorFunction(this, value);
+      this.__validatorFunction.call(context || this, this, value);
     },
 
 
@@ -95,13 +96,14 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      * @param items {qx.ui.core.Widget[]} All form items of the form manager.
      * @param manager {qx.ui.form.validation.Manager} A reference to the form
      *   manager.
+     * @param context {var?null} The context of the validator.
      *
      * @internal
      */
-    validateForm : function(items, manager) {
+    validateForm : function(items, manager, context) {
       this.__usedForForm = true;
       this.__manager = manager;
-      this.__validatorFunction(items, this);
+      this.__validatorFunction.call(context, items, this);
     },
 
 

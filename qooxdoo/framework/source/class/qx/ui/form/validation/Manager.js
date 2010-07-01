@@ -91,6 +91,15 @@ qx.Class.define("qx.ui.form.validation.Manager",
     {
       check : "String",
       init : ""
+    },
+    
+    
+    /**
+     * The context for the form validation.
+     */
+    context : 
+    {
+      nullable : true
     }
   },
 
@@ -129,8 +138,9 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param formItem {qx.ui.core.Widget} The form item to add.
      * @param validator {Function | qx.ui.form.validation.AsyncValidator}
      *   The validator.
+     * @param context {var?null} The context of the validator.
      */
-    add: function(formItem, validator) {
+    add: function(formItem, validator, context) {
       // check for the form API
       if (!this.__supportsInvalid(formItem)) {
         throw new Error("Added widget not supported.");
@@ -147,7 +157,8 @@ qx.Class.define("qx.ui.form.validation.Manager",
       {
         item : formItem,
         validator : validator,
-        valid : null
+        valid : null,
+        context : context
       };
       this.__formItems.push(dataEntry);
     },
@@ -248,20 +259,21 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     __validateItem : function(dataEntry, value) {
       var formItem = dataEntry.item;
+      var context = dataEntry.context;
       var validator = dataEntry.validator;
 
       // check for asynchronous validation
       if (this.__isAsyncValidator(validator)) {
         // used to check if all async validations are done
         this.__asyncResults[formItem.toHashCode()] = null;
-        validator.validate(formItem, formItem.getValue(), this);
+        validator.validate(formItem, formItem.getValue(), this, context);
         return null;
       }
 
       var validatorResult = null;
 
       try {
-        var validatorResult = validator(value, formItem);
+        var validatorResult = validator.call(context || this, value, formItem);
         if (validatorResult === undefined) {
           validatorResult = true;
         }
@@ -299,6 +311,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     __validateForm: function(items) {
       var formValidator = this.getValidator();
+      var context = this.getContext() || this;
 
       if (formValidator == null) {
         return true;
@@ -309,12 +322,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
       if (this.__isAsyncValidator(formValidator)) {
         this.__asyncResults[this.toHashCode()] = null;
-        formValidator.validateForm(items, this);
+        formValidator.validateForm(items, this, context);
         return null;
       }
 
       try {
-        var formValid = formValidator(items, this);
+        var formValid = formValidator.call(context, items, this);
         if (formValid === undefined) {
           formValid = true;
         }

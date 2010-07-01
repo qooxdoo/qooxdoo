@@ -63,13 +63,14 @@ qx.Class.define("qx.ui.form.Form",
      *
      * @param item {qx.ui.form.IForm} A supported form item.
      * @param label {String} The string, which should be used as label.
-     * @param validator {Function | qx.ui.form.validation.AsyncValidator | null}
+     * @param validator {Function | qx.ui.form.validation.AsyncValidator ? null}
      *   The validator which is used by the validation
      *   {@link qx.ui.form.validation.Manager}.
-     * @param name {String|null} The name which is used by the data binding
+     * @param name {String?null} The name which is used by the data binding
      *   controller {@link qx.data.controller.Form}.
+     * @param validatorContext {var?null} The context of the validator.
      */
-    add : function(item, label, validator, name) {
+    add : function(item, label, validator, name, validatorContext) {
       if (this.__isFirstAdd()) {
         this.__groups.push({title: null, items: [], labels: [], names: []});
       }
@@ -83,7 +84,7 @@ qx.Class.define("qx.ui.form.Form",
       this.__groups[this.__groupCounter].names.push(name);
 
       // add the item to the validation manager
-      this.__validationManager.add(item, validator);
+      this.__validationManager.add(item, validator, validatorContext);
       // add the item to the reset manager
       this.__resetter.add(item);
     },
