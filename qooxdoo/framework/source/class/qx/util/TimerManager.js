@@ -268,7 +268,7 @@ qx.Class.define("qx.util.TimerManager",
              timerData[timerQueue[0]].expireAt <= timeNow)
       {
         // Yup.  Do it.  First, remove element from the queue.
-        var expiredTimerId = (timerQueue.splice(0, 1))[0];
+        var expiredTimerId = timerQueue.shift();
 
         // Call the handler function for this timer
         var expiredTimerData = timerData[expiredTimerId];
