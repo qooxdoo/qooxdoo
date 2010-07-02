@@ -368,12 +368,15 @@
     {
       "desc"   : "create a provider structure, with code, dependency info, etc.",
 
-      "extend" : ["cache", "libraries", "includes"]
+      "extend" : ["cache", "libraries"]
 
       ,"let" :
       {
         "PROVIDER_ROOT" : "./provider"
       }
+      
+      ,"include" : [ "${APPLICATION}.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*" ]
 
       ,"compile-options" : 
       {
