@@ -145,7 +145,7 @@ qx.Class.define("demobrowser.Manifest", {
     
     _getSortedInfo : function(info)
     {
-      sortOrder = {
+      var sortOrder = {
         "summary" : 0,
         "description" : 1,
         "homepage" : 2,
@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.Manifest", {
       var sortedInfo = [];
       var unsortedInfo = [];
       
-      for (key in info) {
+      for (var key in info) {
         if (key in sortOrder) {
           var map = {};
           map[key] = info[key];
