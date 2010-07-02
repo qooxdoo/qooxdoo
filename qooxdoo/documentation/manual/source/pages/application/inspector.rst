@@ -103,7 +103,7 @@ Console
 
 |Console|
 
-.. |Console| image:: /pages/application/console_window.png
+.. |Console| image:: /pages/application/inspector_console_window.png
 
 The console is probably the most powerful Inspector window, as it allows viewing and modifying instances similar to the properties window, but it also gives the developer a virtually unrestricted environment for debugging a qooxdoo app. 
 
