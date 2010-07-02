@@ -1010,6 +1010,8 @@ class Generator(object):
                 if not mode or not mode == "span-tree-only":  # add additional dependencies
                     for v1 in st_nodes:                       # that are not covered by the span tree
                         for v2 in st_nodes:
+                            if None in (v1, v2):
+                                continue
                             if gr.has_edge(v1, v2): 
                                 gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
                 return
