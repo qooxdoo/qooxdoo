@@ -27,7 +27,7 @@
 ##
 
 import sys, os, re
-from ecmascript.frontend import tree, treegenerator, tokenizer, comment
+from ecmascript.frontend import tree, comment
 from ecmascript.frontend.treeutil import *
 from generator import Context
 
