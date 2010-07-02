@@ -26,10 +26,7 @@ import functools, codecs, operator
 from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from ecmascript import compiler
-from ecmascript.frontend             import treegenerator, tokenizer
-from ecmascript.transform.optimizer  import variableoptimizer
 from ecmascript.transform.optimizer  import privateoptimizer
-#from ecmascript.transform.optimizer import protectedoptimizer
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
