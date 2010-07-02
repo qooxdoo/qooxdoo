@@ -39,6 +39,14 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
   },
   
   
+  properties : {
+    useAsScrollbar : {
+      refine : true,
+      init : true
+    }
+  },
+  
+  
   members : {
     // overridden
     getSizeHint : function() {

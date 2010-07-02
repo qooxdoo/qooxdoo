@@ -213,6 +213,18 @@ qx.Class.define("qx.ui.form.Slider",
       check : "Number",
       apply : "_applyKnobFactor",
       nullable : true
+    },
+    
+    
+    /**
+     * Enabling this propert will cause the change event only fired 50% of 
+     * the time which is ok for scrolling and speeds up the scrolling.
+     * 
+     * @internal
+     */
+    useAsScrollbar : {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -992,16 +1004,20 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyValue : function(value, old) {
       if (value != null) {
-        this._updateKnobPosition();
-        // moderate  ourselfes in firering events only spend 
-        // a maximum of 50% of the time processing the event handlers 
-        var start = new Date().getTime(); 
-        if (start > this.__nextValueEvent)
-        { 
+          this._updateKnobPosition();
+          if (this.getUseAsScrollbar()) {
+          // moderate ourselfes in firering events only spend 
+          // a maximum of 50% of the time processing the event handlers 
+          var start = new Date().getTime(); 
+          if (start > this.__nextValueEvent)
+          { 
+            this.fireEvent('changeValue',qx.event.type.Data,[value, old]); 
+            var duration = new Date().getTime() - start; 
+            this.__nextValueEvent = start + duration * 2; 
+          } 
+        } else {
           this.fireEvent('changeValue',qx.event.type.Data,[value, old]); 
-          var duration = new Date().getTime() - start; 
-          this.__nextValueEvent = start + duration * 2; 
-        } 
+        }
       } else {
         this.resetValue();
       }
