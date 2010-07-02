@@ -19,6 +19,7 @@ Tutorials
    tutorials/tutorial-part-2
    tutorials/tutorial-part-3
    tutorials/tutorial-part-4-1
+   tutorials/tutorial-part-4-2
 
 .. _index#sdk:
 
