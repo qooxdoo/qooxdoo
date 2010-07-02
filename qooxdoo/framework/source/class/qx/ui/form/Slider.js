@@ -152,7 +152,6 @@ qx.Class.define("qx.ui.form.Slider",
       check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
-      event : "changeValue",
       nullable: true
     },
 
@@ -218,6 +217,19 @@ qx.Class.define("qx.ui.form.Slider",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  
+  events : { 
+    /**
+     * Fired on change of the property {@link #value}.
+     */
+    changeValue: 'qx.event.type.Data' 
+  },
 
 
   /*
@@ -238,6 +250,8 @@ qx.Class.define("qx.ui.form.Slider",
     __trackingEnd : null,
     __timer : null,
 
+    __nextValueEvent: 0,
+    
 
     // overridden
     /**
@@ -979,6 +993,15 @@ qx.Class.define("qx.ui.form.Slider",
     _applyValue : function(value, old) {
       if (value != null) {
         this._updateKnobPosition();
+        // moderate  ourselfes in firering events only spend 
+        // a maximum of 50% of the time processing the event handlers 
+        var start = new Date().getTime(); 
+        if (start > this.__nextValueEvent)
+        { 
+          this.fireEvent('changeValue',qx.event.type.Data,[value, old]); 
+          var duration = new Date().getTime() - start; 
+          this.__nextValueEvent = start + duration * 2; 
+        } 
       } else {
         this.resetValue();
       }
