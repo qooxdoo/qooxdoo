@@ -114,7 +114,11 @@ def _handleResources(script, generator):
         resId = resId.replace("/", ".")
         if passesOutputfilter(resId):
             resinfos[res] = createResourceInfo(res, allresources[res])
-            library_ns = allresources[res][3]
+            # extract library name space
+            if isinstance(allresources[res], types.ListType): # it's an image = [14, 14, u'png', u'qx' [, u'qx/decoration/Modern/checkradio-combined.png', 0, 0]]
+                library_ns = allresources[res][3]
+            else: # html page etc. = "qx"
+                library_ns = allresources[res]
             library    = libraries[library_ns]
             copyResource(res, library)
 
