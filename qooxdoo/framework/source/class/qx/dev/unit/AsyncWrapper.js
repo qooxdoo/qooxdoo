@@ -38,15 +38,20 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
    * @param delay {Integer?} The amount of time in milliseconds to wait
    * @param deferredFunction {Function?} The function to run after the timeout
    * has expired.
+   * @param context {Object?window} Optional execution context for deferredFunction
    */
-  construct : function(delay, deferredFunction)
+  construct : function(delay, deferredFunction, context)
   {
-    for (var i=0; i<arguments.length; i++) {
+    for (var i=0; i<2; i++) {
       if (qx.lang.Type.isFunction(arguments[i])) {
         this.setDeferredFunction(arguments[i]);
       } else if (qx.lang.Type.isNumber(arguments[i])) {
         this.setDelay(arguments[i]);
       }
+    }
+    
+    if (context) {
+      this.setContext(context);
     }
   },
 
@@ -58,6 +63,14 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
       check : "Function",
       init : false
     },
+    
+    /** The context in which the timeout function should be executed  */
+    context :
+    {
+      check : "Object",
+      init : null
+    },
+    
     /** The amount of time in milliseconds to wait */
     delay :
     {

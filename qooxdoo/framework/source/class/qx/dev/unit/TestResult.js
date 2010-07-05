@@ -178,8 +178,9 @@ qx.Class.define("qx.dev.unit.TestResult",
               );
             }
             var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
+            var context = (ex.getContext() ? ex.getContext() : window);
             this.__timeout[test.getFullName()] = qx.event.Timer.once(function() {
-               this.run(test, timeoutFunc);
+               this.run(test, timeoutFunc, context);
             }, that, ex.getDelay());
             this.fireDataEvent("wait", test);
           }
