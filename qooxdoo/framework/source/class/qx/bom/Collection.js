@@ -660,7 +660,7 @@
 
 
       /**
-       * Returns the left scroll position of the first element in the collection.
+       * Returns the top scroll position of the first element in the collection.
        *
        * @return {Integer} Current top scroll position
        */
