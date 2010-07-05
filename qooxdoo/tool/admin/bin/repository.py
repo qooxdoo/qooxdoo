@@ -24,6 +24,7 @@ import qxenviron
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
 from misc.copytool import CopyTool
+from misc import filetool
 
 global console
 console = Log(None, "info")
@@ -79,7 +80,7 @@ class Repository:
     demoDir = "%sdemo%s" %(os.sep,os.sep)
     manifestPaths = []
     
-    for root, dirs, files in os.walk(self.dir, topdown=True):
+    for root, dirs, files in filetool.walk(self.dir, topdown=True):
       for dir in dirs:
         path = os.path.join(root,dir)
         manifestPath = os.path.join(path, "Manifest.json")
@@ -448,7 +449,7 @@ class LibraryVersion:
     
     demoVariants = []
     demoPath = os.path.join(self.path, "demo")
-    for root, dirs, files in os.walk(demoPath, topdown=True):
+    for root, dirs, files in filetool.walk(demoPath, topdown=True):
       for name in dirs:        
         if root == demoPath and name[0] != ".":
           demoVariants.append(name)
