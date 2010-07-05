@@ -149,7 +149,7 @@ qx.Class.define("qx.bom.element.Scroll",
 
           // Firefox 3 seems to fire the scroll event asynchronously
           // We fire another one a bit earlier here
-          if (qx.bom.client.Engine.GECKO) {
+          if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
             qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
           }
         }
@@ -274,7 +274,7 @@ qx.Class.define("qx.bom.element.Scroll",
 
           // Firefox 3 seems to fire the scroll event asynchronously
           // We fire another one a bit earlier here
-          if (qx.bom.client.Engine.GECKO) {
+          if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
             qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
           }
         }
