@@ -150,7 +150,7 @@ class LibraryPath(object):
         self._console.debug("Scanning class folder...")
 
         # Iterate...
-        for root, dirs, files in os.walk(path):
+        for root, dirs, files in filetool.walk(path):
             # Filter ignored directories
             for ignoredDir in dirs:
                 if self._ignoredDirectories.match(ignoredDir):
@@ -245,7 +245,7 @@ class LibraryPath(object):
         self._console.debug("Scanning translation folder...")
 
         # Iterate...
-        for root, dirs, files in os.walk(path):
+        for root, dirs, files in filetool.walk(path):
             # Filter ignored directories
             for ignoredDir in dirs:
                 if self._ignoredDirectories.match(ignoredDir):
