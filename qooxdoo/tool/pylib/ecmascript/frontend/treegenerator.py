@@ -294,6 +294,10 @@ def createSyntaxTree (tokenArr):
     stream = TokenStream(tokenArr)
     stream.next()
 
+    from pprint import pprint
+    #pprint([(x['detail'],x['source']) for x in tokenArr])
+    #pprint([x for x in tokenArr if x['type']=="comment"])
+
     rootBlock = tree.Node("file")
     rootBlock.set("file", stream.curr()["id"])
 
