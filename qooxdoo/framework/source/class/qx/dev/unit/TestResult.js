@@ -132,7 +132,9 @@ qx.Class.define("qx.dev.unit.TestResult",
 
       if (this.__timeout[test.getFullName()])
       {
-        this.__timeout[test.getFullName()].stop();
+        if (!this.__timeout[test.getFullName()] == "failed") {
+          this.__timeout[test.getFullName()].stop();
+        }
         delete this.__timeout[test.getFullName()];
       }
       else
