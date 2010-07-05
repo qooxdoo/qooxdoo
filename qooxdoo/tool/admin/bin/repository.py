@@ -145,7 +145,6 @@ class Repository:
         console.error("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
         console.outdent()
     
-    console.write("")
     console.outdent()
     return libraries
 
@@ -256,6 +255,14 @@ class Repository:
       rFile.close() 
     
     console.outdent()            
+  
+  
+  def buildAllTestrunners(self, job="test"):
+    console.indent()
+    for libraryName, library in self.libraries.iteritems():
+      for versionName, libraryVersion in library.iteritems():
+        libraryVersion.buildTestrunner(job)
+  
   
   def runGeneratorForAll(self, job, subPath=None, cwd=False):
     console.indent()
@@ -370,10 +377,9 @@ class LibraryVersion:
     self.libraryName = libraryName
     self.path = path
     
-    self.hasDemoDir = False
+    self.checkStructure()
     self.demoVariants = self.getDemoVariants()
     self.demoBuildStatus = {}
-    self.checkStructure()
     
   
   def checkStructure(self):        
@@ -406,6 +412,39 @@ class LibraryVersion:
   def getDemoManifest(self, demoVariant = "default"):
     manifestPath = os.path.join(self.path, "demo", demoVariant, "Manifest.json")
     return getDataFromJsonFile(manifestPath)
+  
+  
+  def hasUnitTests(self):    
+    try:
+      classPath = self.getManifest()["provides"]["class"]
+      namespace = self.getManifest()["provides"]["namespace"]
+      fullClassPath = os.path.join(self.path, classPath, namespace)
+      testPath = os.path.join(fullClassPath, "test")
+      if os.path.isdir(testPath):
+        testPathContents = os.listdir(testPath)
+        for entry in testPathContents:
+          if entry[-3:] == ".js" and entry != "DemoTest.js":
+            return True
+    except:
+      pass
+    
+    return False
+  
+  
+  def buildTestrunner(self, job="test"):
+    console.info("Building Testrunner for %s %s... " %(self.libraryName, self.versionName))
+    if not (self.hasGenerator and self.hasUnitTests()):
+      console.write("Nothing to do.", "info")
+      return
+    
+    rcode, output, errout = self.runGenerator(job)
+    if rcode > 0:
+      console.write("ERROR: ")
+      console.indent()
+      console.error(errout)
+      console.outdent()
+    else:
+      console.write(" Done.", "info")
   
   
   def getLintResult(self):    
@@ -457,7 +496,7 @@ class LibraryVersion:
     return demoVariants
   
   
-  def runGenerator(self, job, subPath=None, cwd=False):
+  def runGenerator(self, job, subPath=None):
     if not self.hasGenerator:
       raise Exception("%s %s has no generate.py script!" %(self.libraryName, self.versionName))
     path = self.path
