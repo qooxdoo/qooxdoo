@@ -1477,8 +1477,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       "on" : function()
       {
-        versions = [];
-        for (tag in this.__versionTags) {
+        var versions = [];
+        for (var tag in this.__versionTags) {
           versions.push(tag.substr(tag.indexOf("_") + 1) );
         }
         versions.sort();
