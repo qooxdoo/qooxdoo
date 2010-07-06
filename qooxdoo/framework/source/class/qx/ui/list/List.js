@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
+  include : [qx.ui.list.core.MSelectionHandling],
 
   construct : function(model)
   {
@@ -37,8 +38,6 @@ qx.Class.define("qx.ui.list.List",
     } else {
       this.initModel(new qx.data.Array());
     }
-    
-    this.initSelection(new qx.data.Array());
   },
 
   properties :
@@ -51,14 +50,6 @@ qx.Class.define("qx.ui.list.List",
       deferredInit : true
     },
     
-    selection :
-    {
-      check : "qx.data.Array",
-      apply : "_applySelection",
-      nullable : false,
-      deferredInit : true
-    },
-
     itemHeight :
     {
       check : "Integer",
@@ -74,10 +65,6 @@ qx.Class.define("qx.ui.list.List",
     
     _cellRenderer : null,
     
-    _manager : null,
-    
-    __ignoreChangeSelection : false,
-
     getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
 
@@ -95,7 +82,6 @@ qx.Class.define("qx.ui.list.List",
       
       this._initBackground();
       this._initLayer();
-      this._initSelectionManager();
     },
 
     _initBackground : function()
@@ -117,7 +103,7 @@ qx.Class.define("qx.ui.list.List",
           
           var widget = cellRenderer.getCellWidget(data);
           if(self._manager.isItemSelected(row)) {
-            self.__styleSelectabled(widget);
+            self._styleSelectabled(widget);
           }
 
           return widget;
@@ -132,48 +118,6 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().addLayer(this._layer);
     },
 
-    _initSelectionManager : function()
-    {
-      var self = this;
-      var selectionDelegate = {
-        isItemSelectable : function(item) {
-          return true;
-        },
-        
-        styleSelectable : function(item, type, wasAdded) {
-          if (type != "selected") {
-            return;
-          }
-          
-          var widget = self._layer.getRenderedCellWidget(item, 0);
-          if(widget == null) {
-            return;
-          }
-          
-          if (wasAdded) {
-            self.__styleSelectabled(widget);
-          } else {
-            self.__styleUnselectabled(widget);
-          }         
-        }
-      }
-        
-      this._manager = new qx.ui.virtual.selection.Row(
-        this.getPane(), selectionDelegate
-      );
-      this._manager.attachMouseEvents(this.getPane());
-      this._manager.attachKeyEvents(this);
-      this._manager.addListener("changeSelection", this._onChangeSelection, this);
-    },
-    
-    __styleSelectabled : function(item) {
-      this._cellRenderer.updateStates(item, {selected: 1});
-    },
-    
-    __styleUnselectabled : function(item) {
-      this._cellRenderer.updateStates(item, {});
-    },
-
     _applyModel : function(value, old)
     {
       value.addListener("change", this._onModelChange, this);
@@ -185,15 +129,6 @@ qx.Class.define("qx.ui.list.List",
       this.__updateRowCount();
     },
     
-    _applySelection : function(value, old)
-    {
-      value.addListener("change", this._onSelectionChange, this);
-
-      if (old != null) {
-        old.removeListener("change", this._onSelectionChange, this);
-      }
-    },
-
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(30);
     },
@@ -206,55 +141,10 @@ qx.Class.define("qx.ui.list.List",
       this.__updateRowCount();
     },
     
-    _onSelectionChange : function(e)
-    {
-      this.__ignoreChangeSelection = true;
-      var selection = this.getSelection();
-      for (var i = 0; i < selection.getLength(); i++)
-      {
-        var item = selection.getItem(i);
-        var index = this.getModel().indexOf(item);
-        this._manager.selectItem(index);
-      }
-      
-      if (!this.__isSelectionLengthEqual()) {
-        this.__updateSelection();
-      }
-      this.__ignoreChangeSelection = false;
-      
-      this.getPane().fullUpdate();
-    },
-    
-    _onChangeSelection : function(e) {
-      if (this.__ignoreChangeSelection == true) {
-        return;
-      }
-      
-      var selection = this.getSelection();
-      var currentSelection = e.getData();
-      
-      selection.splice(0, selection.getLength(), this.getDataFromRow(currentSelection[0]));
-    },
-    
     __updateRowCount : function()
     {
       this.getPane().getRowConfig().setItemCount(this.getModel().getLength());
       this.getPane().fullUpdate();
-    },
-    
-    __isSelectionLengthEqual : function() {
-      return this.getSelection().getLength() == this._manager.getSelection().length; 
-    },
-    
-    __updateSelection : function()
-    {
-      var selection = this.getSelection();
-      var nativArray = selection.toArray();
-      var currentSelection = this._manager.getSelection();
-      
-      qx.lang.Array.removeAll(nativArray);
-      qx.lang.Array.insertAt(nativArray, this.getDataFromRow(currentSelection[0]), 0);
-      selection.length = nativArray.length;
     }
   },
 
@@ -263,10 +153,8 @@ qx.Class.define("qx.ui.list.List",
     this._background.dispose();
     this._cellRenderer.dispose();
     this._layer.dispose();
-    this._manager.dispose();
     this._background = null;
     this._cellRenderer = null;
     this._layer = null;
-    this._manager = null;
   }
 });
