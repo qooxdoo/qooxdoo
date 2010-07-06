@@ -143,7 +143,7 @@ class Repository:
       else:
         console.write("")
         console.indent()
-        console.error("Found additional manifest for version %s of library %s!" %(libraryVersion,libraryName))
+        console.error("Found additional manifest for version %s of library %s: %s" %(libraryVersion,libraryName,manifestPath))
         console.outdent()
     
     console.outdent()
@@ -187,9 +187,14 @@ class Repository:
         
         versionData = {
           "classname" : versionName,
+          "tags" : [libraryName],
           "tests" : [],
           "manifest" : version.getManifest()
         }
+        
+        qooxdooVersions = version.getManifest()["info"]["qooxdoo-versions"]
+        for ver in qooxdooVersions:
+          versionData["tags"].append("qxVersion_" + ver)
         
         # getting the library's top-level readme here since we only have path
         # information for the library versions
@@ -346,13 +351,8 @@ class Repository:
     demoDict = {
       "name": variant + ".html",
       "nr": variant.capitalize(),
-      "tags": [library],
       "title": library + " " + version + " " + variant
     }
-    
-    qooxdooVersions = self.libraries[library][version].getManifest()["info"]["qooxdoo-versions"]
-    for ver in qooxdooVersions:
-      demoDict["tags"].append("qxVersion_" + ver)
 
     return demoDict
 
