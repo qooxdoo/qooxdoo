@@ -862,8 +862,8 @@ qx.Class.define("qx.io.remote.Exchange",
         value.setFormFields(vRequest.getFormFields());
         value.setRequestHeaders(vRequest.getRequestHeaders());
         
-        //Set the parseJson property which is currnently only supported for XmlHttp transport
-        //(which is the only transport supporting JSON parsing so far)
+        // Set the parseJson property which is currently only supported for XmlHttp transport
+        // (which is the only transport supporting JSON parsing so far).
         if (value instanceof qx.io.remote.transport.XmlHttp){
           value.setParseJson(vRequest.getParseJson());
         }
