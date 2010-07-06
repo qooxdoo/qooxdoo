@@ -130,41 +130,6 @@ class Tokenizer(IterObject):
         self.scanner.next = self.scanner.__iter__().next
         super(Tokenizer, self).resetIter()
 
-    def string(self, sstart):
-        # parse string literals
-        result = sstart
-        for stoken in self.scanner:
-            t = Token(stoken)
-            result += t.value
-            if (t.value == sstart and not is_last_escaped(result)):  # be aware of escaped quotes
-                break
-        return result
-
-    def comment_inline(self, cstart):
-        # parse // type comments
-        result = cstart
-        for stoken in self.scanner:
-            t = Token(stoken)
-            if t.name == 'nl':
-                result += t.value  # include <nl> in comment for now
-                break
-            else:
-                result += t.value
-        return result
-
-    def comment_multi(self, cstart):
-        # parse /**/ type comments
-        result = cstart
-        for stoken in self.scanner:
-            t = Token(stoken)
-            if t.value == '*/':
-                result += t.value
-                break
-            else:
-                result += t.value
-        return result
-
-    
     def peek(self, n=1):
         "peek n tokens ahead"
         toks = []
@@ -188,39 +153,18 @@ class Tokenizer(IterObject):
         return toks
 
 
-
-
     # yields :
     # Token 
-    #  .name  : [ float   | number   | ident    | nl | white | mulop | op | stringD
-    #           | stringS | commentI | commentM ],
-    #  .value : <scanned_string>,
-    #  .spos  : <number>,           # starting char position in stream
-    #  .len   : <number>,           # length of value
+    #  .name  : [ float   | number | hexnum | ident | nl | white | mulop | op ]
+    #  .value : <scanned_string>
+    #  .spos  : <number>           # starting char position in stream
+    #  .len   : <number>           # length of value
     def __iter__(self):
         for stoken in self.scanner:
             token = Token(stoken)
-            # TODO: Problem comment /* foo bar's (<- starts string parsing) ...
-            #if token.value in ['"', "'"]:  # parse a complete string
-            #    s = self.string(token.value)
-            #    token.value = s
-            #    if token.value[0] == '"':
-            #        token.name  = 'stringD'  # double-quoted
-            #    else:
-            #        token.name  = 'stringS'  # single-quoted
-            # TODO: Problem regexp: /\//g => '/', '\', '//', ...
-            #elif token.value == '//':      # parse // comment
-            #    s = self.comment_inline(token.value)
-            #    token.value = s
-            #    token.name  = 'commentI'     # inline comment
-            #elif token.value == '/*':      # parse /**/ comment
-            #    s = self.comment_multi(token.value)
-            #    token.value = s
-            #    token.name  = 'commentM'     # multi-line comment
-
             yield token
 
-        yield Token(('eof', '', token.spos+token.len, 0)) # temp., to please tdop-4.py
+        yield Token(('eof', '', token.spos+token.len, 0))
 
 
 ##

@@ -28,39 +28,42 @@ import Scanner
 def parseStream(content, uniqueId=""):
     tokens = []
     line = column = sol = 1
-    #scanner = Scanner.Tokenizer(content, ) #.__iter__()
-    scanner = Scanner.LQueue(Scanner.Tokenizer(content, )) #.__iter__()
+    scanner = Scanner.LQueue(Scanner.Tokenizer(content, ))
     for tok in scanner:
         # tok isinstanceof Scanner.Token()
         token = {"source": tok.value, "detail" : "", "line": line, "column": tok.spos - sol + 1, "id": uniqueId}
+
+        # white space
         if (tok.name == 'white'):
             continue
-        elif tok.name in ('commentI', 'commentM'):
-            raise SyntaxException("Wrong token from scanner: %r" % tok)
+
+        # end of file
         elif tok.name == 'eof':
             token['type'] = 'eof'
+        
+        # line break
         elif tok.name == 'nl':
             token['type']   = 'eol'
             token['source'] = ''    # that's the way the old tokenizer does it
             line += 1                  # increase line count
             sol  = tok.spos + tok.len  # char pos of next line start
+        
+        # float
         elif tok.name == 'float':
             token['type'] = 'number'
             token['detail'] = 'float'
+        
+        # hex integer
         elif tok.name == 'hexnum':
             token['type'] = 'number'
             token['detail'] = 'int'
+        
+        # integer
         elif tok.name == 'number':
             token['type'] = 'number'
             token['detail'] = 'int'
-        elif tok.name == 'stringD':
-            token['type'] = 'string'
-            token['detail'] = 'doublequotes'
-            token['source'] = tok.value[1:-1]  # strip quotes
-        elif tok.name == 'stringS':
-            token['type'] = 'string'
-            token['detail'] = 'singlequotes'
-            token['source'] = tok.value[1:-1]  # strip quotes
+        
+        # string
         elif tok.value in ('"', "'"):
             token['type'] = 'string'
             if tok.value == '"':
@@ -69,9 +72,13 @@ def parseStream(content, uniqueId=""):
                 token['detail'] = 'singlequotes'
             token['source'] = parseString(scanner, tok.value)
             token['source'] = token['source'][:-1]
-            #print "(string)", token['source']
+
+        # identifier, operator
         elif tok.name in ("ident", "op", "mulop"):
+
+            # JS operator symbols
             if tok.value in lang.TOKENS:
+                # division, regexp literal
                 if tok.value == '/':
                     if (len(tokens) == 0 or (
                                 (tokens[-1]['detail'] != 'int')   and
@@ -85,6 +92,8 @@ def parseStream(content, uniqueId=""):
                     else:
                         token['type'] = 'token'
                         token['detail'] = lang.TOKENS[tok.value]
+
+                # comment, inline
                 elif tok.value == '//':
                     if (len(tokens) == 0 or
                         not is_last_escaped_token(tokens)):
@@ -98,6 +107,8 @@ def parseStream(content, uniqueId=""):
                         token['detail'] = 'inline'
                     else:
                         print >> sys.stderror, "Inline comment out of context"
+                
+                # comment, multiline
                 elif tok.value == '/*':
                     if (len(tokens) == 0 or
                         not is_last_escaped_token(tokens)):
@@ -131,11 +142,17 @@ def parseStream(content, uniqueId=""):
                 else:
                     token['type'] = 'token'
                     token['detail'] = lang.TOKENS[tok.value]
+            
+            # JS keywords
             elif tok.value in lang.RESERVED:
                 token['type'] = 'reserved'
                 token['detail'] = lang.RESERVED[tok.value]
+
+            # JS/BOM objects
             elif tok.value in lang.BUILTIN:
                 token['type'] = 'builtin'
+
+            # identifier
             elif tok.value.startswith("__"):
                 token['type'] = 'name'
                 token['detail'] = 'private'
@@ -145,6 +162,8 @@ def parseStream(content, uniqueId=""):
             else:
                 token['type'] = 'name'
                 token['detail'] = 'public'
+
+        # unknown token
         else:
             print >> sys.stderr, "Unhandled lexem: %s" % tok
             pass
@@ -169,12 +188,10 @@ def parseRegexp(scanner):
     rexp = ""
     token = scanner.next()
     while True:
-        #print "(rexp)", token.value
         rexp += token.value      # accumulate token strings
         if rexp.endswith("/"):   # check for end of regexp
             # make sure "/" is not escaped, ie. preceded by an odd number of "\"
             if not Scanner.is_last_escaped(rexp):
-                #rexp = rexp[:-1] # remove closing "/"
                 break
         token = scanner.next()
 
@@ -204,7 +221,6 @@ def is_last_escaped_token(tokens):
 def parseCommentI(scanner):
     result = ""
     for token in scanner:
-        #print "(commentI)", "[%s]" % token.name, token.value
         if token.name == 'nl':
             scanner.putBack(token)
             break
@@ -216,8 +232,6 @@ def parseCommentM(scanner):
     result = ""
     for token in scanner:
         result += token.value
-        if "The new setting" in result:
-            pass
         if token.value == '*/':
             if not Scanner.is_last_escaped(result):
                 break
