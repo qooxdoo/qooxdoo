@@ -90,7 +90,7 @@ def createPackageDoc(text, packageName, docTree = None):
 
         elif attrib["category"] == "see":
             if not attrib.has_key("name"):
-                printDocError(classNode, "Missing target for see.")
+                printDocError(package, "Missing target for see.")
                 return docTree
 
             seeNode = tree.Node("see").set("name", attrib["name"])
@@ -1352,7 +1352,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
             if (not docFound):
                 for item in dependendClassIterator(docTree, classNode):
                     if item == classNode:
-                       continue
+                        continue
                     if item.get("type", False) == "interface":
                         interfaceItemNode = item.getListChildByAttribute(listName, "name", name, False)
                         if not interfaceItemNode:
