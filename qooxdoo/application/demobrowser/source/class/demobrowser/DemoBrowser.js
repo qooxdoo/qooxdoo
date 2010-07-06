@@ -723,8 +723,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       var _initialSection = null;
       var _initialNode = null;
 
+      var autorun;
+      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+        autorun = false;
+      }
+      else {
       // check for autorun parameter
-      var autorun = /\?autorun=true/.test(location.href);
+        autorun = /\?autorun=true/.test(location.href);
+      }
 
       // set a section to open initially
       var state = this._history.getState();
@@ -835,14 +841,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (qx.core.Variant.isSet("qx.contrib", "on")) {
         this.__demoStack.setSelection([this.__demoView]);
       }
-      // If the button was clicked, decide what to play based on tree selection
-      if (e && e.getType() === "execute") {
-        if (this.tests.selected === "") {
-          this.setPlayDemos("all");
-        } else if (this.tests.selected.indexOf("html") > 0) {
-          this.setPlayDemos("current");
-        } else {
-          this.setPlayDemos("category");
+      else {
+        // If the button was clicked, decide what to play based on tree selection
+        if (e && e.getType() === "execute") {
+          if (this.tests.selected === "") {
+            this.setPlayDemos("all");
+          } else if (this.tests.selected.indexOf("html") > 0) {
+            this.setPlayDemos("current");
+          } else {
+            this.setPlayDemos("category");
+          }
         }
       }
 
