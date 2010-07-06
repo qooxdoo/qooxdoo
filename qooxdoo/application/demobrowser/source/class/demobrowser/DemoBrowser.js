@@ -332,7 +332,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __openWindow : function()
     {
-      var sampUrl = this.__iframe.getWindow().location.href;
+      var sampUrl = this.__iframe.getSource();
       window.open(sampUrl, "_blank");
     },
 
@@ -932,17 +932,24 @@ qx.Class.define("demobrowser.DemoBrowser",
     __ehIframeLoaded : function()
     {
       var fwindow = this.__iframe.getWindow();
-
-      var fpath = fwindow.location.pathname + "";
-      var splitIndex = fpath.indexOf("?");
-      if (splitIndex != -1) {
-        fpath = fpath.substring(0, splitIndex + 1);
-      }
-
       var furl = this.__iframe.getSource();
       if (furl != null && furl != this.defaultUrl)
       {
-        var url = fwindow.location.href;
+        var url;
+        try
+        {
+          url = fwindow.location.href;
+        }
+        catch(ex)
+        {
+          url = window.location.href;
+          var splitIndex = url.lastIndexOf("/");
+          if (splitIndex != -1) {
+            url = url.substring(0, splitIndex + 1);
+          }
+          url += furl;
+        }
+       
         var posHtml = url.indexOf("/demo/") + 6;
         var posSearch = url.indexOf("?");
         posSearch = posSearch == -1 ? url.length : posSearch;
