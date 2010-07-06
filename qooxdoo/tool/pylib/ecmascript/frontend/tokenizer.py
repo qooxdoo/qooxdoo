@@ -86,18 +86,17 @@ def parseStream(content, uniqueId=""):
 
             # JS operator symbols
             if tok.value in lang.TOKENS:
-                # division, regexp literal
-                if tok.value == '/':
+                # division, div-assignment, regexp
+                if tok.value in ('/', '/='):
                     # accumulate regex literals
                     if (len(tokens) == 0 or (
-                            (tokens[-1]['detail'] != 'int')   and
-                            (tokens[-1]['detail'] != 'float') and
-                            (tokens[-1]['detail'] != 'RP')    and
-                            (tokens[-1]['detail'] != 'RB')    and
+                            (tokens[-1]['type']   != 'number') and
+                            (tokens[-1]['detail'] != 'RP')     and
+                            (tokens[-1]['detail'] != 'RB')     and
                             (tokens[-1]['type']   != 'name'))):
                         regexp = parseRegexp(scanner)
                         token['type'] = 'regexp'
-                        token['source'] = '/' + regexp
+                        token['source'] = tok.value + regexp
                     else:
                         token['type'] = 'token'
                         token['detail'] = lang.TOKENS[tok.value]
@@ -109,7 +108,7 @@ def parseStream(content, uniqueId=""):
                         not is_last_escaped_token(tokens)):
                         commnt = parseCommentI(scanner)
                         token['type'] = 'comment'
-                        token['source'] = '//' + commnt
+                        token['source'] = tok.value + commnt
                         token['begin'] = not hasLeadingContent(tokens)
                         token['end'] = True
                         token['connection'] = "before" if token['begin'] else "after"  # "^//...\n i=1;" => comment *before* code; "i=1; //..." => comment *after* code
@@ -125,7 +124,7 @@ def parseStream(content, uniqueId=""):
                         not is_last_escaped_token(tokens)):
                         commnt = parseCommentM(scanner)
                         token['type'] = 'comment'
-                        token['source'] = '/*' + commnt
+                        token['source'] = tok.value + commnt
                         token['detail'] = comment.getFormat(token['source'])
                         token['begin'] = not hasLeadingContent(tokens)
                         if restLineIsEmpty(scanner):

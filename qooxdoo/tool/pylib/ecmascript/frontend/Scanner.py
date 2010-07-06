@@ -113,18 +113,12 @@ class Scanner(IterObject):
 
 
 ##
-# Tokenizer -- the second layer of the tokenizer; this should be used by a parser
+# Tokenizer -- the second layer of the tokenizer; this should be used by a
+# parser
 #
-#  It uses the low-level Scanner and amends it in these ways:
-#  - accumulating strings inside quotes
-#  - accumulating comments, both // and /*..*/ style
-#  - (classifies operators and key words ?)
-#
-#  It returns tokens as Token objects.
-#  These tokens will then be used by the (various) parser(s) that might e.g. turn
-#  each token into a different token object and/or node for the AST.
-#
-#  This second-level tokenizer is implemented as a low-level parser.
+#  It uses the low-level Scanner and returns tokens as Token objects.
+#  These tokens will then be used by the (various) parser(s) that might e.g.
+#  turn each token into a different token object and/or node for the AST.
 
 class Tokenizer(IterObject):
    
