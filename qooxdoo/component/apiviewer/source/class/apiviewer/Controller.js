@@ -63,11 +63,17 @@ qx.Class.define("apiviewer.Controller",
 
     this._history = qx.bom.History.getInstance();
     this.__bindHistory();
+    
+    qx.core.Init.getApplication().getRoot().addListener("mousedown", function(e) {
+        this.__openInNewTab = e.isMiddlePressed() || e.isShiftPressed() || e.isCtrlPressed();
+    }, this, true);
   },
 
 
   members :
   {
+    __openInNewTab : false,
+    
     // overridden
     $$logCategory : "application",
 
@@ -141,7 +147,7 @@ qx.Class.define("apiviewer.Controller",
     __bindTabViewController : function()
     {
       this._tabViewController.addListener("classLinkClicked", function(evt) {
-          this.__selectItem(evt.getData());
+          this._updateHistory(evt.getData());
       }, this);
 
       this._tabViewController.addListener("changeSelection", function(evt) {
@@ -280,7 +286,7 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.classLoadDependendClasses(classNode, function(cls)
         {
-          this._tabViewController.openClass(cls);
+          this._tabViewController.openClass(cls, this.__openInNewTab);
           cb();
         }, this);
       }
@@ -288,7 +294,7 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.packageLoadDependendClasses(classNode, function()
         {
-          this._tabViewController.openPackage(classNode);
+          this._tabViewController.openPackage(classNode, this.__openInNewTab);
           cb();
         }, this);
       }

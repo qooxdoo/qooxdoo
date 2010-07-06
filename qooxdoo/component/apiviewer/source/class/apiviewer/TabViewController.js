@@ -29,11 +29,9 @@ qx.Class.define("apiviewer.TabViewController",
   {
     this.base(arguments);
 
-    this._tabView = widgetRegistry.getWidgetById("tabView");
-    this.__pages = [];
-
     apiviewer.TabViewController.instance = this;
-
+    
+    this._tabView = widgetRegistry.getWidgetById("tabView");
     this._tabView.addListener("changeSelection", this.__onChangeSelection, this);
   },
 
@@ -49,8 +47,6 @@ qx.Class.define("apiviewer.TabViewController",
 
   members :
   {
-    __pages : null,
-
     showTabView : function() {
       this._tabView.show();
     },
@@ -59,9 +55,6 @@ qx.Class.define("apiviewer.TabViewController",
      * Callback for internal links to other classes/items.
      * This code is called directly from the generated HTML of the
      * class viewer.
-     *
-     * @param itemName {String} the name of the item.
-     * @see Controller#selectItem
      */
     onSelectItem : function(itemName) {
       this.fireDataEvent("classLinkClicked", itemName);
@@ -76,91 +69,44 @@ qx.Class.define("apiviewer.TabViewController",
       return page.getChildren()[0].showItem(itemName);
     },
 
-    openPackage : function(classNode)
+    openPackage : function(classNode, newTab)
     {
-      var page = this.__getPageFor(classNode, this.__createPageForPackage);
-      page.setUserData("nodeName", classNode.getFullName());
-      this.__open(page);
+      this.__open(classNode, apiviewer.ui.tabview.PackagePage, newTab);
     },
 
-    openClass : function(classNode)
-    {
-      var page = this.__getPageFor(classNode, this.__createPageForClass);
-      page.setUserData("nodeName", classNode.getFullName());
-      this.__open(page);
+    openClass : function(classNode, newTab) {
+      this.__open(classNode, apiviewer.ui.tabview.ClassPage, newTab);
     },
 
-    __open : function(page)
+    __open : function(classNode, clazz, newTab)
     {
-      if (!qx.lang.Array.contains(this._tabView.getChildren(), page)) {
-        this._tabView.add(page);
+      var currentPage = this._tabView.getSelection()[0];
+      
+      if (newTab == true || currentPage == null) {
+        this.__createAndAdd(clazz, classNode);
       }
+      else
+      {
+        if (currentPage instanceof clazz) {
+          currentPage.setClassNode(classNode);
+        } 
+        else
+        {
+          this.__createAndAdd(clazz, classNode);
+          this.__destroyAndRemove(currentPage);
+        }
+      }
+    },
+
+    __createAndAdd : function(clazz, classNode) {
+      var page = new clazz(classNode);
+      this._tabView.add(page);
       this._tabView.setSelection([page]);
     },
-
-    __getPageFor : function(classNode, createFunction) {
-      var id = classNode.getFullName();
-
-      if (!this.__isPageCreated(id)) {
-        createFunction = qx.lang.Function.bind(createFunction, this);
-        var page = createFunction(classNode);
-        this.__registerPage(id, page);
-      }
-
-      return this.__getPage(id);
-    },
-
-    __isPageCreated : function(id) {
-      return this.__pages[id] != null
-    },
-
-    __getPage : function(id) {
-      return this.__pages[id];
-    },
-
-    __registerPage : function(id, page) {
-      this.__pages[id] = page;
-    },
-
-    __createPageForPackage : function(classNode)
-    {
-      var packageViewer = new apiviewer.ui.PackageViewer();
-      packageViewer.setDocNode(classNode);
-      this.__bindViewer(packageViewer);
-
-      var title = classNode.getFullName();
-      var image = apiviewer.TreeUtil.getIconUrl(classNode)
-      return this.__createPage(title, image, packageViewer);
-    },
-
-    __createPageForClass : function(classNode)
-    {
-      var classViewer = new apiviewer.ui.ClassViewer();
-      classViewer.setDocNode(classNode);
-      this.__bindViewer(classViewer);
-
-      var title = classNode.getFullName();
-      var image = apiviewer.TreeUtil.getIconUrl(classNode)
-      return this.__createPage(title, image, classViewer);
-    },
-
-    __createPage : function(name, image, content)
-    {
-      var page = new qx.ui.tabview.Page(name, image);
-      page.setShowCloseButton(true);
-      page.setLayout(new qx.ui.layout.Canvas());
-      page.add(content, {edge : 0});
-
-      return page;
-    },
-
-    __bindViewer : function(viewer)
-    {
-      var uiModel = apiviewer.UiModel.getInstance();
-      uiModel.bind("showInherited", viewer, "showInherited");
-      uiModel.bind("expandProperties", viewer, "expandProperties");
-      uiModel.bind("showProtected", viewer, "showProtected");
-      uiModel.bind("showPrivate", viewer, "showPrivate");
+    
+    __destroyAndRemove : function(page) {
+      this._tabView.remove(page);
+      page.destroy();
     },
 
     __onChangeSelection : function(event)
@@ -168,10 +114,20 @@ qx.Class.define("apiviewer.TabViewController",
       var oldData = event.getOldData();
       var data = event.getData();
       this.fireDataEvent("changeSelection", data, oldData);
+    },
+    
+    __createAndStopEvent : function(nativeEvent, target)
+    {
+      var qxEvent = new qx.event.type.Mouse();
+      qxEvent.init(nativeEvent, target, null, true, true);
+      qxEvent.stop();
+      return qxEvent;
     }
   },
 
-  destruct : function() {
-    this._tabView = this.__pages = null;
+  destruct : function()
+  {
+    this._tabView.destroy(); 
+    this._tabView = null;
   }
 });

@@ -1,0 +1,79 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christian Hagendorn (chris_schmidt)
+
+************************************************************************ */
+
+qx.Class.define("apiviewer.ui.tabview.AbstractPage",
+{
+  extend : qx.ui.tabview.Page,
+  type : "abstract",
+
+  construct : function(classNode)
+  {
+    this.base(arguments);
+
+    this.setLayout(new qx.ui.layout.Canvas());    
+    this.setShowCloseButton(true);
+    
+    this._viewer = this._createViewer();
+    this.add(this._viewer, {edge : 0});
+    this.__bindViewer(this._viewer);
+    
+    this.setClassNode(classNode);
+  },
+
+  properties :
+  {
+    classNode : 
+    {
+      apply: "_applyClassNode"
+    }
+  },
+
+  members :
+  {
+    _viewer : null,
+    
+    _createViewer : function () {
+      throw new Error("Abstract method call!");
+    },
+    
+    _applyClassNode : function(value, old)
+    {
+      this._viewer.setDocNode(value);
+      
+      this.setLabel(value.getFullName());
+      this.setIcon(apiviewer.TreeUtil.getIconUrl(value));
+      this.setUserData("nodeName", value.getFullName());
+    },
+
+    __bindViewer : function(viewer)
+    {
+      var uiModel = apiviewer.UiModel.getInstance();
+      uiModel.bind("showInherited", viewer, "showInherited");
+      uiModel.bind("expandProperties", viewer, "expandProperties");
+      uiModel.bind("showProtected", viewer, "showProtected");
+      uiModel.bind("showPrivate", viewer, "showPrivate");
+    }
+  },
+
+  destruct : function()
+  {
+    this._viewer.destroy();
+    this._viewer = null;
+  }
+});
