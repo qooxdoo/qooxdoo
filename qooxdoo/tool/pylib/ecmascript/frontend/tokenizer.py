@@ -409,9 +409,12 @@ def parseRegexp(scanner):
         token = scanner.next()
 
     # regexp modifiers
-    if scanner.peek()[0].name == "ident":
-        token = scanner.next()
-        rexp += token.value
+    try:
+        if scanner.peek()[0].name == "ident":
+            token = scanner.next()
+            rexp += token.value
+    except StopIteration:
+        pass
 
     return rexp
 
@@ -451,7 +454,11 @@ def parseCommentM(scanner):
     return result
 
 def restLineIsEmpty(scanner):
-    toks = scanner.peek(2)
+    try:
+        toks = scanner.peek(2)
+    except StopIteration:
+        return True   # TODO: this is a hack
+
     if (toks[0].name == 'nl' or
         (toks[0].name == 'white' and toks[1].name == 'nl')):
         return True
