@@ -110,6 +110,7 @@ class Repository:
         console.indent()
         console.error(str(e))
         console.outdent()
+        continue
       
       if not "info" in manifest:
         console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
