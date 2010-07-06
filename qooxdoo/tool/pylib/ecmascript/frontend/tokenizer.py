@@ -25,6 +25,7 @@
 # literals, such as strings, comments and regular expression literals, and to
 # turn all tokens into dicts suitable for the consumption of the treegenerator
 # parser module.
+##
 
 import sys, re
 from ecmascript.frontend import lang, comment
