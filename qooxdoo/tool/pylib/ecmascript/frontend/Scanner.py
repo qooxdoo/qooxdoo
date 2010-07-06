@@ -19,6 +19,12 @@
 #
 ################################################################################
 
+##
+# The main purpose of this module is to provide a low-level JS scanner,
+# materialized in the Scanner class. It only recognizes primitive lexems, like
+# numbers, operators, and symbol names, but nothing that requires context
+# awareness like strings or comments.
+
 import sys, os, re, types
 from collections import deque
 
