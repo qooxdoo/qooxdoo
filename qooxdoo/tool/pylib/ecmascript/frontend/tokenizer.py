@@ -19,6 +19,13 @@
 #
 ################################################################################
 
+##
+# This module implements a high-level scanner. It uses the low-level scanner
+# from the Scanner module. The main additional functionality is to accumulate
+# literals, such as strings, comments and regular expression literals, and to
+# turn all tokens into dicts suitable for the consumption of the treegenerator
+# parser module.
+
 import sys, re
 from ecmascript.frontend import lang, comment
 import Scanner
@@ -65,6 +72,7 @@ def parseStream(content, uniqueId=""):
         
         # string
         elif tok.value in ('"', "'"):
+            # accumulate strings
             token['type'] = 'string'
             if tok.value == '"':
                 token['detail'] = 'doublequotes'
@@ -80,12 +88,13 @@ def parseStream(content, uniqueId=""):
             if tok.value in lang.TOKENS:
                 # division, regexp literal
                 if tok.value == '/':
+                    # accumulate regex literals
                     if (len(tokens) == 0 or (
-                                (tokens[-1]['detail'] != 'int')   and
-                                (tokens[-1]['detail'] != 'float') and
-                                (tokens[-1]['detail'] != 'RP')    and
-                                (tokens[-1]['detail'] != 'RB')    and
-                                (tokens[-1]['type']   != 'name'))):
+                            (tokens[-1]['detail'] != 'int')   and
+                            (tokens[-1]['detail'] != 'float') and
+                            (tokens[-1]['detail'] != 'RP')    and
+                            (tokens[-1]['detail'] != 'RB')    and
+                            (tokens[-1]['type']   != 'name'))):
                         regexp = parseRegexp(scanner)
                         token['type'] = 'regexp'
                         token['source'] = '/' + regexp
@@ -95,6 +104,7 @@ def parseStream(content, uniqueId=""):
 
                 # comment, inline
                 elif tok.value == '//':
+                    # accumulate inline comments
                     if (len(tokens) == 0 or
                         not is_last_escaped_token(tokens)):
                         commnt = parseCommentI(scanner)
@@ -110,6 +120,7 @@ def parseStream(content, uniqueId=""):
                 
                 # comment, multiline
                 elif tok.value == '/*':
+                    # accumulate multiline comments
                     if (len(tokens) == 0 or
                         not is_last_escaped_token(tokens)):
                         commnt = parseCommentM(scanner)
@@ -139,6 +150,7 @@ def parseStream(content, uniqueId=""):
                     else:
                         print >> sys.stderror, "Multiline comment out of context"
                                 
+                # every other operator goes as is
                 else:
                     token['type'] = 'token'
                     token['detail'] = lang.TOKENS[tok.value]
@@ -172,6 +184,8 @@ def parseStream(content, uniqueId=""):
     return tokens
 
 
+##
+# parse a string (both double and single quoted)
 def parseString(scanner, sstart):
     # parse string literals
     result = ""
@@ -182,7 +196,8 @@ def parseString(scanner, sstart):
     return result
 
 
-
+##
+# parse a regular expression
 def parseRegexp(scanner):
     # leading '/' is already consumed
     rexp = ""
@@ -206,6 +221,32 @@ def parseRegexp(scanner):
     return rexp
 
 
+##
+# parse an inline comment // ...
+def parseCommentI(scanner):
+    result = ""
+    for token in scanner:
+        if token.name == 'nl':
+            scanner.putBack(token)
+            break
+        result += token.value
+    return result
+
+
+##
+# parse a multiline comment /* ... */
+def parseCommentM(scanner):
+    result = ""
+    for token in scanner:
+        result += token.value
+        if token.value == '*/':
+            if not Scanner.is_last_escaped(result):
+                break
+    return result
+
+
+##
+# check if the preceding tokens contain an odd number of '\'
 def is_last_escaped_token(tokens):
     cnt = 0
     i   = 1
@@ -218,25 +259,8 @@ def is_last_escaped_token(tokens):
     return cnt % 2 == 1
 
 
-def parseCommentI(scanner):
-    result = ""
-    for token in scanner:
-        if token.name == 'nl':
-            scanner.putBack(token)
-            break
-        result += token.value
-    return result
-
-
-def parseCommentM(scanner):
-    result = ""
-    for token in scanner:
-        result += token.value
-        if token.value == '*/':
-            if not Scanner.is_last_escaped(result):
-                break
-    return result
-
+##
+# check if the rest of the line is empty (only white)
 def restLineIsEmpty(scanner):
     try:
         toks = scanner.peek(2)
@@ -250,6 +274,8 @@ def restLineIsEmpty(scanner):
         return False
 
 
+##
+# check if there is a preceding token on this line
 def hasLeadingContent(tokens):
     # tokens empty
     if not len(tokens):
