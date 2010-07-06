@@ -24,7 +24,7 @@
 
 /* ************************************************************************
 
-#use(qx.io.remote.transport.XmlHttp)
+*#use(qx.io.remote.transport.XmlHttp)
 #use(qx.io.remote.transport.Iframe)
 #use(qx.io.remote.transport.Script)
 
