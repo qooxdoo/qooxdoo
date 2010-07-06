@@ -1765,6 +1765,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Remember last
+      var first = items[0];
       var last = selectable;
 
       // Clear old entries from map
@@ -1812,8 +1813,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._scrollItemIntoView(last);
 
       // Reset anchor and lead item
-      this._setLeadItem(null);
-      this._setAnchorItem(null);
+      this._setLeadItem(first);
+      this._setAnchorItem(first);
 
       // Finally fire change event
       this.__selectionModified = true;
