@@ -82,21 +82,21 @@ qx.Class.define("feedreader.io.FeedLoader",
         return "failed";
       }}, qx.bom.client.Feature.SSL);
       store.addListener("loaded", this.__createOnLoaded(feed), this);
-      store.addListener("changeState", 
+      store.addListener("changeState",
         qx.lang.Function.bind(this.__onChangeState, this, feed)
       , this);
     },
 
-    
+
     /**
      * State change handler for the yql store.
      * @param feed {feedreader.model.feed} The feed which was loaded.
      * @param e {qx.event.type.Data} The change event.
      */
-    __onChangeState : function(feed, e) 
+    __onChangeState : function(feed, e)
     {
-      if (e.getData() == "aborted" || 
-        e.getData() == "timeout" || 
+      if (e.getData() == "aborted" ||
+        e.getData() == "timeout" || 
         e.getData() == "failed") {
           feed.setState("error");
       }
@@ -113,14 +113,14 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       return function(e) {
         var model = e.getData();
-        
+
         // check for wrong urls
         if (model == "failed") {
           feed.setState("error");
           return;
         }
 
-        feed.setArticles(model);        
+        feed.setArticles(model);
         feed.setState("loaded");
       };
     }
