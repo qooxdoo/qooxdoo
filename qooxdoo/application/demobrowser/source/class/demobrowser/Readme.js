@@ -27,14 +27,14 @@
 
 qx.Class.define("demobrowser.Readme", {
 
-  extend : qx.ui.container.Composite,
+  extend : qx.ui.container.Scroll,
   
   construct : function(title, readmeText)
   {
     this.base(arguments);
-    
-    this.setLayout(new qx.ui.layout.VBox(10));
-    this.setPadding(10);
+    this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+    this.__container.setPadding(10);
+    this.add(this.__container);
     
     var title = title || "";
     this.setTitle(title);
@@ -58,6 +58,7 @@ qx.Class.define("demobrowser.Readme", {
   
   members :
   {
+    __container : null,
     __title : null,
     __readme : null,
     
@@ -74,7 +75,7 @@ qx.Class.define("demobrowser.Readme", {
       
       var titleLabel = this.__title = new qx.ui.basic.Label("<h1>" + value + "</h1>");
       titleLabel.setRich(true);
-      this.add(titleLabel);
+      this.__container.add(titleLabel);
     },
     
     _applyReadmeData : function(value, old)
@@ -94,7 +95,7 @@ qx.Class.define("demobrowser.Readme", {
       var readmeLabel = new qx.ui.basic.Label(readmeText);
       readmeLabel.setRich(true);
       groupBox.add(readmeLabel);
-      this.add(groupBox);
+      this.__container.add(groupBox);
     }
     
   },
@@ -107,7 +108,7 @@ qx.Class.define("demobrowser.Readme", {
 
   destruct : function()
   {
-    this._disposeObjects("__title", "__readme");
+    this._disposeObjects("__title", "__readme", "__container");
   }
     
 });

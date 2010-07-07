@@ -26,13 +26,14 @@
  */
 qx.Class.define("demobrowser.Manifest", {
 
-  extend : qx.ui.container.Composite,
+  extend : qx.ui.container.Scroll,
   
   construct : function(manifestData)
   {
     this.base(arguments);
-    this.setLayout(new qx.ui.layout.VBox(10));
-    this.setPadding(10);
+    this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+    this.__container.setPadding(10);
+    this.add(this.__container);
     if (manifestData) {
       this.setManifestData(manifestData);
     }
@@ -47,6 +48,8 @@ qx.Class.define("demobrowser.Manifest", {
   
   members : {
     
+    __container : null,
+    
     _applyManifestData : function(value, old) 
     {
       if (value === old) {
@@ -59,13 +62,13 @@ qx.Class.define("demobrowser.Manifest", {
         this._loadManifest(value);
       }
       
-      var kids = this.getChildren();
+      var kids = this.__container.getChildren();
       while (kids.length > 0) {
         kids[0].destroy();
       }
       
       if (!value.info) {
-        this.add(new qx.ui.basic.Label("Manifest data contains no 'info' section!"));
+        this.__container.add(new qx.ui.basic.Label("Manifest data contains no 'info' section!"));
         return;
       }
       
@@ -75,9 +78,9 @@ qx.Class.define("demobrowser.Manifest", {
         var nameLabel = new qx.ui.basic.Label("<h1>Nameless Library</h1>");      
       }
       nameLabel.setRich(true);
-      this.add(nameLabel);
+      this.__container.add(nameLabel);
       
-      this.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
+      this.__container.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
     },
     
     _getGroupBox : function(title, infoList)
@@ -183,6 +186,17 @@ qx.Class.define("demobrowser.Manifest", {
       req.send();
     }
     
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("__container");
   }
   
 });
