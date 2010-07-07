@@ -1095,16 +1095,22 @@ qx.Class.define("demobrowser.DemoBrowser",
               selectedVersion = true;
             }
           }
+          if (qx.core.Variant.isSet("qx.contrib", "on")) {
+            count++;
+          }
         }
 
-        if (folder.getChildren().length == 0) {
-          count++;
+        if (qx.core.Variant.isSet("qx.contrib", "off")) {
+          if (folder.getChildren().length == 0) {
+            count++;
+          }
         }
 
         if ( (inTags || (folder.getLabel().search(searchRegExp) != -1) ||
             (parent.getLabel().search(searchRegExp) != -1 ) ) && selectedVersion)
         {
-          if (folder.getChildren().length == 0) {
+          if (qx.core.Variant.isSet("qx.contrib", "on") ||
+              ( qx.core.Variant.isSet("qx.contrib", "off") && folder.getChildren().length == 0 )  ) {
             showing++;
           }
           folder.show();
