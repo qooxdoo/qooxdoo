@@ -1400,7 +1400,7 @@ qx.Bootstrap.define("qx.Class",
       {
         key = a[i];
         var method = members[key];
-          
+
         // check if method is available because null values can be stored as
         // init values on classes e.g. [BUG #3709]
         if (method && method.self == clazz) {

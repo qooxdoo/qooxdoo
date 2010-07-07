@@ -23,8 +23,8 @@
  * An appender that writes all messages to a memory container. The messages
  * can be retrieved later, f. i. when an error dialog pops up and the question
  * arises what actions have caused the error.
- * 
- * A mark feature also exists which can be used to remember a point in time. 
+ *
+ * A mark feature also exists which can be used to remember a point in time.
  * When retrieving log events, it is possible to get only those events
  * after the marked time. This is useful if data from the buffer is extracted
  * and f. i. sent to a logging system. Whenever this happens, a mark() call
@@ -47,19 +47,19 @@ qx.Class.define("qx.log.appender.RingBuffer",
   {
     //Next slot in ringbuffer to use
     __nextIndexToStoreTo : 0,
-    
+
     //Number of elements in ring buffer
     __elementsStored : 0,
-    
+
     //Was a mark set?
     __isMarkActive: false,
-    
+
     //How many elements were stored since setting of mark?
-    __elementsStoredSinceMark : 0, 
-    
+    __elementsStoredSinceMark : 0,
+
     //ring buffer
     __history : null,
-    
+
     //Maximum number of messages to store. Could be converted to a qx property.
     __maxMessages : null,
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
     process : function(entry)
     {
       this.__history[this.__nextIndexToStoreTo] = entry;
-      
+
       this.__nextIndexToStoreTo = this.__addToIndex(this.__nextIndexToStoreTo, 1);
 
       //Count # of stored elements
@@ -105,30 +105,30 @@ qx.Class.define("qx.log.appender.RingBuffer",
       if (this.__elementsStored < max){
         this.__elementsStored++;
       }
-      
+
       //Count # of stored elements since last mark call
       if (this.__isMarkActive && (this.__elementsStoredSinceMark < max)){
         this.__elementsStoredSinceMark++;
       }
     },
-    
-    /** 
+
+    /**
      * Remembers the current position in the ring buffer
-     * 
+     *
      */
     mark : function(){
       this.__isMarkActive = true;
       this.__elementsStoredSinceMark = 0;
     },
-    
-    /** 
+
+    /**
      * Removes the current mark position
-     * 
+     *
      */
     clearMark : function(){
       this.__isMarkActive = false;
     },
-    
+
 
     /**
      * Returns all stored log events
@@ -145,7 +145,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      *
      * @param count {Integer} The number of events to retrieve. If there are
      *    more events than the given count, the oldest ones will not be returned.
-     *    
+     *
      * @param startingFromMark {Boolean ? false} If true, only entries since the last call to mark()
      *                                           will be returned
      * @return {array} array of stored log events
@@ -166,16 +166,16 @@ qx.Class.define("qx.log.appender.RingBuffer",
 
         var indexOfYoungestElementInHistory = this.__addToIndex(this.__nextIndexToStoreTo,  -1);
         var startIndex = this.__addToIndex(indexOfYoungestElementInHistory, - count + 1);
-        
+
         var result;
-          
+
         if (startIndex <= indexOfYoungestElementInHistory) {
           //Requested segment not wrapping around ringbuffer boundary, get in one run
           result = this.__history.slice(startIndex, indexOfYoungestElementInHistory + 1);
         } else {
           //Requested segment wrapping around ringbuffer boundary, get two parts & concat
           result = this.__history.slice(startIndex, this.__elementsStored).concat(this.__history.slice(0, indexOfYoungestElementInHistory + 1));
-        }        
+        }
       } else {
         result = [];
       }
@@ -194,19 +194,19 @@ qx.Class.define("qx.log.appender.RingBuffer",
       this.__elementsStoredSinceMark = 0;
       this.__nextIndexToStoreTo = 0;
     },
-    
+
     /**
-     * Adds a number to an ringbuffer index. Does a modulus calculation, 
-     * i. e. if the index leaves the ringbuffer space it will wrap around to 
+     * Adds a number to an ringbuffer index. Does a modulus calculation,
+     * i. e. if the index leaves the ringbuffer space it will wrap around to
      * the other end of the ringbuffer.
-     * 
+     *
      * @param idx {Number} The current index.
      * @param addMe {Number} The number to add.
      */
     __addToIndex : function (idx, addMe){
       var max = this.getMaxMessages();
       var result = (idx + addMe) % max;
-      
+
       //If negative, wrap up into the ringbuffer space
       if (result < 0){
         result += max;

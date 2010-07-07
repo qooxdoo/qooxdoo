@@ -1129,7 +1129,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           row : row,
           col : col
         };
-        
+
         // On the other hand, we need to know if we've issued the click event
         // so we don't issue it twice, both from mouse-up on the focus
         // indicator, and from the click even on the pane. Both possibilities
@@ -1165,7 +1165,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           !this.__firedClickEvent &&
           !this.isEditing() &&
           this.__focusIndicator.getRow() == this.__lastMouseDownCell.row &&
-          this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col) 
+          this.__focusIndicator.getColumn() == this.__lastMouseDownCell.col)
       {
         this.fireEvent("cellClick",
                        qx.ui.table.pane.CellEvent,
@@ -1220,7 +1220,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this.getApplicationRoot().setGlobalCursor(null);
       this.setCursor(null);
-      
+
       // handle edit cell if available
       if (this.isEditing()) {
         var height = this.__cellEditor.getBounds().height;
@@ -1267,7 +1267,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
           // Move the column
           columnModel.moveColumn(fromOverXPos, toOverXPos);
-          
+
           // update the focus indicator including the editor
           this._updateFocusIndicator();
         }

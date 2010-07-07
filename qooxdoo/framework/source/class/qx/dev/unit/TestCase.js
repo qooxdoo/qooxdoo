@@ -58,7 +58,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * @param delay {Integer?5000} Amount of time in milliseconds to wait.
      * @param deferredFunction {Function?false} Optional function to run after
      * timeout has expired.
-     * @param context {Object?window} Optional execution context for 
+     * @param context {Object?window} Optional execution context for
      * deferredFunction
      */
     wait : function(delay, deferredFunction, context) {

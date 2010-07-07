@@ -205,7 +205,7 @@ qx.Class.define("qx.test.ui.core.Widget",
 
       w.destroy();
     },
-    
+
     testLazyScrollChildIntoViewY : function()
     {
       var scroll = new qx.ui.container.Scroll().set({
@@ -213,40 +213,40 @@ qx.Class.define("qx.test.ui.core.Widget",
         height: 100
       });
       this.getRoot().add(scroll);
-      
+
       var outer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       scroll.add(outer);
-      
+
       var inner1 = new qx.ui.core.Widget().set({
         height: 150,
         backgroundColor: "red"
       });
       outer.add(inner1);
-      
+
       var inner2 = new qx.ui.core.Widget().set({
         height: 20,
         backgroundColor: "green"
       });
       outer.add(inner2);
-      
+
       var scrollTop = null;
-      
+
       var listener1 = scroll.addListener("disappear", function(ev) {
         var child = this.getChildren()[0].getChildren()[1];
         this.scrollChildIntoView(child);
         this.setVisibility("visible");
       });
-      
+
       var self = this;
       var listener2 = scroll.addListener("appear", function(ev) {
         var scrollPane = this._getChildren()[0];
         scrollTop = scrollPane.getContentElement().getDomElement().scrollTop;
-      });      
-      
+      });
+
       qx.event.Timer.once(function() {
         scroll.setVisibility("hidden");
       }, this, 250);
-      
+
       this.wait(1000, function() {
         this.assert(scrollTop > 0, "Child was not scrolled!");
         scroll.removeListenerById(listener1);

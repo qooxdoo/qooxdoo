@@ -359,8 +359,8 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       newLabel.dispose();
       oldLabel.dispose();
     },
-    
-    
+
+
     testDeepTargetChangeConverter : function()
     {
       var oldLabel = this.__b1.getLab();

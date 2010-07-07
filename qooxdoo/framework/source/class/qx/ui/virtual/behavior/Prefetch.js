@@ -50,12 +50,12 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
    *   <li>minBelow: minimim pixels to prefetch below the view port</li>
    *   <li>maxBelow: maximum pixels to prefetch below the view port</li>
    * </ul>
-   */  
-  
+   */
+
   construct : function(scroller, settings)
   {
 
-    if (qx.core.Variant.isSet("qx.debug", "on")) 
+    if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       this.assertObject(settings);
       this.assertPositiveInteger(settings.minLeft);
@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
       this.assertPositiveInteger(settings.minBelow);
       this.assertPositiveInteger(settings.maxBelow);
     }
-    
+
     this.base(arguments);
 
     this.setPrefetchX(settings.minLeft, settings.maxLeft, settings.minRight, settings.maxRight);

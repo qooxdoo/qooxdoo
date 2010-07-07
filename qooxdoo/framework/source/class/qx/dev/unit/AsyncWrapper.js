@@ -49,7 +49,7 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
         this.setDelay(arguments[i]);
       }
     }
-    
+
     if (context) {
       this.setContext(context);
     }
@@ -63,14 +63,14 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
       check : "Function",
       init : false
     },
-    
+
     /** The context in which the timeout function should be executed  */
     context :
     {
       check : "Object",
       init : null
     },
-    
+
     /** The amount of time in milliseconds to wait */
     delay :
     {

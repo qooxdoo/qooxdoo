@@ -368,10 +368,10 @@ qx.Class.define("qx.io.remote.Rpc",
     createRequest: function()
     {
       return new qx.io.remote.Request(this.getUrl(),
-	                              "POST",
-	                              "application/json");
+                                "POST",
+                                "application/json");
     },
-        
+
     /**
      * Factory method to create the object containing the remote procedure
      * call data. By default, a qooxdoo-style RPC request is built, which
@@ -401,20 +401,20 @@ qx.Class.define("qx.io.remote.Rpc",
       var requestObject =
         {
           "service" : method == "refreshSession" ? null : this.getServiceName(),
-	  "method"  : method,
-	  "id"	    : id,
-	  "params"  : parameters
+    "method"  : method,
+    "id"      : id,
+    "params"  : parameters
         };
-      
+
       // Only add the server_data member if there is actually server data
       if (serverData)
       {
         requestObject.server_data = serverData;
       }
-      
+
       return requestObject;
     },
-        
+
 
     /**
      * Internal RPC call method

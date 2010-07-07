@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     getRowClass : function(rowInfo) {
       return "";
     },
-    
+
     /**
      * Add extra attributes to each row.
      *

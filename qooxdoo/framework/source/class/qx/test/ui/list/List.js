@@ -40,10 +40,10 @@ qx.Class.define("qx.test.ui.list.List",
     testChangeModelSize : function()
     {
       this._model.push("new item");
-      
+
       this.assertModelEqualsRowData(this._model, this._list);
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
-      
+
       this._model = new qx.data.Array();
       this._model.push("item");
       this._list.setModel(this._model);
@@ -51,34 +51,34 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertModelEqualsRowData(this._model, this._list);
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
     },
-    
+
     testChangeModelContent : function()
     {
       this._model.setItem(0, "new item");
-      
+
       this.flush();
-      
+
       this.assertModelEqualsRowData(this._model, this._list);
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
       this.assertEquals("new item", this._list._layer.getRenderedCellWidget(0,0).getLabel());
     },
-    
+
     testResetModel : function()
     {
       var model = new qx.data.Array();
       model.push("item");
-      
+
       this._list.setModel(model);
       this.flush();
-      
+
       this.assertModelEqualsRowData(model, this._list);
-      
+
       this._list.resetModel();
       this.flush();
 
       this.assertModelEqualsRowData(this._model, this._list);
 
-      this.assertEquals(this._model, this._list.getModel());      
+      this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(this._list.getModel().getLength(), this._list.getPane().getRowConfig().getItemCount(), "b");
     }
   }

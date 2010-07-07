@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
       this.__item = item;
       this.__manager = manager;
       // invoke the user set validator function
-      this.__validatorFunction.call(context || this, this, value);
+      this.__validatorFunction.call(context || this, this, value);
     },
 
 

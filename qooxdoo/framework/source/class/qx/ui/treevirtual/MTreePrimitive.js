@@ -164,7 +164,7 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
       // Return the node id we just added
       return nodeId;
     },
-    
+
     /**
      * An empty tree contains only this one node
      *

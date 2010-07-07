@@ -92,12 +92,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
       check : "String",
       init : ""
     },
-    
-    
+
+
     /**
      * The context for the form validation.
      */
-    context : 
+    context :
     {
       nullable : true
     }
@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       var validatorResult = null;
 
       try {
-        var validatorResult = validator.call(context || this, value, formItem);
+        var validatorResult = validator.call(context || this, value, formItem);
         if (validatorResult === undefined) {
           validatorResult = true;
         }
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     __validateForm: function(items) {
       var formValidator = this.getValidator();
-      var context = this.getContext() || this;
+      var context = this.getContext() || this;
 
       if (formValidator == null) {
         return true;

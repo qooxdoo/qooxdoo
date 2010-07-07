@@ -945,9 +945,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
     },
-    
-    
-    testRemoveEvents : function() 
+
+
+    testRemoveEvents : function()
     {
       // BUG #3566
 

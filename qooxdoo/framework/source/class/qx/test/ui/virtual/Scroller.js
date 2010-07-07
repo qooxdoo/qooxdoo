@@ -30,13 +30,13 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       var scroller = new qx.ui.virtual.core.Scroller(1, 1, 10, 10);
       this.getRoot().add(scroller);
       this.scroller = scroller;
-      
+
       // diable the event hiding for the unit tests
-      if (!qx.core.Setting.get("qx.nativeScrollBars")) {      
+      if (!qx.core.Setting.get("qx.nativeScrollBars")) {
         scroller.getChildControl("scrollbar-x").getChildControl("slider").setUseAsScrollbar(false);
-        scroller.getChildControl("scrollbar-y").getChildControl("slider").setUseAsScrollbar(false);        
+        scroller.getChildControl("scrollbar-y").getChildControl("slider").setUseAsScrollbar(false);
       }
-      
+
       this.flush();
     },
 

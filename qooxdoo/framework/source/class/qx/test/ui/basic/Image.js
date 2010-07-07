@@ -30,8 +30,8 @@ qx.Class.define("qx.test.ui.basic.Image",
   members :
   {
     __image : null,
-     
-    
+
+
     testSwitchScaling : function()
     {
       this.__image = new qx.ui.basic.Image;
@@ -147,13 +147,13 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertEquals(selectable, selectableAfter);
     },
-    
-    
+
+
     testFailedEvent : function() {
       var image = new qx.ui.basic.Image("affe.xyz" + Math.random());
       image.addListener("loadingFailed", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to 
+          // use a timeout to dipose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();
@@ -163,8 +163,8 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.wait();
     },
-    
-    
+
+
     testLoadedEvent : function() {
       var source = "../resource/qx/icon/Tango/32/places/folder.png";
       if (qx.io.ImageLoader.isLoaded(source)) {
@@ -174,15 +174,15 @@ qx.Class.define("qx.test.ui.basic.Image",
       var image = new qx.ui.basic.Image(source);
       image.addListener("loaded", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to 
+          // use a timeout to dipose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();
-          });          
+          });
         });
       }, this);
 
       this.wait();
-    }    
+    }
   }
 });

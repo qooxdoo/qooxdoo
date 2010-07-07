@@ -88,7 +88,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
-      
+
       var protocol = location.protocol;
       if (protocol.indexOf("file:") == 0) {
         protocol = "http:"

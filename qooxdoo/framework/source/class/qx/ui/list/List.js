@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.list.List",
       nullable : false,
       deferredInit : true
     },
-    
+
     itemHeight :
     {
       check : "Integer",
@@ -62,11 +62,11 @@ qx.Class.define("qx.ui.list.List",
   members :
   {
     _background : null,
-    
+
     _widgetCellProvider : null,
-    
+
     _layer : null,
-    
+
     getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.list.List",
     {
       this.addListener("resize", this._onResize, this);
       this.setScrollbarX("off");
-      
+
       this._initBackground();
       this._initLayer();
     },
@@ -106,10 +106,10 @@ qx.Class.define("qx.ui.list.List",
       if (old != null) {
         old.removeListener("change", this._onModelChange, this);
       }
-      
+
       this.__updateRowCount();
     },
-    
+
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(30);
     },
@@ -117,11 +117,11 @@ qx.Class.define("qx.ui.list.List",
     _onResize : function(e) {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
-    
+
     _onModelChange : function(e) {
       this.__updateRowCount();
     },
-    
+
     __updateRowCount : function()
     {
       this.getPane().getRowConfig().setItemCount(this.getModel().getLength());

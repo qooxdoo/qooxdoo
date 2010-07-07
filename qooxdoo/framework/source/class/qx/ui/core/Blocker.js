@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * If this property is enabled, the blocker created with {@link #block} 
+     * If this property is enabled, the blocker created with {@link #block}
      * will always stay activated. Take care that only one blocker instance
      * will be kept active, otherwise your browser will freeze.
      */

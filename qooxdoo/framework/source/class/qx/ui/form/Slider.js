@@ -214,12 +214,12 @@ qx.Class.define("qx.ui.form.Slider",
       apply : "_applyKnobFactor",
       nullable : true
     },
-    
-    
+
+
     /**
-     * Enabling this propert will cause the change event only fired 50% of 
+     * Enabling this propert will cause the change event only fired 50% of
      * the time which is ok for scrolling and speeds up the scrolling.
-     * 
+     *
      * @internal
      */
     useAsScrollbar : {
@@ -234,13 +234,13 @@ qx.Class.define("qx.ui.form.Slider",
      EVENTS
   *****************************************************************************
   */
-  
-  
-  events : { 
+
+
+  events : {
     /**
      * Fired on change of the property {@link #value}.
      */
-    changeValue: 'qx.event.type.Data' 
+    changeValue: 'qx.event.type.Data'
   },
 
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.form.Slider",
     __timer : null,
 
     __nextValueEvent: 0,
-    
+
 
     // overridden
     /**
@@ -1006,17 +1006,17 @@ qx.Class.define("qx.ui.form.Slider",
       if (value != null) {
           this._updateKnobPosition();
           if (this.getUseAsScrollbar()) {
-          // moderate ourselfes in firering events only spend 
-          // a maximum of 50% of the time processing the event handlers 
-          var start = new Date().getTime(); 
+          // moderate ourselfes in firering events only spend
+          // a maximum of 50% of the time processing the event handlers
+          var start = new Date().getTime();
           if (start > this.__nextValueEvent)
-          { 
-            this.fireEvent('changeValue',qx.event.type.Data,[value, old]); 
-            var duration = new Date().getTime() - start; 
-            this.__nextValueEvent = start + duration * 2; 
-          } 
+          {
+            this.fireEvent('changeValue',qx.event.type.Data,[value, old]);
+            var duration = new Date().getTime() - start;
+            this.__nextValueEvent = start + duration * 2;
+          }
         } else {
-          this.fireEvent('changeValue',qx.event.type.Data,[value, old]); 
+          this.fireEvent('changeValue',qx.event.type.Data,[value, old]);
         }
       } else {
         this.resetValue();

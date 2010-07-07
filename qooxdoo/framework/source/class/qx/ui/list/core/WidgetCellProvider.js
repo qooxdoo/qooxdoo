@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
   construct : function(list)
   {
     this.base(arguments);
-    
+
     this._cellRenderer = new qx.ui.virtual.cell.ListItemWidgetCell();
     this._list = list;
   },
@@ -41,9 +41,9 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     {
       var data = {};
       data.label = this._list.getDataFromRow(row);
-      
+
       var widget = this._cellRenderer.getCellWidget(data);
-      
+
       if(this._list._manager.isItemSelected(row)) {
         this.styleSelectabled(widget);
       }
@@ -54,11 +54,11 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     poolCellWidget : function(widget) {
       this._cellRenderer.pool(widget);
     },
-    
+
     styleSelectabled : function(item) {
       this._cellRenderer.updateStates(item, {selected: 1});
     },
-    
+
     styleUnselectabled : function(item) {
       this._cellRenderer.updateStates(item, {});
     }

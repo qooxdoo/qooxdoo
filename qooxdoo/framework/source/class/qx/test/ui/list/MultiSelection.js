@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       this.base(arguments);
       this._list.setSelectionMode("multi");
     },
-    
+
     testSelection : function()
     {
       var selection = this._list.getSelection();
@@ -36,16 +36,16 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       selection.push(this._model.getItem(2));
       selection.push(this._model.getItem(3));
       this.flush();
-      
+
       // check selection on list
       this.assertEquals(3, this._list.getSelection().getLength(), "On List");
       this.assertTrue(selection.equals(new qx.data.Array(
       [
-        this._model.getItem(1), 
-        this._model.getItem(2), 
+        this._model.getItem(1),
+        this._model.getItem(2),
         this._model.getItem(3)
       ])), "On List");
-      
+
       // check selection on manager
       var selectionFromManager = this._list._manager.getSelection();
       for (var i = 0; i < selectionFromManager.length; i++) {
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
       this.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
     },
-    
+
     testSelectionByUserInteraction : function()
     {
       var selection = this._list.getSelection();
@@ -73,26 +73,26 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       this.assertEquals(6, selection.getLength(), "On List");
       this.assertTrue(selection.equals(new qx.data.Array(
       [
-        this._model.getItem(2), 
-        this._model.getItem(3), 
+        this._model.getItem(2),
+        this._model.getItem(3),
         this._model.getItem(4),
         this._model.getItem(7),
         this._model.getItem(8),
         this._model.getItem(9)
       ])), "On List");
     },
-    
+
     testSelectionEventByUserInteraction : function()
     {
       var selection = this._list.getSelection();
-      
+
       var self = this;
-      this.assertEventFired(selection, "change", 
-        function() 
+      this.assertEventFired(selection, "change",
+        function()
         {
           self._list._manager.replaceSelection([2, 3, 4, 7, 8, 9]);
           self.flush();
-        }, 
+        },
         function(e)
         {
           // check selection on manager
@@ -102,13 +102,13 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
           }
           self.assertEquals(6, selectionFromManager.length, "On selection manager");
           self.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
-    
+
           // check selection on list
           self.assertEquals(6, selection.getLength(), "On List");
           self.assertTrue(selection.equals(new qx.data.Array(
           [
-            self._model.getItem(2), 
-            self._model.getItem(3), 
+            self._model.getItem(2),
+            self._model.getItem(3),
             self._model.getItem(4),
             self._model.getItem(7),
             self._model.getItem(8),

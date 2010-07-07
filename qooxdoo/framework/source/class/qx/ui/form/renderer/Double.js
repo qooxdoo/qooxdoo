@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
     // should not be disposed
     if (this._buttonRow) {
       this._buttonRow.removeAll();
-      this._disposeObjects("_buttonRow");      
+      this._disposeObjects("_buttonRow");
     }
   }
 });

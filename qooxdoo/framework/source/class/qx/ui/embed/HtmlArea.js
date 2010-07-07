@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     __setupInvalidateListener : function()
     {
       var element = this.getContainerElement().getDomElement();
-      
+
       var invalidateEditor = function(e) {
         this.__editorComponent.invalidateEditor();
       };

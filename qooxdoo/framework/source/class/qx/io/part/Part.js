@@ -202,11 +202,11 @@ qx.Bootstrap.define("qx.io.part.Part",
       this._readyState = readyState;
       this._loader.notifyPartResult(this);
     },
-    
-    
+
+
 
     /**
-     * Method used to start up the application in case not all parts 
+     * Method used to start up the application in case not all parts
      * necessary to initialize the application are in the boot part. [BUG #3793]
      */
     _signalStartup : function() {
@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.io.part.Part",
     /**
      * Helper for checking if the part is loaded completely.
      *
-     * @param callback {Function} The function to be called if the part has 
+     * @param callback {Function} The function to be called if the part has
      *   been loaded completely.
      * @param self {Object} The context of the callback function.
      * @return {Boolean} true, if the part is loading, complete or has an error.

@@ -34,14 +34,14 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
       this.base(arguments);
 
       this._model = new qx.data.Array();
-      
+
       for (var i = 0; i < 100; i++) {
         this._model.push("item " + (i + 1));
       }
 
       this._list = new qx.ui.list.List(this._model);
       this.getRoot().add(this._list);
-      
+
       this.flush();
     },
 

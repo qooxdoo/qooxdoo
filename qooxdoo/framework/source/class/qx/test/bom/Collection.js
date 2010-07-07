@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -24,12 +24,12 @@ qx.Class.define("qx.test.bom.Collection",
   members :
   {
     setUp : function() {},
-    
+
     testFindNonExistingElementById : function()
     {
       // Id 'foo' is not existent in the document
       var result = qx.bom.Collection.id("foo").find("div");
-      
+
       this.assertArrayEquals([], result, "ID selector on a non-existing ID does returns the whole document!");
     }
   }

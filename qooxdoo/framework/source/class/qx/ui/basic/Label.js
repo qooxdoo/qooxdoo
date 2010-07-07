@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.basic.Label",
           this.warn("Only rich labels support wrap.");
         }
       }
-      
+
       if (this.isRich()) {
         // apply the white space style to the label to force it not
         // to wrap if wrap is set to false [BUG #3732]

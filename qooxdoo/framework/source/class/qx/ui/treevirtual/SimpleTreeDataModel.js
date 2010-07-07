@@ -388,10 +388,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @throws {Error}
      *   Thrown if the row index is out of bounds.
-     *   
+     *
      * @param rowIndex {Integer}
      *   The index of the row.
-     *   
+     *
      * @return {Object}
      *   The node object associated with the specified row.
      */
@@ -1101,7 +1101,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     this._rowArr = this._nodeArr = this._nodeRowMap = this._selections =
       this.__tree = null;
   },
-  
+
   defer : function(statics)
   {
     // For backward compatibility, ensure the Type values are available from

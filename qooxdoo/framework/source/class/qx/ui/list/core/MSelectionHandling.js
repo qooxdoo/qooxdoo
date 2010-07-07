@@ -22,7 +22,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
   construct : function() {
     this._initSelectionManager();
-    
+
     this.initSelection(new qx.data.Array());
   },
 
@@ -35,7 +35,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       nullable : false,
       deferredInit : true
     },
-    
+
     selectionMode :
     {
       check : [ "single", "multi", "additive", "one" ],
@@ -61,11 +61,11 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
   members :
   {
     _manager : null,
-    
+
     __ignoreChangeSelection : false,
-    
+
     __ignoreManagerChangeSelection : false,
-    
+
     _initSelectionManager : function()
     {
       var self = this;
@@ -73,25 +73,25 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
         isItemSelectable : function(item) {
           return true;
         },
-        
+
         styleSelectable : function(item, type, wasAdded) {
           if (type != "selected") {
             return;
           }
-          
+
           var widget = self._layer.getRenderedCellWidget(item, 0);
           if(widget == null) {
             return;
           }
-          
+
           if (wasAdded) {
             self._widgetCellProvider.styleSelectabled(widget);
           } else {
             self._widgetCellProvider.styleUnselectabled(widget);
-          }         
+          }
         }
       }
-        
+
       this._manager = new qx.ui.virtual.selection.Row(
         this.getPane(), selectionDelegate
       );
@@ -99,7 +99,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
     },
-    
+
     _applySelection : function(value, old)
     {
       value.addListener("change", this._onChangeSelection, this);
@@ -108,28 +108,28 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
         old.removeListener("change", this._onChangeSelection, this);
       }
     },
-    
+
     _applySelectionMode : function(value, old) {
       this._manager.setMode(value);
     },
-    
+
     _applyDragSelection : function(value, old) {
       this._manager.setDrag(value);
     },
-    
+
     _applyQuickSelection : function(value, old) {
       this._manager.setQuick(value);
     },
-    
+
     _onChangeSelection : function(e)
     {
       if (this.__ignoreManagerChangeSelection == true) {
         return;
       }
-      
+
       this.__ignoreChangeSelection = true;
       var selection = this.getSelection();
-      
+
       var newSelection = [];
       for (var i = 0; i < selection.getLength(); i++)
       {
@@ -137,43 +137,43 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
         var index = this.getModel().indexOf(item);
         newSelection.push(index);
       }
-      
+
       try {
         this._manager.replaceSelection(newSelection);
-      } 
+      }
       catch(e)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
         this.__updateSelection();
       }
-      
+
       this.__ignoreChangeSelection = false;
     },
-    
+
     _onManagerChangeSelection : function(e) {
       if (this.__ignoreChangeSelection == true) {
         return;
       }
-      
+
       var selection = this.getSelection();
       var currentSelection = e.getData();
-      
-      this.__ignoreManagerChangeSelection = true;      
-      
+
+      this.__ignoreManagerChangeSelection = true;
+
       // replace selection and fire event
       this.__updateSelection();
       var lastIndex = selection.getLength() - 1;
       selection.splice(lastIndex, 1, this.getDataFromRow(currentSelection[lastIndex]));
-      
+
       this.__ignoreManagerChangeSelection = false;
     },
-    
+
     __updateSelection : function()
     {
       var localSelection = this.getSelection();
       var nativArray = localSelection.toArray();
       var managerSelection = this._manager.getSelection();
-      
+
       qx.lang.Array.removeAll(nativArray);
       for(var i = 0; i < managerSelection.length; i++) {
         nativArray.push(this.getDataFromRow(managerSelection[i]));

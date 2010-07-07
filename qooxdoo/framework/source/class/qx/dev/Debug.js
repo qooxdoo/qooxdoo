@@ -161,7 +161,7 @@ qx.Class.define("qx.dev.Debug",
             }
             catch (e)
             {
-              message += 
+              message +=
                 sol(level) + prop + ": EXCEPTION expanding property" + eol;
             }
           }
