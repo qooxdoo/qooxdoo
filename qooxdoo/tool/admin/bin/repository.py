@@ -106,7 +106,7 @@ class Repository:
       try:
         manifest = getDataFromJsonFile(manifestPath)
       except Exception, e:
-        console.error("Could not read manifest file %s" %manifestPath)
+        console.error("Couldn't read manifest file %s" %manifestPath)
         console.indent()
         console.error(str(e))
         console.outdent()
@@ -524,12 +524,13 @@ class LibraryVersion:
       demoBuildStatus["buildError"] = msg 
       return demoBuildStatus
     
-    console.info("Generating %s version of demo variant %s for library %s version %s" %(demoVersion,demoVariant, self.libraryName, self.versionName) )
+    console.info("Generating %s version of demo variant %s for library %s version %s..." %(demoVersion,demoVariant, self.libraryName, self.versionName) )
     subPath = os.path.join("demo", demoVariant)
     try:
       rcode, output, errout = self.runGenerator(demoVersion, subPath)
     except Exception, e:
       msg = "Error running generator: " + str(e)
+      console.wite("")
       console.error(e)
       demoBuildStatus["buildError"] = msg 
       return demoBuildStatus
@@ -546,10 +547,11 @@ class LibraryVersion:
         errout = "Unknown error"
       demoBuildStatus["buildError"] = errout
     elif not hasScriptDir:
+      console.write("")
       console.warn("No script directory created!")
       demoBuildStatus["buildError"] = "No script directory created"
     else:
-      console.info("Demo built successfully.")
+      console.write("Done.", "info")
       demoBuildStatus["buildError"] = None
       
     self.demoBuildStatus = demoBuildStatus
