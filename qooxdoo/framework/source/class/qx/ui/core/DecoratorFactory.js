@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
      */
     poolDecorator : function(decoratorElement)
     {
-      if (!decoratorElement || decoratorElement.$$pooled) {
+      if (!decoratorElement || decoratorElement.$$pooled || decoratorElement.isDisposed()) {
         return;
       }
 
