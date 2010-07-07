@@ -85,9 +85,9 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
           }
           
           if (wasAdded) {
-            self._styleSelectabled(widget);
+            self._widgetCellProvider.styleSelectabled(widget);
           } else {
-            self._styleUnselectabled(widget);
+            self._widgetCellProvider.styleUnselectabled(widget);
           }         
         }
       }
@@ -98,14 +98,6 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
-    },
-    
-    _styleSelectabled : function(item) {
-      this._cellRenderer.updateStates(item, {selected: 1});
-    },
-    
-    _styleUnselectabled : function(item) {
-      this._cellRenderer.updateStates(item, {});
     },
     
     _applySelection : function(value, old)

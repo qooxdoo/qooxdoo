@@ -63,7 +63,9 @@ qx.Class.define("qx.ui.list.List",
   {
     _background : null,
     
-    _cellRenderer : null,
+    _widgetCellProvider : null,
+    
+    _layer : null,
     
     getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
@@ -92,29 +94,8 @@ qx.Class.define("qx.ui.list.List",
 
     _initLayer : function()
     {
-      var cellRenderer = this._cellRenderer = new qx.ui.virtual.cell.ListItemWidgetCell();
-
-      var self = this;
-      var widgetCellProvider = {
-        getCellWidget : function(row, column)
-        {
-          var data = {};
-          data.label = self.getDataFromRow(row);
-          
-          var widget = cellRenderer.getCellWidget(data);
-          if(self._manager.isItemSelected(row)) {
-            self._styleSelectabled(widget);
-          }
-
-          return widget;
-        },
-
-        poolCellWidget : function(widget) {
-          cellRenderer.pool(widget);
-        }
-      }
-
-      this._layer = new qx.ui.virtual.layer.WidgetCell(widgetCellProvider)
+      this._widgetCellProvider = new qx.ui.list.core.WidgetCellProvider(this);
+      this._layer = new qx.ui.virtual.layer.WidgetCell(this._widgetCellProvider);
       this.getPane().addLayer(this._layer);
     },
 
@@ -151,10 +132,10 @@ qx.Class.define("qx.ui.list.List",
   destruct : function()
   {
     this._background.dispose();
-    this._cellRenderer.dispose();
+    this._widgetCellProvider.dispose();
     this._layer.dispose();
     this._background = null;
-    this._cellRenderer = null;
+    this._widgetCellProvider = null;
     this._layer = null;
   }
 });
