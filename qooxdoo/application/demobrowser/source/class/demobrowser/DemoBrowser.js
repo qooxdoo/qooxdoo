@@ -152,7 +152,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.add(this.__tree, {flex: 1});
 
     var demoView = this.__makeDemoView();
-    
+
     if (qx.core.Variant.isSet("qx.contrib", "on")) {
       this.__demoView = demoView;
       this.__demoStack = new qx.ui.container.Stack();
@@ -165,7 +165,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     } else {
       infosplit.add(demoView, 2);
     }
-    
+
     var htmlView = this.__makeHtmlCodeView();
     var jsView = this.__makeJsCodeView();
     var logView = this.__makeLogView();
@@ -225,7 +225,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__viewPart,
       this.__themePart
     ];
-    
+
     if (qx.core.Variant.isSet("qx.contrib", "off")) {
       this.__menuElements.push(this.__playgroundButton);
     }
@@ -544,7 +544,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         viewPart.add(htmlView);
         viewPart.add(jsView);
       }
-      
+
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
       logView.setToolTipText("Display log file");
 
@@ -693,12 +693,12 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (modelNode.manifest) {
             this.__infoView.setManifestData(modelNode.manifest);
             this.__demoStack.setSelection([this.__infoView]);
-          } 
+          }
           else if (modelNode.readme) {
             this.__readmeView.setTitle(treeNode.getLabel());
             this.__readmeView.setReadmeData(modelNode.readme);
             this.__demoStack.setSelection([this.__readmeView]);
-          } 
+          }
           else {
             this.__demoStack.setSelection([this.__demoView]);
           }
@@ -782,7 +782,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             t = new qx.ui.tree.TreeFolder(that.polish(currNode.label));
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
-            
+
             if (qx.core.Variant.isSet("qx.contrib", "on")) {
               if (currNode.tags) {
                 t.setUserData("tags", currNode.tags);
@@ -963,7 +963,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
           url += furl;
         }
-       
+
         var posHtml = url.indexOf("/demo/") + 6;
         var posSearch = url.indexOf("?");
         posSearch = posSearch == -1 ? url.length : posSearch;
@@ -1006,10 +1006,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     __onLogInterval : function(e)
     {
       var fwindow = this.__iframe.getWindow();
-      
+
       try
       {
-        
+
         // Do this in a try-catch block. For instance if a demobrowser runs from
         // the local file system over the file:// protocol, there might be
         // security restrictions when trying to access some fwindow properties
@@ -1018,23 +1018,23 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (!this.__logDone)
           {
             this.__logDone = true;
-  
+
             this.debug("Demo loaded: " + this._currentSample);
-  
+
             // Register to logger
             this.logappender.$$id = null;
             this.logappender.clear();
-  
+
             try {
               fwindow.qx.log.Logger.register(this.logappender);
             } catch (e) {
               // if the logger is not available, ignore it
               return;
             }
-  
+
             // update state on example change
             this._history.addToHistory(this._currentSample.replace("/", "~"), document.title);
-  
+
             // load sample source code
             if (this._currentSampleUrl != this.defaultUrl) {
               this.__getPageSource(this._currentSampleUrl);
@@ -1048,7 +1048,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       catch(ex)
       {
-        this.__logDone = false;        
+        this.__logDone = false;
       }
     },
 
@@ -1275,8 +1275,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       req.send();
     },
-    
-    
+
+
     playPrev : qx.core.Variant.select("qx.contrib",
     {
       "on" : function(e)
@@ -1314,8 +1314,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
     },
-    
-    
+
+
     __playPrevContrib : function(e)
     {
       var currSamp = this.tree.getSelection()[0];  // widget
@@ -1323,7 +1323,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (!currSamp) {
         return;
       }
-      
+
       var otherSamp = null;
       var sample = currSamp;
       while (sample) {
@@ -1335,7 +1335,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           sample = prev;
         }
       }
-      
+
       if (otherSamp) {
         this.tree.setSelection([otherSamp]);
         this.runSample();
@@ -1344,7 +1344,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._stopbutton.setVisibility("excluded");
         this._runbutton.setVisibility("visible");
       }
-    },    
+    },
 
 
     playNext : qx.core.Variant.select("qx.contrib",
@@ -1359,7 +1359,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.__playNext(e);
       }
     }),
-    
+
     /**
      * TODOC
      *
@@ -1412,8 +1412,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
     },
-    
-    
+
+
     __playNextContrib : function(e)
     {
       var currSamp = this.tree.getSelection()[0];  // widget
@@ -1421,7 +1421,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (!currSamp) {
         return;
       }
-      
+
       var otherSamp = null;
       var sample = currSamp;
       while (sample) {
@@ -1433,7 +1433,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           sample = next;
         }
       }
-      
+
       if (otherSamp) {
         this.tree.setSelection([otherSamp]);
         this.runSample();

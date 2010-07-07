@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
 
   members :
   {
-    
+
     createTable: function()
     {
       var tableModel = this._tableModel = new demobrowser.demo.table.RemoteTableModel();
@@ -43,30 +43,30 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
           return new qx.ui.table.columnmodel.Resize(obj);
         }
       };
-      
+
       var table = new qx.ui.table.Table(tableModel,custom);
       var col = table.getTableColumnModel().getBehavior();
       col.setWidth(0,'10%');
       col.setWidth(1,'90%');
-      
+
       return table;
     },
-    
+
     createControls: function()
     {
       var bar = new qx.ui.toolbar.ToolBar();
       var part = new qx.ui.toolbar.Part();
       bar.add(part);
-      
+
       var reload = new qx.ui.toolbar.Button('Reload', "icon/22/actions/view-refresh.png");
       reload.addListener('execute',function(){
         this._tableModel.reloadData();
       }, this);
       part.add(reload);
-      
+
       return bar;
     }
-    
+
   }
-});​
+});
 

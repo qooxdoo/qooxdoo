@@ -18,22 +18,22 @@
 ************************************************************************ */
 
 qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
-  
+
   extend : qx.ui.table.model.Remote,
-  
+
   construct : function() {
     this.base(arguments);
     this.setColumns(["Id","Text"],["id","text"]);
   },
 
   members : {
-    
+
      // overloaded - called whenever the table requests the row count
     _loadRowCount : function()
     {
       this._onRowCountLoaded(1000000);
     },
-    
+
     _loadRowData : function(firstRow, lastRow)
     {
       var data = [];

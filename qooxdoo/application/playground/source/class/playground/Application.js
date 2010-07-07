@@ -215,7 +215,7 @@ qx.Class.define("playground.Application",
           return;
         }
       }
-      
+
       var sampleName = e.getData();
 
       // set the new sample data

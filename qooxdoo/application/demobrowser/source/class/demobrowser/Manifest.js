@@ -27,7 +27,7 @@
 qx.Class.define("demobrowser.Manifest", {
 
   extend : qx.ui.container.Scroll,
-  
+
   construct : function(manifestData)
   {
     this.base(arguments);
@@ -38,77 +38,77 @@ qx.Class.define("demobrowser.Manifest", {
       this.setManifestData(manifestData);
     }
   },
-  
+
   properties : {
     manifestData :
     {
       apply : "_applyManifestData"
     }
   },
-  
+
   members : {
-    
+
     __container : null,
-    
-    _applyManifestData : function(value, old) 
+
+    _applyManifestData : function(value, old)
     {
       if (value === old) {
         return;
       }
-      
+
       if (typeof value == "object") {
         this.setManifestData(value);
       } else if (typeof value == "string") {
         this._loadManifest(value);
       }
-      
+
       var kids = this.__container.getChildren();
       while (kids.length > 0) {
         kids[0].destroy();
       }
-      
+
       if (!value.info) {
         this.__container.add(new qx.ui.basic.Label("Manifest data contains no 'info' section!"));
         return;
       }
-      
+
       if (value.info.name) {
         var nameLabel = new qx.ui.basic.Label("<h1>" + value.info.name + "</h1>");
       } else {
-        var nameLabel = new qx.ui.basic.Label("<h1>Nameless Library</h1>");      
+        var nameLabel = new qx.ui.basic.Label("<h1>Nameless Library</h1>");
       }
       nameLabel.setRich(true);
       this.__container.add(nameLabel);
-      
+
       this.__container.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
     },
-    
+
     _getGroupBox : function(title, infoList)
     {
       var container = new qx.ui.groupbox.GroupBox(title);
       container.setLayout(new qx.ui.layout.Grid(10, 10));
       var rowCount = 0;
-      
+
       for (var c=0,e=infoList.length; c<e; c++) {
         if (!infoList[c]) {
           continue;
         }
-        
+
         for (var key in infoList[c]) {
           var value = infoList[c][key];
           if (key == "name") {
-            continue;          
+            continue;
           } else if (key == "authors")  {
             var authors = "";
             for (var i=0,l=value.length; i<l; i++) {
-              authors += value[i].name + " &lt;" + value[i].email + "&gt;<br/>"; 
+              authors += value[i].name + " &lt;" + value[i].email + "&gt;<br/>";
             }
             var title = value.length > 1 ? "Authors" : "Author";
             var keyValue = this._getKeyVal(title, authors);
             container.add(keyValue[0], {row: rowCount, column: 0});
             container.add(keyValue[1], {row: rowCount, column: 1});
             rowCount++;
-          
+
           } else {
             if (qx.lang.Type.isArray(value)) {
               value = value.join(", ");
@@ -119,12 +119,12 @@ qx.Class.define("demobrowser.Manifest", {
             rowCount++;
           }
         }
-        
+
       }
-      
+
       return container;
     },
-    
+
     _getKeyVal : function(key, value)
     {
       if (!key.indexOf("qooxdoo") == 0) {
@@ -135,17 +135,17 @@ qx.Class.define("demobrowser.Manifest", {
         font: "bold",
         minWidth: 100
       });
-      
+
       var content = new qx.ui.basic.Label();
       if (value.indexOf("http") == 0) {
         value = '<a href="' + value + '" target="_blank">' + value + "</a>";
       }
       content.setValue(value);
       content.setRich(true);
-      
+
       return [label, content];
     },
-    
+
     _getSortedInfo : function(info)
     {
       var sortOrder = {
@@ -157,10 +157,10 @@ qx.Class.define("demobrowser.Manifest", {
         "version" : 5,
         "qooxdoo-versions" : 6
       };
-      
+
       var sortedInfo = [];
       var unsortedInfo = [];
-      
+
       for (var key in info) {
         if (key in sortOrder) {
           var map = {};
@@ -172,11 +172,11 @@ qx.Class.define("demobrowser.Manifest", {
           unsortedInfo.push(map);
         }
       }
-      
+
       var infoList = sortedInfo.concat(unsortedInfo);
-      return infoList; 
+      return infoList;
     },
-    
+
     _loadManifest : function(url)
     {
       var req = new qx.io.remote.Request(url, "GET", "application/json");
@@ -185,9 +185,9 @@ qx.Class.define("demobrowser.Manifest", {
       }, this);
       req.send();
     }
-    
+
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -198,5 +198,5 @@ qx.Class.define("demobrowser.Manifest", {
   {
     this._disposeObjects("__container");
   }
-  
+
 });
