@@ -782,6 +782,13 @@ qx.Class.define("demobrowser.DemoBrowser",
             t = new qx.ui.tree.TreeFolder(that.polish(currNode.label));
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
+            
+            if (qx.core.Variant.isSet("qx.contrib", "on")) {
+              if (currNode.tags) {
+                t.setUserData("tags", currNode.tags);
+                that.__getVersionTags(currNode.tags);
+              }
+            }
 
             buildSubTree(t, t.getUserData("node"));
 
@@ -794,9 +801,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
-            t.setUserData("tags", currNode.tags);
-            if (qx.core.Variant.isSet("qx.contrib", "on")) {
-              that.__getVersionTags(currNode.tags);
+            if (currNode.tags) {
+              t.setUserData("tags", currNode.tags);
             }
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;

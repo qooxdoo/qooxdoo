@@ -174,6 +174,9 @@ qx.Class.define("demobrowser.TreeDataHandler",
             if (struct.children[j].manifest) {
               subTree.manifest = struct.children[j].manifest;
             }
+            if (struct.children[j].tags) {
+              subTree.tags = struct.children[j].tags;
+            }
           }
           tree.add(subTree);
         }
