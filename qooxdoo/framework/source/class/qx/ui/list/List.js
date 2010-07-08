@@ -27,11 +27,17 @@ qx.Class.define("qx.ui.list.List",
   extend : qx.ui.virtual.core.Scroller,
   include : [qx.ui.list.core.MSelectionHandling],
 
-  construct : function(model)
+  construct : function(model, delegate)
   {
     this.base(arguments, 0, 1, 20, 100);
 
     this._init();
+
+    if (delegate != null) {
+      this._delegate = delegate;
+    } else {
+      this._delegate = new qx.ui.list.core.ModelProvider();
+    }
 
     if(model != null) {
       this.initModel(model);
@@ -66,6 +72,21 @@ qx.Class.define("qx.ui.list.List",
     _widgetCellProvider : null,
 
     _layer : null,
+    
+    _delegate : null,
+
+    setLabelPath : function(path)
+    {
+      if (this._delegate.setLabelPath != null) {
+        this._delegate.setLabelPath(path);
+      }
+    },
+    
+    setIconPath : function(path) {
+      if (this._delegate.setIconPath != null) {
+        this._delegate.setIconPath(path);
+      }
+    },
 
     _getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
@@ -137,5 +158,6 @@ qx.Class.define("qx.ui.list.List",
     this._background = null;
     this._widgetCellProvider = null;
     this._layer = null;
+    this._delegate = null;
   }
 });

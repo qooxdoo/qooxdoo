@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.SingleSelection",
+qx.Class.define("qx.test.ui.list.core.SingleSelection",
 {
   extend : qx.test.ui.list.AbstractListTest,
 

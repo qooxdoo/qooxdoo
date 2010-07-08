@@ -39,10 +39,13 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     getCellWidget : function(row, column)
     {
-      var data = {};
-      data.label = this._list._getDataFromRow(row);
+      var modelData = this._list._getDataFromRow(row);
+      var widgetData = {};
+      
+      widgetData.label = this._list._delegate.getLabel(modelData);
+      widgetData.icon = this._list._delegate.getIcon(modelData);
 
-      var widget = this._cellRenderer.getCellWidget(data);
+      var widget = this._cellRenderer.getCellWidget(widgetData);
 
       if(this._list._manager.isItemSelected(row)) {
         this.styleSelectabled(widget);
