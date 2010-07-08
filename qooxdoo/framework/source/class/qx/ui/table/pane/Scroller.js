@@ -1370,7 +1370,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             ascending : ascending
           };
 
-          if (this.fireDataEvent("beforeSort", data))
+          if (this.fireDataEvent("beforeSort", data, null, true))
           {
             tableModel.sortByColumn(col, ascending);
             if (this.getResetSelectionOnHeaderClick())
