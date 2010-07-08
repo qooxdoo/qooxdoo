@@ -35,7 +35,7 @@ qx.Class.define("qx.test.ui.list.SingleSelection",
 
       // check selection from manager
       var item = this._list._manager.getSelectedItem();
-      item = this._list.getDataFromRow(item);
+      item = this._list._getDataFromRow(item);
 
       this.assertEquals(this._model.getItem(1), item);
     },

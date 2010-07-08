@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.list.List",
 
     _layer : null,
 
-    getDataFromRow : function(row) {
+    _getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
 
       if (data != null) {

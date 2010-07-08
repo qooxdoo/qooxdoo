@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       // check selection on manager
       var selectionFromManager = this._list._manager.getSelection();
       for (var i = 0; i < selectionFromManager.length; i++) {
-        selectionFromManager[i] = this._list.getDataFromRow(selectionFromManager[i]);
+        selectionFromManager[i] = this._list._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
       this.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
@@ -64,7 +64,7 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
       // check selection on manager
       var selectionFromManager = this._list._manager.getSelection();
       for (var i = 0; i < selectionFromManager.length; i++) {
-        selectionFromManager[i] = this._list.getDataFromRow(selectionFromManager[i]);
+        selectionFromManager[i] = this._list._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(6, selectionFromManager.length, "On selection manager");
       this.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.list.MultiSelection",
           // check selection on manager
           var selectionFromManager = self._list._manager.getSelection();
           for (var i = 0; i < selectionFromManager.length; i++) {
-            selectionFromManager[i] = self._list.getDataFromRow(selectionFromManager[i]);
+            selectionFromManager[i] = self._list._getDataFromRow(selectionFromManager[i]);
           }
           self.assertEquals(6, selectionFromManager.length, "On selection manager");
           self.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");

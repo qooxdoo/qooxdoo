@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     getCellWidget : function(row, column)
     {
       var data = {};
-      data.label = this._list.getDataFromRow(row);
+      data.label = this._list._getDataFromRow(row);
 
       var widget = this._cellRenderer.getCellWidget(data);
 

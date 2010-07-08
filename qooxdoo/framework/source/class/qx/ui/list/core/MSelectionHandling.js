@@ -163,7 +163,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       // replace selection and fire event
       this.__updateSelection();
       var lastIndex = selection.getLength() - 1;
-      selection.splice(lastIndex, 1, this.getDataFromRow(currentSelection[lastIndex]));
+      selection.splice(lastIndex, 1, this._getDataFromRow(currentSelection[lastIndex]));
 
       this.__ignoreManagerChangeSelection = false;
     },
@@ -176,7 +176,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
       qx.lang.Array.removeAll(nativArray);
       for(var i = 0; i < managerSelection.length; i++) {
-        nativArray.push(this.getDataFromRow(managerSelection[i]));
+        nativArray.push(this._getDataFromRow(managerSelection[i]));
       }
       localSelection.length = nativArray.length;
     }

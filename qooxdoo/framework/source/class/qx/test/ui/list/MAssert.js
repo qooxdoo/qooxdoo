@@ -24,7 +24,7 @@ qx.Mixin.define("qx.test.ui.list.MAssert",
     assertModelEqualsRowData : function(model, list)
     {
       for (var i = 0; i < model.getLength(); i++) {
-        this.assertEquals(model.getItem(i), list.getDataFromRow(i));
+        this.assertEquals(model.getItem(i), list._getDataFromRow(i));
       }
     }
   }
