@@ -408,10 +408,11 @@ class QxTest:
         # generate the application
         self.log("Generating %s application." %target)
         
+        buildcmd = "python "
         if target == "contribution":
-          buildcmd = os.path.join(buildConf["stageDir"], target + "application", "trunk", "demo", "default", "generate.py")
+          buildcmd += os.path.join(buildConf["stageDir"], target + "application", "trunk", "demo", "default", "generate.py")
         else:
-          buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
+          buildcmd += os.path.join(buildConf["stageDir"], target + "application", "generate.py")
 
         buildcmd += " " + ",".join(buildConf["targets"][target])
         status, std, err = invokePiped(buildcmd)
