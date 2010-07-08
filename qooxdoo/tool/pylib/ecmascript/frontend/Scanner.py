@@ -204,7 +204,7 @@ class Token(object):
 #    (.next())        -------------------------
 #
 #   from consumer--->
-#    (.pushBack())
+#    (.putBack())
 #
 #  The StopIteration exception is propagated (i.e.: uncaught) from the ori-
 #  ginal iterator. The interesting end of the deque is the left, hence the
