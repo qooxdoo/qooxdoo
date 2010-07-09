@@ -92,7 +92,7 @@ def _handleResources(script, generator):
 
     # ----------------------------------------------------------------------
     approot = context.jobconf.get("provider/app-root", "./provider")
-    filetool.directory(approot+"/data/resource")
+    filetool.directory(approot+"/data")
     filetool.directory(approot+"/resource")
     
     # quick copy of runLogResources, for fast results
@@ -129,31 +129,31 @@ def _handleResources(script, generator):
 
 def _handleI18N(script, generator):
     approot = context.jobconf.get("provider/app-root", "./provider")
-    filetool.directory(approot+"/data/translation")
+
+    # get class projection
+    class_list = []
+    needs_cldr = False
+    for classObj in script.classesObj:
+        if passesOutputfilter(classObj.id):
+            class_list.append(classObj.id)
+            if not needs_cldr and classObj.getMeta('cldr'):
+                needs_cldr = True
 
     # get i18n data
-    translationMaps = generator._codeGenerator.getTranslationMaps(script.packages, 
-                                        script.variants, script.locales, addUntranslatedEntries=True)
+    trans_dat = generator._locale.getTranslationData_1(class_list, script.variants, script.locales, 
+                                                       addUntranslatedEntries=True)
+    loc_dat   = None
+    if needs_cldr:
+        loc_dat   = generator._locale.getLocalizationData(class_list, script.locales)
 
-    # sort by lang
-    data_by_lang = {}
-    for trans_dat, loc_dat in translationMaps:  # (trans_dat, loc_dat) is per package
-        for lang in trans_dat:  # key = "en", "fr", ...
-            if lang not in data_by_lang:
-                data_by_lang[lang] = ({},{})  # data_by_lang[lang][0] = po, [1] = cldr
-            data_by_lang[lang][0].update(trans_dat[lang])
-        for lang in loc_dat:  # key = "en", "fr", ...
-            if lang not in data_by_lang:
-                data_by_lang[lang] = ({},{})
-            data_by_lang[lang][1].update(loc_dat[lang])
 
     # write translation and cldr files
-    for lang in data_by_lang:
+    for lang in trans_dat:
         filename = "i18n-" + lang
 
         # translations
         transmap  = {}
-        translations = data_by_lang[lang][0]
+        translations = trans_dat[lang]
         for key in translations:
             if translations[key]:
                 transmap[key] = [ { "target" : "i18n", "data" : { key : translations[key] }} ]
@@ -163,12 +163,13 @@ def _handleI18N(script, generator):
         
         # cldr
         localemap = {}
-        localekeys = data_by_lang[lang][1]
-        for key in localekeys:
-            if localekeys[key]:
-                localemap[key] = [ { "target" : "i18n", "data" : { key : localekeys[key] }} ]
-            else:
-                localemap[key] = [ ]
-        filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
+        if loc_dat:
+            localekeys = loc_dat[lang]
+            for key in localekeys:
+                if localekeys[key]:
+                    localemap[key] = [ { "target" : "i18n", "data" : { key : localekeys[key] }} ]
+                else:
+                    localemap[key] = [ ]
+            filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
 
     return

@@ -646,6 +646,127 @@ class Class(object):
 
 
     # --------------------------------------------------------------------------
+    #   I18N Support
+    # --------------------------------------------------------------------------
+
+    ##
+    # returns array of message dicts [{method:, line:, column:, hint:, id:, plural:},...]
+    def messageStrings(self, variants):
+        # this duplicates codef from Locale.getTranslation
+        
+        classVariants     = self.classVariants()
+        relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+        variantsId        = util.toString(relevantVariants)
+
+        cacheId = "messages-%s-%s" % (self.path, variantsId)
+
+        messages = cache.readmulti(cacheId, self.path)
+        if messages != None:
+            return messages
+
+        console.debug("Looking for message strings: %s..." % self.id)
+        console.indent()
+
+        tree = self.tree(variants)
+
+        #try:
+        if True:
+            messages = self._findTranslationBlocks(tree, [])
+        #except NameError, detail:
+        #    raise RuntimeError("Could not extract message strings from %s!\n%s" % (self.id, detail))
+
+        if len(messages) > 0:
+            console.debug("Found %s message strings" % len(messages))
+
+        console.outdent()
+        cache.writemulti(cacheId, messages)
+
+        return messages
+
+
+    def _findTranslationBlocks(self, node, messages):
+        if node.type == "call":
+            oper = node.getChild("operand", False)
+            if oper:
+                var = oper.getChild("variable", False)
+                if var:
+                    varname = (treeutil.assembleVariable(var))[0]
+                    for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
+                        if varname.endswith(entry):
+                            self._addTranslationBlock(entry[1:], messages, node, var)
+                            break
+
+        if node.hasChildren():
+            for child in node.children:
+                self._findTranslationBlocks(child, messages)
+
+        return messages
+
+     
+    def _addTranslationBlock(self, method, data, node, var):
+        entry = {
+            "method" : method,
+            "line"   : node.get("line"),
+            "column" : node.get("column")
+        }
+
+        # tr(msgid, args)
+        # trn(msgid, msgid_plural, count, args)
+        # trc(hint, msgid, args)
+        # marktr(msgid)
+
+        if method == "trn" or method == "trc": minArgc=2
+        else: minArgc=1
+
+        params = node.getChild("params", False)
+        if not params or not params.hasChildren():
+            raise NameError("Invalid param data for localizable string method at line %s!" % node.get("line"))
+
+        if len(params.children) < minArgc:
+            raise NameError("Invalid number of parameters %s at line %s" % (len(params.children), node.get("line")))
+
+        strings = []
+        for child in params.children:
+            if child.type == "commentsBefore":
+                continue
+
+            elif child.type == "constant" and child.get("constantType") == "string":
+                strings.append(child.get("value"))
+
+            elif child.type == "operation":
+                strings.append(self._concatOperation(child))
+
+            elif len(strings) < minArgc:
+                console.warn("Unknown expression as argument to translation method at line %s" % (child.get("line"),))
+
+            # Ignore remaining (run time) arguments
+            if len(strings) == minArgc:
+                break
+
+        lenStrings = len(strings)
+        if lenStrings > 0:
+            if method == "trc":
+                entry["hint"] = strings[0]
+                if lenStrings > 1 and strings[1]:  # msgid must not be ""
+                    entry["id"]   = strings[1]
+            else:
+                if strings[0]:
+                    entry["id"] = strings[0]
+
+            if method == "trn" and lenStrings > 1:
+                entry["plural"] = strings[1]
+
+        # register the entry only if we have a proper key
+        if "id" in entry:
+            data.append(entry)
+
+        return
+
+
+
+
+
+    # --------------------------------------------------------------------------
     #   Meta Data Support
     # --------------------------------------------------------------------------
 
@@ -1000,17 +1121,17 @@ class Class(object):
         # methodId)
 
         def getMethodDepsR(classId, methodId, variants, deps):
-            self._console.debug("%s#%s dependencies:" % (classId, methodId))
-            self._console.indent()
+            console.debug("%s#%s dependencies:" % (classId, methodId))
+            console.indent()
 
             # Check cache
             filePath= self._classesObj[classId].path
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
             ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if ndeps != None:
-                self._console.debug("using cached result")
+                console.debug("using cached result")
                 #deps.update(ndeps)
-                self._console.outdent()
+                console.outdent()
                 return ndeps
 
             # Calculate deps
@@ -1026,12 +1147,12 @@ class Class(object):
             for dep in deps_rt:
                 assId = reduceAssembled(dep)
                 if assId == u'':  # unknown class
-                    self._console.info("Skipping unknown id: %r" % dep)
+                    console.info("Skipping unknown id: %r" % dep)
                     continue
                 clazzId, methId = splitClassAttribute(assId, dep)
                 ndeps.add((clazzId,methId))
 
-            self._console.debug("Code references: %r" % list(ndeps))
+            console.debug("Code references: %r" % list(ndeps))
 
             # Recurse on the immediate deps
             ndepslist = list(ndeps)
@@ -1042,16 +1163,16 @@ class Class(object):
                 ndeps.add((clazzId, methId))
                 nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
                 if not nclazzId:
-                    self._console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
+                    console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
                 elif nclazzId == True:  # this must be a known global (like Error, Regexp, ...)
-                    self._console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
+                    console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
                     continue
                 else:
                     clazzId = nclazzId
                     # cyclic check
                     if (clazzId, methId) in deps:
                     #if (clazzId, methId) == (classId, methodId):
-                        self._console.debug("Class.method already seen, skipping: %s#%s" % (clazzId, methId))
+                        console.debug("Class.method already seen, skipping: %s#%s" % (clazzId, methId))
                         continue
                     else:
                         ndeps.add((clazzId, methId))
@@ -1063,8 +1184,8 @@ class Class(object):
             self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
             # accumulator update
             #deps.update(ndeps)
-            self._console.debug("Recursive dependencies: %r" % list(ndeps))
-            self._console.outdent()
+            console.debug("Recursive dependencies: %r" % list(ndeps))
+            console.outdent()
             return ndeps
 
         # - Main ---------------------
