@@ -25,7 +25,7 @@ import time, datetime
 from polib import polib
 from ecmascript.frontend import treeutil, tree
 from misc import cldr, util, filetool, util
-from generator.code.LibraryPath import LibraryPath
+from generator.code.Library import Library
 from generator.code import Class
 
 ##
@@ -184,7 +184,7 @@ class Locale(object):
                     pof  = self.createPoFile()
                     f.write(str(pof))
                     f.close()
-                    allLocales[locale] = LibraryPath.translationEntry(locale, path, namespace)
+                    allLocales[locale] = Library.translationEntry(locale, path, namespace)
 
         self._console.info("Updating %d translations..." % len(selectedLocales))
         self._console.indent()

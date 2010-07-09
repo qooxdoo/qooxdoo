@@ -32,7 +32,7 @@ from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeCompiler     import TreeCompiler
-from generator.code.LibraryPath      import LibraryPath
+from generator.code.Library      import Library
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
@@ -234,7 +234,7 @@ class Generator(object):
             _classesObj = {}
             _docs = {}
             _translations = {}
-            _libs = {}          # {"name.space" : LibraryPath}
+            _libs = {}          # {"name.space" : Library}
             if not isinstance(library, types.ListType):
                 return (_namespaces, _classes, _docs, _translations, _libs)
 
@@ -247,9 +247,9 @@ class Generator(object):
                 path      = self._cache.read(cacheId, checkFile, memory=True)
                 if path:
                     self._console.debug("Use memory cache for %s" % key)
-                    path._console = self._console  # TODO: this is a hack to compensate LibraryPath.__getstate__ when pickeling
+                    path._console = self._console  # TODO: this is a hack to compensate Library.__getstate__ when pickeling
                 else:
-                    path = LibraryPath(lib, self._console)
+                    path = Library(lib, self._console)
                     namespace = getJobsLib(key)['namespace']
                     path._namespace = namespace  # patch namespace
                     path.scan()
@@ -892,6 +892,8 @@ class Generator(object):
             # Resource deps
             # -- TODO: why are the next two lines so expensive?!
             assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
+            #import cProfile
+            #cProfile.runctx('classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)', globals(), locals(), "/home/thron7/tmp/generator.runctx.profile")
             classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
             for classId in classToResources:
                 if classId in data:
@@ -1279,7 +1281,7 @@ class Generator(object):
         self._console.indent()
         # Copy resources
         for lib in libs:
-            #libp = LibraryPath(lib,self._console)
+            #libp = Library(lib,self._console)
             #ns   = libp.getNamespace()
 
             # construct a path to the source root for the resources

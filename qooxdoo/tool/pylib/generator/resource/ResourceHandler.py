@@ -21,7 +21,7 @@
 
 import re, string, types, sys, os, collections
 
-from generator.code.LibraryPath import LibraryPath
+from generator.code.Library import Library
 from misc import Path
 from generator.resource.ImageInfo import CombinedImage
 
@@ -70,7 +70,9 @@ class ResourceHandler(object):
     # checks whether the image is a combined image, by looking for a
     # .meta file
     def isCombinedImage(self, resourcePath):
-        meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
+        #meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
+        i = resourcePath.rfind(".")  # assuming there *is* an extension, like '.png'
+        meta_fname = resourcePath[:i] + '.meta'
         return os.path.exists(meta_fname)
 
 
@@ -96,7 +98,7 @@ class ResourceHandler(object):
         ignoredFiles = [r'\.meta$',]  # files not considered as resources
 
         # create wrapper object
-        libObj = LibraryPath(lib, self._genobj._console)
+        libObj = Library(lib, self._genobj._console)
         # retrieve list of library resources
         libList, cacheId = getCache(libObj)
         if libList:
