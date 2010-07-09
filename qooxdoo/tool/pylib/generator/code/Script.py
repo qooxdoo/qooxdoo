@@ -40,6 +40,7 @@ class Script(object):
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
         self.buildType  = ""   # "source"/"build"
         self.locales    = []   # supported locales, e.g. ["de", "de_DE", "en"]
+        self.libraries  = []   # involved libraries [generator.code.Library, ...]
 
     ##
     # return old-style array of arrays of classIds in self.packageIdsSorted order

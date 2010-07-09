@@ -234,7 +234,8 @@ class Generator(object):
             _classesObj = {}
             _docs = {}
             _translations = {}
-            _libs = {}          # {"name.space" : Library}
+            _libs = {}          # {"name.space" : <"library" config entry>}
+            _libraries = []     # [generator.code.Library]
             if not isinstance(library, types.ListType):
                 return (_namespaces, _classes, _docs, _translations, _libs)
 
@@ -272,12 +273,13 @@ class Generator(object):
                 _docs.update(path.getDocs())
                 _translations[namespace] = path.getTranslations()
                 _libs[namespace] = lib
+                _libraries.append(path)
 
             self._console.outdent()
             self._console.debug("Loaded %s libraries" % len(_namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _classesObj, _docs, _translations, _libs)
+            return (_namespaces, _classes, _classesObj, _docs, _translations, _libs, _libraries)
 
 
 
@@ -525,7 +527,8 @@ class Generator(object):
          self._classesObj,
          self._docs,
          self._translations,
-         self._libs)         = scanLibrary(config.get("library"))
+         self._libs,
+         self._libraries)     = scanLibrary(config.get("library"))
 
         # Python2.6 only:
         #print len(self._classesObj), len(self._classesObj) * sys.getsizeof(Class("a","b",{}))
@@ -535,7 +538,7 @@ class Generator(object):
         #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
         self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-        self._resourceHandler= ResourceHandler(self)
+        self._resourceHandler= ResourceHandler(self, self._libraries)
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
         # Preprocess include/exclude lists
@@ -594,8 +597,9 @@ class Generator(object):
             # some console output
             printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
-            script          = Script()  # a new Script object represents the target code
-            script.variants = variants
+            script           = Script()  # a new Script object represents the target code
+            script.variants  = variants
+            script.libraries = self._libraries
             # set source/build version
             if "compile" in jobTriggers:
                 if config.get("compile/type", "") == "source":
@@ -890,11 +894,11 @@ class Generator(object):
                 val["run"] = newval
 
             # Resource deps
-            # -- TODO: why are the next two lines so expensive?!
             assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
-            #import cProfile
-            #cProfile.runctx('classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)', globals(), locals(), "/home/thron7/tmp/generator.runctx.profile")
+            # -- the next line is expensive 
             classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
+
+
             for classId in classToResources:
                 if classId in data:
                     data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])

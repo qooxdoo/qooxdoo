@@ -22,11 +22,16 @@
 import os, re, sys
 
 from misc import filetool
+from misc.NameSpace import NameSpace
 from ecmascript.frontend import lang
+from generator.resource.ImageInfo import CombinedImage
+
+##
+# pickle complains when I use NameSpace!?
+class C(object): pass
 
 ##
 # Represents a qooxdoo library
-
 class Library(object):
     # is called with a "library" entry from the json config
     def __init__(self, libconfig, console):
@@ -36,6 +41,10 @@ class Library(object):
         self._classes = {}
         self._docs = {}
         self._translations = {}
+
+        self._resources = []
+        self.resources  = C()
+        self.resources.combImages = set()
 
         self._path = self._config.get("path", "")
 
@@ -94,7 +103,7 @@ class Library(object):
 
         self._scanClassPath(self._classPath, self._classUri, self._encoding)
         self._scanTranslationPath(self._translationPath)
-        #self.scanResourcePath(self._resourcePath)
+        self._scanResourcePath(self._resourcePath)
 
         self._console.outdent()
 
@@ -142,10 +151,31 @@ class Library(object):
         return liblist
 
 
+    def _scanResourcePath(self, path):
+        if not os.path.exists(path):
+            raise ValueError("The given resource path does not exist: %s" % path)
+
+        self._console.debug("Scanning resource folder...")
+
+        for root, dirs, files in filetool.walk(path):
+            # filter ignored directories
+            for dir in dirs:
+                if self._ignoredDirectories.match(dir):
+                    dirs.remove(dir)
+
+            for file in files:
+                fpath = os.path.join(root, file)
+                #self._resources.append(fpath)  # avoiding this currently, as it is not used
+                if CombinedImage.isCombinedImage(fpath):
+                    self.resources.combImages.add(fpath)
+
+        return
+
+
 
     def _scanClassPath(self, path, uri, encoding):
         if not os.path.exists(path):
-            raise ValueError("The given path does not contains a class folder: %s" % path)
+            raise ValueError("The given class path does not exist: %s" % path)
 
         self._console.debug("Scanning class folder...")
 

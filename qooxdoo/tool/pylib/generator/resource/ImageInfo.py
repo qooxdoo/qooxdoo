@@ -188,3 +188,10 @@ class CombinedImage(object):
             result[img] = imgObj
         
         return result
+
+
+    @staticmethod
+    def isCombinedImage(fpath):
+        i = fpath.rfind(".")
+        meta_fname = fpath[:i] + '.meta'
+        return os.path.exists(meta_fname)
