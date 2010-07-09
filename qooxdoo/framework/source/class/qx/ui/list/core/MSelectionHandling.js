@@ -71,7 +71,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       var self = this;
       var selectionDelegate = {
         isItemSelectable : function(item) {
-          return true;
+          return self._isSelectable(item);
         },
 
         styleSelectable : function(item, type, wasAdded) {
@@ -98,6 +98,11 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
+    },
+
+    _isSelectable : function(row) {
+      var item = this._getDataFromRow(row);
+      return !this._isDisabled(item);
     },
 
     _applySelection : function(value, old)

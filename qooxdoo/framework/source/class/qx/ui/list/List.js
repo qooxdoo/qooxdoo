@@ -44,11 +44,21 @@ qx.Class.define("qx.ui.list.List",
     } else {
       this.initModel(new qx.data.Array());
     }
+    
+    this.initDisabledItems(new qx.data.Array());
   },
 
   properties :
   {
     model :
+    {
+      check : "qx.data.Array",
+      apply : "_applyModel",
+      nullable : false,
+      deferredInit : true
+    },
+    
+    disabledItems :
     {
       check : "qx.data.Array",
       apply : "_applyModel",
@@ -96,6 +106,10 @@ qx.Class.define("qx.ui.list.List",
       } else {
         return null;
       }
+    },
+    
+    _isDisabled : function(item) {
+      return this.getDisabledItems().contains(item);;
     },
 
     _init : function()
