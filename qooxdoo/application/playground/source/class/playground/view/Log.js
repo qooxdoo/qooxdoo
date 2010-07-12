@@ -44,7 +44,7 @@ qx.Class.define("playground.view.Log",
 
     //toolbar of the log pane
     var toolbar = new qx.ui.toolbar.ToolBar();
-    var clearButton = new qx.ui.toolbar.Button("Clear");
+    var clearButton = new qx.ui.toolbar.Button(this.tr("Clear"));
     clearButton.addListener("execute", function(e) {
       this.clear();
     }, this);
