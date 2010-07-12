@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.setLayout(layout);
 
     // Header
-    this.add(this.__createHeader());
+    this.add(this._createHeader());
 
     // Data
     this.widgets = {};
@@ -1605,7 +1605,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * Creates the application header.
      */
-    __createHeader : function()
+    _createHeader : function()
     {
       var layout = new qx.ui.layout.HBox();
       var header = new qx.ui.container.Composite(layout);
