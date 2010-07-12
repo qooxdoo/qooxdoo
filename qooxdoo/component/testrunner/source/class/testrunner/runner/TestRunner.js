@@ -901,7 +901,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
             if (that.getCurrentTest()) {
               if (that.getCurrentTest()[level] == currNode.label) {
-                console.log("found " + currNode.label);
                 if (that.getCurrentTest()[level - 1] == currNode.parent.label) {
                   t.setOpen(true);
                   // Store node to select:
