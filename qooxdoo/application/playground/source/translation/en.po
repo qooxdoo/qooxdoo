@@ -19,49 +19,49 @@ msgstr ""
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:329 playground/Application.js:374
+#: playground/Application.js:332 playground/Application.js:377
 msgid "Showing gist %1"
 msgstr ""
 
-#: playground/Application.js:334 playground/Application.js:381
+#: playground/Application.js:337 playground/Application.js:384
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:400
+#: playground/Application.js:403
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:403
+#: playground/Application.js:406
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:420
+#: playground/Application.js:423
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:444
+#: playground/Application.js:447
 msgid "No such user found."
 msgstr ""
 
-#: playground/Application.js:507
+#: playground/Application.js:510
 msgid "Gist contains no content."
 msgstr ""
 
-#: playground/Application.js:513
+#: playground/Application.js:516
 msgid "Can't load the gist."
 msgstr ""
 
-#: playground/Application.js:603
+#: playground/Application.js:608
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:606
+#: playground/Application.js:611
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:663
+#: playground/Application.js:668
 msgid "%1 (modified)"
 msgstr ""
 
@@ -75,6 +75,10 @@ msgstr ""
 
 #: playground/view/Header.js:33
 msgid "Playground"
+msgstr ""
+
+#: playground/view/Log.js:47
+msgid "Clear"
 msgstr ""
 
 #: playground/view/Toolbar.js:47
@@ -101,7 +105,7 @@ msgstr ""
 msgid "gist support"
 msgstr ""
 
-#: playground/view/Toolbar.js:105 playground/view/Log.js:35
+#: playground/view/Toolbar.js:105 playground/view/Log.js:36
 msgid "Log"
 msgstr ""
 
