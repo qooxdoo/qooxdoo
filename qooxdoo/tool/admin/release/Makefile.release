@@ -300,7 +300,6 @@ publish-index:
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > temp/index.html
 	@echo "  * Syncing index.html..."
-	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_SYNC_ONLINE) temp/index.html $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
 
@@ -308,28 +307,23 @@ publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 	  echo "    - $$APPLICATION..."; \
-	  rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn application/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 	  $(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 	done
 	@for APPLICATION in $(COMPONENTS); do \
 	  echo "    - $$APPLICATION..."; \
 		if [ "$$APPLICATION" = "apiviewer" ]; then \
-			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn framework/api/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) framework/api/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "testrunner" ]; then \
-			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn framework/test/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) framework/test/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "inspector" ]; then \
-			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn component/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh root@qooxdoo.org 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
 	@ssh $(PUBLISH_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
 
 publish: publish-check publish-backup publish-index publish-apps publish-docs
