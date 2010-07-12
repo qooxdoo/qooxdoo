@@ -901,9 +901,12 @@ qx.Class.define("testrunner.runner.TestRunner",
 
             if (that.getCurrentTest()) {
               if (that.getCurrentTest()[level] == currNode.label) {
-                t.setOpen(true);
-                // Store node to select:
-                initalSelected = t;
+                console.log("found " + currNode.label);
+                if (that.getCurrentTest()[level - 1] == currNode.parent.label) {
+                  t.setOpen(true);
+                  // Store node to select:
+                  initalSelected = t;
+                }
               }
             }
 
@@ -1296,8 +1299,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // destroy widget and model trees to avoid leaking memory on reload.
       var oldRoot = this.widgets["treeview.full"].getRoot();
-      this.widgets["treeview.full"].setRoot(null);
-      oldRoot.destroy();
+      if (oldRoot) {
+        this.widgets["treeview.full"].setRoot(null);
+        oldRoot.destroy();
+      }
 
       this.tests.handler.ttree.widgetLinkFull = null;
       this.tests.handler.ttree.widgetLinkFlat = null;
