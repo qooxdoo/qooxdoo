@@ -115,10 +115,9 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 
       //when pressing enter on textfields, try to add the feed
       this.addListener("keypress", function(e) {
-        var target = e.getTarget(),
-        key = e.getKeyIdentifier();
-        if (target.constructor === qx.ui.form.TextField && key === "Enter") {
-          this._addFeed(e);
+        if (e.getTarget() instanceof qx.ui.form.TextField && 
+            e.getKeyIdentifier() === "Enter") {
+          this._addFeed();
         }
       });
       
