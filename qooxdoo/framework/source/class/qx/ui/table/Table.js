@@ -379,9 +379,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     *  Whether the header cells are visible. When setting this to true,
+     *  Whether the header cells are visible. When setting this to false,
      *  you'll likely also want to set the {#columnVisibilityButtonVisible}
-     *  property to true as well, to entirely remove the header row.
+     *  property to false as well, to entirely remove the header row.
      */
     headerCellsVisible :
     {
