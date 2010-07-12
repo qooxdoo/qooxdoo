@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       var children = this._getChildren();
       var colCount = paneModel.getColumnCount();
 
-      var sortedColum = tableModel.getSortColumnIndex();
+      var sortedColumn = tableModel.getSortColumnIndex();
 
       // Remove all widgets on the complete update
       if (completeUpdate) {
@@ -295,7 +295,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         cellInfo.col = col;
         cellInfo.name = tableModel.getColumnName(col);
         cellInfo.editable = tableModel.isColumnEditable(col);
-        cellInfo.sorted = (col == sortedColum);
+        cellInfo.sorted = (col == sortedColumn);
 
         // Get the cached widget
         var cachedWidget = children[x];
