@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
 /**
@@ -94,9 +95,6 @@ qx.Class.define("playground.view.Log",
 
       // Clear buffer
       qx.log.Logger.clear();
-
-      // Unregister again, so that the logger can flush again the next time the tab is clicked.
-      qx.log.Logger.unregister(this.__logAppender);
     }
   },
 
