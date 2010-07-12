@@ -993,14 +993,28 @@ qx.Class.define("qx.test.data.controller.List",
 
       // select the first item
       this.__list.setSelection([selectables[0]]);
-      // scroll a bit down (scrollY is 40)
-      this.__list.scrollByY(40);
-
-      // select the current visible item
-      this.__list.setSelection([selectables[2]]);
-
-      // check that it has not been scrolled
-      this.assertEquals(40, this.__list.getScrollY());
+      // Workaround for Opera's asynchronous scrolling behavior, see bug #3613.
+      if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION <= 9.6) {
+        qx.event.Timer.once(function() {
+          // scroll a bit down (scrollY is 40)
+          this.__list.scrollByY(40);
+        }, this, 0);
+        
+        this.wait(100, function() {
+          // select the current visible item
+          this.__list.addToSelection(selectables[2]);
+          // check that it has not been scrolled
+          this.assertEquals(40, this.__list.getScrollY());      
+        }, this);
+      }
+      else {
+        // scroll a bit down (scrollY is 40)
+        this.__list.scrollByY(40);
+        // select the current visible item
+        this.__list.addToSelection(selectables[2]);
+        // check that it has not been scrolled
+        this.assertEquals(40, this.__list.getScrollY());
+      }
     },
 
 
@@ -1015,14 +1029,28 @@ qx.Class.define("qx.test.data.controller.List",
 
       // select the first item
       this.__list.setSelection([selectables[0]]);
-      // scroll a bit down (scrollY is 40)
-      this.__list.scrollByY(40);
-
-      // select the current visible item
-      this.__list.addToSelection(selectables[2]);
-
-      // check that it has not been scrolled
-      this.assertEquals(40, this.__list.getScrollY());
+      // Workaround for Opera's asynchronous scrolling behavior, see bug #3613.
+      if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION <= 9.6) {
+        qx.event.Timer.once(function() {
+          // scroll a bit down (scrollY is 40)
+          this.__list.scrollByY(40);
+        }, this, 0);
+        
+        this.wait(100, function() {
+          // select the current visible item
+          this.__list.addToSelection(selectables[2]);
+          // check that it has not been scrolled
+          this.assertEquals(40, this.__list.getScrollY());      
+        }, this);
+      }
+      else {
+        // scroll a bit down (scrollY is 40)
+        this.__list.scrollByY(40);
+        // select the current visible item
+        this.__list.addToSelection(selectables[2]);
+        // check that it has not been scrolled
+        this.assertEquals(40, this.__list.getScrollY());
+      }
     },
 
 
