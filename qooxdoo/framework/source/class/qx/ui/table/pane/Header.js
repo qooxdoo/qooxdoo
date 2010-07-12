@@ -194,17 +194,19 @@ qx.Class.define("qx.ui.table.pane.Header",
 
       if (this.__moveFeedback == null)
       {
+        var table = this.getTable();
         var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
         var cellWidget = this._getChildren()[xPos];
 
-        var tableModel = this.getTable().getTableModel();
-        var columnModel = this.getTable().getTableColumnModel();
+        var tableModel = table.getTableModel();
+        var columnModel = table.getTableColumnModel();
 
         var cellInfo =
         {
-          xPos : xPos,
-          col  : col,
-          name : tableModel.getColumnName(col)
+          xPos  : xPos,
+          col   : col,
+          name  : tableModel.getColumnName(col),
+          table : table
         };
 
         var cellRenderer = columnModel.getHeaderCellRenderer(col);
@@ -261,8 +263,9 @@ qx.Class.define("qx.ui.table.pane.Header",
      */
     _updateContent : function(completeUpdate)
     {
-      var tableModel = this.getTable().getTableModel();
-      var columnModel = this.getTable().getTableColumnModel();
+      var table = this.getTable();
+      var tableModel = table.getTableModel();
+      var columnModel = table.getTableColumnModel();
       var paneModel = this.getPaneScroller().getTablePaneModel();
 
       var children = this._getChildren();
@@ -296,6 +299,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         cellInfo.name = tableModel.getColumnName(col);
         cellInfo.editable = tableModel.isColumnEditable(col);
         cellInfo.sorted = (col == sortedColumn);
+        cellInfo.table = table;
 
         // Get the cached widget
         var cachedWidget = children[x];
