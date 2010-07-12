@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Adrian Olaru (adrianolaru)
 
    ======================================================================
 
@@ -21,7 +22,7 @@
 
    * Cross-Browser Split
      http://blog.stevenlevithan.com/archives/cross-browser-split
-     Version 0.1
+     Version 1.0.1
 
      Copyright:
        (c) 2006-2007, Steven Levithan <http://stevenlevithan.com>
@@ -51,97 +52,90 @@ qx.Class.define("qx.util.StringSplit",
      * @param limit {Integer?} Integer specifying a limit on the number of splits to be found.
      * @return {String[]} split string
      */
-    split : function(string, separator, limit)
-    {
-      var flags = "";
-
-      /* Behavior for separator: If it's...
-      - Undefined: Return an array containing one element consisting of the entire string
-      - A regexp or string: Use it
-      - Anything else: Convert it to a string, then use it */
-
-      if (separator === undefined)
-      {
-        return [ string.toString() ];  // toString is used because the typeof string is object
-      }
-      else if (separator === null || separator.constructor !== RegExp)
-      {
-        // Convert to a regex with escaped metacharacters
-        separator = new RegExp(String(separator).replace(/[.*+?^${}()|[\]\/\\]/g, "\\$&"), "g");
-      }
-      else
-      {
-        flags = separator.toString().replace(/^[\S\s]+\//, "");
-
-        if (!separator.global) {
-          separator = new RegExp(separator.source, "g" + flags);
-        }
+    split : function (str, separator, limit) 
+    {  
+      // if `separator` is not a regex, use the native `split`
+      if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
+        return String.prototype.split.call(str, separator, limit);
       }
 
-      // Used for the IE non-participating capturing group fix
-      var separator2 = new RegExp("^" + separator.source + "$", flags);
+      var output = [],
+          lastLastIndex = 0,
+          flags = (separator.ignoreCase ? "i" : "") +
+                  (separator.multiline  ? "m" : "") +
+                  (separator.sticky     ? "y" : ""),
+          separator = RegExp(separator.source, flags + "g"), // make `global` and avoid `lastIndex` issues by working with a copy
+          separator2, match, lastIndex, lastLength,
+          compliantExecNpcg = /()??/.exec("")[1] === undefined; // NPCG: nonparticipating capturing group
 
-      /* Behavior for limit: If it's...
-      - Undefined: No limit
-      - Zero: Return an empty array
-      - A positive number: Use limit after dropping any decimal value (if it's then zero, return an empty array)
-      - A negative number: No limit, same as if limit is undefined
-      - A type/value which can be converted to a number: Convert, then use the above rules
-      - A type/value which cannot be converted to a number: Return an empty array */
+      str = str + ""; // type conversion
 
-      if (limit === undefined || +limit < 0)
-      {
-        limit = false;
+      if (!compliantExecNpcg) {
+        separator2 = RegExp("^" + separator.source + "$(?!\\s)", flags); // doesn't need /g or /y, but they don't hurt
       }
-      else
-      {
+
+      /* behavior for `limit`: if it's...
+      - `undefined`: no limit.
+      - `NaN` or zero: return an empty array.
+      - a positive number: use `Math.floor(limit)`.
+      - a negative number: no limit.
+      - other: type-convert, then use the above rules. */
+      if (limit === undefined || +limit < 0) {
+        limit = Infinity;
+      } else {
         limit = Math.floor(+limit);
         if (!limit) {
-          return [];  // NaN and 0 (the values which will trigger the condition here) are both falsy
+          return [];
         }
       }
 
-      var match, output = [], lastLastIndex = 0, i = 0;
-
-      while ((limit ? i++ <= limit : true) && (match = separator.exec(string)))
+      while (match = separator.exec(str)) 
       {
-        // Fix IE's infinite-loop-resistant but incorrect RegExp.lastIndex
-        if ((match[0].length === 0) && (separator.lastIndex > match.index)) {
-          separator.lastIndex--;
-        }
+        lastIndex = match.index + match[0].length; // `separator.lastIndex` is not reliable cross-browser
 
-        if (separator.lastIndex > lastLastIndex)
-        {
-          /* Fix IE to return undefined for non-participating capturing groups (NPCGs). Although IE
-          incorrectly uses empty strings for NPCGs with the exec method, it uses undefined for NPCGs
-          with the replace method. Conversely, Firefox incorrectly uses empty strings for NPCGs with
-          the replace and split methods, but uses undefined with the exec method. Crazy! */
+        if (lastIndex > lastLastIndex) {
+          output.push(str.slice(lastLastIndex, match.index));
 
-          if (match.length > 1)
+          // fix browsers whose `exec` methods don't consistently return `undefined` for nonparticipating capturing groups
+          if (!compliantExecNpcg && match.length > 1) 
           {
-            match[0].replace(separator2, function()
-            {
-              for (var j=1; j<arguments.length-2; j++)
+            match[0].replace(separator2, function () {
+              for (var i = 1; i < arguments.length - 2; i++) 
               {
-                if (arguments[j] === undefined) {
-                  match[j] = undefined;
+                if (arguments[i] === undefined) {
+                  match[i] = undefined;
                 }
               }
             });
           }
 
-          output = output.concat(string.substring(lastLastIndex, match.index), (match.index === string.length ? [] : match.slice(1)));
-          lastLastIndex = separator.lastIndex;
+          if (match.length > 1 && match.index < str.length) {
+            Array.prototype.push.apply(output, match.slice(1));
+          }
+
+          lastLength = match[0].length;
+          lastLastIndex = lastIndex;
+
+          if (output.length >= limit) {
+            break;
+          }
         }
 
-        if (match[0].length === 0) {
-          separator.lastIndex++;
+        if (separator.lastIndex === match.index) {
+          separator.lastIndex++; // avoid an infinite loop
         }
       }
 
-      return (lastLastIndex === string.length) ?
-        (separator.test("") ? output : output.concat("")) :
-        (limit ? output : output.concat(string.substring(lastLastIndex)));
+      if (lastLastIndex === str.length) 
+      {
+        if (lastLength || !separator.test("")) {
+          output.push("");
+        }
+      } else {
+        output.push(str.slice(lastLastIndex));
+      }
+
+      return output.length > limit ? output.slice(0, limit) : output;
     }
   }
 });
