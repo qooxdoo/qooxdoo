@@ -112,6 +112,15 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       });
       addButton.addListener("execute", this._addFeed, this);
       this.__form.addButton(addButton);
+
+      //when pressing enter on textfields, try to add the feed
+      this.addListener("keypress", function(e) {
+        var target = e.getTarget(),
+        key = e.getKeyIdentifier();
+        if (target.constructor === qx.ui.form.TextField && key === "Enter") {
+          this._addFeed(e);
+        }
+      });
       
       // use a placeholder rendere to render the form
       this.add(new qx.ui.form.renderer.SinglePlaceholder(this.__form));
@@ -119,7 +128,8 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 
 
     /**
-     * Handles button clicks on 'Add' button
+     * Handles button clicks on 'Add' button or/and 
+     * pressing enter key on textfields
      *
      * @param e {qx.event.type.Event} Execute event
      */
