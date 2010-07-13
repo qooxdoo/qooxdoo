@@ -1099,6 +1099,9 @@ qx.Class.define("demobrowser.DemoBrowser",
             count++;
           }
         }
+        else if (qx.core.Variant.isSet("qx.contrib", "on")) {
+          continue;
+        }
 
         if (qx.core.Variant.isSet("qx.contrib", "off")) {
           if (folder.getChildren().length == 0) {
@@ -1116,7 +1119,18 @@ qx.Class.define("demobrowser.DemoBrowser",
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
-        } else {
+          if (qx.core.Variant.isSet("qx.contrib", "on")) {
+            folder.setOpen(true);
+          }
+        } 
+        else if (qx.core.Variant.isSet("qx.contrib", "on")) {
+          if (folder.getChildren().length > 0) {
+            folder.exclude();
+            folder.getParent().setOpen(false);
+            folder.getParent().exclude();
+          }
+        }
+        else {
           folder.exclude();
         }
       }
