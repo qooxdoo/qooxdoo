@@ -30,6 +30,7 @@
   "export" :
   [
     "api",
+    "api-data",
     "build",
     "build-data",
     "build-demo-jobs",

@@ -13,6 +13,7 @@
     /* default jobs - other standard jobs like source, build, ... are covered
        by normal app testing */
     "api",
+    //"api-data",
     "fix",
     "info",
     "inspector",

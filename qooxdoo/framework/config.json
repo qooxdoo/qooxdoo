@@ -14,6 +14,7 @@
   "export":
   [
     "api",
+    "api-data",
     //"build",
     "clean",
     "distclean",
@@ -166,6 +167,11 @@
     "api" :
     {
       "extend" : ["appconf::api"]
+    },
+
+    "api-data" :
+    {
+      "extend" : ["appconf::api-data"]
     },
 
     "clean" :

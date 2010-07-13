@@ -11,6 +11,7 @@
   "export" :
   [
     "api",
+    "api-data",
     "build",
     "clean",
     "distclean",
