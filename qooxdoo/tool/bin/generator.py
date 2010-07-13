@@ -69,6 +69,14 @@ def getUserConfig(config):
 
     return config
 
+def getAdditonalArgs(config, args):
+    if len(args):
+        globallet = config.get("let", {})
+        globallet[u"ARGS"] = args
+        config.set("let", globallet)
+
+    return config
+
 
 def main():
     global options
@@ -136,6 +144,9 @@ Arguments:
 
     # Load user configuration (preferences)
     config = getUserConfig(config)
+
+    # Insert remaining command line args
+    config = getAdditonalArgs(config, args[1:])
 
     # Early check for log filter -- doesn't work as there is no job selected yet
     #console.setFilter(config.get("log/filter/debug", []))
