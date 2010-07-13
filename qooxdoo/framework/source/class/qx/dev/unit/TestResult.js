@@ -187,18 +187,27 @@ qx.Class.define("qx.dev.unit.TestResult",
           }
 
         } else if (ex.classname == "qx.core.AssertionError") {
-          test.tearDown();
+          try {
+            test.tearDown();
+          } catch(ex) {}
           this.__createError("failure", ex, test);
         } else {
-          test.tearDown();
+          try {
+            test.tearDown();
+          } catch(ex) {}
           this.__createError("error", ex, test);
         }
       }
 
       if (!error)
       {
-        test.tearDown();
-        this.fireDataEvent("endTest", test);
+        try {
+          test.tearDown();
+          this.fireDataEvent("endTest", test);
+        } catch(ex) {
+          var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
+          this.__createError("error", qxEx, test);
+        }
       }
     },
 
