@@ -54,6 +54,7 @@
 
   "jobs"  :
   {
+
     "api" :
     {
       "desc"   : "create api doc for the current library",
@@ -67,6 +68,22 @@
         "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"]
       }
     },
+
+
+    "api-data" : 
+    {
+      "desc"   : "create api doc json data files",
+
+      "extend" : ["libraries", "apiconf::build-data"],
+
+      "let"    :
+      {
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
+        "BUILD_PATH"     : "${ROOT}/api",
+        "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"]
+      }
+    },
+
 
     "inspector":
     {
@@ -82,6 +99,7 @@
 
       "=run" : ["inspector-resources", "inspector-script", "inspector-files"]
     },
+
 
     "inspector-resources":
     {

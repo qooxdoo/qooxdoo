@@ -657,10 +657,12 @@ class Generator(object):
         if not apiPath:
             return
 
-        classList = classListProducer()
-        apiPath   = self._config.absPath(apiPath)
+        apiPath         = self._config.absPath(apiPath)
+        self._apiLoader = ApiLoader(self._classesObj, self._docs, self._cache, self._console, )
 
-        self._apiLoader      = ApiLoader(self._classesObj, self._docs, self._cache, self._console, )
+        classList = self._job.get("let/ARGS", [])
+        if not classList:
+            classList = classListProducer()
 
         self._apiLoader.storeApi(classList, apiPath)
         
