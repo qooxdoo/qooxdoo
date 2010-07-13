@@ -51,16 +51,13 @@ class Repository:
     self.libraries = self.getLibraries(manifests)
     
   def hasExplicitIncludes(self):
-    explicit = False
     for (key, value) in self.validator.config["libraries"]["include"].iteritems():
       if key == "*" or not "versions" in value:
         return False
       for ver in value["versions"]:
         if ver == "*":
             return False
-        else:
-          explicit = True
-    return explicit
+    return True
   
   def getExplicitManifests(self):
     manifests = []
@@ -82,6 +79,11 @@ class Repository:
     
     for root, dirs, files in filetool.walk(self.dir, topdown=True):
       for dir in dirs:
+        
+        if dir == "qooxdoo" or dir == "demo":
+          dirs.remove(dir)
+          continue
+        
         path = os.path.join(root,dir)
         manifestPath = os.path.join(path, "Manifest.json")
         
