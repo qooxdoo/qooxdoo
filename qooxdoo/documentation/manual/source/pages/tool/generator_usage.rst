@@ -102,7 +102,7 @@ This gives you a list of all jobs available through your current config file, ma
 
 ::
 
-  - api          -- create api doc for the current library
+    - api          -- create api doc for the current library
     - build        -- create build version of current application
     - clean        -- remove local cache and generated .js files (source/build)
     - distclean    -- remove the cache and all generated artefacts of this library (source, build, ...)
