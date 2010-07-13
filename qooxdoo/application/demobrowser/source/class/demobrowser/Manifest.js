@@ -32,7 +32,10 @@ qx.Class.define("demobrowser.Manifest", {
   {
     this.base(arguments);
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-    this.__container.setPadding(10);
+    this.__container.set({
+      padding: 10,
+      decorator: "main"
+    });
     this.add(this.__container);
     if (manifestData) {
       this.setManifestData(manifestData);
