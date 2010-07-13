@@ -30,6 +30,18 @@ Create api doc for the current library. Use the following macros to tailor the s
 
 The syntax for the class pattern is like those for the :ref:`include <pages/tool/generator_config_ref#include>` config key.
 
+.. _pages/tool/generator_default_jobs#api-data:
+
+api-data
+--------
+Create the api data for the current library. This is included in the :ref:`api <pages/tool/generator_default_jobs#api>` job, but allows you to re-generate the api data *.json* files for the classes without re-generating the Apiviewer application as well. Moreover, you can supply class names as command line arguments to only re-generate the api data for those:
+
+::
+
+    sh> generate.py api-data my.own.ClassA ...
+
+Beware though that in such a case the tree information provided to the Apiviewer (i.e. what you see in the Apiviewer's tree view on the left) is also restricted to those classes (augmented by stubs for their ancestors for hierarchy resolution). But this should be fine for developing API documenation for specific classes.
+
 .. _pages/tool/generator_default_jobs#build:
 
 build
