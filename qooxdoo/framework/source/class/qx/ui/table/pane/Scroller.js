@@ -1365,10 +1365,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           var sortCol = tableModel.getSortColumnIndex();
           var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
 
-          var data = {
-            column : col,
-            ascending : ascending
-          };
+          var data = 
+            {
+              column     : col,
+              ascending  : ascending,
+              clickEvent : e
+            };
 
           if (this.fireDataEvent("beforeSort", data, null, true))
           {
