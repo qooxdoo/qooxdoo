@@ -99,19 +99,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     if (qx.core.Variant.isSet("qx.contrib", "on"))
     {
-      var versionComposite = new qx.ui.container.Composite();
-      versionComposite.setLayout(new qx.ui.layout.HBox(3));
-      leftComposite.add(versionComposite);
-      var versionLabel = new qx.ui.basic.Label("Compatible with: ")
-      versionLabel.setPadding(4, 5, 0, 2);
-      versionComposite.add(versionLabel);
-
-      this.__versionSelect = new qx.ui.form.SelectBox();
-      versionComposite.add(this.__versionSelect,{flex: 1});
-
-      var itemAll = new qx.ui.form.ListItem("Any qooxdoo version");
-      itemAll.setModel(null);
-      this.__versionSelect.add(itemAll);
+      this.__makeVersionSelect(leftComposite);
     }
 
     // search
@@ -132,13 +120,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     }, this);
     searchComposlite.add(this.__searchTextField, {flex: 1});
 
-    if (qx.core.Variant.isSet("qx.contrib", "on")) {
-      this.__versionSelect.addListener("changeSelection", function(ev) {
-        this.__versionFilter = ev.getData()[0].getModel();
-        this.filter(this.__searchTextField.getValue() || "");
-      }, this);
-    }
-
     // create the status of the tree
     this.__status = new qx.ui.basic.Label("");
     this.__status.setAppearance("widget");
@@ -155,12 +136,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     if (qx.core.Variant.isSet("qx.contrib", "on")) {
       this.__demoView = demoView;
-      this.__demoStack = new qx.ui.container.Stack();
-      this.__infoView = new demobrowser.Manifest();
-      this.__readmeView = new demobrowser.Readme();
-      this.__demoStack.add(this.__demoView);
-      this.__demoStack.add(this.__infoView);
-      this.__demoStack.add(this.__readmeView);
+      this.__demoStack = this.__makeDemoStack(demoView);
       infosplit.add(this.__demoStack, 2);
     } else {
       infosplit.add(demoView, 2);
@@ -279,11 +255,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     __themePart : null,
     __themeMenu : null,
     __menuBar : null,
-    __versionSelect : null,
-    __infoView : null,
-    __readmeView : null,
-    __demoView : null,
-    __demoStack : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -688,25 +659,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       var treeNode = this.tree.getSelection()[0];
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        if (modelNode) {
-          if (modelNode.manifest) {
-            this.__infoView.setManifestData(modelNode.manifest);
-            this.__demoStack.setSelection([this.__infoView]);
-          }
-          else if (modelNode.readme) {
-            this.__readmeView.setTitle(treeNode.getLabel());
-            this.__readmeView.setReadmeData(modelNode.readme);
-            this.__demoStack.setSelection([this.__readmeView]);
-          }
-          else {
-            this.__demoStack.setSelection([this.__demoView]);
-          }
-        }
-        else {
-          this.__demoStack.setSelection([this.__demoView]);
-        }
-      }
     },
 
 
@@ -844,19 +796,14 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        this.__demoStack.setSelection([this.__demoView]);
-      }
-      else {
-        // If the button was clicked, decide what to play based on tree selection
-        if (e && e.getType() === "execute") {
-          if (this.tests.selected === "") {
-            this.setPlayDemos("all");
-          } else if (this.tests.selected.indexOf("html") > 0) {
-            this.setPlayDemos("current");
-          } else {
-            this.setPlayDemos("category");
-          }
+      // If the button was clicked, decide what to play based on tree selection
+      if (e && e.getType() === "execute") {
+        if (this.tests.selected === "") {
+          this.setPlayDemos("all");
+        } else if (this.tests.selected.indexOf("html") > 0) {
+          this.setPlayDemos("current");
+        } else {
+          this.setPlayDemos("category");
         }
       }
 
@@ -865,10 +812,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
-        // contribDemobrowser has an additional hierarchy level
-        if (qx.core.Variant.isSet("qx.contrib", "on")) {
-          file = file.replace(".", "/");
-        }
         this.setCurrentSample(file);
       } else {
         this.playNext();
@@ -1292,7 +1235,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     /**
-     * TODOC
+     * Plays the sample preceding the currently selected tree node
      *
      * @param e {Event} TODOC
      * @return {void}
@@ -1304,20 +1247,22 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        if (currSamp.getUserData('modelLink').getPrevSibling()) {
-          var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
-
-          if (otherSamp) {
-            this.tree.setSelection([otherSamp]);
-            this.runSample();
-          }
+        var otherSamp = this.tree.getPreviousNodeOf(currSamp);
+        if (!otherSamp) {
+          return;
         }
+        
+        if (otherSamp.getParent() == this.tree.getRoot()) {
+          otherSamp = this.tree.getPreviousNodeOf(otherSamp);
+        }
+        this.tree.setSelection([otherSamp]);
+        this.runSample();
       }
     },
 
     
     /**
-     * TODOC
+     * Plays the sample following the currently selected tree node
      *
      * @param e {Event} TODOC
      * @return {void}
@@ -1330,6 +1275,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
+        if (currSamp == this.tree.getRoot()) {
+          currSamp = currSamp.getChildren()[0];
+        }
+        
         try {
           // If a folder is selected, get its first child
           var otherSamp = currSamp.getUserData('modelLink').getChildren()[0].widgetLinkFull;
@@ -1344,7 +1293,7 @@ qx.Class.define("demobrowser.DemoBrowser",
                 // Get the following folder's first child
                 var tree = currSamp.getTree();
 
-                var nextFolder = tree.getNextSiblingOf(currSamp);
+                var nextFolder = tree.getNextNodeOf(currSamp);
                 nextFolder.setOpen(true);
 
                 var otherSamp = nextFolder.getChildren()[0];
@@ -1544,60 +1493,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.add(version);
 
       return header;
-    },
-
-    /**
-     * Add a demo's "qxVersion" tags to the list of version tags
-     *
-     * @param tagList {Array} A tree node's tags
-     */
-    __getVersionTags : qx.core.Variant.select("qx.contrib",
-    {
-      "on" : function(tagList)
-      {
-        if (!this.__versionTags) {
-          this.__versionTags = {};
-        }
-        for (var i=0,l=tagList.length; i<l; i++) {
-          var tag = tagList[i];
-          if (tag.indexOf("qxVersion") == 0) {
-            if (!(tag in this.__versionTags)) {
-              this.__versionTags[tag] = "";
-            }
-          }
-        }
-      },
-
-      "off" : undefined
-    }),
-
-
-    /**
-     * Add an option for each version to the version select box
-     */
-    __getVersionItems : qx.core.Variant.select("qx.contrib",
-    {
-      "on" : function()
-      {
-        var versions = [];
-        for (var tag in this.__versionTags) {
-          versions.push(tag.substr(tag.indexOf("_") + 1) );
-        }
-        versions.sort();
-        versions.reverse();
-
-        for (var i=0,l=versions.length; i<l; i++) {
-          var li = new qx.ui.form.ListItem(versions[i]);
-          li.setModel("qxVersion_" + versions[i]);
-          this.__versionSelect.add(li);
-        }
-      },
-
-      "off" : undefined
-    })
+    }
 
   },
-
 
 
 
@@ -1616,9 +1514,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
-      "__viewPart", "viewGroup", "__menuBar", "infosplit", "__versionSelect",
-      "__searchTextField", "__status", "__tree", "__iframe", "__demoView",
-      "__demoStack", "__infoView", "__readmeView", "__menuElements",
-      "__logSync", "__versionTags");
+      "__viewPart", "viewGroup", "__menuBar", "infosplit", "__searchTextField", 
+      "__status", "__tree", "__iframe", "__demoView", "__menuElements", 
+      "__logSync");
   }
 });
