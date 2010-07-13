@@ -87,21 +87,20 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     var infosplit = new qx.ui.splitpane.Pane("horizontal");
     infosplit.setDecorator(null);
-    this.infosplit = infosplit;
+    this._infosplit = infosplit;
 
     this.add(mainsplit, {flex : 1});
 
     // tree side
-    var leftComposite = new qx.ui.container.Composite();
+    var leftComposite = this._leftComposite = new qx.ui.container.Composite();
     leftComposite.setLayout(new qx.ui.layout.VBox(3));
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
-    if (qx.core.Variant.isSet("qx.contrib", "on"))
-    {
-      this.__makeVersionSelect(leftComposite);
+    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      this._makeVersionSelect();
     }
-
+    
     // search
     var searchComposlite = new qx.ui.container.Composite();
     searchComposlite.setLayout(new qx.ui.layout.HBox(3));
@@ -111,14 +110,14 @@ qx.Class.define("demobrowser.DemoBrowser",
     var searchIcon = new qx.ui.basic.Image("icon/16/actions/edit-find.png");
     searchComposlite.add(searchIcon);
 
-    this.__searchTextField = new qx.ui.form.TextField();
-    this.__searchTextField.setLiveUpdate(true);
-    this.__searchTextField.setAppearance("widget");
-    this.__searchTextField.setPlaceholder("Filter...");
-    this.__searchTextField.addListener("changeValue", function(e) {
+    this._searchTextField = new qx.ui.form.TextField();
+    this._searchTextField.setLiveUpdate(true);
+    this._searchTextField.setAppearance("widget");
+    this._searchTextField.setPlaceholder("Filter...");
+    this._searchTextField.addListener("changeValue", function(e) {
       this.filter(e.getData());
     }, this);
-    searchComposlite.add(this.__searchTextField, {flex: 1});
+    searchComposlite.add(this._searchTextField, {flex: 1});
 
     // create the status of the tree
     this.__status = new qx.ui.basic.Label("");
@@ -132,14 +131,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__tree = this.__makeTree();
     leftComposite.add(this.__tree, {flex: 1});
 
-    var demoView = this.__makeDemoView();
-
-    if (qx.core.Variant.isSet("qx.contrib", "on")) {
-      this.__demoView = demoView;
-      this.__demoStack = this.__makeDemoStack(demoView);
-      infosplit.add(this.__demoStack, 2);
-    } else {
-      infosplit.add(demoView, 2);
+    this._demoView = this.__makeDemoView();
+    
+    if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      infosplit.add(this._demoView, 2);
     }
 
     var htmlView = this.__makeHtmlCodeView();
@@ -244,17 +239,19 @@ qx.Class.define("demobrowser.DemoBrowser",
     __logDone : null,
     __tree : null,
     __status : null,
-    __searchTextField : null,
+    _searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
     __menuElements : null,
-    __versionFilter : null,
-    __versionTags : null,
+    _versionFilter : null,
     __sobutt : null,
     __viewPart : null,
     __themePart : null,
     __themeMenu : null,
     __menuBar : null,
+    _leftComposite : null,
+    _infosplit : null,
+    _demoView : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -738,7 +735,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             if (qx.core.Variant.isSet("qx.contrib", "on")) {
               if (currNode.tags) {
                 t.setUserData("tags", currNode.tags);
-                that.__getVersionTags(currNode.tags);
+                that._getVersionTags(currNode.tags);
               }
             }
 
@@ -778,7 +775,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       buildSubTree(this.tree.getRoot(), ttree);
 
       if (qx.core.Variant.isSet("qx.contrib", "on")) {
-        this.__getVersionItems();
+        this._getVersionItems();
       }
 
       if (_initialNode != null) {
@@ -1034,7 +1031,7 @@ qx.Class.define("demobrowser.DemoBrowser",
                 break;
               }
             }
-            else if (!this.__versionFilter || tags[j] == this.__versionFilter) {
+            else if (!this._versionFilter || tags[j] == this._versionFilter) {
               selectedVersion = true;
             }
           }
@@ -1514,8 +1511,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
-      "__viewPart", "viewGroup", "__menuBar", "infosplit", "__searchTextField", 
-      "__status", "__tree", "__iframe", "__demoView", "__menuElements", 
-      "__logSync");
+      "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField", 
+      "__status", "__tree", "__iframe", "_demoView", "__menuElements", 
+      "__logSync", "_leftComposite", "_demoView");
   }
 });
