@@ -19,6 +19,13 @@
 
 ************************************************************************ */
 
+/**
+ * Primitives for building trees and tree nodes.
+ *
+ * The methods in this mixin are included directly in the SimpleTreeDataModel
+ * but are also useful for other types of trees (not TreeVirtual) that need
+ * similar tree and node creation.
+ */
 qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
 {
   statics :
