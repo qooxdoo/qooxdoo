@@ -54,7 +54,7 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
      * @param label {String}
      *   The string to display as the label for this node
      *
-     * @param bOpened {Integer}
+     * @param bOpened {Boolean}
      *   <i>true</i> if the tree should be rendered in its opened state;
      *   <i>false</i> otherwise.
      *
