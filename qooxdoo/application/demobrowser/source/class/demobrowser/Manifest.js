@@ -19,6 +19,8 @@
 
 /* ************************************************************************
 
+#asset(qx/icon/Tango/22/actions/media-playback-start.png)
+
 ************************************************************************ */
 
 /**
@@ -52,6 +54,7 @@ qx.Class.define("demobrowser.Manifest", {
   members : {
 
     __container : null,
+    __runButton : null,
 
     _applyManifestData : function(value, old)
     {
@@ -65,6 +68,11 @@ qx.Class.define("demobrowser.Manifest", {
         this._loadManifest(value);
       }
 
+      // If there is a run button, it will be recycled
+      try {
+        this.__container.remove(this.__runButton);
+      } catch(ex) {}
+      // everything else is replaced
       var kids = this.__container.getChildren();
       while (kids.length > 0) {
         kids[0].destroy();
@@ -84,6 +92,10 @@ qx.Class.define("demobrowser.Manifest", {
       this.__container.add(nameLabel);
 
       this.__container.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
+      
+      if (value.isPlayable) {
+        this.__container.add(this._getRunButton());
+      }
     },
 
     _getGroupBox : function(title, infoList)
@@ -126,6 +138,21 @@ qx.Class.define("demobrowser.Manifest", {
       }
 
       return container;
+    },
+    
+    _getRunButton : function()
+    {
+      if (this.__runButton) {
+        return this.__runButton;
+      }
+      var runButton = new qx.ui.form.Button("Run Demo", "icon/22/actions/media-playback-start.png");
+      runButton.setAllowGrowX(false);
+      runButton.addListener("execute", function(ev) {
+        qx.core.Init.getApplication().viewer.runSample();
+      }, this);
+      this.__runButton = runButton;
+      
+      return runButton;
     },
 
     _getKeyVal : function(key, value)
@@ -199,7 +226,7 @@ qx.Class.define("demobrowser.Manifest", {
 
   destruct : function()
   {
-    this._disposeObjects("__container");
+    this._disposeObjects("__container", "__runButton");
   }
 
 });
