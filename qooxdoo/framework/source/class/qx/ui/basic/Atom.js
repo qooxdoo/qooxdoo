@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
-    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    /** Any URI String supported by qx.ui.basic.Image to display an icon */
     icon :
     {
       check : "String",
