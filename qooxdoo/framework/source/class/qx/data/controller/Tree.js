@@ -851,7 +851,7 @@ qx.Class.define("qx.data.controller.Tree",
         return;
       }
       // do nothing it the delegate function has not changed
-      if (old && old.createItem && value && value.createItem && old.createItem == value.createTtem) {
+      if (old && old.createItem && value && value.createItem && old.createItem == value.createItem) {
         return;
       }
       this._startSelectionModification();
