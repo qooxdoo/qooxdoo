@@ -239,6 +239,32 @@ qx.Class.define("qx.test.ui.table.Table",
 
       mouse.dispose();
       table.dispose();
+    },
+    
+    
+    testScrollAfterScrollbarVisibilityChange : function() 
+    {
+      var rowData = [];
+      for (var row = 0; row < 15; row++) {
+        rowData.push([ row ]);
+      }
+
+      var tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns(["ID"]);
+      tableModel.setData(rowData);
+      var table = new qx.ui.table.Table(tableModel).set({width: 200, height: 200});
+      this.getRoot().add(table);
+
+      qx.ui.core.queue.Manager.flush();
+
+      // scroll to the end
+      table.getPaneScroller(0).setScrollY(100);
+      // resize the first column to show a vertical scrollbar
+      table.getTableColumnModel().setColumnWidth(0, 300);
+      // resize back
+      table.getTableColumnModel().setColumnWidth(0, 100);
+      // check that the table is not scrolled back to the top
+      this.assertEquals(100, table.getPaneScroller(0).getScrollY());
     }
   }
 });
