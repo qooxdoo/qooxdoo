@@ -400,6 +400,60 @@ qx.Class.define("qx.test.util.Serializer",
         this.__s.toNativeObject(this.__model, qxSerializer));
 
       item.dispose();
+    },
+    
+    
+    
+    /* ******************************
+     * DATE FORMATER
+     * **************************** */
+     
+    __setUpDateModel : function() {
+      var formater = new qx.util.format.DateFormat("YYYY-mm-dd", "en");
+      var date1 = new Date(0);
+      var date2 = new Date(100000);
+      var date3 = new Date(25168418651);
+      this.__model.setData1(date1);
+      this.__model.setData2(date2);
+      this.__model.setData3(date3);
+      return formater;
+    },
+    
+    testDateFormaterNative : function() {
+      var formater = this.__setUpDateModel();  
+      
+      this.assertJsonEquals(
+        {
+          "data1" : "1970-00-01",
+          "data2" : "1970-01-01",
+          "data3" : "1970-13-19"
+        },
+        this.__s.toNativeObject(this.__model, null, formater)
+      );
+        
+      formater.dispose();       
+    },
+    
+    testDateFormaterJson : function() {
+      var formater = this.__setUpDateModel();
+      
+      this.assertEquals(
+        '{"data1":"1970-00-01","data2":"1970-01-01","data3":"1970-13-19"}', 
+        this.__s.toJson(this.__model, null, formater)
+      );
+      
+      formater.dispose();       
+    },
+    
+    testDateFormaterUrl : function() {
+      var formater = this.__setUpDateModel();
+      
+      this.assertEquals(
+        "data1=1970-00-01&data2=1970-01-01&data3=1970-13-19", 
+        this.__s.toUriParameter(this.__model, null, formater)
+      );
+      
+      formater.dispose();
     }
   }
 });
