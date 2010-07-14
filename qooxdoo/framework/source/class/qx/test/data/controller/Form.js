@@ -395,12 +395,15 @@ qx.Class.define("qx.test.data.controller.Form",
       // add the selectBox to the form
       this.__form.add(selectBox, "sb");
 
+      // select something which is not the default selection
+      selectBox.setSelection([i2]);
+      
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
 
       // check the init value of the model selection
-      this.assertEquals("1", model.getSb());
+      this.assertEquals("2", model.getSb());
 
       // set the selection
       selectBox.setSelection([i1]);
