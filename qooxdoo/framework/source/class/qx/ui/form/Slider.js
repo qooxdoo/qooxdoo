@@ -152,6 +152,7 @@ qx.Class.define("qx.ui.form.Slider",
       check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
+      event : "changeValue",
       nullable: true
     },
 
@@ -213,34 +214,7 @@ qx.Class.define("qx.ui.form.Slider",
       check : "Number",
       apply : "_applyKnobFactor",
       nullable : true
-    },
-
-
-    /**
-     * Enabling this propert will cause the change event only fired 50% of
-     * the time which is ok for scrolling and speeds up the scrolling.
-     *
-     * @internal
-     */
-    useAsScrollbar : {
-      check : "Boolean",
-      init : false
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-
-  events : {
-    /**
-     * Fired on change of the property {@link #value}.
-     */
-    changeValue: 'qx.event.type.Data'
   },
 
 
@@ -261,8 +235,6 @@ qx.Class.define("qx.ui.form.Slider",
     __trackingDirection : null,
     __trackingEnd : null,
     __timer : null,
-
-    __nextValueEvent: 0,
 
 
     // overridden
@@ -1004,20 +976,7 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyValue : function(value, old) {
       if (value != null) {
-          this._updateKnobPosition();
-          if (this.getUseAsScrollbar()) {
-          // moderate ourselfes in firering events only spend
-          // a maximum of 50% of the time processing the event handlers
-          var start = new Date().getTime();
-          if (start > this.__nextValueEvent)
-          {
-            this.fireEvent('changeValue',qx.event.type.Data,[value, old]);
-            var duration = new Date().getTime() - start;
-            this.__nextValueEvent = start + duration * 2;
-          }
-        } else {
-          this.fireEvent('changeValue',qx.event.type.Data,[value, old]);
-        }
+        this._updateKnobPosition();
       } else {
         this.resetValue();
       }
