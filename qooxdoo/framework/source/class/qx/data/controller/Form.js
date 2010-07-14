@@ -166,7 +166,9 @@ qx.Class.define("qx.data.controller.Form",
             // check if the target is a selection
             var clazz = items[name].constructor;
             if (qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection)) {
-              currentData[names[i]] = items[name].getModelSelection();
+              // use the first element of the selection because passed to the
+              // marshaler (and its single selection anyway) [BUG #3514]
+              currentData[names[i]] = items[name].getModelSelection().getItem(0);
             } else {
               currentData[names[i]] = items[name].getValue();
             }
