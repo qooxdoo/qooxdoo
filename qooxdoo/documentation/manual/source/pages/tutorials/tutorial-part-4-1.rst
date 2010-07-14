@@ -12,7 +12,7 @@ Before we get started, make sure you're working on the version of the Twitter tu
 The plan
 ========
 
-We want to create a new window with user name and password fields that pops up when the user clicks the "post" button. Provided the fields aren't empty, their values should be used in the YQL request that posts the Tweet. Seems simple enough, so let's get right down to business.
+We want to create a new window with user name and password fields that pops up when the Twitter application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
 
 .. _pages/tutorials/tutorial-part-4-1#creating_the_login_window:
 
@@ -117,40 +117,62 @@ Then we add a listener to the submit button that retrieves the values from the m
     }
   }, this);
 
-And that's it for the LoginWindow class. Now to integrate it with the other parts of the application. ``TwitterService.post`` currently uses ``prompt()`` to ask for the user name and password, so we'll remove these two lines. Instead, we add two new arguments to the method:
+Tying it all together
+=====================
+
+Now to integrate the login window with the other parts of the application. Twitter's friends timeline uses .htaccess for authentication so we can add the login details to the request sent by ``TwitterService.fetchTweets()``:
 
 ::
 
-  post : function(message, username, password)
-
-The ``post()`` method is called from the main application class, so let's take another look at Application.js. We want to display the login window before posting, so we'll modify the "post" event listener's callback function (line 79). We need to create an instance of ``twitter.LoginWindow`` and attach a listener to its "changeLoginData" event which calls service.post() with the username and password values from the event data. We also want to make sure that only one LoginWindow instance is used during the application's runtime. This is a good idea because creating and disposing widgets is quite expensive in terms of CPU time. In our application, it also means users won't have to retype their login data for every post.
+  fetchTweets : function(username, password) {
+    if (this.__store == null) {
+      var login = "";
+      if (username != null) {
+        login = username + ":" + password + "@";
+      }
+      var url = "http://" + login + "twitter.com/statuses/friends_timeline.json";
+      this.__store = new qx.data.store.Jsonp(url, null, "callback");        
+      this.__store.bind("model", this, "tweets");
+    } else {
+      this.__store.reload();
+    }
+  },
 
 ::
 
-  // post handling
-  main.addListener("post", function(e) {
-    var msg = e.getData();
-    if (!this.__loginWindow) {
-      this.__loginWindow = new twitter.LoginWindow();
-      this.__loginWindow.addListener("changeLoginData", function(ev) {
-        var loginData = ev.getData();
-        service.post(msg, loginData.username, loginData.password);
-      });
-      this.__loginWindow.moveTo(320,30);
-      this.__loginWindow.open();
-    }
-    else {
-      this.__loginWindow.open();
-    }
-  }, this);
+All that's left is to show the login window when the application is started and call ``fetchTweets`` with the information from the ``changeLoginData`` event.
+In the main application class, we'll create an instance of twitter.LoginWindow, position it next to the MainWindow and open it:
+
+::
+
+  this.__loginWindow = new twitter.LoginWindow();
+  this.__loginWindow.moveTo(320,30);
+  this.__loginWindow.open();
+
+::
+
+And finally, we'll attach a listener to ``changeLoginData``:
+
+::
+
+  this.__loginWindow.addListener("changeLoginData", function(ev) {
+    var loginData = ev.getData();
+    service.fetchTweets(loginData.username, loginData.password);   
+  });
+
+::
+
+Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By making the login window modal, we've made sure the first call, which creates the store, contains the login data. Any subsequent calls (i.e. after reloading or posting an update) will use the same store so they won't need the login details.
 
 OK, time to run ``generate.py source`` and load the application in a browser to make sure everything works like it's supposed to.
+
 
 |Twitter client application with login window|
 
 .. |Twitter client application with login window| image:: /pages/tutorials/step41.png
 
 Twitter client application with login window
+
 
 And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-1-Forms>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
 
