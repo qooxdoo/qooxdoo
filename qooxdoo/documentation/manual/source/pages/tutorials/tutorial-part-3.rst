@@ -206,10 +206,8 @@ Posting tweets
 
 As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But I will give you some hints so it does not take that much time for you.
 
-* twitter does not offer a JSONP API for posting tweets. Thats why you should use YQL for that. They have a `blog post <http://developer.yahoo.net/blog/archives/2009/07/yql_insert.html>`_ on how to use YQL to post on twitter.
-* YQL uses HTTPS.
-* Use the easiest input forms available in JavaScript (``prompt``) to get the additionally data you need. Its about the data access layer and not the UI!
-* Clear the text area and reload the tweets after you send the post. That should be enough feedback that the posting worked.
+* twitter does only offer an OAuth authentification. Don't make your self too much work by implementing the whole OAuth thing.
+* Tweets can be set to twitters web view by just giving a decoded parameter to the URL: `http://twitter.com/?status=123 <http://twitter.com/?status=123>`_
 
 That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <http://github.com/wittemann/qooxdoo-tutorial/tree/Step3>`_ or fork the project.
 
