@@ -90,7 +90,7 @@ class TreeCompiler(object):
         length = len(classes)
         
         for pos, classId in enumerate(classes):
-            self._console.progress(pos, length)
+            self._console.progress(pos + 1, length)
             content += self.getCompiled(classId, variants, optimize, format)
             
         return content
