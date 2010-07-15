@@ -172,7 +172,7 @@ class Log(object):
 
         # starts normally at null, but this is not useful here
         # also the length is normally +1 the real size
-        pos += 1
+        #pos += 1  # -- bogus!
 
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length
