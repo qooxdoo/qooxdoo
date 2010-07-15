@@ -105,6 +105,18 @@ qx.Class.define("qx.ui.form.Slider",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events : {
+    /**
+     * Change event for the value.
+     */
+    changeValue: 'qx.event.type.Data'
+  },
 
 
   /*
@@ -152,7 +164,6 @@ qx.Class.define("qx.ui.form.Slider",
       check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
-      event : "changeValue",
       nullable: true
     },
 
@@ -236,6 +247,10 @@ qx.Class.define("qx.ui.form.Slider",
     __trackingEnd : null,
     __timer : null,
 
+    // event delay stuff during drag
+    __dragTimer: null,
+    __lastValueEvent: null,
+    __dragValue: null,
 
     // overridden
     /**
@@ -390,7 +405,12 @@ qx.Class.define("qx.ui.form.Slider",
       {
         // Switch into drag mode
         this.__dragMode = true;
-
+        if (!this.__dragTimer){
+          // create a timer to fire delayed dragging events if dragging stops.
+          this.__dragTimer = new qx.event.Timer(100);
+          this.__dragTimer.addListener("interval", this._fireValue, this);
+        }
+        this.__dragTimer.start();
         // Compute dragOffset (includes both: inner position of the widget and
         // cursor position on knob)
         this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
@@ -450,6 +470,12 @@ qx.Class.define("qx.ui.form.Slider",
 
         // Cleanup status flags
         delete this.__dragMode;
+
+        // as we come out of drag mode, make
+        // sure content gets synced
+        this.__dragTimer.stop();
+        this._fireValue();
+
         delete this.__dragOffset;
 
         // remove state
@@ -977,9 +1003,27 @@ qx.Class.define("qx.ui.form.Slider",
     _applyValue : function(value, old) {
       if (value != null) {
         this._updateKnobPosition();
+        if (this.__dragMode) {
+          this.__dragValue = [value,old];
+        } else {
+          this.fireEvent("changeValue", qx.event.type.Data, [value,old]);
+        }
       } else {
         this.resetValue();
       }
+    },
+
+
+    /**
+     * Helper for applyValue which fires the changeValue event.
+     */
+    _fireValue: function(){
+      if (!this.__dragValue){
+        return;
+      }
+      var tmp = this.__dragValue;
+      this.__dragValue = null;
+      this.fireEvent("changeValue", qx.event.type.Data, tmp);
     },
 
 
