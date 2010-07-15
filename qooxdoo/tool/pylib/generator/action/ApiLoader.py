@@ -86,7 +86,7 @@ class ApiLoader(object):
         packages = []
         hasErrors = False
         for pos, fileId in enumerate(include):
-            self._console.progress(pos, length)
+            self._console.progress(pos+1, length)
             fileApi = self.getApi(fileId)
             if fileApi == None:
                 hasErrors = True
