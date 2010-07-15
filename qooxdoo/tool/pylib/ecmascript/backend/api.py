@@ -1028,7 +1028,7 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 def addError(node, msg, syntaxItem):
-    # print ">>> %s" % msg
+    # print "+++ %s (%s:%s)" % (msg, node.type, node.get("name"))
 
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
