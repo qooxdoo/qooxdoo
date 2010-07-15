@@ -144,14 +144,24 @@ qx.Class.define("qx.data.marshal.Json",
 
       // create the properties map
       var properties = {};
+      var members = {};
       for (var key in data) {
         // stip the unwanted characters
         key = key.replace(/-/g, "");
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
+        // bubble events
         if (includeBubbleEvents) {
           properties[key].apply = "_applyEventPropagation";
+        }
+        // validation rules
+        if (this.__delegate && this.__delegate.getValidationRule) {
+          var rule = this.__delegate.getValidationRule(hash, key);
+          if (rule) {
+            properties[key].validate = "_validate" + key;
+            members["_validate" + key] = rule;
+          }
         }
       }
 
@@ -184,9 +194,10 @@ qx.Class.define("qx.data.marshal.Json",
       var newClass = {
         extend : superClass,
         include : mixins,
-        properties : properties
+        properties : properties,
+        members : members
       };
-
+      
       qx.Class.define("qx.data.model." + hash, newClass);
     },
 
