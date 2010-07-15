@@ -30,54 +30,10 @@
  */
 qx.Interface.define("qx.data.store.IStoreDelegate",
 {
+  extend : qx.data.marshal.IMarshalerDelegate,
+  
   members :
   {
-    /**
-     * Determines the user defined class for the given properties string.
-     * This class could contain additional methods but needs to have the
-     * properties with the given names. Also every property needs to have a
-     * change event.
-     *
-     * If this method is implemented, you have to add the superclass and mixins
-     * yourself to the returned class. This means that the methods
-     * {@link #getModelSuperClass} and {@link #getModelMixins} will not be
-     * called for the corresponding class.
-     *
-     * @param properties {String} A sorted order of propertynames
-     *   separated by ".
-     * @return {Class|null} Returns the class containing the properties
-     *   corresponding to the given hash of the properties. If <code>null</code>
-     *   will be returned, the store will create a class.
-     */
-    getModelClass : function(properties) {},
-
-
-    /**
-     * Returns the class which the created model class uses as superclass.
-     *
-     * @param properties {String} A sorted order of propertynames
-     *   separated by ".
-     * @return {Class|null} Returns the class which should be used as superclass
-     *   corresponding to the given hash of the properties. If <code>null</code>
-     *   will be returned, {@link qx.core.Object} will be used as superclass.
-     */
-    getModelSuperClass : function(properties) {},
-
-
-    /**
-     * Returns the mixins which should be included to the class, created by the
-     * store and identified by the given properties string.
-     *
-     * @param properties {String} A sorted order of propertynames
-     *   separated by ".
-     * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which
-     *   will be included into the given class identified by the properties
-     *   given in the parameter. If <code>null</code> will be returned, no mixin
-     *   will be included.
-     */
-    getModelMixins : function(properties) {},
-
-
     /**
      * This method manipulates the data from the request and returns the
      * manipulated data.
