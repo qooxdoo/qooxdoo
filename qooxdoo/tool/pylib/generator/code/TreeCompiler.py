@@ -152,7 +152,7 @@ class TreeCompiler(object):
 
         # go through classes, start individual compiles, collect results
         for pos, classId in enumerate(classes):
-            self._console.progress(pos, length)
+            self._console.progress(pos+1, length)
             contA[pos] = {}
             contA[pos][INCACHE] = False
             if len(processes) > maxproc:
@@ -210,7 +210,7 @@ class TreeCompiler(object):
         length = len(threads)
 
         for pos, t in enumerate(threads):
-            self._console.progress(pos, length)
+            self._console.progress(pos+1, length)
             t.join()
             
         content = u''
