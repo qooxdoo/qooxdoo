@@ -513,7 +513,7 @@ class CodeGenerator(object):
         self._console.info("Pretty-printing files: ", False)
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
-            self._console.progress(pos, numClasses)
+            self._console.progress(pos+1, numClasses)
             #tree = treeLoader.getTree(classId)
             tree = classesObj[classId].tree()
             compiled = compiler.compile(tree, options)

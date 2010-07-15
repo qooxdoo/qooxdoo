@@ -1731,7 +1731,7 @@ class Generator(object):
         eolStyle = fixsettings.get("eol-style", "LF")
         tabWidth = fixsettings.get("tab-width", 2)
         for pos, classId in enumerate(classes):
-            self._console.progress(pos, numClasses)
+            self._console.progress(pos+1, numClasses)
             classEntry   = self._classes[classId]
             filePath     = classEntry['path']
             fileEncoding = classEntry['encoding']
