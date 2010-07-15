@@ -73,8 +73,15 @@ qx.Class.define("qx.ui.tooltip.Manager",
       apply : "_applyCurrent"
     },
 
-    /** Flag that enabled the tooltips shown by invalid form fields. */
+    /** Flag that enables the tooltips shown by invalid form fields. */
     showInvalidTooltips :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+    /** Flag that enables all tooltips. */
+    showToolTips :
     {
       check : "Boolean",
       init : true
@@ -297,6 +304,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       if (target.isBlockToolTip()) {
         return;
+      }
+
+      // do nothing if tooltips are disabled and fields are valid
+      if (!this.isShowToolTips() && !invalidMessage) { 
+        return; 
       }
 
       // Set Property
