@@ -164,8 +164,8 @@ qx.Class.define("qx.event.handler.Application",
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
       {
-        // wrapp the call in try catch because e.g. bom applications don't
-        // have a application and no setting qx.application
+        // wrap the call in a try-catch because e.g. bom applications don't
+        // have an application and no qx.application setting
         try {
           // check if the application is already loaded. If not just don't fire 
           // the ready event [BUG #3793]
@@ -174,13 +174,13 @@ qx.Class.define("qx.event.handler.Application",
             return;
           }
         } catch (e) {
-          // its ok to ignore the error because if we don't find an application
+          // it's ok to ignore the error because if we don't find an application
           // we can fire the event
         }
 
-        // If qx is loaded within a frame IE the document is ready before
+        // If qooxdoo is loaded within a frame in IE, the document is ready before
         // the "ready" listener can be added. To avoid any startup issue check
-        // for the availibility of the "ready" listener before firing the event.
+        // for the availability of the "ready" listener before firing the event.
         // So at last the native "load" will trigger the "ready" event.
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.Application",
 
         if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit"))
         {
-          // Using most native method supported by Mozilla and Opera >= 9.0
+          // Using native method supported by Mozilla, Webkits and Opera >= 9.0
           qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
         }
         else if (qx.core.Variant.isSet("qx.client", "mshtml"))
