@@ -169,7 +169,7 @@ class Repository:
       return False
 
 
-  def buildAllDemos(self, demoVersion="build", demoBrowser=None, copyDemos=False):
+  def buildAllDemos(self, buildTarget="build", demoBrowser=None, copyDemos=False):
     if demoBrowser:
       demoBrowser = os.path.abspath(demoBrowser)
     console.info("Generating demos for all known libraries")
@@ -189,14 +189,14 @@ class Repository:
         
         versionData = {
           "classname" : versionName,
-          "tags" : [libraryName],
+          #"tags" : [libraryName],
           "tests" : [],
           "manifest" : version.getManifest()
         }
         
-        qooxdooVersions = version.getManifest()["info"]["qooxdoo-versions"]
-        for ver in qooxdooVersions:
-          versionData["tags"].append("qxVersion_" + ver)
+        qxVersions = version.getManifest()["info"]["qooxdoo-versions"]
+        #for ver in qxVersions:
+        #  versionData["tags"].append("qxVersion_" + ver)
         
         # getting the library's top-level readme here since we only have path
         # information for the library versions
@@ -218,42 +218,67 @@ class Repository:
         
         if not version.hasDemoDir:
           continue
-        
-        demoVariants = version.getDemoVariants()
-        if not demoVariants:
-          continue
-        
-        for variant in demoVariants:
-          # source/build dirs at this level means the demo has a non-standard structure
-          if variant == "source" or variant == "build":
-            continue
-          status = version.buildDemo(variant, demoVersion)
-          #DEBUG:
-          #status = {"buildError" : None}
-          if demoBrowser and not status["buildError"]:
+                
+        buildStatus = []
+        for variant in version.demos:
+          if buildTarget == "build":
+            #get the compatible qooxdoo versions of the library version
+            for qxVersion in qxVersions:
+              macro = {
+                "BUILD_PATH" : "./" + qxVersion,
+                "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
+              }
+              
+              status = variant.build("build", macro)
+              status["qxVersion"] = qxVersion
+              status["variant"] = variant.name
+              buildStatus.append(status)
+          else:
+            status = variant.build(buildTarget)
+            buildStatus.append(status)
+          
+          if demoBrowser:
             if copyDemos:
-              sourceDir = os.path.join(version.path, "demo", variant, demoVersion)
-              targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variant)
-              #self.copyDemo(sourceDir, targetDir)
-              copier = CopyTool()
-              copier.parse_args(["-u", sourceDir, targetDir])
-              copier.do_work()
-              self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser, local=True)
+              demoBrowserBase = os.path.split(demoBrowser)[0]
+              for demoStatus in buildStatus:
+                qxVersion = demoStatus["qxVersion"]
+                if demoStatus["buildError"]:
+                  console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(libraryName, versionName, variant.name, buildTarget, qxVersion))
+                  console.warn(demoStatus["buildError"])
+                  continue
+                sourceDir = os.path.join(version.path, "demo", variant.name, qxVersion)
+                targetDir = os.path.join(demoBrowser, "demo", libraryName, versionName, variant.name)
+                console.debug("Copying from %s to %s" %(sourceDir, targetDir))
+                copier = CopyTool()
+                copier.parse_args(["-u", sourceDir, targetDir])
+                copier.do_work()
+                
+                #self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion, local=True)
+                demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
+                demoData["manifest"] = version.getDemoManifest(variant.name)
+                versionData["tests"].append(demoData)
             else:
-              self.copyHtmlFile(libraryName, versionName, variant, demoVersion, demoBrowser)
+              self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowser)
+              demoData = self.getDemoData(libraryName, versionName, variant.name)
+              versionData["tests"].append(demoData)            
             
-            demoData = self.getDemoData(libraryName, versionName, variant)
-            demoData["manifest"] = version.getDemoManifest(variant)
-            versionData["tests"].append(demoData)
-            validDemo = True
-      
-      if validDemo:
+            #demoData["manifest"] = version.getDemoManifest(variant.name)
+            #if copyDemos:
+            #  demoData["manifest"]["linkedAgainst"] = []
+            #  for demoStatus in buildStatus:
+            #    if not demoStatus["buildError"]:
+            #      demoData["manifest"]["linkedAgainst"].append(demoStatus["qxVersion"])
+        
         libraryData["children"].append(versionData)
-        repositoryData.append(libraryData)
+    
+    repositoryData.append(libraryData)
 
     if demoBrowser:
       jsonData = demjson.encode(repositoryData, strict=False, compactly=False)
-      dbScriptDir = os.path.join(demoBrowser, demoVersion, "script")
+      dbTargetDir = os.path.join(demoBrowser)
+      if not os.path.isdir(dbTargetDir):
+        os.mkdir(dbTargetDir)
+      dbScriptDir = os.path.join(dbTargetDir, "script")
       if not os.path.isdir(dbScriptDir):
         os.mkdir(dbScriptDir)
       outPath = os.path.join(dbScriptDir, "demodata.json")
@@ -272,12 +297,12 @@ class Repository:
         libraryVersion.buildTestrunner(job)
   
   
-  def runGeneratorForAll(self, job, subPath=None, cwd=False):
+  def runGeneratorForAll(self, job, cwd=False):
     console.indent()
     for libraryName, library in self.libraries.iteritems():
       for versionName, libraryVersion in library.iteritems():
         console.info("Running job %s on %s %s..." %(job, libraryName, versionName))
-        ret, out, err = libraryVersion.runGenerator(job, subPath, cwd)
+        ret, out, err = libraryVersion.runGenerator(job, cwd)
         console.debug(out)
         if ret > 0:
           console.error(err)
@@ -287,7 +312,7 @@ class Repository:
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
   # modifying the demo_template.html file in the demobrowser's resource dir.
   # This file simply does a meta redirect to the generated demo. 
-  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser, local=False):    
+  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser, qxVersion, local=False):    
     #get some needed info from the demobrowser's manifest
     dbManifest = getDataFromJsonFile(os.path.join(demoBrowser, "Manifest.json"))
     dbResourcePath = dbManifest["provides"]["resource"]
@@ -296,14 +321,13 @@ class Repository:
     sourceFilePath = os.path.join(demoBrowser, dbResourcePath, dbNamespace, "demo_template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
     
-    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName)
-    
+    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variantName, qxVersion)
+    #build/demo/Dialog/trunk/default/1.1/index.html
     if not os.path.isdir(targetDir):
       os.makedirs(targetDir)
-    targetFilePath = os.path.join(targetDir, variantName +  ".html")
+    targetFilePath = os.path.join(targetDir, "index.html")
     console.info("Copying HTML file for demo %s %s %s %s to the demobrowser" %(libraryName,versionName,variantName,demoVersion))
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
-    
     demoPath = os.path.join( self.libraries[libraryName][versionName].path, "demo", variantName, demoVersion)
     # the demo's HTML file lives under source|build/demo/libraryName
     if local:
@@ -349,11 +373,12 @@ class Repository:
     return demoUrl
   
   
-  def getDemoData(self, library, version, variant):
+  def getDemoData(self, library, version, variant, qxVersion):
     demoDict = {
-      "name": variant + ".html",
+      "name": variant + "." + qxVersion + ".html",
       "nr": variant.capitalize(),
-      "title": library + " " + version + " " + variant
+      "title": library + " " + version + " " + variant,
+      "tags" : [ library, "qxVersion_" + qxVersion ]      
     }
 
     return demoDict
@@ -379,9 +404,12 @@ class LibraryVersion:
     self.versionName = versionName
     self.libraryName = libraryName
     self.path = path
-    
+        
     self.checkStructure()
-    self.demoVariants = self.getDemoVariants()
+    if self.hasDemoDir:
+      self.demos = self.getDemos()
+    else:
+      self.demos = []
     self.demoBuildStatus = {}
     
   
@@ -390,7 +418,6 @@ class LibraryVersion:
     self.demoVariants = []
     if os.path.isdir(os.path.join(self.path, "demo")):
       self.hasDemoDir = True
-      self.demoVariants = self.getDemoVariants()
     
     self.hasReadmeFile = False
     if os.path.isfile(os.path.join(self.path, "README")):
@@ -485,51 +512,34 @@ class LibraryVersion:
     return svnRevision
   
   
-  def getDemoVariants(self):
+  def getDemos(self):
     if not self.hasDemoDir:
       return False
     
-    demoVariants = []
+    demos = []
     demoPath = os.path.join(self.path, "demo")
     for root, dirs, files in filetool.walk(demoPath, topdown=True):
       for name in dirs:        
-        if root == demoPath and name[0] != ".":
-          demoVariants.append(name)
+        if root == demoPath and name[0] != "." and name != "source" and name != "build":
+          foundPath = os.path.join(demoPath, name)
+          foundDemo = Demo(name, foundPath, self)
+          demos.append(foundDemo)
     
-    return demoVariants
+    return demos
+
+
+class Demo:
+  def __init__(self, name, path, libraryVersion):
+    self.name = name
+    self.path = path
+    self.libraryVersion = libraryVersion
   
-  
-  def runGenerator(self, job, subPath=None):
-    if not self.hasGenerator:
-      raise Exception("%s %s has no generate.py script!" %(self.libraryName, self.versionName))
-    path = self.path
-    if subPath:
-      path = os.path.join(path, subPath)
-    startPath = os.getcwd()
-    os.chdir(path)
-    cmd = "python generate.py %s" %job
-    rcode, output, errout = shell.execute_piped(cmd)
-    os.chdir(startPath)
-    return (rcode,output,errout)
-  
-  
-  def buildDemo(self, demoVariant = "default", demoVersion = "build"):
+  def build(self, target="build", macro=None):
+    console.info("Generating %s version of demo variant %s for library %s version %s..." %(target, self.name, self.libraryVersion.libraryName, self.libraryVersion.versionName) )
     demoBuildStatus = {}
+        
     try:
-      demoBuildStatus["svnRevision"] = self.getSvnRevision()
-    except:
-      pass
-    
-    if not self.hasDemoDir:
-      msg = "Library %s version %s has no demo folder!" %(self.library.dir, self.dir)
-      console.error(msg)
-      demoBuildStatus["buildError"] = msg 
-      return demoBuildStatus
-    
-    console.info("Generating %s version of demo variant %s for library %s version %s..." %(demoVersion,demoVariant, self.libraryName, self.versionName) )
-    subPath = os.path.join("demo", demoVariant)
-    try:
-      rcode, output, errout = self.runGenerator(demoVersion, subPath)
+      rcode, output, errout = runGenerator(self.path, target, macro)
     except Exception, e:
       msg = "Error running generator: " + str(e)
       console.wite("")
@@ -539,8 +549,10 @@ class LibraryVersion:
     
     #some demos don't produce a qooxdoo application, so they're ignored
     #for the demobrowser
-    demoScriptPath = os.path.join(self.path, "demo", demoVariant, demoVersion, "script")
-    hasScriptDir = os.path.isdir(demoScriptPath)
+    #This no longer works since the output directory is now named after the qx
+    # version the demo was linked against
+    #demoScriptPath = os.path.join(self.path, target, "script")
+    #hasScriptDir = os.path.isdir(demoScriptPath)
     
     if rcode > 0:
       console.error(errout)
@@ -548,16 +560,30 @@ class LibraryVersion:
       if not errout:
         errout = "Unknown error"
       demoBuildStatus["buildError"] = errout
-    elif not hasScriptDir:
-      console.write("")
-      console.warn("No script directory created!")
-      demoBuildStatus["buildError"] = "No script directory created"
+    #elif not hasScriptDir:
+    #  console.write("")
+    #  console.warn("No script directory created!")
+    #  demoBuildStatus["buildError"] = "No script directory created"
     else:
-      console.write("Done.", "info")
+      #console.write("Done.", "info")
       demoBuildStatus["buildError"] = None
-      
-    self.demoBuildStatus = demoBuildStatus
+    
     return demoBuildStatus
+
+  
+def runGenerator(path, job, macro=False):
+  startPath = os.getcwd()
+  os.chdir(path)
+  cmd = "python generate.py "
+  if macro:
+    for key, value in macro.iteritems():
+      cmd += "-m %s:%s " %(key,value)
+  cmd += job
+  console.debug("Running generator: %s" %cmd)
+  rcode, output, errout = shell.execute_piped(cmd)
+  os.chdir(startPath)
+  
+  return (rcode,output,errout)
 
 
 def getComputedConf():
