@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.log.appender.RingBuffer",
 {
-  extend : Object,
+  extend : qx.lang.RingBuffer,
 
   /**
    * @param maxMessages {Integer?50} Maximum number of messages in the buffer
@@ -45,24 +45,6 @@ qx.Class.define("qx.log.appender.RingBuffer",
 
   members :
   {
-    //Next slot in ringbuffer to use
-    __nextIndexToStoreTo : 0,
-
-    //Number of elements in ring buffer
-    __elementsStored : 0,
-
-    //Was a mark set?
-    __isMarkActive: false,
-
-    //How many elements were stored since setting of mark?
-    __elementsStoredSinceMark : 0,
-
-    //ring buffer
-    __history : null,
-
-    //Maximum number of messages to store. Could be converted to a qx property.
-    __maxMessages : null,
-
 
     /**
      * Set the maximum number of messages to hold. If null the number of
@@ -74,8 +56,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      */
     setMaxMessages : function(maxMessages)
     {
-      this.__maxMessages = maxMessages;
-      this.clearHistory();
+      this.setMaxEntries(maxMessages);
     },
 
 
@@ -85,7 +66,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      * @return {Integer} the maximum number of messages
      */
     getMaxMessages : function() {
-      return this.__maxMessages;
+      return this.getMaxEntries();
     },
 
 
@@ -96,37 +77,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      */
     process : function(entry)
     {
-      this.__history[this.__nextIndexToStoreTo] = entry;
-
-      this.__nextIndexToStoreTo = this.__addToIndex(this.__nextIndexToStoreTo, 1);
-
-      //Count # of stored elements
-      var max = this.getMaxMessages();
-      if (this.__elementsStored < max){
-        this.__elementsStored++;
-      }
-
-      //Count # of stored elements since last mark call
-      if (this.__isMarkActive && (this.__elementsStoredSinceMark < max)){
-        this.__elementsStoredSinceMark++;
-      }
-    },
-
-    /**
-     * Remembers the current position in the ring buffer
-     *
-     */
-    mark : function(){
-      this.__isMarkActive = true;
-      this.__elementsStoredSinceMark = 0;
-    },
-
-    /**
-     * Removes the current mark position
-     *
-     */
-    clearMark : function(){
-      this.__isMarkActive = false;
+      this.addEntry(entry);
     },
 
 
@@ -136,7 +87,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      * @return {array} array of stored log events
      */
     getAllLogEvents : function() {
-      return this.retrieveLogEvents(this.getMaxMessages());
+      return this.getAllEntries();
     },
 
 
@@ -152,35 +103,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      */
     retrieveLogEvents : function(count, startingFromMark)
     {
-      //Trim count so it does not exceed ringbuffer size
-      if (count > this.__elementsStored) {
-        count = this.__elementsStored;
-      }
-
-      //Trim count so it does not exceed last call to mark (if mark was called and startingFromMark was true)
-      if (startingFromMark && this.__isMarkActive && (count > this.__elementsStoredSinceMark)){
-        count = this.__elementsStoredSinceMark;
-      }
-
-      if (count > 0){
-
-        var indexOfYoungestElementInHistory = this.__addToIndex(this.__nextIndexToStoreTo,  -1);
-        var startIndex = this.__addToIndex(indexOfYoungestElementInHistory, - count + 1);
-
-        var result;
-
-        if (startIndex <= indexOfYoungestElementInHistory) {
-          //Requested segment not wrapping around ringbuffer boundary, get in one run
-          result = this.__history.slice(startIndex, indexOfYoungestElementInHistory + 1);
-        } else {
-          //Requested segment wrapping around ringbuffer boundary, get two parts & concat
-          result = this.__history.slice(startIndex, this.__elementsStored).concat(this.__history.slice(0, indexOfYoungestElementInHistory + 1));
-        }
-      } else {
-        result = [];
-      }
-
-      return result;
+      return this.getEntries(count, startingFromMark);
     },
 
 
@@ -189,29 +112,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      */
     clearHistory : function()
     {
-      this.__history = new Array(this.getMaxMessages());
-      this.__elementsStored = 0;
-      this.__elementsStoredSinceMark = 0;
-      this.__nextIndexToStoreTo = 0;
-    },
-
-    /**
-     * Adds a number to an ringbuffer index. Does a modulus calculation,
-     * i. e. if the index leaves the ringbuffer space it will wrap around to
-     * the other end of the ringbuffer.
-     *
-     * @param idx {Number} The current index.
-     * @param addMe {Number} The number to add.
-     */
-    __addToIndex : function (idx, addMe){
-      var max = this.getMaxMessages();
-      var result = (idx + addMe) % max;
-
-      //If negative, wrap up into the ringbuffer space
-      if (result < 0){
-        result += max;
-      }
-      return result;
+      this.clear();
     }
   }
 });
