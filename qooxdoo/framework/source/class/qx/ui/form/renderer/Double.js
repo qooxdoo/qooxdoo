@@ -69,6 +69,9 @@ qx.Class.define("qx.ui.form.renderer.Double",
         this._add(label, {row: this._row, column: (i * 2) % 4});
         var item = items[i];
         label.setBuddy(item);
+        
+        this._connectVisibility(item, label);
+        
         this._add(item, {row: this._row, column: ((i * 2) % 4) + 1});
         if (i % 2 == 1) {
           this._row++;

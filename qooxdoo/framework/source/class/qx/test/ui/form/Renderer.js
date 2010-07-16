@@ -48,6 +48,7 @@ qx.Class.define("qx.test.ui.form.Renderer",
       this.assertFalse(this.__b.isDisposed());
     },
 
+
     testDisposeDouble : function() {
       var renderer = new qx.ui.form.renderer.Double(this.__form);
       renderer.dispose();
@@ -56,6 +57,31 @@ qx.Class.define("qx.test.ui.form.Renderer",
       this.assertNull(renderer._buttonRow);
       this.assertNotNull(this.__b);
       this.assertFalse(this.__b.isDisposed());
+    },
+    
+    
+    __testExclude : function(clazz) 
+    {
+      var text = new qx.ui.form.TextField();
+      this.__form.add(text, "test");
+      var renderer = new clazz(this.__form);
+      var label = renderer._getChildren()[0];
+      
+      text.setVisibility("excluded");
+      this.assertEquals(text.getVisibility(), label.getVisibility());
+
+      renderer.dispose();      
+      text.dispose();
+    },
+
+
+    testExcludeSingle : function() {
+      this.__testExclude(qx.ui.form.renderer.Single);
+    }, 
+
+    
+    testExcludeDouble : function() {
+      this.__testExclude(qx.ui.form.renderer.Double);
     }
   }
 });

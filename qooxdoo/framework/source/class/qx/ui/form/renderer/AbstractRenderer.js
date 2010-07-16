@@ -37,6 +37,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   {
     this.base(arguments);
 
+    this._visibilityBindingIds = [];
+
     // translation support
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener(
@@ -63,7 +65,20 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   members :
   {
     _names : null,
+    _visibilityBindingIds : null,
 
+    
+    /**
+     * Helper to bind the item's visibility to the label's visibility.
+     * @param item {qx.ui.core.Widget} The form element.
+     * @param label {qx.ui.basic.Label} The label for the form element.
+     */
+    _connectVisibility : function(item, label) {
+      // map the items visibility to the label
+      var id = item.bind("visibility", label, "visibility");
+      this._visibilityBindingIds.push({id: id, item: item});
+    },
+    
 
     /**
      * Locale change event handler
@@ -109,10 +124,13 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     },
 
 
+    // interface implementation
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
     },
 
+
+    // interface implementation
     addButton : function(button) {
       throw new Error("Abstract method call");
     }
@@ -132,5 +150,11 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
     this._names = null;
+    
+    // remove the visibility bindings
+    for (var i = 0; i < this._visibilityBindingIds.length; i++) {
+      var entry = this._visibilityBindingIds[i];
+      entry.item.removeBinding(entry.id);
+    };
   }
 });

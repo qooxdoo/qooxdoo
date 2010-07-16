@@ -70,6 +70,8 @@ qx.Class.define("qx.ui.form.renderer.Single",
         label.setBuddy(item);
         this._add(item, {row: this._row, column: 1});
         this._row++;
+        
+        this._connectVisibility(item, label);
 
         // store the names for translation
         if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
