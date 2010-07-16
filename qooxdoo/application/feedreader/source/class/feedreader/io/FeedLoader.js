@@ -66,84 +66,56 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       feed.setState("loading");
 
-      var proxy, req;
-
-      // Redirect request through proxy (required for cross-domain loading)
-      // The proxy also translates the data from XML to JSON
-      proxy = "http://resources.qooxdoo.org/proxy_1.php?mode=jsonp&proxy=" + encodeURIComponent(feed.getUrl());
-
-      // Create request object
-      req = new qx.io.remote.Request(proxy, "GET", "text/plain");
-
-      // Json data is useable cross-domain (in fact it is jsonp in this case)
-      req.setCrossDomain(true);
-
-      // Wait longer on slow connections (normally always a lot of data)
-      req.setTimeout(30000);
-
-      // Add the listener
-      req.addListener("completed", this.__createOnLoaded(feed), this);
-      var failHandler = qx.lang.Function.bind(this.__onFail, this, feed);
-      req.addListener("timeout", failHandler, this);
-      req.addListener("failed", failHandler, this);
-
-      // And finally send the request
-      req.send();
+      var query = "select * from feed where url='" + feed.getUrl() + "'";
+      var store = new qx.data.store.Yql(query, {manipulateData : function(data) {
+        // if the query was sucessful
+        if (data.query.results) {
+          return data.query.results.item || data.query.results.entry;          
+        }
+        return "failed";
+      }});
+      store.addListener("loaded", this.__createOnLoaded(feed), this);
+      store.addListener("changeState", 
+        qx.lang.Function.bind(this.__onChangeState, this, feed)
+      , this);
     },
 
-
+    
     /**
-     * Handler for failing requests.
-     *
-     * @param e {qx.io.request.Response} The failed response.
+     * State change handler for the yql store.
+     * @param feed {feedreader.model.feed} The feed which was loaded.
+     * @param e {qx.event.type.Data} The change event.
      */
-    __onFail : function(feed, e) {
-      feed.setState("error");
+    __onChangeState : function(feed, e) 
+    {
+      if (e.getData() == "aborted" || 
+        e.getData() == "timeout" || 
+        e.getData() == "failed") {
+          feed.setState("error");
+      }
     },
 
 
     /**
-     * Create a calback to parse the response
+     * Create a calback to save the response
      *
      * @param feed {feedreader.model.Feed} feed, which got loaded
      * @return {Function} callback handler
      */
     __createOnLoaded : function(feed)
     {
-      return function(response)
-      {
-        // Read content
-        var json = response.getContent();
-
-        // Test content
-        if (json == null)
-        {
-          this.warn("Empty feed content: " + feed.getUrl());
+      return function(e) {
+        var model = e.getData();
+        
+        // check for wrong urls
+        if (model == "failed") {
           feed.setState("error");
+          return;
         }
-        else
-        {
-          try
-          {
-            // Clear old articles
-            feed.getArticles().splice(0, feed.getArticles().length);
 
-            // Normalize json feed data to article list
-            var articles = feedreader.io.FeedParser.parseFeed(json);
-            for (var i = 0; i < articles.length; i++) {
-              feed.getArticles().push(articles[i]);
-            }
-
-            // mark the feed as not loading
-            feed.setState("loaded");
-          }
-          catch(ex)
-          {
-            feed.setState("error");
-            this.warn("Could not parse feed: " + feed.getUrl());
-          }
-        }
-      }
+        feed.setArticles(model);        
+        feed.setState("loaded");
+      };
     }
   }
 });
