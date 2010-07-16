@@ -73,7 +73,7 @@ qx.Class.define("feedreader.io.FeedLoader",
           return data.query.results.item || data.query.results.entry;          
         }
         return "failed";
-      }});
+      }}, qx.bom.client.Feature.SSL);
       store.addListener("loaded", this.__createOnLoaded(feed), this);
       store.addListener("changeState", 
         qx.lang.Function.bind(this.__onChangeState, this, feed)
