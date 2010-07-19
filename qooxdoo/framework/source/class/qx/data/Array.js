@@ -99,11 +99,12 @@ qx.Class.define("qx.data.Array",
      */
     "change" : "qx.event.type.Data",
 
+
     /**
      * The changeLength event will be fired every time the length of the
      * array changes.
      */
-    "changeLength": "qx.event.type.Event"
+    "changeLength": "qx.event.type.Data"
   },
 
 
@@ -710,8 +711,9 @@ qx.Class.define("qx.data.Array",
      * event will be fired.
      */
     __updateLength: function() {
+      var oldLength = this.length;
       this.length = this.__array.length;
-      this.fireEvent("changeLength", qx.event.type.Event);
+      this.fireDataEvent("changeLength", this.length, oldLength);
     }
   },
 
