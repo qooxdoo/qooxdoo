@@ -324,6 +324,7 @@ qx.Class.define("qx.data.controller.Object",
     }
   },
 
+
   /*
    *****************************************************************************
       DESTRUCT
@@ -331,6 +332,7 @@ qx.Class.define("qx.data.controller.Object",
    */
 
   destruct : function() {
-    this.__bindings = this.__targets = null;
+    // set the model to null to get the bindings removed
+    this.setModel(null);
   }
 });

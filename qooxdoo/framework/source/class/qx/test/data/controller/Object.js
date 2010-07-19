@@ -396,6 +396,30 @@ qx.Class.define("qx.test.data.controller.Object",
       this.assertEquals(3, selectbox.getSelection()[0].getModel());
 
       selectbox.dispose();
+    },
+    
+    
+    testDispose : function() {
+      // Tie the label1s content to the zindex of the model
+      this.__controller.addTarget(this.__label1, "value", "zIndex", true);
+
+      // create a common startbase
+      this.__label1.setZIndex(7);
+
+      // dispose the controller to remove the bindings
+      this.__controller.dispose();
+
+      // set a new zIndex to the model
+      this.__model.setZIndex(10);
+
+      // test if the binding has been removed and reseted
+      this.assertEquals(null, this.__label1.getValue(), "Binding does not work!");
+
+      // set a new content
+      this.__label1.setValue("20");
+
+      // test the reverse binding
+      this.assertEquals(10, this.__model.getZIndex(), "Reverse-Binding does not work!");      
     }
 
   }
