@@ -85,7 +85,8 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
 
     /**
-     * This message will be shown if a required field is empty.
+     * This message will be shown if a required field is empty and no individual
+     * {@link qx.ui.form.MForm#requiredInvalidMessage} is given.
      */
     requiredFieldMessage :
     {
@@ -241,7 +242,9 @@ qx.Class.define("qx.ui.form.validation.Manager",
           var validatorResult = !!formItem.getValue();
         }
         formItem.setValid(validatorResult);
-        formItem.setInvalidMessage(this.getRequiredFieldMessage());
+        var individualMessage = formItem.getRequiredInvalidMessage();
+        var message = individualMessage ? individualMessage : this.getRequiredFieldMessage();
+        formItem.setInvalidMessage(message);
         return validatorResult;
       }
       return true;

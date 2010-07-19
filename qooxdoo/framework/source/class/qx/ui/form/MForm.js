@@ -54,8 +54,20 @@ qx.Mixin.define("qx.ui.form.MForm",
       check : "String",
       init: "",
       event : "changeInvalidMessage"
-    }
+    },
+    
+    
+    /**
+     * Message which is shown in an invalid tooltip if the {@link #required} is 
+     * set to true.
+     */
+    requiredInvalidMessage : {
+      check : "String",
+      nullable : true, 
+      event : "changeInvalidMessage"
+    }    
   },
+
 
   members : {
     // apply method
