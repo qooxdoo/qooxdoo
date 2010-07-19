@@ -745,7 +745,9 @@ qx.Class.define("demobrowser.DemoBrowser",
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
             if (currNode.tags) {
               t.setUserData("tags", currNode.tags);
-              that._getVersionTags(currNode.tags);
+              if (qx.core.Variant.isSet("qx.contrib", "on")) {
+                that._getVersionTags(currNode.tags);
+              }
             }
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
