@@ -297,6 +297,7 @@ a.headerlink {
 
 p {
   margin: 0px;
+  padding-bottom: 7px;
 }
 
 a.headerlink:hover {
