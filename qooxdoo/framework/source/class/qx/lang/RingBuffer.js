@@ -114,6 +114,7 @@ qx.Class.define("qx.lang.RingBuffer",
       }
     },
 
+
     /**
      * Remembers the current position in the ring buffer
      *
@@ -123,9 +124,9 @@ qx.Class.define("qx.lang.RingBuffer",
       this.__entriesStoredSinceMark = 0;
     },
 
+
     /**
      * Removes the current mark position
-     *
      */
     clearMark : function(){
       this.__isMarkActive = false;
@@ -135,7 +136,7 @@ qx.Class.define("qx.lang.RingBuffer",
     /**
      * Returns all stored entries. Mark is ignored.
      *
-     * @return {array} array of stored entries
+     * @return {Array} array of stored entries
      */
     getAllEntries : function() {
       return this.getEntries(this.getMaxEntries(), false);
@@ -148,9 +149,9 @@ qx.Class.define("qx.lang.RingBuffer",
      * @param count {Integer} The number of entries to retrieve. If there are
      *    more entries than the given count, the oldest ones will not be returned.
      *
-     * @param startingFromMark {Boolean ? false} If true, only entries since the last call to mark()
-     *                                           will be returned
-     * @return {array} array of stored entries
+     * @param startingFromMark {Boolean ? false} If true, only entries since 
+     *   the last call to mark() will be returned
+     * @return {Array} array of stored entries
      */
     getEntries : function(count, startingFromMark)
     {
@@ -159,8 +160,13 @@ qx.Class.define("qx.lang.RingBuffer",
         count = this.__entriesStored;
       }
 
-      //Trim count so it does not exceed last call to mark (if mark was called and startingFromMark was true)
-      if (startingFromMark && this.__isMarkActive && (count > this.__entriesStoredSinceMark)){
+      // Trim count so it does not exceed last call to mark (if mark was called 
+      // and startingFromMark was true)
+      if (
+        startingFromMark && 
+        this.__isMarkActive && 
+        (count > this.__entriesStoredSinceMark)
+      ) {
         count = this.__entriesStoredSinceMark;
       }
 
@@ -196,6 +202,7 @@ qx.Class.define("qx.lang.RingBuffer",
       this.__entriesStoredSinceMark = 0;
       this.__nextIndexToStoreTo = 0;
     },
+
 
     /**
      * Adds a number to an ringbuffer index. Does a modulus calculation,

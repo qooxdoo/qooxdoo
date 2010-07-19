@@ -23,7 +23,6 @@ qx.Class.define("qx.test.lang.RingBuffer",
 
   members :
   {
-  
     testAdd : function()
     {
       var max = 3;
@@ -48,6 +47,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
       this.assertEquals(allEntries[2], 4);
     },
     
+    
     testAddMany : function()
     {
       var max = 3;
@@ -64,6 +64,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
       this.assertEquals(allEntries[1], 1002);
       this.assertEquals(allEntries[2], 1003);
     },
+    
     
     testGet : function()
     {
@@ -108,6 +109,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
       this.assertEquals(entriesSinceMark[1], 4);
     },
     
+    
     testClear : function()
     {
       var max = 3;
@@ -124,6 +126,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
       
       this.assertEquals(0, buf.getAllEntries().length);
     },
+    
     
     testDataTypes : function()
     {

@@ -37,8 +37,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
   /**
    * @param maxMessages {Integer?50} Maximum number of messages in the buffer
    */
-  construct : function(maxMessages)
-  {
+  construct : function(maxMessages) {
     this.setMaxMessages(maxMessages || 50);
   },
 
@@ -54,8 +53,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      *
      * @param maxMessages {Integer} the maximum number of messages to hold
      */
-    setMaxMessages : function(maxMessages)
-    {
+    setMaxMessages : function(maxMessages) {
       this.setMaxEntries(maxMessages);
     },
 
@@ -75,8 +73,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
      *
      * @param entry {Map} The entry to process
      */
-    process : function(entry)
-    {
+    process : function(entry) {
       this.addEntry(entry);
     },
 
@@ -84,7 +81,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
     /**
      * Returns all stored log events
      *
-     * @return {array} array of stored log events
+     * @return {Array} array of stored log events
      */
     getAllLogEvents : function() {
       return this.getAllEntries();
@@ -99,10 +96,9 @@ qx.Class.define("qx.log.appender.RingBuffer",
      *
      * @param startingFromMark {Boolean ? false} If true, only entries since the last call to mark()
      *                                           will be returned
-     * @return {array} array of stored log events
+     * @return {Array} array of stored log events
      */
-    retrieveLogEvents : function(count, startingFromMark)
-    {
+    retrieveLogEvents : function(count, startingFromMark) {
       return this.getEntries(count, startingFromMark);
     },
 
@@ -110,8 +106,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
     /**
      * Clears the log history
      */
-    clearHistory : function()
-    {
+    clearHistory : function() {
       this.clear();
     }
   }
