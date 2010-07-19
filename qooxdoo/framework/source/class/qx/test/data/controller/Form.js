@@ -592,6 +592,18 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(1, model.getItem(0).getAge());
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
+    },
+    
+    
+    testDispose : function() {
+      // just create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form);
+      // distroy the objects
+      c.dispose();
+      
+      // check if the bindings has been removed
+      this.__model.setTf1("AFFE");
+      this.assertNotEquals("AFFE", this.__tf1.getValue());
     }
   }
 });
