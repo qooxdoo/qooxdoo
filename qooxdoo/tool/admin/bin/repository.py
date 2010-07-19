@@ -230,6 +230,8 @@ class Repository:
               }
               
               status = variant.build("build", macro)
+              #DEBUG
+              #status = {"buildError" : None}
               status["qxVersion"] = qxVersion
               status["variant"] = variant.name
               buildStatus.append(status)
@@ -249,29 +251,28 @@ class Repository:
                 sourceDir = os.path.join(version.path, "demo", variant.name, qxVersion)
                 targetDir = os.path.join(demoBrowser, "demo", libraryName, versionName, variant.name)
                 console.debug("Copying from %s to %s" %(sourceDir, targetDir))
-                copier = CopyTool()
-                copier.parse_args(["-u", sourceDir, targetDir])
-                copier.do_work()
+                try:
+                  copier = CopyTool()
+                  copier.parse_args(["-u", sourceDir, targetDir])
+                  copier.do_work()
+                except IOError, e:
+                  console.error("Couldn't copy demo: " + str(e))
                 
-                #self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion, local=True)
+                demoManifest = version.getDemoManifest(variant.name)
                 demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
-                demoData["manifest"] = version.getDemoManifest(variant.name)
+                demoData["manifest"] = demoManifest
                 versionData["tests"].append(demoData)
             else:
-              self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowser)
-              demoData = self.getDemoData(libraryName, versionName, variant.name)
-              versionData["tests"].append(demoData)            
-            
-            #demoData["manifest"] = version.getDemoManifest(variant.name)
-            #if copyDemos:
-            #  demoData["manifest"]["linkedAgainst"] = []
-            #  for demoStatus in buildStatus:
-            #    if not demoStatus["buildError"]:
-            #      demoData["manifest"]["linkedAgainst"].append(demoStatus["qxVersion"])
+              demoManifest = version.getDemoManifest(variant.name)
+              demoBrowserBase = os.path.split(demoBrowser)[0]
+              for qxVersion in qxVersions:
+                self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion)
+                demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
+                versionData["tests"].append(demoData)
         
         libraryData["children"].append(versionData)
-    
-    repositoryData.append(libraryData)
+      
+      repositoryData.append(libraryData) 
 
     if demoBrowser:
       jsonData = demjson.encode(repositoryData, strict=False, compactly=False)
@@ -312,7 +313,7 @@ class Repository:
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
   # modifying the demo_template.html file in the demobrowser's resource dir.
   # This file simply does a meta redirect to the generated demo. 
-  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser, qxVersion, local=False):    
+  def copyHtmlFile(self, libraryName, versionName, variantName, demoVersion, demoBrowser, qxVersion):    
     #get some needed info from the demobrowser's manifest
     dbManifest = getDataFromJsonFile(os.path.join(demoBrowser, "Manifest.json"))
     dbResourcePath = dbManifest["provides"]["resource"]
@@ -321,19 +322,18 @@ class Repository:
     sourceFilePath = os.path.join(demoBrowser, dbResourcePath, dbNamespace, "demo_template.html")
     sourceFile = codecs.open(sourceFilePath, 'r', 'utf-8')
     
-    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variantName, qxVersion)
+    targetDir = os.path.join(demoBrowser, demoVersion, "demo", libraryName, versionName, variantName)
+    if qxVersion:
+      targetDir = os.path.join(targetDir,qxVersion)
     #build/demo/Dialog/trunk/default/1.1/index.html
     if not os.path.isdir(targetDir):
       os.makedirs(targetDir)
     targetFilePath = os.path.join(targetDir, "index.html")
-    console.info("Copying HTML file for demo %s %s %s %s to the demobrowser" %(libraryName,versionName,variantName,demoVersion))
+    console.info("Copying HTML file for demo %s %s %s %s (qx version %s) to the demobrowser" %(libraryName,versionName,variantName,demoVersion, qxVersion))
     targetFile = codecs.open(targetFilePath, "w", "utf-8")
     demoPath = os.path.join( self.libraries[libraryName][versionName].path, "demo", variantName, demoVersion)
-    # the demo's HTML file lives under source|build/demo/libraryName
-    if local:
-      demoUrl = "/".join([variantName, demoVersion])
-    else:
-      demoUrl = "../../../../" + self.getDemoUrl(demoBrowser, demoPath)
+    
+    demoUrl = "../../../../../../" + self.getDemoUrl(demoBrowser, demoPath)
     demoUrl += "/index.html"
     
     for line in sourceFile:
@@ -375,7 +375,7 @@ class Repository:
   
   def getDemoData(self, library, version, variant, qxVersion):
     demoDict = {
-      "name": variant + "." + qxVersion + ".html",
+      "name" : variant + ".html",
       "nr": variant.capitalize(),
       "title": library + " " + version + " " + variant,
       "tags" : [ library, "qxVersion_" + qxVersion ]      
