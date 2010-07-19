@@ -120,16 +120,16 @@ qx.Class.define("demobrowser.DemoBrowser",
     searchComposlite.add(this._searchTextField, {flex: 1});
 
     // create the status of the tree
-    this.__status = new qx.ui.basic.Label("");
-    this.__status.setAppearance("widget");
-    this.__status.setWidth(80);
-    this.__status.setTextAlign("right");
-    searchComposlite.add(this.__status);
+    this._status = new qx.ui.basic.Label("");
+    this._status.setAppearance("widget");
+    this._status.setWidth(80);
+    this._status.setTextAlign("right");
+    searchComposlite.add(this._status);
 
     mainsplit.add(infosplit, 1);
 
-    this.__tree = this.__makeTree();
-    leftComposite.add(this.__tree, {flex: 1});
+    this._tree = this.__makeTree();
+    leftComposite.add(this._tree, {flex: 1});
 
     this._demoView = this.__makeDemoView();
     
@@ -233,12 +233,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
-    __iframe : null,
+    _iframe : null,
     __currentTheme : null,
     __logSync : null,
     __logDone : null,
-    __tree : null,
-    __status : null,
+    _tree : null,
+    _status : null,
     _searchTextField : null,
     __playgroundButton : null,
     __currentJSCode : null,
@@ -290,7 +290,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __getObjectSummary : function()
     {
-      var cw = this.__iframe.getWindow();
+      var cw = this._iframe.getWindow();
       if (cw && cw.qx) {
         alert(cw.qx.dev.ObjectSummary.getInfo());
       } else {
@@ -300,7 +300,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __openWindow : function()
     {
-      var sampUrl = this.__iframe.getSource();
+      var sampUrl = this._iframe.getSource();
       window.open(sampUrl, "_blank");
     },
 
@@ -309,7 +309,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var playable = !!code;
 
-      var currentTags = this.__tree.getSelection()[0].getUserData("tags");
+      var currentTags = this._tree.getSelection()[0].getUserData("tags");
       if (currentTags) {
         playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
       }
@@ -339,7 +339,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __disposeSample : function(e)
     {
-      var cw = this.__iframe.getWindow();
+      var cw = this._iframe.getWindow();
       if (cw && cw.qx)
       {
         cw.qx.core.ObjectRegistry.shutdown();
@@ -358,7 +358,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __showPollution : function(e)
     {
-      var cw = this.__iframe.getWindow();
+      var cw = this._iframe.getWindow();
       if (cw && cw.qx) {
         alert(cw.qx.dev.Pollution.getInfo());
       } else {
@@ -543,7 +543,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         nativeContextMenu: true
       });
       iframe.addListener("load", this.__ehIframeLoaded, this);
-      this.__iframe = iframe;
+      this._iframe = iframe;
 
       return iframe;
     },
@@ -857,14 +857,14 @@ qx.Class.define("demobrowser.DemoBrowser",
         url = this.defaultUrl;
       }
 
-      if (this.__iframe.getSource() == url)
+      if (this._iframe.getSource() == url)
       {
-        this.__iframe.reload();
+        this._iframe.reload();
       }
       else
       {
         this.__logDone = false;
-        this.__iframe.setSource(url);
+        this._iframe.setSource(url);
       }
 
       // Toggle menu buttons
@@ -881,8 +881,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __ehIframeLoaded : function()
     {
-      var fwindow = this.__iframe.getWindow();
-      var furl = this.__iframe.getSource();
+      var fwindow = this._iframe.getWindow();
+      var furl = this._iframe.getSource();
       if (furl != null && furl != this.defaultUrl)
       {
         var url;
@@ -941,7 +941,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __onLogInterval : function(e)
     {
-      var fwindow = this.__iframe.getWindow();
+      var fwindow = this._iframe.getWindow();
 
       try
       {
@@ -1002,7 +1002,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     filter : function(term)
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
-      var items = this.__tree.getRoot().getItems(true, true);
+      var items = this._tree.getRoot().getItems(true, true);
 
       var showing = 0;
       var count = 0;
@@ -1073,8 +1073,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // special case for the empty sting
       if (term == "") {
-        var folders = this.__tree.getRoot().getItems(false, true);
-        var selection = this.__tree.getSelection();
+        var folders = this._tree.getRoot().getItems(false, true);
+        var selection = this._tree.getSelection();
 
         // close all folders
         for (var i = 0; i < folders.length; i++) {
@@ -1087,7 +1087,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // update the status
-      this.__status.setValue(showing + "/" + count);
+      this._status.setValue(showing + "/" + count);
     },
 
 
@@ -1445,7 +1445,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __fetchLog : function()
     {
-      var w = this.__iframe.getWindow();
+      var w = this._iframe.getWindow();
       var logger;
       if (w.qx && w.qx.log && w.qx.log.Logger)
       {
@@ -1508,7 +1508,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
       "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField", 
-      "__status", "__tree", "__iframe", "_demoView", "__menuElements", 
+      "_status", "_tree", "_iframe", "_demoView", "__menuElements", 
       "__logSync", "_leftComposite", "_demoView");
   }
 });
