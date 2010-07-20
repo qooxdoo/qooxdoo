@@ -735,8 +735,9 @@ class QxTest:
       
       seleniumOptions = ""
       # Use single window mode? (Necessary for IE with Selenium 1.*)
-      if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
-        seleniumOptions += " -singleWindow"
+      if self.seleniumConf['ieSingleWindow']:
+        if "iexplore" in self.browserConf[browser['browserId']] or "iepreview" in self.browserConf[browser['browserId']]:
+          seleniumOptions += " -singleWindow"
       
       # Use trustAllSSLCertificates option?
       trustAllCerts = False
