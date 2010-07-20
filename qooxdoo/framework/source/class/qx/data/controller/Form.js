@@ -321,6 +321,8 @@ qx.Class.define("qx.data.controller.Form",
 
    destruct : function() {
      // dispose the object controller because the bindings need to be removed
-     this.__objectController.dispose();
+     if (this.__objectController) {
+       this.__objectController.dispose();
+     }
    }
 });
