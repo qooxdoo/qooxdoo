@@ -62,7 +62,7 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a number.
      *
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkNumber} Function.
      */
     number : function(errorMessage) {
@@ -79,7 +79,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #number} method.
      *
      * @param value {var} The value to check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?undefined} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a
      *    finite number
      */
@@ -99,7 +99,7 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a email address.
      *
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkEmail} Function.
      */
     email : function(errorMessage) {
@@ -116,7 +116,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #email} method.
      *
      * @param value {var} The value to check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not
      *    a valid email address.
      */
@@ -135,7 +135,7 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a string.
      *
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkString} Function.
      */
     string : function(errorMessage) {
@@ -152,7 +152,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #string} method.
      *
      * @param value {var} The value to check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a string.
      */
     checkString : function(value, errorMessage)
@@ -169,6 +169,7 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a url.
      *
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkUrl} Function.
      */
     url : function(errorMessage) {
@@ -185,7 +186,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #url} method.
      *
      * @param value {var} The value to check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a url.
      */
     checkUrl : function(value, errorMessage)
@@ -203,7 +204,7 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a color.
      *
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkColor} Function.
      */
     color : function(errorMessage) {
@@ -221,7 +222,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #color} method.
      *
      * @param value {var} The value to check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a color.
      */
     checkColor : function(value, errorMessage)
@@ -246,7 +247,7 @@ qx.Class.define("qx.util.Validate",
      *
      * @param from {Number} The lower border of the range.
      * @param to {Number} The upper border of the range.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
     range : function(from, to, errorMessage)
@@ -269,7 +270,7 @@ qx.Class.define("qx.util.Validate",
      * ValidationError will be thrown.
      *
      * @param array {Array} The array holding the possibilities.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
     inArray : function(array, errorMessage)
@@ -293,7 +294,7 @@ qx.Class.define("qx.util.Validate",
      * ValidationError will be thrown.
      * incoming
      * @param reg {RegExp} The RegExp for the check.
-     * @param errorMessage {String?} Custom error message.
+     * @param errorMessage {String?null} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
     regExp : function(reg, errorMessage)
