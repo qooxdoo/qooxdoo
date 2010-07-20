@@ -152,7 +152,9 @@ qx.Class.define("qx.data.controller.Object",
             if (index == "last") {
               index = targetArray.length;
             }
-            targetArray.setItem(index, null);
+            if (targetArray) {
+              targetArray.setItem(index, null);
+            }
           }          
         }
       }
