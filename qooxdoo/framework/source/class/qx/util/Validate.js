@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
 
@@ -61,10 +62,13 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a number.
      *
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} The {@link #checkNumber} Function.
      */
-    number : function() {
-      return qx.util.Validate.checkNumber;
+    number : function(errorMessage) {
+      return function(value) {
+        qx.util.Validate.checkNumber(value, errorMessage);
+      }
     },
 
 
@@ -75,17 +79,19 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #number} method.
      *
      * @param value {var} The value to check.
+     * @param errorMessage {String?} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a
      *    finite number
      */
-    checkNumber : function(value)
+    checkNumber : function(value, errorMessage)
     {
+      errorMessage = errorMessage || 
+        qx.locale.Manager.tr("%1 is not a number.", value);
+
       if ((typeof value !== "number" && (!(value instanceof Number)))
         || (!(isFinite(value))))
       {
-        throw new qx.core.ValidationError(
-          "Validation Error: ", qx.locale.Manager.tr("%1 is not a number.", value)
-        );
+        throw new qx.core.ValidationError("Validation Error", errorMessage);
       }
     },
 
@@ -93,10 +99,13 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a email address.
      *
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} The {@link #checkEmail} Function.
      */
-    email : function() {
-      return qx.util.Validate.checkEmail;
+    email : function(errorMessage) {
+      return function(value) {
+        qx.util.Validate.checkEmail(value, errorMessage);
+      } 
     },
 
 
@@ -107,18 +116,18 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #email} method.
      *
      * @param value {var} The value to check.
+     * @param errorMessage {String?} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not
      *    a valid email address.
      */
-    checkEmail : function(value)
+    checkEmail : function(value, errorMessage)
     {
+      errorMessage = errorMessage || 
+        qx.locale.Manager.tr("'%1' is not an email address.", (value || ""));
+
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      if (reg.test(value) === false)
-      {
-        throw new qx.core.ValidationError(
-          "Validation Error",
-          qx.locale.Manager.tr("'%1' is not an email address.", (value || ""))
-        );
+      if (reg.test(value) === false) {
+        throw new qx.core.ValidationError("Validation Error",errorMessage);
       }
     },
 
@@ -126,10 +135,13 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a string.
      *
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} The {@link #checkString} Function.
      */
-    string : function() {
-      return qx.util.Validate.checkString;
+    string : function(errorMessage) {
+      return function(value) {
+        qx.util.Validate.checkString(value, errorMessage);
+      }
     },
 
 
@@ -140,15 +152,16 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #string} method.
      *
      * @param value {var} The value to check.
+     * @param errorMessage {String?} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a string.
      */
-    checkString : function(value)
+    checkString : function(value, errorMessage)
     {
-      if (typeof value !== "string" && (!(value instanceof String)))
-      {
-        throw new qx.core.ValidationError(
-          "Validation Error", qx.locale.Manager.tr("%1 is not a string.", value)
-        );
+      errorMessage = errorMessage || 
+        qx.locale.Manager.tr("%1 is not a string.", value); 
+
+      if (typeof value !== "string" && (!(value instanceof String))) {
+        throw new qx.core.ValidationError("Validation Error", errorMessage);
       }
     },
 
@@ -158,8 +171,10 @@ qx.Class.define("qx.util.Validate",
      *
      * @return {Function} The {@link #checkUrl} Function.
      */
-    url : function() {
-      return qx.util.Validate.checkUrl;
+    url : function(errorMessage) {
+      return function(value) {
+        qx.util.Validate.checkUrl(value, errorMessage);
+      }
     },
 
 
@@ -170,16 +185,17 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #url} method.
      *
      * @param value {var} The value to check.
+     * @param errorMessage {String?} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a url.
      */
-    checkUrl : function(value)
+    checkUrl : function(value, errorMessage)
     {
+      errorMessage = errorMessage || 
+        qx.locale.Manager.tr("%1 is not an url.", value); 
+
       var reg =  /([A-Za-z0-9])+:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-      if (reg.test(value) === false)
-      {
-        throw new qx.core.ValidationError(
-          "Validation Error", qx.locale.Manager.tr("%1 is not an url.", value)
-        );
+      if (!reg.test(value)) {
+        throw new qx.core.ValidationError("Validation Error", errorMessage);
       }
     },
 
@@ -187,10 +203,13 @@ qx.Class.define("qx.util.Validate",
     /**
      * Returns the function that checks for a color.
      *
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} The {@link #checkColor} Function.
      */
-    color : function() {
-      return qx.util.Validate.checkColor;
+    color : function(errorMessage) {
+      return function(value) {
+        qx.util.Validate.checkColor(value, errorMessage);
+      }
     },
 
 
@@ -202,16 +221,17 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #color} method.
      *
      * @param value {var} The value to check.
+     * @param errorMessage {String?} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a color.
      */
-    checkColor : function(value)
+    checkColor : function(value, errorMessage)
     {
       try {
         qx.util.ColorUtil.stringToRgb(value);
       } catch (e) {
-        throw new qx.core.ValidationError(
-          "Validation Error", qx.locale.Manager.tr("%1 is not a color! %2", value, e)
-        );
+        errorMessage = errorMessage || 
+          qx.locale.Manager.tr("%1 is not a color! %2", value, e);
+        throw new qx.core.ValidationError("Validation Error", errorMessage);
       }
     },
 
@@ -226,18 +246,18 @@ qx.Class.define("qx.util.Validate",
      *
      * @param from {Number} The lower border of the range.
      * @param to {Number} The upper border of the range.
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
-    range : function(from, to)
+    range : function(from, to, errorMessage)
     {
       return function(value)
       {
-        if (value < from || value > to)
-        {
-          throw new qx.core.ValidationError(
-            "Validation Error",
-            qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", value, from, to)
-          );
+        errorMessage = errorMessage || 
+          qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", value, from, to);
+
+        if (value < from || value > to) {
+          throw new qx.core.ValidationError("Validation Error", errorMessage);
         }
       }
     },
@@ -249,17 +269,18 @@ qx.Class.define("qx.util.Validate",
      * ValidationError will be thrown.
      *
      * @param array {Array} The array holding the possibilities.
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
-    inArray : function(array)
+    inArray : function(array, errorMessage)
     {
       return function(value)
       {
-        if (array.indexOf(value) === -1)
-        {
-          throw new qx.core.ValidationError(
-            "Validation Error", qx.locale.Manager.tr("%1 is not in %2", value, array)
-          );
+        errorMessage = errorMessage || 
+          qx.locale.Manager.tr("%1 is not in %2", value, array);
+
+        if (array.indexOf(value) === -1) {
+          throw new qx.core.ValidationError("Validation Error", errorMessage);
         }
       }
     },
@@ -272,19 +293,23 @@ qx.Class.define("qx.util.Validate",
      * ValidationError will be thrown.
      * incoming
      * @param reg {RegExp} The RegExp for the check.
+     * @param errorMessage {String?} Custom error message.
      * @return {Function} A function taking one parameter (value).
      */
-    regExp : function(reg)
+    regExp : function(reg, errorMessage)
     {
       return function(value)
       {
-        if (reg.test(value) === false)
-        {
-          throw new qx.core.ValidationError(
-            "Validation Error", qx.locale.Manager.tr("%1 does not fit %2.", value, reg)
-          );
+        errorMessage = errorMessage || 
+          qx.locale.Manager.tr("%1 does not fit %2.", value, reg);
+
+        if (!reg.test(value)) {
+          throw new qx.core.ValidationError("Validation Error", errorMessage);
         }
       }
     }
   }
 });
+
+
+
