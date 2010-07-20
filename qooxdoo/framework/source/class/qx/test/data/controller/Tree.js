@@ -468,8 +468,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       // add c to the selection
       this.__controller.getSelection().push(this.__c);
 
-      // check if the selection is empty
-      this.assertEquals(0, this.__controller.getSelection().length, "Adding of an non visible element should not work.");
+      // check if the selection worked
+      this.assertEquals(1, this.__controller.getSelection().length, "Adding of an non visible element should not work.");
     },
 
 
