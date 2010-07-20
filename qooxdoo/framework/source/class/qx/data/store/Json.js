@@ -36,7 +36,7 @@ qx.Class.define("qx.data.store.Json",
 
   /**
    * @param url {String|null} The url where to find the data.
-   * @param delegate {Object?} The delegate containing one of the methods
+   * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
    */
   construct : function(url, delegate)

@@ -30,7 +30,7 @@ qx.Class.define("qx.data.store.Jsonp",
 
   /**
    * @param url {String?} URL of the web service.
-   * @param delegate {Object?} The delegate containing one of the methods
+   * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
    * @param callbackParam {String} The name of the callback param for JSON-P
    */

@@ -80,7 +80,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   be bind to.
      * @param targetPropertyChain {String} The property chain to the target
      *   object.
-     * @param options {Map} A map containing the options.
+     * @param options {Map?null} A map containing the options.
      *   <li>converter: A converter function which takes two parameters
      *       and should return the converted value. The first parameter is the
      *       data so convert and the second one is the corresponding model
