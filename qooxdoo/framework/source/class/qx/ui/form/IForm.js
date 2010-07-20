@@ -127,7 +127,7 @@ qx.Interface.define("qx.ui.form.IForm",
 
     /*
     ---------------------------------------------------------------------------
-      INVALIDMESSAGE PROPERTY
+      INVALID MESSAGE PROPERTY
     ---------------------------------------------------------------------------
     */
 
@@ -146,7 +146,32 @@ qx.Interface.define("qx.ui.form.IForm",
      *
      * @return {String} The current set message.
      */
-    getInvalidMessage : function() {}
+    getInvalidMessage : function() {},
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      REQUIRED INVALID MESSAGE PROPERTY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the invalid message if required of the widget.
+     *
+     * @param message {String} The invalid message.
+     */
+    setRequiredInvalidMessage : function(message) {
+      return arguments.length == 1;
+    },
+
+
+    /**
+     * Returns the invalid message if required of the widget.
+     *
+     * @return {String} The current set message.
+     */
+    getRequiredInvalidMessage : function() {}    
 
   }
 });
