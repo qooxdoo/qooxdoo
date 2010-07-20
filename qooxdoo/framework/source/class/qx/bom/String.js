@@ -442,7 +442,7 @@ qx.Class.define("qx.bom.String",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
+  defer : function(statics)
   {
     /** Mapping of char codes to HTML entity names */
     statics.FROM_CHARCODE = qx.lang.Object.invert(statics.TO_CHARCODE)

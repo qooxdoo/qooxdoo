@@ -903,13 +903,13 @@ qx.Class.define("qx.event.handler.Keyboard",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
+  defer : function(statics, members)
   {
     // register at the event handler
     qx.event.Registration.addHandler(statics);
 
 
-    // construct invers of keyCodeToIdentifierMap
+    // construct inverse of keyCodeToIdentifierMap
     if (!statics._identifierToKeyCodeMap)
     {
       statics._identifierToKeyCodeMap = {};

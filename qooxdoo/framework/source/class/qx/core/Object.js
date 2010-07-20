@@ -862,7 +862,7 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  defer : function(statics, proto)
+  defer : function(statics, members)
   {
     // add asserts into each debug build
     if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -875,7 +875,7 @@ qx.Class.define("qx.core.Object",
 
     // patch the remove property method for IE6 and FF2
     if (ie6 || ff2) {
-      proto.__removePropertyReferences = proto.__removePropertyReferencesOld;
+      members.__removePropertyReferences = members.__removePropertyReferencesOld;
       // debugger;
     }
   },

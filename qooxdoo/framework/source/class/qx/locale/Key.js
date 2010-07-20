@@ -71,7 +71,7 @@ qx.Class.define("qx.locale.Key",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
+  defer : function(statics)
   {
     var keyNames = {};
     var Manager = qx.locale.Manager;

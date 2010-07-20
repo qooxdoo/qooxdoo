@@ -140,7 +140,7 @@ qx.Class.define("qx.bom.Vml",
   *****************************************************************************
   */
 
-  defer : function(statics)
+  defer : function()
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {

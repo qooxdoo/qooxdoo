@@ -409,7 +409,7 @@ qx.Class.define("qx.io.remote.transport.Script",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
+  defer : function()
   {
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
