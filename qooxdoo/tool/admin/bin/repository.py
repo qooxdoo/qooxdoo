@@ -195,8 +195,6 @@ class Repository:
         }
         
         qxVersions = version.getManifest()["info"]["qooxdoo-versions"]
-        #for ver in qxVersions:
-        #  versionData["tags"].append("qxVersion_" + ver)
         
         # getting the library's top-level readme here since we only have path
         # information for the library versions
@@ -219,13 +217,20 @@ class Repository:
         if not version.hasDemoDir:
           continue
                 
+        demoPath = os.path.join(demoBrowser, "demo", libraryName, versionName)
         buildStatus = []
         for variant in version.demos:
+          # build version: link demo against each compatible qooxdoo version
           if buildTarget == "build":
             #get the compatible qooxdoo versions of the library version
             for qxVersion in qxVersions:
+              if not (demoBrowser and copyDemos):
+                buildPath = qxVersion
+              else:  
+                buildPath = os.path.join(demoPath, variant.name, qxVersion)
+              
               macro = {
-                "BUILD_PATH" : "./" + qxVersion,
+                "BUILD_PATH" : buildPath,
                 "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
               }
               
@@ -235,45 +240,34 @@ class Repository:
               status["qxVersion"] = qxVersion
               status["variant"] = variant.name
               buildStatus.append(status)
-          else:
-            status = variant.build(buildTarget)
-            buildStatus.append(status)
-          
-          if demoBrowser:
-            if copyDemos:
-              demoBrowserBase = os.path.split(demoBrowser)[0]
-              for demoStatus in buildStatus:
-                qxVersion = demoStatus["qxVersion"]
-                if demoStatus["buildError"]:
-                  console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(libraryName, versionName, variant.name, buildTarget, qxVersion))
-                  console.warn(demoStatus["buildError"])
-                  continue
-                sourceDir = os.path.join(version.path, "demo", variant.name, qxVersion)
-                targetDir = os.path.join(demoBrowser, "demo", libraryName, versionName, variant.name)
-                console.debug("Copying from %s to %s" %(sourceDir, targetDir))
-                try:
-                  copier = CopyTool()
-                  copier.parse_args(["-u", sourceDir, targetDir])
-                  copier.do_work()
-                except IOError, e:
-                  console.error("Couldn't copy demo: " + str(e))
-                
+              
+              if status["buildError"]:
+                console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(libraryName, versionName, variant.name, buildTarget, qxVersion))
+                console.warn(demoStatus["buildError"])
+              elif demoBrowser:
                 demoManifest = version.getDemoManifest(variant.name)
                 demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
                 demoData["manifest"] = demoManifest
                 versionData["tests"].append(demoData)
-            else:
+              
+          # source version of demo    
+          else:
+            status = variant.build(buildTarget)
+            buildStatus.append(status)
+          
+            if demoBrowser:
               demoManifest = version.getDemoManifest(variant.name)
               demoBrowserBase = os.path.split(demoBrowser)[0]
               for qxVersion in qxVersions:
-                self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion)
                 demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
                 versionData["tests"].append(demoData)
+                self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion)
         
         libraryData["children"].append(versionData)
       
       repositoryData.append(libraryData) 
 
+    # save the repository information as JSON for the contribDemobrowser
     if demoBrowser:
       jsonData = demjson.encode(repositoryData, strict=False, compactly=False)
       dbTargetDir = os.path.join(demoBrowser)
