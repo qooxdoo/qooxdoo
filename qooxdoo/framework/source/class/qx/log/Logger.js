@@ -660,7 +660,7 @@ qx.Class.define("qx.log.Logger",
   {
     var logs = qx.Bootstrap.$$logs;
     for (var i=0; i<logs.length; i++) {
-      this.__log(logs[i][0], logs[i][1]);
+      statics.__log(logs[i][0], logs[i][1]);
     }
 
     qx.Bootstrap.debug = statics.debug;
