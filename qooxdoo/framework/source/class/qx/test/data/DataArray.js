@@ -215,13 +215,14 @@ qx.Class.define("qx.test.data.DataArray",
 
 
     testLengthEvent: function() {
+      var self = this;
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
       this.assertEventFired(a, "changeLength", function () {
         a.pop();
       }, function(e) {
-        this.assertEquals(2, e.getData());
-        this.assertEquals(3, e.getOldData());
+        self.assertEquals(2, e.getData());
+        self.assertEquals(3, e.getOldData());
       }, "ChangeLength event not fired!");
     },
 
