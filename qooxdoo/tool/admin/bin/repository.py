@@ -260,6 +260,7 @@ class Repository:
               demoBrowserBase = os.path.split(demoBrowser)[0]
               for qxVersion in qxVersions:
                 demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
+                demoData["manifest"] = demoManifest
                 versionData["tests"].append(demoData)
                 self.copyHtmlFile(libraryName, versionName, variant.name, buildTarget, demoBrowserBase, qxVersion)
         
