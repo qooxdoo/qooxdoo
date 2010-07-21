@@ -243,7 +243,7 @@ class Repository:
               
               if status["buildError"]:
                 console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(libraryName, versionName, variant.name, buildTarget, qxVersion))
-                console.warn(demoStatus["buildError"])
+                console.warn(status["buildError"])
               elif demoBrowser:
                 demoManifest = version.getDemoManifest(variant.name)
                 demoData = self.getDemoData(libraryName, versionName, variant.name, qxVersion)
