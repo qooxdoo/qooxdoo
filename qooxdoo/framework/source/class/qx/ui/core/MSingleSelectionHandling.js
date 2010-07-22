@@ -91,14 +91,6 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      *    items contains more than one elements.
      */
     setSelection : function(items) {
-      // @deprecated for 1.1
-      if (!this.getEnabled()) {
-        this.warn(
-          "Setting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to selecting the given items.")
-        );
-        this.trace();
-      }
       switch(items.length)
       {
         case 0:
@@ -117,14 +109,6 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * Clears the whole selection at once.
      */
     resetSelection : function() {
-      // @deprecated for 1.1
-      if (!this.getEnabled()) {
-        this.warn(
-          "Resetting the selection on disabled '" + this.classname + "' is deprecated: " +
-          ("The current behavior will change from doing nothing to reset the selection.")
-        );
-        this.trace();
-      }
       this.__getManager().resetSelected();
     },
 
