@@ -226,13 +226,8 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
     {
       // test setup
       var tempNotInSelection = [];
-      for (var i = 0; i < this._notInSelection.length; i++)
-      {
-        if (i % 2 == 0) {
-          tempNotInSelection.push(this._notInSelection[i]);
-        } else {
-          this._notInSelection[i].setEnabled(false);
-        }
+      for (var i = 0; i < this._notInSelection.length; i++) {
+        tempNotInSelection.push(this._notInSelection[i]);
       }
       this._notInSelection = tempNotInSelection;
 
