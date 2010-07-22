@@ -181,8 +181,16 @@ class Repository:
       for versionName, libraryVersion in library.children.iteritems():
         libraryVersion.buildTestrunner(job)
     console.outdent()
-  
-  
+
+
+  def lintCheckAll(self):
+    for libraryName, library in self.libraries.iteritems():
+      for versionName, libraryVersion in library.children.iteritems():
+        console.info("Lint results for %s %s:" %(libraryName, versionName))
+        result = libraryVersion.getLintResult()
+        logLintResult(result)
+
+
   def runGeneratorForAll(self, job, cwd=False):
     console.indent()
     for libraryName, library in self.libraries.iteritems():
@@ -577,6 +585,20 @@ def storeDemoData(data, outPath):
   rFile = codecs.open(outPath, 'w', 'utf-8')
   rFile.write(jsonData)
   rFile.close()
+
+
+def logLintResult(data):
+  if len(data) == 0:
+    console.info("No issues found.")
+    return
+    
+  for category, messages in data.iteritems():
+    console.info(category + ":")
+    console.indent()
+    for message in messages:
+      for key, value in message.iteritems():
+        console.info("%s: %s" %(key, value))    
+    console.outdent()
 
 
 def getComputedConf():
