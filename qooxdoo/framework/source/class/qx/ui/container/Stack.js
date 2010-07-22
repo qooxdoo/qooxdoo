@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.container.Stack",
      * @return {Boolean} Whether the given item is selectable
      */
     _isItemSelectable : function(item) {
-      return item.isEnabled();
+      return true;
     },
 
     /**

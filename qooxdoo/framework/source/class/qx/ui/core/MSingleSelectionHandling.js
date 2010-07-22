@@ -186,7 +186,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
             if (that._isItemSelectable) {
               return that._isItemSelectable(item);
             } else {
-              return item.isEnabled() && item.isVisible();
+              return item.isVisible();
             }
           }
         });

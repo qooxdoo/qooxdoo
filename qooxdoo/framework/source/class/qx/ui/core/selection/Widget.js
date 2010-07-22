@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return item.isEnabled() && item.isVisible() && item.getLayoutParent() === this.__widget;
+      return this._isItemSelectabel(item) && item.getLayoutParent() === this.__widget;
     },
 
 
@@ -90,6 +90,22 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _releaseCapture : function() {
       this.__widget.releaseCapture();
+    },
+    
+    
+    /**
+     * Helper to return the selectability of the item concerning the 
+     * user interaaction.
+     * 
+     * @param item {qx.ui.core.Widget} The item to check.
+     * @return {Boolean} true, if the item is selectable.
+     */
+    _isItemSelectabel : function(item) {
+      if (this._userInteraction) {
+        return item.isVisible() && item.isEnabled();
+      } else {
+        return item.isVisible();
+      }
     },
 
 
@@ -205,7 +221,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       {
         child = children[i];
 
-        if (child.isEnabled() && child.isVisible()) {
+        if (this._isItemSelectabel(child)) {
           result.push(child);
         }
       }
@@ -246,7 +262,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
           }
         }
 
-        if (active && child.isEnabled() && child.isVisible()) {
+        if (active && this._isItemSelectabel(child)) {
           result.push(child);
         }
       }
@@ -261,7 +277,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
-        if (children[i].isEnabled() && children[i].isVisible()) {
+        if (this._isItemSelectabel(children[i])) {
           return children[i];
         }
       }
@@ -276,7 +292,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=children.length-1; i>0; i--)
       {
-        if (children[i].isEnabled() && children[i].isVisible()) {
+        if (this._isItemSelectabel(Children[i])) {
           return children[i];
         }
       }
@@ -298,7 +314,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index-1; i>=0; i--)
         {
           sibling = children[i];
-          if (sibling.isEnabled() && sibling.isVisible()) {
+          if (this._isItemSelectabel(sibling)) {
             return sibling;
           }
         }
@@ -308,7 +324,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index+1; i<children.length; i++)
         {
           sibling = children[i];
-          if (sibling.isEnabled() && sibling.isVisible()) {
+          if (this._isItemSelectabel(sibling)) {
             return sibling;
           }
         }
