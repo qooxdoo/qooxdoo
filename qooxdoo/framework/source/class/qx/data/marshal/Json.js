@@ -102,12 +102,13 @@ qx.Class.define("qx.data.marshal.Json",
      *   the bubbling of change events or not.
      */
     toClass: function(data, includeBubbleEvents) {
-      // break on all primitive json types
+      // break on all primitive json types and qooxdoo objects
       if (
         qx.lang.Type.isNumber(data)
         || qx.lang.Type.isString(data)
         || qx.lang.Type.isBoolean(data)
         || data == null
+        || data instanceof qx.core.Object
       ) {
         return;
       }
@@ -231,6 +232,7 @@ qx.Class.define("qx.data.marshal.Json",
         || qx.lang.Type.isBoolean(data)
         || qx.lang.Type.isDate(data)
         || data == null
+        || data instanceof qx.core.Object
       ) {
         return data;
 

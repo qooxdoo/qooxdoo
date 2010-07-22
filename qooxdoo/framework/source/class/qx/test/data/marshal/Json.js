@@ -489,6 +489,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, "Change event not fired!");
     },
 
+
     testBubbleEventsWithRemove: function() {
       qx.Class.define("qx.Test", {
         extend : qx.core.Object,
@@ -520,7 +521,22 @@ qx.Class.define("qx.test.data.marshal.Json",
       model.getFonts().removeAll();
 
       this.assertEquals(0, model.getFonts().length, "The remove did not work.");
-    }
+    },
+    
+    
+    testQooxdooObject : function() 
+    {
+      var qxObject = new qx.core.Object();
+      this.__data = ({a: {b: qxObject}});
+
+      this.__marshaler.toClass(this.__data);
+
+      // set the data
+      var model = this.__marshaler.toModel(this.__data);
+
+      // check the model
+      this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");      
+    }  
 
   }
 });
