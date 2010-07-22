@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
 
@@ -73,14 +74,14 @@ qx.Class.define("qx.ui.tooltip.Manager",
       apply : "_applyCurrent"
     },
 
-    /** Flag that enables the tooltips shown by invalid form fields. */
-    showInvalidTooltips :
+    /** Show all invalid form fields tooltips . */
+    showInvalidToolTips :
     {
       check : "Boolean",
       init : true
     },
 
-    /** Flag that enables all tooltips. */
+    /** Show all tooltips. */
     showToolTips :
     {
       check : "Boolean",
@@ -408,9 +409,87 @@ qx.Class.define("qx.ui.tooltip.Manager",
       if (tooltip && tooltip == target.getToolTip()) {
         this.setCurrent(null);
       }
+    },
+
+
+    /**
+    * This method is deprecated. Use setShowInvalidToolTips instead.
+    *
+    * @param value {Boolean} Sets the user value of the property showInvalidTooltips.
+    * @deprecated in 1.2
+    */
+    setShowInvalidTooltips : function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use setShowInvalidToolTips() instead."
+      );
+      return this.setShowInvalidToolTips(value);
+    },
+
+
+    /**
+    * This method is deprecated. Use getShowInvalidToolTips instead.
+    *
+    * @deprecated in 1.2
+    */
+    getShowInvalidTooltips : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use getShowInvalidToolTips() instead."
+      );
+      return this.getShowInvalidToolTips();
+    },
+
+
+    /**
+    * This method is deprecated. Use resetShowInvalidToolTips instead.
+    *
+    * @deprecated in 1.2
+    */
+    resetShowInvalidTooltips : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use resetShowInvalidToolTips() instead."
+      );
+      return this.resetShowInvalidToolTips();
+    },
+
+
+    /**
+    * This method is deprecated. Use isShowInvalidToolTips instead.
+    *
+    * @deprecated in 1.2
+    */
+    isShowInvalidTooltips : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use isShowInvalidToolTips() instead."
+      );
+      return this.isShowInvalidToolTips();
+    },
+
+
+    /**
+    * This method is deprecated. Use toggleShowInvalidToolTips instead.
+    *
+    * @deprecated in 1.2
+    */
+    toggleShowInvalidTooltips : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use toggleShowInvalidToolTips() instead."
+      );
+      return this.toggleShowInvalidToolTips();
+    },
+
+
+    /**
+    * This method is deprecated. Use initShowInvalidToolTips instead.
+    *
+    * @deprecated in 1.2
+    */
+    initShowInvalidTooltips : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use initShowInvalidToolTips() instead."
+      );
+      return this.initShowInvalidToolTips();
     }
   },
-
 
 
 
