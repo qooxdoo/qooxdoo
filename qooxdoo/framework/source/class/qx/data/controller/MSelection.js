@@ -321,7 +321,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     __getSelectableForModel : function(model)
     {
       // get all list items
-      var children = this.getTarget().getSelectables();
+      var children = this.getTarget().getSelectables(true);
 
       // go through all children and search for the child to select
       for (var i = 0; i < children.length; i++) {

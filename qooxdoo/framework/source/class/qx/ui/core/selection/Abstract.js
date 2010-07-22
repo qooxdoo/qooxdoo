@@ -733,9 +733,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns all selectable items of the container.
      *
+     * @param all {boolean} true for all selectables, false for the 
+      *   selectables the user can interactively select
      * @return {Array} A list of items
      */
-    getSelectables : function() {
+    getSelectables : function(all) {
       throw new Error("Abstract method call: getSelectables()");
     },
 

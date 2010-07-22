@@ -86,7 +86,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      */
     __onModelSelectionArrayChange : function() {
       this.__inSelectionChange = true;
-      var selectables = this.getSelectables();
+      var selectables = this.getSelectables(true);
       var itemSelection = [];
 
       var modelSelection = this.__modelSelection.toArray();

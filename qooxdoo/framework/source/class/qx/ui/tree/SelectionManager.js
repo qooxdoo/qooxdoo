@@ -58,14 +58,21 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
 
     // overridden
-    getSelectables : function()
+    getSelectables : function(all)
     {
+      // if only the user selectables should be returned
+      var oldUserInteraction = false;
+      if (!all) {
+        oldUserInteraction = this._userInteraction;
+        this._userInteraction = true;
+      }
+      
       var widget = this._getWidget();
       var result = [];
 
       if (widget.getRoot() != null)
       {
-        var items = widget.getRoot().getItems(true, true, widget.getHideRoot());
+        var items = widget.getRoot().getItems(true, !!all, widget.getHideRoot());
 
         for (var i = 0; i < items.length; i++)
         {
@@ -75,6 +82,9 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         }
       }
 
+      // reset to the former user interaction state
+      this._userInteraction = oldUserInteraction;
+      
       return result;
     },
 

@@ -211,8 +211,14 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    getSelectables : function()
+    getSelectables : function(all)
     {
+      // if only the user selectables should be returned
+      var oldUserInteraction = false;
+      if (!all) {
+        oldUserInteraction = this._userInteraction;
+        this._userInteraction = true;
+      }
       var children = this.__widget.getChildren();
       var result = [];
       var child;
@@ -226,6 +232,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
         }
       }
 
+      // reset to the former user interaction state
+      this._userInteraction = oldUserInteraction;
       return result;
     },
 

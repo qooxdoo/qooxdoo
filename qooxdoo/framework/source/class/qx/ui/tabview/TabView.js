@@ -444,13 +444,16 @@ qx.Class.define("qx.ui.tabview.TabView",
       return this.__radioGroup.isSelectionEmpty();
     },
 
+
     /**
      * Returns all elements which are selectable.
      *
      * @return {qx.ui.tabview.Page[]} The contained items.
+     * @param all {boolean} true for all selectables, false for the 
+     *   selectables the user can interactively select
      */
-    getSelectables: function() {
-      var buttons = this.__radioGroup.getSelectables();
+    getSelectables: function(all) {
+      var buttons = this.__radioGroup.getSelectables(all);
       var result = [];
 
       for (var i = 0; i <buttons.length; i++) {

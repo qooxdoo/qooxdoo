@@ -176,11 +176,13 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     },
 
     /**
-     * Returns the selectable elements.
+     * Returns all elements which are selectable.
      *
-     * @return {qx.ui.core.Widget[]} The selectable elements.
+     * @param all {boolean} true for all selectables, false for the 
+     *   selectables the user can interactively select
+     * @return {qx.ui.core.Widget[]} The contained items.
      */
-    getSelectables : function()
+    getSelectables : function(all)
     {
       var items = this.__selectionProvider.getItems();
       var result = [];
@@ -191,6 +193,16 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
           result.push(items[i]);
         }
       }
+      
+      // in case of a user selecable list, remove the enabled items
+      if (!all) {
+        for (var i = result.length -1; i >= 0; i--) {
+          if (!result[i].getEnabled()) {
+            result.splice(i, 1);
+          }
+        };
+      }
+      
       return result;
     },
 
@@ -234,7 +246,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       }
 
       if (!this.isAllowEmptySelection() && newSelected == null) {
-        var firstElement = this.getSelectables()[0];
+        var firstElement = this.getSelectables(true)[0];
 
         if (firstElement) {
           newSelected = firstElement;

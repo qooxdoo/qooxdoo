@@ -248,7 +248,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     testGetSelectables : function()
     {
       var items = this._getChildren();
-      var found = this._widget.getSelectables();
+      var found = this._widget.getSelectables(true);
 
       this._assertArrayEquals(items, found,
         "This list of the returned selectables are wrong!");
@@ -259,6 +259,27 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     {
       this._widget.setEnabled(false);
       this.testGetSelectables();
+    },
+    
+    
+    testGetUserSelectables : function()
+    {
+      var selectables = [];
+      var items = this._getChildren();
+      
+      for (var i = 0; i < items.length; i++)
+      {
+        if (i % 2 == 0) {
+          selectables.push(items[i]);
+        } else {
+          items[i].setEnabled(false);
+        }
+      }
+      
+      var found = this._widget.getSelectables();
+    
+      this._assertArrayEquals(selectables, found, 
+        "This list of the returned selectables are wrong!");
     }
   }
 });
