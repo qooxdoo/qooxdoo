@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=children.length-1; i>0; i--)
       {
-        if (this._isItemSelectabel(Children[i])) {
+        if (this._isItemSelectabel(children[i])) {
           return children[i];
         }
       }
