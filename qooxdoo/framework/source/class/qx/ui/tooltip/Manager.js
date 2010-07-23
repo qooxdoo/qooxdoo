@@ -280,16 +280,20 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
-      var tooltip;
+      var tooltip,
+          tooltipText,
+          tooltipIcon,
+          invalidMessage;
 
       // Search first parent which has a tooltip
       while (target != null)
       {
-        var tooltip = target.getToolTip();
-        var tooltipText = target.getToolTipText() || null;
-        var tooltipIcon = target.getToolTipIcon() || null;
-        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) && !target.isValid()) {
-          var invalidMessage = target.getInvalidMessage();
+        tooltip = target.getToolTip();
+        tooltipText = target.getToolTipText() || null;
+        tooltipIcon = target.getToolTipIcon() || null;
+        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) 
+            && !target.isValid()) {
+          invalidMessage = target.getInvalidMessage();
         }
 
         if (tooltip || tooltipText || tooltipIcon || invalidMessage) {
@@ -299,33 +303,29 @@ qx.Class.define("qx.ui.tooltip.Manager",
         target = target.getLayoutParent();
       }
 
-      if (!target) {
-        return;
-      }
-
-      if (target.isBlockToolTip()) {
-        return;
-      }
-
-      // do nothing if tooltips are disabled and fields are valid
-      if (!this.isShowToolTips() && !invalidMessage) { 
-        return; 
-      }
-
-      // Set Property
-      if (invalidMessage && target.getEnabled())
+      //do nothing if 
+      if (!target //don't have a target
+          // tooltip is disabled
+          || !target.getEnabled() 
+          //tooltip is blocked
+          || target.isBlockToolTip() 
+          //an invalid message isn't set and tooltips are disabled 
+          || (!invalidMessage && !this.getShowToolTips()) 
+          //an invalid message is set and invalid tooltips are disabled 
+          || (invalidMessage && !this.getShowInvalidToolTips())) 
       {
-        // do nothing if the invalid tooltips are disabled
-        if (!this.getShowInvalidTooltips()) {
-          return;
-        }
-        var tooltip = this.__getSharedErrorTooltip().set({
+        return;
+      }
+
+      if (invalidMessage)
+      {
+        tooltip = this.__getSharedErrorTooltip().set({
           label: invalidMessage
         });
       }
-      else if (!tooltip)
+      if (!tooltip)
       {
-        var tooltip = this.__getSharedTooltip().set({
+        tooltip = this.__getSharedTooltip().set({
           label: tooltipText,
           icon: tooltipIcon
         });
