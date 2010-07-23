@@ -50,6 +50,20 @@ qx.Class.define("qx.ui.list.List",
 
   properties :
   {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "list"
+    },
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
+    
     model :
     {
       check : "qx.data.Array",
