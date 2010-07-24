@@ -179,11 +179,15 @@ from collections import deque
 # Uses an agenda-style search, with a deque to sequence node children. Supports
 # bread-first and depth-first searches.
 
-def nodeIteratorNonRec(snode, nodetypes, mode='df'):  # df=depth-first, bf=breadth-first
+def nodeIteratorNonRec(snode, nodetypes=[], mode='df'):  # df=depth-first, bf=breadth-first
     agenda = deque()
 
-    if snode.type in nodetypes:
+    if nodetypes:
+        if snode.type in nodetypes:
+            yield snode
+    else:
         yield snode
+
     try:
         cld = snode.children
     except AttributeError:
@@ -203,7 +207,10 @@ def nodeIteratorNonRec(snode, nodetypes, mode='df'):  # df=depth-first, bf=bread
             agenda.extend(cld)
         else:
             agenda.extendleft(cld)
-        if node.type in nodetypes:
+        if nodetypes:
+            if node.type in nodetypes:
+                yield node
+        else:
             yield node
 
 
