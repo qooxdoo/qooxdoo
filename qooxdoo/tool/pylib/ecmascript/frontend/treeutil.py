@@ -180,38 +180,29 @@ from collections import deque
 # bread-first and depth-first searches.
 
 def nodeIteratorNonRec(snode, nodetypes=[], mode='df'):  # df=depth-first, bf=breadth-first
-    agenda = deque()
-
-    if nodetypes:
-        if snode.type in nodetypes:
-            yield snode
-    else:
-        yield snode
-
-    try:
-        cld = snode.children
-    except AttributeError:
-        cld = []
-    agenda.extend(cld)
+    agenda      = deque()
+    agenda.append((u'', snode)) # put the first element in
 
     while True:
         try:
-            node = agenda.popleft()
+            parent_types, node = agenda.popleft()
         except IndexError:
             break
         try:
             cld = node.children
         except AttributeError:
             cld = []
+        cparent_types = "/".join((parent_types, node.type))
+        cld = [(cparent_types, x) for x in cld]
         if mode == 'bf':
             agenda.extend(cld)
         else:
             agenda.extendleft(cld)
         if nodetypes:
             if node.type in nodetypes:
-                yield node
+                yield parent_types, node
         else:
-            yield node
+            yield parent_types, node
 
 
 
