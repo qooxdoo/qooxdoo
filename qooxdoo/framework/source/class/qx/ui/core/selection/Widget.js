@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return this._isItemSelectabel(item) && item.getLayoutParent() === this.__widget;
+      return this._isItemSelectable(item) && item.getLayoutParent() === this.__widget;
     },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
      * @param item {qx.ui.core.Widget} The item to check.
      * @return {Boolean} true, if the item is selectable.
      */
-    _isItemSelectabel : function(item) {
+    _isItemSelectable : function(item) {
       if (this._userInteraction) {
         return item.isVisible() && item.isEnabled();
       } else {
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       {
         child = children[i];
 
-        if (this._isItemSelectabel(child)) {
+        if (this._isItemSelectable(child)) {
           result.push(child);
         }
       }
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
           }
         }
 
-        if (active && this._isItemSelectabel(child)) {
+        if (active && this._isItemSelectable(child)) {
           result.push(child);
         }
       }
@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
-        if (this._isItemSelectabel(children[i])) {
+        if (this._isItemSelectable(children[i])) {
           return children[i];
         }
       }
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=children.length-1; i>0; i--)
       {
-        if (this._isItemSelectabel(children[i])) {
+        if (this._isItemSelectable(children[i])) {
           return children[i];
         }
       }
@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index-1; i>=0; i--)
         {
           sibling = children[i];
-          if (this._isItemSelectabel(sibling)) {
+          if (this._isItemSelectable(sibling)) {
             return sibling;
           }
         }
@@ -332,7 +332,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index+1; i<children.length; i++)
         {
           sibling = children[i];
-          if (this._isItemSelectabel(sibling)) {
+          if (this._isItemSelectable(sibling)) {
             return sibling;
           }
         }

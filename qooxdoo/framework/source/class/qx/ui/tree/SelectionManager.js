@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
     // overridden
     _isSelectable : function(item) {
-      return this._isItemSelectabel(item) 
+      return this._isItemSelectable(item) 
       && item instanceof qx.ui.tree.AbstractTreeItem;
     },
 
