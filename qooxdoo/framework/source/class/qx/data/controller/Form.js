@@ -177,7 +177,7 @@ qx.Class.define("qx.data.controller.Form",
             if (!currentData[names[i]]) {
               currentData[names[i]] = {};
             }
-            currentData = currentData[names[i]]
+            currentData = currentData[names[i]];
           }
         }
       }

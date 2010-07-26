@@ -379,6 +379,25 @@ qx.Class.define("qx.test.data.controller.Form",
       tf2.destroy();
       form.dispose();
     },
+    
+    
+    testModelCreationSpecialCaracter : function() {
+      var form = new qx.ui.form.Form();
+      var tf1 = new qx.ui.form.TextField("A");
+
+      form.add(tf1, "a&b-c+d*e/f|g!h i");
+
+      var controller = new qx.data.controller.Form(null, form);
+      var model = controller.createModel(true);
+
+      // check if the creation worked
+      this.assertEquals("A", model.getAbcdefghi());
+
+      model.dispose();
+      controller.dispose();
+      tf1.destroy();
+      form.dispose();
+    },    
 
 
     testModelCreateionWithListController : function() 
