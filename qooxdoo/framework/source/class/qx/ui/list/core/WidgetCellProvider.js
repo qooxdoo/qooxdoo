@@ -30,8 +30,10 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
   {
     this.base(arguments);
 
-    this._cellRenderer = new qx.ui.virtual.cell.ListItemWidgetCell();
+    this._cellRenderer = this._createCellRenderer();
     this._list = list;
+    
+    this._cellRenderer.addListener("created", this._onWidgetCreated, this);
   },
 
   members :
@@ -78,6 +80,12 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     styleDisabled : function(item) {
       item.setEnabled(false);
+    },
+    
+    _onWidgetCreated : function(event)
+    {
+      var widget = event.getData();
+      this._configureItem(widget);
     }
   },
 

@@ -36,6 +36,16 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
 {
   extend : qx.application.Standalone,
 
+  properties :
+  {
+    showMode : 
+    {
+      init : "both",
+      check : ["label", "icon", "both"],
+      event : "changeShowMode"
+    }
+  },
+  
   members :
   {
     __configList : null,
@@ -58,7 +68,7 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
     
     test : function()
     {
-      model = new qx.data.Array();
+      var model = new qx.data.Array();
       for (var i = 0; i < 1000; i++) 
       {
         model.push("label " + (i + 1));
@@ -71,7 +81,7 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
         model.push(item);*/
       }
  
-      list = new qx.ui.list.List(model).set({
+      var list = new qx.ui.list.List(model).set({
        itemHeight: 30,
        selectionMode: "multi",
        dragSelection: true
@@ -104,8 +114,7 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
       
       for (var i = 0; i < 2500; i++) 
       {
-        var item = new demobrowser.demo.virtual.model.Item("Item No " + i, 
-            "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
+        var item = new demobrowser.demo.virtual.model.Item("Item No " + i, (i % 4) ? "16" : "48");
         
         // Disable each ninth item 
         if (i % 9 == 0) {
@@ -121,8 +130,19 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
         height: 280, 
         width: 150,
         labelPath: "label",
-        iconPath: "icon"
+        iconPath: "icon",
+        iconOptions: {converter : function(data) {
+          return "icon/" + data + "/places/folder.png";
+        }}
       });
+      
+      var that = this;
+      var delegate = {
+        configureItem : function(item) {
+          that.bind("showMode", item, "show");
+        }
+      };
+      list.setDelegate(delegate);
       container.add(list, {top: 20});
       
       // Pre-Select "Item No 20"
@@ -285,11 +305,8 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
     
     onShowModeChange : function(e)
     {
-      this.debug("Feature not implementet!");
-      /*var value = e.getData()[0].getUserData("value");
-      for(var i = 0; i < this.__configList.getChildren().length; i++) {
-        this.__configList.getChildren()[i].setShow(value);
-      }*/
+      var value = e.getData()[0].getUserData("value");
+      this.setShowMode(value);
     },
     
     onDragCheckChange : function(e)

@@ -95,6 +95,26 @@ qx.Class.define("qx.ui.list.List",
       check: "String",
       apply: "_applyIconPath",
       nullable: true
+    },
+    
+    labelOptions :
+    {
+      apply: "_applyLabelOptions",
+      nullable: true
+    },
+  
+    iconOptions :
+    {
+      apply: "_applyIconOptions",
+      nullable: true
+    },
+    
+    delegate :
+    {
+      apply: "_applyDelegate",
+      event: "changeDelegate",
+      init: null,
+      nullable: true
     }
   },
 
@@ -163,6 +183,18 @@ qx.Class.define("qx.ui.list.List",
 
     _applyIconPath : function(value, old) {
       this._widgetCellProvider.setIconPath(value);
+    },
+    
+    _applyLabelOptions : function(value, old) {
+      this._widgetCellProvider.setLabelOptions(value);
+    },
+    
+    _applyIconOptions : function(value, old) {
+      this._widgetCellProvider.setIconOptions(value);
+    },
+    
+    _applyDelegate : function(value, old) {
+      this._widgetCellProvider.setDelegate(value);
     },
     
     _onResize : function(e) {

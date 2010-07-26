@@ -21,6 +21,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
 {
   construct : function() {
     this.__boundProperties = [];
+    this.__boundPropertiesReverse = [];
   },
   
   properties : 
@@ -28,32 +29,27 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     labelPath :
     {
       check: "String",
-//      apply: "_applyLabelPath",
       nullable: true
     },
 
     iconPath :
     {
       check: "String",
-//      apply: "_applyIconPath",
       nullable: true
     },
   
     labelOptions :
     {
-//      apply: "_applyLabelOptions",
       nullable: true
     },
   
     iconOptions :
     {
-//      apply: "_applyIconOptions",
       nullable: true
     },
   
     delegate :
     {
-//      apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
       nullable: true
@@ -77,7 +73,8 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       }
     },
     
-    bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
+    bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
+    {
       var bindPath = "model[" + index + "]";
       if (sourcePath != null && sourcePath != "") {
         bindPath += "." + sourcePath;
@@ -91,6 +88,42 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       }
     },
     
+    bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
+    {
+        var targetBindPath = "model[" + index + "]";
+        if (targetPath != null && targetPath != "") {
+          targetBindPath += "." + targetPath;
+        }
+
+        var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
+        sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
+
+        if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
+          this.__boundPropertiesReverse.push(targetPath);
+        }
+      },
+    
+    _createCellRenderer : function() {
+      var delegate = this.getDelegate();
+
+      if (delegate != null && delegate.createCellRenderer != null) {
+        var renderer = delegate.createCellRenderer();
+      } else {
+        var renderer = new qx.ui.virtual.cell.ListItemWidgetCell();
+      }
+
+      return renderer;
+    },
+    
+    _configureItem : function(item)
+    {
+      var delegate = this.getDelegate();
+      
+      if (delegate != null && delegate.configureItem != null) {
+        delegate.configureItem(item);
+      }
+    },
+    
     _bindItem: function(item, index) {
       var delegate = this.getDelegate();
       
@@ -98,9 +131,6 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
         delegate.bindItem(this, item, index);
       } else {
         this.bindDefaultProperties(item, index);
-//        var modelData = item.getUserData("binding.modelData");
-//        modelData.bind("label", item, "label");
-//        modelData.bind("icon", item, "icon");
       }
     },
   
@@ -112,12 +142,16 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
         }
       }
       
-//      var modelData = item.getUserData("binding.modelData");
-//      modelData.removeAllBindings();
+      for (var i = 0; i < this.__boundPropertiesReverse.length; i++) {
+        var id = item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId");
+        if (id != null) {
+          item.removeBinding(id);
+        }
+      };
     }
   },
 
   destruct : function() {
-    this.__boundProperties = null;
+    this.__boundProperties = this.__boundPropertiesReverse = null;
   }
 });
