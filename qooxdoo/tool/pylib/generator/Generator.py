@@ -1127,9 +1127,9 @@ class Generator(object):
                 self._console.info("Class: %s" % classId)
 
                 self._console.indent()
-                for depId in depsLoad:
+                for depId in sorted(depsLoad):
                     self._console.info("%s: %s (load)" % (relstring, depId))
-                for depId in depsRun:
+                for depId in sorted(depsRun):
                     self._console.info("%s: %s (run)"  % (relstring, depId))
                 self._console.outdent()
                     
