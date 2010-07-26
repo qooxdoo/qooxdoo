@@ -112,6 +112,8 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       if (old != null) {
         old.removeListener("change", this._onChangeSelection, this);
       }
+      
+      this._onChangeSelection();
     },
 
     _applySelectionMode : function(value, old) {

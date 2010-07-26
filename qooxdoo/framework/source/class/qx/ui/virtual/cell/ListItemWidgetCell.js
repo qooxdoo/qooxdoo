@@ -30,8 +30,8 @@ qx.Class.define("qx.ui.virtual.cell.ListItemWidgetCell",
 
     // overridden
     updateData : function(widget, data) {
-      var label = data.label ? data.label : null;
-      var icon = data.icon ? data.icon : null;
+      var label = data && data.label ? data.label : null;
+      var icon = data && data.icon ? data.icon : null;
 
       widget.setLabel(label);
       widget.setIcon(icon);
