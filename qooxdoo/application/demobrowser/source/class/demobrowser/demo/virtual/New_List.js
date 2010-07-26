@@ -1,0 +1,321 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
+     * Christian Hagendorn (chris_schmidt)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+#asset(qx/icon/${qx.icontheme}/48/places/folder.png)
+#asset(qx/icon/${qx.icontheme}/48/devices/*)
+#asset(qx/icon/Tango/22/emotes/*)
+
+************************************************************************ */
+
+/**
+ * @tag noPlayground
+ */
+qx.Class.define("demobrowser.demo.virtual.New_List",
+{
+  extend : qx.application.Standalone,
+
+  members :
+  {
+    __configList : null,
+  
+    __dragCheck : null,
+    
+    __quickCheck : null,
+  
+    main: function()
+    {
+      this.base(arguments);
+      
+      var container = this.getRoot();
+      container.add(this.createConfigurableList(), {left: 20, top: 20});
+      container.add(this.createOneSelectionList(), {left: 330, top: 20});
+      container.add(this.createAdditiveSelectionList(), {left: 520, top: 20});
+      
+      this.test();
+    },
+    
+    test : function()
+    {
+      model = new qx.data.Array();
+      for (var i = 0; i < 1000; i++) 
+      {
+        model.push("label " + (i + 1));
+        
+        /*var icons = ["angel", "embarrassed", "kiss", "laugh", "plain", "raspberry",
+              "sad", "smile-big", "smile", "surprise"];
+            
+        var item = new demobrowser.demo.virtual.model.Item("label " + i,
+            "icon/22/emotes/face-" + icons[Math.floor(Math.random() * icons.length)] + ".png");
+        model.push(item);*/
+      }
+ 
+      list = new qx.ui.list.List(model).set({
+       itemHeight: 30,
+       selectionMode: "multi",
+       dragSelection: true
+       //quickSelection: true
+      });
+      
+      list.getSelection().push(model.getItem(1));
+      list.getDisabledItems().push(model.getItem(3));
+      
+      qx.event.Timer.once(function() {
+        //model.getItem(2).setLabel("new Item");
+        model.setItem(2, "new Item");
+      }, this, 4000) 
+      
+      var doc = this.getRoot();
+      doc.add(list, {top: 20, left: 700});
+    },
+
+    createConfigurableList : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      
+      var title = new qx.ui.basic.Label("Configurable").set({
+        font: "bold"
+      });
+      container.add(title);
+
+      var model = new qx.data.Array();
+      var disabledItems = new qx.data.Array();
+      
+      for (var i = 0; i < 2500; i++) 
+      {
+        var item = new demobrowser.demo.virtual.model.Item("Item No " + i, 
+            "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
+        
+        // Disable each ninth item 
+        if (i % 9 == 0) {
+          disabledItems.push(item);
+        }
+        
+        model.push(item);
+      }
+      
+      var list = this.__configList = new qx.ui.list.List(model).set({
+        scrollbarX: "on",
+        selectionMode : "multi",
+        height: 280, 
+        width: 150,
+        labelPath: "label",
+        iconPath: "icon"
+      });
+      container.add(list, {top: 20});
+      
+      // Pre-Select "Item No 20"
+      list.getSelection().push(model.getItem(20));
+      
+      // Apply disabled items 
+      list.setDisabledItems(disabledItems);
+
+      // TODO implement auto sizing
+      var rowConfig = list.getPane().getRowConfig();
+      for (var i = 0; i < 2500; i++) 
+      {
+        if (i % 4 == 0) {
+          rowConfig.setItemSize(i, 56);
+        } else {
+          rowConfig.setItemSize(i, 25);
+        }
+      }
+      
+      // Configure Elements
+      var single = new qx.ui.form.RadioButton("Single Selection");
+      var multi = new qx.ui.form.RadioButton("Multi Selection");
+      var additive = new qx.ui.form.RadioButton("Additive Selection");
+      var one = new qx.ui.form.RadioButton("One Selection");
+      
+      single.setUserData("value", "single");
+      multi.setUserData("value", "multi");
+      additive.setUserData("value", "additive");
+      one.setUserData("value", "one");
+
+      container.add(single, {left: 160, top: 20});
+      container.add(multi, {left: 160, top: 40});
+      container.add(additive, {left: 160, top: 60});
+      container.add(one, {left: 160, top: 80});
+
+      var label = new qx.ui.form.RadioButton("Show Label");
+      var icon = new qx.ui.form.RadioButton("Show Icon");
+      var both = new qx.ui.form.RadioButton("Show Both");
+      
+      label.setUserData("value", "label");
+      icon.setUserData("value", "icon");
+      both.setUserData("value", "both");
+
+      container.add(label, {left: 160, top: 120});
+      container.add(icon, {left: 160, top: 140});
+      container.add(both, {left: 160, top: 160});
+
+      var dragCheck = this.__dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
+      var quickCheck = this.__quickCheck = new qx.ui.form.CheckBox("Enable quick selection").set({enabled : false});
+      
+      container.add(dragCheck, {left: 160, top: 200});
+      container.add(quickCheck, {left: 160, top: 220});
+
+      // Configure behavior
+      var selectionMode = new qx.ui.form.RadioGroup(single, multi, additive, one);
+      selectionMode.setSelection([multi]);
+      selectionMode.addListener("changeSelection", this.onSelectionModeChange, this);
+      
+      var showMode = new qx.ui.form.RadioGroup(label, icon, both);
+      showMode.setSelection([both]);
+      showMode.addListener("changeSelection", this.onShowModeChange, this);
+      
+      dragCheck.addListener("changeValue", this.onDragCheckChange, this);
+      quickCheck.addListener("changeValue", this.onQuickCheckChange, this);
+      
+      return container;
+    },
+    
+    createOneSelectionList : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+
+      var title = new qx.ui.basic.Label("One as selection mode").set({
+        font: "bold"
+      });
+      container.add(title);
+
+      var model = new qx.data.Array();
+      for (var i = 0; i < 250; i++) 
+      {
+        var item = new demobrowser.demo.virtual.model.Item("Item No " + i, "icon/16/places/folder.png");
+        model.push(item);
+      }
+      
+      var list = new qx.ui.list.List(model).set({
+        selectionMode : "one",
+        height: 280, 
+        width: 150,
+        itemHeight: 25, // TODO implement auto sizing
+        labelPath: "label",
+        iconPath: "icon"
+      });
+      container.add(list, {top: 20});
+      
+      // Pre-Select "Item No 16"
+      list.getSelection().push(model.getItem(16));
+
+      return container;
+    },
+      
+    createAdditiveSelectionList : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+
+      var title = new qx.ui.basic.Label("Additive selection").set({
+        font : "bold"
+      });
+      container.add(title);
+
+      var l3l = ["Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis",
+                 "Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick",
+                 "Philipp","Noah","Tom","Moritz","Nico","David","Nils","Simon","Fabian",
+                 "Erik","Justin","Alexander","Jakob","Florian","Nick","Linus","Mika","Jason",
+                 "Daniel","Lennard","Marvin","Jannis","Tobias","Dominic","Marlon","Marc",
+                 "Johannes","Jonathan","Julius","Colin","Joel","Kevin","Vincent","Robin"];
+      
+      var model = new qx.data.Array();
+      var selection = new qx.data.Array();
+      for (var i = 0; i < l3l.length; i++)
+      {
+        var item = new demobrowser.demo.virtual.model.Item(l3l[i]);
+        model.push(item);
+        
+        if (i == 10 || i == 12 || i == 16) {
+          selection.push(item);
+        }
+      }
+      
+      var list = new qx.ui.list.List(model).set({
+        selectionMode : "additive",
+        height: 200, // TODO set default height to 200
+        width: 150,
+        itemHeight: 25, // TODO implement auto sizing
+        labelPath: "label",
+        iconPath: "icon"
+      });
+      container.add(list, {top: 20});
+
+      list.setSelection(selection);
+      
+      return container;
+    },
+    
+    onSelectionModeChange : function(e)
+    {
+      var value = e.getData()[0].getUserData("value");
+      this.__configList.setSelectionMode(value);
+  
+      if (value == "single" || value == "one")
+      {
+        this.__dragCheck.setEnabled(false);
+        this.__quickCheck.setEnabled(true);
+      }
+      else if (value == "multi" || value == "addaptive")
+      {
+        this.__dragCheck.setEnabled(true);
+        this.__quickCheck.setEnabled(false);
+      }
+    },
+    
+    onShowModeChange : function(e)
+    {
+      this.debug("Feature not implementet!");
+      /*var value = e.getData()[0].getUserData("value");
+      for(var i = 0; i < this.__configList.getChildren().length; i++) {
+        this.__configList.getChildren()[i].setShow(value);
+      }*/
+    },
+    
+    onDragCheckChange : function(e)
+    {
+      if (e.getData())
+      {
+        var mode = this.__configList.getSelectionMode();
+        if (mode == "single" || mode == "one") {
+          this.debug("Drag selection is only available for the modes multi or additive");
+        }
+      }
+
+      this.__configList.setDragSelection(e.getData());
+    },
+    
+    onQuickCheckChange : function(e)
+    {
+      if (e.getData())
+      {
+        var mode = this.__configList.getSelectionMode();
+        if (mode == "multi" || mode == "additive") {
+          this.debug("Quick selection is only available for the modes multi or additive");
+        }
+      }
+
+      this.__configList.setQuickSelection(e.getData());
+    }
+  }
+});
