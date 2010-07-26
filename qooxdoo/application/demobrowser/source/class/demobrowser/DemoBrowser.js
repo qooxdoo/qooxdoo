@@ -1013,59 +1013,30 @@ qx.Class.define("demobrowser.DemoBrowser",
         // check for the tags
         var tags = folder.getUserData("tags");
         var inTags = false;
-        var selectedVersion = false;
-        if (qx.core.Variant.isSet("qx.contrib", "off")) {
-          selectedVersion = true;
-        }
 
         if (tags != null) {
           for (var j = 0; j < tags.length; j++) {
             inTags = !!tags[j].match(searchRegExp);
-
-            if (qx.core.Variant.isSet("qx.contrib", "off")) {
-              if (inTags) {
-                break;
-              }
-            }
-            else if (!this._versionFilter || tags[j] == this._versionFilter) {
-              selectedVersion = true;
+            if (inTags) {
+              break;
             }
           }
-          if (qx.core.Variant.isSet("qx.contrib", "on")) {
-            count++;
-          }
-        }
-        else if (qx.core.Variant.isSet("qx.contrib", "on")) {
-          continue;
         }
 
-        if (qx.core.Variant.isSet("qx.contrib", "off")) {
-          if (folder.getChildren().length == 0) {
-            count++;
-          }
+        if (folder.getChildren().length == 0) {
+          count++;
         }
 
         if ( (inTags || (folder.getLabel().search(searchRegExp) != -1) ||
-            (parent.getLabel().search(searchRegExp) != -1 ) ) && selectedVersion)
+            (parent.getLabel().search(searchRegExp) != -1 ) ) )
         {
-          if (qx.core.Variant.isSet("qx.contrib", "on") ||
-              ( qx.core.Variant.isSet("qx.contrib", "off") && folder.getChildren().length == 0 )  ) {
+          if (folder.getChildren().length == 0 ) {
             showing++;
           }
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
-          if (qx.core.Variant.isSet("qx.contrib", "on")) {
-            folder.setOpen(true);
-          }
-        } 
-        else if (qx.core.Variant.isSet("qx.contrib", "on")) {
-          if (folder.getChildren().length > 0) {
-            folder.exclude();
-            folder.getParent().setOpen(false);
-            folder.getParent().exclude();
-          }
-        }
+        }        
         else {
           folder.exclude();
         }
