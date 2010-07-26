@@ -413,6 +413,10 @@ class LibraryVersion:
       if buildTarget == "build":
         #get the compatible qooxdoo versions of the library version
         for qxVersion in qxVersions:
+          #if qxVersion[:2] == "0.":
+          #  console.info("skipping 0.x: %s %s %s" %(self.parent.name, self.name, variantName))
+          #  continue
+          
           if not (demoBrowser and copyDemos):
             buildPath = qxVersion
           else:
@@ -439,12 +443,17 @@ class LibraryVersion:
       # source version of demo
       elif buildTarget == "source":
         status = variant.build(buildTarget)
+        #DEBUG
+        #status = {"buildError" : None}
         if status["buildError"]:          
           console.warn("%s %s demo %s %s generation failed!" %(self.parent.name, self.name, variantName, buildTarget))
           console.warn(status["buildError"])
         elif demoBrowser:
           demoBrowserBase = os.path.split(demoBrowser)[0]
           for qxVersion in qxVersions:
+            #if qxVersion[:2] == "0.":
+            #  console.info("Skipping 0.x: %s %s %s" %(self.parent.name, self.name, variantName))
+            #  continue
             demoData = copy.deepcopy(variant.data)
             demoData["tags"].append( "qxVersion_" + qxVersion)
             self.data["tests"].append(demoData)
@@ -550,10 +559,10 @@ class Demo:
     libName = self.parent.parent.name
     libVersion = self.parent.name
     demoDict = {
-      "name" : self.name + ".html",
+      "name" : self.name,
       "nr": self.name.capitalize(),
       "title": libName + " " + libVersion + " " + self.name,
-      "tags" : [ libVersion ],
+      "tags" : [ libName, libVersion ],
       "manifest" : self.manifest
     }
 
