@@ -90,18 +90,18 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
-        var targetBindPath = "model[" + index + "]";
-        if (targetPath != null && targetPath != "") {
-          targetBindPath += "." + targetPath;
-        }
+      var targetBindPath = "model[" + index + "]";
+      if (targetPath != null && targetPath != "") {
+        targetBindPath += "." + targetPath;
+      }
 
-        var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
-        sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
+      var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
+      sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
 
-        if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
-          this.__boundPropertiesReverse.push(targetPath);
-        }
-      },
+      if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
+        this.__boundPropertiesReverse.push(targetPath);
+      }
+    },
     
     _createCellRenderer : function() {
       var delegate = this.getDelegate();
