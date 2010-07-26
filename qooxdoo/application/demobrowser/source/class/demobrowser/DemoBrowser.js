@@ -743,13 +743,20 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
+            var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             if (currNode.tags) {
               t.setUserData("tags", currNode.tags);
               if (qx.core.Variant.isSet("qx.contrib", "on")) {
                 that._getVersionTags(currNode.tags);
+                for (var j=0,m=currNode.tags.length; j<m; j++) {
+                  var tag = currNode.tags[j];
+                  if (tag.indexOf("qxVersion") == 0) {
+                    fullName += "/" + tag.substr(10) + "/index.html";
+                    currNode.label += "|" + tag.substr(10) + "|index.html";
+                  }
+                }
               }
             }
-            var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
 
