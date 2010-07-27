@@ -62,44 +62,8 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
       container.add(this.createConfigurableList(), {left: 20, top: 20});
       container.add(this.createOneSelectionList(), {left: 330, top: 20});
       container.add(this.createAdditiveSelectionList(), {left: 520, top: 20});
-      
-      this.test();
     },
     
-    test : function()
-    {
-      var model = new qx.data.Array();
-      for (var i = 0; i < 1000; i++) 
-      {
-        model.push("label " + (i + 1));
-        
-        /*var icons = ["angel", "embarrassed", "kiss", "laugh", "plain", "raspberry",
-              "sad", "smile-big", "smile", "surprise"];
-            
-        var item = new demobrowser.demo.virtual.model.Item("label " + i,
-            "icon/22/emotes/face-" + icons[Math.floor(Math.random() * icons.length)] + ".png");
-        model.push(item);*/
-      }
- 
-      var list = new qx.ui.list.List(model).set({
-       itemHeight: 30,
-       selectionMode: "multi",
-       dragSelection: true
-       //quickSelection: true
-      });
-      
-      list.getSelection().push(model.getItem(1));
-      list.getDisabledItems().push(model.getItem(3));
-      
-      qx.event.Timer.once(function() {
-        //model.getItem(2).setLabel("new Item");
-        model.setItem(2, "new Item");
-      }, this, 4000) 
-      
-      var doc = this.getRoot();
-      doc.add(list, {top: 20, left: 700});
-    },
-
     createConfigurableList : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -109,21 +73,16 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
       });
       container.add(title);
 
-      var model = new qx.data.Array();
-      var disabledItems = new qx.data.Array();
-      
+      var rawData = [];
       for (var i = 0; i < 2500; i++) 
       {
-        var item = new demobrowser.demo.virtual.model.Item("Item No " + i, (i % 4) ? "16" : "48");
-        
-        // Disable each ninth item 
-        if (i % 9 == 0) {
-          disabledItems.push(item);
+        rawData[i] = {
+          label: "Item No " + i,
+          icon: (i % 4) ? "16" : "48"
         }
-        
-        model.push(item);
       }
       
+      var model = qx.data.marshal.Json.createModel(rawData);
       var list = this.__configList = new qx.ui.list.List(model).set({
         scrollbarX: "on",
         selectionMode : "multi",
@@ -140,6 +99,15 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
       var delegate = {
         configureItem : function(item) {
           that.bind("showMode", item, "show");
+        },
+        
+        bindItem : function(controller, item, id) {
+          controller.bindDefaultProperties(item, id);
+          controller.bindProperty("label", "enabled", { 
+            converter : function(data) {
+              return parseInt(data.replace(/Item No /g, "")) % 9 != 0
+            }
+          }, item, id);
         }
       };
       list.setDelegate(delegate);
@@ -148,9 +116,6 @@ qx.Class.define("demobrowser.demo.virtual.New_List",
       // Pre-Select "Item No 20"
       list.getSelection().push(model.getItem(20));
       
-      // Apply disabled items 
-      list.setDisabledItems(disabledItems);
-
       // TODO implement auto sizing
       var rowConfig = list.getPane().getRowConfig();
       for (var i = 0; i < 2500; i++) 

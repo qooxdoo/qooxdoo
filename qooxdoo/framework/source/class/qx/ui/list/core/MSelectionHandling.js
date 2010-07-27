@@ -100,11 +100,17 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
     },
 
-    _isSelectable : function(row) {
-      var item = this._getDataFromRow(row);
-      return !this._isDisabled(item);
+    _isSelectable : function(row)
+    {
+      var widget = this._layer.getRenderedCellWidget(row, 0);
+      
+      if (widget != null && !this.__ignoreChangeSelection) {
+        return widget.isEnabled();
+      } else {
+        return true;
+      }
     },
-
+    
     _applySelection : function(value, old)
     {
       value.addListener("change", this._onChangeSelection, this);

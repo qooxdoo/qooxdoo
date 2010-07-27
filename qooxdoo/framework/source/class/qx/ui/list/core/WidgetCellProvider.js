@@ -52,12 +52,6 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
         this.styleUnselectabled(widget);
       }
       
-      if (this._list._isDisabled(modelData)) {
-        this.styleDisabled(widget);
-      } else {
-        this.styleEnabled(widget);
-      }
-
       return widget;
     },
 
@@ -72,14 +66,6 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     styleUnselectabled : function(item) {
       this._cellRenderer.updateStates(item, {});
-    },
-    
-    styleEnabled : function(item) {
-      item.setEnabled(true);
-    },
-
-    styleDisabled : function(item) {
-      item.setEnabled(false);
     },
     
     _onWidgetCreated : function(event)

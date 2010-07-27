@@ -38,8 +38,6 @@ qx.Class.define("qx.ui.list.List",
     } else {
       this.initModel(new qx.data.Array());
     }
-    
-    this.initDisabledItems(new qx.data.Array());
   },
 
   properties :
@@ -67,14 +65,6 @@ qx.Class.define("qx.ui.list.List",
       deferredInit : true
     },
     
-    disabledItems :
-    {
-      check : "qx.data.Array",
-      apply : "_applyModel",
-      nullable : false,
-      deferredInit : true
-    },
-
     itemHeight :
     {
       check : "Integer",
@@ -136,10 +126,6 @@ qx.Class.define("qx.ui.list.List",
       }
     },
     
-    _isDisabled : function(item) {
-      return this.getDisabledItems().contains(item);;
-    },
-
     _init : function()
     {
       this.addListener("resize", this._onResize, this);
