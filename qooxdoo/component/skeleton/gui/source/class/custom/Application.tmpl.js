@@ -62,7 +62,7 @@ qx.Class.define("${Namespace}.Application",
 
       // Document is the application root
       var doc = this.getRoot();
-			
+
       // Add button to document at fixed coordinates
       doc.add(button1, {left: 100, top: 50});
 
