@@ -469,27 +469,6 @@ qx.Class.define("qx.util.Json",
       } catch(ex) {
         throw new Error("Could not evaluate JSON string: " + ex.message);
       }
-    },
-
-
-    /**
-     * Parse a JSON text, producing a JavaScript value.
-     * It triggers an exception if there is a syntax error.
-     *
-     * @deprecated Use 'qx.util.Json.parse' instead! (for 0.9)
-     *
-     * @param text {String} JSON string
-     * @return {Object} evaluated JSON string.
-     * @throws an error if the text could not be parsed or evaluated
-     */
-    parseQx : function(text)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'parse' instead!"
-      );
-
-      return qx.util.Json.parse(text, false);
     }
   },
 

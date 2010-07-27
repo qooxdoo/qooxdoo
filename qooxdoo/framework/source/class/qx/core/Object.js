@@ -782,19 +782,6 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Disconnects given fields from instance.
-     *
-     * @param varargs {arguments} List of fields to dispose
-     * @deprecated Performance: Don't use '_disposeFields' - instead
-     *      assign directly to <code>null</code>
-     */
-    _disposeFields : function(varargs)
-    {
-      qx.Bootstrap.warn("Don't use '_disposeFields' - instead assign directly to 'null'");
-      qx.util.DisposeUtil.disposeFields(this, arguments);
-    },
-
 
     /**
      * Disconnects and disposes given objects from instance.
@@ -924,8 +911,7 @@ qx.Class.define("qx.core.Object",
       {
         for (var name in properties)
         {
-          // dispose is @deprecated with 1.1
-          if (properties[name].dispose || properties[name].dereference) {
+          if (properties[name].dereference) {
             this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
           }
         }

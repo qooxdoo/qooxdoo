@@ -251,7 +251,6 @@ qx.Bootstrap.define("qx.core.Property",
     $$allowedKeys :
     {
       name         : "string",   // String
-      dispose      : "boolean",  // Boolean @deprecated in 1.1
       dereference  : "boolean",  // Boolean
       inheritable  : "boolean",  // Boolean
       nullable     : "boolean",  // Boolean
@@ -365,27 +364,6 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       return new Function(code.join(""));
-    },
-
-    /**
-     * Refreshes widget whose parent has changed (including the children)
-     *
-     * @deprecated qx.core.Property.refresh() is deprecated. Please use the
-     *     member function '$$refreshInheritables()'.
-     * @param widget {qx.ui.core.Widget} the widget
-     * @return {void}
-     */
-    refresh : function(widget)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee,
-          "qx.core.Property.refresh() is deprecated. Please use the member function '$$refreshInheritables()'"
-        );
-      }
-
-      widget.$$refreshInheritables();
     },
 
 
@@ -533,23 +511,6 @@ qx.Bootstrap.define("qx.core.Property",
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Generating property wrappers: " + name);
-        }
-      }
-
-      // @deprecated warning (came in with 1.1)
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (config.dispose)
-        {
-          // migrate for further processing
-          if (!config.dereference) {
-            config.dereference = config.dispose;
-          }
-          qx.log.Logger.warn(
-            "The property key 'dispose' is deprecated: " +
-            "Please use 'dereference' instead."
-          );
-          qx.log.Logger.trace();
         }
       }
 

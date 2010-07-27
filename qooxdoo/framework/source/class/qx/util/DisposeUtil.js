@@ -32,31 +32,6 @@ qx.Class.define("qx.util.DisposeUtil",
   statics :
   {
     /**
-     * Disconnects given fields from instance.
-     *
-     * @param obj {Object} Object which contains the fields
-     * @param arr {Array} List of fields to dispose
-     * @deprecated Performance: Don't use 'disposeFields' - instead
-     *      assign directly to <code>null</code>
-     */
-    disposeFields : function(obj, arr)
-    {
-      qx.Bootstrap.warn("Don't use 'disposeFields' - instead assign directly to 'null'");
-
-      for (var i=0, l=arr.length; i<l; i++)
-      {
-        var name = arr[i]
-
-        if (obj[name] == null || !obj.hasOwnProperty(name)) {
-          continue;
-        }
-
-        obj[name] = null;
-      }
-    },
-
-
-    /**
      * Disconnects and disposes given objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
