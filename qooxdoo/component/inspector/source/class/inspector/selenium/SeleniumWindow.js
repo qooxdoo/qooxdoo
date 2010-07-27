@@ -22,6 +22,7 @@
 #asset(qx/icon/Tango/22/actions/list-remove.png)
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-record.png)
+#asset(qx/icon/Tango/22/actions/window-new.png)
 #asset(qx/icon/Tango/22/categories/system.png)
 ************************************************************************ */
 
@@ -120,6 +121,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     __selenium : null,
     __seleniumCommandQueue : null,
     __seleniumScripts : null,
+    __seleneseTestCase : null,
 
     /*
     open : function()
@@ -240,7 +242,14 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       this._recordButton = new qx.ui.toolbar.CheckBox(null,
           "icon/22/actions/media-record.png");
       part2.add(this._recordButton);
-      this._recordButton.setToolTipText("Automatically add locators for each inspected widget");
+      this._recordButton.setToolTipText("Automatically add a new command for each inspected widget");
+      
+      this._exportButton = new qx.ui.toolbar.CheckBox(null, "icon/22/actions/window-new.png");
+      part2.add(this._exportButton);
+      this._exportButton.setToolTipText("Convert the current test case to Selenese format");
+      this._exportButton.addListenerOnce("changeValue", function(ev) {
+        this.__getSelenese();        
+      }, this);
       
       return part2;
     },
@@ -249,6 +258,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     {
       var part3 = new qx.ui.toolbar.Part();
       this._optionsButton = new qx.ui.toolbar.Button(null, "icon/22/categories/system.png");
+      this._optionsButton.setToolTipText("Options");
       part3.add(this._optionsButton);
       this._optionsButton.addListener("execute", function(ev) {
         if (!this._optionsWindow.isVisible()) {
@@ -275,9 +285,16 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     __removeSelectedRows : function()
     {
       var tableModel = this._table.getTableModel();
+      var selectedRows = [];
       this._table.getSelectionModel().iterateSelection(function(index) {
-        tableModel.removeRows(index, 1);
-      });
+        selectedRows.push(index);
+        this
+      }, this);
+      
+      for (var i=0,l=selectedRows.length; i<l; i++) {
+        var row = selectedRows[i];
+        tableModel.removeRows(row - i, 1);
+      }
     },
     
     __getTable : function()
@@ -362,6 +379,48 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       var stepSpeed = this._speedSlider.getValue() * 100;
       qx.event.Timer.once(this.__runSeleniumCommand, this, stepSpeed);
       
+    },
+    
+    /**
+     * Creates a SeleneseTestCase instance and sets up the binding between the
+     * export button and the window.
+     */
+    __getSelenese : function()
+    {
+      var url = qx.core.Init.getApplication().getIframeWindowObject().location.href;
+      var title = qx.core.Init.getApplication().getIframeWindowObject().qx.core.Setting.get("qx.application");
+      
+      this.__seleneseTestCase = new inspector.selenium.SeleneseTestCase(url, title);
+      this.__seleneseTestCase.addListenerOnce("appear", function(event) {
+        var btnOpts = {
+          converter : function(data) {
+            return data ? "visible" : "hidden";
+          }
+        };
+        this._exportButton.bind("value", this.__seleneseTestCase, "visibility", btnOpts);
+        
+        var winOpts = {
+          converter : function(data) {
+            return data == "visible";
+          }
+        };
+        
+        this.__seleneseTestCase.bind("visibility", this._exportButton, "value", winOpts);
+      
+      }, this);
+      
+      this.__seleneseTestCase.addListener("appear", function(ev) {
+        this.__seleneseTestCase.reset();
+        // add commands to test case
+        var model = this._table.getTableModel();
+        for (var i=0,l=model.getRowCount(); i<l; i++) {
+          var rowData = model.getRowData(i);
+          this.__seleneseTestCase.addCommand(rowData.slice(0,3));
+        }
+        this.__seleneseTestCase.showSelenese();
+      }, this);
+      
+      this.__seleneseTestCase.open();      
     },
     
     /**
