@@ -46,6 +46,16 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.assertInterface(item, qx.ui.form.ListItem);
     },
 
+    testEvent : function()
+    {
+      var that = this;
+      this.assertEventFired(this.__cell, "created", function() {
+        that.__cell._createWidget();
+      }, function(e) {
+        that.assertInterface(e.getData(), qx.ui.form.ListItem);
+      });
+    },
+    
     testUpdateData : function()
     {
       var item = new qx.ui.form.ListItem();
@@ -57,6 +67,15 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.__cell.updateData(item, data)
       this.assertEquals(data.label, item.getLabel());
       this.assertEquals(data.icon, item.getIcon());
+    },
+    
+    testUpdateEmptyData : function()
+    {
+      var item = new qx.ui.form.ListItem();
+
+      this.__cell.updateData(item)
+      this.assertNull(item.getLabel());
+      this.assertNull(item.getIcon());
     }
   }
 });
