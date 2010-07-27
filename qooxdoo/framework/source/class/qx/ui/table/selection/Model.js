@@ -266,22 +266,6 @@ qx.Class.define("qx.ui.table.selection.Model",
 
 
     /**
-     * Clears the selection.
-     *
-     * @deprecated Use 'resetSelection' instead.
-     */
-    clearSelection : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead"
-      );
-
-      this.resetSelection();
-    },
-
-
-    /**
      * Returns whether the selection is empty.
      *
      * @return {Boolean} whether the selection is empty.
@@ -555,22 +539,6 @@ qx.Class.define("qx.ui.table.selection.Model",
       this.__selectedRangeArr = [];
       this.__anchorSelectionIndex = -1;
       this.__leadSelectionIndex = -1;
-    },
-
-
-    /**
-     * Clears the selection, but doesn't inform the listeners.
-     *
-     * @deprecated Use '_resetSelection' instead.
-     */
-    _clearSelection : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use '_resetSelection' instead."
-      );
-
-      this._resetSelection();
     },
 
 

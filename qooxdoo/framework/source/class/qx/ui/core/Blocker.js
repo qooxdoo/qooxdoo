@@ -131,9 +131,6 @@ qx.Class.define("qx.ui.core.Blocker",
 
     __oldAnonymous : null,
 
-    // @deprecated
-    __anonymousCounter : 0,
-
     __timer : null,
 
     _isPageRoot : false,
@@ -200,44 +197,6 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Remember current value and make widget anonymous. This prevents
-     * "capturing events".
-     *
-     * @deprecated 'It is not needed anymore.'
-     */
-    _saveAndSetAnonymousState : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "This method is not needed anymore.");
-
-      this.__anonymousCounter += 1;
-      if (this.__anonymousCounter == 1)
-      {
-        this.__oldAnonymous = this._widget.getAnonymous();
-        this._widget.setAnonymous(true);
-      }
-    },
-
-
-    /**
-     * Reset the value of the anonymous property to its previous state. Each call
-     * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
-     *
-     * @deprecated 'It is not needed anymore.'
-     */
-    _restoreAnonymousState : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "This method is not needed anymore.");
-
-      this.__anonymousCounter -= 1;
-      if (this.__anonymousCounter == 0) {
-        this._widget.setAnonymous(this.__oldAnonymous);
-      }
-    },
-
-
-    /**
      * Backup the current active and focused widget.
      */
     _backupActiveWidget : function()
@@ -292,21 +251,6 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     __createBlockerElement : function() {
       return new qx.html.Blocker(this.getColor(), this.getOpacity());
-    },
-
-
-    /**
-     * Get/create the blocker element
-     *
-     * @deprecated Use 'getBlockerElement' instead. (for 0.9)
-     *
-     * @return {qx.html.Element} The blocker element
-     */
-    _getBlocker : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use 'getBlockerElement' instead.");
-
-      return this.getBlockerElement();
     },
 
 
@@ -408,21 +352,6 @@ qx.Class.define("qx.ui.core.Blocker",
       blocker.removeListener("keydown", this.__stopTabEvent, this);
       blocker.removeListener("keyup", this.__stopTabEvent, this);
       blocker.exclude();
-    },
-
-
-    /**
-     * Get/create the content blocker element
-     *
-     * @deprecated Use 'getContentBlockerElement' instead. (for 0.9)
-     *
-     * @return {qx.html.Element} The content blocker element
-     */
-    _getContentBlocker : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use 'getContentBlockerElement' instead.");
-
-      return this.getContentBlockerElement();
     },
 
 

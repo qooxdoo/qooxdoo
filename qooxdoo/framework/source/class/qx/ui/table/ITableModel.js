@@ -53,34 +53,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
   },
 
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-
-    /**
-     * The type of the event fired when the data changed.
-     *
-     * @deprecated
-     * New code should not use this. Instead, use the text string literally.
-     **/
-    EVENT_TYPE_DATA_CHANGED      : "dataChanged",
-
-    /**
-     * The type of the event fired when the meta data changed.
-     *
-     * @deprecated
-     * New code should not use this. Instead, use the text string literally.
-     **/
-    EVENT_TYPE_META_DATA_CHANGED : "metaDataChanged"
-  },
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -264,12 +236,3 @@ qx.Interface.define("qx.ui.table.ITableModel",
     setValueById : function(columnId, rowIndex, value) {}
   }
 });
-// @deprecated warnings
-qx.log.Logger.deprecatedConstantWarning(
-  qx.ui.table.ITableModel, "EVENT_TYPE_DATA_CHANGED",
-  "New code should not use this. Instead, use the text string 'dataChanged' literally."
-);
-qx.log.Logger.deprecatedConstantWarning(
-  qx.ui.table.ITableModel, "EVENT_TYPE_META_DATA_CHANGED",
-  "New code should not use this. Instead, use the text string 'metaDataChanged' literally."
-);

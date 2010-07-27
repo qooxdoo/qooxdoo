@@ -103,14 +103,6 @@ qx.Class.define("qx.ui.window.Window",
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
-
-    // @deprecated
-    // Deprecates the protected methods for overriding
-    if (qx.core.Variant.isSet("qx.debug", "on"))
-    {
-      qx.log.Logger.deprecateMethodOverriding(this, qx.ui.window.Window, "_applyCaption");
-      qx.log.Logger.deprecateMethodOverriding(this, qx.ui.window.Window, "_applyIcon");
-    }
   },
 
 
@@ -894,42 +886,6 @@ qx.Class.define("qx.ui.window.Window",
         label.setValue(value);
       }
     },
-
-
-    /**
-     * Old apply method for {@link #caption} property.
-     *
-     * @deprecated This method is not more called from the property apply.
-     * @param value {String} ew property value
-     * @param old {String} old property value
-     */
-    _applyCaption : function(value, old)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee)
-      }
-      this.getChildControl("title").setValue(value);
-    },
-
-
-    /**
-     * Old apply method for {@link #icon} property.
-     *
-     * @deprecated This method is not more called from the property apply.
-     * @param value {String} ew property value
-     * @param old {String} old property value
-     */
-    _applyIcon : function(value, old)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee)
-      }
-      this.getChildControl("icon").setSource(value);
-    },
-
-
-
-
 
 
     /*

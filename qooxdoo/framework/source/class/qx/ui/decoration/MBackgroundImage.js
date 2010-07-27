@@ -88,22 +88,11 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * This method just uses the settings in the properties to generate
      * the markup.
      *
-     * @param styles {String} CSS styles as string
+     * @param styles {Map} CSS styles as map
      * @return {String} The generated HTML fragment
-     *
-     * @deprecated Please provide a map for the 'styles' parameter.
      */
     _generateBackgroundMarkup: function(styles)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.lang.Type.isString(styles))
-        {
-          qx.log.Logger.deprecatedWarning(arguments.callee, "Please provide a map for the 'styles' parameter");
-          throw new Error("Wrong type for parameter 'styles'.");
-        }
-      }
-
       var markup = "";
 
       var image = this.getBackgroundImage();

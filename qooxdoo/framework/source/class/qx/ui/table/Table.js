@@ -1568,21 +1568,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Clears the current selection
-     *
-     * @deprecated Use 'resetSelection' instead.
-     */
-    clearSelection : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead."
-      );
-
-      this.resetSelection();
-    },
-
-
-    /**
      * Resets the focused cell.
      */
     resetCellFocus : function() {
