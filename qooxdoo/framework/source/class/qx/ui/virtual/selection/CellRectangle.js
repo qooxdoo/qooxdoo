@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
 
 
     // overridden
-    getSelectables : function()
+    getSelectables : function(all)
     {
       var selectables = [];
 

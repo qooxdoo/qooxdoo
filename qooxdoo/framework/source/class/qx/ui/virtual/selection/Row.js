@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
 
 
     // overridden
-    getSelectables : function()
+    getSelectables : function(all)
     {
       var selectables = [];
 
