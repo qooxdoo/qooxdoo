@@ -385,7 +385,7 @@ qx.Class.define("qx.test.data.controller.Form",
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");
 
-      form.add(tf1, "a&b-c+d*e/f|g!h i");
+      form.add(tf1, "a&b-c+d*e/f|g!h i.,:?;!~+-*/%{}()[]<>=^&|@/\\");
 
       var controller = new qx.data.controller.Form(null, form);
       var model = controller.createModel(true);

@@ -78,7 +78,9 @@ qx.Class.define("qx.ui.form.Form",
       this.__groups[this.__groupCounter].labels.push(label);
       // if no name is given, use the label without not working character
       if (name == null) {
-        name = label.replace(/\s+|&|-|\+|\*|\/|\||!/g, "");
+        name = label.replace(
+          /\s+|&|-|\+|\*|\/|\||!|\.|,|:|\?|;|~|%|\{|\}|\(|\)|\[|\]|<|>|=|\^|@|\\/g, ""
+        );
       }
       this.__groups[this.__groupCounter].names.push(name);
 
