@@ -671,7 +671,7 @@ The best way to achieve this is to create a new job by extend the existing ``sou
 
           "settings" :
           {
-             "qx.disposerDebugLevel" : "2"
+             "qx.disposerDebugLevel" : "1"
           }
         }
       }
@@ -687,7 +687,7 @@ When you generated your application with the ``source-disposerDebug`` job all yo
 
     qx.core.ObjectRegistry.shutdown();
 
-at the Firebug console. This starts the destruct mechanism of your application and you can analyze the given messages to improve your application.
+at the Firebug console. This starts the destruct mechanism of your application and you can analyze the given messages to improve your application. Usually, there is not much to see because we can not check for some of the critical stuff. So be sure to read :doc:`/pages/development/memory_management` documentation.
 
 .. _pages/snippets#compress_qooxdoo_without_mod_deflate:
 
