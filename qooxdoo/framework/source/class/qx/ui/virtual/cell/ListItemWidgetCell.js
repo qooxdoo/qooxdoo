@@ -17,12 +17,21 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ * 
+ * Cell renderer for {@link qx.ui.form.ListItem}.
+ * 
+ * Use {@link #updateData} to update label and icon. Just use a <code>Map</code>
+ * with <code>label</code> and <code>icon</code> as key.
+ */
 qx.Class.define("qx.ui.virtual.cell.ListItemWidgetCell",
 {
   extend : qx.ui.virtual.cell.AbstractWidget,
 
   events :
   {
+    /** Fired when a new <code>ListItem</code> is created. */
     "created" : "qx.event.type.Data"
   },
   
