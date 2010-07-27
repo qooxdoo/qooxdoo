@@ -183,7 +183,7 @@ class Generator(object):
 
 
         def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
-            self._console.info("Resolving dependencies...")
+            self._console.info("Resolving dependencies")
             self._console.indent()
             classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps, script)
             self._console.outdent()
