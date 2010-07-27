@@ -156,7 +156,8 @@ qx.Class.define("qx.ui.basic.Label",
       check : "qx.ui.core.Widget",
       apply : "_applyBuddy",
       nullable : true,
-      init : null
+      init : null,
+      dereference : true
     },
 
 
