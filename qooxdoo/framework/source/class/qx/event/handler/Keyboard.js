@@ -433,10 +433,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           keyCode = domEvent.keyCode;
 
-          // Ignore the down in such sequences dp dp dp
-          if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
-            this._idealKeyHandler(keyCode, charCode, type, domEvent);
-          }
+          this._idealKeyHandler(keyCode, charCode, type, domEvent);
 
           // On non print-able character be sure to add a keypress event
           if (type == "keydown")
