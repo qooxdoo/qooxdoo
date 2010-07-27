@@ -170,10 +170,6 @@ class Log(object):
         if self._levels[self._level] > self._levels["info"]:
             return
 
-        # starts normally at null, but this is not useful here
-        # also the length is normally +1 the real size
-        #pos += 1  # -- bogus!
-
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length
 
@@ -184,3 +180,15 @@ class Log(object):
         if pos == length:
             sys.stdout.write("\n")
             sys.stdout.flush()
+
+
+    def dot(self):
+        stream = sys.stdout
+        stream.write(".")
+        stream.flush()
+
+
+    def nl(self):
+        stream = sys.stdout
+        stream.write("\n")
+        stream.flush()

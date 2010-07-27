@@ -32,11 +32,22 @@ from ecmascript.frontend import lang, comment
 import Scanner
 
 ##
+# Generator to turn low-level token tuples into Scanner.Token objects and
+# provide and eof Token.
+def tokens_2_obj(content):
+    scanner = Scanner.Scanner(content)
+    Token   = Scanner.Token
+    for stoken in scanner:
+        token = Token(stoken)
+        yield token
+    yield Token(('eof', '', token.spos+token.len, 0))
+
+##
 # Interface function
 def parseStream(content, uniqueId=""):
     tokens = []
     line = column = sol = 1
-    scanner = Scanner.LQueue(Scanner.Tokenizer(content, ))
+    scanner = Scanner.LQueue(tokens_2_obj(content, ))
     for tok in scanner:
         # tok isinstanceof Scanner.Token()
         token = {"source": tok.value, "detail" : "", "line": line, "column": tok.spos - sol + 1, "id": uniqueId}
@@ -236,13 +247,18 @@ def parseCommentI(scanner):
 ##
 # parse a multiline comment /* ... */
 def parseCommentM(scanner):
-    result = ""
+    result = []
+    res    = u""
     for token in scanner:
-        result += token.value
+        result.append(token.value)
         if token.value == '*/':
-            if not Scanner.is_last_escaped(result):
+            res = u"".join(result)
+            if not Scanner.is_last_escaped(res):
                 break
-    return result
+    else:
+        res = u"".join(result)
+
+    return res
 
 
 ##

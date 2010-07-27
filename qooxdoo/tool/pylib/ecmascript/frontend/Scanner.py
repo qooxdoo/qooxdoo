@@ -105,72 +105,17 @@ class Scanner(IterObject):
     def __iter__(self):
         miter = self.patt.finditer(self.inData)
         for mo in miter:
-            mstart = mo.start(0)
-            mend   = mo.end(0)
+            mo_lastgroup = mo.lastgroup
+            mstart       = mo.start()
+            mend         = mo.end()
             if mstart != self.next_start:  # assure compactness of scan
                 raise AssertionError, "There's a scan gap before: %s (at pos %d)" % (mo.group(), self.next_start)
             self.next_start = mend   # match range is [mo.start(), mo.end()[
-            yield (mo.lastgroup, mo.groupdict()[mo.lastgroup], mstart, mend - mstart)
+            yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend - mstart)
 
 
 ##
-# Tokenizer -- the second layer of the tokenizer; this should be used by a
-# parser
-#
-#  It uses the low-level Scanner and returns tokens as Token objects.
-#  These tokens will then be used by the (various) parser(s) that might e.g.
-#  turn each token into a different token object and/or node for the AST.
-
-class Tokenizer(IterObject):
-   
-    def __init__(self, stream):
-        super(Tokenizer, self).__init__(stream)
-
-    def resetIter(self):
-        self.scanner = LQueue(Scanner(self.inData).__iter__())
-        self.scanner.next = self.scanner.__iter__().next
-        super(Tokenizer, self).resetIter()
-
-    def peek(self, n=1):
-        "peek n tokens ahead"
-        toks = []
-        pushback = []
-        cnt  = 0
-
-        # get the desired token
-        while cnt < n:
-            t = self.scanner.next()
-            pushback.append(t)
-            token = Token(t)
-            toks.append(token)
-            if token.name == "eof":
-                break
-            cnt += 1
-
-        # put all retrieved tokens back
-        for t in pushback[::-1]:
-            self.scanner.putBack(t)
-
-        return toks
-
-
-    # yields :
-    # Token 
-    #  .name  : [ float   | number | hexnum | ident | nl | white | mulop | op ]
-    #  .value : <scanned_string>
-    #  .spos  : <number>           # starting char position in stream
-    #  .len   : <number>           # length of value
-    def __iter__(self):
-        for stoken in self.scanner:
-            token = Token(stoken)
-            yield token
-
-        yield Token(('eof', '', token.spos+token.len, 0))
-
-
-##
-# Token  -- token class returned by the Tokenizer class
-#           mainly parses low-level scanner tuples into objects
+# Token  -- wraps a low-level scanner tuple into a simple object
 
 class Token(object):
     __slots__ = 'name', 'value', 'spos', 'len'
@@ -221,17 +166,37 @@ class LQueue(object):
             self.queue.append(self.iterator.next())
         return self.queue.popleft()
 
-    def peek(self, *args):
-        return self.iterator.peek(*args)
+    ##
+    # peek n tokens ahead
+    def peek(self, n=1):
+        toks = []
+        cnt  = 0
+
+        # get the desired token
+        while cnt < n:
+            try:
+                t = self.next()
+            except StopIteration:
+                break
+            toks.append(t)
+            cnt += 1
+
+        # put all retrieved tokens back
+        for t in toks[::-1]:
+            self.putBack(t)
+
+        return toks
+
+
+    def putBack(self, item):
+        self.queue.appendleft(item)
+
 
     def __iter__(self):
         while True:
             if len(self.queue) == 0:
-                self.queue.append(self.iterator.next())
+                self.queue.append(self.iterator.next())  # let self.iterator's StopIteration propagate
             yield self.queue.popleft()
-
-    def putBack(self, item):
-        self.queue.appendleft(item)
 
 
 
@@ -259,7 +224,7 @@ def is_last_escaped(s):
 
 if __name__ == "__main__":
     file = open(sys.argv[1]).read()
-    tokenizer = Tokenizer(file)
+    tokenizer = Scanner(file)
     for tok in tokenizer:
         print tok
 

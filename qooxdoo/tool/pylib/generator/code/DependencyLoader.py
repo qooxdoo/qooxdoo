@@ -131,7 +131,12 @@ class DependencyLoader(object):
             result.append(item)
 
             # reading dependencies
+            if self._console.getLevel() is "info":
+                self._console.dot()
+            self._console.debug("Gathering dependencies: %s" % item)
+            self._console.indent()
             deps = self.getCombinedDeps(item, variants, buildType)
+            self._console.outdent()
 
             # and evaluate them
             deps["warn"] = self._checkDepsAreKnown(deps,)
@@ -183,8 +188,13 @@ class DependencyLoader(object):
 
         else:
             result = []
+            self._console.info(" ", feed=False)
+
             for item in includeWithDeps:
                 classlistFromClassRecursive(item, excludeWithDeps, variants, result)
+
+            if self._console.getLevel() is "info":
+                self._console.nl()
 
         return result
 

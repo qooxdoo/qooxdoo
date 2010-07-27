@@ -232,7 +232,7 @@ class Class(object):
             run    = []
             ignore = [DependencyItem(x,-1) for x in DefaultIgnoredNamesDynamic]
 
-            console.debug("Gathering dependencies: %s" % self.id)
+            console.debug("Analyzing tree: %s" % self.id)
             console.indent()
 
             # Read meta data
@@ -303,10 +303,11 @@ class Class(object):
         # end:dependencies()
 
 
-    def _analyzeClassDepsNode_1(self, node, loadtime, runtime, warn, inFunction, variants):
-        # analyze a class AST for dependencies (compiler hints not treated here)
-        # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
-        # the "variants" param is only to support getMethodDeps()!
+    ##
+    # analyze a class AST for dependencies (compiler hints not treated here)
+    # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
+    # the "variants" param is only to support getMethodDeps()!
+    def _analyzeClassDepsNode(self, node, loadtime, runtime, warn, inFunction, variants):
 
         def checkDeferNode(assembled, node):
             deferNode = None
@@ -483,10 +484,13 @@ class Class(object):
         # end:_analyzeClassDepsNode
 
 
-    def _analyzeClassDepsNode(self, node_, loadtime, runtime, warn, inFunction, variants):
-        # analyze a class AST for dependencies (compiler hints not treated here)
-        # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
-        # the "variants" param is only to support getMethodDeps()!
+    ##
+    # This is an iterative version of the previous (recursive) method.
+    # Surprisingly, initial timings suggest that it is slightly slower (!) than
+    # the recursive version. I leave it in, in case I want to pick up on
+    # iterative solutions in the future.
+    # NOT USED
+    def _analyzeClassDepsNode_1(self, node_, loadtime, runtime, warn, inFunction, variants):
 
         def checkDeferNode(assembled, node):
             deferNode = None
