@@ -339,48 +339,6 @@ qx.Class.define("qx.bom.Label",
         }
       }
       return size;
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED STUFF
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Old set method for the label's content. Please use the setValue method
-     * instead.
-     *
-     * @param element {Element} DOM element to modify.
-     * @param value {String} Content to insert.
-     * @return {void}
-     * @deprecated
-     */
-    setContent: function(element, value)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the setValue() method instead."
-      );
-
-      this.setValue(element, value);
-    },
-
-
-    /**
-     * Old get method for the label's content. Please use the getValue method
-     * instead.
-     *
-     * @param element {Element} DOM element to query.
-     * @return {String} Content stored in the element.
-     * @deprecated
-     */
-    getContent: function(element)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the getValue() method instead."
-      );
-
-      return this.getValue(element);
     }
   }
 });

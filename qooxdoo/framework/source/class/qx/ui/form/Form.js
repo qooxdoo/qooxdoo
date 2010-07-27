@@ -212,32 +212,6 @@ qx.Class.define("qx.ui.form.Form",
     },
 
 
-    /**
-     * Takes all the added form items, group headers and buttons and gives them
-     * to the renderer. The renderer is responsible for all the UI related
-     * tasks.
-     *
-     * @param rendererClass {Class?} The class of the renderer which should be
-     *   used. If no rendere is given, the default renderer
-     *   ({@link qx.ui.form.renderer.Single}) will be used.
-     * @return {qx.ui.form.renderer.IFormRenderer} Instance of the renderer.
-     *
-     * @deprecated Create the renderer and add the form as constructor
-     *   parameter instead.
-     */
-    createView : function(rendererClass) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "This message will removed. Use new rendererClass(form) instead."
-      );
-      if (rendererClass == null) {
-        rendererClass = qx.ui.form.renderer.Single;
-      }
-      // create the renderer
-      return new rendererClass(this);
-    },
-
-
     /*
     ---------------------------------------------------------------------------
        INTERNAL

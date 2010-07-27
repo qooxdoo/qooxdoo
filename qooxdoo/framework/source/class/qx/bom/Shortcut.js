@@ -281,25 +281,8 @@ qx.Class.define("qx.bom.Shortcut",
     */
 
     /**
-     * Checks whether the given key event matches the shortcuts's shortcut
-     *
-     * @deprecated for 0.9
-     * @param e {qx.event.type.KeySequence} the key event object
-     * @return {Boolean} whether the shortcuts shortcut matches the key event
-     */
-    matchesKeyEvent : function(e) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "This message will be made private."
-      );
-      return this.__matchesKeyEvent(e);
-    },
-
-
-    /**
      * Checks whether the given key event matches the shortcut's shortcut
      *
-     * @deprecated for 0.9
      * @param e {qx.event.type.KeySequence} the key event object
      * @return {Boolean} whether the shortcuts shortcut matches the key event
      */

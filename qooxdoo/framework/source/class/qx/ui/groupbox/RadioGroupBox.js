@@ -139,22 +139,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       this.getChildrenContainer().setEnabled(checked);
 
       // Fire event to the outside
-      this.fireDataEvent("changeChecked", checked);   // TODO deprecated
       this.fireDataEvent("changeValue", checked, e.getOldData());
-    },
-
-
-    /**
-     * Event listener for changeName event of radio button
-     *
-     * @param e {qx.event.type.Data} Data event which holds the current status
-     *
-     * @deprecated
-     */
-    _onRadioChangeName : function(e)
-    {
-      // Fire event to the outside
-      this.fireDataEvent("changeName", e.getData());
     },
 
 
