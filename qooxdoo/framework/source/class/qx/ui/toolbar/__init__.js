@@ -18,6 +18,6 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/widget/toolbar' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/widget/toolbar.html' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */

@@ -47,7 +47,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/widget/Resizer' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/widget/resizer.html' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.container.Resizer",

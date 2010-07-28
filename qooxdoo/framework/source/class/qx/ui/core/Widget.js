@@ -53,7 +53,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/widget/Widget' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/widget/widget.html' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  *
  * @state disabled set by {@link #enabled}

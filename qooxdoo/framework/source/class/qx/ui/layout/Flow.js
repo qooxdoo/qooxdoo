@@ -89,7 +89,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/layout/Flow'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/layout/flow.html'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Flow",

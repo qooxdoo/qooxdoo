@@ -41,7 +41,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/layout/atom'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/layout/atom.html'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*

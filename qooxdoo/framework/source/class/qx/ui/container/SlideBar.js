@@ -58,7 +58,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/widget/SlideBar' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/widget/slideBar.html' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.container.SlideBar",

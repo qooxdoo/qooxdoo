@@ -51,7 +51,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/1.1/layout/Grow'>
+ * <a href='http://manual.qooxdoo.org/1.2/pages/layout/grow.html'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Grow",
