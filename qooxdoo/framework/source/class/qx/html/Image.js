@@ -35,6 +35,14 @@ qx.Class.define("qx.html.Image",
 
   members :
   {
+    // this member variable is only used for IE browsers to be able
+    // to the tag name which will be set. This is heavily connected to the runtime
+    // change of decorators and the use of external (=unmanaged images). It is 
+    // necessary to be able to determine what tag will be used e.g. before the 
+    // ImageLoader has finished its loading of an external image.
+    // See Bug #3894 for more details
+    tagNameHint : null,
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
@@ -84,7 +92,12 @@ qx.Class.define("qx.html.Image",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var source = this._getProperty("source");
-        this.setNodeName(qx.bom.element.Decoration.getTagName(repeat, source));
+
+        if (this.tagNameHint != null) {
+          this.setNodeName(this.tagNameHint);
+        } else {
+          this.setNodeName(qx.bom.element.Decoration.getTagName(repeat, source));
+        }
       }
       else
       {
