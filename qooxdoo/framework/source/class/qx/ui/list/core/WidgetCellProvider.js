@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     this._list = list;
     
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
+    this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
   members :
@@ -72,7 +73,15 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     {
       var widget = event.getData();
       this._configureItem(widget);
-    }
+    },
+    
+    _onChangeDelegate : function(event)
+    {
+      this._cellRenderer.dispose();
+      this._cellRenderer = this._createCellRenderer();
+      this.removeBindings();
+      this._list.getPane().fullUpdate();
+    },
   },
 
   destruct : function()

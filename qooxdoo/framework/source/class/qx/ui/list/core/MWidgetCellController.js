@@ -133,9 +133,9 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       while (bindings.length > 0) {
         var id = bindings.pop();
         
-        if (!qx.lang.Array.contains(item.getBindings(), id)) {
+        try {
           this._list.removeBinding(id);
-        } else {
+        } catch(e) {
           item.removeBinding(id);
         }
       }
