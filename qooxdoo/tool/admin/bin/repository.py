@@ -123,6 +123,15 @@ class Repository:
       libraryVersion = manifest["info"]["version"]
       libraryQxVersions = manifest["info"]["qooxdoo-versions"]
       
+      #skip any libraries that are only compatible with legacy qooxdoo versions
+      newQx = False
+      for qxVersion in libraryQxVersions:
+        if qxVersion[:2] != "0.":
+          newQx = True
+      if not newQx:
+        console.info("Skipping library %s since it's only compatible with legacy qooxdoo versions (<1.*)." %libraryName)
+        continue
+      
       try:
         libraryType = manifest["provides"]["type"]
       except KeyError:
@@ -413,9 +422,9 @@ class LibraryVersion:
       if buildTarget == "build":
         #get the compatible qooxdoo versions of the library version
         for qxVersion in qxVersions:
-          #if qxVersion[:2] == "0.":
-          #  console.info("skipping 0.x: %s %s %s" %(self.parent.name, self.name, variantName))
-          #  continue
+          if qxVersion[:2] == "0.":
+            console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
+            continue
           
           if not (demoBrowser and copyDemos):
             buildPath = qxVersion
@@ -451,9 +460,9 @@ class LibraryVersion:
         elif demoBrowser:
           demoBrowserBase = os.path.split(demoBrowser)[0]
           for qxVersion in qxVersions:
-            #if qxVersion[:2] == "0.":
-            #  console.info("Skipping 0.x: %s %s %s" %(self.parent.name, self.name, variantName))
-            #  continue
+            if qxVersion[:2] == "0.":
+              console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
+              continue
             demoData = copy.deepcopy(variant.data)
             demoData["tags"].append( "qxVersion_" + qxVersion)
             self.data["tests"].append(demoData)
