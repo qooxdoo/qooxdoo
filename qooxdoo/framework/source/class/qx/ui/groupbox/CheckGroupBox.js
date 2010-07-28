@@ -22,12 +22,15 @@
 /**
  * A group box, which has a check box near the legend.
  *
- * @childControl legend {qx.ui.form.CheckBox} checkbox to en-/disable the groupbox content
+ * @childControl legend {qx.ui.form.CheckBox} checkbox to en-/disable the 
+ *   groupbox content
  */
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm],
+  implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
+  include : [qx.ui.form.MModelProperty],
+
 
   properties :
   {
