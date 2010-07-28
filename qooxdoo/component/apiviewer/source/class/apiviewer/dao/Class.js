@@ -457,6 +457,29 @@ qx.Class.define("apiviewer.dao.Class",
 
 
     /**
+     * Get the documentation nodes of all interfaces in the inheritance chain
+     * of an interface. The first entry in the list is the interface itself.
+     *
+     * @return {apiviewer.dao.Class[]} array of super interfaces of the given interface.
+     */
+    getInterfaceHierarchy : function()
+    {
+      var currentClass = this;
+      var result = [currentClass];
+      var superInterfaces = currentClass.getSuperInterfaces();
+      while (superInterfaces && superInterfaces.length > 0) {
+        for (var i=0,l=superInterfaces.length; i<l; i++) {
+          var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i].getName());
+          result.push(superInterface);
+          superInterfaces = superInterface.getSuperInterfaces();
+        }
+      }
+      
+      return result;
+    },
+    
+    
+    /**
      * Return a class item matching the given name.
      *
      * @param itemName {String} name of the class item
