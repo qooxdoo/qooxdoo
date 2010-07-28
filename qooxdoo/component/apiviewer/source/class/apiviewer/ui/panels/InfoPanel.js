@@ -922,7 +922,12 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         )
       )
       {
-        var classNodes = currentClassDocNode.getClassHierarchy();
+        if (currentClassDocNode.getType() == "interface") {
+          var classNodes = currentClassDocNode.getInterfaceHierarchy();
+        } else {
+          var classNodes = currentClassDocNode.getClassHierarchy();
+        }
+        
       } else {
         classNodes = [currentClassDocNode];
       }
