@@ -92,7 +92,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
 
       // date chooser
       widgets.push(new qx.ui.control.DateChooser());
-      this.getRoot().add(widgets[14], {left: 520, top: 70});
+      this.getRoot().add(widgets[14], {left: 530, top: 70});
 
       // radioGroup
       var radioGroup = new qx.ui.form.RadioGroup();
@@ -102,9 +102,18 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       var r2 = new qx.ui.form.RadioButton("RadioGroup 2");
       radioGroup.add(r2);
       this.getRoot().add(r2, {left: 530, top: 270});
-
-
       widgets.push(radioGroup);
+      
+      // tree
+      var tree = new qx.ui.tree.Tree();
+      widgets.push(tree);
+      this.getRoot().add(tree, {left: 530, top: 300});
+      var root = new qx.ui.tree.TreeFolder("root");
+      root.setOpen(true);
+      tree.setRoot(root);
+      root.add(new qx.ui.tree.TreeFile("File 1"));
+      root.add(new qx.ui.tree.TreeFile("File 2"));
+      root.add(new qx.ui.tree.TreeFile("File 3"));
 
 
       /* ***********************************************
