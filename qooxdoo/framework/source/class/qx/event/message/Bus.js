@@ -91,13 +91,28 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * dispatch message and call subscribed functions
      *
-     * @param msg {qx.event.message.Message|String} message which is being dispatched
+     * @param msg {qx.event.message.Message} message which is being dispatched
      * @return {Boolean} <code>true</code> if the message was dispatched,
      *    <code>false</code> otherwise.
      */
     dispatch : function(msg)
     {
       return this.getInstance().dispatch.apply(this.getInstance(), arguments);
+    },
+
+    /**
+     * Dispatches a new message by supplying the name of the 
+     * message and its data.
+     * 
+     * @param name {String} name of the message
+     * @param data {var} Any type of data to attach
+     * 
+     * @return {Boolean} <code>true</code> if the message was dispatched,
+     *    <code>false</code> otherwise. 
+     */
+    dispatchByName : function(name, data)
+    {
+      return this.getInstance().dispatchByName.apply(this.getInstance(), arguments); 
     }
   },
 
@@ -251,7 +266,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * dispatch message and call subscribed functions
      *
-     * @param msg {qx.event.message.Message|String} message which is being dispatched
+     * @param msg {qx.event.message.Message} message which is being dispatched
      * @return {Boolean} <code>true</code> if the message was dispatched,
      *    <code>false</code> otherwise.
      */
@@ -260,6 +275,16 @@ qx.Class.define("qx.event.message.Bus",
       // if string value has been supplied, create new message
       if ( typeof msg == "string" )
       {
+        // @deprecated with 1.2 release
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          qx.log.Logger.warn(
+            "A string as first parameter is deprecated. Please use the 'dispatchByName' method and " +
+            "consult the API documentation for further information."
+          );
+          this.trace();
+        }
+
         var value = typeof arguments[1] != "undefined" ? arguments[1] : true;
         msg = new qx.event.message.Message( msg, value );
       }
@@ -293,6 +318,22 @@ qx.Class.define("qx.event.message.Bus",
       }
 
       return dispatched;
+    },
+
+    /**
+     * Dispatches a new message by supplying the name of the 
+     * message and its data.
+     * 
+     * @param name {String} name of the message
+     * @param data {var} Any type of data to attach
+     * 
+     * @return {Boolean} <code>true</code> if the message was dispatched,
+     *    <code>false</code> otherwise. 
+     */
+    dispatchByName : function(name, data)
+    {
+      var message = new qx.event.message.Message(name, data);
+      return this.dispatch(message);
     },
 
 
