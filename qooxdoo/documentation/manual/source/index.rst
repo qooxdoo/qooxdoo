@@ -22,26 +22,29 @@
 Manual 1.2
 **********
 
-.. note::
-
-  This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
-
 .. only:: html
 
    **Download** offline version (`.pdf <qooxdoo.pdf>`__)
 
-.. _index#introduction:
 
-.. Introduction
+.. only:: html
+
+Introduction
+************
+
+.. _index#introduction:
 
 .. toctree::
    :maxdepth: 2
 
    pages/introduction
 
-.. _index#getting_started:
+.. only:: html
 
-.. Getting Started
+Getting Started
+***************
+
+.. _index#getting_started:
 
 .. toctree::
    :maxdepth: 2
