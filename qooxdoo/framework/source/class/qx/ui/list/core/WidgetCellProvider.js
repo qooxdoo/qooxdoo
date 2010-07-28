@@ -79,6 +79,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     {
       this._cellRenderer.dispose();
       this._cellRenderer = this._createCellRenderer();
+      this._cellRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
     }
