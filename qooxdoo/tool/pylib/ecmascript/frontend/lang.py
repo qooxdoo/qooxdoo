@@ -93,7 +93,7 @@ GLOBALS = BUILTIN + [
           'scroll', 'close', 'updateCommands',
 
           'atob', 'btoa', 'frameElement', 'removeEventListener', 'dispatchEvent',
-          'getComputedStyle', 'sessionStorage', 'globalStorage',
+          'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
   
           # Language
           "eval", "decodeURI", "decodeURIComponent", "encodeURIComponent",
