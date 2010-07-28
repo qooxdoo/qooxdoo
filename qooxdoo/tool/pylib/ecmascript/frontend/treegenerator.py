@@ -55,34 +55,35 @@ class TokenStream(object):
     #
     def __init__ (self, tokens):
         self.tokens = tokens
+        self.length = len(self.tokens)
         self.commentsBefore = None
         self.parsepos = -1
         self.eolBefore = False
 
     def curr (self):
         """Returns the current token."""
-        return self.tokens[self.parsepos]
+        return self._curr
 
     def currType (self):
-        return self.curr()["type"]
+        return self._curr["type"]
 
     def currDetail (self):
-        return self.curr()["detail"]
+        return self._curr["detail"]
 
     def currSource (self):
-        return self.curr()["source"]
+        return self._curr["source"]
 
     def currLine (self):
-        return self.curr()["line"]
+        return self._curr["line"]
 
     def currColumn (self):
-        return self.curr()["column"]
+        return self._curr["column"]
 
     def currMultiline (self):
-        return self.curr()["multiline"]
+        return self._curr["multiline"]
 
     def currConnection (self):
-        return self.curr()["connection"]
+        return self._curr["connection"]
 
     def currIsType (self, tokenType, tokenDetail = None):
         if self.currType() != tokenType:
@@ -116,15 +117,14 @@ class TokenStream(object):
     # @defreturn          tokenizer.token
     #
     def next (self, item=None, after=False):
-        length = len(self.tokens)
         self.eolBefore = False
         self.breakBefore = False
 
         token = None
-        while self.parsepos < length - 1:
+        while self.parsepos < self.length - 1:
             self.parsepos += 1
-
-            token = self.tokens[self.parsepos]
+            self._curr     = self.tokens[self.parsepos]
+            token          = self._curr
 
             # EOL treatment
             if token["type"] == "eol":
@@ -141,7 +141,7 @@ class TokenStream(object):
             elif token["type"] == "comment":
                 # After current item
                 if token["connection"] == "after":
-                    if not token.has_key("inserted") or not token["inserted"]:
+                    if "inserted" not in token or not token["inserted"]:
                         if item:
                             # Generating new tree node
                             commentNode = createCommentNode(token)
@@ -178,26 +178,24 @@ class TokenStream(object):
 
         if token == None:
             # return end of file token
-            return self.tokens[length - 1]
+            return self.tokens[self.length - 1]
         else:
             return token
 
     ##
     # Alternative to use, when we want to check if the next token
     # is a comment, but are not able to use next() because if there is
-    # no comment we want to leave in our position
+    # no comment we want to stay in the current position
     #
     def comment (self, item, after=False):
-        length = len(self.tokens)
-
         token = None
         pos = self.parsepos
 
-        while pos < length - 1:
+        while pos < self.length - 1:
             pos += 1
             token = self.tokens[pos]
 
-            if token["type"] == "comment" and token["connection"] == "after" and (not token.has_key("inserted") or not token["inserted"]):
+            if token["type"] == "comment" and token["connection"] == "after" and ("inserted" not in token or not token["inserted"]):
 
                 commentNode = createCommentNode(token)
                 token["inserted"] = True
@@ -208,6 +206,8 @@ class TokenStream(object):
 
             else:
                 break
+
+        return
 
     def hadEolBefore(self):
         return self.eolBefore
