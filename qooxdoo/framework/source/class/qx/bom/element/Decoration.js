@@ -111,7 +111,7 @@ qx.Class.define("qx.bom.element.Decoration",
       var ret = this.getAttributes(source, repeat, style);
 
       if (tag === "img") {
-        element.src = ret.src;
+        element.src = ret.src || qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif");
       }
 
       // Fix for old background position
