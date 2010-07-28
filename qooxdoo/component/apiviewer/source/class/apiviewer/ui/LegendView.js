@@ -75,6 +75,10 @@ qx.Class.define("apiviewer.ui.LegendView",
         desc: "Mixin"
       },
       {
+        icon: "ICON_CHILDCONTROL",
+        desc: "Child Control"
+      },
+      {
         icon: "ICON_METHOD_PUB",
         desc: "Public Method"
       },
