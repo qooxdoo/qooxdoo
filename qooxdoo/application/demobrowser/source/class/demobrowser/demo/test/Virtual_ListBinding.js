@@ -21,7 +21,7 @@
 /**
  * @tag noPlayground
  */
-qx.Class.define("demobrowser.demo.virtual.ListBinding",
+qx.Class.define("demobrowser.demo.test.Virtual_ListBinding",
 {
   extend : qx.application.Standalone,
 

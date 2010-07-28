@@ -30,7 +30,7 @@
 /**
  * @tag noPlayground
  */
-qx.Class.define("demobrowser.demo.virtual.List",
+qx.Class.define("demobrowser.demo.test.Virtual_List",
 {
   extend : qx.application.Standalone,
 
