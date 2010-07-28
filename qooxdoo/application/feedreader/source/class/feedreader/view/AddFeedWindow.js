@@ -92,18 +92,18 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       this.__form = new qx.ui.form.Form();
       // set the headline of the form
       this.__form.addGroupHeader(this.tr("Feed Information"));
-      
+
       // add the title textfield
       this.__titleTextfield = new qx.ui.form.TextField().set({
         required: true,
         width: 250
       });
       this.__form.add(this.__titleTextfield, this.tr("Title"));
-      
+
       // add the url textfield
       this.__urlTextfield = new qx.ui.form.TextField().set({required: true});
       this.__form.add(this.__urlTextfield, this.tr("URL"), qx.util.Validate.checkUrl);
-      
+
       // add the button
       var addButton = new qx.ui.form.Button(this.tr("Add"), "icon/16/actions/dialog-apply.png");
       addButton.set({
@@ -143,7 +143,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
         this.__titleTextfield.setValue("");
         this.__urlTextfield.setValue("");
 
-        this.close();        
+        this.close();
       }
     }
   },
