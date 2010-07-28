@@ -112,3 +112,13 @@ To make it even more convenient, auto-completion while entering code is availabl
 
 Another part of the console window is a DOM browser, named as in Firebug. This browser allows you to inspect an object interactively. You can "dive into" an object, down to arbitrary depth, following property values that refer to data structures within the current object or pointing to ones within other objects.
 
+Selenium Window
+===============
+
+|Selenium|
+
+.. |Selenium| image:: /pages/application/inspector_selenium_window.png
+
+The Selenium window's purpose is to help test developers in writing simulated interaction tests which will then be run using the `Selenium <http://seleniumhq.org/>`_ testing framework and the `Simulator contribution <http://qooxdoo.org/contrib/project/simulator>`_. Similar to the Selenium IDE Firefox plugin, it can be used to determine a locator string for any element (qooxdoo widget in this case) and supports playback of test commands against the inspected application.
+
+The qooxdoo wiki has a `tutorial <http://qooxdoo.org/contrib/project/simulator/inspector-selenium>`_ that demonstrates how to create a test case using the Selenium window. 
