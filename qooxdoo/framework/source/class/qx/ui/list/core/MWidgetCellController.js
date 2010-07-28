@@ -20,8 +20,7 @@
 qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
 {
   construct : function() {
-    this.__boundProperties = [];
-    this.__boundPropertiesReverse = [];
+    this.__boundItems = [];
   },
   
   properties : 
@@ -58,7 +57,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
   
   members :
   {
-    __boundProperties : null,
+    __boundItems : null,
     
     bindDefaultProperties : function(item, index)
     {
@@ -75,31 +74,25 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
-      var bindPath = "model[" + index + "]";
-      if (sourcePath != null && sourcePath != "") {
-        bindPath += "." + sourcePath;
-      }
+      var bindPath = this.__getBindPath(index, sourcePath);
       
       var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
-      targetWidget.setUserData(targetProperty + "BindingId", id);
-      
-      if (!qx.lang.Array.contains(this.__boundProperties, targetProperty)) {
-        this.__boundProperties.push(targetProperty);
-      }
+      this.__addBinding(targetWidget, id);
     },
     
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
-      var targetBindPath = "model[" + index + "]";
-      if (targetPath != null && targetPath != "") {
-        targetBindPath += "." + targetPath;
-      }
+      var bindPath = this.__getBindPath(index, targetPath);
 
-      var id = sourceWidget.bind(sourcePath, this, targetBindPath, options);
-      sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
-
-      if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
-        this.__boundPropertiesReverse.push(targetPath);
+      var id = sourceWidget.bind(sourcePath, this, bindPath, options);
+      this.__addBinding(sourceWidget, id);
+    },
+    
+    removeBindings : function()
+    {
+      while(this.__boundItems.length > 0) {
+        var item = this.__boundItems.pop();
+        this._removeBindingsFrom(item);
       }
     },
     
@@ -135,23 +128,59 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     },
   
     _removeBindingsFrom: function(item) {
-      for (var  i = 0; i < this.__boundProperties.length; i++) {
-        var id = item.getUserData(this.__boundProperties[i] + "BindingId");
-        if (id != null) {
+      var bindings = this.__getBindings(item);
+      
+      while (bindings.length > 0) {
+        var id = bindings.pop();
+        
+        if (!qx.lang.Array.contains(item.getBindings(), id)) {
           this._list.removeBinding(id);
+        } else {
+          item.removeBinding(id);
         }
       }
       
-      for (var i = 0; i < this.__boundPropertiesReverse.length; i++) {
-        var id = item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId");
-        if (id != null) {
-          item.removeBinding(id);
-        }
-      };
+      if (qx.lang.Array.contains(this.__boundItems, item)) {
+        qx.lang.Array.remove(this.__boundItems, item);
+      }
+    },
+    
+    __getBindPath : function(index, path)
+    {
+      var bindPath = "model[" + index + "]";
+      if (path != null && path != "") {
+        bindPath += "." + path;
+      }
+      return bindPath;
+    },
+    
+    __addBinding : function(widget, id) 
+    {
+      var bindings = this.__getBindings(widget);
+      
+      if (!qx.lang.Array.contains(bindings, id)) {
+        bindings.push(id);
+      }
+      
+      if (!qx.lang.Array.contains(this.__boundItems, widget)) {
+        this.__boundItems.push(widget);
+      }
+    },
+    
+    __getBindings : function(widget)
+    {
+      var bindings = widget.getUserData("BindingIds");
+      
+      if (bindings == null) {
+        bindings = [];
+        widget.setUserData("BindingIds", bindings);
+      }
+      
+      return bindings;
     }
   },
 
   destruct : function() {
-    this.__boundProperties = this.__boundPropertiesReverse = null;
+    this.__boundItems = null;
   }
 });

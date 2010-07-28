@@ -156,6 +156,7 @@ qx.Class.define("qx.ui.list.List",
         old.removeListener("change", this._onModelChange, this);
       }
 
+      this._widgetCellProvider.removeBindings();
       this.__updateRowCount();
     },
 

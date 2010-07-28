@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/Tango/16/places/folder.png)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.ui.list.List",
 {
   extend : qx.test.ui.list.AbstractListTest,
@@ -80,6 +86,57 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(this._list.getModel().getLength(), this._list.getPane().getRowConfig().getItemCount(), "b");
+    },
+    
+    testComplexModel : function()
+    {
+      var rawData = [];
+      for (var i = 0; i < 10; i++) {
+        rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png"};
+      }
+      var model = qx.data.marshal.Json.createModel(rawData);
+      
+      this._list.setLabelPath("label");
+      this._list.setIconPath("icon");
+      
+      this._list.setModel(model);
+      this.flush();
+
+      this.assertModelEqualsRowData(model, this._list);
+      this.assertEquals(model.getLength(), this._list.getPane().getRowConfig().getItemCount());
+      this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5,0).getLabel());
+      this.assertEquals("qx/icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
+    },
+    
+    testDisabledElements : function()
+    {
+      var disabledItem = 3;
+      var rawData = [];
+      for (var i = 0; i < 10; i++) {
+        rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png", enabled: (i != disabledItem)};
+      }
+      var model = qx.data.marshal.Json.createModel(rawData);
+      
+      this._list.setDelegate({
+        bindItem : function(controller, item, id) {
+          controller.bindDefaultProperties(item, id);
+          controller.bindProperty("enabled", "enabled", null, item, id);
+        }
+      });
+      
+      this._list.setLabelPath("label");
+      this._list.setIconPath("icon");
+      
+      this._list.setModel(model);
+      this.flush();
+
+      for (var i = 0; i < 10; i++) {
+        if (i != disabledItem) {
+          this.assertTrue(this._list._layer.getRenderedCellWidget(i,0).isEnabled());
+        } else {
+          this.assertFalse(this._list._layer.getRenderedCellWidget(i,0).isEnabled());
+        }
+      }
     }
   }
 });
