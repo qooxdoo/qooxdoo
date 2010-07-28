@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
       this._cellRenderer = this._createCellRenderer();
       this.removeBindings();
       this._list.getPane().fullUpdate();
-    },
+    }
   },
 
   destruct : function()
