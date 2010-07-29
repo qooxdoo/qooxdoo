@@ -29,6 +29,11 @@ qx.Class.define("qx.ui.list.List",
   extend : qx.ui.virtual.core.Scroller,
   include : [qx.ui.list.core.MSelectionHandling],
 
+  /**
+   * Creates the <code>List</code> with the passed model.
+   * 
+   * @param model {qx.data.Array|null} model for the list. 
+   */
   construct : function(model)
   {
     this.base(arguments, 0, 1, 20, 100);
@@ -60,6 +65,7 @@ qx.Class.define("qx.ui.list.List",
       init : true
     },
     
+    /** Data array containing the data which should be shown in the list. */
     model :
     {
       check : "qx.data.Array",
@@ -69,6 +75,7 @@ qx.Class.define("qx.ui.list.List",
       deferredInit : true
     },
     
+    /** Default item height */
     itemHeight :
     {
       check : "Integer",
@@ -77,6 +84,10 @@ qx.Class.define("qx.ui.list.List",
       themeable : true
     },
     
+    /**
+     * The path to the property which holds the information that should be
+     * shown as a label. This is only needed if objects are stored in the model.
+     */
     labelPath :
     {
       check: "String",
@@ -84,6 +95,11 @@ qx.Class.define("qx.ui.list.List",
       nullable: true
     },
 
+    /**
+     * The path to the property which holds the information that should be
+     * shown as a icon. This is only needed if objects are stored in the model
+     * and if the icon should be shown.
+     */
     iconPath :
     {
       check: "String",
@@ -91,18 +107,30 @@ qx.Class.define("qx.ui.list.List",
       nullable: true
     },
     
+    /**
+     * A map containing the options for the label binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
     labelOptions :
     {
       apply: "_applyLabelOptions",
       nullable: true
     },
   
+    /**
+     * A map containing the options for the icon binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
     iconOptions :
     {
       apply: "_applyIconOptions",
       nullable: true
     },
     
+    /**
+     * Delegation object, which can have one or more functions defined by the
+     * {@link qx.ui.list.core.IControllerDelegate} interface.
+     */
     delegate :
     {
       apply: "_applyDelegate",
@@ -114,10 +142,13 @@ qx.Class.define("qx.ui.list.List",
 
   members :
   {
+    /** {qx.ui.virtual.layer.Row} background renderer */
     _background : null,
 
+    /** {qx.ui.list.core.WidgetCellProvider} provider for widget cell rendering */
     _widgetCellProvider : null,
 
+    /** {qx.ui.virtual.layer.WidgetCell} widget cell renderer. */
     _layer : null,
     
     // overridden
@@ -134,6 +165,12 @@ qx.Class.define("qx.ui.list.List",
       return control || this.base(arguments, id);
     },
     
+    /** 
+     * Returns the model data from the passed row.
+     * 
+     * @param row {Integer} row to get data.
+     * @return {var|null} the model data from the row.
+     */
     _getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
 
@@ -144,6 +181,9 @@ qx.Class.define("qx.ui.list.List",
       }
     },
     
+    /**
+     * Initialized the virtual list.
+     */
     _init : function()
     {
       this.addListener("resize", this._onResize, this);
@@ -153,12 +193,18 @@ qx.Class.define("qx.ui.list.List",
       this._initLayer();
     },
 
+    /**
+     * Initialized the background renderer.
+     */
     _initBackground : function()
     {
       this._background = this.getChildControl("row-layer");
       this.getPane().addLayer(this._background);
     },
 
+    /**
+     * Initialized the widget cell renderer.
+     */
     _initLayer : function()
     {
       this._widgetCellProvider = new qx.ui.list.core.WidgetCellProvider(this);
@@ -166,6 +212,7 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().addLayer(this._layer);
     },
 
+    // apply method
     _applyModel : function(value, old)
     {
       value.addListener("change", this._onModelChange, this);
@@ -178,38 +225,57 @@ qx.Class.define("qx.ui.list.List",
       this.__updateRowCount();
     },
 
+    // apply method
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(30);
     },
     
+    // apply method
     _applyLabelPath : function(value, old) {
       this._widgetCellProvider.setLabelPath(value);
     },
 
+    // apply method
     _applyIconPath : function(value, old) {
       this._widgetCellProvider.setIconPath(value);
     },
     
+    // apply method
     _applyLabelOptions : function(value, old) {
       this._widgetCellProvider.setLabelOptions(value);
     },
     
+    // apply method
     _applyIconOptions : function(value, old) {
       this._widgetCellProvider.setIconOptions(value);
     },
     
+    // apply method
     _applyDelegate : function(value, old) {
       this._widgetCellProvider.setDelegate(value);
     },
     
+    /**
+     * Event handler for the resize event.
+     * 
+     * @param e {qx.event.type.Data} resize event.
+     */
     _onResize : function(e) {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
 
+    /**
+     * Event handler for the model change event.
+     * 
+     * @param e {qx.event.type.Data} model change event.
+     */
     _onModelChange : function(e) {
       this.__updateRowCount();
     },
 
+    /**
+     * Helper method to update the row count.
+     */
     __updateRowCount : function()
     {
       this.getPane().getRowConfig().setItemCount(this.getModel().getLength());
