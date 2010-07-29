@@ -244,8 +244,12 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
       // replace selection and fire event
       this.__synchronizeSelection();
-      var lastIndex = selection.getLength() - 1;
-      selection.splice(lastIndex, 1, this._getDataFromRow(currentSelection[lastIndex]));
+      if (selection.getLength() > 0) {
+        var lastIndex = selection.getLength() - 1;
+        selection.splice(lastIndex, 1, this._getDataFromRow(currentSelection[lastIndex]));
+      } else {
+        selection.removeAll();
+      }
 
       this.__ignoreManagerChangeSelection = false;
     },
