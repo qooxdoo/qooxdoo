@@ -27,24 +27,19 @@ Manual 1.2
    **Download** offline version (`.pdf <qooxdoo.pdf>`__)
 
 
-.. only:: html
-
-Introduction
-************
-
 .. _index#introduction:
+
+.. Introduction
 
 .. toctree::
    :maxdepth: 2
 
    pages/introduction
 
-.. only:: html
-
-Getting Started
-***************
 
 .. _index#getting_started:
+
+.. Getting Started
 
 .. toctree::
    :maxdepth: 2
