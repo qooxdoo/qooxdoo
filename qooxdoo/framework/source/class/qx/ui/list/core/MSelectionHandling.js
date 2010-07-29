@@ -17,6 +17,30 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ * 
+ * Implements single and multi selection handling.
+ * 
+ * Example:
+ * <pre class="javascript">
+ * var rawData = [];
+ * for (var i = 0; i < 2500; i++) {
+ *  rawData[i] = "Item No " + i;
+ * }
+ * 
+ * var model = qx.data.marshal.Json.createModel(rawData);
+ * var list = new qx.ui.list.List(model);
+ *   
+ * // Pre-Select "Item No 20"
+ * list.getSelection().push(model.getItem(20));
+ *      
+ * // log change selection
+ * list.getSelection().addListener("change", function(e) {
+ *   this.debug("Selection: " + list.getSelection().getItem(0));
+ * }, this);
+ * </pre>
+ */
 qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 {
 
@@ -28,6 +52,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
   properties :
   {
+    /** Current selected items */
     selection :
     {
       check : "qx.data.Array",
@@ -36,13 +61,25 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       deferredInit : true
     },
 
+    /**
+     * The selection mode to use.
+     *
+     * For further details please have a look at:
+     * {@link qx.ui.core.selection.Abstract#mode}
+     */
     selectionMode :
     {
-      check : [ "single", "multi", "additive", "one" ],
+      check : ["single", "multi", "additive", "one"],
       init : "single",
       apply : "_applySelectionMode"
     },
 
+    /**
+     * Enable drag selection (multi selection of items through
+     * dragging the mouse in pressed states).
+     *
+     * Only possible for the selection modes <code>multi</code> and <code>additive</code>
+     */
     dragSelection :
     {
       check : "Boolean",
@@ -50,6 +87,11 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       apply : "_applyDragSelection"
     },
 
+    /**
+     * Enable quick selection mode, where no click is needed to change the selection.
+     *
+     * Only possible for the modes <code>single</code> and <code>one</code>.
+     */
     quickSelection :
     {
       check : "Boolean",
@@ -60,12 +102,18 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
   members :
   {
+    /** {qx.ui.virtual.selection.Row} selection manager */
     _manager : null,
 
+    /** {Boolean} flag to ignore the selection change from {@link #selection} */
     __ignoreChangeSelection : false,
 
+    /** {Boolean} flag to ignore the selection change from {@link #_manager} */
     __ignoreManagerChangeSelection : false,
 
+    /**
+     * Initialize the selection manager with his delegate.
+     */
     _initSelectionManager : function()
     {
       var self = this;
@@ -100,6 +148,13 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
     },
 
+    /**
+     * Returns if the passed row can be selected or not.
+     * 
+     * @param row {Integer} row to select.
+     * @return {Boolean} <code>true</code> when the row can be selected, 
+     *    <code>false</code> otherwise.
+     */
     _isSelectable : function(row)
     {
       var widget = this._layer.getRenderedCellWidget(row, 0);
@@ -111,6 +166,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       }
     },
     
+    // apply method
     _applySelection : function(value, old)
     {
       value.addListener("change", this._onChangeSelection, this);
@@ -122,18 +178,26 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._onChangeSelection();
     },
 
+    // apply method
     _applySelectionMode : function(value, old) {
       this._manager.setMode(value);
     },
 
+    // apply method
     _applyDragSelection : function(value, old) {
       this._manager.setDrag(value);
     },
 
+    // apply method
     _applyQuickSelection : function(value, old) {
       this._manager.setQuick(value);
     },
 
+    /**
+     * Event handler for the internal selection change {@link #selection}.
+     * 
+     * @param e {qx.event.type.Data} the change event.
+     */
     _onChangeSelection : function(e)
     {
       if (this.__ignoreManagerChangeSelection == true) {
@@ -157,12 +221,17 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       catch(e)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
-        this.__updateSelection();
+        this.__synchronizeSelection();
       }
 
       this.__ignoreChangeSelection = false;
     },
 
+    /**
+     * Event handler for the selection change from the {@link #_manager}.
+     * 
+     * @param e {qx.event.type.Data} the change event.
+     */
     _onManagerChangeSelection : function(e) {
       if (this.__ignoreChangeSelection == true) {
         return;
@@ -174,14 +243,17 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this.__ignoreManagerChangeSelection = true;
 
       // replace selection and fire event
-      this.__updateSelection();
+      this.__synchronizeSelection();
       var lastIndex = selection.getLength() - 1;
       selection.splice(lastIndex, 1, this._getDataFromRow(currentSelection[lastIndex]));
 
       this.__ignoreManagerChangeSelection = false;
     },
 
-    __updateSelection : function()
+    /**
+     * Synchronized the selection form the manager with the local one.
+     */
+    __synchronizeSelection : function()
     {
       var localSelection = this.getSelection();
       var nativArray = localSelection.toArray();
