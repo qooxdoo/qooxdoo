@@ -90,17 +90,15 @@ qx.Class.define("qx.ui.window.Manager",
     {
       this.__desktop.forceUnblockContent();
 
-      var windows = this.__desktop.getWindows();
-      var zIndex = this._minZIndex - 1;
-      var hasActive = false;
-      var win, modalWin = [], topWin = [], last = null;
-
-      var setZIndex = function(win, fn) {
-        // we use only every second z index to easily 
-        // insert a blocker between two windows
-        zIndex +=2;
-        win.setZIndex(zIndex);
-      }
+      var windows = this.__desktop.getWindows(),
+          zIndex = this._minZIndex - 1,
+          tzIndex = zIndex + windows.length,
+          mzIndex = tzIndex * 2,
+          hasActive = false,
+          win, 
+          modalWin = [], 
+          topWin = [], 
+          last = null;
 
       for (var i=0, l=windows.length; i<l; i++)
       {
@@ -109,29 +107,29 @@ qx.Class.define("qx.ui.window.Manager",
           continue;
         }
 
+        /*
+         * We use only every second z index to easily 
+         * insert a blocker between two windows
+         *
+         * Modal Windows stays on top of 
+         * AlwaysOnTop Windows, which stays on top of
+         * Normal Windows.
+         */
         if(win.isAlwaysOnTop()) {
-          topWin.push(win);
+          tzIndex +=2;
+          win.setZIndex(tzIndex);
         } else if (win.isModal()) {
-          modalWin.push(win);
+          mzIndex +=2;
+          win.setZIndex(mzIndex);
+          this.__desktop.blockContent(mzIndex - 1);
         } else {
-          setZIndex(win);
+          zIndex +=2;
+          win.setZIndex(zIndex);
         }
 
         // ensure that at least one window is active
         hasActive = hasActive || win.isActive();
         last = win;
-      }
-
-      //alwaysOnTop Windows stays on top of normal windows
-      for (var i=0, l = topWin.length; i<l; i++) {
-        setZIndex(topWin[i]);
-      }
-
-      //modal Windows stays on top of AlwaysOnTop Windows
-      for (var i=0, l = modalWin.length; i<l; i++)
-      {
-        setZIndex(modalWin[i]);
-        this.__desktop.blockContent(zIndex - 1);
       }
 
       if (!hasActive) {
