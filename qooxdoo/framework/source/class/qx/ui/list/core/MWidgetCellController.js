@@ -186,6 +186,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
      * Configure the passed item if a delegate is set and the needed 
      * function {@link IControllerDelegate#configureItem} is available.
      *
+     * @param item {qx.ui.core.Widget} item to configer.
      */
     _configureItem : function(item)
     {
@@ -273,6 +274,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     /**
      * Helper method which returns all bound id from the widget.
      * 
+     * @param widget {qx.ui.core.Widget} widget to get all binding.
      * @return {Array} all bound id's.
      */
     __getBindings : function(widget)
