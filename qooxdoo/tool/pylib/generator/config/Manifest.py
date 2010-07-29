@@ -44,6 +44,8 @@ class Manifest(object):
         libentry['class']         = os.path.join(uriprefix,libprovides['class'])
         libentry['resource']      = os.path.join(uriprefix,libprovides['resource'])
         libentry['translation']   = os.path.join(uriprefix,libprovides['translation'])
+        if 'translation' in libprovides:
+            libentry['translation']   = os.path.join(uriprefix,libprovides['translation'])
         libentry['encoding']    = libprovides['encoding']
         if 'namespace' not in libentry:
             libentry['namespace']   = libprovides['namespace']
