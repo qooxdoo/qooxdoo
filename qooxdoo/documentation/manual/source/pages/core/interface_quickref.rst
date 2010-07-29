@@ -13,8 +13,7 @@ It is much like a class declaration, with a more limited set of features. Proper
                          { feature_spec ',' }
                        ')'
 
-    feature_spec    := 
-                       'extend'     ':' extend_spec      |
+    feature_spec    := 'extend'     ':' extend_spec      |
                        'statics'    ':' statics_spec     |
                        'properties' ':' properties_spec  |
                        'members'    ':' members_spec     |
@@ -24,7 +23,7 @@ It is much like a class declaration, with a more limited set of features. Proper
                        '[' <name.of.SuperInterface1> ',' <name.of.SuperInterface2>
                            ',' ... ']'
 
-    statics_spec    := c_map
+    statics_spec    := '{' { '"' <upper_case_key> '"' ':' js_primitive_value ',' } '}'
 
     properties_spec := '{' { '"' <property_name> '"' ':' '{}' ',' } '}'
 
