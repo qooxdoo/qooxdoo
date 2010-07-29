@@ -123,7 +123,7 @@ Events could be added to the html elements as well as to the child controls. The
 * For the HTML elements use: ``_onContentXXX`` or ``_onContainerXXX``
 * For the child controls use: ``_onIconXXX`` or ``_onFieldXXX`` etc.
 
-While ``XXX`` stands the name of the event or of the change happens. This will result into names like ``_onIframeLoad`` or ``_onContentInput``.
+Where ``XXX`` stands for the name of the event or of the change that happens. This will result in names like ``_onIframeLoad`` or ``_onContentInput``.
 
 .. _pages/gui_toolkit/ui_develop#anonymous_widgets:
 

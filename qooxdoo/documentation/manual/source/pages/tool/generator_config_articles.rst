@@ -31,7 +31,6 @@ This should make it more intuitive to maintain a config file.
 
     Since each config key, particularly action keys, interpret their corresponding config entries, they know which entries represent paths. To handle those paths correctly, the ``Config`` module provides a utility method ``Config.absPath(self, path)`` which will calculate the absolute path from the given path relative to the config file's location.
 
-xxx
 
 .. _pages/tool/generator_config_articles#file_globs:
 
@@ -48,16 +47,10 @@ Some config keys take file paths as their attributes. Where specified, *file glo
  []                 matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)  
 =================  ==================================================================================================================
 
-XXX
----
-
-XXX
-^^^
-
 .. _pages/tool/generator_config_articles#examples:
 
 Examples
-""""""""
+--------
 
 Given a set of files like ``file9.js,  file10.js,  file11.js``, here are some file globs and their resolution:
 
@@ -149,13 +142,12 @@ and the "joblist" key will get the value [1,2,3].
 A special situation arises if you are using a **top-level let**, i.e. a *let* section on the highest level in the config file, and not in any job definition. This *let* map will be automatically applied to every job run, without any explicit reference (so be aware of undesired side effects of bindings herein). 
 
 When assembling a job to run, the precedence of all the various *let* maps is 
-.. note::
 
-    local job let < config-level let < 'extend' job let's
+::
 
-xxx
+    local job let < config-level let < 'extend' job lets
 
- With imported jobs top-level definitions will take precedence over any definitions from the external config file (as if they were the 'first' let section in the chain).
+With imported jobs top-level definitions will take precedence over any definitions from the external config file (as if they were the 'first' let section in the chain).
 
 .. _pages/tool/generator_config_articles#log_key:
 
@@ -332,8 +324,6 @@ The first important thing to note is:
 .. note::
 
     All URI handling within qooxdoo is related to libraries.
-
-xxx
 
 Within qooxdoo the :ref:`library <pages/tool/generator_config_articles#library_key_and_manifest_files>` is a fundamental concept, and libraries in this sense contain all the things you are able to include in the final Web application, such as
 class files (.js),

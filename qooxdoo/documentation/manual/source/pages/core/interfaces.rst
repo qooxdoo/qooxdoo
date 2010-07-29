@@ -5,12 +5,6 @@ Interfaces
 
 qooxdoo supports Java like interfaces. 
 
-<html>
-<!--
-Interfaces can be used to validate the signatures of objects at runtime.
--->
-</html>
-
 .. _pages/interfaces#defining_interfaces:
 
 Defining Interfaces
@@ -51,34 +45,31 @@ Example:
        }
     });
 
-XXX
----
-
 .. _pages/interfaces#definition:
 
 Definition
-^^^^^^^^^^
+----------
 
 Interfaces are declared using ``qx.Interface.define``. Interface names start by convention with an ``I`` (uppercase "i"). They can inherit from other interfaces using the ``extend`` key. Multiple inheritance of interfaces is supported.
 
 .. _pages/interfaces#properties:
 
 Properties
-^^^^^^^^^^
+----------
 
 Properties in interfaces state that each class implementing this interface must have a property of the given name. The :doc:`property definition <defining_properties>` is not evaluated and may be empty.
 
 .. _pages/interfaces#members:
 
 Members
-^^^^^^^
+-------
 
 The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in `qx.core.MAssert <http://demo.qooxdoo.org:8181/current/apiviewer/#qx.core.MAssert>`_ are used to check the incoming parameters.
 
 .. _pages/interfaces#statics:
 
 Statics
-^^^^^^^
+-------
 
 Statics behave exactly like statics defined in mixins and qooxdoo classes. They are accessible through their fully-qualified name. For example, the static varaiable ``PI`` could be used like this:
 
@@ -89,7 +80,7 @@ Statics behave exactly like statics defined in mixins and qooxdoo classes. They 
 .. _pages/interfaces#events:
 
 Events
-^^^^^^
+------
 
 Each event defined in the interface must be declared in the implementing classes. The syntax matches the ``events`` key of the class declaration.
 

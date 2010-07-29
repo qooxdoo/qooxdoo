@@ -210,13 +210,10 @@ The singleton design pattern makes sure, only a single instance of a class may b
 Inheritance
 ===========
 
-XXX
----
-
 .. _pages/classes#single_inheritance:
 
 Single Inheritance
-^^^^^^^^^^^^^^^^^^
+------------------
 
 JavaScript supports the concept of single inheritance. It does not support (true) multiple inheritance like C++. Most people agree on the fact that such a concept tends to be very complex and error-prone. There are other ways to shoot you in the foot. qooxdoo only allows for single inheritance as well:
 
@@ -229,21 +226,21 @@ JavaScript supports the concept of single inheritance. It does not support (true
 .. _pages/classes#multiple_inheritance:
 
 Multiple Inheritance
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Not supported. There are more practical and less error-prone solutions that allow for typical features of multiple inheritance: Interfaces and Mixins (see below).
 
 .. _pages/classes#polymorphism_overriding:
 
 Polymorphism (Overriding)
-^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------
 
 qooxdoo does, of course, allow for polymorphism, that is most easily seen in the ability to override methods in derived classes.
 
 .. _pages/classes#calling_the_superclass_constructor:
 
 Calling the Superclass Constructor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 It is hard to come up with an appealing syntax and efficient implementation for calling the superclass constructor from the constructor of a derived class. You simply cannot top Java's ``super()`` here. At least there is some generic way that does not involve to use the superclass name explicitly:
 
@@ -263,7 +260,7 @@ Unfortunately, to mimic a ``super()`` call the special variable ``arguments`` is
 .. _pages/classes#calling_an_overridden_method:
 
 Calling an Overridden Method
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
 Calling an overridden superclass method from within the overriding method (i.e. both methods have the same name) is similar to calling the superclass constructor:
 
@@ -281,7 +278,7 @@ Calling an overridden superclass method from within the overriding method (i.e. 
 .. _pages/classes#calling_the_superclass_method_or_constructor_with_all_parameters:
 
 Calling the Superclass Method or Constructor with all parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------
 
 This variant allows to pass all the parameters (unmodified):
 
@@ -309,7 +306,7 @@ This variant allows to pass all the parameters (unmodified):
 .. _pages/classes#calling_another_static_method:
 
 Calling another Static Method
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
 
 Here is an example for calling a static member without using a fully-qualified class name (compare to ``this.base(arguments)`` above):
 

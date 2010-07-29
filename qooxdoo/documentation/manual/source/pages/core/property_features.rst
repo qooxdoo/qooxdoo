@@ -75,17 +75,15 @@ Memory managment
 ================
 
 Automatic memory management. This means all so-configured properties which contain complex data objects get automatically disposed with the object disposal. The affected built-in types are already auto-configured this way. Also all properties which need an instance of a class, defined by using a classname as ``check`` are automatically handled. 
+
 .. note::
 
     Note that this does not actually call dispose() on the object but just removes the property value etc i.e. dereferences the object. You still need to call dispose() if necessary.
 
-xxx
 
 For all other properties which contain complex data the developer must add a ``dispose`` key with a value of ``true`` to the property declaration. For example if there is no ``check`` defined or the ``check`` definition points to a function.
 
 .. note::
 
     This is not needed for primitive types like strings and numbers.
-
-xxx
 
