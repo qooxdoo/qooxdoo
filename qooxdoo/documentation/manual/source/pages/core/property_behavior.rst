@@ -3,15 +3,13 @@
 Initialization Behavior
 ***********************
 
-.. note::
-
-    This document summarizes some thoughts about the behavior of the initialization of properties and the changed of the behavior recently discovered. So please keep in mind that the containing information may change.
+This document summarizes some thoughts about the behavior of the initialization of properties.
 
 .. _pages/property_features/behavior#the_problem:
 
 The Problem
 ===========
-Imagine a class containing a property named "a" with an init value, like the following:
+Imagine a class containing a property named ``a`` with an init value, like the following:
 
 ::
 
@@ -25,12 +23,12 @@ Imagine a class containing a property named "a" with an init value, like the fol
             }
           });
 
-As you can see, the property "a" has an init value, "b". Now, if you access "a" with its getter, you get the init value in return:
+As you can see, the property ``a`` has an init value, ``b``. Now, if you access ``a`` with its getter, you get the init value in return:
 
 ::
 
     var a = new A();
-      a.getA();  // returns "b"
+    a.getA();  // returns "b"
 
 If you now set something different than the initial value, you get a change event, because the content of the property changed.
 
@@ -43,15 +41,15 @@ As far, everything behaves as desired. But if set the init value instead of a ne
 ::
 
     var a = new A();
-      a.setA(a.getA()); // changeA fired (first set)
-      a.setA(a.getA()); // changeA NOT fired (every other set)
+    a.setA(a.getA()); // changeA fired (first set)
+    a.setA(a.getA()); // changeA NOT fired (every other set)
 
 .. _pages/property_features/behavior#history:
 
 History
 =======
-An interesting point about this behavior is the history of it. It was introduced with qooxdoo 1.2 and is since that initial 1.2 release in every release included. 
-The behavior in the 0.7 legacy branch is different. It does not fire a change event when setting the init value, which is the correct and expected behavior.
+An interesting point about this behavior is the history of it. It was introduced with qooxdoo 0.8 and is since that initial 0.8 release in every release included. 
+The behavior in 0.7 was different. It does not fire a change event when setting the init value, which is the correct and expected behavior.
 
 .. _pages/property_features/behavior#why_not_just_change_it_back_as_it_was:
 
@@ -77,11 +75,14 @@ A good example in the framework where we rely on the behavior is the Spinner:
                 this._updateButtons();
     // ...
 
-The example shows the constructor and the apply of the value property. The problem begin in this case with the constructor parameter named "value", which is optional. So we have three cases to consider.
+The example shows the constructor and the apply of the value property. The problem begins in this case with the constructor parameter named ``value``, which is optional. So we have three cases to consider.
 
 #. The value argument is undefined: The initValue method is called, which invokes the apply function for the property with the init value as value.
 #. A value is given different as the init value: So the value is not undefined and the setter for the value property will be called, which invokes the apply function.
-#. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The old behavior calls the apply and invokes with that apply the _updateButtons method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
+#. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The old behavior calls the apply and invokes with that apply the ``_updateButtons`` method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
 
 The problem with the new behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maxiumum values is the same. Because only in that scenario, one of the buttons need to be disabled.
 
+When can it be changed?
+=======================
+Currently we don't plan to change it because it can have some hard to track side effects as seen in the example above and we don't have any deprecation strategy. Maybe it can be change on a major version like 2.0 but currently there are no plans to do so.
