@@ -238,6 +238,14 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
+    /** Should the window be always on top */
+    alwaysOnTop :
+    {
+      check : "Boolean",
+      init : false,
+      event : "changeAlwaysOnTop"
+    },
+
     /** Should the window be modal (this disables minimize and maximize buttons) */
     modal :
     {
