@@ -5,6 +5,12 @@
 
 @import url("basic.css");
 
+dt:target, .highlight {
+    color: #ABC507;
+    font-weight: bold;
+    background-color: transparent;
+}
+
 .header {
   background: #134275 url(colorstrip.gif) repeat-x 0% 0%;
   width: 900px;
