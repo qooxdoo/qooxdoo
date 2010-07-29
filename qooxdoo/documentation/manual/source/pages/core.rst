@@ -22,6 +22,15 @@ Properties
   core/defining_properties
   core/property_behavior
 
+Settings and Variants
+=====================
+
+.. toctree::
+
+  core/settings
+  core/variants
+
+
 Data Binding
 ============
 
