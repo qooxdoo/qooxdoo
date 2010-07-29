@@ -2745,7 +2745,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           colorEven : "white",
-          colorOdd : "#EEE"
+          colorOdd : "white"
         };
       }
     },

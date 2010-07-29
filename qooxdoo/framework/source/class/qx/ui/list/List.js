@@ -18,9 +18,11 @@
 ************************************************************************ */
 
 /**
- * Experimental virtual list widget.
- *
  * EXPERIMENTAL!
+ * 
+ * Virtual list widget for virtual widget rendering.
+ * 
+ * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
  */
 qx.Class.define("qx.ui.list.List",
 {
@@ -38,6 +40,8 @@ qx.Class.define("qx.ui.list.List",
     } else {
       this.initModel(new qx.data.Array());
     }
+    
+    this.initItemHeight();
   },
 
   properties :
@@ -46,7 +50,7 @@ qx.Class.define("qx.ui.list.List",
     appearance :
     {
       refine : true,
-      init : "list"
+      init : "virtual-list"
     },
 
     // overridden
@@ -68,7 +72,7 @@ qx.Class.define("qx.ui.list.List",
     itemHeight :
     {
       check : "Integer",
-      init : 20,
+      init : 25,
       apply : "_applyRowHeight",
       themeable : true
     },
@@ -116,6 +120,20 @@ qx.Class.define("qx.ui.list.List",
 
     _layer : null,
     
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "row-layer" :
+          control = new qx.ui.virtual.layer.Row(null, null);
+          break;
+      }
+      return control || this.base(arguments, id);
+    },
+    
     _getDataFromRow : function(row) {
       var data = this.getModel().getItem(row);
 
@@ -137,7 +155,7 @@ qx.Class.define("qx.ui.list.List",
 
     _initBackground : function()
     {
-      this._background = new qx.ui.virtual.layer.Row(null, null);
+      this._background = this.getChildControl("row-layer");
       this.getPane().addLayer(this._background);
     },
 

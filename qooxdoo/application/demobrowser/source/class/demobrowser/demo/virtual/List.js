@@ -203,7 +203,6 @@ qx.Class.define("demobrowser.demo.virtual.List",
         selectionMode : "one",
         height: 280, 
         width: 150,
-        itemHeight: 25, // TODO implement auto sizing
         labelPath: "label",
         iconPath: "icon"
       });
@@ -245,9 +244,8 @@ qx.Class.define("demobrowser.demo.virtual.List",
       
       var list = new qx.ui.list.List(model).set({
         selectionMode : "additive",
-        height: 200, // TODO set default height to 200
+        height: 200,
         width: 150,
-        itemHeight: 25, // TODO implement auto sizing
         labelPath: "label",
         iconPath: "icon"
       });
