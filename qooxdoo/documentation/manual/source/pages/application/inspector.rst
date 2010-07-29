@@ -22,8 +22,8 @@ Usage
 
 There are two ways to use the inspector (explained in more detail below):
 
-* The first way is to run a simple generator job to create a local inspector instance for your custom application. (See: :ref:`Running the inspector job <pages/application/inspector#running_the_inspector_job>`)
-* Generate the build version of the inspector and open it in a (local) web server. (See: :ref:`Running inspector with an HTTP server <pages/application/inspector#running_inspector_with_an_http_server>`)
+* The first way is to run a simple generator job to create a local inspector instance for your custom application. (See: :ref:`Running the inspector job <pages/application/inspector#individual_inspector_from_file_system>`)
+* Generate the build version of the inspector and open it in a (local) web server. (See: :ref:`Running inspector with an HTTP server <pages/application/inspector#shared_inspector_over_a_web_server>`)
 
 .. _pages/application/inspector#individual_inspector_from_file_system:
 

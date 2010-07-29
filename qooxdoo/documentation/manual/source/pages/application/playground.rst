@@ -1,4 +1,4 @@
-.. _pages/application/inspector#inspector:
+.. _pages/application/playground#playground:
 
 Playground
 **********

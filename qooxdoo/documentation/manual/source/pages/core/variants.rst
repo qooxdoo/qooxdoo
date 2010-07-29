@@ -163,7 +163,7 @@ For the first approach just define a global map named ``qxvariants``. This is ho
 .. _pages/core/variants#predefined_variants:
 
 Predefined Variants
--------------------
+===================
 
 Here is a list of variants currently predefined in qooxdoo:
 
