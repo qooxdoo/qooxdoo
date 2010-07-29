@@ -90,19 +90,16 @@ qx.Class.define("qx.ui.window.Manager",
     {
       this.__desktop.forceUnblockContent();
 
-      var windows = this.__desktop.getWindows(),
-          zIndex = this._minZIndex - 1,
-          tzIndex = zIndex + windows.length,
-          mzIndex = tzIndex * 2,
-          hasActive = false,
-          win, 
-          modalWin = [], 
-          topWin = [], 
-          last = null;
+      var windows = this.__desktop.getWindows();
+      var zIndex = this._minZIndex - 1;
+      var zIndexOnTop = zIndex + windows.length;
+      var zIndexModal = zIndexOnTop * 2;
+      var hasActive = false;
+      var last = null;
 
-      for (var i=0, l=windows.length; i<l; i++)
+      for (var i = 0, l = windows.length; i < l; i++)
       {
-        win = windows[i];
+        var win = windows[i];
         if (!win.isVisible()) {
           continue;
         }
@@ -116,12 +113,12 @@ qx.Class.define("qx.ui.window.Manager",
          * Normal Windows.
          */
         if(win.isAlwaysOnTop()) {
-          tzIndex +=2;
-          win.setZIndex(tzIndex);
+          zIndexOnTop +=2;
+          win.setZIndex(zIndexOnTop);
         } else if (win.isModal()) {
-          mzIndex +=2;
-          win.setZIndex(mzIndex);
-          this.__desktop.blockContent(mzIndex - 1);
+          zIndexModal +=2;
+          win.setZIndex(zIndexModal);
+          this.__desktop.blockContent(zIndexModal - 1);
         } else {
           zIndex +=2;
           win.setZIndex(zIndex);
