@@ -115,6 +115,14 @@ qx.Class.define("demobrowser.demo.virtual.List",
       // Pre-Select "Item No 20"
       list.getSelection().push(model.getItem(20));
       
+      // log change selection
+      list.getSelection().addListener("change", function(e) {
+        var selection = list.getSelection();
+        for (var i = 0; i < selection.getLength(); i++) {
+          this.debug("Selection: " + selection.getItem(i).getLabel());
+        }
+      }, this);
+      
       // TODO implement auto sizing
       var rowConfig = list.getPane().getRowConfig();
       for (var i = 0; i < 2500; i++) 
