@@ -19,6 +19,10 @@
 
 /**
  * EXPERIMENTAL!
+ * 
+ * The provider implemets the {@link qx.ui.virtual.core.IWidgetCellProvider} API,
+ * which can be used as delegate for the widget cell rendering and it
+ * provides a API to bind the model with the rendered item.
  */
 qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 {
@@ -26,6 +30,11 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
   implement : qx.ui.virtual.core.IWidgetCellProvider,
   include : [qx.ui.list.core.MWidgetCellController],
 
+  /**
+   * Creates the <code>WidgetCellProvider</code>
+   * 
+   * @param list {qx.ui.list.List} list to provide.
+   */
   construct : function(list)
   {
     this.base(arguments);
@@ -39,8 +48,10 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
   members :
   {
+    /** {} the used cell renderer */
     _cellRenderer : null,
 
+    // interface implementation
     getCellWidget : function(row, column)
     {
       var widget = this._cellRenderer.getCellWidget();
@@ -55,25 +66,46 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
       return widget;
     },
 
+    // interface implementation
     poolCellWidget : function(widget) {
       this._removeBindingsFrom(widget);
       this._cellRenderer.pool(widget);
     },
 
+    /**
+     * Styles a selected item.
+     * 
+     * @param item {qx.ui.core.Widget} widget to style.
+     */
     styleSelectabled : function(item) {
       this._cellRenderer.updateStates(item, {selected: 1});
     },
 
+    /**
+     * Styles a not selected item.
+     * 
+     * @param item {qx.ui.core.Widget} widget to style.
+     */
     styleUnselectabled : function(item) {
       this._cellRenderer.updateStates(item, {});
     },
     
+    /**
+     * Event handler for the created widget event.
+     * 
+     * @param event {qx.event.type.Data} fired event.
+     */
     _onWidgetCreated : function(event)
     {
       var widget = event.getData();
       this._configureItem(widget);
     },
     
+    /**
+     * Event handler for the change delegate event.
+     * 
+     * @param event {qx.event.type.Data} fired event.
+     */
     _onChangeDelegate : function(event)
     {
       this._cellRenderer.dispose();
