@@ -467,45 +467,18 @@ This is e.g. the case in a sample application, where the *boot* part lists 'qx.b
 i18n-with-boot
 --------------
 
-*(experimental)*
+Setting this sub-key to *false* will result in I18N information (translations, CLDR data, ...) being put in their own separate parts. The utility of this is:
 
-Setting this sub-key to *false* will result in I18N information (translations, CLDR data, ...) being put in their own separate files. The utility of this is
-
-* the loader package gets smaller, which allows for faster application startup
-* you can handle I18N data more individually
+* The loader package gets smaller, which allows for faster application startup
+* You can handle I18N data more individually
 
 Here are the details:
 
-* Currently, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data in the application loader (which in turn is per default integrated with the first package, the boot package, but that's a different story).
-* Setting *packages/i18n-with-boot* to *false* removes this data from the loader script.
-* Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a separate file, with a *-<locale>.js* ending, and alongside the normal script code. So if your script code is in the path *script/myapp.js*, translation and CLDR data for the *en_US* locale will be in the file *script/myapp-en_US.js*.
-* The structure of each file is a simple JSON-style map::
+* By default, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data in the application loader (which in turn is per default integrated with the first package, the boot package, but that's a different story).
+* Setting *packages/i18n-with-boot: false* removes this data from the loader script.
+* Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code. As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part "en_US"). Each package is a normal qooxdoo package with only the data section, and without the code section. (See :doc:`/pages/development/parts_overview` for more details).
 
-    { "<locale>" : { "Translations" : {<translations_map>},
-                            {"Locales"        : {<cldr_map>}
-    }
-
-* In the loader script , the name and location of those i18n files will be registered, in a variable ``qx.$$i18n``, which is a map which has a ``"uris"`` sub-key. It looks like this::
-
-    { "uris" : { "en_US" : "<tag:file>",
-                      "de"       : "<tag:file>",
-                     ...
-                   }
-    }
-
-  The value for each locale has to be decoded by the ``qx.$$loader.decodeUris()`` method, in order to obtain a usable URI.
-
-So far, so good. This is the point where the application developer takes over. The application will not load the I18N files by itself. You have to do it, with the following steps:
-
-* Read the location of the I18N files fom the ``qx.i18n["uris"]`` map and decode it with ``qx.$$loader.decodeUris()``.
-* Load the I18N files (e.g. with ``qx.io.remote.Request``).
-* Evaluate the returned file contents, to recover it as Javascript data.
-* For each locale, register the contents with these methods of the Locale Manager:
-
-  * ``qx.locale.Manager.getInstance().addTranslation(<locale>, <translations_map>);``
-  * ``qx.locale.Manager.getInstance().addLocale(<locale>, <cldr_map>);``
-
-After that, the corresponding locale is ready to be used in the normal way in your application. This has to be done before the first translateable string or localizable data is to be converted.
+So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be converted. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/1.2.x/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
 
 .. _pages/tool/generator_config_articles#include_key_top-level_-_adding_features:
 
