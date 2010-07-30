@@ -1218,16 +1218,44 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        var otherSamp = this.tree.getPreviousNodeOf(currSamp);
-        if (!otherSamp) {
+        var otherSamp = this.tree.getPreviousNodeOf(currSamp, false);
+        if (!otherSamp || otherSamp == this.tree.getRoot()) {
           return;
         }
-
-        if (otherSamp.getParent() == this.tree.getRoot()) {
-          otherSamp = this.tree.getPreviousNodeOf(otherSamp);
+        
+        while (otherSamp.isVisible && !otherSamp.isVisible()) {
+          otherSamp = this.tree.getPreviousNodeOf(otherSamp, false);
         }
-        this.tree.setSelection([otherSamp]);
-        this.runSample();
+        
+        if (otherSamp.getParent() == this.tree.getRoot()) {
+          // otherSamp is the parent
+          var candidate = this.tree.getPreviousNodeOf(otherSamp, false);
+          while (candidate.isVisible && !candidate.isVisible()) {
+            candidate = this.tree.getPreviousNodeOf(candidate, false);
+          }
+          if (candidate.getParent() == this.tree.getRoot()) {
+            candidate.setOpen(true);
+            var candidate2 = this.tree.getPreviousNodeOf(otherSamp, false);
+            while (candidate2.isVisible && !candidate2.isVisible()) {
+              candidate2 = this.tree.getPreviousNodeOf(candidate2, false);
+            }
+            if (candidate !== candidate2) {
+              otherSamp = candidate2;
+            }
+          } else {
+            otherSamp = candidate;
+          }
+        }
+        
+        if (!otherSamp || otherSamp === currSamp) {
+          // Remove stop button, display run button
+          this._stopbutton.setVisibility("excluded");
+          this._runbutton.setVisibility("visible");
+          return;
+        } else {
+          this.tree.setSelection([otherSamp]);
+          this.runSample();
+        }
       }
     },
 
@@ -1246,37 +1274,33 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        if (currSamp == this.tree.getRoot()) {
-          currSamp = currSamp.getChildren()[0];
+        var otherSamp = this.tree.getNextNodeOf(currSamp, false);
+        if (!otherSamp) {
+          return;
         }
-
-        try {
-          // If a folder is selected, get its first child
-          var otherSamp = currSamp.getUserData('modelLink').getChildren()[0].widgetLinkFull;
-        } catch (ex) {
-          try {
-            // If a sample is selected, get its following sibling
-            var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
-          } catch (ex) {
-            if (this.getPlayDemos() !== "category") {
-
-              try {
-                // Get the following folder's first child
-                var tree = currSamp.getTree();
-
-                var nextFolder = tree.getNextNodeOf(currSamp);
-                nextFolder.setOpen(true);
-
-                var otherSamp = nextFolder.getChildren()[0];
-              } catch (ex) {
-                this.debug(ex)
-              }
-
-            }
+        
+        if (otherSamp.getParent() == this.tree.getRoot()) {
+          otherSamp.setOpen(true);
+          otherSamp = this.tree.getNextNodeOf(otherSamp, false);
+        }
+        
+        if (!otherSamp) {
+          return;
+        }
+        
+        while (!otherSamp.isVisible()) {
+          var candidate = this.tree.getNextNodeOf(otherSamp, false);
+          if (!candidate) {
+            // reached the last item
+            return;
           }
-
+          if (candidate.getParent() == this.tree.getRoot()) {
+            // found a folder
+            otherSamp.setOpen(true);
+            var candidate = this.tree.getNextNodeOf(candidate, false);
+          }
+          otherSamp = candidate;
         }
-
         if (otherSamp)
         {
           this.tree.setSelection([otherSamp]);
