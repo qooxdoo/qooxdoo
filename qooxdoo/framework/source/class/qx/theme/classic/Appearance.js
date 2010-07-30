@@ -1658,7 +1658,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "selectbox/arrow" :
     {
       include : "image",
-      
+
       style : function(states)
       {
         return {

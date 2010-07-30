@@ -522,9 +522,9 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       this.assertEquals(0, model.getFonts().length, "The remove did not work.");
     },
-    
-    
-    testQooxdooObject : function() 
+
+
+    testQooxdooObject : function()
     {
       var qxObject = new qx.core.Object();
       this.__data = ({a: {b: qxObject}});
@@ -535,8 +535,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.toModel(this.__data);
 
       // check the model
-      this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");      
-    }  
+      this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
+    }
 
   }
 });

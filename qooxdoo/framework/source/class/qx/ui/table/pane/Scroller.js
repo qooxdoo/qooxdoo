@@ -1179,7 +1179,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this.getApplicationRoot().setGlobalCursor(null);
       this.setCursor(null);
-      
+
       // handle edit cell if available
       if (this.isEditing()) {
         var height = this.__cellEditor.getBounds().height;
@@ -1226,7 +1226,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
           // Move the column
           columnModel.moveColumn(fromOverXPos, toOverXPos);
-          
+
           // update the focus indicator including the editor
           this._updateFocusIndicator();
         }

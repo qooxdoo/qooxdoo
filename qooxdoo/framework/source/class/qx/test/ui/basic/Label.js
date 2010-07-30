@@ -45,8 +45,8 @@ qx.Class.define("qx.test.ui.basic.Label",
 
       this.assertEquals(width, label.getBounds().width);
     },
-    
-    
+
+
     testWrapSet : function() {
       var l = new qx.ui.basic.Label();
       l.setRich(true);
@@ -54,14 +54,14 @@ qx.Class.define("qx.test.ui.basic.Label",
       this.assertEquals("normal", l.getContentElement().getStyle("whiteSpace"));
       l.dispose();
     },
-    
-    
+
+
     testWrapNotSet : function() {
       var l = new qx.ui.basic.Label();
-      l.setRich(true);      
+      l.setRich(true);
       l.setWrap(false);
       this.assertEquals("nowrap", l.getContentElement().getStyle("whiteSpace"));
-      l.dispose();      
+      l.dispose();
     }
   }
 });

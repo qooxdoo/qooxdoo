@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.form.ModelProperty",
     {
       this.__test(new qx.ui.form.RadioButton());
     },
-    
+
     testRadioGroupBox : function()
     {
       this.__test(new qx.ui.groupbox.RadioGroupBox());
@@ -83,11 +83,11 @@ qx.Class.define("qx.test.ui.form.ModelProperty",
     {
       this.__test(new qx.ui.form.CheckBox());
     },
-    
+
     testCheckGroupBox : function()
     {
       this.__test(new qx.ui.groupbox.CheckGroupBox());
-    },    
+    },
 
     testTreeFolder : function()
     {

@@ -37,8 +37,8 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
     this.removeListener("keypress", this._onKeyPress);
     this.removeListener("mousewheel", this._onMouseWheel);
   },
-  
-  
+
+
   members : {
     // overridden
     getSizeHint : function() {
@@ -47,9 +47,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
       // set the width or height to 0 depending on the orientation.
       // this is necessary to prevent the ScrollSlider to change the size
       // hint of its parent, which can cause errors on outer flex layouts
-      // [BUG #3279] 
+      // [BUG #3279]
       if (this.getOrientation() === "horizontal") {
-        hint.width = 0;        
+        hint.width = 0;
       } else {
         hint.height = 0;
       }

@@ -367,7 +367,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var parent = this.getLayoutParent();
       var parentLocation = parent.getContentLocation();
       var parentBounds = parent.getBounds();
-      
+
       this.__resizeRange = {
         left : parentLocation.left,
         top : parentLocation.top,

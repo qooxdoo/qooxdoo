@@ -108,7 +108,7 @@ qx.Class.define("qx.data.marshal.Json",
         || qx.lang.Type.isString(data)
         || qx.lang.Type.isBoolean(data)
         || data == null
-        || data instanceof qx.core.Object
+        || data instanceof qx.core.Object
       ) {
         return;
       }
@@ -232,7 +232,7 @@ qx.Class.define("qx.data.marshal.Json",
         || qx.lang.Type.isBoolean(data)
         || qx.lang.Type.isDate(data)
         || data == null
-        || data instanceof qx.core.Object
+        || data instanceof qx.core.Object
       ) {
         return data;
 

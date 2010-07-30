@@ -397,8 +397,8 @@ qx.Class.define("qx.test.data.controller.Object",
 
       selectbox.dispose();
     },
-    
-    
+
+
     testDispose : function() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
@@ -419,7 +419,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__label1.setValue("20");
 
       // test the reverse binding
-      this.assertEquals(10, this.__model.getZIndex(), "Reverse-Binding does not work!");      
+      this.assertEquals(10, this.__model.getZIndex(), "Reverse-Binding does not work!");
     }
 
   }

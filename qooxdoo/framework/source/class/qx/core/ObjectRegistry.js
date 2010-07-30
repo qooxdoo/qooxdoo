@@ -227,7 +227,7 @@ qx.Class.define("qx.core.ObjectRegistry",
         hashes.push(hash);
       }
 
-      // sort the objects! Remove the objecs created at startup 
+      // sort the objects! Remove the objecs created at startup
       // as late as possible
       hashes.sort(function(a, b) {
         return parseInt(b)-parseInt(a);

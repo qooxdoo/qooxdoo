@@ -828,7 +828,7 @@ qx.Class.define("qx.event.handler.Focus",
         // Bug #3771: No blur event is fired on the previously focused element
         // unless we explicitly focus the body
         else if (focusTarget === this._body) {
-          this.setFocus(focusTarget);          
+          this.setFocus(focusTarget);
         }
       },
 

@@ -385,7 +385,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var key in map) {
           if (hasOwnProperty.call(map, key)) {
-            arr.push(key);  
+            arr.push(key);
           }
         }
 

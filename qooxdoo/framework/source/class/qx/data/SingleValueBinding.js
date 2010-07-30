@@ -496,12 +496,12 @@ qx.Class.define("qx.data.SingleValueBinding",
           var value = source["get" + qx.lang.String.firstUp(lastProperty)]();
         }
       }
-      
+
       // convert the data before setting
       value = qx.data.SingleValueBinding.__convertValue(
         value, targetObject, targetPropertyChain, options
       );
-      
+
       this.__setTargetValue(targetObject, targetPropertyChain, value);
     },
 

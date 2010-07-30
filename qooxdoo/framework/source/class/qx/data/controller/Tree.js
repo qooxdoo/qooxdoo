@@ -360,7 +360,7 @@ qx.Class.define("qx.data.controller.Tree",
 
       // get the old ref and delete it
       var oldRef = this.__childrenRef[oldChildren.toHashCode()];
-      oldChildren.removeListenerById(oldRef.changeListenerId);      
+      oldChildren.removeListenerById(oldRef.changeListenerId);
       delete this.__childrenRef[oldChildren.toHashCode()];
       // remove the old change listener for the children
       oldRef.modelNode.removeListenerById(oldRef.changeChildernListenerId);
@@ -614,7 +614,7 @@ qx.Class.define("qx.data.controller.Tree",
         var oldRef = this.__childrenRef[children.toHashCode()];
         children.removeListenerById(oldRef.changeListenerId);
         model.removeListenerById(oldRef.changeChildernListenerId);
-                
+
         // delete the model reference
         delete this.__childrenRef[children.toHashCode()];
       }

@@ -92,19 +92,19 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     /**
      * Handles the mouse wheel for scrolling the <code>TextArea</code>.
-     * 
+     *
      * @param e {qx.event.type.MouseWheel} mouse wheel event.
      */
     _onMousewheel : function(e) {
-      var contentElement = this.getContentElement(); 
+      var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
       contentElement.scrollToY(scrollY + e.getWheelDelta() * this.getSingleStep());
-      
+
       var newScrollY = contentElement.getScrollY();
 
       if (newScrollY != scrollY) {
-        e.stop();        
+        e.stop();
       }
     },
 

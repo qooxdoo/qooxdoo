@@ -52,8 +52,8 @@ qx.Class.define("qx.util.StringSplit",
      * @param limit {Integer?} Integer specifying a limit on the number of splits to be found.
      * @return {String[]} split string
      */
-    split : function (str, separator, limit) 
-    {  
+    split : function (str, separator, limit)
+    {
       // if `separator` is not a regex, use the native `split`
       if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
         return String.prototype.split.call(str, separator, limit);
@@ -89,7 +89,7 @@ qx.Class.define("qx.util.StringSplit",
         }
       }
 
-      while (match = separator.exec(str)) 
+      while (match = separator.exec(str))
       {
         lastIndex = match.index + match[0].length; // `separator.lastIndex` is not reliable cross-browser
 
@@ -97,10 +97,10 @@ qx.Class.define("qx.util.StringSplit",
           output.push(str.slice(lastLastIndex, match.index));
 
           // fix browsers whose `exec` methods don't consistently return `undefined` for nonparticipating capturing groups
-          if (!compliantExecNpcg && match.length > 1) 
+          if (!compliantExecNpcg && match.length > 1)
           {
             match[0].replace(separator2, function () {
-              for (var i = 1; i < arguments.length - 2; i++) 
+              for (var i = 1; i < arguments.length - 2; i++)
               {
                 if (arguments[i] === undefined) {
                   match[i] = undefined;
@@ -126,7 +126,7 @@ qx.Class.define("qx.util.StringSplit",
         }
       }
 
-      if (lastLastIndex === str.length) 
+      if (lastLastIndex === str.length)
       {
         if (lastLength || !separator.test("")) {
           output.push("");

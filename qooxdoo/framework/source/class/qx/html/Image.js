@@ -37,8 +37,8 @@ qx.Class.define("qx.html.Image",
   {
     // this member variable is only used for IE browsers to be able
     // to the tag name which will be set. This is heavily connected to the runtime
-    // change of decorators and the use of external (=unmanaged images). It is 
-    // necessary to be able to determine what tag will be used e.g. before the 
+    // change of decorators and the use of external (=unmanaged images). It is
+    // necessary to be able to determine what tag will be used e.g. before the
     // ImageLoader has finished its loading of an external image.
     // See Bug #3894 for more details
     tagNameHint : null,
