@@ -58,7 +58,7 @@ qx.Class.define("qx.event.type.MouseWheel",
         } else {
           var factor = 40;
           // webkit increased mouse wheel speed with version 5 [BUG #3749]
-          // but reduced it again in current webkit nightly builds 
+          // but reduced it again in current webkit nightly builds
           if (qx.bom.client.Engine.VERSION == 533.16) {
             factor = 1200;
           }

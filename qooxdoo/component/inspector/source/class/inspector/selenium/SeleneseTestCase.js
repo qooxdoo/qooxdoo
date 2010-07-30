@@ -20,7 +20,7 @@
 qx.Class.define("inspector.selenium.SeleneseTestCase", {
 
   extend : qx.ui.window.Window,
-  
+
   construct : function(url, title)
   {
     this.base(arguments, "Selenese Test Case");
@@ -34,10 +34,10 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     this.add(scroll);
     this._textArea = new qx.ui.form.TextArea();
     scroll.add(this._textArea, {edge: 0});
-    
+
     var url = url || "";
     var title = title || "untitled";
-    
+
     this._header = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
       '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">',
@@ -55,7 +55,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       '    </thead>',
       '    <tbody>'
     ];
-    
+
     this._footer = ['    </tbody>',
       '  </table>',
       '</body>',
@@ -64,18 +64,18 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
 
     this.__rows = [];
   },
-  
+
   members :
   {
     _textArea : null,
     _header : null,
     _footer : null,
     __rows : null,
-    
-    
+
+
     /**
      * Add a Selenium command to the test case.
-     * 
+     *
      * @param {Array} command Array containing the Selenium command, locator and
      * optional parameter string
      */
@@ -86,8 +86,8 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       }
       this.__rows.push(command.slice(0,3));
     },
-    
-    
+
+
     /**
      * Delete all commands.
      */
@@ -95,11 +95,11 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     {
       this.__rows = [];
     },
-    
-    
+
+
     /**
      * Returns the test case in Selenese HTML format.
-     * 
+     *
      * @return {String} Selenese test case
      */
     getSelenese : function()
@@ -108,23 +108,23 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       for (var i=0,l=this.__rows.length; i<l; i++) {
         var row = this.__rows[i];
         html += "\n      <tr>\n";
-        
+
         for (var j=0; j<row.length; j++) {
           html += "        <td>" + row[j] + "</td>\n";
         }
-        
+
         html += "      </tr>\n";
       }
       html += this._footer.join("\n");
       return html;
     },
-    
-    
+
+
     showSelenese : function()
     {
       this._textArea.setValue(this.getSelenese());
     }
-    
+
   }
-  
+
 });

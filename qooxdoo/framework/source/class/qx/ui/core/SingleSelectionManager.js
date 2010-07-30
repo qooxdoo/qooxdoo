@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     /**
      * Returns all elements which are selectable.
      *
-     * @param all {boolean} true for all selectables, false for the 
+     * @param all {boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
           result.push(items[i]);
         }
       }
-      
+
       // in case of a user selecable list, remove the enabled items
       if (!all) {
         for (var i = result.length -1; i >= 0; i--) {
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
           }
         };
       }
-      
+
       return result;
     },
 

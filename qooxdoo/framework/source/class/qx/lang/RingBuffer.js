@@ -21,13 +21,13 @@
 
 /**
  * An memory container which stores arbitrary data up to a maximum number of
- * entries. When new entries come in an the maximum is reached, the oldest 
- * entries are deleted. 
+ * entries. When new entries come in an the maximum is reached, the oldest
+ * entries are deleted.
  *
  * A mark feature also exists which can be used to remember a point in time.
  * When retrieving entriues, it is possible to get only those entries
  * after the marked time. This is useful if data from the buffer is extracted
- * and processed. Whenever this happens, a mark() call can be used so that the 
+ * and processed. Whenever this happens, a mark() call can be used so that the
  * next extraction will only get new data.
  */
 qx.Class.define("qx.lang.RingBuffer",
@@ -36,7 +36,7 @@ qx.Class.define("qx.lang.RingBuffer",
 
   /**
    * Constructor.
-   * 
+   *
    * @param maxEntries {Integer ? 50} Maximum number of entries in the buffer
    */
   construct : function(maxEntries)
@@ -84,7 +84,7 @@ qx.Class.define("qx.lang.RingBuffer",
     /**
      * Get the maximum number of entries to hold
      *
-     * @return {Integer} 
+     * @return {Integer}
      */
     getMaxEntries : function() {
       return this.__maxEntries;
@@ -149,7 +149,7 @@ qx.Class.define("qx.lang.RingBuffer",
      * @param count {Integer} The number of entries to retrieve. If there are
      *    more entries than the given count, the oldest ones will not be returned.
      *
-     * @param startingFromMark {Boolean ? false} If true, only entries since 
+     * @param startingFromMark {Boolean ? false} If true, only entries since
      *   the last call to mark() will be returned
      * @return {Array} array of stored entries
      */
@@ -160,11 +160,11 @@ qx.Class.define("qx.lang.RingBuffer",
         count = this.__entriesStored;
       }
 
-      // Trim count so it does not exceed last call to mark (if mark was called 
+      // Trim count so it does not exceed last call to mark (if mark was called
       // and startingFromMark was true)
       if (
-        startingFromMark && 
-        this.__isMarkActive && 
+        startingFromMark &&
+        this.__isMarkActive &&
         (count > this.__entriesStoredSinceMark)
       ) {
         count = this.__entriesStoredSinceMark;

@@ -19,22 +19,22 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Implements single and multi selection handling.
- * 
+ *
  * Example:
  * <pre class="javascript">
  * var rawData = [];
  * for (var i = 0; i < 2500; i++) {
  *  rawData[i] = "Item No " + i;
  * }
- * 
+ *
  * var model = qx.data.marshal.Json.createModel(rawData);
  * var list = new qx.ui.list.List(model);
- *   
+ *
  * // Pre-Select "Item No 20"
  * list.getSelection().push(model.getItem(20));
- *      
+ *
  * // log change selection
  * list.getSelection().addListener("change", function(e) {
  *   this.debug("Selection: " + list.getSelection().getItem(0));
@@ -150,22 +150,22 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
     /**
      * Returns if the passed row can be selected or not.
-     * 
+     *
      * @param row {Integer} row to select.
-     * @return {Boolean} <code>true</code> when the row can be selected, 
+     * @return {Boolean} <code>true</code> when the row can be selected,
      *    <code>false</code> otherwise.
      */
     _isSelectable : function(row)
     {
       var widget = this._layer.getRenderedCellWidget(row, 0);
-      
+
       if (widget != null && !this.__ignoreChangeSelection) {
         return widget.isEnabled();
       } else {
         return true;
       }
     },
-    
+
     // apply method
     _applySelection : function(value, old)
     {
@@ -174,7 +174,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       if (old != null) {
         old.removeListener("change", this._onChangeSelection, this);
       }
-      
+
       this._onChangeSelection();
     },
 
@@ -195,7 +195,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
     /**
      * Event handler for the internal selection change {@link #selection}.
-     * 
+     *
      * @param e {qx.event.type.Data} the change event.
      */
     _onChangeSelection : function(e)
@@ -229,7 +229,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
     /**
      * Event handler for the selection change from the {@link #_manager}.
-     * 
+     *
      * @param e {qx.event.type.Data} the change event.
      */
     _onManagerChangeSelection : function(e) {

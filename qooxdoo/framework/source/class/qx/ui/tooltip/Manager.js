@@ -291,7 +291,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
         tooltip = target.getToolTip();
         tooltipText = target.getToolTipText() || null;
         tooltipIcon = target.getToolTipIcon() || null;
-        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) 
+        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm)
             && !target.isValid()) {
           invalidMessage = target.getInvalidMessage();
         }
@@ -303,16 +303,16 @@ qx.Class.define("qx.ui.tooltip.Manager",
         target = target.getLayoutParent();
       }
 
-      //do nothing if 
+      //do nothing if
       if (!target //don't have a target
           // tooltip is disabled
-          || !target.getEnabled() 
+          || !target.getEnabled()
           //tooltip is blocked
-          || target.isBlockToolTip() 
-          //an invalid message isn't set and tooltips are disabled 
-          || (!invalidMessage && !this.getShowToolTips()) 
-          //an invalid message is set and invalid tooltips are disabled 
-          || (invalidMessage && !this.getShowInvalidToolTips())) 
+          || target.isBlockToolTip()
+          //an invalid message isn't set and tooltips are disabled
+          || (!invalidMessage && !this.getShowToolTips())
+          //an invalid message is set and invalid tooltips are disabled
+          || (invalidMessage && !this.getShowInvalidToolTips()))
       {
         return;
       }

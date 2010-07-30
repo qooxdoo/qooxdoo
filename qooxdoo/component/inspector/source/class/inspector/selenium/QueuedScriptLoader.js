@@ -22,29 +22,29 @@
  */
 
 qx.Class.define("inspector.selenium.QueuedScriptLoader", {
-  
+
   extend : qx.core.Object,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.__queue = [];
   },
-  
+
   events :
   {
     "finished" : "qx.event.type.Data"
   },
-  
+
   members :
   {
-    
+
     __queue : null,
     __results : null,
-    
+
     /**
      * Sequentially loads all URIs from the given list.
-     * 
+     *
      * @param {Array} uriList List of script resources to be loaded
      */
     load : function(uriList)
@@ -52,9 +52,9 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
       this.__queue = this.__queue.concat(uriList);
       this.__flushQueue("init");
     },
-    
+
     /**
-     * Processes the current URI queue. Fires the "finished" event once the 
+     * Processes the current URI queue. Fires the "finished" event once the
      * queue is empty.
      */
     __flushQueue : function(status)
@@ -67,14 +67,14 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
             "fail" : 0
           };
           break;
-        
+
         case "success":
           this.__results.success++;
           break;
-        
+
         case "fail":
           this.__results.fail++;
-          break;          
+          break;
       }
       if (this.__queue.length == 0) {
         this.fireDataEvent("finished", this.__results);

@@ -37,55 +37,55 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
   properties :
   {
-    showMode : 
+    showMode :
     {
       init : "both",
       check : ["label", "icon", "both"],
       event : "changeShowMode"
     }
   },
-  
+
   members :
   {
     __configList : null,
-  
+
     __dragCheck : null,
-    
+
     __quickCheck : null,
-  
+
     main: function()
     {
       this.base(arguments);
-      
+
       var container = this.getRoot();
       container.add(this.createConfigurableList(), {left: 20, top: 20});
       container.add(this.createOneSelectionList(), {left: 330, top: 20});
       container.add(this.createAdditiveSelectionList(), {left: 520, top: 20});
     },
-    
+
     createConfigurableList : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-      
+
       var title = new qx.ui.basic.Label("Configurable").set({
         font: "bold"
       });
       container.add(title);
 
       var rawData = [];
-      for (var i = 0; i < 2500; i++) 
+      for (var i = 0; i < 2500; i++)
       {
         rawData[i] = {
           label: "Item No " + i,
           icon: (i % 4) ? "16" : "48"
         }
       }
-      
+
       var model = qx.data.marshal.Json.createModel(rawData);
       var list = this.__configList = new qx.ui.list.List(model).set({
         scrollbarX: "on",
         selectionMode : "multi",
-        height: 280, 
+        height: 280,
         width: 150,
         labelPath: "label",
         iconPath: "icon",
@@ -93,16 +93,16 @@ qx.Class.define("demobrowser.demo.virtual.List",
           return "icon/" + data + "/places/folder.png";
         }}
       });
-      
+
       var that = this;
       var delegate = {
         configureItem : function(item) {
           that.bind("showMode", item, "show");
         },
-        
+
         bindItem : function(controller, item, id) {
           controller.bindDefaultProperties(item, id);
-          controller.bindProperty("label", "enabled", { 
+          controller.bindProperty("label", "enabled", {
             converter : function(data) {
               return parseInt(data.replace(/Item No /g, "")) % 9 != 0
             }
@@ -111,10 +111,10 @@ qx.Class.define("demobrowser.demo.virtual.List",
       };
       list.setDelegate(delegate);
       container.add(list, {top: 20});
-      
+
       // Pre-Select "Item No 20"
       list.getSelection().push(model.getItem(20));
-      
+
       // log change selection
       list.getSelection().addListener("change", function(e) {
         var selection = list.getSelection();
@@ -122,10 +122,10 @@ qx.Class.define("demobrowser.demo.virtual.List",
           this.debug("Selection: " + selection.getItem(i).getLabel());
         }
       }, this);
-      
+
       // TODO implement auto sizing
       var rowConfig = list.getPane().getRowConfig();
-      for (var i = 0; i < 2500; i++) 
+      for (var i = 0; i < 2500; i++)
       {
         if (i % 4 == 0) {
           rowConfig.setItemSize(i, 56);
@@ -133,13 +133,13 @@ qx.Class.define("demobrowser.demo.virtual.List",
           rowConfig.setItemSize(i, 25);
         }
       }
-      
+
       // Configure Elements
       var single = new qx.ui.form.RadioButton("Single Selection");
       var multi = new qx.ui.form.RadioButton("Multi Selection");
       var additive = new qx.ui.form.RadioButton("Additive Selection");
       var one = new qx.ui.form.RadioButton("One Selection");
-      
+
       single.setUserData("value", "single");
       multi.setUserData("value", "multi");
       additive.setUserData("value", "additive");
@@ -153,7 +153,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       var label = new qx.ui.form.RadioButton("Show Label");
       var icon = new qx.ui.form.RadioButton("Show Icon");
       var both = new qx.ui.form.RadioButton("Show Both");
-      
+
       label.setUserData("value", "label");
       icon.setUserData("value", "icon");
       both.setUserData("value", "both");
@@ -164,7 +164,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       var dragCheck = this.__dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
       var quickCheck = this.__quickCheck = new qx.ui.form.CheckBox("Enable quick selection").set({enabled : false});
-      
+
       container.add(dragCheck, {left: 160, top: 200});
       container.add(quickCheck, {left: 160, top: 220});
 
@@ -172,17 +172,17 @@ qx.Class.define("demobrowser.demo.virtual.List",
       var selectionMode = new qx.ui.form.RadioGroup(single, multi, additive, one);
       selectionMode.setSelection([multi]);
       selectionMode.addListener("changeSelection", this.onSelectionModeChange, this);
-      
+
       var showMode = new qx.ui.form.RadioGroup(label, icon, both);
       showMode.setSelection([both]);
       showMode.addListener("changeSelection", this.onShowModeChange, this);
-      
+
       dragCheck.addListener("changeValue", this.onDragCheckChange, this);
       quickCheck.addListener("changeValue", this.onQuickCheckChange, this);
-      
+
       return container;
     },
-    
+
     createOneSelectionList : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -193,27 +193,27 @@ qx.Class.define("demobrowser.demo.virtual.List",
       container.add(title);
 
       var model = new qx.data.Array();
-      for (var i = 0; i < 250; i++) 
+      for (var i = 0; i < 250; i++)
       {
         var item = new demobrowser.demo.virtual.model.Item("Item No " + i, "icon/16/places/folder.png");
         model.push(item);
       }
-      
+
       var list = new qx.ui.list.List(model).set({
         selectionMode : "one",
-        height: 280, 
+        height: 280,
         width: 150,
         labelPath: "label",
         iconPath: "icon"
       });
       container.add(list, {top: 20});
-      
+
       // Pre-Select "Item No 16"
       list.getSelection().push(model.getItem(16));
 
       return container;
     },
-      
+
     createAdditiveSelectionList : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -229,19 +229,19 @@ qx.Class.define("demobrowser.demo.virtual.List",
                  "Erik","Justin","Alexander","Jakob","Florian","Nick","Linus","Mika","Jason",
                  "Daniel","Lennard","Marvin","Jannis","Tobias","Dominic","Marlon","Marc",
                  "Johannes","Jonathan","Julius","Colin","Joel","Kevin","Vincent","Robin"];
-      
+
       var model = new qx.data.Array();
       var selection = new qx.data.Array();
       for (var i = 0; i < l3l.length; i++)
       {
         var item = new demobrowser.demo.virtual.model.Item(l3l[i]);
         model.push(item);
-        
+
         if (i == 10 || i == 12 || i == 16) {
           selection.push(item);
         }
       }
-      
+
       var list = new qx.ui.list.List(model).set({
         selectionMode : "additive",
         height: 200,
@@ -252,15 +252,15 @@ qx.Class.define("demobrowser.demo.virtual.List",
       container.add(list, {top: 20});
 
       list.setSelection(selection);
-      
+
       return container;
     },
-    
+
     onSelectionModeChange : function(e)
     {
       var value = e.getData()[0].getUserData("value");
       this.__configList.setSelectionMode(value);
-  
+
       if (value == "single" || value == "one")
       {
         this.__dragCheck.setEnabled(false);
@@ -272,13 +272,13 @@ qx.Class.define("demobrowser.demo.virtual.List",
         this.__quickCheck.setEnabled(false);
       }
     },
-    
+
     onShowModeChange : function(e)
     {
       var value = e.getData()[0].getUserData("value");
       this.setShowMode(value);
     },
-    
+
     onDragCheckChange : function(e)
     {
       if (e.getData())
@@ -291,7 +291,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       this.__configList.setDragSelection(e.getData());
     },
-    
+
     onQuickCheckChange : function(e)
     {
       if (e.getData())

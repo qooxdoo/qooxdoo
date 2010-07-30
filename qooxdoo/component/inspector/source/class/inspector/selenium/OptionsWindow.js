@@ -20,20 +20,20 @@
 qx.Class.define("inspector.selenium.OptionsWindow", {
 
   extend : qx.ui.window.Window,
-  
+
   construct : function(caption, icon, mainWindow)
   {
     this.base(arguments, caption, icon);
-    
+
     this.set({
       layout : new qx.ui.layout.Basic(),
       modal : true
     });
     this.moveTo(160, 0);
-    
+
     var form = new qx.ui.form.Form();
     form.addGroupHeader("Script Locations");
-         
+
     var coreScripts = new qx.ui.form.TextField();
     coreScripts.setToolTipText("Path (URI or local file system) of a directory holding the contents of a Selenium Core Zip file (seleniumhq.org/download)");
     coreScripts.setRequired(true);
@@ -61,7 +61,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     form.addButton(cancelButton);
 
     this.add(new qx.ui.form.renderer.Single(form), {left: 10, top: 10});
-    
+
     // bind the seleniumScripts property to the form fields
     var prop2formCore = {
       converter: function(data, modelObj) {
@@ -72,7 +72,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
       }
     };
     mainWindow.bind("seleniumScripts", coreScripts, "value", prop2formCore);
-    
+
     var prop2formExt = {
       converter: function(data, modelObj) {
         if (!data) {
@@ -82,7 +82,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
       }
     };
     mainWindow.bind("seleniumScripts", userExt, "value", prop2formExt);
-      
+
   }
 
 });

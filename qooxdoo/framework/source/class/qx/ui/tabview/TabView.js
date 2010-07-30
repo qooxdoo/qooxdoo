@@ -449,7 +449,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Returns all elements which are selectable.
      *
      * @return {qx.ui.tabview.Page[]} The contained items.
-     * @param all {boolean} true for all selectables, false for the 
+     * @param all {boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      */
     getSelectables: function(all) {

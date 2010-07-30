@@ -30,7 +30,7 @@ qx.Class.define("apiviewer.TabViewController",
     this.base(arguments);
 
     apiviewer.TabViewController.instance = this;
-    
+
     this._tabView = widgetRegistry.getWidgetById("tabView");
     this._tabView.addListener("changeSelection", this.__onChangeSelection, this);
   },
@@ -81,7 +81,7 @@ qx.Class.define("apiviewer.TabViewController",
     __open : function(classNode, clazz, newTab)
     {
       var currentPage = this._tabView.getSelection()[0];
-      
+
       if (newTab == true || currentPage == null) {
         this.__createAndAdd(clazz, classNode);
       }
@@ -89,7 +89,7 @@ qx.Class.define("apiviewer.TabViewController",
       {
         if (currentPage instanceof clazz) {
           currentPage.setClassNode(classNode);
-        } 
+        }
         else
         {
           this.__createAndAdd(clazz, classNode);
@@ -103,7 +103,7 @@ qx.Class.define("apiviewer.TabViewController",
       this._tabView.add(page);
       this._tabView.setSelection([page]);
     },
-    
+
     __destroyAndRemove : function(page) {
       this._tabView.remove(page);
       page.destroy();
@@ -115,7 +115,7 @@ qx.Class.define("apiviewer.TabViewController",
       var data = event.getData();
       this.fireDataEvent("changeSelection", data, oldData);
     },
-    
+
     __createAndStopEvent : function(nativeEvent, target)
     {
       var qxEvent = new qx.event.type.Mouse();
@@ -127,7 +127,7 @@ qx.Class.define("apiviewer.TabViewController",
 
   destruct : function()
   {
-    this._tabView.destroy(); 
+    this._tabView.destroy();
     this._tabView = null;
   }
 });

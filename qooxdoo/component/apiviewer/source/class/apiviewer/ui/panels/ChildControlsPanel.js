@@ -24,8 +24,8 @@
 qx.Class.define("apiviewer.ui.panels.ChildControlsPanel", {
 
   extend: apiviewer.ui.panels.InfoPanel,
-  
-  members : 
+
+  members :
   {
 
     getItemTypeHtml : function(node, currentClassDocNode) {
@@ -37,10 +37,10 @@ qx.Class.define("apiviewer.ui.panels.ChildControlsPanel", {
       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
     },
 
-    
+
     getItemTextHtml : function(node, currentClassDocNode, showDetails) {
-      var textHtml = new qx.util.StringBuilder(node.getDescription()); 
-      
+      var textHtml = new qx.util.StringBuilder(node.getDescription());
+
       if (showDetails) {
         textHtml.add(
           '<div class="item-detail-headline">', "Default value:", '</div>',
@@ -49,12 +49,12 @@ qx.Class.define("apiviewer.ui.panels.ChildControlsPanel", {
           (node.getDefaultValue() ? node.getDefaultValue() : "null"),
           '</code>',
           '</div>'
-        );        
+        );
       }
-      
+
       return textHtml.get();
     }
-    
+
   }
 
 });

@@ -379,8 +379,8 @@ qx.Class.define("qx.test.data.controller.Form",
       tf2.destroy();
       form.dispose();
     },
-    
-    
+
+
     testModelCreationSpecialCaracter : function() {
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");
@@ -397,10 +397,10 @@ qx.Class.define("qx.test.data.controller.Form",
       controller.dispose();
       tf1.destroy();
       form.dispose();
-    },    
+    },
 
 
-    testModelCreateionWithListController : function() 
+    testModelCreateionWithListController : function()
     {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
@@ -412,7 +412,7 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // select something which is not the default selection
       listController.getSelection().push(listModel.getItem(1));
-      
+
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
@@ -436,9 +436,9 @@ qx.Class.define("qx.test.data.controller.Form",
       listController.dispose();
       listModel.dispose();
       model.dispose();
-      selectBox.destroy();      
+      selectBox.destroy();
     },
-    
+
 
     testModelCreationWithModelSelection : function() {
       // create a select box
@@ -456,7 +456,7 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // select something which is not the default selection
       selectBox.setSelection([i2]);
-      
+
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
@@ -652,14 +652,14 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
     },
-    
-    
+
+
     testDispose : function() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
       // distroy the objects
       c.dispose();
-      
+
       // check if the bindings has been removed
       this.__model.setTf1("AFFE");
       this.assertNotEquals("AFFE", this.__tf1.getValue());

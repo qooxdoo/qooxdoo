@@ -63,15 +63,15 @@ qx.Class.define("qx.util.Json",
 
     /** new line string for JSON pretty printing */
     BEAUTIFYING_LINE_END : "\n",
-    
+
     // @deprecated change the comment to the new default behavior!
     /**
      * Boolean flag which controls the stringification of date objects.
      * <code>null</code> for the default behavior, currently the qooxdoo specific behavior (DEPRECATED, will change to native)
      * <code>true</code> for stringifying dates the old, qooxdoo specific way
      * <code>false</code> using the native toJSON of date objects.
-     * 
-     * As the default value changes, its a good idea to set the constant to 
+     *
+     * As the default value changes, its a good idea to set the constant to
      * a specific value.
      */
     CONVERT_DATES : null,
@@ -293,18 +293,18 @@ qx.Class.define("qx.util.Json",
      *
      * @param incoming {Date} incoming value
      * @param key {String} The key under which the value is stored
-     * 
+     *
      * @deprecated since 1.2 (The default returned parsed date format will change.)
      * @return {String} value converted to a JSON string
      */
     __convertDate : function(incoming, key)
     {
       // if its the default case
-      // @deprecated: Move the default behavior from using the qooxdoo date 
+      // @deprecated: Move the default behavior from using the qooxdoo date
       // formating to the native one.
       if (qx.util.Json.CONVERT_DATES === null) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "The default returned parsed date format will change. Use the CONVERT_DATES flag to change the behavior."
         );
         var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
@@ -315,7 +315,7 @@ qx.Class.define("qx.util.Json",
         if (incoming.toJSON) {
           return incoming.toJSON();
         }
-        
+
         // fallback implementation
         var formatter = qx.util.format.NumberFormat.getInstance();
         formatter.setMinimumIntegerDigits(2);
@@ -326,10 +326,10 @@ qx.Class.define("qx.util.Json",
           formatter.format(incoming.getUTCHours()) + ':' +
           formatter.format(incoming.getUTCMinutes()) + ':' +
           formatter.format(incoming.getUTCSeconds()) + '.';
-          
+
         formatter.setMinimumIntegerDigits(3);
         return formated + formatter.format(incoming.getUTCMilliseconds())   + 'Z';
-        
+
       // if its set to true
       } else {
         var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();

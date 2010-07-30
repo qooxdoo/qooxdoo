@@ -141,7 +141,7 @@ qx.Class.define("qx.data.controller.Object",
         } else {
           // if the model is null, reset the current target
           if (targetProperty.indexOf("[") == -1) {
-            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();            
+            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
           } else {
             var open = targetProperty.indexOf("[");
             var index = parseInt(
@@ -155,7 +155,7 @@ qx.Class.define("qx.data.controller.Object",
             if (targetArray) {
               targetArray.setItem(index, null);
             }
-          }          
+          }
         }
       }
     },
@@ -349,7 +349,7 @@ qx.Class.define("qx.data.controller.Object",
   destruct : function() {
     // set the model to null to get the bindings removed
     if (this.getModel() != null && !this.getModel().isDisposed()) {
-      this.setModel(null);      
+      this.setModel(null);
     }
   }
 });

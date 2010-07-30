@@ -105,10 +105,10 @@ qx.Class.define("qx.ui.window.Manager",
         }
 
         /*
-         * We use only every second z index to easily 
+         * We use only every second z index to easily
          * insert a blocker between two windows
          *
-         * Modal Windows stays on top of 
+         * Modal Windows stays on top of
          * AlwaysOnTop Windows, which stays on top of
          * Normal Windows.
          */

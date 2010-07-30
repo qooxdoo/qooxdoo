@@ -1357,7 +1357,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           var sortCol = tableModel.getSortColumnIndex();
           var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
 
-          var data = 
+          var data =
             {
               column     : col,
               ascending  : ascending,

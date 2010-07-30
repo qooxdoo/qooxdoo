@@ -147,7 +147,7 @@ qx.Class.define("qx.bom.element.Scroll",
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
 
-          // Firefox 3 and Opera seem to fire the scroll event asynchronously. 
+          // Firefox 3 and Opera seem to fire the scroll event asynchronously.
           // We fire another one a bit earlier here
           if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
             qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
@@ -272,7 +272,7 @@ qx.Class.define("qx.bom.element.Scroll",
 
           parent.scrollTop += scrollDiff;
 
-          // Firefox 3 and Opera seem to fire the scroll event asynchronously. 
+          // Firefox 3 and Opera seem to fire the scroll event asynchronously.
           // We fire another one a bit earlier here
           if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
             qx.event.Registration.fireNonBubblingEvent(parent, "scroll");

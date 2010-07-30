@@ -226,14 +226,14 @@ qx.Class.define("qx.test.ui.form.Form",
     testRequiredList: function() {
       this.__testRequired(new qx.ui.form.List());
     },
-    
+
     testValidTree: function() {
      this.__testValid(new qx.ui.tree.Tree());
     },
 
     testRequiredTree: function() {
       this.__testRequired(new qx.ui.tree.Tree());
-    },    
+    },
 
     testRequiredDateField: function() {
       this.__testRequired(new qx.ui.form.DateField());

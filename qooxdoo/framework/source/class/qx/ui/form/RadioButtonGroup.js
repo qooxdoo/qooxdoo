@@ -96,17 +96,17 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       event : "changeInvalidMessage",
       apply : "_applyInvalidMessage"
     },
-    
-    
+
+
     /**
-     * Message which is shown in an invalid tooltip if the {@link #required} is 
+     * Message which is shown in an invalid tooltip if the {@link #required} is
      * set to true.
      */
     requiredInvalidMessage : {
       check : "String",
-      nullable : true, 
+      nullable : true,
       event : "changeInvalidMessage"
-    }    
+    }
   },
 
 
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Returns all elements which are selectable.
      *
-     * @param all {boolean} true for all selectables, false for the 
+     * @param all {boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */

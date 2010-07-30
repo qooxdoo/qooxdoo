@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The provider implemets the {@link qx.ui.virtual.core.IWidgetCellProvider} API,
  * which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
   /**
    * Creates the <code>WidgetCellProvider</code>
-   * 
+   *
    * @param list {qx.ui.list.List} list to provide.
    */
   construct : function(list)
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     this._cellRenderer = this._createCellRenderer();
     this._list = list;
-    
+
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
@@ -56,13 +56,13 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     {
       var widget = this._cellRenderer.getCellWidget();
       this._bindItem(widget, row);
-      
+
       if(this._list._manager.isItemSelected(row)) {
         this.styleSelectabled(widget);
       } else {
         this.styleUnselectabled(widget);
       }
-      
+
       return widget;
     },
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     /**
      * Styles a selected item.
-     * 
+     *
      * @param item {qx.ui.core.Widget} widget to style.
      */
     styleSelectabled : function(item) {
@@ -83,16 +83,16 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
 
     /**
      * Styles a not selected item.
-     * 
+     *
      * @param item {qx.ui.core.Widget} widget to style.
      */
     styleUnselectabled : function(item) {
       this._cellRenderer.updateStates(item, {});
     },
-    
+
     /**
      * Event handler for the created widget event.
-     * 
+     *
      * @param event {qx.event.type.Data} fired event.
      */
     _onWidgetCreated : function(event)
@@ -100,10 +100,10 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
       var widget = event.getData();
       this._configureItem(widget);
     },
-    
+
     /**
      * Event handler for the change delegate event.
-     * 
+     *
      * @param event {qx.event.type.Data} fired event.
      */
     _onChangeDelegate : function(event)

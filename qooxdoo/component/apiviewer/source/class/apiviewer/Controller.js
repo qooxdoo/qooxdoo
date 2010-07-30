@@ -63,7 +63,7 @@ qx.Class.define("apiviewer.Controller",
 
     this._history = qx.bom.History.getInstance();
     this.__bindHistory();
-    
+
     qx.core.Init.getApplication().getRoot().addListener("mousedown", function(e) {
         this.__openInNewTab = e.isMiddlePressed() || e.isShiftPressed() || e.isCtrlPressed();
     }, this, true);
@@ -73,7 +73,7 @@ qx.Class.define("apiviewer.Controller",
   members :
   {
     __openInNewTab : false,
-    
+
     // overridden
     $$logCategory : "application",
 
@@ -152,7 +152,7 @@ qx.Class.define("apiviewer.Controller",
 
       this._tabViewController.addListener("changeSelection", function(evt) {
         var page = evt.getData()[0];
-        
+
         if (this._ignoreTabViewSelection == true) {
           return;
         }
@@ -160,7 +160,7 @@ qx.Class.define("apiviewer.Controller",
         if (page && page.getUserData("nodeName")) {
           var nodeName = page.getUserData("nodeName");
           var itemName = page.getUserData("itemName");
-          
+
           if (itemName != null) {
             this._updateHistory(nodeName + "#" + itemName);
           } else {

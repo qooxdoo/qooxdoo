@@ -32,9 +32,9 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
   {
     /**
      * Calculates a qooxdoo widget hierarchy locator (qxh) for a given widget.
-     * 
+     *
      * @param {qx.ui.core.Widget} widget The widget to locate
-     * @param {qx.ui.root.Abstract} appRoot The application root widget 
+     * @param {qx.ui.root.Abstract} appRoot The application root widget
      * @return {String} The complete locator
      */
     getQxhLocator : function(widget, appRoot)
@@ -47,7 +47,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
         if (widget === appRoot) {
           break;
         }
-        
+
         var step = inspector.selenium.SeleniumUtil.getQxhLocatorStep(widget);
         loc.push(step);
         widget = widget.getLayoutParent();
@@ -55,10 +55,10 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       loc.reverse();
       return "qxh=" + loc.join("/");
     },
-    
+
     /**
      * Determines a qxh locator step for a given widget
-     * 
+     *
      * @param {qx.ui.core.Widget} widget The widget to find a step for
      * @return {String} Locator step
      */
@@ -69,7 +69,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       if (classname.indexOf("qx.") == 0) {
         step = widget.classname;
       }
-      
+
       var parent = widget.getLayoutParent();
       var twin = false;
       var childIndex = 0;
@@ -84,23 +84,23 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       } catch(ex) {
         // no _getChildren
       }
-      
+
       for (var i=0,l=children.length; i<l; i++) {
         if (children[i] == widget) {
           childIndex = i;
-        } 
+        }
         else if (children[i].classname == widget.classname) {
           twin = true;
         }
       }
-      
+
       if (twin) {
         step = "child[" + childIndex + "]";
       }
-      
+
       return step;
     }
-    
+
   }
 
 });

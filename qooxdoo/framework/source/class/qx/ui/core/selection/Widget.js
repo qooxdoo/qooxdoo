@@ -91,12 +91,12 @@ qx.Class.define("qx.ui.core.selection.Widget",
     _releaseCapture : function() {
       this.__widget.releaseCapture();
     },
-    
-    
+
+
     /**
-     * Helper to return the selectability of the item concerning the 
+     * Helper to return the selectability of the item concerning the
      * user interaaction.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The item to check.
      * @return {Boolean} true, if the item is selectable.
      */

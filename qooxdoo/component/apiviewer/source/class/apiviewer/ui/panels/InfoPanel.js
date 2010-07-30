@@ -927,7 +927,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         } else {
           var classNodes = currentClassDocNode.getClassHierarchy();
         }
-        
+
       } else {
         classNodes = [currentClassDocNode];
       }

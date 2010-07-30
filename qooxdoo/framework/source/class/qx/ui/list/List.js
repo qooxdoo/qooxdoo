@@ -19,9 +19,9 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Virtual list widget for virtual widget rendering.
- * 
+ *
  * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
  */
 qx.Class.define("qx.ui.list.List",
@@ -31,8 +31,8 @@ qx.Class.define("qx.ui.list.List",
 
   /**
    * Creates the <code>List</code> with the passed model.
-   * 
-   * @param model {qx.data.Array|null} model for the list. 
+   *
+   * @param model {qx.data.Array|null} model for the list.
    */
   construct : function(model)
   {
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.list.List",
     } else {
       this.initModel(new qx.data.Array());
     }
-    
+
     this.initItemHeight();
   },
 
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.list.List",
       refine : true,
       init : true
     },
-    
+
     /** Data array containing the data which should be shown in the list. */
     model :
     {
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.list.List",
       nullable : false,
       deferredInit : true
     },
-    
+
     /** Default item height */
     itemHeight :
     {
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.list.List",
       apply : "_applyRowHeight",
       themeable : true
     },
-    
+
     /**
      * The path to the property which holds the information that should be
      * shown as a label. This is only needed if objects are stored in the model.
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.list.List",
       apply: "_applyIconPath",
       nullable: true
     },
-    
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.list.List",
       apply: "_applyLabelOptions",
       nullable: true
     },
-  
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.list.List",
       apply: "_applyIconOptions",
       nullable: true
     },
-    
+
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link qx.ui.list.core.IControllerDelegate} interface.
@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.list.List",
 
     /** {qx.ui.virtual.layer.WidgetCell} widget cell renderer. */
     _layer : null,
-    
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -164,10 +164,10 @@ qx.Class.define("qx.ui.list.List",
       }
       return control || this.base(arguments, id);
     },
-    
-    /** 
+
+    /**
      * Returns the model data from the passed row.
-     * 
+     *
      * @param row {Integer} row to get data.
      * @return {var|null} the model data from the row.
      */
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.list.List",
         return null;
       }
     },
-    
+
     /**
      * Initialized the virtual list.
      */
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.list.List",
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(30);
     },
-    
+
     // apply method
     _applyLabelPath : function(value, old) {
       this._widgetCellProvider.setLabelPath(value);
@@ -239,25 +239,25 @@ qx.Class.define("qx.ui.list.List",
     _applyIconPath : function(value, old) {
       this._widgetCellProvider.setIconPath(value);
     },
-    
+
     // apply method
     _applyLabelOptions : function(value, old) {
       this._widgetCellProvider.setLabelOptions(value);
     },
-    
+
     // apply method
     _applyIconOptions : function(value, old) {
       this._widgetCellProvider.setIconOptions(value);
     },
-    
+
     // apply method
     _applyDelegate : function(value, old) {
       this._widgetCellProvider.setDelegate(value);
     },
-    
+
     /**
      * Event handler for the resize event.
-     * 
+     *
      * @param e {qx.event.type.Data} resize event.
      */
     _onResize : function(e) {
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Event handler for the model change event.
-     * 
+     *
      * @param e {qx.event.type.Data} model change event.
      */
     _onModelChange : function(e) {

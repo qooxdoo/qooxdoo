@@ -101,18 +101,18 @@ qx.Class.define("qx.event.message.Bus",
     },
 
     /**
-     * Dispatches a new message by supplying the name of the 
+     * Dispatches a new message by supplying the name of the
      * message and its data.
-     * 
+     *
      * @param name {String} name of the message
      * @param data {var} Any type of data to attach
-     * 
+     *
      * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise. 
+     *    <code>false</code> otherwise.
      */
     dispatchByName : function(name, data)
     {
-      return this.getInstance().dispatchByName.apply(this.getInstance(), arguments); 
+      return this.getInstance().dispatchByName.apply(this.getInstance(), arguments);
     }
   },
 
@@ -321,14 +321,14 @@ qx.Class.define("qx.event.message.Bus",
     },
 
     /**
-     * Dispatches a new message by supplying the name of the 
+     * Dispatches a new message by supplying the name of the
      * message and its data.
-     * 
+     *
      * @param name {String} name of the message
      * @param data {var} Any type of data to attach
-     * 
+     *
      * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise. 
+     *    <code>false</code> otherwise.
      */
     dispatchByName : function(name, data)
     {

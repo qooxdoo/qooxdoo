@@ -387,7 +387,7 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of an appearance. */
     ICON_APPEARANCE : "apiviewer/image/constant18.gif",
-    
+
     /** {string} The icon URL of a child control. */
     ICON_CHILDCONTROL : "apiviewer/image/childcontrol18.gif"
   },

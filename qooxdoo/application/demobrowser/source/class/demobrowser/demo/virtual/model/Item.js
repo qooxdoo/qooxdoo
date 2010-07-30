@@ -27,26 +27,26 @@ qx.Class.define("demobrowser.demo.virtual.model.Item",
     if (label != null) {
       this.setLabel(label);
     }
-    
+
     if (icon != null) {
       this.setIcon(icon);
     }
   },
-  
+
   properties :
   {
-    label : 
+    label :
     {
       check : "String",
-  		event : "changeLabel",
-  		nullable : true
-  	},
-	
-  	icon : 
-  	{
-  		check : "String",
-  		event : "changeIcon",
-  		nullable : true
+      event : "changeLabel",
+      nullable : true
+    },
+
+    icon :
+    {
+      check : "String",
+      event : "changeIcon",
+      nullable : true
     }
   }
 });

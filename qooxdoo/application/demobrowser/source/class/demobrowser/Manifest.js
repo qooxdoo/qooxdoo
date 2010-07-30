@@ -92,7 +92,7 @@ qx.Class.define("demobrowser.Manifest", {
       this.__container.add(nameLabel);
 
       this.__container.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
-      
+
       if (value.isPlayable) {
         this.__container.add(this._getRunButton());
       }
@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.Manifest", {
 
       return container;
     },
-    
+
     _getRunButton : function()
     {
       if (this.__runButton) {
@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.Manifest", {
         qx.core.Init.getApplication().viewer.runSample();
       }, this);
       this.__runButton = runButton;
-      
+
       return runButton;
     },
 

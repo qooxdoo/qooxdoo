@@ -522,20 +522,20 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       this.assertEquals(0, model.getFonts().length, "The remove did not work.");
     },
-    
-    
-    testAddValidationRule : function() 
+
+
+    testAddValidationRule : function()
     {
       var propertiesSaved;
-      
+
       var valN = function(data) {
         if (data < 10) throw new qx.core.ValidationError("NNN");
       };
-      
+
       var valS = function(data) {
         if (data.length > 10) throw new qx.core.ValidationError("SSS");
       };
-      
+
       var delegate = {getValidationRule : function(properties, propertyName) {
         if (propertyName == "n") {
           return valN;
@@ -548,26 +548,26 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.__marshaler = new qx.data.marshal.Json(delegate);
       this.__marshaler.toClass(this.__data);
       var model = this.__marshaler.toModel(this.__data);
-      
+
       // check for the right class hash
       this.assertEquals('b"n"s', propertiesSaved);
 
       // set working values
       model.setS("123456789");
       model.setN(20);
-      
+
       // set not working values
       this.assertException(function() {
         model.setS("01234567890123456789");
       }, qx.core.ValidationError);
-      
+
       this.assertException(function() {
         model.setN(1);
-      }, qx.core.ValidationError);      
+      }, qx.core.ValidationError);
     },
-    
-    
-    testQooxdooObject : function() 
+
+
+    testQooxdooObject : function()
     {
       var qxObject = new qx.core.Object();
       this.__data = ({a: {b: qxObject}});
@@ -578,8 +578,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.toModel(this.__data);
 
       // check the model
-      this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");      
-    }  
+      this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
+    }
 
   }
 });

@@ -100,7 +100,7 @@ qx.Class.define("qx.test.util.StringSplit",
         ["qx.util.StringSplit.split('.', /(((((.??)))))/)",     ["."]]
       ];
 
-      for (var i = 0; i < testCode.length; i++) 
+      for (var i = 0; i < testCode.length; i++)
       {
         var result = eval(testCode[i][0]);
         this.assertArrayEquals(testCode[i][1], result);
@@ -108,8 +108,8 @@ qx.Class.define("qx.test.util.StringSplit",
 
       var ecmaSampleRe = /<(\/)?([^<>]+)>/;
       this.assertArrayEquals(["A", undefined, "B", "bold", "/", "B", "and", undefined, "CODE", "coded", "/", "CODE", ""],
-                             qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe)) 
-      
+                             qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe))
+
     }
   }
 });

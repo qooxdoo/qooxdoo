@@ -20,7 +20,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The mixin controls the binding between model and item.
  */
 qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
@@ -28,8 +28,8 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
   construct : function() {
     this.__boundItems = [];
   },
-  
-  properties : 
+
+  properties :
   {
     /**
      * The path to the property which holds the information that should be
@@ -51,7 +51,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       check: "String",
       nullable: true
     },
-  
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -60,7 +60,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     {
       nullable: true
     },
-  
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -69,7 +69,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     {
       nullable: true
     },
-  
+
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link IControllerDelegate} interface.
@@ -81,12 +81,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       nullable: true
     }
   },
-  
+
   members :
   {
     /** {Array} which contains the bounded items */
     __boundItems : null,
-    
+
     /**
      * Helper-Method for binding the default properties (label and icon) from
      * the model to the target widget.
@@ -111,12 +111,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
         );
       }
     },
-    
+
     /**
      * Helper-Method for binding a given property from the model to the target
      * widget.
      * This method should only be called in the
-     * {@link IControllerDelegate#bindItem} function implemented by the 
+     * {@link IControllerDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
      * @param sourcePath {String | null} The path to the property in the model.
@@ -128,16 +128,16 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
       var bindPath = this.__getBindPath(index, sourcePath);
-      
+
       var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
       this.__addBinding(targetWidget, id);
     },
-    
+
     /**
      * Helper-Method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
-     * {@link IControllerDelegate#bindItem} function implemented by the 
+     * {@link IControllerDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
      * @param targetPath {String | null} The name of the property in the target.
@@ -153,7 +153,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       var id = sourceWidget.bind(sourcePath, this, bindPath, options);
       this.__addBinding(sourceWidget, id);
     },
-    
+
     /**
      * Remove all bindings from all bounded items.
      */
@@ -164,10 +164,10 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
         this._removeBindingsFrom(item);
       }
     },
-    
+
     /**
      * Creates a cell renderer.
-     * 
+     *
      * @return {qx.ui.virtual.cell.AbstractWidget} The created cell renderer..
      */
     _createCellRenderer : function() {
@@ -181,9 +181,9 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
 
       return renderer;
     },
-    
+
     /**
-     * Configure the passed item if a delegate is set and the needed 
+     * Configure the passed item if a delegate is set and the needed
      * function {@link IControllerDelegate#configureItem} is available.
      *
      * @param item {qx.ui.core.Widget} item to configer.
@@ -191,12 +191,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     _configureItem : function(item)
     {
       var delegate = this.getDelegate();
-      
+
       if (delegate != null && delegate.configureItem != null) {
         delegate.configureItem(item);
       }
     },
-    
+
     /**
      * Sets up the binding for the given item and index.
      *
@@ -205,14 +205,14 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
      */
     _bindItem: function(item, index) {
       var delegate = this.getDelegate();
-      
+
       if (delegate != null && delegate.bindItem != null) {
         delegate.bindItem(this, item, index);
       } else {
         this.bindDefaultProperties(item, index);
       }
     },
-  
+
     /**
      * Removes the binding of the given item.
      *
@@ -221,25 +221,25 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
      */
     _removeBindingsFrom: function(item) {
       var bindings = this.__getBindings(item);
-      
+
       while (bindings.length > 0) {
         var id = bindings.pop();
-        
+
         try {
           this._list.removeBinding(id);
         } catch(e) {
           item.removeBinding(id);
         }
       }
-      
+
       if (qx.lang.Array.contains(this.__boundItems, item)) {
         qx.lang.Array.remove(this.__boundItems, item);
       }
     },
-    
+
     /**
      * Helper method to create the path for binding.
-     * 
+     *
      * @param index {Integer} The index of the item.
      * @param path {String|null} The path to the property.
      */
@@ -251,41 +251,41 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
       }
       return bindPath;
     },
-    
+
     /**
      * Helper method to save the binding for the widget.
-     * 
+     *
      * @param widget {qx.ui.core.Widget} widget to save binding.
      * @param id {var} the id from the binding.
      */
-    __addBinding : function(widget, id) 
+    __addBinding : function(widget, id)
     {
       var bindings = this.__getBindings(widget);
-      
+
       if (!qx.lang.Array.contains(bindings, id)) {
         bindings.push(id);
       }
-      
+
       if (!qx.lang.Array.contains(this.__boundItems, widget)) {
         this.__boundItems.push(widget);
       }
     },
-    
+
     /**
      * Helper method which returns all bound id from the widget.
-     * 
+     *
      * @param widget {qx.ui.core.Widget} widget to get all binding.
      * @return {Array} all bound id's.
      */
     __getBindings : function(widget)
     {
       var bindings = widget.getUserData("BindingIds");
-      
+
       if (bindings == null) {
         bindings = [];
         widget.setUserData("BindingIds", bindings);
       }
-      
+
       return bindings;
     }
   },

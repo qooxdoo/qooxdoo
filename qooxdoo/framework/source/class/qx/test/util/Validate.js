@@ -26,7 +26,7 @@ qx.Class.define("qx.test.util.Validate",
   {
     testNumber : function()
     {
-      //The number is valid if an error isn't raised 
+      //The number is valid if an error isn't raised
       qx.util.Validate.number()(2);
 
       //ValidationError raised if not a number

@@ -167,7 +167,7 @@ qx.Class.define("qx.event.handler.Application",
         // wrap the call in a try-catch because e.g. bom applications don't
         // have an application and no qx.application setting
         try {
-          // check if the application is already loaded. If not just don't fire 
+          // check if the application is already loaded. If not just don't fire
           // the ready event [BUG #3793]
           var app = qx.core.Setting.get("qx.application");
           if (!qx.Class.getByName(app)) {

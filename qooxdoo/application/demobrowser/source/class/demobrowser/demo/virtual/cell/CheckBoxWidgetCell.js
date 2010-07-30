@@ -26,14 +26,14 @@ qx.Class.define("demobrowser.demo.virtual.cell.CheckBoxWidgetCell",
     /** Fired when a new <code>CheckBox</code> is created. */
     "created" : "qx.event.type.Data"
   },
-  
+
   members :
   {
     // overridden
     _createWidget : function() {
       var widget = new qx.ui.form.CheckBox();
       this.fireDataEvent("created", widget);
-      
+
       return widget;
     },
 

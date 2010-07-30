@@ -240,9 +240,9 @@ qx.Class.define("qx.test.ui.table.Table",
       mouse.dispose();
       table.dispose();
     },
-    
-    
-    testScrollAfterScrollbarVisibilityChange : function() 
+
+
+    testScrollAfterScrollbarVisibilityChange : function()
     {
       var rowData = [];
       for (var row = 0; row < 15; row++) {

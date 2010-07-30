@@ -143,15 +143,15 @@ qx.Class.define("qx.ui.form.RadioGroup",
       event : "changeInvalidMessage",
       apply : "_applyInvalidMessage"
     },
-    
-    
+
+
     /**
-     * Message which is shown in an invalid tooltip if the {@link #required} is 
+     * Message which is shown in an invalid tooltip if the {@link #required} is
      * set to true.
      */
     requiredInvalidMessage : {
       check : "String",
-      nullable : true, 
+      nullable : true,
       event : "changeInvalidMessage"
     }
   },

@@ -96,7 +96,7 @@ qx.Class.define("feedreader.io.FeedLoader",
     __onChangeState : function(feed, e)
     {
       if (e.getData() == "aborted" ||
-        e.getData() == "timeout" || 
+        e.getData() == "timeout" ||
         e.getData() == "failed") {
           feed.setState("error");
       }

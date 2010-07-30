@@ -87,7 +87,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(this._list.getModel().getLength(), this._list.getPane().getRowConfig().getItemCount(), "b");
     },
-    
+
     testComplexModel : function()
     {
       var rawData = [];
@@ -95,10 +95,10 @@ qx.Class.define("qx.test.ui.list.List",
         rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png"};
       }
       var model = qx.data.marshal.Json.createModel(rawData);
-      
+
       this._list.setLabelPath("label");
       this._list.setIconPath("icon");
-      
+
       this._list.setModel(model);
       this.flush();
 
@@ -107,7 +107,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5,0).getLabel());
       this.assertEquals("qx/icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
     },
-    
+
     testDisabledElements : function()
     {
       var disabledItem = 3;
@@ -116,17 +116,17 @@ qx.Class.define("qx.test.ui.list.List",
         rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png", enabled: (i != disabledItem)};
       }
       var model = qx.data.marshal.Json.createModel(rawData);
-      
+
       this._list.setDelegate({
         bindItem : function(controller, item, id) {
           controller.bindDefaultProperties(item, id);
           controller.bindProperty("enabled", "enabled", null, item, id);
         }
       });
-      
+
       this._list.setLabelPath("label");
       this._list.setIconPath("icon");
-      
+
       this._list.setModel(model);
       this.flush();
 

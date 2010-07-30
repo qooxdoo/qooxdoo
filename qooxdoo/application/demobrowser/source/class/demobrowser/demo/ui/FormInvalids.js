@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       radioGroup.add(r2);
       this.getRoot().add(r2, {left: 530, top: 270});
       widgets.push(radioGroup);
-      
+
       // tree
       var tree = new qx.ui.tree.Tree();
       widgets.push(tree);

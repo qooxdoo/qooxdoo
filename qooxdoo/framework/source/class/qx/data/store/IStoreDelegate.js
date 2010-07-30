@@ -31,7 +31,7 @@
 qx.Interface.define("qx.data.store.IStoreDelegate",
 {
   extend : qx.data.marshal.IMarshalerDelegate,
-  
+
   members :
   {
     /**

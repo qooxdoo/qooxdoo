@@ -28,13 +28,13 @@
 
      Documentation:
        http://wiki.github.com/jeresig/sizzle
-       
+
      Discussion:
        http://groups.google.com/group/sizzlejs
-     
+
      Code:
        http://github.com/jeresig/sizzle/tree
-       
+
      Copyright:
        (c) 2009, The Dojo Foundation
 
@@ -74,10 +74,10 @@
 ************************************************************************ */
 
 /**
- * The selector engine supports virtually all CSS 3 Selectors  – this even 
- * includes some parts that are infrequently implemented such as escaped 
- * selectors (<code>.foo\\+bar</code>), Unicode selectors, and results returned 
- * in document order. There are a few notable exceptions to the CSS 3 selector 
+ * The selector engine supports virtually all CSS 3 Selectors  – this even
+ * includes some parts that are infrequently implemented such as escaped
+ * selectors (<code>.foo\\+bar</code>), Unicode selectors, and results returned
+ * in document order. There are a few notable exceptions to the CSS 3 selector
  * support:
  *
  * * <code>:root</code>
@@ -193,14 +193,14 @@ var Sizzle = function(selector, context, results, seed) {
   if ( context.nodeType !== 1 && context.nodeType !== 9 ) {
     return [];
   }
-  
+
   if ( !selector || typeof selector !== "string" ) {
     return results;
   }
 
   var parts = [], m, set, checkSet, extra, prune = true, contextXML = Sizzle.isXML(context),
     soFar = selector, ret, cur, pop, i;
-  
+
   // Reset the position of the chunker regexp (start from head)
   do {
     chunker.exec("");
@@ -208,9 +208,9 @@ var Sizzle = function(selector, context, results, seed) {
 
     if ( m ) {
       soFar = m[3];
-    
+
       parts.push( m[1] );
-    
+
       if ( m[2] ) {
         extra = m[3];
         break;
@@ -232,7 +232,7 @@ var Sizzle = function(selector, context, results, seed) {
         if ( Expr.relative[ selector ] ) {
           selector += parts.shift();
         }
-        
+
         set = posProcess( selector, set );
       }
     }
@@ -344,7 +344,7 @@ Sizzle.find = function(expr, context, isXML){
 
   for ( var i = 0, l = Expr.order.length; i < l; i++ ) {
     var type = Expr.order[i], match;
-    
+
     if ( (match = Expr.leftMatch[ type ].exec( expr )) ) {
       var left = match[1];
       match.splice(1,1);
@@ -621,7 +621,7 @@ var Expr = Sizzle.selectors = {
     },
     ATTR: function(match, curLoop, inplace, result, not, isXML){
       var name = match[1].replace(/\\/g, "");
-      
+
       if ( !isXML && Expr.attrMap[name] ) {
         match[1] = Expr.attrMap[name];
       }
@@ -647,7 +647,7 @@ var Expr = Sizzle.selectors = {
       } else if ( Expr.match.POS.test( match[0] ) || Expr.match.CHILD.test( match[0] ) ) {
         return true;
       }
-      
+
       return match;
     },
     POS: function(match){
@@ -768,18 +768,18 @@ var Expr = Sizzle.selectors = {
         case 'only':
         case 'first':
           while ( (node = node.previousSibling) )  {
-            if ( node.nodeType === 1 ) { 
-              return false; 
+            if ( node.nodeType === 1 ) {
+              return false;
             }
           }
-          if ( type === "first" ) { 
-            return true; 
+          if ( type === "first" ) {
+            return true;
           }
           node = elem;
         case 'last':
           while ( (node = node.nextSibling) )  {
-            if ( node.nodeType === 1 ) { 
-              return false; 
+            if ( node.nodeType === 1 ) {
+              return false;
             }
           }
           return true;
@@ -789,20 +789,20 @@ var Expr = Sizzle.selectors = {
           if ( first === 1 && last === 0 ) {
             return true;
           }
-          
+
           var doneName = match[0],
             parent = elem.parentNode;
-  
+
           if ( parent && (parent.sizcache !== doneName || !elem.nodeIndex) ) {
             var count = 0;
             for ( node = parent.firstChild; node; node = node.nextSibling ) {
               if ( node.nodeType === 1 ) {
                 node.nodeIndex = ++count;
               }
-            } 
+            }
             parent.sizcache = doneName;
           }
-          
+
           var diff = elem.nodeIndex - last;
           if ( first === 0 ) {
             return diff === 0;
@@ -879,7 +879,7 @@ var makeArray = function(array, results) {
     results.push.apply( results, array );
     return results;
   }
-  
+
   return array;
 };
 
@@ -1071,7 +1071,7 @@ if ( document.querySelectorAll ) {
     if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
       return;
     }
-  
+
     Sizzle = function(query, context, extra, seed){
       context = context || document;
 
@@ -1082,7 +1082,7 @@ if ( document.querySelectorAll ) {
           return makeArray( context.querySelectorAll(query), extra );
         } catch(e){}
       }
-    
+
       return oldSizzle(query, context, extra, seed);
     };
 
@@ -1111,7 +1111,7 @@ if ( document.querySelectorAll ) {
   if ( div.getElementsByClassName("e").length === 1 ) {
     return;
   }
-  
+
   Expr.order.splice(1, 0, "CLASS");
   Expr.find.CLASS = function(match, context, isXML) {
     if ( typeof context.getElementsByClassName !== "undefined" && !isXML ) {
@@ -1199,7 +1199,7 @@ Sizzle.contains = document.compareDocumentPosition ? function(a, b){
 
 Sizzle.isXML = function(elem){
   // documentElement is verified for cases where it doesn't yet exist
-  // (such as loading iframes in IE - #4833) 
+  // (such as loading iframes in IE - #4833)
   var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
   return documentElement ? documentElement.nodeName !== "HTML" : false;
 };

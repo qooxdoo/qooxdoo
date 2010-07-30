@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
     // overridden
     _isSelectable : function(item) {
-      return this._isItemSelectable(item) 
+      return this._isItemSelectable(item)
       && item instanceof qx.ui.tree.AbstractTreeItem;
     },
 
@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         oldUserInteraction = this._userInteraction;
         this._userInteraction = true;
       }
-      
+
       var widget = this._getWidget();
       var result = [];
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
       // reset to the former user interaction state
       this._userInteraction = oldUserInteraction;
-      
+
       return result;
     },
 

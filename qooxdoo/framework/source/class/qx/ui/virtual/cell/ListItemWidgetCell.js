@@ -19,9 +19,9 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Cell renderer for {@link qx.ui.form.ListItem}.
- * 
+ *
  * Use {@link #updateData} to update label and icon. Just use a <code>Map</code>
  * with <code>label</code> and <code>icon</code> as key.
  */
@@ -34,14 +34,14 @@ qx.Class.define("qx.ui.virtual.cell.ListItemWidgetCell",
     /** Fired when a new <code>ListItem</code> is created. */
     "created" : "qx.event.type.Data"
   },
-  
+
   members :
   {
     // overridden
     _createWidget : function() {
       var widget = new qx.ui.form.ListItem();
       this.fireDataEvent("created", widget);
-      
+
       return widget;
     },
 

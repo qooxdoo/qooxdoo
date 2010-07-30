@@ -343,7 +343,7 @@ qx.Class.define("inspector.Application",
         function() {
         }
       );
-      
+
       // Selenium window
       this.__createWindow(
         "_seleniumButton", "Selenium", "_seleniumWindow",
@@ -552,7 +552,7 @@ qx.Class.define("inspector.Application",
           this._propertyWindow.select(object, true);
         }
       }
-      
+
       if (this._seleniumWindow != null && initiator != this._seleniumWindow) {
         if (object != this._seleniumWindow.getSelection()) {
           this._seleniumWindow.select(object, true);

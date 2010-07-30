@@ -147,9 +147,9 @@ qx.Interface.define("qx.ui.form.IForm",
      * @return {String} The current set message.
      */
     getInvalidMessage : function() {},
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       REQUIRED INVALID MESSAGE PROPERTY
@@ -171,7 +171,7 @@ qx.Interface.define("qx.ui.form.IForm",
      *
      * @return {String} The current set message.
      */
-    getRequiredInvalidMessage : function() {}    
+    getRequiredInvalidMessage : function() {}
 
   }
 });

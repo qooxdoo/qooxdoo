@@ -67,13 +67,13 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     {
       this._testSetSelection([this._notInSelection[0]]);
     },
-    
-    testDisabledSetSelection : function() 
+
+    testDisabledSetSelection : function()
     {
       this._widget.setEnabled(false);
       this._testSetSelection([this._notInSelection[0]]);
     },
-    
+
     _testSetSelection : function(selection)
     {
       var that = this;
@@ -166,14 +166,14 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
         this.assertIdentical(0, result.length, "The result isn't empty!");
       }
     },
-    
-    
+
+
     testDisabledResetSelection : function()
     {
       this._widget.setEnabled(false);
       this.testResetSelection();
-    },    
-    
+    },
+
 
     testResetSelectionWithEmptySelection : function()
     {
@@ -253,20 +253,20 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       this._assertArrayEquals(items, found,
         "This list of the returned selectables are wrong!");
     },
-    
-    
-    testDisabledGetSelectables : function() 
+
+
+    testDisabledGetSelectables : function()
     {
       this._widget.setEnabled(false);
       this.testGetSelectables();
     },
-    
-    
+
+
     testGetUserSelectables : function()
     {
       var selectables = [];
       var items = this._getChildren();
-      
+
       for (var i = 0; i < items.length; i++)
       {
         if (i % 2 == 0) {
@@ -275,10 +275,10 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
           items[i].setEnabled(false);
         }
       }
-      
+
       var found = this._widget.getSelectables();
-    
-      this._assertArrayEquals(selectables, found, 
+
+      this._assertArrayEquals(selectables, found,
         "This list of the returned selectables are wrong!");
     }
   }

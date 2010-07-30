@@ -27,50 +27,50 @@ qx.Class.define("qx.test.lang.RingBuffer",
     {
       var max = 3;
       var buf = new qx.lang.RingBuffer(max);
-      
+
       buf.addEntry(1);
       this.assertEquals(1, buf.getAllEntries().length);
-      
+
       buf.addEntry(2);
       this.assertEquals(2, buf.getAllEntries().length);
-      
+
       buf.addEntry(3);
       this.assertEquals(3, buf.getAllEntries().length);
-      
+
       buf.addEntry(4);
-      
+
       var allEntries = buf.getAllEntries();
       this.assertEquals(3, allEntries.length);
-      
+
       this.assertEquals(allEntries[0], 2);
       this.assertEquals(allEntries[1], 3);
       this.assertEquals(allEntries[2], 4);
     },
-    
-    
+
+
     testAddMany : function()
     {
       var max = 3;
       var buf = new qx.lang.RingBuffer(max);
-      
+
       for (var i=0; i<=1003; i++){
          buf.addEntry(i);
       }
 
       var allEntries = buf.getAllEntries();
       this.assertEquals(3, allEntries.length);
-      
+
       this.assertEquals(allEntries[0], 1001);
       this.assertEquals(allEntries[1], 1002);
       this.assertEquals(allEntries[2], 1003);
     },
-    
-    
+
+
     testGet : function()
     {
       var max = 7;
       var buf = new qx.lang.RingBuffer(max);
-      
+
       buf.addEntry(1);
       buf.addEntry(2);
       buf.addEntry(3);
@@ -80,54 +80,54 @@ qx.Class.define("qx.test.lang.RingBuffer",
       buf.addEntry(8);
       buf.addEntry(9);
       buf.addEntry(10);
-      
+
       var entries = buf.getEntries(4);
       this.assertEquals(4, entries.length);
-      
+
       this.assertEquals(entries[0], 7);
       this.assertEquals(entries[1], 8);
       this.assertEquals(entries[2], 9);
       this.assertEquals(entries[3], 10);
     },
-    
-    
+
+
     testMark : function()
     {
       var max = 3;
       var buf = new qx.lang.RingBuffer(max);
-      
+
       buf.addEntry(1);
       buf.addEntry(2);
       buf.mark();
       buf.addEntry(3);
       buf.addEntry(4);
-      
+
       var entriesSinceMark = buf.getEntries(9999, true);
       this.assertEquals(2, entriesSinceMark.length);
-      
+
       this.assertEquals(entriesSinceMark[0], 3);
       this.assertEquals(entriesSinceMark[1], 4);
     },
-    
-    
+
+
     testClear : function()
     {
       var max = 3;
       var buf = new qx.lang.RingBuffer(max);
-      
+
       buf.addEntry(1);
       buf.addEntry(2);
       buf.addEntry(3);
       buf.addEntry(4);
-      
+
       this.assertEquals(3, buf.getAllEntries().length);
-      
+
       buf.clear();
-      
+
       this.assertEquals(0, buf.getAllEntries().length);
     },
-    
-    
+
+
     testDataTypes : function()
     {
       var max = 6;
@@ -136,17 +136,17 @@ qx.Class.define("qx.test.lang.RingBuffer",
       buf.addEntry(1);
       buf.addEntry(2);
       buf.addEntry(3);
-      
+
       buf.addEntry(null);
       buf.addEntry(buf);
       buf.addEntry("Some string");
       buf.addEntry({"some":"map"});
       buf.addEntry(["Some array"]);
       buf.addEntry(function(){});
-      
+
       var allEntries = buf.getAllEntries();
       this.assertEquals(6, allEntries.length);
-      
+
       this.assertEquals(allEntries[0], null);
       this.assertEquals(allEntries[1], buf);
       this.assertEquals(allEntries[2], "Some string");

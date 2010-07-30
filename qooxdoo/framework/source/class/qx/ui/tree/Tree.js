@@ -41,8 +41,8 @@ qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.scroll.AbstractScrollArea,
   implement : [
-    qx.ui.core.IMultiSelection, 
-    qx.ui.form.IModelSelection, 
+    qx.ui.core.IMultiSelection,
+    qx.ui.form.IModelSelection,
     qx.ui.form.IForm
   ],
   include : [

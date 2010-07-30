@@ -168,7 +168,7 @@ qx.Class.define("qx.data.controller.Form",
             if (qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection)) {
               // use the first element of the selection because passed to the
               // marshaler (and its single selection anyway) [BUG #3541]
-              currentData[names[i]] = items[name].getModelSelection().getItem(0) || null;
+              currentData[names[i]] = items[name].getModelSelection().getItem(0) || null;
             } else {
               currentData[names[i]] = items[name].getValue();
             }

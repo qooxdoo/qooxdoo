@@ -135,17 +135,17 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       return spacer;
     },
 
-    
+
     /**
      * Activates one of the still not empty items.
      * @param elementToPool {qx.ui.core.Widget} The widget which gets pooled.
      */
-    _activateNotEmptyChild : function(elementToPool) 
+    _activateNotEmptyChild : function(elementToPool)
     {
       // get the current active element
       var active = qx.ui.core.FocusHandler.getInstance().getActiveWidget();
       // if the element to pool is active or one of its children
-      if (active == elementToPool || qx.ui.core.Widget.contains(elementToPool, active)) {
+      if (active == elementToPool || qx.ui.core.Widget.contains(elementToPool, active)) {
         // search for a new child to activate
         var children = this._getChildren();
         for (var i = children.length - 1; i >= 0; i--) {
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         };
       }
     },
-    
+
 
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)

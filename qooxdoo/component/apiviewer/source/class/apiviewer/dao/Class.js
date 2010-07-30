@@ -435,7 +435,7 @@ qx.Class.define("apiviewer.dao.Class",
       return this._superMixins;
     },
 
-    
+
     /**
      * Get all child controls
      *
@@ -463,8 +463,8 @@ qx.Class.define("apiviewer.dao.Class",
       }
       return result;
     },
-    
-    
+
+
     /**
      * Get the documentation nodes of all interfaces in the inheritance chain
      * of an interface. The first entry in the list is the interface itself.
@@ -483,7 +483,7 @@ qx.Class.define("apiviewer.dao.Class",
           superInterfaces = superInterface.getSuperInterfaces();
         }
       }
-      
+
       return result;
     },
 

@@ -37,11 +37,11 @@ qx.Class.define("qx.util.Serializer",
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
-     *   the format method of this given formater is used to convert date 
+     *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String} The serialized object.
      */
-    toUriParameter : function(object, qxSerializer, dateFormat) 
+    toUriParameter : function(object, qxSerializer, dateFormat)
     {
       var result = "";
       var properties = qx.util.PropertyUtil.getProperties(object.constructor);
@@ -57,7 +57,7 @@ qx.Class.define("qx.util.Serializer",
         } else if (qx.lang.Type.isDate(value) && dateFormat != null) {
           result += this.__toUriParameter(
             name, dateFormat.format(value), qxSerializer
-          );          
+          );
         } else {
           result += this.__toUriParameter(name, value, qxSerializer);
         }
@@ -102,7 +102,7 @@ qx.Class.define("qx.util.Serializer",
      *   and return the serialized value. In all other cases, just return
      *   nothing.
      * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
-     *   the format method of this given formater is used to convert date 
+     *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String}
      *   The serialized object.
@@ -182,7 +182,7 @@ qx.Class.define("qx.util.Serializer",
 
         return result;
       }
-      
+
       // date objects with date format
       if (qx.lang.Type.isDate(object) && dateFormat != null) {
         return dateFormat.format(object);
@@ -217,7 +217,7 @@ qx.Class.define("qx.util.Serializer",
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
-     *   the format method of this given formater is used to convert date 
+     *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String} The serialized object.
      */
@@ -248,7 +248,7 @@ qx.Class.define("qx.util.Serializer",
           result = result.substring(0, result.length - 1);
         }
         return result + "]";
-        
+
       // qooxdoo object
       } else if (object instanceof qx.core.Object) {
         if (qxSerializer != null) {

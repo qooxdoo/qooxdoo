@@ -999,12 +999,12 @@ qx.Class.define("qx.test.data.controller.List",
           // scroll a bit down (scrollY is 40)
           this.__list.scrollByY(40);
         }, this, 0);
-        
+
         this.wait(100, function() {
           // select the current visible item
           this.__list.addToSelection(selectables[2]);
           // check that it has not been scrolled
-          this.assertEquals(40, this.__list.getScrollY());      
+          this.assertEquals(40, this.__list.getScrollY());
         }, this);
       }
       else {
@@ -1035,12 +1035,12 @@ qx.Class.define("qx.test.data.controller.List",
           // scroll a bit down (scrollY is 40)
           this.__list.scrollByY(40);
         }, this, 0);
-        
+
         this.wait(100, function() {
           // select the current visible item
           this.__list.addToSelection(selectables[2]);
           // check that it has not been scrolled
-          this.assertEquals(40, this.__list.getScrollY());      
+          this.assertEquals(40, this.__list.getScrollY());
         }, this);
       }
       else {

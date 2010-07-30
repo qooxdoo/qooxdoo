@@ -58,28 +58,28 @@ qx.Class.define("qx.test.ui.form.Renderer",
       this.assertNotNull(this.__b);
       this.assertFalse(this.__b.isDisposed());
     },
-    
-    
-    __testExclude : function(clazz) 
+
+
+    __testExclude : function(clazz)
     {
       var text = new qx.ui.form.TextField();
       this.__form.add(text, "test");
       var renderer = new clazz(this.__form);
       var label = renderer._getChildren()[0];
-      
+
       text.setVisibility("excluded");
       this.assertEquals(text.getVisibility(), label.getVisibility());
 
-      renderer.dispose();      
+      renderer.dispose();
       text.dispose();
     },
 
 
     testExcludeSingle : function() {
       this.__testExclude(qx.ui.form.renderer.Single);
-    }, 
+    },
 
-    
+
     testExcludeDouble : function() {
       this.__testExclude(qx.ui.form.renderer.Double);
     }

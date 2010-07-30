@@ -456,13 +456,13 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertTrue(this.__password1.getValid());
       this.assertTrue(this.__password2.getValid());
     },
-    
-    
+
+
     testRequiredFieldMessage : function() {
       // set a global and an individual requred field message
       this.__manager.setRequiredFieldMessage("affe");
       this.__password1.setRequiredInvalidMessage("AFFEN");
-      
+
       // set fields to required
       this.__username.setRequired(true);
       this.__password1.setRequired(true);
@@ -473,7 +473,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
       // validate = fail (no text entered)
       this.assertFalse(this.__manager.validate());
-      
+
       // check the messages
       this.assertEquals("affe", this.__username.getInvalidMessage());
       this.assertEquals("AFFEN", this.__password1.getInvalidMessage());

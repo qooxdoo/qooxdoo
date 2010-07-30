@@ -76,18 +76,18 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   will be included.
      */
     getModelMixins : function(properties) {},
-    
-    
+
+
     /**
-     * Returns the validation rules which shold be added to the created class 
+     * Returns the validation rules which shold be added to the created class
      * for the given property. This method will be called for every property.
-     * 
+     *
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
      * @param propertyName {String} The name of the current property.
      * @return {Function|null} If you want to have a validation rule for the
-     *   current property, you should return a validation function which will 
-     *   be included into the property definition as validator. 
+     *   current property, you should return a validation function which will
+     *   be included into the property definition as validator.
      *   {@link qx.core.Property} for more details.
      */
     getValidationRule : function(properties, propertyName) {}

@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     if (qx.core.Variant.isSet("qx.contrib", "on")) {
       this._makeVersionSelect();
     }
-    
+
     // search
     var searchComposlite = new qx.ui.container.Composite();
     searchComposlite.setLayout(new qx.ui.layout.HBox(3));
@@ -132,7 +132,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.add(this._tree, {flex: 1});
 
     this._demoView = this.__makeDemoView();
-    
+
     if (qx.core.Variant.isSet("qx.contrib", "off")) {
       infosplit.add(this._demoView, 2);
     }
@@ -1043,7 +1043,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();
-        }        
+        }
         else {
           folder.exclude();
         }
@@ -1222,7 +1222,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (!otherSamp) {
           return;
         }
-        
+
         if (otherSamp.getParent() == this.tree.getRoot()) {
           otherSamp = this.tree.getPreviousNodeOf(otherSamp);
         }
@@ -1231,7 +1231,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
-    
+
     /**
      * Plays the sample following the currently selected tree node
      *
@@ -1249,7 +1249,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (currSamp == this.tree.getRoot()) {
           currSamp = currSamp.getChildren()[0];
         }
-        
+
         try {
           // If a folder is selected, get its first child
           var otherSamp = currSamp.getUserData('modelLink').getChildren()[0].widgetLinkFull;
@@ -1485,8 +1485,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
-      "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField", 
-      "_status", "_tree", "_iframe", "_demoView", "__menuElements", 
+      "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField",
+      "_status", "_tree", "_iframe", "_demoView", "__menuElements",
       "__logSync", "_leftComposite", "_demoView");
   }
 });
