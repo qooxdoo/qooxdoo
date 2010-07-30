@@ -133,15 +133,15 @@ qx.Class.define("feedreader.view.Article",
 
       // some of the values may be missing
       var date = (article.getPubDate && article.getPubDate()) || "";
-      
+
       // normalize the content
-      var description = "";
+      var description = "";
       if (article.getDescription) {
         description = article.getDescription();
       } else if (article.getContent) {
         description = article.getContent().getContent && article.getContent().getContent();
       }
-      
+
       // link handling
       var link = article.getLink();
       if (link.getHref) {
