@@ -474,11 +474,11 @@ qx.Class.define("apiviewer.dao.Class",
           superInterfaces = superInterface.getSuperInterfaces();
         }
       }
-      
+
       return result;
     },
-    
-    
+
+
     /**
      * Return a class item matching the given name.
      *
