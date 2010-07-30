@@ -352,6 +352,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of a private property. */
     ICON_PROPERTY_PRIV : "apiviewer/image/property_private18.gif",
 
+    /** {string} The icon URL of a themeable property. */
+    ICON_PROPERTY_PUB_THEMEABLE : "apiviewer/image/property_themeable18.gif",
+
     /** {string} The icon URL of an event. */
     ICON_EVENT : "apiviewer/image/event18.gif",
 
@@ -430,6 +433,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_PROPERTY_PUB,
       statics.ICON_PROPERTY_PROT,
       statics.ICON_PROPERTY_PRIV,
+      statics.ICON_PROPERTY_PUB_THEMEABLE,
       statics.ICON_EVENT,
       statics.ICON_INTERFACE,
       statics.ICON_INTERFACE_WARN,
