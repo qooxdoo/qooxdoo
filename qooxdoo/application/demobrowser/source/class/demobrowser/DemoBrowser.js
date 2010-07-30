@@ -1196,7 +1196,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     /**
-     * TODOC
+     * Plays the sample preceding the currently selected tree node
      *
      * @param e {Event} TODOC
      * @return {void}
@@ -1208,20 +1208,50 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        if (currSamp.getUserData('modelLink').getPrevSibling()) {
-          var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
-
-          if (otherSamp) {
-            this.tree.setSelection([otherSamp]);
-            this.runSample();
+        var otherSamp = this.tree.getPreviousNodeOf(currSamp, false);
+        if (!otherSamp || otherSamp == this.tree.getRoot()) {
+          return;
+        }
+        
+        while (otherSamp.isVisible && !otherSamp.isVisible()) {
+          otherSamp = this.tree.getPreviousNodeOf(otherSamp, false);
+        }
+        
+        if (otherSamp.getParent() == this.tree.getRoot()) {
+          // otherSamp is the parent
+          var candidate = this.tree.getPreviousNodeOf(otherSamp, false);
+          while (candidate.isVisible && !candidate.isVisible()) {
+            candidate = this.tree.getPreviousNodeOf(candidate, false);
           }
+          if (candidate.getParent() == this.tree.getRoot()) {
+            candidate.setOpen(true);
+            var candidate2 = this.tree.getPreviousNodeOf(otherSamp, false);
+            while (candidate2.isVisible && !candidate2.isVisible()) {
+              candidate2 = this.tree.getPreviousNodeOf(candidate2, false);
+            }
+            if (candidate !== candidate2) {
+              otherSamp = candidate2;
+            }
+          } else {
+            otherSamp = candidate;
+          }
+        }
+        
+        if (!otherSamp || otherSamp === currSamp) {
+          // Remove stop button, display run button
+          this._stopbutton.setVisibility("excluded");
+          this._runbutton.setVisibility("visible");
+          return;
+        } else {
+          this.tree.setSelection([otherSamp]);
+          this.runSample();
         }
       }
     },
 
 
     /**
-     * TODOC
+     * Plays the sample following the currently selected tree node
      *
      * @param e {Event} TODOC
      * @return {void}
@@ -1234,33 +1264,33 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        try {
-          // If a folder is selected, get its first child
-          var otherSamp = currSamp.getUserData('modelLink').getChildren()[0].widgetLinkFull;
-        } catch (ex) {
-          try {
-            // If a sample is selected, get its following sibling
-            var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
-          } catch (ex) {
-            if (this.getPlayDemos() !== "category") {
-
-              try {
-                // Get the following folder's first child
-                var tree = currSamp.getTree();
-
-                var nextFolder = tree.getNextSiblingOf(currSamp);
-                nextFolder.setOpen(true);
-
-                var otherSamp = nextFolder.getChildren()[0];
-              } catch (ex) {
-                this.debug(ex)
-              }
-
-            }
-          }
-
+        var otherSamp = this.tree.getNextNodeOf(currSamp, false);
+        if (!otherSamp) {
+          return;
         }
-
+        
+        if (otherSamp.getParent() == this.tree.getRoot()) {
+          otherSamp.setOpen(true);
+          otherSamp = this.tree.getNextNodeOf(otherSamp, false);
+        }
+        
+        if (!otherSamp) {
+          return;
+        }
+        
+        while (!otherSamp.isVisible()) {
+          var candidate = this.tree.getNextNodeOf(otherSamp, false);
+          if (!candidate) {
+            // reached the last item
+            return;
+          }
+          if (candidate.getParent() == this.tree.getRoot()) {
+            // found a folder
+            otherSamp.setOpen(true);
+            var candidate = this.tree.getNextNodeOf(candidate, false);
+          }
+          otherSamp = candidate;
+        }
         if (otherSamp)
         {
           this.tree.setSelection([otherSamp]);
