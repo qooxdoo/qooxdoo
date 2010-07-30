@@ -62,7 +62,7 @@ MIGRATION_ORDER = [
     "1.0",
     "1.0.1",
     "1.1",
-    "1.2"
+    "1.2",
 ]
 
 
@@ -739,15 +739,17 @@ def main():
 
     (options, args) = parser.parse_args()
 
+    default_old_version = "1.1"
+
     while options.from_version == "":
         choice = raw_input("""
 NOTE:    To apply only the necessary changes to your project, we
          need to know the qooxdoo version it currently works with.
 
-Please enter your current qooxdoo version [0.8.3] : """)
+Please enter your current qooxdoo version [%s] : """ % default_old_version)
 
         if choice == "":
-            options.from_version = "0.8.3"
+            options.from_version = default_old_version
         elif re.match(r'\d\.\d(\.\d)?', choice):
             options.from_version = choice
 
