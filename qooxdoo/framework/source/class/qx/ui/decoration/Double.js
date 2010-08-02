@@ -242,6 +242,12 @@ qx.Class.define("qx.ui.decoration.Double",
       // Generate outer HTML
       var outerStyles = 'line-height:0;';
 
+      // hot fix for bug #3918
+      if ((qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8) ||
+          (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
+        outerStyles = '';
+      }
+      
       var width = this.getWidthTop();
       if (width > 0) {
         outerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
