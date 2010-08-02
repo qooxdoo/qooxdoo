@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
 
   members : {
     // overridden
-    getSizeHint : function() {
+    getSizeHint : function(compute) {
       // get the original size hint
       var hint = this.base(arguments);
       // set the width or height to 0 depending on the orientation.

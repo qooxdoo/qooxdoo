@@ -45,7 +45,7 @@ qx.Class.define("qx.util.StringSplit",
     /**
      * ECMA-compliant, uniform cross-browser split method
      *
-     * @param string {String} Incoming string to split
+     * @param str {String} Incoming string to split
      * @param separator {RegExp} Specifies the character to use for separating the string.
      *   The separator is treated as a string or a  regular expression. If separator is
      *   omitted, the array returned contains one element consisting of the entire string.
