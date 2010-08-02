@@ -297,8 +297,8 @@ qx.Class.define("playground.Application",
      * Handler for opening the manual.
      */
     __onManualOpen : function() {
-      var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
-      window.open("http://manual.qooxdoo.org/" + arr[0] + "." + arr[1] + ".x/");
+      var vers = (qx.core.Setting.get("qx.version").split("-")[0]);
+      window.open("http://manual.qooxdoo.org/" + vers);
     },
 
 
