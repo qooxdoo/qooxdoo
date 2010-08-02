@@ -65,7 +65,7 @@ qx.Class.define("apiviewer.Controller",
     this.__bindHistory();
 
     qx.core.Init.getApplication().getRoot().addListener("mousedown", function(e) {
-        this.__openInNewTab = e.isMiddlePressed() || e.isShiftPressed() || e.isCtrlPressed();
+        this.__openInNewTab = e.isShiftPressed() || e.isCtrlPressed();
     }, this, true);
   },
 

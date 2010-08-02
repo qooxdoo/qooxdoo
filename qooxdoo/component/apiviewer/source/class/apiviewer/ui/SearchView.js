@@ -123,7 +123,6 @@ qx.Class.define("apiviewer.ui.SearchView",
       this._selectionModel = table.getSelectionManager().getSelectionModel();
 
       this._selectionModel.addListener("changeSelection", this._callDetailFrame, this);
-      table.addListener("cellClick", this._onCellClick, this);
 
       this._table = table;
       // resize behavior
@@ -435,16 +434,6 @@ qx.Class.define("apiviewer.ui.SearchView",
 
         // Highlight item
         controller._updateHistory(fullItemName);
-      }
-    },
-
-    /**
-     * Event listener for mouse clicks on search result table cells.
-     * @param e {qx.event.type.Mouse} Click event
-     */
-    _onCellClick : function(e) {
-      if (e.isMiddlePressed()) {
-        this._selectionModel.setSelectionInterval(e.getRow(), e.getRow());
       }
     },
 
