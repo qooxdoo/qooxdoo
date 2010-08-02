@@ -88,6 +88,18 @@ qx.Class.define("feedreader.Application",
       qx.io.PartLoader.getInstance().addListener("partLoaded", function(e) {
         this.debug("part loaded: " + e.getData().getName());
       }, this);
+      
+      // Load current locale part
+      var currentLanguage    = qx.locale.Manager.getInstance().getLanguage();
+      this.__startupLanguage = currentLanguage;
+      var knownParts         = qx.Part.getInstance().getParts();
+      if (currentLanguage in knownParts) {
+        qx.io.PartLoader.require([currentLanguage], function() {
+          qx.locale.Manager.getInstance().setLocale(currentLanguage);  // forcing identical locale
+        }, this);    	
+      } else {
+    	this.warn("Cannot load locale part for current language " + currentLanguage + ", falling back to English.")
+      }
 
       // Initialize commands
       this._initializeCommands();
@@ -101,13 +113,13 @@ qx.Class.define("feedreader.Application",
       // Initialize the bindings
       this._setUpBinding();
 
-      // set up the default view of the tree
+      // Set up the default view of the tree
       this.__treeView.getRoot().setOpen(true);
       this.__treeView.getRoot().getChildren()[0].setOpen(true);
       this.__treeView.getRoot().getChildren()[1].setOpen(true);
       this.__treeView.setHideRoot(true);
 
-      // preselect the qooxdoo feed
+      // Preselect the qooxdoo feed
       this.__treeController.getSelection().push(
         this.__staticFeedFolder.getFeeds().getItem(0)
       );
