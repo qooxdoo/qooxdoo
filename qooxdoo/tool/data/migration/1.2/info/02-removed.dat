@@ -1,6 +1,6 @@
 \btimeoutInterval\b=The deprecated timeoutInterval property of qx.bom.History has been removed.
 \b_onRadioChangeName\b=The deprecated method of qx.ui.groupbox.RadioGroupBox has been removed.
-\b_disposeObjects\b=The deprecated method _disposeObjects of qx.core.Object has been removed.
+\b_disposeFields\b=The deprecated method _disposeFields of qx.core.Object has been removed.
 \bmatchesKeyEvent\b=The deprecated method matchesKeyEvent of qx.bom.Shortcut has been removed.
 \b_saveAndSetAnonymousState\b=The deprecated method _saveAndSetAnonymousState of qx.ui.core.Blocker has been removed.
 \b_saveAndSetAnonymousState\b=The deprecated method  of qx.ui.core.Blocker has been removed.
