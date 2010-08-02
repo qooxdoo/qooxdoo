@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
       if (widget.getRoot() != null)
       {
-        var items = widget.getRoot().getItems(true, true, widget.getHideRoot());
+        var items = widget.getRoot().getItems(true, false, widget.getHideRoot());
 
         for (var i = 0; i < items.length; i++)
         {

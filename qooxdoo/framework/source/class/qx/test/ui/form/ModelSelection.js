@@ -140,8 +140,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       tree.setRoot(t0);
       t0.add(t1);
       t1.add(t2);
-      // keep one folder closed because the behavior could change if the
-      // forlders should be openend
+      t0.setOpen(true);
       t1.setOpen(true);
       return tree;
     },
