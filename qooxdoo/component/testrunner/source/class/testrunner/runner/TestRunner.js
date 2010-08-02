@@ -976,7 +976,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         // Finally select the element
         selectedElement.widgetLinkFull.getTree().setSelection([selectedElement.widgetLinkFull]);
       }
-      else {
+      else if (!this.reloadswitch.getValue()) {
         var node = fulltree.getRoot();
         for (var i=0; i<3; i++) {
           if (node.hasChildren()) {
