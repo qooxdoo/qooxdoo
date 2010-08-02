@@ -63,6 +63,10 @@ qx.Class.define("apiviewer.ui.tabview.AbstractPage",
       this.setLabel(value.getFullName());
       this.setIcon(apiviewer.TreeUtil.getIconUrl(value));
       this.setUserData("nodeName", value.getFullName());
+
+      qx.event.Timer.once(function(e) {
+        this._viewer.getContentElement().scrollToY(0);
+      }, this, 0);
     },
 
     __bindViewer : function(viewer)
