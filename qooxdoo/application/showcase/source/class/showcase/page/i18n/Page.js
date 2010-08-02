@@ -99,7 +99,7 @@ qx.Class.define("showcase.page.i18n.Page",
     },
 
     __api : {
-      "#qx.locale" : "qx.locale.*"
+      "#qx.locale" : "Locale Package"
     }
   }
 });

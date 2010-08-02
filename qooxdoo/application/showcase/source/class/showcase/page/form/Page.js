@@ -86,9 +86,9 @@ qx.Class.define("showcase.page.form.Page",
     },
 
     __api : {
-      "#qx.ui.form" : "The form namespace",
-      "#qx.ui.form.renderer" : "Form renderer",
-      "#qx.data.controller.Form" : "Form controller for binding"
+      "#qx.ui.form" : "Form Package",
+      "#qx.ui.form.renderer" : "Form Renderer",
+      "#qx.data.controller.Form" : "Form Controller for Binding"
     }
   }
 });

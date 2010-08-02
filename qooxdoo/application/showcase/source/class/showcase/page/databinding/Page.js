@@ -86,7 +86,7 @@ qx.Class.define("showcase.page.databinding.Page",
     },
 
     __api : {
-      "#qx.data" : "Main Data Binding API Documentation",
+      "#qx.data" : "Data Binding Package",
       "#qx.data.store.Jsonp" : "JSONP Data Store",
       "#qx.data.controller.List" : "List Controller",
       "#qx.data.controller.Object" : "Object Controller"

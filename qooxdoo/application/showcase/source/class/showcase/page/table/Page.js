@@ -93,7 +93,7 @@ qx.Class.define("showcase.page.table.Page",
     },
 
     __api : {
-      "#qx.ui.table.Table" : "qx.ui.table.Table"
+      "#qx.ui.table.Table" : "Table"
     }
   }
 });

@@ -75,8 +75,8 @@ qx.Class.define("showcase.page.dragdrop.Page",
     },
 
     __api : {
-      "#qx.ui.core.Widget~drag" : "Drag event in the Widget",
-      "#qx.ui.core.DragDropCursor" : "Drag &amp; Drop Cursor"
+      "#qx.ui.core.Widget~drag" : "Widget Drag Event",
+      "#qx.ui.core.DragDropCursor" : "Drag&amp;Drop Cursor"
     }
   }
 });

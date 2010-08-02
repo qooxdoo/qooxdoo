@@ -82,7 +82,7 @@ qx.Class.define("showcase.page.theme.Page",
     },
 
     __api : {
-      "#qx.theme": "This namespace contains the theme managers and the two standard themes."
+      "#qx.theme": "Theme Package"
     }
   }
 });

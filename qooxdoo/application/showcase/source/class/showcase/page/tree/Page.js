@@ -83,7 +83,7 @@ qx.Class.define("showcase.page.tree.Page",
     },
 
     __api : {
-      "#qx.ui.tree" : "The tree namespace"
+      "#qx.ui.tree" : "Tree Package"
     }
   }
 });
