@@ -54,8 +54,10 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
 
     var cancelButton = new qx.ui.form.Button("Cancel");
     cancelButton.addListener("execute", function() {
-      coreScripts.setValue(this.getSeleniumScripts()[0]);
-      userExt.setValue(this.getSeleniumScripts()[1]);
+      if (this.getSeleniumScripts()) {
+        coreScripts.setValue(this.getSeleniumScripts()[0]);
+        userExt.setValue(this.getSeleniumScripts()[1]);
+      }
       this._optionsWindow.close();
     }, mainWindow);
     form.addButton(cancelButton);
