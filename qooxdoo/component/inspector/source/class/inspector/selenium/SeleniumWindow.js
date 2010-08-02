@@ -367,7 +367,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       var locator = commandData[1];
       var value = commandData[2];
       var selenium = this.getSelenium();
-      command = "do" + command.replace(/^.{1}/, command[0].toUpperCase());
+      command = "do" + command.replace(/^.{1}/, command.substr(0,1).toUpperCase());
       try {
         selenium[command](locator, value);
       }
@@ -437,7 +437,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
         if (typeof selenium[prop] == "function" && prop.indexOf("do") == 0) {
           //convert to names used in Selenium API, e.g. doSomeThing -> someThing
           var command = prop.substr(2);
-          command = command.replace(/^.{1}/, command[0].toLowerCase())
+          command = command.replace(/^.{1}/, command.substr(0,1).toLowerCase())
           commands.push(command);
         }
       }
