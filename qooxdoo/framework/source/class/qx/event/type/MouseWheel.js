@@ -54,13 +54,28 @@ qx.Class.define("qx.event.type.MouseWheel",
       "webkit" : function()
       {
         if (qx.bom.client.Browser.NAME == "chrome") {
-          return -(this._native.wheelDelta / 120);
+          // mac has a much higher sppedup during scrolling
+          if (qx.bom.client.Platform.MAC) {
+            return -(this._native.wheelDelta / 1200);
+          } else {
+            return -(this._native.wheelDelta / 120);
+          }
+
+          
         } else {
-          var factor = 40;
-          // webkit increased mouse wheel speed with version 5 [BUG #3749]
-          // but reduced it again in current webkit nightly builds
-          if (qx.bom.client.Engine.VERSION == 533.16) {
-            factor = 1200;
+          // windows safaris behave different than on OSX
+          if (qx.bom.client.Platform.WIN) {
+            var factor = 120;
+            // safari 5.0 and not 5.0.1
+            if (qx.bom.client.Engine.VERSION == 533.16) {
+              factor = 1200;
+            }
+          } else {
+            factor = 40;
+            // Safari 5.0 or 5.0.1
+            if (qx.bom.client.Engine.VERSION == 533.16 || qx.bom.client.Engine.VERSION == 533.17) {
+              factor = 1200;
+            }
           }
           return -(this._native.wheelDelta / factor);
         }
