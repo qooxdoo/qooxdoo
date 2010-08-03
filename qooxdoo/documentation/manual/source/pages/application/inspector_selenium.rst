@@ -56,7 +56,7 @@ The **minus button** removes the currently selected lines from the test case.
 
 The **slider** controls the delay between individual commands when playing back a test case. In some cases, e.g. clicking a button that opens a new window, it will be necessary to set this to a higher value to make sure the application finishes rendering before the next command executes.
 
-The **play button** executes all commands that are currently selected.
+The **play button** executes selected test commands. If no commands are selected, the will all be run.  
 
 While the **record button** is active, a new line will be added whenever a new widget is selected in the Inspector.
 
