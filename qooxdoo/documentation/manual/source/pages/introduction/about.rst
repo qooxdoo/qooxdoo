@@ -4,7 +4,7 @@
 About
 =====
 
-qooxdoo (pronounced ['ku:ksdu:]) is a comprehensive and innovative framework for creating desktop-style web applications, often called rich internet applications (RIAs). Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual :doc:`license <license>`. 
+qooxdoo (pronounced ['kuksdu:]) is a comprehensive and innovative framework for creating desktop-style web applications, often called rich internet applications (RIAs). Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual :doc:`license <license>`. 
 
 .. _pages/introduction/about#framework:
 
