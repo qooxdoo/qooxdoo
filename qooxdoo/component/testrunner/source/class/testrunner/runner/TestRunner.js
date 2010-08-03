@@ -825,7 +825,8 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.__scrollToResult();
       }
 
-      // store selected test in cookie
+      // store selected test
+      this.__setCurrentTestArray(this.tests.selected);
       qx.bom.Cookie.set("selectedTest", this.tests.selected);
     },  // treeGetSelection
 
