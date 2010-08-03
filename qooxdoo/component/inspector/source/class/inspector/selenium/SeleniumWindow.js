@@ -85,19 +85,10 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     
     // Table
     this._table = this.__getTable();
-    //this.add(this._table, {flex: 1});
     pane.add(this._table, 2);
 
     // Log
-    //var logLabel = new qx.ui.basic.Label()
-    this._logArea = new qx.ui.form.TextArea();
-    this._logArea.set({
-      margin: 5
-    });
-    this._logArea.addListenerOnce("appear", function(ev) {
-      this.setHeight(300);      
-    }, this);
-    //this.add(this._logArea);
+    this._logArea = this.__getLogArea();
     pane.add(this._logArea, 1);
 
     // Immediately load scripts if cookies are set
@@ -351,6 +342,40 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
       return table;
     },
+    
+    __getLogArea : function()
+    {
+      var logArea = new qx.ui.embed.Html();
+      logArea.set({
+        padding: 5,
+        cssClass: "seleniumLog",
+        overflowY: "auto",
+        decorator: "main",
+        backgroundColor: "white"
+      });
+      
+      // scroll to to the last entry if a message is added
+      logArea.addListener("changeHtml", function(ev) {
+        // need to use a timer to make sure the HTML is updated
+        qx.event.Timer.once(function() {
+          var domElem = this.getContentElement().getDomElement();
+          var lastChildIndex = domElem.childNodes.length - 1;
+          if (lastChildIndex > 0) {
+            var lastChild = domElem.childNodes[lastChildIndex];
+            qx.bom.element.Scroll.intoViewY(lastChild);
+          }
+        }, this, 0);
+      });
+      
+      // add the CSS to style log messages
+      var logCss = '.seleniumLog .debug { color: #008000 }';
+      logCss +=    '.seleniumLog .info  { color: #000000 }';
+      logCss +=    '.seleniumLog .warn  { color: #FFA500 }';
+      logCss +=    '.seleniumLog .error { color: #E50000; font-weight: bold }';
+      qx.bom.Stylesheet.createElement(logCss);
+      
+      return logArea;
+    },
 
     runSeleniumCommands : function(ev)
     {
@@ -474,9 +499,13 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       var self = this;
       window.Logger.prototype.logHook = function(logLevel, message)
       {
-        var oldValue = self._logArea.getValue();
-        var newValue = oldValue ? oldValue + "\n" + message : message;
-        self._logArea.setValue(newValue);
+        if (!message) {
+          return;
+        }
+        var level = logLevel || "info";
+        var oldValue = self._logArea.getHtml() || "";
+        var newValue = oldValue + '<div class="' + level + '">' + message + '</div><hr/>';
+        self._logArea.setHtml(newValue);
       };
     },
 
