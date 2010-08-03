@@ -39,3 +39,11 @@ Glossary
    :maxdepth: 1
 
    glossary
+
+License
+=======
+
+.. toctree::
+   :maxdepth: 1
+
+   introduction/license
