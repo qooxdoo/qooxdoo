@@ -123,4 +123,9 @@ Selenium Window
 
 The Selenium window's purpose is to help test developers in writing simulated interaction tests which will then be run using the `Selenium <http://seleniumhq.org/>`_ testing framework and the `Simulator contribution <http://qooxdoo.org/contrib/project/simulator>`_. Similar to the Selenium IDE Firefox plugin, it can be used to determine a locator string for any element (qooxdoo widget in this case) and supports playback of test commands against the inspected application.
 
-The qooxdoo wiki has a `tutorial <http://qooxdoo.org/contrib/project/simulator/inspector-selenium>`_ that demonstrates how to create a test case using the Selenium window. 
+There is a dedicated page with extensive descriptions that demonstrates how to create a test case using the Selenium window: 
+
+.. toctree::
+   :maxdepth: 1
+
+   inspector_selenium

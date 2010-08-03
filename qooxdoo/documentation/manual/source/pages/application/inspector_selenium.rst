@@ -1,7 +1,7 @@
 
 .. _pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests:
 
-Using the qooxdoo Inspector to write Selenium tests
+Using the Inspector to write Selenium tests
 ***************************************************
 qooxdoo's Inspector is not only a very useful tool for application developers, it can also help you write Selenium tests.
 
