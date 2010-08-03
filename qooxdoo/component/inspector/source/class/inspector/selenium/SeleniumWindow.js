@@ -354,14 +354,26 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
     runSeleniumCommands : function(ev)
     {
-      var selectedRowData = [];
       var tableModel = this._table.getTableModel();
-      this._table.getSelectionModel().iterateSelection(function(index) {
-        selectedRowData.push(tableModel.getRowData(index));
-      });
-
-      this.__seleniumCommandQueue = selectedRowData;
-      this.__runSeleniumCommand();
+      var selectedCount = this._table.getSelectionModel().getSelectedCount();
+      
+      if (selectedCount > 0) {
+        var rowData = [];
+        this._table.getSelectionModel().iterateSelection(function(index) {
+          rowData.push(tableModel.getRowData(index));
+        });
+      } else {
+        // no selection, run all commands
+        var rowData = [];
+        for (var i=0; i<tableModel.getRowCount(); i++) {
+          rowData.push(tableModel.getRowData(i));
+        }
+      }
+      
+      if (rowData.length > 0) {
+        this.__seleniumCommandQueue = rowData;
+        this.__runSeleniumCommand();
+      }
     },
 
     __runSeleniumCommand : function()
