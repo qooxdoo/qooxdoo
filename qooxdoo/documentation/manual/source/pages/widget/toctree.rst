@@ -41,5 +41,4 @@
    toolbar.rst
    tooltip.rst
    tree.rst
-   widget_ref.rst
    window.rst
