@@ -155,7 +155,6 @@ qx.Class.define("showcase.page.databinding.Content",
         // data is a HTML a tag and we insert a target attribute
         data = data.split(" ");
         data.splice(1, 0, "target='_blank'");
-        console.log("data", data.join(" "));
         return data.join(" ");
       }});
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
