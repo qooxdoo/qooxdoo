@@ -79,9 +79,14 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     // Options window
     this._optionsWindow = new inspector.selenium.OptionsWindow("Selenium Options", null, this);
 
+    var pane = new qx.ui.splitpane.Pane("vertical");
+    this.add(pane, {flex: 1});
+    window.pane = pane;
+    
     // Table
     this._table = this.__getTable();
-    this.add(this._table, {flex: 1});
+    //this.add(this._table, {flex: 1});
+    pane.add(this._table, 2);
 
     // Log
     //var logLabel = new qx.ui.basic.Label()
@@ -89,7 +94,11 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     this._logArea.set({
       margin: 5
     });
-    this.add(this._logArea);
+    this._logArea.addListenerOnce("appear", function(ev) {
+      this.setHeight(300);      
+    }, this);
+    //this.add(this._logArea);
+    pane.add(this._logArea, 1);
 
     // Immediately load scripts if cookies are set
     var coreScripts = qx.bom.Cookie.get("coreScripts");
@@ -330,7 +339,6 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
       var table = new qx.ui.table.Table(tableModel, customColumnModel);
       table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
-      table.setDecorator(null);
 
       var tcm = table.getTableColumnModel();
       tcm.setColumnVisible(3, false);
