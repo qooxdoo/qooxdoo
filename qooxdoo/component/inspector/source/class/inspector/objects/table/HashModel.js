@@ -17,39 +17,26 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("inspector.objects2.table.CountModel",
+qx.Class.define("inspector.objects.table.HashModel",
 {
-  extend : inspector.objects2.table.AbstractModel,
+  extend : inspector.objects.table.AbstractModel,
+
 
   construct : function(model)
   {
-    this.base(arguments, model, ["Count", "Classname"]);
+    this.base(arguments, model, ["Hash", "Classname"]);
   },
 
   members :
   {
-    _getData: function() {
+    _getData : function()
+    {
       var objects = this._model.getObjects();
-
-      var tempData = {};
-      for (var i = 0; i < objects.length; i++)
-      {
-        var classname = objects[i].classname;
-
-        if (tempData[classname] === undefined) {
-          tempData[classname] = 0;
-        }
-        tempData[classname]++;
-      }
-
       var data = [];
-      for (var classname in tempData) {
-        data.push([tempData[classname], classname]);
+      for (var i = 0; i < objects.length; i++) {
+        var object = objects[i];
+        data.push([parseInt(object.toHashCode()), object.classname]);
       }
-
-      data.sort(function(a, b) {
-        return a[0] < b[0];
-      });
 
       return data;
     }

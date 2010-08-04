@@ -19,16 +19,16 @@
 ************************************************************************ */
 
 /**
- * Controller for the object view {@link inspector.objects2.View}.
+ * Controller for the object view {@link inspector.objects.View}.
  */
-qx.Class.define("inspector.objects2.Controller",
+qx.Class.define("inspector.objects.Controller",
 {
   extend : qx.core.Object,
 
   /**
    * Creates the controller with the view.
    *
-   * @param model {inspector.objects2.Model} the model for the view.
+   * @param model {inspector.objects.Model} the model for the view.
    */
   construct : function(model)
   {
@@ -38,7 +38,7 @@ qx.Class.define("inspector.objects2.Controller",
     {
       qx.core.Assert.assertInterface(
         model,
-        inspector.objects2.Model,
+        inspector.objects.Model,
         "Invalid parameter 'model'."
       );
     }
@@ -47,7 +47,7 @@ qx.Class.define("inspector.objects2.Controller",
     this.__model.addListener("changeInspected", this.__onChangeInspected, this);
     this.__model.addListener("changeObjects", this.__onChangeObjects, this);
 
-    this.__view = new inspector.objects2.View(this);
+    this.__view = new inspector.objects.View(this);
 
     this.__timer = qx.util.TimerManager.getInstance();
 
@@ -62,12 +62,12 @@ qx.Class.define("inspector.objects2.Controller",
   members :
   {
     /**
-     * {inspector.objects2.View} the view instance to control.
+     * {inspector.objects.View} the view instance to control.
      */
     __view : null,
 
     /**
-     * {inspector.objects2.Model} the model instance.
+     * {inspector.objects.Model} the model instance.
      */
     __model : null,
 
@@ -101,7 +101,7 @@ qx.Class.define("inspector.objects2.Controller",
     /**
      * Returns the controlled view.
      *
-     * @return {inspector.objects2.View} returns the controlled view instance.
+     * @return {inspector.objects.View} returns the controlled view instance.
      */
     getView : function() {
       return this.__view;
@@ -232,11 +232,11 @@ qx.Class.define("inspector.objects2.Controller",
      * Returns the table model for the hash code presentation. If no model exists, a
      * new instance will be created.
      *
-     * @return {inspector.objects2.table.HashModel} the model for the hash code representation.
+     * @return {inspector.objects.table.HashModel} the model for the hash code representation.
      */
     __getTableHashModel : function() {
       if (this.__tableHashModel == null) {
-        this.__tableHashModel = new inspector.objects2.table.HashModel(this.__model);
+        this.__tableHashModel = new inspector.objects.table.HashModel(this.__model);
       }
       return this.__tableHashModel;
     },
@@ -245,11 +245,11 @@ qx.Class.define("inspector.objects2.Controller",
      * Returns the table model for the count presentation. If no model exists, a
      * new instance will be created.
      *
-     * @return {inspector.objects2.CountModel} the model for the count representation.
+     * @return {inspector.objects.CountModel} the model for the count representation.
      */
     __getTableCountModel : function() {
       if (this.__tableCountModel == null) {
-        this.__tableCountModel = new inspector.objects2.table.CountModel(this.__model);
+        this.__tableCountModel = new inspector.objects.table.CountModel(this.__model);
       }
       return this.__tableCountModel;
     }

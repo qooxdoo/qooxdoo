@@ -16,7 +16,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("inspector.test.objects2.fixture.InspectorModelMock",
+qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
 {
   extend : qx.core.Object,
 

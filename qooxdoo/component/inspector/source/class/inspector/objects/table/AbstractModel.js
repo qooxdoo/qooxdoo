@@ -17,7 +17,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("inspector.objects2.table.AbstractModel",
+qx.Class.define("inspector.objects.table.AbstractModel",
 {
   extend : qx.ui.table.model.Filtered,
 

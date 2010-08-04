@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("inspector.objects2.Window",
+qx.Class.define("inspector.objects.Window",
 {
   extend : qx.ui.window.Window,
 
@@ -36,8 +36,8 @@ qx.Class.define("inspector.objects2.Window",
     // apply default size and position
     this.setInitSizeAndPosition();
 
-    this.__model = new inspector.objects2.Model(inspectorModel)
-    this.__controller = new inspector.objects2.Controller(this.__model);
+    this.__model = new inspector.objects.Model(inspectorModel)
+    this.__controller = new inspector.objects.Controller(this.__model);
     this.add(this.__controller.getView(), {edge: 0});
   },
 

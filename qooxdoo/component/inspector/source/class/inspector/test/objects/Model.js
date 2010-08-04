@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("inspector.test.objects2.Model",
+qx.Class.define("inspector.test.objects.Model",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -29,8 +29,8 @@ qx.Class.define("inspector.test.objects2.Model",
 
     setUp : function()
     {
-      this.__mockObject = new inspector.test.objects2.fixture.InspectorModelMock();
-      this.__model = new inspector.objects2.Model(this.__mockObject);
+      this.__mockObject = new inspector.test.objects.fixture.InspectorModelMock();
+      this.__model = new inspector.objects.Model(this.__mockObject);
     },
 
     tearDown : function()

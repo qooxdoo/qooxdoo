@@ -22,7 +22,7 @@
  * inspected object ({@link #getInspected}) and the registered objects from the
  * inspected application ({@link #getObjects}).
  */
-qx.Class.define("inspector.objects2.Model",
+qx.Class.define("inspector.objects.Model",
 {
   extend : qx.core.Object,
 

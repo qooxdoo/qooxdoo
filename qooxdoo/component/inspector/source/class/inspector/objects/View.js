@@ -22,7 +22,7 @@
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 ************************************************************************ */
 
-qx.Class.define("inspector.objects2.View",
+qx.Class.define("inspector.objects.View",
 {
   extend : qx.ui.container.Composite,
 
@@ -34,7 +34,7 @@ qx.Class.define("inspector.objects2.View",
     {
       qx.core.Assert.assertInterface(
         controller,
-        inspector.objects2.Controller,
+        inspector.objects.Controller,
         "Invalid parameter 'controller'."
       );
     }
@@ -116,7 +116,7 @@ qx.Class.define("inspector.objects2.View",
 
       // Creats the toolbar
       var toolbar = new qx.ui.toolbar.ToolBar();
-      toolbar.setAppearance("objects2-toolbar");
+      toolbar.setAppearance("objects-toolbar");
       toolbar._getLayout().setAlignY("middle");
       this.add(toolbar);
 
@@ -149,7 +149,7 @@ qx.Class.define("inspector.objects2.View",
       // Creates text field for filter
       this.__filter = new qx.ui.form.TextField().set(
       {
-        appearance : "objects2-textfield",
+        appearance : "objects-textfield",
         liveUpdate : true,
         placeholder : "Filter...",
         toolTipText : "Enter a case sensitive value to filter the table."
@@ -167,7 +167,7 @@ qx.Class.define("inspector.objects2.View",
 
       this.__table = new qx.ui.table.Table(null, custom).set(
       {
-        appearance : "objects2-table",
+        appearance : "objects-table",
         columnVisibilityButtonVisible : false,
         toolTipText : "Select a item to inspect it or sort the table."
       });
