@@ -302,18 +302,18 @@ qx.Class.define("inspector.Application",
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Objects window
-      var objectWindow2 = new inspector.objects2.Window("Objects", this.__inspectorModel);
-      this.__state.add(objectWindow2, "objects");
+      var objectWindow = new inspector.objects.Window("Objects", this.__inspectorModel);
+      this.__state.add(objectWindow, "objects");
 
       this._objectsButton = new qx.ui.toolbar.CheckBox("Objects");
       this._toolbar.add(this._objectsButton);
       this._objectsButton.addListener("changeValue", function(e) {
-        e.getData() ? objectWindow2.open() : objectWindow2.close();
+        e.getData() ? objectWindow.open() : objectWindow.close();
       }, this);
-      objectWindow2.addListener("open", function(e) {
+      objectWindow.addListener("open", function(e) {
         this._objectsButton.setValue(true);
       }, this);
-      objectWindow2.addListener("close", function(e) {
+      objectWindow.addListener("close", function(e) {
         this._objectsButton.setValue(false);
       }, this);
 

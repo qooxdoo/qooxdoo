@@ -29,7 +29,7 @@ qx.Theme.define("inspector.theme.Appearance",
     },
 
     /*
-     * Objects2 Window
+     * Objects Window
      */
 
     "objectsWindow" :
@@ -49,7 +49,7 @@ qx.Theme.define("inspector.theme.Appearance",
       }
     },
 
-    "objects2-toolbar" :
+    "objects-toolbar" :
     {
       alias : "toolbar",
       include : "toolbar",
@@ -63,7 +63,7 @@ qx.Theme.define("inspector.theme.Appearance",
       }
     },
 
-    "objects2-textfield" :
+    "objects-textfield" :
     {
       alias : "textfield",
       include : "textfield",
@@ -76,7 +76,7 @@ qx.Theme.define("inspector.theme.Appearance",
       }
     },
 
-    "objects2-table" :
+    "objects-table" :
     {
       alias : "table",
       include : "table",
