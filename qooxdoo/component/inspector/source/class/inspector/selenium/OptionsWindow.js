@@ -34,7 +34,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
 
     var containerTop = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(containerTop);
-    
+
     var form = new qx.ui.form.Form();
     form.addGroupHeader("Script Locations");
 
@@ -91,7 +91,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
       }
     };
     mainWindow.bind("seleniumScripts", userExt, "value", prop2formExt);
-    
+
     var containerBottom = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(containerBottom);
     var noticeText = 'See the <a href="http://manual.qooxdoo.org/1.2/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of these settings.';
