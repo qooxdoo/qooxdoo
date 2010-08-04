@@ -115,11 +115,15 @@ class ResourceHandler(object):
             libList = libObj.scanResourcePath()
             inCache = False
 
+        lib_prefix_len = len(libObj._resourcePath)
+        if not libObj._resourcePath.endswith(os.sep):
+            lib_prefix_len += 1
         # go through list of library resources and add suitable
         for resource in libList:
             # scanResourcePath() yields absolute paths to a resource, but
             # we only want to match against the 'resource' part of it
-            resourcePart = Path.getCommonPrefix(libObj._resourcePath, resource)[2]
+            #resourcePart = Path.getCommonPrefix(libObj._resourcePath, resource)[2]
+            resourcePart = resource[lib_prefix_len:]
             if not inCache:
                 cacheList.append(resource)
             if isSkipFile(resource):
