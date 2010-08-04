@@ -91,46 +91,57 @@ qx.Class.define("qx.ui.window.Manager",
       this.__desktop.forceUnblockContent();
 
       var windows = this.__desktop.getWindows();
-      var zIndex = this._minZIndex - 1;
-      var zIndexOnTop = zIndex + windows.length;
-      var zIndexModal = zIndexOnTop * 2;
-      var hasActive = false;
-      var last = null;
+      // z-index for all three window kinds
+      var zIndex = this._minZIndex;
+      var zIndexOnTop = zIndex + windows.length * 2;
+      var zIndexModal = zIndex + windows.length * 4;
+      // marker if there is a active window
+      var active = null;
 
       for (var i = 0, l = windows.length; i < l; i++)
       {
         var win = windows[i];
+        // ignore invlislbe windows
         if (!win.isVisible()) {
           continue;
         }
-
-        /*
-         * We use only every second z index to easily
-         * insert a blocker between two windows
-         *
-         * Modal Windows stays on top of
-         * AlwaysOnTop Windows, which stays on top of
-         * Normal Windows.
-         */
-        if(win.isAlwaysOnTop()) {
-          zIndexOnTop +=2;
-          win.setZIndex(zIndexOnTop);
-        } else if (win.isModal()) {
-          zIndexModal +=2;
-          win.setZIndex(zIndexModal);
-          this.__desktop.blockContent(zIndexModal - 1);
-        } else {
-          zIndex +=2;
-          win.setZIndex(zIndex);
+        // take the first window as active window
+        if (active == null) {
+          active = win;
         }
 
-        // ensure that at least one window is active
-        hasActive = hasActive || win.isActive();
-        last = win;
+        // We use only every second z index to easily insert a blocker between 
+        // two windows         
+        // Modal Windows stays on top of AlwaysOnTop Windows, which stays on 
+        // top of Normal Windows.
+        if (win.isModal()) {
+          win.setZIndex(zIndexModal);
+          this.__desktop.blockContent(zIndexModal - 1);
+          zIndexModal +=2;
+          
+        } else if (win.isAlwaysOnTop()) {
+          win.setZIndex(zIndexOnTop);
+          zIndexOnTop +=2;
+          
+        } else {
+          win.setZIndex(zIndex);
+          zIndex +=2;          
+        }
+
+        // store the active window
+        if (win.isActive()) {
+          active = win;
+        } else {
+          if (!active.isActive()) {
+            if (win.getZIndex() > active.getZIndex()) {
+              active = win;
+            }
+          }
+        }
       }
 
-      if (!hasActive) {
-        this.__desktop.setActiveWindow(last);
+      if (active) {
+        this.__desktop.setActiveWindow(active);
       }
     },
 
