@@ -17,10 +17,32 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+
+/**
+ * Generates the model for the count view. It creates a table model which
+ * contains the count value and the classname of each registered qooxdoo object.
+ *
+ * <pre>
+ * -----------------------------
+ * | Count | Classname         |
+ * -----------------------------
+ * | 10    | qx.core.Object    |
+ * -----------------------------
+ * | 9     | qx.ui.form.Button |
+ * -----------------------------
+ * | ...   | ...               |
+ * -----------------------------
+ * </pre>
+ */
 qx.Class.define("inspector.objects.table.CountModel",
 {
   extend : inspector.objects.table.AbstractModel,
 
+  /**
+   * Constructs count model.
+   *
+   * @param model {inspector.objects.Model} model to show.
+   */
   construct : function(model)
   {
     this.base(arguments, model, ["Count", "Classname"]);
@@ -28,6 +50,7 @@ qx.Class.define("inspector.objects.table.CountModel",
 
   members :
   {
+    // overridden
     _getData: function() {
       var objects = this._model.getObjects();
 

@@ -18,12 +18,19 @@
 
 ************************************************************************ */
 
+/**
+ * Objects window which shows all registered qooxdoo objects.
+ */
 qx.Class.define("inspector.objects.Window",
 {
   extend : qx.ui.window.Window,
 
-  // name {String}
-  // inspectorModel {inspector.components.IInspectorModel}
+  /**
+   * Construct window.
+   *
+   * @param name {String} window title.
+   * @param inspectorModel {inspector.components.IInspectorModel} model to show.
+   */
   construct : function(name, inspectorModel)
   {
     this.base(arguments, name);
@@ -43,21 +50,32 @@ qx.Class.define("inspector.objects.Window",
 
   events :
   {
+    /** Fired when the window is opend. */
     "open" : "qx.event.type.Event"
   },
 
   members :
   {
+    /** {inspector.components.IInspectorModel} model to show */
     __model : null,
+
+    /** {inspector.objects.Controller} controller for the view. */
     __controller : null,
 
-    // position {Map} with left, top, width, height
+    /**
+     * Sets the window to the passed position/size.
+     *
+     * @param position {Map} with <code>Integer</code> values for left, top, width, height as key.
+     */
     setSizeAndPosition : function(position) {
       this.moveTo(position.left, position.top);
       this.setWidth(position.width);
       this.setHeight(position.height);
     },
 
+    /**
+     * Sets the window to a default position/size.
+     */
     setInitSizeAndPosition : function() {
       var left = parseInt(qx.bom.Viewport.getWidth() - this.getWidth());
       var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);
@@ -65,6 +83,7 @@ qx.Class.define("inspector.objects.Window",
       this.setHeight(height);
     },
 
+    // overridden
     open : function()
     {
       this.base(arguments);

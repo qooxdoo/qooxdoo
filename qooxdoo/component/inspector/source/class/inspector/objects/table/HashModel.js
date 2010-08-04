@@ -17,11 +17,32 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+
+/**
+ * Generates the model for the hash view. It creates a table model which
+ * contains the hash value and the classname of each registered qooxdoo object.
+ *
+ * <pre>
+ * ----------------------------
+ * | Hash | Classname         |
+ * ----------------------------
+ * | 0    | qx.core.Object    |
+ * ----------------------------
+ * | 1    | qx.ui.form.Button |
+ * ----------------------------
+ * | ...  | ...               |
+ * ----------------------------
+ * </pre>
+ */
 qx.Class.define("inspector.objects.table.HashModel",
 {
   extend : inspector.objects.table.AbstractModel,
 
-
+  /**
+   * Constructs hash model.
+   *
+   * @param model {inspector.objects.Model} model to show.
+   */
   construct : function(model)
   {
     this.base(arguments, model, ["Hash", "Classname"]);
@@ -29,6 +50,7 @@ qx.Class.define("inspector.objects.table.HashModel",
 
   members :
   {
+    // overridden
     _getData : function()
     {
       var objects = this._model.getObjects();
