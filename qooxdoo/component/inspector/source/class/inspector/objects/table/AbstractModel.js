@@ -17,10 +17,20 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+
+/**
+ * Abstract model for the table view. The model implements the filter behavior.
+ */
 qx.Class.define("inspector.objects.table.AbstractModel",
 {
   extend : qx.ui.table.model.Filtered,
 
+  /**
+   * Constructs model.
+   *
+   * @param model {inspector.objects.Model} model to show.
+   * @param columns {Array} with header names.
+   */
   construct : function(model, columns)
   {
     this.base(arguments);
@@ -32,19 +42,34 @@ qx.Class.define("inspector.objects.table.AbstractModel",
 
   members :
   {
+    /** {String} actuall setted filter */
     __currentFilter : "",
 
+    /** {inspector.objects.Model} model to show */
     _model : null,
 
+    /**
+     * Templet method to get the data for the table.
+     *
+     * @returns {Array} the model data for the table.
+     */
     _getData: function() {
       throw Error("Abstract Method call!");
     },
 
+    /**
+     * Reload the table with the set model and filter.
+     */
     reload : function() {
       this.setData(this._getData());
       this.filter(this.__currentFilter);
     },
 
+    /**
+     * Applies the passed filter on the shown model.
+     *
+     * @param filter {String} filter for the model.
+     */
     filter :function(filter)
     {
       this.__currentFilter = filter;

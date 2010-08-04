@@ -22,10 +22,18 @@
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 ************************************************************************ */
 
+/**
+ * The view for the objects view. The view shows all registered qooxdoo objects.
+ */
 qx.Class.define("inspector.objects.View",
 {
   extend : qx.ui.container.Composite,
 
+  /**
+   * Constructs the view.
+   *
+   * @param controller {inspector.objects.Controller} The controller for the view.
+   */
   construct : function(controller)
   {
     this.base(arguments);
@@ -45,12 +53,27 @@ qx.Class.define("inspector.objects.View",
 
   members :
   {
+    /** {qx.ui.toolbar.RadioButton} by Hash button. */
     __hash : null,
+
+    /** {qx.ui.toolbar.RadioButton} by Count button */
     __count : null,
+
+    /** {qx.ui.table.Table} table which shows the registered objects */
     __table : null,
+
+    /** {qx.ui.form.TextField} filter value */
     __filter : null,
+
+    /** {inspector.objects.Controller} controller for the view. */
     __controller : null,
 
+    /**
+     * Sets the "by Hash" button active.
+     *
+     * @param active {Boolean} <code>true</code> when the button should be active,
+     *  <code>false</code> otherwise.
+     */
     setByHashActive : function(active) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertBoolean(active, "Invalid parameter 'active'.");
@@ -58,6 +81,12 @@ qx.Class.define("inspector.objects.View",
       this.__hash.setValue(active);
     },
 
+    /**
+     * Sets the "by Count" button active.
+     *
+     * @param active {Boolean} <code>true</code> when the button should be active,
+     *  <code>false</code> otherwise.
+     */
     setByCountActive : function(active) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertBoolean(active, "Invalid parameter 'active'.");
@@ -65,6 +94,11 @@ qx.Class.define("inspector.objects.View",
       this.__count.setValue(active);
     },
 
+    /**
+     * Sets the model for the table.
+     *
+     * @param model {qx.ui.table.ITableModel} model to show.
+     */
     setTableModel : function(model) {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -76,6 +110,11 @@ qx.Class.define("inspector.objects.View",
       this.__updateTableResizeBehavior();
     },
 
+    /**
+     * Sets the selection mode for the table.
+     *
+     * @param mode {Integer} new selection mode.
+     */
     setTableSelectionMode : function(mode) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInteger(mode, "Invalid parameter 'mode'.");
@@ -83,6 +122,11 @@ qx.Class.define("inspector.objects.View",
       this.__table.getSelectionModel().setSelectionMode(mode);
     },
 
+    /**
+     * Select the passed object in the table.
+     *
+     * @param object {qx.core.Object} object to select.
+     */
     selectObject : function(object) {
       var selectionModel = this.__table.getSelectionModel();
       selectionModel.resetSelection();
@@ -103,6 +147,11 @@ qx.Class.define("inspector.objects.View",
       }
     },
 
+    /**
+     * Sets the filter for table.
+     *
+     * @param filter {String} filter value.
+     */
     setFilter : function(filter) {
       this.__filter.setValue(filter);
     },
@@ -236,6 +285,9 @@ qx.Class.define("inspector.objects.View",
       this.__controller.inspect(data[0]);
     },
 
+    /**
+     * Helper method to update the table size.
+     */
     __updateTableResizeBehavior : function()
     {
       var resizeBehavior = this.__table.getTableColumnModel().getBehavior();
