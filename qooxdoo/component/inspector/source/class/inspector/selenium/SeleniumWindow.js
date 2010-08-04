@@ -82,7 +82,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     var pane = new qx.ui.splitpane.Pane("vertical");
     this.add(pane, {flex: 1});
     window.pane = pane;
-    
+
     // Table
     this._table = this.__getTable();
     pane.add(this._table, 2);
@@ -342,7 +342,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
       return table;
     },
-    
+
     __getLogArea : function()
     {
       var logArea = new qx.ui.embed.Html();
@@ -353,7 +353,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
         decorator: "main",
         backgroundColor: "white"
       });
-      
+
       // scroll to to the last entry if a message is added
       logArea.addListener("changeHtml", function(ev) {
         // need to use a timer to make sure the HTML is updated
@@ -366,14 +366,14 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
           }
         }, this, 0);
       });
-      
+
       // add the CSS to style log messages
       var logCss = '.seleniumLog .debug { color: #008000 }';
       logCss +=    '.seleniumLog .info  { color: #000000 }';
       logCss +=    '.seleniumLog .warn  { color: #FFA500 }';
       logCss +=    '.seleniumLog .error { color: #E50000; font-weight: bold }';
       qx.bom.Stylesheet.createElement(logCss);
-      
+
       return logArea;
     },
 
@@ -381,7 +381,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     {
       var tableModel = this._table.getTableModel();
       var selectedCount = this._table.getSelectionModel().getSelectedCount();
-      
+
       if (selectedCount > 0) {
         var rowData = [];
         this._table.getSelectionModel().iterateSelection(function(index) {
@@ -394,7 +394,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
           rowData.push(tableModel.getRowData(i));
         }
       }
-      
+
       if (rowData.length > 0) {
         this.__seleniumCommandQueue = rowData;
         this.__runSeleniumCommand();
