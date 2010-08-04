@@ -68,7 +68,6 @@ qx.Class.define("inspector.Application",
     /*
      * Windows
      */
-    _objectsWindow : null,
     _widgetsWindow : null,
     _consoleWindow : null,
     _propertyWindow : null,
@@ -197,11 +196,6 @@ qx.Class.define("inspector.Application",
     */
 
     __checkForReload: function() {
-      // check if the objects window is open
-      if (this._objectsWindow != null && this._objectsWindow.isVisible()) {
-        this._objectsWindow.load(this._loadedWindow);
-      }
-
       // check if the widgets window is open
       if (this._widgetsWindow != null && this._widgetsWindow.isVisible()) {
         this._widgetsWindow.load(this._loadedWindow);
@@ -235,8 +229,6 @@ qx.Class.define("inspector.Application",
 
 
     __checkCookies: function() {
-      // check the objects window
-      //this.__checkCookieFor("_objectsWindow", this._objectsButton, "objects");
       // check the widgets window
       this.__checkCookieFor("_widgetsWindow", this._widgetsButton, "widgets");
       // check the console window
@@ -534,12 +526,6 @@ qx.Class.define("inspector.Application",
         }
       }
 
-      if (this._objectsWindow != null && initiator != this._objectsWindow) {
-        if (object != this._objectsWindow.getSelection()) {
-          this._objectsWindow.select(object, true);
-        }
-      }
-
       if (this._widgetsWindow != null && initiator != this._widgetsWindow) {
         if (object != this._widgetsWindow.getSelection()) {
           this._widgetsWindow.select(object, true);
@@ -590,7 +576,7 @@ qx.Class.define("inspector.Application",
     this._disposeObjects("_container", "_toolbar", "_objectsButton",
       "_widgetsButton", "_propertyButton", "_consoleButton", "_seleniumButton",
       "_inspectButton", "_selectedWidgetLabel", "_urlTextField",
-      "_reloadButton", "_iFrame", "_selector", "_objectsWindow",
-      "_widgetsWindow", "_consoleWindow", "_propertyWindow", "_seleniumWindow");
+      "_reloadButton", "_iFrame", "_selector", "_widgetsWindow", "_consoleWindow", 
+      "_propertyWindow", "_seleniumWindow");
   }
 });
