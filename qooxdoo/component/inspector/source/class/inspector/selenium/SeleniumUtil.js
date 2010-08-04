@@ -33,8 +33,8 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
     /**
      * Calculates a qooxdoo widget hierarchy locator (qxh) for a given widget.
      *
-     * @param {qx.ui.core.Widget} widget The widget to locate
-     * @param {qx.ui.root.Abstract} appRoot The application root widget
+     * @param widget {qx.ui.core.Widget} The widget to locate
+     * @param appRoot {qx.ui.root.Abstract} The application root widget
      * @return {String} The complete locator
      */
     getQxhLocator : function(widget, appRoot)
@@ -59,7 +59,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
     /**
      * Determines a qxh locator step for a given widget
      *
-     * @param {qx.ui.core.Widget} widget The widget to find a step for
+     * @param widget {qx.ui.core.Widget} The widget to find a step for
      * @return {String} Locator step
      */
     getQxhLocatorStep : function(widget)

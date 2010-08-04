@@ -76,7 +76,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     /**
      * Add a Selenium command to the test case.
      *
-     * @param {Array} command Array containing the Selenium command, locator and
+     * @param command {Array} Array containing the Selenium command, locator and
      * optional parameter string
      */
     addCommand : function(command)

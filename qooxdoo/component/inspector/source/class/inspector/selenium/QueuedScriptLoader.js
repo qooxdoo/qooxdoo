@@ -45,7 +45,7 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
     /**
      * Sequentially loads all URIs from the given list.
      *
-     * @param {Array} uriList List of script resources to be loaded
+     * @param uriList {Array} List of script resources to be loaded
      */
     load : function(uriList)
     {
