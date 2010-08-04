@@ -94,7 +94,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     
     var containerBottom = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(containerBottom);
-    var noticeText = 'See the <a href="http://qooxdoo.org/contrib/project/simulator/inspector-selenium" target="_blank">Wiki page</a> for an explanation of these settings.';
+    var noticeText = 'See the <a href="http://manual.qooxdoo.org/1.2/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of these settings.';
     var notice = new qx.ui.basic.Label("");
     notice.setRich(true);
     notice.setValue(noticeText);
