@@ -39,7 +39,7 @@ class ExtendAction(Option):
                 lvalue.remove("")
             values.ensure_value(dest, []).extend(lvalue)
         elif action == "map":
-            keyval = value.split(":")
+            keyval = value.split(":", 1)
             if len(keyval) == 2 and len(keyval[0]) > 0:
                 if keyval[1][0] in ["[", "{"]: # decode a Json value
                     val = json.loads(keyval[1])
