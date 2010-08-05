@@ -30,7 +30,8 @@
     "test-inline",
     //"test-copy-files",
     "test-source",
-    "translation"
+    "translation",
+    "build-qxoo"
   ],
 
 
@@ -46,6 +47,62 @@
 
   "jobs":
   {
+    "build-qxoo" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
+          "uri" : ".."          
+        }
+      ],
+      
+      "include" : 
+      [
+        "qx.Class",
+        "qx.Mixin",
+        "qx.Interface"
+      ],
+      
+      "exclude" :
+      [
+        "qx.event.GlobalError"
+      ],
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
+      },
+
+      "settings" :
+      {
+        "qx.globalErrorHandling" : "off"
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "qx-oo.js",
+          "loader-template" : "../tool/data/generator/oo.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+        }
+      },
+      
+      "compile" : { "type" : "build" }
+    },
+    
+    
     "source" :
     {
       "extend" : ["appconf::source"],
