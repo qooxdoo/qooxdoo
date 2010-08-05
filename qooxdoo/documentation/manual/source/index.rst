@@ -19,8 +19,13 @@
 
 .. _index#manual_1.2:
 
-Manual 1.2
-**********
+Manual |version|
+****************
+
+.. note::
+ 
+   This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
+
 
 .. only:: html
 
