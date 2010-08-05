@@ -3,11 +3,6 @@
 Framework Generator Jobs
 ************************
 
-.. note::
-
-    This page is work in progress, and information provided might be preliminary or incomplete.
-
-
 This page describes the jobs that are available in the framework. Mainly this is just a reference list with short descriptions of what the jobs do.
 
 .. _pages/tool/framework_jobs#action_jobs:

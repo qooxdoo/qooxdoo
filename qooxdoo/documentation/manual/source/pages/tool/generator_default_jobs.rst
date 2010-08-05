@@ -3,11 +3,6 @@
 Default Generator Jobs
 **********************
 
-.. note::
-
-    This page is work in progress, and information provided might be preliminary or incomplete.
-
-
 This page describes the jobs that are automatically available to all skeleton-based applications (particularly, applications with config.json files that include the framework's *application.json* config file). Mainly this is just a reference list with short descriptions of what the jobs do. But in some cases, there is comprehensive documentation about the interface of this job and how it can be parametrized (This would usually require changing your *config.json* configuration file).
 
 .. _pages/tool/generator_default_jobs#action_jobs:

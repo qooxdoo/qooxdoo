@@ -12,6 +12,7 @@ Core
    core/mixin_quickref
    core/properties_quickref
    core/array
+   core/framework_jobs
 
 GUI Toolkit
 ===========
