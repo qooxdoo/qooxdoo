@@ -42,23 +42,32 @@ qx.Class.define("inspector.components.State",
     __observeState : function(win) {
       var cookieKey = win.getUserData("cookieKey");
 
-      win.addListener("open", function() {
+      var listeners = [];
+      var id = null;
+
+      id = win.addListener("open", function() {
         qx.bom.Cookie.set(cookieKey + "Open", true, 7);
       }, this);
+      listeners.push(id);
 
-      win.addListener("close", function() {
+      id = win.addListener("close", function() {
         qx.bom.Cookie.set(cookieKey + "Open", false, 7);
       }, this);
+      listeners.push(id);
 
-      win.addListener("move", function(event) {
+      id = win.addListener("move", function(event) {
         qx.bom.Cookie.set(cookieKey + "Left", event.getData().left, 7);
         qx.bom.Cookie.set(cookieKey + "Top", event.getData().top, 7);
       }, this);
+      listeners.push(id);
 
-      win.addListener("resize", function(event) {
+      id = win.addListener("resize", function(event) {
         qx.bom.Cookie.set(cookieKey + "Width", event.getData().width, 7);
         qx.bom.Cookie.set(cookieKey + "Height", event.getData().height, 7);
       }, this);
+      listeners.push(id);
+
+      win.setUserData("listeners", listeners);
     },
 
     restoreState : function()
@@ -95,7 +104,21 @@ qx.Class.define("inspector.components.State",
   },
 
   destruct : function() {
-    // TODO remove listner from each window
+    for (var i = 0; i < this.__windows.length; i++) {
+      var win = this.__windows[i];
+      var listeners = win.getUserData("listeners");
+
+      if (listeners != null)
+      {
+        var id = listeners.pop()
+        while (id != null)
+        {
+          win.removeListenerById(id)
+          id = listeners.pop()
+        }
+      }
+    }
+
     this.__windows = null;
   }
 });
