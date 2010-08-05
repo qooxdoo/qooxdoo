@@ -19,8 +19,8 @@
 
 .. _index#manual_1.2:
 
-Manual 1.2
-**********
+Manual |version|
+****************
 
 .. only:: html
 
