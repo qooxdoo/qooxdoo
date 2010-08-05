@@ -29,6 +29,11 @@
   {
     "common" :
     {
+      "settings" :
+      {
+        "qx.nativeScrollBars" : true
+      },
+      
       "compile-options" :
       {
         "paths" : { "scripts-add-hash" : true }  
