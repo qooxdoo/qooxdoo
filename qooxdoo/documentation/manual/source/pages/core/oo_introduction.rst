@@ -50,3 +50,7 @@ Like most programming languages qooxdoo only supports single-inheritance for cla
 
 Since a class may implement/include one or many interfaces/mixins, which themselves can extend others, some advanced forms of multiple-inheritance can still be realized.
 
+qooxdoo OO standalone
+=====================
+
+If you want to use qooxdoo OO layer standalone, take a look at the :ref:`pages/tool/framework_jobs#build-qxoo` generator job of the framework.
