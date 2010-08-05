@@ -138,8 +138,6 @@ Now to integrate the login window with the other parts of the application. Twitt
     }
   },
 
-::
-
 All that's left is to show the login window when the application is started and call ``fetchTweets`` with the information from the ``changeLoginData`` event.
 In the main application class, we'll create an instance of twitter.LoginWindow, position it next to the MainWindow and open it:
 
@@ -149,8 +147,6 @@ In the main application class, we'll create an instance of twitter.LoginWindow, 
   this.__loginWindow.moveTo(320,30);
   this.__loginWindow.open();
 
-::
-
 And finally, we'll attach a listener to ``changeLoginData``:
 
 ::
@@ -159,8 +155,6 @@ And finally, we'll attach a listener to ``changeLoginData``:
     var loginData = ev.getData();
     service.fetchTweets(loginData.username, loginData.password);   
   });
-
-::
 
 Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By making the login window modal, we've made sure the first call, which creates the store, contains the login data. Any subsequent calls (i.e. after reloading or posting an update) will use the same store so they won't need the login details.
 

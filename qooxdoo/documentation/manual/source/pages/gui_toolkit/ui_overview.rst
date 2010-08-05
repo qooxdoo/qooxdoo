@@ -43,7 +43,7 @@ Both roots are attached directly to the document. The ``Application`` is automat
 
 The instantiation of the required root widget is normally nothing the developer has to do. It is done by the application class the developer choose to extend. The next chapter will explain the concept behind applications in detail.
 
-As even the ``Page`` root is attached to the document it would be still not possible to place children into a specific existing column or box into the existing layout. However the developer of the web page may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Inline>`_. They need an existing DOM element to do their work (maybe using some type of ``getElementById``).  The reason for the overall need, even when working with these isles, for the ``Page`` root is that all dynamically floating elements like tooltips, menus, windows etc. are automatically placed into this root. This makes positioning of such elements a lot easier.
+As even the ``Page`` root is attached to the document it would be still not possible to place children into a specific existing column or box into the existing layout. However the developer of the web page may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Inline>`__. They need an existing DOM element to do their work (maybe using some type of ``getElementById``).  The reason for the overall need, even when working with these isles, for the ``Page`` root is that all dynamically floating elements like tooltips, menus, windows etc. are automatically placed into this root. This makes positioning of such elements a lot easier.
 
 .. _pages/ui_overview#applications:
 
@@ -57,6 +57,6 @@ The first method each developer needs to get used to is the `main <http://demo.q
 There are different applications which could be used as a starting point for a custom application:
 
 * `Standalone <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Standalone>`_: Uses the ``Application`` root to build full blown standalone qooxdoo applications
-* `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Inline>`_: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
+* `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Inline>`__: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
 * `Native <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.Native>`_: This class is for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
 
