@@ -276,6 +276,7 @@ div.body h6 {
     color: {{ theme_headtextcolor }};
     margin: 0px -20px 4px 0px;
     padding: 16px 0 3px 0px;
+    line-height: 130%;
 }
 
 div.body h3,
