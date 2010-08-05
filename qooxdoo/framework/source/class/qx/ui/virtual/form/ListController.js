@@ -506,7 +506,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       var target = this.getTarget();
       if (!target)
       {
-        this.getSelection().removaeAll();
+        this.getSelection().removeAll();
         return;
       }
 
