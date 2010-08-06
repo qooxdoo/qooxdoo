@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.menu.Manager",
     _onMouseDown : function(e)
     {
       var target = e.getTarget();
-      target = qx.ui.core.Widget.getWidgetByElement(target);
+      target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
       // If the target is 'null' the click appears on a DOM element witch is not
       // a widget. This happens normally with a inline application, when the user

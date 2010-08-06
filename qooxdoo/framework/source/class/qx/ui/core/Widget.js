@@ -817,9 +817,11 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the widget, which contains the given DOM element.
      *
      * @param element {Element} The DOM element to search the widget for.
+     * @param considerAnonymousState {Boolean?false} If true, anonymous widget 
+     *   will not be returned.
      * @return {qx.ui.core.Widget} The widget containing the element.
      */
-    getWidgetByElement : function(element)
+    getWidgetByElement : function(element, considerAnonymousState)
     {
       while(element)
       {
@@ -827,7 +829,11 @@ qx.Class.define("qx.ui.core.Widget",
 
         // dereference "weak" reference to the widget.
         if (widgetKey != null) {
-          return qx.core.ObjectRegistry.fromHashCode(widgetKey);
+          var widget = qx.core.ObjectRegistry.fromHashCode(widgetKey);
+          // check for ánonymous widgets
+          if (!considerAnonymousState || !widget.getAnonymous()) {
+            return widget;
+          }
         }
 
         // Fix for FF, which occasionally breaks (BUG#3525)
