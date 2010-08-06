@@ -98,6 +98,12 @@ release-sdk-svn-collect:
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
+	@echo "  * Synchronizing documentation..."
+	@$(CMD_REMOVE) $(RELEASE_SDK)/documentation/manual/
+	@$(CMD_SYNC_OFFLINE) documentation/manual/build/html/* $(RELEASE_SDK)/documenation/manual
+	@$(CMD_SYNC_OFFLINE) documentation/manual/build/latex/qooxdoo.pdf $(RELEASE_SDK)/documenation/manual
+
+
 
 release-sdk-archive:
 	@echo "  * Generating zip archive..."
