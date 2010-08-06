@@ -149,25 +149,28 @@ def _handleI18N(script, generator):
 
     # write translation and cldr files
     for lang in trans_dat:
-        filename = "i18n-" + lang
 
         # translations
         transmap  = {}
+        filename = "i18n-" + lang
+        targetname = "i18n-" + lang
         translations = trans_dat[lang]
         for key in translations:
             if translations[key]:
-                transmap[key] = [ { "target" : "i18n", "data" : { key : translations[key] }} ]
+                transmap[key] = [ { "target" : targetname, "data" : { key : translations[key] }} ]
             else:
                 transmap[key] = [ ]
         filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(transmap))
         
         # cldr
         localemap = {}
+        filename = "locale-" + lang
+        targetname = "locale-" + lang
         if loc_dat:
             localekeys = loc_dat[lang]
             for key in localekeys:
                 if localekeys[key]:
-                    localemap[key] = [ { "target" : "i18n", "data" : { key : localekeys[key] }} ]
+                    localemap[key] = [ { "target" : targetname, "data" : { key : localekeys[key] }} ]
                 else:
                     localemap[key] = [ ]
             filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))

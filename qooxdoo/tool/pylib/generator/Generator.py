@@ -915,7 +915,7 @@ class Generator(object):
             # CLDR dependency
             for classId in data:
                 if self._classesObj[classId].getMeta("cldr"):
-                    data[classId]["run"].append("/locale/i18n-${lang}")
+                    data[classId]["run"].append("/locale/locale-${lang}")
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
             for key, val in data.items():
