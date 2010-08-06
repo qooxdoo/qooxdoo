@@ -59,7 +59,6 @@ qx.Class.define("qx.ui.window.Manager",
     // interface implementation
     changeActiveWindow : function(active, oldActive) {
       if (active) {
-        this.updateStack();
         this.bringToFront(active);
         active.setActive(true);
       }
@@ -136,9 +135,8 @@ qx.Class.define("qx.ui.window.Manager",
         }
       }
 
-      if (active) {
-        this.__desktop.setActiveWindow(active);
-      }
+      //set active window or null otherwise
+      this.__desktop.setActiveWindow(active);
     },
 
 

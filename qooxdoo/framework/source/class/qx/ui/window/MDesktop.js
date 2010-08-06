@@ -125,6 +125,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     // property apply
     _applyActiveWindow : function(value, old) {
       this.getWindowManager().changeActiveWindow(value, old);
+      this.getWindowManager().updateStack();
     },
 
 
