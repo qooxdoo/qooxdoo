@@ -58,6 +58,15 @@ qx.Class.define("qx.test.ui.Window",
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
+    testActiveWindowAfterWindowOpened2 : function()
+    {
+      this._win[0].open();
+      this._win[1].open();
+      this.flush();
+
+      this.assertIdentical(this._win[1], this.getRoot().getActiveWindow());
+    },
+
     testActiveWindowAfterWindowClosed : function()
     {
       this._win[0].open();
@@ -67,6 +76,18 @@ qx.Class.define("qx.test.ui.Window",
       this.flush();
 
       this.assertNull(this.getRoot().getActiveWindow());
+    },
+
+    testActiveWindowAfterWindowClosed2 : function()
+    {
+      this._win[0].open();
+      this._win[1].open();
+      this.flush();
+
+      this._win[1].close();
+      this.flush();
+
+      this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
     testActiveWindowAfterAllWindowsOpened : function()
@@ -91,6 +112,18 @@ qx.Class.define("qx.test.ui.Window",
       this.assertNull(this.getRoot().getActiveWindow());
     },
 
+    testActiveWindowAfterRemovingOpenedWindow2 : function()
+    {
+      this._win[0].open();
+      this._win[1].open();
+      this.flush();
+
+      this.getRoot().remove(this._win[1]);
+      this.flush();
+
+      this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
+    },
+
     testActiveWindowAfterRemovingAllWindows : function()
     {
        for (var i = 0; i < this._win.length; i++) {
@@ -102,6 +135,35 @@ qx.Class.define("qx.test.ui.Window",
       this.flush();
 
       this.assertNull(this.getRoot().getActiveWindow());
+    },
+
+    testModalWindowIsAlwaysActiveIfOpen : function()
+    {
+      this._win[0].setModal(true);
+      this._win[0].open();
+      this._win[1].open();
+      this.flush();
+
+      this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
+    },
+
+    testOrderModalOverAlwaysOnTopOverNormalWindow : function()
+    {
+      var modal       = this._win[0];
+      var alwaysOnTop = this._win[1];
+      var normal      = this._win[2];
+
+      modal.setModal(true);
+      alwaysOnTop.setAlwaysOnTop(true);
+
+      modal.open();
+      alwaysOnTop.open();
+      normal.open();
+
+      this.flush();
+
+      this.assertTrue(+modal.getZIndex() > +alwaysOnTop.getZIndex());
+      this.assertTrue(+alwaysOnTop.getZIndex() > +normal.getZIndex());
     }
   }
 });
