@@ -92,7 +92,7 @@ Define the paths to cache directories, particularly to the compile cache. Takes 
 Possible keys are 
 
 * **compile** : path to the "main" cache, the directory where compile results are cached, relative to the current (default:  ":doc:`${CACHE} <generator_config_macros>`")
-* **downloads** : directory where to put downloads (e.g. contrib:%%*%% libraries), relative to the current (default: ":doc:`${CACHE} <generator_config_macros>`/downloads")
+* **downloads** : directory where to put downloads (e.g. ``contrib://*`` libraries), relative to the current (default: ":doc:`${CACHE} <generator_config_macros>`/downloads")
 * **invalidate-on-tool-change** : when true, the *compile* cache (but not the downloads) will be cleared whenever the tool chain is newer (relevant mainly for trunk users; default: *true*)
 
 :ref:`Special section <pages/tool/generator_config_articles#cache_key>`
