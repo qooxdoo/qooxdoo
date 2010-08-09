@@ -55,6 +55,10 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
   {
     __view : null,
     
+    __changeObjectsListenerID : null,
+    
+    __changeInspectedListenerID : null,
+    
     setInitSizeAndPosition: function() {
       var left = qx.bom.Viewport.getWidth() - this.getWidth();
       var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);
@@ -73,6 +77,8 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
 
   destruct : function()
   {
+    this._model.removeListenerById(this.__changeObjectsListenerID);
+    this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;
   }

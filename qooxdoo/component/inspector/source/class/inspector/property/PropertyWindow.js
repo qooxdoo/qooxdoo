@@ -51,6 +51,10 @@ qx.Class.define("inspector.property.PropertyWindow",
 
   members :
   {
+    __view : null,
+    
+    __changeInspectedListenerID : null,
+    
     setInitSizeAndPosition : function()
     {
       var left = qx.bom.Viewport.getWidth() - this.getWidth();
@@ -66,5 +70,8 @@ qx.Class.define("inspector.property.PropertyWindow",
 
   destruct : function()
   {
+    this._model.removeListenerById(this.__changeInspectedListenerID);
+    this.__view.dispose();
+    this.__view = null;
   }
 });
