@@ -167,12 +167,13 @@ def _handleI18N(script, generator):
         filename = "locale-" + lang
         targetname = "locale-" + lang
         if loc_dat:
+            # sample: { "cldr" : [ { "target" : "locale-en", "data" : {"alternativeQuotationEnd":'"', "cldr_am": "AM",...}} ]}
             localekeys = loc_dat[lang]
+            cldr_entry = [ { "target" : targetname, "data" : { }} ]
             for key in localekeys:
                 if localekeys[key]:
-                    localemap[key] = [ { "target" : targetname, "data" : { key : localekeys[key] }} ]
-                else:
-                    localemap[key] = [ ]
+                    cldr_entry[0]['data'][key] = localekeys[key]
+            localemap['cldr'] = cldr_entry
             filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
 
     return
