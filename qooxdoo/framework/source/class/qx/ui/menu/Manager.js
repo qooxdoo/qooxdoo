@@ -626,7 +626,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Back to the "parent" menu
-      if (menuOpener instanceof qx.ui.menu.Button)
+      if (menuOpener instanceof qx.ui.menu.AbstractButton)
       {
         var parentMenu = menuOpener.getLayoutParent();
 
