@@ -146,6 +146,7 @@ run                            Define a list of jobs to run.
 Input/Output-setting Keys            Description                                      
 ============================  ========================================================
 asset-let                      Defines macros that will be replaced in #asset hints.    
+compile-options                Various options that taylor the *compile* action.
 dependencies                   Fine-tune dependency processing.                         
 exclude                        Exclude classes from processing of the job.              
 include                        Include classes to be processed in the job.              
@@ -193,6 +194,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
     * :ref:`clean-files <pages/tool/generator_config_ref#clean-files>` Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
     * :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` Triggers creation of a combined image file that contains various images.
     * :ref:`compile <pages/tool/generator_config_ref#compile>` Triggers the generation of a source or build version of the application.
+    * :ref:`compile-options <pages/tool/generator_config_ref#compile-options>` Define various options that influence compile runs (both source and build version).
     * :ref:`copy-files <pages/tool/generator_config_ref#copy-files>` Triggers files/directories to be copied, usually between source and build version.
     * :ref:`copy-resources <pages/tool/generator_config_ref#copy-resources>` Triggers the copying of resources, usually between source and build version.
     * :ref:`dependencies <pages/tool/generator_config_ref#dependencies>` Fine-tune the processing of class dependencies.
