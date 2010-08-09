@@ -31,7 +31,8 @@
     //"test-copy-files",
     "test-source",
     "translation",
-    "build-qxoo"
+    "qxoo-build",
+    "qxoo-noopt"
   ],
 
 
@@ -47,7 +48,8 @@
 
   "jobs":
   {
-    "build-qxoo" :
+
+    "qxoo" : 
     {
       "library" :
       [
@@ -56,6 +58,8 @@
           "uri" : ".."          
         }
       ],
+
+      "cache" : { "compile" : "${CACHE}" },
       
       "include" : 
       [
@@ -84,13 +88,26 @@
       {
         "paths" :
         {
-          "file" : "qx-oo.js",
           "loader-template" : "../tool/data/generator/oo.loader.tmpl.js"
         },
         "uris" :
         {
           "script"   : ".",
           "resource" : "."
+        }
+      }
+    },
+
+
+    "qxoo-build" : 
+    {
+      "extend" : [ "qxoo" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "build/script/qx-oo.js"
         },
         "code" :
         {
@@ -98,7 +115,26 @@
           "optimize" : [ "variables", "basecalls", "privates", "strings" ]
         }
       },
+      "compile" : { "type" : "build" }
+    },
+    
+    
+    "qxoo-noopt" : 
+    {
+      "extend" : [ "qxoo" ],
       
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "build/script/qx-oo-noopt.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ ]
+        }
+      },
       "compile" : { "type" : "build" }
     },
     
@@ -197,6 +233,8 @@
 
     "test-copy-files" :
     {
+      "cache"  : { "compile" : "${CACHE}" },
+
       "copy-files" :
       {
         "files"    : [ "test" ],
