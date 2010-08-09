@@ -20,4 +20,4 @@ qx.$$loader = {};
 
 %{BootPart}
 
-if (exports) {for (var key in qx) {exports[key] = qx[key];}}
+if (typeof exports != "undefined") {for (var key in qx) {exports[key] = qx[key];}}
