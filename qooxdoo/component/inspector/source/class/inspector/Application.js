@@ -68,10 +68,7 @@ qx.Class.define("inspector.Application",
     /*
      * Windows
      */
-    _widgetsWindow : null,
     _consoleWindow : null,
-    _propertyWindow : null,
-    _seleniumWindow : null,
 
     /*
      * Inspector
@@ -445,7 +442,6 @@ qx.Class.define("inspector.Application",
     this._disposeObjects("_container", "_toolbar", "_objectsButton",
       "_widgetsButton", "_propertyButton", "_consoleButton", "_seleniumButton",
       "_inspectButton", "_selectedWidgetLabel", "_urlTextField",
-      "_reloadButton", "_iFrame", "_selector", "_widgetsWindow", "_consoleWindow", 
-      "_propertyWindow", "_seleniumWindow");
+      "_reloadButton", "_iFrame", "_selector", "_consoleWindow");
   }
 });

@@ -93,13 +93,6 @@ qx.Class.define("inspector.selenium.View", {
     // Log
     this._logArea = this.__getLogArea();
     pane.add(this._logArea, 1);
-
-    // Immediately load scripts if cookies are set
-    var coreScripts = qx.bom.Cookie.get("coreScripts");
-    var userExt = qx.bom.Cookie.get("userExt");
-    if (coreScripts && userExt) {
-      this.setSeleniumScripts([coreScripts, userExt]);
-    }
   },
 
   properties : {
@@ -551,6 +544,6 @@ qx.Class.define("inspector.selenium.View", {
     this.__selenium = null;
     window.selenium = null;
     window.LOG = null;
-    this._disposeObjects("_toolbar", "_recordButton", "_speedSlider", "_optionsButton", "_optionsWindow", "_table", "_logArea");
+    this._disposeObjects("_recordButton", "_speedSlider", "_optionsButton", "_optionsWindow", "_table", "_logArea");
   }
 });
