@@ -3,7 +3,7 @@
 if (!this.window) window = this;
 
 if (!window.navigator) window.navigator = {
-  userAgent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; de; rv:1.9.0.19) Gecko/2010031218 Firefox/3.0.19", 
+  userAgent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; de-de) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8", 
   product: "", 
   cpuClass: ""
 }; 
