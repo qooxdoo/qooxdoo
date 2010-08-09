@@ -23,7 +23,7 @@
  */
 qx.Class.define("inspector.objects.Window",
 {
-  extend : qx.ui.window.Window,
+  extend : inspector.components.AbstractWindow,
 
   /**
    * Construct window.
@@ -33,65 +33,31 @@ qx.Class.define("inspector.objects.Window",
    */
   construct : function(name, inspectorModel)
   {
-    this.base(arguments, name);
+    this.base(arguments, name, inspectorModel);
 
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.setAppearance("objectsWindow");
-    this.syncAppearance();
-
-    // apply default size and position
-    this.setInitSizeAndPosition();
-
-    this.__model = new inspector.objects.Model(inspectorModel)
-    this.__controller = new inspector.objects.Controller(this.__model);
+    this.__objectsModel = new inspector.objects.Model(this._model);
+    this.__controller = new inspector.objects.Controller(this.__objectsModel);
     this.add(this.__controller.getView(), {edge: 0});
-  },
-
-  events :
-  {
-    /** Fired when the window is opend. */
-    "open" : "qx.event.type.Event"
   },
 
   members :
   {
-    /** {inspector.components.IInspectorModel} model to show */
-    __model : null,
-
+    /** {inspector.objects.Model} model for the objects view */
+    __objectsModel : null,
+    
     /** {inspector.objects.Controller} controller for the view. */
     __controller : null,
 
-    /**
-     * Sets the window to the passed position/size.
-     *
-     * @param position {Map} with <code>Integer</code> values for left, top, width, height as key.
-     */
-    setSizeAndPosition : function(position) {
-      this.moveTo(position.left, position.top);
-      this.setWidth(position.width);
-      this.setHeight(position.height);
-    },
-
-    /**
-     * Sets the window to a default position/size.
-     */
+    // overridden
     setInitSizeAndPosition : function() {
       var left = parseInt(qx.bom.Viewport.getWidth() - this.getWidth());
       var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);
       this.moveTo(left, 30);
       this.setHeight(height);
-    },
-
-    // overridden
-    open : function()
-    {
-      this.base(arguments);
-      this.fireEvent("open");
     }
   },
 
   destruct : function() {
-    this._disposeObjects("__model", "__controller");
+    this._disposeObjects("__controller", "__objectsModel");
   }
 });

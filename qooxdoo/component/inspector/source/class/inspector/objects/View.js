@@ -27,7 +27,7 @@
  */
 qx.Class.define("inspector.objects.View",
 {
-  extend : qx.ui.container.Composite,
+  extend : inspector.components.AbstractView,
 
   /**
    * Constructs the view.
@@ -161,14 +161,8 @@ qx.Class.define("inspector.objects.View",
      */
     __initialize : function()
     {
-      this.setLayout(new qx.ui.layout.VBox());
-
-      // Creats the toolbar
-      var toolbar = new qx.ui.toolbar.ToolBar();
-      toolbar.setAppearance("objects-toolbar");
-      toolbar._getLayout().setAlignY("middle");
-      this.add(toolbar);
-
+      var toolbar = this._toolbar;
+      
       // Creates the reload button
       var reload = new qx.ui.toolbar.Button(null, "icon/22/actions/view-refresh.png");
       reload.setToolTipText("Reloads the view.");

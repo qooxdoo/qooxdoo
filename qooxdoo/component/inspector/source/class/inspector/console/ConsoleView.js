@@ -81,9 +81,10 @@ qx.Class.define("inspector.console.ConsoleView",
     }, this);
 
     // init appender
-    var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+    //TODO activate appender 
+    /*var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
     iFrameWindow.qx.log.Logger.register(inspector.console.Appender);
-    inspector.console.Appender.consoleView = this;
+    inspector.console.Appender.consoleView = this;*/
   },
 
   members :

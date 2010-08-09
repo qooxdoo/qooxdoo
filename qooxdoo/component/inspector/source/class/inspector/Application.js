@@ -178,15 +178,12 @@ qx.Class.define("inspector.Application",
 
       this._loading = false;
 
-      this.__checkForReload();
-
       // select the root of the new app
       this.__inspectorModel.setObjectRegistry(this._loadedWindow.qx.core.ObjectRegistry);
       this.select(this._loadedWindow.qx.core.Init.getApplication().getRoot());
 
       // check for the cookies
       this.__state.restoreState();
-      this.__checkCookies();
     },
 
     /*
@@ -194,51 +191,6 @@ qx.Class.define("inspector.Application",
       Initialize helper
     -------------------------------------------------------------------------
     */
-
-    __checkForReload: function() {
-      // check if the widgets window is open
-      if (this._widgetsWindow != null && this._widgetsWindow.isVisible()) {
-        this._widgetsWindow.load(this._loadedWindow);
-      }
-    },
-
-
-    __checkCookieFor: function(winRef, button, name) {
-      // if the open cookie is set
-      var cookie = qx.bom.Cookie.get(name + "Open");
-      if (cookie == "true" || cookie === null) {
-        button.setValue(true);
-
-        // check the position
-        var top = parseInt(qx.bom.Cookie.get(name + "Top"));
-        var left = parseInt(qx.bom.Cookie.get(name + "Left"));
-        if (!isNaN(top) && !isNaN(left)) {
-          this[winRef].moveTo(left, top);
-        }
-        // check the size
-        var width = parseInt(qx.bom.Cookie.get(name + "Width"));
-        var height =   parseInt(qx.bom.Cookie.get(name + "Height"));
-        if (!isNaN(height)) {
-          this[winRef].setHeight(height);
-        }
-        if (!isNaN(width)) {
-          this[winRef].setWidth(width);
-        }
-      }
-    },
-
-
-    __checkCookies: function() {
-      // check the widgets window
-      this.__checkCookieFor("_widgetsWindow", this._widgetsButton, "widgets");
-      // check the console window
-      this.__checkCookieFor("_consoleWindow", this._consoleButton, "console");
-      // check the property window
-      this.__checkCookieFor("_propertyWindow", this._propertyButton, "property");
-      // check the Selenium window
-      this.__checkCookieFor("_seleniumWindow", this._seleniumButton, "selenium");
-    },
-
 
     __checkWorking: function() {
       // try to access the javascript objects in the iframe
@@ -294,57 +246,20 @@ qx.Class.define("inspector.Application",
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Objects window
-      var objectWindow = new inspector.objects.Window("Objects", this.__inspectorModel);
-      this.__state.add(objectWindow, "objects");
-
-      this._objectsButton = new qx.ui.toolbar.CheckBox("Objects");
-      this._toolbar.add(this._objectsButton);
-      this._objectsButton.addListener("changeValue", function(e) {
-        e.getData() ? objectWindow.open() : objectWindow.close();
-      }, this);
-      objectWindow.addListener("open", function(e) {
-        this._objectsButton.setValue(true);
-      }, this);
-      objectWindow.addListener("close", function(e) {
-        this._objectsButton.setValue(false);
-      }, this);
-
+      this.__createWindow("Objects", inspector.objects.Window, "_objectsButton");
 
       // Widgets window
-      this.__createWindow(
-        "_widgetsButton", "Widgets", "_widgetsWindow",
-        inspector.widgets.WidgetsWindow, "widgets",
-        function() {
-          this._widgetsWindow.load();
-        }
-      );
+      this.__createWindow("Widgets", inspector.widgets.WidgetsWindow, "_widgetsButton");
 
       // Property Window
-      this.__createWindow(
-        "_propertyButton", "Properties", "_propertyWindow",
-        inspector.property.PropertyWindow, "property",
-        function() {
-          this._propertyWindow.select(this._selector.getSelection());
-        }
-      );
-
+      this.__createWindow("Properties", inspector.property.PropertyWindow, "_propertyButton");
+      
       // Console window
-      this.__createWindow(
-        "_consoleButton", "Console", "_consoleWindow",
-        inspector.console.ConsoleWindow, "console",
-        function() {
-        }
-      );
-
+      this._consoleWindow = this.__createWindow("Console", inspector.console.ConsoleWindow, "_consoleButton");
+      
       // Selenium window
-      this.__createWindow(
-        "_seleniumButton", "Selenium", "_seleniumWindow",
-        inspector.selenium.SeleniumWindow, "selenium",
-        function() {
-          this._seleniumWindow.select(this._selector.getSelection());
-        }
-      );
-
+      this.__createWindow("Selenium", inspector.selenium.SeleniumWindow, "_seleniumButton");
+      
       // add the third separator
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
@@ -359,9 +274,6 @@ qx.Class.define("inspector.Application",
           this._selector.end();
         }
       }, this);
-
-      // add the second separator
-//      this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Lable showing the selected widget
       this._selectedWidgetLabel = new qx.ui.basic.Label();
@@ -409,52 +321,28 @@ qx.Class.define("inspector.Application",
     },
 
 
-    __createWindow: function(buttonRef, buttonName, winRef, winClass, name, loadFunc) {
-      this[buttonRef] = new qx.ui.toolbar.CheckBox(buttonName);
-      this._toolbar.add(this[buttonRef]);
-      var wasOpen = false;
-      this[buttonRef].addListener("changeValue", function(e) {
-        if (!wasOpen) {
-          // create and add an instance
-          this[winRef] = new winClass();
-          this.getRoot().add(this[winRef]);
+    __createWindow : function(name, clazz, buttonRef)
+    {
+      var win = new clazz(name, this.__inspectorModel);
+      this.__state.add(win, name.toLowerCase());
 
-          this[winRef].setInitSizeAndPosition();
+      var button = this[buttonRef] = new qx.ui.toolbar.CheckBox(name);
+      this._toolbar.add(button);
 
-          // add the listeners to the window
-          this.__addWindowListener(this[winRef], this[buttonRef], name);
-        }
-        // open the window
-        e.getData() ? this[winRef].open() : this[winRef].close();
-
-        // call the load functio
-        loadFunc.call(this)
-
-        wasOpen = true;
-
-        // store the open status in a cookie
-        qx.bom.Cookie.set(name + "Open", e.getData(), 7);
+      button.addListener("changeValue", function(e) {
+        e.getData() ? win.open() : win.close();
       }, this);
-    },
 
+      win.addListener("open", function(e) {
+        button.setValue(true);
+      }, this);
 
-    __addWindowListener: function(win, button, name) {
-      // add a close listener
-      win.addListener("close", function() {
+      win.addListener("close", function(e) {
         button.setValue(false);
       }, this);
-      // add a move listener
-      win.addListener("move", function(e) {
-        qx.bom.Cookie.set(name + "Left", e.getData().left, 7);
-        qx.bom.Cookie.set(name + "Top", e.getData().top, 7);
-      }, this);
-      // add a resize listener
-      win.addListener("resize", function(e) {
-        qx.bom.Cookie.set(name + "Width", e.getData().width, 7);
-        qx.bom.Cookie.set(name + "Height", e.getData().height, 7);
-      }, this);
+      
+      return win;
     },
-
 
     __setEnabledToolbar : function(value)
     {
@@ -523,25 +411,6 @@ qx.Class.define("inspector.Application",
       if (initiator != this._selector) {
         if (object !== this._selector.getSelection()) {
           this._selector.setSelection(object);
-        }
-      }
-
-      if (this._widgetsWindow != null && initiator != this._widgetsWindow) {
-        if (object != this._widgetsWindow.getSelection()) {
-          this._widgetsWindow.select(object, true);
-        }
-      }
-
-      if (this._propertyWindow != null && initiator != this._propertyWindow) {
-        if (object != this._propertyWindow.getSelection() &&
-            this._propertyWindow.getMode() != "minimized") {
-          this._propertyWindow.select(object, true);
-        }
-      }
-
-      if (this._seleniumWindow != null && initiator != this._seleniumWindow) {
-        if (object != this._seleniumWindow.getSelection()) {
-          this._seleniumWindow.select(object, true);
         }
       }
 

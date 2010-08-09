@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * Abstract window that contains a empty toolbar.
+ * Abstract window.
  */
 qx.Class.define("inspector.components.AbstractWindow",
 {
@@ -28,51 +28,68 @@ qx.Class.define("inspector.components.AbstractWindow",
    * Creates a new instance of a AbstractWindow.
    *
    * @param name {String} The window title.
+   * @param inspectorModel {inspector.components.IInspectorModel} model to show.
    */
-  construct : function(name)
+  construct : function(name, inspectorModel)
   {
     this.base(arguments, name);
 
-    // Set layout
-    this.setLayout(new qx.ui.layout.VBox());
-    this.setWidth(300);
-    this.setHeight(200);
-    this.setContentPadding(0);
-
-    // Disaple buttons
-    this.setShowMinimize(false);
-    this.setShowMaximize(false);
-
-    // Create toolbar
-    this._toolbar = new qx.ui.toolbar.ToolBar();
-    this._toolbar.setPaddingLeft(3);
-    this._toolbar.setPaddingRight(3);
-    this._toolbar._getLayout().setAlignY("middle");
-    this.add(this._toolbar);
+    this._model = inspectorModel;
+    
+    this.setLayout(new qx.ui.layout.Canvas());
+    
+    // apply default size and position
+    this.syncAppearance();
+    this.setInitSizeAndPosition();
   },
 
+  events :
+  {
+    /** Fired when the window is opend. */
+    "open" : "qx.event.type.Event"
+  },
+  
+  properties :
+  {
+    appearance :
+    {
+      init: "inspector-window",
+      refine : true
+    }
+  },
+  
   members :
   {
-    /**
-     * Toolbar instance.
-     */
-    _toolbar : null,
-
-    /**
-     * Window instance from the Iframe.
-     */
-    _iFrameWindow : null,
-
+    /** {inspector.components.IInspectorModel} model to show */
+    _model : null,
+    
     /**
      * Init the size and the position from the window.
      */
     setInitSizeAndPosition : function() {
-      // throw an exception if the method is called on the abstract class
       throw new Error("Abstract method call (setInitSizeAndPosition) in 'AbstractWindow'!");
+    },
+    
+    /**
+     * Sets the window to the passed position/size.
+     *
+     * @param position {Map} with <code>Integer</code> values for left, top, width, height as key.
+     */
+    setSizeAndPosition : function(position) {
+      this.moveTo(position.left, position.top);
+      this.setWidth(position.width);
+      this.setHeight(position.height);
+    },
+
+    // overridden
+    open : function()
+    {
+      this.base(arguments);
+      this.fireEvent("open");
     }
   },
 
   destruct : function() {
-    this._disposeObjects("_toolbar");
+    this._disposeObjects("_model");
   }
 });
