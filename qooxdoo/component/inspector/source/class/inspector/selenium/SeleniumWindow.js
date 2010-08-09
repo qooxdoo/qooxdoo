@@ -54,11 +54,17 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     this.__changeInspectedListenerID = this._model.addListener("changeInspected", function(e) {
       this.select(e.getData());
     }, this);
+    
+    this.__changeObjectsListenerID = this._model.addListener("changeObjects", this.__onChangeObjects, this);
   },
 
   members :
   {
     __view : null,
+    
+    __changeObjectsListenerID : null,
+    
+    __changeInspectedListenerID : null,
     
     setInitSizeAndPosition: function() {
       this.moveTo(0, 35);
@@ -68,11 +74,22 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     
     select: function(widget) {
       this.__view.select(widget);
+    },
+    
+    __onChangeObjects : function(e) {
+      // Immediately load scripts if cookies are set
+      var coreScripts = qx.bom.Cookie.get("coreScripts");
+      var userExt = qx.bom.Cookie.get("userExt");
+      if (coreScripts && userExt) {
+        this.__view.setSeleniumScripts([coreScripts, userExt]);
+      }
     }
   },
 
   destruct : function()
   {
+    this._model.removeListenerById(this.__changeObjectsListenerID);
+    this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;
   }
