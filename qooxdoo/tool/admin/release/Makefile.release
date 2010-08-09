@@ -55,7 +55,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = feedreader portal playground showcase demobrowser
 COMPONENTS = apiviewer testrunner inspector
-FRAMEWORK_TARGETS = api test
+FRAMEWORK_TARGETS = api test qxoo-build qxoo-noopt
 
 
 ################################################################################
@@ -263,8 +263,6 @@ publish-docs:
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
 	@echo "  * Publishing PDF doc to staging host..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
-	@echo "  * Pushing to production host..."
-	@ssh -A qooxdoo@webtechfe-test01.schlund.de /var/www/qooxdoo/bin/webtechfe01.mirror.sh
 
 check-docs: check-docs-html check-docs-pdf
 
@@ -298,7 +296,15 @@ check-components:
   done
 
 check-framework:
-	@for TARGET in $(FRAMEWORK_TARGETS); do F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@for TARGET in $(FRAMEWORK_TARGETS); do \
+		if [ "$$TARGET" = "qxoo-build" ]; then \
+			F="framework/build/script/qx-oo.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		elif [ "$$TARGET" = "qxoo-noopt" ]; then \
+			F="framework/build/script/qx-oo-noopt.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		else \
+			F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		fi; \
+	done
 
 publish-index:
 	@echo "  * Preparing index.html..."
@@ -316,22 +322,38 @@ publish-apps:
 	  echo "    - $$APPLICATION..."; \
 	  $(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 	done
+	@echo "  * Syncing components..."
 	@for APPLICATION in $(COMPONENTS); do \
-	  echo "    - $$APPLICATION..."; \
-		if [ "$$APPLICATION" = "apiviewer" ]; then \
-			$(CMD_SYNC_ONLINE) framework/api/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "testrunner" ]; then \
-			$(CMD_SYNC_ONLINE) framework/test/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
 		if [ "$$APPLICATION" = "inspector" ]; then \
+			echo "    - $$APPLICATION..."; \
 			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
+	@echo "  * Syncing framework..."
+	@ssh $(PUBLISH_HOST) "$(CMD_DIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
+	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
+	  echo "    - $$APPLICATION..."; \
+		if [ "$$APPLICATION" = "api" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "test" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "qxoo-build" ]; then \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
+	done
+
+publish-production:
+	@echo "  * Pushing to production host..."
+	@ssh -A qooxdoo@webtechfe-test01.schlund.de /var/www/qooxdoo/bin/webtechfe01.mirror.sh
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
 	@ssh $(PUBLISH_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
 
-publish: publish-check publish-backup publish-index publish-apps publish-docs
+publish: publish-check publish-backup publish-index publish-apps publish-docs publish-production
 
