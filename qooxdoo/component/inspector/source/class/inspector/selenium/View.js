@@ -501,7 +501,9 @@ qx.Class.define("inspector.selenium.View", {
       }
 
       var loader = new inspector.selenium.QueuedScriptLoader();
+      var oldTitle = document.title; // selenium changes the tile and we have to reset the title.
       loader.addListenerOnce("finished", function(ev) {
+        document.title = oldTitle; // reset the title
         if (ev.getData().fail > 0) {
           alert("Couldn't load Selenium Core scripts, make sure the path is correct!");
           return;
