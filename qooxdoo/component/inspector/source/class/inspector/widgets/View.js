@@ -27,19 +27,19 @@ qx.Class.define("inspector.widgets.View",
 {
   extend : inspector.components.AbstractView,
 
-  construct : function()
+  construct : function(inspectorModel)
   {
     this.base(arguments);
 
+    this._model = inspectorModel;
+    
     // create and add the reload button
     this._reloadButton = new qx.ui.toolbar.Button(null,
         "icon/22/actions/view-refresh.png");
     this._reloadButton.setToolTipText("Reload the window.");
     this._toolbar.add(this._reloadButton);
     // add the event listener for the reload
-    this._reloadButton.addListener("click", function() {
-      this.load();
-    }, this);
+    this._reloadButton.addListener("click", this._reload, this);
 
     this._toolbar.addSpacer();
 
@@ -47,6 +47,7 @@ qx.Class.define("inspector.widgets.View",
     this._structureToggle = new qx.ui.toolbar.CheckBox(null,
         "icon/22/actions/document-properties.png");
     this._structureToggle.setToolTipText("Display internal widget structure.");
+    this._structureToggle.addListener("click", this._reload, this);
     this._toolbar.add(this._structureToggle);
     this._structureToggle.setValue(false);
 
@@ -66,6 +67,8 @@ qx.Class.define("inspector.widgets.View",
 
   members : {
 
+    _model : null,
+    
     select: function(widget) {
       this._selectWidgetInTheTree(widget);
     },
@@ -101,12 +104,22 @@ qx.Class.define("inspector.widgets.View",
       this._fillTree(remoteAppRoot, rootFolder, 2);
     },
 
+    _reload : function()
+    {
+      this.load();
+      
+      var inspected = this._model.getInspected();
+      if (inspected != null) {
+        this._selectWidgetInTheTree(inspected);
+      }
+    },
+    
     _fillTree: function(parentWidget, parentTreeFolder, recursive)  {
       // get the current items of the tree folder
       var items = parentTreeFolder.getItems(false, true);
 
       var kids = this._structureToggle.isValue() ? "_getChildren" : "getChildren";
-
+      
       // ignore all objects without children (spacer e.g.)
       if (parentWidget[kids] == undefined) {
         if (kids === "getChildren") {
@@ -344,6 +357,7 @@ qx.Class.define("inspector.widgets.View",
 
   destruct : function()
   {
+    this._model = null;
     this._iFrameWindow = null;
     this._disposeObjects("_reloadButton", "_structureToggle", "_tree");
   }
