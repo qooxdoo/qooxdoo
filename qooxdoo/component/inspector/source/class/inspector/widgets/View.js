@@ -70,7 +70,7 @@ qx.Class.define("inspector.widgets.View",
     _model : null,
     
     select: function(widget) {
-      this._selectWidgetInTheTree(widget);
+      this._selectWidgetInTheTree(widget, true);
     },
 
     getSelection: function() {
@@ -110,7 +110,7 @@ qx.Class.define("inspector.widgets.View",
       
       var inspected = this._model.getInspected();
       if (inspected != null) {
-        this._selectWidgetInTheTree(inspected);
+        this._selectWidgetInTheTree(inspected, false);
       }
     },
     
@@ -253,7 +253,7 @@ qx.Class.define("inspector.widgets.View",
       }
     },
 
-    _selectWidgetInTheTree: function (widget) {
+    _selectWidgetInTheTree: function (widget, toggleChildControl) {
       // get the current iframe window object
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // check for null references
@@ -325,6 +325,12 @@ qx.Class.define("inspector.widgets.View",
       if (!elementFound) {
         // delete the selection in the tree
         this._tree.resetSelection();
+        
+        if (toggleChildControl == true && !this._structureToggle.isValue())
+        {
+          this._structureToggle.toggleValue();
+          this._reload();
+        }
       }
     },
 
