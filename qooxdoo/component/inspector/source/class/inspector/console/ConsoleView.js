@@ -79,12 +79,6 @@ qx.Class.define("inspector.console.ConsoleView",
         this._autoCompletePopup.load(e.getData());
       }
     }, this);
-
-    // init appender
-    //TODO activate appender 
-    /*var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
-    iFrameWindow.qx.log.Logger.register(inspector.console.Appender);
-    inspector.console.Appender.consoleView = this;*/
   },
 
   members :
@@ -340,10 +334,12 @@ qx.Class.define("inspector.console.ConsoleView",
       window.setTimeout(function() {
         // scroll to the bottom of the layout
         var element = self._content.getContentElement();
-        var height = qx.bom.element.Dimension.getContentHeight(
-          self._content.getContentElement().getDomElement()
-        );
-        element.scrollToY(height);
+        
+        var domElement = self._content.getContentElement().getDomElement();
+        if (domElement != null) {
+          var height = qx.bom.element.Dimension.getContentHeight(domElement);
+          element.scrollToY(height);
+        }
       }, 0);
     },
 
