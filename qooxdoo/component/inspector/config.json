@@ -46,5 +46,16 @@
     "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
+  },
+  
+  "jobs" :
+  {
+    "common" :
+    {
+      "settings" :
+      {
+        "qx.nativeScrollBars" : true
+      }
+    }
   }
 }
