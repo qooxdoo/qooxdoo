@@ -51,9 +51,7 @@ qx.Class.define("inspector.console.Util",
           }
 
           var returnCode = "";
-          // Fix for webkit version > nightly
-          if ((qx.core.Variant.isSet("qx.client", "webkit") &&
-              qx.bom.client.Engine.FULLVERSION >= 528) ||
+          if (qx.core.Variant.isSet("qx.client", "webkit") || 
               qx.core.Variant.isSet("qx.client", "opera")) {
             returnCode = "return eval('" + code + "');"
           } else {
