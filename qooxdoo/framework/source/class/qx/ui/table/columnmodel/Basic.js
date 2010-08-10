@@ -134,10 +134,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Initializes the column model.
      *
-     * @param colCount {Integer} the number of columns the model should have.
-     * @return {void}
+     * @param colCount {Integer}
+     *   The number of columns the model should have.
+     *
+     * @param table {qx.ui.table.Table}
+     *   The table to which this column model is attached.
      */
-    init : function(colCount)
+    init : function(colCount, table)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertInteger(colCount, "Invalid argument 'colCount'.");
@@ -152,6 +155,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__overallColumnArr = [];
       this.__visibleColumnArr = [];
 
+      // Get the initially hidden column array
+      var initiallyHiddenColumns = table.getInitiallyHiddenColumns() || [];
+
       for (var col=0; col<colCount; col++)
       {
         this.__columnDataArr[col] =
@@ -165,15 +171,24 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.__overallColumnArr[col] = col;
         this.__visibleColumnArr[col] = col;
       }
-
+      
       this.__colToXPosMap = null;
 
-      for (var col=0; col<colCount; col++)
+      // If any columns are initialy hidden, hide them now. Make it an
+      // internal change so that events are not generated.
+      this.__internalChange = true;
+      for (var hidden=0; hidden<initiallyHiddenColumns.length; hidden++)
+      {
+        this.setColumnVisible(initiallyHiddenColumns[hidden], false);
+      }
+      this.__internalChange = false;
+
+      for (col=0; col<colCount; col++)
       {
         var data =
         {
           col     : col,
-          visible : true
+          visible : this.isColumnVisible(col)
         };
 
         this.fireDataEvent("visibilityChangedPre", data);

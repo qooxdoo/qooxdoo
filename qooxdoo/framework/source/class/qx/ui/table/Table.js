@@ -52,6 +52,12 @@ qx.Class.define("qx.ui.table.Table",
    *   here:
    *
    *   <dl>
+   *     <dt>initiallyHiddenColumns</dt>
+   *       <dd>
+   *         {Array?}
+   *         <i>true</i> for any column that should be initially invisible;
+   *         <i>false</i> or undefined for the default of column visible.
+   *       </dd>
    *     <dt>selectionManager</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
@@ -125,6 +131,10 @@ qx.Class.define("qx.ui.table.Table",
     //
     if (!custom) {
       custom = { };
+    }
+
+    if (custom.initiallyHiddenColumns) {
+      this.setInitiallyHiddenColumns(custom.initiallyHiddenColumns);
     }
 
     if (custom.selectionManager) {
@@ -319,6 +329,23 @@ qx.Class.define("qx.ui.table.Table",
     {
       refine : true,
       init : 50
+    },
+
+    /*
+     * The list of columns that are initially hidden. This property is set by
+     * the constructor, from the value received in
+     * custom.initiallyHiddenColumns, and is only used when a column model is
+     * initialized. It can be of great benefit in tables with numerous columns
+     * where most are not initially visible. The process of creating the
+     * headers for all of the columns, only to have those columns discarded
+     * shortly thereafter when setColumnVisibility(false) is called, is a
+     * waste of (significant, in some browsers) time. Specifying the
+     * non-visible columns at constructor time can therefore avoid the initial
+     * creation of all of those superfluous widgets.
+     */
+    initiallyHiddenColumns :
+    {
+      init : null
     },
 
     /**
