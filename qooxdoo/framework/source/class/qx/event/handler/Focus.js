@@ -227,7 +227,18 @@ qx.Class.define("qx.event.handler.Focus",
         window.setTimeout(function()
         {
           try {
+            // focus element before set cursor position
             element.focus();
+
+            // Fixed cursor position issue with IE, only when nothing is selected.
+            // See bug report #3519 for details.
+            var selection = qx.bom.Selection.get(element);
+            if (selection.length == 0) {
+              var textRange = element.createTextRange();
+              textRange.moveStart('character', element.value.length);
+              textRange.collapse();
+              textRange.select();
+            }
           } catch(ex) {};
         }, 0);
       }
