@@ -64,8 +64,10 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   {
     __defaultWidth : 16,
     __defaultHeight : 16,
-    _insetY : 2,
     __imageData : null,
+
+    // overridden 
+    _insetY : 2,
 
     /**
      * Identifies the Image to show. This is a template method, which must be
@@ -113,8 +115,9 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
         };
       }
 
+      var sizes = null;
       if (cellInfo.width && cellInfo.height) {
-        var sizes = {width : cellInfo.imageWidth, height : cellInfo.imageHeight};
+        sizes = {width : cellInfo.imageWidth, height : cellInfo.imageHeight};
       } else {
         sizes = this.__getImageSize(imageData.url);
       }
@@ -180,7 +183,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
       // set image
       if (this.__imageData.url) {
-        var content = qx.bom.element.Decoration.create(this.__imageData.url, "no-repeat", {
+        content = qx.bom.element.Decoration.create(this.__imageData.url, "no-repeat", {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
           display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
