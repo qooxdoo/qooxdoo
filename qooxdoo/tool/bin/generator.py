@@ -185,6 +185,9 @@ Arguments:
     # To see fully expanded config:
     #console.info(pprint.pformat(config.get(".")))
 
+    # Do some config schema checking
+    config.checkSchema(expandedjobs, checkJobTypes=True)
+
     # Clean-up config
     config.cleanUpJobs(expandedjobs)
 

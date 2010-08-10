@@ -52,6 +52,14 @@ class Job(object):
         return "<%s:%s>" % (self.__class__.__name__, self.name)
 
 
+    def raiseConfigError(self, basemsg):
+        msg = basemsg + " (%s#%s)" % (self._config._fname, self.name)
+        raise ValueError(msg)
+
+    def warnConfigError(self, basemsg):
+        msg = basemsg + " (%s#%s)" % (self._config._fname, self.name)
+        self._console.warn(msg)
+
     def mergeJob(self, sourceJob):
         "merges another job into self"
 
@@ -100,6 +108,20 @@ class Job(object):
             for synthKey in Lang.META_KEYS:
                 if synthKey in map:
                     del map[synthKey]
+
+    ##
+    # do some schema checking on the job data
+
+    def checkSchema(self, checkTypes=False):
+        jobconf = self.getData()
+        for key in jobconf.keys():
+            # does key exist?
+            if key not in Lang.JOB_LEVEL_KEYS.keys() + Lang.META_KEYS:
+                self.warnConfigError("! Unknown job config key \"%s\" - ignored." % key)
+            # does it have a correct value type?
+            if checkTypes:
+                if key in Lang.JOB_LEVEL_KEYS.keys() and not isinstance(jobconf[key], Lang.JOB_LEVEL_KEYS[key]):
+                    self.raiseConfigError("Incorrect value for job config key \"%s\" (expected %s)" % (key, Lang.JOB_LEVEL_KEYS[key]))
 
 
     def resolveExtend(self, entryTrace=[], cfg=None):

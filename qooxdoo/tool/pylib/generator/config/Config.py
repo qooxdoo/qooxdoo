@@ -60,13 +60,12 @@ class Config(object):
         # make sure there is at least an empty jobs map (for later filling)
         if isinstance(self._data, types.DictType) and Lang.JOBS_KEY not in self._data:
             self._data[Lang.JOBS_KEY] = {}
-            
+        
         # incorporate let macros from letkwargs
         if letKwargs:
             if not Lang.LET_KEY in self._data:
                 self._data[Lang.LET_KEY] = {}
             self._data[Lang.LET_KEY].update(letKwargs)
-                
 
         # expand macros for some top-level keys
         if Lang.LET_KEY in self._data:
@@ -83,6 +82,9 @@ class Config(object):
 
         # fix job key tags (like "=key")
         self.fixJobsTags()
+
+        # do some schema sanity checking
+        self.checkSchema()
 
         return
 
@@ -109,6 +111,21 @@ class Config(object):
         self._data  = data
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
+
+    
+    def raiseConfigError(self, basemsg):
+        msg = basemsg
+        if self._fname:
+            msg += " (%s)" % self._fname
+        raise ValueError(msg)
+
+
+    def warnConfigError(self, basemsg):
+        msg = basemsg
+        if self._fname:
+            msg += " (%s)" % self._fname
+        self._console.warn(msg)
+
 
     # some constants
     NS_SEP            = "/"    # this is to reference jobs from nested configs
@@ -281,6 +298,37 @@ class Config(object):
             else:
                 job.cleanUpJob()
 
+    ##
+    # do some schema checking on a config
+
+    def checkSchema(self, joblist=[], checkJobTypes=False):
+        configMap = self._data
+        # check top-level
+        tl_keys = configMap.keys()
+        for key in tl_keys:
+            # does key exist?
+            if key not in Lang.TOP_LEVEL_KEYS.keys():
+                self._console.warn("! Unknown top-level config key \"%s\" - ignored." % key)
+                #raise RuntimeError("! Unknown top-level config key \"%s\" - ignored." % key)
+            # does it have a correct value type?
+            elif not isinstance(configMap[key], Lang.TOP_LEVEL_KEYS[key]):
+                self.raiseConfigError("Incorrect value for top-level config key \"%s\" (expected %s)" % (key, Lang.TOP_LEVEL_KEYS[key]))
+
+        # check job-level
+        jobEntries = configMap[Lang.JOBS_KEY]
+        jobType    = types.DictType
+        for jobentry in jobEntries:
+            if not isinstance(jobEntries[jobentry], (jobType, Job)):
+                self.warnConfigError("! Not a valid job definition: \"%s\" - ignored." % jobentry)
+                continue
+            job = self.getJob(jobentry, withIncludes=False) # don't search included configs
+            if job:
+                if joblist and job not in joblist:
+                    continue
+                job.checkSchema(checkJobTypes)
+
+        return
+
 
 
     def resolveIncludes(self, includeTrace=[]):
@@ -309,10 +357,7 @@ class Config(object):
                     raise RuntimeError, "Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)])
                 
                 # calculate path relative to config file if necessary
-                if not os.path.isabs(fname):
-                    fpath = os.path.normpath(os.path.join(self._dirname, fname))
-                else:
-                    fpath = fname
+                fpath = self.absPath(fname)
         
                 # see if we use a namespace prefix for the imported jobs
                 if isinstance(incspec, types.DictType) and incspec.has_key('as'):

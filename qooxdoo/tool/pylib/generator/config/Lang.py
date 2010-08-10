@@ -29,11 +29,54 @@ class Lang(object):
     RUN_KEY      = "run"
     LET_KEY      = "let"
     LIBRARY_KEY  = "library"
+    INCLUDE_KEY  = "include"
     JOBS_KEY     = "jobs"
     RESOLVED_KEY = "__resolved__"
     OVERRIDE_KEY = "__override__"
     META_KEYS    = [ RESOLVED_KEY, OVERRIDE_KEY ]
     OVERRIDE_TAG = "="    # tag for key names, to protect on merging
     KEYS_WITH_JOB_REFS  = [RUN_KEY, EXTEND_KEY]
+    TOP_LEVEL_KEYS = {
+                LET_KEY     : types.DictType,
+                JOBS_KEY    : types.DictType,
+                INCLUDE_KEY : types.ListType,
+                "name"      : types.StringTypes,
+                "export"    : types.ListType,
+                }
+    JOB_LEVEL_KEYS = {
+                "add-script"    : types.ListType,
+                "api"           : types.DictType,
+                "asset-let"     : types.DictType,
+                "cache"         : types.DictType,
+                "clean-files"   : types.DictType,
+                "collect-environment-info"  : types.DictType,
+                "combine-images": types.DictType,
+                "compile"       : types.DictType,
+                "compile-options"  : types.DictType,
+                "copy-files"    : types.DictType,
+                "copy-resources"   : types.DictType,
+                "dependencies"  : types.DictType,
+                "desc"          : types.StringTypes,
+                "exclude"       : types.ListType,
+                EXTEND_KEY      : types.ListType,
+                "fix-files"     : types.DictType,
+                INCLUDE_KEY     : types.ListType,
+                LET_KEY         : types.DictType,
+                LIBRARY_KEY     : types.ListType,
+                "lint-check"    : types.DictType,
+                "log"           : types.DictType,
+                "migrate-files" : types.DictType,
+                "packages"      : types.DictType,
+                "pretty-print"  : types.DictType,
+                "provider"      : types.DictType,
+                "require"       : types.DictType,
+                RUN_KEY         : types.ListType,
+                "settings"      : types.DictType,
+                "shell"         : types.DictType,
+                "slice-images"  : types.DictType,
+                "translate"     : types.DictType,
+                "use"           : types.DictType,
+                "variants"      : types.DictType,
+                }
 
 
