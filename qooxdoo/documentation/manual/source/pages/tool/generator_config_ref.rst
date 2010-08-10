@@ -124,6 +124,24 @@ Each key is a doc string that will be used in logging when deleting the correspo
 * <doc_string> : arbitrary string
 * <path>       : file/path to be deleted; may be relative to config file location; :ref:`file globs <pages/tool/generator_config_articles#file_globs>` allowed
 
+.. _pages/tool/generator_config_ref#collect-environment-info:
+
+collect-environment-info
+========================
+
+Triggers the collection of information about the qooxdoo environment, and prints it to the console. Takes a map.
+
+::
+
+  "collect-environment-info" : {}
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+
+This key currently takes no subkeys, but you still have to provide an empty map. The information collected includes the qooxdoo version, the Python version, the path to the cache, stats about the cache contents, whether the current application has been built, asf.
+
+
 .. _pages/tool/generator_config_ref#combine-images:
 
 combine-images
@@ -784,6 +802,33 @@ Keys are:
 
     * **newline-before** : "(a|A|n|N|m|M)" Whether to insert a line break before the opening curly always (aA), never (nN) or mixed (mM) depending on block complexity (default: "m")
     * **indent-before** : (true|false) Whether to indent the opening curly if it is on a new line (default: false)
+
+.. _pages/tool/generator_config_ref#provider:
+
+provider
+============
+
+Collects application classes, resources, translateable strings and dependency information in a specific directory structure, under the ``provider`` root directory. Takes a map.
+
+::
+
+  "provider" : 
+  {
+    "app-root" : "./provider",
+    "include"  : ["${APPLICATION}.*"],
+    "exclude"  : ["${APPLICATION}.test.*"]
+  }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#cache`
+
+Keys are:
+
+* **app-root** : Chose a different root directory for the output (default: *./provider*).
+* **include**  : Name spaces for classes and resources to be included (default: *${APPLICATION}.\**).
+* **exclude**  : Name spaces for classes and resources to be excluded (default: *${APPLICATION}.test.\**).
+
 
 .. _pages/tool/generator_config_ref#require:
 
