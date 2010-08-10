@@ -470,12 +470,16 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _onChangeSelection : function(e)
     {
-      var pane = this.getChildControl("pane");
-      var button = e.getData()[0];
+      var pane      = this.getChildControl("pane");
+      var button    = e.getData()[0];
+      var oldButton = e.getOldData()[0];
+      var value     = null;
+      var old       = null;
 
       if (button)
       {
-        pane.setSelection([button.getUserData("page")]);
+        value = [button.getUserData("page")];
+        pane.setSelection(value);
         button.focus();
         this.scrollChildIntoView(button, null, null, false);
       }
@@ -484,8 +488,9 @@ qx.Class.define("qx.ui.tabview.TabView",
         pane.resetSelection();
       }
 
-      var value = pane.getSelection();
-      var old = e.getOldData();
+      if (oldButton) {
+        old = [oldButton.getUserData("page")];
+      }
 
       this.fireDataEvent("changeSelection", value, old);
     },
