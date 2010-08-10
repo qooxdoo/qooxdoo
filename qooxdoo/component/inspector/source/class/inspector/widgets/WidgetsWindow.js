@@ -39,7 +39,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
   {
     this.base(arguments, name, inspectorModel);
 
-    this.__view = new inspector.widgets.View();
+    this.__view = new inspector.widgets.View(this._model);
     this.add(this.__view, {edge: 0});
     
     this.__changeObjectsListenerID = this._model.addListener("changeObjects", function(e) {
