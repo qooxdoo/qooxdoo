@@ -1545,7 +1545,7 @@ class Generator(object):
             clippedImages = getClippedImagesDict(imgspec)
 
             # collect list of all input files, no matter where the come from
-            input = clippedImages.keys()
+            input = sorted(clippedImages.keys())
 
             # collect layout property
             if 'layout' in imgspec:
