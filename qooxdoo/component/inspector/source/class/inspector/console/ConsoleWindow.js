@@ -30,7 +30,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
   {
     this.base(arguments, name, inspectorModel);
 
-    this.__view = new inspector.console.View();
+    this.__view = new inspector.console.View(this._model);
     this.add(this.__view, {edge: 0});
   },
 
