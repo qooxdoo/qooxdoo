@@ -113,63 +113,110 @@ Keys can be grouped into several categories:
 
 First, here is an overview table, to list all possible keys in a job (unless otherwise noted). Below that you'll find a structured listing of all possible configuration keys in their respective context, with links to further information for each key.
 
-============================  ========================================================================
-Action Keys                          Description                                                      
-============================  ========================================================================
-api                            Triggers the generation of a custom Apiviewer application.               
-clean-files                    Delete files and directories from the file system.                       
-combine-images                Triggers creation of a combined image file that contains various images.  
-compile                        Triggers the generation of a source or build version of the app.                 
-copy-files                     Triggers files/directories to be copied.                                 
-copy-resources                 Triggers the copying of resources.                                       
-fix-files                      Fix white space in source files.                                         
-lint-check                     Check source code with a lint-like utility.                              
-migrate-files                  Migrate source code to the current qooxdoo version.                      
-pretty-print                   Format source files.                                                     
-shell                          Triggers the execution of an  external command.                          
-slice-images                   Triggers cutting images into regions.                                    
-translate                      Triggers updating of .po files.                                          
-============================  ========================================================================
+.. list-table::
+  :widths: 30 70
 
-============================  ====================================================
-Structure-changing Keys              Description                                  
-============================  ====================================================
-export                         List of jobs to be exported to other config files.   
-extend                         Extend the current job with other jobs.              
-include (top-level)            Include external config files.                       
-let                           Define macros.                                        
-let (top-level)                Define default macros.                               
-run                            Define a list of jobs to run.                        
-============================  ====================================================
+  * - **Action Keys**
+    - **Description**                                                      
+  * - api
+    - Triggers the generation of a custom Apiviewer application.               
+  * - clean-files
+    - Delete files and directories from the file system.                       
+  * - collect-environment-info
+    - Prints various infos about the qooxdoo environment (version etc.)
+  * - combine-images
+    - Triggers creation of a combined image file that contains various images.  
+  * - compile
+    - Triggers the generation of a source or build version of the app.                 
+  * - copy-files
+    - Triggers files/directories to be copied.                                 
+  * - copy-resources
+    - Triggers the copying of resources.                                       
+  * - fix-files
+    - Fix white space in source files.                                         
+  * - lint-check
+    - Check source code with a lint-like utility.                              
+  * - migrate-files
+    - Migrate source code to the current qooxdoo version.                      
+  * - pretty-print
+    - Format source files.                                                     
+  * - provider
+    - Collects classes, resources and dependency info in a directory tree.
+  * - shell
+    - Triggers the execution of an  external command.                          
+  * - slice-images
+    - Triggers cutting images into regions.                                    
+  * - translate
+    - Triggers updating of .po files.                                          
 
-============================  ========================================================
-Input/Output-setting Keys            Description                                      
-============================  ========================================================
-asset-let                      Defines macros that will be replaced in #asset hints.    
-dependencies                   Fine-tune dependency processing.                         
-exclude                        Exclude classes from processing of the job.              
-include                        Include classes to be processed in the job.              
-library                        Define libraries to be taken into account for this job.  
-packages                       Define packages for this app.                            
-require                        Define prerequisite classes (load time).                 
-settings                      Define qooxdoo settings.                                  
-use                            Define prerequisite classes (run time).                  
-variants                       Define variants for the curren app.                      
-============================  ========================================================
+  * - 
+    - 
 
-============================  ========================================
-Runtime-setting Keys                 Description                      
-============================  ========================================
-cache                          Define the path to the cache directory.  
-log                            Tailor log output options.               
-============================  ========================================
+  * - **Structure-changing Keys**
+    - **Description**
 
-=============================  =================================================
-Miscellaneous Keys                    Description                               
-=============================  =================================================
-desc                            A descriptive string for the job.                 
-name                            A descriptive string for the configuration file.  
-=============================  =================================================
+  * - export
+    - List of jobs to be exported to other config files.
+  * - extend
+    - Extend the current job with other jobs.
+  * - include (top-level)
+    - Include external config files.
+  * - let
+    - Define macros.
+  * - let (top-level)
+    - Define default macros.
+  * - run
+    - Define a list of jobs to run.
+
+  * -  
+    -  
+
+  * - **Input/Output-setting Keys**
+    - **Description**                                      
+  * - add-script
+    - Includes aritrary URIs to be loaded by the app.
+  * - asset-let
+    - Defines macros that will be replaced in #asset hints.    
+  * - compile-options
+    - Various options that taylor the *compile* action.
+  * - dependencies
+    - Fine-tune dependency processing.                         
+  * - exclude
+    - Exclude classes from processing of the job.              
+  * - include
+    - Include classes to be processed in the job.              
+  * - library
+    - Define libraries to be taken into account for this job.  
+  * - packages
+    - Define packages for this app.                            
+  * - require
+    - Define prerequisite classes (load time).                 
+  * - settings
+    - Define qooxdoo settings.                                  
+  * - use
+    - Define prerequisite classes (run time).                  
+  * - variants
+    - Define variants for the curren app.                      
+
+  * -  
+    -  
+
+  * - **Runtime-setting Keys**
+    - **Description**
+  * - cache
+    - Define the path to the cache directory.  
+  * - log
+    - Tailor log output options.               
+
+  * -  
+    -  
+
+  * - **Miscellaneous Keys**
+    - **Description**                               
+  * - desc
+    - A descriptive string for the job.                 
+  * - name
+    - A descriptive string for the configuration file.  
 
 .. _pages/tool/generator_config#listing_of_keys_in_context:
 
@@ -187,12 +234,15 @@ This shows the complete possible contents of the top-level configuration map. Fu
 
   * *<jobname>* Each job's value is a map describing the job. The describing map can have any number of the following keys:
 
+    * :ref:`add-script <pages/tool/generator_config_ref#api>` A list of URIs that will be loaded first thing when the app starts.
     * :ref:`api <pages/tool/generator_config_ref#api>` Triggers the generation of a custom Apiviewer application.
     * :ref:`asset-let <pages/tool/generator_config_ref#asset-let>` Defines macros that will be replaced in #asset hints in source files. (See special section on the :ref:`"asset-let" key <pages/tool/generator_config_articles#asset-let_key>`).
     * :ref:`cache <pages/tool/generator_config_ref#cache>` Define the path to cache directories, most importantly to the compile cache. (See special section on the :ref:`pages/tool/generator_config_articles#cache_key` key).
     * :ref:`clean-files <pages/tool/generator_config_ref#clean-files>` Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
+    * :ref:`collect-environment-info <pages/tool/generator_config_ref#collect-environment-info>` Collects various information about the qooxdoo environment (like version, cache, etc.) and prints it to the console.
     * :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` Triggers creation of a combined image file that contains various images.
     * :ref:`compile <pages/tool/generator_config_ref#compile>` Triggers the generation of a source or build version of the application.
+    * :ref:`compile-options <pages/tool/generator_config_ref#compile-options>` Define various options that influence compile runs (both source and build version).
     * :ref:`copy-files <pages/tool/generator_config_ref#copy-files>` Triggers files/directories to be copied, usually between source and build version.
     * :ref:`copy-resources <pages/tool/generator_config_ref#copy-resources>` Triggers the copying of resources, usually between source and build version.
     * :ref:`dependencies <pages/tool/generator_config_ref#dependencies>` Fine-tune the processing of class dependencies.
@@ -208,6 +258,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
     * :ref:`migrate-files <pages/tool/generator_config_ref#migrate-files>` Migrate source code to the current qooxdoo version.
     * :ref:`packages <pages/tool/generator_config_ref#packages>` Define packages for the application. (See special section on :ref:`packages <pages/tool/generator_config_articles#packages_key>`).
     * :ref:`pretty-print <pages/tool/generator_config_ref#pretty-print>` Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
+    * :ref:`provider <pages/tool/generator_config_ref#provider>` Collects classes, resources and dependency information and puts them in a specific directory structure under the ``provider`` root.
     * :ref:`require <pages/tool/generator_config_ref#require>` Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
     * :ref:`run <pages/tool/generator_config_ref#run>` Define a list of jobs to run in place of the current job. (See the special section on :ref:`"run" semantics <pages/tool/generator_config_articles#run_key>`).
     * :ref:`settings <pages/tool/generator_config_ref#settings>` Define qooxdoo settings for the generated application.
