@@ -21,7 +21,7 @@ This warning indicates that an unknown global variable is used. This can be caus
 
 * The variable is not declared as local variable using ``var``
 * The variable name is misspelled
-* It is OK to use this global but EcmaLint does not know about it. This can be fixed by passing the variable name as known variable to the EcmaLint call or by adding a ``@lint ignoreGlobal(VARIABLE_NAME)`` doc comment to the method's API doc comment
+* It is OK to use this global but EcmaLint does not know about it. This can be fixed by passing the variable name as known variable to the EcmaLint call or by adding a ``@lint ignoreUndefined(VARIABLE_NAME)`` doc comment to the method's API doc comment
 
 .. _pages/tool/source_code_validation#unused_identifier:
 
