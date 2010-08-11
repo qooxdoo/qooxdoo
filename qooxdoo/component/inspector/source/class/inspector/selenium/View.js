@@ -244,8 +244,19 @@ qx.Class.define("inspector.selenium.View", {
       var rowArr = ["", "", ""];
       if (this.__selectedWidget) {
         var iframeWindow = qx.core.Init.getApplication().getIframeWindowObject();
-        var appRoot = iframeWindow.qx.core.Init.getApplication().getRoot();
-        var locator = inspector.selenium.SeleniumUtil.getQxhLocator(this.__selectedWidget, appRoot);
+        var root = iframeWindow.qx.core.Init.getApplication().getRoot();
+        // inline application: Determine the correct root widget
+        if (root.classname == "qx.ui.root.Page" && !iframeWindow.qx.ui.core.Widget.contains(root, this.__selectedWidget)) {
+          var objects = iframeWindow.qx.core.ObjectRegistry.getRegistry();
+          for (var key in objects) {
+            var object = objects[key];
+            if (object.classname == "qx.ui.root.Inline" && iframeWindow.qx.ui.core.Widget.contains(object, this.__selectedWidget)) {
+              root = object;
+              break;
+            }
+          }
+        }
+        var locator = inspector.selenium.SeleniumUtil.getQxhLocator(this.__selectedWidget, root);
         var command = "qxClick";
         rowArr = [command, locator, "", this.__availableCommands ];
       }

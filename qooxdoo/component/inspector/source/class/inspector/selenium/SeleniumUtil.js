@@ -53,7 +53,13 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
         widget = widget.getLayoutParent();
       }
       loc.reverse();
-      return "qxh=" + loc.join("/");
+      if (appRoot.classname == "qx.ui.root.Inline") {
+        var isleId = inspector.selenium.SeleniumUtil.getInlineIsleId(appRoot);
+        loc = "qxh=inline:" + isleId + "//" + loc.join("/");
+      } else {
+        loc = "qxh=" + loc.join("/");
+      }
+      return loc;
     },
 
     /**
@@ -99,6 +105,25 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       }
 
       return step;
+    },
+    
+    /**
+     * Returns the HTML ID attribute of an Inline root widget's container 
+     * element. If the element doesn't have an ID, its parent node is checked.
+     * 
+     * @param inlineRoot {qx.ui.root.Inline} 
+     * @return {String} The found HTML ID
+     */
+    getInlineIsleId : function(inlineRoot)
+    {
+      var isleElem = inlineRoot.getContainerElement().getDomElement();
+      if (isleElem.id) {
+        return isleElem.id;
+      } else if (isleElem.parentNode && isleElem.parentNode.id) {
+        return isleElem.parentNode.id;
+      }
+      
+      return "UNKNOWN_ISLE";
     }
 
   }
