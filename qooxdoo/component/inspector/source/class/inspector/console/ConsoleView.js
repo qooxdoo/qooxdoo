@@ -556,12 +556,6 @@ qx.Class.define("inspector.console.ConsoleView",
       this._content.setHtml(this._content.getHtml() + label);
       // scroll to the end of the console
       this._scrollToLastLine();
-    },
-
-    dispose : function()
-    {
-      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
-      iFrameWindow.qx.log.Logger.unregister(inspector.console.Appender);
     }
   }
 });
