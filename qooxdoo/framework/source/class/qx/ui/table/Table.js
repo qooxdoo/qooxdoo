@@ -55,8 +55,9 @@ qx.Class.define("qx.ui.table.Table",
    *     <dt>initiallyHiddenColumns</dt>
    *       <dd>
    *         {Array?}
-   *         <i>true</i> for any column that should be initially invisible;
-   *         <i>false</i> or undefined for the default of column visible.
+   *         A list of column numbers that should be initially invisible. Any
+   *         column not mentioned will be initially visible, and if no array
+   *         is provided, all columns will be initially visible.
    *       </dd>
    *     <dt>selectionManager</dt>
    *       <dd><pre class='javascript'>

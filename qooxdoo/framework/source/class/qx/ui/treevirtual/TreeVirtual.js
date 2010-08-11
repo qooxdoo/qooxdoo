@@ -61,6 +61,13 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *   the defaults listed here:
    *
    *   <dl>
+   *     <dt>initiallyHiddenColumns</dt>
+   *       <dd>
+   *         {Array?}
+   *         A list of column numbers that should be initially invisible. Any
+   *         column not mentioned will be initially visible, and if no array
+   *         is provided, all columns will be initially visible.
+   *       </dd>
    *     <dt>dataModel</dt>
    *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
    *     <dt>treeDataCellRenderer</dt>
