@@ -524,7 +524,7 @@ Define libraries to be taken into account for this job. Takes an array of maps.
 
 Each map can contain the keys 
 
-* **manifest** *(required)* : path to the "Manifest" file of the library; may be relative to config file location; may use ``contrib:%%//%%`` scheme 
+* **manifest** *(required)* : path to the "Manifest" file of the library; may be relative to config file location; may use ``contrib://`` scheme 
 * **uri** : URI prefix from your HTML file to the directory of the library's "Manifest" file
 * **namespace** : alternative name space string, which takes precedence of the one provided by the library's "Manifest" file.
 
