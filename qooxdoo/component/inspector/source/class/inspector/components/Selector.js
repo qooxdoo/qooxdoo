@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 qx.Class.define("inspector.components.Selector",
@@ -43,8 +44,10 @@ qx.Class.define("inspector.components.Selector",
     setJSWindow : function(win) {
       this._iFrameWindow = win;
       this._addedWidgets = [];
-      this._root = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
-
+      
+      this._rootApplication = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
+      
+      this._createRootNode();
       this._createCatchClickLayer();
       this._createHighlightStuff();
 
@@ -68,7 +71,7 @@ qx.Class.define("inspector.components.Selector",
 
     highlightFor: function(object, msec) {
       // if its an application object
-      if (object.classname == "qx.ui.root.Application") {
+      if (object.classname == "qx.ui.root.Application" || object.classname == "qx.ui.root.Page") {
         return;
       }
       this._highlight(object);
@@ -85,7 +88,22 @@ qx.Class.define("inspector.components.Selector",
       }, msec);
     },
 
-
+    _createRootNode : function() {
+      this._rootNodes = [];
+      
+      this._rootNodes.push(this._rootApplication);
+      
+      if (this._rootApplication.classname == "qx.ui.root.Page") {
+        var objects = this._iFrameWindow.qx.core.ObjectRegistry.getRegistry();
+        for (var key in objects) {
+          var object = objects[key];
+          if (object.classname == "qx.ui.root.Inline") {
+            this._rootNodes.push(object);
+          }
+        }
+      }
+    },
+    
     _createCatchClickLayer: function() {
       // initialize the layer to catch the clicks
       this._catchClickLayer = new this._iFrameWindow.qx.ui.core.Widget();
@@ -94,8 +112,15 @@ qx.Class.define("inspector.components.Selector",
       this._catchClickLayer.setOpacity(0.1);
       this._catchClickLayer.setZIndex(1e6 - 1);
       this._catchClickLayer.hide();
-      this._root.add(this._catchClickLayer, {left: 0, top: 0, right: 0, bottom: 0});
-
+      
+      if (this._rootApplication.classname == "qx.ui.root.Application") {
+        this._rootApplication.add(this._catchClickLayer, {left: 0, top: 0, right: 0, bottom: 0});
+      } else {
+        this._catchClickLayer.setHeight(qx.bom.Document.getHeight(this._iFrameWindow));
+        this._catchClickLayer.setWidth(qx.bom.Document.getWidth(this._iFrameWindow));
+        this._rootApplication.add(this._catchClickLayer, {left: 0, top: 0});
+      }
+        
       // register the handler to catch the clicks and select the clicked widget
       this._catchClickLayer.addListener("click", function(e) {
         // hide the layer that catches the click
@@ -104,9 +129,13 @@ qx.Class.define("inspector.components.Selector",
         var xPosition = e.getDocumentLeft();
         var yPosition = e.getDocumentTop();
         // search the widget at the current position
-        var clickedElement = this._searchWidget(
-          this._root, xPosition, yPosition
-        );
+        var clickedElement = null;
+        for (var i = 0; i < this._rootNodes.length; i++) {
+          clickedElement = this._searchWidget(this._rootNodes[i], xPosition, yPosition);
+          if (clickedElement != this._rootNodes[i]) {
+            break;
+          }
+        }
         // hide the highlight
         this._highlightOverlay.hide();
         // select the widget with the given id in the tree
@@ -119,9 +148,13 @@ qx.Class.define("inspector.components.Selector",
         var xPosition = e.getDocumentLeft();
         var yPosition = e.getDocumentTop();
         // search the widget at the current position
-        var object = this._searchWidget(
-          this._root, xPosition, yPosition, ""
-        );
+        var object = null;
+        for (var i = 0; i < this._rootNodes.length; i++) {
+          object = this._searchWidget(this._rootNodes[i], xPosition, yPosition);
+          if (object != this._rootNodes[i]) {
+            break;
+          }
+        }
         // highlight the widget under the mouse pointer
         this._highlight(object);
       }, this);
@@ -139,7 +172,7 @@ qx.Class.define("inspector.components.Selector",
       this._highlightOverlay.setDecorator(this._highlightDecorator);
       this._highlightOverlay.setZIndex(1e6 - 2);
       this._highlightOverlay.hide();
-      this._root.add(this._highlightOverlay);
+      this._rootApplication.add(this._highlightOverlay);
     },
 
 
@@ -197,6 +230,10 @@ qx.Class.define("inspector.components.Selector",
 
 
     _highlight: function(object) {
+      if (object.classname == "qx.ui.root.Inline") {
+        return;
+      }
+      
       var element = null;
       if (object.getContainerElement && object.getContainerElement().getDomElement) {
         element = object.getContainerElement().getDomElement();
@@ -220,12 +257,11 @@ qx.Class.define("inspector.components.Selector",
       this._highlightOverlay.renderLayout(left, top, right - left, bottom - top);
       this._highlightOverlay.show();
     }
-
   },
 
   destruct : function()
   {
-    this._iFrameWindow = this._addedWidgets = this._root = null;
+    this._iFrameWindow = this._addedWidgets = this._rootApplication = this._rootNodes = null;
     this._disposeObjects("_catchClickLayer", "_highlightDecorator",
       "_highlightOverlay");
   }
