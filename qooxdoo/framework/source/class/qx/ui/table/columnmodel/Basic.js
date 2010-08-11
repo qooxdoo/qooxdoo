@@ -155,8 +155,23 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__overallColumnArr = [];
       this.__visibleColumnArr = [];
 
-      // Get the initially hidden column array
-      var initiallyHiddenColumns = table.getInitiallyHiddenColumns() || [];
+      // Get the initially hidden column array, if one was provided. Older
+      // subclasses may not provide the 'table' argument, so we treat them
+      // traditionally with no initially hidden columns.
+      var initiallyHiddenColumns;
+      
+      // Was a table provided to us?
+      if (table) 
+      {
+        // Yup. Get its list of initially hidden columns, if the user provided
+        // such a list.
+        initiallyHiddenColumns = table.getInitiallyHiddenColumns();
+      }
+      
+      // If no table was specified, or if the user didn't provide a list of
+      // initially hidden columns, use an empty list.
+      initiallyHiddenColumns = initiallyHiddenColumns || [];
+
 
       for (var col=0; col<colCount; col++)
       {
