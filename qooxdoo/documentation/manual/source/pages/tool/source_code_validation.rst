@@ -18,6 +18,7 @@ Critical Warnings
 Use of undefined or global identifier
 -------------------------------------
 This warning indicates that an unknown global variable is used. This can be caused by:
+
 * The variable is not declared as local variable using ``var``
 * The variable name is misspelled
 * It is OK to use this global but EcmaLint does not know about it. This can be fixed by passing the variable name as known variable to the EcmaLint call or by adding a ``@lint ignoreGlobal(VARIABLE_NAME)`` doc comment to the method's API doc comment
