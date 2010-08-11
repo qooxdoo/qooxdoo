@@ -92,16 +92,50 @@ qx.Class.define("inspector.widgets.View",
       }
 
       var remoteAppRoot = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
-      // create a new root folder
-      var rootFolder = new qx.ui.tree.TreeFolder(
-        remoteAppRoot.classname + " [" + remoteAppRoot.toHashCode() + "]"
-      );
-      // store the root application with the folder
-      rootFolder.setUserData("instance", remoteAppRoot);
-      this._tree.setRoot(rootFolder);
 
-      // refill the tree
-      this._fillTree(remoteAppRoot, rootFolder, 2);
+      // create a new root folder
+      if (remoteAppRoot.classname == "qx.ui.root.Application") {
+        var rootFolder = new qx.ui.tree.TreeFolder(
+          remoteAppRoot.classname + " [" + remoteAppRoot.toHashCode() + "]"
+        );
+        // store the root application with the folder
+        rootFolder.setUserData("instance", remoteAppRoot);
+        this._tree.setRoot(rootFolder);
+
+        // refill the tree
+        this._fillTree(remoteAppRoot, rootFolder, 2);
+      } else if (remoteAppRoot.classname == "qx.ui.root.Page") {
+        var rootFolder = new qx.ui.tree.TreeFolder("Root Node");
+        this._tree.setRoot(rootFolder);
+        this._tree.setHideRoot(true);
+          
+        var applicationRoot = new qx.ui.tree.TreeFolder(
+          remoteAppRoot.classname + " [" + remoteAppRoot.toHashCode() + "]"
+        );
+        
+        // store the root application with the folder
+        applicationRoot.setUserData("instance", remoteAppRoot);
+        applicationRoot.setUserData('id', remoteAppRoot.toHashCode());
+        rootFolder.add(applicationRoot);
+        
+        // refill the tree
+        this._fillTree(remoteAppRoot, applicationRoot, 2);
+
+        var objects = this._iFrameWindow.qx.core.ObjectRegistry.getRegistry();
+        for (var key in objects) {
+          var object = objects[key];
+          if (object.classname == "qx.ui.root.Inline") {
+            var inlineRoot = new qx.ui.tree.TreeFolder(
+                object.classname + " [" + object.toHashCode() + "]"
+            );
+              
+            inlineRoot.setUserData("instance", object);
+            inlineRoot.setUserData('id', inlineRoot.toHashCode());
+            rootFolder.add(inlineRoot);
+            this._fillTree(object, inlineRoot, 2);
+          }
+        }
+      }
     },
 
     _reload : function()
@@ -302,7 +336,8 @@ qx.Class.define("inspector.widgets.View",
       // flag that signals if the element has been found
       var elementFound = false;
       // check the root element of the tree
-      if (this._tree.getRoot().getUserData("instance").toHashCode() == id) {
+      if (this._tree.getRoot().getUserData("instance") != null &&
+          this._tree.getRoot().getUserData("instance").toHashCode() == id) {
         // select the root of the tree
         this._tree.resetSelection();
         this._tree.addToSelection(this._tree.getRoot());
@@ -339,7 +374,8 @@ qx.Class.define("inspector.widgets.View",
       // get all items of the tree
       var items = this._tree.getItems(true, true);
       // check the root element of the tree
-      if (this._tree.getRoot().getUserData("instance").toHashCode() == id) {
+      if (this._tree.getRoot().getUserData("instance") != null &&
+          this._tree.getRoot().getUserData("instance").toHashCode() == id) {
         // select the root of the tree
         this._tree.resetSelection();
         this._tree.addToSelection(this._tree.getRoot());
