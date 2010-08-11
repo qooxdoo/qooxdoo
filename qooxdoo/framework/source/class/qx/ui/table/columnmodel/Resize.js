@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     init : function(numColumns, table)
     {
       // Call our superclass
-      this.base(arguments, numColumns);
+      this.base(arguments, numColumns, table);
 
       if (this.__table == null)
       {
