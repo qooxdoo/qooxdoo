@@ -368,12 +368,19 @@ qx.Class.define("qx.core.Assert",
         called = true;
       };
 
-      var id = obj.addListener(event, listener, obj);
+      var id;
+      try {
+        id = obj.addListener(event, listener, obj);
+        invokeFunc.call();
+      } catch (ex) {
+        throw ex;
+      } finally {
+        try {
+          obj.removeListenerById(id);
+        } catch (ex) { /* ignore */ }
+      }
 
-      invokeFunc.call();
       called === true || this.__fail(msg || "", "Event (", event, ") not fired.");
-
-      obj.removeListenerById(id);
     },
 
 
