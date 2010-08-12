@@ -126,7 +126,6 @@ qx.Class.define("inspector.components.InspectorModel",
       if (this.__inspected !== object) {
         var oldInspected = this.__inspected;
         this.__inspected = object;
-        this.__application.select(object);
         this.fireDataEvent("changeInspected", this.__inspected, oldInspected);
       }
     }
