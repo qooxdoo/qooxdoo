@@ -21,10 +21,11 @@
 
 import os, re, sys
 
-from misc import filetool
+from misc import filetool, Path
 from misc.NameSpace import NameSpace
 from ecmascript.frontend import lang
-from generator.resource.ImageInfo import CombinedImage
+from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage
+from generator import Context as context
 
 ##
 # pickle complains when I use NameSpace!?
@@ -33,7 +34,7 @@ class C(object): pass
 ##
 # Represents a qooxdoo library
 class Library(object):
-    # is called with a "library" entry from the json config
+    # is called with a "library" entry from the config.json
     def __init__(self, libconfig, console):
         self._config = libconfig
         self._console = console
@@ -46,7 +47,7 @@ class Library(object):
         self.resources  = C()
         self.resources.combImages = set()
 
-        self._path = self._config.get("path", "")
+        self._path = context.config.absPath(self._config.get("path", ""))
 
         if self._path == "":
             raise ValueError("Missing path information!")
@@ -63,15 +64,33 @@ class Library(object):
         self._translationPath = os.path.join(self._path, self._config.get("translation","source/translation"))
         self._resourcePath    = os.path.join(self._path, self._config.get("resource","source/resource"))
 
-        self._detectNamespace(self._classPath)
+        self.namespace = self._config.get("namespace")
+        if not self.namespace: raise RuntimeError
+        self._checkNamespace(self._classPath)
 
+        #ImageInfoObj = ImageInfo(context.console, context.cache)
+        self._imageInfoObj = ImageInfo(context.console, context.cache)
+
+    ##
+    # pickling: provide state
     def __getstate__(self):
-        # for pickling, stripp the Log object (the StreamWriter for a potential log file makes
-        # problems on unpickling;
-        # client code has to restore self._console on unpickling
         d = self.__dict__.copy()
+        # the Log object (the StreamWriter for a potential log file) makes
+        # problems on unpickling
         del d['_console']
+        # the ImageInfo object includes (way down) an InterruptHandler obj
+        # that holds an instance method (from the Cache); cannot be pickled
+        del d['_imageInfoObj']
         return d
+
+
+    ##
+    # unpickling: update state
+    def __setstate__(self, d):
+        d['_imageInfoObj'] = ImageInfo(context.console, context.cache)
+        d['_console']      = context.console
+        self.__dict__ = d
+
 
     _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
@@ -92,7 +111,7 @@ class Library(object):
 
 
     def getNamespace(self):
-        return self._namespace
+        return self.namespace
 
     def getResources(this):
         return this._resources
@@ -118,9 +137,31 @@ class Library(object):
         return None
 
 
+    def _checkNamespace(self, path):
+        if not os.path.exists(path):
+            raise ValueError("The given path does not contain a class folder: %s" % path)
+
+        ns = None
+        files = os.listdir(path)
+
+        for entry in files:
+            if entry.startswith(".") or self._ignoredDirectories.match(entry):
+                continue
+
+            full = os.path.join(path, entry)
+            if os.path.isdir(full):
+                if ns != None:
+                    raise ValueError("Multiple namespaces per library are not supported (%s,%s)" % (full, ns))
+
+                ns = entry
+
+        if ns == None:
+            raise ValueError("Namespace could not be detected!")
+
+
     def _detectNamespace(self, path):
         if not os.path.exists(path):
-            raise ValueError("The given path does not contains a class folder: %s" % path)
+            raise ValueError("The given path does not contain a class folder: %s" % path)
 
         ns = None
         files = os.listdir(path)
@@ -140,7 +181,7 @@ class Library(object):
             raise ValueError("Namespace could not be detected!")
 
         self._console.debug("Detected namespace: %s" % ns)
-        self._namespace = ns
+        self.namespace = ns
 
 
 
@@ -165,7 +206,7 @@ class Library(object):
 
             for file in files:
                 fpath = os.path.join(root, file)
-                #self._resources.append(fpath)  # avoiding this currently, as it is not used
+                self._resources.append(fpath)
                 if CombinedImage.isCombinedImage(fpath):
                     self.resources.combImages.add(fpath)
 
@@ -214,7 +255,7 @@ class Library(object):
                         "relpath" : fileRel,
                         "path" : filePath,
                         "encoding" : encoding,
-                        "namespace" : self._namespace,
+                        "namespace" : self.namespace,
                         "id" : filePathId,
                         "package" : filePackage,
                         "size" : fileSize
@@ -255,7 +296,7 @@ class Library(object):
                     "relpath" : fileRel,
                     "path" : filePath,
                     "encoding" : encoding,
-                    "namespace" : self._namespace,
+                    "namespace" : self.namespace,
                     "id" : filePathId,
                     "package" : filePackage,
                     "size" : fileSize
@@ -290,11 +331,52 @@ class Library(object):
                 filePath = os.path.join(root, fileName)
                 fileLocale = os.path.splitext(fileName)[0]
 
-                self._translations[fileLocale] = self.translationEntry(fileLocale, filePath, self._namespace)
+                self._translations[fileLocale] = self.translationEntry(fileLocale, filePath, self.namespace)
 
         self._console.indent()
         self._console.debug("Found %s translations" % len(self._translations))
         self._console.outdent()
+
+
+    ##
+    # get the resource Id and resource value
+    def analyseResource(self, resource):
+        ##
+        # compute the resource value of an image for the script
+        def imgResVal(resource, assetId):
+            imageInfo = self._imageInfoObj.getImageInfo(resource , assetId)
+
+            # Now process the image information
+            # use an ImgInfoFmt object, to abstract from flat format
+            imgfmt = ImgInfoFmt()
+            imgfmt.lib = self.namespace
+            if not 'type' in imageInfo:
+                raise RuntimeError, "Unable to get image info from file: %s" % resource 
+            imgfmt.type = imageInfo['type']
+
+            # Add this image
+            # imageInfo = {width, height, filetype}
+            if not 'width' in imageInfo or not 'height' in imageInfo:
+                raise RuntimeError, "Unable to get image info from file: %s" % resource 
+            imgfmt.width  = imageInfo['width']
+            imgfmt.height = imageInfo['height']
+            imgfmt.type   = imageInfo['type']
+
+            return imgfmt
+
+        # ----------------------------------------------------------
+        imgpatt = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
+        librespath = os.path.normpath(self._resourcePath)
+        lib_prefix_len = len(librespath)
+        if not librespath.endswith(os.sep):
+            lib_prefix_len += 1
+        assetId = resource[lib_prefix_len:]
+        assetId = Path.posifyPath(assetId)
+        if imgpatt.search(resource): # handle images
+            resvalue = imgResVal(resource, assetId)
+        else:  # handle other resources
+            resvalue = self.namespace
+        return assetId, resvalue
 
 
     @staticmethod
@@ -316,3 +398,4 @@ class Library(object):
             "variant" : variant,
             "namespace" : namespace
         }
+

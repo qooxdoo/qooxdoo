@@ -41,6 +41,7 @@ class Script(object):
         self.buildType  = ""   # "source"/"build"
         self.locales    = []   # supported locales, e.g. ["de", "de_DE", "en"]
         self.libraries  = []   # involved libraries [generator.code.Library, ...]
+        self.namespace  = u""  # the main name space (config macro "APPLICATION")
 
     ##
     # return old-style array of arrays of classIds in self.packageIdsSorted order

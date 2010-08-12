@@ -172,8 +172,7 @@ copy file or directory SOURCE to directory TARGET'''
         (options, args) = parser.parse_args(argumentList)
         
         if not len(args) == 2:
-            self.__console.error( "Missing argument, use -h for help.")
-            sys.exit(1)
+            raise RuntimeError( "Missing argument, use -h for help.")
         
         self.__source = os.path.abspath(args[0])
         self.__targetDir = os.path.abspath(args[1])

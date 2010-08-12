@@ -59,7 +59,7 @@ class CodeGenerator(object):
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
             if not filePath:
-                filePath = os.path.join(compileType, "script", self.getAppName() + ".js")
+                filePath = os.path.join(compileType, "script", script.namespace + ".js")
             return filePath
 
         def getFileUri(scriptUri):
@@ -94,7 +94,7 @@ class CodeGenerator(object):
 
                 return result
 
-            def packageUrisToJS(packages, version, namespace=None):
+            def packageUrisToJS1(packages, version, namespace=None):
                 # Translate URI data to JavaScript
                 
                 allUris = []
@@ -106,7 +106,7 @@ class CodeGenerator(object):
                             # TODO: gosh, the next is an ugly hack!
                             #namespace  = self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                             if not namespace:
-                                namespace  = self.getAppName()  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                                namespace  = script.namespace  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                             relpath    = OsPath(fileId)
                         else:
                             namespace  = self._classes[fileId]["namespace"]
@@ -118,20 +118,15 @@ class CodeGenerator(object):
 
                 return allUris
 
-            def packageUrisToJS1(packages, version, namespace=None):
-                # Translate URI data to JavaScript
-                # using Package objects
+            ##
+            # Translate URI data to JavaScript
+            # using Package objects
+            def packageUrisToJS(packages, version):
 
-                if version == "build" and not namespace:
-                    # TODO: gosh, the next is an ugly hack!  
-                    # all name spaces point to the same paths in the libinfo struct, so any of them will do
-                    #namespace  = self._resourceHandler._genobj._namespaces[0]
-                    namespace  = self.getAppName()
-                
                 allUris = []
                 for packageId, package in enumerate(packages):
                     packageUris = []
-                    if package.file:
+                    if package.file: # build
                         namespace = "__out__"
                         fileId    = package.file
                         relpath    = OsPath(fileId)
@@ -146,6 +141,7 @@ class CodeGenerator(object):
                     allUris.append(packageUris)
 
                 return allUris
+
 
             def loadTemplate(bootCode):
                 # try custom loader templates
@@ -197,8 +193,8 @@ class CodeGenerator(object):
             vals["Parts"] = partsMap(script)
 
             # Translate URI data to JavaScript
-            #vals["Uris"] = packageUrisToJS(packages, version)
-            vals["Uris"] = packageUrisToJS1(packages, version)
+            #vals["Uris"] = packageUrisToJS1(packages, version)
+            vals["Uris"] = packageUrisToJS(packages, version)
             vals["Uris"] = json.dumpsCode(vals["Uris"])
 
             # Add potential extra scripts
@@ -893,16 +889,19 @@ class CodeGenerator(object):
         def registerResources(libs, filteredResources, combinedImages):
             skippatt = re.compile(r'\.(meta|py)$', re.I)
             for lib in libs:
+                libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
                 resourceList = self._resourceHandler.findAllResources([lib], None)
                 # resourceList = [file1,file2,...]
                 for resource in resourceList:
                     if skippatt.search(resource):
                         continue
                     if assetFilter(resource):  # add those anyway
-                        resId, resVal            = analyseResource(resource, lib)
+                        #resId, resVal            = analyseResource(resource, lib)
+                        resId, resVal            = libObj.analyseResource(resource,)
                         filteredResources[resId] = resVal
                     if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
-                        combId, combImgFmt     = analyseResource(resource, lib)
+                        #combId, combImgFmt     = analyseResource(resource, lib)
+                        combId, combImgFmt     = libObj.analyseResource(resource,)
                         combObj                = CombinedImage(resource) # this parses also the .meta file
                         combObj.info           = combImgFmt
                         combinedImages[combId] = combObj
@@ -996,16 +995,6 @@ class CodeGenerator(object):
             filetool.gzip(filePath, content)
         else:
             filetool.save(filePath, content)
-
-
-    def getAppName(self, memo={}):
-        if not 'appname' in memo:
-            appname = self._job.get("let/APPLICATION")
-            if not appname:
-                raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
-            else:
-                memo['appname'] = appname
-        return memo['appname']
 
 
 

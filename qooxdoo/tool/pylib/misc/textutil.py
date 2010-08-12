@@ -133,12 +133,10 @@ def main():
     (options, args) = parser.parse_args()
     
     if not options.command in allowed:
-        print "Unallowed command: %s" % options.command
-        sys.exit(1)
+        raise RuntimeError( "Unallowed command: %s" % options.command)
 
     if len(args) == 0:
-        print "Needs one or more arguments (files) to modify!"
-        sys.exit(1)
+        raise RuntimeError( "Needs one or more arguments (files) to modify!")
         
     for fileName in args:
         if options.verbose:

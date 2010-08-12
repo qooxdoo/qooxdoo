@@ -391,8 +391,7 @@ class Migrator(object):
     def migrateSingleFile(self, fileName, options, neededUpdates):
 
         if not os.path.isfile(fileName):
-            print """\nERROR: The file '%s' could not be found.\n""" % fileName
-            sys.exit(1)
+            raise RuntimeError( """\nERROR: The file '%s' could not be found.\n""" % fileName)
 
         #turn off logging
         self.setupLogging()
@@ -426,8 +425,7 @@ class Migrator(object):
         options.verbose
         options.classEncoding
         if not self.isValidVersion(options.from_version):
-            print "\nERROR: The version '%s' is not a valid version string!\n" % options.from_version
-            sys.exit(1)
+            raise RuntimeError( "\nERROR: The version '%s' is not a valid version string!\n" % options.from_version)
 
 
         if MIGRATION_ORDER[-1] == self.getNormalizedVersion(options.from_version):

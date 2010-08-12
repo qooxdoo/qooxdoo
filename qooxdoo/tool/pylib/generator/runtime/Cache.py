@@ -29,7 +29,7 @@ from generator.action.ActionLib import ActionLib
 memcache  = {}
 actionLib = None
 check_file     = u".cache_check_file"
-CACHE_REVISION = 22646   # Change this to the current qooxdoo svn revision when existing caches need clearing
+CACHE_REVISION = 22988   # Change this to the current qooxdoo svn revision when existing caches need clearing
 
 class Cache(object):
 
@@ -148,7 +148,7 @@ class Cache(object):
         elif not os.path.isdir(path):
             raise RuntimeError, "The cache path is not a directory: %s" % path
         else: # it's an existing directory
-            # defer read/write access to the first call of read()/write()
+            # defer read/write access test to the first call of read()/write()
             self._console.debug("Using existing directory")
             pass
         self._console.outdent()
@@ -292,9 +292,9 @@ class Cache(object):
                 #if cacheId.startswith("tree-"):
                 #    print "caching: %s" % cacheId
 
-            except (IOError, EOFError, pickle.PickleError, pickle.PicklingError):
-                self._console.error("Could not store cache to %s" % self._path)
-                sys.exit(1)
+            except (IOError, EOFError, pickle.PickleError, pickle.PicklingError), e:
+                e.args = ("Could not store cache to %s\n" % self._path + e.args[0], ) + e.args[1:]
+                raise e
 
         if memory:
             memcache[cacheId] = content

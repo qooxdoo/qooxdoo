@@ -32,7 +32,7 @@ from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeCompiler     import TreeCompiler
-from generator.code.Library      import Library
+from generator.code.Library          import Library
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
@@ -75,6 +75,7 @@ class Generator(object):
         Context.config  = context['config']  #config
         Context.jobconf = context['jobconf'] #config.getJob(job)
         Context.console = context['console']
+        Context.cache   = context['cache']
         
         return
 
@@ -244,23 +245,20 @@ class Generator(object):
 
                 checkFile = mostRecentlyChangedIn(lib)[0]
                 cacheId   = "lib-%s" % lib["manifest"] #key
-                #print "xxx %s: %s" % (lib["namespace"], cacheId)
-                path      = self._cache.read(cacheId, checkFile, memory=True)
-                if path:
+                libObj      = self._cache.read(cacheId, checkFile, memory=True)
+                if libObj:
                     self._console.debug("Use memory cache for %s" % key)
-                    path._console = self._console  # TODO: this is a hack to compensate Library.__getstate__ when pickeling
                 else:
-                    path = Library(lib, self._console)
+                    libObj = Library(lib, self._console)
                     namespace = getJobsLib(key)['namespace']
-                    path._namespace = namespace  # patch namespace
-                    path.scan()
-                    self._cache.write(cacheId, path, memory=True)
+                    libObj._namespace = namespace  # patch namespace
+                    libObj.scan()
+                    self._cache.write(cacheId, libObj, memory=True)
 
-                namespace = path.getNamespace()
-                #namespace = getJobsLib(key)['namespace']
+                namespace = libObj.getNamespace()
                 _namespaces.append(namespace)
 
-                classes = path.getClasses()
+                classes = libObj.getClasses()
                 _classes.update(classes)
 
                 for key,entry in classes.items():
@@ -270,10 +268,10 @@ class Generator(object):
                     clazz.package  = entry["package"]  # Apiloader uses this
                     _classesObj[key] = clazz
 
-                _docs.update(path.getDocs())
-                _translations[namespace] = path.getTranslations()
+                _docs.update(libObj.getDocs())
+                _translations[namespace] = libObj.getTranslations()
                 _libs[namespace] = lib
-                _libraries.append(path)
+                _libraries.append(libObj)
 
             self._console.outdent()
             self._console.debug("Loaded %s libraries" % len(_namespaces))
@@ -530,6 +528,7 @@ class Generator(object):
          self._libs,
          self._libraries)     = scanLibrary(config.get("library"))
 
+
         # Python2.6 only:
         #print len(self._classesObj), len(self._classesObj) * sys.getsizeof(Class("a","b",{}))
         #print len(self._classes), len(self._classes) * sys.getsizeof(self._classes["qx.Class"])
@@ -598,6 +597,7 @@ class Generator(object):
             printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
             script           = Script()  # a new Script object represents the target code
+            script.namespace = self.getAppName()
             script.variants  = variants
             script.libraries = self._libraries
             # set source/build version
@@ -1830,5 +1830,15 @@ class Generator(object):
             newname += "_%s:%s" % (str(key), str(variants[key]))
         newname += ext
         return newname
+
+
+    def getAppName(self, memo={}):
+        if not 'appname' in memo:
+            appname = self._job.get("let/APPLICATION")
+            if not appname:
+                raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
+            else:
+                memo['appname'] = appname
+        return memo['appname']
 
 

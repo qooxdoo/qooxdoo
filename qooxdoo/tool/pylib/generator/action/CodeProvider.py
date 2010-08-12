@@ -25,6 +25,7 @@ import functools, codecs, operator
 from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from generator import Context as context
+from generator.resource.ImageInfo import ImgInfoFmt
 
 global inclregexps, exclregexps
 
@@ -37,7 +38,7 @@ def runProvider(script, generator):
     # copy class files
     _handleCode(script, generator)
     # generate resource info
-    _handleResources(script, generator)
+    _handleResources(script, generator, filtered=False)
     # generate translation and CLDR files
     _handleI18N(script, generator)
 
@@ -76,7 +77,11 @@ def _handleCode(script, generator):
             shutil.copy(sourcepath, targetpath)
     return
 
-def _handleResources(script, generator):
+
+##
+# Copy resources -- handles both all and #asset-aware
+#  - filtered -- whether #asset hints and include/exclude filter will be applied
+def _handleResources(script, generator, filtered=True):
 
     def createResourceInfo(res, resval):
         resinfo = [ { "target": "resource", "data": { res : resval }} ]
@@ -101,26 +106,38 @@ def _handleResources(script, generator):
     variants   = script.variants
 
     allresources = {}
+    if filtered:
+        # -- the next call is fake, just to populate package.data.resources!
+        _ = generator._codeGenerator.generateResourceInfoCode(script, generator._settings, context.jobconf.get("library",[]))
+        for packageId, package in enumerate(packages):
+            allresources.update(package.data.resources)
+    else:
+        # just use everything from the main library
+        mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
+        reslist = mainlib.getResources()
+        for res in reslist:
+            resid, resValue = mainlib.analyseResource(res) 
+            if isinstance(resValue, ImgInfoFmt):
+                allresources[resid] = resValue.flatten()
+            else:
+                allresources[resid] = resValue
+
     # get resource info
-    # -- the next call is fake, just to populate package.data.resources!
-    _ = generator._codeGenerator.generateResourceInfoCode(script, generator._settings, context.jobconf.get("library",[]))
-    for packageId, package in enumerate(packages):
-        allresources.update(package.data.resources)
-    
     resinfos = {}
     for res in allresources:
         # fake a classId-like resourceId ("a.b.c"), for filter matching
         resId = os.path.splitext(res)[0]
         resId = resId.replace("/", ".")
-        if passesOutputfilter(resId):
-            resinfos[res] = createResourceInfo(res, allresources[res])
-            # extract library name space
-            if isinstance(allresources[res], types.ListType): # it's an image = [14, 14, u'png', u'qx' [, u'qx/decoration/Modern/checkradio-combined.png', 0, 0]]
-                library_ns = allresources[res][3]
-            else: # html page etc. = "qx"
-                library_ns = allresources[res]
-            library    = libraries[library_ns]
-            copyResource(res, library)
+        if filtered and not passesOutputfilter(resId):
+            continue
+        resinfos[res] = createResourceInfo(res, allresources[res])
+        # extract library name space
+        if isinstance(allresources[res], types.ListType): # it's an image = [14, 14, u'png', u'qx' [, u'qx/decoration/Modern/checkradio-combined.png', 0, 0]]
+            library_ns = allresources[res][3]
+        else: # html page etc. = "qx"
+            library_ns = allresources[res]
+        library    = libraries[library_ns]
+        copyResource(res, library)
 
     filetool.save(approot+"/data/resource/resources.json", json.dumpsCode(resinfos))
 
