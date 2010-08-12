@@ -51,6 +51,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     // add needed layout
     this._setLayout(new qx.ui.layout.HBox());
+    
+    // initialize the overflow handling
+    this.__removedItems = [];
+    this.__removePriority = [];
   },
 
 
@@ -95,10 +99,38 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       check : "Integer",
       themeable : true,
       apply : "_applySpacing"
+    },
+    
+    
+    overflowIndicator : 
+    {
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      apply : "_applyOverflowIndicator"
+    },
+    
+    overflowHandling : 
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyOverflowHandling"
     }
   },
 
 
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : 
+  {
+    "hideItem" : "qx.event.type.Data",
+    
+    "showItem" : "qx.event.type.Data"
+  },
 
 
   /*
@@ -108,7 +140,221 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   */
 
   members :
-  {
+  { 
+    /*
+    ---------------------------------------------------------------------------
+      OVERFLOW HANDLING
+    ---------------------------------------------------------------------------
+    */  
+    
+    __removedItems : null,
+    __removePriority : null,    
+        
+    
+    // overridden
+    _computeSizeHint : function() 
+    {
+      // get the original hint
+      var hint = this.base(arguments);
+      if (true && this.getOverflowHandling()) {
+        var minWidth = 0;
+        // if a overflow widget is given, use its width + spacing as min width
+        var overflowWidget = this.getOverflowIndicator();
+        if (overflowWidget) {
+          minWidth = overflowWidget.getSizeHint().width + this.getSpacing();
+        }
+        // reset the minWidth because we reduce the count of elements
+        hint.minWidth = minWidth;
+      }
+      return hint;
+    },
+    
+    
+    _onResize : function(e) {
+      this._recalculateOverflow(e.getData().width);
+    },
+    
+    
+    _recalculateOverflow : function(width) 
+    {
+      // do nothing if overflow handling is not enabled
+      if (!this.getOverflowHandling()) {
+        return;
+      }
+      // get all required sizes
+      var requiredWidth = this.getSizeHint().width;
+      var overflowWidget = this.getOverflowIndicator();
+      var overflowWidgetWidth = 0;
+      if (overflowWidget) {
+        overflowWidgetWidth = overflowWidget.getSizeHint().width
+      }
+      // if we have not enough space
+      if (width <= requiredWidth) {
+        do {
+          // get the next child
+          var childToHide = this._getNextToHide();
+          // if there is no child to hide, just do nothing
+          if (!childToHide) {
+            return;
+          }
+          var childWidth = childToHide.getSizeHint().width;
+          this.__hideChild(childToHide);
+          
+          // show the overflowWidgetWidth
+          if (overflowWidget) {
+            overflowWidget.setVisibility("visible");
+          }          
+        } while (requiredWidth - childWidth + overflowWidgetWidth > width);
+       
+      // if we can possibly show something 
+      } else {
+        var removedChild = this.__removedItems[0];
+        // if we have something we can show
+        if (removedChild) {
+          var removedChildWidth = removedChild.getSizeHint().width;
+          console.log("removedChildWidth", removedChildWidth);
+          // if it just fits in || it fits in when we remove the overflow widget
+          if (
+            width > requiredWidth + removedChildWidth + this.getSpacing() || 
+            (this.__removedItems.length == 1 && 
+              width > requiredWidth + removedChildWidth - overflowWidgetWidth + this.getSpacing()
+            )
+          ) {
+            this.__showChild(removedChild);
+            
+            // check if we need to remove the overflow widget
+            if (this.__removedItems.length == 0) {
+              overflowWidget.setVisibility("excluded");
+            }
+          }
+        }
+      }
+    },
+    
+    
+    __showChild : function(child) 
+    {
+      child.setVisibility("visible");
+      this.__removedItems.shift();
+      this.fireDataEvent("showItem", child)
+    },
+    
+    
+    __hideChild : function(child) 
+    {
+      // ignore the call if no child is given
+      if (!child) {
+        return;
+      }
+      this.__removedItems.unshift(child);
+      child.setVisibility("excluded");
+      this.fireDataEvent("hideItem", child);
+    },
+    
+    
+    _getNextToHide : function() 
+    {
+      // get the elements by priority
+      for (var i = this.__removePriority.length - 1; i >= 0; i--) {
+        var item = this.__removePriority[i];
+        // maybe a priority is left out and spacers don't have the visibility
+        if (item && item.getVisibility && item.getVisibility() == "visible") {
+          return item;
+        }
+      };
+      
+      // if there is non found by priority, check all available widgets
+      var children = this._getChildren();
+      for (var i = children.length -1; i >= 0; i--) {
+        var child = children[i]
+        // ignore the overflow widget
+        if (child == this.getOverflowIndicator()) {
+          continue;
+        }
+        // spacer don't have the visibility
+        if (child.getVisibility && child.getVisibility() == "visible") {
+          return child;
+        }
+      };
+    },
+    
+    
+    
+    setRemovePriority : function(item, priority, override) 
+    {
+      // security check for overriding priorities
+      if (!override && this.__removePriority[priority] != undefined) {
+        throw new Error("Priority already in use!");
+      }
+      this.__removePriority[priority] = item;
+    },
+    
+    
+    // property apply
+    _applyOverflowHandling : function(value, old)
+    {
+      // invalidate the own and the parrents layout cach because the size hint changes
+      this.invalidateLayoutCache();
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.invalidateLayoutCache();
+      }
+
+      // recalculate if possible
+      var bounds = this.getBounds()
+      if (bounds && bounds.width) {
+        this._recalculateOverflow(bounds.width);        
+      }
+
+      // if the handling has been enabled
+      if (value) {
+        // add the resize listener
+        this.addListener("resize", this._onResize, this);
+
+      // if the handlis has been disabled
+      } else {
+        this.removeListener("resize", this._onResize, this);
+
+        // set the overflow indicator to excluded
+        var overflowIndicator = this.getOverflowIndicator();
+        if (overflowIndicator) {
+          overflowIndicator.setVisibility("excluded");
+        }
+
+        // set all buttons back to visible
+        for (var i = 0; i < this.__removedItems.length; i++) {
+          this.__removedItems[i].setVisibility("visible");
+        };
+        // reset the removed items
+        this.__removedItems = [];
+      }
+    },
+    
+    
+    // property apply
+    _applyOverflowIndicator : function(value, old) 
+    {
+      if (old) {
+        this._remove(old);
+      }
+      
+      if (value) {
+        // check if its a child of the toolbar
+        if (this._indexOf(value) == -1) {
+          throw new Error("Widget must be child of the toolbar.");
+        }
+        // hide the widget
+        value.setVisibility("excluded");
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      MENU OPEN
+    ---------------------------------------------------------------------------
+    */ 
+    
     __allowMenuOpenHover : false,
 
     /**
