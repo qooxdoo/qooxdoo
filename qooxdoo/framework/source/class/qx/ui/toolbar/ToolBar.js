@@ -101,7 +101,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       apply : "_applySpacing"
     },
     
-    
+    /** 
+     * Widget which will be shown if at least one toolbar item is hidden. 
+     * Keep in mind to add this widget to the toolbar before you set it as 
+     * indicator!
+     */
     overflowIndicator : 
     {
       check : "qx.ui.core.Widget",
@@ -109,6 +113,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       apply : "_applyOverflowIndicator"
     },
     
+    /** Enables the overflow handling which automatically removes items.*/
     overflowHandling : 
     {
       init : false,
@@ -127,8 +132,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   
   events : 
   {
+    /** Fired if an item will be hidden by the {@link #overflowHandling}.*/
     "hideItem" : "qx.event.type.Data",
-    
+
+    /** Fired if an item will be show by the {@link #overflowHandling}.*/
     "showItem" : "qx.event.type.Data"
   },
 
@@ -170,11 +177,21 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
     
     
+    /**
+     * Resize event handler.
+     * 
+     * @param e {qx.event.type.Data} The resize event.
+     */
     _onResize : function(e) {
       this._recalculateOverflow(e.getData().width);
     },
     
     
+    /**
+     * Responsible for calculation the overflow based on the available width.
+     * 
+     * @param width {Integer} The available width.
+     */
     _recalculateOverflow : function(width) 
     {
       // do nothing if overflow handling is not enabled
@@ -231,6 +248,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
     
     
+    /**
+     * Helper to show a toolbar item.
+     * 
+     * @param child {qx.ui.core.Widget} The widget to show.
+     */
     __showChild : function(child) 
     {
       child.setVisibility("visible");
@@ -239,6 +261,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
     
     
+    /**
+     * Helper to exclude a toolbar item.
+     * 
+     * @param child {qx.ui.core.Widget} The widget to exclude.
+     */
     __hideChild : function(child) 
     {
       // ignore the call if no child is given
@@ -251,6 +278,14 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
     
     
+    /**
+     * Responsible for returning the next item to remove. In It checks the 
+     * priorities added by {@link #setRemovePriority}. If all priorized widgets
+     * already excluded, it takes the widget added at last.
+     * 
+     * @return {qx.ui.core.Widget|null} The widget which should be removed next.
+     *   If null is returned, no widget is availablew to remove.
+     */
     _getNextToHide : function() 
     {
       // get the elements by priority
@@ -278,7 +313,17 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
     
     
-    
+    /**
+     * The removal of the toolbar items is priority based. You can change these 
+     * priorities with this method. The higer a priority, the earlier is will 
+     * be excluded. Remmeber to use every priority only once! If you want 
+     * override an already set priority, use the override parameter.
+     * Keep in mind to only use already added items.
+     * 
+     * @param item {qx.ui.core.Widget} The item to give the priority.
+     * @param priority {Integer} The priority, higher means removed earlier.
+     * @param override {Boolean} true, if the priority should be overridden.
+     */
     setRemovePriority : function(item, priority, override) 
     {
       // security check for overriding priorities
