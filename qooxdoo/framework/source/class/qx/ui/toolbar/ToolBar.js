@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         overflowWidgetWidth = overflowWidget.getSizeHint().width
       }
       // if we have not enough space
-      if (width <= requiredWidth) {
+      if (width < requiredWidth) {
         do {
           // get the next child
           var childToHide = this._getNextToHide();
@@ -212,7 +212,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // if we have something we can show
         if (removedChild) {
           var removedChildWidth = removedChild.getSizeHint().width;
-          console.log("removedChildWidth", removedChildWidth);
           // if it just fits in || it fits in when we remove the overflow widget
           if (
             width > requiredWidth + removedChildWidth + this.getSpacing() || 
@@ -223,7 +222,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             this.__showChild(removedChild);
             
             // check if we need to remove the overflow widget
-            if (this.__removedItems.length == 0) {
+            if (overflowWidget && this.__removedItems.length == 0) {
               overflowWidget.setVisibility("excluded");
             }
           }
@@ -450,5 +449,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
       return buttons;
     }
+  },
+  
+  
+  destruct : function() {
+    if (this.hasListener("resize")) {
+      this.removeListener("resize", this._onResize, this);
+    }
+
   }
 });
