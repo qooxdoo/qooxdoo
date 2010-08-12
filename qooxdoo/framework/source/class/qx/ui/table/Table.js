@@ -332,7 +332,7 @@ qx.Class.define("qx.ui.table.Table",
       init : 50
     },
 
-    /*
+    /**
      * The list of columns that are initially hidden. This property is set by
      * the constructor, from the value received in
      * custom.initiallyHiddenColumns, and is only used when a column model is
