@@ -60,7 +60,7 @@ qx.Class.define("inspector.widgets.View",
     this._tree.addListener("changeSelection", function(e) {
       if (e.getData()[0]) {
         var widget = e.getData()[0].getUserData("instance");
-        qx.core.Init.getApplication().select(widget, this);
+        this._model.setInspected(widget);
       }
     }, this);
   },

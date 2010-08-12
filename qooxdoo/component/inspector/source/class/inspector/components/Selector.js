@@ -21,44 +21,27 @@ qx.Class.define("inspector.components.Selector",
 {
   extend : qx.core.Object,
 
-
-  construct : function(iFrameWindow)
+  /**
+   * Creates the selector.
+   * 
+   * @param inspectorModel {inspector.components.IInspectorModel} model
+   */
+  construct : function(inspectorModel)
   {
     this.base(arguments);
-    this.setJSWindow(iFrameWindow);
-  },
-
-
-  properties : {
-
-    selection : {
-      event: "changeSelection",
-      nullable: true
-    }
-
+    
+    this.__model = inspectorModel;
+    this.__model.addListener("changeObjects", this.__onChangeObjects, this);
+    this.__model.addListener("changeInspected", this.__onChangeInspected, this);
   },
 
   members :
   {
-
-    setJSWindow : function(win) {
-      this._iFrameWindow = win;
-      this._addedWidgets = [];
-      
-      this._rootApplication = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
-      
-      this._createRootNode();
-      this._createCatchClickLayer();
-      this._createHighlightStuff();
-
-      this.setSelection(null);
-    },
-
-
+    __msec : 1000,
+    
     getAddedWidgets: function() {
       return this._addedWidgets;
     },
-
 
     start: function() {
       this._catchClickLayer.show();
@@ -68,10 +51,10 @@ qx.Class.define("inspector.components.Selector",
       this._catchClickLayer.hide();
     },
 
+    __onChangeInspected : function(e) {
+      var object = e.getData();
 
-    highlightFor: function(object, msec) {
-      // if its an application object
-      if (object.classname == "qx.ui.root.Application" || object.classname == "qx.ui.root.Page") {
+      if (object == null || object.classname == "qx.ui.root.Application" || object.classname == "qx.ui.root.Page") {
         return;
       }
       this._highlight(object);
@@ -85,9 +68,21 @@ qx.Class.define("inspector.components.Selector",
       self._highlightTimerId = window.setTimeout(function() {
         self._highlightOverlay.hide();
         self._highlightTimerId = null;
-      }, msec);
+      }, this.__msec);
     },
 
+    __onChangeObjects : function()
+    {
+      this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      this._addedWidgets = [];
+      
+      this._rootApplication = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
+      
+      this._createRootNode();
+      this._createCatchClickLayer();
+      this._createHighlightStuff();
+    },
+    
     _createRootNode : function() {
       this._rootNodes = [];
       
@@ -139,7 +134,7 @@ qx.Class.define("inspector.components.Selector",
         // hide the highlight
         this._highlightOverlay.hide();
         // select the widget with the given id in the tree
-        this.setSelection(clickedElement);
+        this.__model.setInspected(clickedElement);
       }, this);
 
       // register the mousemove handler
@@ -160,7 +155,6 @@ qx.Class.define("inspector.components.Selector",
       }, this);
     },
 
-
     _createHighlightStuff: function() {
       // create the border used to highlight the widgets
       this._highlightDecorator = new this._iFrameWindow.qx.ui.decoration.Single(2, "solid", "red");
@@ -174,7 +168,6 @@ qx.Class.define("inspector.components.Selector",
       this._highlightOverlay.hide();
       this._rootApplication.add(this._highlightOverlay);
     },
-
 
     _searchWidget: function(widget, x, y) {
       var returnWidget = widget;
@@ -214,7 +207,6 @@ qx.Class.define("inspector.components.Selector",
       return returnWidget;
     },
 
-
     _getCoordinates: function(element) {
       // return null if no element is given
       if (element == null) {
@@ -227,7 +219,6 @@ qx.Class.define("inspector.components.Selector",
       returnObject.bottom = qx.bom.element.Location.getBottom(element);
       return returnObject;
     },
-
 
     _highlight: function(object) {
       if (object.classname == "qx.ui.root.Inline") {
