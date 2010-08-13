@@ -460,8 +460,16 @@ tree.addListener(
     // Get the list of selected nodes.  We're in single-selection mode,
     // so there will be only one of them.
     var nodes = e.getData();
-    this.setValue(tree.getHierarchy(nodes[0].nodeId).join('/'));
-    buttonRemove.setEnabled(true);
+    if (nodes.length)
+    {
+      this.setValue(tree.getHierarchy(nodes[0].nodeId).join('/'));
+      buttonRemove.setEnabled(true);
+    }
+    else
+    {
+      this.setValue("");
+      buttonRemove.setEnabled(false);
+    }
   },
   o);
 

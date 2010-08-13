@@ -742,19 +742,20 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
               rowData.push(child);
             }
 
-            // If this node is selected, ...
-            if (child.bSelected)
-            {
-              // ... indicate so for the row.
-              rowData.selected = true;
-            }
-
             // Track the _rowArr index for each node so we can handle
             // selections.
             _this._nodeRowMap[child.nodeId] = _this._rowArr.length;
 
             // Add the row data to the row array
             _this._rowArr.push(rowData);
+
+            // If this node is selected, ...
+            if (child.bSelected)
+            {
+              // ... indicate so for the row.
+              rowData.selected = true;
+              _this._selections[child.nodeId] = true;
+            }
 
             // If this child is opened, ...
             if (child.bOpened)
@@ -770,6 +771,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
         // Reset the _nodeArr -> _rowArr map
         _this._nodeRowMap = [];
+
+        // Reset the set of selections
+        _this._selections = {};
 
         // Begin in-order traversal of the tree from the root to regenerate
         // _rowArr.
@@ -792,15 +796,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
       if (nodeArr instanceof Array)
       {
-        // Determine the set of selected nodes
-        for (var i=0; i<nodeArr.length; i++)
-        {
-          if (nodeArr[i].selected)
-          {
-            this._selections[i] = true;
-          }
-        }
-
         // Save the user-supplied data.
         this._nodeArr = nodeArr;
       }
@@ -812,6 +807,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
       // Re-render the row array
       render();
+
+      // Set selections in the selection model now
+      var selectionModel = _this.getTree().getSelectionModel();
+      var selections = this._selections;
+      for (nodeId in selections)
+      {
+        var nRowIndex = this.getRowFromNodeId(nodeId);
+        selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
+      }
     },
 
 
