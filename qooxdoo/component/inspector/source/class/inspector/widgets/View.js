@@ -86,11 +86,15 @@ qx.Class.define("inspector.widgets.View",
 
     load: function(win) {
       if (win == undefined) {
-        this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+        this._iFrameWindow = this._model.getWindow();
       } else {
         this._iFrameWindow = win;
       }
 
+      if (this._iFrameWindow == null) {
+        return;
+      }
+      
       var remoteAppRoot = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
 
       // create a new root folder
@@ -291,7 +295,7 @@ qx.Class.define("inspector.widgets.View",
       // get the current iframe window object
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // check for null references
-      if (!(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) {
+      if (widget == null || !(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) {
         this._tree.resetSelection();
         return;
       }

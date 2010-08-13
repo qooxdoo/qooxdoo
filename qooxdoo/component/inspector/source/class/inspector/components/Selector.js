@@ -73,8 +73,12 @@ qx.Class.define("inspector.components.Selector",
 
     __onChangeApplication : function()
     {
-      this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      this._iFrameWindow = this.__model.getWindow();
       this._addedWidgets = [];
+      
+      if (this._iFrameWindow == null) {
+        return;
+      }
       
       this._rootApplication = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
       

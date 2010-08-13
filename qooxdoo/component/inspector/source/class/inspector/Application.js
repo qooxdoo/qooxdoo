@@ -106,6 +106,7 @@ qx.Class.define("inspector.Application",
       this.__selector = new inspector.components.Selector(this.__inspectorModel);
       
       this.__state = new inspector.components.State();
+      this.__state.setIgnoreChanges(true);
 
       this._container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       this.getRoot().add(this._container, {edge : 0});
@@ -173,6 +174,7 @@ qx.Class.define("inspector.Application",
       this.__inspectorModel.setInspected(this._loadedWindow.qx.core.Init.getApplication().getRoot());
 
       // check for the cookies
+      this.__state.setIgnoreChanges(false);
       this.__state.restoreState();
     },
 
@@ -205,6 +207,7 @@ qx.Class.define("inspector.Application",
         this._selectedWidgetLabel.setValue(
           " Can not access the javascript in the iframe!"
         );
+        this.__inspectorModel.setWindow(null);
         return false;
       }
     },
@@ -322,6 +325,12 @@ qx.Class.define("inspector.Application",
       button.addListener("changeValue", function(e) {
         e.getData() ? win.open() : win.close();
       }, this);
+      
+      button.addListener("changeEnabled", function(e) {
+        if (e.getData() == false) {
+          win.hide();
+        }
+      }, this);
 
       win.addListener("open", function(e) {
         button.setValue(true);
@@ -355,7 +364,9 @@ qx.Class.define("inspector.Application",
       this._inspectButton.setValue(false);
       
       var object = e.getData();
-      this._selectedWidgetLabel.setValue("<tt>" + object.toString() + "</tt>");
+      if (object != null) {
+        this._selectedWidgetLabel.setValue("<tt>" + object.toString() + "</tt>");
+      }
     },
 
 
