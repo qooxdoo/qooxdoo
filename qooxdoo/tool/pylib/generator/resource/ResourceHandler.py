@@ -23,7 +23,7 @@ import re, string, types, sys, os, collections
 
 from generator.code.Library import Library
 from misc import Path
-from generator.resource.ImageInfo import CombinedImage
+from generator.resource.ImageInfo import CombinedImage, ImgInfoFmt
 
 class ResourceHandler(object):
 
@@ -182,6 +182,115 @@ class ResourceHandler(object):
 
         return filter
 
+
+    ##
+    # Create a resource structure suitable for serializing (like CodeGenerator.
+    # generateResourceInfoCode, but with simpler input params). The main simpli-
+    # fication is that no resource *selection* is done in this method. It basi-
+    # cally just takes lists of resource paths and creates an info structure for
+    # them. Combined images are honored.
+    #
+    # Takes:
+    #   [(libObj, ["resourcePath"]),...]
+    #   formatAsTree = True/False
+    # returns:
+    #   resource structure {"gui/test.png" : [32, 32, "png", "gui"], ...}
+    # or:
+    #   {"gui" : {"test.png" : [32, 32, "png", "gui"], ...}, ...}
+    def createResourceStruct(self, libsAndResources, formatAsTree=False, updateOnlyExistingSprites=False):
+        
+        # some helper functions
+        def extractAssetPart(libresuri, imguri):
+            pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
+            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+            return imgsfx                # use the bare img suffix as its asset Id
+
+        ##
+        # create the final form of the data to be returned by createResourceStruct
+        def flattenImgInfoObjects(filteredResources, combinedImages, resdata):
+            for resId, resval in filteredResources.items():
+                # build up resdata
+                if isinstance(resval, ImgInfoFmt):
+                    resvalue = resval.flatten()
+                else:  # handle other resources
+                    resvalue = resval
+                resdata[resId] = resvalue
+            return resdata
+
+        ##
+        # collect resources from the libs and put them in suitable data structures
+        def collectResourceInfos(libs, filteredResources, combinedImages):
+            skippatt = re.compile(r'\.(meta|py)$', re.I)
+            for libObj, resourceList in libs:
+                # resourceList = [file1,file2,...]
+                for resource in resourceList:
+                    if skippatt.search(resource):
+                        continue
+                    resId, resVal              = libObj.analyseResource(resource,)
+                    filteredResources[resId]   = resVal
+                    if self.isCombinedImage(resource):  # register those for later evaluation
+                        combObj                = CombinedImage(resource) # this parses also the .meta file
+                        combObj.info           = resVal
+                        combinedImages[resId]  = combObj
+            return filteredResources, combinedImages
+
+        ##
+        # apply combined image info to the simple images, improving and extending
+        # filteredResources
+        def incorporateCombinedImages(filteredResources, combinedImages, onlyExisting=False):
+            for combId, combImg in combinedImages.items():  # combImg.embeds = {resId : ImgFmt}
+                for embId in combImg.embeds:
+                    if onlyExisting and embId not in filteredResources:
+                        continue
+                    # patch simle image info
+                    if embId in filteredResources:
+                        lib = filteredResources[embId].lib                    # keep lib info
+                    else:
+                        lib = ""
+                    filteredResources[embId]      = combImg.embeds[embId] # replace info with combined info
+                    filteredResources[embId].lib  = lib                   # restore original lib
+                    # add the combined image itself
+                    if combId not in filteredResources:
+                        filteredResources[combId] = combImg.info
+            return filteredResources
+
+
+        # -- main - createResourceStruct -----------------------------------
+
+        self._genobj._console.info("Analyzing assets...")
+        self._genobj._console.indent()
+
+        resdata        = {}
+        if formatAsTree:
+            resdata = ExtMap()
+
+        filteredResources = {}          # {resId : ImgInfoFmt|string}
+        combinedImages    = {}          # {imgId : CombinedImage}
+        # 1st pass: gathering relevant images and other resources from the libraries
+        filteredResources, combinedImages = collectResourceInfos(libsAndResources, filteredResources,
+                                                              combinedImages)
+        # 2nd pass: patching simple image infos with combined info
+        filteredResources = incorporateCombinedImages(filteredResources, combinedImages, onlyExisting = updateOnlyExistingSprites)
+
+        # 3rd pass: bring in final shape
+        resdata     = flattenImgInfoObjects(filteredResources, combinedImages, resdata)
+        if formatAsTree:
+            resdata = resdata.getData()
+        
+        self._genobj._console.outdent()
+
+        return resdata
+        # end:createResourceStruct()
+
+
+    ##
+    # check if sprites in a combined image occur in a resource list
+    def embedsInList(self, combObj, resList):
+        matches = []
+        for embId in combObj.embeds:
+            if embId in resList:
+                matches.append(embId)
+        return matches
 
     def assetsMatchResource(self, assetSet, resource, resVal):
         resId, embImgs = resVal  # embImgs = False | [embId, ...]

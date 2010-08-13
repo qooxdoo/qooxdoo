@@ -115,12 +115,13 @@ def _handleResources(script, generator, filtered=True):
         # just use everything from the main library
         mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
         reslist = mainlib.getResources()
-        for res in reslist:
-            resid, resValue = mainlib.analyseResource(res) 
-            if isinstance(resValue, ImgInfoFmt):
-                allresources[resid] = resValue.flatten()
-            else:
-                allresources[resid] = resValue
+        #for res in reslist:
+        #    resid, resValue = mainlib.analyseResource(res) 
+        #    if isinstance(resValue, ImgInfoFmt):
+        #        allresources[resid] = resValue.flatten()
+        #    else:
+        #        allresources[resid] = resValue
+        allresources = generator._resourceHandler.createResourceStruct([(mainlib, reslist)], updateOnlyExistingSprites = False)
 
     # get resource info
     resinfos = {}
@@ -136,8 +137,9 @@ def _handleResources(script, generator, filtered=True):
             library_ns = allresources[res][3]
         else: # html page etc. = "qx"
             library_ns = allresources[res]
-        library    = libraries[library_ns]
-        copyResource(res, library)
+        if library_ns:  # library_ns == '' means embedded image -> no copying
+            library    = libraries[library_ns]
+            copyResource(res, library)
 
     filetool.save(approot+"/data/resource/resources.json", json.dumpsCode(resinfos))
 

@@ -397,7 +397,7 @@ class CodeGenerator(object):
             out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
             out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
-        globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libs, format)
+        globalCodes["Resources"]    = self.generateResourceInfoCode1(script, settings, libs, format)
         globalCodes["Translations"],\
         globalCodes["Locales"]      = mergeTranslationMaps(translationMaps)
 
@@ -839,52 +839,6 @@ class CodeGenerator(object):
 
 
         ##
-        # get the resource Id and resource value
-        def analyseResource(resource, lib):
-            ##
-            # compute the resource value of an image for the script
-            def imgResVal(resource):
-                imgId = resource
-
-                # Cache or generate
-                if (imgId  in imgLookupTable and
-                    imgLookupTable[imgId ]["time"] > os.stat(imgId ).st_mtime):
-                    imageInfo = imgLookupTable[imgId ]["content"]
-                else:
-                    imageInfo = self._imageInfo.getImageInfo(imgId , assetId)
-                    imgLookupTable[imgId ] = {"time": time.time(), "content": imageInfo}
-
-                # Now process the image information
-                # use an ImgInfoFmt object, to abstract from flat format
-                imgfmt = ImgInfoFmt()
-                imgfmt.lib = lib['namespace']
-                if not 'type' in imageInfo:
-                    raise RuntimeError, "Unable to get image info from file: %s" % imgId 
-                imgfmt.type = imageInfo['type']
-
-                # Add this image
-                # imageInfo = {width, height, filetype}
-                if not 'width' in imageInfo or not 'height' in imageInfo:
-                    raise RuntimeError, "Unable to get image info from file: %s" % imgId 
-                imgfmt.width  = imageInfo['width']
-                imgfmt.height = imageInfo['height']
-                imgfmt.type   = imageInfo['type']
-
-                return imgfmt
-
-            # ----------------------------------------------------------
-            imgpatt = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
-            librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            assetId = extractAssetPart(librespath, resource)
-            assetId = Path.posifyPath(assetId)
-            if imgpatt.search(resource): # handle images
-                resvalue = imgResVal(resource)
-            else:  # handle other resources
-                resvalue = lib['namespace']
-            return assetId, resvalue
-
-
-        ##
         # collect resources from the libs and put them in suitable data structures
         def registerResources(libs, filteredResources, combinedImages):
             skippatt = re.compile(r'\.(meta|py)$', re.I)
@@ -896,11 +850,9 @@ class CodeGenerator(object):
                     if skippatt.search(resource):
                         continue
                     if assetFilter(resource):  # add those anyway
-                        #resId, resVal            = analyseResource(resource, lib)
                         resId, resVal            = libObj.analyseResource(resource,)
                         filteredResources[resId] = resVal
                     if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
-                        #combId, combImgFmt     = analyseResource(resource, lib)
                         combId, combImgFmt     = libObj.analyseResource(resource,)
                         combObj                = CombinedImage(resource) # this parses also the .meta file
                         combObj.info           = combImgFmt
@@ -939,12 +891,6 @@ class CodeGenerator(object):
         self._imageInfo                = ImageInfo(self._console, self._cache)
         assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(script.classes)
 
-        # read img cache file
-        cacheId = "imginfo-%s" % self._config._fname
-        imgLookupTable = cache.read(cacheId, None)
-        if imgLookupTable == None:
-            imgLookupTable = {}
-
         filteredResources = {}          # type {resId : ImgInfoFmt|string}
         combinedImages    = {}          # type {imgId : CombinedImage}
         # 1st pass gathering relevant images and other resources from the libraries
@@ -959,12 +905,135 @@ class CodeGenerator(object):
         if resources_tree:
             resdata = resdata.getData()
         
-        # write img cache file
-        cache.write(cacheId, imgLookupTable)
         self._console.outdent()
-
         return resdata
         # end:generateResourceInfoCode()
+
+
+    def generateResourceInfoCode1(self, script, settings, libs, format=False):
+
+        ##
+        # finds the package that needs this resource <assetId> and adds it
+        # (polymorphic in the 4th param, use either simpleResVal *or* combImgObj as kwarg)
+        # TODO: this might be very expensive (lots of lookup's)
+        def addResourceToPackages(script, classToAssetHints, assetId, simpleResVal=None, combImgObj=None):
+
+            ##
+            # match an asset id or a combined image object
+            def assetRexMatchItem(assetRex, item):
+                if combImgObj:
+                    # combined image = object(used:True/False, embeds: {id:ImgInfoFmt}, info:ImgInfoFmt)
+                    for embId in item.embeds:
+                        if assetRex.match(embId):
+                            return True
+                    return False
+                else:
+                    # assetId
+                    return assetRex.match(item)
+
+            # --------------------------------------------------------
+            if combImgObj:
+                resvalue = combImgObj.info.flatten()
+                checkval = combImgObj
+            else:
+                resvalue = simpleResVal
+                checkval = assetId
+
+            classesUsing = set(())
+            for clazz, assetSet in classToAssetHints.items():
+                for assetRex in assetSet:
+                    if assetRexMatchItem(assetRex, checkval):
+                        classesUsing.add(clazz)
+                        break
+            for package in script.packages:
+                if classesUsing.intersection(set(package.classes)):
+                    package.data.resources[assetId] = resvalue
+            return
+
+        ##
+        # loop through resources, invoking addResourceToPackages
+        def addResourcesToPackages(resdata, combinedImages, classToAssetHints):
+            for resId, resvalue in resdata.items():
+                # register the resource with the package needing it
+                addResourceToPackages(script, classToAssetHints, resId, simpleResVal=resvalue)
+
+            # for combined images, we have to check their embedded images against the packages
+            for combId, combImg in combinedImages.items():
+                if combId in resdata:
+                    addResourceToPackages(script, classToAssetHints, combId, combImgObj=combImg)
+
+            # handle tree structure of resource info
+            if resources_tree:
+                resdata = resdata._data
+
+            return resdata
+
+
+        ##
+        # collect resources from the libs and put them in suitable data structures
+        def collectResources(libs, assetFilter, ):
+            filteredResources = []
+            combinedImages    = {}
+            skippatt = re.compile(r'\.(meta|py)$', re.I)
+            for lib in libs:
+                libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
+                resList      = []
+                filteredResources.append((libObj, resList))
+                resourceList = self._resourceHandler.findAllResources([lib], None)
+                # resourceList = [file1,file2,...]
+                for resource in resourceList:
+                    if skippatt.search(resource):
+                        continue
+                    if assetFilter(resource):  # add those anyway
+                        resList.append(resource)
+                    if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
+                        resId, resVal = libObj.analyseResource(resource,)
+                        combObj       = CombinedImage(resource) # this parses also the .meta file
+                        combObj.info  = resVal
+                        combObj.lib   = libObj
+                        combinedImages[resId] = combObj
+
+            return filteredResources, combinedImages
+
+
+        def incorporateCombinedImages(filteredResources, combinedImages):
+            # make a long list of all resources
+            allresources = []
+            for libObj, resList in filteredResources:
+                allresources.extend(resList)
+            # check for usable comb.images
+            for combId, combObj in combinedImages.items():
+                if self._resourceHandler.embedsInList(combObj, allresources):
+                    # add it
+                    for libObj, resList in filteredResources:
+                        if libObj == combObj.lib:
+                            resList.append(combId)
+                            break
+            return filteredResources
+
+
+        # -- main - generateResourceInfoCode -----------------------------------
+
+        compConf       = self._job.get("compile-options")
+        compConf       = ExtMap(compConf)
+        resources_tree = compConf.get("code/resources-tree", False)
+
+        assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(script.classes)
+
+        filteredResources = []          # [(libObj, ["resourcePath"]),...]
+        combinedImages    = {}          # {imgId : CombinedImage}
+        # 1st pass: gathering relevant images and other resources from the libraries
+        (filteredResources, 
+         combinedImages)  = collectResources(libs, assetFilter, )
+        # 2nd pass: add missing combined images
+        filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
+        # create the resource info structure, exploiting combined images
+        resdata           = self._resourceHandler.createResourceStruct(filteredResources, formatAsTree = resources_tree,
+                                                                       updateOnlyExistingSprites = True)
+        # distribute infos to corresp. packages
+        addResourcesToPackages(resdata, combinedImages, classToAssetHints)
+        
+        return resdata
 
 
     def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
