@@ -292,6 +292,7 @@ qx.Class.define("inspector.widgets.View",
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // check for null references
       if (!(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) {
+        this._tree.resetSelection();
         return;
       }
 
