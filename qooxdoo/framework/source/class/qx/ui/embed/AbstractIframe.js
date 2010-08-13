@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @return {DOMWindow} The DOM window object of the iframe.
+     * @return {Window} The DOM window object of the iframe.
      */
     getWindow : function() {
       return this._getIframeElement().getWindow();
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @return {DOMDocument} The DOM document object of the iframe.
+     * @return {Document} The DOM document object of the iframe.
      */
     getDocument : function() {
       return this._getIframeElement().getDocument();
