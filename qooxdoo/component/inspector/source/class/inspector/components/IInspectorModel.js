@@ -48,18 +48,18 @@ qx.Interface.define("inspector.components.IInspectorModel",
     },
     
     /**
-     * Sets the window object from the inspected application.
+     * Sets the DOM window object from the inspected application.
      *
-     * @param win {DOMWindow|null} the new window object from the inspected application.
+     * @param win {Window|null} the new DOM window object from the inspected application.
      */
     setWindow : function(win) {
       return arguments.length == 1;
     },
     
     /**
-     * Returns the window object from the inspected application.
+     * Returns the DOM window object from the inspected application.
      *
-     * @return {DOMWindow|null} the current window object from the inspected application.
+     * @return {Window|null} the current DOM window object from the inspected application.
      */
     getWindow : function() {
       return true;

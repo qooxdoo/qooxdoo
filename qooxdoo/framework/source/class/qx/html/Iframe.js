@@ -111,7 +111,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @return {DOMWindow} The DOM window object of the iframe.
+     * @return {Window} The DOM window object of the iframe.
      */
     getWindow : function()
     {
@@ -129,7 +129,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @return {DOMDocument} The DOM document object of the iframe.
+     * @return {Document} The DOM document object of the iframe.
      */
     getDocument : function()
     {
