@@ -29,7 +29,7 @@ qx.Class.define("inspector.components.InspectorModel",
   construct : function() {
     this.base(arguments);
     
-    this.__excludes = [];
+    this.__initValues();
   },
 
   events :
@@ -67,6 +67,9 @@ qx.Class.define("inspector.components.InspectorModel",
     setWindow : function(win)
     {
       if (this.__window !== win) {
+        if (win == null) {
+          this.__initValues();
+        }
         this.__window = win;
         this.fireEvent("changeApplication");
       }
@@ -184,6 +187,16 @@ qx.Class.define("inspector.components.InspectorModel",
         this.__inspected = object;
         this.fireDataEvent("changeInspected", this.__inspected, oldInspected);
       }
+    },
+    
+    /**
+     * Helper method to set the initial values.
+     */
+    __initValues : function()
+    {
+      this.__window = null;
+      this.setInspected(null);
+      this.clearExcludes();
     }
   },
 
