@@ -70,11 +70,9 @@ class CopyTool(object):
         if os.path.exists(targetPath):
             if os.path.isfile(targetPath):
                 if self.__update:
-                    sourceMod = os.stat(sourceFile).st_mtime
-                    targetMod = os.stat(targetPath).st_mtime
-                    if targetMod > sourceMod:
+                    if not self.__isNewerThan(sourceFile, targetPath):
                         self.__console.debug("Existing file %s is newer than source file %s, ignoring it." %(targetPath, sourceFile))
-                        return 
+                        return
                 
                 if not os.access(targetPath, os.W_OK):
                     self.__console.debug("Removing write-protected target File %s prior to copy." %targetPath)
@@ -92,6 +90,15 @@ class CopyTool(object):
             self.__console.error("Error copying file %s to dir %s: %s" %(sourceFile, targetPath, str(e)))
     
 
+    def __isNewerThan(self, sourceFile, targetFile):
+        sourceStat = os.stat(sourceFile)
+        sourceCreat = sourceStat.st_ctime
+        sourceMod = sourceStat.st_mtime
+        targetMod = os.stat(targetFile).st_mtime
+        
+        return (sourceMod > targetMod) or (sourceCreat > targetMod)
+    
+    
     def __copyDirToDir(self, sourceDir, targetDir, recursive=False):
         self.__console.debug("Copying directory %s to %s." %(sourceDir, targetDir))
         sourceDirName = os.path.basename(sourceDir)
