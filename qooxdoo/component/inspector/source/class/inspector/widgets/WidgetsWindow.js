@@ -42,7 +42,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
     this.__view = new inspector.widgets.View(this._model);
     this.add(this.__view, {edge: 0});
     
-    this.__changeObjectsListenerID = this._model.addListener("changeObjects", function(e) {
+    this.__changeApplicationListenerID = this._model.addListener("changeApplication", function(e) {
       this.load();
     }, this);
     
@@ -55,7 +55,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
   {
     __view : null,
     
-    __changeObjectsListenerID : null,
+    __changeApplicationListenerID : null,
     
     __changeInspectedListenerID : null,
     
@@ -77,7 +77,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
 
   destruct : function()
   {
-    this._model.removeListenerById(this.__changeObjectsListenerID);
+    this._model.removeListenerById(this.__changeApplicationListenerID);
     this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;

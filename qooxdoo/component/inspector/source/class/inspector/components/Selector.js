@@ -31,7 +31,7 @@ qx.Class.define("inspector.components.Selector",
     this.base(arguments);
     
     this.__model = inspectorModel;
-    this.__model.addListener("changeObjects", this.__onChangeObjects, this);
+    this.__model.addListener("changeApplication", this.__onChangeApplication, this);
     this.__model.addListener("changeInspected", this.__onChangeInspected, this);
   },
 
@@ -71,7 +71,7 @@ qx.Class.define("inspector.components.Selector",
       }, this.__msec);
     },
 
-    __onChangeObjects : function()
+    __onChangeApplication : function()
     {
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       this._addedWidgets = [];

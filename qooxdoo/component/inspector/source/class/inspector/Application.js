@@ -169,7 +169,7 @@ qx.Class.define("inspector.Application",
       this._loading = false;
 
       // select the root of the new app
-      this.__inspectorModel.setObjectRegistry(this._loadedWindow.qx.core.ObjectRegistry);
+      this.__inspectorModel.setWindow(this._loadedWindow);
       this.__inspectorModel.setInspected(this._loadedWindow.qx.core.Init.getApplication().getRoot());
 
       // check for the cookies

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,8 +18,7 @@
 ************************************************************************ */
 
 /**
- * Inspector model is responsible for the registered objects ({@link #getObjects})
- * and the inspected object ({@link #getInspected}) from inspected application.
+ * Inspector model is responsible for the inspected application.
  */
 qx.Class.define("inspector.components.InspectorModel",
 {
@@ -27,69 +26,122 @@ qx.Class.define("inspector.components.InspectorModel",
 
   implement : [inspector.components.IInspectorModel],
 
-  /**
-   * Constructs the model.
-   *
-   * @param application {inspector.Application} the inspector application.
-   */
-  construct : function(application) {
+  construct : function() {
     this.base(arguments);
-
-    this.__application = application;
+    
+    this.__excludes = [];
   },
 
   events :
   {
-    // interface implementation
-    "changeObjects" : "qx.event.type.Event",
+    /**
+     * Fired event when the inspected application changed.
+     */
+    "changeApplication" : "qx.event.type.Event",
 
-    // interface implementation
+    /**
+     * Fired event when the inspected object changed.
+     */
     "changeInspected": "qx.event.type.Data"
   },
 
   members :
   {
-    /**
-     * {qx.core.ObjectRegestry} the instance to the object registry from the
-     * inspected application.
-     */
-    __objectRegistry : null,
-
-    /**
-     * {inspector.Application} the instance to the inspector application.
-     */
-    __application : null,
-
-    /**
-     * {qx.core.Object} the instance from the inspected object.
-     */
+    __window : null,
+    
     __inspected : null,
+    
+    __excludes : null,
 
     // interface implementation
-    getObjectRegistry : function() {
-      return this.__objectRegistry;
-    },
-
-    // interface implementation
-    setObjectRegistry : function(objectRegistry) {
-      if (this.__objectRegistry !== objectRegistry)
-      {
-        this.__objectRegistry = objectRegistry;
-        this.fireEvent("changeObjects");
+    getApplication : function()
+    {
+      if (this.__window == null) {
+        return null;
+      } else {
+        return this.__window.qx.core.Init.getApplication();
       }
     },
-
-    // interface implementation
-    getApplication : function() {
-      return this.__application;
+    
+    // interface implementation  
+    setWindow : function(win)
+    {
+      if (this.__window !== win) {
+        this.__window = win;
+        this.fireEvent("changeApplication");
+      }
     },
-
+    
     // interface implementation
-    setApplication : function(application) {
-      if (this.__application !== application)
+    getWindow : function() {
+      return this.__window;
+    },
+    
+    // interface implementation
+    getRoots : function()
+    {
+      var roots = [];
+      
+      var win = this.getWindow();
+      if (win == null) {
+        return roots;
+      }
+      
+      var application = this.getApplication();
+      if (application != null) {
+        roots.push(application.getRoot());
+      }
+      
+      var objectRegistry = this.getObjectRegistry();
+      if (objectRegistry != null) 
       {
-        this.__application = application;
-        this.fireEvent("changeObjects")
+        var objects = objectRegistry.getRegistry();
+        for (var key in objects)
+        {
+          var object = objects[key];
+          if (win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Inline)) {
+            roots.push(object);
+          }
+        }
+      }
+      
+      return roots;
+    },
+    
+    /**
+     * Returns the excludes list.
+     * 
+     * @return {qx.core.Object[]} a list with all excludes.
+     * @internal
+     */
+    getExcludes : function() {
+      return this.__excludes;
+    },
+    
+    // interface implementation
+    addToExcludes : function(object)
+    {
+      if (object != null && 
+          !qx.lang.Array.contains(this.__excludes, object)) {
+        this.__excludes.push(object);
+      }
+    },
+    
+    /**
+     * Clears all objects from the exclude list.
+     * @internal
+     */
+    clearExcludes : function() {
+      this.__excludes = [];
+    },
+        
+    // interface implementation
+    getObjectRegistry : function()
+    {
+      if (this.__window == null) {
+        return null;
+      } else {
+        return this.__window.qx.core.ObjectRegistry;
       }
     },
 
@@ -98,14 +150,16 @@ qx.Class.define("inspector.components.InspectorModel",
     {
       var result = [];
 
-      if (this.__objectRegistry === null || this.__application === null) {
+      var objectRegistry = this.getObjectRegistry();
+      if (objectRegistry === null) {
         return result;
       }
 
-      var objects = this.__objectRegistry.getRegistry();
-      var excludes = this.__application.getExcludes();
+      var objects = objectRegistry.getRegistry();
+      var excludes = this.getExcludes();
 
-      for (var objectKey in objects) {
+      for (var objectKey in objects)
+      {
         var object = objects[objectKey];
 
         if (!qx.lang.Array.contains(excludes, object)) {
@@ -115,15 +169,17 @@ qx.Class.define("inspector.components.InspectorModel",
 
       return result;
     },
-
+    
     // interface implementation
     getInspected : function() {
       return this.__inspected;
     },
 
     // interface implementation
-    setInspected : function(object) {
-      if (this.__inspected !== object) {
+    setInspected : function(object)
+    {
+      if (this.__inspected !== object)
+      {
         var oldInspected = this.__inspected;
         this.__inspected = object;
         this.fireDataEvent("changeInspected", this.__inspected, oldInspected);
@@ -132,6 +188,6 @@ qx.Class.define("inspector.components.InspectorModel",
   },
 
   destruct : function() {
-    this.__objectRegistry = this.constructor = this.__inspected = null;
+    this.__window = this.__inspected = this.__excludes = null;
   }
 });

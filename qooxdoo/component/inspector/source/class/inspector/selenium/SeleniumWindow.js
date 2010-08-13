@@ -55,14 +55,12 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       this.select(e.getData());
     }, this);
     
-    this.__changeObjectsListenerID = this._model.addListener("changeObjects", this.__onChangeObjects, this);
+    this._model.addListener("changeApplication", this.__onChangeApplication, this);
   },
 
   members :
   {
     __view : null,
-    
-    __changeObjectsListenerID : null,
     
     __changeInspectedListenerID : null,
     
@@ -76,7 +74,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       this.__view.select(widget);
     },
     
-    __onChangeObjects : function(e) {
+    __onChangeApplication : function(e) {
       // Immediately load scripts if cookies are set
       var coreScripts = qx.bom.Cookie.get("coreScripts");
       var userExt = qx.bom.Cookie.get("userExt");
@@ -88,7 +86,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
   destruct : function()
   {
-    this._model.removeListenerById(this.__changeObjectsListenerID);
+    this._model.removeListener("changeApplication", this.__onChangeApplication, this);
     this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;
