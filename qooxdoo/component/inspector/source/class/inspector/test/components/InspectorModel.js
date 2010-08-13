@@ -35,14 +35,14 @@ qx.Class.define("inspector.test.components.InspectorModel",
 
     testInitValues : function()
     {
-      this.assertNull(this.__model.getWindow());
-      this.assertNull(this.__model.getApplication());
-      this.assertNull(this.__model.getObjectRegistry());
-      this.assertNull(this.__model.getInspected());
+      this.assertNull(this.__model.getWindow(), "Init window value wrong!");
+      this.assertNull(this.__model.getApplication(), "Init application value wrong!");
+      this.assertNull(this.__model.getObjectRegistry(), "Init object registry value wrong!");
+      this.assertNull(this.__model.getInspected(), "Init inspected value wrong!");
     
-      this.assertArrayEquals([], this.__model.getExcludes());
-      this.assertArrayEquals([], this.__model.getObjects());
-      this.assertArrayEquals([], this.__model.getRoots());
+      this.assertArrayEquals([], this.__model.getExcludes(), "Init excludes value wrong!");
+      this.assertArrayEquals([], this.__model.getObjects(), "Init objects value wrong!");
+      this.assertArrayEquals([], this.__model.getRoots(), "Init roots value wrong!");
     },
     
     testSetWindow : function()
@@ -226,6 +226,26 @@ qx.Class.define("inspector.test.components.InspectorModel",
       this.assertEventNotFired(this.__model, "changeInspected", function() {
         that.__model.setInspected(newObject);
       });
+    },
+    
+    testResetWindow : function()
+    {
+      this.testSetWindow();
+      this.testChangeApplicationEvent();
+      this.testGetApplication();
+      this.testObjectRegistry();
+      this.testAddToExcludes();
+      this.testAddToExcludesWithNullValues();
+      this.testAddToExcludesWithDuplicate();
+      this.testClearExcludes();
+      this.testGetObjects();
+      this.testGetRoots();
+      this.testSetInspected();
+      this.testChangeInspectedEvent();
+      
+      this.__model.setWindow(null);
+      
+      this.testInitValues();
     },
     
     __createMock : function(root, objects)
