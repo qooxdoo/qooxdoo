@@ -37,7 +37,7 @@ qx.Class.define("inspector.objects.Model",
     this.base(arguments);
 
     this.__model = model;
-    model.addListener("changeObjects", this.__onChangeObjects, this);
+    model.addListener("changeApplication", this.__onChangeApplication, this);
     model.addListener("changeInspected", this.__onChangeInspected, this);
   },
 
@@ -102,12 +102,12 @@ qx.Class.define("inspector.objects.Model",
     },
 
     /**
-     * Event listener for the <code>changeObjects</code> event from the
+     * Event listener for the <code>changeApplication</code> event from the
      * inspector model.
      *
      * @param event {qx.event.type.Event} the event.
      */
-    __onChangeObjects : function(event) {
+    __onChangeApplication : function(event) {
       this.fireEvent("changeObjects");
     },
 
@@ -123,7 +123,7 @@ qx.Class.define("inspector.objects.Model",
   },
 
   destruct : function() {
-    this.__model.removeListener("changeObjects", this.__onChangeObjects, this);
+    this.__model.removeListener("changeApplication", this.__onChangeApplication, this);
     this.__model.removeListener("changeInspected", this.__onChangeInspected, this);
     this.__model = null;
   }

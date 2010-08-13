@@ -24,7 +24,7 @@ qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
 
   events :
   {
-    "changeObjects" : "qx.event.type.Event",
+    "changeApplication" : "qx.event.type.Event",
 
     "changeInspected": "qx.event.type.Data"
   },
@@ -35,18 +35,24 @@ qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
 
     _objects : null,
 
+    getApplication : function() {},
+    
+    setWindow : function(win) {},
+    
+    getWindow : function() {
+      return null;
+    },
+    
+    getRoots : function() {
+      return [];
+    },
+    
+    addToExcludes : function(object) {
+      return [];
+    },
+    
     getObjectRegistry : function() {
       return null;
-    },
-
-    setObjectRegistry : function(objectRegistry) {
-    },
-
-    getApplication : function() {
-      return null;
-    },
-
-    setApplication : function(application) {
     },
 
     getObjects : function()
@@ -60,7 +66,7 @@ qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
 
     setObjects : function(objects) {
       this._objects = objects;
-      this.fireEvent("changeObjects");
+      this.fireEvent("changeApplication");
     },
 
     getInspected : function() {
