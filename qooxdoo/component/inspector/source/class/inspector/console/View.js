@@ -84,7 +84,12 @@ qx.Class.define("inspector.console.View",
 
     // init appender
     this.__listenerId = this._model.addListener("changeApplication", function(e) {
-      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      var iFrameWindow = this._model.getWindow();
+      
+      if (iFrameWindow == null) {
+        return;
+      }
+      
       inspector.console.Appender.consoleView = this._consoleView;
       iFrameWindow.qx.log.Logger.unregister(inspector.console.Appender);
       iFrameWindow.qx.log.Logger.register(inspector.console.Appender);

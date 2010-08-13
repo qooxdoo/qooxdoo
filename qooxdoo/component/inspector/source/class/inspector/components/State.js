@@ -25,6 +25,15 @@ qx.Class.define("inspector.components.State",
 
     this.__windows = [];
   },
+  
+  properties :
+  {
+    ignoreChanges :
+    {
+      check: "Boolean",
+      init: false
+    }
+  },
 
   members :
   {
@@ -46,24 +55,34 @@ qx.Class.define("inspector.components.State",
       var id = null;
 
       id = win.addListener("open", function() {
-        qx.bom.Cookie.set(cookieKey + "Open", true, 7);
+        if (!this.isIgnoreChanges()) {
+          qx.bom.Cookie.set(cookieKey + "Open", true, 7);
+        }
       }, this);
       listeners.push(id);
 
       id = win.addListener("close", function() {
-        qx.bom.Cookie.set(cookieKey + "Open", false, 7);
+        if (!this.isIgnoreChanges()) {
+          qx.bom.Cookie.set(cookieKey + "Open", false, 7);
+        }
       }, this);
       listeners.push(id);
 
       id = win.addListener("move", function(event) {
-        qx.bom.Cookie.set(cookieKey + "Left", event.getData().left, 7);
-        qx.bom.Cookie.set(cookieKey + "Top", event.getData().top, 7);
+        if (!this.isIgnoreChanges())
+        {
+          qx.bom.Cookie.set(cookieKey + "Left", event.getData().left, 7);
+          qx.bom.Cookie.set(cookieKey + "Top", event.getData().top, 7);
+        }
       }, this);
       listeners.push(id);
 
       id = win.addListener("resize", function(event) {
-        qx.bom.Cookie.set(cookieKey + "Width", event.getData().width, 7);
-        qx.bom.Cookie.set(cookieKey + "Height", event.getData().height, 7);
+        if (!this.isIgnoreChanges())
+        {
+          qx.bom.Cookie.set(cookieKey + "Width", event.getData().width, 7);
+          qx.bom.Cookie.set(cookieKey + "Height", event.getData().height, 7);
+        }
       }, this);
       listeners.push(id);
 
@@ -89,16 +108,14 @@ qx.Class.define("inspector.components.State",
 
       if (open === "true" || open === null) {
         win.open();
-
-        if (!isNaN(left) && !isNaN(top) && !isNaN(width) && !isNaN(height)) {
-          win.setSizeAndPosition(
-          {
-            top: top,
-            left: left,
-            width: width,
-            height: height
-          });
-        }
+        
+        win.setSizeAndPosition(
+        {
+          top: top,
+          left: left,
+          width: width,
+          height: height
+        });
       }
     }
   },

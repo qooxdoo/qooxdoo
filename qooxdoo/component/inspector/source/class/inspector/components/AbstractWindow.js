@@ -76,9 +76,15 @@ qx.Class.define("inspector.components.AbstractWindow",
      * @param position {Map} with <code>Integer</code> values for left, top, width, height as key.
      */
     setSizeAndPosition : function(position) {
-      this.moveTo(position.left, position.top);
-      this.setWidth(position.width);
-      this.setHeight(position.height);
+      if (!isNaN(position.left) && !isNaN(position.top)) {
+        this.moveTo(position.left, position.top);
+      }
+      
+      if (!isNaN(position.width) && !isNaN(position.height))
+      {
+        this.setWidth(position.width);
+        this.setHeight(position.height);
+      }
     },
 
     // overridden
