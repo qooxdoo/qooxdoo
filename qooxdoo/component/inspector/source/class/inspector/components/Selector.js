@@ -33,233 +33,268 @@ qx.Class.define("inspector.components.Selector",
     this.__model = inspectorModel;
     this.__model.addListener("changeApplication", this.__onChangeApplication, this);
     this.__model.addListener("changeInspected", this.__onChangeInspected, this);
+    
+    this.__timerHighlighter = new qx.event.Timer(this.self(arguments).DURATION);
+    this.__timerHighlighter.addListener("interval", this.__onHighlighterInterval, this);
   },
 
+  statics : 
+  {
+    BORDER : 2,
+    
+    BORDER_COLOR : "red",
+    
+    Z_INDEX : 1e6,
+    
+    BACKGROUND_COLOR : "black",
+    
+    OPACITY : 0.1,
+    
+    DURATION : 1000
+  },
+  
   members :
   {
     __model : null,
     
-    __msec : 1000,
+    __catchClickLayer : null,
     
-    getAddedWidgets: function() {
-      return this._addedWidgets;
-    },
-
-    start: function() {
-      this._catchClickLayer.show();
-    },
-
-    end: function() {
-      this._catchClickLayer.hide();
-    },
-
-    __onChangeInspected : function(e) {
-      var object = e.getData();
-
-      if (object == null || object.classname == "qx.ui.root.Application" || object.classname == "qx.ui.root.Page") {
-        return;
+    __highlighter : null,
+    
+    __timerHighlighter : null,
+    
+    __applicationWindow : null,
+    
+    start : function()
+    {
+      if (this.__catchClickLayer != null) {
+        this.__catchClickLayer.show();
       }
-      this._highlight(object);
-
-      // check for an old time
-      if (this._highlightTimerId != null) {
-        window.clearTimeout(this._highlightTimerId);
+    },
+    
+    end : function()
+    {
+      if (this.__catchClickLayer != null) {
+        this.__catchClickLayer.hide();
       }
-
-      var self = this;
-      self._highlightTimerId = window.setTimeout(function() {
-        self._highlightOverlay.hide();
-        self._highlightTimerId = null;
-      }, this.__msec);
     },
 
     __onChangeApplication : function()
     {
-      this._iFrameWindow = this.__model.getWindow();
-      this._addedWidgets = [];
+      this.__applicationWindow = this.__model.getWindow();
       
-      if (this._iFrameWindow == null) {
+      if (this.__applicationWindow == null) {
         return;
       }
       
-      this._rootApplication = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
-      
-      this._createRootNode();
-      this._createCatchClickLayer();
-      this._createHighlightStuff();
+      this.__catchClickLayer = this.__createCatchClickLayer();
+      this.__highlighter = this.__createHighlighter();
     },
     
-    _createRootNode : function() {
-      this._rootNodes = [];
+    __onChangeInspected : function(e) {
+      var inspected = e.getData();
+
+      if (inspected == null || this.__applicationWindow == null) {
+        return;
+      }
       
-      this._rootNodes.push(this._rootApplication);
+      this.__timerHighlighter.restart();
       
-      if (this._rootApplication.classname == "qx.ui.root.Page") {
-        var objects = this._iFrameWindow.qx.core.ObjectRegistry.getRegistry();
-        for (var key in objects) {
-          var object = objects[key];
-          if (object.classname == "qx.ui.root.Inline") {
-            this._rootNodes.push(object);
-          }
-        }
+      this.__highlight(inspected);
+    },
+    
+    __onHighlighterInterval : function(e)
+    {
+      this.__timerHighlighter.stop();
+      this.__highlighter.hide();
+    },
+    
+    __createHighlighter : function() {
+      var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Single(
+        this.self(arguments).BORDER, 
+        "solid", 
+        this.self(arguments).BORDER_COLOR);
+      this.__model.addToExcludes(highlightDecorator);
+
+      var highlightOverlay = new this.__applicationWindow.qx.ui.core.Widget();
+      this.__model.addToExcludes(highlightOverlay);
+      highlightOverlay.setDecorator(highlightDecorator);
+      highlightOverlay.setZIndex(this.self(arguments).Z_INDEX - 2);
+      highlightOverlay.hide();
+      
+      var applicationRoot = this.__model.getApplication().getRoot();
+      applicationRoot.add(highlightOverlay);
+      
+      return highlightOverlay;     
+    },
+    
+    __createCatchClickLayer : function()
+    {
+      var catchClickLayer = new this.__applicationWindow.qx.ui.core.Widget();
+      this.__model.addToExcludes(catchClickLayer);
+      catchClickLayer.setBackgroundColor(this.self(arguments).BACKGROUND_COLOR);
+      catchClickLayer.setOpacity(this.self(arguments).OPACITY);
+      catchClickLayer.setZIndex(this.self(arguments).Z_INDEX - 1);
+      catchClickLayer.hide();
+
+      catchClickLayer.addListener("click", this.__onClick, this);
+      catchClickLayer.addListener("mousemove", this.__onMouseMove, this);
+      
+      this.__addToApplicationRoot(catchClickLayer);
+      
+      return catchClickLayer;
+    },
+          
+    __addToApplicationRoot : function(widget)
+    {
+      var applicationRoot = this.__model.getApplication().getRoot();
+      
+      var win = this.__applicationWindow;
+      if (win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
+        applicationRoot.add(widget, {edge: 0});
+      }
+      else
+      {
+        widget.setHeight(qx.bom.Document.getHeight(win));
+        widget.setWidth(qx.bom.Document.getWidth(win));
+        applicationRoot.add(widget, {left: 0, top: 0});
       }
     },
     
-    _createCatchClickLayer: function() {
-      // initialize the layer to catch the clicks
-      this._catchClickLayer = new this._iFrameWindow.qx.ui.core.Widget();
-      this._addedWidgets.push(this._catchClickLayer);
-      this._catchClickLayer.setBackgroundColor("black");
-      this._catchClickLayer.setOpacity(0.1);
-      this._catchClickLayer.setZIndex(1e6 - 1);
-      this._catchClickLayer.hide();
+    __onClick : function(e) {
+      this.__catchClickLayer.hide();
+
+      var xPosition = e.getDocumentLeft();
+      var yPosition = e.getDocumentTop();
       
-      if (this._rootApplication.classname == "qx.ui.root.Application") {
-        this._rootApplication.add(this._catchClickLayer, {left: 0, top: 0, right: 0, bottom: 0});
-      } else {
-        this._catchClickLayer.setHeight(qx.bom.Document.getHeight(this._iFrameWindow));
-        this._catchClickLayer.setWidth(qx.bom.Document.getWidth(this._iFrameWindow));
-        this._rootApplication.add(this._catchClickLayer, {left: 0, top: 0});
-      }
+      var clickedElement = this.__searchWidgetInAllRoots(xPosition, yPosition); 
         
-      // register the handler to catch the clicks and select the clicked widget
-      this._catchClickLayer.addListener("click", function(e) {
-        // hide the layer that catches the click
-        this._catchClickLayer.hide();
-        // get the current mouse position
-        var xPosition = e.getDocumentLeft();
-        var yPosition = e.getDocumentTop();
-        // search the widget at the current position
-        var clickedElement = null;
-        for (var i = 0; i < this._rootNodes.length; i++) {
-          clickedElement = this._searchWidget(this._rootNodes[i], xPosition, yPosition);
-          if (clickedElement != this._rootNodes[i]) {
-            break;
-          }
-        }
-        // hide the highlight
-        this._highlightOverlay.hide();
-        // select the widget with the given id in the tree
-        this.__model.setInspected(clickedElement);
-      }, this);
-
-      // register the mousemove handler
-      this._catchClickLayer.addListener("mousemove", function(e) {
-        // get the current mouse position
-        var xPosition = e.getDocumentLeft();
-        var yPosition = e.getDocumentTop();
-        // search the widget at the current position
-        var object = null;
-        for (var i = 0; i < this._rootNodes.length; i++) {
-          object = this._searchWidget(this._rootNodes[i], xPosition, yPosition);
-          if (object != this._rootNodes[i]) {
-            break;
-          }
-        }
-        // highlight the widget under the mouse pointer
-        this._highlight(object);
-      }, this);
+      this.__highlighter.hide();
+      this.__model.setInspected(clickedElement);
     },
 
-    _createHighlightStuff: function() {
-      // create the border used to highlight the widgets
-      this._highlightDecorator = new this._iFrameWindow.qx.ui.decoration.Single(2, "solid", "red");
-      this._addedWidgets.push(this._highlightDecorator);
+    __onMouseMove : function(e) {
+      var xPosition = e.getDocumentLeft();
+      var yPosition = e.getDocumentTop();
 
-      // create a new overlay atom object
-      this._highlightOverlay = new this._iFrameWindow.qx.ui.core.Widget();
-      this._addedWidgets.push(this._highlightOverlay);
-      this._highlightOverlay.setDecorator(this._highlightDecorator);
-      this._highlightOverlay.setZIndex(1e6 - 2);
-      this._highlightOverlay.hide();
-      this._rootApplication.add(this._highlightOverlay);
+      var object = this.__searchWidgetInAllRoots(xPosition, yPosition); 
+      this.__highlight(object);
     },
 
-    _searchWidget: function(widget, x, y) {
+    __searchWidgetInAllRoots : function(xPosition, yPosition)
+    {
+      var widget = null;
+      var rootNodes = this.__model.getRoots();
+      for (var i = 0; i < rootNodes.length; i++) {
+        widget = this.__searchWidget(rootNodes[i], xPosition, yPosition);
+        if (widget != rootNodes[i]) {
+          break;
+        }
+      }
+      return widget;
+    },
+    
+    __searchWidget: function(widget, x, y) {
       var returnWidget = widget;
-      // visit all children
+      var excludes = this.__model.getExcludes();
+      
       for (var i = 0; i < widget._getChildren().length; i++) {
-        // get the current child
         var childWidget = widget._getChildren()[i];
-        // ignore the catchClickLayer and highlightOverlay atom
-        if (childWidget == this._catchClickLayer || childWidget == this._highlightOverlay) {
-          continue;
-        }
-        // check for a spacer
-        try {
-          if (childWidget instanceof this._iFrameWindow.qx.ui.core.Spacer) {
+
+        try
+        {
+          var win = this.__applicationWindow;
+          
+          if (qx.lang.Array.contains(excludes, childWidget) || 
+              win.qx.Class.isSubClassOf(childWidget.constructor, win.qx.ui.core.Spacer)) {
             continue;
           }
         } catch (ex) {}
-        // get the coordinates of the current widget
-        if (childWidget.getContainerElement) {
-          var domElement = childWidget.getContainerElement().getDomElement();
-        } else if (childWidget.getDomElement) {
-          var domElement = childWidget.getDomElement();
+
+        var domElement = null;
+        if (this.__isWidget(childWidget)) {
+          domElement = childWidget.getContainerElement().getDomElement();
+        } else if (this.__isQxHtmlElement(childWidget)) {
+          domElement = childWidget.getDomElement();
         } else {
           return childWidget;
         }
 
-        var coordinates = this._getCoordinates(domElement);
-        // if the element is visible
+        var coordinates = this.__getCoordinates(domElement);
+
         if (coordinates != null) {
           // if the element is under the mouse position
           if (coordinates.right >= x && coordinates.left <= x &&
               coordinates.bottom >= y && coordinates.top <= y) {
-            returnWidget = this._searchWidget(childWidget, x, y);
+            returnWidget = this.__searchWidget(childWidget, x, y);
           }
         }
       }
       return returnWidget;
     },
 
-    _getCoordinates: function(element) {
-      // return null if no element is given
+    __getCoordinates: function(element) {
       if (element == null) {
         return null;
       }
-      var returnObject = {};
-      returnObject.left = qx.bom.element.Location.getLeft(element);
-      returnObject.right = qx.bom.element.Location.getRight(element);
-      returnObject.top = qx.bom.element.Location.getTop(element);
-      returnObject.bottom = qx.bom.element.Location.getBottom(element);
-      return returnObject;
+      var result = {};
+      result.left = qx.bom.element.Location.getLeft(element);
+      result.right = qx.bom.element.Location.getRight(element);
+      result.top = qx.bom.element.Location.getTop(element);
+      result.bottom = qx.bom.element.Location.getBottom(element);
+      return result;
     },
 
-    _highlight: function(object) {
-      if (object.classname == "qx.ui.root.Inline") {
+    __highlight: function(object) {
+      var element = null;
+      
+      if (this.__isWidget(object) && !this.__isRootElement(object)) {
+        element = object.getContainerElement().getDomElement();
+      } else if (this.__isQxHtmlElement(object)) {
+        element = object.getDomElement();
+      } else {
+        this.__highlighter.hide();
         return;
       }
       
-      var element = null;
-      if (object.getContainerElement && object.getContainerElement().getDomElement) {
-        element = object.getContainerElement().getDomElement();
-      } else if (object.getDomElement) {
-        element = object.getDomElement();
-      }
-      // do not highlight if the element is not shown on the screen
+      // if element is null, the object is not rendered.
       if (element == null) {
-        this._highlightOverlay.hide();
+        this.__highlighter.hide();
         return;
       }
 
-      // get the coordinates
-      var coordinates = this._getCoordinates(element);
-      var left = coordinates.left - 2;
-      var right = coordinates.right + 2;
-      var top = coordinates.top - 2;
-      var bottom = coordinates.bottom + 2;
+      var coordinates = this.__getCoordinates(element);
+      var left = coordinates.left - this.self(arguments).BORDER;
+      var right = coordinates.right + this.self(arguments).BORDER;
+      var top = coordinates.top - this.self(arguments).BORDER;
+      var bottom = coordinates.bottom + this.self(arguments).BORDER;
 
-      // set the values to the selected object
-      this._highlightOverlay.renderLayout(left, top, right - left, bottom - top);
-      this._highlightOverlay.show();
+      this.__highlighter.renderLayout(left, top, right - left, bottom - top);
+      this.__highlighter.show();
+    },
+    
+    __isRootElement : function (object)
+    {
+      var win = this.__applicationWindow;
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Abstract);          
+    },
+    
+    __isWidget : function (object)
+    {
+      var win = this.__applicationWindow;
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);          
+    },
+    
+    __isQxHtmlElement : function (object)
+    {
+      var win = this.__applicationWindow;
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);          
     }
   },
 
   destruct : function()
   {
-    this._iFrameWindow = this._addedWidgets = this._rootApplication = this._rootNodes = null;
-    this._disposeObjects("_catchClickLayer", "_highlightDecorator",
-      "_highlightOverlay");
+    this.__model = this.__applicationWindow = null;
+    this._disposeObjects("__catchClickLayer", "__highlighter", "__timerHighlighter");
   }
 });
