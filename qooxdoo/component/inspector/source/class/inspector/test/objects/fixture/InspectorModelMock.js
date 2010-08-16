@@ -48,6 +48,9 @@ qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
     },
     
     addToExcludes : function(object) {
+    },
+    
+    getExcludes : function() {
       return [];
     },
     

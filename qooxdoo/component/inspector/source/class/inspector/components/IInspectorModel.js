@@ -87,6 +87,15 @@ qx.Interface.define("inspector.components.IInspectorModel",
     },
     
     /**
+     * Returns the excludes list.
+     * 
+     * @return {qx.core.Object[]} a list with all excludes.
+     */
+    getExcludes : function() {
+      return true;
+    },
+    
+    /**
      * Returns the object registry from the inspected application. This means that also 
      * objects which are created from the inspector in the context from the inspected 
      * application are included. For e.q. all objects which are created for the objects
