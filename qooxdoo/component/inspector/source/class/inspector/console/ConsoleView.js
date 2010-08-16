@@ -334,7 +334,7 @@ qx.Class.define("inspector.console.ConsoleView",
       window.setTimeout(function() {
         // scroll to the bottom of the layout
         var element = self._content.getContentElement();
-        
+
         var domElement = self._content.getContentElement().getDomElement();
         if (domElement != null) {
           var height = qx.bom.element.Dimension.getContentHeight(domElement);

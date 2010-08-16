@@ -162,7 +162,7 @@ qx.Class.define("inspector.objects.View",
     __initialize : function()
     {
       var toolbar = this._toolbar;
-      
+
       // Creates the reload button
       var reload = new qx.ui.toolbar.Button(null, "icon/22/actions/view-refresh.png");
       reload.setToolTipText("Reloads the view.");

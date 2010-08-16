@@ -24,11 +24,11 @@ qx.Class.define("inspector.test.components.InspectorModel",
   members :
   {
     __model : null,
-  
+
     setUp : function() {
       this.__model = new inspector.components.InspectorModel();
     },
-    
+
     tearDown : function() {
       this.__model.dispose();
     },
@@ -39,100 +39,100 @@ qx.Class.define("inspector.test.components.InspectorModel",
       this.assertNull(this.__model.getApplication(), "Init application value wrong!");
       this.assertNull(this.__model.getObjectRegistry(), "Init object registry value wrong!");
       this.assertNull(this.__model.getInspected(), "Init inspected value wrong!");
-    
+
       this.assertArrayEquals([], this.__model.getExcludes(), "Init excludes value wrong!");
       this.assertArrayEquals([], this.__model.getObjects(), "Init objects value wrong!");
       this.assertArrayEquals([], this.__model.getRoots(), "Init roots value wrong!");
     },
-    
+
     testSetWindow : function()
     {
       var newWindow = this.__createMock();
       this.__model.setWindow(newWindow);
-      
+
       this.assertEquals(newWindow, this.__model.getWindow());
     },
-    
+
     testChangeApplicationEvent : function()
     {
       var newWindow = this.__createMock();
       var that = this;
-      
+
       this.assertEventFired(this.__model, "changeApplication", function() {
         that.__model.setWindow(newWindow);
       });
-      
+
       this.assertEventNotFired(this.__model, "changeApplication", function() {
         that.__model.setWindow(newWindow);
       });
     },
-    
+
     testGetApplication : function()
     {
       var windowMock = this.__createMock();
-      var application = windowMock.qx.core.Init.getApplication(); 
+      var application = windowMock.qx.core.Init.getApplication();
 
       this.__model.setWindow(windowMock);
       this.assertEquals(application, this.__model.getApplication());
     },
-    
+
     testObjectRegistry : function()
     {
       var windowMock = this.__createMock();
-      var objectRegistry = windowMock.qx.core.ObjectRegistry; 
+      var objectRegistry = windowMock.qx.core.ObjectRegistry;
 
       this.__model.setWindow(windowMock);
       this.assertEquals(objectRegistry, this.__model.getObjectRegistry());
     },
-    
+
     testAddToExcludes : function()
     {
       var excludes = ["A", "B", "C"];
-      
+
       for (var i = 0; i < excludes.length; i++) {
         this.__model.addToExcludes(excludes[i]);
       }
-      
+
       this.assertArrayEquals(excludes, this.__model.getExcludes());
     },
-    
+
     testAddToExcludesWithNullValues : function()
     {
       var excludes = ["A", "B", "C"];
-      
+
       this.__model.addToExcludes(null);
       for (var i = 0; i < excludes.length; i++) {
         this.__model.addToExcludes(excludes[i]);
       }
       this.__model.addToExcludes(undefined);
-      
+
       this.assertArrayEquals(excludes, this.__model.getExcludes());
     },
-    
+
     testAddToExcludesWithDuplicate : function()
     {
       var excludes = ["A", "B", "C"];
-      
+
       for (var i = 0; i < excludes.length; i++) {
         this.__model.addToExcludes(excludes[i]);
       }
       this.__model.addToExcludes(excludes[1]);
-      
+
       this.assertArrayEquals(excludes, this.__model.getExcludes());
     },
-    
+
     testClearExcludes : function()
     {
       var excludes = ["A", "B", "C"];
-      
+
       for (var i = 0; i < excludes.length; i++) {
         this.__model.addToExcludes(excludes[i]);
       }
       this.__model.clearExcludes();
-      
+
       this.assertArrayEquals([], this.__model.getExcludes());
     },
-    
+
     testGetObjects : function()
     {
       var objects = {
@@ -141,10 +141,10 @@ qx.Class.define("inspector.test.components.InspectorModel",
         o3 : {},
         o4 : {}
       };
-      
+
       var windowMock = this.__createMock(null, objects);
       this.__model.setWindow(windowMock);
-      
+
       this.__model.addToExcludes(objects["o1"]);
       this.__model.addToExcludes(objects["o4"]);
 
@@ -153,10 +153,10 @@ qx.Class.define("inspector.test.components.InspectorModel",
         this.__model.getObjects()
       );
     },
-    
+
     testGetRoots : function()
     {
-      try 
+      try
       {
         var root = new qx.ui.root.Application(document);
         var objects = {
@@ -165,18 +165,18 @@ qx.Class.define("inspector.test.components.InspectorModel",
           o3 : {},
           o4 : new qx.ui.root.Inline(qx.bom.Element.create("div"))
         };
-        
+
         var windowMock = this.__createMock(root, objects);
         this.__model.setWindow(windowMock);
-        
+
         this.assertArrayEquals(
           [root, objects["o2"], objects["o4"]],
           this.__model.getRoots()
         );
-      } 
+      }
       catch(ex) {
         throw new Error(ex);
-      } 
+      }
       finally
       {
         try {
@@ -190,7 +190,7 @@ qx.Class.define("inspector.test.components.InspectorModel",
         } catch(ex) {}
       }
     },
-    
+
     testSetInspected : function()
     {
       var newObject = {};
@@ -201,7 +201,7 @@ qx.Class.define("inspector.test.components.InspectorModel",
         this.__model.getInspected()
       );
     },
-    
+
     testChangeInspectedEvent : function()
     {
       var newObject = {};
@@ -222,12 +222,12 @@ qx.Class.define("inspector.test.components.InspectorModel",
           event.getOldData()
         );
       });
-      
+
       this.assertEventNotFired(this.__model, "changeInspected", function() {
         that.__model.setInspected(newObject);
       });
     },
-    
+
     testResetWindow : function()
     {
       this.testSetWindow();
@@ -242,12 +242,12 @@ qx.Class.define("inspector.test.components.InspectorModel",
       this.testGetRoots();
       this.testSetInspected();
       this.testChangeInspectedEvent();
-      
+
       this.__model.setWindow(null);
-      
+
       this.testInitValues();
     },
-    
+
     __createMock : function(root, objects)
     {
       var application = {
@@ -255,39 +255,39 @@ qx.Class.define("inspector.test.components.InspectorModel",
           return root;
         }
       };
-      
+
       return {
-        qx: { 
+        qx: {
           Class: {
             isSubClassOf: function(clazz, superClass) {
               return qx.Class.isSubClassOf(clazz, superClass);
             },
-            
+
             getByName : function(name) {
               return qx.Class.getByName(name);
             }
           },
-          
-          core: { 
+
+          core: {
             ObjectRegistry: {
               getRegistry: function() {
                 return objects;
               }
             },
-  
-            Init: { 
+
+            Init: {
               getApplication: function() {
                 return application;
               }
             }
           },
-          
+
           ui: {
             root: {
               Inline: qx.ui.root.Inline
             }
           }
-        }  
+        }
       };
     }
   }

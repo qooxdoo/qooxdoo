@@ -32,7 +32,7 @@ qx.Class.define("inspector.widgets.View",
     this.base(arguments);
 
     this._model = inspectorModel;
-    
+
     // create and add the reload button
     this._reloadButton = new qx.ui.toolbar.Button(null,
         "icon/22/actions/view-refresh.png");
@@ -68,7 +68,7 @@ qx.Class.define("inspector.widgets.View",
   members : {
 
     _model : null,
-    
+
     select: function(widget) {
       this._selectWidgetInTheTree(widget, true);
     },
@@ -94,7 +94,7 @@ qx.Class.define("inspector.widgets.View",
       if (this._iFrameWindow == null) {
         return;
       }
-      
+
       var remoteAppRoot = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
 
       // create a new root folder
@@ -112,16 +112,16 @@ qx.Class.define("inspector.widgets.View",
         var rootFolder = new qx.ui.tree.TreeFolder("Root Node");
         this._tree.setRoot(rootFolder);
         this._tree.setHideRoot(true);
-          
+
         var applicationRoot = new qx.ui.tree.TreeFolder(
           remoteAppRoot.classname + " [" + remoteAppRoot.toHashCode() + "]"
         );
-        
+
         // store the root application with the folder
         applicationRoot.setUserData("instance", remoteAppRoot);
         applicationRoot.setUserData('id', remoteAppRoot.toHashCode());
         rootFolder.add(applicationRoot);
-        
+
         // refill the tree
         this._fillTree(remoteAppRoot, applicationRoot, 2);
 
@@ -132,7 +132,7 @@ qx.Class.define("inspector.widgets.View",
             var inlineRoot = new qx.ui.tree.TreeFolder(
                 object.classname + " [" + object.toHashCode() + "]"
             );
-              
+
             inlineRoot.setUserData("instance", object);
             inlineRoot.setUserData('id', inlineRoot.toHashCode());
             rootFolder.add(inlineRoot);
@@ -145,19 +145,19 @@ qx.Class.define("inspector.widgets.View",
     _reload : function()
     {
       this.load();
-      
+
       var inspected = this._model.getInspected();
       if (inspected != null) {
         this._selectWidgetInTheTree(inspected, false);
       }
     },
-    
+
     _fillTree: function(parentWidget, parentTreeFolder, recursive)  {
       // get the current items of the tree folder
       var items = parentTreeFolder.getItems(false, true);
 
       var kids = this._structureToggle.isValue() ? "_getChildren" : "getChildren";
-      
+
       // ignore all objects without children (spacer e.g.)
       if (parentWidget[kids] == undefined) {
         if (kids === "getChildren") {
@@ -365,7 +365,7 @@ qx.Class.define("inspector.widgets.View",
       if (!elementFound) {
         // delete the selection in the tree
         this._tree.resetSelection();
-        
+
         if (toggleChildControl == true && !this._structureToggle.isValue())
         {
           this._structureToggle.toggleValue();

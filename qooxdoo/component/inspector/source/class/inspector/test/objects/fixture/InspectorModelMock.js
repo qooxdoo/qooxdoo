@@ -36,24 +36,24 @@ qx.Class.define("inspector.test.objects.fixture.InspectorModelMock",
     _objects : null,
 
     getApplication : function() {},
-    
+
     setWindow : function(win) {},
-    
+
     getWindow : function() {
       return null;
     },
-    
+
     getRoots : function() {
       return [];
     },
-    
+
     addToExcludes : function(object) {
     },
-    
+
     getExcludes : function() {
       return [];
     },
-    
+
     getObjectRegistry : function() {
       return null;
     },

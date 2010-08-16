@@ -51,7 +51,7 @@ qx.Class.define("inspector.console.Util",
           }
 
           var returnCode = "";
-          if (qx.core.Variant.isSet("qx.client", "webkit") || 
+          if (qx.core.Variant.isSet("qx.client", "webkit") ||
               qx.core.Variant.isSet("qx.client", "opera")) {
             returnCode = "return eval('" + code + "');"
           } else {

@@ -27,7 +27,7 @@ qx.Class.define("inspector.components.AbstractView",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setLayout(new qx.ui.layout.VBox());
 
     // Creats the toolbar

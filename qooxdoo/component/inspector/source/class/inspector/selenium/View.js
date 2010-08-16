@@ -123,7 +123,7 @@ qx.Class.define("inspector.selenium.View", {
         this.__addLocator();
       }
     },
-    
+
     getSelection : function() {
       // get the selected element
       var selectedElement = this.__selectedWidget;

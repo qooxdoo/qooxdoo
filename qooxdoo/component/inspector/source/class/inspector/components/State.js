@@ -30,7 +30,7 @@ qx.Class.define("inspector.components.State",
 
     this.__windows = [];
   },
-  
+
   properties :
   {
     /**
@@ -50,7 +50,7 @@ qx.Class.define("inspector.components.State",
 
     /**
      * Adds a window to save and restore state.
-     * 
+     *
      * @param win {inspector.components.AbstractWindow} to save and restore state.
      * @param cookieKey {String} the cookie key to save and restore state .
      */
@@ -65,7 +65,7 @@ qx.Class.define("inspector.components.State",
 
     /**
      * Helper method to observe state changes (open/close, top, left, width and height).
-     * 
+     *
      * @param win {inspector.components.AbstractWindow} to save and restore state.
      */
     __observeState : function(win) {
@@ -121,7 +121,7 @@ qx.Class.define("inspector.components.State",
 
     /**
      * Helper method to restore the old state from the passed window.
-     *  
+     *
      * @param win {inspector.components.AbstractWindow} to restore old state.
      */
     __restoreStateFrom : function(win)
@@ -136,7 +136,7 @@ qx.Class.define("inspector.components.State",
 
       if (open === "true" || open === null) {
         win.open();
-        
+
         win.setSizeAndPosition(
         {
           top: top,

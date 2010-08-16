@@ -50,30 +50,30 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
     this.__view = new inspector.selenium.View();
     this.add(this.__view, {edge: 0});
-    
+
     this.__changeInspectedListenerID = this._model.addListener("changeInspected", function(e) {
       this.select(e.getData());
     }, this);
-    
+
     this._model.addListener("changeApplication", this.__onChangeApplication, this);
   },
 
   members :
   {
     __view : null,
-    
+
     __changeInspectedListenerID : null,
-    
+
     setInitSizeAndPosition: function() {
       this.moveTo(0, 35);
       this.setHeight(300);
       this.setWidth(400);
     },
-    
+
     select: function(widget) {
       this.__view.select(widget);
     },
-    
+
     __onChangeApplication : function(e) {
       // Immediately load scripts if cookies are set
       var coreScripts = qx.bom.Cookie.get("coreScripts");

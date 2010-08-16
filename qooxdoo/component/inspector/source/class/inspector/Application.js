@@ -102,9 +102,9 @@ qx.Class.define("inspector.Application",
 
       this.__inspectorModel = new inspector.components.InspectorModel(this);
       this.__inspectorModel.addListener("changeInspected", this.__changeInspected, this);
-      
+
       this.__selector = new inspector.components.Selector(this.__inspectorModel);
-      
+
       this.__state = new inspector.components.State();
       this.__state.setIgnoreChanges(true);
 
@@ -246,13 +246,13 @@ qx.Class.define("inspector.Application",
 
       // Property Window
       this.__createWindow("Properties", inspector.property.PropertyWindow, "_propertyButton");
-      
+
       // Console window
       this._consoleWindow = this.__createWindow("Console", inspector.console.ConsoleWindow, "_consoleButton");
-      
+
       // Selenium window
       this.__createWindow("Selenium", inspector.selenium.SeleniumWindow, "_seleniumButton");
-      
+
       // add the third separator
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
@@ -325,7 +325,7 @@ qx.Class.define("inspector.Application",
       button.addListener("changeValue", function(e) {
         e.getData() ? win.open() : win.close();
       }, this);
-      
+
       button.addListener("changeEnabled", function(e) {
         if (e.getData() == false) {
           win.hide();
@@ -339,7 +339,7 @@ qx.Class.define("inspector.Application",
       win.addListener("close", function(e) {
         button.setValue(false);
       }, this);
-      
+
       return win;
     },
 
@@ -362,10 +362,10 @@ qx.Class.define("inspector.Application",
     */
     __changeInspected: function(e) {
       this._inspectButton.setValue(false);
-      
+
       var object = e.getData();
       if (object != null) {
-        this._selectedWidgetLabel.setValue("<tt>" + object.classname + "[" + 
+        this._selectedWidgetLabel.setValue("<tt>" + object.classname + "[" +
           object.toHashCode() + "]</tt>");
       }
     },

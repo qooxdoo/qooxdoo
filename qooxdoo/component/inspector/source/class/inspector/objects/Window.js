@@ -44,7 +44,7 @@ qx.Class.define("inspector.objects.Window",
   {
     /** {inspector.objects.Model} model for the objects view */
     __objectsModel : null,
-    
+
     /** {inspector.objects.Controller} controller for the view. */
     __controller : null,
 

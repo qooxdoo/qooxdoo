@@ -35,9 +35,9 @@ qx.Class.define("inspector.components.AbstractWindow",
     this.base(arguments, name);
 
     this._model = inspectorModel;
-    
+
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     // apply default size and position
     this.syncAppearance();
     this.setInitSizeAndPosition();
@@ -48,7 +48,7 @@ qx.Class.define("inspector.components.AbstractWindow",
     /** Fired when the window is opend. */
     "open" : "qx.event.type.Event"
   },
-  
+
   properties :
   {
     appearance :
@@ -57,19 +57,19 @@ qx.Class.define("inspector.components.AbstractWindow",
       refine : true
     }
   },
-  
+
   members :
   {
     /** {inspector.components.IInspectorModel} model to show */
     _model : null,
-    
+
     /**
      * Init the size and the position from the window.
      */
     setInitSizeAndPosition : function() {
       throw new Error("Abstract method call (setInitSizeAndPosition) in 'AbstractWindow'!");
     },
-    
+
     /**
      * Sets the window to the passed position/size.
      *
@@ -79,7 +79,7 @@ qx.Class.define("inspector.components.AbstractWindow",
       if (!isNaN(position.left) && !isNaN(position.top)) {
         this.moveTo(position.left, position.top);
       }
-      
+
       if (!isNaN(position.width) && !isNaN(position.height))
       {
         this.setWidth(position.width);
