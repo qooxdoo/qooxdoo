@@ -16,6 +16,11 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+
+/**
+ * This class can be used to save and restore the state from a inspector window.
+ * All values are restored as cookie.
+ */
 qx.Class.define("inspector.components.State",
 {
   extend : qx.core.Object,
@@ -28,6 +33,9 @@ qx.Class.define("inspector.components.State",
   
   properties :
   {
+    /**
+     * When <code>true</code> all state changes are ignored.
+     */
     ignoreChanges :
     {
       check: "Boolean",
@@ -37,8 +45,15 @@ qx.Class.define("inspector.components.State",
 
   members :
   {
+    /** {Array} Reference to all {@link inspector.components.AbstractWindow} to save and restore state. */
     __windows : null,
 
+    /**
+     * Adds a window to save and restore state.
+     * 
+     * @param win {inspector.components.AbstractWindow} to save and restore state.
+     * @param cookieKey {String} the cookie key to save and restore state .
+     */
     add : function(win, cookieKey)
     {
       if (!qx.lang.Array.contains(this.__windows, win)) {
@@ -48,6 +63,11 @@ qx.Class.define("inspector.components.State",
       }
     },
 
+    /**
+     * Helper method to observe state changes (open/close, top, left, width and height).
+     * 
+     * @param win {inspector.components.AbstractWindow} to save and restore state.
+     */
     __observeState : function(win) {
       var cookieKey = win.getUserData("cookieKey");
 
@@ -89,6 +109,9 @@ qx.Class.define("inspector.components.State",
       win.setUserData("listeners", listeners);
     },
 
+    /**
+     * Restore the old sate from all added windows.
+     */
     restoreState : function()
     {
       for (var i = 0; i < this.__windows.length; i++) {
@@ -96,6 +119,11 @@ qx.Class.define("inspector.components.State",
       }
     },
 
+    /**
+     * Helper method to restore the old state from the passed window.
+     *  
+     * @param win {inspector.components.AbstractWindow} to restore old state.
+     */
     __restoreStateFrom : function(win)
     {
       var cookieKey = win.getUserData("cookieKey");

@@ -264,7 +264,7 @@ qx.Class.define("inspector.Application",
         if (e.getData()) {
           this.__selector.start();
         } else {
-          this.__selector.end();
+          this.__selector.stop();
         }
       }, this);
 
