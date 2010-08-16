@@ -343,6 +343,7 @@ class ResourceHandler(object):
                 for resource in allResources:
                     resVal = resVals[resource]
                     if self.assetsMatchResource(assetSet, resource, resVal):
+                        resId, embImgs = resVal
                         classToResources[classId].append(resId)
 
         return classToResources
