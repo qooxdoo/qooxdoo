@@ -28,7 +28,7 @@ qx.Class.define("inspector.console.View",
     this.base(arguments);
 
     this._model = inspectorModel;
-    
+
     // toolbar buttons
     this._clearButton = new qx.ui.toolbar.Button("Clear");
     this._toolbar.add(this._clearButton);
@@ -85,11 +85,11 @@ qx.Class.define("inspector.console.View",
     // init appender
     this.__listenerId = this._model.addListener("changeApplication", function(e) {
       var iFrameWindow = this._model.getWindow();
-      
+
       if (iFrameWindow == null) {
         return;
       }
-      
+
       inspector.console.Appender.consoleView = this._consoleView;
       iFrameWindow.qx.log.Logger.unregister(inspector.console.Appender);
       iFrameWindow.qx.log.Logger.register(inspector.console.Appender);
@@ -99,9 +99,9 @@ qx.Class.define("inspector.console.View",
   members :
   {
     _model : null,
-    
+
     __listenerId : null,
-    
+
     escapeHtml: function(value) {
       function replaceChars(ch) {
         switch(ch) {

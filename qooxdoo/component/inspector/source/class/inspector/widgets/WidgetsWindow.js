@@ -41,11 +41,11 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
 
     this.__view = new inspector.widgets.View(this._model);
     this.add(this.__view, {edge: 0});
-    
+
     this.__changeApplicationListenerID = this._model.addListener("changeApplication", function(e) {
       this.load();
     }, this);
-    
+
     this.__changeInspectedListenerID = this._model.addListener("changeInspected", function(e) {
       this.select(e.getData());
     }, this);
@@ -54,11 +54,11 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
   members :
   {
     __view : null,
-    
+
     __changeApplicationListenerID : null,
-    
+
     __changeInspectedListenerID : null,
-    
+
     setInitSizeAndPosition: function() {
       var left = qx.bom.Viewport.getWidth() - this.getWidth();
       var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);

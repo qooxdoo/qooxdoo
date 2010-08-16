@@ -37,7 +37,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
   members :
   {
     __view : null,
-    
+
     setInitSizeAndPosition: function() {
       var width = qx.bom.Viewport.getWidth() - 300;
       var height = parseInt((qx.bom.Viewport.getHeight() - 30) / 3);
@@ -45,7 +45,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
       this.setWidth(width);
       this.setHeight(height);
     },
-    
+
     inspectObjectByInternalId: function(id) {
       this.__view.inspectObjectByInternalId(id);
     },

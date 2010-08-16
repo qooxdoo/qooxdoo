@@ -27,59 +27,59 @@ qx.Class.define("inspector.components.Selector",
 
   /**
    * Creates the selector.
-   * 
+   *
    * @param inspectorModel {inspector.components.IInspectorModel} inspector model.
    */
   construct : function(inspectorModel)
   {
     this.base(arguments);
-    
+
     this.__model = inspectorModel;
     this.__model.addListener("changeApplication", this.__onChangeApplication, this);
     this.__model.addListener("changeInspected", this.__onChangeInspected, this);
-    
+
     this.__timerHighlighter = new qx.event.Timer(this.self(arguments).DURATION);
     this.__timerHighlighter.addListener("interval", this.__onHighlighterInterval, this);
   },
 
-  statics : 
+  statics :
   {
     /** {Integer} The border size for the highlighter. */
     BORDER : 2,
-    
+
     /** {String} The border color for the highlighter. */
     BORDER_COLOR : "red",
-    
+
     /** {Integer} The max zIndex highlighter and click layer. */
     Z_INDEX : 1e6,
-    
+
     /** {String} The background color for the click layer. */
     BACKGROUND_COLOR : "black",
-    
+
     /** {Number} The opacity for the click layer. */
     OPACITY : 0.1,
-    
+
     /** {Integer} The duration in msec how long the highlighter is shown. */
     DURATION : 1000
   },
-  
+
   members :
   {
     /** {inspector.components.IInspectorModel} The inspector model instance */
     __model : null,
-    
+
     /** {qx.ui.core.Widget} Reference to the click layer in the inspected application. */
     __catchClickLayer : null,
-    
+
     /** {qx.ui.core.Widget} Reference to the highlighter in the inspected application. */
     __highlighter : null,
-    
+
     /** {qx.event.Timer} Timer reference for hiding the highlighter */
     __timerHighlighter : null,
-    
+
     /** {Window} Reference to the DOM window of the inspected application */
     __applicationWindow : null,
-    
+
     /**
      * Shows the click layer to start the object selection in the inspected application.
      */
@@ -89,7 +89,7 @@ qx.Class.define("inspector.components.Selector",
         this.__catchClickLayer.show();
       }
     },
-    
+
     /**
      * Hides the click layer to stop the object selection in the inspected application.
      */
@@ -103,24 +103,24 @@ qx.Class.define("inspector.components.Selector",
     /**
      * Listener for the "changeApplication", creates the click layer and the highlighter
      * in the inspected application.
-     * 
+     *
      * @param e {qx.event.type.Event} the fired event.
      */
     __onChangeApplication : function(e)
     {
       this.__applicationWindow = this.__model.getWindow();
-      
+
       if (this.__applicationWindow == null) {
         return;
       }
-      
+
       this.__catchClickLayer = this.__createCatchClickLayer();
       this.__highlighter = this.__createHighlighter();
     },
-    
+
     /**
      * Listener for the "changeInspected", shows the highlighter for the {@link #DURATION}.
-     * 
+     *
      * @param e {qx.event.type.Data} the fired event.
      */
     __onChangeInspected : function(e) {
@@ -129,15 +129,15 @@ qx.Class.define("inspector.components.Selector",
       if (inspected == null || this.__applicationWindow == null) {
         return;
       }
-      
+
       this.__timerHighlighter.restart();
-      
+
       this.__highlight(inspected);
     },
-    
+
     /**
      * Listener for the "interval", stops the timer and hide the highlighter.
-     * 
+     *
      * @param e {qx.event.type.Event} the fired event.
      */
     __onHighlighterInterval : function(e)
@@ -145,17 +145,17 @@ qx.Class.define("inspector.components.Selector",
       this.__timerHighlighter.stop();
       this.__highlighter.hide();
     },
-    
+
     /**
-     * Helper method to create and add the highlighter to the inspected application, 
+     * Helper method to create and add the highlighter to the inspected application,
      * also adds the highlighter to the excludes list from the inspector model.
-     * 
+     *
      * @return {qx.ui.core.Widget} the created highlighter.
      */
     __createHighlighter : function() {
       var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Single(
-        this.self(arguments).BORDER, 
-        "solid", 
+        this.self(arguments).BORDER,
+        "solid",
         this.self(arguments).BORDER_COLOR);
       this.__model.addToExcludes(highlightDecorator);
 
@@ -164,17 +164,17 @@ qx.Class.define("inspector.components.Selector",
       highlightOverlay.setDecorator(highlightDecorator);
       highlightOverlay.setZIndex(this.self(arguments).Z_INDEX - 2);
       highlightOverlay.hide();
-      
+
       var applicationRoot = this.__model.getApplication().getRoot();
       applicationRoot.add(highlightOverlay);
-      
-      return highlightOverlay;     
+
+      return highlightOverlay;
     },
-    
+
     /**
-     * Helper method to create and add the click layer to the inspected application, 
+     * Helper method to create and add the click layer to the inspected application,
      * also adds the click layer to the excludes list from the inspector model.
-     * 
+     *
      * @return {qx.ui.core.Widget} the created click layer.
      */
     __createCatchClickLayer : function()
@@ -188,21 +188,21 @@ qx.Class.define("inspector.components.Selector",
 
       catchClickLayer.addListener("click", this.__onClick, this);
       catchClickLayer.addListener("mousemove", this.__onMouseMove, this);
-      
+
       this.__addToApplicationRoot(catchClickLayer);
-      
+
       return catchClickLayer;
     },
-          
+
     /**
      * Helper method to add the passes widget to the inspected application in full size.
-     * 
+     *
      * @param widget {qx.ui.core.Widget} to add in full size.
      */
     __addToApplicationRoot : function(widget)
     {
       var applicationRoot = this.__model.getApplication().getRoot();
-      
+
       var win = this.__applicationWindow;
       if (win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
         applicationRoot.add(widget, {edge: 0});
@@ -214,11 +214,11 @@ qx.Class.define("inspector.components.Selector",
         applicationRoot.add(widget, {left: 0, top: 0});
       }
     },
-    
+
     /**
      * Listener for the "click", tries to fined the clicked object in all application roots
      * and sets the found object as inspected.
-     * 
+     *
      * @param e {qx.event.type.Mouse} the fired event.
      */
     __onClick : function(e) {
@@ -226,9 +226,9 @@ qx.Class.define("inspector.components.Selector",
 
       var xPosition = e.getDocumentLeft();
       var yPosition = e.getDocumentTop();
-      
-      var clickedElement = this.__searchWidgetInAllRoots(xPosition, yPosition); 
-        
+
+      var clickedElement = this.__searchWidgetInAllRoots(xPosition, yPosition);
+
       this.__highlighter.hide();
       this.__model.setInspected(clickedElement);
     },
@@ -236,23 +236,23 @@ qx.Class.define("inspector.components.Selector",
     /**
      * Listener for the "mousemove", tries to fined the object below the mouse pointer
      * and highlights the found object.
-     * 
+     *
      * @param e {qx.event.type.Mouse} the fired event.
      */
     __onMouseMove : function(e) {
       var xPosition = e.getDocumentLeft();
       var yPosition = e.getDocumentTop();
 
-      var object = this.__searchWidgetInAllRoots(xPosition, yPosition); 
+      var object = this.__searchWidgetInAllRoots(xPosition, yPosition);
       this.__highlight(object);
     },
 
     /**
      * Helper method to find a object in all roots which match to the passed position.
-     * 
+     *
      * @param xPosition {Integer} x position
      * @param yPosition {Integer} y position
-     * 
+     *
      * @return {qx.ui.core.Widget} found widget.
      */
     __searchWidgetInAllRoots : function(xPosition, yPosition)
@@ -267,33 +267,33 @@ qx.Class.define("inspector.components.Selector",
       }
       return widget;
     },
-    
+
     /**
      * Helper method to find a object which match to the passed position.
-     * 
+     *
      * The algorithm has a complexity of O(n). The algorithm begins form the
      * passed start node and tries to find the object which match to the passed
-     * position. The the start node is returned, when the algorithm coudn't find 
-     * a object which match to the passed values. 
-     * 
+     * position. The the start node is returned, when the algorithm coudn't find
+     * a object which match to the passed values.
+     *
      * @param widget {qx.ui.core.Widget|qx.html.Element} start node.
      * @param x {Integer} x position
      * @param y {Integer} y position
-     * 
+     *
      * @return {qx.ui.core.Widget} found widget or start node.
      */
     __searchWidget: function(widget, x, y) {
       var returnWidget = widget;
       var excludes = this.__model.getExcludes();
-      
+
       for (var i = 0; i < widget._getChildren().length; i++) {
         var childWidget = widget._getChildren()[i];
 
         try
         {
           var win = this.__applicationWindow;
-          
-          if (qx.lang.Array.contains(excludes, childWidget) || 
+
+          if (qx.lang.Array.contains(excludes, childWidget) ||
               win.qx.Class.isSubClassOf(childWidget.constructor, win.qx.ui.core.Spacer)) {
             continue;
           }
@@ -322,9 +322,9 @@ qx.Class.define("inspector.components.Selector",
     },
 
     /**
-     * Returns the coordinates from the passed DOM element in relation to 
+     * Returns the coordinates from the passed DOM element in relation to
      * it's top level body element.
-     * 
+     *
      * @param element {Element} DOM element to get the coordinates.
      * @return {Map|null} with the coordinates <code>left, right, top, bottom</code> as key.
      */
@@ -342,12 +342,12 @@ qx.Class.define("inspector.components.Selector",
 
     /**
      * Helper method to highlight the passed object.
-     * 
+     *
      * @param object {qx.ui.core.Widget|qx.html.Element} object to highlight.
      */
     __highlight: function(object) {
       var element = null;
-      
+
       if (this.__isWidget(object) && !this.__isRootElement(object)) {
         element = object.getContainerElement().getDomElement();
       } else if (this.__isQxHtmlElement(object)) {
@@ -356,7 +356,7 @@ qx.Class.define("inspector.components.Selector",
         this.__highlighter.hide();
         return;
       }
-      
+
       // if element is null, the object is not rendered.
       if (element == null) {
         this.__highlighter.hide();
@@ -372,41 +372,41 @@ qx.Class.define("inspector.components.Selector",
       this.__highlighter.renderLayout(left, top, right - left, bottom - top);
       this.__highlighter.show();
     },
-    
+
     /**
      * Helper method to check if the passed object is a root element.
-     * 
+     *
      * @param object {qx.core.Object} object to check.
      * @return <code>true</code> if root element, <code>false</code> otherwise.
      */
     __isRootElement : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Abstract);          
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Abstract);
     },
-    
+
     /**
      * Helper method to check if the passed object is a widget.
-     * 
+     *
      * @param object {qx.core.Object} object to check.
      * @return <code>true</code> if widget, <code>false</code> otherwise.
      */
     __isWidget : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);          
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);
     },
-    
+
     /**
      * Helper method to check if the passed object is a <code>qx.html.Element</code>.
-     * 
+     *
      * @param object {qx.core.Object} object to check.
      * @return <code>true</code> if <code>qx.html.Element</code>, <code>false</code> otherwise.
      */
     __isQxHtmlElement : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);          
+      return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);
     }
   },
 

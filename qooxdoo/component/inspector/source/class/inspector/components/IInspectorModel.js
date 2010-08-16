@@ -46,7 +46,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
     getApplication : function() {
       return true;
     },
-    
+
     /**
      * Sets the DOM window object from the inspected application.
      *
@@ -55,7 +55,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
     setWindow : function(win) {
       return arguments.length == 1;
     },
-    
+
     /**
      * Returns the DOM window object from the inspected application.
      *
@@ -64,40 +64,40 @@ qx.Interface.define("inspector.components.IInspectorModel",
     getWindow : function() {
       return true;
     },
-    
+
     /**
-     * Returns all roots from the inspected application. A standalone application has 
-     * only one root which is returned from {@link qx.application.AbstractGui~getRoot}, 
+     * Returns all roots from the inspected application. A standalone application has
+     * only one root which is returned from {@link qx.application.AbstractGui~getRoot},
      * but a inline application can also have a arbitrary number of {@link qx.ui.root.Inline} island.
-     * 
+     *
      * @return {qx.ui.root.Abstract[]} All roots from the inspected application.
      */
     getRoots : function() {
       return true;
     },
-    
+
     /**
-     * Added the passed object to the excludes list. The excludes are respected by 
+     * Added the passed object to the excludes list. The excludes are respected by
      * the {@link #getObjects} method.
-     * 
+     *
      * @param object {qx.core.Object} Object to add to excludes list.
      */
     addToExcludes : function(object) {
       return arguments.length == 1;
     },
-    
+
     /**
      * Returns the excludes list.
-     * 
+     *
      * @return {qx.core.Object[]} a list with all excludes.
      */
     getExcludes : function() {
       return true;
     },
-    
+
     /**
-     * Returns the object registry from the inspected application. This means that also 
-     * objects which are created from the inspector in the context from the inspected 
+     * Returns the object registry from the inspected application. This means that also
+     * objects which are created from the inspector in the context from the inspected
      * application are included. For e.q. all objects which are created for the objects
      * inspection visualization.
      *
@@ -111,7 +111,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
     /**
      * Returns the registered objects from the inspected application. The
      * different to {@link #getObjectRegistry} is that this method only returns
-     * the objects which are not included in the excludes list. This means that 
+     * the objects which are not included in the excludes list. This means that
      * all objects which are added with {@link #addToExcludes} are ignored.
      *
      * @return {qx.core.Object[]} Returns all registered objects from the inspected
@@ -120,7 +120,7 @@ qx.Interface.define("inspector.components.IInspectorModel",
     getObjects : function() {
       return true;
     },
-    
+
     /**
      * Returns the inspected object.
      *

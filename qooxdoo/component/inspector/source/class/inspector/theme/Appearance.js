@@ -32,7 +32,7 @@ qx.Theme.define("inspector.theme.Appearance",
     {
       alias : "window",
       include : "window",
-      
+
       style : function(states)
       {
         return {
@@ -48,7 +48,7 @@ qx.Theme.define("inspector.theme.Appearance",
     /*
      * Objects Window
      */
-    
+
     "objects-toolbar" :
     {
       alias : "toolbar",

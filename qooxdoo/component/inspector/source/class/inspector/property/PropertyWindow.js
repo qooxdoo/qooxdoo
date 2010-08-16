@@ -43,7 +43,7 @@ qx.Class.define("inspector.property.PropertyWindow",
 
     this.__view = new inspector.property.View();
     this.add(this.__view, {edge: 0});
-    
+
     this.__changeInspectedListenerID = this._model.addListener("changeInspected", function(e) {
       this.select(e.getData());
     }, this);
@@ -52,9 +52,9 @@ qx.Class.define("inspector.property.PropertyWindow",
   members :
   {
     __view : null,
-    
+
     __changeInspectedListenerID : null,
-    
+
     setInitSizeAndPosition : function()
     {
       var left = qx.bom.Viewport.getWidth() - this.getWidth();
@@ -62,7 +62,7 @@ qx.Class.define("inspector.property.PropertyWindow",
       this.moveTo(left, 30 + 2 * height);
       this.setHeight(height);
     },
-    
+
     select: function(widget) {
       this.__view.select(widget);
     }

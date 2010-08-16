@@ -28,7 +28,7 @@ qx.Class.define("inspector.components.InspectorModel",
 
   construct : function() {
     this.base(arguments);
-    
+
     this.__initValues();
   },
 
@@ -48,9 +48,9 @@ qx.Class.define("inspector.components.InspectorModel",
   members :
   {
     __window : null,
-    
+
     __inspected : null,
-    
+
     __excludes : null,
 
     // interface implementation
@@ -62,8 +62,8 @@ qx.Class.define("inspector.components.InspectorModel",
         return this.__window.qx.core.Init.getApplication();
       }
     },
-    
-    // interface implementation  
+
+    // interface implementation
     setWindow : function(win)
     {
       if (this.__window !== win) {
@@ -74,30 +74,30 @@ qx.Class.define("inspector.components.InspectorModel",
         this.fireEvent("changeApplication");
       }
     },
-    
+
     // interface implementation
     getWindow : function() {
       return this.__window;
     },
-    
+
     // interface implementation
     getRoots : function()
     {
       var roots = [];
-      
+
       var win = this.getWindow();
       if (win == null) {
         return roots;
       }
-      
+
       var application = this.getApplication();
       if (application != null) {
         roots.push(application.getRoot());
       }
-      
+
       var objectRegistry = this.getObjectRegistry();
-      if (objectRegistry != null && 
-          win.qx.Class.getByName("qx.ui.root.Inline") != null) 
+      if (objectRegistry != null &&
+          win.qx.Class.getByName("qx.ui.root.Inline") != null)
       {
         var objects = objectRegistry.getRegistry();
         for (var key in objects)
@@ -108,24 +108,24 @@ qx.Class.define("inspector.components.InspectorModel",
           }
         }
       }
-      
+
       return roots;
     },
-    
+
     // interface implementation
     getExcludes : function() {
       return this.__excludes;
     },
-    
+
     // interface implementation
     addToExcludes : function(object)
     {
-      if (object != null && 
+      if (object != null &&
           !qx.lang.Array.contains(this.__excludes, object)) {
         this.__excludes.push(object);
       }
     },
-    
+
     /**
      * Clears all objects from the exclude list.
      * @internal
@@ -133,7 +133,7 @@ qx.Class.define("inspector.components.InspectorModel",
     clearExcludes : function() {
       this.__excludes = [];
     },
-        
+
     // interface implementation
     getObjectRegistry : function()
     {
@@ -168,7 +168,7 @@ qx.Class.define("inspector.components.InspectorModel",
 
       return result;
     },
-    
+
     // interface implementation
     getInspected : function() {
       return this.__inspected;
@@ -184,7 +184,7 @@ qx.Class.define("inspector.components.InspectorModel",
         this.fireDataEvent("changeInspected", this.__inspected, oldInspected);
       }
     },
-    
+
     /**
      * Helper method to set the initial values.
      */

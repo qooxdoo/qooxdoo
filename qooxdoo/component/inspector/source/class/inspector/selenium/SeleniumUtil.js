@@ -106,12 +106,12 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
 
       return step;
     },
-    
+
     /**
-     * Returns the HTML ID attribute of an Inline root widget's container 
+     * Returns the HTML ID attribute of an Inline root widget's container
      * element. If the element doesn't have an ID, its parent node is checked.
-     * 
-     * @param inlineRoot {qx.ui.root.Inline} 
+     *
+     * @param inlineRoot {qx.ui.root.Inline}
      * @return {String} The found HTML ID
      */
     getInlineIsleId : function(inlineRoot)
@@ -122,7 +122,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       } else if (isleElem.parentNode && isleElem.parentNode.id) {
         return isleElem.parentNode.id;
       }
-      
+
       return "UNKNOWN_ISLE";
     }
 
