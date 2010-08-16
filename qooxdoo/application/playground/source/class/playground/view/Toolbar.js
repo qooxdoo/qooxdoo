@@ -38,15 +38,13 @@ qx.Class.define("playground.view.Toolbar",
   {
     this.base(arguments);
 
-    // left part
-    var part1 = new qx.ui.toolbar.Part();
-    this.add(part1);
+    this.__menuItemStore = {};
 
     // run button
     var runButton = new qx.ui.toolbar.Button(
       this.tr("Run"), "icon/22/actions/media-playback-start.png"
     );
-    part1.add(runButton);
+    this.add(runButton);
     runButton.setToolTipText(this.tr("Run the source code"));
     runButton.addListener("execute", function() {
       this.fireEvent("run");
@@ -56,7 +54,7 @@ qx.Class.define("playground.view.Toolbar",
     var selectSampleButton = new qx.ui.toolbar.MenuButton(
       this.tr("Samples"), "icon/22/actions/edit-copy.png"
     );
-    part1.add(selectSampleButton);
+    this.add(selectSampleButton);
     selectSampleButton.setToolTipText(this.tr("Select a sample"));
     selectSampleButton.setMenu(this.__createSampleMenu(sampleNames));
 
@@ -64,7 +62,7 @@ qx.Class.define("playground.view.Toolbar",
     this.__highlightButton = new qx.ui.form.ToggleButton(
       this.tr("Syntax Highlighting"), "icon/22/actions/check-spelling.png"
     );
-    part1.add(this.__highlightButton);
+    this.add(this.__highlightButton);
     this.__highlightButton.setAppearance("toolbar-button");
     this.__highlightButton.addListener("changeValue", function(e) {
       this.fireDataEvent("changeHighlight", e.getData(), e.getOldData());
@@ -76,7 +74,7 @@ qx.Class.define("playground.view.Toolbar",
     var gistButton = new qx.ui.toolbar.MenuButton(
       null, "playground/images/logo_gist.png"
     );
-    part1.add(gistButton);
+    this.add(gistButton);
     gistButton.setToolTipText(this.tr("gist support"));
     this.__gistMenu = new playground.view.gist.GistMenu();
     gistButton.setMenu(this.__gistMenu);
@@ -96,15 +94,11 @@ qx.Class.define("playground.view.Toolbar",
     // spacer
     this.addSpacer();
 
-    // right part
-    var part2 = new qx.ui.toolbar.Part();
-    this.add(part2);
-
     // log Check button
     this.__logCheckButton = new qx.ui.toolbar.CheckBox(
       this.tr("Log"), "icon/22/apps/utilities-log-viewer.png"
     );
-    part2.add(this.__logCheckButton);
+    this.add(this.__logCheckButton);
     this.__logCheckButton.setToolTipText(this.tr("Show log output"));
     this.__logCheckButton.addListener("changeValue", function(e) {
       this.fireDataEvent("changeLog", e.getData(), e.getOldData());
@@ -114,7 +108,7 @@ qx.Class.define("playground.view.Toolbar",
     var urlShortButton = new qx.ui.toolbar.Button(
       this.tr("Shorten URL"), "icon/22/actions/bookmark-new.png"
     );
-    part2.add(urlShortButton);
+    this.add(urlShortButton);
     urlShortButton.setToolTipText(this.tr("Use tinyurl to shorten the url."));
     urlShortButton.addListener("execute", function() {
       this.fireEvent("shortenUrl");
@@ -124,7 +118,7 @@ qx.Class.define("playground.view.Toolbar",
     var apiButton = new qx.ui.toolbar.Button(
       this.tr("API Viewer"), "icon/22/actions/help-contents.png"
     );
-    part2.add(apiButton);
+    this.add(apiButton);
     apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
     apiButton.addListener("execute", function() {
       this.fireEvent("openApi");
@@ -134,10 +128,57 @@ qx.Class.define("playground.view.Toolbar",
     var helpButton = new qx.ui.toolbar.Button(
       this.tr("Manual"), "icon/22/actions/help-about.png"
     );
-    part2.add(helpButton);
+    this.add(helpButton);
     helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
     helpButton.addListener("execute", function() {
       this.fireEvent("openManual");
+    }, this);
+    
+    // enable doverflow handling
+    this.setOverflowHandling(true);
+    
+    // remove priority for overflow handling
+    this.setRemovePriority(helpButton, 7);
+    this.setRemovePriority(apiButton, 6);
+    this.setRemovePriority(this.__logCheckButton, 5);
+    this.setRemovePriority(selectSampleButton, 4);
+    this.setRemovePriority(this.__highlightButton, 3);
+    this.setRemovePriority(gistButton, 2);
+    this.setRemovePriority(urlShortButton, 1);
+    
+    // add a button for overflow handling
+    var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
+    chevron.setAppearance("toolbar-button");  // hide the down arrow icon
+    this.add(chevron);
+    this.setOverflowIndicator(chevron);
+    
+    // add the overflow menu
+    this.__overflowMenu = new qx.ui.menu.Menu();
+    chevron.setMenu(this.__overflowMenu);
+    
+    // add the listener
+    this.addListener("hideItem", function(e) {
+      var item = e.getData();
+      var menuItem = this._getMenuItem(item);
+      menuItem.setVisibility("visible");
+      // menus
+      if (item.getMenu && item.getMenu()) {
+        var menu = item.getMenu();
+        item.setMenu(null);
+        menuItem.setMenu(menu);
+      }
+    }, this);
+    
+    this.addListener("showItem", function(e) {
+      var item = e.getData();
+      var menuItem = this._getMenuItem(item);
+      menuItem.setVisibility("excluded");
+      // menus
+      if (menuItem.getMenu()) {
+        var menu = menuItem.getMenu();
+        menuItem.setMenu(null);
+        item.setMenu(menu);
+      }
     }, this);
   },
 
@@ -204,6 +245,8 @@ qx.Class.define("playground.view.Toolbar",
 
   members :
   {
+    __menuItemStore : null,
+    __overflowMenu : null,
     __highlightButton : null,
     __logCheckButton : null,
     __gistMenu : null,
@@ -272,7 +315,42 @@ qx.Class.define("playground.view.Toolbar",
      */
     invalidGist : function(invalid, message) {
       this.__gistMenu.invalidUser(invalid, message);
-    }
+    },
+    
+    
+    /**
+     * Helper for the overflow handling. It is responsible for returning a 
+     * corresponding menu item for the given toolbar item.
+     * 
+     * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
+     * @return {qx.ui.core.Widget} The coresponding menu item.
+     */
+    _getMenuItem : function(toolbarItem) {
+      var cachedItem = this.__menuItemStore[toolbarItem.toHashCode()];
+      
+      if (!cachedItem) {
+        if (toolbarItem instanceof qx.ui.toolbar.CheckBox) {
+          cachedItem = new qx.ui.menu.CheckBox(toolbarItem.getLabel());
+        } else {
+          cachedItem = new qx.ui.menu.Button(toolbarItem.getLabel(), toolbarItem.getIcon());
+          // special case for the gist button
+          if (toolbarItem.getLabel() == null) {
+            cachedItem.setLabel("gist");
+            cachedItem.setIcon(null);
+          }
+        }
+        
+        // connect the execute
+        cachedItem.addListener("execute", function() {
+          toolbarItem.execute();
+        });
+
+        this.__overflowMenu.addAt(cachedItem, 0);
+        this.__menuItemStore[toolbarItem.toHashCode()] = cachedItem;
+      }
+      
+      return cachedItem;
+    }    
   },
 
 
