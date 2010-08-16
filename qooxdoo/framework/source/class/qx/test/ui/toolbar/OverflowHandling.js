@@ -49,20 +49,14 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
     
     tearDown : function() 
     {
-      // teardown in a timeout because in some cases, direct teardown causes 
-      // side effects
       var self = this;
-      setTimeout(function() {
-        self.__b1.destroy();
-        self.__b2.destroy();
-        self.__b3.destroy();           
+      this.__b1.destroy();
+      this.__b2.destroy();
+      this.__b3.destroy();
+      this.__toolbar.destroy();
+      this.__container.destroy();
 
-        self.__toolbar.destroy();      
-        self.__container.destroy();
-
-        if (self.__indicator) {self.__indicator.destroy();}
-        
-      }, 0);
+      if (self.__indicator) {this.__indicator.destroy();}
     },
     
     
