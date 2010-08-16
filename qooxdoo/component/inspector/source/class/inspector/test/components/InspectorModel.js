@@ -261,6 +261,10 @@ qx.Class.define("inspector.test.components.InspectorModel",
           Class: {
             isSubClassOf: function(clazz, superClass) {
               return qx.Class.isSubClassOf(clazz, superClass);
+            },
+            
+            getByName : function(name) {
+              return qx.Class.getByName(name);
             }
           },
           

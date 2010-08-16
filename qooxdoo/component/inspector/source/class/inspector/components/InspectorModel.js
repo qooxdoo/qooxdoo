@@ -96,7 +96,8 @@ qx.Class.define("inspector.components.InspectorModel",
       }
       
       var objectRegistry = this.getObjectRegistry();
-      if (objectRegistry != null) 
+      if (objectRegistry != null && 
+          win.qx.Class.getByName("qx.ui.root.Inline") != null) 
       {
         var objects = objectRegistry.getRegistry();
         for (var key in objects)
@@ -111,12 +112,7 @@ qx.Class.define("inspector.components.InspectorModel",
       return roots;
     },
     
-    /**
-     * Returns the excludes list.
-     * 
-     * @return {qx.core.Object[]} a list with all excludes.
-     * @internal
-     */
+    // interface implementation
     getExcludes : function() {
       return this.__excludes;
     },

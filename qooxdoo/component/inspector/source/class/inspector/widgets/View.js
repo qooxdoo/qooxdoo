@@ -186,7 +186,7 @@ qx.Class.define("inspector.widgets.View",
       }
 
       // get all components of the inspector application
-      var components = qx.core.Init.getApplication().getExcludes();
+      var components = this._model.getExcludes();
       // separate index necessary because the components of the inspector are omitted in the tree view
       var i = 0;
       // reduce the recursive calls
