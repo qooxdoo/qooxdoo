@@ -43,7 +43,7 @@
     "QOOXDOO_PATH" : "../..",
     "CACHE"        : "${TMPDIR}/cache",
     "QXTHEME"      : "inspector.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "inspector.test.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
   },

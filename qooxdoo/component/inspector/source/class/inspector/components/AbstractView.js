@@ -16,6 +16,10 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+/**
+ * <code>AbstractView</code> for a inspector window. The view is a <code>VBox</code>
+ * which containing a <code>ToolBar</code> on top.
+ */
 qx.Class.define("inspector.components.AbstractView",
 {
   extend : qx.ui.container.Composite,
@@ -35,6 +39,7 @@ qx.Class.define("inspector.components.AbstractView",
 
   members :
   {
+    /** {qx.ui.toolbar.ToolBar} tool bar instance */
     _toolbar : null
   },
 
