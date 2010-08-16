@@ -214,7 +214,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
           if (!childToHide) {
             return;
           }
-          var childWidth = childToHide.getSizeHint().width;
+          var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
+          var childWidth = childToHide.getSizeHint().width + margins;
           this.__hideChild(childToHide);
           
           // show the overflowWidgetWidth
@@ -228,7 +229,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         var removedChild = this.__removedItems[0];
         // if we have something we can show
         if (removedChild) {
-          var removedChildWidth = removedChild.getSizeHint().width;
+          var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();          
+          var removedChildWidth = removedChild.getSizeHint().width + margins;
           // if it just fits in || it fits in when we remove the overflow widget
           if (
             width > requiredWidth + removedChildWidth + this.getSpacing() || 
