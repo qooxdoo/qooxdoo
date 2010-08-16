@@ -37,6 +37,8 @@ qx.Class.define("inspector.components.Selector",
 
   members :
   {
+    __model : null,
+    
     __msec : 1000,
     
     getAddedWidgets: function() {
