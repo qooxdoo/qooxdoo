@@ -205,6 +205,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (overflowWidget) {
         overflowWidgetWidth = overflowWidget.getSizeHint().width
       }
+
       // if we have not enough space
       if (width < requiredWidth) {
         do {
@@ -219,15 +220,15 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
           this.__hideChild(childToHide);
           
           // new width is the requiredWidth - the removed childs width
-          var newWidth = requiredWidth - childWidth;
+          requiredWidth -= childWidth;
           
           // show the overflowWidgetWidth
           if (overflowWidget && overflowWidget.getVisibility() != "visible") {
             overflowWidget.setVisibility("visible");
             // if we need to add the overflow indicator, we need to add its width
-            newWidth += overflowWidgetWidth;
+            requiredWidth += overflowWidgetWidth;
           }
-        } while (newWidth > width);
+        } while (requiredWidth > width);
        
       // if we can possibly show something 
       } else {
