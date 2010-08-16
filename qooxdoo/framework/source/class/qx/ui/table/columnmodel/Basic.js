@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           col           : col,
           newWidth      : width,
           oldWidth      : oldWidth,
-          isMouseAction : isMouseAction
+          isMouseAction : isMouseAction || false
         };
 
         this.fireDataEvent("widthChanged", data);

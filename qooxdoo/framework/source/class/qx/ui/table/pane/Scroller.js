@@ -1204,7 +1204,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       // We are currently resizing -> Finish resizing
       if (! this.getLiveResize()) {
         this._hideResizeLine();
-        columnModel.setColumnWidth(this.__resizeColumn, this.__lastResizeWidth);
+        columnModel.setColumnWidth(this.__resizeColumn,
+                                   this.__lastResizeWidth,
+                                   true);
       }
 
       this.__resizeColumn = null;
