@@ -365,7 +365,8 @@ qx.Class.define("inspector.Application",
       
       var object = e.getData();
       if (object != null) {
-        this._selectedWidgetLabel.setValue("<tt>" + object.toString() + "</tt>");
+        this._selectedWidgetLabel.setValue("<tt>" + object.classname + "[" + 
+          object.toHashCode() + "]</tt>");
       }
     },
 
@@ -420,15 +421,6 @@ qx.Class.define("inspector.Application",
     */
     getIframeWindowObject : function() {
       return this._loadedWindow;
-    },
-
-
-    getExcludes: function() {
-      if (this.__selector != null) {
-        return this.__selector.getAddedWidgets();
-      } else {
-        return [];
-      }
     }
   },
 
