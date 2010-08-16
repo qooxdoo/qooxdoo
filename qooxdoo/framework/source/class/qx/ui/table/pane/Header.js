@@ -124,11 +124,19 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Sets the column width. This overrides the width from the column model.
      *
-     * @param col {Integer} the column to change the width for.
-     * @param width {Integer} the new width.
+     * @param col {Integer} 
+     *   The column to change the width for.
+     * 
+     * @param width {Integer}
+     *   The new width.
+     * 
+     * @param isMouseAction {Boolean}
+     *   <i>true</i> if the column width is being changed as a result of a
+     *   mouse drag in the header; false or undefined otherwise.
+     *
      * @return {void}
      */
-    setColumnWidth : function(col, width)
+    setColumnWidth : function(col, width, isMouseAction)
     {
       var child = this.getHeaderWidgetAtColumn(col);
 

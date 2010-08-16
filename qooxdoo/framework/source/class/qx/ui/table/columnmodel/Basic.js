@@ -225,11 +225,19 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets the width of a column.
      *
-     * @param col {Integer} the model index of the column.
-     * @param width {Integer} the new width the column should get in pixels.
+     * @param col {Integer} 
+     *   The model index of the column.
+     *
+     * @param width {Integer}
+     *   The new width the column should get in pixels.
+     * 
+     * @param isMouseAction {Boolean}
+     *   <i>true</i> if the column width is being changed as a result of a
+     *   mouse drag in the header; false or undefined otherwise.
+     *
      * @return {void}
      */
-    setColumnWidth : function(col, width)
+    setColumnWidth : function(col, width, isMouseAction)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -246,9 +254,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
         var data =
         {
-          col      : col,
-          newWidth : width,
-          oldWidth : oldWidth
+          col           : col,
+          newWidth      : width,
+          oldWidth      : oldWidth,
+          isMouseAction : isMouseAction
         };
 
         this.fireDataEvent("widthChanged", data);
