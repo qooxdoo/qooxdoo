@@ -218,11 +218,16 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
           var childWidth = childToHide.getSizeHint().width + margins;
           this.__hideChild(childToHide);
           
+          // new width is the requiredWidth - the removed childs width
+          var newWidth = requiredWidth - childWidth;
+          
           // show the overflowWidgetWidth
-          if (overflowWidget) {
+          if (overflowWidget && overflowWidget.getVisibility() != "visible") {
             overflowWidget.setVisibility("visible");
-          }          
-        } while (requiredWidth - childWidth + overflowWidgetWidth > width);
+            // if we need to add the overflow indicator, we need to add its width
+            newWidth += overflowWidgetWidth;
+          }
+        } while (newWidth > width);
        
       // if we can possibly show something 
       } else {
