@@ -811,7 +811,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // Set selections in the selection model now
       var selectionModel = _this.getTree().getSelectionModel();
       var selections = this._selections;
-      for (nodeId in selections)
+      for (var nodeId in selections)
       {
         var nRowIndex = this.getRowFromNodeId(nodeId);
         selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
