@@ -214,7 +214,6 @@ qx.Class.define("qx.ui.decoration.Grid",
      */
     __setBorderImage : function(baseImage)
     {
-
       this.__impl.setBorderImage(baseImage);
 
       var base = qx.util.AliasManager.getInstance().resolve(baseImage);
@@ -226,6 +225,18 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
       var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var assertMessageTop = "The value of the property 'topSlice' is null! " +
+          "Please verify the image '" + prefix + "-t" + ext + "' is present.";
+        
+        var assertMessageLeft = "The value of the property 'leftSlice' is null! " +
+          "Please verify the image '" + prefix + "-l" + ext + "' is present.";
+        
+        qx.core.Assert.assertNotNull(topSlice, assertMessageTop);
+        qx.core.Assert.assertNotNull(leftSlice, assertMessageLeft);
+      }
 
       this.__impl.setSlice([topSlice, leftSlice]);
     }
