@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2010 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -130,11 +130,12 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      */
     __populateCommandList : function()
     {
-      this._commands = {
-        bold                  : { useBuiltin : true, identifier : "Bold", method : null },
-        italic                : { useBuiltin : true, identifier : "Italic", method : null },
-        underline             : { useBuiltin : true, identifier : "Underline", method : null },
-        strikethrough         : { useBuiltin : true, identifier : "StrikeThrough", method : null },
+      this._commands =
+      {
+        bold                  : { useBuiltin : false, identifier : "Bold", method : "__setBold" },
+        italic                : { useBuiltin : false, identifier : "Italic", method : "__setItalic" },
+        underline             : { useBuiltin : false, identifier : "Underline", method : "__setUnderline" },
+        strikethrough         : { useBuiltin : false, identifier : "StrikeThrough", method : "__setStrikeThrough" },
         fontfamily            : { useBuiltin : true, identifier : "FontName", method : null },
         fontsize              : { useBuiltin : false, identifier : "FontSize", method : "__setFontSize" },
 
@@ -1975,6 +1976,113 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
     /**
+     * Checks the formatting at the beginning of a line and resets the 
+     * formatting manually if necessary.
+     * 
+     * This workaround fixes the wrong behaviour of Gecko browser which does 
+     * not remove the formatting itself if the cursor is at the beginning of a 
+     * new line and the user has not entered any text yet. 
+     * 
+     * @param attribute {String} Style attribute to check for
+     * @param value {String} Style attribute value to check for
+     * @return {Boolean} Whether the formatting was removed manually
+     */
+    __syncFormattingAtBeginOfLine : function(attribute, value)
+    {
+      var focusNode = this.__editorInstance.getFocusNode();
+      if (focusNode.textContent == "")
+      {
+        // get all parent elements + including the current focus element
+        var ancestors = qx.dom.Hierarchy.getAncestors(focusNode);
+        ancestors.unshift(focusNode);
+
+        var Node = qx.dom.Node; 
+        var Style = qx.bom.element.Style;
+        var currentElement = ancestors.shift();
+        while (ancestors.length > 0)
+        {
+          if (Node.getName(currentElement) == "p" || Node.getName(currentElement) == "body") {
+            break;
+          }
+
+          // Use the local value here to get the style of the current element
+          // and NOT the computed value of the element.
+          if (Style.get(currentElement, attribute, Style.LOCAL_MODE) == value)
+          {
+            Style.reset(currentElement, attribute);
+            return true;
+          } 
+
+          currentElement = ancestors.shift();
+        }
+      }
+
+      return false;
+    },
+
+
+    /**
+     * Special implementation for Gecko browser to fix the wrong formatting 
+     * at the beginning of a new line.
+     * 
+     * @param value {String} command value
+     * @param commandObject {Object} command infos
+     * @return {Boolean} Success of operation
+     * 
+     * @signature function(value, commandObject)
+     */
+    __setBold : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(value, commandObject)
+      {
+        // Checks for any "font-weight: bold" formatting and resets it 
+        // manually if present
+        if (this.__syncFormattingAtBeginOfLine("fontWeight", "bold")) {
+          return true;          
+        } else {
+          return this.__executeCommand(commandObject.identifier, false, value);
+        }
+      },
+      
+      "default" : function(value, commandObject) {
+        return this.__executeCommand(commandObject.identifier, false, value);
+      }
+    }),
+
+
+    /**
+     * Special implementation for Gecko browser to fix the wrong formatting 
+     * at the beginning of a new line.
+     * 
+     * @param value {String} command value
+     * @param commandObject {Object} command infos
+     * @return {Boolean} Success of operation
+     * 
+     * @signature function(value, commandObject)
+     */
+    __setItalic : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(value, commandObject)
+      {
+        // Checks for any "font-style: italic" formatting and resets it 
+        // manually if present
+        if (this.__syncFormattingAtBeginOfLine("fontStyle", "italic")) {
+          return true;          
+        } else {
+          return this.__executeCommand(commandObject.identifier, false, value);
+        }    
+      },
+      
+      "default" : function(value, commandObject) {
+        return this.__executeCommand(commandObject.identifier, false, value);
+      }
+    }),
+
+
+     /**
+      * Special implementation for Gecko browser to fix the wrong formatting 
+      * at the beginning of a new line.
+      * 
       * Special implementation for webkit browser to set the text-decoration
       * underline. In webkit the apply of text-decoration is different to other
       * browsers and cannot be performed with an <code>execCommand</code>
@@ -1984,7 +2092,19 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @return {Boolean} Success of operation
       * @signature function(value, commandObject)
       */
-     __setUnderline  : qx.core.Variant.select("qx.client", {
+     __setUnderline  : qx.core.Variant.select("qx.client",
+     {
+       "gecko" : function(value, commandObject)
+       {
+         // Checks for any "text-decoration: underline" formatting and resets it 
+         // manually if present
+         if (this.__syncFormattingAtBeginOfLine("textDecoration", "underline")) {
+           return true;          
+         } else {
+           return this.__executeCommand(commandObject.identifier, false, value);
+         }    
+       },
+
        "webkit" : function(value, commandObject)
        {
          var contextMap = this.__editorInstance.getContextInformation();
@@ -2032,7 +2152,11 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        }
      }),
 
+
      /**
+      * Special implementation for Gecko browser to fix the wrong formatting 
+      * at the beginning of a new line.
+      * 
       * Special implementation for webkit browser to set the text-decoration
       * strikethrough. In webkit the apply of text-decoration is different to other
       * browsers and cannot be performed with an <code>execCommand</code>
@@ -2040,10 +2164,22 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @param value {String} color info
       * @param commandObject {Object} command infos
       * @return {Boolean} Success of operation
+      * 
       * @signature function(value, commandObject)
       */
      __setStrikeThrough  : qx.core.Variant.select("qx.client",
      {
+       "gecko" : function(value, commandObject)
+       {
+         // Checks for any "text-decoration: line-through" formatting and resets 
+         // it manually if present
+         if (this.__syncFormattingAtBeginOfLine("textDecoration", "line-through")) {
+           return true;          
+         } else {
+           return this.__executeCommand(commandObject.identifier, false, value);
+         }    
+       },
+
        "webkit" : function(value, commandObject)
        {
          var focusNode = this.__editorInstance.getFocusNode();
@@ -2069,14 +2205,15 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          return this.__executeCommand(commandObject.identifier, false, value);
        }
      })
-
   },
 
 
   /**
    * Destructor
    */
-  destruct : function() {
-    this.__doc = this.__editorInstance = this._commands = this.__invalidFocusCommands = this.__fontSizeNames = null;
+  destruct : function()
+  {
+    this.__doc = this.__editorInstance = this._commands = null;
+    this.__invalidFocusCommands = this.__fontSizeNames = null;
   }
 });
