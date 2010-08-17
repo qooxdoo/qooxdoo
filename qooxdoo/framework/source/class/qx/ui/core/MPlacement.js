@@ -24,6 +24,33 @@
  */
 qx.Mixin.define("qx.ui.core.MPlacement",
 {
+  
+  statics : {
+    __visible : null,
+    
+    /**
+     * Set the always visible element. If an element is set, the 
+     * {@link #moveTo} method takes care of every move and tries not to cover 
+     * the given element with a movable widget like a popup or context menu.
+     * 
+     * @param elem {qx.ui.core.Widget} The widget which should always be visible.
+     */
+    setVisibleElement : function(elem) {
+      this.__visible = elem;
+    },
+    
+    /**
+     * Returns the given always visible element. See {@link #setVisibleElement}
+     * for more details.
+     * 
+     * @return {qx.ui.core.Widget|null} The given widget.
+     */
+    getVisibleElement : function() {
+      return this.__visible;
+    }
+  },
+  
+  
   properties :
   {
     /**
@@ -225,12 +252,56 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Sets the position. Uses low-level, high-performance DOM
      * methods when the property {@link #domMove} is enabled.
+     * Checks if a always visible element is set and moves the widget to not 
+     * overlay the always visible widget if possible. The algorithm tries to
+     * move the widget as far left as necessary but not of the screen.
+     * ({@link #setVisibleElement}) 
      *
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
     moveTo : function(left, top)
     {
+      var visible = qx.ui.core.MPlacement.getVisibleElement();
+      
+      // if we have a always visible element
+      if (visible) {
+        
+        var bounds = this.getBounds();
+        var elemBounds = visible.getBounds();
+        
+        // if we have bounds for both elements
+        if (bounds && elemBounds) {
+          var elemLeft = elemBounds.left;
+          var elemRight = elemBounds.left + elemBounds.width;
+          var elemTop = elemBounds.top;
+          var elemBottom = elemBounds.top + elemBounds.height;          
+          var bottom = top + bounds.height;
+          var right = left + bounds.width;
+
+          // horizontal placement wrong 
+          // each number is for the upcomming check (huge element is 
+          // the always visible, eleme prefixed)
+          //     | 3 |
+          //   ---------
+          //   | |---| |
+          //   |       |
+          // --|-|   |-|--
+          // 1 | |   | | 2
+          // --|-|   |-|--
+          //   |       |
+          //   | |---| |
+          //   ---------
+          //     | 4 |
+          if (
+            (right > elemLeft && left < elemRight) && 
+            (bottom > elemTop && top < elemBottom)
+          ) {
+            left = Math.max(elemLeft - bounds.width, 0);
+          }
+        }
+      }
+      
       if (this.getDomMove()) {
         this.setDomPosition(left, top);
       } else {
