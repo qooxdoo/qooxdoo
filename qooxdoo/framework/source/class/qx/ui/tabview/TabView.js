@@ -535,8 +535,15 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param e {qx.event.type.Mouse} mouse click event
      */
-    _onPageClose : function(e) {
-      this.remove(e.getTarget());
+    _onPageClose : function(e)
+    {
+      // reset the old close button states, before remove page
+      // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=3763 for details
+      var page = e.getTarget()
+      var closeButton = page.getButton().getChildControl("close-button");
+      closeButton.reset();
+
+      this.remove(page);
     }
   },
 
