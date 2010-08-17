@@ -242,7 +242,8 @@ qx.Class.define("qx.ui.decoration.Double",
       // Generate outer HTML
       var outerStyles = 'line-height:0;';
 
-      // hot fix for bug #3918
+      // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
+      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
       if ((qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8) ||
           (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
         outerStyles = '';
