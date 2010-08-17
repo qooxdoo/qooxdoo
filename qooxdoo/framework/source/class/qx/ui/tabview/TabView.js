@@ -470,11 +470,11 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _onChangeSelection : function(e)
     {
-      var pane      = this.getChildControl("pane");
-      var button    = e.getData()[0];
+      var pane = this.getChildControl("pane");
+      var button = e.getData()[0];
       var oldButton = e.getOldData()[0];
-      var value     = null;
-      var old       = null;
+      var value = [];
+      var old = [];
 
       if (button)
       {
