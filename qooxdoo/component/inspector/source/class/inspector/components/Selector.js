@@ -184,6 +184,7 @@ qx.Class.define("inspector.components.Selector",
       catchClickLayer.setBackgroundColor(this.self(arguments).BACKGROUND_COLOR);
       catchClickLayer.setOpacity(this.self(arguments).OPACITY);
       catchClickLayer.setZIndex(this.self(arguments).Z_INDEX - 1);
+      catchClickLayer.testId = "catchClickLayer";
       catchClickLayer.hide();
 
       catchClickLayer.addListener("click", this.__onClick, this);
