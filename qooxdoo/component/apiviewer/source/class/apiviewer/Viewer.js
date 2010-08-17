@@ -85,7 +85,7 @@ qx.Class.define("apiviewer.Viewer",
 
   members :
   {
-
+    __firstPartHash : null,
     __overflowMenu : null,
     __menuItemStore : null,
 
