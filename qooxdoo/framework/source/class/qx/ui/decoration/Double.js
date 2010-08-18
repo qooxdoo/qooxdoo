@@ -288,19 +288,26 @@ qx.Class.define("qx.ui.decoration.Double",
       // Fix box model
       // Note: Scaled images are always using content box
       var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
+      var insets = this.getInsets();
+
       if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
       {
-        var insets = this.getInsets();
         var innerWidth = width - insets.left - insets.right;
         var innerHeight = height - insets.top - insets.bottom;
       }
       else
       {
+        // inset usually inner + outer border
+        var topInset = insets.top - this.getInnerWidthTop();
+        var bottomInset = insets.bottom - this.getInnerWidthBottom();
+        var leftInset = insets.left - this.getInnerWidthLeft();
+        var rightInset = insets.right - this.getInnerWidthRight();
+        
         // Substract outer border
-        var innerWidth = width - this.getWidthLeft() - this.getWidthRight();
-        var innerHeight = height - this.getWidthTop() - this.getWidthBottom();
+        var innerWidth = width - leftInset - rightInset;
+        var innerHeight = height - topInset - bottomInset;
       }
-
+      
       // Fix to keep applied size above zero
       // Makes issues in IE7 when applying value like '-4px'
       if (innerWidth < 0) {
@@ -310,9 +317,20 @@ qx.Class.define("qx.ui.decoration.Double",
       if (innerHeight < 0) {
         innerHeight = 0;
       }
-
+      
       element.firstChild.style.width = innerWidth + "px";
       element.firstChild.style.height = innerHeight + "px";
+      
+      element.style.left = 
+        (parseInt(element.style.left) + 
+        insets.left - 
+        this.getWidthLeft() - 
+        this.getInnerWidthLeft()) + "px";
+      element.style.top = 
+        (parseInt(element.style.top) + 
+        insets.top - 
+        this.getWidthTop() - 
+        this.getInnerWidthTop()) + "px";
     }
   },
 
