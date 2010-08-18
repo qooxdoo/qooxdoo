@@ -318,7 +318,7 @@ Possible keys are
 
 * **target** : root target directory to copy resources to; may be relative to the config file location (default: "build")
 
-Unlike :ref:`pages/tool/generator_config_ref#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shaddow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :ref:`pages/tool/generator_config_ref#library` key.
+Unlike :ref:`pages/tool/generator_config_ref#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shadow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :ref:`pages/tool/generator_config_ref#library` key.
 
 .. _pages/tool/generator_config_ref#dependencies:
 
@@ -883,13 +883,13 @@ Possible keys are valid
 shell
 =====
 
-Triggers the execution of an  external command. Takes a map.
+Triggers the execution of external commands. Takes a map.
 
 ::
 
   "shell" :
   {
-    "command" : "echo foo bar baz"
+    "command" : ("echo foo bar baz"|["echo foo", "echo bar", "echo baz"])
   }
 
 .. note::
@@ -898,7 +898,8 @@ Triggers the execution of an  external command. Takes a map.
 
 Possible keys are 
 
-* **command** : command string to execute by shell *Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\' on Windows, etc.). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So instead of writing ::
+* **command** : command string or list of command strings to execute by shell 
+*Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\' on Windows, etc.). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So instead of writing ::
 
     "cp file1 file2"
 
