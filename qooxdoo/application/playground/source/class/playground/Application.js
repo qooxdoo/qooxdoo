@@ -245,6 +245,10 @@ qx.Class.define("playground.Application",
       this.setOriginCode(this.__editor.getCode());
       this.setName(e.getData().name);
       this.run();
+      
+      // update the URL
+      var id = e.getData().id;
+      this.__history.addToHistory("gist=" + id);
     },
 
 
@@ -453,6 +457,7 @@ qx.Class.define("playground.Application",
 
       var names = [];
       var texts = [];
+      var ids = [];
       for (var i = 0; i < model.getLength(); i++) {
         var item = model.getItem(i);
         var desc = qx.lang.Type.isString(item.getDescription()) ?
@@ -460,8 +465,9 @@ qx.Class.define("playground.Application",
         names.push(desc);
 
         texts.push(item.getContent ? item.getContent() : "");
+        ids.push(item.getRepo());
       };
-      this.__toolbar.updateGists(names, texts);
+      this.__toolbar.updateGists(names, texts, ids);
     },
 
 

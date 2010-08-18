@@ -140,7 +140,7 @@ qx.Class.define("playground.view.gist.GistMenu",
      * @param names {Array} The labels of the menu items for the gists.
      * @param texts {Array} An array containing the content of the gists.
      */
-    updateGists : function(names, texts)
+    updateGists : function(names, texts, ids)
     {
       // remove the loading item if its in the menu
       if (this.indexOf(this.__loadingItem) != -1) {
@@ -165,9 +165,9 @@ qx.Class.define("playground.view.gist.GistMenu",
         this.add(menuItem);
         this.__items.push(menuItem);
         menuItem.addListener("execute",
-          qx.lang.Function.bind(function(code, name) {
-            this.fireDataEvent("changeGist", {code: code, name: name});
-          }, this, texts[i], names[i])
+          qx.lang.Function.bind(function(code, name, id) {
+            this.fireDataEvent("changeGist", {code: code, name: name, id: id});
+          }, this, texts[i], names[i], ids[i])
         );
         menuItem.addListener("editGist", function(e) {
           this.fireDataEvent("editGist", e.getData());

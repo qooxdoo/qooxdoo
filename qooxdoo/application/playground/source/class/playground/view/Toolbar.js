@@ -302,9 +302,10 @@ qx.Class.define("playground.view.Toolbar",
      * Updates the gists shown in the toolbar.
      * @param names {Array} An array of gist names.
      * @param texts {Array} An array of gist contents.
+     * @param ids {Array} An array of gist ids.
      */
-    updateGists: function(names, texts) {
-      this.__gistMenu.updateGists(names, texts);
+    updateGists: function(names, texts, ids) {
+      this.__gistMenu.updateGists(names, texts, ids);
     },
 
 
