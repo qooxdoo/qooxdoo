@@ -353,28 +353,31 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     resize : function(element, width, height)
     {
-      // Fix box model
-      // Note: Scaled images are always using content box
-      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
-      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
-      {
-        var insets = this.getInsets();
-        width -= insets.left + insets.right;
-        height -= insets.top + insets.bottom;
+      var insets = this.getInsets();
+      width -= insets.left + insets.right;
+      height -= insets.top + insets.bottom;
 
-        // Fix to keep applied size above zero
-        // Makes issues in IE7 when applying value like '-4px'
-        if (width < 0) {
-          width = 0;
-        }
+      // Fix to keep applied size above zero
+      // Makes issues in IE7 when applying value like '-4px'
+      if (width < 0) {
+        width = 0;
+      }
 
-        if (height < 0) {
-          height = 0;
-        }
+      if (height < 0) {
+        height = 0;
       }
 
       element.style.width = width + "px";
       element.style.height = height + "px";
+      
+      element.style.left = 
+        (parseInt(element.style.left) + 
+        insets.left - 
+        this.getWidthLeft()) + "px";
+      element.style.top = 
+        (parseInt(element.style.top) + 
+        insets.top - 
+        this.getWidthTop()) + "px";      
     },
 
 

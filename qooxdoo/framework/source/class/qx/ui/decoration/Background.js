@@ -125,8 +125,12 @@ qx.Class.define("qx.ui.decoration.Background",
     // interface implementation
     resize : function(element, width, height)
     {
-      element.style.width = width + "px";
-      element.style.height = height + "px";
+      var insets = this.getInsets();
+      element.style.width = (width - insets.left - insets.right) + "px";
+      element.style.height = (height - insets.top - insets.bottom) + "px";
+
+      element.style.left = insets.left + "px";
+      element.style.top = insets.top + "px";
     },
 
 
