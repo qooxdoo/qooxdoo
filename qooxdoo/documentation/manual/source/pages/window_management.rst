@@ -45,7 +45,9 @@ Let's see this in action. We'll create a tabview with one page, create a desktop
     }
     
     //create a modal window and add it to the page's desktop
-    aWindow = new qx.ui.window.Window("Modal Window #" +i).set({width:300});;
+    aWindow = new qx.ui.window.Window("Modal Window #" +i).set({
+      width:300
+    });
     aWindow.setModal(true);
     desktop.add(aWindow);
     aWindow.open();
