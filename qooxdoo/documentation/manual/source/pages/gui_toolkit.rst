@@ -22,6 +22,7 @@ Widgets
    gui_toolkit/ui_develop
    gui_toolkit/ui_form_handling
    gui_toolkit/ui_menu_handling
+   gui_toolkit/window_management   
    ui_html_editing
 
 Layouts

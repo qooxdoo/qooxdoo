@@ -37,12 +37,3 @@ Data Binding
 .. toctree::
 
    data_binding
-
-
-Window Management
-============
-
-.. toctree::
-
-   window_management
-
