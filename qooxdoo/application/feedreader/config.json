@@ -20,6 +20,7 @@
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv"],
     "TEST_INCLUDE" : "${APPLICATION}.*",
+    "API_EXCLUDE"  : ["qx.test.*"],
     "OPTIMIZE"     : ["basecalls", "strings", "privates", "variables"], 
     "ROOT"         : "."
   },
