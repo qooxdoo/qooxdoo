@@ -15,10 +15,11 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
-import os, codecs, cPickle, sys, re, time
+import os, codecs, cPickle, sys, re, time, base64
 import gzip as sys_gzip
 import textutil
 
@@ -224,6 +225,11 @@ def walk(root, topdown=True, onerror=None, seen=[]):
                         yield r, d, f
         
         yield root, dirs, files
+
+
+def base64encode(path):
+    cont = open(path, "rb").read()
+    return base64.b64encode(cont)
 
 
 if __name__ == "__main__":
