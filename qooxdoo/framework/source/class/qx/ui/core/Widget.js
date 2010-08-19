@@ -163,10 +163,12 @@ qx.Class.define("qx.ui.core.Widget",
     /** Mouse button is released on the widget. */
     mouseup : "qx.event.type.Mouse",
 
-    /** Widget is clicked using. */
+    /** Widget is clicked using left or middle button.
+        {@link qx.event.type.Mouse#getButton} for more details.*/
     click : "qx.event.type.Mouse",
 
-    /** Widget is double clicked using the left mouse button. */
+    /** Widget is double clicked using left or middle button. 
+        {@link qx.event.type.Mouse#getButton} for more details.*/
     dblclick : "qx.event.type.Mouse",
 
     /** Widget is clicked using the right mouse button. */
