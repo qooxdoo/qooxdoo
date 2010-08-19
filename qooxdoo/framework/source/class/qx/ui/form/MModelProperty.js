@@ -27,6 +27,18 @@ qx.Mixin.define("qx.ui.form.MModelProperty",
     /**
      * Model property for storing additional information for the including
      * object. It can act as value property on form items for example.
+     * 
+     * Be careful using that property as this is used for the 
+     * {@link qx.ui.form.MModelSelection} it has some restrictions:
+     *   
+     * * Don't use equal models in one widget using the 
+     *     {@link qx.ui.form.MModelSelection}.
+     * 
+     * * Avoid setting only some model properties if the widgets are added to 
+     *     a {@link qx.ui.form.MModelSelection} widge.
+     * 
+     * Both restrictions result of the fact, that the set models are deputies 
+     * for their widget.
      */
     model :
     {
