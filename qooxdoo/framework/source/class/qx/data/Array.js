@@ -508,7 +508,7 @@ qx.Class.define("qx.data.Array",
      * @return {var} The removed item.
      */
     removeAt : function(index) {
-      return this.splice(index, 1)[0];
+      return this.splice(index, 1).getItem(0);
     },
 
 
