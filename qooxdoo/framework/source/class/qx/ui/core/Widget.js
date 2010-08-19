@@ -181,6 +181,11 @@ qx.Class.define("qx.ui.core.Widget",
     mousewheel : "qx.event.type.MouseWheel",
 
 
+    touchstart : "qx.event.type.Touch",
+    touchend : "qx.event.type.Touch",
+    touchmove : "qx.event.type.Touch",
+    touchcancel : "qx.event.type.Touch",
+
 
     /**
      * This event if fired if a keyboard key is released.

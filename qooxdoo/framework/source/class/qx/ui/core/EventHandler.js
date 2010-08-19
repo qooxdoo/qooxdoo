@@ -98,7 +98,13 @@ qx.Class.define("qx.ui.core.EventHandler",
       drop : 1,
       drag : 1,
       dragchange : 1,
-      droprequest : 1
+      droprequest : 1,
+      
+      // touch events
+      touchstart : 1,
+      touchend : 1,
+      touchmove : 1,
+      touchcancel : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
