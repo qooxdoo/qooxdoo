@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseOut : function(e)
     {
-      this._setLastMousePosition(-100, -100);
+      this._setLastMousePosition(e.getDocumentLeft(), e.getDocumentTop());
       this.__updateCursor();
     },
 
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Check whether created
       if (!splitterLocation) {
-        return;
+        return false;
       }
 
       // Check horizontal
