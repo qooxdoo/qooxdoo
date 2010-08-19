@@ -106,24 +106,57 @@ qx.Class.define("qx.event.type.Mouse",
      * Only internet explorer can compute the button during mouse move events. For
      * all other browsers the button only contains sensible data during
      * "click" events like "click", "dblclick", "mousedown", "mouseup" or "contextmenu".
+     * 
+     * But still, browsers act different on click:
+     * <pre>
+     * <- = left mouse button
+     * -> = right mouse button
+     * ^  = middle mouse button
      *
+     * Browser | click, dblclick | contextmenu
+     * ---------------------------------------
+     * Firefox | <- ^ ->         | ->
+     * Chrome  | <- ^            | ->
+     * Safari  | <- ^            | ->
+     * IE      | <- (^ is <-)    | ->
+     * Opera   | <-              | -> (twice)
+     * </pre>
+     * 
      * @return {String} One of "left", "right", "middle" or "none"
      */
     getButton : function()
     {
       switch(this._type)
       {
-        case "click":
-        case "dblclick":
-          return "left";
-
         case "contextmenu":
           return "right";
+          
+        case "click":
+          // IE does not support buttons on click --> assume left button
+          if (this.__normalizeIEClick) {return this.__normalizeIEClick();}
 
         default:
           return this.__buttons[this._native.button] || "none";
       }
     },
+
+
+    /**
+     * Normalizer for the click event. As IE does not support the button 
+     * detection on click events, we asume that the left button has been 
+     * pressed.
+     * In all other browsers and IE, the method is null.
+     * @signature function()
+     */
+    __normalizeIEClick : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function() {
+        return "left";
+      },
+
+      // opera, webkit and gecko
+      "default" : null
+    }),
 
 
     /**
