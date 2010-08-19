@@ -111,7 +111,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
      * Returns the HTML ID attribute of an Inline root widget's container
      * element. If the element doesn't have an ID, its parent node is checked.
      *
-     * @param inlineRoot {qx.ui.root.Inline}
+     * @param inlineRoot {qx.ui.root.Inline} Inline root widget
      * @return {String} The found HTML ID
      */
     getInlineIsleId : function(inlineRoot)

@@ -64,16 +64,31 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
     __changeInspectedListenerID : null,
 
+    /**
+     * Set the window's initial size and location
+     */
     setInitSizeAndPosition: function() {
       this.moveTo(0, 35);
       this.setHeight(300);
       this.setWidth(400);
     },
 
+    
+    /**
+     * Inform the view that the inspected widget has changed
+     * 
+     * @param widget {qx.ui.core.Widget} The new inspected widget
+     */
     select: function(widget) {
       this.__view.select(widget);
     },
 
+    /**
+     * If the Inspected application changes, add the Selenium scripts to its
+     * window
+     * 
+     * @param e {qx.event.type.Event} changeApplication event
+     */
     __onChangeApplication : function(e) {
       // Immediately load scripts if cookies are set
       var coreScripts = qx.bom.Cookie.get("coreScripts");

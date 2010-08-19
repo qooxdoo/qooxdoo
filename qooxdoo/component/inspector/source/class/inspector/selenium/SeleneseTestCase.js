@@ -17,10 +17,17 @@
 
 ************************************************************************ */
 
+/**
+ * Selenese representation of SeleniumWindow's commands
+ */
 qx.Class.define("inspector.selenium.SeleneseTestCase", {
 
   extend : qx.ui.window.Window,
 
+  /**
+   * @param url {String} base URL for the Selenese test case
+   * @param title {String} title for the Selenese test case
+   */
   construct : function(url, title)
   {
     this.base(arguments, "Selenese Test Case");
@@ -120,6 +127,9 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     },
 
 
+    /**
+     * Display the Selenese test case
+     */
     showSelenese : function()
     {
       this._textArea.setValue(this.getSelenese());

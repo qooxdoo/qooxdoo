@@ -97,6 +97,10 @@ qx.Class.define("inspector.selenium.View", {
 
   properties : {
 
+    /**
+     * Array containing the URIs of the Selenium Core and qooxdoo user 
+     * extensions scripts
+     */
     seleniumScripts : {
       init : null,
       apply : "_applySeleniumScripts",
@@ -114,6 +118,12 @@ qx.Class.define("inspector.selenium.View", {
     __seleniumScripts : null,
     __seleneseTestCase : null,
 
+    /**
+     * Set the currently inspected widget. Add a locator for it if recording  
+     * mode is active
+     * 
+     * @param widget {qx.ui.core.Widget} The inspected widget
+     */
     select : function(widget) {
       if (widget == this.__selectedWidget) {
         return;
@@ -124,6 +134,11 @@ qx.Class.define("inspector.selenium.View", {
       }
     },
 
+    /**
+     * Returns the currently inspected widget
+     * 
+     * @return {qx.ui.core.Widget}
+     */
     getSelection : function() {
       // get the selected element
       var selectedElement = this.__selectedWidget;
@@ -154,6 +169,11 @@ qx.Class.define("inspector.selenium.View", {
       return this.__selenium;
     },
 
+    /**
+     * Creates the toolbar part containing the add and remove buttons
+     * 
+     * @return {qx.ui.toolbar.Part}
+     */
     __getToolbarPart1 : function()
     {
       var part1 = new qx.ui.toolbar.Part();
@@ -174,6 +194,12 @@ qx.Class.define("inspector.selenium.View", {
       return part1;
     },
 
+    /**
+     * Creates the toolbar part containing the speed slider and the run, record
+     * and export buttons
+     * 
+     * @return {qx.ui.toolbar.Part}
+     */
     __getToolbarPart2 : function()
     {
       var part2 = new qx.ui.toolbar.Part();
@@ -224,6 +250,11 @@ qx.Class.define("inspector.selenium.View", {
       return part2;
     },
 
+    /**
+     * Creates the toolbar part containing the options button
+     * 
+     * @return {qx.ui.toolbar.Part}
+     */
     __getToolbarPart3 : function()
     {
       var part3 = new qx.ui.toolbar.Part();
@@ -239,6 +270,11 @@ qx.Class.define("inspector.selenium.View", {
       return part3;
     },
 
+    /**
+     * Adds an entry to the Selenium commands table consisting of a command 
+     * (currently always "qxClick") and a locator for the currently inspected
+     * widget
+     */
     __addLocator : function()
     {
       var rowArr = ["", "", ""];
@@ -263,6 +299,9 @@ qx.Class.define("inspector.selenium.View", {
       this._table.getTableModel().addRows([rowArr]);
     },
 
+    /**
+     * Remove the selected rows from the Selenium commands table
+     */
     __removeSelectedRows : function()
     {
       var tableModel = this._table.getTableModel();
@@ -278,6 +317,11 @@ qx.Class.define("inspector.selenium.View", {
       }
     },
 
+    /**
+     * Creates the Selenium commands table
+     * 
+     * @return {qx.ui.table.Table} The commands table
+     */
     __getTable : function()
     {
       var tableModel = new qx.ui.table.model.Simple();
@@ -324,6 +368,11 @@ qx.Class.define("inspector.selenium.View", {
       return table;
     },
 
+    /**
+     * Creates the log output widget 
+     * 
+     * @return {qx.ui.embed.Html} The log widget
+     */
     __getLogArea : function()
     {
       var logArea = new qx.ui.embed.Html();
@@ -358,7 +407,11 @@ qx.Class.define("inspector.selenium.View", {
       return logArea;
     },
 
-    runSeleniumCommands : function(ev)
+    /**
+     * Run the selected Selenium commands. If no commands are selected, all
+     * commands in the table will be executed
+     */
+    runSeleniumCommands : function()
     {
       var tableModel = this._table.getTableModel();
       var selectedCount = this._table.getSelectionModel().getSelectedCount();
@@ -382,6 +435,9 @@ qx.Class.define("inspector.selenium.View", {
       }
     },
 
+    /**
+     * Process the Selenium command queue
+     */
     __runSeleniumCommand : function()
     {
       if (this.__seleniumCommandQueue.length == 0) {
@@ -471,6 +527,9 @@ qx.Class.define("inspector.selenium.View", {
       return commands;
     },
 
+    /**
+     * Tells Selenium's Logger to use the logArea widget
+     */
     setLogHook : function()
     {
       if (!window.Logger) {
@@ -490,6 +549,13 @@ qx.Class.define("inspector.selenium.View", {
       };
     },
 
+    /**
+     * Loads the Selenium Core and qooxdoo user extensions scripts
+     * 
+     * @param value {String[]} Array containing the URIs for the Selenium Core 
+     * and qooxdoo user extenions scripts
+     * @param old {String[]|null} Old value
+     */
     _applySeleniumScripts : function(value, old)
     {
       if (value == old) {
@@ -531,6 +597,12 @@ qx.Class.define("inspector.selenium.View", {
     },
 
 
+    /**
+     * Called once the script loader is done. Checks if the Selenium scripts
+     * were loaded correctly and, if so, enables the toolbar
+     * 
+     * @param ev {qx.event.type.Data} The script loader's "finished" event
+     */
     __scriptsLoaded : function(ev)
     {
       if (ev.getData().fail > 0 ) {

@@ -17,10 +17,19 @@
 
 ************************************************************************ */
 
+/**
+ * Window used to define settings for SeleniumWindow
+ */
+
 qx.Class.define("inspector.selenium.OptionsWindow", {
 
   extend : qx.ui.window.Window,
 
+  /**
+   * @param caption {String} Window title
+   * @param icon {String} Window icon
+   * @param mainWindow {inspector.selenium.View} Reference to the main View
+   */
   construct : function(caption, icon, mainWindow)
   {
     this.base(arguments, caption, icon);
