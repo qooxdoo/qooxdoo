@@ -302,9 +302,10 @@ qx.Class.define("qx.test.data.DataArray",
 
 
     testRemoveAt: function() {
-      this.__a.removeAt(1);
+      var removed = this.__a.removeAt(1);
 
       // check the value
+      this.assertEquals("two", removed, "no return type");
       this.assertEquals("one", this.__a.getItem(0), "removeAt does not work");
       this.assertEquals("three", this.__a.getItem(1), "removeAt does not work");
     },
