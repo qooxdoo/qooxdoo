@@ -705,7 +705,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (options && options.onSetFail) {
             options.onSetFail(e);
           } else {
-            this.warn(
+            qx.log.Logger.warn(
               "Failed so set value " + value + " on " + targetObject
                + ". Error message: " + e
             );
@@ -885,7 +885,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (options && options.onSetFail) {
             options.onSetFail(e);
           } else {
-            this.warn(
+            qx.log.Logger.warn(
               "Failed so set value " + data + " on " + targetObject
                + ". Error message: " + e
             );
