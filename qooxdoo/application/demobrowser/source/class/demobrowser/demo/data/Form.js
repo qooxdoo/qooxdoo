@@ -115,7 +115,8 @@ qx.Class.define("demobrowser.demo.data.Form",
 
       // create the manager
       var manager = new qx.ui.form.validation.Manager();
-      manager.add(nameTextfield, qx.util.Validate.required);
+      nameTextfield.setRequired(true);
+      manager.add(nameTextfield);
       manager.add(okCheckBox);
 
       // validate the select box
