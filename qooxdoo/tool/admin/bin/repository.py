@@ -588,7 +588,7 @@ def runGenerator(path, job, macro=False):
   cmd = "python generate.py "
   if macro:
     for key, value in macro.iteritems():
-      cmd += "-m %s:%s " %(key,value)
+      cmd += '-m "%s:%s" ' %(key,value)
   cmd += job
   console.debug("Running generator: %s" %cmd)
   rcode, output, errout = shell.execute_piped(cmd)
