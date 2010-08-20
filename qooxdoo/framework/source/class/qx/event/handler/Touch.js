@@ -252,5 +252,12 @@ qx.Class.define("qx.event.handler.Touch",
 
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
+
+    // Prevent scrolling on the document to avoid scrolling at all
+    if (qx.bom.client.Feature.TOUCH) {
+      document.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+      });
+    }
   }
 });
