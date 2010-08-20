@@ -178,22 +178,28 @@ indicating that the server is expecting a JSON-RPC request.
 Transport
 =========
 
-A client may issue requests to the server in either of two ways:
-XmlHTTPTransport request, or via POST data transported through an Iframe
-form.  A server may ascertain which method was used by looking at the
-``Content Type:`` of the received request:
+There are exactly two standard transport facilities potentially used by
+qooxdoo's qx.io.remote.Rpc class:
 
-* XmlHTTPTransport : ``Content Type: application/json``
-* IframeTransport : ``Content Type: application/x-www-form-urlencoded``
+* XmlHTTPRequest : The parameters of the remote procedure call are passed to
+  the server using XmlHTTPRequest. The request will be issued using the
+  ``POST`` method with ``Content Type: application/json``. The data provided
+  by the client will be the JSON-serialized request object. The
+  JSON-serialized result object MUST be returned with ``Content Type:
+  application/json``. This transport will be used unless the request is issued
+  as cross-domain.
 
-In the former case, the received data is the JSON-serialized request object.
-In the latter case, the JSON-serialized request object is passed in a form
-field called ``_data_``.
+* Script : If the client application invokes a cross-domain request, the
+  request will be issued by URL-encoding the request object and wrapping it in
+  a ``<script>`` tag. The request uses the ``GET`` method with ``Content Type:
+  text/javascript``. The response to a request received via this method MUST
+  be a call to the static method
+  ``qx.io.remote.transport.Script._requestFinished`` with parameters of the
+  script id (a copy of the value of the incoming parameter
+  ``_ScriptTransport_id``) and the JSON-serialized result object.
 
 A server SHOULD issue an ``Other Error`` (textual reply) if it detects a
-Content Type other than the two supported ones.  It SHOULD also issue an
-``Other Error`` if a form was received but the form either does not contain a
-``_data_ field`` or if fields other than ``_data_ exist`` in the form.
+method / content type pair other than the two supported ones.
 
 .. _pages/rpc_server_writer_guide#testing_a_new_server:
 
