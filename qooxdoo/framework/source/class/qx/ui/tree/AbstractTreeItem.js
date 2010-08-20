@@ -808,6 +808,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.assert(this.__children.indexOf(before) >= 0)
       }
 
+      // It's important to remove the item before the addAt is called
+      // otherwise the index calculation could be wrong
+      var oldParent = treeItem.getParent();
+      if (oldParent) {
+        oldParent.remove(treeItem);
+      }
+
       this.addAt(treeItem, this.__children.indexOf(before));
     },
 
@@ -822,6 +829,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assert(this.__children.indexOf(after) >= 0)
+      }
+
+      // It's important to remove the item before the addAt is called
+      // otherwise the index calculation could be wrong
+      var oldParent = treeItem.getParent();
+      if (oldParent) {
+        oldParent.remove(treeItem);
       }
 
       this.addAt(treeItem, this.__children.indexOf(after)+1);
