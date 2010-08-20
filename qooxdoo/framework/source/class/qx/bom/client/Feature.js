@@ -88,6 +88,9 @@ qx.Class.define("qx.bom.client.Feature",
       document.documentElement.classList &&
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
+    
+    /** {BOOLEAN} Wether the device is touch enabled. */
+    TOUCH : (typeof window.Touch == "object"),
 
 
     /**
