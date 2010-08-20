@@ -52,6 +52,18 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
+    
+    // touch support
+    if (qx.bom.client.Feature.TOUCH) {
+      // touch move listener for touch scrolling
+      this.addListener("touchmove", this._onTouchMove, this);
+      
+      // reset the delta on every touch session
+      this.addListener("touchstart", function() {
+        this._oldY = 0;
+        this._oldX = 0;
+      }, this);
+    }
   },
 
 
@@ -145,6 +157,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
   members :
   {
+    // !!! keep those preotected. Variable optimizer crushes access code if not
+    _oldY : 0,
+    _oldX : 0,
+    _impulseIimerIdY : null,
+    _impulseIimerIdX : null,
+    
+    
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -425,7 +444,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the mouse wheel
      *
      * @param e {qx.event.type.Mouse} The mouse wheel event
-     * @return {void}
      */
     _onMouseWheel : function(e)
     {
@@ -441,6 +459,89 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
       // Stop bubbling and native event
       e.stop();
+    },
+    
+    
+    /**
+     * Event handler for the touch move
+     *
+     * @param e {qx.event.type.Touch} The touch event
+     */
+    _onTouchMove : function(e) 
+    {
+      var directions = ["x", "y"];
+      // for both directions
+      for (var i = 0; i < directions.length; i++) {
+        // directions lower and upper case
+        var dir = directions[i];
+        var capDir = dir.toUpperCase();
+        
+        // current scrollbar
+        var scrollbar = this.getChildControl("scrollbar-" + dir, true);
+        var show = this._isChildControlVisible("scrollbar-" + dir);        
+        
+        if (show && scrollbar) {
+          // get the delta for the current direction
+          if(this["_old" + capDir] == 0) {
+            var delta = 0;
+          } else {
+            var delta = -(e["getPage" + capDir]() - this["_old" + capDir]);
+          };
+          // save the old value for the current direction
+          this["_old" + capDir] = e["getPage" + capDir]();
+
+          scrollbar.scrollBy(delta);
+
+          // if we have an old timeout for the current direction, clear it
+          if (this["_impulseIimerId" + capDir]) {
+            clearTimeout(this["_impulseIimerId" + capDir]);
+            this["_impulseIimerId" + capDir] = null;
+          }
+          
+          // set up a new timer for the current direction
+          this["_impulseIimerId" + capDir] = 
+            setTimeout(qx.lang.Function.bind(function(delta) {
+              this.__handleScrollImpulse(delta, dir == "x");
+            }, this, delta), 100);
+        }        
+      };
+
+      // Stop bubbling and native event
+      e.stop();
+    },
+    
+    
+    /**
+     * Helper for momentum scrolling.
+     * @param delta {Number} The delta from the last scrolling.
+     * @param xDir {Boolean} true, if its a handler for the x scrollbar.
+     */
+    __handleScrollImpulse : function(delta, xDir) {
+      // delete the old timer id
+      this["_impulseIimerId" + (xDir ? "X" : "Y")] = null;
+      
+      // do nothing if the scrollbar is not visible or we don't need to scroll
+      var show = this._isChildControlVisible("scrollbar-" + (xDir ? "x" : "y"));
+      if (delta == 0 || !show) {
+        return;
+      }
+
+      // linear momentum calculation
+      if (delta > 0) {
+        delta = Math.max(0, delta - 3);
+      } else {
+        delta = Math.min(0, delta + 3);
+      }
+
+      // set up a new timer with the new delta
+      this["_impulseIimerId" + (xDir ? "X" : "Y")] = 
+        setTimeout(qx.lang.Function.bind(function(delta, xDir) {
+          this.__handleScrollImpulse(delta, xDir);
+        }, this, delta, xDir), 20);
+
+      // scroll the desired new delta
+      var scrollbar = this.getChildControl("scrollbar-" + (xDir ? "x" : "y"), true);      
+      scrollbar.scrollBy(delta);
     },
 
 

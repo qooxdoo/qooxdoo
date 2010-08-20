@@ -23,8 +23,6 @@ qx.Class.define("qx.event.type.Touch",
     extend : qx.event.type.Dom,
 
 
-
-
     /*
     *****************************************************************************
        MEMBERS
@@ -58,11 +56,27 @@ qx.Class.define("qx.event.type.Touch",
         clone.srcElement = nativeEvent.srcElement;
         clone.type = nativeEvent.type;
         clone.currentTarget = nativeEvent.currentTarget;
+        clone.rotation = nativeEvent.rotation;
+        clone.timestamp = nativeEvent.timestamp;
+        clone.identifier = nativeEvent.identifier;
+        clone.scale = nativeEvent.scale;
         
         // TODO (reference type?)
-        clone.targetTouches = null;
-        clone.touches = null;
+        clone.targetTouches = [];
+        for (var i = 0; i < nativeEvent.targetTouches.length; i++) {
+          clone.targetTouches[i] = nativeEvent.targetTouches.item(i);
+        };
 
+        clone.changedTouches = [];
+        for (var i = 0; i < nativeEvent.changedTouches.length; i++) {
+          clone.changedTouches[i] = nativeEvent.changedTouches.item(i);
+        };
+        
+        clone.touches = [];
+        for (var i = 0; i < nativeEvent.touches.length; i++) {
+          clone.touches[i] = nativeEvent.touches.item(i);
+        };
+        
         return clone;
       },
 
@@ -70,6 +84,20 @@ qx.Class.define("qx.event.type.Touch",
       // overridden
       stop : function() {
         this.stopPropagation();
-      }
+      },
+      
+      
+      getTouches : function() {
+        return this._native.touches;
+      },
+      
+      
+      getPageX : function() {
+        return this._native.touches[0].pageX;
+      },
+      
+      getPageY : function() {
+        return this._native.touches[0].pageY;
+      }      
     }
   });
