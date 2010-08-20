@@ -113,8 +113,8 @@ class Library(object):
     def getNamespace(self):
         return self.namespace
 
-    def getResources(this):
-        return this._resources
+    def getResources(self):
+        return self._resources
 
     def scan(self):
         self._console.info("Scanning %s..." % self._path)
