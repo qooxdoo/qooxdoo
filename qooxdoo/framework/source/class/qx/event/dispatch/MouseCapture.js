@@ -230,7 +230,11 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     nativeSetCapture : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element, containerCapture) {
-        element.setCapture(containerCapture !== false);
+        // IE swallows the focus event when the capture is directly set.
+        // See bug report http://bugzilla.qooxdoo.org/show_bug.cgi?id=3427 for details.
+        qx.event.Timer.once(function() {
+          element.setCapture(containerCapture !== false);
+        }, this, 0);
       },
 
       "default" : qx.lang.Function.empty
@@ -247,7 +251,12 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     nativeReleaseCapture : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element) {
-        element.releaseCapture();
+        // IE swallows the focus event when the capture is directly set, due to the 
+        // capture should also removed with a timeout.
+        // See bug report http://bugzilla.qooxdoo.org/show_bug.cgi?id=3427 for details.
+        qx.event.Timer.once(function() {
+          element.releaseCapture();
+        }, this, 0);
       },
 
       "default" : qx.lang.Function.empty
