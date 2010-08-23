@@ -153,7 +153,7 @@ qx.Class.define("playground.view.PlayArea",
           if (code.indexOf(afterReg[hash].classname) != -1) {
             // if yes, dispose it
             var item = afterReg[hash];
-            item.destruct ? item.destruct() : item.dispose();
+            item.destroy ? item.destroy() : item.dispose();
           }
         }
       }
