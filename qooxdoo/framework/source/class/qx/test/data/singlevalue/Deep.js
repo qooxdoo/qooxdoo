@@ -46,6 +46,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
         name : {
           check : "String",
+          nullable: true,
           init : "Juhu",
           event : "changeName"
         },
@@ -501,7 +502,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     testDeepTargetChangeMiddleArray : function()
     {
-
       var oldArray = this.__a.getArray();
       var array = new qx.data.Array([this.__b1, this.__b2]);
       this.__a.setArray(array);
@@ -580,7 +580,27 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.__label.setValue("456");
       this.assertEquals("456", this.__a.getName());
       this.assertEquals("123", this.__b1.getName());
-    }
+    },
+    
+    
+    testDeepTargetChange3ResetNotNull : function()
+    {
+      // set up the target chain
+      this.__a.setChild(this.__b1);
+      this.__b1.setChild(this.__b2);
+      this.__b2.setChild(this.__b1);
+
+      this.__a.setName(null);
+      
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "child.child.name");      
+      this.assertEquals(this.__a.getName(), this.__b2.getName());
+
+      this.__a.setName("nnnnn");
+      this.assertEquals(this.__a.getName(), this.__b2.getName());
+      
+      this.__a.setName(null);
+      this.assertEquals(this.__a.getName(), this.__b2.getName());      
+    }    
 
   }
 });

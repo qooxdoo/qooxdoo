@@ -121,6 +121,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals(4879, this.__b.getZIndex(), "String --> Number does not work!");
 
       // number to String
+      this.__a.setZIndex(568);      
       qx.data.SingleValueBinding.bind(this.__a, "zIndex", this.__b, "appearance");
       this.__a.setZIndex(1234);
       this.assertEquals("1234", this.__b.getAppearance(), "Number --> String does not work!");
@@ -524,6 +525,61 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.setA(0);
       this.assertEquals(false, o.getB(), "Number -> Boolean");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
-    }
+    },
+    
+    
+    testResetNotNull : function() {
+      qx.Class.define("qx.test.SVB", {
+        extend : qx.core.Object,
+        properties : {
+          x : {
+            nullable: true,
+            init: "affe",
+            event: "changeX"
+          }
+        }
+      });
+
+      var a = new qx.test.SVB();
+      var b = new qx.test.SVB();
+
+      a.bind("x", b, "x");
+
+      a.setX("x");
+      this.assertEquals(a.getX(), b.getX());
+      a.setX(null);
+      this.assertEquals(a.getX(), b.getX());
+      
+      a.dispose();
+      b.dispose();
+      qx.Class.undefine("qx.test.SVB");
+    },
+    
+    
+    testResetNotNullInit : function() {
+      qx.Class.define("qx.test.SVB", {
+        extend : qx.core.Object,
+        properties : {
+          x : {
+            nullable: true,
+            init: "affe",
+            event: "changeX"
+          }
+        }
+      });
+
+      var a = new qx.test.SVB();
+      var b = new qx.test.SVB();
+
+      a.setX(null);
+      b.setX("x");
+      qx.data.SingleValueBinding.bind(a, "x", b, "x");      
+      
+      this.assertEquals(a.getX(), b.getX());
+      
+      a.dispose();
+      b.dispose();
+      qx.Class.undefine("qx.test.SVB");
+    }    
   }
 });

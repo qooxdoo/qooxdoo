@@ -685,11 +685,11 @@ qx.Class.define("qx.data.SingleValueBinding",
         value, targetObject, targetPropertyChain, options
       );
       // check if the converted value is null
-      if (value == null) {
+      if (value === undefined) {
         this.__resetTargetValue(targetObject, targetPropertyChain);
       }
-      // only set the initial value if one is given
-      if (value != undefined) {
+      // only set the initial value if one is given (may be null)
+      if (value !== undefined) {
         try {
           this.__setTargetValue(targetObject, targetPropertyChain, value);
 
@@ -711,7 +711,6 @@ qx.Class.define("qx.data.SingleValueBinding",
             );
           }
         }
-
       }
     },
 
@@ -832,7 +831,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           var data = sourceObject.getItem(arrayIndex);
 
           // reset the target if the data is not set
-          if (data == undefined) {
+          if (data === undefined) {
             qx.data.SingleValueBinding.__resetTargetValue(targetObject, targetProperty);
           }
 
@@ -866,7 +865,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
         // try to set the value
         try {
-          if (data != undefined) {
+          if (data !== undefined) {
             qx.data.SingleValueBinding.__setTargetValue(targetObject, targetProperty, data);
           } else {
             qx.data.SingleValueBinding.__resetTargetValue(targetObject, targetProperty);
