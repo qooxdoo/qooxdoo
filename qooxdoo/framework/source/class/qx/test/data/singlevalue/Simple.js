@@ -580,6 +580,30 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       a.dispose();
       b.dispose();
       qx.Class.undefine("qx.test.SVB");
+    },
+    
+    
+    testChangeEventMissing : function() {
+      qx.Class.define("qx.test.SVB", {
+        extend : qx.core.Object,
+        properties : {
+          x : {
+            nullable: true,
+            init: "affe"
+          }
+        }
+      });
+
+      var a = new qx.test.SVB();
+      var b = new qx.test.SVB();
+
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "x", b, "x");        
+      }, qx.core.AssertionError, "Binding property x of object qx.test.SVB");
+      
+      a.dispose();
+      b.dispose();
+      qx.Class.undefine("qx.test.SVB");
     }    
   }
 });
