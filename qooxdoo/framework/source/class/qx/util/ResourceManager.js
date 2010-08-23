@@ -214,6 +214,7 @@ qx.Class.define("qx.util.ResourceManager",
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/") + 1);
           } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
+            statics.__urlPrefix[lib] = "";
           }
           else
           {
