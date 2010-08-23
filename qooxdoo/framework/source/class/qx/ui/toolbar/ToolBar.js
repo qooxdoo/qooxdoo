@@ -232,26 +232,30 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
        
       // if we can possibly show something 
       } else {
-        var removedChild = this.__removedItems[0];
-        // if we have something we can show
-        if (removedChild) {
-          var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();          
-          var removedChildWidth = removedChild.getSizeHint().width + margins;
-          // if it just fits in || it fits in when we remove the overflow widget
-          if (
-            width > requiredWidth + removedChildWidth + this.getSpacing() || 
-            (this.__removedItems.length == 1 && 
-              width > requiredWidth + removedChildWidth - overflowWidgetWidth + this.getSpacing()
-            )
-          ) {
-            this.__showChild(removedChild);
-            
-            // check if we need to remove the overflow widget
-            if (overflowWidget && this.__removedItems.length == 0) {
-              overflowWidget.setVisibility("excluded");
+        do {
+          var removedChild = this.__removedItems[0];
+          // if we have something we can show
+          if (removedChild) {
+            var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
+            var removedChildWidth = removedChild.getSizeHint().width + margins;
+            // if it just fits in || it fits in when we remove the overflow widget
+            if (
+                width > requiredWidth + removedChildWidth + this.getSpacing() || 
+                (this.__removedItems.length == 1 && 
+                    width > requiredWidth + removedChildWidth - overflowWidgetWidth + this.getSpacing()
+                )
+            ) {
+              this.__showChild(removedChild);
+              width += removedChildWidth;
+              // check if we need to remove the overflow widget
+              if (overflowWidget && this.__removedItems.length == 0) {
+                overflowWidget.setVisibility("excluded");
+              }
+            } else {
+              return;
             }
           }
-        }
+        } while (width >= requiredWidth && this.__removedItems.length > 0);
       }
     },
     
