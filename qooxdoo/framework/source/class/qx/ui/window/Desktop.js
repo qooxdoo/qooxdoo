@@ -35,15 +35,15 @@ qx.Class.define("qx.ui.window.Desktop",
   implement : qx.ui.window.IDesktop,
 
   /**
-   * @param windowManager {IWindowManager} The window manager to use for the
-   *    desktop
+   * @param windowManager {IWindowManager} The window manager to use for the desktop.
+   *    If not provided, an instance of {@link qx.ui.window.Window#DEFAULT_MANAGER_CLASS} is used.
    */
   construct : function(windowManager)
   {
     this.base(arguments);
+    windowManager = windowManager || new qx.ui.window.Window.DEFAULT_MANAGER_CLASS();
 
     this.getContentElement().disableScrolling();
-
     this._setLayout(new qx.ui.layout.Canvas());
     this.setWindowManager(windowManager);
   }
