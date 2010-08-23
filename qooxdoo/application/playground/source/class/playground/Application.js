@@ -627,7 +627,9 @@ qx.Class.define("playground.Application",
       // run the code
       try {
         // save the current registry
+        qx.ui.core.queue.Manager.flush();
         this.__beforeReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
+
         // run the aplpication
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
