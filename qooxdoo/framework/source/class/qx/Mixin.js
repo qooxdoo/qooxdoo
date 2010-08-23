@@ -343,6 +343,7 @@ qx.Bootstrap.define("qx.Mixin",
     /**
      * Validates incoming configuration and checks keys and values
      *
+     * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */

@@ -758,6 +758,7 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Validates an incoming configuration and checks for proper keys and values
      *
+     * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
@@ -881,6 +882,7 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Validates the interfaces required by abstract base classes
      *
+     * @signature function(clazz)
      * @param clazz {Class} The configured class.
      */
     __validateAbstractInterfaces : qx.core.Variant.select("qx.debug",
@@ -1153,7 +1155,9 @@ qx.Bootstrap.define("qx.Class",
     },
 
     /**
-     *
+     * Validates the given property
+     * 
+     * @signature function(clazz, name, config, patch)
      * @param clazz {Class} class to add property to
      * @param name {String} name of the property
      * @param config {Map} configuration map
