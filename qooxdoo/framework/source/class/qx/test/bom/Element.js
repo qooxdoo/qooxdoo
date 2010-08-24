@@ -43,6 +43,7 @@ qx.Class.define("qx.test.bom.Element",
     {
       var el = qx.bom.Element.create("div", {name: "juhu"}, window);
       this.assertElement(el);
+      this.assertEquals("juhu", qx.bom.element.Attribute.get(el, "name"));
     },
 
     testEmpty : function()
