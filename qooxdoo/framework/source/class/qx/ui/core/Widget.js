@@ -180,12 +180,17 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if the mouse wheel is used over the widget. */
     mousewheel : "qx.event.type.MouseWheel",
 
-
+    /** Fired if a touch at the screen is started. */
     touchstart : "qx.event.type.Touch",
+    
+    /** Fired if a touch at the screen has ended. */    
     touchend : "qx.event.type.Touch",
+    
+    /** Fired during a touch at the screen. */
     touchmove : "qx.event.type.Touch",
+    
+    /** Fired if a touch at the screen is cancled. */
     touchcancel : "qx.event.type.Touch",
-
 
     /**
      * This event if fired if a keyboard key is released.

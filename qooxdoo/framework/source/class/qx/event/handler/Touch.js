@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * This class provides a unified touch event handler.
+ */
 qx.Class.define("qx.event.handler.Touch", 
 {
   extend : qx.core.Object,
@@ -212,21 +215,15 @@ qx.Class.define("qx.event.handler.Touch",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Handler for the native touch events.
+     * 
+     * @signature function(domEvent)
+     * @param domEvent {Event} The touch event from the browser.
+     */
     _onTouchEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       this.__fireEvent(domEvent, domEvent.type);
     })
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CROSS BROWSER SUPPORT FIXES
-    ---------------------------------------------------------------------------
-    */
-
-
   },
 
 
