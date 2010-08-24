@@ -272,23 +272,6 @@ qx.Class.define("qx.event.message.Bus",
      */
     dispatch : function(msg)
     {
-      // if string value has been supplied, create new message
-      if ( typeof msg == "string" )
-      {
-        // @deprecated with 1.2 release
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          qx.log.Logger.warn(
-            "A string as first parameter is deprecated. Please use the 'dispatchByName' method and " +
-            "consult the API documentation for further information."
-          );
-          this.trace();
-        }
-
-        var value = typeof arguments[1] != "undefined" ? arguments[1] : true;
-        msg = new qx.event.message.Message( msg, value );
-      }
-
       var sub = this.getSubscriptions();
       var msgName = msg.getName();
       var dispatched = false;

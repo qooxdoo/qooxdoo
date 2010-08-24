@@ -64,10 +64,9 @@ qx.Class.define("qx.util.Json",
     /** new line string for JSON pretty printing */
     BEAUTIFYING_LINE_END : "\n",
 
-    // @deprecated change the comment to the new default behavior!
     /**
      * Boolean flag which controls the stringification of date objects.
-     * <code>null</code> for the default behavior, currently the qooxdoo specific behavior (DEPRECATED, will change to native)
+     * <code>null</code> for the default behavior, acts like false
      * <code>true</code> for stringifying dates the old, qooxdoo specific way
      * <code>false</code> using the native toJSON of date objects.
      *
@@ -294,23 +293,12 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Date} incoming value
      * @param key {String} The key under which the value is stored
      *
-     * @deprecated since 1.2 (The default returned parsed date format will change.)
      * @return {String} value converted to a JSON string
      */
     __convertDate : function(incoming, key)
     {
-      // if its the default case
-      // @deprecated: Move the default behavior from using the qooxdoo date
-      // formating to the native one.
-      if (qx.util.Json.CONVERT_DATES === null) {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee,
-          "The default returned parsed date format will change. Use the CONVERT_DATES flag to change the behavior."
-        );
-        var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
-        return "new Date(Date.UTC(" + dateParams + "))";
-      // if its set to false
-      } else if (!qx.util.Json.CONVERT_DATES) {
+      // if its set to false or not set at all
+      if (!qx.util.Json.CONVERT_DATES) {
         // use the native toJSON if available
         if (incoming.toJSON) {
           return incoming.toJSON();
