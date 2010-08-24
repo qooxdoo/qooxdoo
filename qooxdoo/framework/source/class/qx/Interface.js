@@ -429,7 +429,7 @@ qx.Bootstrap.define("qx.Interface",
      * Wrap a method with a precondition check.
      *
      * @signature function(iface, origFunction, functionName, preCondition)
-     * @param ifaceName {String} Name of the interface, where the pre condition
+     * @param iface {String} Name of the interface, where the pre condition
      *   was defined. (Used in error messages).
      * @param origFunction {Function} function to wrap.
      * @param functionName {String} name of the function. (Used in error messages).
