@@ -38,49 +38,42 @@ qx.Class.define("playground.test.Toolbar",
 
     testEvents : function()
     {
-      var part1 = this.__toolbar.getChildren()[0];
-      var part2 = this.__toolbar.getChildren()[2];
-
+      var self = this;
       // test run event
       this.assertEventFired(this.__toolbar, "run", function() {
-        part1.getChildren()[0].execute();
-      }, function() {});
-
-      // test run event
-      this.assertEventFired(this.__toolbar, "run", function() {
-        part1.getChildren()[0].execute();
+        self.__toolbar.getChildren()[0].execute();
       }, function() {});
 
       // test highlithing event
       this.assertEventFired(this.__toolbar, "changeHighlight", function() {
-        part1.getChildren()[2].execute();
+        self.__toolbar.getChildren()[2].execute();
       }, function() {});
 
       // test log event
       this.assertEventFired(this.__toolbar, "changeLog", function() {
-        part2.getChildren()[0].execute();
+        self.__toolbar.getChildren()[5].execute();
       }, function() {});
 
       // test shorten event
       this.assertEventFired(this.__toolbar, "shortenUrl", function() {
-        part2.getChildren()[1].execute();
+        self.__toolbar.getChildren()[6].execute();
       }, function() {});
 
       // test api event
       this.assertEventFired(this.__toolbar, "openApi", function() {
-        part2.getChildren()[2].execute();
+        self.__toolbar.getChildren()[7].execute();
       }, function() {});
 
       // test manual event
       this.assertEventFired(this.__toolbar, "openManual", function() {
-        part2.getChildren()[3].execute();
+        self.__toolbar.getChildren()[8].execute();
       }, function() {});
     },
 
 
     testExampleMenu : function()
     {
-      var menuButton = this.__toolbar.getChildren()[0].getChildren()[1];
+      var menuButton = this.__toolbar.getChildren()[1];
       var menu = menuButton.getMenu();
       this.assertEquals(menu.getChildren()[0].getLabel(), "one");
       this.assertEquals(menu.getChildren()[1].getLabel(), "two");
@@ -89,7 +82,7 @@ qx.Class.define("playground.test.Toolbar",
 
 
     testGistMenu : function() {
-      var menuButton = this.__toolbar.getChildren()[0].getChildren()[3];
+      var menuButton = this.__toolbar.getChildren()[3];
       var menu = menuButton.getMenu();
       var self = this;
 
@@ -104,7 +97,7 @@ qx.Class.define("playground.test.Toolbar",
       this.assertEquals("affe", menu.getChildren()[0]._getChildren()[1].getInvalidMessage());
 
       // test show gists
-      this.__toolbar.updateGists(["one [qx]", "two"], ["eins", "zwei"]);
+      this.__toolbar.updateGists(["one [qx]", "two"], ["eins", "zwei"], [1, 2]);
       this.assertEquals("one [qx]", menu.getChildren()[4].getLabel());
       // switch filter
       menu.getChildren()[1].setValue(false);
