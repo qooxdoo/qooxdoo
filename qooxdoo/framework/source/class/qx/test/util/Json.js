@@ -33,7 +33,7 @@ qx.Class.define("qx.test.util.Json",
       var data = {
         start: new Date(0)
       }
-      this.assertEquals('{"start":new Date(Date.UTC(1970,0,1,0,0,0,0))}', qx.util.Json.stringify(data, false));
+      this.assertEquals('{"start":1970-01-01T00:00:00.000Z}', qx.util.Json.stringify(data, false));
     },
 
 
