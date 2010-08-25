@@ -36,7 +36,12 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
       var data = {
         firstname: "Martin",
         lastname: "Wittemann",
-        gender: ["male", "female", "dont know!", "Alien"]
+        gender: [
+          {label: "male", data: "M"}, 
+          {label: "female", data: "F"}, 
+          {label: "dont know!", data: "?"}, 
+          {label: "Alien", data: "A"}
+        ]
       };
       var model = qx.data.marshal.Json.createModel(data);
 
@@ -53,7 +58,12 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
 
       // gender
       var gender = new qx.ui.form.SelectBox();
-      new qx.data.controller.List(model.getGender(), gender);
+      var genderController = new qx.data.controller.List(null, gender);
+      genderController.setDelegate({bindItem: function(controller, item, index) {
+        controller.bindProperty("label", "label", null, item, index);
+        controller.bindProperty("data", "model", null, item, index);        
+      }});
+      genderController.setModel(model.getGender());
       form.add(gender, "Gender");
 
       // create the form and add it to the root
