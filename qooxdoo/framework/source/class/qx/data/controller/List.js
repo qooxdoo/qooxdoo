@@ -209,6 +209,8 @@ qx.Class.define("qx.data.controller.List",
     __onUpdate : null,
     __boundProperties : null,
     __boundPropertiesReverse : null,
+    __syncTagetSelection : null,
+    __syncModelSelection : null,
 
 
     /*
@@ -334,20 +336,15 @@ qx.Class.define("qx.data.controller.List",
         // check for the new length
         this.__changeModelLength();
 
-        // if there is a target
-        if (this.getTarget() != null) {
-          // update the model references to the models
-          var model = this.getModel();
-          var children = this.getTarget().getChildren();
-          for (var i = 0, l = this.__lookupTable.length; i < l; i++) {
-            var modelNode = model.getItem(this.__lookup(i));
-            var listItem = children[i];
-            listItem.setModel(modelNode);
-          }
+        // as we only change the labels of the items, the selection change event
+        // may be missing so we invoke it here
+        if (old == null) {
+          this._changeTargetSelection();
+        } else {
+          // update the selection async
+          this.__syncTagetSelection = true;
+          qx.ui.core.queue.Widget.add(this);
         }
-        // as we changed only the labels of the items, the changeselection of
-        // the target my be missing so we invoke it here
-        this._changeTargetSelection();
       } else {
         var target = this.getTarget();
         // if the model is set to null, we should remove all items in the target
@@ -406,15 +403,10 @@ qx.Class.define("qx.data.controller.List",
      * be done by the binding.
      */
     __changeModel: function() {
-      // check if something has been removed from the model
-      for (var i = this.getSelection().length - 1; i >= 0; i--) {
-        if (!this.getModel().contains(this.getSelection().getItem(i))) {
-          this.getSelection().splice(i, 1);
-        }
-      }
-
       // need a asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
+      // this.__syncTagetSelection = true;
+      this.__syncModelSelection = true;
       qx.ui.core.queue.Widget.add(this);
 
       // update on filtered lists... (bindings need to be renewed)
@@ -433,7 +425,13 @@ qx.Class.define("qx.data.controller.List",
      */
     syncWidget : function()
     {
-      this._updateSelection();
+      if (this.__syncTagetSelection) {
+        this._changeTargetSelection();
+      }
+      if (this.__syncModelSelection) {
+        this._updateSelection();
+      }
+      this.__syncModelSelection = this.__syncTagetSelection = null;
     },
 
 
@@ -525,8 +523,6 @@ qx.Class.define("qx.data.controller.List",
     __addItem: function(index) {
       // create a new ListItem
       var listItem = this._createItem();
-      // store the corresponding model element
-      listItem.setModel(this.getModel().getItem(index) || null);
       // set up the binding
       this._bindListItem(listItem, index);
       // add the ListItem to the target
@@ -600,8 +596,8 @@ qx.Class.define("qx.data.controller.List",
 
 
     /**
-     * Helper-Method for binding the default properties (label and icon) from
-     * the model to the target widget.
+     * Helper-Method for binding the default properties (label, icon and model)
+     * from the model to the target widget.
      *
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
@@ -613,9 +609,15 @@ qx.Class.define("qx.data.controller.List",
      */
     bindDefaultProperties : function(item, index)
     {
+      // label
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );
+      
+      // model
+      this.bindProperty(
+        "", "model", null, item, index
+      );      
 
       // if the iconPath is set
       if (this.getIconPath() != null) {
@@ -641,9 +643,6 @@ qx.Class.define("qx.data.controller.List",
      * @param index {Number} The index of the current binding.
      */
     bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
-      // set right model to the target widget
-      targetWidget.setModel(this.getModel().getItem(index));
-
       // create the options for the binding containing the old options
       // including the old onUpdate function
       if (options != null) {
@@ -725,10 +724,6 @@ qx.Class.define("qx.data.controller.List",
           this.__onUpdate[this.__boundProperties[i]]();
         }
       }
-
-      // update the reference to the model
-      var itemModel = this.getModel().getItem(index);
-      targetObject.setModel(itemModel == undefined ? null : itemModel);
     },
 
 
@@ -945,6 +940,7 @@ qx.Class.define("qx.data.controller.List",
 
       // need a asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
+      this.__syncModelSelection = true;
       qx.ui.core.queue.Widget.add(this);
     },
 
@@ -998,5 +994,8 @@ qx.Class.define("qx.data.controller.List",
    destruct : function() {
      this.__lookupTable = this.__onUpdate = this.__boundProperties = null;
      this.__boundPropertiesReverse = null;
+     
+     // remove yourself from the widget queue
+     qx.ui.core.queue.Widget.remove(this);
    }
 });

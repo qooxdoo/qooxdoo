@@ -409,7 +409,9 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       delegate.filter = function(data) {
         return data.getName() == "name0" || data.getName() == "name2" ? false : true;
       }
-      delegate.bindItem = function() {};
+      delegate.bindItem = function(c, item, index) {
+        c.bindProperty("", "model", null, item, index);
+      };
       // set the filter
       this.__controller.setDelegate(delegate);
       this.__controller.setModel(this.__model);
@@ -430,7 +432,32 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       this.assertEquals(this.__model.getItem(5), this.__list.getChildren()[3].getModel());
 
       item.dispose();
-    }
+    },
+    
+    
+    testModelPropertyBinding : function() 
+    {
+      // create the controller
+      this.__controller = new qx.data.controller.List(null, this.__list, "name");
 
+      // filter only the first item
+      var delegate = {};
+      delegate.bindItem = function(c, item, index) {
+        c.bindProperty("icon", "model", null, item, index);
+      };
+      // set the filter
+      this.__controller.setDelegate(delegate);
+      this.__controller.setModel(this.__model);
+      
+      // test the right set model properties
+      for (var i = 0; i < this.__list.getChildren().length; i++) {
+        var child = this.__list.getChildren()[i];
+        this.assertEquals("icon" + i, child.getModel());
+      };
+      
+      // test selection
+      this.__controller.getSelection().push("icon1");
+      this.assertEquals("icon1", this.__list.getSelection()[0].getModel());
+    }
   }
 });

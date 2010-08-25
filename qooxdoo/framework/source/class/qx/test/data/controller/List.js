@@ -36,12 +36,15 @@ qx.Class.define("qx.test.data.controller.List",
 
     tearDown : function()
     {
+      this.__controller ? this.__controller.dispose() : null;
+      this.__model ? this.__model.dispose() : null;
+      this.__list.destroy();
       this.flush();
       this.__controller = null;
       this.__model = null;
       this.__data = null;
-      this.__list.destroy();
     },
+
 
     __setUpString: function(attribute) {
       this.__data = ["a", "b", "c", "d", "e"];
@@ -378,14 +381,6 @@ qx.Class.define("qx.test.data.controller.List",
     testSelectionAfterDelete: function() {
       this.__setUpString();
 
-      // add c to the selection
-      this.__controller.getSelection().push("c");
-      // remove the c
-      this.__model.splice(2, 1);
-
-      // check if the selection is empty
-      this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
-
       // add b to the selection
       this.__controller.getSelection().push("b");
       // remove the first element of the controller 'a'
@@ -395,11 +390,26 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertTrue(this.__controller.getSelection().contains("b"), "Selection array wrong!");
 
       // selection updates work with the widget pool and can be async
-      var self = this;
       this.wait(100, function() {
-        self.assertEquals("b", self.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");
-      });
+        this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");
+      }, this);
     },
+    
+    
+    testSelectionAfterDeleteEmpty: function() {
+      this.__setUpString();
+
+      // add c to the selection
+      this.__controller.getSelection().push("c");
+      // remove the c
+      this.__model.splice(2, 1);
+
+      // selection updates work with the widget pool and can be async
+      this.wait(100, function() {
+        // check if the selection is empty
+        this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
+      }, this);
+    },    
 
 
     testResetBug: function() {
@@ -423,7 +433,10 @@ qx.Class.define("qx.test.data.controller.List",
       this.__model.shift();
 
       // check for null
-      this.assertNull(label.getValue(), "Label does still contain something!");
+      var self = this;
+      this.wait(100, function() {
+        self.assertNull(label.getValue(), "Label does still contain something!");        
+      }, this);
     },
 
 
@@ -540,26 +553,34 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller = new qx.data.controller.List(this.__model, selectBox);
 
       // first object is selected (one selection mode)
-
+      
       // test the selection
       this.assertEquals(this.__model.getItem(0), selectBox.getSelection()[0].getModel());
       this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
-
+      
       // change the model
       this.__controller.setModel(new qx.data.Array(["x", "y", "z"]));
-
-      // test for the first selected item (one selection)
-      this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
-      this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection does not work.");
-
+      
       // select an item
       this.__controller.getSelection().push("y");
-
+      
       // test for the selection
       this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
       this.assertEquals("y", this.__controller.getSelection().getItem(0), "Selection is wrong.");
 
-      selectBox.dispose();
+      this.__controller.setModel(new qx.data.Array(["1", "2", "3"]));
+
+      this.__controller.addListener("changeSelection", function() {
+        this.resume(function() {
+          // test for the first selected item (one selection)
+          this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
+          this.assertEquals("2", this.__controller.getSelection().getItem(0), "Selection does not work.");          
+          selectBox.dispose();
+
+        }, this);
+      }, this);
+      
+      this.wait();
     },
 
 
@@ -716,6 +737,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("b", list.getChildren()[0].getLabel(), "Binding is wrong!");
       this.assertEquals("d", list.getChildren()[1].getLabel(), "Binding is wrong!");
 
+      this.__controller.dispose();
       list.dispose();
     },
 
@@ -939,13 +961,15 @@ qx.Class.define("qx.test.data.controller.List",
       // remove the last element of the first list
       this.__model.pop();
 
-      // is d still in the list?
-      this.assertEquals("d", selList.getChildren()[0].getLabel(), "d is not in the selection list anymore.");
+      this.wait(100, function() {
+        // is d still in the list?
+        this.assertEquals("d", selList.getChildren()[0].getLabel(), "d is not in the selection list anymore.");
 
-      // get rid of that old stuff
-      this.flush();
-      selList.dispose();
-      selController.dispose();
+        // get rid of that old stuff
+        this.flush();
+        selList.dispose();
+        selController.dispose();        
+      }, this);
     },
 
 
