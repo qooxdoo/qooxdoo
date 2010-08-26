@@ -230,7 +230,7 @@ qx.Class.define("qx.event.type.Touch",
       {
         touchIndex = touchIndex == null ? 0 : touchIndex;
         var isTouchEnd = this.getType() == "touchend" || this.getType() == "touchcancel";
-        var touches = (isTouchEnd ? this.getChangedTouches(): this.getTargetTouches());
+        var touches = (isTouchEnd ? this.getChangedTargetTouches(): this.getTargetTouches());
         return touches[touchIndex];
       }
     }
