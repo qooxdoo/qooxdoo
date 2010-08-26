@@ -22,8 +22,6 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
 {
   extend : qx.application.Native,
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -32,8 +30,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
 
   members :
   {
-    __rightPaddel : null,
-    __leftPaddel : null,
+    __rightPaddle : null,
+    __leftPaddle : null,
     __ball : null,
     __gameTimer : null,
 
@@ -41,7 +39,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
     __xDirection : 1,
     __yDirection : 1,
     __score : null,
-    __scoreDiv : null,    
+    __scoreDivLeft : null,
+    __scoreDivRight : null,
     
     /**
      * This method contains the initial application code and gets called 
@@ -67,7 +66,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
         "width" : "100%",
         "height" : "100%",
         "backgroundColor" : "black",
-        "margin" : "0px"        
+        "margin" : "0px",
+        "userSelect" : "none"
       };
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
@@ -75,98 +75,54 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       
       
       
-      // LEFT
-      var leftFieldStyles = {
-        "width" : "50%",
-        "height" : "100%",
-        "position" : "absolute",        
-        "backgroundColor" : "black",
-        "border-right" : "1px solid white"
-      };
-      var leftField = new qx.html.Element("div", leftFieldStyles);
+      // Field
+      var leftField = this.__createField("left");
       root.add(leftField);
-      
-      var leftPaddelStyles = {
-        "width" : "30px",
-        "height" : "100px",
-        "left" : "20px",
-        "top" : "100px",
-        "position" : "absolute",        
-        "backgroundColor" : "white"     
-      }
-      this.__leftPaddel = new qx.html.Element("div", leftPaddelStyles);
-      leftField.add(this.__leftPaddel);
-      
-      leftField.addListener("touchmove", function(e) {
-        var touches = e.getTargetTouches();
-        for (var i = 0; i < touches.length; i++) {
-          this.__leftPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});
-        };
-      }, this);
-      
-      
-      
-      // RIGHT
-      var rightFieldStyles = {
-        "left" : "50%",
-        "width" : "50%",
-        "height" : "100%",
-        "position" : "absolute",        
-        "backgroundColor" : "black",
-        "border-left" : "1px solid white"        
-      };
-      var rightField = new qx.html.Element("div", rightFieldStyles);
+
+      var rightField = this.__createField("right");
       root.add(rightField);
       
-      var rightPaddelStyles = {
-        "width" : "30px",
-        "height" : "100px",
-        "right" : "20px",
-        "top" : "100px",
-        "position" : "absolute",        
-        "backgroundColor" : "white"        
-      }
-      this.__rightPaddel = new qx.html.Element("div", rightPaddelStyles);
-      rightField.add(this.__rightPaddel);
       
+      // Paddles
+      this.__leftPaddle = this.__createPaddle("left");
+      leftField.add(this.__leftPaddle);
+      leftField.addListener("touchmove", 
+        qx.lang.Function.bind(this.__onTouchMove, this, this.__leftPaddle),
+        this
+      );
       
-      rightField.addListener("touchmove", function(e) {
-        var touches = e.getTargetTouches();
-        for (var i = 0; i < touches.length; i++) {
-          this.__rightPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});
-        };
-      }, this);
+      this.__rightPaddle = this.__createPaddle("right");
+      rightField.add(this.__rightPaddle);
+      rightField.addListener("touchmove", 
+        qx.lang.Function.bind(this.__onTouchMove, this, this.__rightPaddle),
+        this
+      );
 
-      // BALL
-      var ballStyles = {
-        "width" : "20px",
-        "height" : "20px",
-        "position" : "absolute",        
-        "backgroundColor" : "white"        
-      };
-      this.__ball = new qx.html.Element("div", ballStyles);
-      root.add(this.__ball);
+
+      // Ball
+      this.__ball = this.__createBall();
+      root.add(this.__ball);    
+
+
+      // Scores
+      this.__scoreDivLeft = this.__createScore();
+      leftField.add(this.__scoreDivLeft);
+      this.__scoreDivRight = this.__createScore();
+      rightField.add(this.__scoreDivRight);
+      // initialize score
       this.__score = [0, 0];
-      
-      
-      
-      
-      // SCORE
-      var scoreStyles = {
-        "left" : "50px",
-        "top" : "20px",
-        "position" : "absolute",
-        "color" : "white"
-      };      
-      this.__scoreDiv = new qx.html.Element("div", scoreStyles);
-      root.add(this.__scoreDiv);
-      qx.html.Element.flush();
-      this.__scoreDiv.getDomElement().innerHTML = "0 : 0";
-      
+
+
       // START
       this.__startGame();
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      GAME CONTROLL
+    ---------------------------------------------------------------------------
+    */
     
     __startGame : function() {
       // set ball start position
@@ -175,8 +131,10 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       // ball movement
       this.__gameTimer = new qx.event.Timer(40);
       this.__gameTimer.addListener("interval", function() {
-        this.__ball.setStyle("left", (parseInt(this.__ball.getStyle("left")) + this.__speed * this.__xDirection) + "px");
-        this.__ball.setStyle("top", (parseInt(this.__ball.getStyle("top")) + this.__speed * this.__yDirection) + "px");
+        var x = (parseInt(this.__ball.getStyle("left")) + this.__speed * this.__xDirection);
+        var y = (parseInt(this.__ball.getStyle("top")) + this.__speed * this.__yDirection);
+        this.__ball.setStyle("left", x + "px");
+        this.__ball.setStyle("top", y + "px");        
         
         this.__detectColision();
       }, this);
@@ -189,8 +147,9 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       this.__gameTimer.dispose();
       this.__speed = 5;
       
-      this.__score[player] = this.__score[player] + 1;
-      this.__scoreDiv.getDomElement().innerHTML = this.__score[0] + " : " + this.__score[1];
+      this.__score[player] = this.__score[player] + 1;      
+      this.__scoreDivLeft.setAttribute("innerHTML", this.__score[0]);
+      this.__scoreDivRight.setAttribute("innerHTML", this.__score[1]);
       
       this.__startGame();
     },
@@ -214,8 +173,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
         this.__restartGame(ballBounds.left <= 0 ? 1 : 0);
       }
             
-      // left paddel collision
-      var leftPaddleBounds = this.getBoundsFor(this.__leftPaddel);      
+      // left Paddle collision
+      var leftPaddleBounds = this.getBoundsFor(this.__leftPaddle);      
       if (
         ballBounds.left <= leftPaddleBounds.right && 
         ballBounds.bottom >= leftPaddleBounds.top &&
@@ -225,8 +184,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
         this.__speed = Math.min(this.__speed + 1, 20);
       }
       
-      // right paddel collision
-      var rightPaddleBounds = this.getBoundsFor(this.__rightPaddel);      
+      // right Paddle collision
+      var rightPaddleBounds = this.getBoundsFor(this.__rightPaddle);      
       if (
         ballBounds.right >= rightPaddleBounds.left && 
         ballBounds.bottom >= rightPaddleBounds.top &&
@@ -238,8 +197,89 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    __onTouchMove : function(paddle, e) {
+      var touches = e.getTargetTouches();
+      for (var i = 0; i < touches.length; i++) {
+        paddle.setStyles({"top" : (e.getDocumentTop(i) - 50) + "px"});
+      };
+    },
+    
+
     getBoundsFor : function(elem) {
       return qx.bom.element.Location.get(elem.getDomElement());
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      BUILDING BLOCKS
+    ---------------------------------------------------------------------------
+    */
+    
+    __createField : function(side) {
+      var styles = {
+        "width" : "50%",
+        "height" : "100%",
+        "position" : "absolute",        
+        "backgroundColor" : "black"
+      };
+      
+      if (side == "left") {
+        styles["border-right"] = "1px solid white";
+      } else {
+        styles["left"] = "50%";
+        styles["border-left"] = "1px solid white";
+      }
+      
+      return new qx.html.Element("div", styles);
+    },
+    
+    
+    __createPaddle : function(side) {
+      var styles = {
+        "width" : "30px",
+        "height" : "100px",
+        "top" : "100px",
+        "position" : "absolute",        
+        "backgroundColor" : "white"     
+      };
+      
+      styles[side] = "20px";
+      
+      return new qx.html.Element("div", styles);      
+    },
+    
+    
+    __createBall : function() {
+      var styles = {
+        "width" : "20px",
+        "height" : "20px",
+        "position" : "absolute",        
+        "backgroundColor" : "white",
+        "userSelect" : "none"
+      };
+      return new qx.html.Element("div", styles);
+    },
+    
+    
+    __createScore : function() {
+      var styles = {
+        "width" : "100%",
+        "height" : "100%",
+        "textAlign" : "center",
+        "fontSize" : "15em",
+        "color" : "#333",
+        "fontFamily" : "Arial"
+      };
+      var elem = new qx.html.Element("div", styles);
+      elem.setAttribute("innerHTML", "0");
+      return elem;
     }
   }
 });
