@@ -130,7 +130,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Boolean} Is multi-touch
        */
       isMultiTouch : function() {
-        this.getTargetTouches().length > 1;
+        return this.getTargetTouches().length > 1;
       },
 
 
