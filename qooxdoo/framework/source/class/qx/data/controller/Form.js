@@ -259,12 +259,20 @@ qx.Class.define("qx.data.controller.Form",
           this.__isModelSelectable(item) ? "modelSelection[0]" : "value";
         var options = this.__bindingOptions[name];
 
-        if (options == null) {
-          this.__objectController.addTarget(item, targetProperty, name, true);
-        } else {
-          this.__objectController.addTarget(
-            item, targetProperty, name, true, options[0], options[1]
-          );
+        // try to bind all given items in the form
+        try {
+          if (options == null) {
+            this.__objectController.addTarget(item, targetProperty, name, true);
+          } else {
+            this.__objectController.addTarget(
+              item, targetProperty, name, true, options[0], options[1]
+            );
+          }
+        // ignore not working items
+        } catch (ex) {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            this.warn("Could not bind property " + name + " of " + this.getModel());
+          }
         }
       }
     },

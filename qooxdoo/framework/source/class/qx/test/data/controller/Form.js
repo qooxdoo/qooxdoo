@@ -663,6 +663,30 @@ qx.Class.define("qx.test.data.controller.Form",
       // check if the bindings has been removed
       this.__model.setTf1("AFFE");
       this.assertNotEquals("AFFE", this.__tf1.getValue());
-    }
+    },
+    
+    
+    testBindingCreateMissingOne : function() {
+      // add a unknown item
+      var tf = new qx.ui.form.TextField();
+      this.__form.add(tf, "Unknown");
+      
+      // create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form);
+
+      // set values in the form
+      this.__tf1.setValue("1");
+      this.__tf2.setValue("2");
+      this.__cb.setValue(true);
+
+      // check the binding
+      this.assertEquals(this.__tf1.getValue(), this.__model.getTf1());
+      this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
+      this.assertEquals(this.__cb.getValue(), this.__model.getCb());
+
+      // distroy the objects
+      tf.destroy();
+      c.dispose();
+    },    
   }
 });
