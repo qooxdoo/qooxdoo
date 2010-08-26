@@ -400,25 +400,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
 
     /**
-     * Returns true, if the value property is supplied by the form item.
-     *
-     * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
-     *   necessary interface.
-     */
-    __supportsValue : function(formItem) {
-      var clazz = formItem.constructor;
-      return (
-        qx.Class.hasInterface(clazz, qx.ui.form.IBooleanForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IColorForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IDateForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.INumberForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
-      );
-    },
-
-
-    /**
      * Internal setter for the valid member. It generates the event if
      * necessary and stores the new value
      *
