@@ -1028,7 +1028,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Directly return if superclass has detected that no
       // changes needs to be applied
       if (!changes) {
-        return;
+        return null;
       }
 
       var container = this.getContainerElement();
@@ -1946,7 +1946,7 @@ qx.Class.define("qx.ui.core.Widget",
       var ref = this.__widgetChildren[index];
 
       if (ref === child) {
-        return child.setLayoutProperties(options);
+        child.setLayoutProperties(options);
       }
 
       if (ref) {
