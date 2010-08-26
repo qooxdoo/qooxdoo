@@ -2356,9 +2356,8 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__decoratorElement;
       }
 
-      // Apply background color and Opacity
+      // Apply background color
       this._applyBackgroundColor(this.getBackgroundColor());
-      this._applyOpacity(this.getOpacity());
 
       // Apply change
       if (this.__checkInsetsModified(old, value))
@@ -2500,23 +2499,16 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.getContainerElement().setStyle("opacity", value == 1 ? null : value);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        // Also apply opacity on the decorator, otherwise it is compleate transperance
-        // See Bug #3552 for details
-        if (this.__decoratorElement) {
-          this.__decoratorElement.setStyle("opacity", value == 1 ? null : value);
-        }
-
-        // Fix for AlphaImageLoader - see Bug #1894 for details
-        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled())
+      // Fix for AlphaImageLoader - see Bug #1894 for details
+      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+          qx.bom.element.Decoration.isAlphaImageLoaderEnabled())
+      {
+        // Do not apply this fix on images - see Bug #2748
+        if (!qx.Class.isSubClassOf(this.getContentElement().constructor, qx.html.Image))
         {
-          // Do not apply this fix on images - see Bug #2748
-          if (!qx.Class.isSubClassOf(this.getContentElement().constructor, qx.html.Image))
-          {
-            // 0.99 is necessary since 1.0 is ignored and not being applied
-            var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
-            this.getContentElement().setStyle("opacity", contentElementOpacity);
-          }
+          // 0.99 is necessary since 1.0 is ignored and not being applied
+          var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
+          this.getContentElement().setStyle("opacity", contentElementOpacity);
         }
       }
     },
