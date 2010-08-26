@@ -98,16 +98,10 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       leftField.add(this.__leftPaddel);
       
       leftField.addListener("touchmove", function(e) {
-        var touches = e.getTouches();
+        var touches = e.getTargetTouches();
         for (var i = 0; i < touches.length; i++) {
-          if (
-            touches[i].target === leftField.getDomElement() ||
-            touches[i].target === this.__leftPaddel.getDomElement()
-          ) {
-            this.__leftPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});            
-          }
+          this.__leftPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});
         };
-
       }, this);
       
       
@@ -137,20 +131,12 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       
       
       rightField.addListener("touchmove", function(e) {
-        var touches = e.getTouches();
+        var touches = e.getTargetTouches();
         for (var i = 0; i < touches.length; i++) {
-          if (
-            touches[i].target === this.__rightPaddel.getDomElement() ||
-            touches[i].target === rightField.getDomElement()
-          ) {
-            this.__rightPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});
-          }
+          this.__rightPaddel.setStyles({"top" : (touches[i].pageY - 50) + "px"});
         };
       }, this);
-      
-      
-      
-      
+
       // BALL
       var ballStyles = {
         "width" : "20px",

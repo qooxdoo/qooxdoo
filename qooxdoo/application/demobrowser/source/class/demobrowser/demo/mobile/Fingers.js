@@ -103,9 +103,9 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
     
     
     _onTouchStart : function(e) {
-      var touches = e.getTouches();
+      var touches = e.getAllTouches();
       for (var i = 0; i < touches.length; i++) {
-        var touch = touches.item(i);
+        var touch = touches[i];
         this.__startDivX[i] = parseInt(touch.target.style.left) - touch.pageX;
         this.__startDivY[i] = parseInt(touch.target.style.top) - touch.pageY;
       };      
@@ -113,9 +113,9 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
     
     
     _onTouchMove : function(e) {
-      var touches = e.getTouches();
+      var touches = e.getAllTouches();
       for (var i = 0; i < touches.length; i++) {
-        var touch = touches.item(i);
+        var touch = touches[i];
         
         if (touches.target == document.body) {
           continue;
