@@ -411,7 +411,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__form.add(selectBox, "sb");
 
       // select something which is not the default selection
-      listController.getSelection().push(listModel.getItem(1));
+      listController.getSelection().setItem(0, listModel.getItem(1));
 
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
