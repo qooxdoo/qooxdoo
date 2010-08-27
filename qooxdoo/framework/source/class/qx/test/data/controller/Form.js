@@ -687,6 +687,6 @@ qx.Class.define("qx.test.data.controller.Form",
       // distroy the objects
       tf.destroy();
       c.dispose();
-    },    
+    }
   }
 });
