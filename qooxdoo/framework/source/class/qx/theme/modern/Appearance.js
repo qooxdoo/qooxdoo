@@ -1288,8 +1288,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        if (states.pressed || states.checked || (states.hovered && !states.disabled)) {
+          var padding = 1;
+        } else {
+          var padding = 3;
+        }
+
         return {
-          padding : states.pressed || states.checked ? 1 : states.hovered ? 1 : 3,
+          padding : padding,
           icon : "decoration/arrows/down.png",
           marginTop : undefined,
           marginBottom : undefined
