@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.Resetter",
      */
     add : function(item) {
       // check the init values
-      if (this.__supportsValue(item)) {
+      if (this._supportsValue(item)) {
         var init = item.getValue();
       } else if (this.__supportsSingleSelection(item)) {
         var init = item.getSelection();
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.form.Resetter",
     __setItem : function(item, init)
     {
       // set the init value
-      if (this.__supportsValue(item)) {
+      if (this._supportsValue(item)) {
         item.setValue(init);
       } else if (this.__supportsSingleSelection(item)) {
         item.setSelection(init)
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.form.Resetter",
      */
     __getCurrentValue : function(item)
     {
-      if (this.__supportsValue(item)) {
+      if (this._supportsValue(item)) {
         return item.getValue();
       } else if (this.__supportsSingleSelection(item)) {
         return item.getSelection();
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.Resetter",
      * @return {boolean} true, if the given item implements the
      *   necessary interface.
      */
-    __supportsValue : function(formItem) {
+    _supportsValue : function(formItem) {
       var clazz = formItem.constructor;
       return (
         qx.Class.hasInterface(clazz, qx.ui.form.IBooleanForm) ||
