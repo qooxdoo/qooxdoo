@@ -30,9 +30,15 @@
 ##
 
 
+##
+# Error class
+
 class MutationError(RuntimeError):
     pass
 
+
+##
+# Meta-class for classes with single-assignment semantics
 
 class ImmutableClass(type):
 
@@ -51,6 +57,43 @@ class ImmutableClass(type):
         setattr(cls, "__setattr__", singlesetattr)
 
 
+##
+# Inheritable immutable class
+
 class Immutable(object):
     __metaclass__ = ImmutableClass
+
+
+##
+# Meta-class for classes that can be switched to read-only;
+
+class FreezableClass(type):
+
+    def __init__(cls, name, bases, attrd):
+
+        def singlesetattr(self, attr, val):
+            attrd = self.__dict__
+            if (not hasattr(self, '_frozen__')
+                or attr not in attrd):
+                super(cls, self).__setattr__(attr, val)
+            else:
+                raise MutationError(
+                    "Attempt to change an immutable member: %s.%s" % (self.__class__.__name__, attr))
+
+        def freeze(self):
+            self._frozen__ = True
+   
+        super(FreezableClass, cls).__init__(
+            name, bases, attrd)
+        setattr(cls, "__setattr__", singlesetattr)
+        setattr(cls, "freeze", freeze)
+
+
+##
+# Inheritable freezable class
+# after calling .freeze() attributes of a child instance cannot
+# be changed anymore.
+
+class Freezable(object):
+    __metaclass__ = FreezableClass
 
