@@ -139,6 +139,10 @@ qx.Class.define("qx.data.controller.Object",
             options, reverseOptions
           );
         } else {
+          // in shutdown situations, it may be that the target is already disposed
+          if (targetObject.isDisposed()) {
+            continue;
+          }
           // if the model is null, reset the current target
           if (targetProperty.indexOf("[") == -1) {
             targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
