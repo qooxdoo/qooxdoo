@@ -20,9 +20,12 @@
 
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * Touch event object.
- * 
- * For more information see: http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
+ *
+ * For more information see:
+ *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
  */
 qx.Class.define("qx.event.type.Touch", 
 {
@@ -92,7 +95,8 @@ qx.Class.define("qx.event.type.Touch",
        * Returns an array of native Touch objects representing all current touches on the document.
        * Returns an empty array for the "touchend" event.
        * 
-       * @return {Object[]} Array of touch objects. For more information see: http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       * @return {Object[]} Array of touch objects. For more information see: 
+       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getAllTouches : function() {
         return this._native.touches;
@@ -103,7 +107,8 @@ qx.Class.define("qx.event.type.Touch",
        * Returns an array of native Touch objects representing all touches associated with the event target element.
        * Returns an empty array for the "touchend" event.
        *
-       * @return {Object[]} Array of touch objects. For more information see: http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       * @return {Object[]} Array of touch objects. For more information see: 
+       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getTargetTouches : function() {
           return this._native.targetTouches;
@@ -117,7 +122,8 @@ qx.Class.define("qx.event.type.Touch",
        * On the "touchmove" event the array contains all touches that were moved on the target element.
        * On the "touchend" event the array contains all touches that used to be on the target element.
        *
-       * @return {Object[]} Array of touch objects. For more information see: http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       * @return {Object[]} Array of touch objects. For more information see: 
+       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getChangedTargetTouches : function() {
           return this._native.changedTouches;

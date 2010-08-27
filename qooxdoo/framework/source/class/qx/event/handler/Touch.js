@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * This class provides a unified touch event handler.
  */
 qx.Class.define("qx.event.handler.Touch", 
@@ -72,14 +74,21 @@ qx.Class.define("qx.event.handler.Touch",
       touchstart : 1,
       touchmove : 1,
       touchend : 1,
-      touchcancel : 1
+      touchcancel : 1 // Appears when the touch is interrupted, e.g. by an alert box
     },
 
     /** {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : true,
+
+    MOUSE_TO_TOUCH_MAPPING :
+    {
+      "mousedown" : "touchstart",
+      "mousemove" : "touchmove",
+      "mouseup" : "touchend"
+    }
   },
 
 
@@ -100,6 +109,8 @@ qx.Class.define("qx.event.handler.Touch",
     __window : null,
     __root : null,
 
+    // Checks if the mouse movement is happening while simulating a touch event 
+    __isInTouch : false,
 
     /*
     ---------------------------------------------------------------------------
@@ -142,6 +153,17 @@ qx.Class.define("qx.event.handler.Touch",
         target = domEvent.target || domEvent.srcElement;
       }
 
+      if (qx.core.Variant.isSet("qx.mobile", "on"))
+      {
+        if (!qx.bom.client.Feature.TOUCH)
+        {
+          if (domEvent.type == "mousemove" && !this.__isInTouch) {
+            return;
+          }
+          type = this.__normalizeMouseEvent(domEvent, target);
+        }
+      }
+
       if (target && target.nodeType)
       {
         qx.event.Registration.fireEvent(
@@ -157,8 +179,95 @@ qx.Class.define("qx.event.handler.Touch",
     },
 
 
+    /**
+     * Normalizes a mouse event to a touch event.
+     * 
+     * @signature function(domEvent, target)
+     * @param domEvent {Event} DOM event
+     * @param target {Element} Event target
+     */
+    __normalizeMouseEvent : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : function(domEvent, target)
+      {
+        var eventMapping = qx.event.handler.Touch.MOUSE_TO_TOUCH_MAPPING;
+        var type = domEvent.type;
+        if (eventMapping[type])
+        {
+          type = eventMapping[type];
+          // Remember if we are in a touch event
+          if (type == "touchstart" && this.__isLeftMouseButtonPressed(domEvent)) {
+            this.__isInTouch = true;
+          } else if (type == "touchend") {
+            this.__isInTouch = false;
+          }
+  
+          var touchObject = this.__createTouchObject(domEvent, target);
+          var touchArray = (type == "touchend" ? [] : [touchObject]);
+  
+          // add the touches to the native mouse event
+          domEvent.touches = touchArray;
+          domEvent.targetTouches = touchArray;
+          domEvent.changedTouches = [touchObject];
+        }
+        return type;
+      },
+
+      "default" : qx.lang.Function.empty
+    }),
 
 
+    /**
+     * Checks if the left mouse button is pressed.
+     * 
+     * @signature function(domEvent)
+     * @param domEvent {Event} DOM event
+     * @return {Boolean} Whether the left mouse button is pressed
+     */
+    __isLeftMouseButtonPressed : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : function(domEvent)
+      {
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          var buttonIndex = 1;
+        } else {
+          var buttonIndex = 0;
+        }
+        return domEvent.button == buttonIndex;
+      },
+
+      "default" : qx.lang.Function.empty
+    }),
+
+
+    /**
+     * Creates and returns a Touch mock object.
+     * Fore more information see:
+     * http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+     * 
+     * @signature function(domEvent, target)
+     * @param domEvent {Event} DOM event
+     * @param target {Element} Event target
+     * @return {Object} The Touch mock object
+     */
+    __createTouchObject : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : function(domEvent, target)
+      {
+        return {
+          clientX : domEvent.clientX,
+          clientY : domEvent.clientY,
+          screenX : domEvent.screenX,
+          screenY : domEvent.screenY,
+          pageX : domEvent.pageX,
+          pageY : domEvent.pageY,
+          identifier : 1,
+          target : target
+        };
+      },
+
+      "default" : qx.lang.Function.empty
+    }),
 
 
     /*
@@ -183,6 +292,16 @@ qx.Class.define("qx.event.handler.Touch",
       Event.addNativeListener(this.__root, "touchmove", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__root, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__root, "touchcancel", this.__onTouchEventWrapper);
+
+      if (qx.core.Variant.isSet("qx.mobile", "on"))
+      {
+        if (!qx.bom.client.Feature.TOUCH)
+        {
+          Event.addNativeListener(this.__root, "mousedown", this.__onTouchEventWrapper);
+          Event.addNativeListener(this.__root, "mousemove", this.__onTouchEventWrapper);
+          Event.addNativeListener(this.__root, "mouseup", this.__onTouchEventWrapper);
+        }
+      }
     },
 
 
@@ -206,6 +325,16 @@ qx.Class.define("qx.event.handler.Touch",
       Event.removeNativeListener(this.__root, "touchmove", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__root, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__root, "touchcancel", this.__onTouchEventWrapper);
+
+      if (qx.core.Variant.isSet("qx.mobile", "on"))
+      {
+        if (!qx.bom.client.Feature.TOUCH)
+        {
+          Event.removeNativeListener(this.__root, "mousedown", this.__onTouchEventWrapper);
+          Event.removeNativeListener(this.__root, "mousemove", this.__onTouchEventWrapper);
+          Event.removeNativeListener(this.__root, "mouseup", this.__onTouchEventWrapper);
+        }
+      }
     },
 
 
