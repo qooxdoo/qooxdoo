@@ -2284,7 +2284,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
      style : function(states)
      {
        return {
-         decorator : states.pressed || states.hovered ? "selected" : undefined,
+         decorator : (states.pressed || states.hovered) && !states.disabled ? "selected" : undefined,
          textColor : states.pressed || states.hovered ? "text-selected" : undefined,
          padding   : [ 3, 8 ]
        };
