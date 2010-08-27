@@ -589,6 +589,9 @@ qx.Class.define("qx.bom.element.Decoration",
      * For IE browsers the alpha image loader might be necessary. This accessor
      * method provides an API for high-level classes to check if the alpha image
      * loader is enabled.
+     *
+     * @signature function()
+     * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
      */
     isAlphaImageLoaderEnabled : qx.core.Variant.select("qx.client",
     {
