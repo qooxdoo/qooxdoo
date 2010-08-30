@@ -31,7 +31,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.bom.client.Feature",
+qx.Bootstrap.define("qx.bom.client.Feature",
 {
   /*
   *****************************************************************************
@@ -106,7 +106,13 @@ qx.Class.define("qx.bom.client.Feature",
       this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
-      this.SVG = document.implementation && document.implementation.hasFeature && (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
+      this.SVG = document.implementation && document.implementation.hasFeature && 
+        (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || 
+        document.implementation.hasFeature(
+          "http://www.w3.org/TR/SVG11/feature#BasicStructure", 
+          "1.1"
+        )
+      );
       this.VML = qx.bom.client.Engine.MSHTML;
     },
 
