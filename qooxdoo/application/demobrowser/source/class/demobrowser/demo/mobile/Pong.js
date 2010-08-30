@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       };
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
-      root.setRoot(root);
+      root.setRoot(true);
       
       
       

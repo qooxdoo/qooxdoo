@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
       };
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
-      root.setRoot(root);
+      root.setRoot(true);
       
       // description label
       var lableStyles = {
