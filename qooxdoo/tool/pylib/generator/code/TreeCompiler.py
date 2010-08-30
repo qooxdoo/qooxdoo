@@ -242,7 +242,8 @@ class TreeCompiler(object):
             varis.append("--variant=" + vari + ":" + variants[vari])
         m['variants'] = " ".join(varis)
         # cache
-        m['cache'] = "-c " + self._cache._path
+        #m['cache'] = "-c " + self._cache._path  # Cache needs context object, interrupt handler,...
+        m['cache'] = ""
         #m['privateskey'] = "--privateskey " + '"privates-' + self._context['config']._fname + '"'
         m['privateskey'] = "--privateskey " + '"' + self._privatesCacheId + '"'
 
