@@ -56,11 +56,11 @@ qx.Class.define("demobrowser.demo.data.Form",
       groupBox.add(genderLabel, {row: 1, column: 0});
 
       var genderSelectBox = new qx.ui.form.SelectBox();
-      var dummyItem = new qx.ui.form.ListItem("-please select-");
+      var dummyItem = new qx.ui.form.ListItem("-please select-", null, "X");
       genderSelectBox.add(dummyItem);
-      var maleItem = new qx.ui.form.ListItem("male");
+      var maleItem = new qx.ui.form.ListItem("male", null, "M");
       genderSelectBox.add(maleItem);
-      var femaleItem = new qx.ui.form.ListItem("female");
+      var femaleItem = new qx.ui.form.ListItem("female", null, "F");
       genderSelectBox.add(femaleItem);
       groupBox.add(genderSelectBox, {row: 1, column: 1});
 
@@ -91,7 +91,7 @@ qx.Class.define("demobrowser.demo.data.Form",
 
       // connect the select box
       controller.addTarget(
-        genderSelectBox, "selection", "gender", true //, genderModel2Selection, genderSelection2Model
+        genderSelectBox, "modelSelection[0]", "gender", true //, genderModel2Selection, genderSelection2Model
       );
 
       // connect the checkbox (boolean to int conversion)
