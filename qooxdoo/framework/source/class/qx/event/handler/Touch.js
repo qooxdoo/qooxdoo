@@ -380,6 +380,8 @@ qx.Class.define("qx.event.handler.Touch",
     qx.event.Registration.addHandler(statics);
 
     // Prevent scrolling on the document to avoid scrolling at all
+    // TODO: Seems like Android does not prevent scrolling on touchmove
+    //       Perhaps we should use "touchstart" here?
     if (qx.bom.client.Feature.TOUCH) {
       document.addEventListener("touchmove", function(e) {
         e.preventDefault();
