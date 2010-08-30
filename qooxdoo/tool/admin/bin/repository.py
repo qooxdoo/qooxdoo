@@ -36,6 +36,7 @@ class Repository:
     self.dir = os.path.abspath(repoDir)
     self.validator = LibraryValidator(config)
     self.data = []
+    self.issues = {}
     
     if not self.hasExplicitIncludes():
       manifests = self.scanRepository()
@@ -109,6 +110,9 @@ class Repository:
       try:
         manifest = getDataFromJsonFile(manifestPath)
       except Exception, e:
+        if not "manifestUnreadable" in self.issues:
+          self.issues["manifestUnreadable"] = []
+        self.issues["manifestUnreadable"].append(manifestPath)
         console.error("Couldn't read manifest file %s" %manifestPath)
         console.indent()
         console.error(str(e))
@@ -116,6 +120,9 @@ class Repository:
         continue
       
       if not "info" in manifest:
+        if not "manifestIncomplete" in self.issues:
+          self.issues["manifestIncomplete"] = []
+        self.issues["manifestIncomplete"].append(manifestPath)
         console.warn("Manifest file %s has no 'info' section, skipping the library." %manifestPath)
         continue
       
@@ -156,6 +163,7 @@ class Repository:
         libraries[libraryName].children[libraryVersion] = libVer
         console.write(" Done.", "info")
       else:
+        libraries[libraryName].issues.append("additionalManifest for version %s: %s" %(libraryVersion, manifestPath))
         console.write("")
         console.indent()
         console.error("Found additional manifest for version %s of library %s: %s" %(libraryVersion,libraryName,manifestPath))
@@ -212,6 +220,41 @@ class Repository:
     console.outdent()
 
 
+  def getIssues(self):
+    issues = self.issues
+    
+    # library issues
+    for libraryName, library in self.libraries.iteritems():
+      if len(library.issues) > 0:
+        issues[libraryName] = { "issues": library.issues }
+      
+      # library version issues
+      for versionName, libraryVersion in library.children.iteritems():
+        if len(libraryVersion.issues) > 0:
+          if libraryName not in issues:
+            issues[libraryName] = {}
+          if versionName not in issues[libraryName]:
+            issues[libraryName][versionName] = { "issues": libraryVersion.issues }
+          
+        # demo issues
+        for demoName, demo in libraryVersion.children.iteritems():
+          if len(demo.issues) > 0:
+            if libraryName not in issues:
+              issues[libraryName] = {}
+            if versionName not in issues[libraryName]:
+              issues[libraryName][versionName] = { "issues": libraryVersion.issues }
+            issues[libraryName][versionName][demoName] = { "issues" : demo.issues }
+            
+
+  def storeIssues(self):
+    self.getIssues()
+    jsonData = demjson.encode(self.issues, strict=False, compactly=False)
+    console.info("Storing issues")
+    rFile = codecs.open("issues.json", 'w', 'utf-8')
+    rFile.write(jsonData)
+    rFile.close()
+    
+
 def getReadmeContent(path):
   readmePath = False
   readmeNames = ["README", "README.TXT", "README.txt", "readme", "readme.txt", "readme.TXT"]
@@ -250,6 +293,7 @@ class Library:
     self.path = path
     self.parent = repository
     self.children = {}
+    self.issues = []
     self.readme = self._getReadme()
     self.data = {
       "classname": name,
@@ -264,6 +308,7 @@ class Library:
     if readme:
       return readme
     else:
+      self.issues.append("readmeMissing")
       return "No readme file found."
     
   def buildAllDemos(self, buildTarget, demoBrowser, copyDemos):
@@ -277,6 +322,7 @@ class LibraryVersion:
     self.path = path
     self.parent = library
     self.manifest = self._getManifest()
+    self.issues = []    
     self.readme = self._getReadme()
     self.data = {
       "classname" : self.name,
@@ -292,7 +338,6 @@ class LibraryVersion:
     self.children = {}
     if self.hasDemoDir:
       self.children = self._getDemos()
-    self.demoBuildStatus = {}
     
   
   def _checkStructure(self):        
@@ -328,6 +373,7 @@ class LibraryVersion:
     if readme:
       return readme
     else:
+      self.issues.append("readmeMissing")
       return "No readme file found."
   
   
@@ -356,6 +402,7 @@ class LibraryVersion:
     
     rcode, output, errout = runGenerator(self.path, job)
     if rcode > 0:
+      self.issues.append( {"testrunnerBuild" : errout} )
       console.write("ERROR: ")
       console.indent()
       console.error(errout)
@@ -364,7 +411,7 @@ class LibraryVersion:
       console.write(" Done.", "info")
   
   
-  def getLintResult(self):    
+  def getLintResult(self):
     if not self.hasGenerator:
       raise Exception("%s %s has no generate.py script!" %(self.parent.name, self.name))
     
@@ -375,12 +422,13 @@ class LibraryVersion:
         self.workdir = workdir
         self.mailto = mailto
         self.outputfile = None
-        
+        self.ignoreErrors = ["Protected data field"]
+    
     lintOpts = LintOpts(self.path)
     lint = QxLint(lintOpts)
-    self.lintResult = lint.data
+    self.issues.append({"lint" : lint.data})
     
-    return self.lintResult
+    return lint.data
   
   
   def getSvnRevision(self):
@@ -539,6 +587,7 @@ class Demo:
     self.parent = libraryVersion
     self.manifest = self._getManifest()
     self.data = self._getData()
+    self.issues = []
   
   def build(self, target="build", macro=None):
     console.info("Generating %s version of demo variant %s for library %s version %s..." %(target, self.name, self.parent.parent.name, self.parent.name) )
@@ -558,6 +607,7 @@ class Demo:
       console.info(output)
       if not errout:
         errout = "Unknown error"
+      self.issues.append( {"build" : errout} )
       demoBuildStatus["buildError"] = errout
     else:
       demoBuildStatus["buildError"] = None
@@ -645,6 +695,11 @@ def getComputedConf():
   parser.add_option(
     "--copy-demos", dest="copydemos", action="store_true",
     help="Copy the generated build version of each demo to the demobrowser's demo directory."
+  )
+  
+  parser.add_option(
+    "-s", "--store-issues", dest="storeissues", action="store_true",
+    help="Store any errors encountered during job processing in a JSON file (issues.json)."
   )
   
   (options, args) = parser.parse_args()
@@ -764,6 +819,12 @@ def main():
       # run a lint check on all libraries
       elif job == "lint-check":
         repository.lintCheckAll()
+     
+      elif job == "test":
+        repository.buildAllTestrunners()
+      
+  if options.storeissues:
+    repository.storeIssues()
 
 
 if __name__ == '__main__':
