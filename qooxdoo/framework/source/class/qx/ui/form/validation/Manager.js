@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       if (this.__supportsSingleSelection(formItem)) {
         // check for a validator
         if (validator != null) {
-          throw new Error("Widgets suporting selection can only be validated " +
+          throw new Error("Widgets supporting selection can only be validated " +
           "in the form validator");
         }
       }
