@@ -140,6 +140,22 @@ qx.Class.define("qx.test.io.ImageLoader",
       }, this, 2000);
 
       this.wait();
+    },
+    
+    
+    testAbort : function() 
+    {
+      var aborted = false;
+      this.__imageSource = null;
+      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+        aborted = true;
+        this.assertTrue(entry.aborted);
+        this.assertEquals(source, this.__imageUri);
+      }, this);
+
+      qx.io.ImageLoader.abort(this.__imageUri);
+      
+      this.assertTrue(aborted);
     }
   }
 });
