@@ -141,7 +141,7 @@ qx.Class.define("qx.event.handler.Touch",
 
 
     /**
-     * Fire a mouse event with the given parameters
+     * Fire a touch event with the given parameters
      *
      * @param domEvent {Event} DOM event
      * @param type {String} type of the event
@@ -277,7 +277,7 @@ qx.Class.define("qx.event.handler.Touch",
     */
 
     /**
-     * Initializes the native mouse button event listeners.
+     * Initializes the native touch event listeners.
      *
      * @signature function()
      * @return {void}
@@ -312,7 +312,7 @@ qx.Class.define("qx.event.handler.Touch",
     */
 
     /**
-     * Disconnects the native mouse button event listeners.
+     * Disconnects the native touch event listeners.
      *
      * @signature function()
      * @return {void}
