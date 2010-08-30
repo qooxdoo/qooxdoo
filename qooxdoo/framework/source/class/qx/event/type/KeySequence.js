@@ -52,6 +52,7 @@ qx.Class.define("qx.event.type.KeySequence",
     {
       this.base(arguments, domEvent, target, null, true, true);
 
+      this._keyCode = domEvent.keyCode;
       this._identifier = identifier;
 
       return this;
@@ -63,6 +64,7 @@ qx.Class.define("qx.event.type.KeySequence",
     {
       var clone = this.base(arguments, embryo);
 
+      clone._keyCode = this._keyCode;
       clone._identifier = this._identifier;
 
       return clone;
@@ -121,6 +123,19 @@ qx.Class.define("qx.event.type.KeySequence",
      */
     getKeyIdentifier : function() {
       return this._identifier;
+    },
+
+    
+    /**
+     * Returns the native keyCode and is best used on keydown/keyup events to check which physical key was pressed. 
+     * Don't use this on keypress events because it's erroneous and inconsistent across browsers.  
+     *
+     * The key codes are not character codes, they are just ASCII codes to identify the keyboard (or other input devices) keys.
+     *
+     * @return {Number} The key code
+     */
+    getKeyCode : function() {
+      return this._keyCode;
     }
   }
 });
