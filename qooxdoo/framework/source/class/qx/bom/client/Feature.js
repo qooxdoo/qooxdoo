@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     ),
     
     /** {BOOLEAN} Wether the device is touch enabled. */
-    TOUCH : (typeof window.Touch == "object"),
+    TOUCH : ("ontouchstart" in window),
 
 
     /**
