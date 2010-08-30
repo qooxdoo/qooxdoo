@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyMaximum : function(value, old)
     {
       if (this.getMinimum() > value) {
-        this.setMin(value);
+        this.setMinimum(value);
       }
 
       if (this.getValue() > value) {
