@@ -62,6 +62,27 @@ class ShellCmd(object):
         return (rcode, output, errout)
 
 
+    def execute_logged(self, cmd, log=None, quiet=False):
+        p = subprocess.Popen(cmd, shell=True,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT,
+                               universal_newlines=True)
+      
+        while True:
+            line = p.stdout.readline()
+            if (not line): 
+                break
+            
+            if not quiet:
+                print(line.rstrip("\n"))
+            
+            if log:
+                if isinstance(log, file):
+                    log.write(line)
+                elif hasattr(log, "info"):
+                    log.info(line.rstrip("\n"))
+    
+    
     def execute1(self, shellcmd):
         # os-based version; bombs intermittendly due to os.wait() coming too late
         (cin,couterr) = os.popen4(shellcmd)
