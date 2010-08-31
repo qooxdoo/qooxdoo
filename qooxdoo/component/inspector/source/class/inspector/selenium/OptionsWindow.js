@@ -56,6 +56,15 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     userExt.setRequired(true);
     form.add(userExt, "qooxdoo User Extensions");
 
+    if (window.location.protocol == "http:") {
+      var defaultButton = new qx.ui.form.Button("Set default URIs");
+      defaultButton.addListener("execute", function() {
+        coreScripts.setValue(qx.core.Setting.get("qx.inspector.selenium.core"));
+        userExt.setValue(qx.core.Setting.get("qx.inspector.selenium.extensions"));
+      }, this);
+      form.addButton(defaultButton);
+    }
+    
     var okButton = new qx.ui.form.Button("OK");
     okButton.addListener("execute", function() {
       if (form.validate()) {

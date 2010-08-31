@@ -53,7 +53,9 @@
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.theme"       : "${THEME}",
-        "qx.application" : "inspector.Application"
+        "qx.application" : "inspector.Application",
+        "qx.inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/",
+        "qx.inspector.selenium.extensions" : "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js"
       },
       
       "asset-let" :
