@@ -160,6 +160,7 @@ class CombinedImage(object):
 
     def __init__(self, path=None):
         self._console = Context.console
+        self.path   = path
         self.embeds = {}     # embedded images dict
         self.info   = None   # ImgInfoFmt obj
         if path:

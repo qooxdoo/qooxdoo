@@ -1007,7 +1007,7 @@ class CodeGenerator(object):
                     # add it
                     for libObj, resList in filteredResources:
                         if libObj == combObj.lib:
-                            resList.append(combId)
+                            resList.append(combObj.path)
                             break
             return filteredResources
 
