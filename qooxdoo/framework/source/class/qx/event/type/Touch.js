@@ -158,7 +158,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return The scale distance between two fingers
        */
       getScale : function() {
-        this._native.scale;
+        return this._native.scale;
       },
 
 
@@ -171,7 +171,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Float} The rotation delta
        */
       getRotation : function() {
-        this._native.rotation;
+        return this._native.rotation;
       },
 
 
