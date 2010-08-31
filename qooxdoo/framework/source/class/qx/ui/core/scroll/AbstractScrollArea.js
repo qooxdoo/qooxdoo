@@ -486,20 +486,21 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     {
       // directions lower and upper case
       var capDir = dir.toUpperCase();
+      var docDir = (dir == "x" ? "Left" : "Top");
       
       // current scrollbar
       var scrollbar = this.getChildControl("scrollbar-" + dir, true);
-      var show = this._isChildControlVisible("scrollbar-" + dir);        
+      var show = this._isChildControlVisible("scrollbar-" + dir);
       
       if (show && scrollbar) {
         // get the delta for the current direction
         if(this.__old[dir] == 0) {
           var delta = 0;
         } else {
-          var delta = -(e["getPage" + capDir]() - this.__old[dir]);
+          var delta = -(e["getDocument" + docDir]() - this.__old[dir]);
         };
         // save the old value for the current direction
-        this.__old[dir] = e["getPage" + capDir]();
+        this.__old[dir] = e["getDocument" + docDir]();
 
         scrollbar.scrollBy(delta);
 
