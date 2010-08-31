@@ -461,13 +461,11 @@ class LibraryVersion:
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
           }
           
-          status = variant.build(buildTarget, macro)
-          #DEBUG
-          #status = {"buildError" : None}
+          variant.build(buildTarget, macro)
           
-          if status["buildError"]:
+          if buildTarget in variant.issues:
             console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(self.parent.name, self.name, variantName, buildTarget, qxVersion))
-            console.warn(status["buildError"])
+            console.warn(variant.issues[buildTarget])
           elif demoBrowser:
             demoData = copy.deepcopy(variant.data)
             demoData["tags"].append( "qxVersion_" + qxVersion)
@@ -475,12 +473,11 @@ class LibraryVersion:
           
       # source version of demo
       elif buildTarget == "source":
-        status = variant.build(buildTarget)
-        #DEBUG
-        #status = {"buildError" : None}
-        if status["buildError"]:          
+        variant.build(buildTarget)
+        
+        if buildTarget in variant.issues:
           console.warn("%s %s demo %s %s generation failed!" %(self.parent.name, self.name, variantName, buildTarget))
-          console.warn(status["buildError"])
+          console.warn(variant.issues[buildTarget])
         elif demoBrowser:
           demoBrowserBase = os.path.split(demoBrowser)[0]
           for qxVersion in qxVersions:
@@ -567,28 +564,22 @@ class Demo:
   
   def build(self, target="build", macro=None):
     console.info("Generating %s version of demo variant %s for library %s version %s..." %(target, self.name, self.parent.parent.name, self.parent.name) )
-    demoBuildStatus = {}
         
     try:
       rcode, output, errout = runGenerator(self.path, target, macro)
     except Exception, e:
+      self.issues.append( {target : str(e)} )
       msg = "Error running generator: " + str(e)
       console.write("")
-      console.error(e)
-      demoBuildStatus["buildError"] = msg 
-      return demoBuildStatus
+      console.error(e) 
+      return
     
     if rcode > 0:
       console.error(errout)
       console.info(output)
       if not errout:
         errout = "Unknown error"
-      self.issues.append( {"build" : errout} )
-      demoBuildStatus["buildError"] = errout
-    else:
-      demoBuildStatus["buildError"] = None
-    
-    return demoBuildStatus
+      self.issues.append( {target : errout} )
   
   def _getData(self):
     libName = self.parent.parent.name
