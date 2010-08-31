@@ -283,6 +283,36 @@ class ResourceHandler(object):
         # end:createResourceStruct()
 
 
+    def createResourceStruct1(self, libsAndResources, formatAsTree=False, updateOnlyExistingSprites=False):
+        
+        result = {}
+        if formatAsTree:
+            result = ExtMap()
+
+        # Create a flat result from libsAndResources
+        for libObj, resList in libsAndResources:
+            for res in resList:
+                result[res.id] = res
+
+        # Update simple images
+        for combImg in (x for x in result.values() if x.isCombinedImage):
+            for embId in combImage.embeds:
+                if embId in result:
+                    result[embId].combImg = combImg
+
+        # Flatten out the resource representation
+        for res in result:
+            result[res] = res.flatten()  #TODO: Resource.Image.flatten() must embed comb.image info
+
+        # ExtMap returns nested maps
+        if formatAsTree:
+            result = result.getData()
+
+        return result
+
+            
+
+
     ##
     # Helper
     def suffixInList(self, suffix, lst):

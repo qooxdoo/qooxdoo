@@ -32,6 +32,7 @@ class Resource(object):
         self.id     = None
         self.path   = path
         self.lib    = None
+        self.isCombinedImage = False
 
     def __str__(self):
         return self.id
@@ -157,6 +158,7 @@ class CombinedImage(Image):
     def __init__(self, path=None):
         super(CombinedImage, self).__init__(path)
         self.embeds = []  # embedded images
+        self.isCombinedImage = True
         if path:
             self.parseMetaFile(path)
 
