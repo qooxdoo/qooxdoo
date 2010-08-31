@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.data.NamesList",
       controller.setLabelPath("firstname");
       // convert for the label
       controller.setLabelOptions({converter: function(data, model) {
-        return model.getLastname() + ", " + data;
+        return model ? model.getLastname() + ", " + data : "no model...";
       }});
 
 

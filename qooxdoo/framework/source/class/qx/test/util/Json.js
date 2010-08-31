@@ -31,9 +31,9 @@ qx.Class.define("qx.test.util.Json",
     testStringifyDate : function()
     {
       var data = {
-        start: new Date(0)
+        start: new Date(123)
       }
-      this.assertEquals('{"start":1970-01-01T00:00:00.000Z}', qx.util.Json.stringify(data, false));
+      this.assertEquals('{"start":1970-01-01T00:00:00.123Z}', qx.util.Json.stringify(data, false));
     },
 
 

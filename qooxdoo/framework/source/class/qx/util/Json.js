@@ -300,7 +300,7 @@ qx.Class.define("qx.util.Json",
       // if its set to false or not set at all
       if (!qx.util.Json.CONVERT_DATES) {
         // use the native toJSON if available
-        if (incoming.toJSON) {
+        if (incoming.toJSON && !qx.bom.client.Engine.OPERA) {
           return incoming.toJSON();
         }
 
