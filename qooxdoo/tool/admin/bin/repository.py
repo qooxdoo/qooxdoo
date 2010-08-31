@@ -191,14 +191,6 @@ class Repository:
       path = os.path.join(path, "demodata.json")
       storeDemoData(self.data, path)
 
-  
-  def buildAllTestrunners(self, job="test"):
-    console.indent()
-    for libraryName, library in self.libraries.iteritems():
-      for versionName, libraryVersion in library.children.iteritems():
-        libraryVersion.buildTestrunner(job)
-    console.outdent()
-
 
   def lintCheckAll(self):
     for libraryName, library in self.libraries.iteritems():
@@ -216,6 +208,7 @@ class Repository:
         ret, out, err = runGenerator(libraryVersion.path, job, cwd)
         console.debug(out)
         if ret > 0:
+          libraryVersion.issues.append( {job : errout} )
           console.error(err)
     console.outdent()
 
@@ -392,25 +385,8 @@ class LibraryVersion:
       pass
     
     return False
-  
-  
-  def buildTestrunner(self, job="test"):
-    console.info("Building Testrunner for %s %s... " %(self.parent.name, self.name))
-    if not (self.hasGenerator and self.hasUnitTests):
-      console.write("Nothing to do.", "info")
-      return
-    
-    rcode, output, errout = runGenerator(self.path, job)
-    if rcode > 0:
-      self.issues.append( {"testrunnerBuild" : errout} )
-      console.write("ERROR: ")
-      console.indent()
-      console.error(errout)
-      console.outdent()
-    else:
-      console.write(" Done.", "info")
-  
-  
+
+
   def getLintResult(self):
     if not self.hasGenerator:
       raise Exception("%s %s has no generate.py script!" %(self.parent.name, self.name))
@@ -811,17 +787,19 @@ def main():
           repository.buildAllDemos(job[6:], options.demobrowser, options.copydemos)
         else:
           repository.buildAllDemos(job[6:])
-      # store repository data json file in the demobrowser's script directory 
+      
+      # store repository data JSON file in the demobrowser's script directory 
       elif job == "store-data":
-        # save the repository information as JSON for the contribDemobrowser
         outPath = os.path.join(options.demobrowser, "script")
         repository.storeData(outPath)
+      
       # run a lint check on all libraries
       elif job == "lint-check":
         repository.lintCheckAll()
-     
-      elif job == "test":
-        repository.buildAllTestrunners()
+      
+      # any other job: run it on all library versions
+      else:
+        repository.runGeneratorForAll(job)
       
   if options.storeissues:
     repository.storeIssues()
