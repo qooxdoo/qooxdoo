@@ -546,6 +546,8 @@
     "info" : 
     {
       "desc" : "collects environment information like the qooxdoo version etc., and prints it out",
+
+      "cache" : "${CACHE_KEY}",
       
       "collect-environment-info" : {}
     },
