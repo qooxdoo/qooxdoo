@@ -32,16 +32,35 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
   {
     this.base(arguments, "Selenese Test Case");
     this.set({
-      layout : new qx.ui.layout.Grow(),
+      layout : new qx.ui.layout.VBox(10),
       width: 500,
       height: 450,
       contentPadding: 5
     });
-    var scroll = new qx.ui.container.Scroll();
-    this.add(scroll);
+    
+    var topCont = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+    this.add(topCont, {flex: 1});
     this._textArea = new qx.ui.form.TextArea();
-    scroll.add(this._textArea, {edge: 0});
+    topCont.add(this._textArea);
 
+    var botCont = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+    botCont.setAllowGrowX(false);
+    botCont.setAlignX("center");
+    this.add(botCont);
+    var btnImport = new qx.ui.form.Button("Import");
+    btnImport.addListener("execute", function(ev) {
+      qx.event.Timer.once(function() {
+        this.__importSelenese(ev)
+      }, this, 100)
+    }, this);
+    
+    botCont.add(btnImport);
+    var btnCancel = new qx.ui.form.Button("Cancel");
+    btnCancel.addListener("execute", function(ev) {
+      this.close()
+    }, this);
+    botCont.add(btnCancel);
+    
     var url = url || "";
     var title = title || "untitled";
 
@@ -70,14 +89,29 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     ]
 
     this.__rows = [];
+    
+    this.__helperDiv = document.createElement("div");
+    this.__helperDiv.style.display = "none";
+    this.addListenerOnce("appear", function(ev) {
+      this.getContentElement().getDomElement().appendChild(this.__helperDiv);
+    });
   },
 
+  properties :
+  {
+    seleneseCommands : {
+      check : "Array",
+      event : "changeSeleneseCommands"
+    }
+  },
+  
   members :
   {
     _textArea : null,
     _header : null,
     _footer : null,
     __rows : null,
+    __helperDiv : null,
 
 
     /**
@@ -133,6 +167,44 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     showSelenese : function()
     {
       this._textArea.setValue(this.getSelenese());
+    },
+    
+    __importSelenese : function()
+    {
+      var sel = this._textArea.getValue();
+      if (!sel || !sel.indexOf("<table")) {
+        alert("Invalid Selenese 1");
+        return;
+      }
+      sel = sel.replace(/\r\n/g, "");
+      sel = sel.replace(/\n/g, "");
+      var body = /<body>(.*?)<\/body>/mg.exec(sel);
+      
+      if (!body || body.length < 2) {
+        alert("Invalid Selenese 2");
+        return;
+      }
+      // too lazy to parse Selenese HTMl, let the browser handle it
+      this.__helperDiv.innerHTML = body[1];
+      
+      var rows = qx.bom.Selector.query("tbody tr", this.__helperDiv);
+      var commands = [];
+      for (var i=0, l=rows.length; i<l; i++) {
+        var row = rows[i];
+        var cells = qx.bom.Selector.query("td", row);
+        var cmd = [];
+        for (var j=0, m=cells.length; j<m; j++) {
+          var val = "";
+          if (cells[j].firstChild && cells[j].firstChild.nodeValue) {
+            val = cells[j].firstChild.nodeValue;
+          }
+          cmd.push(val);
+        }
+        commands.push(cmd);
+      }
+      
+      this.setSeleneseCommands(commands);
+      this.close();
     }
 
   }

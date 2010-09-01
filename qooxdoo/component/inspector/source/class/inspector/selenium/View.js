@@ -242,7 +242,7 @@ qx.Class.define("inspector.selenium.View", {
 
       this._exportButton = new qx.ui.toolbar.CheckBox(null, "icon/22/actions/window-new.png");
       part2.add(this._exportButton);
-      this._exportButton.setToolTipText("Convert the current test case to Selenese format");
+      this._exportButton.setToolTipText("Import/export Selenese");
       this._exportButton.addListenerOnce("changeValue", function(ev) {
         this.__getSelenese();
       }, this);
@@ -502,6 +502,8 @@ qx.Class.define("inspector.selenium.View", {
         this.__seleneseTestCase.showSelenese();
       }, this);
 
+      this.__seleneseTestCase.addListener("changeSeleneseCommands", this.__importCommands, this);
+      
       this.__seleneseTestCase.open();
     },
 
@@ -594,6 +596,28 @@ qx.Class.define("inspector.selenium.View", {
         coreQueue.push(seleniumCore + this.__seleniumScripts[i]);
       }
       loader.load(coreQueue);
+    },
+    
+    __importCommands : function(ev)
+    {
+      var rows = ev.getData();
+      if (!rows || rows.length == 0);
+      
+      var tableModel = this._table.getTableModel();
+      var tableRowCount = tableModel.getRowCount();
+      if (tableRowCount > 0) {
+        if (!confirm("Importing will overwrite the current test case. Continue?")) {
+          return;
+        } else {
+          tableModel.removeRows(0, tableRowCount);
+        }
+      }
+      
+      for (var i=0,l=rows.length; i<l; i++) {
+        var row = rows[i];
+        row.push(this.__availableCommands);
+        this._table.getTableModel().addRows([row]);
+      }
     },
 
 
