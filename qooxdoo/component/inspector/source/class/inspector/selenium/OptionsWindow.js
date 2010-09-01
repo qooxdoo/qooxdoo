@@ -37,7 +37,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     this.set({
       layout : new qx.ui.layout.VBox(20),
       modal : true,
-      width: 300
+      width: 500
     });
     this.moveTo(160, 0);
 

@@ -70,7 +70,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     setInitSizeAndPosition: function() {
       this.moveTo(0, 35);
       this.setHeight(300);
-      this.setWidth(400);
+      this.setWidth(550);
     },
 
     
