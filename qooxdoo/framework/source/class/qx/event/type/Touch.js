@@ -143,7 +143,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Boolean} Is multi-touch
        */
       isMultiTouch : function() {
-        return this.getTargetTouches().length > 1;
+        return this.__getEventSpecificTouches().length > 1;
       },
 
 
@@ -261,8 +261,9 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns an event specific touch. This function is used as the 
-       * "touchend" event only offers Touch objects in the changedTouches array. 
+       * Returns an event specific touch on the target element. This function is
+       * used as the "touchend" event only offers Touch objects in the 
+       * changedTouches array. 
        *
        * @param touchIndex {Integer ? 0) The index of the Touch object to 
        *     retrieve
@@ -271,9 +272,24 @@ qx.Class.define("qx.event.type.Touch",
       __getEventSpecificTouch : function(touchIndex)
       {
         touchIndex = touchIndex == null ? 0 : touchIndex;
+        return this.__getEventSpecificTouches()[touchIndex];
+      },
+
+
+      /**
+       * Returns the event specific touches on the target element. This function 
+       * is used as the "touchend" event only offers Touch objects in the 
+       * changedTouches array.
+       *
+       * @param touchIndex {Integer ? 0) The index of the Touch object to 
+       *     retrieve
+       * @return {Object} A native Touch object
+       */
+      __getEventSpecificTouches : function()
+      {
         var isTouchEnd = this.getType() == "touchend" || this.getType() == "touchcancel";
         var touches = (isTouchEnd ? this.getChangedTargetTouches(): this.getTargetTouches());
-        return touches[touchIndex];
+        return touches;
       }
     }
   });
