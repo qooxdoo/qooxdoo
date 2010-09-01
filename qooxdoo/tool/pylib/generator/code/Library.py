@@ -208,7 +208,7 @@ class Library(object):
                 fpath = os.path.join(root, file)
                 self._resources.append(fpath)
                 if CombinedImage.isCombinedImage(fpath):
-                    self.resources.combImages.add(fpath)
+                    self.resources.combImages.add(os.path.normpath(fpath))
 
         return
 
