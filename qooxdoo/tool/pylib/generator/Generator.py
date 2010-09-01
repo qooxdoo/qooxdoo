@@ -608,8 +608,8 @@ class Generator(object):
                     script.buildType = "build"
 
             # get current class list
-            script.classes    = computeClassList(includeWithDeps, excludeWithDeps, 
-                                                 includeNoDeps, excludeNoDeps, variants, script=script)
+            script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
+                               includeNoDeps, excludeNoDeps, variants, script=script, verifyDeps=True)
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
