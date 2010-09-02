@@ -3,6 +3,7 @@ qooxdoo/application/playground/test
 qooxdoo/application/feedreader/api
 qooxdoo/application/performance/test
 qooxdoo/application/performance/build
+qooxdoo/application/portal/source/script
 qooxdoo/application/portal/build
 qooxdoo/application/performance/source/script
 qooxdoo/component/inspector/source/script
