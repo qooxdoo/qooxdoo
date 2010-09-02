@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   {
     this.base(arguments);
 
-    // {Map} Interal selection storage
+    // {Map} Internal selection storage
     this.__selection = {};
   },
 
@@ -146,8 +146,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __anchorItem : null,
     __mouseDownOnSelected : null,
 
-    // flag that signals a user interaction which means the selection change was
-    // triggered by mouse or keyboard [BUG #3344]
+    // A flag that signals a user interaction, which means the selection change 
+    // was triggered by mouse or keyboard [BUG #3344]
     _userInteraction : false,
 
 
@@ -833,7 +833,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseOver : function(event)
     {
-      // this is a method invloced by a user interaction so be carefull
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
@@ -876,7 +876,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseDown : function(event)
     {
-      // this is a method invloced by a user interaction so be carefull
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
@@ -994,7 +994,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseUp : function(event)
     {
-      // this is a method invloced by a user interaction so be carefull
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
@@ -1066,7 +1066,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this.__mouseX = event.getDocumentLeft();
       this.__mouseY = event.getDocumentTop();
 
-      // this is a method invloced by a user interaction so be carefull
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
@@ -1368,7 +1368,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleKeyPress : function(event)
     {
-      // this is a method invloced by a user interaction so be carefull
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
