@@ -726,12 +726,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
       {
         // Otherwise, don't create the div, as even an empty div creates a
         // white row in IE.
-        htmlArr = [ ];
+        htmlArr = [];
       }
 
       var data = htmlArr.join("");
-
-      //this.debug(">>>" + data + "<<<")
       elem.innerHTML = data;
       this.setWidth(rowWidth);
 
