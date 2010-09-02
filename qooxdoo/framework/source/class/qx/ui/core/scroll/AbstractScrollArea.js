@@ -484,10 +484,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      */
     _onTouchMoveDirectional : function(dir, e) 
     {
-      // directions lower and upper case
-      var capDir = dir.toUpperCase();
       var docDir = (dir == "x" ? "Left" : "Top");
-      
+
       // current scrollbar
       var scrollbar = this.getChildControl("scrollbar-" + dir, true);
       var show = this._isChildControlVisible("scrollbar-" + dir);

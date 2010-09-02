@@ -39,6 +39,8 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
     __image : null,
     __initialScale : 1,
     __initialRotation : 0,
+    __currentRotation : 0,
+    __currentScale : 0,
 
     /**
      * This method contains the initial application code and gets called 
@@ -85,7 +87,6 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
         this.__currentRotation = e.getRotation() + this.__initialRotation;
         this.__currentScale = e.getScale() * this.__initialScale;
         this.__image.setStyle("-webkit-transform", "rotate(" + this.__currentRotation + "deg) scale(" + this.__currentScale + ")");
-        this.__touchStart = false;
       }
       else
       {
