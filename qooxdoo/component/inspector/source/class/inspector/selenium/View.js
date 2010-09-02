@@ -601,7 +601,9 @@ qx.Class.define("inspector.selenium.View", {
     __importCommands : function(ev)
     {
       var rows = ev.getData();
-      if (!rows || rows.length == 0);
+      if (!rows || rows.length == 0) {
+        return;
+      };
       
       var tableModel = this._table.getTableModel();
       var tableRowCount = tableModel.getRowCount();
