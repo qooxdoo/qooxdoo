@@ -134,8 +134,8 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
         var x = (parseInt(this.__ball.getStyle("left")) + this.__speed * this.__xDirection);
         var y = (parseInt(this.__ball.getStyle("top")) + this.__speed * this.__yDirection);
         this.__ball.setStyle("left", x + "px");
-        this.__ball.setStyle("top", y + "px");        
-        
+        this.__ball.setStyle("top", y + "px");
+
         this.__detectColision();
       }, this);
       this.__gameTimer.start();
@@ -146,11 +146,11 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       this.__gameTimer.stop();
       this.__gameTimer.dispose();
       this.__speed = 5;
-      
-      this.__score[player] = this.__score[player] + 1;      
+
+      this.__score[player] = this.__score[player] + 1;
       this.__scoreDivLeft.setAttribute("innerHTML", this.__score[0]);
       this.__scoreDivRight.setAttribute("innerHTML", this.__score[1]);
-      
+
       this.__startGame();
     },
     
@@ -185,15 +185,15 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
       }
       
       // right Paddle collision
-      var rightPaddleBounds = this.getBoundsFor(this.__rightPaddle);      
+      var rightPaddleBounds = this.getBoundsFor(this.__rightPaddle);
       if (
         ballBounds.right >= rightPaddleBounds.left && 
         ballBounds.bottom >= rightPaddleBounds.top &&
         ballBounds.top <= rightPaddleBounds.bottom
       ) {
         this.__xDirection = -1;
-        this.__speed++;
-      }      
+        this.__speed = Math.min(this.__speed + 1, 20);
+      }
     },
 
 
@@ -204,12 +204,9 @@ qx.Class.define("demobrowser.demo.mobile.Pong",
     */
 
     __onTouchMove : function(paddle, e) {
-      var touches = e.getTargetTouches();
-      for (var i = 0; i < touches.length; i++) {
-        paddle.setStyles({"top" : (e.getDocumentTop(i) - 50) + "px"});
-      };
+      paddle.setStyles({"top" : (e.getDocumentTop() - 50) + "px"});
     },
-    
+
 
     getBoundsFor : function(elem) {
       return qx.bom.element.Location.get(elem.getDomElement());
