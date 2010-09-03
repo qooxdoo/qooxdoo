@@ -584,7 +584,7 @@ qx.Class.define("qx.core.Object",
      * logged.
      */
     debug : function(varargs) {
-      this.__log("debug", arguments);
+      this.__logMessage("debug", arguments);
     },
 
 
@@ -596,7 +596,7 @@ qx.Class.define("qx.core.Object",
      * logged.
      */
     info : function(varargs) {
-      this.__log("info", arguments);
+      this.__logMessage("info", arguments);
     },
 
 
@@ -608,7 +608,7 @@ qx.Class.define("qx.core.Object",
      * logged.
      */
     warn : function(varargs) {
-      this.__log("warn", arguments);
+      this.__logMessage("warn", arguments);
     },
 
 
@@ -620,7 +620,7 @@ qx.Class.define("qx.core.Object",
      * logged.
      */
     error : function(varargs) {
-      this.__log("error", arguments);
+      this.__logMessage("error", arguments);
     },
 
 
@@ -641,11 +641,11 @@ qx.Class.define("qx.core.Object",
      * @param level {String} The log level of the message
      * @param varargs {arguments} Arguments list to be logged 
      */
-    __log : function(level, varargs)
+    __logMessage : function(level, varargs)
     {
       var argumentsArray = qx.lang.Array.fromArguments(varargs);
-      var args = [this].concat(argumentsArray);
-      this.__Logger[level].apply(this.__Logger, args);
+      argumentsArray.unshift(this);
+      this.__Logger[level].apply(this.__Logger, argumentsArray);
     },
 
 
