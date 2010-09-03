@@ -146,7 +146,7 @@ def CreateDemoJson():
         bcategories[category] += ' "build-%s",' % (simple,)
 
         # concat all
-        currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",clazz)
+        currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",clazz).replace("ZZZ",category)
         JSON.write("%s," % currcont[:-1])
         JSON.write("\n\n\n")
 

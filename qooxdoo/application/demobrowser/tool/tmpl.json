@@ -42,6 +42,11 @@
         "qx.application" : "YYY",
         "qx.allowUrlVariants": "true",
         "qx.allowUrlSettings" : "true"
+      },
+      
+      "variants" :
+      {
+        "qx.ZZZ" : ["on"]
       }
     },
 
