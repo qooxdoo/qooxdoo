@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.mobile.Pong",
+qx.Class.define("demobrowser.demo.mobile.PingPong",
 {
   extend : qx.application.Native,
 
