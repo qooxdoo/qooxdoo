@@ -281,9 +281,7 @@ qx.Class.define("qx.event.type.Touch",
        * is used as the "touchend" event only offers Touch objects in the 
        * changedTouches array.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object to 
-       *     retrieve
-       * @return {Object} A native Touch object
+       * @return {Object[]} Array of native Touch objects
        */
       __getEventSpecificTouches : function()
       {
