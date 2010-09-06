@@ -83,6 +83,7 @@ qx.Class.define("qx.event.handler.Touch",
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true,
 
+    /** {Map} Mapping of mouse events to touch events */
     MOUSE_TO_TOUCH_MAPPING :
     {
       "mousedown" : "touchstart",
