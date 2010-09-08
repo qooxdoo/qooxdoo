@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.list.List",
 
     // apply method
     _applyRowHeight : function(value, old) {
-      this.getPane().getRowConfig().setDefaultItemSize(30);
+      this.getPane().getRowConfig().setDefaultItemSize(value);
     },
 
     // apply method
