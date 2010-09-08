@@ -224,7 +224,7 @@ qx.Class.define("qx.core.Object",
 
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            qx.Bootstrap.error("No such property: " + data);
+            qx.Bootstrap.error(new Error("No such property: " + data));
             return this;
           }
         }
@@ -245,7 +245,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              qx.Bootstrap.error("No such property: " + prop);
+              qx.Bootstrap.error(new Error("No such property: " + prop));
               return this;
             }
           }
@@ -278,7 +278,7 @@ qx.Class.define("qx.core.Object",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          qx.Bootstrap.error("No such property: " + prop);
+          qx.Bootstrap.error(new Error("No such property: " + prop));
           return this;
         }
       }
@@ -308,7 +308,7 @@ qx.Class.define("qx.core.Object",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          qx.Bootstrap.error("No such property: " + prop);
+          qx.Bootstrap.error(new Error("No such property: " + prop));
           return;
         }
       }
