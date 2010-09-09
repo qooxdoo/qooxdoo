@@ -189,6 +189,10 @@ qx.Class.define("qx.log.appender.Util",
       {
         item = items[i];
         msg = item.text;
+        
+        if (item.trace && item.trace.length > 0) {
+            msg += "\n" + item.trace;
+        }
 
         if (msg instanceof Array)
         {
