@@ -95,7 +95,11 @@ qx.Class.define("qx.bom.element.Opacity",
           opacity = 0;
         }
 
-        return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
+        if (qx.bom.client.Engine.VERSION > 8 && qx.bom.client.Engine.DOCUMENT_MODE > 8) {
+          return "opacity:" + opacity + ";";
+        } else {
+          return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
+        }
       },
 
       "gecko" : function(opacity)
@@ -136,28 +140,36 @@ qx.Class.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element, opacity)
       {
-        // Read in computed filter
-        var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+        if (qx.bom.client.Engine.VERSION > 8 && qx.bom.client.Engine.DOCUMENT_MODE > 8) {
+          if (opacity == 1) {
+            opacity = "";
+          }
 
-        // Remove opacity filter
-        if (opacity >= 1)
-        {
-          element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
-          return;
+          element.style.opacity = opacity;
+        } else {
+          // Read in computed filter
+          var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+  
+          // Remove opacity filter
+          if (opacity >= 1)
+          {
+            element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+            return;
+          }
+  
+          if (opacity < 0.00001) {
+            opacity = 0;
+          }
+  
+          // IE has trouble with opacity if it does not have layout (hasLayout)
+          // Force it by setting the zoom level
+          if (!element.currentStyle || !element.currentStyle.hasLayout) {
+            element.style.zoom = 1;
+          }
+  
+          // Remove old alpha filter and add new one
+          element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
         }
-
-        if (opacity < 0.00001) {
-          opacity = 0;
-        }
-
-        // IE has trouble with opacity if it does not have layout (hasLayout)
-        // Force it by setting the zoom level
-        if (!element.currentStyle || !element.currentStyle.hasLayout) {
-          element.style.zoom = 1;
-        }
-
-        // Remove old alpha filter and add new one
-        element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
       },
 
       "gecko" : function(element, opacity)
@@ -196,11 +208,15 @@ qx.Class.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element)
       {
-        // Read in computed filter
-        var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
-
-        // Remove old alpha filter
-        element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+        if (qx.bom.client.Engine.VERSION > 8 && qx.bom.client.Engine.DOCUMENT_MODE > 8) {
+          element.style.opacity = "";
+        } else {
+          // Read in computed filter
+          var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+  
+          // Remove old alpha filter
+          element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+        }
       },
 
       "gecko" : function(element)
@@ -233,18 +249,28 @@ qx.Class.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element, mode)
       {
-        var filter = qx.bom.element.Style.get(element, "filter", mode, false);
+        if (qx.bom.client.Engine.VERSION > 8 && qx.bom.client.Engine.DOCUMENT_MODE > 8) {
+          var opacity = qx.bom.element.Style.get(element, "opacity", mode, false);
 
-        if (filter)
-        {
-          var opacity = filter.match(/alpha\(opacity=(.*)\)/);
-
-          if (opacity && opacity[1]) {
-            return parseFloat(opacity[1]) / 100;
+          if (opacity != null) {
+            return parseFloat(opacity);
           }
-        }
 
-        return 1.0;
+          return 1.0;
+        } else {
+          var filter = qx.bom.element.Style.get(element, "filter", mode, false);
+  
+          if (filter)
+          {
+            var opacity = filter.match(/alpha\(opacity=(.*)\)/);
+  
+            if (opacity && opacity[1]) {
+              return parseFloat(opacity[1]) / 100;
+            }
+          }
+  
+          return 1.0;
+        }
       },
 
       "gecko" : function(element, mode)
