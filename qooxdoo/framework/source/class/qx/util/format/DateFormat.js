@@ -782,6 +782,9 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var rules = this.__parseRules = [];
+      
+      var amMarker = qx.locale.Date.getAmMarker(this.__locale).toString() || DateFormat.AM_MARKER;
+      var pmMarker = qx.locale.Date.getPmMarker(this.__locale).toString() || DateFormat.PM_MARKER;
 
       var yearManipulator = function(dateValues, value)
       {
@@ -801,7 +804,8 @@ qx.Class.define("qx.util.format.DateFormat",
       };
 
       var ampmManipulator = function(dateValues, value) {
-        dateValues.ispm = (value == DateFormat.PM_MARKER);
+        var pmMarker = qx.locale.Date.getPmMarker(this.__locale).toString() || DateFormat.PM_MARKER;
+        dateValues.ispm = (value == pmMarker);
       };
 
       var noZeroHourManipulator = function(dateValues, value) {
@@ -983,7 +987,7 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "a",
-        regex       : "(" + DateFormat.AM_MARKER + "|" + DateFormat.PM_MARKER + ")",
+        regex       : "(" + amMarker + "|" + pmMarker + ")",
         manipulator : ampmManipulator
       });
 
