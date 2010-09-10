@@ -752,7 +752,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Whether a given class or any of its super classes includes a given interface.
      *
      * This function will return "true" if the interface was defined
-     * in the class declaration (@link qx.Class#define}) of the class
+     * in the class declaration ({@link qx.Class#define}) of the class
      * or any of its super classes using the "implement"
      * key.
      *
