@@ -57,7 +57,7 @@ qx.Class.define("qx.test.util.DateFormat",
       var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
       dateStr = dateFmt.format(date);
 
-      var formatStr = "MMM d, y";
+      var formatStr = "MMM d, y h:mm a";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       dateStr = dateFmt.format(date);
 
