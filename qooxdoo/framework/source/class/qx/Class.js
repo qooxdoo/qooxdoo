@@ -571,7 +571,7 @@ qx.Bootstrap.define("qx.Class",
      * Whether a given class directly includes a interface.
      *
      * This function will only return "true" if the interface was defined
-     * in the class declaration (@link qx.Class#define}) using the "implement"
+     * in the class declaration ({@link qx.Class#define}) using the "implement"
      * key.
      *
      * @param clazz {Class} class or instance to check
@@ -623,7 +623,7 @@ qx.Bootstrap.define("qx.Class",
      * Whether a given class or any of its super classes includes a given interface.
      *
      * This function will return "true" if the interface was defined
-     * in the class declaration (@link qx.Class#define}) of the class
+     * in the class declaration ({@link qx.Class#define}) of the class
      * or any of its super classes using the "implement"
      * key.
      *
