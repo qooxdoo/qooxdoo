@@ -106,10 +106,24 @@ def normalize(filename):
 
 
 def read(filePath, encoding="utf_8"):
+  
+    def getRowCol(text, pos):
+        row = len(text[:pos].split("\n"))
+        col = pos - text[:pos].rfind("\n")
+        if col < 0:
+            col = pos
+        return (row, col)
+  
     try:
         ref = codecs.open(filePath, encoding=encoding, mode="r")
-        content = ref.read()
-        ref.close()
+        try:
+            content = ref.read()
+        except UnicodeDecodeError, e:
+            rowCol = getRowCol(e.object, e.start)            
+            e.reason = e.reason + "\nFile %s Line %s Column %s" %(str(filePath), str(rowCol[0]), str(rowCol[1]) )
+            raise e
+        finally:
+            ref.close()
 
         return textutil.any2Unix(unicode(content))
 
