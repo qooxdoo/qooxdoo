@@ -114,7 +114,7 @@ def _handleResources(script, generator, filtered=True):
     else:
         # just use everything from the main library
         mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
-        reslist = mainlib.getResources()
+        reslist = [x.path for x in mainlib.getResources()]
         #for res in reslist:
         #    resid, resValue = mainlib.analyseResource(res) 
         #    if isinstance(resValue, ImgInfoFmt):
