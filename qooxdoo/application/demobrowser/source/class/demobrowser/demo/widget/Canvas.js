@@ -36,10 +36,10 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win1.setLayout(new qx.ui.layout.Canvas());
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (!qx.bom.client.Feature.CANVAS)
       {
         var canvas1 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-        canvas1.add(new qx.ui.basic.Label("Canvas is not support in Internet Explorer!").set({
+        canvas1.add(new qx.ui.basic.Label("Canvas is not support by this browser!").set({
           rich : true,
           alignX: "center",
           alignY: "middle"
@@ -66,10 +66,10 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win2.setLayout(new qx.ui.layout.Canvas());
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (!qx.bom.client.Feature.CANVAS)
       {
         var canvas2 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-        canvas2.add(new qx.ui.basic.Label("Canvas is not support in Internet Explorer!").set({
+        canvas2.add(new qx.ui.basic.Label("Canvas is not support by this browser!").set({
           rich : true,
           alignX: "center",
           alignY: "middle"
