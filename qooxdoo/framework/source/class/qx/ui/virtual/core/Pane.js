@@ -383,7 +383,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       if (!bounds)
       {
         this.addListenerOnce("appear", function() {
-          this.scrollRowIntoView(row);
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(function() {
+            this.scrollRowIntoView(row);
+          }, this, 0);
         }, this);
         return;
       }
@@ -411,7 +414,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       if (!bounds)
       {
         this.addListenerOnce("appear", function() {
-          this.scrollColumnIntoView(column);
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(function() {
+            this.scrollColumnIntoView(column);
+          }, this, 0);
         }, this);
         return;
       }
@@ -440,7 +446,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       if (!bounds)
       {
         this.addListenerOnce("appear", function() {
-          this.scrollCellIntoView(column, row);
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(function() {
+            this.scrollCellIntoView(column, row);
+          }, this, 0);
         }, this);
         return;
       }
