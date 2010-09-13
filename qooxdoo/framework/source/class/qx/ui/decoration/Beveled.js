@@ -199,6 +199,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('<div style="position:absolute;top:1px;left:0px;');
       html.push('border-left:', outerStyle);
       html.push('border-right:', outerStyle);
+      html.push(qx.bom.element.Opacity.compile(1));
       html.push('"></div>');
 
       // Vertical frame
@@ -206,10 +207,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('position:absolute;top:0px;left:1px;');
       html.push('border-top:', outerStyle);
       html.push('border-bottom:', outerStyle);
+      html.push(qx.bom.element.Opacity.compile(1));
       html.push('"></div>');
 
       // Inner background frame
-      var backgroundStyle = { position: "absolute", top: "1px", left: "1px" };
+      var backgroundStyle = { position: "absolute", top: "1px", left: "1px", opacity: 1 };
       html.push(this._generateBackgroundMarkup(backgroundStyle));
 
       // Inner overlay frame

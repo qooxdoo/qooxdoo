@@ -93,9 +93,8 @@ qx.Class.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(opacity)
       {
-        // Remove opacity filter
         if (opacity >= 1) {
-          return "";
+          opacity = 1;
         }
 
         if (opacity < 0.00001) {
@@ -112,7 +111,7 @@ qx.Class.define("qx.bom.element.Opacity",
       "gecko" : function(opacity)
       {
         // Animations look better when not using 1.0 in gecko
-        if (opacity == 1) {
+        if (opacity >= 1) {
           opacity = 0.999999;
         }
 
@@ -125,7 +124,7 @@ qx.Class.define("qx.bom.element.Opacity",
 
       "default" : function(opacity)
       {
-        if (opacity == 1) {
+        if (opacity >= 1) {
           return "";
         }
 
@@ -149,7 +148,7 @@ qx.Class.define("qx.bom.element.Opacity",
       {
         if (qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY)
         {
-          if (opacity == 1) {
+          if (opacity >= 1) {
             opacity = "";
           }
 
@@ -160,11 +159,9 @@ qx.Class.define("qx.bom.element.Opacity",
           // Read in computed filter
           var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
 
-          // Remove opacity filter
           if (opacity >= 1)
           {
-            element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
-            return;
+            opacity = 1;
           }
   
           if (opacity < 0.00001) {
@@ -185,7 +182,7 @@ qx.Class.define("qx.bom.element.Opacity",
       "gecko" : function(element, opacity)
       {
         // Animations look better when not using 1.0 in gecko
-        if (opacity == 1) {
+        if (opacity >= 1) {
           opacity = 0.999999;
         }
 
@@ -198,7 +195,7 @@ qx.Class.define("qx.bom.element.Opacity",
 
       "default" : function(element, opacity)
       {
-        if (opacity == 1) {
+        if (opacity >= 1) {
           opacity = "";
         }
 
