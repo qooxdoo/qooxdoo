@@ -32,13 +32,18 @@ class Resource(object):
         self.id     = None
         self.path   = path
         self.lib    = None
-        self.isCombinedImage = False
 
     def __str__(self):
         return self.id
 
+    def __repr__(self):
+        return "<%s:%s>" % (self.__class__.__name__, self.id)
+
     def __eq__(self, other):
         return self.id == other.id
+    
+    def toResinfo(self):
+        return self.lib.namespace
 
 
 class Image(Resource):
@@ -48,11 +53,12 @@ class Image(Resource):
         self.format = None
         self.width  = None
         self.height = None
+        self.combId  = None
         self.combImg = None
         self.top     = None
         self.left    = None
 
-    imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
+    imgpatt = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
 
     def analyzeImage(self):
 
@@ -71,83 +77,87 @@ class Image(Resource):
         return
 
 
-    def setProperties(self, *arrspec, **kwspec):
-        self.width = self.height = self.type = self.mappedId = self.left = self.top = None
-        # this part of the constructor supports the img format as used in the 
-        # .meta files: [width, height, type [, mapped, off-x, off-y]]
-        if arrspec:
+    ##
+    # Set properties from keyword dict
+    def __init_kw(self,**kwspec):
+        for kw in kwspec:
+            if kw in ('width', 'height', 'format', 'combId', 'top', 'left', 'lib'):
+                setattr(self, kw, kwspec[kw])
+            else:
+                raise NameError, "No such object member: %s" % kw
+
+    ##
+    # Set object properties via array and keyword arguments;
+    # supports the property format as used in .meta files: 
+    # [width, height, type [, mapped, off-x, off-y]]
+    def fromMeta(self, serialspec, **kwspec):
+        if serialspec:
             # if the constructor is called with positional arguments, these will be only one,
             # which is an array
-            serialspec = arrspec[0]
             self.width     = serialspec[0]
             self.height    = serialspec[1]
-            self.type      = serialspec[2]
+            self.format      = serialspec[2]
             # see if this is part of a combined image
             if len(serialspec)>3:
-                self.mappedId = serialspec[3]
+                self.combId = serialspec[3]
                 self.left      = serialspec[4]
                 self.top       = serialspec[5]
             # but init those members anyway, so they are not undefined
             else:
-                self.mappedId  = None
+                self.combId  = None
                 self.left      = None
                 self.top       = None
         # if there are (additional) keyword args, use them
         if kwspec:
             self.__init_kw(self, **kwspec)
 
-    def __init_kw(self,**kwspec):
-        for kw in kwspec:
-            if kw == 'width':
-                self.width = kwspec[kw]
-            elif kw == 'height':
-                self.height = kwspec[kw]
-            elif kw == 'type':
-                self.type = kwspec[kw]
-            elif kw == 'mappedId':
-                self.mappedId = kwspec[kw]
-            elif kw == 'left':
-                self.left = kwspec[kw]
-            elif kw == 'top':
-                self.top = kwspec[kw]
-            elif kw == 'lib':
-                self.lib = kwspec[kw]
-            else:
-                raise NameError, "No such object member: %s" % kw
+        return self
 
-    def meta_format(self):
+    ##
+    # Serialize to .meta format
+    def toMeta(self):
         # return data suitable for .meta file
-        a = [self.width, self.height, self.type]
-        if self.mappedId:
-            a.extend([self.mappedId, self.left, self.top])
+        a = [self.width, self.height, self.format]
+        if self.combId:
+            a.extend([self.combId, self.left, self.top])
         return a
 
-    def flatten(self):
-        a = [self.width, self.height, self.type, self.lib]
-        if self.mappedId:
-            a.extend([Path.posifyPath(self.mappedId), self.left, self.top])
-        return a
-
-    def fromFlat(self, flatspec):
-        # this method supports the format as produced in flatten() -- keep in sync!
+    ##
+    # Set properties from a list spec, as used in resource info maps of generated scripts;
+    # mind the additional "lib" spec over the .meta format
+    # this method supports the format as produced in toResinfo() -- keep in sync!
+    # (currently not used)
+    def fromResinfo(self, flatspec):
         self.width     = flatspec[0]
         self.height    = flatspec[1]
-        self.type      = flatspec[2]
+        self.format    = flatspec[2]
         self.lib       = flatspec[3]
         # see if this is part of a combined image
         if len(flatspec)>4:
-            self.mappedId  = flatspec[4]
+            self.combId    = flatspec[4]
             self.left      = flatspec[5]
             self.top       = flatspec[6]
-            self.mtype     = None       # currently not used
-            self.mlib      = None       # currently not used
         # but init those members anyway, so they are not undefined
         else:
-            self.mappedId  = None
+            self.combId    = None
             self.left      = None
             self.top       = None
-            self.mtype     = None
-            self.mlib      = None
+
+        return self
+
+    ##
+    # Serialize to a format as used in resource info maps of generated scripts
+    def toResinfo(self):
+        a = [self.width, self.height, self.format, self.lib]
+        if self.combId:
+            a.extend([self.combId, self.left, self.top])
+        elif self.combImg:
+            a.extend([self.combImg.id, self.left, self.top])
+        return a
+
+    @staticmethod
+    def isImage(fpath):
+        return Image.imgpatt.search(fpath)
 
 ##
 # Class to represent a combined image to the generator, i.e. essentially
@@ -158,7 +168,6 @@ class CombinedImage(Image):
     def __init__(self, path=None):
         super(CombinedImage, self).__init__(path)
         self.embeds = []  # embedded images
-        self.isCombinedImage = True
         if path:
             self.parseMetaFile(path)
 
@@ -174,7 +183,7 @@ class CombinedImage(Image):
             # sort of like this: imageId : [width, height, type, combinedUri, off-x, off-y]
             imageObject = Image()
             imageObject.id = imageId
-            imageObject = imageObject.setProperties(imageSpec_)
+            imageObject = imageObject.fromMeta(imageSpec_)
             self.embeds.append(imageObject)
         return
 

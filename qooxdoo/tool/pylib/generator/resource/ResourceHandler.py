@@ -23,7 +23,8 @@ import re, string, types, sys, os, collections
 
 from generator.code.Library import Library
 from misc import Path
-from generator.resource.ImageInfo import CombinedImage, ImgInfoFmt
+from generator.resource.ImageInfo import CombinedImage as CombImage, ImgInfoFmt
+from generator.resource.Resource import CombinedImage
 
 class ResourceHandler(object):
 
@@ -45,7 +46,7 @@ class ResourceHandler(object):
         # go through all libs (weighted) and collect necessary resources
         for lib in libraries:
             for resource in self.findLibResources(lib, ):
-                if self.isCombinedImage(resource):
+                if CombinedImage.isCombinedImage(resource):
                     combinedImages.add(resource)
                 if (filter and not filter(resource)):
                     continue
@@ -55,7 +56,7 @@ class ResourceHandler(object):
         # go through the combined images
         if filter:
             for combpath in combinedImages:
-                combimg = CombinedImage(combpath)
+                combimg = CombImage(combpath)
                 for embimg in combimg.getEmbeddedImages():
                     if filter(embimg):
                         yield combpath
@@ -66,22 +67,6 @@ class ResourceHandler(object):
             pass
 
         return
-
-
-    ##
-    # checks whether the image is a combined image, by looking for a
-    # .meta file
-    def isCombinedImage1(self, resourcePath):
-        #meta_fname = os.path.splitext(resourcePath)[0]+'.meta'
-        i = resourcePath.rfind(".")  # assuming there *is* an extension, like '.png'
-        meta_fname = resourcePath[:i] + '.meta'
-        return os.path.exists(meta_fname)
-
-    def isCombinedImage(self, resourcePath):
-        for libObj in self._libraries:
-            if resourcePath in libObj.resources.combImages:
-                return True
-        return False
 
 
     ##
@@ -228,8 +213,8 @@ class ResourceHandler(object):
                         continue
                     resId, resVal              = libObj.analyseResource(resource,)
                     filteredResources[resId]   = resVal
-                    if self.isCombinedImage(resource):  # register those for later evaluation
-                        combObj                = CombinedImage(resource) # this parses also the .meta file
+                    if CombinedImage.isCombinedImage(resource):  # register those for later evaluation
+                        combObj                = CombImage(resource) # this parses also the .meta file
                         combObj.info           = resVal
                         combinedImages[resId]  = combObj
             return filteredResources, combinedImages
@@ -295,7 +280,7 @@ class ResourceHandler(object):
                 result[res.id] = res
 
         # Update simple images
-        for combImg in (x for x in result.values() if x.isCombinedImage):
+        for combImg in (x for x in result.values() if isinstance(x, CombImage)):
             for embId in combImage.embeds:
                 if embId in result:
                     result[embId].combImg = combImg
@@ -370,8 +355,8 @@ class ResourceHandler(object):
             # get resId and pot. embedded Images
             for res in allResources:
                 resId = self.assetIdFromPath(res, lib)
-                if self.isCombinedImage(res):
-                    combimg = CombinedImage(res)
+                if CombinedImage.isCombinedImage(res):
+                    combimg = CombImage(res)
                     embImgs = combimg.getEmbeddedImages()
                     resVals[res] = (resId, embImgs)
                 else:

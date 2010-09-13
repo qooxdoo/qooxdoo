@@ -21,7 +21,8 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage
+from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage as CombImage
+from generator.resource.Resource  import CombinedImage
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
 from generator.code.Part        import Part
@@ -852,9 +853,9 @@ class CodeGenerator(object):
                     if assetFilter(resource):  # add those anyway
                         resId, resVal            = libObj.analyseResource(resource,)
                         filteredResources[resId] = resVal
-                    if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
+                    if CombinedImage.isCombinedImage(resource):  # register those for later evaluation
                         combId, combImgFmt     = libObj.analyseResource(resource,)
-                        combObj                = CombinedImage(resource) # this parses also the .meta file
+                        combObj                = CombImage(resource) # this parses also the .meta file
                         combObj.info           = combImgFmt
                         combinedImages[combId] = combObj
             return filteredResources, combinedImages
@@ -986,9 +987,9 @@ class CodeGenerator(object):
                         continue
                     if assetFilter(resource):  # add those anyway
                         resList.append(resource)
-                    if self._resourceHandler.isCombinedImage(resource):  # register those for later evaluation
+                    if CombinedImage.isCombinedImage(resource):  # register those for later evaluation
                         resId, resVal = libObj.analyseResource(resource,)
-                        combObj       = CombinedImage(resource) # this parses also the .meta file
+                        combObj       = CombImage(resource) # this parses also the .meta file
                         combObj.info  = resVal
                         combObj.lib   = libObj
                         combinedImages[resId] = combObj
