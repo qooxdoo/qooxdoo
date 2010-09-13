@@ -41,19 +41,6 @@ qx.Class.define("qx.event.type.Mouse",
   members :
   {
     // overridden
-    init : function(nativeEvent, target, relatedTarget, canBubble, cancelable)
-    {
-      this.base(arguments, nativeEvent, target, relatedTarget, canBubble, cancelable);
-
-      if (!relatedTarget) {
-        this._relatedTarget = qx.bom.Event.getRelatedTarget(nativeEvent);
-      }
-
-      return this;
-    },
-
-
-    // overridden
     _cloneNativeEvent : function(nativeEvent, clone)
     {
       var clone = this.base(arguments, nativeEvent, clone);
