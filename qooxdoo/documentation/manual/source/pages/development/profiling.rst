@@ -3,7 +3,7 @@
 Profiling Applications
 **********************
 
-qooxdoo has build in a cross-browser, pure JavaScript profiler. If the profiler is enabled, each call of a method defined by qooxdoo's class declaration can be measured. The profiler is able to compute both the total own time and the call count of any method.
+qooxdoo has built-in a cross-browser, pure JavaScript profiler. If the profiler is enabled, each call of a method defined by qooxdoo's class declaration can be measured. The profiler is able to compute both the total own time and the call count of any method.
 
 Since the profiler is implemented in pure JavaScript, it is totally cross-browser and works on any supported browser.
 
@@ -12,14 +12,20 @@ Since the profiler is implemented in pure JavaScript, it is totally cross-browse
 How to enable the Profiler
 ==========================
 
-Basically set the variant ``qx.aspects`` to ``on`` and be sure to include the class `qx.dev.Profile <http://api.qooxdoo.org/#qx.dev.Profile>`_. The class should be included before other classes.
+Basically set the variant ``qx.aspects`` to ``on`` and be sure to include the class `qx.dev.Profile <http://api.qooxdoo.org/#qx.dev.Profile>`_. The class should be included before other classes. The easiest way to achieve that is to extend the ``profiling`` helper job in a job that creates your application. For example, to enable profiling in the source version of your app, go to the ``"jobs"`` section of your config.json, and add ::
+
+  "source-script" : {
+    "extend" : [ "profiling" ]
+  }
+
+
 
 .. _pages/profiling#how_to_use_the_profiler:
 
 How to use the Profiler
 =======================
 
-The profiler can be controlled either hard-wired in the application code (like the demo browser does for instance) or interactively using a JavaScript shell like FireBug for Firefox or DebugBar for IE.
+The profiler can be controlled either hard-wired in the application code, or interactively using a JavaScript shell like FireBug for Firefox or DebugBar for IE.
 
 Profiling a certain action:
 
