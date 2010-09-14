@@ -559,7 +559,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       this.__fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
-    },
+    }
   },
 
 
