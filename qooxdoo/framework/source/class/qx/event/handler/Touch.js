@@ -52,6 +52,7 @@ qx.Class.define("qx.event.handler.Touch",
     this.__root = this.__window.document;
 
     this._initTouchObserver();
+    this._initMouseObserver();
   },
 
 
@@ -74,7 +75,9 @@ qx.Class.define("qx.event.handler.Touch",
       touchstart : 1,
       touchmove : 1,
       touchend : 1,
-      touchcancel : 1 // Appears when the touch is interrupted, e.g. by an alert box
+      touchcancel : 1, // Appears when the touch is interrupted, e.g. by an alert box
+      tap : 1,
+      swipe : 1
     },
 
     /** {Integer} Which target check to use */
@@ -89,7 +92,24 @@ qx.Class.define("qx.event.handler.Touch",
       "mousedown" : "touchstart",
       "mousemove" : "touchmove",
       "mouseup" : "touchend"
-    }
+    },
+
+    /** {Map} The direction of a swipe relative to the axis */
+    SWIPE_DIRECTION :
+    {
+      x : ["left", "right"],
+      y : ["up", "down"]
+    },
+
+    /** {Integer} The minimum distance of a swipe. Only if the distance of the
+     *      performed swipe is greater as or equal the value of this constant, a
+     *      swipe event is fired. */
+    MIN_SWIPE_DISTANCE : 1,
+
+    /** {Integer} The minimum velocity of a swipe. Only if the velocity of the
+     *      performed swipe is greater as or equal the value of this constant, a
+     *      swipe event is fired. */
+    MIN_SWIPE_VELOCITY : 0
   },
 
 
@@ -105,10 +125,15 @@ qx.Class.define("qx.event.handler.Touch",
   members :
   {
     __onTouchEventWrapper : null,
+    __onMouseEventWrapper : null,
     
     __manager : null,
     __window : null,
     __root : null,
+    __startPageX : null,
+    __startPageY : null,
+    __startTime : null,
+    __isSingleTouchGesture : null,
 
     // Checks if the mouse movement is happening while simulating a touch event 
     __isInTouch : false,
@@ -145,38 +170,166 @@ qx.Class.define("qx.event.handler.Touch",
      * Fire a touch event with the given parameters
      *
      * @param domEvent {Event} DOM event
-     * @param type {String} type of the event
-     * @param target {Element} event target
+     * @param type {String ? null} type of the event
+     * @param target {Element ? null} event target
+     * @param eventTypeClass {Class ? qx.event.type.Touch} the event type class
      */
-    __fireEvent : function(domEvent, type, target)
+    __fireEvent : function(domEvent, type, target, eventTypeClass)
     {
       if (!target) {
-        target = domEvent.target || domEvent.srcElement;
+        target = this.__getTarget(domEvent);
       }
-
-      if (qx.core.Variant.isSet("qx.mobile", "on"))
-      {
-        if (!qx.bom.client.Feature.TOUCH)
-        {
-          if (domEvent.type == "mousemove" && !this.__isInTouch) {
-            return;
-          }
-          type = this.__normalizeMouseEvent(domEvent, target);
-        }
-      }
+      
+      var type = type || domEvent.type;
 
       if (target && target.nodeType)
       {
         qx.event.Registration.fireEvent(
           target,
-          type||domEvent.type,
-          qx.event.type.Touch,
+          type,
+          eventTypeClass||qx.event.type.Touch,
           [domEvent, target, null, true, true]
         );
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type||domEvent.type]);
+      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+    },
+
+
+    /**
+     * Checks if a gesture was made and fires the gesture event.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param type {String ? null} type of the event
+     * @param target {Element ? null} event target
+     */
+    __checkAndFireGesture : function(domEvent, type, target)
+    {
+      if (!target) {
+        target = this.__getTarget(domEvent);
+      }
+      var type = type || domEvent.type;
+
+      if (type == "touchstart")
+      {
+        this.__gestureStart(domEvent, target);
+      } 
+      else if (type == "touchmove") {
+        this.__gestureChange(domEvent, target);
+      }
+      else if (type == "touchend") 
+      {
+        this.__gestureEnd(domEvent, target);
+      }
+    },
+
+
+    /**
+     * Helper method for gesture start.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __gestureStart : function(domEvent, target)
+    {
+      var touch = domEvent.changedTouches[0];
+      this.__startPageX = touch.pageX;
+      this.__startPageY = touch.pageY;
+      this.__startTime = new Date().getTime();
+      this.__isSingleTouchGesture = domEvent.changedTouches.length === 1;
+    },
+
+
+    /**
+     * Helper method for gesture change.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __gestureChange : function(domEvent, target)
+    {
+      // Abort a single touch gesture when another touch occurs.
+      if (this.__isSingleTouchGesture && domEvent.changedTouches.length > 1) {
+        this.__isSingleTouchGesture = false; 
+      }
+    },
+
+
+    /**
+     * Helper method for gesture end.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __gestureEnd : function(domEvent, target)
+    {
+      if (this.__isSingleTouchGesture)
+      {
+        var touch = domEvent.changedTouches[0];
+
+        var deltaCoordinates = {
+            x : touch.pageX - this.__startPageX,
+            y : touch.pageY - this.__startPageY
+        };
+
+        if (deltaCoordinates.x === 0 && deltaCoordinates.y === 0) {
+          this.__fireEvent(domEvent, "tap", target, qx.event.type.Tap);
+        } 
+        else
+        {
+          var swipe = this.__getSwipeGesture(domEvent, target, deltaCoordinates);
+          if (swipe) {
+            domEvent.swipe = swipe;
+            this.__fireEvent(domEvent, "swipe", target, qx.event.type.Swipe);
+          }
+        }
+      }
+    },
+
+
+    /**
+     * Returns the swipe gesture when the user performed a swipe.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     * @param deltaCoordinates {Map} delta x/y coordinates since the gesture started.
+     * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
+     */
+    __getSwipeGesture : function(domEvent, target, deltaCoordinates)
+    {
+      var clazz = qx.event.handler.Touch;
+      var duration = new Date().getTime() - this.__startTime;
+      var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
+      var distance = deltaCoordinates[axis];
+      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1]
+      var velocity = (duration !== 0) ? distance/duration : 0;
+
+      var swipe = null;
+      if (Math.abs(velocity) >= clazz.MIN_SWIPE_VELOCITY
+          && Math.abs(distance) >= clazz.MIN_SWIPE_DISTANCE)
+      {
+        swipe = {
+            startTime : this.__startTime,
+            duration : duration,
+            axis : axis,
+            direction : direction,
+            distance : distance,
+            velocity : velocity
+        };
+      }
+      return swipe;
+    },
+
+
+    /**
+     * Return the target of the event.
+     * 
+     * @param domEvent {Event} DOM event
+     * @return {Element} Event target
+     */
+    __getTarget : function(domEvent) {
+      return domEvent.target || domEvent.srcElement;
     },
 
 
@@ -185,14 +338,13 @@ qx.Class.define("qx.event.handler.Touch",
      * 
      * @signature function(domEvent, target)
      * @param domEvent {Event} DOM event
-     * @param target {Element} Event target
      */
     __normalizeMouseEvent : qx.core.Variant.select("qx.mobile",
     {
-      "on" : function(domEvent, target)
+      "on" : function(domEvent)
       {
-        var eventMapping = qx.event.handler.Touch.MOUSE_TO_TOUCH_MAPPING;
         var type = domEvent.type;
+        var eventMapping = qx.event.handler.Touch.MOUSE_TO_TOUCH_MAPPING;
         if (eventMapping[type])
         {
           type = eventMapping[type];
@@ -202,10 +354,10 @@ qx.Class.define("qx.event.handler.Touch",
           } else if (type == "touchend") {
             this.__isInTouch = false;
           }
-  
-          var touchObject = this.__createTouchObject(domEvent, target);
+
+          var touchObject = this.__createTouchObject(domEvent);
           var touchArray = (type == "touchend" ? [] : [touchObject]);
-  
+
           // add the touches to the native mouse event
           domEvent.touches = touchArray;
           domEvent.targetTouches = touchArray;
@@ -248,13 +400,13 @@ qx.Class.define("qx.event.handler.Touch",
      * 
      * @signature function(domEvent, target)
      * @param domEvent {Event} DOM event
-     * @param target {Element} Event target
      * @return {Object} The Touch mock object
      */
     __createTouchObject : qx.core.Variant.select("qx.mobile",
     {
-      "on" : function(domEvent, target)
+      "on" : function(domEvent)
       {
+        var target = this.__getTarget(domEvent);
         return {
           clientX : domEvent.clientX,
           clientY : domEvent.clientY,
@@ -279,9 +431,6 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Initializes the native touch event listeners.
-     *
-     * @signature function()
-     * @return {void}
      */
     _initTouchObserver : function()
     {
@@ -293,17 +442,29 @@ qx.Class.define("qx.event.handler.Touch",
       Event.addNativeListener(this.__root, "touchmove", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__root, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__root, "touchcancel", this.__onTouchEventWrapper);
+    },
 
-      if (qx.core.Variant.isSet("qx.mobile", "on"))
+
+    /**
+     * Initializes the native mouse event listeners.
+     */
+    _initMouseObserver : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : function()
       {
         if (!qx.bom.client.Feature.TOUCH)
         {
-          Event.addNativeListener(this.__root, "mousedown", this.__onTouchEventWrapper);
-          Event.addNativeListener(this.__root, "mousemove", this.__onTouchEventWrapper);
-          Event.addNativeListener(this.__root, "mouseup", this.__onTouchEventWrapper);
+          this.__onMouseEventWrapper = qx.lang.Function.listener(this._onMouseEvent, this);
+
+          var Event = qx.bom.Event;
+
+          Event.addNativeListener(this.__root, "mousedown", this.__onMouseEventWrapper);
+          Event.addNativeListener(this.__root, "mousemove", this.__onMouseEventWrapper);
+          Event.addNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
         }
-      }
-    },
+      },
+      "default" : qx.lang.Function.empty
+    }),
 
 
     /*
@@ -314,9 +475,6 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Disconnects the native touch event listeners.
-     *
-     * @signature function()
-     * @return {void}
      */
     _stopTouchObserver : function()
     {
@@ -326,17 +484,27 @@ qx.Class.define("qx.event.handler.Touch",
       Event.removeNativeListener(this.__root, "touchmove", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__root, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__root, "touchcancel", this.__onTouchEventWrapper);
+    },
 
-      if (qx.core.Variant.isSet("qx.mobile", "on"))
+
+    /**
+     * Disconnects the native mouse event listeners.
+     */
+    _stopMouseObserver : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : function()
       {
         if (!qx.bom.client.Feature.TOUCH)
         {
-          Event.removeNativeListener(this.__root, "mousedown", this.__onTouchEventWrapper);
-          Event.removeNativeListener(this.__root, "mousemove", this.__onTouchEventWrapper);
-          Event.removeNativeListener(this.__root, "mouseup", this.__onTouchEventWrapper);
+          var Event = qx.bom.Event;
+
+          Event.removeNativeListener(this.__root, "mousedown", this.__onMouseEventWrapper);
+          Event.removeNativeListener(this.__root, "mousemove", this.__onMouseEventWrapper);
+          Event.removeNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
         }
-      }
-    },
+      },
+      "default" : qx.lang.Function.empty
+    }),
 
 
     /*
@@ -351,9 +519,47 @@ qx.Class.define("qx.event.handler.Touch",
      * @signature function(domEvent)
      * @param domEvent {Event} The touch event from the browser.
      */
-    _onTouchEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
-      this.__fireEvent(domEvent, domEvent.type);
-    })
+    _onTouchEvent : qx.event.GlobalError.observeMethod(function(domEvent)
+    {
+      this._commonTouchEventHandler(domEvent);
+    }),
+
+
+    /**
+     * Handler for the native mouse events.
+     * 
+     * @signature function(domEvent)
+     * @param domEvent {Event} The mouse event from the browser.
+     */
+    _onMouseEvent : qx.core.Variant.select("qx.mobile",
+    {
+      "on" : qx.event.GlobalError.observeMethod(function(domEvent)
+      {
+        if (!qx.bom.client.Feature.TOUCH)
+        {
+          if (domEvent.type == "mousemove" && !this.__isInTouch) {
+            return;
+          }
+          var type = this.__normalizeMouseEvent(domEvent);
+          this._commonTouchEventHandler(domEvent, type);
+        }
+      }),
+
+      "default" : qx.lang.Function.empty
+    }),
+
+
+    /**
+     * Called by an event handler.
+     * 
+     * @param domEvent {Event} DOM event
+     * @param type {String ? null} type of the event
+     */
+    _commonTouchEventHandler : function(domEvent, type)
+    {
+      this.__fireEvent(domEvent, type);
+      this.__checkAndFireGesture(domEvent, type);
+    },
   },
 
 
@@ -366,6 +572,7 @@ qx.Class.define("qx.event.handler.Touch",
   destruct : function()
   {
     this._stopTouchObserver();
+    this._stopMouseObserver();
 
     this.__manager = this.__window = this.__root = null;
   },
