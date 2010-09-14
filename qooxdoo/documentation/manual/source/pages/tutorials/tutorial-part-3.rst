@@ -12,10 +12,10 @@ Pre-Evaluation
 
 First, we need to specify what's the data we need to transfer. For that, we need to take a look what tasks our application can handle:
 
-1. Show the friends timeline for a specific user.
+1. Show the public twitter timeline.
 2. Post a tweet.
 
-So it's clear that we need to fetch the friends timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <http://apiwiki.twitter.com/Twitter-API-Documentation>`_ so that we know what we need to do to communicate with the service.
+So it's clear that we need to fetch the public timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <http://apiwiki.twitter.com/Twitter-API-Documentation>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
 
 .. _pages/tutorials/tutorial-part-3#creating_the_data_access_class:
@@ -23,11 +23,11 @@ But keep in mind that we are still on a website so we can't just send some ``POS
 Creating the Data Access Class
 ==============================
 
-Now, that we know how we want to communicate, we can tackle the first task, fetching the friends timeline. twitter offers a `JSONP service for that <http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-friends_timeline>`_ which we can use. Luckily, twitter also takes care of the login process on the server side so we don't need to bother with that in the client. The following URL returns the friends timeline wrapped in a JavaScript method call (that's what JSONP is about):
+Now, that we know how we want to communicate, we can tackle the first task, fetching the public timeline. twitter offers a `JSONP service for that <http://dev.twitter.com/doc/get/statuses/public_timeline>`_ which we can use. Luckily, there is no login process on the server side so we don't need to bother with that in the client. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
 
 ::
 
-  http://twitter.com/statuses/friends_timeline.json?callback=methodName
+  http://api.twitter.com/1/statuses/public_timeline.json?callback=methodName
 
 Now we know how to get the data from twitter. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``TwitterService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
 
@@ -59,7 +59,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 ::
 
   if (this.__store == null) {
-    var url = "http://twitter.com/statuses/friends_timeline.json";
+    var url = "http://api.twitter.com/1/statuses/public_timeline.json";
     this.__store = new qx.data.store.Jsonp(url, null, "callback");
     // more to do
   } else {
