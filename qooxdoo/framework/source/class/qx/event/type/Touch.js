@@ -41,19 +41,6 @@ qx.Class.define("qx.event.type.Touch",
     members :
     {
       // overridden
-      init : function(nativeEvent, target, relatedTarget, canBubble, cancelable)
-      {
-        this.base(arguments, nativeEvent, target, relatedTarget, canBubble, cancelable);
-
-        if (!relatedTarget) {
-          this._relatedTarget = qx.bom.Event.getRelatedTarget(nativeEvent);
-        }
-
-        return this;
-      },
-
-
-      // overridden
       _cloneNativeEvent : function(nativeEvent, clone)
       {
         var clone = this.base(arguments, nativeEvent, clone);
@@ -148,7 +135,7 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns the distance between two fingers since the start of the event. 
+       * iOS only: Returns the distance between two fingers since the start of the event. 
        * The distance is a multiplier of the initial distance.
        * Initial value: 1.0.
        * Gestures: 
@@ -163,7 +150,7 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns the delta of the rotation since the start of the event, in degrees.
+       * iOS only: Returns the delta of the rotation since the start of the event, in degrees.
        * Initial value is 0.0
        * Clockwise > 0 
        * Counter-clockwise < 0.
