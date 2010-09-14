@@ -46,7 +46,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     {
       this.__doProfile = true;
       this.__profileData = {};
-      this.__callStack = [];
+      this.__callStack.splice(0, this.__callStack.length-2);
     },
 
 
@@ -306,7 +306,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     if (qx.core.Variant.isSet("qx.aspects", "on"))
     {
       // Inform user
-      qx.log.Logger.debug("Enable global profiling...");
+      qx.Bootstrap.debug("Enable global profiling...");
 
       // Add advices for profiling
       qx.core.Aspect.addAdvice(statics.profileBefore, "before");
