@@ -220,4 +220,4 @@ Now you can edit the ``po`` files again and add the new translations. Don't forg
 
 After another generation of the source version of the application you should be set up for testing and all should run as expected.
 
-I hope you enjoyed that little exercise and gained an idea how easy it is to internationalize an application using qooxdoos help. As always, you can find the whole `code on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-3-Translation>`_.
+I hope you enjoyed that little exercise and gained an idea how easy it is to internationalize an application using qooxdoos help. As always, you can find the whole `code on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-3-Translation>`_. With that, I want to encourage you to send me pull requests containing alternative translations we could add. It could be interesting to have the twitter app in some languages. Really looking forward to your feedback and pull requests!
