@@ -104,12 +104,12 @@ qx.Class.define("qx.event.handler.Touch",
     /** {Integer} The minimum distance of a swipe. Only if the distance of the
      *      performed swipe is greater as or equal the value of this constant, a
      *      swipe event is fired. */
-    MIN_SWIPE_DISTANCE : 1,
+    SWIPE_MIN_DISTANCE : 1,
 
     /** {Integer} The minimum velocity of a swipe. Only if the velocity of the
      *      performed swipe is greater as or equal the value of this constant, a
      *      swipe event is fired. */
-    MIN_SWIPE_VELOCITY : 0
+    SWIPE_MIN_VELOCITY : 0
   },
 
 
@@ -306,8 +306,8 @@ qx.Class.define("qx.event.handler.Touch",
       var velocity = (duration !== 0) ? distance/duration : 0;
 
       var swipe = null;
-      if (Math.abs(velocity) >= clazz.MIN_SWIPE_VELOCITY
-          && Math.abs(distance) >= clazz.MIN_SWIPE_DISTANCE)
+      if (Math.abs(velocity) >= clazz.SWIPE_MIN_VELOCITY
+          && Math.abs(distance) >= clazz.SWIPE_MIN_DISTANCE)
       {
         swipe = {
             startTime : this.__startTime,
