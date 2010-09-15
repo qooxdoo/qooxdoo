@@ -64,6 +64,10 @@ qx.Class.define("qx.test.util.ResourceManager",
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var resourceUri = qx.$$libraries["qx"].resourceUri + "/" + "qx/static/blank.gif";
+      if (qx.bom.client.Engine.MSHTML && qx.bom.client.Feature.SSL) {
+        var href = window.location.href;
+        resourceUri = href.substring(0, href.lastIndexOf("/") + 1) + resourceUri; 
+      }
       this.assertEquals(ResourceManager.toUri("qx/static/blank.gif"), resourceUri);
     }
   }
