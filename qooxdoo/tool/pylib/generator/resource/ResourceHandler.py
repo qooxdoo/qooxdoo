@@ -270,6 +270,7 @@ class ResourceHandler(object):
 
     def createResourceStruct1(self, libsAndResources, formatAsTree=False, updateOnlyExistingSprites=False):
         
+        skippatt = re.compile(r'\.(meta|py)$', re.I)
         result = {}
         if formatAsTree:
             result = ExtMap()
@@ -277,17 +278,22 @@ class ResourceHandler(object):
         # Create a flat result from libsAndResources
         for libObj, resList in libsAndResources:
             for res in resList:
+                if skippatt.search(res.path):
+                    continue
                 result[res.id] = res
 
         # Update simple images
-        for combImg in (x for x in result.values() if isinstance(x, CombImage)):
-            for embId in combImage.embeds:
-                if embId in result:
-                    result[embId].combImg = combImg
+        for combImg in (x for x in result.values() if isinstance(x, CombinedImage)):
+            for embImg in combImg.embeds:
+                if embImg.id in result:
+                    result[embImg.id].attachCombinedImage(combImg)
+                elif not updateOnlyExistingSprites:
+                    embImg.attachCombinedImage(combImg)
+                    result[embImg.id] = embImg
 
         # Flatten out the resource representation
-        for res in result:
-            result[res] = res.flatten()  #TODO: Resource.Image.flatten() must embed comb.image info
+        for resid, res in result.items():
+            result[resid] = res.toResinfo()
 
         # ExtMap returns nested maps
         if formatAsTree:

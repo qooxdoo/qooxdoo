@@ -113,7 +113,8 @@ class Library(object):
         return self.namespace
 
     def getResources(self):
-        return self._resources
+        #return self._resources
+        return self.resources
 
     def scan(self):
         self._console.info("Scanning %s..." % self._path)
@@ -252,6 +253,7 @@ class Library(object):
                     res = Resource(fpath)
                 
                 res.id = fpath[lib_prefix_len:]
+                res.lib= self
 
                 self.resources.add(res)
 

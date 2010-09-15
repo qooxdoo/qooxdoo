@@ -1388,6 +1388,8 @@ class DependencyItem(object):
         self.line = line
     def __repr__(self):
         return "<DepItem>:"+self.name
+    def __str__(self):
+        return self.name
 
 
 # -- temp. module helper functions ---------------------------------------------

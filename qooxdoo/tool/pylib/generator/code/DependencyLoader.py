@@ -298,12 +298,12 @@ class DependencyLoader(object):
                         other = self.getCombinedDeps(item, variants)
                         self._console.warn("Detected circular dependency between: %s and %s" % (classId, item))
                         self._console.indent()
-                        self._console.debug("%s depends on: %s" % (classId, ", ".join(deps["load"])))
-                        self._console.debug("%s depends on: %s" % (item, ", ".join(other["load"])))
+                        self._console.debug("%s depends on: %s" % (classId, ", ".join(map(str, deps["load"]))))
+                        self._console.debug("%s depends on: %s" % (item, ", ".join(map(str, other["load"]))))
                         self._console.outdent()
                         raise RuntimeError("Circular class dependencies")
-
-                    sortClassesRecurser(item, available, variants, result, path)
+                    else:
+                        sortClassesRecurser(item, available, variants, result, path)
 
             if not classId in result:
                 # remove element from path

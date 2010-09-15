@@ -112,16 +112,17 @@ def _handleResources(script, generator, filtered=True):
         for packageId, package in enumerate(packages):
             allresources.update(package.data.resources)
     else:
-        # just use everything from the main library
+        # get the main library
         mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
-        reslist = [x.path for x in mainlib.getResources()]
+        #reslist = [x.path for x in mainlib.getResources()]
+        reslist = mainlib.getResources()
         #for res in reslist:
         #    resid, resValue = mainlib.analyseResource(res) 
         #    if isinstance(resValue, ImgInfoFmt):
         #        allresources[resid] = resValue.flatten()
         #    else:
         #        allresources[resid] = resValue
-        allresources = generator._resourceHandler.createResourceStruct([(mainlib, reslist)], updateOnlyExistingSprites = False)
+        allresources = generator._resourceHandler.createResourceStruct1([(mainlib, reslist)], updateOnlyExistingSprites = False)
 
     # get resource info
     resinfos = {}

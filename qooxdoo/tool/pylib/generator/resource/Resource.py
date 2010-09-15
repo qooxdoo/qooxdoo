@@ -148,12 +148,24 @@ class Image(Resource):
     ##
     # Serialize to a format as used in resource info maps of generated scripts
     def toResinfo(self):
-        a = [self.width, self.height, self.format, self.lib]
+        a = [self.width, self.height, self.format, self.lib.namespace if self.lib else ""]
         if self.combId:
             a.extend([self.combId, self.left, self.top])
         elif self.combImg:
             a.extend([self.combImg.id, self.left, self.top])
         return a
+
+    ##
+    # Establish relation to combined image
+    def attachCombinedImage(self, combImg):
+        self.combImg = combImg
+        # extract offsets in combImg
+        embImg = [x for x in combImg.embeds if x.id == self.id]
+        if embImg:
+            self.left = embImg[0].left
+            self.top  = embImg[0].top
+
+
 
     @staticmethod
     def isImage(fpath):
