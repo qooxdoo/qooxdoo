@@ -867,10 +867,9 @@ class CodeGenerator(object):
         filteredResources = []          # [(libObj, ["resourcePath"]),...]
         combinedImages    = {}          # {imgId : CombinedImage}
         # 1st pass: gathering relevant images and other resources from the libraries
-        (filteredResources, 
-         combinedImages)  = collectResources(libs, assetFilter, )
+        filteredResources, combinedImages  = collectResources(libs, assetFilter, )
         # 2nd pass: add missing combined images
-        filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
+        filteredResources                  = incorporateCombinedImages(filteredResources, combinedImages)
         # create the resource info structure, exploiting combined images
         resdata           = self._resourceHandler.createResourceStruct(filteredResources, formatAsTree = resources_tree,
                                                                            updateOnlyExistingSprites = True)
