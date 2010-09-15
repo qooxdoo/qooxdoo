@@ -322,6 +322,13 @@ class ResourceHandler(object):
                 matches.append(embId)
         return matches
 
+    def embedsInList1(self, combObj, resList):
+        matchingEmbeds = []
+        for embed in combObj.embeds: # embed = Image()
+            if embed in resList:
+                matchingEmbeds.append(embed)
+        return matchingEmbeds
+
     def assetsMatchResource(self, assetSet, resource, resVal):
         resId, embImgs = resVal  # embImgs = False | [embId, ...]
 
