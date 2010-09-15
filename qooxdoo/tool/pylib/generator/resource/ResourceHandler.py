@@ -214,29 +214,10 @@ class ResourceHandler(object):
             result = result.getData()
 
         return result
-
             
-
-
-    ##
-    # Helper
-    def suffixInList(self, suffix, lst):
-        for e in lst:
-            if e.endswith(suffix):
-                return True
-        return False
-
     ##
     # check if sprites in a combined image occur in a resource list
     def embedsInList(self, combObj, resList):
-        matches = []
-        idList  = [Path.posifyPath(x) for x in resList] # idList = ['/a/b/c/foo/bar/baz.png']
-        for embId in combObj.embeds:   # embId = 'foo/bar/baz.png'
-            if self.suffixInList(embId, idList):
-                matches.append(embId)
-        return matches
-
-    def embedsInList1(self, combObj, resList):
         matchingEmbeds = []
         for embed in combObj.embeds: # embed = Image()
             if embed in resList:

@@ -845,8 +845,7 @@ class CodeGenerator(object):
                 allresources.extend(resList)
             # check for usable comb.images
             for combId, combObj in combinedImages.items():
-                #if self._resourceHandler.embedsInList(combObj, allresources):
-                if self._resourceHandler.embedsInList1(combObj, allresources):
+                if self._resourceHandler.embedsInList(combObj, allresources):
                     # add it
                     for libObj, resList in filteredResources:
                         #if libObj == combObj.lib:
