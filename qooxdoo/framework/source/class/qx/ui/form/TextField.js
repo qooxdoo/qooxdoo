@@ -55,5 +55,25 @@ qx.Class.define("qx.ui.form.TextField",
       refine : true,
       init : false
     }
+  },
+  
+  members : {
+    
+    // overridden
+    _renderContentElement : function(innerHeight, element) {
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+          qx.bom.client.Engine.VERSION < 9)
+      {
+        var heightHint = innerHeight - this._getContentHint().height;
+        var height = heightHint < 0 ? 0 : heightHint;
+        var padding = height / 2;
+        var pixel = "px";
+        element.setStyles({
+          "height" : height + pixel,
+          "padding-top" : padding + pixel,
+          "padding-bottom" : padding + pixel
+        });
+      }
+    }
   }
 });
