@@ -286,10 +286,24 @@ qx.Class.define("qx.ui.form.AbstractField",
           "width": innerWidth + pixel,
           "height": innerHeight + pixel
         });
+
+        this._renderContentElement(innerHeight, input);
+
       }
     },
 
 
+    /**
+     * Hook into {@link qx.ui.form.AbstractField#renderLayout} method.
+     * Called after the contentElement has a width and an innerWidth.
+     *
+     * Note: This was introduced to fix BUG#1585
+     */
+    _renderContentElement : function(innerHeight, element) {
+      //use it in child classes
+    },
+
+    
     // overridden
     _createContentElement : function()
     {
