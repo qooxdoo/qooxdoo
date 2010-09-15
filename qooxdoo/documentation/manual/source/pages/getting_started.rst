@@ -20,6 +20,7 @@ Tutorials
    tutorials/tutorial-part-3
    tutorials/tutorial-part-4-1
    tutorials/tutorial-part-4-2
+   tutorials/tutorial-part-4-3
 
 .. _index#sdk:
 
