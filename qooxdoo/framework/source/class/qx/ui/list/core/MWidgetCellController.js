@@ -203,7 +203,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
      * @param item {qx.ui.core.Widget} The internally created and used item.
      * @param index {Integer} The index of the item.
      */
-    _bindItem: function(item, index) {
+    _bindItem : function(item, index) {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.bindItem != null) {
@@ -219,7 +219,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
      * @param item {qx.ui.core.Widget} The item which the binding should
      *   be removed.
      */
-    _removeBindingsFrom: function(item) {
+    _removeBindingsFrom : function(item) {
       var bindings = this.__getBindings(item);
 
       while (bindings.length > 0) {

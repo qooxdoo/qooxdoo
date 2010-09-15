@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     getCellWidget : function(row, column)
     {
       var widget = this._cellRenderer.getCellWidget();
-      this._bindItem(widget, row);
+      this._bindItem(widget, this._list._lookup(row));
 
       if(this._list._manager.isItemSelected(row)) {
         this.styleSelectabled(widget);

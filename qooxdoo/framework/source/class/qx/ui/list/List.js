@@ -65,6 +65,20 @@ qx.Class.define("qx.ui.list.List",
       init : true
     },
 
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 100
+    },
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 200
+    },
+
     /** Data array containing the data which should be shown in the list. */
     model :
     {
@@ -174,7 +188,7 @@ qx.Class.define("qx.ui.list.List",
      * @return {var|null} the model data from the row.
      */
     _getDataFromRow : function(row) {
-      var data = this.getModel().getItem(this.__lookup(row));
+      var data = this.getModel().getItem(this._lookup(row));
 
       if (data != null) {
         return data;
@@ -375,7 +389,7 @@ qx.Class.define("qx.ui.list.List",
      *
      * @param index {Number} The index to look at.
      */
-    __lookup: function(index) {
+    _lookup : function(index) {
       return this.__lookupTable[index];
     }
   },
