@@ -108,6 +108,27 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals("qx/icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
     },
 
+    testFilter : function()
+    {
+      var filteredModel = new qx.data.Array();
+      for (var i = 0; i < 100; i++) {
+        if (i % 2 == 0) {
+          filteredModel.push("item " + (i + 1));
+        }
+      }
+      
+      var delegate = {
+        filter : function(data) {
+          return ((parseInt(data.slice(5, data.length)) - 1) % 2 == 0);
+        } 
+      }
+      this._list.setDelegate(delegate);
+      this.flush();
+      
+      this.assertModelEqualsRowData(filteredModel, this._list);
+      this.assertEquals(filteredModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
+    },
+    
     testDisabledElements : function()
     {
       var disabledItem = 3;
