@@ -1,5 +1,5 @@
 Window Management
-============
+=================
 
 Window is a widget used to show dialogs or to realize a MDI (Multiple Document Interface) applications. Windows can only be added to ``qx.ui.window.Desktop`` widgets, or to widgets which implement the ``qx.ui.window.IDesktop`` interface.  
 
@@ -69,5 +69,5 @@ Related documentation
 
 
 Demos and API
------
+-------------
 To find out more, you can check the `desktop demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~Desktop.html>`_ and the `API reference <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.window>`_. 
