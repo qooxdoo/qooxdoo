@@ -131,10 +131,17 @@ qx.Class.define("qx.test.ui.list.List",
       this.flush();
 
       for (var i = 0; i < 10; i++) {
+        var widget = this._list._layer.getRenderedCellWidget(i,0);
+        
+        if (widget == null) {
+          // row is not rendered
+          continue;
+        }
+        
         if (i != disabledItem) {
-          this.assertTrue(this._list._layer.getRenderedCellWidget(i,0).isEnabled());
+          this.assertTrue(widget.isEnabled());
         } else {
-          this.assertFalse(this._list._layer.getRenderedCellWidget(i,0).isEnabled());
+          this.assertFalse(widget.isEnabled());
         }
       }
     }
