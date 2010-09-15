@@ -36,7 +36,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.flush();
 
-      this.assertEquals(300, this._list.getPane().getColumnConfig().getItemSize(0));
+      this.assertEquals(this._list.getPane().getBounds().width, this._list.getPane().getColumnConfig().getItemSize(0));
       this.assertEquals(30, this._list.getPane().getRowConfig().getDefaultItemSize());
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
       this.assertEquals(this._model, this._list.getModel());
