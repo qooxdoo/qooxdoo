@@ -873,7 +873,7 @@ class CodeGenerator(object):
         # 2nd pass: add missing combined images
         filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
         # create the resource info structure, exploiting combined images
-        resdata           = self._resourceHandler.createResourceStruct1(filteredResources, formatAsTree = resources_tree,
+        resdata           = self._resourceHandler.createResourceStruct(filteredResources, formatAsTree = resources_tree,
                                                                            updateOnlyExistingSprites = True)
         # distribute infos to corresp. packages
         addResourcesToPackages(resdata, combinedImages, classToAssetHints)
