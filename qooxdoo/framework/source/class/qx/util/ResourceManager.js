@@ -205,6 +205,11 @@ qx.Class.define("qx.util.ResourceManager",
           if (resourceUri.match(/^\/\//) != null) {
             statics.__urlPrefix[lib] = window.location.protocol;
           }
+          // If the resourceUri begins with a single slash, include the current
+          // hostname
+          else if (resourceUri.match(/^\//) != null) {
+            statics.__urlPrefix[lib] = window.location.protocol + "//" + window.location.host;
+          }
           // If the resolved URL begins with "./" the final URL has to be
           // put together using the document.URL property.
           // IMPORTANT: this is only applicable for the source version
