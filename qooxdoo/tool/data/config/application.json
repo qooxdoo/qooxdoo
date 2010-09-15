@@ -172,7 +172,7 @@
         "TESTS_SCRIPT" : "tests-inline.js"
       },
       
-      "include" : ["testrunner.TestLoaderInline", "${TEST_INCLUDE}", "${QXTHEME}"]
+      "include" : ["testrunner.TestLoaderInline"]
     },
 
 
@@ -185,7 +185,7 @@
         "TESTS_SCRIPT" : "tests-native.js"
       },
       
-      "include" : ["testrunner.TestLoaderNative", "${TEST_INCLUDE}", "${QXTHEME}"]
+      "include" : ["testrunner.TestLoaderNative"]
     },
 
 
