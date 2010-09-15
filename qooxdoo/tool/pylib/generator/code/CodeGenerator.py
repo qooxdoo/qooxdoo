@@ -825,31 +825,6 @@ class CodeGenerator(object):
                 libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
                 resList      = []
                 filteredResources.append((libObj, resList))
-                resourceList = self._resourceHandler.findAllResources([lib], None)
-                # resourceList = [file1,file2,...]
-                for resource in resourceList:
-                    if skippatt.search(resource):
-                        continue
-                    if assetFilter(resource):  # add those anyway
-                        resList.append(resource)
-                    if CombinedImage.isCombinedImage(resource):  # register those for later evaluation
-                        resId, resVal = libObj.analyseResource(resource,)
-                        combObj       = CombImage(resource) # this parses also the .meta file
-                        combObj.info  = resVal
-                        combObj.lib   = libObj
-                        combinedImages[resId] = combObj
-
-            return filteredResources, combinedImages
-
-
-        def collectResources1(libs, assetFilter, ):
-            filteredResources = []
-            combinedImages    = {}
-            skippatt = re.compile(r'\.(meta|py)$', re.I)
-            for lib in libs:
-                libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
-                resList      = []
-                filteredResources.append((libObj, resList))
                 resourceList = libObj.getResources()
                 # resourceList = [resObj1, resObj2,...]
                 for resource in resourceList:
@@ -864,22 +839,6 @@ class CodeGenerator(object):
 
 
         def incorporateCombinedImages(filteredResources, combinedImages):
-            # make a long list of all resources
-            allresources = []
-            for libObj, resList in filteredResources:
-                allresources.extend(resList)
-            # check for usable comb.images
-            for combId, combObj in combinedImages.items():
-                if self._resourceHandler.embedsInList(combObj, allresources):
-                    # add it
-                    for libObj, resList in filteredResources:
-                        if libObj == combObj.lib:
-                            resList.append(combObj.path)
-                            break
-            return filteredResources
-
-
-        def incorporateCombinedImages1(filteredResources, combinedImages):
             # make a long list of all resources
             allresources = []
             for libObj, resList in filteredResources:
@@ -908,23 +867,13 @@ class CodeGenerator(object):
 
         filteredResources = []          # [(libObj, ["resourcePath"]),...]
         combinedImages    = {}          # {imgId : CombinedImage}
-        if False:
-            # 1st pass: gathering relevant images and other resources from the libraries
-            (filteredResources, 
-             combinedImages)  = collectResources(libs, assetFilter, )
-            # 2nd pass: add missing combined images
-            filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
-            # create the resource info structure, exploiting combined images
-            resdata           = self._resourceHandler.createResourceStruct(filteredResources, formatAsTree = resources_tree,
-                                                                           updateOnlyExistingSprites = True)
-        else:
-            # 1st pass: gathering relevant images and other resources from the libraries
-            (filteredResources, 
-             combinedImages)  = collectResources1(libs, assetFilter, )
-            # 2nd pass: add missing combined images
-            filteredResources = incorporateCombinedImages1(filteredResources, combinedImages)
-            # create the resource info structure, exploiting combined images
-            resdata           = self._resourceHandler.createResourceStruct1(filteredResources, formatAsTree = resources_tree,
+        # 1st pass: gathering relevant images and other resources from the libraries
+        (filteredResources, 
+         combinedImages)  = collectResources(libs, assetFilter, )
+        # 2nd pass: add missing combined images
+        filteredResources = incorporateCombinedImages(filteredResources, combinedImages)
+        # create the resource info structure, exploiting combined images
+        resdata           = self._resourceHandler.createResourceStruct1(filteredResources, formatAsTree = resources_tree,
                                                                            updateOnlyExistingSprites = True)
         # distribute infos to corresp. packages
         addResourcesToPackages(resdata, combinedImages, classToAssetHints)
