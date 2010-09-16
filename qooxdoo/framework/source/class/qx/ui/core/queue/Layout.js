@@ -53,10 +53,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      */
     add : function(widget)
     {
-      // IE9 (1.9.7616.6000) Preview 4 fix for bug #4050
-      // TODO check if the fix is needed with the next IE9 release
-      this.__queue[widget.$$hash];
-
       this.__queue[widget.$$hash] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("layout");
     },
