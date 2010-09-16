@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.Label",
       {
         style.whiteSpace = "nowrap";
 
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL)
         {
           var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.bom.Label",
       {
         styles.whiteSpace = "normal";
       }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      else if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL)
       {
         styles.display = "block";
       }
@@ -176,13 +176,12 @@ qx.Class.define("qx.bom.Label",
         win = window;
       }
 
-
       if (html)
       {
         var el = win.document.createElement("div");
         el.useHtml = true;
       }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      else if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL)
       {
         // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
         // for text overflow. We use this feature from XUL instead.
@@ -236,7 +235,7 @@ qx.Class.define("qx.bom.Label",
 
       if (element.useHtml) {
         element.innerHTML = value;
-      } else if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      } else if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL) {
         element.firstChild.setAttribute("value", value);
       } else {
         qx.bom.element.Attribute.set(element, "text", value);
@@ -254,7 +253,7 @@ qx.Class.define("qx.bom.Label",
     {
       if (element.useHtml) {
         return element.innerHTML;
-      } else if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      } else if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL) {
         return element.firstChild.getAttribute("value") || "";
       } else {
         return qx.bom.element.Attribute.get(element, "text");
@@ -294,7 +293,7 @@ qx.Class.define("qx.bom.Label",
     {
       var element = this._textElement || this.__prepareText();
 
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL) {
         element.firstChild.setAttribute("value", text);
       } else {
         qx.bom.element.Attribute.set(element, "text", text);
@@ -337,6 +336,11 @@ qx.Class.define("qx.bom.Label",
         if (!qx.bom.client.Platform.WIN) {
           size.width++;
         }
+      }
+      // IE9 (1.9.7616.6000) Preview 4 fix for bug #4038
+      // TODO check if the fix is needed with the next IE9 release
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION == 9) {
+        size.width++;
       }
       return size;
     }
