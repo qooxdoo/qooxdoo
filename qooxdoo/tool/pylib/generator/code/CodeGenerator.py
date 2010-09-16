@@ -818,8 +818,8 @@ class CodeGenerator(object):
         ##
         # collect resources from the libs and put them in suitable data structures
         def collectResources(libs, assetFilter, ):
-            filteredResources = []
-            combinedImages    = {}
+            filteredResources = []          # [(libObj, ["resourcePath"]),...]
+            combinedImages    = {}          # {imgId : CombinedImage}
             skippatt = re.compile(r'\.(meta|py)$', re.I)
             for lib in libs:
                 libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
@@ -856,27 +856,22 @@ class CodeGenerator(object):
             return filteredResources
 
 
-        # -- main - generateResourceInfoCode -----------------------------------
+        # -- main --------------------------------------------------------------
 
-        compConf       = self._job.get("compile-options")
-        compConf       = ExtMap(compConf)
-        resources_tree = compConf.get("code/resources-tree", False)
+        compConf       = self._job.get ("compile-options")
+        compConf       = ExtMap (compConf)
+        resources_tree = compConf.get ("code/resources-tree", False)
+        rh             = self._resourceHandler
 
-        assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(script.classes)
+        assetFilter, classToAssetHints    = rh.getResourceFilterByAssets (script.classes)
 
-        filteredResources = []          # [(libObj, ["resourcePath"]),...]
-        combinedImages    = {}          # {imgId : CombinedImage}
-        # 1st pass: gathering relevant images and other resources from the libraries
-        filteredResources, combinedImages  = collectResources(libs, assetFilter, )
-        # 2nd pass: add missing combined images
-        filteredResources                  = incorporateCombinedImages(filteredResources, combinedImages)
-        # create the resource info structure, exploiting combined images
-        resdata           = self._resourceHandler.createResourceStruct(filteredResources, formatAsTree = resources_tree,
-                                                                           updateOnlyExistingSprites = True)
-        # distribute infos to corresp. packages
-        addResourcesToPackages(resdata, combinedImages, classToAssetHints)
+        filteredResources, combinedImages = collectResources (libs, assetFilter)
+        filteredResources = incorporateCombinedImages (filteredResources, combinedImages)
+        resdata           = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+                                                     updateOnlyExistingSprites=True)
+        addResourcesToPackages (resdata, combinedImages, classToAssetHints)
         
-        return resdata
+        return resdata # end: generateResourceInfoCode()
 
 
     def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
