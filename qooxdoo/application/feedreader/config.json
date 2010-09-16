@@ -37,7 +37,8 @@
       
       "compile-options" :
       {
-        "paths" : { "scripts-add-hash" : true }  
+        "paths" : { "scripts-add-hash" : true },
+        "uris"  : { "add-nocache-param": false}
       },
 
       "packages" : 

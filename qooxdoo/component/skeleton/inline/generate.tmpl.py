@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2008 - 2009 1&1 Internet AG, Germany, http://www.1und1.de
+#    2008 - 2010 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -24,7 +24,7 @@
 
 import sys, os, re, subprocess
 
-CMD_PYTHON = 'python'
+CMD_PYTHON = sys.executable
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
 
 def getQxPath():
@@ -32,14 +32,14 @@ def getQxPath():
     # try updating from config file
     if os.path.exists('config.json'):
         # "using QOOXDOO_PATH from config.json"
-        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,')
+        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
         conffile = open('config.json')
         aconffile = conffile.readlines()
         for line in aconffile:
             mo = qpathr.search(line)
             if mo:
                 path = mo.group(1)
-                break # assume first occurance is ok
+                break # assume first occurrence is ok
     path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
 
     return path
