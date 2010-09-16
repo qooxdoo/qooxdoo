@@ -262,9 +262,9 @@ qx.Class.define("qx.ui.basic.Label",
     _applySelectable : function(value)
     {
 
-      // This is needed until text-overflow:ellipsis is implemented in Gecko.
+      // This is needed until text-overflow:ellipsis is implemented in firefox < 4.
       // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
-      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL)
       {
         if (value && !this.isRich())
         {
