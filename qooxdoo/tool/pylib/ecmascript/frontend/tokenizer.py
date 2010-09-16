@@ -28,7 +28,8 @@
 ##
 
 import sys, re
-from ecmascript.frontend import lang, comment
+from ecmascript.frontend                 import lang, comment
+from ecmascript.frontend.SyntaxException import SyntaxException
 import Scanner
 
 ##
@@ -49,8 +50,14 @@ def parseStream(content, uniqueId=""):
     line = column = sol = 1
     scanner = Scanner.LQueue(tokens_2_obj(content, ))
     for tok in scanner:
-        # tok isinstanceof Scanner.Token()
-        token = {"source": tok.value, "detail" : "", "line": line, "column": tok.spos - sol + 1, "id": uniqueId}
+        # some inital values (tok isinstanceof Scanner.Token())
+        token = {
+            "source" : tok.value, 
+            "detail" : "",
+            "line"   : line, 
+            "column" : tok.spos - sol + 1, 
+            "id"     : uniqueId
+            }
 
         # white space
         if (tok.name == 'white'):
@@ -90,8 +97,16 @@ def parseStream(content, uniqueId=""):
                 token['detail'] = 'doublequotes'
             else:
                 token['detail'] = 'singlequotes'
-            token['source'] = parseString(scanner, tok.value)
+            try:
+                token['source'] = parseString(scanner, tok.value)
+            except SyntaxException, e:
+                desc = e.args[0] + " starting with %r..." % (tok.value + e.args[1])[:20]
+                raiseSyntaxException(token, desc)
             token['source'] = token['source'][:-1]
+            # adapt line number -- this assumes multi-line strings are not generally out
+            linecnt = len(re.findall("\n", token['source']))
+            if linecnt > 0:
+                line += linecnt
 
         # identifier, operator
         elif tok.name in ("ident", "op", "mulop"):
@@ -134,8 +149,12 @@ def parseStream(content, uniqueId=""):
                     # accumulate multiline comments
                     if (len(tokens) == 0 or
                         not is_last_escaped_token(tokens)):
-                        commnt = parseCommentM(scanner)
                         token['type'] = 'comment'
+                        try:
+                            commnt = parseCommentM(scanner)
+                        except SyntaxException, e:
+                            desc = e.args[0] + " starting with \"%r...\"" % (tok.value + e.args[1])[:20]
+                            raiseSyntaxException(token, desc)
                         token['source'] = tok.value + commnt
                         token['detail'] = comment.getFormat(token['source'])
                         token['begin'] = not hasLeadingContent(tokens)
@@ -199,12 +218,19 @@ def parseStream(content, uniqueId=""):
 # parse a string (both double and single quoted)
 def parseString(scanner, sstart):
     # parse string literals
-    result = ""
+    result = []
     for token in scanner:
-        result += token.value
-        if (token.value == sstart and not Scanner.is_last_escaped(result)):  # be aware of escaped quotes
-            break
-    return result
+        result.append(token.value)
+        if token.value == sstart:
+            res = u"".join(result)
+            if not Scanner.is_last_escaped(res):  # be aware of escaped quotes
+                break
+    else:
+        # this means we've run out of tokens without finishing the string
+        res = u"".join(result)
+        raise SyntaxException("Non-terminated string", res)
+
+    return res
 
 
 ##
@@ -256,10 +282,17 @@ def parseCommentM(scanner):
             if not Scanner.is_last_escaped(res):
                 break
     else:
+        # this means we've run out of tokens without finishing the comment
         res = u"".join(result)
+        raise SyntaxException("Run-away comment", res)
 
     return res
 
+##
+# syntax exception helper
+def raiseSyntaxException (token, desc = u""):
+    msg = desc + " (%s:%d)" % (token['id'], token['line'])
+    raise SyntaxException (msg)
 
 ##
 # check if the preceding tokens contain an odd number of '\'

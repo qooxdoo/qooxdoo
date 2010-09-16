@@ -18,7 +18,8 @@
 #
 ################################################################################
 
-from ecmascript.frontend import tree
+from ecmascript.frontend                 import tree
+from ecmascript.frontend.SyntaxException import SyntaxException
 
 ATOMS = ["string", "number", "identifier"]
 
@@ -222,11 +223,6 @@ class TokenStream(object):
 
 
 
-class SyntaxException (Exception):
-    pass
-
-
-
 def createItemNode(type, stream):
     # print "CREATE %s" % type
 
@@ -256,9 +252,6 @@ def createCommentNode(token):
     commentNode.set("end", token["end"])
 
     return commentNode
-
-
-
 
 
 def raiseSyntaxException (token, expectedDesc = None):
