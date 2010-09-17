@@ -1475,7 +1475,11 @@ class Generator(object):
             # wpbasti: Rename: Border => Inset as in qooxdoo JS code
             prefix       = imgspec['prefix']
             border_width = imgspec['border-width']
-            self._imageClipper.slice(image, prefix, border_width)
+            if 'trim-width' in imgspec:
+                trim_width = imgspec['trim-width']
+            else:
+                trim_width = True
+            self._imageClipper.slice(image, prefix, border_width, trim_width)
 
 
     def runImageCombining(self):

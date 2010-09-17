@@ -49,7 +49,7 @@ class ImageClipping(object):
         self._imageInfo = ImageInfo(self._console, self._cache)
 
 
-    def slice(self, source, dest_prefix, border):
+    def slice(self, source, dest_prefix, border, trim_width):
 
         source_file = source
         dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
@@ -58,19 +58,45 @@ class ImageClipping(object):
         width, height = imginf['width'], imginf['height']
 
         crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
+        
+        if isinstance(border, int):
+            single_border = True
+        elif not isinstance(border, list) or (isinstance(border, list) and not (len(border) == 4)):
+            raise RuntimeError, "Border must be one integer or an array with four integers"
+        else:
+            single_border = False
 
         # split
-        os.system(crop_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
-        os.system(crop_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
-        os.system(crop_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
-
-        os.system(crop_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
-        os.system(crop_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))
-        os.system(crop_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
-
-        os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
-        os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
-        os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
+        if single_border:
+            os.system(crop_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
+            os.system(crop_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
+            os.system(crop_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
+    
+            os.system(crop_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
+            if trim_width:
+                os.system(crop_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))            
+            else:
+                os.system(crop_cmd % (source_file, width-2*border, height-2*border, border, border, dest_file + "-c.png"))
+            os.system(crop_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
+    
+            os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
+            os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
+            os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
+        else:
+            os.system(crop_cmd % (source_file, border[3], border[0], 0, 0, dest_file + "-tl.png"))
+            os.system(crop_cmd % (source_file, width - border[3] - border[1], border[0], border[3], 0, dest_file + "-t.png"))
+            os.system(crop_cmd % (source_file, border[1], border[0], width - border[1], 0, dest_file + "-tr.png"))
+    
+            os.system(crop_cmd % (source_file, border[3], height - border[0] - border[2], 0, border[0], dest_file + "-l.png"))
+            if trim_width:
+                os.system(crop_cmd % (source_file, min(20, width- border[3] - border[1]), height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))            
+            else:
+                os.system(crop_cmd % (source_file, width- border[3] - border[1], height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))
+            os.system(crop_cmd % (source_file, border[1], height - border[0] - border[2], width - border[1], border[0], dest_file + "-r.png"))
+    
+            os.system(crop_cmd % (source_file, border[3], border[2], 0, height - border[2], dest_file + "-bl.png"))
+            os.system(crop_cmd % (source_file, width- border[3] - border[1], border[2], border[3], height - border[2], dest_file + "-b.png"))
+            os.system(crop_cmd % (source_file, border[1], border[2], width - border[1], height - border[2], dest_file + "-br.png"))
         
         # for css3, the original images are used
         shutil.copyfile(source_file, dest_file + ".png")
