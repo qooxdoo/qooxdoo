@@ -69,7 +69,7 @@ class Locale(object):
         # check need for cldr data in this classlist
         need_cldr = False
         for classId in classList:
-            if self._classesObj[classId].getMeta('cldr'):
+            if self._classesObj[classId].getHints('cldr'):
                 need_cldr = True
                 break
 

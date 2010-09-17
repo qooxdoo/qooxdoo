@@ -818,7 +818,7 @@ class CodeGenerator(object):
         ##
         # collect resources from the libs and put them in suitable data structures
         def collectResources(libs, assetFilter, ):
-            filteredResources = []          # [(libObj, ["resourcePath"]),...]
+            filteredResources = []          # [(Library, [Resource]),...]
             combinedImages    = {}          # {imgId : CombinedImage}
             skippatt = re.compile(r'\.(meta|py)$', re.I)
             for lib in libs:
@@ -870,7 +870,7 @@ class CodeGenerator(object):
         resdata           = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
                                                      updateOnlyExistingSprites=True)
         addResourcesToPackages (resdata, combinedImages, classToAssetHints)
-        
+
         return resdata # end: generateResourceInfoCode()
 
 

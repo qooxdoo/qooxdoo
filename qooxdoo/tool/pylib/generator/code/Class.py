@@ -954,6 +954,37 @@ class Class(object):
 
 
     # --------------------------------------------------------------------------
+    #   Resource Support
+    # --------------------------------------------------------------------------
+
+    ##
+    # resource = Resource()
+    def needsResource(self, resource, expandMacroFunc=None):
+        if not hasattr(self, "_assetRegex"):
+            classAssets = self.getHints()['assetDeps'][:]
+            iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
+            for res in classAssets:
+                # expand file glob into regexp
+                res = re.sub(r'\*', ".*", res)
+                # expand macros
+                if res.find('${')>-1 and expandMacroFunc:
+                    expres = expandMacroFunc(res)
+                else:
+                    expres = [res]
+                # collect resulting asset expressions
+                for e in expres:
+                    if e not in iresult:
+                        iresult.append(e)
+            # turn into a regex
+            iresult = re.compile("|".join(iresult))
+            self._assetRegex = iresult
+        if self._assetRegex.search(resource.id):
+            return True
+
+        return False
+
+
+    # --------------------------------------------------------------------------
     #   Compiler Hints Support
     # --------------------------------------------------------------------------
 

@@ -156,7 +156,7 @@ def _handleI18N(script, generator):
     for classObj in script.classesObj:
         if passesOutputfilter(classObj.id):
             class_list.append(classObj.id)
-            if not needs_cldr and classObj.getMeta('cldr'):
+            if not needs_cldr and classObj.getHints('cldr'):
                 needs_cldr = True
 
     # get i18n data

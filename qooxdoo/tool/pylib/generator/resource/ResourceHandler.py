@@ -20,6 +20,7 @@
 ################################################################################
 
 import re, string, types, sys, os, collections
+import functools
 
 from generator.code.Library import Library
 from misc import Path
@@ -253,6 +254,21 @@ class ResourceHandler(object):
 
 
     ##
+    # map resources to classes
+    # works on resource and class objects
+    # modifies the classes, by adding resources that are needed by a class
+    def mapResourcesToClasses(self, resources, classes):
+        assetMacros     = self._genobj._job.get('asset-let',{})
+        expandMacroFunc = functools.partial(self._expandMacrosInMeta, assetMacros)
+        for res in resources:
+            for clazz in classes:
+                if clazz.needsResource(res, expandMacroFunc):
+                    clazz.resources.add(res)
+        
+        return classes
+
+
+    ##
     # return a map {classId : [resourceId, ...]}, based on libs
     def getResourcesByClass(self, libs, classToAssetHints):
         classToResources = collections.defaultdict(list)
@@ -286,13 +302,14 @@ class ResourceHandler(object):
            handles meta info."""
         result   = []  # list of needed resourceIds
         classMap = {}  # map of resourceIds per class {classId : set(resourceIds)}
+        assetMacros = self._genobj._job.get('asset-let',{})
 
         self._genobj._console.info("Compiling resource list...")
         self._genobj._console.indent()
         for clazz in classList:
             classMap[clazz] = set(())
             #classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
-            classRes = (self._genobj._classesObj[clazz].getMeta())['assetDeps'][:]
+            classRes = (self._genobj._classesObj[clazz].getHints())['assetDeps'][:]
             iresult  = []
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
@@ -300,7 +317,7 @@ class ResourceHandler(object):
                 res = re.sub(r'\*', ".*", res)
                 # expand macros
                 if res.find('${')>-1:
-                    expres = self._expandMacrosInMeta(res)
+                    expres = self._expandMacrosInMeta(assetMacros, res)
                 else:
                     expres = [res]
                 for r in expres:
@@ -318,9 +335,8 @@ class ResourceHandler(object):
     # Do we have THE final solution for these kind of variables yet?
     # The support for macros, themes, variants and all the types of variables make me somewhat crazy.
     # Makes it complicated for users as well.
-    def _expandMacrosInMeta(self, res):
-        themeinfo = self._genobj._job.get('asset-let',{})
-
+    def _expandMacrosInMeta(self, assetMacros, res):
+        
         def expMacRec(rsc):
             if rsc.find('${')==-1:
                 return [rsc]
@@ -329,10 +345,10 @@ class ResourceHandler(object):
             mo = re.search(r'\$\{(.*?)\}',rsc)
             if mo:
                 themekey = mo.group(1)
-                if themekey in themeinfo:
+                if themekey in assetMacros:
                     # create an array with all possibly variants for this replacement
                     iresult = []
-                    for val in themeinfo[themekey]:
+                    for val in assetMacros[themekey]:
                         iresult.append(nres.replace('${'+themekey+'}', val))
                     # for each variant replace the remaining macros
                     for ientry in iresult:
