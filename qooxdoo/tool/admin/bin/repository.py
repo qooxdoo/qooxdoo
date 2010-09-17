@@ -50,7 +50,7 @@ class Repository:
       except Exception:
         manifests = self.scanRepository()
       
-    self.libraries = self.getLibraries(manifests)
+    self.children = self.getLibraries(manifests)
     
   def hasExplicitIncludes(self):
     for (key, value) in self.validator.config["libraries"]["include"].iteritems():
@@ -179,21 +179,43 @@ class Repository:
     console.info("Generating demos for all known libraries")
     console.indent()
     
-    for libraryName, library in self.libraries.iteritems():
+    for libraryName, library in self.children.iteritems():
       library.buildAllDemos(buildTarget, demoBrowser, copyDemos)        
     
     console.outdent()
   
   
   def storeData(self, path):
-      if not os.path.isdir(path):
-        os.makedirs(path)
-      path = os.path.join(path, "demodata.json")
-      storeDemoData(self.data, path)
+    
+    def getChildrenData(item, itemData):
+      for childName, child in item.children.iteritems():
+        childData = copy.deepcopy(child.data)
+        childData["issues"] = child.issues
+        
+        #recursion
+        if hasattr(child, "children"):
+          childData = getChildrenData(child, childData)
+        
+        if type(itemData) == list:
+          itemData.append(childData)
+        elif "children" in itemData:
+          itemData["children"].append(childData)
+        elif "tests" in itemData:
+          #itemData["tests"].append(childData)
+          pass              
+      
+      return itemData
+    
+    data = getChildrenData(self, copy.deepcopy(self.data))
+    
+    if not os.path.isdir(path):
+      os.makedirs(path)
+    fpath = os.path.join(path, "demodata.json")
+    storeDemoData(data, fpath)
 
 
   def lintCheckAll(self):
-    for libraryName, library in self.libraries.iteritems():
+    for libraryName, library in self.children.iteritems():
       for versionName, libraryVersion in library.children.iteritems():
         console.info("Lint results for %s %s:" %(libraryName, versionName))
         result = libraryVersion.getLintResult()
@@ -202,7 +224,7 @@ class Repository:
 
   def runGeneratorForAll(self, job, cwd=False):
     console.indent()
-    for libraryName, library in self.libraries.iteritems():
+    for libraryName, library in self.children.iteritems():
       for versionName, libraryVersion in library.children.iteritems():
         console.info("Running job %s on %s %s..." %(job, libraryName, versionName))
         ret, out, err = runGenerator(libraryVersion.path, job, cwd)
@@ -211,41 +233,6 @@ class Repository:
           libraryVersion.issues.append( {job : errout} )
           console.error(err)
     console.outdent()
-
-
-  def getIssues(self):
-    issues = self.issues
-    
-    # library issues
-    for libraryName, library in self.libraries.iteritems():
-      if len(library.issues) > 0:
-        issues[libraryName] = { "issues": library.issues }
-      
-      # library version issues
-      for versionName, libraryVersion in library.children.iteritems():
-        if len(libraryVersion.issues) > 0:
-          if libraryName not in issues:
-            issues[libraryName] = {}
-          if versionName not in issues[libraryName]:
-            issues[libraryName][versionName] = { "issues": libraryVersion.issues }
-          
-        # demo issues
-        for demoName, demo in libraryVersion.children.iteritems():
-          if len(demo.issues) > 0:
-            if libraryName not in issues:
-              issues[libraryName] = {}
-            if versionName not in issues[libraryName]:
-              issues[libraryName][versionName] = { "issues": libraryVersion.issues }
-            issues[libraryName][versionName][demoName] = { "issues" : demo.issues }
-            
-
-  def storeIssues(self):
-    self.getIssues()
-    jsonData = demjson.encode(self.issues, strict=False, compactly=False)
-    console.info("Storing issues")
-    rFile = codecs.open("issues.json", 'w', 'utf-8')
-    rFile.write(jsonData)
-    rFile.close()
     
 
 def getReadmeContent(path):
@@ -293,8 +280,6 @@ class Library:
       "children" : [],
       "readme" : self.readme
     }
-    
-    self.parent.data.append(self.data)
   
   def _getReadme(self): 
     readme = getReadmeContent(self.path)
@@ -323,8 +308,6 @@ class LibraryVersion:
       "manifest" : self.manifest,
       "readme" : self.readme    
     }
-    
-    self.parent.data["children"].append(self.data)
     
     self._checkStructure()
     
@@ -461,24 +444,33 @@ class LibraryVersion:
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
           }
           
+          console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variantName, self.parent.name, self.name) )
           variant.build(buildTarget, macro)
+          buildOk = True
           
-          if buildTarget in variant.issues:
-            console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(self.parent.name, self.name, variantName, buildTarget, qxVersion))
-            console.warn(variant.issues[buildTarget])
-          elif demoBrowser:
+          for issue in variant.issues:
+            if buildTarget in issue:
+              buildOk = False
+              console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(self.parent.name, self.name, variantName, buildTarget, qxVersion))
+              console.warn(repr(issue[buildTarget]))
+          
+          if demoBrowser and buildOk:
             demoData = copy.deepcopy(variant.data)
             demoData["tags"].append( "qxVersion_" + qxVersion)
             self.data["tests"].append(demoData)
           
       # source version of demo
       elif buildTarget == "source":
+        console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variantName, self.parent.name, self.name) )
         variant.build(buildTarget)
+        buildOk = True
         
-        if buildTarget in variant.issues:
-          console.warn("%s %s demo %s %s generation failed!" %(self.parent.name, self.name, variantName, buildTarget))
-          console.warn(variant.issues[buildTarget])
-        elif demoBrowser:
+        for issue in variant.issues:
+          if buildTarget in issue:
+            buildOk = False
+            console.warn("%s %s demo %s %s generation failed!" %(self.parent.name, self.name, variantName, buildTarget))
+            console.warn(issue[buildTarget])
+        if demoBrowser and buildOk:
           demoBrowserBase = os.path.split(demoBrowser)[0]
           for qxVersion in qxVersions:
             if qxVersion[:2] == "0.":
@@ -487,6 +479,7 @@ class LibraryVersion:
             demoData = copy.deepcopy(variant.data)
             demoData["tags"].append( "qxVersion_" + qxVersion)
             self.data["tests"].append(demoData)
+            
             self._copyHtmlFile(variantName, buildTarget, demoBrowserBase, qxVersion)
 
 
@@ -563,8 +556,6 @@ class Demo:
     self.issues = []
   
   def build(self, target="build", macro=None):
-    console.info("Generating %s version of demo variant %s for library %s version %s..." %(target, self.name, self.parent.parent.name, self.parent.name) )
-        
     try:
       rcode, output, errout = runGenerator(self.path, target, macro)
     except Exception, e:
@@ -791,9 +782,6 @@ def main():
       # any other job: run it on all library versions
       else:
         repository.runGeneratorForAll(job)
-      
-  if options.storeissues:
-    repository.storeIssues()
 
 
 if __name__ == '__main__':
