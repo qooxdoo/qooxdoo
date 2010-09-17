@@ -596,7 +596,7 @@ qx.Class.define("qx.event.handler.Touch",
       });
       
       // get the handler to asure that the instance is created
-      qx.event.Registration().getManager(document).getHandler(statics);
+      qx.event.Registration.getManager(document).getHandler(statics);
     }
   }
 });
