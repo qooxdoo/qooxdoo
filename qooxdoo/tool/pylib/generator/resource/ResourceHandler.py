@@ -274,35 +274,6 @@ class ResourceHandler(object):
         return classes
 
 
-    ##
-    # return a map {classId : [resourceId, ...]}, based on libs
-    def getResourcesByClass(self, libs, classToAssetHints):
-        classToResources = collections.defaultdict(list)
-        for lib in libs:
-            allResources = [x for x in self.findAllResources([lib])]
-            # lookup table for resource id's
-            resVals       = {}
-            # get resId and pot. embedded Images
-            for res in allResources:
-                resId = self.assetIdFromPath(res, lib)
-                if CombinedImage.isCombinedImage(res):
-                    combimg = CombImage(res)
-                    embImgs = combimg.getEmbeddedImages()
-                    resVals[res] = (resId, embImgs)
-                else:
-                    resVals[res] = (resId, False)
-
-            # try to match classes to resources in this lib
-            for classId, assetSet in classToAssetHints.items():
-                for resource in allResources:
-                    resVal = resVals[resource]
-                    if self.assetsMatchResource(assetSet, resource, resVal):
-                        resId, embImgs = resVal
-                        classToResources[classId].append(resId)
-
-        return classToResources
-
-
     def _getResourcelistFromClasslist(self, classList):
         """Return a consolidated list of resource fileId's of all classes in classList;
            handles meta info."""

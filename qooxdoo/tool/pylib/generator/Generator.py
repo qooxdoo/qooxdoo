@@ -619,7 +619,8 @@ class Generator(object):
 
             # Execute real tasks
             if "copy-resources" in jobTriggers:
-                self.runResources(script.classes)
+                self.runResources1(script.classes)
+                #self.runResources(script)
             if "compile" in jobTriggers:
                 # get parts config; sets
                 # script.boot
@@ -899,11 +900,6 @@ class Generator(object):
                 val["run"] = newval
 
             # Resource deps
-            #assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
-            # -- the next line is expensive 
-            #classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
-
-            # need class and resource list
             # class list
             classObjs = [x for x in script.classesObj if x.id in data.keys()]
             # resource list
@@ -921,10 +917,6 @@ class Generator(object):
                 reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
                 data[clazz.id]["run"].extend(reskeys)
 
-            #for classId in classToResources:
-            #    if classId in data:
-            #        data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
-                
             # Message key deps
             for classId in data:
                 classKeys = self._locale.getTranslation(classId, {})
@@ -1297,7 +1289,41 @@ class Generator(object):
 
 
 
-    def runResources(self, classList):
+    def runResources(self, script):
+        if not self._job.get("copy-resources", False):
+            return
+
+        self._console.info("Copying resources...")
+        classList     = script.classesObj
+        resTargetRoot = self._job.get("copy-resources/target", "build")
+        resTargetRoot = self._config.absPath(resTargetRoot)
+        self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
+        rh            = self._resourceHandler
+
+        # resource list
+        resourceObjs = []
+        for libObj in script.libraries:
+            resourceObjs.extend(libObj.getResources())
+        exclpatt = re.compile("\.(?:meta|py)$", re.I)  # remove unwanted files
+        for res in resourceObjs[:]:
+            if exclpatt.search(res.id):
+                resourceObjs.remove(res)
+        # map resources to class.resources
+        classList = rh.mapResourcesToClasses(resourceObjs, classList)
+
+        self._console.indent()
+        # Copy resources
+        #for lib in libs:
+        for res in (_res for cls in classList for _res in cls.resources):
+            # construct target path
+            resTarget = os.path.join(resTargetRoot, 'resource', res.id)
+            # Copy
+            self._copyResources(res.path, os.path.dirname(resTarget))
+
+        self._console.outdent()
+
+
+    def runResources1(self, classList):
         # only run for copy jobs
         if not self._job.get("copy-resources", False):
             return
@@ -1307,7 +1333,7 @@ class Generator(object):
         resTargetRoot = self._config.absPath(resTargetRoot)
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
         libs          = self._job.get("library", [])
-        resourceFilter, classMap = self._resourceHandler.getResourceFilterByAssets(classList)
+        resourceFilter, _ = self._resourceHandler.getResourceFilterByAssets(classList)
 
         self._console.indent()
         # Copy resources
