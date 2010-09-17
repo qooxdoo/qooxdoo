@@ -925,7 +925,8 @@ Triggers cutting images into regions. Takes a map.
       "<input_image>" :
       {
           "prefix"       : "<string>",
-          "border-width" : 5
+          "border-width" : (5 | [5, 10, 5, 10]),
+          "trim-width"   : (true|false)
       }
     }
   }
@@ -937,7 +938,8 @@ Triggers cutting images into regions. Takes a map.
 * **images** : map with slice entries.
 * <input_image> :  path to input file for the slicing; may be relative to config file location
 * **prefix** *(required)* : file name prefix used for the output files; will be interpreted relative to the input file location (so a plain name will result in output files in the same directory, but you can also navigate away with ``../../....`` etc.)
-* **border-width** : pixel width to cut into original image when slicing borders etc.
+* **border-width** : pixel width to cut into original image when slicing borders etc. Takes either a single integer (common border width for all sides) or an array of four integers (top, right, bottom, left).
+* **trim-width** : reduce the width of the center slice to no more than 20 pixels. (default: *true*) 
 
 .. _pages/tool/generator_config_ref#translate:
 
