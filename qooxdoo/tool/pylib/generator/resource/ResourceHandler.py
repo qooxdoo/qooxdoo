@@ -256,14 +256,20 @@ class ResourceHandler(object):
     ##
     # map resources to classes
     # works on resource and class objects
-    # modifies the classes, by adding resources that are needed by a class
+    # modifies the classes, by adding resources that are useful to the class
     def mapResourcesToClasses(self, resources, classes):
         assetMacros     = self._genobj._job.get('asset-let',{})
         expandMacroFunc = functools.partial(self._expandMacrosInMeta, assetMacros)
         for res in resources:
             for clazz in classes:
                 if clazz.needsResource(res, expandMacroFunc):
-                    clazz.resources.add(res)
+                    clazz.resources.add(res) 
+                # check for embedded images
+                if isinstance(res, CombinedImage):
+                    for embed in res.embeds:
+                        if clazz.needsResource(embed, expandMacroFunc):
+                            clazz.resources.add(res)
+                            break
         
         return classes
 

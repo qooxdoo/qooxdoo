@@ -866,10 +866,13 @@ class Generator(object):
                     return False
                 return True
 
+            # ---------------------------------------
+
             inclregexps = self._job.get("provider/include", ["*"])
             exclregexps = self._job.get("provider/exclude", [])
             inclregexps = map(textutil.toRegExp, inclregexps)
             exclregexps = map(textutil.toRegExp, exclregexps)
+            rh          = self._resourceHandler
 
             data = {}
             # Class deps
@@ -896,14 +899,31 @@ class Generator(object):
                 val["run"] = newval
 
             # Resource deps
-            assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
+            #assetFilter, classToAssetHints = self._resourceHandler.getResourceFilterByAssets(data.keys())
             # -- the next line is expensive 
-            classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
+            #classToResources  = self._resourceHandler.getResourcesByClass(self._job.get("library", []), classToAssetHints)
 
+            # need class and resource list
+            # class list
+            classObjs = [x for x in script.classesObj if x.id in data.keys()]
+            # resource list
+            resourceObjs = []
+            for libObj in script.libraries:
+                resourceObjs.extend(libObj.getResources())
+            exclpatt = re.compile("\.(?:meta|py)$", re.I)  # remove unwanted files
+            for res in resourceObjs[:]:
+                if exclpatt.search(res.id):
+                    resourceObjs.remove(res)
+            # map resources to class.resources
+            classObjs = rh.mapResourcesToClasses(resourceObjs, classObjs)
 
-            for classId in classToResources:
-                if classId in data:
-                    data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
+            for clazz in classObjs:
+                reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
+                data[clazz.id]["run"].extend(reskeys)
+
+            #for classId in classToResources:
+            #    if classId in data:
+            #        data[classId]["run"].extend(["/resource/resources#"+x for x in classToResources[classId]])
                 
             # Message key deps
             for classId in data:
@@ -923,6 +943,11 @@ class Generator(object):
                 #newkey += ".js"
                 data[newkey] = data[key]
                 del data[key]
+
+            # sort information for each class (for stable output)
+            for classvals in data.values():
+                for key in classvals:
+                    classvals[key] = sorted(classvals[key], reverse=True)
 
             # write to file
             file = depsLogConf.get('json/file', "deps.json")

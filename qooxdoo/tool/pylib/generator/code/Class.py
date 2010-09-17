@@ -960,7 +960,9 @@ class Class(object):
     ##
     # resource = Resource()
     def needsResource(self, resource, expandMacroFunc=None):
+
         if not hasattr(self, "_assetRegex"):
+            # prepare a regex encompassing all asset hints, asset macros resolved
             classAssets = self.getHints()['assetDeps'][:]
             iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
             for res in classAssets:
@@ -976,8 +978,12 @@ class Class(object):
                     if e not in iresult:
                         iresult.append(e)
             # turn into a regex
-            iresult = re.compile("|".join(iresult))
+            if iresult: # we have hints
+                iresult = re.compile("|".join(iresult))
+            else:
+                iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
             self._assetRegex = iresult
+
         if self._assetRegex.search(resource.id):
             return True
 
