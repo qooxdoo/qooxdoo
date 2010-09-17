@@ -63,6 +63,7 @@ class Class(object):
         #self.ast        = None # ecmascript.frontend.tree instance
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
+        self.resources  = set() # set of resource objects needed by the class
 
         console = context["console"]
         cache   = context["cache"]
@@ -236,7 +237,7 @@ class Class(object):
             console.indent()
 
             # Read meta data
-            meta         = self.getMeta()
+            meta         = self.getHints()
             metaLoad     = meta.get("loadtimeDeps", [])
             metaRun      = meta.get("runtimeDeps" , [])
             metaOptional = meta.get("optionalDeps", [])
@@ -953,7 +954,7 @@ class Class(object):
 
 
     # --------------------------------------------------------------------------
-    #   Meta Data Support
+    #   Compiler Hints Support
     # --------------------------------------------------------------------------
 
     HEAD = {
@@ -966,7 +967,7 @@ class Class(object):
     }
 
 
-    def getMeta(self, metatype=""):
+    def getHints(self, metatype=""):
 
         def _extractLoadtimeDeps(data, fileId):
             deps = []
@@ -1081,7 +1082,7 @@ class Class(object):
 
         for classId in includeWithDeps:
             try:
-                for optional in self.getMeta(classId)["optionalDeps"]:
+                for optional in self.getHints(classId)["optionalDeps"]:
                     if not optional in includeWithDeps and not optional in result:
                         result.append(optional)
 
