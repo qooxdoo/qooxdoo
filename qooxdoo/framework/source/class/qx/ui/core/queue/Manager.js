@@ -76,6 +76,10 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
+      if (qx.ui.core.queue.Manager.PAUSE) {
+        return;
+      }
+
       // Sometimes not executed in context, fix this
       var self = qx.ui.core.queue.Manager;
 
@@ -213,7 +217,40 @@ qx.Class.define("qx.ui.core.queue.Manager",
           finallyCode();
         }
       }
-    })
+    }),
+    
+    
+    /**
+     * Handler used on touch devices to prevent the queue from manipulating 
+     * the dom during the touch - mouse - ... event sequence. Usually, iOS 
+     * devices fire a click event 300ms after the touchend event. So using
+     * 500ms should be a good value to be on the save side. This is necessary 
+     * due to the fact that the event chain is stopped if a manipulation in 
+     * the DOM is done.
+     * 
+     * @param e {qx.event.type.Data} The user action data event.
+     */
+    __onUserAction : function(e) 
+    {
+      var statics = qx.ui.core.queue.Manager;
+      // pospone the flush for 500ms due to the fact that iOS stops firing 
+      // events if the dom gets changed during the vent chain [BUG #4033]
+      if (e.getData() == "touchend") 
+      {
+        statics.PAUSE = true;
+        if (statics.__pauseTimeout) {
+          window.clearTimeout(statics.__pauseTimeout);
+        }
+        statics.__pauseTimeout = window.setTimeout(function() 
+        {
+          statics.PAUSE = false;
+          statics.__pauseTimeout = null;
+          statics.flush();
+        }, 500);
+      } else {
+        statics.flush();
+      }
+    } 
   },
 
 
@@ -236,6 +273,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     qx.html.Element._scheduleFlush = statics.scheduleFlush;
 
     // Register to user action
-    qx.event.Registration.addListener(window, "useraction", statics.flush);
+    qx.event.Registration.addListener(window, "useraction", 
+      qx.bom.client.Feature.TOUCH ? statics.__onUserAction : statics.flush
+    );
   }
 });

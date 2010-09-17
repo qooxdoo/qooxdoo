@@ -81,7 +81,7 @@ qx.Class.define("qx.event.handler.Touch",
     },
 
     /** {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true,
@@ -594,6 +594,9 @@ qx.Class.define("qx.event.handler.Touch",
       document.addEventListener("touchmove", function(e) {
         e.preventDefault();
       });
+      
+      // get the handler to asure that the instance is created
+      qx.event.Registration().getManager(document).getHandler(statics);
     }
   }
 });

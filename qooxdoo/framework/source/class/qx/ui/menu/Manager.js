@@ -58,8 +58,12 @@ qx.Class.define("qx.ui.menu.Manager",
     Registration.addListener(el, "keyup", this._onKeyUpDown, this, true);
     Registration.addListener(el, "keypress", this._onKeyPress, this, true);
 
-    // Hide all when the window is blurred
-    qx.bom.Element.addListener(window, "blur", this.hideAll, this);
+    // only use the blur event to hide windows on non touch devices [BUG #4033]
+    // When the menu is locaed on top of an iFrame, the select will fail
+    if (!qx.bom.client.Feature.TOUCH) {
+      // Hide all when the window is blurred
+      qx.bom.Element.addListener(window, "blur", this.hideAll, this);
+    }
 
     // Create open timer
     this.__openTimer = new qx.event.Timer;

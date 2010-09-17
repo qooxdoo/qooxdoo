@@ -473,13 +473,16 @@ qx.Class.define("qx.event.Manager",
      */
     findHandler : function(target, type)
     {
-      var isDomNode=false, isWindow=false, isObject=false;
+      var isDomNode=false, isWindow=false, isObject=false, isDocument = false;
       var key;
 
       if (target.nodeType === 1)
       {
         isDomNode = true;
         key = "DOM_" + target.tagName.toLowerCase() + "_" + type;
+      } else if (target.nodeType === 9) {
+        isDocument = true;
+        key = "DOCUMENT_" + type;
       }
 
       // Please note:
@@ -525,11 +528,19 @@ qx.Class.define("qx.event.Manager",
         targetCheck = clazz.TARGET_CHECK;
         if (targetCheck)
         {
-          if (!isDomNode && targetCheck === IEventHandler.TARGET_DOMNODE) {
-            continue;
-          } else if (!isWindow && targetCheck === IEventHandler.TARGET_WINDOW) {
-            continue;
-          } else if (!isObject && targetCheck === IEventHandler.TARGET_OBJECT) {
+          // use bitwise & to compare for the bitmask!          
+          var found = false;
+          if (isDomNode && ((targetCheck & IEventHandler.TARGET_DOMNODE) != 0)) {
+            found = true;
+          } else if (isWindow && ((targetCheck & IEventHandler.TARGET_WINDOW) != 0)) {
+            found = true;
+          } else if (isObject && ((targetCheck & IEventHandler.TARGET_OBJECT) != 0)) {
+            found = true;
+          } else if (isDocument && ((targetCheck & IEventHandler.TARGET_DOCUMENT) != 0)) {
+            found = true;
+          }
+          
+          if (!found) {
             continue;
           }
         }
