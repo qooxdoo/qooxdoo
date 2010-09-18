@@ -260,17 +260,29 @@ class ResourceHandler(object):
     def mapResourcesToClasses(self, resources, classes):
         assetMacros     = self._genobj._job.get('asset-let',{})
         expandMacroFunc = functools.partial(self._expandMacrosInMeta, assetMacros)
+        assetPatts = {}
+        for clazz in classes:
+            assetPatts[clazz] = clazz.getAssets(expandMacroFunc)
         for res in resources:
-            for clazz in classes:
-                if clazz.needsResource(res, expandMacroFunc):
-                    clazz.resources.add(res) 
-                # check for embedded images
-                if isinstance(res, CombinedImage):
-                    for embed in res.embeds:
-                        if clazz.needsResource(embed, expandMacroFunc):
-                            clazz.resources.add(res)
-                            break
+            for clazz, patts in assetPatts.items():
+                for patt in patts:
+                    if patt.search(res.id):
+                        clazz.resources.add(res)
+                        break
+            #for clazz in classes:
+            #    if clazz.needsResource(res, expandMacroFunc):
+            #        clazz.resources.add(res) 
+            #    # check for embedded images
+            #    if isinstance(res, CombinedImage):
+            #        for embed in res.embeds:
+            #            if clazz.needsResource(embed, expandMacroFunc):
+            #                clazz.resources.add(res)
+            #                break
         
+        #from generator.code.Class import Class
+        #from pprint import pprint
+        #print "Class.count:", 
+        #pprint(sorted(Class.count))
         return classes
 
 
@@ -304,6 +316,9 @@ class ResourceHandler(object):
             self._genobj._console.debug("%s: %s" % (clazz, repr(iresult)))
             result.extend(iresult)
 
+        #from pprint import pprint
+        #print "Class.count:" 
+        #pprint(sorted(result))
         self._genobj._console.outdent()
         return result, classMap
 

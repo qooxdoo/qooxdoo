@@ -49,6 +49,8 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBA
 class Class(object):
 
 
+    count = []
+
     def __init__(self, id, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
@@ -64,6 +66,7 @@ class Class(object):
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
+        self._assetRegex= None  # regex from #asset hints, for resource matching
 
         console = context["console"]
         cache   = context["cache"]
@@ -961,7 +964,7 @@ class Class(object):
     # resource = Resource()
     def needsResource(self, resource, expandMacroFunc=None):
 
-        if not hasattr(self, "_assetRegex"):
+        if self._assetRegex == None:
             # prepare a regex encompassing all asset hints, asset macros resolved
             classAssets = self.getHints()['assetDeps'][:]
             iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
@@ -978,17 +981,52 @@ class Class(object):
                     if e not in iresult:
                         iresult.append(e)
             # turn into a regex
+            Class.count.extend(iresult)
             if iresult: # we have hints
-                iresult = re.compile("|".join(iresult))
+                iresult = [re.compile(x) for x in iresult]
             else:
-                iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
+                #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
+                #iresult = [re.compile('^$')]
+                pass  # TODO: no need for empty list or never-match regex
             self._assetRegex = iresult
 
-        if self._assetRegex.search(resource.id):
-            return True
+        for patt in self._assetRegex:
+            if patt.search(resource.id):
+                return True
 
         return False
 
+
+    def getAssets(self, expandMacroFunc=None):
+
+        if self._assetRegex == None:
+            # prepare a regex encompassing all asset hints, asset macros resolved
+            classAssets = self.getHints()['assetDeps'][:]
+            iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
+            for res in classAssets:
+                # expand file glob into regexp
+                res = re.sub(r'\*', ".*", res)
+                # expand macros
+                if res.find('${')>-1 and expandMacroFunc:
+                    expres = expandMacroFunc(res)
+                else:
+                    expres = [res]
+                # collect resulting asset expressions
+                for e in expres:
+                    if e not in iresult:
+                        iresult.append(e)
+            # turn into a regex
+            #Class.count.extend(iresult)
+            if iresult: # we have hints
+                iresult = [re.compile(x) for x in iresult]
+            else:
+                #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
+                #iresult = [re.compile('^$')]
+                pass  # TODO: no need for empty list or never-match regex
+            self._assetRegex = iresult
+
+        return self._assetRegex
+    
 
     # --------------------------------------------------------------------------
     #   Compiler Hints Support

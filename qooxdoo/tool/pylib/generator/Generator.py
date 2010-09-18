@@ -619,8 +619,13 @@ class Generator(object):
 
             # Execute real tasks
             if "copy-resources" in jobTriggers:
-                self.runResources1(script.classes)
-                #self.runResources(script)
+                #self.runResources1(script.classes)
+                self.runResources(script)
+                #import cProfile
+                #cProfile.runctx("self.runResources(script)", globals(), locals(),
+                #cProfile.runctx("self.runResources1(script.classes)", globals(), locals(),
+                #"d:/tmp/runresources.prof"
+                #)
             if "compile" in jobTriggers:
                 # get parts config; sets
                 # script.boot
@@ -1312,9 +1317,11 @@ class Generator(object):
         classList = rh.mapResourcesToClasses(resourceObjs, classList)
 
         self._console.indent()
+        # make resources to copy unique
+        resources_to_copy = set(_res for cls in classList for _res in cls.resources)
         # Copy resources
         #for lib in libs:
-        for res in (_res for cls in classList for _res in cls.resources):
+        for res in resources_to_copy:
             # construct target path
             resTarget = os.path.join(resTargetRoot, 'resource', res.id)
             # Copy
