@@ -43,12 +43,19 @@ def tokens_2_obj(content):
         yield token
     yield Token(('eof', '', token.spos+token.len, 0))
 
+
+def scanner_slice(self, a, b):
+    return self.content[a:b]
+
+
 ##
 # Interface function
 def parseStream(content, uniqueId=""):
     tokens = []
     line = column = sol = 1
     scanner = Scanner.LQueue(tokens_2_obj(content, ))
+    scanner.content = content
+    scanner.slice = scanner_slice
     for tok in scanner:
         # some inital values (tok isinstanceof Scanner.Token())
         token = {
@@ -233,6 +240,12 @@ def parseString(scanner, sstart):
     return res
 
 
+def parseString1(scanner, sstart):
+    # parse string literals
+    tokens = parseDelimited(scanner, sstart)
+    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
+
+
 ##
 # parse a regular expression
 def parseRegexp(scanner):
@@ -258,6 +271,21 @@ def parseRegexp(scanner):
     return rexp
 
 
+def parseRegexp1(scanner):
+    # leading '/' is already consumed
+    tokens = parseDelimited(scanner, '/')
+
+    # regexp modifiers
+    try:
+        if scanner.peek()[0].name == "ident":
+            token = scanner.next()
+            tokens.append(token)
+    except StopIteration:
+        pass
+
+    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
+
+
 ##
 # parse an inline comment // ...
 def parseCommentI(scanner):
@@ -268,6 +296,11 @@ def parseCommentI(scanner):
             break
         result += token.value
     return result
+
+
+def parseCommentI1(scanner):
+    tokens = parseDelimited (scanner, '\n')  # TODO: assumes universal newline!
+    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
 
 
 ##
@@ -288,6 +321,30 @@ def parseCommentM(scanner):
 
     return res
 
+def parseCommentM1(scanner):
+    tokens = parseDelimited(scanner, '*/')
+    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
+
+
+##
+# generic element parser for delimited strings (string/regex literals, 
+# comments)
+# both start token and terminator token will be part of the element
+def parseDelimited(scanner, terminator):
+    tokens = []
+    for token in scanner:
+        tokens.append(token)
+        if token.value == terminator:
+            if not is_last_escaped_tokobj (tokens):
+                break
+    else:
+        res = scanner.slice(tokens[0].spos, token.spos + token.len)
+        raise SyntaxException ("Run-away element", res)
+
+    return tokens
+
+
+
 ##
 # syntax exception helper
 def raiseSyntaxException (token, desc = u""):
@@ -301,6 +358,18 @@ def is_last_escaped_token(tokens):
     i   = 1
     while True:
         if tokens[-i]['source'] == '\\':
+            cnt += 1
+            i -= 1
+        else:
+            break
+    return cnt % 2 == 1
+
+
+def is_last_escaped_tokobj(tokens):
+    cnt = 0
+    i   = 1
+    while True:
+        if tokens[-i].value == '\\':
             cnt += 1
             i -= 1
         else:
