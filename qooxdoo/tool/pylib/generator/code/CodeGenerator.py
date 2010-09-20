@@ -756,104 +756,16 @@ class CodeGenerator(object):
     # being part of a combined image.
     def generateResourceInfoCode(self, script, settings, libs, format=False):
 
-        ##
-        # finds the package that needs this resource <assetId> and adds it
-        # (polymorphic in the 4th param, use either simpleResVal *or* combImgObj as kwarg)
-        # TODO: this might be very expensive (lots of lookup's)
-        def addResourceToPackages(script, classToAssetHints, assetId, simpleResVal=None, combImgObj=None):
-
-            ##
-            # match an asset id or a combined image object
-            def assetRexMatchItem(assetRex, item):
-                if combImgObj:
-                    # combined image = object(used:True/False, embeds: {id:ImgInfoFmt}, info:ImgInfoFmt)
-                    for embed in item.embeds:
-                        #if assetRex.match(embed):
-                        if assetRex.match(embed.id):
-                            return True
-                    return False
-                else:
-                    # assetId
-                    return assetRex.match(item)
-
-            # --------------------------------------------------------
-            if combImgObj:
-                #resvalue = combImgObj.info.flatten()
-                resvalue = combImgObj.toResinfo()
-                checkval = combImgObj
-            else:
-                resvalue = simpleResVal
-                checkval = assetId
-
-            classesUsing = set(())
-            for clazz, assetSet in classToAssetHints.items():
-                for assetRex in assetSet:
-                    if assetRexMatchItem(assetRex, checkval):
-                        classesUsing.add(clazz)
-                        break
+        def addResourceInfoToPackages(script):
             for package in script.packages:
-                if classesUsing.intersection(set(package.classes)):
-                    package.data.resources[assetId] = resvalue
+                package_resources = []
+                # TODO: the next is a hack, since package.classes are still id's
+                package_classes   = [x for x in script.classesObj if x.id in package.classes]
+                for clazz in package_classes:
+                    package_resources.extend(clazz.resources)
+                package.data.resources = rh.createResourceStruct([(None, package_resources)], formatAsTree=resources_tree,
+                                                             updateOnlyExistingSprites=True)
             return
-
-        ##
-        # loop through resources, invoking addResourceToPackages
-        def addResourcesToPackages(resdata, combinedImages, classToAssetHints):
-            for resId, resvalue in resdata.items():
-                # register the resource with the package needing it
-                addResourceToPackages(script, classToAssetHints, resId, simpleResVal=resvalue)
-
-            # for combined images, we have to check their embedded images against the packages
-            for combId, combImg in combinedImages.items():
-                if combId in resdata:
-                    addResourceToPackages(script, classToAssetHints, combId, combImgObj=combImg)
-
-            # handle tree structure of resource info
-            if resources_tree:
-                resdata = resdata._data
-
-            return resdata
-
-
-        ##
-        # collect resources from the libs and put them in suitable data structures
-        def collectResources(libs, assetFilter, ):
-            filteredResources = []          # [(Library, [Resource]),...]
-            combinedImages    = {}          # {imgId : CombinedImage}
-            skippatt = re.compile(r'\.(meta|py)$', re.I)
-            for lib in libs:
-                libObj       = [x for x in script.libraries if x.namespace == lib["namespace"]][0]
-                resList      = []
-                filteredResources.append((libObj, resList))
-                resourceList = libObj.getResources()
-                # resourceList = [resObj1, resObj2,...]
-                for resource in resourceList:
-                    if skippatt.search(resource.path):
-                        continue
-                    if assetFilter(resource.path):  # add those anyway
-                        resList.append(resource)
-                    if isinstance(resource, CombinedImage):  # register those for later evaluation
-                        combinedImages[resource.id] = resource
-
-            return filteredResources, combinedImages
-
-
-        def incorporateCombinedImages(filteredResources, combinedImages):
-            # make a long list of all resources
-            allresources = []
-            for libObj, resList in filteredResources:
-                allresources.extend(resList)
-            # check for usable comb.images
-            for combId, combObj in combinedImages.items():
-                if self._resourceHandler.embedsInList(combObj, allresources):
-                    # add it
-                    for libObj, resList in filteredResources:
-                        #if libObj == combObj.lib:
-                        if libObj == combObj.lib and combObj not in resList:
-                            #resList.append(combObj.path)
-                            resList.append(combObj)
-                            break
-            return filteredResources
 
 
         # -- main --------------------------------------------------------------
@@ -863,13 +775,27 @@ class CodeGenerator(object):
         resources_tree = compConf.get ("code/resources-tree", False)
         rh             = self._resourceHandler
 
-        assetFilter, classToAssetHints    = rh.getResourceFilterByAssets (script.classesObj)
-
-        filteredResources, combinedImages = collectResources (libs, assetFilter)
-        filteredResources = incorporateCombinedImages (filteredResources, combinedImages)
+        libraries = [x for x in script.libraries if x.namespace in [l['namespace'] for l in libs]]
+        classes   = rh.mapResourcesToClasses (libraries, script.classesObj)
+        #filteredResources = []
+        filtRes = {}
+        classToAssetHints = {}
+        for clazz in classes:
+            #filteredResources.extend(clazz.resources)
+            for res in clazz.resources:
+                if not res.lib in filtRes:
+                    filtRes[res.lib] = []
+                filtRes[res.lib].append(res)
+            classToAssetHints[clazz.id] = clazz.getAssets()  # don't need the assetMacros anymore
+        filteredResources = [(x,y) for x,y in filtRes.items()]
         resdata           = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
                                                      updateOnlyExistingSprites=True)
-        addResourcesToPackages (resdata, combinedImages, classToAssetHints)
+        # add resource info to packages
+        addResourceInfoToPackages(script)
+
+        # handle tree structure of resource info
+        if resources_tree:
+            resdata = resdata._data
 
         return resdata # end: generateResourceInfoCode()
 

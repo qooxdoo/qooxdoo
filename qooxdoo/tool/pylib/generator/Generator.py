@@ -901,16 +901,8 @@ class Generator(object):
             # Resource deps
             # class list
             classObjs = [x for x in script.classesObj if x.id in data.keys()]
-            # resource list
-            resourceObjs = []
-            for libObj in script.libraries:
-                resourceObjs.extend(libObj.getResources())
-            exclpatt = re.compile("\.(?:meta|py)$", re.I)  # remove unwanted files
-            for res in resourceObjs[:]:
-                if exclpatt.search(res.id):
-                    resourceObjs.remove(res)
             # map resources to class.resources
-            classObjs = rh.mapResourcesToClasses(resourceObjs, classObjs)
+            classObjs = rh.mapResourcesToClasses(script.libraries, classObjs)
 
             for clazz in classObjs:
                 reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
@@ -1298,17 +1290,8 @@ class Generator(object):
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
         rh            = self._resourceHandler
 
-        # resource list
-        resourceObjs = []
-        for libObj in script.libraries:
-            resourceObjs.extend(libObj.getResources()) # weightedness of same res id through order of script.libraries
-        # remove unwanted files
-        exclpatt = re.compile("\.(?:meta|py)$", re.I)
-        for res in resourceObjs[:]:
-            if exclpatt.search(res.id):
-                resourceObjs.remove(res)
         # map resources to class.resources
-        classList = rh.mapResourcesToClasses(resourceObjs, classList)
+        classList = rh.mapResourcesToClasses(script.libraries, classList)
 
         self._console.indent()
         # make resources to copy unique

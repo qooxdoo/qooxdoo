@@ -113,30 +113,48 @@ class ResourceHandler(object):
         return result
             
     ##
-    # check if sprites in a combined image occur in a resource list
-    def embedsInList(self, combObj, resList):
-        matchingEmbeds = []
-        for embed in combObj.embeds: # embed = Image()
-            if embed in resList:
-                matchingEmbeds.append(embed)
-        return matchingEmbeds
-
-
-    ##
     # map resources to classes
     # works on resource and class objects
     # modifies the classes, by adding resources that are useful to the class
-    def mapResourcesToClasses(self, resources, classes):
+    def mapResourcesToClasses(self, libs, classes):
+        
+        ##
+        # map a Resource obj against a set of resource id patterns
+        def checkPatts(res, patts):
+            for patt in patts:
+                if patt.search(res.id):
+                    return True
+            return False
+        # -------------------------------------
+        # Resource list
+        resources = []
+        for libObj in libs:
+            resources.extend(libObj.getResources()) # weightedness of same res id through order of script.libraries
+        # remove unwanted files
+        exclpatt = re.compile("\.(?:meta|py)$", re.I)
+        for res in resources[:]:
+            if exclpatt.search(res.id):
+                resources.remove(res)
+        
+        # Asset pattern list
         assetMacros     = self._genobj._job.get('asset-let',{})
-        assetPatts = {}
+        assetPatts = {}  # {clazz : [assetRegex]}
         for clazz in classes:
-            assetPatts[clazz] = clazz.getAssets(assetMacros)
+            classAssets = clazz.getAssets(assetMacros)
+            if classAssets:
+                assetPatts[clazz] = classAssets
+
+        # Go through resources and asset patterns
         for res in resources:
             for clazz, patts in assetPatts.items():
-                for patt in patts:
-                    if patt.search(res.id):
-                        clazz.resources.add(res)
-                        break
+                if checkPatts(res, patts):
+                    clazz.resources.add(res)
+                # check embedded images
+                if isinstance(res, CombinedImage):
+                    for embed in res.embeds:
+                        if checkPatts(embed, patts):
+                            clazz.resources.add(res)  # add the combimg, if an embed matches
+
             #for clazz in classes:
             #    if clazz.needsResource(res, expandMacroFunc):
             #        clazz.resources.add(res) 
@@ -149,5 +167,14 @@ class ResourceHandler(object):
         
         return classes
 
+
+    ##
+    # check if sprites in a combined image occur in a resource list
+    def embedsInList(self, combObj, resList):
+        matchingEmbeds = []
+        for embed in combObj.embeds: # embed = Image()
+            if embed in resList:
+                matchingEmbeds.append(embed)
+        return matchingEmbeds
 
 
