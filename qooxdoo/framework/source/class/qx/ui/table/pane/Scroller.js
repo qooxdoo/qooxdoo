@@ -100,6 +100,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     // init focus indicator
     this.__focusIndicator = this.getChildControl("focus-indicator");
+    // need to run the apply method at least once [BUG #4057]
+    this.initShowCellFocusIndicator();
 
     // force creation of the resize line
     this.getChildControl("resize-line").hide();
