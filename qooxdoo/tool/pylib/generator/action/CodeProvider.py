@@ -122,7 +122,7 @@ def _handleResources(script, generator, filtered=True):
         #        allresources[resid] = resValue.flatten()
         #    else:
         #        allresources[resid] = resValue
-        allresources = generator._resourceHandler.createResourceStruct([(mainlib, reslist)], updateOnlyExistingSprites = False)
+        allresources = generator._resourceHandler.createResourceStruct(reslist, updateOnlyExistingSprites = False)
 
     # get resource info
     resinfos = {}

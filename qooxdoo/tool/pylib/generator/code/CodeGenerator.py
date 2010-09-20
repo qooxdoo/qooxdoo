@@ -763,7 +763,7 @@ class CodeGenerator(object):
                 package_classes   = [x for x in script.classesObj if x.id in package.classes]
                 for clazz in package_classes:
                     package_resources.extend(clazz.resources)
-                package.data.resources = rh.createResourceStruct([(None, package_resources)], formatAsTree=resources_tree,
+                package.data.resources = rh.createResourceStruct(package_resources, formatAsTree=resources_tree,
                                                              updateOnlyExistingSprites=True)
             return
 
@@ -777,17 +777,9 @@ class CodeGenerator(object):
 
         libraries = [x for x in script.libraries if x.namespace in [l['namespace'] for l in libs]]
         classes   = rh.mapResourcesToClasses (libraries, script.classesObj)
-        #filteredResources = []
-        filtRes = {}
-        classToAssetHints = {}
+        filteredResources = []
         for clazz in classes:
-            #filteredResources.extend(clazz.resources)
-            for res in clazz.resources:
-                if not res.lib in filtRes:
-                    filtRes[res.lib] = []
-                filtRes[res.lib].append(res)
-            classToAssetHints[clazz.id] = clazz.getAssets()  # don't need the assetMacros anymore
-        filteredResources = [(x,y) for x,y in filtRes.items()]
+            filteredResources.extend(clazz.resources)
         resdata           = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
                                                      updateOnlyExistingSprites=True)
         # add resource info to packages

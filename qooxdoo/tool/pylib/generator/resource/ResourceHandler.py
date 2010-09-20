@@ -20,49 +20,13 @@
 ################################################################################
 
 import re, string, types, sys, os, collections
-import functools
 
-from generator.code.Library import Library
-from misc import Path
-from generator.resource.ImageInfo import CombinedImage as CombImage, ImgInfoFmt
 from generator.resource.Resource import CombinedImage
 
 class ResourceHandler(object):
 
     def __init__(self, generatorobj, librariesObj):
         self._genobj  = generatorobj
-        self._assetList = []
-        self._assetsOfClass = {}  # {classId : set(assetRegex)}
-        self._libraries = librariesObj
-
-
-    ##
-    # returns a function that takes a resource path and return true if one
-    # of the <classes> needs it
-    def getResourceFilterByAssets(self, classes):
-
-        #if not self._assetList:
-        #    self._assetList, self._assetsOfClass = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
-        #    self._assetList = [re.compile(x) for x in self._assetList]  # convert to regexp's
-        #    for classId in self._assetsOfClass:
-        #        self._assetsOfClass[classId] = set(re.compile(x) for x in self._assetsOfClass[classId])
-
-        if not self._assetList:
-            assetMacros = self._genobj._job.get('asset-let',{})
-            for clazz in classes:
-                classAssets = clazz.getAssets(assetMacros)
-                self._assetList.extend(classAssets)
-                self._assetsOfClass[clazz.id] = set(classAssets)
-
-        def filter(respath):
-            respath = Path.posifyPath(respath)
-            for assetPatt in self._assetList:
-                mo = assetPatt.search(respath)  # this might need a better 'match' algorithm
-                if mo:
-                    return True
-            return False
-
-        return filter, self._assetsOfClass
 
 
     ##
@@ -79,19 +43,18 @@ class ResourceHandler(object):
     #   resource structure {"gui/test.png" : [32, 32, "png", "gui"], ...}
     # or:
     #   {"gui" : {"test.png" : [32, 32, "png", "gui"], ...}, ...}
-    def createResourceStruct(self, libsAndResources, formatAsTree=False, updateOnlyExistingSprites=False):
+    def createResourceStruct(self, resources, formatAsTree=False, updateOnlyExistingSprites=False):
         
         skippatt = re.compile(r'\.(meta|py)$', re.I)
         result = {}
         if formatAsTree:
             result = ExtMap()
 
-        # Create a flat result from libsAndResources
-        for libObj, resList in libsAndResources:
-            for res in resList:
-                if skippatt.search(res.path):
-                    continue
-                result[res.id] = res
+        # Filter unwanted files
+        for res in resources:
+            if skippatt.search(res.path):
+                continue
+            result[res.id] = res
 
         # Update simple images
         for combImg in (x for x in result.values() if isinstance(x, CombinedImage)):
