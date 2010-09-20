@@ -67,7 +67,7 @@ qx.Class.define("qx.util.Validate",
      */
     number : function(errorMessage) {
       return function(value) {
-        qx.util.Validate.checkNumber(value, errorMessage);
+        qx.util.Validate.checkNumber(value, null, errorMessage);
       }
     },
 
@@ -79,11 +79,13 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #number} method.
      *
      * @param value {var} The value to check.
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?undefined} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a
      *    finite number
      */
-    checkNumber : function(value, errorMessage)
+    checkNumber : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
         qx.locale.Manager.tr("%1 is not a number.", value);
@@ -104,7 +106,7 @@ qx.Class.define("qx.util.Validate",
      */
     email : function(errorMessage) {
       return function(value) {
-        qx.util.Validate.checkEmail(value, errorMessage);
+        qx.util.Validate.checkEmail(value, null, errorMessage);
       }
     },
 
@@ -116,11 +118,13 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #email} method.
      *
      * @param value {var} The value to check.
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not
      *    a valid email address.
      */
-    checkEmail : function(value, errorMessage)
+    checkEmail : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
         qx.locale.Manager.tr("'%1' is not an email address.", (value || ""));
@@ -140,7 +144,7 @@ qx.Class.define("qx.util.Validate",
      */
     string : function(errorMessage) {
       return function(value) {
-        qx.util.Validate.checkString(value, errorMessage);
+        qx.util.Validate.checkString(value, null, errorMessage);
       }
     },
 
@@ -152,10 +156,12 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #string} method.
      *
      * @param value {var} The value to check.
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a string.
      */
-    checkString : function(value, errorMessage)
+    checkString : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
         qx.locale.Manager.tr("%1 is not a string.", value);
@@ -174,7 +180,7 @@ qx.Class.define("qx.util.Validate",
      */
     url : function(errorMessage) {
       return function(value) {
-        qx.util.Validate.checkUrl(value, errorMessage);
+        qx.util.Validate.checkUrl(value, null, errorMessage);
       }
     },
 
@@ -186,10 +192,12 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #url} method.
      *
      * @param value {var} The value to check.
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a url.
      */
-    checkUrl : function(value, errorMessage)
+    checkUrl : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
         qx.locale.Manager.tr("%1 is not an url.", value);
@@ -209,7 +217,7 @@ qx.Class.define("qx.util.Validate",
      */
     color : function(errorMessage) {
       return function(value) {
-        qx.util.Validate.checkColor(value, errorMessage);
+        qx.util.Validate.checkColor(value, null, errorMessage);
       }
     },
 
@@ -222,10 +230,12 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #color} method.
      *
      * @param value {var} The value to check.
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     *   {@link qx.ui.form.Form}.     
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a color.
      */
-    checkColor : function(value, errorMessage)
+    checkColor : function(value, formItem, errorMessage)
     {
       try {
         qx.util.ColorUtil.stringToRgb(value);
