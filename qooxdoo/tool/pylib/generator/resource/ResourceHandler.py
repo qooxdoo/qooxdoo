@@ -30,14 +30,13 @@ class ResourceHandler(object):
 
 
     ##
-    # Create a resource structure suitable for serializing (like CodeGenerator.
-    # generateResourceInfoCode, but with simpler input params). The main simpli-
+    # Create a resource structure suitable for serializing. The main simpli-
     # fication is that no resource *selection* is done in this method. It basi-
-    # cally just takes lists of resource paths and creates an info structure for
+    # cally just takes a lists of resources and creates an info structure for
     # them. Combined images are honored.
     #
     # Takes:
-    #   [(libObj, ["resourcePath"]),...]
+    #   [resourceObj1,...]
     #   formatAsTree = True/False
     # returns:
     #   resource structure {"gui/test.png" : [32, 32, "png", "gui"], ...}
@@ -76,9 +75,9 @@ class ResourceHandler(object):
         return result
             
     ##
-    # map resources to classes
-    # works on resource and class objects
-    # modifies the classes, by adding resources that are useful to the class
+    # Map resources to classes.
+    # Takes a list of Library's and a list of Class'es, and modifies the
+    # classes' .resources member to hold suitable resources from the Libs.
     def mapResourcesToClasses(self, libs, classes):
         
         ##
@@ -99,7 +98,8 @@ class ResourceHandler(object):
             if exclpatt.search(res.id):
                 resources.remove(res)
         
-        # Asset pattern list
+        # Asset pattern list  -- this is basically an optimization, to condense
+        # asset patterns
         assetMacros     = self._genobj._job.get('asset-let',{})
         assetPatts = {}  # {clazz : [assetRegex]}
         for clazz in classes:
@@ -117,16 +117,6 @@ class ResourceHandler(object):
                     for embed in res.embeds:
                         if checkPatts(embed, patts):
                             clazz.resources.add(res)  # add the combimg, if an embed matches
-
-            #for clazz in classes:
-            #    if clazz.needsResource(res, expandMacroFunc):
-            #        clazz.resources.add(res) 
-            #    # check for embedded images
-            #    if isinstance(res, CombinedImage):
-            #        for embed in res.embeds:
-            #            if clazz.needsResource(embed, expandMacroFunc):
-            #                clazz.resources.add(res)
-            #                break
         
         return classes
 
