@@ -958,7 +958,7 @@ class Class(object):
     #   Resource Support
     # --------------------------------------------------------------------------
 
-    def getAssets(self, assetMacros=None):
+    def getAssets(self, assetMacros={}):
 
         if self._assetRegex == None:
             # prepare a regex encompassing all asset hints, asset macros resolved
@@ -968,7 +968,7 @@ class Class(object):
                 # expand file glob into regexp
                 res = re.sub(r'\*', ".*", res)
                 # expand macros
-                if res.find('${')>-1 and assetMacros:
+                if res.find('${')>-1:
                     expres = self._expandMacrosInMeta(assetMacros, res)
                 else:
                     expres = [res]
@@ -1013,7 +1013,7 @@ class Class(object):
                     nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
                     nres = nres.replace('//', '/')    # get rid of '...//...'
                     result.append(nres)
-                    console.warn("Empty replacement of macro '%s' in asset spec." % themekey)
+                    console.warn("Warning: (%s): Cannot replace macro '%s' in #asset hint" % (self.id, themekey))
             else:
                 raise SyntaxError, "Non-terminated macro in string: %s" % rsc
             return result
