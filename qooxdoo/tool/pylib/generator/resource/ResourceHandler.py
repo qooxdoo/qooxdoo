@@ -167,14 +167,3 @@ class ResourceHandler(object):
         
         return classes
 
-
-    ##
-    # check if sprites in a combined image occur in a resource list
-    def embedsInList(self, combObj, resList):
-        matchingEmbeds = []
-        for embed in combObj.embeds: # embed = Image()
-            if embed in resList:
-                matchingEmbeds.append(embed)
-        return matchingEmbeds
-
-
