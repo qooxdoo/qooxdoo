@@ -863,7 +863,7 @@ class CodeGenerator(object):
         resources_tree = compConf.get ("code/resources-tree", False)
         rh             = self._resourceHandler
 
-        assetFilter, classToAssetHints    = rh.getResourceFilterByAssets (script.classes)
+        assetFilter, classToAssetHints    = rh.getResourceFilterByAssets (script.classesObj)
 
         filteredResources, combinedImages = collectResources (libs, assetFilter)
         filteredResources = incorporateCombinedImages (filteredResources, combinedImages)

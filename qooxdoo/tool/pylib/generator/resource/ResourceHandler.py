@@ -31,24 +31,32 @@ class ResourceHandler(object):
 
     def __init__(self, generatorobj, librariesObj):
         self._genobj  = generatorobj
-        self._resList = None
+        self._assetList = []
+        self._assetsOfClass = {}  # {classId : set(assetRegex)}
         self._libraries = librariesObj
 
 
+    ##
+    # returns a function that takes a resource path and return true if one
+    # of the <classes> needs it
     def getResourceFilterByAssets(self, classes):
-        # returns a function that takes a resource path and return true if one
-        # of the <classes> needs it
 
-        if not self._resList:
-            self._resList, self._assetsOfClass = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
-            self._resList = [re.compile(x) for x in self._resList]  # convert to regexp's
-            for classId in self._assetsOfClass:
-                self._assetsOfClass[classId] = set(re.compile(x) for x in self._assetsOfClass[classId])
+        #if not self._assetList:
+        #    self._assetList, self._assetsOfClass = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+        #    self._assetList = [re.compile(x) for x in self._assetList]  # convert to regexp's
+        #    for classId in self._assetsOfClass:
+        #        self._assetsOfClass[classId] = set(re.compile(x) for x in self._assetsOfClass[classId])
+
+        if not self._assetList:
+            for clazz in classes:
+                classAssets = clazz.getAssets()
+                self._assetList.extend(classAssets)
+                self._assetsOfClass[clazz.id] = set(classAssets)
 
         def filter(respath):
             respath = Path.posifyPath(respath)
-            for res in self._resList:
-                mo = res.search(respath)  # this might need a better 'match' algorithm
+            for assetPatt in self._assetList:
+                mo = assetPatt.search(respath)  # this might need a better 'match' algorithm
                 if mo:
                     return True
             return False
@@ -119,10 +127,9 @@ class ResourceHandler(object):
     # modifies the classes, by adding resources that are useful to the class
     def mapResourcesToClasses(self, resources, classes):
         assetMacros     = self._genobj._job.get('asset-let',{})
-        expandMacroFunc = functools.partial(self._expandMacrosInMeta, assetMacros)
         assetPatts = {}
         for clazz in classes:
-            assetPatts[clazz] = clazz.getAssets(expandMacroFunc)
+            assetPatts[clazz] = clazz.getAssets(assetMacros)
         for res in resources:
             for clazz, patts in assetPatts.items():
                 for patt in patts:
@@ -142,72 +149,4 @@ class ResourceHandler(object):
         return classes
 
 
-    def _getResourcelistFromClasslist(self, classList):
-        """Return a consolidated list of resource fileId's of all classes in classList;
-           handles meta info."""
-        result   = []  # list of needed resourceIds
-        classMap = {}  # map of resourceIds per class {classId : set(resourceIds)}
-        assetMacros = self._genobj._job.get('asset-let',{})
-
-        self._genobj._console.info("Compiling resource list...")
-        self._genobj._console.indent()
-        for clazz in classList:
-            classMap[clazz] = set(())
-            #classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
-            classRes = (self._genobj._classesObj[clazz].getHints())['assetDeps'][:]
-            iresult  = []
-            for res in classRes:
-                # here it might need some massaging of 'res' before lookup and append
-                # expand file glob into regexp
-                res = re.sub(r'\*', ".*", res)
-                # expand macros
-                if res.find('${')>-1:
-                    expres = self._expandMacrosInMeta(assetMacros, res)
-                else:
-                    expres = [res]
-                for r in expres:
-                    classMap[clazz].add(r)
-                    if r not in result + iresult:
-                        iresult.append(r)
-            self._genobj._console.debug("%s: %s" % (clazz, repr(iresult)))
-            result.extend(iresult)
-
-        self._genobj._console.outdent()
-        return result, classMap
-
-
-    # wpbasti: Isn't this something for the config class?
-    # Do we have THE final solution for these kind of variables yet?
-    # The support for macros, themes, variants and all the types of variables make me somewhat crazy.
-    # Makes it complicated for users as well.
-    def _expandMacrosInMeta(self, assetMacros, res):
-        
-        def expMacRec(rsc):
-            if rsc.find('${')==-1:
-                return [rsc]
-            result = []
-            nres = rsc[:]
-            mo = re.search(r'\$\{(.*?)\}',rsc)
-            if mo:
-                themekey = mo.group(1)
-                if themekey in assetMacros:
-                    # create an array with all possibly variants for this replacement
-                    iresult = []
-                    for val in assetMacros[themekey]:
-                        iresult.append(nres.replace('${'+themekey+'}', val))
-                    # for each variant replace the remaining macros
-                    for ientry in iresult:
-                        result.extend(expMacRec(ientry))
-                else:
-                    nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
-                    #nres = os.path.normpath(nres)     # get rid of '...//...'
-                    nres = nres.replace('//', '/')    # get rid of '...//...'
-                    result.append(nres)
-                    self._genobj._console.warn("Empty replacement of macro '%s' in asset spec." % themekey)
-            else:
-                raise SyntaxError, "Non-terminated macro in string: %s" % rsc
-            return result
-
-        result = expMacRec(res)
-        return result
 

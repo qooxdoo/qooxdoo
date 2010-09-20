@@ -960,9 +960,7 @@ class Class(object):
     #   Resource Support
     # --------------------------------------------------------------------------
 
-    ##
-    # resource = Resource()
-    def needsResource(self, resource, expandMacroFunc=None):
+    def getAssets(self, assetMacros=None):
 
         if self._assetRegex == None:
             # prepare a regex encompassing all asset hints, asset macros resolved
@@ -972,8 +970,8 @@ class Class(object):
                 # expand file glob into regexp
                 res = re.sub(r'\*', ".*", res)
                 # expand macros
-                if res.find('${')>-1 and expandMacroFunc:
-                    expres = expandMacroFunc(res)
+                if res.find('${')>-1 and assetMacros:
+                    expres = self._expandMacrosInMeta(assetMacros, res)
                 else:
                     expres = [res]
                 # collect resulting asset expressions
@@ -990,43 +988,41 @@ class Class(object):
                 pass  # TODO: no need for empty list or never-match regex
             self._assetRegex = iresult
 
-        for patt in self._assetRegex:
-            if patt.search(resource.id):
-                return True
-
-        return False
-
-
-    def getAssets(self, expandMacroFunc=None):
-
-        if self._assetRegex == None:
-            # prepare a regex encompassing all asset hints, asset macros resolved
-            classAssets = self.getHints()['assetDeps'][:]
-            iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
-            for res in classAssets:
-                # expand file glob into regexp
-                res = re.sub(r'\*', ".*", res)
-                # expand macros
-                if res.find('${')>-1 and expandMacroFunc:
-                    expres = expandMacroFunc(res)
-                else:
-                    expres = [res]
-                # collect resulting asset expressions
-                for e in expres:
-                    if e not in iresult:
-                        iresult.append(e)
-            # turn into a regex
-            #Class.count.extend(iresult)
-            if iresult: # we have hints
-                iresult = [re.compile(x) for x in iresult]
-            else:
-                #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
-                #iresult = [re.compile('^$')]
-                pass  # TODO: no need for empty list or never-match regex
-            self._assetRegex = iresult
-
         return self._assetRegex
-    
+
+
+    ##
+    # expand asset macros in asset strings, like "qx/decoration/${theme}/*"
+    def _expandMacrosInMeta(self, assetMacros, res):
+        
+        def expMacRec(rsc):
+            if rsc.find('${')==-1:
+                return [rsc]
+            result = []
+            nres = rsc[:]
+            mo = re.search(r'\$\{(.*?)\}',rsc)
+            if mo:
+                themekey = mo.group(1)
+                if themekey in assetMacros:
+                    # create an array with all possibly variants for this replacement
+                    iresult = []
+                    for val in assetMacros[themekey]:
+                        iresult.append(nres.replace('${'+themekey+'}', val))
+                    # for each variant replace the remaining macros
+                    for ientry in iresult:
+                        result.extend(expMacRec(ientry))
+                else:
+                    nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
+                    nres = nres.replace('//', '/')    # get rid of '...//...'
+                    result.append(nres)
+                    console.warn("Empty replacement of macro '%s' in asset spec." % themekey)
+            else:
+                raise SyntaxError, "Non-terminated macro in string: %s" % rsc
+            return result
+
+        result = expMacRec(res)
+        return result
+
 
     # --------------------------------------------------------------------------
     #   Compiler Hints Support
