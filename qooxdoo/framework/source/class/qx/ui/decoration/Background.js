@@ -129,8 +129,8 @@ qx.Class.define("qx.ui.decoration.Background",
       element.style.width = (width - insets.left - insets.right) + "px";
       element.style.height = (height - insets.top - insets.bottom) + "px";
 
-      element.style.left = insets.left + "px";
-      element.style.top = insets.top + "px";
+      element.style.left = -insets.left + "px";
+      element.style.top = -insets.top + "px";
     },
 
 
