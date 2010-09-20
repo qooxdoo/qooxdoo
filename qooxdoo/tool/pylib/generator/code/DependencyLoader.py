@@ -144,6 +144,7 @@ class DependencyLoader(object):
             if verifyDeps:
                 for dep in deps["warn"]:
                     if dep.name not in ignore_names:
+                        self._console.nl()
                         self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, item, dep.line))
 
             # process lists
