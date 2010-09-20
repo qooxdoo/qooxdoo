@@ -619,13 +619,7 @@ class Generator(object):
 
             # Execute real tasks
             if "copy-resources" in jobTriggers:
-                #self.runResources1(script.classes)
                 self.runResources(script)
-                #import cProfile
-                #cProfile.runctx("self.runResources(script)", globals(), locals(),
-                #cProfile.runctx("self.runResources1(script.classes)", globals(), locals(),
-                #"d:/tmp/runresources.prof"
-                #)
             if "compile" in jobTriggers:
                 # get parts config; sets
                 # script.boot
@@ -1293,7 +1287,6 @@ class Generator(object):
         self._console.outdent()
 
 
-
     def runResources(self, script):
         if not self._job.get("copy-resources", False):
             return
@@ -1308,8 +1301,9 @@ class Generator(object):
         # resource list
         resourceObjs = []
         for libObj in script.libraries:
-            resourceObjs.extend(libObj.getResources())
-        exclpatt = re.compile("\.(?:meta|py)$", re.I)  # remove unwanted files
+            resourceObjs.extend(libObj.getResources()) # weightedness of same res id through order of script.libraries
+        # remove unwanted files
+        exclpatt = re.compile("\.(?:meta|py)$", re.I)
         for res in resourceObjs[:]:
             if exclpatt.search(res.id):
                 resourceObjs.remove(res)
@@ -1329,56 +1323,6 @@ class Generator(object):
 
         self._console.outdent()
 
-
-    def runResources1(self, classList):
-        # only run for copy jobs
-        if not self._job.get("copy-resources", False):
-            return
-
-        self._console.info("Copying resources...")
-        resTargetRoot = self._job.get("copy-resources/target", "build")
-        resTargetRoot = self._config.absPath(resTargetRoot)
-        self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
-        libs          = self._job.get("library", [])
-        resourceFilter, _ = self._resourceHandler.getResourceFilterByAssets(classList)
-
-        self._console.indent()
-        # Copy resources
-        for lib in libs:
-            #libp = Library(lib,self._console)
-            #ns   = libp.getNamespace()
-
-            # construct a path to the source root for the resources
-            #  (to be used later as a stripp-off from the resource source path)
-            libpath = os.path.join(lib['path'],lib['resource'])
-            libpath = os.path.normpath(libpath)
-
-            # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], resourceFilter)
-
-            # for each needed resource
-            for res in resList:
-                # Get source and target paths, and invoke copying
-
-                # Get a source path
-                resSource = os.path.normpath(res)
-
-                # Construct a target path
-                # strip off a library prefix...
-                #  relpath = respath - libprefix
-                relpath = (Path.getCommonPrefix(libpath, resSource))[2]
-                if relpath[0] == os.sep:
-                    relpath = relpath[1:]
-                # ...to construct a suitable target path
-                #  target = targetRoot + relpath
-                resTarget = os.path.join(resTargetRoot, 'resource', relpath)
-
-                # Copy
-                self._copyResources(res, os.path.dirname(resTarget))
-
-        self._console.outdent()
-
-    
 
     def runCollectEnvironmentInfo(self):
         letConfig = self._job.get('let',{})

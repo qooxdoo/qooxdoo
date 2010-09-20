@@ -35,99 +35,6 @@ class ResourceHandler(object):
         self._libraries = librariesObj
 
 
-    ##
-    # Find relevant resources/assets, implementing shaddowing of resources.
-    # Yields resources [file_path1, ...]
-    # includes necessary combined images, unless useCombImgs=False
-    # filter is a positivie filter (ie. the things you *want*)
-    def findAllResources(self, libraries, filter=None, useCombImgs=True):
-
-        combinedImages    = set(())
-
-        # go through all libs (weighted) and collect necessary resources
-        for lib in libraries:
-            for resource in self.findLibResources(lib, ):
-                if CombinedImage.isCombinedImage(resource):
-                    combinedImages.add(resource)
-                if (filter and not filter(resource)):
-                    continue
-                else:
-                    yield resource
-
-        # go through the combined images
-        if filter:
-            for combpath in combinedImages:
-                combimg = CombImage(combpath)
-                for embimg in combimg.getEmbeddedImages():
-                    if filter(embimg):
-                        yield combpath
-                        break  # one match is enough
-        else: 
-            # if there is no filter, the comb. images have been added in the 
-            # first loop
-            pass
-
-        return
-
-
-    ##
-    # Yield the resources of a single lib
-    # @param lib jobconf.get("library", [])
-    def findLibResources(self, lib, filter=None):
-
-        def getCache(lib):
-            cacheId = "resinlib-%s" % lib._path
-            liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
-            return liblist, cacheId
-
-        def isSkipFile(f):
-            if [x for x in map(lambda x: re.search(x, f), ignoredFiles) if x!=None]:
-                return True
-            else:
-                return False
-
-        # - Main --------------------------------------------------------------
-        cacheList    = []  # to poss. populate cache
-        cacheId      = ""  # will be filled in getCache()
-        ignoredFiles = [r'\.meta$',]  # files not considered as resources
-
-        # create wrapper object
-        libObj = Library(lib, self._genobj._console)
-        # retrieve list of library resources
-        libList, cacheId = getCache(libObj)
-        if libList:
-            inCache = True
-        else:
-            libList = libObj.scanResourcePath()
-            inCache = False
-
-        lib_prefix_len = len(libObj._resourcePath)
-        if not libObj._resourcePath.endswith(os.sep):
-            lib_prefix_len += 1
-        # go through list of library resources and add suitable
-        for resource in libList:
-            # scanResourcePath() yields absolute paths to a resource, but
-            # we only want to match against the 'resource' part of it
-            #resourcePart = Path.getCommonPrefix(libObj._resourcePath, resource)[2]
-            resourcePart = resource[lib_prefix_len:]
-            if not inCache:
-                cacheList.append(resource)
-            if isSkipFile(resource):
-                continue
-            elif (filter and not filter(resourcePart)):
-                continue
-            else:
-                yield resource
-
-        if not inCache:
-            # cache write
-            self._genobj._cache.write(cacheId, cacheList, memory=True, writeToFile=False)
-
-        return
-
-                        
-        
-
     def getResourceFilterByAssets(self, classes):
         # returns a function that takes a resource path and return true if one
         # of the <classes> needs it
@@ -279,10 +186,6 @@ class ResourceHandler(object):
             #                clazz.resources.add(res)
             #                break
         
-        #from generator.code.Class import Class
-        #from pprint import pprint
-        #print "Class.count:", 
-        #pprint(sorted(Class.count))
         return classes
 
 

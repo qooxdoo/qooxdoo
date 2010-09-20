@@ -39,8 +39,15 @@ class Resource(object):
     def __repr__(self):
         return "<%s:%s>" % (self.__class__.__name__, self.id)
 
+    ##
+    # make the .id significant for 'in' tests
     def __eq__(self, other):
         return self.id == other.id
+
+    ##
+    # make the .id significant for set() operations
+    def __hash__(self):
+        return hash(self.id)
     
     def toResinfo(self):
         return self.lib.namespace
