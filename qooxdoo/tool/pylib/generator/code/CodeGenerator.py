@@ -284,6 +284,7 @@ class CodeGenerator(object):
             data += ';\n'
             return data
 
+
         def compilePackage(packageIndex, package):
             self._console.info("Compiling package #%s:" % packageIndex, False)
             self._console.indent()
@@ -780,8 +781,8 @@ class CodeGenerator(object):
         filteredResources = []
         for clazz in classes:
             filteredResources.extend(clazz.resources)
-        resdata           = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
-                                                     updateOnlyExistingSprites=True)
+        resdata   = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+                                             updateOnlyExistingSprites=True)
         # add resource info to packages
         addResourceInfoToPackages(script)
 
