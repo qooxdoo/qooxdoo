@@ -56,26 +56,6 @@ class ResourceHandler(object):
         return filter, self._assetsOfClass
 
 
-    def getResourceFilterByFilepath(self, filepatt=None, inversep=lambda x: x):
-        """Returns a filter function that takes a resource path and returns
-           True/False, depending on whether the resource should be included.
-           <filepatt> pattern to match against a resource path, <inversep> if
-           the match result should be reversed (for exclusions); example:
-               getResourceFilterByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x)
-           returns only res paths that do *not* match '/qx/icon/'"""
-        if not filepatt:
-            #filepatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
-            filepatt = re.compile(r'.*/resource/.*')
-
-        def filter(respath):
-            if inversep(re.search(filepatt,respath)):
-                return True
-            else:
-                return False
-
-        return filter
-
-
     ##
     # Create a resource structure suitable for serializing (like CodeGenerator.
     # generateResourceInfoCode, but with simpler input params). The main simpli-
@@ -131,33 +111,6 @@ class ResourceHandler(object):
             if embed in resList:
                 matchingEmbeds.append(embed)
         return matchingEmbeds
-
-    def assetsMatchResource(self, assetSet, resource, resVal):
-        resId, embImgs = resVal  # embImgs = False | [embId, ...]
-
-        for assetRex in assetSet:
-            if embImgs:
-                for embId in embImgs:
-                    if assetRex.match(embId):
-                        return True
-            # we deliberately include combined images here, in case someone #assets the combined image directly
-            if assetRex.match(resId):
-                return True
-
-        return False
-
-
-    def assetIdFromPath(self, resource, lib):
-        def extractAssetPart(libresuri, imguri):
-            pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
-            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-            return imgsfx                # use the bare img suffix as its asset Id
-
-        librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-        assetId = extractAssetPart(librespath, resource)
-        assetId = Path.posifyPath(assetId)
-        return assetId
-
 
 
     ##
@@ -219,9 +172,6 @@ class ResourceHandler(object):
             self._genobj._console.debug("%s: %s" % (clazz, repr(iresult)))
             result.extend(iresult)
 
-        #from pprint import pprint
-        #print "Class.count:" 
-        #pprint(sorted(result))
         self._genobj._console.outdent()
         return result, classMap
 
