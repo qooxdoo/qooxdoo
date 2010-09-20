@@ -22,7 +22,15 @@
  */
 qx.Mixin.define("qx.ui.form.MForm",
 {
-
+  
+  construct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this.__onChangeLocale, this);
+    }
+  },
+  
+  
   properties : {
 
     /**
@@ -73,6 +81,40 @@ qx.Mixin.define("qx.ui.form.MForm",
     // apply method
     _applyValid: function(value, old) {
       value ? this.removeState("invalid") : this.addState("invalid");
+    },
+    
+    
+    /**
+     * Locale change event handler
+     *
+     * @signature function(e)
+     * @param e {Event} the change event
+     */    
+    __onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    {
+      "on" : function(e)
+      {
+        // invalid message
+        var invalidMessage = this.getInvalidMessage();
+        if (invalidMessage && invalidMessage.translate) {
+          this.setInvalidMessage(invalidMessage.translate());
+        }
+        // required invalid message
+        var requiredInvalidMessage = this.getRequiredInvalidMessage();
+        if (requiredInvalidMessage && requiredInvalidMessage.translate) {
+          this.setRequiredInvalidMessage(requiredInvalidMessage.translate());
+        }        
+      },
+
+      "off" : null
+    })
+  },
+  
+  
+  destruct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this.__onChangeLocale, this);
     }
-  }
+  }  
 });
