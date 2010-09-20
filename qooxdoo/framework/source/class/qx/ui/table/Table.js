@@ -1266,6 +1266,10 @@ qx.Class.define("qx.ui.table.Table",
       // update selection if rows were removed
       if (removeCount) {
         this.getSelectionModel().removeSelectionInterval(removeStart, removeStart + removeCount);
+        // remove focus if the focused row has been removed
+        if (this.__focusedRow >= removeStart && this.__focusedRow < (removeStart + removeCount)) {
+          this.setFocusedCell();
+        }
       }
 
       for (var i=0; i<scrollerArr.length; i++)

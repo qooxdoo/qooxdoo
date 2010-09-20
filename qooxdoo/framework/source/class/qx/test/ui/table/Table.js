@@ -265,6 +265,34 @@ qx.Class.define("qx.test.ui.table.Table",
       table.getTableColumnModel().setColumnWidth(0, 100);
       // check that the table is not scrolled back to the top
       this.assertEquals(100, table.getPaneScroller(0).getScrollY());
+    },
+    
+    
+    testFocusAfterRemove : function() 
+    {
+      var tableModelSimple = new qx.ui.table.model.Simple();
+      tableModelSimple.setColumns([ "Location", "Team" ]);
+      var tableSimple = new qx.ui.table.Table(tableModelSimple);
+
+      var data = [ [1, 'team1'],
+                   [2, 'team2'],
+                   [3, 'team3']];
+
+      tableModelSimple.setData(data);
+
+      // select and focus row 2
+      tableSimple.getSelectionModel().addSelectionInterval(1,1);
+      tableSimple.setFocusedCell(1,1);
+
+      // remove this row
+      tableModelSimple.removeRows(1,1);
+
+      // check if the selection and the focus is gone
+      this.assertEquals(null, tableSimple.getFocusedRow()); // dont use assertNull because it can be undefined
+      this.assertEquals(0, tableSimple.getSelectionModel().getSelectedCount());
+      
+      tableSimple.dispose();
+      tableModelSimple.dispose();
     }
   }
 });
