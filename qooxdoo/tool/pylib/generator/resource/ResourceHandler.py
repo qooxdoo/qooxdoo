@@ -48,8 +48,9 @@ class ResourceHandler(object):
         #        self._assetsOfClass[classId] = set(re.compile(x) for x in self._assetsOfClass[classId])
 
         if not self._assetList:
+            assetMacros = self._genobj._job.get('asset-let',{})
             for clazz in classes:
-                classAssets = clazz.getAssets()
+                classAssets = clazz.getAssets(assetMacros)
                 self._assetList.extend(classAssets)
                 self._assetsOfClass[clazz.id] = set(classAssets)
 

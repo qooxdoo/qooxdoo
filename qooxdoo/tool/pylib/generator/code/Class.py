@@ -49,8 +49,6 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBA
 class Class(object):
 
 
-    count = []
-
     def __init__(self, id, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
@@ -979,7 +977,7 @@ class Class(object):
                     if e not in iresult:
                         iresult.append(e)
             # turn into a regex
-            Class.count.extend(iresult)
+            console.debug("%s: %r" % (self.id, iresult))
             if iresult: # we have hints
                 iresult = [re.compile(x) for x in iresult]
             else:
