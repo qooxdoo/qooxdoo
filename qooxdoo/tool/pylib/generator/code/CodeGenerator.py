@@ -786,10 +786,6 @@ class CodeGenerator(object):
         # add resource info to packages
         addResourceInfoToPackages(script)
 
-        # handle tree structure of resource info
-        if resources_tree:
-            resdata = resdata._data
-
         return resdata # end: generateResourceInfoCode()
 
 
