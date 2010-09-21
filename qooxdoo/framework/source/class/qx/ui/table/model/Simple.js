@@ -160,17 +160,33 @@ qx.Class.define("qx.ui.table.model.Simple",
     getRowData : function(rowIndex)
     {
       var rowData = this.__rowArr[rowIndex];
-      if (rowData == null || rowData.originalData == null) {
-        return rowData;
-      } else {
-        return rowData.originalData;
+      if (rowData != null) {
+        var map = {};
+        // get the current set data
+        for (var col = 0; col < this.getColumnCount(); col++) {
+          map[this.getColumnId(col)] = rowData[col];
+        }
+        
+        if (rowData.originalData != null) {
+          // merge in the meta data
+          for (var key in rowData.originalData) {
+            if (map[key] == undefined) {
+              map[key] = rowData.originalData[key];
+            }
+          }
+        }
+
+        return map;
       }
+      // may be null, which is ok
+      return (rowData && rowData.originalData) ? rowData.originalData : null;
     },
 
 
     /**
      * Returns the data of one row as map containing the column IDs as key and
-     * the cell values as value.
+     * the cell values as value. This will not contain meta data which means 
+     * only visible data will be in the returned map.
      *
      * @param rowIndex {Integer} the model index of the row.
      * @return {Map} a Map containing the column values.
