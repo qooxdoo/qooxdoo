@@ -68,7 +68,9 @@
  *   </td></tr>
  *   <tr><th>apply</th><td>String</td><td>
  *     On change of the property value the method of the specified name will be called. The signature of
- *     the method is <code>function(newValue, oldValue)</code>.
+ *     the method is <code>function(newValue, oldValue, propertyName)</code>. It is conventional to name
+ *     the callback <code>_apply</code> + <i>PropertyName</i>, with the property name camel-cased (e.g.
+ *     "<i>_applyFooBar</i>" for a property <i>fooBar</i>).
  *   </td></tr>
  *   <tr><th>event</th><td>String</td><td>
  *     On change of the property value an event with the given name will be dispatched. The event type is
