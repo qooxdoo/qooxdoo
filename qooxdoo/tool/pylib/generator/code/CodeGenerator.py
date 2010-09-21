@@ -341,6 +341,7 @@ class CodeGenerator(object):
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants
+        libraries  = script.libraries
 
         self._treeCompiler = treeCompiler
         self._variants     = variants
@@ -399,7 +400,7 @@ class CodeGenerator(object):
             out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
             out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
-        globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libs, format)
+        globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libraries, format)
         globalCodes["Translations"],\
         globalCodes["Locales"]      = mergeTranslationMaps(translationMaps)
 
@@ -755,7 +756,7 @@ class CodeGenerator(object):
     # sheets, etc. 
     # For images, this information includes pre-calculated sizes, and
     # being part of a combined image.
-    def generateResourceInfoCode(self, script, settings, libs, format=False):
+    def generateResourceInfoCode(self, script, settings, libraries, format=False):
 
         def addResourceInfoToPackages(script):
             for package in script.packages:
@@ -776,13 +777,12 @@ class CodeGenerator(object):
         resources_tree = compConf.get ("code/resources-tree", False)
         rh             = self._resourceHandler
 
-        libraries = [x for x in script.libraries if x.namespace in [l['namespace'] for l in libs]]
-        classes   = rh.mapResourcesToClasses (libraries, script.classesObj)
+        classes = rh.mapResourcesToClasses (libraries, script.classesObj)
         filteredResources = []
         for clazz in classes:
             filteredResources.extend(clazz.resources)
-        resdata   = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
-                                             updateOnlyExistingSprites=True)
+        resdata = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+                                           updateOnlyExistingSprites=True)
         # add resource info to packages
         addResourceInfoToPackages(script)
 
