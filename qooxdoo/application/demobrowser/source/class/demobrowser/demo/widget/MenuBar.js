@@ -21,7 +21,6 @@
 
 #asset(qx/icon/${qx.icontheme}/16/actions/*)
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/preferences-users.png)
 
 ************************************************************************ */
 

@@ -37,7 +37,6 @@
 #asset(qx/icon/Tango/22/apps/utilities-log-viewer.png)
 #asset(qx/icon/Tango/22/apps/internet-web-browser.png)
 #asset(qx/icon/Tango/22/mimetypes/executable.png)
-#asset(qx/icon/Tango/22/actions/help-faq.png)
 
 ************************************************************************ */
 

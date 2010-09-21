@@ -20,8 +20,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/devices/drive-harddisk.png)
-#asset(qx/icon/${qx.icontheme}/16/places/user-trash.png)
 #asset(qx/icon/${qx.icontheme}/16/places/user-desktop.png)
 #asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
 

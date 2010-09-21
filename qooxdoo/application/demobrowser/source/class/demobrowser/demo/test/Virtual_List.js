@@ -23,7 +23,6 @@
 
 #asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 #asset(qx/icon/${qx.icontheme}/48/places/folder.png)
-#asset(qx/icon/${qx.icontheme}/48/devices/*)
 
 ************************************************************************ */
 

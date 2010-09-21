@@ -21,7 +21,6 @@
 
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
 
 ************************************************************************ */
 

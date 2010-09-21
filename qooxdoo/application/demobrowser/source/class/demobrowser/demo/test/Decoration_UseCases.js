@@ -19,10 +19,8 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/theme/*)
 #asset(demobrowser/demo/test/*)
 #asset(qx/decoration/Modern/form/checkbox-focused.png)
-#asset(qx/decoration/Modern/pane/pane-tr.png)
 #asset(qx/decoration/Modern/app-header.png)
 
 ************************************************************************ */

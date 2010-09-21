@@ -1,5 +1,6 @@
 /*
-#asset(demobrowser/demo/icons/*)
+#asset(demobrowser/demo/icons/format-justify-left.png)
+#asset(demobrowser/demo/icons/multimedia-player.png)
 */
 
 /*

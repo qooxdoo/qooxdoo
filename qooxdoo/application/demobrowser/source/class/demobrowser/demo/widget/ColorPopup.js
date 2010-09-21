@@ -17,17 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/32/actions/go-previous.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-up.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-next.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-down.png)
-
-#asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
-
-************************************************************************ */
-
 qx.Class.define("demobrowser.demo.widget.ColorPopup",
 {
   extend : qx.application.Standalone,

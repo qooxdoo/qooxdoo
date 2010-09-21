@@ -19,12 +19,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/*)
-#asset(qx/icon/${qx.icontheme}/22/places/*)
 #asset(qx/icon/${qx.icontheme}/32/places/*)
-#asset(qx/icon/${qx.icontheme}/48/places/*)
-#asset(qx/icon/${qx.icontheme}/64/places/*)
-#asset(qx/icon/${qx.icontheme}/128/places/*)
 
 ************************************************************************ */
 
