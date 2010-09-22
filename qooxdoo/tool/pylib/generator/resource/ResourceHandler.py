@@ -127,7 +127,7 @@ class ResourceHandler(object):
         for clazz, hints in assetPatts.items():
             for hint in hints:
                 if not hint.seen:
-                    console.warn("Warning: Unfullfilled #asset hint '%s' (%s)" % (hint.source, clazz.id))
+                    console.warn("! Warning: No resource matched #asset(%s) (%s)" % (hint.source, clazz.id))
         
         return classes
 
