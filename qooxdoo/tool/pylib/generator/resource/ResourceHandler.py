@@ -84,16 +84,6 @@ class ResourceHandler(object):
     # classes' .resources member to hold suitable resources from the Libs.
     def mapResourcesToClasses(self, libs, classes):
         
-        ##
-        # map a Resource obj against a set of resource id patterns
-        def checkPatts(res, hints):
-            for hint in hints:
-                if hint.regex.search(res.id):
-                    hint.seen = True  # mark asset hint as fullfilled by a resource
-                    return True
-            return False
-
-        # -------------------------------------
         # Resource list
         resources = []
         for libObj in libs:
