@@ -96,8 +96,8 @@ class ResourceHandler(object):
         
         # Asset pattern list  -- this is basically an optimization, to condense
         # asset patterns
-        assetMacros     = self._genobj._job.get('asset-let',{})
-        assetHints = []
+        assetMacros = self._genobj._job.get('asset-let',{})
+        assetHints  = []
         for clazz in classes:
             assetHints.extend(clazz.getAssets(assetMacros))
 
