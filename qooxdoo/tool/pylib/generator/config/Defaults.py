@@ -27,9 +27,21 @@ def getQooxdooVersion():
     version = version.strip()
     return version
 
+def getUserHome(default=""):
+    if sys.platform == "win32":
+        home = os.getenv("HOMEDRIVE", "") + os.getenv("HOMEPATH", "")
+    else:
+        home = os.getenv("HOME", "")
+    if home:
+        return home
+    else:
+        return default
+
 class Defaults(object):
 
     let = {
         u"TMPDIR"          : tempfile.gettempdir(),
-        u"QOOXDOO_VERSION" : getQooxdooVersion()
+        u"QOOXDOO_VERSION" : getQooxdooVersion(),
+        u"USERNAME"        : os.getenv("USERNAME"),
+        u"HOME"            : getUserHome("."),
     }
