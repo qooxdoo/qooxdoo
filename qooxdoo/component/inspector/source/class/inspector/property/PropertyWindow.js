@@ -19,12 +19,9 @@
 ************************************************************************ */
 
 /* ************************************************************************
+
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
-#asset(inspector/images/icons/inspector/images/icons/api.png)
-#asset(inspector/images/icons/inspector/images/icons/setnull.png)
-#asset(inspector/images/icons/inspector/images/icons/setinit.png)
-#asset(inspector/images/icons/inspector/images/icons/highlight.png)
-#asset(inspector/images/icons/inspector/images/icons/goto.png)
+
 ************************************************************************ */
 
 qx.Class.define("inspector.property.PropertyWindow",
