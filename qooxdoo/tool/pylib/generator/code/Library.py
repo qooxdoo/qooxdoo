@@ -322,7 +322,8 @@ class Library(object):
                 try:
                     fileCodeId = self._getCodeId(fileContent)
                 except ValueError, e:
-                    raise ValueError, e.message + u' (%s)' % fileName
+                    e.args[0] = e.args[0] + u' (%s)' % fileName
+                    raise e
 
                 # Ignore all data files (e.g. translation, doc files, ...)
                 if fileCodeId == None:

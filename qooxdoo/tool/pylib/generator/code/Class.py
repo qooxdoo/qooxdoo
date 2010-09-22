@@ -1130,7 +1130,8 @@ class Class(object):
         try:
             meta["assetDeps"]    = _extractAssetDeps(content)
         except ValueError, e:
-            raise ValueError, e.message + u' in: %r' % filePath
+            e.args = (e.args[0] + u' in: %r' % filePath,) + e.args[1:]
+            raise e
         meta["cldr"]         = _extractCLDRDeps(content)
 
         console.outdent()
