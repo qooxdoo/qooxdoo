@@ -93,11 +93,6 @@ class ResourceHandler(object):
                     return True
             return False
 
-        def checkMatch(res, hint):
-            if hint.regex.search(res.id):
-                hint.seen = True
-                hint.clazz.resources.add(res)
-
         # -------------------------------------
         # Resource list
         resources = []
@@ -112,17 +107,12 @@ class ResourceHandler(object):
         # Asset pattern list  -- this is basically an optimization, to condense
         # asset patterns
         assetMacros     = self._genobj._job.get('asset-let',{})
-        assetPatts = {}  # {clazz : [assetRegex]}
         assetHints = []
         for clazz in classes:
             assetHints.extend(clazz.getAssets(assetMacros))
-            #classAssets = clazz.getAssets(assetMacros)  # [AssetHint]
-            #if classAssets:
-            #    assetPatts[clazz] = classAssets
 
         # Go through resources and asset patterns
         for res in resources:
-            #for clazz, hints in assetPatts.items():
             for hint in assetHints:
                 # add direct matches
                 if hint.regex.search(res.id):
@@ -131,23 +121,14 @@ class ResourceHandler(object):
                 # add matches of embedded images
                 if isinstance(res, CombinedImage):
                     for embed in res.embeds:
-                        hint.seen = True
-                        hint.clazz.resources.add(res)
-
-                #if checkPatts(res, hints):
-                #    clazz.resources.add(res)
-                ## check embedded images
-                #if isinstance(res, CombinedImage):
-                #    for embed in res.embeds:
-                #        if checkPatts(embed, hints):
-                #            clazz.resources.add(res)  # add the combimg, if an embed matches
+                        if hint.regex.search(embed.id):
+                            hint.seen = True
+                            hint.clazz.resources.add(res)
 
         # Now that the resource mapping is done, check if we have unfullfilled hints
-        #for clazz, hints in assetPatts.items():
-        #    for hint in hints:
         for hint in assetHints:
-                if not hint.seen:
-                    console.warn("! Warning: No resource matched #asset(%s) (%s)" % (hint.source, clazz.id))
+            if not hint.seen:
+                console.warn("! Warning: No resource matched #asset(%s) (%s)" % (hint.source, hint.clazz.id))
         
         return classes
 
