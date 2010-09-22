@@ -28,6 +28,7 @@ from misc                           import util, filetool
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script import Script
 from ecmascript.transform.optimizer import variantoptimizer
+from generator.resource.AssetHint   import AssetHint
 
 DefaultIgnoredNamesDynamic = None
 QXGLOBALS = [
@@ -963,7 +964,7 @@ class Class(object):
         if self._assetRegex == None:
             # prepare a regex encompassing all asset hints, asset macros resolved
             classAssets = self.getHints()['assetDeps'][:]
-            iresult  = []  # ["a/b/c.png", "a/b/d/.*", ...]
+            iresult  = []  # [AssetHint]
             for res in classAssets:
                 # expand file glob into regexp
                 res = re.sub(r'\*', ".*", res)
@@ -972,18 +973,22 @@ class Class(object):
                     expres = self._expandMacrosInMeta(assetMacros, res)
                 else:
                     expres = [res]
-                # collect resulting asset expressions
+                # collect resulting asset objects
                 for e in expres:
-                    if e not in iresult:
-                        iresult.append(e)
+                    assethint = AssetHint(res)
+                    assethint.clazz = self
+                    assethint.expanded = e
+                    assethint.regex = re.compile(e)
+                    if assethint not in iresult:
+                        iresult.append(assethint)
             # turn into a regex
-            console.debug("%s: %r" % (self.id, iresult))
-            if iresult: # we have hints
-                iresult = [re.compile(x) for x in iresult]
-            else:
-                #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
-                #iresult = [re.compile('^$')]
-                pass  # TODO: no need for empty list or never-match regex
+            #console.debug("%s: %r" % (self.id, iresult))
+            #if iresult: # we have hints
+            #    iresult = [re.compile(x) for x in iresult]
+            #else:
+            #    #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
+            #    #iresult = [re.compile('^$')]
+            #    pass  # TODO: no need for empty list or never-match regex
             self._assetRegex = iresult
 
         return self._assetRegex

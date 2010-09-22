@@ -22,11 +22,15 @@
 import re, string, types, sys, os, collections
 
 from generator.resource.Resource import CombinedImage
+from generator import Context
 
 class ResourceHandler(object):
 
     def __init__(self, generatorobj, librariesObj):
+        global console
         self._genobj  = generatorobj
+        console  = Context.console
+
 
 
     ##
@@ -82,9 +86,10 @@ class ResourceHandler(object):
         
         ##
         # map a Resource obj against a set of resource id patterns
-        def checkPatts(res, patts):
-            for patt in patts:
-                if patt.search(res.id):
+        def checkPatts(res, hints):
+            for hint in hints:
+                if hint.regex.search(res.id):
+                    hint.seen = True  # mark asset hint as fullfilled by a resource
                     return True
             return False
         # -------------------------------------
@@ -103,20 +108,26 @@ class ResourceHandler(object):
         assetMacros     = self._genobj._job.get('asset-let',{})
         assetPatts = {}  # {clazz : [assetRegex]}
         for clazz in classes:
-            classAssets = clazz.getAssets(assetMacros)
+            classAssets = clazz.getAssets(assetMacros)  # [AssetHint]
             if classAssets:
                 assetPatts[clazz] = classAssets
 
         # Go through resources and asset patterns
         for res in resources:
-            for clazz, patts in assetPatts.items():
-                if checkPatts(res, patts):
+            for clazz, hints in assetPatts.items():
+                if checkPatts(res, hints):
                     clazz.resources.add(res)
                 # check embedded images
                 if isinstance(res, CombinedImage):
                     for embed in res.embeds:
-                        if checkPatts(embed, patts):
+                        if checkPatts(embed, hints):
                             clazz.resources.add(res)  # add the combimg, if an embed matches
+
+        # Now that the resource mapping is done, check if we have unfullfilled hints
+        for clazz, hints in assetPatts.items():
+            for hint in hints:
+                if not hint.seen:
+                    console.warn("Warning: Unfullfilled #asset hint '%s' (%s)" % (hint.source, clazz.id))
         
         return classes
 
