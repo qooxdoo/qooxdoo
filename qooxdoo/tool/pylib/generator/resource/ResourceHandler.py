@@ -92,6 +92,12 @@ class ResourceHandler(object):
                     hint.seen = True  # mark asset hint as fullfilled by a resource
                     return True
             return False
+
+        def checkMatch(res, hint):
+            if hint.regex.search(res.id):
+                hint.seen = True
+                hint.clazz.resources.add(res)
+
         # -------------------------------------
         # Resource list
         resources = []
@@ -107,25 +113,39 @@ class ResourceHandler(object):
         # asset patterns
         assetMacros     = self._genobj._job.get('asset-let',{})
         assetPatts = {}  # {clazz : [assetRegex]}
+        assetHints = []
         for clazz in classes:
-            classAssets = clazz.getAssets(assetMacros)  # [AssetHint]
-            if classAssets:
-                assetPatts[clazz] = classAssets
+            assetHints.extend(clazz.getAssets(assetMacros))
+            #classAssets = clazz.getAssets(assetMacros)  # [AssetHint]
+            #if classAssets:
+            #    assetPatts[clazz] = classAssets
 
         # Go through resources and asset patterns
         for res in resources:
-            for clazz, hints in assetPatts.items():
-                if checkPatts(res, hints):
-                    clazz.resources.add(res)
-                # check embedded images
+            #for clazz, hints in assetPatts.items():
+            for hint in assetHints:
+                # add direct matches
+                if hint.regex.search(res.id):
+                    hint.seen = True
+                    hint.clazz.resources.add(res)
+                # add matches of embedded images
                 if isinstance(res, CombinedImage):
                     for embed in res.embeds:
-                        if checkPatts(embed, hints):
-                            clazz.resources.add(res)  # add the combimg, if an embed matches
+                        hint.seen = True
+                        hint.clazz.resources.add(res)
+
+                #if checkPatts(res, hints):
+                #    clazz.resources.add(res)
+                ## check embedded images
+                #if isinstance(res, CombinedImage):
+                #    for embed in res.embeds:
+                #        if checkPatts(embed, hints):
+                #            clazz.resources.add(res)  # add the combimg, if an embed matches
 
         # Now that the resource mapping is done, check if we have unfullfilled hints
-        for clazz, hints in assetPatts.items():
-            for hint in hints:
+        #for clazz, hints in assetPatts.items():
+        #    for hint in hints:
+        for hint in assetHints:
                 if not hint.seen:
                     console.warn("! Warning: No resource matched #asset(%s) (%s)" % (hint.source, clazz.id))
         

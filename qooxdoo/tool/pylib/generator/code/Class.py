@@ -981,14 +981,6 @@ class Class(object):
                     assethint.regex = re.compile(e)
                     if assethint not in iresult:
                         iresult.append(assethint)
-            # turn into a regex
-            #console.debug("%s: %r" % (self.id, iresult))
-            #if iresult: # we have hints
-            #    iresult = [re.compile(x) for x in iresult]
-            #else:
-            #    #iresult = re.compile(r'.\A')  # a never-match regex (stackoverflow 940822)
-            #    #iresult = [re.compile('^$')]
-            #    pass  # TODO: no need for empty list or never-match regex
             self._assetRegex = iresult
 
         return self._assetRegex
