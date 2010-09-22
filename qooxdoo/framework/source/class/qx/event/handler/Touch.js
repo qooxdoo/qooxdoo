@@ -336,7 +336,7 @@ qx.Class.define("qx.event.handler.Touch",
     /**
      * Normalizes a mouse event to a touch event.
      * 
-     * @signature function(domEvent, target)
+     * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
     __normalizeMouseEvent : qx.core.Variant.select("qx.mobile",
@@ -398,7 +398,7 @@ qx.Class.define("qx.event.handler.Touch",
      * Fore more information see:
      * http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
      * 
-     * @signature function(domEvent, target)
+     * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      * @return {Object} The Touch mock object
      */
