@@ -105,13 +105,13 @@ class ResourceHandler(object):
         for res in resources:
             for hint in assetHints:
                 # add direct matches
-                if hint.regex.search(res.id):
+                if hint.regex.match(res.id):
                     hint.seen = True
                     hint.clazz.resources.add(res)
                 # add matches of embedded images
                 if isinstance(res, CombinedImage):
                     for embed in res.embeds:
-                        if hint.regex.search(embed.id):
+                        if hint.regex.match(embed.id):
                             hint.seen = True
                             hint.clazz.resources.add(res)
 
