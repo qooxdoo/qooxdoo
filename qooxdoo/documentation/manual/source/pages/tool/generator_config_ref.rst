@@ -899,15 +899,16 @@ Triggers the execution of external commands. Takes a map.
 Possible keys are 
 
 * **command** : command string or list of command strings to execute by shell 
-*Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\' on Windows, etc.). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So instead of writing ::
+
+*Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\\' on Windows - be sure to encode this as '\\\\' on Windows as '\\' is the Json escape character). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So e.g. instead of writing ::
 
     "cp file1 file2"
 
-  you should write ::
+you should write ::
 
     "cp ./file1 ./file2"
 
-  and it will work from everywhere.
+and it will work from everywhere.
 
 .. _pages/tool/generator_config_ref#slice-images:
 

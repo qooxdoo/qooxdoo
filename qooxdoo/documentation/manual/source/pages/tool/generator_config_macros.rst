@@ -37,6 +37,10 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - path to the compile cache (can be rel. to config dir) 
      - ${TMPDIR}/cache 
  
+   * - HOME 
+     - (read-only) value of the (process) environment variable "HOME"
+     - "."
+ 
    * - LOCALES 
      - list of locales for this application 
      - [ "en" ] 
@@ -59,7 +63,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
  
    * - ROOT 
      - application root dir (rel. to config dir) 
-     - '.' 
+     - "." 
  
    * - TEST_INCLUDE 
      - class pattern to search for test classes 
@@ -72,4 +76,8 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
    * - TMPDIR 
      - (read-only) path to tmp directory 
      - (platform-dependent, like /tmp etc.) 
+ 
+   * - USERNAME 
+     - (read-only) value of the (process) environment variable "USERNAME"
+     - <undef>
  
