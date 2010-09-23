@@ -54,7 +54,7 @@
         }
       ],
 
-      "cache" : { "compile" : "${CACHE}" },
+      "extend" : [ "cache" ],
       
       "include" : 
       [
@@ -143,7 +143,7 @@
         }
       ],
 
-      "cache"  : { "compile" : "${CACHE}" },
+      "extend" : [ "cache" ],
 
       "include": ["qx.*"],
       "exclude": ["=qx.test.*"],
@@ -198,7 +198,7 @@
 
     "test-copy-files" :
     {
-      "cache"  : { "compile" : "${CACHE}" },
+      "extend" : [ "cache" ],
 
       "copy-files" :
       {
