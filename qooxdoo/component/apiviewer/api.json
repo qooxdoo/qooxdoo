@@ -38,7 +38,9 @@
 
       "cache" :
       {
-        "compile" : "${CACHE}"
+        "compile"      : "${CACHE}",
+        "downloads"    : "${CACHE}/downloads",
+        "invalidate-on-tool-change" : true
       }
     },
 

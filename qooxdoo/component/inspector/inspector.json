@@ -46,7 +46,8 @@
       "cache" :
       {
         "compile"   :  "${CACHE}",
-        "downloads" :  "${CACHE}/downloads"
+        "downloads" :  "${CACHE}/downloads",
+        "invalidate-on-tool-change" : true
       },
 
       "settings" :
