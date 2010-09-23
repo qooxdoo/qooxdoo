@@ -343,6 +343,21 @@ qx.Class.define("qx.test.data.controller.List",
     testSelectionArrayChange: function() {
       this.__setUpString();
 
+      // set a new selection array
+      this.__controller.setSelection(new qx.data.Array([this.__model.getItem(0)]));
+
+      // test the selection
+      this.assertEquals(
+        this.__model.getItem(0), 
+        this.__list.getSelection()[0].getLabel(), 
+        "Change the selection array does not work."
+      );
+    },
+    
+    
+    testSelectionArrayChangeItem: function() {
+      this.__setUpString();
+
       // set the selection in the array
       this.__controller.getSelection().push(this.__model.getItem(0));
 
