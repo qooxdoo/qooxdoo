@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-# Class -- Internal representation of a qooxdoo class
+# Class -- Internal representation of a qooxdoo class; derives from Resource
 ##
 
 import os, sys, re, types, codecs
@@ -29,6 +29,7 @@ from ecmascript.frontend            import treeutil, tokenizer, treegenerator, l
 from ecmascript.frontend.Script import Script
 from ecmascript.transform.optimizer import variantoptimizer
 from generator.resource.AssetHint   import AssetHint
+from generator.resource.Resource    import Resource
 
 DefaultIgnoredNamesDynamic = None
 QXGLOBALS = [
@@ -47,19 +48,18 @@ for symb in lang.GLOBALS + QXGLOBALS:
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
 
 
-class Class(object):
-
+class Class(Resource):
 
     def __init__(self, id, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
+        super(Class, self).__init__(path)
         self.id         = id   # qooxdoo name of class, classId
-        self.path       = path  # file path of this class
-        self.size       = -1
-        self.encoding   = 'utf-8'
         self.library    = library
         self.context    = context
         self._classesObj= container   # this is ugly, but curr. used to identify known names
+        self.size       = -1
+        self.encoding   = 'utf-8'
         self.source     = u''  # source text of this class
         #self.ast        = None # ecmascript.frontend.tree instance
         self.scopes     = None # an ecmascript.frontend.Script instance

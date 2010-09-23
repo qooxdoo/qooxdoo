@@ -30,7 +30,7 @@ class Resource(object):
     def __init__(self, path=None):
         self.id     = None
         self.path   = path
-        self.lib    = None
+        self.library= None
 
     def __str__(self):
         return self.id
@@ -49,6 +49,6 @@ class Resource(object):
         return hash(self.id)
     
     def toResinfo(self):
-        return self.lib.namespace
+        return self.library.namespace
 
 

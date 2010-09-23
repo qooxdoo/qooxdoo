@@ -116,7 +116,7 @@ class Image(Resource):
         self.width     = flatspec[0]
         self.height    = flatspec[1]
         self.format    = flatspec[2]
-        self.lib       = flatspec[3]
+        self.library   = flatspec[3]
         # see if this is part of a combined image
         if len(flatspec)>4:
             self.combId    = flatspec[4]
@@ -133,7 +133,7 @@ class Image(Resource):
     ##
     # Serialize to a format as used in resource info maps of generated scripts
     def toResinfo(self):
-        a = [self.width, self.height, self.format, self.lib.namespace if self.lib else ""]
+        a = [self.width, self.height, self.format, self.library.namespace if self.library else ""]
         if self.combId:
             a.extend([self.combId, self.left, self.top])
         elif self.combImg:

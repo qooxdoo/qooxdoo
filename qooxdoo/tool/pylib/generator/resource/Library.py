@@ -223,7 +223,7 @@ class Library(object):
                     res = Resource(fpath)
                 
                 res.id = Path.posifyPath(fpath[lib_prefix_len:])
-                res.lib= self
+                res.library= self
 
                 self.resources.add(res)
 
