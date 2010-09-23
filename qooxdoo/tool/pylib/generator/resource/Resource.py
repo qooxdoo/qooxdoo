@@ -39,7 +39,7 @@ class Resource(object):
         return "<%s:%s>" % (self.__class__.__name__, self.id)
 
     ##
-    # make the .id significant for 'in' tests
+    # make the .id significant for 'in' tests, and set() operations (?)
     def __eq__(self, other):
         return self.id == other.id
 
