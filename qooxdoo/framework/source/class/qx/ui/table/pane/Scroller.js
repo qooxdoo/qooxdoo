@@ -1171,7 +1171,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
                        ],
                        true);
         this.__firedClickEvent = true;
-      } else {
+      } else if (!this.isEditing()) {
         // if no cellClick event should be fired, act like a mousedown which 
         // invokes the change of the selection e.g. [BUG #1632]
         this._onMousedownPane(e);
