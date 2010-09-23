@@ -55,7 +55,7 @@ class Class(Resource):
         global console, cache, DefaultIgnoredNamesDynamic
         super(Class, self).__init__(path)
         self.id         = id   # qooxdoo name of class, classId
-        self.library    = library
+        self.library    = library     # Library()
         self.context    = context
         self._classesObj= container   # this is ugly, but curr. used to identify known names
         self.size       = -1

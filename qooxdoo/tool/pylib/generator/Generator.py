@@ -192,7 +192,7 @@ class Generator(object):
             return classList
 
 
-        def scanLibrary(library):
+        def scanLibrary(libraryKey):
 
             def getJobsLib(path):
                 lib = None
@@ -237,10 +237,10 @@ class Generator(object):
             _translations = {}
             _libs = {}          # {"name.space" : <"library" config entry>}
             _libraries = []     # [generator.code.Library]
-            if not isinstance(library, types.ListType):
+            if not isinstance(libraryKey, types.ListType):
                 return (_namespaces, _classes, _docs, _translations, _libs)
 
-            for lib in library:
+            for lib in libraryKey:
                 key  = lib["path"]
 
                 checkFile = mostRecentlyChangedIn(lib)[0]
@@ -262,7 +262,7 @@ class Generator(object):
                 _classes.update(classes)
 
                 for key,entry in classes.items():
-                    clazz = Class(key, entry["path"], lib, self._context, _classesObj)
+                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj)
                     clazz.encoding = entry["encoding"]
                     clazz.size     = entry["size"]     # dependency logging uses this
                     clazz.package  = entry["package"]  # Apiloader uses this
