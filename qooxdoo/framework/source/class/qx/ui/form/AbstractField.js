@@ -54,6 +54,9 @@ qx.Class.define("qx.ui.form.AbstractField",
   {
     this.base(arguments);
 
+    // shortcut for placeholder feature detection
+    this.__useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER;
+
     if (value != null) {
       this.setValue(value);
     }
@@ -62,8 +65,11 @@ qx.Class.define("qx.ui.form.AbstractField",
       "change", this._onChangeContent, this
     );
 
-    // assign the placeholder text after the appearance has been applied
-    this.addListener("syncAppearance", this._syncPlaceholder, this);
+    // use qooxdoo placeholder if no native placeholder is supported
+    if (this.__useQxPlaceholder) {
+      // assign the placeholder text after the appearance has been applied
+      this.addListener("syncAppearance", this._syncPlaceholder, this);      
+    }
 
     // translation support
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
@@ -212,6 +218,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     __placeholder : null,
     __oldValue : null,
     __oldInputValue : null,
+    __useQxPlaceholder : true,
 
 
     /*
@@ -267,7 +274,8 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       var input = this.getContentElement();
 
-      if (updateInsets)
+      // we don't need to update positions on native placeholders
+      if (updateInsets && this.__useQxPlaceholder)
       {
         // render the placeholder
         this.__getPlaceholderElement().setStyles({
@@ -278,10 +286,14 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       if (inner)
       {
-        this.__getPlaceholderElement().setStyles({
-          "width": innerWidth + pixel,
-          "height": innerHeight + pixel
-        });
+        // we don't need to update dimensions on native placeholders
+        if (this.__useQxPlaceholder) {
+          this.__getPlaceholderElement().setStyles({
+            "width": innerWidth + pixel,
+            "height": innerHeight + pixel
+          });
+        }
+
         input.setStyles({
           "width": innerWidth + pixel,
           "height": innerHeight + pixel
@@ -361,10 +373,16 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       this.getContentElement().setEnabled(value);
 
-      if (value) {
-        this._showPlaceholder();
+      if (this.__useQxPlaceholder) {
+        if (value) {
+          this._showPlaceholder();
+        } else {
+          this._removePlaceholder();
+        }
       } else {
-        this._removePlaceholder();
+        var input = this.getContentElement();
+        // remove the placeholder on disabled input elements
+        input.setAttribute("placeholder", value ? this.getPlaceholder() : "");
       }
     },
 
@@ -406,8 +424,12 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
       // apply the font to the content element
       this.getContentElement().setStyles(styles);
-      // apply the font to the placeholder
-      this.__getPlaceholderElement().setStyles(styles);
+
+      // the font will adjust automatically on native placeholders
+      if (this.__useQxPlaceholder) {
+        // apply the font to the placeholder
+        this.__getPlaceholderElement().setStyles(styles);
+      }
 
       // Compute text size
       if (value) {
@@ -428,12 +450,19 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.getContentElement().setStyle(
           "color", qx.theme.manager.Color.getInstance().resolve(value)
         );
-        this.__getPlaceholderElement().setStyle(
-          "color", qx.theme.manager.Color.getInstance().resolve(value)
-        );
       } else {
         this.getContentElement().removeStyle("color");
-        this.__getPlaceholderElement().removeStyle("color");
+      }
+
+      // don't apply text color on native placeholder
+      if (this.__useQxPlaceholder) {
+        if (value) {
+          this.__getPlaceholderElement().setStyle(
+            "color", qx.theme.manager.Color.getInstance().resolve(value)
+          );
+        } else {
+          this.__getPlaceholderElement().removeStyle("color");
+        }
       }
     },
 
@@ -557,7 +586,10 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__nullValue = true;
       } else {
         this.__nullValue = false;
-        this._removePlaceholder();
+        // native placeholders will be removed by the browser
+        if (this.__useQxPlaceholder) {
+          this._removePlaceholder();
+        }
       }
 
       if (qx.lang.Type.isString(value))
@@ -574,7 +606,10 @@ qx.Class.define("qx.ui.form.AbstractField",
           this.__oldValue = oldValue;
           this.__fireChangeValueEvent(data);
         }
-        this._showPlaceholder();
+        // native placeholders will be shown by the browser
+        if (this.__useQxPlaceholder) {
+          this._showPlaceholder();
+        }
         return value;
       }
       throw new Error("Invalid value type: " + value);
@@ -804,16 +839,24 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     // property apply
-    _applyPlaceholder : function(value, old) {
-      this.__getPlaceholderElement().setValue(value);
-      if (value != null) {
-        this.addListener("focusin", this._removePlaceholder, this);
-        this.addListener("focusout", this._showPlaceholder, this);
-        this._showPlaceholder();
+    _applyPlaceholder : function(value, old) 
+    {
+      if (this.__useQxPlaceholder) {
+        this.__getPlaceholderElement().setValue(value);
+        if (value != null) {
+          this.addListener("focusin", this._removePlaceholder, this);
+          this.addListener("focusout", this._showPlaceholder, this);
+          this._showPlaceholder();
+        } else {
+          this.removeListener("focusin", this._removePlaceholder, this);
+          this.removeListener("focusout", this._showPlaceholder, this);
+          this._removePlaceholder();
+        }
       } else {
-        this.removeListener("focusin", this._removePlaceholder, this);
-        this.removeListener("focusout", this._showPlaceholder, this);
-        this._removePlaceholder();
+        // only apply if the widget is enabled
+        if (this.getEnabled()) {
+          this.getContentElement().setAttribute("placeholder", value);
+        }
       }
     },
 

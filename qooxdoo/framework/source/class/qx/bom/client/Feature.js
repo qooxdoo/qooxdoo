@@ -97,9 +97,13 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       document.documentElement.classList &&
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
-    
+
     /** {BOOLEAN} Wether the device is touch enabled. */
     TOUCH : ("ontouchstart" in window),
+
+    /** {BOOLEAN} Whether the client supports placeholders for input fields */
+    PLACEHOLDER : false,
+
 
 
     /**
@@ -130,6 +134,9 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       } catch (e) {
         this.XUL = false;
       }
+      
+      var i = document.createElement("input");
+      this.PLACEHOLDER = "placeholder" in i;      
     },
 
 
