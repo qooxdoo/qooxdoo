@@ -21,7 +21,7 @@
 
 import re, string, types, sys, os, collections
 
-from generator.resource.Resource import CombinedImage
+from generator.resource.CombinedImage import CombinedImage
 from generator import Context
 
 class ResourceHandler(object):

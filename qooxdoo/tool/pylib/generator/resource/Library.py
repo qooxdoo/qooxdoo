@@ -21,12 +21,14 @@
 
 import os, re, sys
 
-from misc import filetool, Path
-from misc.NameSpace import NameSpace
-from ecmascript.frontend import lang
+from misc                         import filetool, Path
+from misc.NameSpace               import NameSpace
+from ecmascript.frontend          import lang
 from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt, CombinedImage as CombImage
-from generator.resource.Resource import Resource, Image, CombinedImage
-from generator import Context as context
+from generator.resource.Resource  import Resource
+from generator.resource.Image     import Image
+from generator.resource.CombinedImage import CombinedImage
+from generator                    import Context as context
 
 ##
 # pickle complains when I use NameSpace!?
