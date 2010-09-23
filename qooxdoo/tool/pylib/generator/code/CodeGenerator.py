@@ -21,7 +21,6 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.resource.CombinedImage import CombinedImage
 from generator.config.Lang      import Lang
 from generator.config.Library   import Library
 from generator.code.Part        import Part
