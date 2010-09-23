@@ -107,6 +107,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
       this.__selectionArrayListenerId = value.addListener(
         "change", this.__changeSelectionArray, this
       );
+      
+      // apply the new selection
+      this._updateSelection();
     },
 
 
