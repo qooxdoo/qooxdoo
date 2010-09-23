@@ -60,6 +60,7 @@ dt:target, .highlight {
 .navigation a {
   color: white;
   margin: 0px 6px;
+  text-decoration: none;
 }
 
 .navigation a:hover {
