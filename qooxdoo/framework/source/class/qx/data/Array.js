@@ -367,13 +367,18 @@ qx.Class.define("qx.data.Array",
     /**
      * Replacement function for the setting of an array value.
      * array[0] = "a" should be array.setItem(0, "a").
-     * A change event will be fired.
+     * A change event will be fired if the value changes. Setting the same 
+     * value again will not lead to a change event.
      *
      * @param index {Number} The index of the array element.
      * @param item {var} The new item to set.
      */
     setItem: function(index, item) {
       var oldItem = this.__array[index];
+      // ignore settings of already set items [BUG #4106]
+      if (oldItem === item) {
+        return;
+      }
       this.__array[index] = item;
       // set an event listener for the bubbling
       this._applyEventPropagation(item, oldItem, index);
