@@ -453,17 +453,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       } else {
         this.getContentElement().removeStyle("color");
       }
-
-      // don't apply text color on native placeholder
-      if (this.__useQxPlaceholder) {
-        if (value) {
-          this.__getPlaceholderElement().setStyle(
-            "color", qx.theme.manager.Color.getInstance().resolve(value)
-          );
-        } else {
-          this.__getPlaceholderElement().removeStyle("color");
-        }
-      }
     },
 
 
