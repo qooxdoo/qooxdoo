@@ -25,7 +25,7 @@ import time, datetime
 from polib import polib
 from ecmascript.frontend import treeutil, tree
 from misc import cldr, util, filetool, util
-from generator.code.Library import Library
+from generator.resource.Library import Library
 from generator.code import Class
 
 ##

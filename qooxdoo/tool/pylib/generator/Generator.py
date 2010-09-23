@@ -32,11 +32,11 @@ from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeCompiler     import TreeCompiler
-from generator.code.Library          import Library
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
 from generator.code.CodeGenerator    import CodeGenerator
+from generator.resource.Library      import Library
 from generator.resource.ResourceHandler  import ResourceHandler
 from generator.resource.ImageClipping    import ImageClipping
 from generator.resource.ImageInfo        import ImgInfoFmt
