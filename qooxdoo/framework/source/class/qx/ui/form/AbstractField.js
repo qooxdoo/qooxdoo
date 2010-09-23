@@ -425,12 +425,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.getContentElement().setStyle(
           "color", qx.theme.manager.Color.getInstance().resolve(value)
         );
-        this.__getPlaceholderElement().setStyle(
-          "color", qx.theme.manager.Color.getInstance().resolve(value)
-        );
       } else {
         this.getContentElement().removeStyle("color");
-        this.__getPlaceholderElement().removeStyle("color");
       }
     },
 
