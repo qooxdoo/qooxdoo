@@ -1272,9 +1272,8 @@ class Generator(object):
         self._console.info("Updating translations...")
         self._console.indent()
         for namespace in namespaces:
-            lib = self._libs[namespace]
-            self._locale.updateTranslations(namespace, os.path.join(lib['path'],lib['translation']), 
-                                            locales)
+            lib = [x for x in self._libraries if x.namespace == namespace][0]
+            self._locale.updateTranslations(namespace, lib._translationPath, locales)
 
         self._console.outdent()
 
