@@ -235,10 +235,9 @@ class Generator(object):
             _classesObj = {}
             _docs = {}
             _translations = {}
-            _libs = {}          # {"name.space" : <"library" config entry>}
             _libraries = []     # [generator.code.Library]
             if not isinstance(libraryKey, types.ListType):
-                return (_namespaces, _classes, _docs, _translations, _libs)
+                return (_namespaces, _classes, _docs, _translations, _libraries)
 
             for lib in libraryKey:
                 key  = lib["path"]
@@ -270,14 +269,13 @@ class Generator(object):
 
                 _docs.update(libObj.getDocs())
                 _translations[namespace] = libObj.getTranslations()
-                _libs[namespace] = lib
                 _libraries.append(libObj)
 
             self._console.outdent()
             self._console.debug("Loaded %s libraries" % len(_namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _classesObj, _docs, _translations, _libs, _libraries)
+            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries)
 
 
 
@@ -525,7 +523,6 @@ class Generator(object):
          self._classesObj,
          self._docs,
          self._translations,
-         self._libs,
          self._libraries)     = scanLibrary(config.get("library"))
 
 
