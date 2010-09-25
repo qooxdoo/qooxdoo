@@ -196,7 +196,6 @@ class Generator(object):
 
             def getJobsLib(path):
                 lib = None
-                #path = os.path.abspath(os.path.normpath(path))  # this shouldn't be necessary, and breaks in some scenarios (s. bug#1861)
                 libMaps = self._job.getFeature("library")
                 for l in libMaps:
                     if l['path'] == path:
@@ -242,15 +241,14 @@ class Generator(object):
             for lib in libraryKey:
                 key  = lib["path"]
 
-                checkFile = mostRecentlyChangedIn(lib)[0]
-                cacheId   = "lib-%s" % lib["manifest"] #key
-                libObj      = self._cache.read(cacheId, checkFile, memory=True)
-                if libObj:
-                    self._console.debug("Use memory cache for %s" % key)
+                libObj    = Library(lib, self._console)
+                checkFile = libObj.mostRecentlyChangedFile()[0]
+                cacheId   = "lib-%s" % libObj.manifest
+                checkObj  = self._cache.read(cacheId, checkFile, memory=True)
+                if checkObj:
+                    self._console.debug("Use memory cache for %s" % libObj._path)
+                    libObj = checkObj  # continue with cached obj
                 else:
-                    libObj = Library(lib, self._console)
-                    namespace = getJobsLib(key)['namespace']
-                    libObj._namespace = namespace  # patch namespace
                     libObj.scan()
                     self._cache.write(cacheId, libObj, memory=True)
 

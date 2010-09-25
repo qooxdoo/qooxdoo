@@ -65,6 +65,15 @@ class Library(object):
 
         self._translationPath = os.path.join(self._path, self._config.get("translation","source/translation"))
         self._resourcePath    = os.path.join(self._path, self._config.get("resource","source/resource"))
+        #TODO: clean up the others later
+        self.categories = {}
+        self.categories["classes"] = {}
+        self.categories["translations"] = {}
+        self.categories["resources"] = {}
+
+        self.categories["classes"]["path"]  = self._classPath
+        self.categories["translations"]["path"]  = self._translationPath
+        self.categories["resources"]["path"] = self._resourcePath
 
         self.namespace = self._config.get("namespace")
         if not self.namespace: raise RuntimeError
@@ -97,8 +106,8 @@ class Library(object):
     def mostRecentlyChangedFile(self):
         youngFiles = {}
         # for each interesting library part
-        for category in ["class", "translation", "resource"]:
-            catPath = os.path.normpath(os.path.join(lib["path"], lib[category]))
+        for category in self.categories:
+            catPath = self.categories[category]["path"]
             if category == "translation" and not os.path.isdir(catPath):
                 continue
             # find youngest file
