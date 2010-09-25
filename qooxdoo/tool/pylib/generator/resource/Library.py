@@ -24,6 +24,7 @@ import os, re, sys
 from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang
+from generator.code.Class         import Class
 from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
@@ -43,6 +44,7 @@ class Library(object):
         self._console = console
 
         self._classes = {}
+        self._classesObj = []
         self._docs = {}
         self._translations = {}
 
@@ -132,6 +134,9 @@ class Library(object):
 
     def getClasses(self):
         return self._classes
+
+    def getClasses1(self):
+        return self._classesObj
 
 
     def getDocs(self):
@@ -350,6 +355,17 @@ class Library(object):
                     "package" : filePackage,
                     "size" : fileSize
                 }
+                # TODO: Clazz still relies on a context dict!
+                contextdict = {}
+                contextdict["console"] = context.console
+                contextdict["cache"] = context.cache
+                contextdict["jobconf"] = context.jobconf
+                clazz = Class(self._classes[filePathId], filePath, self, contextdict, self._classesObj)
+                clazz.encoding = encoding
+                clazz.size     = fileSize     # dependency logging uses this
+                clazz.package  = filePackage  # Apiloader uses this
+
+                #self._classesObj.append(clazz)
 
         self._console.indent()
         self._console.debug("Found %s classes" % len(self._classes))
