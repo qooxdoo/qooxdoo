@@ -239,7 +239,6 @@ class Generator(object):
                 return (_namespaces, _classes, _docs, _translations, _libraries)
 
             for lib in libraryKey:
-                key  = lib["path"]
 
                 libObj    = Library(lib, self._console)
                 checkFile = libObj.mostRecentlyChangedFile()[0]
