@@ -49,6 +49,7 @@ class Library(object):
         self.resources  = set()
 
         self._path = context.config.absPath(self._config.get("path", ""))
+        self.manifest = context.config.absPath(self._config.get("manifest", ""))
 
         if self._path == "":
             raise ValueError("Missing path information!")
@@ -91,6 +92,27 @@ class Library(object):
         d['_imageInfoObj'] = ImageInfo(context.console, context.cache)
         d['_console']      = context.console
         self.__dict__ = d
+
+
+    def mostRecentlyChangedFile(self):
+        youngFiles = {}
+        # for each interesting library part
+        for category in ["class", "translation", "resource"]:
+            catPath = os.path.normpath(os.path.join(lib["path"], lib[category]))
+            if category == "translation" and not os.path.isdir(catPath):
+                continue
+            # find youngest file
+            file, mtime = filetool.findYoungest(catPath)
+            youngFiles[mtime] = file
+            
+        # also check the Manifest file
+        file, mtime = filetool.findYoungest(self.manifest)
+        youngFiles[mtime] = file
+        
+        # and return the maximum of those
+        youngest = sorted(youngFiles.keys())[-1]
+
+        return (youngFiles[youngest], youngest)
 
 
     _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
