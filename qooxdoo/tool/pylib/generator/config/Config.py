@@ -24,6 +24,7 @@ import os, sys, re, types, string, copy
 import simplejson
 from generator.config.Manifest import Manifest
 from generator.config.Lang import Lang
+from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from misc.NameSpace import NameSpace
@@ -617,6 +618,7 @@ class Config(object):
                         if lib['namespace'] not in seen:  # enforce uniqueness
                             seen.append(lib['namespace'])
                             newlib.append(lib)
+                            #TODO: newlib.append(Library(lib, self._console))
                         else:
                             self._console.debug("Skipping duplicate library \"%s\"" % lib['namespace'])
 
