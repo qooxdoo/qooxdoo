@@ -61,24 +61,29 @@ qx.Class.define("qx.ui.form.TextField",
     
     // overridden
     _renderContentElement : function(innerHeight, element) {
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && 
-          qx.bom.client.Engine.VERSION < 9)
-      {
-        var pixel = "px";
-        var height = innerHeight;
-        var padding = 0;
-        var heightHint = innerHeight - this._getContentHint().height;
+     // this solution doesn't work with allowGrowY : true and 
+     // a composite layout with 2 elements :
+     // the textField with flex : 1 and a button.
+     // needs more thought
+     //
+     // if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+     //     qx.bom.client.Engine.VERSION < 9)
+     // {
+     //   var pixel = "px";
+     //   var height = innerHeight;
+     //   var padding = 0;
+     //   var heightHint = innerHeight - this._getContentHint().height;
 
-        if (heightHint > 0) {
-          height = heightHint;
-          padding = height / 2;
-        }
-        element.setStyles({
-          "height" : height + pixel,
-          "padding-top" : padding + pixel,
-          "padding-bottom" : padding + pixel
-        });
-      }
+     //   if (heightHint > 0) {
+     //     height = heightHint;
+     //     padding = height / 2;
+     //   }
+     //   element.setStyles({
+     //     "height" : height + pixel,
+     //     "padding-top" : padding + pixel,
+     //     "padding-bottom" : padding + pixel
+     //   });
+     // }
     }
   }
 });
