@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#ignore(CodeMirror)
 #asset(playground/*)
 
 ************************************************************************ */
@@ -51,15 +50,15 @@ qx.Class.define("playground.view.Editor",
   members :
   {
     __textarea : null,
-    __codeMirror : null,
     __highlighted : null,
-
+    __editor : null,
+    __ace : null,
 
     /**
      * The constructor was spit up to make the included mixin available during
      * the init process.
-     *
-     * @lint ignoreUndefined(CodeMirror)
+     * 
+     * @lint ignoreUndefined(require)
      */
     init: function()
     {
@@ -94,80 +93,80 @@ qx.Class.define("playground.view.Editor",
         padding   : [0,0,0,5]
       });
       this.add(this.__textarea, { flex : 1 });
-      qx.html.Element.flush();
-
-
-      if (CodeMirror != undefined) {
-        this.__textarea.addListenerOnce("appear", this.__onTextAreaAppear, this);
-        this.__highlighted = true;
-      } else {
-        this.fireEvent("disableHighlighting");
-        this.__highlighted = false;
-      }
+      
+      this.__editor = new qx.ui.core.Widget();
+      this.__editor.addListenerOnce("appear", function() {
+        this.__onEditorAppear();
+      }, this);
+      this.__editor.setVisibility("excluded");
+      this.add(this.__editor, { flex : 1 });
+      
+      // load the CSS files for the code editor
+      qx.bom.Stylesheet.includeFile("resource/playground/css/editor.css");
+      qx.bom.Stylesheet.includeFile("resource/playground/css/tm.css");
+      
+      // override the focus border CSS of the editor
+      qx.bom.Stylesheet.createElement(
+        ".ace_editor {border: 0px solid #9F9F9F !important;}"
+      );
+      
+      // chech the initial highlight state
+      var shouldHighligth = qx.bom.Cookie.get("playgroundHighlight") !== "false";
+      this.useHighlight(shouldHighligth);
     },
+
 
     /**
-     * This code part uses the CodeMirror library to add a
+     * This code part uses the ajax.org code editor library to add a
      * syntax-highlighting editor as an textarea replacement
      *
-     * @lint ignoreUndefined(CodeMirror)
+     * @lint ignoreUndefined(require)
      */
-    __onTextAreaAppear : function() {
+     __onEditorAppear : function() {
+       // override the style rule for the focus border
+       
+       var self = this;
+       // ajax.org code editor include
+       require(
+         {baseUrl: "resource/playground/editor"},
+         [
+             "ace/Editor",
+             "ace/VirtualRenderer",
+             "ace/Document",
+             "ace/mode/JavaScript",
+             "ace/mode/Css",
+             "ace/mode/Html",
+             "ace/mode/Xml",
+             "ace/mode/Text",
+             "ace/UndoManager"
+         ], function(Editor, Renderer, Document, JavaScriptMode, CssMode, HtmlMode, XmlMode, TextMode, UndoManager) { 
 
-      // hide the plain textarea
-      this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";
+         var container = self.__editor.getContentElement().getDomElement();
+         self.__ace = new Editor(new Renderer(container));
 
-      // create the sheet for the codemirror iframe
-      qx.bom.Stylesheet.createElement(
-        ".code-mirror-iframe {position: absolute; z-index: 11}"
-      );
+         var doc = new Document(self.__textarea.getValue());
+         doc.setMode(new JavaScriptMode());
+         doc.setUndoManager(new UndoManager());
+         self.__ace.setDocument(doc);  
+         
+         self.__ace.focus();
 
-      var that = this;
-      var bounds = this.__textarea.getBounds();
-      this.__codeMirror = new CodeMirror(
-        this.__textarea.getContainerElement().getDomElement(),
-        {
-          content            : this.__textarea.getValue(),
-          parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
-          stylesheet         : "resource/playground/css/jscolors.css",
-          path               : "resource/playground/js/",
-          textWrapping       : false,
-          continuousScanning : false,
-          width              : bounds.width + "px",
-          height             : bounds.height + "px",
-          autoMatchParens    : true,
-          iframeClass        : "code-mirror-iframe",
-          lineNumbers        : false,
-          initCallback       : function(editor) {
-            var lineOffset = parseInt(editor.frame.parentNode.style.marginLeft) || 0;
-            editor.frame.style.width = (that.__textarea.getBounds().width - lineOffset) + "px";
-            editor.frame.style.height = that.__textarea.getBounds().height + "px";
-          }
-        }
-      );
+         // remove the print margin and move it to column 3 
+         // [http://github.com/ajaxorg/editor/issues/issue/1]
+         self.__ace.setShowPrintMargin(false);
+         self.__ace.setPrintMarginColumn(3);
 
-      bounds = this.__textarea.getBounds();
-      this.__codeMirror.frame.style.width = bounds.width + "px";
-      this.__codeMirror.frame.style.height = bounds.height + "px";
-
-      // to achieve auto-resize, the editor sets the size of the container element
-      this.__textarea.addListener("resize", function() {
-        var lineOffset =
-          parseInt(this.__codeMirror.frame.parentNode.style.marginLeft) || 0;
-        this.__codeMirror.frame.style.width =
-          (this.__textarea.getBounds().width - lineOffset) + "px";
-        this.__codeMirror.frame.style.height =
-          this.__textarea.getBounds().height + "px";
-      }, this);
-
-      // The protector blocks the editor, therefore it needs to be removed.
-      // This code fragment is a temporary solution, it will be removed once
-      // a better solution is found
-      var protector = this.__textarea.getContainerElement().getChildren()[1];
-      if (protector) {
-        protector.getDomElement().parentNode.removeChild(protector.getDomElement());
-      }
-    },
+         self.__ace.resize();
+         
+         // append resize listener
+        self.__editor.addListener("resize", function() {
+          // use a timeout to let the layout queue apply its changes to the dom
+          window.setTimeout(function() {
+            self.__ace.resize();            
+          }, 0);
+         });
+       });
+     },
 
 
     /**
@@ -175,9 +174,8 @@ qx.Class.define("playground.view.Editor",
      * @return {String} The current set text.
      */
     getCode : function() {
-      if (this.__highlighted && this.__codeMirror) {
-        var code = this.__codeMirror.getCode();
-        return code ? code : this.__textarea.getValue() ;
+      if (this.__highlighted && this.__ace) {
+        return this.__ace.getDocument().toString();
       } else {
         return this.__textarea.getValue();
       }
@@ -189,35 +187,42 @@ qx.Class.define("playground.view.Editor",
      * @param code {String} The new code.
      */
     setCode : function(code) {
-      if (this.__codeMirror) {
-        this.__codeMirror.setCode(code);
+      if (this.__ace) {
+        this.__ace.getDocument().setValue(code);
       }
       this.__textarea.setValue(code);
     },
 
 
     /**
-     * Switches between the CodeMirror editor and a plain textarea.
-     * @param value {Boolean} True, if CodeMirror should be used.
+     * Switches between the ajax code editor editor and a plain textarea.
+     * @param value {Boolean} True, if the code editor should be used.
      */
     useHighlight : function(value) {
-      if (!this.__codeMirror) {
-        return;
-      }
-
       this.__highlighted = value;
 
       if (value) {
-        this.__codeMirror.setCode(this.__textarea.getValue());
-        this.__codeMirror.frame.style.visibility = "visible";
-        this.__textarea.getContentElement().getDomElement().style.visibility = "hidden";
-      } else {
-        var code = this.__codeMirror.getCode();
-        if (code) {
-          this.__textarea.setValue(code);
+        // change the visibility
+        this.__editor.setVisibility("visible");
+        this.__textarea.setVisibility("excluded");
+        
+        // copy the value, if the editor already availabe
+        if (this.__ace) {
+          this.__ace.getDocument().setValue(this.__textarea.getValue());
+          // workaround for a drawing issue in the editor
+          this.__editor.addListenerOnce("appear", function() {
+            this.__ace.resize();            
+          }, this);
         }
-        this.__textarea.getContentElement().getDomElement().style.visibility = "visible";
-        this.__codeMirror.frame.style.visibility = "hidden";
+      } else {
+        // change the visibility        
+        this.__editor.setVisibility("excluded");
+        this.__textarea.setVisibility("visible");
+        
+        // copy the value, if the editor already availabe
+        if (this.__ace) {
+          this.__textarea.setValue(this.__ace.getDocument().toString());          
+        }
       }
     }
   },
@@ -233,6 +238,6 @@ qx.Class.define("playground.view.Editor",
   destruct : function()
   {
     this._disposeObjects("__textarea");
-    this.__codeMirror = null;
+    this.__ace = null;
   }
 });

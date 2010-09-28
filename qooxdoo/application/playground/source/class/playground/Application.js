@@ -120,7 +120,7 @@ qx.Class.define("playground.Application",
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
       mainContainer.add(this.__toolbar, { flex : 0 });
 
-      // tool listener
+      // toolbar listener
       this.__toolbar.addListener("run", this.run, this);
       this.__toolbar.addListener("changeSample", this.__onSampleChange, this);
       this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
