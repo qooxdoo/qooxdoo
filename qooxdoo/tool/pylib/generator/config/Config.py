@@ -69,17 +69,7 @@ class Config(object):
             self._data[Lang.LET_KEY].update(letKwargs)
 
         # expand macros for some top-level keys
-        if Lang.LET_KEY in self._data:
-            letObj = Let(self._data[Lang.LET_KEY])  # create a Let object from let map
-            letObj.expandMacrosInLet()              # do self-expansion of macros
-            for key in self._data:
-                if key == Lang.JOBS_KEY:            # skip 'jobs'; they expand later
-                    continue
-                elif key == Lang.LET_KEY:           # macro definitions have to remain re-evaluable
-                    continue
-                else:
-                    dat = letObj.expandMacros(self._data[key])
-                    self._data[key] = dat
+        self.expandTopLevelKeys()
 
         # fix job key tags (like "=key")
         self.fixJobsTags()
@@ -114,6 +104,21 @@ class Config(object):
         self._dirname = os.path.dirname(self._fname)
 
     
+    def expandTopLevelKeys(self):
+        if Lang.LET_KEY in self._data:
+            letObj = Let(self._data[Lang.LET_KEY])  # create a Let object from let map
+            letObj.expandMacrosInLet()              # do self-expansion of macros
+            for key in self._data:
+                if key == Lang.JOBS_KEY:            # skip 'jobs'; they expand later
+                    continue
+                elif key == Lang.LET_KEY:           # macro definitions have to remain re-evaluable
+                    continue
+                else:
+                    dat = letObj.expandMacros(self._data[key])
+                    self._data[key] = dat
+        return
+
+
     def raiseConfigError(self, basemsg):
         msg = basemsg
         if self._fname:
@@ -342,7 +347,8 @@ class Config(object):
             includeTrace.append(self._fname)   # expand the include trace
             
         if config.has_key('include'):
-            for incspec in config['include']:
+            for i in range(len(config['include'])):
+                incspec = config['include'][i] # need this indirection so that later macro expansions in config['inlcude'] take effect
                 # analyse value of ['include'][key]
                 if isinstance(incspec, types.StringTypes):
                     fname = incspec
@@ -441,6 +447,14 @@ class Config(object):
                 # add to config's shadowed list
                 self._shadowedJobs[newJob] = localjob
 
+
+        # Merge global "let"
+        extLet = extConfig.get(Lang.LET_KEY, False)
+        if extLet:
+            tmp = extLet.copy()
+            tmp.update(self.get(Lang.LET_KEY, {}))
+            self.set(Lang.LET_KEY, tmp)
+            self.expandTopLevelKeys()  # we're making macro expansion in selected top-level keys eager
 
         # Go through the list of jobs to import
         newList     = []
