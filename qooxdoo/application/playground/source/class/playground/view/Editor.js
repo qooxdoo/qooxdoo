@@ -148,6 +148,8 @@ qx.Class.define("playground.view.Editor",
          var doc = new Document(self.__textarea.getValue());
          doc.setMode(new JavaScriptMode());
          doc.setUndoManager(new UndoManager());
+         doc.setUseSoftTabs(true);
+         doc.setTabSize(2);
          self.__ace.setDocument(doc);  
          
          self.__ace.focus();
