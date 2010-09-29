@@ -55,9 +55,9 @@ qx.Class.define("feedreader.view.ToolBar",
     this.__menuItemStore = {};
 
     // Add/Remove buttons
-    var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/22/actions/dialog-ok.png");
-    addBtn.setCommand(controller.getCommand("addFeed"));
-    this.add(addBtn);
+    this.__addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/22/actions/dialog-ok.png");
+    this.__addBtn.setCommand(controller.getCommand("addFeed"));
+    this.add(this.__addBtn);
 
     this.__removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
     this.__removeBtn.setCommand(controller.getCommand("removeFeed"));
@@ -82,10 +82,10 @@ qx.Class.define("feedreader.view.ToolBar",
 
 
     // Preferences button
-    var prefBtn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
-    prefBtn.setCommand(controller.getCommand("preferences"));
-    prefBtn.setToolTipText(this.tr("Open preferences window."));
-    this.add(prefBtn);
+    this.__prefBtn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
+    this.__prefBtn.setCommand(controller.getCommand("preferences"));
+    this.__prefBtn.setToolTipText(this.tr("Open preferences window."));
+    this.add(this.__prefBtn);
 
 
     // Add a spacer
@@ -124,6 +124,8 @@ qx.Class.define("feedreader.view.ToolBar",
     __removeBtn : null,
     __overflowMenu : null,
     __menuItemStore : null,
+    __addBtn : null,
+    __prefBtn : null,
 
 
     /**
@@ -187,6 +189,35 @@ qx.Class.define("feedreader.view.ToolBar",
       }
       
       return cachedItem;
+    },
+    
+    
+    /**
+     * Signals the toolbar which part currently loading.
+     * 
+     * @param part {String} The name of the part currently loading.
+     * @param loading {Boolean} ture, if the part is currently loading.
+     */
+    singalLoading : function(part, loading) 
+    {
+      // get the right button
+      if (part == "addfeed") {
+        var button = this.__addBtn;
+      } else if (part == "settings") {
+        var button = this.__prefBtn;
+      } else {
+        // do nothing on the rest of the parts if given
+        return;
+      }
+      
+      // set / reset icon of the button
+      if (loading) {
+        button.setUserData("originalIcon", button.getIcon());
+        button.setIcon("feedreader/images/loading22.gif");
+      } else {
+        var icon = button.getUserData("originalIcon");
+        button.setIcon(icon);
+      }
     }
   },
 
