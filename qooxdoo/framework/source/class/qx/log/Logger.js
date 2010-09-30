@@ -504,6 +504,8 @@ qx.Class.define("qx.log.Logger",
           return "array";
         } else if (value instanceof Error) {
           return "error";
+        } else if (value instanceof Date) {
+          return "date";
         } else {
           return "map";
         }
@@ -543,6 +545,7 @@ qx.Class.define("qx.log.Logger",
         case "string":
         case "number":
         case "boolean":
+        case "date":
           text = value;
           break;
 
