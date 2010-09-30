@@ -450,7 +450,7 @@ class Config(object):
 
         # Merge global "let"
         extLet = extConfig.get(Lang.LET_KEY, False)
-        if extLet:
+        if extLet and False:
             tmp = extLet.copy()
             tmp.update(self.get(Lang.LET_KEY, {}))
             self.set(Lang.LET_KEY, tmp)
