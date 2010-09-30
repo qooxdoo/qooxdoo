@@ -306,6 +306,8 @@ class Class(Resource):
         # end:dependencies()
 
 
+    # -- all methods below this line up to _analyzeClassDepsNode() are only used by that -------------------
+    
     def checkDeferNode(self, assembled, node):
         deferNode = None
         if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
