@@ -448,13 +448,13 @@ class Config(object):
                 self._shadowedJobs[newJob] = localjob
 
 
-        # Merge global "let"
-        extLet = extConfig.get(Lang.LET_KEY, False)
-        if extLet and False:
-            tmp = extLet.copy()
-            tmp.update(self.get(Lang.LET_KEY, {}))
-            self.set(Lang.LET_KEY, tmp)
-            self.expandTopLevelKeys()  # we're making macro expansion in selected top-level keys eager
+        # Merge global "let" -- currently disabled, see Bug#4126
+        #extLet = extConfig.get(Lang.LET_KEY, False)
+        #if extLet:
+        #    tmp = extLet.copy()
+        #    tmp.update(self.get(Lang.LET_KEY, {}))  # this should probably be deepMerge
+        #    self.set(Lang.LET_KEY, tmp)
+        #    self.expandTopLevelKeys()  # we're making macro expansion in selected top-level keys eager
 
         # Go through the list of jobs to import
         newList     = []
