@@ -147,7 +147,7 @@ qx.Class.define("qx.bom.Event",
       "mshtml" : function(e)
       {
         if (e.type === "mouseover") {
-          return e.fromEvent;
+          return e.fromElement;
         } else {
           return e.toElement;
         }
