@@ -55,6 +55,7 @@ class DependencyLoader(object):
         self._jobconf = context.get('jobconf', ExtMap())
         self._require = require
         self._use     = use
+        self.counter  = 0
 
 
     def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
@@ -135,11 +136,19 @@ class DependencyLoader(object):
                 self._console.dot()
             self._console.debug("Gathering dependencies: %s" % item)
             self._console.indent()
+            #
+            import cProfile
+            def foo(a):
+                a.append(self.getCombinedDeps(item, variants, buildType))
+            a = []
+            self.counter += 1
+            #cProfile.runctx("foo(a)", globals(), locals(), "/home/thron7/tmp/prof/deps.prof"+str(self.counter))
+            #deps = a[0]
             deps = self.getCombinedDeps(item, variants, buildType)
             self._console.outdent()
 
             # and evaluate them
-            deps["warn"] = self._checkDepsAreKnown(deps,)
+            deps["warn"] = self._checkDepsAreKnown(deps,)  # add 'warn' key to deps
             ignore_names = [x.name for x in deps["ignore"]]
             if verifyDeps:
                 for dep in deps["warn"]:
@@ -242,10 +251,9 @@ class DependencyLoader(object):
 
         # result dict
         deps = {
-            "load" : loadFinal,
-            "run"  : runFinal,
+            "load"   : loadFinal,
+            "run"    : runFinal,
             "ignore" : static['ignore'],
-            'undef' : static['undef']
         }
 
         return deps
@@ -255,7 +263,7 @@ class DependencyLoader(object):
     def _checkDepsAreKnown(self, deps,):
         # check the shallow deps are known classes
         new_warn = []
-        for dep in deps["load"] + deps["run"] + deps["undef"]:
+        for dep in deps["load"] + deps["run"]:
             if not self._isKnownClass(dep.name):
                 new_warn.append(dep)
         return new_warn

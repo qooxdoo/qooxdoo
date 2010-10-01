@@ -202,10 +202,10 @@ def parseStream(content, uniqueId=""):
                 token['type'] = 'builtin'
 
             # identifier
-            elif tok.value.startswith("__"):
+            elif tok.value[:2] == "__":
                 token['type'] = 'name'
                 token['detail'] = 'private'
-            elif tok.value.startswith("_"):
+            elif tok.value[0] == "_":
                 token['type'] = 'name'
                 token['detail'] = 'protected'
             else:

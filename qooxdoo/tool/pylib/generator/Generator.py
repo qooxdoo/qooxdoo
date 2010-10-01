@@ -23,6 +23,8 @@
 import re, os, sys, zlib, optparse, types, string, glob
 import functools, codecs, operator
 
+namespaces = {}
+
 from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from ecmascript import compiler
@@ -48,6 +50,7 @@ from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
 import graph
+
 
 class Generator(object):
 
@@ -606,6 +609,9 @@ class Generator(object):
                                includeNoDeps, excludeNoDeps, variants, script=script, verifyDeps=True)
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
+
+            script.namespaces = script.createTrie(script.classesObj)  #TODO: experimental
+            namespaces = script.namespaces
 
             # prepare 'script' object
             if set(("compile", "log")).intersection(jobTriggers):

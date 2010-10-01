@@ -160,7 +160,7 @@ def correctBlock(source):
 
 
 def correct(source):
-    if source.startswith("//"):
+    if source[:2] == "//":
         return correctInline(source)
     else:
         return correctBlock(source)
@@ -771,7 +771,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 
             if len(returns) > 0:
                 newType = " | ".join(returns)
-            elif name != None and name.startswith("is") and name[3].isupper():
+            elif name != None and name[:2] == "is" and name[3].isupper():
                 newType = "Boolean"
 
         # Add documentation hint in non void cases

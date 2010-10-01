@@ -72,3 +72,20 @@ class Script(object):
     ##
     # generates consecutive package numbers
     getPackageNumber = util.numberSequence().next
+
+    ##
+    # Namespaces as Trie
+    def createTrie(self, classesObj=[]):
+        trie = {}
+        classes = classesObj if classesObj else self.classesObj
+        for classid in (x.id for x in classes):
+            nameparts = classid.split(".")
+            p = trie
+            for part in nameparts:
+                if part not in p:
+                    p[part] = {}
+                p = p[part]
+
+        return trie
+
+

@@ -31,6 +31,8 @@ from ecmascript.transform.optimizer import variantoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
+from generator.Generator import namespaces as gen_namespaces
+
 DefaultIgnoredNamesDynamic = None
 QXGLOBALS = [
     #"clazz",
@@ -217,14 +219,13 @@ class Class(Resource):
             # get deps from class code (tree)
             def analyzeClassTree(variantSet):
 
-                loadtimeDeps = []
-                runtimeDeps  = []
-                undefDeps    = []
+                loadDeps = []
+                runDeps  = []
 
                 tree = self.tree(variantSet)
-                self._analyzeClassDepsNode(tree, loadtimeDeps, runtimeDeps, undefDeps, False, variantSet)
+                self._analyzeClassDepsNode(tree, loadDeps, runDeps, False, variantSet)
 
-                return loadtimeDeps, runtimeDeps, undefDeps
+                return loadDeps, runDeps
 
             # ------------------------------------------------------
             # Notes:
@@ -251,11 +252,13 @@ class Class(Resource):
             ignore.extend(DependencyItem(x,-1) for x in metaIgnore)
 
             # Read content data
-            (autoLoad, autoRun, autoWarn) = analyzeClassTree(variantSet)
+            (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
+            self._analyzeClassDepsNode(self.tree(variantSet), treeLoad, treeRun, inFunction=False, variants=variantSet)
+            #(treeLoad, treeRun) = analyzeClassTree(variantSet)
             
             # Process content data
             if not "auto-require" in metaIgnore:
-                for dep in autoLoad:
+                for dep in treeLoad:
                     item = dep.name
                     if item in metaOptional:
                         pass
@@ -265,7 +268,7 @@ class Class(Resource):
                         load.append(dep)
 
             if not "auto-use" in metaIgnore:
-                for dep in autoRun:
+                for dep in treeRun:
                     item = dep.name
                     if item in metaOptional:
                         pass
@@ -283,7 +286,6 @@ class Class(Resource):
                 "load"   : load,
                 "run"    : run,
                 "ignore" : ignore,
-                'undef'  : autoWarn
             }
 
             return deps
@@ -322,11 +324,33 @@ class Class(Resource):
         if assembled in self._classesObj:
             assembledId = assembled
         elif "." in assembled:
+            parts = assembled.split(".")
+            p = gen_namespaces
+            found = []
+            for part in parts:
+                if part in p:
+                    found.append(part)
+                    p = p[part]
+                else:
+                    break
+            if found:
+                assembledId = ".".join(found)
+
+        return assembledId
+
+
+    def reduceAssembled1(self, assembled, node):
+        # try to deduce a qooxdoo class from <assembled>
+        assembledId = ''
+        if assembled in self._classesObj:
+            assembledId = assembled
+        elif "." in assembled:
             for entryId in self._classesObj:
                 if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                     if len(entryId) > len(assembledId): # take the longest match
                         assembledId = entryId
         return assembledId
+
 
     def reduceAssembled1(self, assembled, node):
         def tryKnownClasses(assembled):
@@ -377,7 +401,7 @@ class Class(Resource):
 
         return False
         
-    def addId(self, inFunction, assembledId, runtime, loadtime, lineno):
+    def addId(self, node, inFunction, assembledId, assembled, runtime, loadtime, lineno, variants):
         if inFunction:
             target = runtime
         else:
@@ -427,7 +451,7 @@ class Class(Resource):
     # slower than the recursive version on first measurements; also, it still
     # needed a recursive call when coming across a 'defer' node, and i'm not
     # sure how to handle this sub-recursion when the main body is an iteration.
-    def _analyzeClassDepsNode(self, node, loadtime, runtime, warn, inFunction, variants):
+    def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants):
 
         fileId = self.id
 
@@ -437,7 +461,7 @@ class Class(Resource):
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
-                self._analyzeClassDepsNode(deferNode, loadtime, runtime, warn, False, variants)
+                self._analyzeClassDepsNode(deferNode, loadtime, runtime, False, variants)
 
             # try to reduce to a class name
             assembledId = self.reduceAssembled(assembled, node)
@@ -448,22 +472,10 @@ class Class(Resource):
             # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
             # - if assembled contained ".", classAttribute will contain approx. non-class part
 
-            #if assembledId:
-            #    if assembledId in self._classes and assembledId != fileId:
-            #        #print "-- adding: %s" % assembledId
-            #        #print "-- nameba: %s" % className
-            #        #if not className: import pydb; pydb.debugger()
-            #        self.addId(inFunction, assembledId, runtime, loadtime)
-            #else:
-            #    if self.isUnknownClass(assembled, node, fileId):
-            #        #print "-- warning: %s" % assembled
-            #        #print "-- namebas: %s" % className
-            #        warn.append(assembled)
-
             if className:
                 if className != fileId: # not checking for self._classes here!
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    self.addId(inFunction, className, runtime, loadtime, node.get('line', -1))
+                    self.addId(node, inFunction, className, assembled, runtime, loadtime, node.get('line', -1), variants)
 
             # an attempt to fix static initializers (bug#1455)
             if not inFunction and self.followCallDeps(node, fileId, assembledId):
@@ -488,7 +500,7 @@ class Class(Resource):
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(child, loadtime, runtime, warn, inFunction, variants)
+                self._analyzeClassDepsNode(child, loadtime, runtime, inFunction, variants)
 
         return
 
@@ -1028,7 +1040,7 @@ class Class(Resource):
         runtime  = []
         loadtime = []
         warn     = []
-        self._analyzeClassDepsNode(fileId, funcNode, runtime, loadtime, warn, True, variants)
+        self._analyzeClassDepsNode(funcNode, runtime, loadtime, True, variants)
 
         # remove reference to itself
         while fileId in loadtime:
