@@ -87,5 +87,41 @@ class Script(object):
                 p = p[part]
 
         return trie
+        
+    ##
+    # Version that uses linked nodes as data structure
+    # - supposedly less memory, but maybe slower lookups
+    def createTrie1(self, classesObj=[]):
+        class TrieNode(object):
+            __slots__ = ('value', 'children')
+            def __init__(self, value=None, children=None):
+                self.value = value
+                self.children = children
+            def add(self, child):
+                if not self.children:
+                    self.children = []
+                self.children.append(child)
+            def lookup(self, name):
+                if not self.children:
+                    return None
+                for c in self.children:
+                    if c.value == name:
+                        return c
+                return None
+        
+        trie = TrieNode()
+        classes = classesObj if classesObj else self.classesObj
+        for classid in (x.id for x in classes):
+            nameparts = classid.split(".")
+            p = trie
+            for part in nameparts:
+                child = p.lookup(part)
+                if not child:
+                    child = TrieNode(part)
+                    p.add(child)
+                p = child
+                
+        return trie
+                
 
 
