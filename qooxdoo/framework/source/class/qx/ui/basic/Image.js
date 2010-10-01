@@ -365,9 +365,7 @@ qx.Class.define("qx.ui.basic.Image",
         this.__setManagedImage(this.getContentElement(), source);
       } else if (qx.io.ImageLoader.isLoaded(source)) {
         this.__setUnmanagedImage(this.getContentElement(), source);
-      }
-      else 
-      {
+      } else {
         this.__loadUnmanagedImage(this.getContentElement(), source);
       }
     },
