@@ -335,7 +335,23 @@ qx.Class.define("qx.test.ui.Focus",
       this.assertTrue(this.target_blur_called, "target must be blured");
 
       this.input.show();
+    },
+    
+    
+    testFocusComboBox : function() {
+      var comboBox = new qx.ui.form.ComboBox();
+      this.getRoot().add(comboBox);
+      comboBox.focus(); 
+      this.flush();
+      
+      this.assertEquals(
+        comboBox.getChildControl("textfield"), 
+        qx.ui.core.FocusHandler.getInstance().getActiveWidget()
+      );
+
+      comboBox.destroy();
     }
+    
   },
 
   destruct : function() {
