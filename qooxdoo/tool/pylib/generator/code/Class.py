@@ -320,7 +320,7 @@ class Class(Resource):
 
         return False
         
-    def addId(self, node, inFunction, assembledId, assembled, runtime, loadtime, lineno, variants):
+    def addId(self, inFunction, assembledId, runtime, loadtime, lineno):
         if inFunction:
             target = runtime
         else:
@@ -329,20 +329,13 @@ class Class(Resource):
         if not assembledId in (x.name for x in target):
             target.append(DependencyItem(assembledId, lineno))
 
-        if (not inFunction and  # only for loadtime items
-            self.context['jobconf'].get("dependencies/follow-static-initializers", False) and
-            node.hasParentContext("call/operand")  # it's a method call
-           ):  
-            deps = self.getMethodDeps(assembledId, assembled, variants)
-            loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
-
         return
 
 
-    def followCallDeps(self, node, fileId, assembledId):
-        if (assembledId and
-            assembledId in self._classesObj and       # we have a class id
-            assembledId != fileId and
+    def followCallDeps(self, node, fileId, className):
+        if (className and
+            className in self._classesObj and       # we have a class id
+            className != fileId and
             self.context['jobconf'].get("dependencies/follow-static-initializers", False) and
             node.hasParentContext("call/operand")  # it's a method call
            ):
@@ -381,11 +374,11 @@ class Class(Resource):
             if className:
                 if className != fileId: # not checking for self._classes here!
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    self.addId(node, inFunction, className, assembled, runtime, loadtime, node.get('line', -1), variants)
+                    self.addId(inFunction, className, runtime, loadtime, node.get('line', -1))
 
                 # an attempt to fix static initializers (bug#1455)
                 assembledId = '' # TODO: fake for now
-                if not inFunction and self.followCallDeps(node, fileId, assembledId):
+                if not inFunction and self.followCallDeps(node, fileId, className):
                     console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
                     if False: # use old getMethodDeps()
                         ldeps = self.getMethodDeps(assembledId, assembled, variants)
