@@ -215,18 +215,6 @@ class Class(Resource):
         # get deps from meta info and class code
         def buildShallowDeps():
 
-            ##
-            # get deps from class code (tree)
-            def analyzeClassTree(variantSet):
-
-                loadDeps = []
-                runDeps  = []
-
-                tree = self.tree(variantSet)
-                self._analyzeClassDepsNode(tree, loadDeps, runDeps, False, variantSet)
-
-                return loadDeps, runDeps
-
             # ------------------------------------------------------
             # Notes:
             # load time = before class = require
@@ -254,7 +242,6 @@ class Class(Resource):
             # Read content data
             (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeLoad, treeRun, inFunction=False, variants=variantSet)
-            #(treeLoad, treeRun) = analyzeClassTree(variantSet)
             
             # Process content data
             if not "auto-require" in metaIgnore:
