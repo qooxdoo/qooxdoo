@@ -182,9 +182,9 @@ class Log(object):
             sys.stdout.flush()
 
 
-    def dot(self):
+    def dot(self, char='.'):
         stream = sys.stdout
-        stream.write(".")
+        stream.write(char)
         stream.flush()
 
 

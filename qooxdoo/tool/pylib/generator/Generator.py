@@ -25,6 +25,7 @@ import functools, codecs, operator
 
 from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
+from misc.Trie     import Trie
 from ecmascript import compiler
 from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
@@ -236,8 +237,9 @@ class Generator(object):
             _docs = {}
             _translations = {}
             _libraries = []     # [generator.code.Library]
+            _allNamesTrie = Trie()
             if not isinstance(libraryKey, types.ListType):
-                return (_namespaces, _classes, _docs, _translations, _libraries)
+                return (_namespaces, _classes, _docs, _translations, _libraries, _allNamesTrie)
 
             for lib in libraryKey:
 
@@ -259,11 +261,12 @@ class Generator(object):
                 _classes.update(classes)
 
                 for key,entry in classes.items():
-                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj)
+                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj, _allNamesTrie)
                     clazz.encoding = entry["encoding"]
                     clazz.size     = entry["size"]     # dependency logging uses this
                     clazz.package  = entry["package"]  # Apiloader uses this
                     _classesObj[key] = clazz
+                    _allNamesTrie.add(key)
 
                 _docs.update(libObj.getDocs())
                 _translations[namespace] = libObj.getTranslations()
@@ -273,7 +276,7 @@ class Generator(object):
             self._console.debug("Loaded %s libraries" % len(_namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries)
+            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries, _allNamesTrie)
 
 
 
@@ -521,7 +524,8 @@ class Generator(object):
          self._classesObj,
          self._docs,
          self._translations,
-         self._libraries)     = scanLibrary(config.get("library"))
+         self._libraries,
+         self._allNamesTrie)     = scanLibrary(config.get("library"))
 
 
         # Python2.6 only:
@@ -762,7 +766,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
-                    classDeps = classObj.dependencies(variants)
+                    classDeps, _ = classObj.dependencies(variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
 
                     for dep in classDeps["load"]:
@@ -794,7 +798,7 @@ class Generator(object):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
-                    classDeps = classObj.dependencies(variants)
+                    classDeps, _ = classObj.dependencies(variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
 
                     for dep in classDeps["load"]:

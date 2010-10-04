@@ -147,7 +147,7 @@ class PartBuilder(object):
             for packageIdx, package in enumerate(part.packages):
                 for classId in package.classes:
                     classIdx   += 1
-                    classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                    classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                     loadDeps    = [x.name for x in classDeps['load']]
                     runDeps     = [x.name for x in classDeps['run']]
                     for depsId in loadDeps: # + runDeps:
@@ -287,7 +287,7 @@ class PartBuilder(object):
             # get all direct deps of this package
             allDeps = set(())
             for classId in package.classes:
-                classDeps   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                 loadDeps    = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 

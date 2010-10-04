@@ -50,7 +50,7 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBA
 
 class Class(Resource):
 
-    def __init__(self, id, path, library, context, container):
+    def __init__(self, id, path, library, context, container, namespaces):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
         super(Class, self).__init__(path)
@@ -58,6 +58,7 @@ class Class(Resource):
         self.library    = library     # Library()
         self.context    = context
         self._classesObj= container   # this is ugly, but curr. used to identify known names
+        self.namespaces = namespaces  # this is ugly, but curr. used to identify known names (misc.Trie())
         self.size       = -1
         self.encoding   = 'utf-8'
         self.source     = u''  # source text of this class
@@ -281,13 +282,15 @@ class Class(Resource):
         classVariants    = self.classVariants()
         relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
+        cached           = True
 
         deps = cache.readmulti(cacheId, self.path)
         if deps == None:
+            cached = False
             deps = buildShallowDeps()
             cache.writemulti(cacheId, deps)
         
-        return deps
+        return deps, cached
 
         # end:dependencies()
 
@@ -348,16 +351,6 @@ class Class(Resource):
         return False
 
 
-    def splitClassAttribute(self, assembledId, assembled):
-        if assembledId == assembled:  # just a class id
-            clazzId   = assembledId
-            attribute = u''
-        else:
-            clazzId   = assembledId
-            attribute = assembled[ len(assembledId) +1 :] # a.b.c.d = a.b.c + '.' + d
-            
-        return clazzId, attribute
-
     ##
     # analyze a class AST for dependencies (compiler hints not treated here)
     # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
@@ -391,24 +384,24 @@ class Class(Resource):
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                     self.addId(node, inFunction, className, assembled, runtime, loadtime, node.get('line', -1), variants)
 
-            # an attempt to fix static initializers (bug#1455)
-            assembledId = '' # TODO: fake for now
-            if not inFunction and self.followCallDeps(node, fileId, assembledId):
-                console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
-                if False: # use old getMethodDeps()
-                    ldeps = self.getMethodDeps(assembledId, assembled, variants)
-                    # getMethodDeps is mutual recursive calling into the current function, but
-                    # only does so with inFunction=True, so this branch is never hit through the
-                    # recursive call
-                    # make run-time deps of the called method load-deps of the current
-                    loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                else: # new getMethodDeps()
-                    console.indent()
-                    classId, attribId = self.splitClassAttribute(assembledId, assembled)
-                    ldeps = self.getMethodDeps1(classId, attribId, variants)
-                    ld = [x[0] for x in ldeps]
-                    loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
-                    console.outdent()
+                # an attempt to fix static initializers (bug#1455)
+                assembledId = '' # TODO: fake for now
+                if not inFunction and self.followCallDeps(node, fileId, assembledId):
+                    console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
+                    if False: # use old getMethodDeps()
+                        ldeps = self.getMethodDeps(assembledId, assembled, variants)
+                        # getMethodDeps is mutual recursive calling into the current function, but
+                        # only does so with inFunction=True, so this branch is never hit through the
+                        # recursive call
+                        # make run-time deps of the called method load-deps of the current
+                        loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
+                    else: # new getMethodDeps()
+                        console.indent()
+                        classId, attribId = self.splitClassAttribute(assembledId, assembled)
+                        ldeps = self.getMethodDeps1(classId, attribId, variants)
+                        ld = [x[0] for x in ldeps]
+                        loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
+                        console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
@@ -503,10 +496,23 @@ class Class(Resource):
         # end:_isInterestingReference()
 
 
+    ##
+    # this supersedes reduceAssembled(), improving the return value
     def _splitQxClass(self, assembled):
-        # this supersedes reduceAssembled(), improving the return value
         className = classAttribute = ''
-        if assembled in self._classesObj:
+        if assembled in self._classesObj:  # short cut
+            className = assembled
+        else:
+            namespacematch = self.namespaces.longestMatch(assembled)
+            if namespacematch:
+                className = namespacematch
+                classAttribute = assembled[ len(namespacematch) +1 :]  # skip namespacematch + '.'
+        return className, classAttribute
+
+
+    def _splitQxClass1(self, assembled):
+        className = classAttribute = ''
+        if assembled in self._classesObj:  # short cut
             className = assembled
         elif "." in assembled:
             for entryId in self._classesObj:
