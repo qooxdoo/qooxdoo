@@ -22,7 +22,7 @@
 /**
  * Radio buttons are used to manage a single selection. Radio buttons only
  * make sense used in a group of two or more of them. They are managed (connected)
- * to a {qx.ui.form.RadioGroup} to handle the selection.
+ * to a {@link qx.ui.form.RadioGroup} to handle the selection.
  */
 qx.Class.define("qx.ui.toolbar.RadioButton",
 {
