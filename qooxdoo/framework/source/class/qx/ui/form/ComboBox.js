@@ -192,6 +192,14 @@ qx.Class.define("qx.ui.form.ComboBox",
       field.getFocusElement().focus();
       field.selectAllText();
     },
+    
+    
+    // overridden
+    focus : function() 
+    {
+      this.base(arguments);
+      this.getChildControl("textfield").getFocusElement().focus();
+    },
 
 
     // interface implementation
