@@ -377,9 +377,8 @@ class Class(Resource):
                     self.addId(inFunction, className, runtime, loadtime, node.get('line', -1))
 
                 # an attempt to fix static initializers (bug#1455)
-                assembledId = '' # TODO: fake for now
                 if not inFunction and self.followCallDeps(node, fileId, className):
-                    console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
+                    console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, className))
                     if False: # use old getMethodDeps()
                         ldeps = self.getMethodDeps(assembledId, assembled, variants)
                         # getMethodDeps is mutual recursive calling into the current function, but
@@ -389,8 +388,7 @@ class Class(Resource):
                         loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
                     else: # new getMethodDeps()
                         console.indent()
-                        classId, attribId = self.splitClassAttribute(assembledId, assembled)
-                        ldeps = self.getMethodDeps1(classId, attribId, variants)
+                        ldeps = self.getMethodDeps1(className, classAttribute, variants)
                         ld = [x[0] for x in ldeps]
                         loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
                         console.outdent()
@@ -1117,7 +1115,7 @@ class Class(Resource):
             # Check cache
             filePath= self._classesObj[classId].path
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            ndeps   = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if ndeps != None:
                 console.debug("using cached result")
                 #deps.update(ndeps)
@@ -1135,11 +1133,10 @@ class Class(Resource):
             ndeps= set(())
             # put into right format
             for dep in deps_rt:
-                assId = reduceAssembled(dep)
-                if assId == u'':  # unknown class
+                clazzId, methId = self._splitQxClass(dep)
+                if clazzId == u'':  # unknown class
                     console.info("Skipping unknown id: %r" % dep)
                     continue
-                clazzId, methId = splitClassAttribute(assId, dep)
                 ndeps.add((clazzId,methId))
 
             console.debug("Code references: %r" % list(ndeps))
@@ -1171,7 +1168,7 @@ class Class(Resource):
                         ndeps.update(r)
 
             # Cache update
-            self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
+            cache.write(cacheId, ndeps, memory=True, writeToFile=False)
             # accumulator update
             #deps.update(ndeps)
             console.debug("Recursive dependencies: %r" % list(ndeps))
