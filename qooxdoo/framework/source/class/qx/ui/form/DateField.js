@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.form.DateField",
       try
       {
         var textfield = this.getChildControl("textfield");
-        var dateStr =textfield.getValue()
+        var dateStr = textfield.getValue();
         var currentDate = old.parse(dateStr);
         textfield.setValue(value.format(currentDate));
       }
