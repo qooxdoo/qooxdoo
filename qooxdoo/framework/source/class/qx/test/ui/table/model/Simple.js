@@ -22,7 +22,7 @@ qx.Class.define("qx.test.ui.table.model.Simple",
 
   members :
   {
-    testGetRowData : function() {
+    testGetRowDataAsMap : function() {
       var tableDataWithMeta = [{
           "id" : 100,
           "col1" : 'test',
@@ -34,7 +34,7 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       tableModel.setDataAsMapArray(tableDataWithMeta, true);
 
       // check the intial data
-      var data = tableModel.getRowData(0);
+      var data = tableModel.getRowDataAsMap(0);
       this.assertEquals(100, data.id);
       this.assertEquals("test", data.col1);
       this.assertEquals("test2", data.col2);
@@ -42,7 +42,7 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       // change the data
       tableModel.setValue(0, 0, "affe");
 
-      data = tableModel.getRowData(0);      
+      data = tableModel.getRowDataAsMap(0);      
       // check the changed data
       this.assertEquals(100, data.id);
       this.assertEquals("affe", data.col1);

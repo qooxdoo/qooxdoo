@@ -160,6 +160,25 @@ qx.Class.define("qx.ui.table.model.Simple",
     getRowData : function(rowIndex)
     {
       var rowData = this.__rowArr[rowIndex];
+      if (rowData == null || rowData.originalData == null) {
+        return rowData;
+      } else {
+        return rowData.originalData;      
+      }
+    },
+
+
+    /**
+     * Returns the data of one row as map containing the column IDs as key and
+     * the cell values as value. Also the meta data is included.
+     *
+     * @param rowIndex {Integer} the model index of the row.
+     * @return {Map} a Map containing the column values.
+     */
+    getRowDataAsMap : function(rowIndex)
+    {
+      var rowData = this.__rowArr[rowIndex];      
+      
       if (rowData != null) {
         var map = {};
         // get the current set data
@@ -180,27 +199,6 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
       // may be null, which is ok
       return (rowData && rowData.originalData) ? rowData.originalData : null;
-    },
-
-
-    /**
-     * Returns the data of one row as map containing the column IDs as key and
-     * the cell values as value. This will not contain meta data which means 
-     * only visible data will be in the returned map.
-     *
-     * @param rowIndex {Integer} the model index of the row.
-     * @return {Map} a Map containing the column values.
-     */
-    getRowDataAsMap : function(rowIndex)
-    {
-      var columnArr = this.__rowArr[rowIndex];
-      var map = {};
-
-      for (var col=0; col<this.getColumnCount(); col++) {
-        map[this.getColumnId(col)] = columnArr[col];
-      }
-
-      return map;
     },
 
 
