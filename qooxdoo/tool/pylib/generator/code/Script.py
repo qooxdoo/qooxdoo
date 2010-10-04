@@ -31,8 +31,9 @@ class Script(object):
 
     def __init__(self, ):
         self.baseScriptPath = "" # path to the script that will be loaded by HTML
-        self.classes    = []   # classes making up the application / library
+        self.classes    = []   # classes making up the build
         self.classesObj = []   # temp. alternative list of class objects, [generator.code.Class, ...]
+        self.jobconfig  = None # Job() config object
         self.variants   = []
         self.parts      = {}   # parts defined by the configuration (if any); {part.name : part}
         self.packages   = []   # .js files for this application / library;  {package.id : package}

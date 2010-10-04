@@ -213,12 +213,11 @@ class Class(Resource):
 
         ##
         # get deps from meta info and class code
+        #
+        # Notes:
+        # load time = before class = require
+        # run time  = after class  = use
         def buildShallowDeps():
-
-            # ------------------------------------------------------
-            # Notes:
-            # load time = before class = require
-            # runtime = after class = use
 
             load   = []
             run    = []

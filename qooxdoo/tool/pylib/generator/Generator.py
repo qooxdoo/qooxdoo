@@ -597,6 +597,7 @@ class Generator(object):
             script.namespace = self.getAppName()
             script.variants  = variants
             script.libraries = self._libraries
+            script.jobconfig = self._job
             # set source/build version
             if "compile" in jobTriggers:
                 if config.get("compile/type", "") == "source":
