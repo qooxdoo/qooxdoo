@@ -237,9 +237,8 @@ class Generator(object):
             _docs = {}
             _translations = {}
             _libraries = []     # [generator.code.Library]
-            _allNamesTrie = Trie()
             if not isinstance(libraryKey, types.ListType):
-                return (_namespaces, _classes, _docs, _translations, _libraries, _allNamesTrie)
+                return (_namespaces, _classes, _docs, _translations, _libraries)
 
             for lib in libraryKey:
 
@@ -261,12 +260,11 @@ class Generator(object):
                 _classes.update(classes)
 
                 for key,entry in classes.items():
-                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj, _allNamesTrie)
+                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj)
                     clazz.encoding = entry["encoding"]
                     clazz.size     = entry["size"]     # dependency logging uses this
                     clazz.package  = entry["package"]  # Apiloader uses this
                     _classesObj[key] = clazz
-                    _allNamesTrie.add(key)
 
                 _docs.update(libObj.getDocs())
                 _translations[namespace] = libObj.getTranslations()
@@ -276,7 +274,7 @@ class Generator(object):
             self._console.debug("Loaded %s libraries" % len(_namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries, _allNamesTrie)
+            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries)
 
 
 
@@ -524,8 +522,7 @@ class Generator(object):
          self._classesObj,
          self._docs,
          self._translations,
-         self._libraries,
-         self._allNamesTrie)     = scanLibrary(config.get("library"))
+         self._libraries)     = scanLibrary(config.get("library"))
 
 
         # Python2.6 only:

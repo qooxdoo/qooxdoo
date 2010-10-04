@@ -50,7 +50,7 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBA
 
 class Class(Resource):
 
-    def __init__(self, id, path, library, context, container, namespaces):
+    def __init__(self, id, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
         super(Class, self).__init__(path)
@@ -58,7 +58,6 @@ class Class(Resource):
         self.library    = library     # Library()
         self.context    = context
         self._classesObj= container   # this is ugly, but curr. used to identify known names
-        self.namespaces = namespaces  # this is ugly, but curr. used to identify known names (misc.Trie())
         self.size       = -1
         self.encoding   = 'utf-8'
         self.source     = u''  # source text of this class
@@ -499,18 +498,6 @@ class Class(Resource):
     ##
     # this supersedes reduceAssembled(), improving the return value
     def _splitQxClass(self, assembled):
-        className = classAttribute = ''
-        if assembled in self._classesObj:  # short cut
-            className = assembled
-        else:
-            namespacematch = self.namespaces.longestMatch(assembled)
-            if namespacematch:
-                className = namespacematch
-                classAttribute = assembled[ len(namespacematch) +1 :]  # skip namespacematch + '.'
-        return className, classAttribute
-
-
-    def _splitQxClass1(self, assembled):
         className = classAttribute = ''
         if assembled in self._classesObj:  # short cut
             className = assembled

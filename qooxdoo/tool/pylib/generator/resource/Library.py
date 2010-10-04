@@ -361,7 +361,7 @@ class Library(object):
                 contextdict["cache"] = context.cache
                 contextdict["jobconf"] = context.jobconf
                 # TODO: currently creation of throw-away objects (unless they're .append'ed)
-                clazz = Class(self._classes[filePathId], filePath, self, contextdict, self._classesObj, None) # namespace trie missing!
+                clazz = Class(self._classes[filePathId], filePath, self, contextdict, self._classesObj)
                 clazz.encoding = encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
