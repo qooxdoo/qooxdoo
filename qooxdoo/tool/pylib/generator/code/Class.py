@@ -31,8 +31,6 @@ from ecmascript.transform.optimizer import variantoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
-from generator.Generator import namespaces as gen_namespaces
-
 DefaultIgnoredNamesDynamic = None
 QXGLOBALS = [
     #"clazz",

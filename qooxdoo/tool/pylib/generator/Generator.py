@@ -23,8 +23,6 @@
 import re, os, sys, zlib, optparse, types, string, glob
 import functools, codecs, operator
 
-namespaces = {}
-
 from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from ecmascript import compiler
@@ -612,7 +610,6 @@ class Generator(object):
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
             script.namespaces = script.createTrie(script.classesObj)  #TODO: experimental
-            namespaces = script.namespaces
 
             # prepare 'script' object
             if set(("compile", "log")).intersection(jobTriggers):
