@@ -304,73 +304,6 @@ class Class(Resource):
         return deferNode
 
 
-    def reduceAssembled(self, assembled, node):
-        # try to deduce a qooxdoo class from <assembled>
-        assembledId = ''
-        if assembled in self._classesObj:
-            assembledId = assembled
-        elif "." in assembled:
-            parts = assembled.split(".")
-            p = gen_namespaces
-            found = []
-            for part in parts:
-                if part in p:
-                    found.append(part)
-                    p = p[part]
-                else:
-                    break
-            if found:
-                assembledId = ".".join(found)
-
-        return assembledId
-
-
-    def reduceAssembled1(self, assembled, node):
-        # try to deduce a qooxdoo class from <assembled>
-        assembledId = ''
-        if assembled in self._classesObj:
-            assembledId = assembled
-        elif "." in assembled:
-            for entryId in self._classesObj:
-                if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                    if len(entryId) > len(assembledId): # take the longest match
-                        assembledId = entryId
-        return assembledId
-
-
-    def reduceAssembled1(self, assembled, node):
-        def tryKnownClasses(assembled):
-            result = ''
-            for entryId in self._classesObj.keys() + ["this"]:
-                if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                    if len(entryId) > len(assembledId): # take the longest match
-                        result = entryId
-            return result
-
-        def tryReduceClassname(assembled, node):
-            result = ''
-            # 'new <name>()'
-            if (node.hasParentContext("instantiation/*/*/operand")):
-                result = assembled  # whole <name>
-            # '"extend" : <name>'
-            elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend'):
-                result = assembled  # whole <name>
-            # 'call' functor
-            elif (node.hasParentContext("call/operand")):
-                result = assembled[:assembled.rindex('.')] # drop the method name after last '.'
-            return result
-
-        if assembled in self._classesObj:
-            assembledId = assembled
-        elif "." in assembled:
-            assembledId = tryKnownClasses(assembled)
-            if not assembledId:
-                assembledId = tryReduceClassname(assembled, node)
-        if not assembledId:
-            assembledId = assembled
-        return assembledId
-
-
     def isUnknownClass(self, assembled, node, fileId):
         # check name in 'new ...' position
         if (node.hasParentContext("instantiation/*/*/operand")
@@ -449,9 +382,6 @@ class Class(Resource):
             if deferNode != None:
                 self._analyzeClassDepsNode(deferNode, loadtime, runtime, False, variants)
 
-            # try to reduce to a class name
-            assembledId = self.reduceAssembled(assembled, node)
-
             (context, className, classAttribute) = self._isInterestingReference(assembled, node, fileId)
             # postcond: 
             # - if className != '' it is an interesting reference
@@ -464,6 +394,7 @@ class Class(Resource):
                     self.addId(node, inFunction, className, assembled, runtime, loadtime, node.get('line', -1), variants)
 
             # an attempt to fix static initializers (bug#1455)
+            assembledId = '' # TODO: fake for now
             if not inFunction and self.followCallDeps(node, fileId, assembledId):
                 console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
                 if False: # use old getMethodDeps()
