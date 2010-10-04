@@ -126,6 +126,8 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder("abc");
 
       widget.setEnabled(false);
+      this.flush();
+
       this.assertNull(widget.getValue(), "wrong value");
       this.assertFalse(this.__isPlaceholderVisible(widget));
       this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value");
@@ -160,18 +162,42 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __getPlaceholderValueOf: function(widget) {
-      if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-        return widget.getContainerElement().getChildren()[1].getValue();
-      } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
-        return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getValue();
+      if (qx.bom.client.Feature.PLACEHOLDER) {
+        if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+          return widget.getContentElement().getAttribute("placeholder");
+        } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+          return widget.getChildControl("textfield").getContentElement().getAttribute("placeholder");
+        }        
+      } else {
+        if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+          return widget.getContainerElement().getChildren()[1].getValue();
+        } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+          return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getValue();
+        }        
       }
     },
 
     __isPlaceholderVisible: function(widget) {
-      if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-        return widget.getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
-      } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
-        return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
+      if (qx.bom.client.Feature.PLACEHOLDER) {
+        if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+          var contentElem = widget.getContentElement();
+          return widget.getValue() == null && 
+            contentElem.getAttribute("placeholder") != "" && 
+            contentElem.getAttribute("placeholder") != null &&
+            !qx.ui.core.FocusHandler.getInstance().isFocused(widget);
+        } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+          var contentElem = widget.getChildControl("textfield").getContentElement();
+          return widget.getChildControl("textfield").getValue() == null && 
+            contentElem.getAttribute("placeholder") != "" &&
+            contentElem.getAttribute("placeholder") != null &&
+            !qx.ui.core.FocusHandler.getInstance().isFocused(widget);
+        }
+      } else {
+        if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+          return widget.getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
+        } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+          return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
+        }
       }
     },
 
