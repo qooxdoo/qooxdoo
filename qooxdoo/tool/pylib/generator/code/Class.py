@@ -236,20 +236,22 @@ class Class(Resource):
             run.extend(DependencyItem(x,-1) for x in metaRun)
             ignore.extend(DependencyItem(x,-1) for x in metaIgnore)
 
-            # Read content data
+            # Read source tree data
             (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeLoad, treeRun, inFunction=False, variants=variantSet)
             
-            # Process content data
+            # Process source tree data
             if not "auto-require" in metaIgnore:
                 for dep in treeLoad:
                     item = dep.name
                     if item in metaOptional:
                         pass
-                    elif item in (x.name for x in load):
+                    elif item in metaLoad:
                         console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
                     else:
-                        load.append(dep)
+                        # force uniqueness on the class name
+                        if item not in (x.name for x in load):
+                            load.append(dep)
 
             if not "auto-use" in metaIgnore:
                 for dep in treeRun:
@@ -258,10 +260,12 @@ class Class(Resource):
                         pass
                     elif item in (x.name for x in load):
                         pass
-                    elif item in (x.name for x in run):
+                    elif item in metaRun:
                         console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
                     else:
-                        run.append(dep)
+                        # force uniqueness on the class name
+                        if item not in (x.name for x in run):
+                            run.append(dep)
 
             console.outdent()
 
@@ -320,14 +324,15 @@ class Class(Resource):
 
         return False
         
-    def addId(self, inFunction, assembledId, runtime, loadtime, lineno):
+    def addId(self, inFunction, assembledId, attribute, runtime, loadtime, lineno):
         if inFunction:
             target = runtime
         else:
             target = loadtime
 
-        if not assembledId in (x.name for x in target):
-            target.append(DependencyItem(assembledId, lineno))
+        depItem = DependencyItem(assembledId, lineno, attribute)  
+        if not depItem in target:
+            target.append(depItem)
 
         return
 
@@ -374,7 +379,7 @@ class Class(Resource):
             if className:
                 if className != fileId: # not checking for self._classes here!
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    self.addId(inFunction, className, runtime, loadtime, node.get('line', -1))
+                    self.addId(inFunction, className, classAttribute, runtime, loadtime, node.get('line', -1))
 
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, fileId, className):
@@ -897,14 +902,14 @@ class Class(Resource):
     #  METHOD DEPENDENCIES SUPPORT
     ######################################################################
 
-    def getMethodDeps(self, fileId, methodNameFQ, variants):
+    def getMethodDeps(self, classId, methodNameFQ, variants):
         # find the dependencies of a specific method
-        # get the fileId class, find the node of methodNameFQ, and extract its
+        # get the classId class, find the node of methodNameFQ, and extract its
         # dependencies (can only be runtime deps, since all inFunction)
         # return the deps
 
-        def findMethodName(fileId, methodNameFQ):
-            mo = re.match(r'(?u)^%s\.(.+)$' % fileId, methodNameFQ)
+        def findMethodName(classId, methodNameFQ):
+            mo = re.match(r'(?u)^%s\.(.+)$' % classId, methodNameFQ)
             if mo and mo.group(1):
                 return mo.group(1)
             else:
@@ -920,30 +925,29 @@ class Class(Resource):
             return None
 
         # get the method name
-        if fileId == methodNameFQ:  # corner case: the class is being called
+        if classId == methodNameFQ:  # corner case: the class is being called
             methodName = "construct"
         else:
-            methodName = findMethodName(fileId, methodNameFQ) # methodNameFQ - fileId = methodName
+            methodName = findMethodName(classId, methodNameFQ) # methodNameFQ - classId = methodName
         if methodName == "getInstance": # corner case: singletons get this from qx.Class
-            fileId = "qx.Class"
+            classId = "qx.Class"
 
         # get the class code
-        tree = self._classesObj[fileId].tree( variants)
+        tree = self._classesObj[classId].tree( variants)
 
         # find the method node
         funcNode   = findMethod(tree, methodName)
         if not funcNode:
-            raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, fileId)
+            raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, classId)
 
         # get the deps of the method
         runtime  = []
         loadtime = []
-        warn     = []
         self._analyzeClassDepsNode(funcNode, runtime, loadtime, True, variants)
 
         # remove reference to itself
-        while fileId in loadtime:
-            loadtime.remove(fileId)
+        while classId in loadtime:
+            loadtime.remove(classId)
 
         return loadtime
 
@@ -1061,34 +1065,10 @@ class Class(Resource):
         def getReferencesFromSource(fileId, node, runtime):
             # the "variants" param is only to support getMethodDeps()!
 
-            ##
-            # currently interesting are 
-            # - 'new' operands ("new qx.ui.form.Button(...)"), and 
-            # - call operands ("qx.core.Variant.select(...)")
-
-            def isInterestingReference(assembled, node, fileId):
-                # check name in 'new ...' position
-                if (node.hasParentContext("instantiation/*/*/operand")
-                # check name in call position
-                or (node.hasParentContext("call/operand"))):
-                    # skip built-in classes (Error, document, RegExp, ...)
-                    for bi in lang.BUILTIN + ['clazz']:
-                        if re.search(r'^%s\b' % bi, assembled):
-                            return False
-                    # skip scoped vars - expensive, therefore last test
-                    if self._isScopedVar(assembled, node, fileId):
-                        return False
-                    else:
-                        return True
-
-                return False
-            
-            # -----------------------------------------------------------
-
             if node.type == "variable":
                 assembled = (treeutil.assembleVariable(node))[0]
 
-                if isInterestingReference(assembled, node, fileId):
+                if self._isInterestingReference(assembled, node, fileId):
                     runtime.append(assembled)
 
             if node.hasChildren():
@@ -1108,89 +1088,87 @@ class Class(Resource):
         # returns a set of pairs each representing a signature (classId,
         # methodId)
 
-        def getMethodDepsR(classId, methodId, variants, deps):
+        def getMethodDepsR(classId, methodId, variants, globalResult):
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
-
-            # Check cache
-            filePath= self._classesObj[classId].path
-            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            ndeps   = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
-            if ndeps != None:
-                console.debug("using cached result")
-                #deps.update(ndeps)
-                console.outdent()
-                return ndeps
 
             # Calculate deps
 
             # find the defining class
-            clazzId, attribValNode = findClassForMethod(classId, methodId, variants)
+            clazzId, attribNode = findClassForMethod(classId, methodId, variants)
 
             # Get the method's immediate deps
             deps_rt = []
-            getReferencesFromSource(clazzId, attribValNode, deps_rt)
-            ndeps= set(())
-            # put into right format
-            for dep in deps_rt:
-                clazzId, methId = self._splitQxClass(dep)
+            deps_lt = []
+            #getReferencesFromSource(clazzId, attribNode, deps_rt)
+            self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
+            assert not deps_lt
+
+            for depsItem in deps_rt:
+                clazzId, methId = self._splitQxClass(depsItem.name)
+
                 if clazzId == u'':  # unknown class
                     console.info("Skipping unknown id: %r" % dep)
                     continue
-                ndeps.add((clazzId,methId))
 
-            console.debug("Code references: %r" % list(ndeps))
-
-            # Recurse on the immediate deps
-            ndepslist = list(ndeps)
-            ndeps     = set(())   # will be re-populated with brushed values (e.g. 'this' gone)
-            for clazzId, methId in ndepslist:
                 if clazzId == "this":
                     clazzId = classId
-                ndeps.add((clazzId, methId))
-                nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
+                    depsItem.name = clazzId + "." + methId
+
+                globalResult.append(depsItem)
+
+                # Recurse dependencies
+                nclazzId, methNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
+
+                # lookup error
                 if not nclazzId:
                     console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
-                elif nclazzId == True:  # this must be a known global (like Error, Regexp, ...)
+                    continue
+
+                # known global (Error, Regexp, ...)
+                elif nclazzId == True:
                     console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
                     continue
-                else:
-                    clazzId = nclazzId
-                    # cyclic check
-                    if (clazzId, methId) in deps:
-                    #if (clazzId, methId) == (classId, methodId):
-                        console.debug("Class.method already seen, skipping: %s#%s" % (clazzId, methId))
-                        continue
-                    else:
-                        ndeps.add((clazzId, methId))
-                        assert clazzId in self._classesObj
-                        r = getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
-                        ndeps.update(r)
 
-            # Cache update
-            cache.write(cacheId, ndeps, memory=True, writeToFile=False)
-            # accumulator update
-            #deps.update(ndeps)
-            console.debug("Recursive dependencies: %r" % list(ndeps))
+                # cyclic check
+                elif nclazzId in globalResult:
+                    console.debug("Class already seen, skipping: %s" % (clazzId,))
+                    continue
+
+                # recursive call
+                else:
+                    ndeps.add((clazzId, methId))
+                    assert clazzId in self._classesObj
+                    r = getMethodDepsR(clazzId, methId, variants, globalResult.extend(ndeps))  # recursive call
+                    ndeps.update(r)
+
             console.outdent()
-            return ndeps
+            return
 
         # - Main ---------------------
-        deps = getMethodDepsR(classId, methodId, variants, set(()))
+        print "running getMethodDeps"
+        deps = []
+        getMethodDepsR(classId, methodId, variants, deps)
+        print deps
         return deps
 
 
 
 
 class DependencyItem(object):
-    __slots__ = ('name', 'line')
-    def __init__(self, name, line):
-        self.name = name
-        self.line = line
+    __slots__ = ('name', 'attribute', 'line')
+    def __init__(self, name, line, attribute=''):
+        self.name = name            # e.g. "qx.Class"
+        self.attribute = attribute  # e.g. "define"
+        self.line = line            # source line in referencing file
     def __repr__(self):
         return "<DepItem>:"+self.name
     def __str__(self):
         return self.name
+    def __eq__(self, other):
+        return self.name == other.name and self.attribute == other.attribute
+    def __hash__(self):
+        return hash(self.name + self.attribute)
 
 
 # -- temp. module helper functions ---------------------------------------------

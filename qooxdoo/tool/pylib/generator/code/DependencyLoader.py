@@ -150,15 +150,17 @@ class DependencyLoader(object):
 
             # process lists
             try:
-              skipList = deps["warn"] + deps["ignore"]
+              skipList = [x.name for x in deps["warn"] + deps["ignore"]]
 
               for subitem in deps["load"]:
-                  if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
-                      classlistFromClassRecursive(subitem.name, excludeWithDeps, variants, result)
+                  itemname = subitem.name
+                  if not itemname in result and not itemname in excludeWithDeps and not itemname in skipList:
+                      classlistFromClassRecursive(itemname, excludeWithDeps, variants, result)
 
               for subitem in deps["run"]:
-                  if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
-                      classlistFromClassRecursive(subitem.name, excludeWithDeps, variants, result)
+                  itemname = subitem.name
+                  if not itemname in result and not itemname in excludeWithDeps and not itemname in skipList:
+                      classlistFromClassRecursive(itemname, excludeWithDeps, variants, result)
 
             except NameError, detail:
                 raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
