@@ -153,14 +153,14 @@ class DependencyLoader(object):
               skipList = [x.name for x in deps["warn"] + deps["ignore"]]
 
               for subitem in deps["load"]:
-                  itemname = subitem.name
-                  if not itemname in result and not itemname in excludeWithDeps and not itemname in skipList:
-                      classlistFromClassRecursive(itemname, excludeWithDeps, variants, result)
+                  subname = subitem.name
+                  if subname not in result and subname not in excludeWithDeps and subname not in skipList:
+                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result)
 
               for subitem in deps["run"]:
-                  itemname = subitem.name
-                  if not itemname in result and not itemname in excludeWithDeps and not itemname in skipList:
-                      classlistFromClassRecursive(itemname, excludeWithDeps, variants, result)
+                  subname = subitem.name
+                  if subname not in result and subname not in excludeWithDeps and subname not in skipList:
+                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result)
 
             except NameError, detail:
                 raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
@@ -215,11 +215,16 @@ class DependencyLoader(object):
         runFinal  = []
 
         # add static dependencies
-        classObj = self._classesObj[fileId]
-        static, cached   = classObj.dependencies(variants)
-        #static   = self.getDeps(fileId, variants)
+        classObj         = self._classesObj[fileId]
+
+        static, cached   = classObj.dependencies (variants)
+
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
+
+        # fix self-references
+        loadFinal = [x for x in loadFinal if x.name != fileId]
+        runFinal  = [x for x in runFinal  if x.name != fileId]
 
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :

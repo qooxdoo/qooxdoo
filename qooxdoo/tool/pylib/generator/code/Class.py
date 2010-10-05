@@ -42,11 +42,7 @@ QXGLOBALS = [
 _memo1_ = {}  # for memoizing getScript()
 _memo2_ = [None, None]
 
-GlobalSymbolsRegPatts = []
-for symb in lang.GLOBALS + QXGLOBALS:
-    GlobalSymbolsRegPatts.append(re.compile(r'^%s\b' % symb))
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
-
 
 class Class(Resource):
 
@@ -377,9 +373,11 @@ class Class(Resource):
             # - if assembled contained ".", classAttribute will contain approx. non-class part
 
             if className:
-                if className != fileId: # not checking for self._classes here!
-                    #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    self.addId(inFunction, className, classAttribute, runtime, loadtime, node.get('line', -1))
+                # we allow self-references, to be able to track method dependencies within the same class
+                if className == 'this':
+                    className = fileId
+                #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
+                self.addId(inFunction, className, classAttribute, runtime, loadtime, node.get('line', -1))
 
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, fileId, className):
@@ -442,17 +440,15 @@ class Class(Resource):
             return context
 
         def isInterestingIdentifier(assembled):
-            # skip built-in classes (Error, document, RegExp, ...)
-            #for bi in lang.GLOBALS + ['clazz', 'qx', r'qx\.\$\$\w+$']:  # GLOBALS contains 'this' and 'arguments'
-            #for bi in lang.GLOBALS + QXGLOBALS:  # GLOBALS contains 'this' and 'arguments'
-            #    if re.search(r'^%s\b' % bi, assembled):
+            # accept 'this', as we want to track dependencies within the same class
+            if assembled[:3] == "this":
+                if len(assembled) == 4 or (len(assembled) > 4 and assembled[4] == "."):
+                    return True
+            # skip built-in classes (Error, document, RegExp, ...); GLOBALS contains 'this' and 'arguments'
             if GlobalSymbolsCombinedPatt.search(assembled):
                 return False
-            #for patt in GlobalSymbolsRegPatts:
-            #    if patt.search(assembled):
-            #        return False
             # skip scoped vars - expensive, therefore last test
-            if self._isScopedVar(assembled, node, fileId):
+            elif self._isScopedVar(assembled, node, fileId):
                 return False
             else:
                 return True
@@ -483,7 +479,7 @@ class Class(Resource):
         context = nameBase = nameExtension = ''
         context = checkNodeContext(node)
         if context: 
-            if isInterestingIdentifier(assembled): # filter local or build-in names
+            if isInterestingIdentifier(assembled): # filter some local or build-in names
                 nameBase, nameExtension = attemptSplitIdentifier(context, assembled)
 
         return context, nameBase, nameExtension
@@ -1105,15 +1101,7 @@ class Class(Resource):
             assert not deps_lt
 
             for depsItem in deps_rt:
-                clazzId, methId = self._splitQxClass(depsItem.name)
-
-                if clazzId == u'':  # unknown class
-                    console.info("Skipping unknown id: %r" % dep)
-                    continue
-
-                if clazzId == "this":
-                    clazzId = classId
-                    depsItem.name = clazzId + "." + methId
+                clazzId, methId = depsItem.name, depsItem.attribute
 
                 globalResult.append(depsItem)
 
