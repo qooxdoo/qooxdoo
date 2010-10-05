@@ -66,12 +66,12 @@ def _handleCode(script, generator):
 
     for clazz in script.classesObj:
         # register library (for _handleResources)
-        if clazz.library['namespace'] not in libraries:
-            libraries[clazz.library['namespace']] = clazz.library
+        if clazz.library.namespace not in libraries:
+            libraries[clazz.library.namespace] = clazz.library
 
         if passesOutputfilter(clazz.id, ):
             classAId   = clazz.id.replace(".","/") + ".js"
-            sourcepath = os.path.join(clazz.library['path'], clazz.library['class'], classAId) # TODO: this should be a class method
+            sourcepath = os.path.join(clazz.library._classPath, classAId) # TODO: this should be a class method
             targetpath = approot + "/code/" + classAId
             filetool.directory(os.path.dirname(targetpath))
             shutil.copy(sourcepath, targetpath)
@@ -89,7 +89,7 @@ def _handleResources(script, generator, filtered=True):
         return resinfo
 
     def copyResource(res, library):
-        sourcepath = os.path.join(library['path'], library['resource'], res)
+        sourcepath = os.path.join(library._resourcePath, res)
         targetpath = approot + "/resource/" + res
         filetool.directory(os.path.dirname(targetpath))
         shutil.copy(sourcepath, targetpath)
