@@ -661,6 +661,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     treeGetSelection : function(e)
     {
       var treeNode = this.tree.getSelection()[0];
+      if (treeNode.getParent == this._tree.getRoot()) {
+        this.setPlayDemos("category");
+      }
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
     },
@@ -1281,30 +1284,43 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        var otherSamp = this.tree.getNextNodeOf(currSamp, false);
+        var otherSamp = this.tree.getNextNodeOf(currSamp);
         if (!otherSamp) {
+          this._stopbutton.setVisibility("excluded");
+          this._runbutton.setVisibility("visible");
           return;
         }
         
         if (otherSamp.getParent() == this.tree.getRoot()) {
+          if (this.getPlayDemos() == "category") {
+            if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
+              this._stopbutton.setVisibility("excluded");
+              this._runbutton.setVisibility("visible");
+              return;
+            }
+          }
           otherSamp.setOpen(true);
-          otherSamp = this.tree.getNextNodeOf(otherSamp, false);
+          otherSamp = this.tree.getNextNodeOf(otherSamp);
         }
         
         if (!otherSamp) {
+          this._stopbutton.setVisibility("excluded");
+          this._runbutton.setVisibility("visible");
           return;
         }
         
         while (!otherSamp.isVisible()) {
-          var candidate = this.tree.getNextNodeOf(otherSamp, false);
+          var candidate = this.tree.getNextNodeOf(otherSamp);
           if (!candidate) {
             // reached the last item
+            this._stopbutton.setVisibility("excluded");
+            this._runbutton.setVisibility("visible");
             return;
           }
           if (candidate.getParent() == this.tree.getRoot()) {
             // found a folder
             otherSamp.setOpen(true);
-            var candidate = this.tree.getNextNodeOf(candidate, false);
+            var candidate = this.tree.getNextNodeOf(candidate);
           }
           otherSamp = candidate;
         }
