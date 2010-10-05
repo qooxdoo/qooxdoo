@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -472,19 +473,20 @@ qx.Class.define("qx.event.handler.Focus",
 
       "mshtml" : function()
       {
-        qx.bom.Event.removeNativeListener(this._document, "onmousedown", this.__onNativeMouseDownWrapper);
-        qx.bom.Event.removeNativeListener(this._document, "onmouseup", this.__onNativeMouseUpWrapper);
-        qx.bom.Event.removeNativeListener(this._document, "onfocusin", this.__onNativeFocusInWrapper);
-        qx.bom.Event.removeNativeListener(this._document, "onfocusout", this.__onNativeFocusOutWrapper);
-        qx.bom.Event.removeNativeListener(this._document, "onselectstart", this.__onNativeSelectStartWrapper);
+        var Event = qx.bom.Event;
+        Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
+        Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper);
+        Event.removeNativeListener(this._document, "focusin", this.__onNativeFocusInWrapper);
+        Event.removeNativeListener(this._document, "focusout", this.__onNativeFocusOutWrapper);
+        Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
       },
 
       "webkit" : function()
       {
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.removeEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
         this._document.removeEventListener("selectstart", this.__onNativeSelectStartWrapper, false);
 
-        this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
@@ -494,12 +496,10 @@ qx.Class.define("qx.event.handler.Focus",
       "opera" : function()
       {
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.removeEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
 
         this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-
-        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
-        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       }
     }),
 
