@@ -320,15 +320,14 @@ class Class(Resource):
 
         return False
         
-    def addId(self, inFunction, assembledId, attribute, runtime, loadtime, lineno):
+    def addDep(self, depsItem, inFunction, runtime, loadtime):
         if inFunction:
             target = runtime
         else:
             target = loadtime
 
-        depItem = DependencyItem(assembledId, lineno, attribute)  
-        if not depItem in target:
-            target.append(depItem)
+        if not depsItem in target:
+            target.append(depsItem)
 
         return
 
@@ -338,8 +337,10 @@ class Class(Resource):
             className in self._classesObj and       # we have a class id
             className != fileId and
             self.context['jobconf'].get("dependencies/follow-static-initializers", False) and
-            node.hasParentContext("call/operand")  # it's a method call
+            #node.hasParentContext("call/operand")  # it's a method call
+            node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
            ):
+            #print "/".join(node.getParentChain() )
             return True
         return False
 
@@ -377,11 +378,12 @@ class Class(Resource):
                 if className == 'this':
                     className = fileId
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                self.addId(inFunction, className, classAttribute, runtime, loadtime, node.get('line', -1))
+                depsItem = DependencyItem(className, node.get('line', -1), classAttribute)
+                self.addDep(depsItem, inFunction, runtime, loadtime)
 
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, fileId, className):
-                    console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, className))
+                    console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, fileId, depsItem.line))
                     if False: # use old getMethodDeps()
                         ldeps = self.getMethodDeps(assembledId, assembled, variants)
                         # getMethodDeps is mutual recursive calling into the current function, but
@@ -391,9 +393,8 @@ class Class(Resource):
                         loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
                     else: # new getMethodDeps()
                         console.indent()
-                        ldeps = self.getMethodDeps1(className, classAttribute, variants)
-                        ld = [x[0] for x in ldeps]
-                        loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
+                        ldeps = self.getMethodDeps1(depsItem, variants)
+                        loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
                         console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
@@ -955,12 +956,14 @@ class Class(Resource):
     # exhaustive (and therefore reliable):
     # - get the immediate runtime dependencies of the current method; for each of those dependencies:
     # - if it is a "<name>.xxx" method/attribute:
+    #   - add this class#method dependency  (class symbol is required, even if the method is defined by super class)
     #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
-    #   - add this class#method to dependencies
-    #   - recurse on dependencies of this class#method, adding them to the current dependencies
+    #   - add defining class to dependencies (class symbol is required for inheritance)
+    #   - recurse on dependencies of defining class#method, adding them to the current dependencies
+    #
     # currently only a thin wrapper around its recursive sibling, getMethodDepsR
 
-    def getMethodDeps1(self, classId, methodId, variants):
+    def getMethodDeps1(self, depsItem, variants):
 
         ##
         # find the class the given <methodId> is defined in; start with the
@@ -1022,57 +1025,16 @@ class Class(Resource):
                     return rclass, keyval
             return None, None
 
-        ##
-        # split a composed identifier into its class and attribute part, so that
-        # <assembled> = <assembledId>.<attribute>
-
-        def splitClassAttribute(assembledId, assembled):
-            if assembledId == assembled:  # just a class id
-                clazzId   = assembledId
-                attribute = u''
-            else:
-                clazzId   = assembledId
-                attribute = assembled[ len(assembledId) +1 :] # a.b.c.d = a.b.c + '.' + d
-                
-            return clazzId, attribute
-
 
         ##
-        # extract the class name from a composed identifier
-        # "qx.Class.define" -> "qx.Class"
-
-        def reduceAssembled(assembled, node):
-            assembledId = ''
-            if assembled in self._classesObj:
-                assembledId = assembled
-            elif "." in assembled:
-                for entryId in self._classesObj.keys() + ["this"]:
-                    if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                        if len(entryId) > len(assembledId): # take the longest match
-                            assembledId = entryId
-            return assembledId
-
-
-        ##
-        # find interesting identifiers in a (method) source tree; "interesting"
-        # means references to other methods within the qooxdoo world;
-        # returns the full identifiers
-
-        def getReferencesFromSource(fileId, node, runtime):
-            # the "variants" param is only to support getMethodDeps()!
-
-            if node.type == "variable":
-                assembled = (treeutil.assembleVariable(node))[0]
-
-                if self._isInterestingReference(assembled, node, fileId):
-                    runtime.append(assembled)
-
-            if node.hasChildren():
-                for child in node.children:
-                    getReferencesFromSource(fileId, child, runtime)
-
-            return
-
+        # add to global result set sanely
+        def resultAdd(depsItem, result):
+            # cyclic check
+            if depsItem in result:
+                console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
+                return False
+            result.append(depsItem)
+            return True
 
 
         ##
@@ -1084,60 +1046,56 @@ class Class(Resource):
         # returns a set of pairs each representing a signature (classId,
         # methodId)
 
-        def getMethodDepsR(classId, methodId, variants, globalResult):
+        def getMethodDepsR(depsItem, variants, globalResult):
+            # We don't add the in-param to the global result
+            classId = depsItem.name
+            methodId= depsItem.attribute
+
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
 
             # Calculate deps
 
             # find the defining class
-            clazzId, attribNode = findClassForMethod(classId, methodId, variants)
+            defClassId, attribNode = findClassForMethod(classId, methodId, variants)
+
+            # lookup error
+            if not defClassId:
+                console.warn("Skipping unknown class dependency: %s#%s" % (defClassId, methodId))
+                return
+            
+            defDepsItem = DependencyItem(defClassId, -1, methodId)  # not sure about methodId, but the class is important
+            # method of super class/mixin
+            if defClassId != classId:
+                resultAdd(defDepsItem, globalResult)
+
 
             # Get the method's immediate deps
             deps_rt = []
             deps_lt = []
-            #getReferencesFromSource(clazzId, attribNode, deps_rt)
+
             self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
+
             assert not deps_lt
 
             for depsItem in deps_rt:
-                clazzId, methId = depsItem.name, depsItem.attribute
+                if resultAdd(depsItem, globalResult):
 
-                globalResult.append(depsItem)
-
-                # Recurse dependencies
-                nclazzId, methNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
-
-                # lookup error
-                if not nclazzId:
-                    console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
-                    continue
-
-                # known global (Error, Regexp, ...)
-                elif nclazzId == True:
-                    console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
-                    continue
-
-                # cyclic check
-                elif nclazzId in globalResult:
-                    console.debug("Class already seen, skipping: %s" % (clazzId,))
-                    continue
-
-                # recursive call
-                else:
-                    ndeps.add((clazzId, methId))
-                    assert clazzId in self._classesObj
-                    r = getMethodDepsR(clazzId, methId, variants, globalResult.extend(ndeps))  # recursive call
-                    ndeps.update(r)
+                    # Recurse dependencies
+                    assert depsItem.name in self._classesObj
+                    getMethodDepsR(depsItem, variants, globalResult)
 
             console.outdent()
             return
 
-        # - Main ---------------------
-        print "running getMethodDeps"
+
+        # -- Main --------------------------------------------------------------
+
+        #print "- running getMethodDeps for", depsItem
         deps = []
-        getMethodDepsR(classId, methodId, variants, deps)
-        print deps
+        getMethodDepsR(depsItem, variants, deps)
+        #print "  ", deps
+
         return deps
 
 
@@ -1150,9 +1108,9 @@ class DependencyItem(object):
         self.attribute = attribute  # e.g. "define"
         self.line = line            # source line in referencing file
     def __repr__(self):
-        return "<DepItem>:"+self.name
+        return "<DepItem>:" + self.name + "#" + self.attribute
     def __str__(self):
-        return self.name
+        return self.name + "#" + self.attribute
     def __eq__(self, other):
         return self.name == other.name and self.attribute == other.attribute
     def __hash__(self):
