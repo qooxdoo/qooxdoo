@@ -1074,6 +1074,7 @@ class Class(Resource):
             deps_rt = []
             deps_lt = []
 
+            # TODO: is this the right API?!
             self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
 
             assert not deps_lt
