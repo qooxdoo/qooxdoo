@@ -76,11 +76,6 @@ qx.Class.define("showcase.page.databinding.Content",
        controlsBox.set({
          width: 300
        });
-       var friendsButton = new qx.ui.form.Button("Friends");
-       controlsBox.add(friendsButton);
-       friendsButton.addListener("execute", function() {
-         store.setUrl("http://twitter.com/statuses/friends_timeline.json");
-       }, this);
 
        controlsBox.add(new qx.ui.core.Spacer(), {flex: 1});
 
