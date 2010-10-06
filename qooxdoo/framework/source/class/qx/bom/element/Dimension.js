@@ -152,7 +152,13 @@ qx.Class.define("qx.bom.element.Dimension",
 
       if (this.__hiddenScrollbars[overflowX])
       {
-        return element.clientWidth - paddingLeft - paddingRight;
+        // do not substract the padding for inline elements (clientWidth of 0)
+        var contentWidth = element.clientWidth;
+        if (contentWidth > 0) {
+          contentWidth = contentWidth - paddingLeft - paddingRight;
+        }
+
+        return contentWidth;
       }
       else
       {
