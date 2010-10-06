@@ -142,7 +142,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       this.getRoot().add(disableTooltipButton, {left: 410, top: 20});
 
       disableTooltipButton.addListener("changeValue", function(e) {
-        qx.ui.tooltip.Manager.getInstance().setShowInvalidTooltips(!e.getData());
+        qx.ui.tooltip.Manager.getInstance().setShowInvalidToolTips(!e.getData());
       }, this);
 
 
