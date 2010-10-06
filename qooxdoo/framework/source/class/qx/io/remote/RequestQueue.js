@@ -344,12 +344,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
       catch(ex)
       {
-        var stacktrace = qx.dev.StackTrace.getStackTraceFromError(ex);
-
-        this.error(
-          "Request " + request + " handler " + requestHandler + " threw an error: " + ex +
-          "\nStack Trace:\n" + stacktrace
-        );
+        this.error("Request " + request + " handler " + requestHandler + 
+          " threw an error: ", ex);
 
         // Issue an "aborted" event so the application gets notified.
         // If that too fails, or if there's no "aborted" handler, ignore it.
