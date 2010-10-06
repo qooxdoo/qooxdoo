@@ -24,6 +24,13 @@ qx.Class.define("qx.event.type.MouseWheel",
 {
   extend : qx.event.type.Mouse,
 
+  statics : {
+    /**
+     * The maximal mesured scroll wheel delta.
+     * @internal
+     */
+    MAXSCROLL : 1
+  },
 
   members :
   {
@@ -36,57 +43,41 @@ qx.Class.define("qx.event.type.MouseWheel",
 
 
     /**
+     * Normalizer for the mouse wheel data.
+     * 
+     * @param delta {Number} The mouse delta.
+     */
+    __normalize : function(delta) {      
+      // store the max value
+      var absDelta = Math.abs(delta)
+      if (qx.event.type.MouseWheel.MAXSCROLL < absDelta) {
+        qx.event.type.MouseWheel.MAXSCROLL = absDelta;
+      }
+      
+      // special case for systems not speeding up
+      if (qx.event.type.MouseWheel.MAXSCROLL === absDelta) {
+        return 2 * (delta / absDelta);
+      }
+      
+      var ret = 
+        (delta / qx.event.type.MouseWheel.MAXSCROLL) * 
+        Math.log(qx.event.type.MouseWheel.MAXSCROLL) / 1.75;
+
+      return ret;
+    },
+
+
+    /**
      * Get the amount the wheel has been scrolled
      *
      * @signature function()
      * @return {Integer} Scroll wheel movement
      */
-    getWheelDelta : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        return -(this._native.wheelDelta / 40);
-      },
-
-      "gecko" : function() {
-        return this._native.detail;
-      },
-
-      "webkit" : function()
-      {
-        if (qx.bom.client.Browser.NAME == "chrome") {
-          // mac has a much higher sppedup during scrolling
-          if (qx.bom.client.Platform.MAC) {
-            if (qx.bom.client.Browser.VERSION >= 7) {
-              return -(this._native.wheelDelta / 30);
-            }
-            return -(this._native.wheelDelta / 1200);
-          } else {
-            return -(this._native.wheelDelta / 120);
-          }
-
-          
-        } else {
-          // windows safaris behave different than on OSX
-          if (qx.bom.client.Platform.WIN) {
-            var factor = 120;
-            // safari 5.0 and not 5.0.1
-            if (qx.bom.client.Engine.VERSION == 533.16) {
-              factor = 1200;
-            }
-          } else {
-            factor = 40;
-            // Safari 5.0 or 5.0.1
-            if (
-              qx.bom.client.Engine.VERSION == 533.16 || 
-              qx.bom.client.Engine.VERSION == 533.17 ||
-              qx.bom.client.Engine.VERSION == 533.18
-            ) {
-              factor = 1200;
-            }
-          }
-          return -(this._native.wheelDelta / factor);
-        }
+    getWheelDelta : function() {
+      if (this._native.detail) {
+        return this.__normalize(this._native.detail);
       }
-    })
+      return this.__normalize(-this._native.wheelDelta);
+    }
   }
 });
