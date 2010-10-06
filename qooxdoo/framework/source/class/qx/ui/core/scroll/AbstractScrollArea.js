@@ -454,10 +454,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       var scrollbar = (showY) ? this.getChildControl("scrollbar-y", true) : ( showX ? this.getChildControl("scrollbar-x", true) : null );
       if (scrollbar) {
         scrollbar.scrollBySteps(e.getWheelDelta());
-      }
 
-      // Stop bubbling and native event
-      e.stop();
+        // Stop bubbling and native event only if a scrollbar is visible
+        e.stop();
+      }
     },
     
     
