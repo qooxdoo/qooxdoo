@@ -336,7 +336,7 @@ class Class(Resource):
         if (className
             and className in self._classesObj  # we have a class id
             and className != fileId
-            and self.context['jobconf'].get("dependencies/follow-static-initializers", False)
+            #and self.context['jobconf'].get("dependencies/follow-static-initializers", False)
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
                 or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
