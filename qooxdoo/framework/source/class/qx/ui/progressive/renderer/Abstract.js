@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
      *     </dd>
      *   </dl>
      *
-     * @return {Void}
+     * @return {void}
      */
     render : function(state, element)
     {

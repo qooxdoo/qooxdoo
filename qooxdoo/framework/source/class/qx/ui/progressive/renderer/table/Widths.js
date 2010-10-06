@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *   #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
      *   respectively.
      *
-     * @return {Void}
+     * @return {void}
      */
     set : function(column, map)
     {
