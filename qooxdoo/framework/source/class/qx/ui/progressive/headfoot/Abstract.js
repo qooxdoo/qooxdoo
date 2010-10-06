@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
      * @param progressive {qx.ui.progressive.Progressive}
      *   Progressive object to which we're being joined.
      *
-     * @return {Void}
+     * @return {void}
      */
     join : function(progressive)
     {

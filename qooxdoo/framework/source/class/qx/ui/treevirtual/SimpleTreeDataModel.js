@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param tree {qx.ui.treevirtual.TreeVirtual}
      *    The tree used to render the data in this model.
      *
-     * @return {Void}
+     * @return {void}
      */
     setTree : function(tree)
     {
@@ -572,7 +572,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @throws {Error} If the node object or id is not valid.
      * @throws {Error} If one tries to add a child to a non-existent parent.
      * @throws {Error} If one tries to add a node to a leaf.
-     * @return {Void}
+     * @return {void}
      */
     move : function(moveNodeReference,
                     parentNodeReference)

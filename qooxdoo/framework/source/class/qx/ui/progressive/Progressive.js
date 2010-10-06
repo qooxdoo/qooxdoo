@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param name {String}
      *   Remove the renderer which was assigned this name.
      *
-     * @return {Void}
+     * @return {void}
      */
     removeRenderer : function(name)
     {
@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * used to regain control a short while later, in order to render the
      * next batch of element.
      *
-     * @return {Void}
+     * @return {void}
      */
     render : function()
     {
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param value {qx.ui.progressive.model.Abstract}
      *   The old data model.
      *
-     * @return {Void}
+     * @return {void}
      */
     _applyDataModel : function(value, old)
     {
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param state {qx.ui.progressive.State}
      *   The current state of rendering.
      *
-     * @return {Void}
+     * @return {void}
      */
     __renderElementBatch : function(state)
     {
@@ -465,7 +465,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param e {qx.event.type.Data}
      *   A "dataAvailable" event's data contains the initial number of elements
      *
-     * @return {Void}
+     * @return {void}
      */
     __dataAvailable : function(e)
     {
