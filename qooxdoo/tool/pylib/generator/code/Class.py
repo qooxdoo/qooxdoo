@@ -385,18 +385,13 @@ class Class(Resource):
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, fileId, className):
                     console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, fileId, depsItem.line))
-                    if False: # use old getMethodDeps()
-                        ldeps = self.getMethodDeps(assembledId, assembled, variants)
-                        # getMethodDeps is mutual recursive calling into the current function, but
-                        # only does so with inFunction=True, so this branch is never hit through the
-                        # recursive call
-                        # make run-time deps of the called method load-deps of the current
-                        loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                    else: # new getMethodDeps()
-                        console.indent()
-                        ldeps = self.getMethodDeps1(depsItem, variants)
-                        loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                        console.outdent()
+                    console.indent()
+                    # getMethodDeps is mutual recursive calling into the current
+                    # function, but only does so with inFunction=True, so this
+                    # branch is never hit through the recursive call
+                    ldeps = self.getMethodDeps(depsItem, variants)
+                    loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
+                    console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
@@ -900,56 +895,6 @@ class Class(Resource):
     #  METHOD DEPENDENCIES SUPPORT
     ######################################################################
 
-    def getMethodDeps(self, classId, methodNameFQ, variants):
-        # find the dependencies of a specific method
-        # get the classId class, find the node of methodNameFQ, and extract its
-        # dependencies (can only be runtime deps, since all inFunction)
-        # return the deps
-
-        def findMethodName(classId, methodNameFQ):
-            mo = re.match(r'(?u)^%s\.(.+)$' % classId, methodNameFQ)
-            if mo and mo.group(1):
-                return mo.group(1)
-            else:
-                return u''
-        
-        def findMethod(tree, methodName):
-            for node in treeutil.nodeIterator(tree, ["function"]):  # check function nodes
-                if node.hasParentContext("keyvalue/value"): # it's a key : function() member
-                    keyvalNode = node.parent.parent
-                    key = keyvalNode.get("key", False)
-                    if key and key == methodName:
-                        return node
-            return None
-
-        # get the method name
-        if classId == methodNameFQ:  # corner case: the class is being called
-            methodName = "construct"
-        else:
-            methodName = findMethodName(classId, methodNameFQ) # methodNameFQ - classId = methodName
-        if methodName == "getInstance": # corner case: singletons get this from qx.Class
-            classId = "qx.Class"
-
-        # get the class code
-        tree = self._classesObj[classId].tree( variants)
-
-        # find the method node
-        funcNode   = findMethod(tree, methodName)
-        if not funcNode:
-            raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, classId)
-
-        # get the deps of the method
-        runtime  = []
-        loadtime = []
-        self._analyzeClassDepsNode(funcNode, runtime, loadtime, True, variants)
-
-        # remove reference to itself
-        while classId in loadtime:
-            loadtime.remove(classId)
-
-        return loadtime
-
-
     ##
     # find all run time dependencies of a given method, recursively
     #
@@ -964,7 +909,7 @@ class Class(Resource):
     #
     # currently only a thin wrapper around its recursive sibling, getMethodDepsR
 
-    def getMethodDeps1(self, depsItem, variants):
+    def getMethodDeps(self, depsItem, variants):
 
         ##
         # find the class the given <methodId> is defined in; start with the
