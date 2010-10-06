@@ -58,6 +58,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.initOrientation();
     }
 
+    // add all mouse listener to the blocker
     this.__blocker.addListener("mousedown", this._onMouseDown, this);
     this.__blocker.addListener("mouseup", this._onMouseUp, this);
     this.__blocker.addListener("mousemove", this._onMouseMove, this);
@@ -153,6 +154,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Creates a blocker for the splitter which takes all bouse events and
+     * also handles the offset and cursor.
+     * 
+     * @param orientation {String} The orientation of the pane.
+     */
     __createBlocker : function(orientation) {
       this.__blocker = new qx.ui.splitpane.Blocker(orientation);
       this.getContentElement().add(this.__blocker);
@@ -165,6 +172,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }, this);
       }
       
+      // resize listener to remove the blocker in case the splitter 
+      // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
         if (bounds.hight == 0 || bounds.width == 0) {
@@ -226,7 +235,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       slider.removeState(old);
       slider.addState(value);
       
-      // flush and update the blocker
+      // flush (needs to be done for the blocker update) and update the blocker
       qx.ui.core.queue.Manager.flush();
       this.__setBlockerPosition();      
     },
@@ -238,6 +247,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Helper for setting the blocker to the right position, which depends on 
+     * the offset, orientation and the current position of the splitter.
+     */
     __setBlockerPosition : function() {
       var splitter = this.getChildControl("splitter");
       var offset = this.getOffset();
@@ -483,8 +496,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Computes widgets' sizes based on the mouse coordinate
-     *
+     * Computes widgets' sizes based on the mouse coordinate.
      */
     __computeSizes : function()
     {
