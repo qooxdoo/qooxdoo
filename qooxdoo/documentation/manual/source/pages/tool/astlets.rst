@@ -42,6 +42,18 @@ a()
           identifier ("a")
       params
 
+.. _pages/tool/astlets#a_:_b:
+
+{a : 1}
+---------
+
+::
+
+    map
+      keyvalue ("a")
+        value
+          constant (1)
+
 .. _pages/tool/astlets#a_=_b:
 
 a = b
