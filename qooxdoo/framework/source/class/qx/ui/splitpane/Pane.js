@@ -58,17 +58,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.initOrientation();
     }
 
-    // Note that mouseUp and mouseDown events are added to the widget itself because
-    // if the splitter is smaller than 5 pixels in length or height it is difficult
-    // to click on it.
-
-    // By adding events to the widget the splitter can be activated if the cursor is
-    // near to the splitter widget.
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
-    this.addListener("mousemove", this._onMouseMove);
-    this.addListener("mouseout", this._onMouseOut);
-    this.addListener("losecapture", this._onMouseUp);
+    this.__blocker.addListener("mousedown", this._onMouseDown, this);
+    this.__blocker.addListener("mouseup", this._onMouseUp, this);
+    this.__blocker.addListener("mousemove", this._onMouseMove, this);
+    this.__blocker.addListener("mouseout", this._onMouseOut, this);
+    this.__blocker.addListener("losecapture", this._onMouseUp, this);
   },
 
 
@@ -131,6 +125,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __beginSize : null,
     __endSize : null,
     __children : null,
+    __blocker : null,
+
 
     // overridden
     _createChildControlImpl : function(id)
@@ -150,13 +146,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
         case "splitter":
           control = new qx.ui.splitpane.Splitter(this);
           this._add(control, {type : id});
-          control.addListener("move", this._onSplitterMove, this);
-
-          // Opera seems to skip mouse move events. In order notice if the
-          // mouse in on the splitter, a listener for mouseover is added.
-          if (qx.bom.client.Engine.OPERA) {
-            control.addListener("mouseover", this._onSplitterMouseOver, control);
-          }
           break;
       }
 
@@ -164,7 +153,30 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
-
+    __createBlocker : function(orientation) {
+      this.__blocker = new qx.ui.splitpane.Blocker(orientation);
+      this.getContentElement().add(this.__blocker);
+      
+      var splitter = this.getChildControl("splitter");      
+      var splitterWidth = splitter.getWidth();
+      if (!splitterWidth) {
+        splitter.addListenerOnce("appear", function() {
+          this.__setBlockerPosition();
+        }, this);
+      }
+      
+      splitter.addListener("resize", function(e) {
+        var bounds = e.getData();
+        if (bounds.hight == 0 || bounds.width == 0) {
+          this.__blocker.hide();
+        } else {
+          this.__blocker.show();
+        }
+      }, this);
+    },
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -183,11 +195,18 @@ qx.Class.define("qx.ui.splitpane.Pane",
     _applyOrientation : function(value, old)
     {
       var slider = this.getChildControl("slider");
-      var splitter = this.getChildControl("splitter")
-
+      var splitter = this.getChildControl("splitter");
+   
       // Store boolean flag for faster access
-      this.__isHorizontal = value === "horizontal";
-
+      this.__isHorizontal = value === "horizontal";   
+      
+      if (!this.__blocker) {
+        this.__createBlocker(value);
+      }
+      
+      // update the blocker
+      this.__blocker.setOrientation(value);
+      
       // Dispose old layout
       var oldLayout = this._getLayout();
       if (oldLayout) {
@@ -206,50 +225,40 @@ qx.Class.define("qx.ui.splitpane.Pane",
       splitter.getChildControl("knob").addState(value);
       slider.removeState(old);
       slider.addState(value);
+      
+      // flush and update the blocker
+      qx.ui.core.queue.Manager.flush();
+      this.__setBlockerPosition();      
     },
 
 
     // property apply
-    _applyOffset : function(value, old)
-    {
-      var splitter = this.getChildControl("splitter")
-
-      if (old === 0)
-      {
-        // Remove listeners from splitter
-        splitter.removeListener("mousedown", this._onMouseDown, this);
-        splitter.removeListener("mousemove", this._onMouseMove, this);
-        splitter.removeListener("mouseout", this._onMouseOut, this);
-        splitter.removeListener("mouseup", this._onMouseUp, this);
-        splitter.removeListener("losecapture", this._onMouseUp, this);
-
-
-        // Add listeners to pane
-        this.addListener("mousedown", this._onMouseDown);
-        this.addListener("mouseup", this._onMouseUp);
-        this.addListener("mousemove", this._onMouseMove);
-        this.addListener("mouseout", this._onMouseOut);
-        this.addListener("losecapture", this._onMouseUp);
-      }
-
-      if (value === 0)
-      {
-        // Remove listeners from pane
-        this.removeListener("mousedown", this._onMouseDown);
-        this.removeListener("mouseup", this._onMouseUp);
-        this.removeListener("mousemove", this._onMouseMove);
-        this.removeListener("mouseout", this._onMouseOut);
-        this.removeListener("losecapture", this._onMouseUp);
-
-        // Add listeners to splitter
-        splitter.addListener("mousedown", this._onMouseDown, this);
-        splitter.addListener("mousemove", this._onMouseMove, this);
-        splitter.addListener("mouseout", this._onMouseOut, this);
-        splitter.addListener("mouseup", this._onMouseUp, this);
-        splitter.addListener("losecapture", this._onMouseUp, this);
-      }
+    _applyOffset : function(value, old) {
+      this.__setBlockerPosition();
     },
 
+
+    __setBlockerPosition : function() {
+      var splitter = this.getChildControl("splitter");
+      var offset = this.getOffset();
+      var splitterBounds = splitter.getBounds();
+      var splitterElem = splitter.getContainerElement().getDomElement();
+
+      // recalculate the dimensions of the blocker
+      if (this.__isHorizontal) {
+        if (splitterBounds && splitterBounds.width) {
+          var left = qx.bom.element.Location.getPosition(splitterElem).left;
+          this.__blocker.setWidth(offset, splitterBounds.width);
+          this.__blocker.setLeft(offset, left);      
+        }
+      } else {
+        if (splitterBounds && splitterBounds.height) {
+          var top = qx.bom.element.Location.getPosition(splitterElem).top;
+          this.__blocker.setHeight(offset, splitterBounds.height);
+          this.__blocker.setTop(offset, top);  
+        }    
+      }
+    },
 
 
     /*
@@ -285,7 +294,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param widget {qx.ui.core.Widget} The widget to be removed.
      */
-    remove : function(widget) {
+    remove : function(widget) 
+    {
       this._remove(widget);
       qx.lang.Array.remove(this.__children, widget);
     },
@@ -317,9 +327,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseDown : function(e)
     {
-
       // Only proceed if left mouse button is pressed and the splitter is active
-      if (!e.isLeftPressed() || !this._isNear()) {
+      if (!e.isLeftPressed()) {
         return;
       }
 
@@ -335,15 +344,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Synchronize slider to splitter size and show it
       var slider = this.getChildControl("slider");
       var splitterBounds = splitter.getBounds();
-      slider.setUserBounds(splitterBounds.left, splitterBounds.top,
-        splitterBounds.width, splitterBounds.height);
+      slider.setUserBounds(
+        splitterBounds.left, splitterBounds.top,
+        splitterBounds.width, splitterBounds.height
+      );
 
       slider.setZIndex(splitter.getZIndex() + 1);
       slider.show();
 
       // Enable session
       this.__activeDragSession = true;
-      e.getCurrentTarget().capture();
+      this.__blocker.capture();
 
       e.stop();
     },
@@ -370,15 +381,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
         if(this.__isHorizontal) {
           slider.setDomLeft(pos);
+          this.__blocker.setStyle("left", (pos - this.getOffset()) + "px");
         } else {
           slider.setDomTop(pos);
+          this.__blocker.setStyle("top", (pos - this.getOffset()) + "px");
         }
 
         e.stop();
-      }
-      else
-      {
-        this.__updateCursor();
       }
     },
 
@@ -391,7 +400,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     _onMouseOut : function(e)
     {
       this._setLastMousePosition(e.getDocumentLeft(), e.getDocumentTop());
-      this.__updateCursor();
     },
 
 
@@ -415,37 +423,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var slider = this.getChildControl("slider");
       slider.exclude();
 
-
       // Cleanup
       this.__activeDragSession = false;
       this.releaseCapture();
 
-      // Update the cursor
-      // Needed in cases where the splitter has not been moved
-      this.__updateCursor();
-
       e.stop();
     },
-
-
-    /**
-     * Handler for move event of splitter
-     *
-     */
-    _onSplitterMove : function() {
-      this.__updateCursor();
-    },
-
-
-    /**
-     * Helper function for Opera to add an "active" state if the mouse is on
-     * the splitter.
-     *
-     */
-    _onSplitterMouseOver : function() {
-      this.addState("active");
-    },
-
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -499,85 +483,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Checks if mouse cursor is on or near the splitter widget.
-     * This method will be used for horizontal orientation.
-     *
-     * @return {Boolean} True if mouse cursor is near to splitter, otherwise false.
-     */
-    _isNear : function()
-    {
-      var splitter = this.getChildControl("splitter");
-      var splitterBounds = splitter.getBounds();
-      var splitterLocation = splitter.getContainerLocation();
-      var min = this.getOffset();
-
-      // Check whether created
-      if (!splitterLocation) {
-        return false;
-      }
-
-      // Check horizontal
-      var mouse = this.__lastMouseX;
-      var size = splitterBounds.width;
-      var pos = splitterLocation.left;
-
-      if (size < min)
-      {
-        pos -= Math.floor((min - size) / 2);
-        size = min;
-      }
-
-      if (mouse < pos || mouse > (pos + size)) {
-        return false;
-      }
-
-      // Check vertical
-      var mouse = this.__lastMouseY;
-      var size = splitterBounds.height;
-      var pos = splitterLocation.top;
-
-      if (size < min)
-      {
-        pos -= Math.floor((min - size) / 2);
-        size = min;
-      }
-
-      if (mouse < pos || mouse > (pos + size)) {
-        return false;
-      }
-
-      // Finally return true
-      return true;
-    },
-
-
-    /**
-     * Updates the pane's cursor based on the mouse position
-     *
-     */
-     __updateCursor :  function()
-     {
-       var splitter = this.getChildControl("splitter");
-       var root = this.getApplicationRoot();
-
-       // Whether the cursor is near enough to the splitter
-       if (this.__activeDragSession || this._isNear())
-       {
-         var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
-         this.setCursor(cursor);
-         root.setGlobalCursor(cursor);
-         splitter.addState("active");
-       }
-       else if (splitter.hasState("active"))
-       {
-         this.resetCursor();
-         root.resetGlobalCursor();
-         splitter.removeState("active");
-       }
-     },
-
-
-    /**
      * Computes widgets' sizes based on the mouse coordinate
      *
      */
@@ -628,6 +533,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__beginSize = beginSize;
       this.__endSize = endSize;
     },
+
 
     /**
      * Determines whether this is an active drag session

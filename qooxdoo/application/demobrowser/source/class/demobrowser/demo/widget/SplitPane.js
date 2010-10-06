@@ -114,6 +114,19 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       button.focus();
 
+
+      // offset controll
+      var offsetLabel = new qx.ui.basic.Label();
+      this.getRoot().add(offsetLabel, {left: 490, top: 120});
+      var offsetSlider = new qx.ui.form.Slider().set({
+        minimum: 0, maximum: 30, value: 6, width: 100
+      });
+      this.getRoot().add(offsetSlider, {left: 490, top: 140});
+
+      offsetSlider.bind("value", pane, "offset");
+      offsetSlider.bind("value", offsetLabel, "value", {converter: function(data) {
+        return "Offset (" + data + "):";
+      }});
     },
 
     /**
