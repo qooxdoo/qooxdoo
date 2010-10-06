@@ -76,7 +76,11 @@ qx.Class.define("qx.event.type.MouseWheel",
           } else {
             factor = 40;
             // Safari 5.0 or 5.0.1
-            if (qx.bom.client.Engine.VERSION == 533.16 || qx.bom.client.Engine.VERSION == 533.17) {
+            if (
+              qx.bom.client.Engine.VERSION == 533.16 || 
+              qx.bom.client.Engine.VERSION == 533.17 ||
+              qx.bom.client.Engine.VERSION == 533.18
+            ) {
               factor = 1200;
             }
           }
