@@ -140,7 +140,6 @@ qx.Class.define("qx.bom.Label",
         styles.overflow = "hidden";
         styles.whiteSpace = "nowrap";
         styles.textOverflow = "ellipsis";
-        styles.userSelect = "none";
 
         // Opera as of 9.2.x only supports -o-text-overflow
         if (qx.core.Variant.isSet("qx.client", "opera")) {

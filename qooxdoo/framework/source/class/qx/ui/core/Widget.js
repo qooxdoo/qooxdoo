@@ -3080,7 +3080,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Apply qooxdoo attribute
-      this.getContainerElement().setSelectable(value);
       this.getContentElement().setSelectable(value);
     },
 

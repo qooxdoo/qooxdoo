@@ -153,19 +153,13 @@ qx.Class.define("qx.html.Input",
       {
         this.__selectable = value;
 
-        this.setAttribute("qxSelectable", value ? "on" : "off");
-
-        // Webkit, as of Safari 3.0, is the only client which supports
-        // CSS userSelect the right way.
-        if (qx.core.Variant.isSet("qx.client", "webkit")) {
-          var selectable = this.__enabled ? value ? null : "none" : "none";
-          this.setStyle("userSelect", selectable);
-        }
+        // Only apply the value when it is enabled
+        this.base(arguments, this.__enabled && value);
       },
 
       "default" : function(value)
       {
-        this.setAttribute("qxSelectable", value ? "on" : "off");
+        this.base(arguments, value);
       }
     }),
 

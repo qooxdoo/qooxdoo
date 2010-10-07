@@ -1456,7 +1456,7 @@ qx.Class.define("qx.html.Element",
       {
         // Apply qooxdoo attribute
         this.setAttribute("qxSelectable", value ? "on" : "off");
-        this.setStyle("userSelect", value ? "normal" : "none");
+        this.setStyle("userSelect", value ? "text" : "none");
       },
 
       "gecko" : function(value)
