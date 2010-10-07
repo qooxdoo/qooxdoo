@@ -765,6 +765,7 @@ class Generator(object):
                     classObj = ClassIdToObject[classId]
                     classDeps, _ = classObj.dependencies(variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
+                    ignored_names.append(classId) # fix self-references from Class.dependencies()
 
                     for dep in classDeps["load"]:
                         if dep.name not in ignored_names:
@@ -797,6 +798,7 @@ class Generator(object):
                     classObj = ClassIdToObject[classId]
                     classDeps, _ = classObj.dependencies(variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
+                    ignored_names.append(classId) # fix self-references from Class.dependencies()
 
                     for dep in classDeps["load"]:
                         if dep.name not in ignored_names:
