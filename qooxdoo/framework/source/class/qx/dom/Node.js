@@ -302,6 +302,24 @@ qx.Class.define("qx.dom.Node",
       }
 
       return null;
+    },
+
+
+    /**
+     * Checks if the given node is a block node
+     *
+     * @param node {Node} Node
+     * @return {Boolean} whether it is a block node
+     */
+    isBlockNode : function(node)
+    {
+      if (!qx.dom.Node.isElement(node)) {
+       return false;
+      }
+
+      node = qx.dom.Node.getName(node);
+
+      return /^(body|form|textarea|fieldset|ul|ol|dl|dt|dd|li|div|hr|p|h[1-6]|quote|pre|table|thead|tbody|tfoot|tr|td|th|iframe|address|blockquote)$/.test(node);
     }
   }
 });

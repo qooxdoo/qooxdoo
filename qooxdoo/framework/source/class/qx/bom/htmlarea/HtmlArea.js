@@ -627,13 +627,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     isBlockNode : function(node)
     {
-      if (!qx.dom.Node.isElement(node)) {
-       return false;
-      }
-
-      node = qx.dom.Node.getName(node);
-
-      return /^(body|form|textarea|fieldset|ul|ol|dl|li|div|p|h[1-6]|quote|pre|table|thead|tbody|tfoot|tr|td|th|iframe|address|blockquote)$/.test(node);
+      var deprecatedFunction = qx.bom.htmlarea.HtmlArea.isBlockNode;
+      var deprecationMessage = "Please use the method 'qx.dom.Node.isBlockNode' instead.";
+      qx.log.Logger.deprecatedMethodWarning(deprecatedFunction, deprecationMessage);
+      
+      return qx.dom.Node.isBlockNode(node);
     },
 
 

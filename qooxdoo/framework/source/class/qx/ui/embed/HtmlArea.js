@@ -178,8 +178,13 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * @param node {Node} Node
      * @return {Boolean} whether it is a block node
      */
-    isBlockNode : function(node) {
-      return qx.bom.htmlarea.HtmlArea.isBlockNode(node);
+    isBlockNode : function(node)
+    {
+      var deprecatedFunction = qx.ui.embed.HtmlArea.isBlockNode;
+      var deprecationMessage = "Please use the method 'qx.dom.Node.isBlockNode' instead.";
+      qx.log.Logger.deprecatedMethodWarning(deprecatedFunction, deprecationMessage);  
+      
+      return qx.dom.Node.isBlockNode(node);
     },
 
 
