@@ -101,7 +101,7 @@ Example
     }
     ...
     // later in your application code:
-    obj.addEventListener("changeLabel", function(e) {
+    obj.addListener("changeLabel", function(e) {
       alert(e.getValue());
     });
 
