@@ -26,6 +26,7 @@ from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from generator import Context as context
 from generator.resource.ImageInfo import ImgInfoFmt
+from generator.config.Config import ConfigurationError
 
 global inclregexps, exclregexps
 
@@ -62,19 +63,34 @@ libraries = {}
 def _handleCode(script, generator):
 
     approot = context.jobconf.get("provider/app-root", "./provider")
-    filetool.directory(approot + "/code")
+    builds  = context.jobconf.get("provider/compile",  ["source"])
 
-    for clazz in script.classesObj:
-        # register library (for _handleResources)
-        if clazz.library.namespace not in libraries:
-            libraries[clazz.library.namespace] = clazz.library
+    for buildtype in builds:
+        if buildtype == "source":
+            targetdir = approot + "/code"
+            filetool.directory(targetdir)
+        elif buildtype == "build":
+            targetdir = approot + "/code-build"
+            filetool.directory(targetdir)
+            optimize = context.jobconf.get("compile-options/code/optimize", ["variables","basecalls","strings"])
+        else:
+            raise ConfigurationError("Unknown provider compile type '%s'" % buildtype)
 
-        if passesOutputfilter(clazz.id, ):
-            classAId   = clazz.id.replace(".","/") + ".js"
-            sourcepath = os.path.join(clazz.library._classPath, classAId) # TODO: this should be a class method
-            targetpath = approot + "/code/" + classAId
-            filetool.directory(os.path.dirname(targetpath))
-            shutil.copy(sourcepath, targetpath)
+        for clazz in script.classesObj:
+            # register library (for _handleResources)
+            if clazz.library.namespace not in libraries:
+                libraries[clazz.library.namespace] = clazz.library
+
+            if passesOutputfilter(clazz.id, ):
+                classAId   = clazz.id.replace(".","/") + ".js"
+                targetpath = targetdir + "/" + classAId
+                filetool.directory(os.path.dirname(targetpath))
+                if buildtype == "source":
+                    shutil.copy(clazz.path, targetpath)
+                elif buildtype == "build":
+                    code = clazz.getCode(optimize)
+                    filetool.save(targetpath, code)
+
     return
 
 

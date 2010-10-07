@@ -23,11 +23,13 @@
 # Class -- Internal representation of a qooxdoo class; derives from Resource
 ##
 
-import os, sys, re, types, codecs
+import os, sys, re, types, codecs, optparse, copy
+
 from misc                           import util, filetool
+from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
-from ecmascript.frontend.Script import Script
-from ecmascript.transform.optimizer import variantoptimizer
+from ecmascript.frontend.Script     import Script
+from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
@@ -171,27 +173,87 @@ class Class(Resource):
 
         return classvariants
 
+
     # --------------------------------------------------------------------------
     #   Compile Interface
     # --------------------------------------------------------------------------
 
-    def _getAst(self):
-        pass
-
-    ast = property(_getAst)
-
-    def getCode(self, compile_options=None, variants=None, source_with_comments=False):
+    def getCode(self, optimize=None, variants={}, format=False, source_with_comments=False):
         result = u''
         # source versions
-        if not compile_options:
+        if not optimize:
             result = filetool.read(self.path)
             if not source_with_comments:
                 result = strip_comments(result)
         # compiled versions
         else:
-            tree = self.optimize(self.ast, compile_options, variants)
-            result =compiler.compile(tree)
+            tree   = self.optimize(self.tree(variants), optimize)
+            result = self.compile(tree, format)
+
         return result
+
+
+    def compile(self, tree, format=False):
+        # Emulate options  -- TODO: Refac interface
+        parser = optparse.OptionParser()
+        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
+        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
+        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
+        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
+
+        (options, args) = parser.parse_args([])
+
+        return compiler.compile(tree, options, format)
+
+
+    def optimize(self, tree, optimize=[]):
+        if not optimize:
+            return tree
+        
+        if "basecalls" in optimize:
+            basecalloptimizer.patch(tree)
+
+        if "privates" in optimize:
+            console.warn("Cannot optimize private fields on individual class; skipping")
+
+        if "strings" in optimize:
+            tree = self._stringOptimizer(tree)
+
+        if "variables" in optimize:
+            variableoptimizer.search(tree)
+
+        return tree
+
+
+    def _stringOptimizer(self, tree):
+        stringMap = stringoptimizer.search(tree)
+
+        if len(stringMap) == 0:
+            return tree
+
+        stringList = stringoptimizer.sort(stringMap)
+        stringoptimizer.replace(tree, stringList)
+
+        # Build JS string fragments
+        stringStart = "(function(){"
+        stringReplacement = stringoptimizer.replacement(stringList)
+        stringStop = "})();"
+
+        # Compile wrapper node
+        wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, self.id + "||stringopt")
+
+        # Reorganize structure
+        funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
+        if tree.hasChildren():
+            for child in copy.copy(tree.children):
+                tree.removeChild(child)
+                funcBody.addChild(child)
+
+        # Add wrapper to tree
+        tree.addChild(wrapperNode)
+
+        return tree
+
 
     # --------------------------------------------------------------------------
     #   Dependencies Interface

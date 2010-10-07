@@ -32,6 +32,9 @@ from misc.NameSpace import NameSpace
 
 console = None
 
+class ConfigurationError(ValueError): pass
+
+
 class Config(object):
 
     global console
@@ -123,7 +126,7 @@ class Config(object):
         msg = basemsg
         if self._fname:
             msg += " (%s)" % self._fname
-        raise ValueError(msg)
+        raise ConfigurationError(msg)
 
 
     def warnConfigError(self, basemsg):

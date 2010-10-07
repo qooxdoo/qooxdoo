@@ -380,14 +380,20 @@
 
       ,"compile-options" : 
       {
-        "code" : { "locales" : "${LOCALES}" }
+        "code" : 
+        {
+          "locales"  : "${LOCALES}",
+          "format"   : false,
+          "optimize" : ["variables", "basecalls", "strings"] 
+        }
       }
 
       ,"provider" : 
       {
         "app-root" : "${PROVIDER_ROOT}",
         "include"  : ["${APPLICATION}.*"],
-        "exclude"  : ["${APPLICATION}.test.*"]
+        "exclude"  : ["${APPLICATION}.test.*"],
+        "compile"  : ["source", "build"]
       }
 
       ,"log" : 
