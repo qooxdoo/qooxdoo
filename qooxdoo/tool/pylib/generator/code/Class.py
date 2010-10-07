@@ -356,7 +356,8 @@ class Class(Resource):
         # end:dependencies()
 
 
-    # -- all methods below this line up to _analyzeClassDepsNode() are only used by that -------------------
+    # ----------------------------------------------------------------------------------
+    # -- all methods below this line up to _analyzeClassDepsNode() are only used by that
     
     def checkDeferNode(self, assembled, node):
         deferNode = None
@@ -626,6 +627,184 @@ class Class(Resource):
         return False
 
         # end:_isScopedVar()
+
+
+    # --------------------------------------------------------------------
+    # -- Method Dependencies Support
+
+    ##
+    # Find all run time dependencies of a given method, recursively.
+    #
+    # Outline:
+    # - get the immediate runtime dependencies of the current method; for each of those dependencies:
+    # - if it is a "<name>.xxx" method/attribute:
+    #   - add this class#method dependency  (class symbol is required, even if the method is defined by super class)
+    #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
+    #   - add defining class to dependencies (class symbol is required for inheritance)
+    #   - recurse on dependencies of defining class#method, adding them to the current dependencies
+    #
+    # currently only a thin wrapper around its recursive sibling, getMethodDepsR
+
+    def getMethodDeps(self, depsItem, variants):
+
+        ##
+        # find the class the given <methodId> is defined in; start with the
+        # given class, inspecting its class map to find the method; if
+        # unsuccessful, recurse on the potential super class and mixins; return
+        # the defining class name, and the tree node defining the method
+        # (actually, the map value of the method name key, whatever that is)
+        #
+        # @out <string> class that defines method
+        # @out <tree>   tree node value of methodId in the class map
+
+        def findClassForMethod(clazzId, methodId, variants):
+
+            def classHasOwnMethod(classAttribs, methId):
+                candidates = {}
+                candidates.update(classAttribs.get("members",{}))
+                candidates.update(classAttribs.get("statics",{}))
+                if "construct" in classAttribs:
+                    candidates.update(dict((("construct", classAttribs.get("construct")),)))
+                if methId in candidates.keys():
+                    return candidates[methId]  # return the definition of the attribute
+                else:
+                    return None
+
+            # get the method name
+            if  methodId == u'':  # corner case: the class is being called
+                methodId = "construct"
+            elif methodId == "getInstance": # corner case: singletons get this from qx.Class
+                clazzId = "qx.Class"
+            # TODO: getter/setter are also not statically available!
+            # handle .call() ?!
+            if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
+                return True, True
+            elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+                return None, None
+
+            tree = self._classesObj[clazzId].tree( variants)
+            clazz = treeutil.findQxDefine(tree)
+            classAttribs = treeutil.getClassMap(clazz)
+            keyval = classHasOwnMethod(classAttribs, methodId)
+            if keyval:
+                return clazzId, keyval
+
+            # inspect inheritance/mixins
+            parents = []
+            extendVal = classAttribs.get('extend', None)
+            if extendVal:
+                extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
+                parents.extend(extendVal)
+            includeVal = classAttribs.get('include', None)
+            if includeVal:
+                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+                parents.extend(includeVal)
+
+            # go through all ancestors
+            for parClass in parents:
+                rclass, keyval = findClassForMethod(parClass, methodId, variants)
+                if rclass:
+                    return rclass, keyval
+            return None, None
+
+
+        ##
+        # add to global result set sanely
+        def resultAdd(depsItem, localDeps):
+            # cyclic check
+            if depsItem in (localDeps):
+                console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
+                return False
+            localDeps.add(depsItem)
+            return True
+
+
+        ##
+        # find dependencies of a method <methodId> that has been referenced from
+        # <classId>. recurse on the immediate dependencies in the method code.
+        #
+        # @param deps accumulator variable set((c1,m1), (c2,m2),...)
+        #
+        # returns a set of pairs each representing a signature (classId,
+        # methodId)
+
+        def getMethodDepsR(depsItem, variants, totalDeps):
+            # We don't add the in-param to the global result
+            classId = depsItem.name
+            methodId= depsItem.attribute
+
+            console.debug("%s#%s dependencies:" % (classId, methodId))
+            console.indent()
+
+            # Check cache
+            filePath= self._classesObj[classId].path
+            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
+            localDeps = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            if localDeps != None:
+                console.debug("using cached result")
+                console.outdent()
+                return localDeps
+
+
+            # Calculate deps
+            localDeps = set()
+
+            # find the defining class
+            defClassId, attribNode = findClassForMethod(classId, methodId, variants)
+
+            # lookup error
+            if not defClassId:
+                console.warn("Skipping unknown class dependency: %s#%s" % (classId, methodId))
+                console.outdent()
+                return localDeps
+            
+            defDepsItem = DependencyItem(defClassId, -1, methodId)  # not sure about methodId, but the class is important
+            # method of super class/mixin
+            if defClassId != classId:
+                resultAdd(defDepsItem, localDeps)
+
+
+            # Get the method's immediate deps
+            deps_rt = []
+            deps_lt = []
+
+            # TODO: is this the right API?!
+            self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
+            assert not deps_lt
+
+            for depsItem in deps_rt:
+                if resultAdd(depsItem, localDeps):
+                    # Recurse dependencies
+                    assert depsItem.name in self._classesObj
+                    downstreamDeps = getMethodDepsR(depsItem, variants, totalDeps.union(localDeps))
+                    localDeps.update(downstreamDeps)
+
+            # Cache update
+            cache.write(cacheId, localDeps, memory=True, writeToFile=False)
+ 
+            console.outdent()
+            return localDeps
+
+
+        # -- Main --------------------------------------------------------------
+
+        checkset = set()
+        deps = getMethodDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
+
+        return deps
+
+
+    ##
+    # make use of a .dependencies1() method that caches per file, and on
+    # individual class features
+    # cache object {clazz.path}-{variants}:
+    # - file: [<DepItem:qx.Class#define>, #require, #use, ... <other top-level symbols>]
+    # - extend, implement, include: [<depItem1>, ...]
+    # - static: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
+    # - member: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
+    # - defer:  [<dep1>,...]
+    def getMethodDeps1(self, depsItem, variants):
+        pass
 
 
     # --------------------------------------------------------------------------
@@ -952,161 +1131,6 @@ class Class(Resource):
                 continue
 
         return result
-
-    ######################################################################
-    #  METHOD DEPENDENCIES SUPPORT
-    ######################################################################
-
-    ##
-    # find all run time dependencies of a given method, recursively
-    #
-    # this is supposed to be an improved version of getMethodDeps() that should be really
-    # exhaustive (and therefore reliable):
-    # - get the immediate runtime dependencies of the current method; for each of those dependencies:
-    # - if it is a "<name>.xxx" method/attribute:
-    #   - add this class#method dependency  (class symbol is required, even if the method is defined by super class)
-    #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
-    #   - add defining class to dependencies (class symbol is required for inheritance)
-    #   - recurse on dependencies of defining class#method, adding them to the current dependencies
-    #
-    # currently only a thin wrapper around its recursive sibling, getMethodDepsR
-
-    def getMethodDeps(self, depsItem, variants):
-
-        ##
-        # find the class the given <methodId> is defined in; start with the
-        # given class, inspecting its class map to find the method; if
-        # unsuccessful, recurse on the potential super class and mixins; return
-        # the defining class name, and the tree node defining the method
-        # (actually, the map value of the method name key, whatever that is)
-        #
-        # @out <string> class that defines method
-        # @out <tree>   tree node value of methodId in the class map
-
-        def findClassForMethod(clazzId, methodId, variants):
-
-            def classHasOwnMethod(classAttribs, methId):
-                candidates = {}
-                candidates.update(classAttribs.get("members",{}))
-                candidates.update(classAttribs.get("statics",{}))
-                if "construct" in classAttribs:
-                    candidates.update(dict((("construct", classAttribs.get("construct")),)))
-                if methId in candidates.keys():
-                    return candidates[methId]  # return the definition of the attribute
-                else:
-                    return None
-
-            # get the method name
-            if  methodId == u'':  # corner case: the class is being called
-                methodId = "construct"
-            elif methodId == "getInstance": # corner case: singletons get this from qx.Class
-                clazzId = "qx.Class"
-            # TODO: getter/setter are also not statically available!
-            # handle .call() ?!
-            if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
-                return True, True
-            elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
-                return None, None
-
-            tree = self._classesObj[clazzId].tree( variants)
-            clazz = treeutil.findQxDefine(tree)
-            classAttribs = treeutil.getClassMap(clazz)
-            keyval = classHasOwnMethod(classAttribs, methodId)
-            if keyval:
-                return clazzId, keyval
-
-            # inspect inheritance/mixins
-            parents = []
-            extendVal = classAttribs.get('extend', None)
-            if extendVal:
-                extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
-                parents.extend(extendVal)
-            includeVal = classAttribs.get('include', None)
-            if includeVal:
-                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
-                parents.extend(includeVal)
-
-            # go through all ancestors
-            for parClass in parents:
-                rclass, keyval = findClassForMethod(parClass, methodId, variants)
-                if rclass:
-                    return rclass, keyval
-            return None, None
-
-
-        ##
-        # add to global result set sanely
-        def resultAdd(depsItem, result):
-            # cyclic check
-            if depsItem in result:
-                console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
-                return False
-            result.append(depsItem)
-            return True
-
-
-        ##
-        # find dependencies of a method <methodId> that has been referenced from
-        # <classId>. recurse on the immediate dependencies in the method code.
-        #
-        # @param deps accumulator variable set((c1,m1), (c2,m2),...)
-        #
-        # returns a set of pairs each representing a signature (classId,
-        # methodId)
-
-        def getMethodDepsR(depsItem, variants, globalResult):
-            # We don't add the in-param to the global result
-            classId = depsItem.name
-            methodId= depsItem.attribute
-
-            console.debug("%s#%s dependencies:" % (classId, methodId))
-            console.indent()
-
-            # Calculate deps
-
-            # find the defining class
-            defClassId, attribNode = findClassForMethod(classId, methodId, variants)
-
-            # lookup error
-            if not defClassId:
-                console.warn("Skipping unknown class dependency: %s#%s" % (defClassId, methodId))
-                return
-            
-            defDepsItem = DependencyItem(defClassId, -1, methodId)  # not sure about methodId, but the class is important
-            # method of super class/mixin
-            if defClassId != classId:
-                resultAdd(defDepsItem, globalResult)
-
-
-            # Get the method's immediate deps
-            deps_rt = []
-            deps_lt = []
-
-            # TODO: is this the right API?!
-            self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
-
-            assert not deps_lt
-
-            for depsItem in deps_rt:
-                if resultAdd(depsItem, globalResult):
-
-                    # Recurse dependencies
-                    assert depsItem.name in self._classesObj
-                    getMethodDepsR(depsItem, variants, globalResult)
-
-            console.outdent()
-            return
-
-
-        # -- Main --------------------------------------------------------------
-
-        #print "- running getMethodDeps for", depsItem
-        deps = []
-        getMethodDepsR(depsItem, variants, deps)
-        #print "  ", deps
-
-        return deps
-
 
 
 
