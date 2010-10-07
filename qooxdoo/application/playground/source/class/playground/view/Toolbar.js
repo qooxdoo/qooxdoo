@@ -266,6 +266,10 @@ qx.Class.define("playground.view.Toolbar",
      */
     enableHighlighting : function(value) {
       this.__highlightButton.setEnabled(value);
+      // if the button will be disable, remove the pressed state
+      if (!value) {
+        this.__highlightButton.setValue(false);
+      }
     },
 
 

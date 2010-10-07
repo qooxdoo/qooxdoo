@@ -144,10 +144,10 @@ qx.Class.define("playground.Application",
 
       // need to split up the creation process
       this.__editor = new playground.view.Editor();
-      this.__editor.init();
       this.__editor.addListener("disableHighlighting", function() {
         this.__toolbar.enableHighlighting(false);
-      });
+      }, this);
+      this.__editor.init();
 
       mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
