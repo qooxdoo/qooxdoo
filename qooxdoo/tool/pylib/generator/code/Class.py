@@ -277,7 +277,7 @@ class Class(Resource):
 
             load   = []
             run    = []
-            ignore = [DependencyItem(x,-1) for x in DefaultIgnoredNamesDynamic]
+            ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in DefaultIgnoredNamesDynamic]
 
             console.debug("Analyzing tree: %s" % self.id)
             console.indent()
@@ -290,9 +290,9 @@ class Class(Resource):
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
             # Process meta data
-            load.extend(DependencyItem(x,-1) for x in metaLoad)
-            run.extend(DependencyItem(x,-1) for x in metaRun)
-            ignore.extend(DependencyItem(x,-1) for x in metaIgnore)
+            load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
+            run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
+            ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
 
             # Read source tree data
             (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
@@ -442,7 +442,7 @@ class Class(Resource):
                 if className == 'this':
                     className = fileId
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                depsItem = DependencyItem(className, node.get('line', -1), classAttribute)
+                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1))
                 self.addDep(depsItem, inFunction, runtime, loadtime)
 
                 # an attempt to fix static initializers (bug#1455)
@@ -682,10 +682,10 @@ class Class(Resource):
             elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
                 return None, None
 
-            tree = self._classesObj[clazzId].tree( variants)
-            clazz = treeutil.findQxDefine(tree)
-            classAttribs = treeutil.getClassMap(clazz)
-            keyval = classHasOwnMethod(classAttribs, methodId)
+            tree = self._classesObj[clazzId].tree (variants)
+            clazz = treeutil.findQxDefine (tree)
+            classAttribs = treeutil.getClassMap (clazz)
+            keyval = classHasOwnMethod (classAttribs, methodId)
             if keyval:
                 return clazzId, keyval
 
@@ -758,7 +758,7 @@ class Class(Resource):
                 console.outdent()
                 return localDeps
             
-            defDepsItem = DependencyItem(defClassId, -1, methodId)  # not sure about methodId, but the class is important
+            defDepsItem = DependencyItem(defClassId, methodId, classId)
             # method of super class/mixin
             if defClassId != classId:
                 resultAdd(defDepsItem, localDeps)
@@ -1135,10 +1135,11 @@ class Class(Resource):
 
 
 class DependencyItem(object):
-    __slots__ = ('name', 'attribute', 'line')
-    def __init__(self, name, line, attribute=''):
+    __slots__ = ('name', 'attribute', 'requestor', 'line')
+    def __init__(self, name, attribute, requestor, line=-1):
         self.name = name            # e.g. "qx.Class"
         self.attribute = attribute  # e.g. "define"
+        self.requestor = requestor  # e.g. "gui.Application"
         self.line = line            # source line in referencing file
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute

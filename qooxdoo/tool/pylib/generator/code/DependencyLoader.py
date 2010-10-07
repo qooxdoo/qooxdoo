@@ -243,10 +243,10 @@ class DependencyLoader(object):
 
         # add config dependencies
         if self._require.has_key(fileId):
-            loadFinal.extend(DependencyItem(x, -1) for x in self._require[fileId])
+            loadFinal.extend(DependencyItem(x, '', "|config|") for x in self._require[fileId])
 
         if self._use.has_key(fileId):
-            runFinal.extend(DependencyItem(x,-1) for x in self._use[fileId])
+            runFinal.extend(DependencyItem(x, '', "|config|") for x in self._use[fileId])
 
         # result dict
         deps = {
