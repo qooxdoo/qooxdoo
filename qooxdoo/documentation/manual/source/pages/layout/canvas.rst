@@ -54,10 +54,10 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `Canvas with pixel positions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Fixed.html>`_
-* `Canvas with percent positions and dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_Percent.html>`_
-* `Canvas showing left and right attachment of children <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_LeftRight.html>`_
-* `Canvas with children having minimum and maximum dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Canvas_MinMaxSizes.html>`_
+* `Canvas with pixel positions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Canvas_Fixed.html>`_
+* `Canvas with percent positions and dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Canvas_Percent.html>`_
+* `Canvas showing left and right attachment of children <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Canvas_LeftRight.html>`_
+* `Canvas with children having minimum and maximum dimensions <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Canvas_MinMaxSizes.html>`_
 
 .. _pages/layout/canvas#api:
 

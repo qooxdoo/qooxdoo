@@ -57,7 +57,7 @@ Something that is very familiar to the typical programmer of Java or any other c
     {
       setWidth : function(width)
       {
-        if (typeof width!= "number") {
+        if (typeof width != "number") {
           // Type check: Make sure it is a valid number
           throw new Error("Invalid value: Need a valid integer value: " + width);
         };
@@ -84,7 +84,7 @@ qooxdoo Property Handling
 
 qooxdoo's dynamic properties are a perfect example of the framework's three virtues: elegance, power, speed. 
 
-Let's see how the above example can be written using the new property implementation. The property itself is declared in the ``properties`` section of the class definition. Only if some property-specific code needs to be run in the setter, an additional ``apply`` method has to be given:
+Let's see how the above example can be written using qooxdoo's property implementation. The property itself is declared in the ``properties`` section of the class definition. Only if some property-specific code needs to be run in the setter, an additional ``apply`` method has to be given:
 
 ::
 
@@ -100,7 +100,7 @@ Let's see how the above example can be written using the new property implementa
       }
     }
 
-Compare that to the lengthy code of the ordinary code example above. ;-) Much shorter and nicer, also by objective means. And it almost only contains the "real code". 
+Compare that to the lengthy code of the ordinary code example above! Much shorter and nicer, also by objective means. And it almost only contains the "real code". 
 
 The apply method may optionally be defined for each property you add to your class. As soon as you define a key "apply" in your property declaration map the method  gets automatically called on each property modification (but not during initial initialization). If you do not define an apply method, the property just handles the fundamental storage of your data and its disposal.
 

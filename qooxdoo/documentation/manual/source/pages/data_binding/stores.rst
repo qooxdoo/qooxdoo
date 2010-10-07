@@ -110,8 +110,10 @@ How to get my own code into the model?
 --------------------------------------
 
 What if you want to to bring your own code to the generated model classes or if you even want to use your own model classes? Thats possible by adding and implementing a delegate to the data store. You can either
+
 * Add your code by supporting a superclass for the created model classes.
 * Add your code as a mixin to the created model classes.
 * Use your own class instead of the created model classes.
+
 Take a look at the API-Documentation of the ```qx.data.store.IStoreDelegate <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.store.IStoreDelegate>`_`` to see the available methods and how to implement them.
 

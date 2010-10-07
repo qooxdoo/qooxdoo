@@ -1,6 +1,6 @@
 .. _pages/oo_feature_summary#features_for_object_orientation:
 
-Features for Object Orientation
+Features of Object Orientation
 *******************************
 
 .. _pages/oo_feature_summary#class_definition:
@@ -192,31 +192,12 @@ Generic form without using ``prototype``. Requires no updates if super class (na
       }
     });
 
-.. _pages/oo_feature_summary#calling_the_overridden_superclass_method_passing_all_arguments:
-
-Calling the Overridden Superclass Method (passing all arguments)
-================================================================
-
-Generic form without using ``prototype``. Requires no updates if super class method  changes. If the signature of a method is changed later by e.g. adding more parameters, all overriden methods don't have to be updated, provided the base method is called with unmodified parameters. This code can optionally be optimized for performance in build versions.
-
-::
-
-    qx.Class.define("my.cool.Class", {
-      extend : my.great.SuperClass,
-      ...
-      members : {
-        foo : function(x) {
-          arguments.callee.base.apply(this, arguments);
-        }
-      }
-    });
-
 .. _pages/oo_feature_summary#destructor:
 
 Destructor
 ==========
 
-As a logical match to any existing constructor given by the key ``construct``, a destructor is explicitely given by the ``destruct`` key: 
+As a logical match to any existing constructor given by the key ``construct``, a destructor is explicitly given by the ``destruct`` key: 
 ::
 
     qx.Class.define("my.cool.Class", 
@@ -351,7 +332,7 @@ The closed form of the class definition does not allow immediate access to other
 
 .. note::
 
-    If the feature of accessing previously defined members is not absolutely neccessary, *the ``defer`` should *not* be used in the class definition*. It is missing some important capabilities compared to the regular members definition and it cannot take advantage of many crucial features of the build process (documentation, optimization, etc.).
+    If the feature of accessing previously defined members is not absolutely necessary, ``defer`` **should not be used** in the class definition. It is missing some important capabilities compared to the regular members definition and it cannot take advantage of many crucial features of the build process (documentation, optimization, etc.).
 
 ::
 
@@ -399,7 +380,7 @@ Events
 qooxdoo's class definition has a special ``events`` key. The value of the key is a map, which maps each distinct event name to the name of the event class whose instances are passed to the event listeners. The event system can now (optionally) check whether an event type is supported by the class and issue a warning if an event type is unknown. This ensures that each supported event must be listed in the event map.
 ::
 
-    qx.Class.define("qx.come.Class",
+    qx.Class.define("my.eventful.Class",
     {
       extend: qx.core.Target,
 

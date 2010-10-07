@@ -32,8 +32,8 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `A button demo with differently configured buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Button.html>`_
-* `A window demo which using button <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Window.html>`_
+* `A button demo with differently configured buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
+* `A window demo which using button <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Window.html>`_
 
 .. _pages/widget/button#api:
 

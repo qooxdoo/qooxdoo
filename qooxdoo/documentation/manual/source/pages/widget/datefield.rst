@@ -30,7 +30,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `DateField Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-DateField.html>`_
+* `DateField Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~DateField.html>`_
 * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/datefield#api:

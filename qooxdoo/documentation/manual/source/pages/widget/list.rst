@@ -47,9 +47,9 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `List Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-List.html>`_ 
-* `Lists with Drag and Drop <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-DragDrop.html>`_
-* `List with re-size support <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Resizer.html>`_
+* `List Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ 
+* `Lists with Drag and Drop <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~DragDrop.html>`_
+* `List with re-size support <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Resizer.html>`_
 
 .. _pages/widget/list#api:
 

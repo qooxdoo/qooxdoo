@@ -39,7 +39,7 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
-* `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-GroupBox.html>`_
+* `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~GroupBox.html>`_
 
 .. _pages/widget/groupbox#api:
 

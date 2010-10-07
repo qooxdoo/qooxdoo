@@ -18,7 +18,7 @@ Here are a few examples:
 
 .. |context_menu.png| image:: context_menu.png
 
-The `Demobrowser <http://demo.qooxdoo.org/1.2/demobrowser/#widget-Menu.html>`_ provides further examples.
+The `Demobrowser <http://demo.qooxdoo.org/1.2/demobrowser/#widget~Menu.html>`_ provides further examples.
 
 Menus can be constructed in a qooxdoo application using widgets from the `qx.ui.menu <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.menu>`_ name space.
 The main class from this package is ``Menu``. Other classes allow you to tailor the appearance and the behaviour of the menu you create. You can even use checkboxes and radiobuttons inside your menus.

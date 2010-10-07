@@ -37,8 +37,8 @@ Demos
 Here are some links that demonstrate the usage of the widget:
 
 * `A label demo with differently configured labels <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Label.html>`_
-* `Height for width demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-HeightForWidth.html>`_
-* `Label reflow <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui-Label_Reflow.html>`_
+* `Height for width demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~HeightForWidth.html>`_
+* `Label reflow <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~Label_Reflow.html>`_
 
 .. _pages/widget/label#api:
 

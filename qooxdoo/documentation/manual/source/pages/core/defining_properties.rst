@@ -52,7 +52,7 @@ As a class developer the easiest solution with the best performance is to define
 Defining an apply method
 ------------------------
 
-To attach an apply method you must add a key ``apply`` to your configuration which points to a name of a functions which needs to be available in your ``members`` section. As the apply method normally should not be called directly, it is always a good idea to make the method at least protected by prefixing the name with an underscore ``_``.
+To attach an apply method you must add a key ``apply`` to your configuration which points to a name of a function which needs to be available in your ``members`` section. As the apply method normally should not be called directly, it is always a good idea to make the method at least protected by prefixing the name with an underscore ``_``.
 
 The return value of the apply method is ignored.  The second parameter is optional and may be left out.
 

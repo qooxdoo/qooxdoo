@@ -39,6 +39,7 @@ The Use of Macros
 =================
 
 Within the configuration system, macros (defined with *let* keys) serve a  couple of purposes:
+
 * to keep the use of a specific value consistent within a configuration file (this is how macros are used in many languages)
 * to customize settings of imported jobs so they can be controlled by the importing configuration
 * to pass parameters into jobs

@@ -34,7 +34,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `ComboBox demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-ComboBox.html>`_
+* `ComboBox demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~ComboBox.html>`_
 * `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/combobox#api:

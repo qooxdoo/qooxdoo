@@ -68,7 +68,7 @@ Using qooxdoo icons with widgets
 If you want to use some of the icons as resources that are part of the icon themes that come with qooxdoo, there are the following three ways to do so:
 
 (1) Copy the icons you are interested in from the original location in the qooxdoo framework to the local resource folder of your application. You are now independent of the qooxdoo icon theme folders and can manage these icons as any other custom images.
-(2) Use a fully-qualified path that points to the qooxdoo resource folder. This solution would contain the icon theme's name explicitely.
+(2) Use a fully-qualified path that points to the qooxdoo resource folder. This solution would contain the icon theme's name explicitly.
 (3) Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. Please note that this is available starting with qooxdoo 0.8.1, but it could possibly be changed or even removed in future releases.
 
 ::

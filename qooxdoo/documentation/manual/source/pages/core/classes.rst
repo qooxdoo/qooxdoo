@@ -33,6 +33,7 @@ Members
 -------
 
 Members of a class come in two flavors: 
+
 * Class members (also called "static" members) are attached to the class itself, not to individual instances
 * Instance members are attached to each individual instance of a class
 
@@ -152,6 +153,7 @@ Unfortunately, JavaScript is very limited in *enforcing* those protection mechan
 * *private*: members start with a double underscore ``__``
 
 There are some possibilities to enforce or at least check the various degrees of accessibility:
+
 * automatic renaming of private members in the build version could trigger errors when testing the final app
 * checking  instance of ``this`` in protected methods
 * ...
@@ -351,6 +353,7 @@ Mixins
 Unlike interfaces, :doc:`mixins` do contain concrete implementations of methods. They borrow some ideas from Ruby and similar scripting languages.
 
 Features:
+
 * Add mixins to the definition of a class: All members of the mixin are added to the class definition.
 * Add a mixin to a class after the class is defined. Enhances the functionality but is not allowed to overwrite existing members.
 * Patch existing classes. Change the implementation of existing methods. Should normally be avoided but, as some projects may need to patch qooxdoo, we better define a clean way to do so. 
@@ -362,56 +365,6 @@ The concrete implementations of mixins are used in a class through the key ``inc
     qx.Class.define("qx.test.Cat", {
       include : [qx.test.MPet, qx.test.MSleep]
     });
-
-.. _pages/classes#related_topics:
-
-Related Topics
-==============
-
-.. _pages/classes#feature_summary:
-
-Feature summary
----------------
-
-Some of the most prominent features include: 
-
-* Closed form of class declaration
-* Interfaces (Java-like)
-* Mixins (Ruby-like)
-* Easy calling of super classes (constructor or methods)
-* Better concepts for ``private``, ``protected`` and ``public`` members
-* Powerful dynamic :doc:`properties <understanding_properties>`
-* Migration support for existing applications
-* Browser specific builds (Gecko, Mshtml, Opera, Webkit)
-* Simplified settings
-* More runtime checks for the application development phase
-
-.. _pages/classes#browser_optimized_builds:
-
-Browser optimized builds
-------------------------
-
-Methods can be tagged to be specific for just one browser. The class system and the generator are responsible for selecting the correct version of the method for the current browser. The generator may create optimized builds and strip out all methods, which are not needed for a given browser.
-
-Features:
-* Runtime selection of the correct method depending on the current browser
-* Optimized builds
-
-  * Loader script which automatically loads the correct version
-  * Maybe toggle other optimizations for specific browsers as well (for example, do string optimizations only in IE)
-
-See :doc:`/pages/development/variants` for more details.
-
-.. _pages/classes#more_runtime_checks:
-
-More runtime checks
--------------------
-
-* More runtime checks in the source version
-* Strip the checks from the build version
-* Remove debugging code from the build version
-
-.. _pages/classes#class_declaration_quick_ref:
 
 Class Declaration Quick Ref
 ---------------------------

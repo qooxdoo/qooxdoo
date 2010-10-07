@@ -47,8 +47,8 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Complex demo which shows many features of the tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Tree.html>`_
-* `A multi column tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Tree_Columns.html>`_
+* `Complex demo which shows many features of the tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_
+* `A multi column tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree_Columns.html>`_
 
 .. _pages/widget/tree#api:
 

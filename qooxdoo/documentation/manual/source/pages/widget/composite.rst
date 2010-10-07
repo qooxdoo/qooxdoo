@@ -28,7 +28,7 @@ Any of the layout demos use Composites:
 
 Here are some links that demonstrate the usage of the widget:
 
-* `The first layout demo. Any other layout demo uses Composites as well. <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Basic.html>`_
+* `The first layout demo. Any other layout demo uses Composites as well. <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Basic.html>`_
 
 .. _pages/widget/composite#api:
 

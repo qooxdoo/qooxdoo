@@ -148,7 +148,7 @@ The result is when calling the method ``methodC()`` of ``ClassC``:
     /*
      * Result:
      * Hello, I'm property A! 
-     * Hello, I'm methode A! 
+     * Hello, I'm method A! 
      * Hello, I'm property B! 
      * Hello, I'm method B! 
      * Nice to meet you. Thanks for your help!

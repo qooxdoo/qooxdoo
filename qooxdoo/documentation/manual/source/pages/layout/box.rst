@@ -64,21 +64,21 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `Simple HBox usage <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox.html>`_
-* `HBox with flex widths <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_Flex.html>`_
-* `HBox with child margins <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_Margin.html>`_
-* `HBox with percent widths <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_Percent.html>`_
-* `HBox with switchable ''reversed'' property <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_Reversed.html>`_
-* `HBox with separators <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_Separator.html>`_
-* `HBox with vertical shrinking <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-HBox_ShrinkY.html>`_
+* `Simple HBox usage <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox.html>`_
+* `HBox with flex widths <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_Flex.html>`_
+* `HBox with child margins <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_Margin.html>`_
+* `HBox with percent widths <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_Percent.html>`_
+* `HBox with switchable ''reversed'' property <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_Reversed.html>`_
+* `HBox with separators <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_Separator.html>`_
+* `HBox with vertical shrinking <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~HBox_ShrinkY.html>`_
 
-* `Simple VBox usage <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox.html>`_
-* `VBox with flex heights <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_Flex.html>`_
-* `VBox with child margins <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_Margin.html>`_
-* `VBox with percent heights <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_Percent.html>`_
-* `VBox with switchable ''reversed'' property <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_Reversed.html>`_
-* `VBox with separators <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_Separator.html>`_
-* `VBox with horizontal shrinking <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-VBox_ShrinkX.html>`_
+* `Simple VBox usage <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox.html>`_
+* `VBox with flex heights <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_Flex.html>`_
+* `VBox with child margins <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_Margin.html>`_
+* `VBox with percent heights <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_Percent.html>`_
+* `VBox with switchable ''reversed'' property <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_Reversed.html>`_
+* `VBox with separators <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_Separator.html>`_
+* `VBox with horizontal shrinking <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~VBox_ShrinkX.html>`_
 
 .. _pages/layout/box#api:
 

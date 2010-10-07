@@ -30,7 +30,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Simple example for the PopUp widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Popup.html>`_
+* `Simple example for the PopUp widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Popup.html>`_
 
 .. _pages/widget/popup#api:
 

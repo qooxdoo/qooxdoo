@@ -35,7 +35,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Resizer demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget-Resizer.html#>`_
+* `Resizer demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Resizer.html>`_
 
 .. _pages/widget/resizer#api:
 

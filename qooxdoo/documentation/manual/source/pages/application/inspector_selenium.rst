@@ -29,6 +29,7 @@ Configuration
 Clicking the Options button (the only part of the Selenium window that is active initially) opens a window where these two settings can be defined. For Selenium Core, enter the URI of a directory where you've extracted the Selenium Core zip file.
 
 The protocol used **must** be the same the Inspector is loaded over:
+
 * If you're loading the Inspector from your local file system, extract the archive locally and use a file system URI (``file:///...``).
 * If the Inspector is loaded from a web server, the Selenium Core directory must be accessed over HTTP. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used.
 

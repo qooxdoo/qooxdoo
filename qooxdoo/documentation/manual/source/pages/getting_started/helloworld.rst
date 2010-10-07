@@ -165,7 +165,7 @@ The development version of a qooxdoo app is called the "source" version, the dep
 
 After successful completion let the browser open ``index.html`` from the newly created ``build`` folder. Although you probably won't see a difference between this deployment version of your app and the previous "source" version, it should have started up faster.
 
-Unlike the "source" version, with its numerous unmodified JavaScript files, the "build" version only has to load a single, optimized JavaScript file. (Well, as of qooxdoo 0.8.1 there is still a small additional loader script for retrieving your actual application script). 
+Unlike the "source" version, with its numerous unmodified JavaScript files, the "build" version only has to load a single, optimized JavaScript file.
 
 Manually creating such a "custom build" from your application class (or classes) would have been a very tedious and complex job. In fact most other JavaScript libraries do provide built-in support to automate this task. Building your app strips off unneeded whitespaces and comments, optimizes and reorganizes your code, uses a JS linker to only include classes that your application needs, and many more refinements and optimizations as well.
 

@@ -61,10 +61,10 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `Simple grids <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Grid_Simple.html>`_
-* `Complex grids <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Grid_Complex.html>`_
-* `A grid with different cell alignments <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Grid_Alignment.html>`_
-* `An animated grid <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout-Grid_Animated.html>`_
+* `Simple grids <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Grid_Simple.html>`_
+* `Complex grids <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Grid_Complex.html>`_
+* `A grid with different cell alignments <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Grid_Alignment.html>`_
+* `An animated grid <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Grid_Animated.html>`_
 
 .. _pages/layout/grid#api:
 

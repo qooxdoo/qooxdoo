@@ -17,7 +17,9 @@ If you are migrating from a legacy verison of qooxdoo to 1.2, namely from a **0.
 * **Configuration(2)**
   
   Check the current `release notes <http://qooxdoo.org/about/release_notes/1.2#tooling>`_ and those of `previous releases <http://qooxdoo.org/about/release_notes>`_ between your current version and 1.2 for changes to the generator configuration, as they have to be done by hand. Make sure you  apply them to your config.json as far as they affect your particular config file. For example, with 0.8.1 the config.json macro ``QOOXDOO_PATH`` does not include the trailing "framework" part anymore, so make sure to add that. E.g. if you list the qooxdoo framework Manifest.json explicitly in your config using QOOXDOO_PATH, make sure "/framework" is appended after the macro reference.
-* Alternatively, particularly if you config.json is rather small, create a :ref:`separate gui skeleton <pages/getting_started/helloworld#create_your_application>` elsewhere and copy its config.json over to your application, and port the config settings from your old configuration to this file. This might be the simpler approach.
+  
+  * Alternatively, particularly if you config.json is rather small, create a :ref:`separate gui skeleton <pages/getting_started/helloworld#create_your_application>` elsewhere and copy its config.json over to your application, and port the config settings from your old configuration to this file. This might be the simpler approach.
+
 * **Run Migration**
 
   Then change to your application's top-level directory and invoke the command
