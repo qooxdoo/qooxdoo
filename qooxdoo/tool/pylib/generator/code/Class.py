@@ -443,21 +443,25 @@ class Class(Resource):
                 # we allow self-references, to be able to track method dependencies within the same class
                 if className == 'this':
                     className = self.id
-                #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1))
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
                         classAttribute = 'construct'
+                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1))
+                #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 self.addDep(depsItem, inFunction, runtime, loadtime)
 
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, self.id, className):
+                    #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
                     console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
                     console.indent()
                     # getMethodDeps is mutual recursive calling into the current
                     # function, but only does so with inFunction=True, so this
                     # branch is never hit through the recursive call
                     ldeps = self.getMethodDeps(depsItem, variants)
+                    #for x in ldeps:
+                    #    if x not in loadtime:
+                    #        print "  adding %s#%s" % (x.name, x.attribute)
                     loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
                     console.outdent()
 
