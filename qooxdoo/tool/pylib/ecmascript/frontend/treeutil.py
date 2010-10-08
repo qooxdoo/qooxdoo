@@ -32,7 +32,7 @@ from ecmascript.frontend import tree, tokenizer, treegenerator
 
 def findQxDefine(rootNode):
     for node in nodeIterator(rootNode, ["variable"]):
-        if isQxDefine(node):
+        if isQxDefine(node)[0]:
             return node.parent.parent
         
     return None
@@ -43,7 +43,7 @@ def findQxDefine(rootNode):
 
 def findQxDefineR(rootNode):
     for node in nodeIterator(rootNode, ["variable"]):
-        if isQxDefine(node):
+        if isQxDefine(node)[0]:
             yield node.parent.parent
         
 
@@ -55,13 +55,16 @@ def isQxDefine(node):
         try:
             variableName = (assembleVariable(node))[0]
         except tree.NodeAccessException:
-            return False
+            return False, None
 
         if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define", "qx.Theme.define"]:
             if node.hasParentContext("call/operand"):
-                return True
+                className = selectNode(node, "../../params/1")
+                if className and className.type == "constant":
+                    className = className.get("value", None)
+                return True, className
 
-    return False
+    return False, None
         
         
 ##
@@ -81,7 +84,7 @@ def selectNode(node, path):
     Selects a node using a XPath like path expression.
     This function returns None if no matching node was found.
 
-    Warning: This function usys a depth first search without backtracking!!
+    Warning: This function uses a depth first search without backtracking!!
 
     ".."          navigates to the parent node
     "nodeName"    navigates to the first child node of type nodeName
@@ -581,7 +584,7 @@ def getClassMap(classNode):
        ):
         pass  # ok
     else:
-        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())")
+        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", classNode)
 
     # get top-level class map
     mapNode = selectNode(classNode, "params/map")

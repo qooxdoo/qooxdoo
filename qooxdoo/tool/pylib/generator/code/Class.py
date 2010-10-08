@@ -29,6 +29,7 @@ from misc                           import util, filetool
 from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
+from ecmascript.frontend.tree       import Node
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
@@ -297,6 +298,9 @@ class Class(Resource):
             # Read source tree data
             (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeLoad, treeRun, inFunction=False, variants=variantSet)
+
+            #import pydb; pydb.debugger()
+            #self.shallowDependencies(variantSet)
             
             # Process source tree data
             if not "auto-require" in metaIgnore:
@@ -421,8 +425,6 @@ class Class(Resource):
     # sure how to handle this sub-recursion when the main body is an iteration.
     def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants):
 
-        fileId = self.id
-
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
 
@@ -431,7 +433,7 @@ class Class(Resource):
             if deferNode != None:
                 self._analyzeClassDepsNode(deferNode, loadtime, runtime, False, variants)
 
-            (context, className, classAttribute) = self._isInterestingReference(assembled, node, fileId)
+            (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id)
             # postcond: 
             # - if className != '' it is an interesting reference
             # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
@@ -440,14 +442,17 @@ class Class(Resource):
             if className:
                 # we allow self-references, to be able to track method dependencies within the same class
                 if className == 'this':
-                    className = fileId
+                    className = self.id
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1))
+                if not classAttribute:  # see if we have to provide 'construct'
+                    if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
+                        classAttribute = 'construct'
                 self.addDep(depsItem, inFunction, runtime, loadtime)
 
                 # an attempt to fix static initializers (bug#1455)
-                if not inFunction and self.followCallDeps(node, fileId, className):
-                    console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, fileId, depsItem.line))
+                if not inFunction and self.followCallDeps(node, self.id, className):
+                    console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
                     console.indent()
                     # getMethodDeps is mutual recursive calling into the current
                     # function, but only does so with inFunction=True, so this
@@ -671,15 +676,14 @@ class Class(Resource):
                     return None
 
             # get the method name
-            if  methodId == u'':  # corner case: the class is being called
-                methodId = "construct"
+            if  methodId == u'':  # corner case: bare class reference outside "new ..."
+                #methodId = "construct"
+                return clazzId, methodId
             elif methodId == "getInstance": # corner case: singletons get this from qx.Class
                 clazzId = "qx.Class"
             # TODO: getter/setter are also not statically available!
             # handle .call() ?!
-            if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
-                return True, True
-            elif clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+            if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
                 return None, None
 
             tree = self._classesObj[clazzId].tree (variants)
@@ -728,10 +732,10 @@ class Class(Resource):
         # returns a set of pairs each representing a signature (classId,
         # methodId)
 
-        def getMethodDepsR(depsItem, variants, totalDeps):
+        def getMethodDepsR(dependencyItem, variants, totalDeps):
             # We don't add the in-param to the global result
-            classId = depsItem.name
-            methodId= depsItem.attribute
+            classId = dependencyItem.name
+            methodId= dependencyItem.attribute
 
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
@@ -763,21 +767,21 @@ class Class(Resource):
             if defClassId != classId:
                 resultAdd(defDepsItem, localDeps)
 
+            if isinstance(attribNode, Node):
+                # Get the method's immediate deps
+                deps_rt = []
+                deps_lt = []
 
-            # Get the method's immediate deps
-            deps_rt = []
-            deps_lt = []
+                # TODO: is this the right API?!
+                self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
+                assert not deps_lt
 
-            # TODO: is this the right API?!
-            self._analyzeClassDepsNode(attribNode, deps_lt, deps_rt, True, variants)
-            assert not deps_lt
-
-            for depsItem in deps_rt:
-                if resultAdd(depsItem, localDeps):
-                    # Recurse dependencies
-                    assert depsItem.name in self._classesObj
-                    downstreamDeps = getMethodDepsR(depsItem, variants, totalDeps.union(localDeps))
-                    localDeps.update(downstreamDeps)
+                for depsItem in deps_rt:
+                    if resultAdd(depsItem, localDeps):
+                        # Recurse dependencies
+                        assert depsItem.name in self._classesObj
+                        downstreamDeps = getMethodDepsR(depsItem, variants, totalDeps.union(localDeps))
+                        localDeps.update(downstreamDeps)
 
             # Cache update
             cache.write(cacheId, localDeps, memory=True, writeToFile=False)
@@ -804,7 +808,152 @@ class Class(Resource):
     # - member: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
     # - defer:  [<dep1>,...]
     def getMethodDeps1(self, depsItem, variants):
-        pass
+        def getMethodDepsR(depsItem, variants, totalDeps):
+            
+            for depsItem in deps_rt:
+                dclassid = depsItem.name
+                dclassobj= self._classesObj[dclassid]
+                ddeps = dclassobj.dependencies()
+                methoddeps = lookup_methoddeps(depsItem.attribute, ddeps)
+                for deps in methoddeps:
+                    downstream = getMethodDepsR(deps, variants)
+                    mydeps.update(downstream)
+
+
+    ##
+    # Create a ClassDependencies() object for this class
+    def shallowDependencies(self, variants):
+        ##
+        # get deps from meta info and class code
+        def buildShallowDeps(variants):
+
+            classDeps = ClassDependencies()
+            load   = []
+            run    = []
+            ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in DefaultIgnoredNamesDynamic]
+
+            classDeps.data['ignore'] = ignore
+
+            # Read meta data
+            meta         = self.getHints()
+            metaLoad     = meta.get("loadtimeDeps", [])
+            metaRun      = meta.get("runtimeDeps" , [])
+            metaOptional = meta.get("optionalDeps", [])
+            metaIgnore   = meta.get("ignoreDeps"  , [])
+
+            # Process meta data
+            load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
+            run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
+            ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
+
+            # Read source tree data
+            analyzeNodeDeps (self.tree(variants), classDeps)
+            
+            # Process source tree data
+            #if not "auto-require" in metaIgnore:
+            #    for dep in treeLoad:
+            #        item = dep.name
+            #        if item in metaOptional:
+            #            pass
+            #        elif item in metaLoad:
+            #            console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
+            #        else:
+            #            # force uniqueness on the class name
+            #            if item not in (x.name for x in load):
+            #                load.append(dep)
+
+            #if not "auto-use" in metaIgnore:
+            #    for dep in treeRun:
+            #        item = dep.name
+            #        if item in metaOptional:
+            #            pass
+            #        elif item in (x.name for x in load):
+            #            pass
+            #        elif item in metaRun:
+            #            console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
+            #        else:
+            #            # force uniqueness on the class name
+            #            if item not in (x.name for x in run):
+            #                run.append(dep)
+
+            console.outdent()
+
+            # Build data structure
+            #deps = {
+            #    "load"   : load,
+            #    "run"    : run,
+            #    "ignore" : ignore,
+            #}
+
+            return classDeps
+
+
+        ##
+        # File-level node recursor
+        def analyzeNodeDeps(node, fileDeps):
+
+            # class deps
+            isQxDefine, classId = treeutil.isQxDefine(node)
+            if isQxDefine:
+                classMap = treeutil.getClassMap(node.parent.parent)  # this is what getClassMap expects
+                classDeps = analyzeClassMap(classMap)
+                fileDeps.data['classes'][classId] = classDeps  # classDeps = ClassMap()
+                return
+
+            # top-level deps
+            elif node.type == "variable":
+                nodeDeps = getNodeDeps(node)
+                fileDeps.data['require'].extend(nodeDeps)
+
+            if node.hasChildren():
+                for child in node.children:
+                    analyzeNodeDeps (child, fileDeps)
+
+            return
+
+
+        ##
+        # Class-level node recursor
+        def analyzeClassMap(classMap):
+            classMapObj = ClassMap()
+            
+            for tkey in classMap:
+                if isinstance(classMap[tkey], types.DictType):
+                    classMapObj.data[tkey] = {}
+                    for key in classMap[tkey]:
+                        nodeDeps = getNodeDeps (classMap[tkey][key])
+                        classMapObj.data[tkey][key] = nodeDeps
+                    
+                elif isinstance(classMap[tkey], Node):
+                    nodeDeps = getNodeDeps (classMap[tkey])
+                    classMapObj.data[tkey] = nodeDeps
+
+            return classMapObj
+
+
+
+        def getNodeDeps(node):
+            ltime = rtime = []  # distinction is in the depsItems that populate this array
+            self._analyzeClassDepsNode(node, ltime, rtime, True, variants) # we force inFunction, to not track recursive deps
+            return ltime
+            
+            
+
+        # -- Main ---------------------------------------------------------
+
+        # handles cache and invokes worker function
+        
+        classVariants     = self.classVariants()
+        relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+        cacheId           = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
+
+        classDeps = cache.read(cacheId, self.path)
+        if classDeps == None:
+            classDeps = buildShallowDeps(variants)
+            cache.write(cacheId, classDeps)
+
+        return classDeps
+
 
 
     # --------------------------------------------------------------------------
@@ -1135,12 +1284,14 @@ class Class(Resource):
 
 
 class DependencyItem(object):
-    __slots__ = ('name', 'attribute', 'requestor', 'line')
-    def __init__(self, name, attribute, requestor, line=-1):
-        self.name = name            # e.g. "qx.Class"
-        self.attribute = attribute  # e.g. "define"
-        self.requestor = requestor  # e.g. "gui.Application"
-        self.line = line            # source line in referencing file
+    __slots__ = ('name', 'attribute', 'requestor', 'line', 'inFunction')
+    def __init__(self, name, attribute, requestor, line=-1, inFunction=False):
+        self.name = name            # "qx.Class" [dependency to(class)]
+        assert isinstance(name, types.StringTypes)
+        self.attribute = attribute  # "define"   [dependency to(attribute)]
+        self.requestor = requestor  # "gui.Application" [the one depending on this item]
+        self.line = line            # 147        [source line in dependent's file]
+        self.inFunction = inFunction  # True     [load or run dependency]
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute
     def __str__(self):
@@ -1149,6 +1300,44 @@ class DependencyItem(object):
         return self.name == other.name and self.attribute == other.attribute
     def __hash__(self):
         return hash(self.name + self.attribute)
+
+
+##
+# Auxiliary class for ClassDependencies() (although of more general appeal)
+class ClassMap(object):
+    def __init__(self):
+        # after http://manual.qooxdoo.org/current/pages/core/class_quickref.html
+        self.data = {
+            'type'      : None,
+            'extend'    : [],
+            'implement' : [],
+            'include'   : [],
+            'construct' : [],
+            'statics'   : {},  # { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
+            'members'   : {},  # { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
+            'settings'  : [],
+            'variants'  : [],
+            'events'    : [],
+            'defer'     : [],
+            'destruct'  : [],
+        }
+        return
+
+    
+##
+# Captures the dependencies of a class (-file)
+# - the main purpose of this is to have an accessible, shallow representation of
+#   a class' dependencies, for caching and traversing
+class ClassDependencies(object):
+    def __init__(self):
+        self.data = {
+            'require' : [], # [qx.Class#define, #require(...), ... <other top-level code symbols>]
+            'use'     : [], # [#use(...)]
+            'optional': [], # [#optional(...)]
+            'ignore'  : [], # [#ignore(...)]
+            'classes' : {}, # {"classId" : ClassMap(), where the map values are lists of depsItems}
+            }
+        return
 
 
 # -- temp. module helper functions ---------------------------------------------

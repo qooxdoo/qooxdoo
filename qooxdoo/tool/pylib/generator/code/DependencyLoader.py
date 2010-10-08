@@ -229,7 +229,7 @@ class DependencyLoader(object):
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :
             #depsUnOpt = self.getDeps(fileId, {})  # get unopt deps
-            depsUnOpt, cached= classObj.dependencies({})  # get unopt deps
+            depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
             for depItem in depsUnOpt["load"]:
