@@ -98,7 +98,7 @@ qx.Class.define("playground.view.Editor",
       this.__editor = new qx.ui.core.Widget();
       var highlightDisabled = false;
       // FF2 does not have that...
-      if (!document.getAttribute) {
+      if (!document.createElement("div").getBoundingClientRect) {
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
       } else {
