@@ -109,3 +109,23 @@ a.b().c(d)
             variable
               identifier ("d")
 
+
+[file:] a.b("c",{d:e})
+-----------------------
+
+::
+
+    file
+      call
+        operand
+          variable
+            identifier ("a")
+            identifier ("b")
+        params
+          constant  ("c")
+          map
+            keyvalue ("d")
+              value
+                variable
+                  identifier ("e")
+
