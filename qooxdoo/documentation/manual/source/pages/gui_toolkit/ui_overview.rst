@@ -39,9 +39,9 @@ A standalone application normally only uses a really slimmed down set of HTML (i
 * `Application <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Application>`_: Build full-blown application from scratch. Target audience are developers of a completely qooxdoo based application.
 * `Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Page>`_: Build applications as isles into existing content. Ideal for the more classic web developer. Needs to bring in know how of HTML & CSS for non-qooxdoo content.
 
-Both roots are attached directly to the document. The ``Application`` is automatically stretched to the full size of the window and this ways allows to position elements in relation to the right or bottom edge etc. This is not possible using the ``Page`` root.
+Both roots are attached directly to the document. The ``Application`` is automatically stretched to the full size of the window and this way allows to position elements in relation to the right or bottom edge etc. This is not possible using the ``Page`` root.
 
-The instantiation of the required root widget is normally nothing the developer has to do. It is done by the application class the developer choose to extend. The next chapter will explain the concept behind applications in detail.
+The instantiation of the required root widget is normally nothing the developer has to do. It is done by the application class the developer chooses to extend. The next chapter will explain the concept behind applications in detail.
 
 As even the ``Page`` root is attached to the document it would be still not possible to place children into a specific existing column or box into the existing layout. However the developer of the web page may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Inline>`__. They need an existing DOM element to do their work (maybe using some type of ``getElementById``).  The reason for the overall need, even when working with these isles, for the ``Page`` root is that all dynamically floating elements like tooltips, menus, windows etc. are automatically placed into this root. This makes positioning of such elements a lot easier.
 
@@ -50,7 +50,7 @@ As even the ``Page`` root is attached to the document it would be still not poss
 Applications
 ============
 
-The application is the starting point of every qooxdoo application. Every qooxdoo application should also come with a custom application class. The application is automatically initialized at the boot phase of qooxdoo (to be exactly: when all required JavaScript packages are loaded).
+The application is the starting point of every qooxdoo application. Every qooxdoo application should also come with a custom application class. The application is automatically initialized at the boot phase of qooxdoo (to be exact: when all required JavaScript packages are loaded).
 
 The first method each developer needs to get used to is the `main <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.application.IApplication~main>`_ method. It is automatically executed after the initialization of the class. Normally the method is used to initialize the GUI and to load the data the application needs.
 

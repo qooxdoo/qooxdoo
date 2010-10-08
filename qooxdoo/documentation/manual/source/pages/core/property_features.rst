@@ -20,9 +20,9 @@ Value checks
 Validation
 ==========
 
-  * Validation in both, ``development`` and ``build`` version
+  * Validation in both development and build version
   * Predefined validators for default validation
-  * Throws a special ``validation error``
+  * Throws a special validation error
 
 .. _pages/property_features#advanced_value_handling:
 
@@ -30,10 +30,10 @@ Advanced value handling
 =======================
 
   * Multi value support. Support to store different values for init, inheritance, style and user including a automatic fallback mechanism between them.
-  * Inheritance support. Inhertitance of properties defined by a parent widget e.g. inherit enabled from a groupbox to all form elements. Uses the inheritance if the computed value would be ``undefined`` or explicitly set to ``inherit``. The getter simply returns ``inherit`` for inheritable properties which are otherwise unset.
+  * Inheritance support. Inheritance of properties defined by a parent widget e.g. inherit enabled from a groupbox to all form elements. Uses the inheritance if the computed value would be ``undefined`` or explicitly set to ``"inherit"``. The getter simply returns ``"inherit"`` for inheritable properties which are otherwise unset.
   * Blocks unintentionally ``undefined`` values in all setters with an exception. To reset a value one must use the ``reset`` or ``unstyle`` method which are available too.
   * Overriding of a value by setting a property explicitly to ``null``
-  * Properties must be explicitly configured as ``nullable`` (like in .Net). The default is ``false`` which means that incoming ``null`` values will result in an exception.
+  * Properties must be explicitly configured as ``"nullable"`` (like in .Net). The default is ``false`` which means that incoming ``null`` values will result in an exception.
   * Accessing nullable properties with ``undefined`` values will result in a normalization to ``null``.
 
 .. _pages/property_features#convenience:

@@ -18,7 +18,7 @@ The first parameter is the name of the event. The events supported by an object 
 
 The method is called with the event object as the first and only argument. The event object contains all information about the target and state of the event and also contains information about some other useful information for this event. Mouse events may contain mouse coordinates while focus events may contain the focused element. Data events typically contain the current value of the data field listened to.
 
-Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event object are reused during the application runtime. Keeping event instances referenced somewhere is not a good idea! When some of the data is needed later during the application runtime it is best to store the data and not the event object e.g. store coordinates instead of the mouse event object.
+Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event objects are reused during the application runtime. Keeping event instances referenced somewhere is not a good idea! When some of the data is needed later during the application runtime it is best to store the data and not the event object e.g. store coordinates instead of the mouse event object.
 
 .. _pages/gui_toolkit/ui_interaction#event_phases:
 
@@ -71,7 +71,7 @@ To handle character inputs e.g. on text boxes, there is a special ``keyinput`` e
 Working with Commands
 =====================
 
-``Commands`` (`API Reference <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.Command>`_) are used to bundle a command to be used by multiple buttons. It may also be used to define a global shortcut to be used for this action.
+Commands (`API <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Command>`_) are used to bundle a command to be used by multiple buttons. It may also be used to define a global shortcut to be used for this action.
 
 Creating new commands is as easy as possible. A shortcut can be defined easily through the constructor e.g.:
 
@@ -87,7 +87,7 @@ The command is easily attachable to many types of Buttons etc. Some of them, lik
 Focus Handling
 ==============
 
-Good keyboard support also means good focus support. One major feature is the seaming less integration between the DOM focus handling and the qooxdoo focus handling. Both system are communicating with each other. This makes it possible to integrate qooxdoo in normal web pages while still supporting the advanced focus features qooxdoo has to offer in some qooxdoo-powered isles.
+Good keyboard support also means good focus support. One major feature is the seamless integration between the DOM focus handling and the qooxdoo focus handling. Both system are communicating with each other. This makes it possible to integrate qooxdoo in normal web pages while still supporting the advanced focus features qooxdoo has to offer in some qooxdoo-powered isles.
 
 Focus handling in qooxdoo also means sophisticated support for the ``Tab`` key. While qooxdoo may also use the possibilities given by the browser (not so much), without doing any modification, the default adds qooxdoo's own layer for tab focus handling. This layer supports focus roots. A focus root is basically a widget which manage tab sequences on their own. This is often true for any type of Windows inside complex applications. Instead of leaving the window when reaching the last widget in a Window qooxdoo starts with the first widget in that window again. The tab handling in qooxdoo is based on coordinates of each widget on the screen. It follows the visible structure and not the internal application (or even markup) structure. This is often seen as a huge benefit as it improves the usability of such applications out-of-the-box.
 It is also possible to define a ``tabIndex`` on widgets which should be reachable in a static hard-coded way. It is suggested to not use that feature that much. The automatic handling works quite good out of the box without hard-wiring every widget to a specific tab position.
