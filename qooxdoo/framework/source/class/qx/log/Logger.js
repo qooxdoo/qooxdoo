@@ -527,7 +527,8 @@ qx.Class.define("qx.log.Logger",
      * @param value {var} Incoming value
      * @param deep {Boolean?false} Whether arrays and maps should be
      *    serialized for a limited number of items
-     * @return {Map} Contains the keys <code>type</code> and <code>text</code>.
+     * @return {Map} Contains the keys <code>type</code>, <code>text</code> and 
+     * <code>trace</code>.
      */
     __serialize : function(value, deep)
     {
