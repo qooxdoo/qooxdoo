@@ -298,3 +298,16 @@ class Cache(object):
 
         if memory:
             memcache[cacheId] = content
+
+
+##
+# Caching decorator
+def caching(fn, cacheobj):
+    def wrapper(*args, **kwargs):
+        cacheId = keyfn(*args, **kwargs)
+        res = cacheobj.read(cacheId)
+        if not res:
+            res = fn(*args, **kwargs)
+            cacheobj.write(cacheId, res)
+        return res
+    return wrapper
