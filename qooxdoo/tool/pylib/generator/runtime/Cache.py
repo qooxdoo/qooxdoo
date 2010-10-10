@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, time
+import os, sys, time, functools
 import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
@@ -302,12 +302,15 @@ class Cache(object):
 
 ##
 # Caching decorator
-def caching(fn, cacheobj):
-    def wrapper(*args, **kwargs):
-        cacheId = keyfn(*args, **kwargs)
-        res = cacheobj.read(cacheId)
-        if not res:
-            res = fn(*args, **kwargs)
-            cacheobj.write(cacheId, res)
-        return res
-    return wrapper
+def caching(cacheobj, keyfn):
+    def realdecorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            cacheId = keyfn(*args, **kwargs)
+            res = cacheobj.read(cacheId)
+            if not res:
+                res = fn(*args, **kwargs)
+                cacheobj.write(cacheId, res)
+            return res
+        return wrapper
+    return realdecorator

@@ -23,7 +23,8 @@
 # Class -- Internal representation of a qooxdoo class; derives from Resource
 ##
 
-import os, sys, re, types, codecs, optparse, copy
+import os, sys, re, types, copy
+import codecs, optparse, functools
 
 from misc                           import util, filetool
 from ecmascript                     import compiler
@@ -957,6 +958,25 @@ class Class(Resource):
             cache.write(cacheId, classDeps)
 
         return classDeps
+
+
+    ##
+    # Cache decorator
+    def caching(prefix):
+        def realdecorator(fn):
+            @functools.wraps(fn)
+            def wrapper(self, variants):
+                classVariants     = self.classVariants()
+                relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+                cacheId           = "%s-%s-%s" % (prefix, self.path, util.toString(relevantVariants))
+                res = cache.read(cacheId)
+                if not res:
+                    res = fn(self, variants)
+                    cache.write(cacheId, res)
+                return res
+            return wrapper
+        return realdecorator
+    
 
 
 
