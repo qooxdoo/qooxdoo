@@ -417,7 +417,7 @@ class Class(Resource):
     ##
     # analyze a class AST for dependencies (compiler hints not treated here)
     # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
-    # the "variants" param is only to support getMethodDeps()!
+    # the "variants" param is only to support getForeignDeps()!
     #
     # i tried an iterative version once, wrapping the main function body into a
     # loop over treeutil.nodeIteratorNonRec(); surprisingly, it seem slightly
@@ -456,10 +456,10 @@ class Class(Resource):
                     #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
                     console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
                     console.indent()
-                    # getMethodDeps is mutual recursive calling into the current
+                    # getForeignDeps is mutual recursive calling into the current
                     # function, but only does so with inFunction=True, so this
                     # branch is never hit through the recursive call
-                    ldeps = self.getMethodDeps(depsItem, variants)
+                    ldeps = self.getForeignDeps(depsItem, variants)
                     #for x in ldeps:
                     #    if x not in loadtime:
                     #        print "  adding %s#%s" % (x.name, x.attribute)
@@ -653,9 +653,9 @@ class Class(Resource):
     #   - add defining class to dependencies (class symbol is required for inheritance)
     #   - recurse on dependencies of defining class#method, adding them to the current dependencies
     #
-    # currently only a thin wrapper around its recursive sibling, getMethodDepsR
+    # currently only a thin wrapper around its recursive sibling, getForeignDepsR
 
-    def getMethodDeps(self, depsItem, variants):
+    def getForeignDeps(self, depsItem, variants):
 
         ##
         # find the class the given <methodId> is defined in; start with the
@@ -737,7 +737,7 @@ class Class(Resource):
         # returns a set of pairs each representing a signature (classId,
         # methodId)
 
-        def getMethodDepsR(dependencyItem, variants, totalDeps):
+        def getForeignDepsR(dependencyItem, variants, totalDeps):
             # We don't add the in-param to the global result
             classId = dependencyItem.name
             methodId= dependencyItem.attribute
@@ -785,7 +785,7 @@ class Class(Resource):
                     if resultAdd(depsItem, localDeps):
                         # Recurse dependencies
                         assert depsItem.name in self._classesObj
-                        downstreamDeps = getMethodDepsR(depsItem, variants, totalDeps.union(localDeps))
+                        downstreamDeps = getForeignDepsR(depsItem, variants, totalDeps.union(localDeps))
                         localDeps.update(downstreamDeps)
 
             # Cache update
@@ -798,7 +798,7 @@ class Class(Resource):
         # -- Main --------------------------------------------------------------
 
         checkset = set()
-        deps = getMethodDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
+        deps = getForeignDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
 
         return deps
 
@@ -812,8 +812,8 @@ class Class(Resource):
     # - static: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
     # - member: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
     # - defer:  [<dep1>,...]
-    def getMethodDeps1(self, depsItem, variants):
-        def getMethodDepsR(depsItem, variants, totalDeps):
+    def getForeignDeps1(self, depsItem, variants):
+        def getForeignDepsR(depsItem, variants, totalDeps):
             
             for depsItem in deps_rt:
                 dclassid = depsItem.name
@@ -821,7 +821,7 @@ class Class(Resource):
                 ddeps = dclassobj.dependencies()
                 methoddeps = lookup_methoddeps(depsItem.attribute, ddeps)
                 for deps in methoddeps:
-                    downstream = getMethodDepsR(deps, variants)
+                    downstream = getForeignDepsR(deps, variants)
                     mydeps.update(downstream)
 
 
