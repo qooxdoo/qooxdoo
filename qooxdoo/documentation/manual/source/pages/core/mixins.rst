@@ -10,8 +10,8 @@ Mixins are used to share functionality without using inheritance and to extend/p
 
 .. _pages/mixins#defining_a_mixin:
 
-Defining a Mixin
-================
+Definition
+==========
 
 Example:
 
@@ -33,45 +33,10 @@ Example:
       }
     });
 
-.. list-table::
-   :header-rows: 1
-
-   * - Configuration key
-     - Type
-     - Description
-
-   * - include
-     - Mixin or Mixin[]
-     - Single mixin or array of mixins, which will be merged into the mixin.
-
-   * - construct
-     - Function
-     - An optional mixin constructor. It is called when instantiating a class that includes this mixin.
-
-   * - destruct
-     - Function
-     - An optional mixin destructor.
-
-   * - statics
-     - Map
-     - Map of static members of the mixin. The statics will not get copied into the target class. They remain accessible from the mixin. This is the same behaviour as for statics in interfaces
-
-   * - members
-     - Map
-     - Map of members of the mixin.
-
-   * - properties
-     - Map
-     - Map of :doc:`property definitions <defining_properties>`.
-
-   * - events
-     - Map
-     - Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.
-
 .. _pages/mixins#using_a_mixin:
 
-Using a Mixin
-=============
+Usage
+=====
 
 Here a short example to see, how to use mixins (``MMixinA``, ``MMixinB``) with a class (``ClassC``).
 
@@ -154,9 +119,51 @@ The result is when calling the method ``methodC()`` of ``ClassC``:
      * Nice to meet you. Thanks for your help!
      */
 
-.. _pages/mixins#mixin_quick_reference:
+.. _pages/mixins#mixin_configuration_overview:
 
-Mixin Quick Reference
-=====================
+Summary
+=======
 
-* :doc:`mixin_quickref` -  a quick syntax reference for mixins.
+Configuration
+-------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Key
+     - Type
+     - Description
+
+   * - include
+     - Mixin or Mixin[]
+     - Single mixin or array of mixins, which will be merged into the mixin.
+
+   * - construct
+     - Function
+     - An optional mixin constructor. It is called when instantiating a class that includes this mixin.
+
+   * - destruct
+     - Function
+     - An optional mixin destructor.
+
+   * - statics
+     - Map
+     - Map of static members of the mixin. The statics will not get copied into the target class. They remain accessible from the mixin. This is the same behaviour as for statics in interfaces
+
+   * - members
+     - Map
+     - Map of members of the mixin.
+
+   * - properties
+     - Map
+     - Map of :doc:`property definitions <defining_properties>`.
+
+   * - events
+     - Map
+     - Map of events the mixin fires. The keys are the names of the events and the values are the corresponding event type classes.
+
+References
+----------
+
+* :doc:`mixin_quickref` -  a quick syntax reference for mixins
+* `API Documentation for Mixin <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Mixin>`_

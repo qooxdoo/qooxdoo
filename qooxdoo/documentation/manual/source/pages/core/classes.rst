@@ -242,7 +242,7 @@ qooxdoo does, of course, allow for polymorphism, that is most easily seen in the
 .. _pages/classes#calling_the_superclass_constructor:
 
 Calling the Superclass Constructor
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is hard to come up with an appealing syntax and efficient implementation for calling the superclass constructor from the constructor of a derived class. You simply cannot top Java's ``super()`` here. At least there is some generic way that does not involve to use the superclass name explicitly:
 
@@ -262,7 +262,7 @@ Unfortunately, to mimic a ``super()`` call the special variable ``arguments`` is
 .. _pages/classes#calling_an_overridden_method:
 
 Calling an Overridden Method
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Calling an overridden superclass method from within the overriding method (i.e. both methods have the same name) is similar to calling the superclass constructor:
 
@@ -280,7 +280,7 @@ Calling an overridden superclass method from within the overriding method (i.e. 
 .. _pages/classes#calling_the_superclass_method_or_constructor_with_all_parameters:
 
 Calling the Superclass Method or Constructor with all parameters
-----------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This variant allows to pass all the parameters (unmodified):
 
@@ -308,7 +308,7 @@ This variant allows to pass all the parameters (unmodified):
 .. _pages/classes#calling_another_static_method:
 
 Calling another Static Method
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is an example for calling a static member without using a fully-qualified class name (compare to ``this.base(arguments)`` above):
 
@@ -332,10 +332,13 @@ The syntax for accessing static variables simply is ``this.self(arguments).someS
 
 In purely static classes for calling a static method from another static method, you can directly use the ``this`` keyword, e.g. ``this.someStaticMethod(x)``. 
 
-.. _pages/classes#interfaces:
+.. _pages/classes#usage_of_interfaces_and_mixins:
 
-Interfaces
-==========
+Usage of Interfaces and Mixins
+==============================
+
+Implementing an Interface
+-------------------------
 
 The class system supports :doc:`interfaces`. The implementation is based on the feature set of Java interfaces. Most relevant features of Java-like interfaces are supported. A class can define which interface or multiple interfaces it implements by using the ``implement`` key:
 
@@ -347,8 +350,8 @@ The class system supports :doc:`interfaces`. The implementation is based on the 
 
 .. _pages/classes#mixins:
 
-Mixins
-======
+Including a Mixin
+-----------------
 
 Unlike interfaces, :doc:`mixins` do contain concrete implementations of methods. They borrow some ideas from Ruby and similar scripting languages.
 
@@ -366,8 +369,73 @@ The concrete implementations of mixins are used in a class through the key ``inc
       include : [qx.test.MPet, qx.test.MSleep]
     });
 
-Class Declaration Quick Ref
----------------------------
+Summary
+=======
+
+Configuration
+-------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Key
+     - Type
+     - Description
+
+   * - type	
+     - String
+     - Type of the class. Valid types are ``abstract``, ``static`` and ``singleton``. If unset it defaults to a regular non-static class.
+   
+   * - extend	
+     - Class
+     - The super class the current class inherits from.
+     
+   * - implement
+     - Interface | Interface[]
+     - Single interface or array of interfaces the class implements.
+   
+   * - include
+     - Mixin | Mixin[]
+     - Single mixin or array of mixins, which will be merged into the class.
+   
+   * - construct
+     - Function	
+     - The constructor of the class.
+   
+   * - statics
+     - Map
+     - Map of static members of the class.
+   
+   * - properties
+     - Map
+     - Map of property definitions. For a description of the format of a property definition see `qx.core.Property <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Property>`_.
+   
+   * - members
+     - Map
+     - Map of instance members of the class.
+   
+   * - settings	
+     - Map
+     - Map of settings for this class. For a description of the format of a setting see `qx.core.Setting <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Setting>`_.
+   
+   * - variants	
+     - Map
+     - Map of settings for this class. For a description of the format of a setting see `qx.core.Variant <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Variant>`_.
+   
+   * - events	
+     - Map	 
+     - Map of events the class fires. The keys are the names of the events and the values are the corresponding event type class names.
+   
+   * - defer	
+     - Function	
+     - Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.
+   
+   * - destruct	
+     - Function	
+     - The destructor of the class.
+   
+References
+----------
 
 * :doc:`class_quickref` - a quick syntax overview
-
+* `API Documentation for Class <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Class>`_

@@ -5,11 +5,6 @@ Interfaces
 
 qooxdoo supports Java like interfaces. 
 
-.. _pages/interfaces#defining_interfaces:
-
-Defining Interfaces
-===================
-
 Interface definitions look very similar to normal class definitions.
 
 Example:
@@ -47,7 +42,7 @@ Example:
 .. _pages/interfaces#definition:
 
 Definition
-----------
+==========
 
 Interfaces are declared using ``qx.Interface.define``. Interface names start by convention with an ``I`` (uppercase "i"). They can inherit from other interfaces using the ``extend`` key. Multiple inheritance of interfaces is supported.
 
@@ -63,7 +58,7 @@ Properties in interfaces state that each class implementing this interface must 
 Members
 -------
 
-The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in `qx.core.MAssert <http://demo.qooxdoo.org:8181/current/apiviewer/#qx.core.MAssert>`_ are used to check the incoming parameters.
+The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in `qx.core.MAssert <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.MAssert>`_ are used to check the incoming parameters.
 
 .. _pages/interfaces#statics:
 
@@ -85,8 +80,8 @@ Each event defined in the interface must be declared in the implementing classes
 
 .. _pages/interfaces#implementing_interfaces:
 
-Implementing Interfaces
-=======================
+Implementation
+==============
 
 With ``implement`` key of the class declaration, a list of interfaces can be listed, which the class implements. The class must implement all properties, members and events declared in the interfaces. Otherwise a runtime error will be thrown.
 
@@ -119,8 +114,8 @@ Example:
 
 .. _pages/interfaces#validating_interfaces:
 
-Validating Interfaces
-=====================
+Validation
+==========
 
 ``qx.Class`` contains several static methods to check, whether a class or an object implements an interface:
 
@@ -131,7 +126,43 @@ It is further possible to use interfaces as property checks.
 
 .. _pages/interfaces#interfaces_quick_ref:
 
-Interfaces Quick Ref
-====================
+Summary
+=======
 
-  * :doc:`interface_quickref` - a syntax quick reference for interfaces
+Configuration
+-------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Key
+     - Type
+     - Description
+
+   * - extend
+     - Interface | Interface[]
+     - Single interface or array of interfaces this interface inherits from.
+   
+   * - members
+     - Map
+     - Map of members of the interface.
+
+   * - statics
+     - Map
+     - Map of statics of the interface. The statics will not get copied into the target class. This is the same behavior as statics in mixins.
+
+   * - properties
+     - Map
+     - Map of properties and their definitions.
+   
+   * - events
+     - Map
+     - Map of event names and the corresponding event class name.
+
+References
+----------
+
+* :doc:`interface_quickref` - a syntax quick reference for interfaces
+* `API Documentation for Interface <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Interface>`_
+
+  
