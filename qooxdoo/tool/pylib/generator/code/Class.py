@@ -417,7 +417,7 @@ class Class(Resource):
     ##
     # analyze a class AST for dependencies (compiler hints not treated here)
     # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
-    # the "variants" param is only to support getForeignDeps()!
+    # the "variants" param is only to support getTransitiveDeps()!
     #
     # i tried an iterative version once, wrapping the main function body into a
     # loop over treeutil.nodeIteratorNonRec(); surprisingly, it seem slightly
@@ -453,13 +453,14 @@ class Class(Resource):
 
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, self.id, className):
+                    depsItem.needsRecursion = True
                     #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
                     console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
                     console.indent()
-                    # getForeignDeps is mutual recursive calling into the current
+                    # getTransitiveDeps is mutual recursive calling into the current
                     # function, but only does so with inFunction=True, so this
                     # branch is never hit through the recursive call
-                    ldeps = self.getForeignDeps(depsItem, variants)
+                    ldeps = self.getTransitiveDeps(depsItem, variants)
                     #for x in ldeps:
                     #    if x not in loadtime:
                     #        print "  adding %s#%s" % (x.name, x.attribute)
@@ -653,9 +654,9 @@ class Class(Resource):
     #   - add defining class to dependencies (class symbol is required for inheritance)
     #   - recurse on dependencies of defining class#method, adding them to the current dependencies
     #
-    # currently only a thin wrapper around its recursive sibling, getForeignDepsR
+    # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
-    def getForeignDeps(self, depsItem, variants):
+    def getTransitiveDeps(self, depsItem, variants):
 
         ##
         # find the class the given <methodId> is defined in; start with the
@@ -737,7 +738,7 @@ class Class(Resource):
         # returns a set of pairs each representing a signature (classId,
         # methodId)
 
-        def getForeignDepsR(dependencyItem, variants, totalDeps):
+        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
             # We don't add the in-param to the global result
             classId = dependencyItem.name
             methodId= dependencyItem.attribute
@@ -785,7 +786,7 @@ class Class(Resource):
                     if resultAdd(depsItem, localDeps):
                         # Recurse dependencies
                         assert depsItem.name in self._classesObj
-                        downstreamDeps = getForeignDepsR(depsItem, variants, totalDeps.union(localDeps))
+                        downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
                         localDeps.update(downstreamDeps)
 
             # Cache update
@@ -798,46 +799,136 @@ class Class(Resource):
         # -- Main --------------------------------------------------------------
 
         checkset = set()
-        deps = getForeignDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
+        deps = getTransitiveDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
 
         return deps
+
+
+    # -------------------------------------------------------------------------
+    # New Interface
+    # -------------------------------------------------------------------------
+
+    def dependencies1(self, variants):
+
+        ##
+        # extract load deps from ClassDependencies obj
+        def getLoadDeps(clsDepsObj):
+            result = set(clsDepsObj.data['require'])
+            if not "auto-require" in clsDepsObj.data['ignore']:
+                for dep in clsDepsObj.dependencyIterator():
+                    if dep.isLoadDep:
+                        if dep in clsDepsObj.data['optional']:
+                            pass
+                        elif dep in clsDepsObj.data['require']:
+                            console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
+                        else:
+                            result.add(dep)
+            return result
+
+        ##
+        # extract run deps from ClassDependencies obj
+        def getRunDeps(clsDepsObj, loadDeps=[]):
+            result = set(clsDepsObj.data ['use'])
+            if not "auto-use" in clsDepsObj.data ['ignore']:
+                for dep in clsDepsObj.dependencyIterator ():
+                    if not dep.isLoadDep:
+                        if dep in clsDepsObj.data ['optional']:
+                            pass
+                        elif dep in loadDeps:
+                            pass
+                        elif dep in clsDepsObj.data ['use']:
+                            console.warn ("%s: #use(%s) is auto-detected" % (self.id, dep.name))
+                        else:
+                            result.add(dep)
+            return result
+
+
+        # get shallow dependencies
+        shallowDeps, cached = self.shallowDependencies(variants)
+
+        loadDeps = getLoadDeps (shallowDeps)
+        runDeps  = getRunDeps  (shallowDeps, loadDeps)
+
+        # check if we have load deps that require recursion
+        for dep in loadDeps.copy():
+            if dep.needsRecursion:
+                recdeps = self.getTransitiveDeps1(dep)
+                loadDeps.update(recdeps)
+
+        mydeps = {
+            "load"    : loadDeps,
+            "run"     : runDeps,
+            "ignore"  : shallowDeps.data['ignore']
+        }
+        return mydeps, cached
 
 
     ##
     # make use of a .dependencies1() method that caches per file, and on
     # individual class features
-    # cache object {clazz.path}-{variants}:
-    # - file: [<DepItem:qx.Class#define>, #require, #use, ... <other top-level symbols>]
-    # - extend, implement, include: [<depItem1>, ...]
-    # - static: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
-    # - member: { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
-    # - defer:  [<dep1>,...]
-    def getForeignDeps1(self, depsItem, variants):
-        def getForeignDepsR(depsItem, variants, totalDeps):
+    def getTransitiveDeps1(self, depsItem, variants):
+
+        def getTransitiveDepsR(depsItem, variants, totalDeps):
+            # We don't add the in-param to the global result
+            classId = dependencyItem.name
+            methodId= dependencyItem.attribute
+
+            console.debug("%s#%s dependencies:" % (classId, methodId))
+            console.indent()
+
+            # Calculate deps
+            mydeps = set()
+
+            # find the defining class
+            defClassId, attribNode = findClassForMethod(classId, methodId, variants) # TODO: I don't need the attribNode here
+
+            # lookup error
+            if not defClassId:
+                console.warn("Skipping unknown class dependency: %s#%s" % (classId, methodId))
+                console.outdent()
+                return mydeps
             
-            for depsItem in deps_rt:
-                dclassid = depsItem.name
-                dclassobj= self._classesObj[dclassid]
-                ddeps = dclassobj.dependencies()
-                methoddeps = lookup_methoddeps(depsItem.attribute, ddeps)
-                for deps in methoddeps:
-                    downstream = getForeignDepsR(deps, variants)
-                    mydeps.update(downstream)
+            defDepsItem = DependencyItem(defClassId, methodId, classId)
+            # method of super class/mixin
+            if defClassId != classId:
+                resultAdd(defDepsItem, mydeps)
+
+            # Get the method's immediate deps
+            if isinstance(attribNode, Node):
+                defClassObj = self._classesObj [defClassId]
+                shallowDeps = defClassObj.shallowdeps()
+
+                methodDeps  = shallowDeps.getAttributeDeps(methodId)
+
+                for depsItem in methodDeps:
+                    rdeps = getTransitiveDepsR(depsItem, variants)
+                    mydeps.update(rdeps)
+
+            console.outdent()
+
+            return mydeps
+
+        # -- Main --------------------------------------------------------------
+
+        checkset = set()
+        deps = getTransitiveDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
+
+        return deps
+
 
 
     ##
     # Create a ClassDependencies() object for this class
     def shallowDependencies(self, variants):
+
         ##
         # get deps from meta info and class code
         def buildShallowDeps(variants):
 
             classDeps = ClassDependencies()
-            load   = []
-            run    = []
-            ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in DefaultIgnoredNamesDynamic]
+            depsData  = classDeps.data
 
-            classDeps.data['ignore'] = ignore
+            depsData['ignore'] = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in DefaultIgnoredNamesDynamic]
 
             # Read meta data
             meta         = self.getHints()
@@ -847,49 +938,13 @@ class Class(Resource):
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
             # Process meta data
-            load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
-            run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
-            ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
+            depsData['require'].extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
+            depsData['use']    .extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
+            depsData['ignore'] .extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
 
             # Read source tree data
             analyzeNodeDeps (self.tree(variants), classDeps)
             
-            # Process source tree data
-            #if not "auto-require" in metaIgnore:
-            #    for dep in treeLoad:
-            #        item = dep.name
-            #        if item in metaOptional:
-            #            pass
-            #        elif item in metaLoad:
-            #            console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
-            #        else:
-            #            # force uniqueness on the class name
-            #            if item not in (x.name for x in load):
-            #                load.append(dep)
-
-            #if not "auto-use" in metaIgnore:
-            #    for dep in treeRun:
-            #        item = dep.name
-            #        if item in metaOptional:
-            #            pass
-            #        elif item in (x.name for x in load):
-            #            pass
-            #        elif item in metaRun:
-            #            console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
-            #        else:
-            #            # force uniqueness on the class name
-            #            if item not in (x.name for x in run):
-            #                run.append(dep)
-
-            console.outdent()
-
-            # Build data structure
-            #deps = {
-            #    "load"   : load,
-            #    "run"    : run,
-            #    "ignore" : ignore,
-            #}
-
             return classDeps
 
 
@@ -951,13 +1006,15 @@ class Class(Resource):
         classVariants     = self.classVariants()
         relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
         cacheId           = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
+        cached            = True
 
         classDeps = cache.read(cacheId, self.path)
         if classDeps == None:
+            cached    = False
             classDeps = buildShallowDeps(variants)
             cache.write(cacheId, classDeps)
 
-        return classDeps
+        return classDeps, cached
 
 
     ##
@@ -1308,14 +1365,15 @@ class Class(Resource):
 
 
 class DependencyItem(object):
-    __slots__ = ('name', 'attribute', 'requestor', 'line', 'inFunction')
-    def __init__(self, name, attribute, requestor, line=-1, inFunction=False):
-        self.name = name            # "qx.Class" [dependency to(class)]
+    #__slots__ = ('name', 'attribute', 'requestor', 'line', 'inFunction')
+    def __init__(self, name, attribute, requestor, line=-1, isLoadDep=False):
+        self.name           = name       # "qx.Class" [dependency to (class)]
         assert isinstance(name, types.StringTypes)
-        self.attribute = attribute  # "define"   [dependency to(attribute)]
-        self.requestor = requestor  # "gui.Application" [the one depending on this item]
-        self.line = line            # 147        [source line in dependent's file]
-        self.inFunction = inFunction  # True     [load or run dependency]
+        self.attribute      = attribute  # "define"   [dependency to (attribute)]
+        self.requestor      = requestor  # "gui.Application" [the one depending on this item]
+        self.line           = line       # 147        [source line in dependent's file]
+        self.isLoadDep      = isLoadDep    # True       [load or run dependency]
+        self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute
     def __str__(self):
@@ -1338,6 +1396,7 @@ class ClassMap(object):
             'include'   : [],
             'construct' : [],
             'statics'   : {},  # { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
+            'properties': {},
             'members'   : {},  # { foo1 : [<dep1>,...], foo2 : [<dep2>,...] }
             'settings'  : [],
             'variants'  : [],
@@ -1363,6 +1422,38 @@ class ClassDependencies(object):
             }
         return
 
+    ##
+    # only iterates over the 'classes'
+    def dependencyIterator(self):
+        for classid, classMap in self.data['classes'].items():
+            for attrib in classMap:
+                if isinstance(classMap[attrib], types.ListType):    # .defer
+                    for dep in classMap[attrib]:
+                        yield dep
+                elif isinstance(classMap[attrib], types.DictType):  # .statics, .members, ...
+                    for subattrib in classMap[attrib]:
+                        for dep in classMap[attrib][subattrib]:     # e.g. methods
+                            yield dep
+
+    def getAttributeDeps(self, attrib):  # attrib="qx.Class#define"
+        res  = None
+        data = self.data
+        # top level
+        if attrib.find('#')== -1:
+            res = data[attrib]
+        # class map
+        else:
+            classId, attribId = attrib.split('#', 1)
+            data = data['classes'][classId]
+            if attribId in data:
+                res = data[attribId]
+            else:
+                for submap in ('statics', 'members', 'properties'):
+                    if attribId in data[submap]:
+                        res = data[submap][attribId]
+                        break
+        return res
+        
 
 # -- temp. module helper functions ---------------------------------------------
 
