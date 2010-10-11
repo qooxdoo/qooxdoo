@@ -83,7 +83,7 @@ qx.Class.define("qx.bom.Input",
      *   and <code>textarea</code>
      * @param attributes {Map} Map of attributes to apply
      * @param win {Window} Window to create the element for
-     * @return {Element} The created iframe node
+     * @return {Element} The created input node
      */
     create : function(type, attributes, win)
     {
