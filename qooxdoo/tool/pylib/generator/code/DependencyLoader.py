@@ -300,18 +300,16 @@ class DependencyLoader(object):
 
             # process loadtime requirements
             for dep in deps["load"]:
-                item = dep.name
-                if item in available and not item in result:
-                    if item in path:
-                        other, _ = self.getCombinedDeps(item, variants)
-                        self._console.warn("Detected circular dependency between: %s and %s" % (classId, item))
+                dep_name = dep.name
+                if dep_name in available and not dep_name in result:
+                    if dep_name in path:
+                        self._console.warn("Detected circular dependency between: %s and %s" % (classId, dep_name))
                         self._console.indent()
-                        self._console.debug("%s depends on: %s" % (classId, ", ".join(map(str, deps["load"]))))
-                        self._console.debug("%s depends on: %s" % (item, ", ".join(map(str, other["load"]))))
+                        self._console.debug("currently explored dependency path: %r" % path)
                         self._console.outdent()
                         raise RuntimeError("Circular class dependencies")
                     else:
-                        sortClassesRecurser(item, available, variants, result, path)
+                        sortClassesRecurser(dep_name, available, variants, result, path)
 
             if not classId in result:
                 # remove element from path

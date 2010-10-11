@@ -814,7 +814,7 @@ class Class(Resource):
         # extract load deps from ClassDependencies obj
         def getLoadDeps(clsDepsObj):
             result = set(clsDepsObj.data['require'])
-            if not "auto-require" in clsDepsObj.data['ignore']:
+            if not "auto-require" in (x.name for x in clsDepsObj.data['ignore']):
                 for dep in clsDepsObj.dependencyIterator():
                     if dep.isLoadDep:
                         if dep in clsDepsObj.data['optional']:
@@ -829,7 +829,7 @@ class Class(Resource):
         # extract run deps from ClassDependencies obj
         def getRunDeps(clsDepsObj, loadDeps=[]):
             result = set(clsDepsObj.data ['use'])
-            if not "auto-use" in clsDepsObj.data ['ignore']:
+            if not "auto-use" in (x.name for x in clsDepsObj.data ['ignore']):
                 for dep in clsDepsObj.dependencyIterator ():
                     if not dep.isLoadDep:
                         if dep in clsDepsObj.data ['optional']:
@@ -953,9 +953,14 @@ class Class(Resource):
         def analyzeNodeDeps(node, fileDeps):
 
             # class deps
-            isQxDefine, classId = treeutil.isQxDefine(node)
+            isQxDefine, classId, definingCall = treeutil.isQxDefineParent(node)
             if isQxDefine:
-                classMap = treeutil.getClassMap(node.parent.parent)  # this is what getClassMap expects
+                # add qx.Class|...#define to requires
+                definingId = definingCall.split(".define")[0]
+                depsItem = DependencyItem(definingId, "define", classId, node.get('line', -1), True )
+                fileDeps.data['require'].append(depsItem)
+                # attach ClassMap for this class definition
+                classMap = treeutil.getClassMap(node)  # this is what getClassMap expects
                 classDeps = analyzeClassMap(classMap)
                 fileDeps.data['classes'][classId] = classDeps  # classDeps = ClassMap()
                 return
@@ -993,6 +998,9 @@ class Class(Resource):
 
 
         def getNodeDeps(node):
+            # make sure we don't dive into class maps, which is handled upstream
+            if treeutil.isQxDefine(node)[0]:
+                return []
             ltime = rtime = []  # distinction is in the depsItems that populate this array
             self._analyzeClassDepsNode(node, ltime, rtime, True, variants) # we force inFunction, to not track recursive deps
             return ltime
@@ -1425,7 +1433,8 @@ class ClassDependencies(object):
     ##
     # only iterates over the 'classes'
     def dependencyIterator(self):
-        for classid, classMap in self.data['classes'].items():
+        for classid, classMapObj in self.data['classes'].items():
+            classMap = classMapObj.data
             for attrib in classMap:
                 if isinstance(classMap[attrib], types.ListType):    # .defer
                     for dep in classMap[attrib]:

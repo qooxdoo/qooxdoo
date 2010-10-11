@@ -50,21 +50,41 @@ def findQxDefineR(rootNode):
 ##
 # Checks if the given node is a qx.*.define function invocation
 
+DefiningClasses = "qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
+
 def isQxDefine(node):
     if node.type == "variable":
         try:
             variableName = (assembleVariable(node))[0]
         except tree.NodeAccessException:
-            return False, None
+            return False, None, ""
 
-        if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define", "qx.Theme.define"]:
+        if variableName in [x+".define" for x in DefiningClasses]:
             if node.hasParentContext("call/operand"):
                 className = selectNode(node, "../../params/1")
                 if className and className.type == "constant":
                     className = className.get("value", None)
-                return True, className
+                return True, className, variableName
 
-    return False, None
+    return False, None, ""
+
+
+def isQxDefineParent(node):
+    if node.type == "call":
+        funcname = selectNode(node, "operand/variable")
+        try:
+            variableName = assembleVariable(funcname)[0]
+        except tree.NodeAccessException:
+            return False, None, ""
+
+        if variableName in [x+".define" for x in DefiningClasses]:
+            className = selectNode(node, "params/1")
+            if className and className.type == "constant":
+                className = className.get("value", None)
+            return True, className, variableName
+
+    return False, None, ""
+
         
         
 ##
