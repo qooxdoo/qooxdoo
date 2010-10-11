@@ -408,6 +408,7 @@ class Class(Resource):
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
                 or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
+                # what about static vars, "a.b.c.FOO"?!
             )
            ):
             return True
@@ -424,7 +425,9 @@ class Class(Resource):
     # slower than the recursive version on first measurements; also, it still
     # needed a recursive call when coming across a 'defer' node, and i'm not
     # sure how to handle this sub-recursion when the main body is an iteration.
-    def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants):
+    # TODO:
+    # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
+    def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants, recurse=True):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
@@ -454,18 +457,19 @@ class Class(Resource):
                 # an attempt to fix static initializers (bug#1455)
                 if not inFunction and self.followCallDeps(node, self.id, className):
                     depsItem.needsRecursion = True
-                    #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
-                    console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
-                    console.indent()
-                    # getTransitiveDeps is mutual recursive calling into the current
-                    # function, but only does so with inFunction=True, so this
-                    # branch is never hit through the recursive call
-                    ldeps = self.getTransitiveDeps(depsItem, variants)
-                    #for x in ldeps:
-                    #    if x not in loadtime:
-                    #        print "  adding %s#%s" % (x.name, x.attribute)
-                    loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                    console.outdent()
+                    if recurse:
+                        #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
+                        console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
+                        console.indent()
+                        # getTransitiveDeps is mutual recursive calling into the current
+                        # function, but only does so with inFunction=True, so this
+                        # branch is never hit through the recursive call
+                        ldeps = self.getTransitiveDeps(depsItem, variants)
+                        #for x in ldeps:
+                        #    if x not in loadtime:
+                        #        print "  adding %s#%s" % (x.name, x.attribute)
+                        loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
+                        console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
@@ -943,14 +947,14 @@ class Class(Resource):
             depsData['ignore'] .extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
 
             # Read source tree data
-            analyzeNodeDeps (self.tree(variants), classDeps)
+            analyzeNodeDeps (self.tree(variants), classDeps, False)
             
             return classDeps
 
 
         ##
         # File-level node recursor
-        def analyzeNodeDeps(node, fileDeps):
+        def analyzeNodeDeps(node, fileDeps, inFunction):
 
             # class deps
             isQxDefine, classId, definingCall = treeutil.isQxDefineParent(node)
@@ -967,12 +971,16 @@ class Class(Resource):
 
             # top-level deps
             elif node.type == "variable":
-                nodeDeps = getNodeDeps(node)
-                fileDeps.data['require'].extend(nodeDeps)
+                nodeDeps = getNodeDeps(node, inFunction)
+                field = 'use' if inFunction else 'require'
+                fileDeps.data[field].extend(nodeDeps)
 
+            elif node.type == "body" and node.parent.type == "function":
+                inFunction = True
+                
             if node.hasChildren():
                 for child in node.children:
-                    analyzeNodeDeps (child, fileDeps)
+                    analyzeNodeDeps (child, fileDeps, inFunction)
 
             return
 
@@ -980,29 +988,31 @@ class Class(Resource):
         ##
         # Class-level node recursor
         def analyzeClassMap(classMap):
+            def processValueNode(node):
+                # this is actually better than the checks from followCallDeps()
+                # TODO: recursive deps: every call that is not inFunction!?
+                inFunction = True if node.type == "function" else False
+                nodedeps = getNodeDeps (node, inFunction)
+                return nodedeps
+                
             classMapObj = ClassMap()
             
             for tkey in classMap:
                 if isinstance(classMap[tkey], types.DictType):
                     classMapObj.data[tkey] = {}
                     for key in classMap[tkey]:
-                        nodeDeps = getNodeDeps (classMap[tkey][key])
-                        classMapObj.data[tkey][key] = nodeDeps
+                        classMapObj.data[tkey][key] = processValueNode(classMap[tkey][key])
                     
                 elif isinstance(classMap[tkey], Node):
-                    nodeDeps = getNodeDeps (classMap[tkey])
-                    classMapObj.data[tkey] = nodeDeps
+                    classMapObj.data[tkey] = processValueNode(classMap[tkey])
 
             return classMapObj
 
 
 
-        def getNodeDeps(node):
-            # make sure we don't dive into class maps, which is handled upstream
-            if treeutil.isQxDefine(node)[0]:
-                return []
+        def getNodeDeps(node, inFunction=True):
             ltime = rtime = []  # distinction is in the depsItems that populate this array
-            self._analyzeClassDepsNode(node, ltime, rtime, True, variants) # we force inFunction, to not track recursive deps
+            self._analyzeClassDepsNode(node, ltime, rtime, inFunction, variants, recurse=False)
             return ltime
             
             
