@@ -84,7 +84,7 @@ For the case ``border-width``: One image says more than thousand words :)
 
 .. |groupbox_clipping.png| image:: groupbox_clipping.png
 
-The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4.
+The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4. Differing border width values for each of the four sides are also supported. In that case, the value for border-width must be an array containing the four values in this order: top, right, bottom, left.
 
 .. note::
 
