@@ -922,7 +922,6 @@ var require;
      * of the prefix (if it exists) and the name.
      */
     req.splitPrefix = function (name, baseName) {
-        console.log("NAME" + name);
         if (name == undefined) debugger;
         var index = name.indexOf("!"), prefix = null;
         if (index !== -1) {
