@@ -25,6 +25,7 @@
 
 import os, sys, re, types, copy
 import codecs, optparse, functools
+from operator import attrgetter
 
 from misc                           import util, filetool
 from ecmascript                     import compiler
@@ -450,7 +451,7 @@ class Class(Resource):
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
                         classAttribute = 'construct'
-                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1))
+                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), isLoadDep=not inFunction)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 self.addDep(depsItem, inFunction, runtime, loadtime)
 
@@ -648,6 +649,77 @@ class Class(Resource):
     # -- Method Dependencies Support
 
     ##
+    # find the class the given <methodId> is defined in; start with the
+    # given class, inspecting its class map to find the method; if
+    # unsuccessful, recurse on the potential super class and mixins; return
+    # the defining class name, and the tree node defining the method
+    # (actually, the map value of the method name key, whatever that is)
+    #
+    # @out <string> class that defines method
+    # @out <tree>   tree node value of methodId in the class map
+
+    def findClassForMethod(self, clazzId, methodId, variants):
+
+        def classHasOwnMethod(classAttribs, methId):
+            candidates = {}
+            candidates.update(classAttribs.get("members",{}))
+            candidates.update(classAttribs.get("statics",{}))
+            if "construct" in classAttribs:
+                candidates.update(dict((("construct", classAttribs.get("construct")),)))
+            if methId in candidates.keys():
+                return candidates[methId]  # return the definition of the attribute
+            else:
+                return None
+
+        # get the method name
+        if  methodId == u'':  # corner case: bare class reference outside "new ..."
+            #methodId = "construct"
+            return clazzId, methodId
+        elif methodId == "getInstance": # corner case: singletons get this from qx.Class
+            clazzId = "qx.Class"
+        # TODO: getter/setter are also not statically available!
+        # handle .call() ?!
+        if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+            return None, None
+
+        tree = self._classesObj[clazzId].tree (variants)
+        clazz = treeutil.findQxDefine (tree)
+        classAttribs = treeutil.getClassMap (clazz)
+        keyval = classHasOwnMethod (classAttribs, methodId)
+        if keyval:
+            return clazzId, keyval
+
+        # inspect inheritance/mixins
+        parents = []
+        extendVal = classAttribs.get('extend', None)
+        if extendVal:
+            extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
+            parents.extend(extendVal)
+        includeVal = classAttribs.get('include', None)
+        if includeVal:
+            includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+            parents.extend(includeVal)
+
+        # go through all ancestors
+        for parClass in parents:
+            rclass, keyval = self.findClassForMethod(parClass, methodId, variants)
+            if rclass:
+                return rclass, keyval
+        return None, None
+
+
+    ##
+    # add to global result set sanely
+    def resultAdd(self, depsItem, localDeps):
+        # cyclic check
+        if depsItem in (localDeps):
+            console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
+            return False
+        localDeps.add(depsItem)
+        return True
+
+
+    ##
     # Find all run time dependencies of a given method, recursively.
     #
     # Outline:
@@ -661,77 +733,6 @@ class Class(Resource):
     # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
     def getTransitiveDeps(self, depsItem, variants):
-
-        ##
-        # find the class the given <methodId> is defined in; start with the
-        # given class, inspecting its class map to find the method; if
-        # unsuccessful, recurse on the potential super class and mixins; return
-        # the defining class name, and the tree node defining the method
-        # (actually, the map value of the method name key, whatever that is)
-        #
-        # @out <string> class that defines method
-        # @out <tree>   tree node value of methodId in the class map
-
-        def findClassForMethod(clazzId, methodId, variants):
-
-            def classHasOwnMethod(classAttribs, methId):
-                candidates = {}
-                candidates.update(classAttribs.get("members",{}))
-                candidates.update(classAttribs.get("statics",{}))
-                if "construct" in classAttribs:
-                    candidates.update(dict((("construct", classAttribs.get("construct")),)))
-                if methId in candidates.keys():
-                    return candidates[methId]  # return the definition of the attribute
-                else:
-                    return None
-
-            # get the method name
-            if  methodId == u'':  # corner case: bare class reference outside "new ..."
-                #methodId = "construct"
-                return clazzId, methodId
-            elif methodId == "getInstance": # corner case: singletons get this from qx.Class
-                clazzId = "qx.Class"
-            # TODO: getter/setter are also not statically available!
-            # handle .call() ?!
-            if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
-                return None, None
-
-            tree = self._classesObj[clazzId].tree (variants)
-            clazz = treeutil.findQxDefine (tree)
-            classAttribs = treeutil.getClassMap (clazz)
-            keyval = classHasOwnMethod (classAttribs, methodId)
-            if keyval:
-                return clazzId, keyval
-
-            # inspect inheritance/mixins
-            parents = []
-            extendVal = classAttribs.get('extend', None)
-            if extendVal:
-                extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
-                parents.extend(extendVal)
-            includeVal = classAttribs.get('include', None)
-            if includeVal:
-                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
-                parents.extend(includeVal)
-
-            # go through all ancestors
-            for parClass in parents:
-                rclass, keyval = findClassForMethod(parClass, methodId, variants)
-                if rclass:
-                    return rclass, keyval
-            return None, None
-
-
-        ##
-        # add to global result set sanely
-        def resultAdd(depsItem, localDeps):
-            # cyclic check
-            if depsItem in (localDeps):
-                console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
-                return False
-            localDeps.add(depsItem)
-            return True
-
 
         ##
         # find dependencies of a method <methodId> that has been referenced from
@@ -764,7 +765,7 @@ class Class(Resource):
             localDeps = set()
 
             # find the defining class
-            defClassId, attribNode = findClassForMethod(classId, methodId, variants)
+            defClassId, attribNode = self.findClassForMethod(classId, methodId, variants)
 
             # lookup error
             if not defClassId:
@@ -775,7 +776,7 @@ class Class(Resource):
             defDepsItem = DependencyItem(defClassId, methodId, classId)
             # method of super class/mixin
             if defClassId != classId:
-                resultAdd(defDepsItem, localDeps)
+                self.resultAdd(defDepsItem, localDeps)
 
             if isinstance(attribNode, Node):
                 # Get the method's immediate deps
@@ -787,7 +788,7 @@ class Class(Resource):
                 assert not deps_lt
 
                 for depsItem in deps_rt:
-                    if resultAdd(depsItem, localDeps):
+                    if self.resultAdd(depsItem, localDeps):
                         # Recurse dependencies
                         assert depsItem.name in self._classesObj
                         downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
@@ -812,7 +813,7 @@ class Class(Resource):
     # New Interface
     # -------------------------------------------------------------------------
 
-    def dependencies1(self, variants):
+    def dependencies2(self, variants):
 
         ##
         # extract load deps from ClassDependencies obj
@@ -826,7 +827,9 @@ class Class(Resource):
                         elif dep in clsDepsObj.data['require']:
                             console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
                         else:
-                            result.add(dep)
+                            # class projection
+                            if dep.name not in map(attrgetter("name"),result):
+                                result.add(dep)
             return result
 
         ##
@@ -835,15 +838,20 @@ class Class(Resource):
             result = set(clsDepsObj.data ['use'])
             if not "auto-use" in (x.name for x in clsDepsObj.data ['ignore']):
                 for dep in clsDepsObj.dependencyIterator ():
+                    if self.id == 'gui.Application':
+                        #import pydb; pydb.debugger()
+                        pass
                     if not dep.isLoadDep:
                         if dep in clsDepsObj.data ['optional']:
                             pass
-                        elif dep in loadDeps:
+                        elif dep.name in map(attrgetter("name"),loadDeps):
                             pass
                         elif dep in clsDepsObj.data ['use']:
                             console.warn ("%s: #use(%s) is auto-detected" % (self.id, dep.name))
                         else:
-                            result.add(dep)
+                            # class projection
+                            if dep.name not in map(attrgetter("name"),result):
+                                result.add(dep)
             return result
 
 
@@ -856,7 +864,7 @@ class Class(Resource):
         # check if we have load deps that require recursion
         for dep in loadDeps.copy():
             if dep.needsRecursion:
-                recdeps = self.getTransitiveDeps1(dep)
+                recdeps = self.getTransitiveDeps1(dep, variants)
                 loadDeps.update(recdeps)
 
         mydeps = {
@@ -872,8 +880,7 @@ class Class(Resource):
     # individual class features
     def getTransitiveDeps1(self, depsItem, variants):
 
-        def getTransitiveDepsR(depsItem, variants, totalDeps):
-            # We don't add the in-param to the global result
+        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
             classId = dependencyItem.name
             methodId= dependencyItem.attribute
 
@@ -881,10 +888,15 @@ class Class(Resource):
             console.indent()
 
             # Calculate deps
-            mydeps = set()
+            dependItem = copy.copy(dependencyItem)  # make a copy so we can modify the object
+            dependItem.isLoadDep = True     # we're only called for "lifted" load dependencies
+            mydeps = set((dependItem,))     # add the start node, as we don't know the current recursion depth
+            # by requiring this class, its static load dependencies will be included when sorting classes
+            # but for now to find more method dependencies, we need to look at the specific method
+            # implementation; therefore:
 
             # find the defining class
-            defClassId, attribNode = findClassForMethod(classId, methodId, variants) # TODO: I don't need the attribNode here
+            defClassId, attribNode = self.findClassForMethod(classId, methodId, variants) # TODO: I don't need the attribNode here
 
             # lookup error
             if not defClassId:
@@ -892,20 +904,21 @@ class Class(Resource):
                 console.outdent()
                 return mydeps
             
-            defDepsItem = DependencyItem(defClassId, methodId, classId)
-            # method of super class/mixin
-            if defClassId != classId:
-                resultAdd(defDepsItem, mydeps)
+            if defClassId != classId:  # method of super class/mixin
+                # a temp. helper depsItem, to follow its dependencies
+                defDepsItem = DependencyItem(defClassId, methodId, classId, isLoadDep=True)
+            else:
+                defDepsItem = dependItem  # take the current one
 
             # Get the method's immediate deps
             if isinstance(attribNode, Node):
                 defClassObj = self._classesObj [defClassId]
-                shallowDeps = defClassObj.shallowdeps()
+                shallowDeps, _ = defClassObj.shallowDependencies(variants)
 
-                methodDeps  = shallowDeps.getAttributeDeps(methodId)
+                methodDeps  = shallowDeps.getAttributeDeps(defClassId + '#' + methodId)
 
                 for depsItem in methodDeps:
-                    rdeps = getTransitiveDepsR(depsItem, variants)
+                    rdeps = getTransitiveDepsR(depsItem, variants, totalDeps)
                     mydeps.update(rdeps)
 
             console.outdent()
@@ -988,10 +1001,15 @@ class Class(Resource):
         ##
         # Class-level node recursor
         def analyzeClassMap(classMap):
-            def processValueNode(node):
+            def processValueNode(valuenode):
                 # this is actually better than the checks from followCallDeps()
                 # TODO: recursive deps: every call that is not inFunction!?
+                if valuenode.type == 'value' and valuenode.hasChildren():
+                    node = valuenode.children[0] # 'function' nodes seem to be passed like this
+                else:
+                    node = valuenode
                 inFunction = True if node.type == "function" else False
+                if self.id == 'gui.Application': print inFunction                
                 nodedeps = getNodeDeps (node, inFunction)
                 return nodedeps
                 
@@ -1001,9 +1019,16 @@ class Class(Resource):
                 if isinstance(classMap[tkey], types.DictType):
                     classMapObj.data[tkey] = {}
                     for key in classMap[tkey]:
+                        if self.id == 'gui.Application':
+                            if tkey+key == "membersmain":
+                                #import pydb; pydb.debugger()
+                                pass
+                            print tkey+'#'+key, "inFunction:",
                         classMapObj.data[tkey][key] = processValueNode(classMap[tkey][key])
                     
                 elif isinstance(classMap[tkey], Node):
+                    if self.id == 'gui.Application':
+                        print tkey, "inFunction:",
                     classMapObj.data[tkey] = processValueNode(classMap[tkey])
 
             return classMapObj
@@ -1390,7 +1415,7 @@ class DependencyItem(object):
         self.attribute      = attribute  # "define"   [dependency to (attribute)]
         self.requestor      = requestor  # "gui.Application" [the one depending on this item]
         self.line           = line       # 147        [source line in dependent's file]
-        self.isLoadDep      = isLoadDep    # True       [load or run dependency]
+        self.isLoadDep      = isLoadDep  # True       [load or run dependency]
         self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute
@@ -1454,7 +1479,7 @@ class ClassDependencies(object):
                         for dep in classMap[attrib][subattrib]:     # e.g. methods
                             yield dep
 
-    def getAttributeDeps(self, attrib):  # attrib="qx.Class#define"
+    def getAttributeDeps(self, attrib):  # attrib="ignore", "qx.Class#define"
         res  = None
         data = self.data
         # top level
@@ -1463,7 +1488,7 @@ class ClassDependencies(object):
         # class map
         else:
             classId, attribId = attrib.split('#', 1)
-            data = data['classes'][classId]
+            data = data['classes'][classId].data
             if attribId in data:
                 res = data[attribId]
             else:
