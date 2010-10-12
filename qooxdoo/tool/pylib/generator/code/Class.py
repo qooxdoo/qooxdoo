@@ -405,7 +405,7 @@ class Class(Resource):
         if (className
             and className in self._classesObj  # we have a class id
             and className != fileId
-            #and self.context['jobconf'].get("dependencies/follow-static-initializers", False)
+            and self.context['jobconf'].get("dependencies/follow-static-initializers", False)
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
                 or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
@@ -818,13 +818,17 @@ class Class(Resource):
         ##
         # extract load deps from ClassDependencies obj
         def getLoadDeps(clsDepsObj):
-            result = set(clsDepsObj.data['require'])
-            if not "auto-require" in (x.name for x in clsDepsObj.data['ignore']):
+            result    = set(clsDepsObj.data['require'])
+            ignores   = map(attrgetter("name"), clsDepsObj.data['ignore'])
+            optionals = map(attrgetter("name"), clsDepsObj.data['optional'])
+            requires  = map(attrgetter("name"), clsDepsObj.data['require'])
+            uses      = map(attrgetter("name"), clsDepsObj.data['use'])
+            if not "auto-require" in ignores:
                 for dep in clsDepsObj.dependencyIterator():
                     if dep.isLoadDep:
-                        if dep in clsDepsObj.data['optional']:
+                        if dep.name in optionals:
                             pass
-                        elif dep in clsDepsObj.data['require']:
+                        elif dep.name in requires:
                             console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
                         else:
                             # class projection
@@ -832,9 +836,53 @@ class Class(Resource):
                                 result.add(dep)
             return result
 
+        def getDeps(clsDepsObj):
+            loaddeps  = set(clsDepsObj.data['require'])
+            rundeps   = set(clsDepsObj.data['use'])
+            ignores   = map(attrgetter("name"), clsDepsObj.data['ignore'])
+            optionals = map(attrgetter("name"), clsDepsObj.data['optional'])
+            requires  = map(attrgetter("name"), clsDepsObj.data['require'])
+            uses      = map(attrgetter("name"), clsDepsObj.data['use'])
+
+            auto_require = 'auto-require' in ignores
+            auto_use     = 'auto-use'     in ignores
+
+            if self.id == "qx.Bootstrap":
+                import pydb; pydb.debugger()
+
+            for dep in clsDepsObj.dependencyIterator():
+                if dep.isLoadDep:
+                    if not auto_require:
+                        if dep.name in optionals:
+                            pass
+                        elif dep.name in requires:
+                            console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
+                        else:
+                            # class projection
+                            if dep.name not in map(attrgetter("name"),loaddeps):
+                                loaddeps.add(dep)
+                else:  # not dep.isLoadDep
+                    if not auto_use:
+                        if dep.name in optionals:
+                            pass
+                        elif dep.name in uses:
+                            console.warn ("%s: #use(%s) is auto-detected" % (self.id, dep.name))
+                        else:
+                            # class projection
+                            if dep.name not in map(attrgetter("name"),rundeps):
+                                rundeps.add(dep)
+
+            # remove duplicates in rundeps
+            loaddepnames = map(attrgetter("name"),loaddeps)
+            for dep in rundeps.copy():
+                if dep.name in loaddepnames:
+                    rundeps.remove(dep)
+                
+            return loaddeps, rundeps
+
         ##
         # extract run deps from ClassDependencies obj
-        def getRunDeps(clsDepsObj, loadDeps=[]):
+        def getRunDeps(clsDepsObj):
             result = set(clsDepsObj.data ['use'])
             if not "auto-use" in (x.name for x in clsDepsObj.data ['ignore']):
                 for dep in clsDepsObj.dependencyIterator ():
@@ -858,12 +906,14 @@ class Class(Resource):
         # get shallow dependencies
         shallowDeps, cached = self.shallowDependencies(variants)
 
-        loadDeps = getLoadDeps (shallowDeps)
-        runDeps  = getRunDeps  (shallowDeps, loadDeps)
+        #loadDeps = getLoadDeps (shallowDeps)
+        #runDeps  = getRunDeps  (shallowDeps, loadDeps)
+        loadDeps, runDeps = getDeps (shallowDeps)
 
         # check if we have load deps that require recursion
         for dep in loadDeps.copy():
             if dep.needsRecursion:
+                continue
                 recdeps = self.getTransitiveDeps1(dep, variants)
                 loadDeps.update(recdeps)
 
