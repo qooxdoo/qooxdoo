@@ -80,6 +80,15 @@ qx.Class.define("qx.bom.client.Feature",
     /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
     CSS_POINTER_EVENTS : "pointerEvents" in document.documentElement.style,
 
+    /** {BOOLEAN} Whether the client supports XUL */
+    XUL : false,
+
+    /** {BOOLEAN} Whether the client supports the "text-overflow" CSS property */
+    CSS_TEXT_OVERFLOW : (
+      "textOverflow" in document.documentElement.style || 
+      "OTextOverflow" in document.documentElement.style
+    ),
+
     /**
      * {Boolean} Whether the browser supports CSS class lists
      *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
@@ -105,6 +114,13 @@ qx.Class.define("qx.bom.client.Feature",
 
       this.SVG = document.implementation && document.implementation.hasFeature && (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
       this.VML = qx.bom.client.Engine.MSHTML;
+      
+      try {
+        document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        this.XUL = true;
+      } catch (e) {
+        this.XUL = false;
+      }      
     },
 
 
