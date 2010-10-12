@@ -64,6 +64,42 @@ qx.Class.define("qx.bom.Element",
 
     __helperElement : {},
 
+    __allowMarkup : {},
+
+    /**
+     * Detects if the DOM support a <code>document.createElement</code> call with a 
+     * <code>String</code> as markup like:
+     * 
+     * <pre class="javascript">
+     * document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
+     * </pre>
+     *
+     * Element creation with markup is not standard compatible with Document Object Model (Core) Level 1, but
+     * Internet Explorer supports it. With an exception that IE9 in IE9 standard mode is standard compatible and
+     * doesn't support element creation with markup. 
+     *
+     * @param win {Window?} Window to check for
+     * @return {Boolean} <code>true</code> if the DOM supports it, <code>false</code> otherwise.
+     */
+    allowCreationWithMarkup : function(win) {
+      if (!win) {
+        win = window;
+      }
+
+      // key is needed to allow using different windows
+      var key = win.location.href;
+      if (qx.bom.Element.__allowMarkup[key] == undefined)
+      {
+        try {
+          win.document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
+          qx.bom.Element.__allowMarkup[key] = true;
+        } catch(e) {
+          qx.bom.Element.__allowMarkup[key] = false;
+        }
+      }
+
+      return qx.bom.Element.__allowMarkup[key];
+    },
 
     /**
      * Creates and returns an DOM helper element.
@@ -134,15 +170,9 @@ qx.Class.define("qx.bom.Element",
       // the element creation in a more complex way.
       if (attributesHtml != "")
       {
-        // Internet Explorer supports attribute within createElement()
-        // This is not standard, but a welcome addition here.
-        if (qx.bom.client.Engine.MSHTML)
-        {
+        if (qx.bom.Element.allowCreationWithMarkup(win)) {
           element = win.document.createElement("<" + name + " " + attributesHtml + ">");
         }
-
-        // Other browsers create an helper element to put some generated HTML
-        // into it and extract the interesting content via 'firstChild'
         else
         {
           var helper = qx.bom.Element.getHelperElement(win);
