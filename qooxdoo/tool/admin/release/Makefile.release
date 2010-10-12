@@ -41,7 +41,7 @@ CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2U
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 
-PUBLISH_HOST = qooxdoo@webtechfe-test01.schlund.de
+STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
@@ -260,9 +260,9 @@ build-docs: build-docs-html build-docs-pdf
 
 publish-docs:
 	@echo "  * Publishing HTML docs to staging host..."
-	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
 	@echo "  * Publishing PDF doc to staging host..."
-	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(PUBLISH_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
 
 check-docs: check-docs-html check-docs-pdf
 
@@ -313,47 +313,49 @@ publish-index:
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > temp/index.html
 	@echo "  * Syncing index.html..."
-	@$(CMD_SYNC_ONLINE) temp/index.html $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@$(CMD_SYNC_ONLINE) temp/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
 
 publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 	  echo "    - $$APPLICATION..."; \
-	  $(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+	  $(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 	done
 	@echo "  * Syncing components..."
 	@for APPLICATION in $(COMPONENTS); do \
 		if [ "$$APPLICATION" = "inspector" ]; then \
 			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing framework..."
-	@ssh $(PUBLISH_HOST) "$(CMD_DIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
+	@ssh $(STAGING_HOST) "$(CMD_DIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
 	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
 	  echo "    - $$APPLICATION..."; \
 		if [ "$$APPLICATION" = "api" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "test" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-build" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(PUBLISH_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 
 publish-production:
 	@echo "  * Pushing to production host..."
-	@ssh -A qooxdoo@webtechfe-test01.schlund.de /var/www/qooxdoo/bin/webtechfe01.mirror.sh
+	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh $(PUBLISH_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
+	@ssh $(STAGING_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
 
-publish: publish-check publish-backup publish-index publish-apps publish-docs publish-production
+publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
+
+publish: publish-staging publish-production
 
