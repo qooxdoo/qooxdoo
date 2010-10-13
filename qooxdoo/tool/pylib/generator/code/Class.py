@@ -268,7 +268,7 @@ class Class(Resource):
     # return all dependencies of class from its code (both meta hints as well
     # as source code)
 
-    def dependencies1(self, variantSet):
+    def dependencies(self, variantSet):
 
         ##
         # get deps from meta info and class code
@@ -808,7 +808,7 @@ class Class(Resource):
     # New Interface
     # -------------------------------------------------------------------------
 
-    def dependencies(self, variants):
+    def dependencies1(self, variants):
 
         def getDeps(clsDepsObj):
             loaddeps  = set(clsDepsObj.data['require'])
