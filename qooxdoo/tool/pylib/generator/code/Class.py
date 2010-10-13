@@ -301,9 +301,6 @@ class Class(Resource):
             (treeLoad, treeRun) = ([], [])  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeLoad, treeRun, inFunction=False, variants=variantSet)
 
-            #import pydb; pydb.debugger()
-            #self.shallowDependencies(variantSet)
-            
             # Process source tree data
             if not "auto-require" in metaIgnore:
                 for dep in treeLoad:
@@ -461,16 +458,12 @@ class Class(Resource):
                 if not inFunction and self.followCallDeps(node, self.id, className):
                     depsItem.needsRecursion = True
                     if recurse:
-                        #print "following %s#%s in %s(%s)" % (depsItem.name, depsItem.attribute, self.id, depsItem.line)
                         console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
                         console.indent()
                         # getTransitiveDeps is mutual recursive calling into the current
                         # function, but only does so with inFunction=True, so this
                         # branch is never hit through the recursive call
                         ldeps = self.getTransitiveDeps(depsItem, variants)
-                        #for x in ldeps:
-                        #    if x not in loadtime:
-                        #        print "  adding %s#%s" % (x.name, x.attribute)
                         loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
                         console.outdent()
 
@@ -817,50 +810,6 @@ class Class(Resource):
 
     def dependencies(self, variants):
 
-        ##
-        # extract load deps from ClassDependencies obj
-        def getLoadDeps(clsDepsObj):
-            result    = set(clsDepsObj.data['require'])
-            ignores   = map(attrgetter("name"), clsDepsObj.data['ignore'])
-            optionals = map(attrgetter("name"), clsDepsObj.data['optional'])
-            requires  = map(attrgetter("name"), clsDepsObj.data['require'])
-            uses      = map(attrgetter("name"), clsDepsObj.data['use'])
-            if not "auto-require" in ignores:
-                for dep in clsDepsObj.dependencyIterator():
-                    if dep.isLoadDep:
-                        if dep.name in optionals:
-                            pass
-                        elif dep.name in requires:
-                            console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
-                        else:
-                            # class projection
-                            if dep.name not in map(attrgetter("name"),result):
-                                result.add(dep)
-            return result
-
-        ##
-        # extract run deps from ClassDependencies obj
-        def getRunDeps(clsDepsObj):
-            result = set(clsDepsObj.data ['use'])
-            if not "auto-use" in (x.name for x in clsDepsObj.data ['ignore']):
-                for dep in clsDepsObj.dependencyIterator ():
-                    if self.id == 'gui.Application':
-                        #import pydb; pydb.debugger()
-                        pass
-                    if not dep.isLoadDep:
-                        if dep in clsDepsObj.data ['optional']:
-                            pass
-                        elif dep.name in map(attrgetter("name"),loadDeps):
-                            pass
-                        elif dep in clsDepsObj.data ['use']:
-                            console.warn ("%s: #use(%s) is auto-detected" % (self.id, dep.name))
-                        else:
-                            # class projection
-                            if dep.name not in map(attrgetter("name"),result):
-                                result.add(dep)
-            return result
-
-
         def getDeps(clsDepsObj):
             loaddeps  = set(clsDepsObj.data['require'])
             rundeps   = set(clsDepsObj.data['use'])
@@ -880,8 +829,6 @@ class Class(Resource):
                         elif dep.name in requires:
                             console.warn("%s: #require(%s) is auto-detected" % (self.id, dep.name))
                         else:
-                            # class projection
-                            #if dep.name not in map(attrgetter("name"),loaddeps):
                             loaddeps.add(dep)
                 else:  # not dep.isLoadDep
                     if not auto_use:
@@ -890,15 +837,7 @@ class Class(Resource):
                         elif dep.name in uses:
                             console.warn ("%s: #use(%s) is auto-detected" % (self.id, dep.name))
                         else:
-                            # class projection
-                            #if dep.name not in map(attrgetter("name"),rundeps):
                             rundeps.add(dep)
-
-            # remove duplicates in rundeps
-            #loaddepnames = map(attrgetter("name"),loaddeps)
-            #for dep in rundeps.copy():
-            #    if dep.name in loaddepnames:
-            #        rundeps.remove(dep)
                 
             return loaddeps, rundeps
 
@@ -908,8 +847,6 @@ class Class(Resource):
         # get shallow dependencies
         shallowDeps, cached = self.shallowDependencies(variants)
 
-        #loadDeps = getLoadDeps (shallowDeps)
-        #runDeps  = getRunDeps  (shallowDeps, loadDeps)
         loadDeps, runDeps = getDeps (shallowDeps)
 
         # check if we have load deps that require recursion
@@ -918,14 +855,6 @@ class Class(Resource):
                 #continue
                 recdeps = self.getTransitiveDeps1(dep, variants)
                 loadDeps.update(recdeps)
-
-                # manage loadDeps, runDeps
-                #for recdep in recdeps:
-                #    # potentially add   -- TODO: O(n^2)
-                #    if recdep.name not in map(attrgetter("name"),loadDeps):
-                #        loadDeps.add(recdep)
-                #        # potentially remove  -- TODO: O(n^2)
-                #        runDeps = set(x for x in runDeps if x.name != recdep.name)
 
         # manage loadDeps, runDeps (class projection etc.)
         def unique(depsSet):
@@ -1122,10 +1051,6 @@ class Class(Resource):
         relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
         cacheId           = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached            = True
-
-        if self.id == 'qx.xml.Document':
-            #import pydb; pydb.debugger()
-            pass
 
         classDeps = cache.read(cacheId, self.path)
         if classDeps == None:
