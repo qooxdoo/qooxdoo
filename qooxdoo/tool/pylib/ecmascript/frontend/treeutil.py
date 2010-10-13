@@ -69,9 +69,17 @@ def isQxDefine(node):
     return False, None, ""
 
 
+##
+# Alternative isQxDefine predicate that works directly on the 'call' node (so
+# the node is immediately usable for getClassMap()), and, on success, returns
+# more information (class name being defined (string), and function being used,
+# like 'qx.Class.define').
 def isQxDefineParent(node):
     if node.type == "call":
         funcname = selectNode(node, "operand/variable")
+        if funcname is None: # it's not a named function call
+            return False, None, ""
+
         try:
             variableName = assembleVariable(funcname)[0]
         except tree.NodeAccessException:
@@ -85,7 +93,20 @@ def isQxDefineParent(node):
 
     return False, None, ""
 
-        
+##
+# Copies tree.hasChildRecursive, but returns node
+def findChild(node, type):
+    if isinstance(type, types.StringTypes):
+        if node.type == type:
+            return node
+    elif isinstance(type, type.ListType):
+        if node.type in type:
+            return node
+
+    if node.hasChildren():
+        for child in node.children:
+            return findChild(child, type)
+    return None
         
 ##
 # Some nice short description of foo(); this can contain html and
