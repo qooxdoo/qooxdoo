@@ -15,7 +15,7 @@ Currently, it is just a list of notes:
   * Currently, we'd rather have a large test coverage with simple tests, than have sophisticated tests for only a few classes. The test sophistication level can then be increased individually step by step.
   * The **event** system should be black-box (API) testable, but there are currently only few tests written (?).
   * **io.Remote** could be tested with a suitable server backend running in the test environment
-  * The **DOM/BOM** layer should be black-box testable, but there are currently no tests written (?).
+  * The **DOM/BOM** layer is black-box testable and there is acceptable test coverage
   * The **layout** system should be black-box testable.
   * The core **Widget** class should be black-box testable.
   * Higher-level **GUI widgets** are difficult to black-box test, since they require user and GUI interaction (?). Selenium RC could be used here, but requires additional environment setup.
