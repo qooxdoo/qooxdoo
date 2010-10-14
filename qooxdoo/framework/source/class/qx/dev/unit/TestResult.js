@@ -124,7 +124,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       if (resume && !this.__timeout[test.getFullName()]) {
         this.__timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
-        this.__createError("failure", qxEx, test);
+        this._createError("failure", qxEx, test);
         return;
       }
 
@@ -152,7 +152,7 @@ qx.Class.define("qx.dev.unit.TestResult",
                previously, so we'll ignore them. */
           }
           var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
-          this.__createError("error", qxEx, test);
+          this._createError("error", qxEx, test);
           return;
         }
       }
@@ -191,12 +191,12 @@ qx.Class.define("qx.dev.unit.TestResult",
           try {
             test.tearDown();
           } catch(ex) {}
-          this.__createError("failure", ex, test);
+          this._createError("failure", ex, test);
         } else {
           try {
             test.tearDown();
           } catch(ex) {}
-          this.__createError("error", ex, test);
+          this._createError("error", ex, test);
         }
       }
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.dev.unit.TestResult",
           this.fireDataEvent("endTest", test);
         } catch(ex) {
           var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
-          this.__createError("error", qxEx, test);
+          this._createError("error", qxEx, test);
         }
       }
     },
@@ -221,7 +221,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param test {TestSuite|TestFunction} The test
      * @return {void}
      */
-    __createError : function(eventName, exception, test)
+    _createError : function(eventName, exception, test)
     {
       // WebKit and Opera
       var error =
