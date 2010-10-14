@@ -717,6 +717,52 @@ class Class(Resource):
                 return rclass, keyval
         return None, None
 
+    
+    def findClassForMethod1(self, clazzId, methodId, variants):
+
+        def classHasOwnMethod(classAttribs, methId):
+            candidates = {}
+            candidates.update(classAttribs.get("statics",{}))
+            #candidates.update(classAttribs.get("members",{}))  -- currently no member functions
+            if "construct" in classAttribs:
+                candidates.update(dict((("construct", classAttribs.get("construct")),)))
+            if methId in candidates.keys():
+                return methId
+            else:
+                return None
+
+        # get the method name
+        if  methodId == u'':  # corner case: bare class reference outside "new ..."
+            return clazzId
+        elif methodId == "getInstance": # corner case: singletons get this from qx.Class
+            clazzId = "qx.Class"
+        # TODO: getter/setter are also not statically available!
+        # handle .call() ?!
+        if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+            return None
+
+        shallDeps, _ = self._classesObj[clazzId].shallowDependencies(variants)
+        classAttribs = shallDeps.data['classes'][clazzId].data
+        if classHasOwnMethod(classAttribs, methodId):
+            return clazzId
+
+        # inspect inheritance/mixins
+        parents = []  # this will contain interesting depItems
+        extendVal = classAttribs['extend']
+        if extendVal:
+            parents.extend(extendVal)
+        includeVal = classAttribs['include']
+        if includeVal:
+            parents.extend(includeVal)
+
+        # go through all ancestors
+        for parClass in parents:
+            rclass = self.findClassForMethod1(parClass.name, methodId, variants)
+            if rclass:
+                return rclass
+        return None
+
+
 
     ##
     # add to global result set sanely
@@ -918,7 +964,8 @@ class Class(Resource):
             # implementation; therefore:
 
             # find the defining class
-            defClassId, attribNode = self.findClassForMethod(classId, methodId, variants) # TODO: I don't need the attribNode here
+            #defClassId, attribNode = self.findClassForMethod(classId, methodId, variants) # TODO: I don't need the attribNode here
+            defClassId = self.findClassForMethod1(classId, methodId, variants)
 
             # lookup error
             if not defClassId:
@@ -933,7 +980,8 @@ class Class(Resource):
                 defDepsItem = dependItem  # take the current one
 
             # Get the method's immediate deps
-            if isinstance(attribNode, Node):
+            #if isinstance(attribNode, Node):
+            if True:
                 defClassObj = self._classesObj [defClassId]
                 shallowDeps, _ = defClassObj.shallowDependencies(variants)
 
@@ -1496,7 +1544,7 @@ class ClassDependencies(object):
                             yield dep
 
     def getAttributeDeps(self, attrib):  # attrib="ignore", "qx.Class#define"
-        res  = None
+        res  = []
         data = self.data
         # top level
         if attrib.find('#')== -1:
