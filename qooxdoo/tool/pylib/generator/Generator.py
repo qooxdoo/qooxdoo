@@ -245,7 +245,7 @@ class Generator(object):
                 libObj    = Library(lib, self._console)
                 checkFile = libObj.mostRecentlyChangedFile()[0]
                 cacheId   = "lib-%s" % libObj.manifest
-                checkObj  = self._cache.read(cacheId, checkFile, memory=True)
+                checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
                 if checkObj:
                     self._console.debug("Use memory cache for %s" % libObj._path)
                     libObj = checkObj  # continue with cached obj

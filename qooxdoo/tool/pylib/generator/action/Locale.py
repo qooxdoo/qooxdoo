@@ -98,7 +98,7 @@ class Locale(object):
             locFile = os.path.join(root, "%s.xml" % locale)
             cacheId = "locale-%s-%s" % (root, locale)
 
-            locDat = self._cache.read(cacheId, locFile)
+            locDat, _ = self._cache.read(cacheId, locFile)
             if locDat == None:
                 self._console.debug("Processing locale: %s" % locale)
                 locDat = cldr.parseCldrFile(locFile)
@@ -440,7 +440,7 @@ class Locale(object):
 
         cacheId = "translation-%s-%s" % (filePath, variantsId)
 
-        translation = self._cache.readmulti(cacheId, filePath)
+        translation, _ = self._cache.readmulti(cacheId, filePath)
         if translation != None:
             return translation
 

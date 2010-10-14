@@ -82,7 +82,7 @@ class Class(Resource):
         tradeSpaceForSpeed = False
 
         # Lookup for unoptimized tree
-        tree = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
+        tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
 
         # Tree still undefined?, create it!
         if tree == None:
@@ -126,7 +126,7 @@ class Class(Resource):
         if cacheId == unoptCacheId and tree:  # early return optimization
             return tree
 
-        opttree = context["cache"].read(cacheId, self.path, memory=tradeSpaceForSpeed)
+        opttree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
         if not opttree:
             # start from source tree
             if tree:
@@ -143,7 +143,7 @@ class Class(Resource):
                 context["console"].outdent()
                 # store optimized tree
                 #print "Caching %s" % cacheId
-                context["cache"].write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
+                cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return opttree
 
@@ -161,7 +161,7 @@ class Class(Resource):
 
         cache     = self.context["cache"]
         cacheId   = "class-%s" % (self.path,)
-        classinfo = cache.readmulti(cacheId, self.path)
+        classinfo, _ = cache.readmulti(cacheId, self.path)
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
@@ -266,7 +266,7 @@ class Class(Resource):
     # Interface method
     #
     # return all dependencies of class from its code (both meta hints as well
-    # as source code)
+    # as source code, and transitive load deps)
 
     def dependencies(self, variantSet):
 
@@ -339,6 +339,20 @@ class Class(Resource):
 
             return deps
 
+        ##
+        # Check wether load dependencies are fresh which are included following
+        # a depsItem.needsRecursion of the current class
+        def transitiveDepsAreFresh(depsStruct, cacheModTime):
+            if cacheModTime is None:  # TODO: this can currently only occur with a Cache.memcache result
+                return False
+            for dep in depsStruct["load"]:
+                if dep.requestor != self.id: # this was included through a recursive traversal
+                    classObj = self._classesObj[dep.name]
+                    if cacheModTime < classObj.m_time():
+                        console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
+                        return False
+            
+            return True
         # -- Main ---------------------------------------------------------
 
         # handles cache and invokes worker function
@@ -348,8 +362,9 @@ class Class(Resource):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
-        deps = cache.readmulti(cacheId, self.path)
-        if deps == None:
+        deps, cacheModTime = cache.readmulti(cacheId, self.path)
+        if (deps == None
+          or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
             cache.writemulti(cacheId, deps)
@@ -749,7 +764,7 @@ class Class(Resource):
             # Check cache
             filePath= self._classesObj[classId].path
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            localDeps = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            localDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if localDeps != None:
                 console.debug("using cached result")
                 console.outdent()
@@ -1052,7 +1067,7 @@ class Class(Resource):
         cacheId           = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached            = True
 
-        classDeps = cache.read(cacheId, self.path)
+        classDeps, _ = cache.read(cacheId, self.path)
         if classDeps == None:
             cached    = False
             classDeps = buildShallowDeps(variants)
@@ -1070,7 +1085,7 @@ class Class(Resource):
                 classVariants     = self.classVariants()
                 relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
                 cacheId           = "%s-%s-%s" % (prefix, self.path, util.toString(relevantVariants))
-                res = cache.read(cacheId)
+                res, _ = cache.read(cacheId)
                 if not res:
                     res = fn(self, variants)
                     cache.write(cacheId, res)
@@ -1096,7 +1111,7 @@ class Class(Resource):
 
         cacheId = "messages-%s-%s" % (self.path, variantsId)
 
-        messages = cache.readmulti(cacheId, self.path)
+        messages, _ = cache.readmulti(cacheId, self.path)
         if messages != None:
             return messages
 
@@ -1357,7 +1372,7 @@ class Class(Resource):
         fileId   = self.id
         cacheId = "meta-%s" % filePath
 
-        meta = cache.readmulti(cacheId, filePath)
+        meta, _ = cache.readmulti(cacheId, filePath)
         if meta != None:
             if metatype:
                 return meta[metatype]
@@ -1543,7 +1558,7 @@ def getClassVariantsFromTree(node, console):
 def getClassVariants(fileId, filePath, treeLoader, cache, console, generate=True):
 
     cacheId   = "class-%s" % (filePath,)
-    classinfo = cache.readmulti(cacheId, filePath)
+    classinfo, _ = cache.readmulti(cacheId, filePath)
     classvariants = None
     if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
         if generate:

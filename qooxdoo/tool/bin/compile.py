@@ -135,7 +135,7 @@ def main():
             print ">>> Optimizing privates..."
         if options.cache:
             cache = Cache(options.cache, Log())
-            privates = cache.read(options.privateskey)
+            privates, _ = cache.read(options.privateskey)
             if privates != None:
                 privateoptimizer.load(privates)
         privateoptimizer.patch(tree, fileId)

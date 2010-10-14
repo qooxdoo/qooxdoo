@@ -48,13 +48,13 @@ class TreeCompiler(object):
         #cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
         #cacheId = "privates"  # use a side-wide privates db
         cacheId  = self._privatesCacheId
-        privates = self._cache.read(cacheId)
+        privates, _ = self._cache.read(cacheId)
         if privates != None:
             self._console.info("Loaded %s private fields" % len(privates))
             privateoptimizer.load(privates)
 
         #cacheId = "protected-%s" % self._context['config']._fname
-        #protected = self._cache.read(cacheId)
+        #protected, _ = self._cache.read(cacheId)
         #if protected != None:
         #    self._console.info("Loaded %s protected fields" % len(protected))
         #    protectedoptimizer.load(protected)
@@ -261,7 +261,7 @@ class TreeCompiler(object):
         optimizeId = self.generateOptimizeId(optimize)
 
         cacheId = "compiled-%s-%s-%s-%s" % (filePath, variantsId, optimizeId, format)
-        compiled = self._cache.read(cacheId, filePath)
+        compiled, _ = self._cache.read(cacheId, filePath)
 
         return cacheId, compiled
 
@@ -307,7 +307,7 @@ class TreeCompiler(object):
         else:
             cacheId = "compiledsize-%s-%s" % (filePath, variantsId)
 
-        size = self._cache.readmulti(cacheId, filePath)
+        size, _ = self._cache.readmulti(cacheId, filePath)
         if size != None:
             return size
 

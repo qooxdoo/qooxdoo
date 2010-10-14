@@ -195,16 +195,16 @@ class Cache(object):
         contentId = "-".join(splittedId)
         multiId = "multi" + baseId
         
-        saved = self.read(multiId, None, True)
+        saved, _ = self.read(multiId, None, True)
         if saved and saved.has_key(contentId):
             temp = saved[contentId]
             
             if os.stat(dependsOn).st_mtime > temp["time"]:
-                return None
+                return None, temp["time"]
             
-            return temp["content"]
+            return temp["content"], temp["time"]
             
-        return None
+        return None, None
         
         
     def writemulti(self, cacheId, content):
@@ -213,7 +213,7 @@ class Cache(object):
         contentId = "-".join(splittedId)
         multiId = "multi" + baseId
 
-        saved = self.read(multiId, None, True)
+        saved, _ = self.read(multiId, None, True)
         if not saved:
             saved = {}
         
@@ -228,7 +228,7 @@ class Cache(object):
     # @param memory     if read from disk keep value also in memory; improves subsequent access
     def read(self, cacheId, dependsOn=None, memory=False):
         if memcache.has_key(cacheId):
-            return memcache[cacheId]
+            return memcache[cacheId], None
 
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
@@ -236,13 +236,13 @@ class Cache(object):
         try:
             cacheModTime = os.stat(cacheFile).st_mtime
         except OSError:
-            return None
+            return None, None
 
         # Out of date check
         if dependsOn:
             fileModTime = os.stat(dependsOn).st_mtime
             if fileModTime > cacheModTime:
-                return None
+                return None, cacheModTime
 
         try:
             self._locked_files.add(cacheFile)
@@ -261,11 +261,11 @@ class Cache(object):
             if memory:
                 memcache[cacheId] = content
 
-            return content
+            return content, cacheModTime
 
         except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
             self._console.error("Could not read cache from %s" % self._path)
-            return None
+            return None, cacheModTime
 
 
     ##

@@ -51,4 +51,8 @@ class Resource(object):
     def toResinfo(self):
         return self.library.namespace
 
+    ##
+    # Resource's last modified time (in epoch secs)
+    def m_time(self):
+        return os.stat(self.path).st_mtime
 
