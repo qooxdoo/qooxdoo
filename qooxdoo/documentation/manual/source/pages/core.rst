@@ -18,9 +18,9 @@ Properties
 .. toctree::
 
   core/understanding_properties
-  core/property_features
   core/defining_properties
   core/property_behavior
+  core/property_features
 
 Settings and Variants
 =====================

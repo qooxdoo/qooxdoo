@@ -1,19 +1,24 @@
 .. _pages/property_features#property_features:
 
-Property Features
-*****************
+Property features summarized
+****************************
+
+.. note::
+
+    The chapter gives you an compact but extensive overview of the features offered by qooxdoo's property system.
+    Please refer to :doc:`defining_properties` for an explanation of how to define and use properties.
 
 .. _pages/property_features#value_checks:
 
 Value checks
 ============
-
-  * Runtime checks in the development version only
-  * built-in types for most common things
-  * instance checks by simply define the classname of the class to check for (always use an instanceof operation - a real classname is not available anymore)
-  * custom check method by simply attaching a function to the declaration
-  * custom check defined by a string which will be compiled into the resulting setters (faster than the above variant)
-  * define multiple possible (primitive) values using an array
+  
+  * Built-in types for most common things
+  * Runtime checks (development version only)
+  * Instance checks by simply define the classname of the class to check for (always use an instanceof operation - a real classname is not available anymore)
+  * Custom check method by simply attaching a function to the declaration
+  * Custom check defined by a string which will be compiled into the resulting setters (faster than the above variant)
+  * Define multiple possible (primitive) values using an array
 
 .. _pages/property_features#validation:
 

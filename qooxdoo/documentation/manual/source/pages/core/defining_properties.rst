@@ -1,23 +1,16 @@
 .. _pages/defining_properties#defining_properties:
 
-Defining Properties
-*******************
+Properties in more detail
+*************************
 
 .. note::
 
-    Please also take a look at :doc:`property_features` to get an compact overview of the available features.
-
-.. _pages/defining_properties#when_to_use_properties:
-
-When to use properties?
-=======================
-
-Dynamic properties in qooxdoo are extremely powerful and convenient. As they support advanced features like validation, events and so on, they might not be quite as lean and fast as an ordinarily coded property that only supports a setter and getter. If you do not need these advanced features or the variable you want to store is *extremely* time critical, it might be better not to use qooxdoo's dynamic properties in those cases. You might instead want to create your own setters and getters (if needed) and store the value just as a hidden private variable (e.g. ``__varName``) inside your object.
+    Please take a look at :doc:`property_features` first to get an compact overview of the available features.
 
 .. _pages/defining_properties#basic_property_declaration:
 
-Basic property declaration
-==========================
+Declaration
+===========
 
 The following code creates a property ``myProperty`` and the corresponding functions like ``setMyProperty()`` and ``getMyProperty()``. 
 
@@ -40,8 +33,8 @@ Please also have a look at the :doc:`Quick Reference <properties_quickref>`.
 
 .. _pages/defining_properties#working_with_the_property_value:
 
-Working with the property value
-===============================
+Handling changes of property values
+===================================
 
 You have multiple possibilities to react on each property change. With *change* the modification of a property is meant, where the old and the new values differ from each other.
 
@@ -107,8 +100,8 @@ Example
 
 .. _pages/defining_properties#supporting_init_values:
 
-Supporting init values
-======================
+Init values
+===========
 
 Init values are supported by all properties. These values are stored separately by the property engine. This way it is possible to fallback to the init value when property values are being reset.
 
@@ -132,7 +125,7 @@ The *preferred* way for regular init values is to simply declare them by an ``in
       myProperty : { init : "hello" }
     }
 
-.. _pages/defining_properties#init_value_in_constructor:
+.. _pages/defining_properties#init_value_in_
 
 Init value in constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -171,7 +164,7 @@ Like calling the ``this.initMyProperty(value)`` method itself, you could call th
 
 ::
 
-    constructor : function()
+    construct : function()
     {
       this.base(arguments);
 
@@ -199,7 +192,7 @@ This example illustrates how the behavior differs from the default behavior of t
 
 ::
 
-    constructor : function()
+    construct : function()
     {
       this.base(arguments);
 
@@ -245,7 +238,7 @@ If an ``init`` value is given in the property declaration, the init method does 
 .. _pages/defining_properties#refining_init_values:
 
 Refining init values
-====================
+--------------------
 
 Derived classes can refine the init value of a property defined by their super class. This is however the only modification which is allowed through inheritance. To refine a property just define two keys inside the property (re-)definition: ``init`` and ``refine``. ``refine`` is a simple boolean flag which must be configured to true.
 
@@ -563,3 +556,9 @@ For example, this would allow to set the property in the following way:
     // obj.setPaddingLeft(20);
     }
 
+	.. _pages/defining_properties#when_to_use_properties:
+
+When to use properties?
+=======================
+
+Since properties in qooxdoo support advanced features like validation, events and so on, they might not be quite as lean and fast as an ordinarily coded property that only supports a setter and getter. If you do not need these advanced features or the variable you want to store is *extremely* time critical, it might be better not to use qooxdoo's dynamic properties in those cases. You might instead want to create your own setters and getters (if needed) and store the value just as a hidden private variable (e.g. ``__varName``) inside your object.

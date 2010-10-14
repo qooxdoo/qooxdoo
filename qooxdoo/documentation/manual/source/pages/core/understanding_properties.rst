@@ -1,9 +1,9 @@
 .. _pages/understanding_properties#understanding_properties:
 
-Understanding Properties
-************************
+Introduction to Properties
+**************************
 
-qooxdoo comes with its own convenient and sophisticated property management system. In order to understand its power it may be helpful to have a look at the ordinary property handling in plain JavaScript first:
+qooxdoo comes with its own convenient and sophisticated property management system. In order to understand its power we will first take a look at the ordinary property handling in plain JavaScript first.
 
 .. _pages/understanding_properties#ordinary_property_handling:
 
@@ -81,8 +81,6 @@ Large part of the code found here is for managing the validation and storage of 
 
 qooxdoo Property Handling
 =========================
-
-qooxdoo's dynamic properties are a perfect example of the framework's three virtues: elegance, power, speed. 
 
 Let's see how the above example can be written using qooxdoo's property implementation. The property itself is declared in the ``properties`` section of the class definition. Only if some property-specific code needs to be run in the setter, an additional ``apply`` method has to be given:
 
