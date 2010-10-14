@@ -489,6 +489,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     _addLabel : function(cellInfo, pos)
     {
       var node = cellInfo.value;
+      var label = node.label;
+
+      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+        if (label && label.translate) {
+          label = label.translate();
+        }
+      }
 
       // Add the node's label.  We calculate the "left" property with: each
       // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
@@ -503,7 +510,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         '<span' + (cellInfo.labelSpanStyle
                    ? 'style="' + cellInfo.labelSpanStyle + ';"'
                    : "") + '>' +
-        node.label +
+        label +
         '</span>' +
         '</div>';
 
