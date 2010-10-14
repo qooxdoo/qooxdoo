@@ -152,8 +152,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     // Specify the column headings.  We accept a single string (one single
     // column) or an array of strings (one or more columns).
-    if (typeof(headings) == "string")
-    {
+    if (qx.lang.Type.isString(headings)) {
       headings = [ headings ];
     }
 
