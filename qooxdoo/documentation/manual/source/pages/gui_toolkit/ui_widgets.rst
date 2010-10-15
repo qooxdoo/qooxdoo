@@ -1,7 +1,10 @@
 .. _pages/ui_widgets#widgets:
 
-Widgets
+Basic Widgets
 *******
+
+.. note::
+  This chapter introduces some of the widgets found in qooxdoo. For a full list of widgets, please refer to the :doc:`../widget/widget_ref`.
 
 .. _pages/ui_widgets#labels:
 
