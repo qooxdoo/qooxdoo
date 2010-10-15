@@ -129,3 +129,39 @@ a.b().c(d)
                 variable
                   identifier ("e")
 
+
+(function () {return 3;})()
+---------------------------
+
+*(anonymous function immediately called)*
+
+::
+
+    call
+      operand
+        group
+          function
+            params
+            body
+              block
+                return
+                  expression
+                    constant ("3")
+
+
+function () {return 3;}()
+---------------------------
+
+*(anonymous function immediately called - no paren)*
+
+::
+
+    call
+      operand
+        function
+          params
+          body
+            block
+              return
+                expression
+                  constant ("3")
