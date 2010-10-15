@@ -119,7 +119,7 @@ class DependencyLoader(object):
     def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
                              verifyDeps=False, script=None):
 
-        def classlistFromClassRecursive(item, excludeWithDeps, variants, result):
+        def classlistFromClassRecursive(item, excludeWithDeps, variants, result, warn_deps):
             # support blocking
             if item in excludeWithDeps:
                 return
@@ -145,8 +145,9 @@ class DependencyLoader(object):
             if verifyDeps:
                 for dep in deps["warn"]:
                     if dep.name not in ignore_names:
-                        self._console.nl()
-                        self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, item, dep.line))
+                        warn_deps.append(dep)
+                        #self._console.nl()
+                        #self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, item, dep.line))
 
             # process lists
             try:
@@ -155,12 +156,12 @@ class DependencyLoader(object):
               for subitem in deps["load"]:
                   subname = subitem.name
                   if subname not in result and subname not in excludeWithDeps and subname not in skipList:
-                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result)
+                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result, warn_deps)
 
               for subitem in deps["run"]:
                   subname = subitem.name
                   if subname not in result and subname not in excludeWithDeps and subname not in skipList:
-                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result)
+                      classlistFromClassRecursive(subname, excludeWithDeps, variants, result, warn_deps)
 
             except NameError, detail:
                 raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
@@ -181,6 +182,9 @@ class DependencyLoader(object):
         else:
             buildType = ""
 
+        result = []
+        warn_deps = []
+
         if len(includeWithDeps) == 0:
             self._console.info("Including all known classes")
             result = self._classesObj.keys()
@@ -191,14 +195,27 @@ class DependencyLoader(object):
                 result.remove(classId)
 
         else:
-            result = []
             self._console.info(" ", feed=False)
 
             for item in includeWithDeps:
-                classlistFromClassRecursive(item, excludeWithDeps, variants, result)
+                classlistFromClassRecursive(item, excludeWithDeps, variants, result, warn_deps)
 
             if self._console.getLevel() is "info":
                 self._console.nl()
+
+        # warn about unknown references
+        ignored_names = set()
+        # the current global ignore set is just the list of name spaces of the selected classes
+        for classid in result:
+            nsindex = classid.rfind(".")
+            if nsindex == -1:
+                continue # not interested in bare class names
+            classnamespace = classid[:nsindex]
+            ignored_names.add(classnamespace)
+        for dep in warn_deps:
+            if dep.name not in ignored_names:
+                self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
+
 
         return result
 
