@@ -1070,8 +1070,13 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
-
       this.debug("Property Active: " + id);
+
+      id = "null";
+      if (old) {
+        id = (old.tagName||old) + "[" + (old.$$hash || "none") + "]";
+      }
+      this.debug("Property Deactivate: " + id);
       */
 
       // Fire events
@@ -1092,8 +1097,13 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
-
       this.debug("Property Focus: " + id);
+
+      id = "null";
+      if (old) {
+        id = (old.tagName||old) + "[" + (old.$$hash || "none") + "]";
+      }
+      this.debug("Property Blur: " + id);
       */
 
       // Fire bubbling events
