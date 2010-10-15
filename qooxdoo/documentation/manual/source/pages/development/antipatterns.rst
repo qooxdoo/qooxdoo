@@ -54,9 +54,9 @@ So please avoid using them. :-)
 Reference types in member section
 ==================================
 
-Data fileds (every data attached to ``this``) can and should be declared in the members section. This makes it easier to find the data fields, which a may otherwise be deeply hidden in the code.
+Data fields (every data attached to ``this``) can and should be declared in the members section. This makes it easier to find the data fields, which a may otherwise be deeply hidden in the code.
 
-It is possible to initialize these data fileds in the members section with primite data types like ``String`` or ``Number`` but it should never be initialized with reference types. Reference types are ``Object`` (Maps), ``Array``, ``Date`` and ``RegExp``. The reason for this is that these references will be shared by all instances of the class. This is typically not the desired behavior. It is better to set the value of these fields in the members section to ``null`` and initialize them in the constructor.
+It is possible to initialize these data fields in the members section with primite data types like ``String`` or ``Number`` but it should never be initialized with reference types. Reference types are ``Object`` (Maps), ``Array``, ``Date`` and ``RegExp``. The reason for this is that these references will be shared by all instances of the class. This is typically not the desired behavior. It is better to set the value of these fields in the members section to ``null`` and initialize them in the constructor.
 
 BAD:
 
