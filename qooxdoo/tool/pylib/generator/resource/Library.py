@@ -372,6 +372,8 @@ class Library(object):
         self._console.debug("Found %s docs" % len(self._docs))
         self._console.outdent()
 
+        #return classList, classNamespaces, docList 
+
 
 
     def _scanTranslationPath(self, path):

@@ -37,6 +37,7 @@ from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
 DefaultIgnoredNamesDynamic = None
+
 QXGLOBALS = [
     #"clazz",
     "qxvariants",
@@ -44,8 +45,7 @@ QXGLOBALS = [
     r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
     ]
 
-_memo1_ = {}  # for memoizing getScript()
-_memo2_ = [None, None]
+_memo1_ = [None, None]  # for memoizing getScript()
 
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
 
@@ -613,21 +613,14 @@ class Class(Resource):
         def getScript(node, fileId, ):
             # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
             rootNode = findRoot(node)
-            #if fileId in _memo1_:
-            #if fileId in _memo1_ and _memo1_[fileId].root == rootNode:
-            #    script = _memo1_[fileId]
-            #if _memo2_[0] == fileId: # replace with '_memo2_[0] == rootNode', to make it more robust, but slightly less performant
-            if _memo2_[0] == rootNode:
+            #if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
+            if _memo1_[0] == rootNode:
                 #print "-- re-using scopes for: %s" % fileId
-                script = _memo2_[1]
+                script = _memo1_[1]
             else:
-                #rootNode = findRoot(node)
-                #if fileId in _memo1_ and _memo1_[fileId].root != rootNode:
                 #print "-- re-calculating scopes for: %s" % fileId
                 script = Script(rootNode, fileId)
-                #_memo1_[fileId] = script
-                #_memo2_[0], _memo2_[1] = fileId, script
-                _memo2_[0], _memo2_[1] = rootNode, script
+                _memo1_[0], _memo1_[1] = rootNode, script
             return script
 
         def getLeadingId(idStr):
@@ -804,6 +797,11 @@ class Class(Resource):
             classId = dependencyItem.name
             methodId= dependencyItem.attribute
 
+            # Check known class
+            if classId not in self._classesObj:
+                console.warn("Skipping unknown class dependency: %s#%s" % (classId, methodId))
+                return set()
+
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
 
@@ -815,7 +813,6 @@ class Class(Resource):
                 console.debug("using cached result")
                 console.outdent()
                 return localDeps
-
 
             # Calculate deps
             localDeps = set()
@@ -846,7 +843,6 @@ class Class(Resource):
                 for depsItem in deps_rt:
                     if self.resultAdd(depsItem, localDeps):
                         # Recurse dependencies
-                        assert depsItem.name in self._classesObj
                         downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
                         localDeps.update(downstreamDeps)
 
