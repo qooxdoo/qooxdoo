@@ -58,4 +58,20 @@ class Trie(object):
 
         return longestmatch
 
+    def traverse(self):
+        return self._traverse(u'', self._data)
+
+    def _traverse(self, prefix, data):
+        for part in data:
+            if len(prefix):
+                curr = self._sep.join((prefix,part))
+            else:
+                curr = part
+            yield curr
+            for el in self._traverse(curr, data[part]):
+                yield el
+
+    def __iter__(self):
+        return self.traverse()
+
 

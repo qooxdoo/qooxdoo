@@ -25,6 +25,7 @@
 ##
 
 from misc                   import util
+from misc.Trie              import Trie
 from generator.code.Package import Package
 
 class Script(object):
@@ -76,7 +77,7 @@ class Script(object):
 
     ##
     # Namespaces as Trie
-    def createTrie(self, classesObj=[]):
+    def createTrie1(self, classesObj=[]):
         trie = {}
         classes = classesObj if classesObj else self.classesObj
         for classid in (x.id for x in classes):
@@ -86,6 +87,23 @@ class Script(object):
                 if part not in p:
                     p[part] = {}
                 p = p[part]
+
+        return trie
+
+    ##
+    # This version is only interested in the pure name spaces, i.e. id's without
+    # the final class name.
+    def createTrie(self, classesObj=[]):
+        sep  = "."
+        trie = Trie(sep)
+        classes = classesObj if classesObj else self.classesObj
+        for classid in (x.id for x in classes):
+            #strip classname
+            nsindex = classid.rfind(sep)
+            if nsindex == -1:
+                continue  # not interested in bare class names
+            classNamespace = classid[:nsindex]
+            trie.add(classNamespace)
 
         return trie
         

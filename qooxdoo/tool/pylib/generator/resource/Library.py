@@ -157,7 +157,9 @@ class Library(object):
         self._console.info("Scanning %s..." % self._path)
         self._console.indent()
 
-        self._scanClassPath(self._classPath, self._classUri, self._encoding)
+        scanres = self._scanClassPath(self._classPath, self._classUri, self._encoding)
+        self._classes = scanres[0]
+        self._docs    = scanres[1]
         self._scanTranslationPath(self._translationPath)
         self._scanResourcePath(self._resourcePath)
 
@@ -273,12 +275,19 @@ class Library(object):
 
         self._console.debug("Scanning class folder...")
 
+        classList = {}
+        docs = {}
+
         # Iterate...
         for root, dirs, files in filetool.walk(path):
             # Filter ignored directories
             for ignoredDir in dirs:
                 if self._ignoredDirectories.match(ignoredDir):
                     dirs.remove(ignoredDir)
+
+            # Add good directories
+            currNameSpace = root[len(path+os.sep):]
+            currNameSpace = currNameSpace.replace(os.sep, ".")
 
             # Searching for files
             for fileName in files:
@@ -304,7 +313,7 @@ class Library(object):
                 # Handle doc files
                 if fileName == self._docFilename:
                     fileFor = filePathId[:filePathId.rfind(".")]
-                    self._docs[filePackage] = {
+                    docs[filePackage] = {
                         "relpath" : fileRel,
                         "path" : filePath,
                         "encoding" : encoding,
@@ -346,7 +355,7 @@ class Library(object):
 
                 # Store file data
                 self._console.debug("Adding class %s" % filePathId)
-                self._classes[filePathId] = {
+                classList[filePathId] = {
                     "relpath" : fileRel,
                     "path" : filePath,
                     "encoding" : encoding,
@@ -361,18 +370,18 @@ class Library(object):
                 contextdict["cache"] = context.cache
                 contextdict["jobconf"] = context.jobconf
                 # TODO: currently creation of throw-away objects (unless they're .append'ed)
-                clazz = Class(self._classes[filePathId], filePath, self, contextdict, self._classesObj)
+                clazz = Class(classList[filePathId], filePath, self, contextdict, self._classesObj)
                 clazz.encoding = encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
                 #self._classesObj.append(clazz)
 
         self._console.indent()
-        self._console.debug("Found %s classes" % len(self._classes))
-        self._console.debug("Found %s docs" % len(self._docs))
+        self._console.debug("Found %s classes" % len(classList))
+        self._console.debug("Found %s docs" % len(docs))
         self._console.outdent()
 
-        #return classList, classNamespaces, docList 
+        return classList, docs 
 
 
 

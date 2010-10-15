@@ -610,7 +610,7 @@ class Generator(object):
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
-            script.namespaces = script.createTrie(script.classesObj)  #TODO: experimental
+            script.namespaces = script.createTrie(script.classesObj)  # creating the name spaces *only* for the selected classes (-> auto-ignores)
 
             # prepare 'script' object
             if set(("compile", "log")).intersection(jobTriggers):

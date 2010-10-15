@@ -45,8 +45,6 @@ from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
 from generator.code.Class       import DependencyItem
 
-counter = 0
-
 class DependencyLoader(object):
 
     def __init__(self, classesObj, cache, console, require, use, context):
@@ -220,14 +218,6 @@ class DependencyLoader(object):
         classObj         = self._classesObj[fileId]
 
         static, cached   = classObj.dependencies (variants)
-        #import cProfile
-        #global counter
-        #counter += 1
-        #a = [None]
-        #def foo():
-        #    a[0] = classObj.dependencies(variants)
-        #cProfile.runctx("foo()",globals(), locals(), "/home/thron7/tmp/prof/deps.prof" + str(counter))
-        #static,cached = a[0]
 
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
