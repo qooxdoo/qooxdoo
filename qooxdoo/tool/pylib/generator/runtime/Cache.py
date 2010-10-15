@@ -26,7 +26,7 @@ from misc import filetool
 from misc.securehash import sha_construct
 from generator.action.ActionLib import ActionLib
 
-memcache  = {}
+memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 actionLib = None
 check_file     = u".cache_check_file"
 CACHE_REVISION = 23464   # Change this to the current qooxdoo svn revision when existing caches need clearing
@@ -227,9 +227,16 @@ class Cache(object):
     # @param dependsOn  file name to compare cache file against
     # @param memory     if read from disk keep value also in memory; improves subsequent access
     def read(self, cacheId, dependsOn=None, memory=False):
-        if memcache.has_key(cacheId):
-            return memcache[cacheId], None
+        if dependsOn:
+            dependsModTime = os.stat(dependsOn).st_mtime
 
+        # Mem cache
+        if cacheId in memcache:
+            memitem = memcache[cacheId]
+            if not dependsOn or dependsModTime < memitem['time']:
+                return memitem['content'], memitem['time']
+
+        # File cache
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
@@ -238,10 +245,8 @@ class Cache(object):
         except OSError:
             return None, None
 
-        # Out of date check
-        if dependsOn:
-            fileModTime = os.stat(dependsOn).st_mtime
-            if fileModTime > cacheModTime:
+        # out of date check
+        if dependsOn and dependsModTime > cacheModTime:
                 return None, cacheModTime
 
         try:
@@ -259,7 +264,7 @@ class Cache(object):
             self._locked_files.remove(cacheFile)
 
             if memory:
-                memcache[cacheId] = content
+                memcache[cacheId] = {'content':content, 'time': time.time()}
 
             return content, cacheModTime
 
@@ -297,7 +302,7 @@ class Cache(object):
                 raise e
 
         if memory:
-            memcache[cacheId] = content
+            memcache[cacheId] = {'time': time.time(), 'content':content}
 
 
 ##
