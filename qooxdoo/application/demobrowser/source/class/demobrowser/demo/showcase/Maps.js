@@ -19,6 +19,7 @@
 
 /**
  * @tag showcase
+ * @lint ignoreUndefined(google, YMap, YAHOO_MAP_REG)
  */
 qx.Class.define("demobrowser.demo.showcase.Maps",
 {
