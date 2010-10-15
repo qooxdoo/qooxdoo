@@ -142,7 +142,7 @@ class DependencyLoader(object):
                 self._console.dot("%s" % "." if cached else "*")
 
             # and evaluate them
-            deps["warn"] = self._checkDepsAreKnown(deps,)  # add 'warn' key to deps
+            deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
             ignore_names = [x.name for x in deps["ignore"]]
             if verifyDeps:
                 for dep in deps["warn"]:

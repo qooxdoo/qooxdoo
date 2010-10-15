@@ -148,9 +148,9 @@ class PartBuilder(object):
                 for classId in package.classes:
                     classIdx   += 1
                     classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                    loadDeps    = [x.name for x in classDeps['load']]
-                    runDeps     = [x.name for x in classDeps['run']]
-                    for depsId in loadDeps: # + runDeps:
+                    loadDeps    = set(x.name for x in classDeps['load'])
+                    ignoreDeps  = set(x.name for x in classDeps['ignore'])
+                    for depsId in loadDeps.difference(ignoreDeps): # + runDeps:
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
