@@ -5,19 +5,24 @@ class Script(object):
     def __init__(self, rootNode, filename=""):
         self.root = rootNode
         self.filename = filename
-        self.scopes = self._buildScopes()
+        scopes = self._buildScopes()
+        self.scopes = scopes[0]
+        self.scopetuples = scopes[1]
         self._computeVariableUses()
 
     def _buildScopes(self):
         scopes = {}
+        scopetuples = []
         self.globalScope = Scope(self.root, self)
         scopes[self.root] = self.globalScope
 
         for node in treeutil.nodeIterator(self.root, ["function", "catch"]):
             scope = Scope(node, self)
-            scopes[node] = scope
+            #scopes[node] = scope
+            scopetuples.append((node, scope))
 
-        return scopes
+        scopes = dict(scopetuples)
+        return scopes, scopetuples
 
     def _computeVariableUses(self):
         for scope in self.scopes.itervalues():
@@ -32,9 +37,12 @@ class Script(object):
     def getGlobalScope(self):
         return self.globalScope
 
-    def iterScopes(self):
+    def iterScopes1(self):
         for scope in self.scopes.itervalues():
             yield scope
+
+    def iterScopes(self):
+        return (x[1] for x in self.scopetuples)
 
     def getVariableDefinition(self, variableName, scope):
         while True:
