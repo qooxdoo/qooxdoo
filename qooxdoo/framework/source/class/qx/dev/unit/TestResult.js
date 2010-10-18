@@ -105,7 +105,7 @@ qx.Class.define("qx.dev.unit.TestResult",
   members :
   {
 
-    __timeout : null,
+    _timeout : null,
 
     /**
      * Run the test
@@ -117,12 +117,12 @@ qx.Class.define("qx.dev.unit.TestResult",
      */
     run : function(test, testFunction, self, resume)
     {
-      if(!this.__timeout) {
-        this.__timeout = {};
+      if(!this._timeout) {
+        this._timeout = {};
       }
 
-      if (resume && !this.__timeout[test.getFullName()]) {
-        this.__timeout[test.getFullName()] = "failed";
+      if (resume && !this._timeout[test.getFullName()]) {
+        this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
         this._createError("failure", qxEx, test);
         return;
@@ -130,12 +130,12 @@ qx.Class.define("qx.dev.unit.TestResult",
 
       this.fireDataEvent("startTest", test);
 
-      if (this.__timeout[test.getFullName()])
+      if (this._timeout[test.getFullName()])
       {
-        if (this.__timeout[test.getFullName()] !== "failed") {
-          this.__timeout[test.getFullName()].stop();
+        if (this._timeout[test.getFullName()] !== "failed") {
+          this._timeout[test.getFullName()].stop();
         }
-        delete this.__timeout[test.getFullName()];
+        delete this._timeout[test.getFullName()];
       }
       else
       {
@@ -166,7 +166,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         if (ex instanceof qx.dev.unit.AsyncWrapper)
         {
 
-          if (this.__timeout[test.getFullName()]) {
+          if (this._timeout[test.getFullName()]) {
             // Do nothing if there's already a timeout for this test
             return;
           }
@@ -181,7 +181,7 @@ qx.Class.define("qx.dev.unit.TestResult",
             }
             var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
             var context = (ex.getContext() ? ex.getContext() : window);
-            this.__timeout[test.getFullName()] = qx.event.Timer.once(function() {
+            this._timeout[test.getFullName()] = qx.event.Timer.once(function() {
                this.run(test, timeoutFunc, context);
             }, that, ex.getDelay());
             this.fireDataEvent("wait", test);
@@ -236,6 +236,6 @@ qx.Class.define("qx.dev.unit.TestResult",
   },
 
   destruct : function() {
-    this.__timeout = null;
+    this._timeout = null;
   }
 });
