@@ -1,3 +1,4 @@
+from operator import itemgetter
 from ecmascript.frontend import treeutil
 from ecmascript.frontend.Scope import Scope, VariableDefinition, VariableUse 
 
@@ -5,44 +6,36 @@ class Script(object):
     def __init__(self, rootNode, filename=""):
         self.root = rootNode
         self.filename = filename
-        scopes = self._buildScopes()
-        self.scopes = scopes[0]
-        self.scopetuples = scopes[1]
+        self.scopes = self._buildScopes()  # tuple list [(Node(), Scope())], to preserve order
         self._computeVariableUses()
 
     def _buildScopes(self):
-        scopes = {}
-        scopetuples = []
+        scopes = []
         self.globalScope = Scope(self.root, self)
-        scopes[self.root] = self.globalScope
+        scopes.append((self.root, self.globalScope))
 
         for node in treeutil.nodeIterator(self.root, ["function", "catch"]):
             scope = Scope(node, self)
-            #scopes[node] = scope
-            scopetuples.append((node, scope))
+            scopes.append((node, scope))
 
-        scopes = dict(scopetuples)
-        return scopes, scopetuples
+        return scopes
 
     def _computeVariableUses(self):
-        for scope in self.scopes.itervalues():
+        for scope in self.iterScopes():
             scope.computeVariableUses()
 
     def getScope(self, functionNode):
-        if self.scopes.has_key(functionNode):
-            return self.scopes[functionNode]
-        else:
+        try:
+            idx = map(itemgetter(0), self.scopes).index(functionNode)
+        except ValueError:
             return None
+        return self.scopes[idx][1]
 
     def getGlobalScope(self):
         return self.globalScope
 
-    def iterScopes1(self):
-        for scope in self.scopes.itervalues():
-            yield scope
-
     def iterScopes(self):
-        return (x[1] for x in self.scopetuples)
+        return (x[1] for x in self.scopes)
 
     def getVariableDefinition(self, variableName, scope):
         while True:
