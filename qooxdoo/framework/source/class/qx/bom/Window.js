@@ -172,12 +172,11 @@ qx.Class.define("qx.bom.Window",
           {
             this.__timer = new qx.event.Timer(500);
             this.__timer.addListener("interval", this.__checkForUnblocking, this);
-            this.__timer.start();
-          } else {
-            this.__timer.restart();
           }
 
           this.__blockerWindow = window.open(url, name, configurationString);
+          this.__timer.restart();
+
           return this.__blockerWindow;
         }
       } else {
