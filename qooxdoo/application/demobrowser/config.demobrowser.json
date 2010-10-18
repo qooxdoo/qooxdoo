@@ -196,9 +196,9 @@
 
       "extend" : ["common"],
       "include" : ["demobrowser.demo.io.HttpRequest_1"],
-      "debug" :
+      "log" :
       {
-        "dependencies" : "on"
+        "dependencies" : { "type": "using"}
       }
     },
 
@@ -207,7 +207,7 @@
       "desc"    : "extension job for debugging privates",
 
       "extend" : ["common"],
-      "debug" :
+      "log" :
       {
         "privates" : "on"
       }
