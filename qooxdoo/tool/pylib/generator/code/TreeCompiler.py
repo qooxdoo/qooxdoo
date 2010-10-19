@@ -382,8 +382,9 @@ class TreeCompiler(object):
 
     def _privateOptimizeHelper(self, tree, id, variants):
         privateoptimizer.patch(tree, id)
-        #self._storePrivateFields()
-        #if the above line is left out permanently, other cache maintenance code can be removed (bug#4148)
+        # the next line also ensures privates consistency across runs, when already
+        # optimized classes are re-used in the build
+        self._storePrivateFields()
 
 
     def _protectedOptimizeHelper(self, tree, id, variants):
