@@ -148,6 +148,14 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     /**
      * This event is dispatched when the editor gets a right click.
+     *
+     * Fires a data event with the following data:
+     *
+     * * x - absolute x coordinate
+     * * y - absolute y coordinate
+     * * relX - relative x coordinate
+     * * relY - relative y coordinate
+     * * target - DOM element target
      */
     "contextmenu"      : "qx.event.type.Data",
 

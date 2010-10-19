@@ -200,11 +200,11 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * Fires a data event with the following data:
      *
-     *   * x - absolute x coordinate
-     *   * y - absolute y coordinate
-     *   * relX - relative x coordinate
-     *   * relY - relative y coordinate
-     *   * target - DOM element target
+     * * x - absolute x coordinate
+     * * y - absolute y coordinate
+     * * relX - relative x coordinate
+     * * relY - relative y coordinate
+     * * target - DOM element target
      */
     "contextmenu"      : "qx.event.type.Data",
 
