@@ -96,7 +96,7 @@ GLOBALS = BUILTIN + [
           'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
   
           # Language
-          "eval", "decodeURI", "decodeURIComponent", "encodeURIComponent",
+          "eval", "decodeURI", "encodeURI", "decodeURIComponent", "encodeURIComponent",
           "escape", "unescape", "parseInt", "parseFloat", "isNaN", "isFinite",
   
           "this", "arguments", "undefined", "NaN", "Infinity"
