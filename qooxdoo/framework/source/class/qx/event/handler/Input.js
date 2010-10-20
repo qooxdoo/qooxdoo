@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -449,7 +450,7 @@ qx.Class.define("qx.event.handler.Input",
      */
     _onInput : qx.event.GlobalError.observeMethod(function(e)
     {
-      var target = e.target;
+      var target = qx.bom.Event.getTarget(e);
       // check if the enter key has been pressed (opera only)
       if (!this.__enter) {
         // opera needs a special treatment for input events because they are
@@ -473,7 +474,7 @@ qx.Class.define("qx.event.handler.Input",
      */
     _onChangeValue : qx.event.GlobalError.observeMethod(function(e)
     {
-      var target = e.target || e.srcElement;
+      var target = qx.bom.Event.getTarget(e);
       var data = target.value;
 
       if (target.type === "select-multiple")
@@ -499,7 +500,7 @@ qx.Class.define("qx.event.handler.Input",
      */
     _onChangeChecked : qx.event.GlobalError.observeMethod(function(e)
     {
-      var target = e.target;
+      var target = qx.bom.Event.getTarget(e);
 
       if (target.type === "radio")
       {
@@ -524,7 +525,7 @@ qx.Class.define("qx.event.handler.Input",
     {
       "mshtml" : qx.event.GlobalError.observeMethod(function(e)
       {
-        var target = e.target || e.srcElement;
+        var target = qx.bom.Event.getTarget(e);
         var prop = e.propertyName;
 
         if (prop === "value" && (target.type === "text" || target.type === "password" || target.tagName.toLowerCase() === "textarea"))
