@@ -113,9 +113,11 @@ Opposite to image clipping the image combining takes multiple images as source a
                 "layout" : "vertical",
                 "input"  :
                 [
-                   "prefix" : [ "${RESPATH}" ],
-                   "files" : [ "${RESPATH}/image/clipped/groupBox*.png" ]
-               ]
+                  {
+                    "prefix" : [ "${RESPATH}" ],
+                    "files" : [ "${RESPATH}/image/clipped/groupBox*.png" ]
+                  }
+                ]
              }
           }
        }
