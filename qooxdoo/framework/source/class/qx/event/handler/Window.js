@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -198,7 +199,7 @@ qx.Class.define("qx.event.handler.Window",
       // In recent WebKit nightlies scroll events do no longer bubble
       //
       // Internet Explorer does not have a target in resize events.
-      var target = e.target || e.srcElement;
+      var target = qx.bom.Event.getTarget(e);
       if (target == null || target === win || target === doc || target === html)
       {
         var event = qx.event.Registration.createEvent(e.type, qx.event.type.Native, [e, win]);
