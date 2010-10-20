@@ -166,6 +166,25 @@ qx.Class.define("qx.event.handler.Touch",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Return the target of the event.
+     * 
+     * @param domEvent {Event} DOM event
+     * @return {Element} Event target
+     */
+    __getTarget : function(domEvent)
+    {
+      var target = qx.bom.Event.getTarget(domEvent);
+      // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
+      if (qx.core.Variant.isSet("qx.client", "gecko|webkit"))
+      {
+        if (target && target.nodeType == 3) {
+          target = target.parentNode;
+        }
+      }
+      return target;
+    },
+
 
     /**
      * Fire a touch event with the given parameters
@@ -178,7 +197,7 @@ qx.Class.define("qx.event.handler.Touch",
     __fireEvent : function(domEvent, type, target, eventTypeClass)
     {
       if (!target) {
-        target = qx.bom.Event.getTarget(domEvent);
+        target = this.__getTarget(domEvent);
       }
       
       var type = type || domEvent.type;
@@ -208,7 +227,7 @@ qx.Class.define("qx.event.handler.Touch",
     __checkAndFireGesture : function(domEvent, type, target)
     {
       if (!target) {
-        target = qx.bom.Event.getTarget(domEvent);
+        target = this.__getTarget(domEvent);
       }
       var type = type || domEvent.type;
 
@@ -396,7 +415,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       "on" : function(domEvent)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = this.__getTarget(domEvent);
         return {
           clientX : domEvent.clientX,
           clientY : domEvent.clientY,
