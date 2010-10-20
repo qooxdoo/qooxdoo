@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -170,7 +171,7 @@ qx.Class.define("qx.event.handler.Mouse",
     __fireEvent : function(domEvent, type, target)
     {
       if (!target) {
-        target = domEvent.target || domEvent.srcElement;
+        target = qx.bom.Event.getTarget(domEvent);
       }
 
       // we need a true node for the fireEvent
@@ -249,11 +250,11 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       this.__onWheelEventWrapper = qx.lang.Function.listener(this._onWheelEvent, this);
 
-      var Event = qx.bom.Event;
-      var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
-
+      // Fix for bug #3234
       var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
-      Event.addNativeListener(target, type, this.__onWheelEventWrapper);
+
+      var type = qx.bom.Event.supportsEvent(target, "mousewheel") ? "mousewheel" : "DOMMouseScroll";
+      qx.bom.Event.addNativeListener(target, type, this.__onWheelEventWrapper);
     },
 
 
@@ -309,11 +310,11 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopWheelObserver : function()
     {
-      var Event = qx.bom.Event;
-      var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
-
+      // Fix for bug #3234
       var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
-      Event.removeNativeListener(target, type, this.__onWheelEventWrapper);
+      
+      var type = qx.bom.Event.supportsEvent(target, "mousewheel") ? "mousewheel" : "DOMMouseScroll";
+      qx.bom.Event.removeNativeListener(target, type, this.__onWheelEventWrapper);
     },
 
 
@@ -349,7 +350,7 @@ qx.Class.define("qx.event.handler.Mouse",
     _onButtonEvent : qx.event.GlobalError.observeMethod(function(domEvent)
     {
       var type = domEvent.type;
-      var target = domEvent.target || domEvent.srcElement;
+      var target = qx.bom.Event.getTarget(domEvent);
 
       // Safari (and maybe gecko) takes text nodes as targets for events
       // See: http://www.nczonline.net/archive/2008/2/556
@@ -477,6 +478,9 @@ qx.Class.define("qx.event.handler.Mouse",
      *  6. click  <- not fired by IE
      *  7. dblclick
      *
+     *  Note: This fix is only applied, when the IE event model is used, otherwise
+     *  the fix is ignored.
+     *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
      * @param target {Element} event target of the DOM event.
@@ -487,6 +491,12 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       "mshtml" : function(domEvent, type, target)
       {
+        // Do only apply the fix when the event is from the IE event model,
+        // otherwise do not apply the fix.
+        if (domEvent.target !== undefined) {
+          return;
+        }
+      
         if (type == "mouseup" && this.__lastEventType == "click") {
           this.__fireEvent(domEvent, "mousedown", target);
         } else if (type == "dblclick") {
