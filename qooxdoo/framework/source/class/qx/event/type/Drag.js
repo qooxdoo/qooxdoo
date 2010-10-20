@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -84,30 +85,20 @@ qx.Class.define("qx.event.type.Drag",
      * the page.
      *
      * @return {Integer} The horizontal mouse position in the document.
-     * @signature function()
      */
-    getDocumentLeft : qx.core.Variant.select("qx.client",
+    getDocumentLeft : function()
     {
-      "mshtml" : function()
-      {
-        if (this._native == null) {
-          return 0;
-        }
-
+      if (this._native == null) {
+        return 0;
+      }
+      
+      if (this._native.pageX !== undefined) {
+        return this._native.pageX;
+      } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
-      },
-
-      // opera, webkit and gecko
-      "default" : function()
-      {
-        if (this._native == null) {
-          return 0;
-        }
-
-        return this._native.pageX;
       }
-    }),
+    },
 
 
     /**
@@ -116,30 +107,20 @@ qx.Class.define("qx.event.type.Drag",
      * the page.
      *
      * @return {Integer} The vertical mouse position in the document.
-     * @signature function()
      */
-    getDocumentTop : qx.core.Variant.select("qx.client",
+    getDocumentTop : function()
     {
-      "mshtml" : function()
-      {
-        if (this._native == null) {
-          return 0;
-        }
+      if (this._native == null) {
+        return 0;
+      }
 
+      if (this._native.pageY !== undefined) {
+        return this._native.pageY;
+      } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
-      },
-
-      // opera, webkit and gecko
-      "default" : function()
-      {
-        if (this._native == null) {
-          return 0;
-        }
-
-        return this._native.pageY;
       }
-    }),
+    },
 
 
     /**
