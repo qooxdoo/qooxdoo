@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -55,29 +56,28 @@ qx.Class.define("qx.event.type.Mouse",
       clone.wheelDelta = nativeEvent.wheelDelta;
       clone.detail = nativeEvent.detail;
       clone.srcElement = nativeEvent.srcElement;
+      clone.target = nativeEvent.target;
 
       return clone;
     },
 
 
+    /** {Map} Contains the button ID to identifier data. */
+    __buttonsDOM2EventModel :
+    {
+      0 : "left",
+      2 : "right",
+      1 : "middle"
+    },
+
 
     /** {Map} Contains the button ID to identifier data. */
-    __buttons : qx.core.Variant.select("qx.client",
+    __buttonsMshtmlEventModel : 
     {
-      "mshtml" :
-      {
-        1 : "left",
-        2 : "right",
-        4 : "middle"
-      },
-
-      "default" :
-      {
-        0 : "left",
-        2 : "right",
-        1 : "middle"
-      }
-    }),
+      1 : "left",
+      2 : "right",
+      4 : "middle"
+    },
 
 
     // overridden
@@ -123,7 +123,11 @@ qx.Class.define("qx.event.type.Mouse",
           if (this.__normalizeIEClick) {return this.__normalizeIEClick();}
 
         default:
-          return this.__buttons[this._native.button] || "none";
+          if (this._native.target !== undefined) {
+            return this.__buttonsDOM2EventModel[this._native.button] || "none";
+          } else {
+            return this.__buttonsMshtmlEventModel[this._native.button] || "none";
+          }
       }
     },
 
@@ -219,21 +223,16 @@ qx.Class.define("qx.event.type.Mouse",
      * the page.
      *
      * @return {Integer} The horizontal mouse position in the document.
-     * @signature function()
      */
-    getDocumentLeft : qx.core.Variant.select("qx.client",
+    getDocumentLeft : function()
     {
-      "mshtml" : function()
-      {
+      if (this._native.pageX !== undefined) {
+        return this._native.pageX;
+      } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
-      },
-
-      // opera, webkit and gecko
-      "default" : function() {
-        return this._native.pageX;
       }
-    }),
+    },
 
 
     /**
@@ -242,21 +241,16 @@ qx.Class.define("qx.event.type.Mouse",
      * the page.
      *
      * @return {Integer} The vertical mouse position in the document.
-     * @signature function()
      */
-    getDocumentTop : qx.core.Variant.select("qx.client",
+    getDocumentTop : function()
     {
-      "mshtml" : function()
-      {
+      if (this._native.pageY !== undefined) {
+        return this._native.pageY;
+      } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
-      },
-
-      // opera, webkit and gecko
-      "default" : function() {
-        return this._native.pageY;
       }
-    }),
+    },
 
 
     /**
