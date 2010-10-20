@@ -15,6 +15,7 @@
    Authors:
      * Martin Wittemann (martinwittemann)
      * Tino butz (tbtz)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -177,7 +178,7 @@ qx.Class.define("qx.event.handler.Touch",
     __fireEvent : function(domEvent, type, target, eventTypeClass)
     {
       if (!target) {
-        target = this.__getTarget(domEvent);
+        target = qx.bom.Event.getTarget(domEvent);
       }
       
       var type = type || domEvent.type;
@@ -207,7 +208,7 @@ qx.Class.define("qx.event.handler.Touch",
     __checkAndFireGesture : function(domEvent, type, target)
     {
       if (!target) {
-        target = this.__getTarget(domEvent);
+        target = qx.bom.Event.getTarget(domEvent);
       }
       var type = type || domEvent.type;
 
@@ -323,17 +324,6 @@ qx.Class.define("qx.event.handler.Touch",
 
 
     /**
-     * Return the target of the event.
-     * 
-     * @param domEvent {Event} DOM event
-     * @return {Element} Event target
-     */
-    __getTarget : function(domEvent) {
-      return domEvent.target || domEvent.srcElement;
-    },
-
-
-    /**
      * Normalizes a mouse event to a touch event.
      * 
      * @signature function(domEvent)
@@ -406,7 +396,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       "on" : function(domEvent)
       {
-        var target = this.__getTarget(domEvent);
+        var target = qx.bom.Event.getTarget(domEvent);
         return {
           clientX : domEvent.clientX,
           clientY : domEvent.clientY,
