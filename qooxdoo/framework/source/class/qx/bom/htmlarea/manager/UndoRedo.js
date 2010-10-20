@@ -1266,7 +1266,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
 
       "default" : function(e)
       {
-        var checkNode = e.srcElement;
+        var checkNode = qx.bom.Event.getTarget(e);
 
         if (this.__selectedNode != null)
         {
