@@ -16,7 +16,7 @@
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
      * Alexander Steitz (aback)
-
+     * Christian Hagendorn (chris_schmidt)
 
    ======================================================================
 
@@ -78,18 +78,17 @@ qx.Class.define("qx.bom.Event",
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @signature function(target, type, listener)
+     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to add 
+     *    the event handler for the capturing phase or the bubbling phase. 
      */
-    addNativeListener : qx.core.Variant.select("qx.client",
+    addNativeListener : function(target, type, listener, useCapture)
     {
-      "mshtml" : function(target, type, listener) {
+      if (target.addEventListener) {
+        target.addEventListener(type, listener, !!useCapture);
+      } else if (target.attachEvent) {
         target.attachEvent("on" + type, listener);
-      },
-
-      "default" : function(target, type, listener) {
-        target.addEventListener(type, listener, false);
       }
-    }),
+    },
 
 
     /**
@@ -99,11 +98,16 @@ qx.Class.define("qx.bom.Event",
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @signature function(target, type, listener)
+     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to remove 
+     *    the event handler for the capturing phase or the bubbling phase. 
      */
-    removeNativeListener : qx.core.Variant.select("qx.client",
+    removeNativeListener : function(target, type, listener, useCapture)
     {
-      "mshtml" : function(target, type, listener)
+      if (target.removeEventListener)
+      {
+        target.removeEventListener(type, listener, !!useCapture);
+      }
+      else if (target.detachEvent)
       {
         try {
           target.detachEvent("on" + type, listener);
@@ -116,12 +120,8 @@ qx.Class.define("qx.bom.Event",
             throw e;
           };
         }
-      },
-
-      "default" : function(target, type, listener) {
-        target.removeEventListener(type, listener, false);
       }
-    }),
+    },
 
 
     /**
@@ -140,36 +140,33 @@ qx.Class.define("qx.bom.Event",
      *
      * @param e {Event} Native DOM event object
      * @return {Element} The related target
-     * @signature function(e)
      */
-    getRelatedTarget : qx.core.Variant.select("qx.client",
+    getRelatedTarget : function(e)
     {
-      "mshtml" : function(e)
-      {
-        if (e.type === "mouseover") {
-          return e.fromElement;
-        } else {
-          return e.toElement;
-        }
-      },
-
-      "gecko" : function(e)
+      if (e.relatedTarget !== undefined)
       {
         // In Firefox the related target of mouse events is sometimes an
         // anonymous div inside of a text area, which raises an exception if
         // the nodeType is read. This is why the try/catch block is needed.
-        try {
-          e.relatedTarget && e.relatedTarget.nodeType;
-        } catch (e) {
-          return null;
+        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        {
+          try {
+            e.relatedTarget && e.relatedTarget.nodeType;
+          } catch (e) {
+            return null;
+          }
         }
-        return e.relatedTarget;
-      },
 
-      "default" : function(e) {
         return e.relatedTarget;
+      } 
+      else if (e.fromElement !== undefined && e.type === "mouseover") {
+        return e.fromElement;
+      } else if (e.toElement !== undefined) {
+        return e.toElement;
+      } else {
+        return null;
       }
-    }),
+    },
 
 
     /**
@@ -178,52 +175,48 @@ qx.Class.define("qx.bom.Event",
      * This is useful to stop native keybindings, native selection
      * and other native functionality behind events.
      *
-     * @signature function(e)
      * @param e {Event} Native event object
      */
-    preventDefault : qx.core.Variant.select("qx.client",
+    preventDefault : function(e)
     {
-      "gecko" : function(e)
+      if (e.preventDefault)
       {
         // Firefox 3 does not fire a "contextmenu" event if the mousedown
         // called "preventDefault" => don't prevent the default behavior for
         // right clicks.
-        if (
-          qx.bom.client.Engine.VERSION >= 1.9 &&
-          e.type == "mousedown" &&
-          e.button == 2
-        ) {
+        if (qx.core.Variant.isSet("qx.client", "gecko") && 
+            qx.bom.client.Engine.VERSION >= 1.9 &&
+            e.type == "mousedown" &&
+            e.button == 2) {
           return;
         }
+
         e.preventDefault();
 
         // not working in firefox 3 and above
-        if (qx.bom.client.Engine.VERSION < 1.9) {
+        if (qx.core.Variant.isSet("qx.client", "gecko") &&
+            qx.bom.client.Engine.VERSION < 1.9)
+        {
           try
           {
-            // this allows us to prevent some key press events in IE and Firefox.
+            // this allows us to prevent some key press events in Firefox.
             // See bug #1049
             e.keyCode = 0;
           } catch(ex) {}
         }
-      },
-
-      "mshtml" : function(e)
+      }
+      else
       {
         try
         {
-          // this allows us to prevent some key press events in IE and Firefox.
+          // this allows us to prevent some key press events in IE.
           // See bug #1049
           e.keyCode = 0;
         } catch(ex) {}
 
         e.returnValue = false;
-      },
-
-      "default" : function(e) {
-        e.preventDefault();
       }
-    }),
+    },
 
 
     /**
@@ -232,15 +225,14 @@ qx.Class.define("qx.bom.Event",
      * Only useful for events which bubble e.g. mousedown.
      *
      * @param e {Event} Native event object
-     * @return {void}
      */
     stopPropagation : function(e)
     {
       if (e.stopPropagation) {
         e.stopPropagation();
+      } else {
+        e.cancelBubble = true;
       }
-
-      e.cancelBubble = true;
     },
 
 
@@ -249,23 +241,25 @@ qx.Class.define("qx.bom.Event",
      *
      * @param target {Element} DOM element to fire event on
      * @param type {String} Name of the event to fire
+     * @return {Boolean} A value that indicates whether any of the event handlers called {@link #preventDefault}.
+     *  <code>true</code> The default action is permitted, <code>false</code> the caller should prevent the default action. 
      */
     fire : function(target, type)
     {
-      // dispatch for IE
-      if (document.createEventObject)
-      {
-        var evt = document.createEventObject();
-        return target.fireEvent("on" + type, evt);
-      }
-
-      // dispatch for others
-      else
+      // dispatch for standard first
+      if (document.createEvent)
       {
         var evt = document.createEvent("HTMLEvents");
         evt.initEvent(type, true, true);
 
         return !target.dispatchEvent(evt);
+      }
+
+      // dispatch for IE
+      else
+      {
+        var evt = document.createEventObject();
+        return target.fireEvent("on" + type, evt);
       }
     },
 
