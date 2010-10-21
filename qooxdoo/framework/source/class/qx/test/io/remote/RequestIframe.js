@@ -35,7 +35,6 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
       this.__requests = [];
 
       var url = this.getUrl("qx/test/xmlhttp/echo_form_request.php");
-      console.log(this.getUrl("qx/test/xmlhttp/echo_form_request.php"));
 
       for (var i = 0; i < 2 ; i++) {
         var request = new qx.io.remote.Request(url, "GET", "text/plain");
@@ -112,7 +111,6 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
           completedCount++;
 
           var response = qx.lang.Json.parse(e.getContent());
-          console.log(response);
           request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
 
