@@ -139,7 +139,7 @@ def update(node, privates):
     else:
         return
         
-    if not name or not name.startswith("__"):
+    if not name or name[:2] != "__":
         return
         
     if not privates.has_key(name):

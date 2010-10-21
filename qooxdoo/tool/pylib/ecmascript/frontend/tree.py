@@ -61,11 +61,12 @@ class NodeAccessException (Exception):
 
 
 class Node(object):
+
     def __init__ (self, type):
         self.type = type
 
-
-
+    def __str__(self):
+        return nodeToXmlStringNR(self)
 
 
     def hasAttributes(self):
@@ -600,6 +601,16 @@ class Node(object):
                     child.nodeTreeMap(fn)
             return
 
+
+def nodeToXmlStringNR(node, prefix="", encoding="utf-8"):
+    hasText = False
+    asString = prefix + "<" + node.type
+    if node.hasAttributes():
+        for key in node.attributes:
+            asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True, encoding) + "\""
+    asString += "/>"
+
+    return asString
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
