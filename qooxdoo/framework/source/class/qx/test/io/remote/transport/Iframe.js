@@ -41,8 +41,12 @@ qx.Class.define("qx.test.io.remote.transport.Iframe",
       
       this.request.addListener("completed", function() {
         this.resume(function() {
-          var response = qx.lang.Json.parse(this.request.getIframeHtmlContent());
-          this.assertEquals("my_param=expected", response["_data_"]);
+          var response = this.request.getIframeHtmlContent();
+          this.assertNotNull(response, "Response is 'null'!");
+          this.assertNotEquals("", response, "Response is empty!");
+
+          response = qx.lang.Json.parse(response);
+          this.assertEquals("my_param=expected", response["_data_"], "Response is wrong!");
         }, this);
       }, this);
       
