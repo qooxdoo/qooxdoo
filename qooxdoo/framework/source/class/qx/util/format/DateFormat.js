@@ -20,7 +20,7 @@
 
 /**
  * A formatter and parser for dates, see
- * http://search.cpan.org/~drolsky/DateTime-0.50/lib/DateTime.pm#CLDR_Patterns
+ * http://search.cpan.org/~drolsky/DateTime/lib/DateTime.pm#CLDR_Patterns
  */
 qx.Class.define("qx.util.format.DateFormat",
 {
