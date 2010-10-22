@@ -59,7 +59,7 @@ tr
 
     var button = new qx.ui.form.Button(this.tr("Hello World"));
 
-Marks the string ``Hello World`` for translation and returns an instance of ``qx.locale.String``. The ``toString()`` method of the returned object performs the actual translation based on the current locale.
+Marks the string ``Hello World`` for translation and returns an instance of ``qx.locale.LocalizedString``. The ``toString()`` method of the returned object performs the actual translation based on the current locale.
 
 There is one *exception* to the simple rule that all strings can just be replaced by wrapping them in an appropriate ``this.tr()`` function call: if init values of :doc:`dynamic properties </pages/core/understanding_properties>` are meant to be localizable, the init value has either to be set in the class constructor using ``this.tr()``, or ``qx.locale.Manager.tr()`` has to be used inside the property declaration. See documentation on :ref:`Defining an init value <pages/defining_properties#defining_an_init_value>` for details.
 
