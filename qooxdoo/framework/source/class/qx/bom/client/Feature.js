@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     ECMA_OBJECT_COUNT : (({}).__count__ == 0),
 
     /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
-    CSS_POINTER_EVENTS : "pointerEvents" in document.documentElement.style,
+    CSS_POINTER_EVENTS : false,
     
     /** {BOOLEAN} Whether the client supports XUL */
     XUL : false,
@@ -136,7 +136,18 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       }
       
       var i = document.createElement("input");
-      this.PLACEHOLDER = "placeholder" in i;      
+      this.PLACEHOLDER = "placeholder" in i;
+      
+      // Check if browser reports that pointerEvents is a known style property
+      if ("pointerEvents" in document.documentElement.style) {
+        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229). 
+        // Do not rely on pointer events in Opera until this browser issue is fixed.
+        if (qx.bom.client.Engine.OPERA) {
+          this.CSS_POINTER_EVENTS = false;
+        } else {
+          this.CSS_POINTER_EVENTS = true;
+        }
+      }
     },
 
 
