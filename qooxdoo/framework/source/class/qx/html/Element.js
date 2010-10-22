@@ -508,10 +508,11 @@ qx.Class.define("qx.html.Element",
         }
       }
 
+      var length;
       var children = this.__children;
       if (children)
       {
-        var length = children.length;
+        length = children.length;
         var child;
         for (var i=0; i<length; i++)
         {
