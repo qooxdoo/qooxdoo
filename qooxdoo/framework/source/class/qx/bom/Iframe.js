@@ -61,8 +61,8 @@ qx.Class.define("qx.bom.Iframe",
      * Attributes may be given directly with this call. This is critical
      * for some attributes e.g. name, type, ... in many clients.
      *
-     * @param attributes {Map} Map of attributes to apply
-     * @param win {Window} Window to create the element for
+     * @param attributes {Map?null} Map of attributes to apply
+     * @param win {Window?null} Window to create the element for
      * @return {Element} The created iframe node
      */
     create : function(attributes, win)
