@@ -74,6 +74,7 @@ class Lang(object):
                 "settings"      : types.DictType,
                 "shell"         : types.DictType,
                 "slice-images"  : types.DictType,
+                "test-interaction"  : types.DictType,
                 "translate"     : types.DictType,
                 "use"           : types.DictType,
                 "variants"      : types.DictType,
