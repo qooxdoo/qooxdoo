@@ -26,6 +26,7 @@ from ecmascript import compiler
 from ecmascript.frontend import treeutil
 from ecmascript.transform.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
 from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
+from ecmascript.transform.optimizer import featureoptimizer
 from generator.code import Class
 from misc import util
 
@@ -77,7 +78,7 @@ class TreeCompiler(object):
         self._cache.write(cacheId, protectedoptimizer.get())
 
 
-    def compileClasses(self, classes, variants, optimize, format):
+    def compileClasses(self, classes, variants, optimize, format, ):
         if self._jobconf.get('run-time/num-processes', 0) > 0:
             return self.compileClassesMP(classes, variants, optimize, format, self._jobconf.get('run-time/num-processes'))
         else:
@@ -86,14 +87,14 @@ class TreeCompiler(object):
 
     #def compileClasses(self, classes, variants, optimize, format):
     def compileClassesXX(self, classes, variants, optimize, format):
-        content = ""
+        content = []
         length = len(classes)
         
         for pos, classId in enumerate(classes):
             self._console.progress(pos + 1, length)
-            content += self.getCompiled(classId, variants, optimize, format)
+            content.append( self.getCompiled(classId, variants, optimize, format) )
             
-        return content
+        return u''.join(content)
 
 
     def compileClassesMP(self, classes, variants, optimize, format, maxproc=8):
@@ -361,6 +362,10 @@ class TreeCompiler(object):
         if "properties" in optimize:
             self._console.debug("Optimize properties...")
             self._propertyOptimizeHelper(fileTree, fileId, variants)
+            
+        if "statics" in optimize:
+            self._console.debug("Optimize static methods...")
+            self._staticMethodsHelper(fileTree, fileId, variants)
 
         return fileTree
 
@@ -394,6 +399,11 @@ class TreeCompiler(object):
 
     def _propertyOptimizeHelper(self, tree, id, variants):
         propertyoptimizer.patch(tree, id)
+        
+    
+    def _staticMethodsHelper(self, tree, id, variants):
+        if self._classesObj[id].type == 'static':
+            featureoptimizer.patch(tree, id, self._featureMap[id])
 
 
     def _stringOptimizeHelper(self, tree, id, variants):

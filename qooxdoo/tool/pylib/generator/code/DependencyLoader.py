@@ -39,6 +39,7 @@
 ##
 
 import sys, re, os, types
+from operator import attrgetter
 import graph
 
 from misc.ExtMap                import ExtMap
@@ -225,7 +226,7 @@ class DependencyLoader(object):
     # expressed in config options
     # - interface method
 
-    def getCombinedDeps(self, fileId, variants, buildType=""):
+    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True):
 
         # init lists
         loadFinal = []
@@ -240,8 +241,9 @@ class DependencyLoader(object):
         runFinal.extend(static["run"])
 
         # fix self-references
-        loadFinal = [x for x in loadFinal if x.name != fileId]
-        runFinal  = [x for x in runFinal  if x.name != fileId]
+        if stripSelfReferences:
+            loadFinal = [x for x in loadFinal if x.name != fileId]
+            runFinal  = [x for x in runFinal  if x.name != fileId]
 
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :
@@ -370,3 +372,28 @@ class DependencyLoader(object):
         classList = gr.topological_sorting()
 
         return classList
+
+    
+    def registerDependeeFeatures(self, classList, variants, buildType=""):
+        featureMap = {}
+
+        for clazz in classList:
+            # make sure every class is at least listed
+            if clazz.id not in featureMap:
+                featureMap[clazz.id] = {}
+            deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False)
+            if clazz.id == "qx.core.Setting":
+                #from pprint import pprint
+                #pprint( deps )
+                #import pydb; pydb.debugger()
+                pass
+            ignored_names = map(attrgetter("name"), deps['ignore'])
+            for dep in deps['load'] + deps['run']:
+                if dep.name in ignored_names:
+                    continue
+                if dep.name not in featureMap:
+                    featureMap[dep.name] = {}
+                featureMap[dep.name][dep.attribute] = ("r",)  # use 'r' for all currently
+        
+        return featureMap
+

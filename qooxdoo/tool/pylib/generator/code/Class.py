@@ -63,6 +63,7 @@ class Class(Resource):
         self.encoding   = 'utf-8'
         self.source     = u''  # source text of this class
         #self.ast        = None # ecmascript.frontend.tree instance
+        #self.type      = "" # PROPERTY
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
@@ -72,6 +73,24 @@ class Class(Resource):
         cache   = context["cache"]
 
         DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
+
+
+    def _getType(self):
+        if hasattr(self, "_type"):
+            return self._type
+        ast = self.tree()
+        qxDefine = treeutil.findQxDefine(ast)
+        classMap = treeutil.getClassMap(qxDefine)
+        if 'type' in classMap:
+            self._type = classMap['type'].get('value')
+        elif 'extend' not in classMap:
+            self._type = "static"  # this is qx.Class.define semantics!
+        else:
+            self._type = "normal"
+        return self._type
+        
+
+    type = property(_getType)
 
 
     # --------------------------------------------------------------------------
@@ -442,7 +461,7 @@ class Class(Resource):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants, recurse=True):
+    def _analyzeClassDepsNode(self, node, loadtime, runtime, inFunction, variants, recurse=True, inDefer=False):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
@@ -450,7 +469,7 @@ class Class(Resource):
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
-                self._analyzeClassDepsNode(deferNode, loadtime, runtime, False, variants, recurse)
+                self._analyzeClassDepsNode(deferNode, loadtime, runtime, False, variants, recurse,True)
 
             (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id)
             # postcond: 
@@ -461,6 +480,8 @@ class Class(Resource):
             if className:
                 # we allow self-references, to be able to track method dependencies within the same class
                 if className == 'this':
+                    className = self.id
+                elif className == 'statics' and inDefer:  # TODO: this is never reached, 'statics' are scoped in defer
                     className = self.id
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
@@ -487,7 +508,7 @@ class Class(Resource):
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(child, loadtime, runtime, inFunction, variants, recurse)
+                self._analyzeClassDepsNode(child, loadtime, runtime, inFunction, variants, recurse, inDefer)
 
         return
 
