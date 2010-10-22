@@ -618,6 +618,9 @@ class Generator(object):
 
             script.namespaces = script.createTrie(script.classesObj)  # TODO: experimental
 
+            featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variants, script.buildType)
+            self._treeCompiler._featureMap = featureMap
+
             # prepare 'script' object
             if set(("compile", "log")).intersection(jobTriggers):
                 partsConfigFromClassList(excludeWithDeps, script)
