@@ -39,9 +39,9 @@
  * {@link qx.io.remote.transport.XmlHttp XmlHttpTransport} specialize them,
  * depending of their interaction model with the server. Usually, you will
  * use one of these classes to tailor the implementation details of a specific
- * client-server communication in your application. Mind that the
- * IframeTransport and ScriptTransport classes are still abstract, so you have
- * to provide a subclass implementation to make use of them.
+ * client-server communication in your application. Mind that the IframeTransport 
+ * and ScriptTransport classes should not be used directly by client programmers. 
+ * It is recommended to provide a subclass implementation to make use of them.
  * <p>
  * The connection between your Request object and a specific Transport is
  * established through an {@link qx.io.remote.Exchange Exchange} object. An
