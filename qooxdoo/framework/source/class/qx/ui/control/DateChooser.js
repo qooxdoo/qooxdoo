@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           break;
 
         case "last-year-button":
-          control = new qx.ui.form.Button();
+          control = new qx.ui.toolbar.Button();
           control.addState("lastYear");
           control.setFocusable(false);
           control.setToolTip(this.getChildControl("last-year-button-tooltip"));
