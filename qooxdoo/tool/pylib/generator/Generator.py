@@ -1781,6 +1781,7 @@ class Generator(object):
         
         testInclude = self._job.get("test-interaction/test-include", None)
         if testInclude:
+            testInclude = self._expandRegExps(testInclude)
             simulationConfig["testClasses"] = "[" + ",".join(testInclude) + "]"
         else:
             simulationConfig["application"] = self._job.get("test-interaction/test-application", None)
