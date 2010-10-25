@@ -67,7 +67,7 @@ qx.Interface.define("qx.event.IEventHandler",
      *     be attached
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event.
+     *         capturing phase or the bubbling phase of the event.
      */
     registerEvent : function(target, type, capture) {},
 
@@ -81,7 +81,7 @@ qx.Interface.define("qx.event.IEventHandler",
      *     be removed
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event.
+     *         capturing phase or the bubbling phase of the event.
      */
     unregisterEvent : function(target, type, capture) {}
   }

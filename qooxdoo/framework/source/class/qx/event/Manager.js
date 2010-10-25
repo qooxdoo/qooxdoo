@@ -405,7 +405,7 @@ qx.Class.define("qx.event.Manager",
      * @param self {Object ? window} Reference to the 'this' variable inside
      *         the event listener.
      * @param capture {Boolean ? false} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event. The default is
+     *         capturing phase or the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
      * @return {String} An opaque ID, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
@@ -564,7 +564,7 @@ qx.Class.define("qx.event.Manager",
      * @param target {Object} Any valid event target
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event.
+     *         capturing phase or the bubbling phase of the event.
      * @throws an error if there is no handler for the event
      */
     __registerAtHandler : function(target, type, capture)
@@ -771,7 +771,7 @@ qx.Class.define("qx.event.Manager",
      * @param target {Object} Any valid event target
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event.
+     *         capturing phase or the bubbling phase of the event.
      * @throws an error if there is no handler for the event
      */
     __unregisterAtHandler : function(target, type, capture)

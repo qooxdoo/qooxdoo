@@ -818,7 +818,7 @@
        * @param self {Object} Reference to the 'this' variable inside
        *       the event listener.
        * @param capture {Boolean} Whether to attach the event to the
-       *       capturing phase of the bubbling phase of the event. The default is
+       *       capturing phase or the bubbling phase of the event. The default is
        *       to attach the event handler to the bubbling phase.
        * @return {Collection} The collection is returned for chaining proposes
        */
