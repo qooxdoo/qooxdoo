@@ -269,7 +269,7 @@
        * @see #query
        * @see #id
        * @see #html
-       * @param input {Element|String|Element[]} Support HTML elements, HTML strings and selector strings
+       * @param input {Element|String|Element[]} Supports HTML elements, HTML strings and selector strings
        * @param context {Element|Document?document} Where to start looking for the expression or
        *   any element in the document which refers to a valid document to create new elements
        *   (useful when dealing with HTML->Element translation in multi document environments).

@@ -69,7 +69,7 @@ qx.Class.define("qx.lang.Array",
      * Attention: The returned array may be same
      * instance as the incoming one if the constructor is identical!
      *
-     * @param object {var} any array like object
+     * @param object {var} any array-like object
      * @param constructor {Function} constructor of the new instance
      * @param offset {Integer?0} position to start from
      * @return {Array} the converted array
