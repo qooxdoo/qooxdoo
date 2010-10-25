@@ -361,7 +361,7 @@ To maintain the closed form, browser switches on method level is done using :doc
 
     members: 
     {
-      foo: qx.core.Variant.select("qx.bom.client.Engine.NAME", 
+      foo: qx.core.Variant.select("qx.client",
       {
         "mshtml|opera": function() {
            // Internet Explorer or Opera
