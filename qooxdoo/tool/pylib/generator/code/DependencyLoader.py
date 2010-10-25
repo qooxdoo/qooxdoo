@@ -226,7 +226,7 @@ class DependencyLoader(object):
     # expressed in config options
     # - interface method
 
-    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True):
+    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True):
 
         # init lists
         loadFinal = []
@@ -244,6 +244,18 @@ class DependencyLoader(object):
         if stripSelfReferences:
             loadFinal = [x for x in loadFinal if x.name != fileId]
             runFinal  = [x for x in runFinal  if x.name != fileId]
+
+        if projectClassNames:
+            loads = loadFinal
+            loadFinal = []
+            for dep in loads:
+                if dep.name not in (x.name for x in loadFinal):
+                    loadFinal.append(dep)
+            runs = runFinal
+            runFinal = []
+            for dep in runs:
+                if dep.name not in (x.name for x in runFinal):
+                    runFinal.append(dep)
 
         # fix source dependency to qx.core.Variant
         if len(variants) and buildType == "source" :
@@ -381,7 +393,7 @@ class DependencyLoader(object):
             # make sure every class is at least listed
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
-            deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False)
+            deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False, projectClassNames=False)
             if clazz.id == "qx.core.Setting":
                 #from pprint import pprint
                 #pprint( deps )

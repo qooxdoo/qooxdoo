@@ -339,6 +339,11 @@ class TreeCompiler(object):
 
 
     def _optimizeHelper(self, fileTree, fileId, variants, optimize):
+        # 'statics' has to come before 'privates', as it needs the original key names in tree
+        if "statics" in optimize:
+            self._console.debug("Optimize static methods...")
+            self._staticMethodsHelper(fileTree, fileId, variants)
+
         if "basecalls" in optimize:
             self._console.debug("Optimize base calls...")
             self._baseCallOptimizeHelper(fileTree, fileId, variants)
@@ -363,10 +368,6 @@ class TreeCompiler(object):
             self._console.debug("Optimize properties...")
             self._propertyOptimizeHelper(fileTree, fileId, variants)
             
-        if "statics" in optimize:
-            self._console.debug("Optimize static methods...")
-            self._staticMethodsHelper(fileTree, fileId, variants)
-
         return fileTree
 
 
