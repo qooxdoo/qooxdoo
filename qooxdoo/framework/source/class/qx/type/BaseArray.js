@@ -75,22 +75,23 @@ qx.Class.define("qx.type.BaseArray",
    *
    * <pre class="javascript">
    * var arr1 = new qx.type.BaseArray(arrayLength);
-   * var arr2 = new qx.type.BaseArray(element0, element1, ..., elementN);
+   * var arr2 = new qx.type.BaseArray(item0, item1, ..., itemN);
    * </pre>
    *
    * * <code>arrayLength</code>: The initial length of the array. You can access
    * this value using the length property. If the value specified is not a
    * number, an array of length 1 is created, with the first element having
    * the specified value. The maximum length allowed for an
-   * array is 4,294,967,295.
-   * * <code>elementN</code>:  A value for the element in that position in the
-   * array. When this formis used, the array is initialized with the specified
+   * array is 2^32-1, i.e. 4,294,967,295.
+   * * <code>itemN</code>:  A value for the element in that position in the
+   * array. When this form is used, the array is initialized with the specified
    * values as its elements, and the array's length property is set to the
    * number of arguments.
    *
-   * @param length {Integer} The length of the array
+   * @param length_or_items {Integer|varargs?null} The initial length of the array
+   *        OR an argument list of values.
    */
-  construct : function(length) {},
+  construct : function(length_or_items) {},
 
 
   /*
@@ -199,7 +200,7 @@ qx.Class.define("qx.type.BaseArray",
     /**
      * Returns a new array comprised of this array joined with other array(s) and/or value(s).
      *
-     * This method do not modify the array and return a modified copy of the original.
+     * This method does not modify the array and returns a modified copy of the original.
      *
      * @signature function(varargs)
      * @param varargs {Array|var} Arrays and/or values to concatenate to the resulting array.
