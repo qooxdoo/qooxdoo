@@ -28,11 +28,11 @@ Selectors
 
 In the most basic form each selector is identical to an appearance ID. This appearance ID is the value stored in the ``appearance`` property (`API <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~appearance>`_) of each widget.
 
-The child control support introduced with qooxdoo 1.2 ignores this appearance entry for widgets which function as a child control of another widget. In these cases the selector is the combination of the appearance ID of the parent widget plus the ID of the child control.
+The child control system ignores this appearance entry for widgets which function as a child control of another widget. In these cases the selector is the combination of the appearance ID of the parent widget plus the ID of the child control.
 
 In a classic ``Button`` there is a child control ``icon`` for example. The appearance selector for the image element which represents the icon is ``button/icon``. As you can see the divider between the appearance ID and the child control is a simple slash (``/``).
 
-It is also possible that a widget, which is a child control itself, uses another child control. Generally the mechanism prepands the ID of each parent which is also a child control to the front of the selector. For example:
+It is also possible that a widget, which is a child control itself, uses another child control. Generally the mechanism prepends the ID of each parent which is also a child control to the front of the selector. For example:
 
 ::
 
@@ -49,7 +49,7 @@ A classic example for this is the ``Spinner`` widget. A ``Spinner`` is basically
 * ``spinner/upbutton``
 * ``spinner/downbutton``
 
-Each of these selectors must be fulfilled by the selected appearance. Otherwise one get errors for the missing selector. Hopefully you got an idea.
+Each of these selectors must be defined by the selected appearance. Otherwise a warning about missing selectors is displayed.
 
 .. _pages/gui_toolkit/ui_appearance#aliases:
 
@@ -151,7 +151,7 @@ Style Method
 
 Let's start with the ``style`` sub entry. The value under this key should be a function which returns a set of properties to apply to the target widget. The first parameter of the function is named ``states``. This is a map containing keys with boolean values which signalize which states are switched on. The data could be used to react on specific states like ``hovered``, ``focused``, ``selected``, etc. 
 
-It is required in this case that all properties applied in one state need to be applied it all states. Something like this is seen as bad style and may result into wrong styling:
+It is required that all properties applied in one state are applied in all other states. Something like this is seen as bad style and may result in wrong styling:
 
 ::
 
@@ -167,7 +167,7 @@ It is required in this case that all properties applied in one state need to be 
     return result;
   }
 
-The good version always should define the else case as well:
+Instead, you should always define the else case:
 
 ::
 
@@ -185,7 +185,9 @@ The good version always should define the else case as well:
     return result;
   }
 
-The ``undefined`` value means that no value should be applied. When qooxdoo runs through the returned map it calls the ``reset`` method for properties with a value of ``undefined``. In most cases it would be also perfectly valid to use ``null`` instead of ``undefined``, but keep in mind that ``null`` is stored using the setter (explicit null) and this way it overrides values given through the inheritance or through the init values. In short this means that ``undefined`` is the better choice in almost all cases. 
+.. note::
+
+  The ``undefined`` value means that no value should be applied. When qooxdoo runs through the returned map it calls the ``reset`` method for properties with a value of ``undefined``. In most cases it would be also perfectly valid to use ``null`` instead of ``undefined``, but keep in mind that ``null`` is stored using the setter (explicit null) and this way it overrides values given through the inheritance or through the init values. In short this means that ``undefined`` is the better choice in almost all cases. 
 
 One thing we have also seen in the example is that it is perfectly possible to create the return map using standard JavaScript and fill in keys during the runtime of the ``style`` method. This allows to use more complex statements to solve the requirements of today's themes were a lot of states or dependencies between states can have great impact on the result map.
 
@@ -274,7 +276,7 @@ When ``alias`` and ``include`` are identically pointing to the same selector the
 Base Calls
 ----------
 
-When extending themes the so-named ``base`` flag can be enabled to include the result of this selector of the derived theme into the local selector. This is quite comparable to the ``this.base(arguments, ...)`` call in member functions of typical qooxdoo classes. It do all the things the super class has done plus the local things. Please note that all local defintions have higher priority than the inheritance. See next paragraph for details.
+When extending themes the so-named ``base`` flag can be enabled to include the result of this selector of the derived theme into the local selector. This is quite comparable to the ``this.base(arguments, ...)`` call in member functions of typical qooxdoo classes. It does all the things the super class has done plus the local things. Please note that all local defintions have higher priority than the inheritance. See next paragraph for details.
 
 .. _pages/gui_toolkit/ui_appearance#priorities:
 
@@ -311,7 +313,7 @@ The queue also minimizes the effect of multiple state changes when they happen a
 Selector Caching
 ----------------
 
-Each widget comes with a appearance or was created as a child control of another widgets. Because the detection of the selector is quite complex with iterations up to the parent chain, the resulting selector of each widget is cached. The system benefits from the idea that child controls are never moved outside the parent they belong to. So a child controls which is cached once keeps the selector for lifetime. The only thing which could invalidate the selectors of a widget and all of its child controls is the change of the property ``appearance`` in the parent of the child control.
+Each widget comes with an appearance or was created as a child control of another widget. Because the detection of the selector is quite complex with iterations up to the parent chain, the resulting selector of each widget is cached. The system benefits from the idea that child controls are never moved outside the parent they belong to. So a child controls which is cached once keeps the selector for lifetime. The only thing which could invalidate the selectors of a widget and all of its child controls is the change of the property ``appearance`` in the parent of the child control.
 
 .. _pages/gui_toolkit/ui_appearance#alias_caching:
 
