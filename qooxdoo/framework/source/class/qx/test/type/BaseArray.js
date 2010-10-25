@@ -41,6 +41,16 @@ qx.Class.define("qx.test.type.BaseArray",
       this.assertArrayEquals([1, 2, 3], list);
     },
 
+    testSingleItemConstruct : function()
+    {
+      // ECMAScript version 3 compatible,
+      // but NOT ECMAScript version 1
+      var list = new qx.test.type.TestArray("42");
+      this.assertArray(list);
+      this.assertEquals(list.length, 1);
+      this.assertIdentical("42", list[0], "The answer was not 42!");
+    },
+
     testArrayLength : function()
     {
       var list = new qx.test.type.TestArray(1, 2, 3);
