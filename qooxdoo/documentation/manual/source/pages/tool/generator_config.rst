@@ -196,7 +196,7 @@ First, here is an overview table, to list all possible keys in a job (unless oth
   * - use
     - Define prerequisite classes (run time).                  
   * - variants
-    - Define variants for the curren app.                      
+    - Define variants for the current app.                      
 
   * -  
     -  
