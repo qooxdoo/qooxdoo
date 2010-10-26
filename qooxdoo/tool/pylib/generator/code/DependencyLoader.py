@@ -394,11 +394,6 @@ class DependencyLoader(object):
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
             deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False, projectClassNames=False)
-            if clazz.id == "qx.core.Setting":
-                #from pprint import pprint
-                #pprint( deps )
-                #import pydb; pydb.debugger()
-                pass
             ignored_names = map(attrgetter("name"), deps['ignore'])
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:

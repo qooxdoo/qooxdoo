@@ -461,7 +461,7 @@ class Class(Resource):
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
                 or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
-                #or inDefer  # TODO: this should be in!
+                or inDefer
                 # what about static vars, "a.b.c.FOO"?!
             )
            ):
