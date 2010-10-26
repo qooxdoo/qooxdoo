@@ -65,28 +65,28 @@ qx.Class.define("demobrowser.demo.event.Event_Bus",
       // 'start' message
       qx.event.Timer.once(function(e){
         this._log(["", "X", "", "start", ""]);
-        eventBus.getInstance().dispatch("start");
+        eventBus.getInstance().dispatchByName("start");
       }, this, 1000);
 
 
       // 'loading' message
       qx.event.Timer.once(function(e){
         this._log(["", "X", "", "loading", ""]);
-        eventBus.getInstance().dispatch("loading");
+        eventBus.getInstance().dispatchByName("loading");
       }, this, 2500);
 
 
       // 'loading' message
       qx.event.Timer.once(function(e){
         this._log(["", "X", "", "loading", ""]);
-        eventBus.getInstance().dispatch("loading");
+        eventBus.getInstance().dispatchByName("loading");
       }, this, 4000);
 
 
       // 'finished' message
       qx.event.Timer.once(function(e){
         this._log(["", "X", "", "finished", ""]);
-        eventBus.getInstance().dispatch("finished");
+        eventBus.getInstance().dispatchByName("finished");
       }, this, 5000);
     },
 
