@@ -258,7 +258,7 @@ class DependencyLoader(object):
                     runFinal.append(dep)
 
         # fix source dependency to qx.core.Variant
-        if len(variants) and buildType == "source" :
+        if len(variants) and buildType == "source" and classObj.id != "qx.core.Variant":
             depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
@@ -284,7 +284,7 @@ class DependencyLoader(object):
             "run"    : runFinal,
             "ignore" : static['ignore'],
         }
-
+        
         return deps, cached
 
 
