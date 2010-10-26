@@ -55,7 +55,7 @@
    *
    * @param clazz {Class} Static class which contains the given method
    * @param method {String} Name of the method
-   * @return {Function} Returns a new function which wrapps the given function
+   * @return {Function} Returns a new function which wraps the given function
    */
   var setter = function(clazz, method)
   {
@@ -85,7 +85,7 @@
    *
    * @param clazz {Class} Static class which contains the given method
    * @param method {String} Name of the method
-   * @return {Function} Returns a new function which wrapps the given function
+   * @return {Function} Returns a new function which wraps the given function
    */
   var getter = function(clazz, method)
   {
@@ -198,7 +198,7 @@
     {
       /**
        * Queries the selector engine and returns a new collection
-       * for convenient modfication and quering.
+       * for convenient modification and querying.
        *
        * @see qx.bom.Selector#query
        * @param selector {String} CSS Selector String
@@ -473,7 +473,7 @@
        * on all selected elements.
        *
        * @signature function(name, value)
-       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+       * @param name {String} Name of the style attribute (JS variant e.g. marginTop, wordSpacing)
        * @param value {var} The value for the given style
        * @return {Collection} The collection is returned for chaining proposes
        */
@@ -494,7 +494,7 @@
        * on all selected elements.
        *
        * @signature function(name)
-       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+       * @param name {String} Name of the style attribute (JS variant e.g. marginTop, wordSpacing)
        * @return {Collection} The collection is returned for chaining proposes
        */
       resetStyle : setter(qx.bom.element.Style, "reset"),
@@ -504,7 +504,7 @@
         * the first element stored in the collection.
         *
         * @signature function(name, mode)
-        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+        * @param name {String} Name of the style attribute (JS variant e.g. marginTop, wordSpacing)
         * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style#get}
         * @return {var} The value of the style property
         */
@@ -1591,8 +1591,8 @@
        *
        * This works by going through the first element provided (which is
        * generated, on the fly, from the provided HTML) and finds the deepest
-       * descendant element within its structure -- it is that element that
-       * will enwrap everything else.
+       * descendant element within its structure -- it is that element, which
+       * will wrap everything else.
        *
        * @param content {String|Element} Element or HTML markup used for wrapping
        * @return {Collection} The collection is returned for chaining proposes
@@ -1610,7 +1610,7 @@
             first.parentNode.insertBefore(wrap[0], first);
           }
 
-          // Wrap so that we have the innerst element of every item in the
+          // Wrap so that we have the innermost element of every item in the
           // collection. Afterwards append the current items to the wrapper.
           wrap.map(this.__getInnerHelper).append(this);
         }
@@ -1671,8 +1671,8 @@
        * into a document, without ruining the original semantic qualities of a
        * document. This works by going through the first element provided (which
        * is generated, on the fly, from the provided HTML) and finds the deepest
-       * descendant element within its structure -- it is that element that will
-       * enwrap everything else.
+       * descendant element within its structure -- it is that element, which 
+       * will wrap everything else.
        *
        * @param content {String|Element} Element or HTML markup used for wrapping
        * @return {Collection} The collection is returned for chaining proposes
