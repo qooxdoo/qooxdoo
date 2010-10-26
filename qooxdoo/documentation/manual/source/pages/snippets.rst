@@ -605,6 +605,37 @@ However below is a solution to deal with this behaviour.
          alert("application ready");
       }
     }
+    
+.. _pages/snippets#capturing_caps_lock:
+
+Capturing Caps Lock
+-----------------------------------------------
+
+If you try to detect a caps lock you can use for example this `algorithm <http://24ways.org/2007/capturing-caps-lock>`_.
+
+Here the qooxdoo equivalent:
+
+::
+
+  var textField = new qx.ui.form.TextField();
+  var capsLock = new qx.ui.form.CheckBox("Caps lock");
+
+  var doc = this.getRoot();
+  doc.add(capsLock , {left: 100, top: 25});
+  doc.add(textField, {left: 100, top: 50});
+
+  textField.addListener("keyinput", function(e) {
+    var charCode = e.getCharCode();
+    var shiftPressed = e.isShiftPressed();
+  
+    if (((charCode >= 65 && charCode <= 90) && !shiftPressed) ||
+       ((charCode >= 97 && charCode <= 122) && shiftPressed)) {
+      capsLock.setValue(true);
+    } else {
+      capsLock.setValue(false);
+    }
+  });
+
 
 .. _pages/snippets#tooling:
 
