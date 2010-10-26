@@ -450,7 +450,9 @@ qx.Class.define("qx.log.Logger",
       // Add relation fields
       if (object)
       {
-        if (object instanceof qx.core.Object) {
+        // Do not explicitly check for instanceof qx.core.Object, in order not 
+        // to introduce an unwanted load-time dependency
+        if (object.$$hash !== undefined) {
           entry.object = object.$$hash;
         } else if (object.$$type) {
           entry.clazz = object;
