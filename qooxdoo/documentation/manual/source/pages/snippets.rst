@@ -611,7 +611,7 @@ However below is a solution to deal with this behaviour.
 Capturing Caps Lock
 -----------------------------------------------
 
-If you try to detect a caps lock you can use for example this `algorithm <http://24ways.org/2007/capturing-caps-lock>`_.
+If you try to detect a caps lock you can use for example this `algorithm <http://24ways.org/2007/capturing-caps-lock>`_, but keep care the algorithm doesn't work with umlauts etc.
 
 Here the qooxdoo equivalent:
 
@@ -628,6 +628,7 @@ Here the qooxdoo equivalent:
     var charCode = e.getCharCode();
     var shiftPressed = e.isShiftPressed();
   
+    // Keep care the algorithm doesn't work with umlauts etc. 
     if (((charCode >= 65 && charCode <= 90) && !shiftPressed) ||
        ((charCode >= 97 && charCode <= 122) && shiftPressed)) {
       capsLock.setValue(true);
