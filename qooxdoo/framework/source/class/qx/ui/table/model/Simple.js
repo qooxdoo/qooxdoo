@@ -433,9 +433,39 @@ qx.Class.define("qx.ui.table.model.Simple",
       return this.__sortColumnIndex;
     },
 
+    /**
+     * Set the sort column index
+     *
+     * WARNING: This should be called only be subclasses with intimate
+     *          knowledge of what they are doing! You've been warned.
+     * 
+     * @param ascending {Boolean}
+     *   <i>true</i> for an ascending sort;
+     *   <i> false</i> for a descending sort.
+     */
+    _setSortColumnIndex : function(index)
+    {
+      this.__sortColumnIndex = index;
+    },
+
     // overridden
     isSortAscending : function() {
       return this.__sortAscending;
+    },
+
+    /**
+     * Set whether we're sorting in ascending or not.
+     *
+     * WARNING: This should be called only be subclasses with intimate
+     *          knowledge of what they are doing! You've been warned.
+     * 
+     * @param ascending {Boolean}
+     *   <i>true</i> for an ascending sort;
+     *   <i> false</i> for a descending sort.
+     */
+    _setSortAscending : function(ascending)
+    {
+      this.__sortAscending = ascending;
     },
 
     // overridden
