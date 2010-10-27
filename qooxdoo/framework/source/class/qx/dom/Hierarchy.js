@@ -196,38 +196,49 @@ qx.Class.define("qx.dom.Hierarchy",
      * Whether the element is inserted into the document
      * for which it was created.
      *
+     * @signature function(element)
      * @param element {Element} DOM element to check
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
-    isRendered : function(element)
+    isRendered : qx.core.Variant.select("qx.client",
     {
       // This module is highly used by new qx.html.Element
       // Copied over details from qx.dom.Node.getDocument() and
       // this.contains() for performance reasons.
+      "mshtml" : function(element)
+      {
+        // Fast check for all elements which are not in the DOM
+        if (!element.parentNode || !element.offsetParent) {
+          return false;
+        }
+        
+        var doc = element.ownerDocument || element.document;
+        return doc.body.contains(element);
+      },
 
-      // Offset parent is a good start to test. It omits document detection
-      // and function calls.
-      if (!element.parentNode || !element.offsetParent) {
-        return false;
-      }
+      "gecko" : function(element)
+      {
+        // Gecko way, DOM3 method
+        var doc = element.ownerDocument || element.document;       
+        return !!(doc.compareDocumentPosition(element) & 16);
+      },
 
-      var doc = element.ownerDocument || element.document;
+      "default" : function(element)
+      {
+        // Fast check for all elements which are not in the DOM 
+        if (!element.parentNode || !element.offsetParent) {
+          return false;
+        }
 
-      // This is available after most browser excluding gecko haved copied it from mshtml.
-      // Contains() is only available on real elements in webkit and not on the document.
-      if (doc.body.contains) {
+        var doc = element.ownerDocument || element.document;
+
+        // This is available after most browser excluding gecko have copied it
+        // from mshtml.
+        // Contains() is only available on real elements in webkit and not on the document.
         return doc.body.contains(element);
       }
-
-      // Gecko way, DOM3 method
-      if (doc.compareDocumentPosition) {
-        return !!(doc.compareDocumentPosition(element) & 16);
-      }
-
-      // Should not happen :)
-      throw new Error("Missing support for isRendered()!");
-    },
+    }),
 
 
     /**
