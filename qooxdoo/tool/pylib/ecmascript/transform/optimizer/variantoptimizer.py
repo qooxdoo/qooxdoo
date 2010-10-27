@@ -67,12 +67,21 @@ def search(node, variantMap, fileId="", verb=False):
     return modified
 
 
+##
+# Processes qx.core.Variant.select blocks
+# Destructive! re-writes the AST tree passed in <callNode> by replacing choices with
+# the suitable branch.
+#
+# Mirror line:
+# <callNode>:
+# qx.core.Variant.select("qx.debug", { "on" : function(){return true;},
+#                                      "off": function(){return false;}})
+# <variantMap>:
+# {
+#   "qx.debug" : "on"
+# }
+
 def processVariantSelect(callNode, variantMap):
-    '''
-    processes qx.core.Variant.select blocks;
-    destructive! re-writes the AST tree passed in [callNode] by replacing choices with
-    the suitable branch.
-    '''
     if callNode.type != "call":
         return False
         
@@ -81,15 +90,18 @@ def processVariantSelect(callNode, variantMap):
         log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
         return False
 
+    # Get the variant key from the select() call
     firstParam = params.getChildByPosition(0)
     if not isStringLiteral(firstParam):
         log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
         return False
 
-    variantGroup = firstParam.get("value");
-    if not variantGroup in variantMap.keys():
+    variantKey = firstParam.get("value");
+    # lookup 
+    if not variantKey in variantMap.keys():
         return False
 
+    # Get the resolution map, keyed by possible variant key values (or value expressions)
     secondParam = params.getChildByPosition(1)
     default = None
     found = False
@@ -101,8 +113,10 @@ def processVariantSelect(callNode, variantMap):
             fullKey = node.get("key")
             value = node.getChild("value").getFirstChild()
             keys = fullKey.split("|")
+
+            # Go through individual value constants
             for key in keys:
-                if key == variantMap[variantGroup]:
+                if key == variantMap[variantKey]:
                     callNode.parent.replaceChild(callNode, value)
                     found = True
                     break
@@ -113,7 +127,7 @@ def processVariantSelect(callNode, variantMap):
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
             else:
-                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No default case found for (%s:%s) at" % (variantGroup, fullKey), callNode))
+                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No default case found for (%s:%s) at" % (variantKey, fullKey), callNode))
         return True
 
     log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
@@ -139,8 +153,8 @@ def processVariantIsSet(callNode, variantMap):
         log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
         return False
 
-    variantGroup = firstParam.get("value");
-    if not variantGroup in variantMap.keys():
+    variantKey = firstParam.get("value");
+    if not variantKey in variantMap.keys():
         return False
 
     secondParam = params.getChildByPosition(1)
@@ -152,7 +166,7 @@ def processVariantIsSet(callNode, variantMap):
         if ifcondition.type == "expression" and ifcondition.getChildrenLength(True) == 1 and ifcondition.parent.type == "loop":
             loop = ifcondition.parent
             variantValue = secondParam.get("value")
-            inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantGroup))
+            inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantKey))
 
         # ternery operator  .. ? .. : ..
         elif (
@@ -162,7 +176,7 @@ def processVariantIsSet(callNode, variantMap):
             ifcondition.parent.get("operator") == "HOOK"
         ):
             variantValue = secondParam.get("value")
-            if __variantMatchKey(variantValue, variantMap, variantGroup):
+            if __variantMatchKey(variantValue, variantMap, variantKey):
                 repleacement = selectNode(ifcondition, "../second")
             else:
                 repleacement = selectNode(ifcondition, "../third")
@@ -171,7 +185,7 @@ def processVariantIsSet(callNode, variantMap):
         else:
             variantValue = secondParam.get("value")
             constantNode = tree.Node("constant")
-            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantGroup)).lower())
+            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantKey)).lower())
             constantNode.set("constantType", "boolean")
             constantNode.set("line", callNode.get("line"))
             callNode.parent.replaceChild(callNode, constantNode)
@@ -183,8 +197,8 @@ def processVariantIsSet(callNode, variantMap):
     return False
 
 
-def __variantMatchKey(key, variantMap, variantGroup):
+def __variantMatchKey(key, variantMap, variantKey):
     for keyPart in key.split("|"):
-        if variantMap[variantGroup] == keyPart:
+        if variantMap[variantKey] == keyPart:
             return True
     return False
