@@ -97,7 +97,7 @@ def processVariantSelect(callNode, variantMap):
         return False
 
     variantKey = firstParam.get("value");
-    # lookup 
+    # is this key covered by the current variant map?
     if not variantKey in variantMap.keys():
         return False
 
