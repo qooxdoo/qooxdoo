@@ -106,8 +106,18 @@ qx.Class.define("qx.bom.element.Clip",
         // an issue that the lastIndex will not be resetted on separate calls.
         if (/\((.*)\)/.test(clip))
         {
+          var result = RegExp.$1;
+
           // Process result
-          var split = RegExp.$1.split(",");
+          // Some browsers store values space-separated, others comma-separated.
+          // Handle both cases by means of feature-detection.
+          if (/,/.test(result)) {
+            var split = result.split(",");
+          }
+          else
+          {
+            var split = result.split(" ");
+          }
 
           top = qx.lang.String.trim(split[0]);
           right = qx.lang.String.trim(split[1]);
