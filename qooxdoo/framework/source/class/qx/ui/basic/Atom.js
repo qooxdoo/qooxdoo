@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.basic.Atom",
     iconPosition :
     {
       init   : "left",
-      check : [ "top", "right", "bottom", "left" ],
+      check : [ "top", "right", "bottom", "left", "top-left", "bottom-left" ],
       themeable : true,
       apply : "_applyIconPosition"
     },

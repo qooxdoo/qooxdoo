@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.layout.Atom",
     /** The position of the icon in relation to the text */
     iconPosition :
     {
-      check : [ "left", "top", "right", "bottom" ],
+      check : [ "left", "top", "right", "bottom", "top-left", "bottom-left" ],
       init : "left",
       apply  : "_applyLayoutChange"
     },
@@ -251,7 +251,13 @@ qx.Class.define("qx.ui.layout.Atom",
             width = hint.width;
           }
 
-          top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
+          var align = "middle";
+          if(iconPosition == "top-left"){
+            align = "top";
+          } else if (iconPosition == "bottom-left") {
+            align = "bottom";
+          }
+          top = Util.computeVerticalAlignOffset(align, hint.height, availHeight);
           child.renderLayout(left, top, width, height);
 
           // Ignore pseudo invisible childs for gap e.g.
