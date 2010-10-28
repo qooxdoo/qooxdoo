@@ -55,9 +55,16 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     var vFrameName = "frame_" + vUniqueId;
     var vFormName = "form_" + vUniqueId;
 
+    // This is to prevent the "mixed secure and insecure content" warning in IE with https
+    var vFrameSource;
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      vFrameSource = "javascript:void(0)";
+    }
+    
     // Create a hidden iframe.
     // The purpose of the iframe is to receive data coming back from the server (see below).
-    this.__frame = qx.bom.Iframe.create({id: vFrameName, name: vFrameName, src: "javascript:void(0)"});
+    this.__frame = qx.bom.Iframe.create({id: vFrameName, name: vFrameName, src: vFrameSource});
+    
     qx.bom.element.Style.set(this.__frame, "display", "none");
     
     // Create form element with textarea as conduit for request data.
