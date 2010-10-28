@@ -269,6 +269,14 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      */
     _onload : qx.event.GlobalError.observeMethod(function(e)
     {
+
+      // Timing-issue in Opera
+      // Do not switch state to complete in case load event fires before content 
+      // of iframe was updated
+      if (qx.bom.client.Engine.NAME == "opera" && this.getIframeHtmlContent() == "") {
+        return;
+      }
+
       if (this.__form.src) {
         return;
       }
