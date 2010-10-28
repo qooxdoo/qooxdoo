@@ -202,3 +202,43 @@ def __variantMatchKey(key, variantMap, variantKey):
         if variantMap[variantKey] == keyPart:
             return True
     return False
+
+
+##
+# Returns e.g.
+#   ( "qx.debug", 
+#     {
+#       "on"  : <ecmascript.frontend.tree.Node>, 
+#       "off" : <ecmascript.frontend.tree.Node>
+#     }
+#   )
+def getSelectParams(callNode):
+    result = (None, None)
+    if callNode.type != "call":
+        return result
+        
+    params = callNode.getChild("params")
+    if len(params.children) != 2:
+        log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
+        return result
+
+    # Get the variant key from the select() call
+    firstParam = params.getChildByPosition(0)
+    if not isStringLiteral(firstParam):
+        log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
+        return result
+    variantKey = firstParam.get("value");
+
+    # Get the resolution map, keyed by possible variant key values (or value expressions)
+    secondParam = params.getChildByPosition(1)
+    branchMap   = {}
+    if secondParam.type == "map":
+        for node in secondParam.children:
+            if node.type != "keyvalue":
+                continue
+            branchKey = node.get("key")
+            value     = node.getChild("value").getFirstChild()
+            branchMap[branchKey] = value
+
+    return variantKey, branchMap
+

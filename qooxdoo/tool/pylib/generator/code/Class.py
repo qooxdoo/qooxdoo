@@ -400,6 +400,7 @@ class Class(Resource):
         cached           = True
 
         deps, cacheModTime = cache.readmulti(cacheId, self.path)
+
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
@@ -457,7 +458,7 @@ class Class(Resource):
         if (depClassName
             and depClassName in self._classesObj  # we have a class id
             #and depClassName != fileId
-            #and self.context['jobconf'].get("dependencies/follow-static-initializers", False)
+            #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
                 or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
@@ -508,6 +509,9 @@ class Class(Resource):
                         classAttribute = 'construct'
                 depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), isLoadDep=not inFunction)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
+                if node.hasParentContext("call/operand"): # it's a function call
+                    depsItem.isCall = True  # interesting when following transitive deps
+
                 #self.addDep(depsItem, inFunction, runtime, loadtime)
                 if depsItem not in depsList:
                     depsList.append(depsItem)
@@ -759,7 +763,18 @@ class Class(Resource):
             parents.extend(extendVal)
         includeVal = classMap.get('include', None)
         if includeVal:
-            includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+            # 'include' value according to Class spec.
+            if includeVal.type in ('variable', 'array'):
+                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+            
+            # assume qx.core.Variant.select() call
+            else:
+                _, branchMap = variantoptimizer.getSelectParams(includeVal)
+                includeVal = set()
+                for key in branchMap: # just pick up all possible include values
+                    includeVal.update(treeutil.variableOrArrayNodeToArray(branchMap[key]))
+                includeVal = list(includeVal)
+
             parents.extend(includeVal)
 
         # go through all ancestors
@@ -854,7 +869,8 @@ class Class(Resource):
             # Check cache
             filePath= self._classesObj[classId].path
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            localDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            #localDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            localDeps = None
             if localDeps != None:
                 console.debug("using cached result")
                 console.outdent()
@@ -883,24 +899,29 @@ class Class(Resource):
 
                 if isinstance(attribNode, Node):
 
-                    # Get the method's immediate deps
-                    depslist = []
+                    if (attribNode.getChild("function", False)       # is it a function(){..} value?
+                        and not dependencyItem.isCall                # and the reference was no call
+                       ):
+                        pass                                         # don't lift those deps
+                    else:
+                        # Get the method's immediate deps
+                        depslist = []
 
-                    # TODO: is this the right API?!
-                    classObj = self._classesObj[defClassId]
-                    classObj._analyzeClassDepsNode(attribNode, depslist, True, variants)
-                    console.debug( "dependencies of '%s#%s': %r" % (defClassId, methodId, depslist))
+                        # TODO: is this the right API?!
+                        classObj = self._classesObj[defClassId]
+                        classObj._analyzeClassDepsNode(attribNode, depslist, True, variants)
+                        console.debug( "dependencies of '%s#%s': %r" % (defClassId, methodId, depslist))
 
-                    for depsItem in depslist:
-                        if depsItem in totalDeps:
-                            continue
-                        if self.resultAdd(depsItem, localDeps):
-                            # Recurse dependencies
-                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
-                            localDeps.update(downstreamDeps)
+                        for depsItem in depslist:
+                            if depsItem in totalDeps:
+                                continue
+                            if self.resultAdd(depsItem, localDeps):
+                                # Recurse dependencies
+                                downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
+                                localDeps.update(downstreamDeps)
 
             # Cache update
-            cache.write(cacheId, localDeps, memory=True, writeToFile=False)
+            #cache.write(cacheId, localDeps, memory=True, writeToFile=False)
              
             console.outdent()
             return localDeps
@@ -1270,6 +1291,7 @@ class DependencyItem(object):
         self.line           = line       # 147        [source line in dependent's file]
         self.isLoadDep      = isLoadDep  # True       [load or run dependency]
         self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
+        self.isCall         = False      # whether the reference is a function call
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute
     def __str__(self):
