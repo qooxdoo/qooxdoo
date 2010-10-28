@@ -322,6 +322,9 @@ class Class(Resource):
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeDeps, inFunction=False, variants=variantSet)
 
+            #if self.id == "qx.core.Property":
+            #    print treeDeps
+
             # Process source tree data
             for dep in treeDeps:
                 if dep.isLoadDep:
@@ -342,8 +345,8 @@ class Class(Resource):
                         item = dep.name
                         if item in metaOptional:
                             pass
-                        elif item in (x.name for x in load):
-                            pass
+                        #elif item in (x.name for x in load):
+                        #    pass
                         elif item in metaRun:
                             console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
                         else:

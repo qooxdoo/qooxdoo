@@ -237,6 +237,9 @@ class DependencyLoader(object):
 
         static, cached   = classObj.dependencies (variants)
 
+        #if classObj.id == "qx.core.Property":
+        #    print static
+
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
 
@@ -398,9 +401,16 @@ class DependencyLoader(object):
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:
                     continue
+                #if clazz.id == "qx.core.Property":
+                #    print dep
                 if dep.name not in featureMap:
                     featureMap[dep.name] = {}
                 featureMap[dep.name][dep.attribute] = ("r",)  # use 'r' for all currently
         
+        self._console.indent()
+        for clazz in featureMap:
+            self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
+        self._console.outdent()
+
         return featureMap
 
