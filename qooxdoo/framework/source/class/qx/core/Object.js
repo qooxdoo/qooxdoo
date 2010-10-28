@@ -370,8 +370,8 @@ qx.Class.define("qx.core.Object",
     {
       var callback = function(e)
       {
-        listener.call(self||this, e);
         this.removeListener(type, callback, this, capture);
+        listener.call(self||this, e);
       };
 
       return this.addListener(type, callback, this, capture);
