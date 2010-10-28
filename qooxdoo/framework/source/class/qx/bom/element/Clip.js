@@ -246,7 +246,7 @@ qx.Class.define("qx.bom.element.Clip",
      * @return {void}
      */
     reset : function(element) {
-      element.style.clip = qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8 ? "rect(auto)" : "auto";
+      element.style.clip = "rect(auto, auto, auto, auto)";
     }
   }
 });
