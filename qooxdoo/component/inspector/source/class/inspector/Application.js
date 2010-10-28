@@ -142,6 +142,8 @@ qx.Class.define("inspector.Application",
 
     __onLoad : function() {
       this.__checkCount = 0;
+      this.__inspectorModel.setWindow(null);
+      this.__inspectorModel.setInspected(null);
       this.__initInspector();
 
       var iFrameSource = this._iFrame.getSource();
