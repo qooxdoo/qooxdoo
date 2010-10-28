@@ -328,6 +328,10 @@ qx.Class.define("qx.bom.element.Attribute",
      */
     set : function(element, name, value)
     {
+      if (typeof value === "undefined") {
+        return;
+      }
+
       var hints = this.__hints;
 
       // normalize name

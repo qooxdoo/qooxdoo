@@ -64,6 +64,15 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._el, "selected", true);
       this.assertEquals("selected", this._el.getAttribute("selected"));
+
+    },
+
+    testSetAttributeWithUndefinedValue : function()
+    {
+      var Attribute = qx.bom.element.Attribute;
+
+      Attribute.set(this._el, "src", undefined);
+      this.assertNotEquals("undefined", this._el.getAttribute("src"));
     },
 
     testGetAttribute : function()
