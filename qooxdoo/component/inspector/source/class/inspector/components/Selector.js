@@ -111,6 +111,10 @@ qx.Class.define("inspector.components.Selector",
       this.__applicationWindow = this.__model.getWindow();
 
       if (this.__applicationWindow == null) {
+        // It's important to remove the old references from the old
+        // Iframe object instances
+        this.__catchClickLayer = null;
+        this.__highlighter = null;
         return;
       }
 
