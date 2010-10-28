@@ -322,8 +322,8 @@ class Class(Resource):
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(self.tree(variantSet), treeDeps, inFunction=False, variants=variantSet)
 
-            #if self.id == "qx.core.Property":
-            #    print treeDeps
+            if self.id == "qx.event.Registration":
+                print treeDeps
 
             # Process source tree data
             for dep in treeDeps:
@@ -490,6 +490,10 @@ class Class(Resource):
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
 
+            #if self.id == "qx.event.Registration" and "__handlers" in assembled:
+            #    print assembled
+            #    import pydb; pydb.debugger()
+
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
@@ -608,9 +612,10 @@ class Class(Resource):
                 return className, classAttribute
 
             # check some scoped vars that equal 'this'
-            parts = assembled.split(".",1)  # split on first ".", if any
+            parts = assembled.split(".")  # split on ".", if any
             if parts[0] in (("this",) + DEFER_ARGS):
-                return parts[0], (parts[1] if len(parts)>1 else '')
+                className, classAttribute = parts[0], (parts[1] if len(parts)>1 else '') # this also strips parts[>1]
+                return className, classAttribute
             
             # now handle non-qooxdoo classes
             className, classAttribute = assembled, ''
@@ -654,6 +659,10 @@ class Class(Resource):
                     if len(entryId) > len(className): # take the longest match
                         className      = entryId
                         classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
+                        # see if classAttribute is chained, too
+                        dotidx = classAttribute.find(".")
+                        if dotidx > -1:
+                            classAttribute = classAttribute[:dotidx]    # only use the first component
         return className, classAttribute
 
 
