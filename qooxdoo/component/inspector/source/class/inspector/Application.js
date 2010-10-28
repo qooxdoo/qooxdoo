@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 /* ************************************************************************
@@ -190,7 +191,7 @@ qx.Class.define("inspector.Application",
         this.__checkCount++;
 
         // also break if its undefined
-        if (this.__checkCount > 20) {
+        if (this.__checkCount > 30) {
           throw new Error("qooxdoo not found!");
         }
         try {
