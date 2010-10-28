@@ -35,7 +35,7 @@ qx.Class.define("inspector.console.Appender", {
      */
     process : function(entry)
     {
-      if (this.consoleView)
+      if (this.consoleView && !qx.core.ObjectRegistry.inShutDown)
       {
         var text = this.__toText(entry);
 
