@@ -55,11 +55,14 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     var vFrameName = "frame_" + vUniqueId;
     var vFormName = "form_" + vUniqueId;
 
-    // Create a hidden iframe
+    // Create a hidden iframe.
+    // The purpose of the iframe is to receive data coming back from the server (see below).
     this.__frame = qx.bom.Iframe.create({id: vFrameName, name: vFrameName, src: "javascript:void(0)"});
     qx.bom.element.Style.set(this.__frame, "display", "none");
     
-    // Create form element with textarea as conduit for data
+    // Create form element with textarea as conduit for request data.
+    // The target of the form is the hidden iframe, which means the response 
+    // coming back from the server is written into the iframe.
     this.__form = qx.bom.Element.create("form", {id: vFormName, name: vFormName, target: vFrameName});
     qx.bom.element.Style.set(this.__form, "display", "none");
     qx.dom.Element.insertEnd(this.__form, qx.dom.Node.getBodyElement(document));
