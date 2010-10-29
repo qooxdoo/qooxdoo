@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * particular column.
      *
      * @param columnIndex {Integer}
-     *   The index of the column or which the sort methods are being
+     *   The index of the column for which the sort methods are being
      *   provided.
      *
      * @param compare {Function|Map}
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.table.model.Simple",
     /**
      * Returns the sortMethod(s) for a table column.
      *
-     * @param columnIndex {Integer} The index of the column or which the sort
+     * @param columnIndex {Integer} The index of the column for which the sort
      *   methods are being  provided.
      *
      * @return {Map} a map with the two properties "ascending"
@@ -436,14 +436,12 @@ qx.Class.define("qx.ui.table.model.Simple",
     /**
      * Set the sort column index
      *
-     * WARNING: This should be called only be subclasses with intimate
-     *          knowledge of what they are doing! You've been warned.
+     * WARNING: This should be called only by subclasses with intimate
+     *          knowledge of what they are doing!
      * 
-     * @param ascending {Boolean}
-     *   <i>true</i> for an ascending sort;
-     *   <i> false</i> for a descending sort.
+     * @param columnIndex {Integer} index of the column
      */
-    _setSortColumnIndex : function(index)
+    _setSortColumnIndex : function(columnIndex)
     {
       this.__sortColumnIndex = index;
     },
@@ -454,10 +452,10 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
     /**
-     * Set whether we're sorting in ascending or not.
+     * Set whether to sort in ascending order or not.
      *
-     * WARNING: This should be called only be subclasses with intimate
-     *          knowledge of what they are doing! You've been warned.
+     * WARNING: This should be called only by subclasses with intimate
+     *          knowledge of what they are doing!
      * 
      * @param ascending {Boolean}
      *   <i>true</i> for an ascending sort;
