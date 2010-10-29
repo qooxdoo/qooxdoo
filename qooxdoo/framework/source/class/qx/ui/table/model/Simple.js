@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _setSortColumnIndex : function(columnIndex)
     {
-      this.__sortColumnIndex = index;
+      this.__sortColumnIndex = columnIndex;
     },
 
     // overridden
