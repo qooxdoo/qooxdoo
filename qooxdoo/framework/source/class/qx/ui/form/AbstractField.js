@@ -139,6 +139,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       check : "Boolean",
       apply : "_applyReadOnly",
+      event : "changeReadOnly",
       init : false
     },
 
