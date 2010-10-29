@@ -713,7 +713,13 @@ qx.Class.define("qx.io.remote.Exchange",
 
       if (vImplementation)
       {
-        this.warn("Timeout: implementation " + vImplementation.toHashCode());
+        var str = "";
+        for (var key in vImplementation.getParameters())
+        {
+          str += "&" + key + "=" + vImplementation.getParameters()[key];
+        }
+        this.warn("Timeout: implementation " + vImplementation.toHashCode() + ", "
+                  + vImplementation.getUrl() + " [" + vImplementation.getMethod() + "], " + str);
         vImplementation.timeout();
       }
       else
