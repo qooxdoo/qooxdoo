@@ -35,4 +35,9 @@ zermattchris = Chris Benford <dev@bsoft.ch>
 noggin182 = Matthew Gregory <noggin182@users.sourceforge.net>
 robindanzinger = Robin Danzinger <robindanzinger@users.sourceforge.net>
 adrianolaru = Adrian Olaru <Adrian.Olaru@1and1.ro>
+<<<<<<< HEAD
 tristankoch = Tristan Koch <tristankoch@users.sourceforge.net>
+=======
+tristankoch = Tristan Koch <tristankoch@users.sourceforge.net>
+gabios = Gabriel Munteanu <gabriel.munteanu@1and1.ro>
+>>>>>>> Added Gabriel Munteanu to the svn authors.
