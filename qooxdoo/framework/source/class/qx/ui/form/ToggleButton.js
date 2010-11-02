@@ -33,7 +33,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
   ],
   implement : [
     qx.ui.form.IBooleanForm,
-    qx.ui.form.IExecutable
+    qx.ui.form.IExecutable,
+    qx.ui.form.IRadioItem
   ],
 
 
@@ -100,6 +101,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
       event : "changeValue",
       apply : "_applyValue",
       init: false
+    },
+
+    group :
+    {
+      check  : "qx.ui.form.RadioGroup",
+      nullable : true,
+      apply : "_applyGroup"
     }
   },
 
@@ -114,6 +122,18 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
   members :
   {
+    _applyGroup : function(value, old)
+    {
+      if (old) {
+        old.remove(this);
+      }
+
+      if (value) {
+        value.add(this);
+      }
+    },
+
+
     /**
      * Changes the state of the button dependent on the checked value.
      *
