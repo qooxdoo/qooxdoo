@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
     /**
      * Identifies the Image to show. This is a template method, which must be
-     * implements by sub classes.
+     * implemented by sub classes.
      *
      * @abstract
      * @param cellInfo {Map} The information about the cell.

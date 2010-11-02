@@ -20,7 +20,7 @@
 
 /**
  * Powerful creation and update features for images used for decoration
- * proposes like for rounded borders, icons, etc.
+ * purposes like for rounded borders, icons, etc.
  *
  * Includes support for image clipping, PNG alpha channel support, additional
  * repeat options like <code>scale-x</code> or <code>scale-y</code>.

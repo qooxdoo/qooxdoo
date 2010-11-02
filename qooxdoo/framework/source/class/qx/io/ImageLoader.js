@@ -19,7 +19,7 @@
 
 /**
  * The ImageLoader can preload and manage loaded image resources. It easily
- * handles multiple requests and support callbacks for successful and failed
+ * handles multiple requests and supports callbacks for successful and failed
  * requests.
  *
  * After loading of an image the dimension of the image is stored as long
