@@ -744,9 +744,13 @@ class Class(Resource):
             return clazzId, featureId
         elif featureId == "getInstance": # corner case: singletons get this from qx.Class
             clazzId = "qx.Class"
+        elif featureId in ('call', 'apply'):  # this might get overridden, oh well...
+            clazzId = "Function"
         # TODO: getter/setter are also not statically available!
         # handle .call() ?!
         if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+            # TODO: maybe this should better use something like isInterestingIdentifier()
+            # to invoke the same machinery for filtering references like in other places
             return None, None
 
         # early return if class id is finalized
