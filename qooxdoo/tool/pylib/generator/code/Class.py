@@ -868,7 +868,8 @@ class Class(Resource):
 
             # Check known class
             if classId not in self._classesObj:
-                console.warn("Skipping unknown class dependency: %s#%s" % (classId, methodId))
+                console.debug("Skipping unknown class of dependency: %s#%s (%s:%d)" % (classId, methodId,
+                              dependencyItem.requestor, dependencyItem.line))
                 console.outdent()
                 return set()
 
@@ -894,7 +895,8 @@ class Class(Resource):
 
             # lookup error
             if not defClassId:
-                console.warn("Skipping unknown class dependency: %s#%s" % (classId, methodId))
+                console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId, 
+                              methodId, dependencyItem.requestor, dependencyItem.line))
             
             # skip non-function attributes -- not here!
             #elif attribNode and isinstance(attribNode, Node) and not treeutil.selectNode(attribNode, "function"):
