@@ -31,24 +31,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
   implement : [qx.ui.form.IModel, qx.ui.form.IRadioItem],
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
-    group :
-    {
-      check : "qx.ui.form.RadioGroup",
-      apply : "_applyGroup",
-      nullable : true
-    }
-  },
-
-
 
 
   /*
@@ -77,19 +59,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
           grp.setSelection([this]);
         }
       }
-    },
-
-
-    // property apply
-    _applyGroup : function(value, old)
-    {
-      if (old) {
-        old.remove(this);
-      }
-
-      if (value) {
-        value.add(this);
-      }
     }
+
+
   }
 });

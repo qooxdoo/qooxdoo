@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.RadioButton",
     },
 
 
-    // property apply
+    /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
     _applyGroup : function(value, old)
     {
       if (old) {
