@@ -57,8 +57,8 @@ Form Widgets
 
 :doc:`checkbox`, :doc:`list`, :doc:`slider`
 
-.. _pages/widget#other:
-
-Other
-=====
-:doc:`Template for new widgets <template>`
+.. .. _pages/widget#other:
+.. 
+.. Other
+.. =====
+.. :doc:`Template for new widgets <template>`
