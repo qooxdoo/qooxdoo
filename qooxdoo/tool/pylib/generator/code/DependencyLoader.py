@@ -340,8 +340,7 @@ class DependencyLoader(object):
                         self._console.indent()
                         self._console.debug("currently explored dependency path: %r" % path)
                         self._console.outdent()
-                        #raise RuntimeError("Circular class dependencies")
-                        console.warn ("Circular class dependencies")
+                        raise RuntimeError("Circular class dependencies")
                     else:
                         sortClassesRecurser(dep_name, available, variants, result, path)
 
