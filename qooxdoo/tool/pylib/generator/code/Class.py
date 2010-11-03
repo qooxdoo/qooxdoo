@@ -314,9 +314,17 @@ class Class(Resource):
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
             # Process meta data
-            load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
-            run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
-            ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
+            #load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
+            #run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
+            #ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
+            
+            # parse all meta keys for '#'
+            for container,provider in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
+                for key in provider:
+                    sig = key.split('#',1)
+                    className = sig[0]
+                    attrName  = sig[1] if len(sig)>1 else ''
+                    container.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
@@ -1164,10 +1172,10 @@ class Class(Resource):
     # --------------------------------------------------------------------------
 
     HEAD = {
-        "require"  : re.compile(r"^\s* \#require  \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
-        "use"      : re.compile(r"^\s* \#use      \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
-        "optional" : re.compile(r"^\s* \#optional \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
-        "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
+        "require"  : re.compile(r"^\s* \#require  \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
+        "use"      : re.compile(r"^\s* \#use      \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
+        "optional" : re.compile(r"^\s* \#optional \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
+        "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
         "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X),
         "cldr"     : re.compile(r"^\s*(\#cldr) (?:\(\s* ([^)]+?)  \s*\))?"                      , re.M|re.X),
     }
