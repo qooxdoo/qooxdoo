@@ -125,7 +125,7 @@ The *preferred* way for regular init values is to simply declare them by an ``in
       myProperty : { init : "hello" }
     }
 
-.. _pages/defining_properties#init_value_in_
+.. _pages/defining_properties#init_value_in_constructor:
 
 Init value in constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^
