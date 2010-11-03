@@ -103,6 +103,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       init: false
     },
 
+    /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons. */
     group :
     {
       check  : "qx.ui.form.RadioGroup",
