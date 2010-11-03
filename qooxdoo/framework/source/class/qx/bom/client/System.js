@@ -118,6 +118,9 @@ qx.Bootstrap.define("qx.bom.client.System",
     /** {Boolean} Flag to detect if the client system is an iPhone or iPod touch */
     IPHONE : false,
 
+    /** {Boolean} Flag to detect if the client system is an iPad */
+    IPAD : false,
+
     /** {Boolean} Flag to detect if the client system is assumed */
     UNKNOWN_SYSTEM : false,
 
@@ -214,8 +217,13 @@ qx.Bootstrap.define("qx.bom.client.System",
 
       if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent))
       {
-        this.IPHONE = true;
-        this.NAME = "iphone";
+		if (RegExp("iPad").test(navigator.userAgent)) {
+	      this.IPAD = true;
+	      this.NAME = "ipad";
+		} else {
+	      this.IPHONE = true;
+	      this.NAME = "iphone";
+		}
       }
       else
       {
