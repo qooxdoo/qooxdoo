@@ -323,12 +323,12 @@ Here is an example for calling a static member without using a fully-qualified c
       },
       members: {
         makeSound : function(x) {
-          this.self(arguments).someStaticMethod(x);
+          this.constructor.someStaticMethod(x);
         }
       }
     });
 
-The syntax for accessing static variables simply is ``this.self(arguments).someStaticVar``. Please note, for ``this.self`` to be available, the class must be a derived class of ``qx.core.Object``, which is usually the case for regular, non-static classes.
+The syntax for accessing static variables simply is ``this.constructor.someStaticVar``. Please note, for ``this.constructor`` to be available, the class must be a derived class of ``qx.core.Object``, which is usually the case for regular, non-static classes.
 
 In purely static classes for calling a static method from another static method, you can directly use the ``this`` keyword, e.g. ``this.someStaticMethod(x)``. 
 
