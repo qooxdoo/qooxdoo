@@ -245,6 +245,7 @@ class DependencyLoader(object):
             loadFinal = [x for x in loadFinal if x.name != fileId]
             runFinal  = [x for x in runFinal  if x.name != fileId]
 
+        # collapse multiple occurrences of the same class
         if projectClassNames:
             loads = loadFinal
             loadFinal = []
@@ -284,6 +285,11 @@ class DependencyLoader(object):
             "run"    : runFinal,
             "ignore" : static['ignore'],
         }
+
+        #if fileId == "demobrowser.demo.data.model.Node":
+        #    import pprint
+        #    pprint.pprint(deps)
+        #    #import pydb; pydb.debugger()
 
         return deps, cached
 

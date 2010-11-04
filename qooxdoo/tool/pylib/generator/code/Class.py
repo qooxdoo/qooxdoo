@@ -342,6 +342,7 @@ class Class(Resource):
                         else:
                             # force uniqueness on the class name
                             #if item not in (x.name for x in load):
+                            # TODO: adding all items to list (why?)
                             if True or item not in (x.name for x in load):
                                 load.append(dep)
 
@@ -357,6 +358,7 @@ class Class(Resource):
                         else:
                             # force uniqueness on the class name
                             #if item not in (x.name for x in run):
+                            # TODO: adding all items to list (why?)
                             if True or item not in (x.name for x in run):
                                 run.append(dep)
 
@@ -525,7 +527,9 @@ class Class(Resource):
                     depsItem.isCall = True  # interesting when following transitive deps
 
                 #self.addDep(depsItem, inFunction, runtime, loadtime)
-                if depsItem not in depsList:
+                # TODO: adding all items to list, as the same item can appear both as run and load dep;
+                # let caller sort this out
+                if True or depsItem not in depsList:
                     depsList.append(depsItem)
 
                 # an attempt to fix static initializers (bug#1455)
