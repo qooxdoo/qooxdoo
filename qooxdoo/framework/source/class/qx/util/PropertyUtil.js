@@ -31,7 +31,9 @@ qx.Class.define("qx.util.PropertyUtil",
      * Get the property map of the given class
      *
      * @param clazz {Class} a qooxdoo class
-     * @return {Map} The properties map as defined in {@link qx.Class#define}.
+     * @return {Map} A properties map as defined in {@link qx.Class#define} 
+     *   including the properties of included mixins and not including refined
+     *   properties.
      */
     getProperties : function(clazz) {
       return clazz.$$properties;
