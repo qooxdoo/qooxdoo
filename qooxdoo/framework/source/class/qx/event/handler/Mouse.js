@@ -190,6 +190,30 @@ qx.Class.define("qx.event.handler.Mouse",
       // Fire user action event
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type||domEvent.type]);
     },
+    
+    
+    /**
+     * Internal target for checkcing the target and mouse type for mouse 
+     * scrolling on a feture detection base.
+     * 
+     * @return {Map} A map containing two keys, target and type.
+     */
+    __getMouseWheelTarget: function(){
+      // Fix for bug #3234
+      var targets = [this.__window, this.__root, this.__root.body];
+      var target = this.__window;
+      var type = "DOMMouseScroll";
+      
+      for (var i = 0; i < targets.length; i++) {
+        if (qx.bom.Event.supportsEvent(targets[i], "mousewheel")) {
+          type = "mousewheel";
+          target = targets[i];
+          break;
+        }
+      };
+      
+      return {type: type, target: target};      
+    },
 
 
 
@@ -249,12 +273,10 @@ qx.Class.define("qx.event.handler.Mouse",
     _initWheelObserver : function()
     {
       this.__onWheelEventWrapper = qx.lang.Function.listener(this._onWheelEvent, this);
-
-      // Fix for bug #3234
-      var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
-
-      var type = qx.bom.Event.supportsEvent(target, "mousewheel") ? "mousewheel" : "DOMMouseScroll";
-      qx.bom.Event.addNativeListener(target, type, this.__onWheelEventWrapper);
+      var data = this.__getMouseWheelTarget();
+      qx.bom.Event.addNativeListener(
+        data.target, data.type, this.__onWheelEventWrapper
+      );
     },
 
 
@@ -310,11 +332,10 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopWheelObserver : function()
     {
-      // Fix for bug #3234
-      var target = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__root : this.__window;
-      
-      var type = qx.bom.Event.supportsEvent(target, "mousewheel") ? "mousewheel" : "DOMMouseScroll";
-      qx.bom.Event.removeNativeListener(target, type, this.__onWheelEventWrapper);
+      var data = this.__getMouseWheelTarget();
+      qx.bom.Event.removeNativeListener(
+        data.target, data.type, this.__onWheelEventWrapper
+      );
     },
 
 
