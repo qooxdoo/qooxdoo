@@ -330,6 +330,8 @@ Here is an example for calling a static member without using a fully-qualified c
 
 The syntax for accessing static variables simply is ``this.constructor.someStaticVar``. Please note, for ``this.constructor`` to be available, the class must be a derived class of ``qx.core.Object``, which is usually the case for regular, non-static classes.
 
+Instead of ``this.constructor`` you can also use the alternative syntax ``this.self(arguments)``.
+
 In purely static classes for calling a static method from another static method, you can directly use the ``this`` keyword, e.g. ``this.someStaticMethod(x)``. 
 
 .. _pages/classes#usage_of_interfaces_and_mixins:
