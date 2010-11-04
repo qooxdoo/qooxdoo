@@ -1,23 +1,62 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
+
+##
+# Representing scopes of variables.
+##
+
 from ecmascript.frontend import treeutil
 
+##
+# Class representing a single, flat scope (not including nested scopes), in
+# which variables have a specific binding
+#
+# Each scope has a type, one of ("global", "function" or "exception"), and
+# relates to its top-most AST node. Variables in a scope come in different
+# flavors, depending on the type of scope there are declared ("var") variables,
+# parameters ("arguments") of functions, or arguments of exceptions ("catch"
+# arguments).
+
 class Scope(object):
+
     def __init__(self, node, script):
-        self.node = node
+        self.node   = node
         self.script = script
-        self.type = self._getType()
+        self.type   = self._getType()
 
         if self.type == Scope.EXCEPTION:
             self.variables = self._getExceptionVariables()
         else:
             self.variables = self._getDeclaredVariables()
 
-        self.arguments = self._getArguments()
+        self.arguments       = self._getArguments()
         self.parentScopeNode = self._getParentScopeNode()
-        self.uses = []
+        self.uses            = []
+        return
 
-    GLOBAL = "global"
-    FUNCTION = "function"
+
+    GLOBAL    = "global"
+    FUNCTION  = "function"
     EXCEPTION = "exception"
+
 
     def __str__(self):
         arguments = ", ".join([s.__str__() for s in self.arguments])
@@ -33,9 +72,11 @@ Function %s(%s):
         )
 
 
+    ##
+    # Find all nodes where a variable is referenced/used (rather than
+    # declared) in this scope
+
     def computeVariableUses(self):
-        # find all nodes where a variable is referenced/used (rather than
-        # declared) in this scope
         self.uses = []
 
         if self.type == Scope.GLOBAL:
@@ -49,6 +90,9 @@ Function %s(%s):
             self.uses.append(VariableUse(name, node, self))
 
 
+    ##
+    # Return the parent in the scope chain, if any.
+
     def getParentScope(self):
         if self.parentScopeNode:
             return self.script.getScope(self.parentScopeNode)
@@ -58,6 +102,9 @@ Function %s(%s):
             else:
                 return None
 
+
+    ##
+    # See if a given variable name is defined in the local scope
 
     def getLocalDefinition(self, variableName):
         for var in self.variables:
@@ -71,6 +118,9 @@ Function %s(%s):
         return None
 
 
+    ##
+    # Return the scope type
+
     def _getType(self):
         if self.node.type == "function":
             return Scope.FUNCTION
@@ -79,6 +129,9 @@ Function %s(%s):
         else:
             return Scope.GLOBAL
 
+
+    ##
+    # Return the parameter ("arguments") of a function scope.
 
     def _getArguments(self):
         paramsNode = self.node.getChild("params", False)
@@ -98,10 +151,16 @@ Function %s(%s):
         return arguments
 
 
+    ##
+    # Return the parameters of a "catch" expression.
+
     def _getExceptionVariables(self):
         identifier = treeutil.selectNode(self.node, "expression/variable/identifier")
         return [VariableDefinition(identifier.get("name",None), identifier, False, self)]
 
+
+    ##
+    # Return the tree node of the parent scope.
 
     def _getParentScopeNode(self):
         node = self.node
@@ -111,6 +170,9 @@ Function %s(%s):
                 return node
         return None
 
+
+    ##
+    # Create VariableDefinition's for the variable declarations in this scope.
 
     def _getDeclaredVariables(self):
         variables = {}
@@ -128,6 +190,9 @@ Function %s(%s):
 
         return variables.values()
 
+
+    ##
+    # Generator for all nodes in a tree that "var" declare variables
 
     @staticmethod
     def declaredVariablesIterator(node):
@@ -149,17 +214,20 @@ Function %s(%s):
                     yield (var, node)
 
 
+    ##
+    # Generate all "identifier" nodes down from this one
+    # which are bare identifiers (as in "var foo;" yielding "foo") or head
+    # a chain of identifiers (as in "tree.selection.Manager", yielding
+    # "tree")
+
     @staticmethod
     def usedVariablesIterator(node):
-        # generate all "identifier" nodes down from this one
-        # which are bare identifiers (as in "var foo;" yielding "foo") or head
-        # a chain of identifiers (as in "tree.selection.Manager", yielding
-        # "tree")
 
+        ##
         # chainTypes:
-        # these are not all types that can show up in a chained expression,
-        # but the ones you come across when going from an identifier node
-        # upwards in the tree
+        # These are not all types that can show up in a chained ("a.b.c")
+        # expression, but the ones you come across when going from an identifier
+        # node upwards in the tree.
         chainTypes = set([
             "identifier",
             "accessor",
@@ -168,8 +236,11 @@ Function %s(%s):
             "variable",
             ])
 
+        ##
+        # Find the primary identifier for a chained expression (like "a" in
+        # "a.b().c()[0].d()"), starting from any identifier *within* this
+        # expression.
         def findChainRoot(node):
-            # find the root node for a chained expression like a.b().c()[0].d()
             current = node
 
             while current.hasParent() and current.parent.type in chainTypes:
@@ -177,8 +248,10 @@ Function %s(%s):
 
             return current  # this must be the chain root
 
+        ##
+        # Find the leftmost child of the passed node, assumed to be an
+        # identifier.
         def findLeftmostIdentifier(node):
-            # find the leftmost child, assumed to be an identifier
             child = node
 
             while child.hasChildren():
@@ -191,8 +264,10 @@ Function %s(%s):
 
             return child
 
+        ##
+        # Check if the given identifier node is the first in a chained
+        # expression ("a.b.c().d[]"); uses findLeftmostIdentifier().
         def checkFirstChild(node):
-            # check if the given identifier is the first in a chained expression "a.b.c().d[]"
             chainRoot = findChainRoot(node)
             leftmostIdentifier = findLeftmostIdentifier(chainRoot)
 
@@ -203,10 +278,9 @@ Function %s(%s):
                 return False
 
 
-        # - main ---------------------------------------------------------------
+        # - Main ---------------------------------------------------------------
 
-        # -- Switch on node context
-
+        # Switch on node context:
         # "function", "catch":
         if node.type in ["function", "catch"]:
             return
@@ -250,8 +324,17 @@ Function %s(%s):
                 for (name, use) in Scope.usedVariablesIterator(child):
                     yield (name, use)
 
+        return
+
+
+##
+# Class representing a defining occurrence of a variable in the code
+# (e.g. as in "var a=3;"); a variable can be defined multiple times
+# within a single scope; each instance links to its scope, and has 
+# a list of its VariableUses (see further).
 
 class VariableDefinition(object):
+
     def __init__(self, name, node, isArgument, scope):
         self.name = name
         self.nodes = [node]
@@ -269,7 +352,13 @@ class VariableDefinition(object):
         self.nodes.append(node)
 
 
+##
+# Class representing a use occurrence of a variable in the code;
+# VariableUse's maintain their relation the variable's definition
+# at the corresponding VariableDefinition object
+
 class VariableUse(object):
+
     def __init__(self, name, node, scope):
         self.name = name
         self.node = node
