@@ -51,13 +51,16 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     var groups = form.getGroups();
     for (var i = 0; i < groups.length; i++) {
       var group = groups[i];
-      this.addItems(group.items, group.labels, group.title);
+      this.addItems(
+        group.items, group.labels, group.title, group.options, group.headerOptions
+      );
     }
 
     // add the buttons
     var buttons = form.getButtons();
+    var buttonOptions = form.getButtonOptions();
     for (var i = 0; i < buttons.length; i++) {
-      this.addButton(buttons[i]);
+      this.addButton(buttons[i], buttonOptions[i]);
     }
   },
 

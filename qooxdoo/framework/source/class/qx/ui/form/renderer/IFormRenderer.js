@@ -33,8 +33,11 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
      * @param items {qx.ui.core.Widget[]} An array of form items to render.
      * @param names {String[]} An array of names for the form items.
      * @param title {String?} A title of the group you are adding.
+     * @param itemsOptions {Array?null} The added additional data.
+     * @param headerOptions {Map?null} The options map as defined by the form 
+     *   for the current group header.
      */
-    addItems : function(items, names, title) {},
+    addItems : function(items, names, title, itemsOptions, headerOptions) {},
 
 
     /**
@@ -42,8 +45,9 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
      *
      * @param button {qx.ui.form.Button} A button which should be added to
      *   the form.
+     * @param options {Map?null} The added additional data.
      */
-    addButton : function(button) {}
+    addButton : function(button, options) {}
 
   }
 });

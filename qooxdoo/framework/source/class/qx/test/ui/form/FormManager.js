@@ -43,16 +43,18 @@ qx.Class.define("qx.test.ui.form.FormManager",
       },
 
       members : {
-        addItems : function(items, names, title) {
+        addItems : function(items, names, title, itemsOptions, headerOptions) {
           this.groups.push({
             items : items,
             names : names,
-            title : title
+            title : title,
+            headerOptions : headerOptions,
+            options : itemsOptions
           });
         },
 
-        addButton : function(button) {
-          this.buttons.push(button);
+        addButton : function(button, options) {
+          this.buttons.push({button: button, options: options});
         }
       }
     });
@@ -63,6 +65,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
     __form : null,
     __tf1 : null,
     __tf2 : null,
+
 
     setUp : function() {
       this.__form = new qx.ui.form.Form();
@@ -190,8 +193,8 @@ qx.Class.define("qx.test.ui.form.FormManager",
       var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the buttons
-      this.assertEquals(b1, view.buttons[0]);
-      this.assertEquals(b2, view.buttons[1]);
+      this.assertEquals(b1, view.buttons[0].button);
+      this.assertEquals(b2, view.buttons[1].button);
 
       b2.dispose();
       b1.dispose();
@@ -220,11 +223,62 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(view.groups[0].names[1], "TF2");
 
       // check the buttons
-      this.assertEquals(b1, view.buttons[0]);
-      this.assertEquals(b2, view.buttons[1]);
+      this.assertEquals(b1, view.buttons[0].button);
+      this.assertEquals(b2, view.buttons[1].button);
 
       b2.dispose();
       b1.dispose();
+    },
+    
+    
+    testAddTwoWithOptions: function(){
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1", null, "tf1", null, {a:1});
+      this.__form.add(this.__tf2, "TF2", null, "tf2", null, {a:2});
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the items
+      this.assertEquals(1, view.groups[0].options[0].a);
+      this.assertEquals(2, view.groups[0].options[1].a);
+    },
+    
+    
+    testAddTwoWithButtonsOptions : function() {
+      var b1 = new qx.ui.form.Button();
+      var b2 = new qx.ui.form.RepeatButton();
+
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.addButton(b1, {a: 1});
+      this.__form.add(this.__tf2, "TF2");
+      this.__form.addButton(b2, {a: 2});
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the buttons options
+      this.assertEquals(1, view.buttons[0].options.a);
+      this.assertEquals(2, view.buttons[1].options.a);
+
+      b2.dispose();
+      b1.dispose();
+    },
+
+
+    testAddTwoWithHeaderOptions: function(){
+      this.__form.addGroupHeader("affe", {a:1});
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.addGroupHeader("affee", {a:2});
+      this.__form.add(this.__tf2, "TF2");
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the title
+      this.assertEquals(1, view.groups[0].headerOptions.a);
+      this.assertEquals(2, view.groups[1].headerOptions.a);
     },
 
 

@@ -35,7 +35,8 @@ qx.Class.define("qx.ui.form.Form",
     this.base(arguments);
 
     this.__groups = [];
-    this.__buttons = [];
+    this._buttons = [];
+    this._buttonOptions = [];
     this._validationManager = new qx.ui.form.validation.Manager();
     this._resetter = new qx.ui.form.Resetter();
   },
@@ -45,8 +46,9 @@ qx.Class.define("qx.ui.form.Form",
   {
     __groups : null,
     _validationManager : null,
-    __groupCounter : 0,
-    __buttons : null,
+    _groupCounter : 0,
+    _buttons : null,
+    _buttonOptions : null,
     _resetter : null,
 
     /*
@@ -69,21 +71,27 @@ qx.Class.define("qx.ui.form.Form",
      * @param name {String?null} The name which is used by the data binding
      *   controller {@link qx.data.controller.Form}.
      * @param validatorContext {var?null} The context of the validator.
+     * @param options {Map?null} An additional map containin custom data which 
+     *   will be available in your form renderer specific to the added item.
      */
-    add : function(item, label, validator, name, validatorContext) {
+    add : function(item, label, validator, name, validatorContext, options) {
       if (this.__isFirstAdd()) {
-        this.__groups.push({title: null, items: [], labels: [], names: []});
+        this.__groups.push({
+          title: null, items: [], labels: [], names: [], 
+          options: [], headerOptions: {}
+        });
       }
       // save the given arguments
-      this.__groups[this.__groupCounter].items.push(item);
-      this.__groups[this.__groupCounter].labels.push(label);
+      this.__groups[this._groupCounter].items.push(item);
+      this.__groups[this._groupCounter].labels.push(label);
+      this.__groups[this._groupCounter].options.push(options);
       // if no name is given, use the label without not working character
       if (name == null) {
         name = label.replace(
           /\s+|&|-|\+|\*|\/|\||!|\.|,|:|\?|;|~|%|\{|\}|\(|\)|\[|\]|<|>|=|\^|@|\\/g, ""
         );
       }
-      this.__groups[this.__groupCounter].names.push(name);
+      this.__groups[this._groupCounter].names.push(name);
 
       // add the item to the validation manager
       this._validationManager.add(item, validator, validatorContext);
@@ -98,12 +106,17 @@ qx.Class.define("qx.ui.form.Form",
      * *Hint:* The order of all add calls represent the order in the layout.
      *
      * @param title {String} The title of the group header.
+     * @param options {Map?null} A special set of custom data which will be 
+     *   given to the renderer.
      */
-    addGroupHeader : function(title) {
+    addGroupHeader : function(title, options) {
       if (!this.__isFirstAdd()) {
-        this.__groupCounter++;
+        this._groupCounter++;
       }
-      this.__groups.push({title: title, items: [], labels: [], names: []});
+      this.__groups.push({
+        title: title, items: [], labels: [], names: [], 
+        options: [], headerOptions: options
+      });
     },
 
 
@@ -113,9 +126,12 @@ qx.Class.define("qx.ui.form.Form",
      * *Hint:* The order of all add calls represent the order in the layout.
      *
      * @param button {qx.ui.form.Button} The button to add.
+     * @param options {Map?null} An additional map containin custom data which 
+     *   will be available in your form renderer specific to the added button.
      */
-    addButton : function(button) {
-      this.__buttons.push(button);
+    addButton : function(button, options) {
+      this._buttons.push(button);
+      this._buttonOptions.push(options || null);
     },
 
 
@@ -196,8 +212,7 @@ qx.Class.define("qx.ui.form.Form",
      * @return {Array} An array containing all necessary data for the renderer.
      * @internal
      */
-    getGroups : function()
-    {
+    getGroups : function() {
       return this.__groups;
     },
 
@@ -208,10 +223,21 @@ qx.Class.define("qx.ui.form.Form",
      * @return {Array} An array containing all added buttons.
      * @internal
      */
-    getButtons : function()
-    {
-      return this.__buttons;
+    getButtons : function() {
+      return this._buttons;
     },
+    
+    
+    /**
+     * Accessor method for the renderer which returns all added options for 
+     * the buttons in an array.
+     * @return {Array} An array containing all added options for the buttons.
+     * @internal
+     */
+    getButtonOptions : function() {
+      return this._buttonOptions;
+    },
+
 
 
     /*

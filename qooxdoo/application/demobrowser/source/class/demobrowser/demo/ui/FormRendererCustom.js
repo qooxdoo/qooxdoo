@@ -48,15 +48,24 @@ qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
       form.addGroupHeader("Contact");
 
       // add some additional widgets
-      form.add(new qx.ui.form.TextField(), "Email", qx.util.Validate.email());
-      form.add(new qx.ui.form.TextField(), "Phone");
+      form.add(
+        new qx.ui.form.TextField(), "Email", qx.util.Validate.email(), "email",
+        null, {placeholder: "abc@def.gh"}
+      );
+      form.add(
+        new qx.ui.form.TextField(), "Phone", null, "phone", null,
+        {placeholder: "+01 234 56789"}
+      );
 
       // third group
       form.addGroupHeader("Personal Information");
 
       // add some additional widgets
       form.add(new qx.ui.form.TextField(), "Country");
-      form.add(new qx.ui.form.TextArea(), "Bio");
+      form.add(
+        new qx.ui.form.TextArea(), "Bio", null, "bio", null, 
+        {placeholder: "Please tell us some details about you..."}
+      );
 
       // send button with validation
       var sendButton = new qx.ui.form.Button("Send");
@@ -94,7 +103,7 @@ qx.Class.define("demobrowser.demo.ui.CustomRenderer", {
     __column : 0,
     __maxRow : 0,
 
-    addItems : function(items, names, title) {
+    addItems : function(items, names, title, options) {
       var row = 0;
       // add the header
       if (title != null) {
@@ -116,6 +125,11 @@ qx.Class.define("demobrowser.demo.ui.CustomRenderer", {
           item = this._createWidgetForRadioGroup(item);
         }
         this._add(item, {row: row, column: this.__column + 1});
+        // use the options
+        if (options[i] && options[i].placeholder) {
+          item.setPlaceholder(options[i].placeholder);          
+        }
+
         row++;
       }
       this.__column += 2;
