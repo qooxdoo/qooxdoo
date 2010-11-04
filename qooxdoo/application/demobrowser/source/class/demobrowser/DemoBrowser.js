@@ -313,6 +313,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
       }
 
+      this.__playgroundButton.setEnabled(playable);
       this.__currentJSCode = code;
     },
 
@@ -859,6 +860,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         url = 'demo/' + value;
         if (qx.core.Variant.isSet("qx.contrib", "off")) {
           url += "?qx.theme=" + this.__currentTheme;
+        }
+        
+        var currentTags = treeNode.getUserData("tags");
+        if (currentTags) {
+          this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
         }
       }
       else
