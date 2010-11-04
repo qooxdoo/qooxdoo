@@ -701,8 +701,9 @@ qx.Class.define("qx.ui.core.Widget",
      * Whether the widget is focusable e.g. rendering a focus border and visualize
      * as active element.
      *
-     * See also {#isTabable} which allows runtime checks for <code>isChecked</code>
-     * or other stuff to test whether the widget is reachable via the TAB key.
+     * See also {@link #isTabable} which allows runtime checks for 
+     * <code>isChecked</code> or other stuff to test whether the widget is 
+     * reachable via the TAB key.
      */
     focusable :
     {
