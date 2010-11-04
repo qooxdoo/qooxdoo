@@ -222,6 +222,7 @@ qx.Class.define("qx.dev.StackTrace",
         }
       },
 
+      // Check "Exceptions Have Stacktrace" in opera:config, Section User Prefs
       "opera" : function(error)
       {
         if (error.message.indexOf("Backtrace:") < 0) {
