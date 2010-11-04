@@ -174,7 +174,7 @@ qx.Class.define("feedreader.view.ToolBar",
       if (!cachedItem) {
         if (toolbarItem instanceof qx.ui.toolbar.Button) {
           cachedItem = new qx.ui.menu.Button(
-            toolbarItem.getLabel(),
+            toolbarItem.getLabel().translate(),
             toolbarItem.getIcon(),
             toolbarItem.getCommand()
           );
