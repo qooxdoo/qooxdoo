@@ -193,8 +193,8 @@ qx.Class.define("qx.event.handler.Mouse",
     
     
     /**
-     * Internal target for checkcing the target and mouse type for mouse 
-     * scrolling on a feture detection base.
+     * Internal target for checking the target and mouse type for mouse 
+     * scrolling on a feature detection base.
      * 
      * @return {Map} A map containing two keys, target and type.
      */
