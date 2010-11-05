@@ -353,7 +353,7 @@ qx.Class.define("qx.test.util.Serializer",
     testNativeObjectEmpty : function() {
       this.__model.setData1(new qx.data.Array());
       this.__model.setData2([]);
-      this.__model.setData3(this);
+      this.__model.setData3(new qx.core.Object());
       this.assertJsonEquals(
         {
           "data1" : [],
@@ -363,6 +363,7 @@ qx.Class.define("qx.test.util.Serializer",
         this.__s.toNativeObject(this.__model));
 
       this.__model.getData1().dispose();
+      this.__model.getData3().dispose();
     },
 
 
