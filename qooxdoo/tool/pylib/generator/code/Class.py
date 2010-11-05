@@ -36,6 +36,8 @@ from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, 
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
+cnt = 0
+
 DefaultIgnoredNamesDynamic = None
 
 QXGLOBALS = [
@@ -99,8 +101,7 @@ class Class(Resource):
     #   Tree Interface
     # --------------------------------------------------------------------------
 
-    def _getSourceTree(self, cacheId):
-        tradeSpaceForSpeed = False
+    def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
 
         # Lookup for unoptimized tree
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
@@ -128,17 +129,18 @@ class Class(Resource):
 
     def tree(self, variantSet={}):
         context = self.context
-        tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
+        tradeSpaceForSpeed = True  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
         # Construct the right cache id
         unoptCacheId     = "tree-%s-%s" % (self.path, util.toString({}))
 
         classVariants    = []
         tree             = None
-        classVariants    = getClassVariants(self.id, self.path, None, context["cache"], context["console"], generate=False) # just check the cache
+        #classVariants    = getClassVariants(self.id, self.path, None, context["cache"], context["console"], generate=False) # just check the cache
+        classVariants    = self.classVariants(generate=False) # just check the cache
         if classVariants == None:
-            tree = self._getSourceTree(unoptCacheId)
-            classVariants= getClassVariantsFromTree(tree, context["console"])
+            tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
+            classVariants= self._variantsFromTree(tree)
 
         relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "tree-%s-%s" % (self.path, util.toString(relevantVariants))
@@ -153,7 +155,7 @@ class Class(Resource):
             if tree:
                 opttree = tree
             else:
-                opttree = self._getSourceTree(unoptCacheId)
+                opttree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
             # do we have to optimze?
             if cacheId == unoptCacheId:
                 return opttree
@@ -174,9 +176,10 @@ class Class(Resource):
     # --------------------------------------------------------------------------
 
     ##
-    # look for places where qx.core.Variant.select|isSet|.. are called
+    # Look for places where qx.core.Variant.select|isSet|.. are called
     # and return the list of first params (the variant name)
-    # @cache
+    # 
+    # Is used internally, but should also be usable as public interface.
 
     def classVariants(self, generate=True):
 
@@ -187,7 +190,7 @@ class Class(Resource):
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
                 tree = self.tree({})  # get complete tree
-                classvariants = getClassVariantsFromTree(tree, self.context["console"])       # get variants used in qx.core.Variant...(<variant>,...)
+                classvariants = self._variantsFromTree(tree)       # get variants used in qx.core.Variant...(<variant>,...)
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
@@ -196,6 +199,31 @@ class Class(Resource):
             classvariants = classinfo['svariants']
 
         return classvariants
+
+
+    ##
+    # helper that operates on ecmascript.frontend.tree
+    #
+    # This helper is used by both, tree() and classVariants(), to resolve mutual
+    # recursion where tree() calls classVariants(), and classVariants() calls tree().
+    #
+    def _variantsFromTree(self, node):
+        classvariants = set([])
+        # mostly taken from ecmascript.transform.optimizer.variantoptimizer
+        variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
+        for variant in variants:
+            if not variant.hasParentContext("call/operand"):
+                continue
+            variantMethod = treeutil.selectNode(variant, "identifier[4]/@name")
+            if variantMethod not in ["select", "isSet", "compilerIsSet"]:
+                continue
+            firstParam = treeutil.selectNode(variant, "../../params/1")
+            if firstParam and treeutil.isStringLiteral(firstParam):
+                classvariants.add(firstParam.get("value"))
+            else:
+                console.warn("! qx.core.Variant call without literal argument")
+        return classvariants
+
 
 
     # --------------------------------------------------------------------------
@@ -404,9 +432,17 @@ class Class(Resource):
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
-            deps = buildShallowDeps()
-            deps = buildTransitiveDeps(deps)
-            cache.writemulti(cacheId, deps)
+            global cnt
+            depsi = [None]
+            def foo():
+                deps = buildShallowDeps()
+                depsi[0] = buildTransitiveDeps(deps)
+                cache.writemulti(cacheId, depsi[0])
+            import cProfile
+            #cProfile.runctx("foo()", globals(), locals(), "/home/thron7/tmp/prof/deps.prof"+str(cnt))
+            foo()
+            cnt += 1
+            deps = depsi[0]
         
         return deps, cached
 
@@ -475,10 +511,6 @@ class Class(Resource):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
-
-            #if self.id == "qx.event.Registration" and "__handlers" in assembled:
-            #    print assembled
-            #    import pydb; pydb.debugger()
 
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
@@ -665,17 +697,22 @@ class Class(Resource):
             return rnode
 
         def getScript(node, fileId, ):
-            # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
-            rootNode = findRoot(node)
-            #if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
-            if _memo1_[0] == rootNode:
-                #print "-- re-using scopes for: %s" % fileId
-                script = _memo1_[1]
-            else:
-                #print "-- re-calculating scopes for: %s" % fileId
-                script = Script(rootNode, fileId)
-                _memo1_[0], _memo1_[1] = rootNode, script
-            return script
+            ## TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
+            #rootNode = findRoot(node)
+            ##if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
+            #if _memo1_[0] == rootNode:
+            #    #print "-- re-using scopes for: %s" % fileId
+            #    script = _memo1_[1]
+            #else:
+            #    #print "-- re-calculating scopes for: %s" % fileId
+            #    script = Script(rootNode, fileId)
+            #    _memo1_[0], _memo1_[1] = rootNode, script
+            #return script
+            
+            if not self.scopes:
+                rootNode = findRoot(node)
+                self.scopes = Script(rootNode, fileId)
+            return self.scopes
 
         def getLeadingId(idStr):
             leadingId = idStr
@@ -683,6 +720,8 @@ class Class(Resource):
             if dotIdx > -1:
                 leadingId = idStr[:dotIdx]
             return leadingId
+
+        # --------------------------------------------------------------------------
 
         # check composite id a.b.c, check only first part
         idString = getLeadingId(idStr)
@@ -1387,47 +1426,4 @@ def projectClassVariantsToCurrent(classVariants, variantSet):
             res[key] = variantSet[key]
     return res
 
-
-##
-# helper that operates on ecmascript.frontend.tree
-def getClassVariantsFromTree(node, console):
-    classvariants = set([])
-    # mostly taken from ecmascript.transform.optimizer.variantoptimizer
-    variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
-    for variant in variants:
-        if not variant.hasParentContext("call/operand"):
-            continue
-        variantMethod = treeutil.selectNode(variant, "identifier[4]/@name")
-        if variantMethod not in ["select", "isSet", "compilerIsSet"]:
-            continue
-        firstParam = treeutil.selectNode(variant, "../../params/1")
-        if firstParam and treeutil.isStringLiteral(firstParam):
-            classvariants.add(firstParam.get("value"))
-        else:
-            console.warn("! qx.core.Variant call without literal argument")
-
-    return classvariants
-
-##
-# look for places where qx.core.Variant.select|isSet|.. are called
-# and return the list of first params (the variant name)
-# @cache
-
-def getClassVariants(fileId, filePath, treeLoader, cache, console, generate=True):
-
-    cacheId   = "class-%s" % (filePath,)
-    classinfo, _ = cache.readmulti(cacheId, filePath)
-    classvariants = None
-    if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
-        if generate:
-            tree = treeLoader.getTree(fileId, {})  # get complete tree
-            classvariants = getClassVariantsFromTree(tree, console)       # get variants used in qx.core.Variant...(<variant>,...)
-            if classinfo == None:
-                classinfo = {}
-            classinfo['svariants'] = classvariants
-            cache.writemulti(cacheId, classinfo)
-    else:
-        classvariants = classinfo['svariants']
-
-    return classvariants
 
