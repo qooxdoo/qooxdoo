@@ -292,11 +292,12 @@ class Class(Resource):
     def dependencies(self, variantSet):
 
         ##
-        # get deps from meta info and class code
+        # Get deps from meta info and class code, and sort them into
+        # load/run/ignore deps.
         #
-        # Notes:
-        # load time = before class = require
-        # run time  = after class  = use
+        # Note:
+        #   load time = before class = require
+        #   run time  = after class  = use
         def buildShallowDeps():
 
             load   = []
@@ -313,12 +314,7 @@ class Class(Resource):
             metaOptional = meta.get("optionalDeps", [])
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
-            # Process meta data
-            #load.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaLoad)
-            #run.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaRun)
-            #ignore.extend(DependencyItem(x, '', self.id, "|hints|") for x in metaIgnore)
-            
-            # parse all meta keys for '#'
+            # Parse all meta keys for '#'
             for container,provider in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
                 for key in provider:
                     sig = key.split('#',1)
@@ -340,11 +336,8 @@ class Class(Resource):
                         elif item in metaLoad:
                             console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
                         else:
-                            # force uniqueness on the class name
-                            #if item not in (x.name for x in load):
-                            # TODO: adding all items to list (why?)
-                            if True or item not in (x.name for x in load):
-                                load.append(dep)
+                            # adding all items to list (the second might have needsRecursion)
+                            load.append(dep)
 
                 else: # runDep
                     if not "auto-use" in metaIgnore:
@@ -356,11 +349,8 @@ class Class(Resource):
                         elif item in metaRun:
                             console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
                         else:
-                            # force uniqueness on the class name
-                            #if item not in (x.name for x in run):
-                            # TODO: adding all items to list (why?)
-                            if True or item not in (x.name for x in run):
-                                run.append(dep)
+                            # adding all items to list (to comply with the 'load' deps)
+                            run.append(dep)
 
             console.outdent()
 
@@ -456,7 +446,7 @@ class Class(Resource):
     def followCallDeps(self, node, fileId, depClassName, inDefer):
         if (depClassName
             and depClassName in self._classesObj  # we have a class id
-            #and depClassName != fileId
+            #and depClassName != fileId   # ! i need self references for statics pruning
             #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
             and (
                 node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
@@ -735,7 +725,7 @@ class Class(Resource):
             clazzId = "qx.Class"
         elif featureId in ('call', 'apply'):  # this might get overridden, oh well...
             clazzId = "Function"
-        # TODO: getter/setter are also not statically available!
+        # TODO: getter/setter are also not lexically available!
         # handle .call() ?!
         if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
             # TODO: maybe this should better use something like isInterestingIdentifier()
