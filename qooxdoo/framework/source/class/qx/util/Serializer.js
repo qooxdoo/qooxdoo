@@ -164,7 +164,7 @@ qx.Class.define("qx.util.Serializer",
         result = {};
 
         var properties =
-          qx.util.PropertyUtil.getProperties(object.constructor);
+          qx.util.PropertyUtil.getAllProperties(object.constructor);
 
         for (var name in properties)
         {
