@@ -23,7 +23,7 @@ qx.Class.define("qx.test.util.Json",
 
   members :
   {
-    testStringifyJson : function() {
+    testStringifyObject : function() {
       this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
     },
 
