@@ -452,17 +452,6 @@ class Class(Resource):
 
         return False
         
-    def addDep(self, depsItem, inFunction, runtime, loadtime):
-        if inFunction:
-            target = runtime
-        else:
-            target = loadtime
-
-        if not depsItem in target:
-            target.append(depsItem)
-
-        return
-
 
     def followCallDeps(self, node, fileId, depClassName, inDefer):
         if (depClassName
@@ -526,24 +515,12 @@ class Class(Resource):
                 if node.hasParentContext("call/operand"): # it's a function call
                     depsItem.isCall = True  # interesting when following transitive deps
 
-                #self.addDep(depsItem, inFunction, runtime, loadtime)
-                # TODO: adding all items to list, as the same item can appear both as run and load dep;
-                # let caller sort this out
-                if True or depsItem not in depsList:
-                    depsList.append(depsItem)
+                # Adding all items to list; let caller sort things out
+                depsList.append(depsItem)
 
-                # an attempt to fix static initializers (bug#1455)
+                # Mark items that need recursive analysis of their dependencies (bug#1455)
                 if not inFunction and self.followCallDeps(node, self.id, className, inDefer):
                     depsItem.needsRecursion = True
-                    #if recurse:
-                    #    console.debug("Looking for rundeps in call to '%s' of '%s'(%d)" % (assembled, self.id, depsItem.line))
-                    #    console.indent()
-                    #    # getTransitiveDeps is mutual recursive calling into the current
-                    #    # function, but only does so with inFunction=True, so this
-                    #    # branch is never hit through the recursive call
-                    #    ldeps = self.getTransitiveDeps(depsItem, variants)
-                    #    loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                    #    console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
