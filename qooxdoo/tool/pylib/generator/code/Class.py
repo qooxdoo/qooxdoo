@@ -121,6 +121,7 @@ class Class(Resource):
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
+            tree.cacheId = cacheId
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
 
             console.outdent()
@@ -166,6 +167,7 @@ class Class(Resource):
                 context["console"].outdent()
                 # store optimized tree
                 #print "Caching %s" % cacheId
+                opttree.cacheId = cacheId
                 cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return opttree
@@ -732,7 +734,7 @@ class Class(Resource):
             fcnScope = script.getGlobalScope()
         else:
             fcnScope  = script.getScope(scopeNode)
-        #assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
+        assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
         varDef = script.getVariableDefinition(idString, fcnScope)
         if varDef:
             return True
@@ -874,7 +876,7 @@ class Class(Resource):
     #
     # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
-    def getTransitiveDeps(self, depsItem, variants):
+    def getTransitiveDeps(self, depsItem, variants, checkSet=None):
 
         ##
         # find dependencies of a method <methodId> that has been referenced from
@@ -882,7 +884,7 @@ class Class(Resource):
         #
         # @param deps accumulator variable set((c1,m1), (c2,m2),...)
         
-        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
+        def getTransitiveDepsR1(dependencyItem, variants, totalDeps):
 
             # We don't add the in-param to the global result
             classId  = dependencyItem.name
@@ -965,9 +967,105 @@ class Class(Resource):
             return localDeps
 
 
+        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
+
+            # We don't add the in-param to the global result
+            classId  = dependencyItem.name
+            methodId = dependencyItem.attribute
+            function_pruned = False
+
+            # Check known class
+            if classId not in self._classesObj:
+                console.debug("Skipping unknown class of dependency: %s#%s (%s:%d)" % (classId, methodId,
+                              dependencyItem.requestor, dependencyItem.line))
+                return set()
+
+            # Check other class
+            elif classId != self.id:
+                classObj = self._classesObj[classId]
+                otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, totalDeps)
+                return otherdeps
+
+            # Check own hierarchy
+            defClassId, attribNode = self.findClassForFeature(methodId, variants)
+
+            # lookup error
+            if not defClassId or defClassId not in self._classesObj:
+                console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId, 
+                              methodId, dependencyItem.requestor, dependencyItem.line))
+                return set()
+            
+            defDepsItem = DependencyItem(defClassId, methodId, classId)
+            localDeps   = set()
+
+            # inherited feature
+            if defClassId != classId:
+                self.resultAdd(defDepsItem, localDeps)
+                defClass = self._classesObj[defClassId]
+                otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, totalDeps)
+                localDeps.update(otherdeps)
+                return localDeps
+
+            # Process own deps
+            console.debug("%s#%s dependencies:" % (classId, methodId))
+            console.indent()
+
+            # Check cache
+            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
+            cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            if cachedDeps != None:
+                console.debug("using cached result")
+                console.outdent()
+                return cachedDeps
+
+            # Calculate deps
+
+            # skip non-function attributes -- not here!
+            #elif attribNode and isinstance(attribNode, Node) and not treeutil.selectNode(attribNode, "function"):
+            #    pass
+
+            else:
+                if isinstance(attribNode, Node):
+
+                    print defDepsItem
+                    if str(defDepsItem) == "qx.bom.element.Style#__special":
+                        #import pydb; pydb.debugger()
+                        pass
+
+                    if (attribNode.getChild("function", False)       # is it a function(){..} value?
+                        and not dependencyItem.isCall                # and the reference was no call
+                       ):
+                        function_pruned = True
+                        pass                                         # don't lift those deps
+                    else:
+                        # Get the method's immediate deps
+                        # TODO: is this the right API?!
+                        depslist = []
+                        self._analyzeClassDepsNode(attribNode, depslist, True, variants)
+                        console.debug( "shallow dependencies: %r" % (depslist,))
+
+                        for depsItem in depslist:
+                            if depsItem in totalDeps:
+                                continue
+                            if self.resultAdd(depsItem, localDeps):
+                                # Recurse dependencies
+                                downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
+                                localDeps.update(downstreamDeps)
+
+            # Cache update
+            # ---   i cannot cache currently, if the deps of a function are pruned
+            #       when the function is passed as a ref, rather than called (s. above
+            #       around 'attribNode.getChild("function",...)')
+            if not function_pruned:
+                cache.write(cacheId, localDeps, memory=True, writeToFile=False)
+             
+            console.outdent()
+            return localDeps
+
+
         # -- Main --------------------------------------------------------------
 
-        checkset = set()
+        checkset = checkSet or set()
         deps = getTransitiveDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
 
         return deps
