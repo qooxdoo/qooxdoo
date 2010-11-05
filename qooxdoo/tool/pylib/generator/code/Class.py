@@ -1027,10 +1027,10 @@ class Class(Resource):
             else:
                 if isinstance(attribNode, Node):
 
-                    print defDepsItem
-                    if str(defDepsItem) == "qx.bom.element.Style#__special":
-                        #import pydb; pydb.debugger()
-                        pass
+                    #print defDepsItem
+                    #if str(defDepsItem) == "qx.bom.element.Style#__special":
+                    #    #import pydb; pydb.debugger()
+                    #    pass
 
                     if (attribNode.getChild("function", False)       # is it a function(){..} value?
                         and not dependencyItem.isCall                # and the reference was no call
