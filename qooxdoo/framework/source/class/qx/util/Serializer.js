@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This is a util class resposnible for serializing qooxdoo objects.
+ * This is a util class responsible for serializing qooxdoo objects.
  */
 qx.Class.define("qx.util.Serializer",
 {
@@ -98,7 +98,7 @@ qx.Class.define("qx.util.Serializer",
      *
      * @param qxSerializer {Function}
      *   Function used for serializing qooxdoo objects stored in the propertys
-     *   of the object. Check for the type of classes <ou want to serialize
+     *   of the object. Check for the type of classes you want to serialize
      *   and return the serialized value. In all other cases, just return
      *   nothing.
      * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
