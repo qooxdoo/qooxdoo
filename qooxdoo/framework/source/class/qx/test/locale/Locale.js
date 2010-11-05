@@ -135,18 +135,18 @@ qx.Class.define("qx.test.locale.Locale",
 
       // add dummy translations
       manager.addTranslation("en_QX", {
-        "one": "one!",
-        "two": "two!"
+        "test one": "one!",
+        "test two": "two!"
       });
       manager.addTranslation("de_QX", {
-        "one": "Eins!",
-        "two": "Zwei!"
+        "test one": "Eins!",
+        "test two": "Zwei!"
       });
       manager.setLocale("en_QX");
 
       var textField = new qx.ui.form.TextField();
-      textField.setInvalidMessage(this.tr("one"));
-      textField.setRequiredInvalidMessage(this.tr("two"));
+      textField.setInvalidMessage(this.tr("test one"));
+      textField.setRequiredInvalidMessage(this.tr("test two"));
 
       this.assertEquals("one!", textField.getInvalidMessage());
       this.assertEquals("two!", textField.getRequiredInvalidMessage());
