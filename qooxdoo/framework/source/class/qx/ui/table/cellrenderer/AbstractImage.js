@@ -78,7 +78,12 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Map} A map having the following attributes:
      *           <ul>
-     *           <li>"url": (type string) must be the URL of the image to show.</li>
+     *           <li>
+     *             "url": (type string) must be the URL of the image to show. 
+     *             The url given must either be managed by the {@link qx.util.ResourceManager} 
+     *             or pre-loaded with {@link qx.io.ImageLoader}. This is to make sure that 
+     *             the renderer knows the dimensions and the format of the image.
+     *           </li>
      *           <li>"imageWidth": (type int) the width of the image in pixels.</li>
      *           <li>"imageHeight": (type int) the height of the image in pixels.</li>
      *           <li>"tooltip": (type string) must be the image tooltip text.</li>
