@@ -185,7 +185,19 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
     
     
-    
+    /**
+     * Returns the blocker used over the splitter. this could be used for 
+     * adding event listeners like click or dblclick.
+     * 
+     * @return {qx.ui.splitpane.Blocker} The used blocker element.
+     * 
+     * @internal
+     */
+    getBlocker : function() {
+      return this.__blocker;
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
