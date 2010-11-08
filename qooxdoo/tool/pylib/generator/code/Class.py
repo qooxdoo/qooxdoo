@@ -143,7 +143,7 @@ class Class(Resource):
 
     def tree(self, variantSet={}):
         context = self.context
-        tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
+        tradeSpaceForSpeed = False  # Caution: setting this to True seems to return trees which have been optimized, as unoptimized
 
         # Construct the right cache id
         unoptCacheId     = "tree-%s-%s" % (self.path, util.toString({}))
