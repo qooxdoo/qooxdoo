@@ -149,8 +149,18 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     afterFinish : function() {
       qx.bom.element.Style.set(this._getElement(), "opacity", this.__oldValue);
-    }
+    },
 
+    _applyDuration: function(value, old) {
+      var effectDuration = value / 6;
+
+      for (var i=0, l=this.__fadeEffects.length; i<l; i++)
+      {
+        this.__fadeEffects[i].set({
+          duration : effectDuration
+        });
+      }
+     }
    },
 
 
