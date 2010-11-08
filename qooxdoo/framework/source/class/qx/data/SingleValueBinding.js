@@ -685,7 +685,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       value = this.__convertValue(
         value, targetObject, targetPropertyChain, options
       );
-      // check if the converted value is null
+      // check if the converted value is undefined
       if (value === undefined) {
         this.__resetTargetValue(targetObject, targetPropertyChain);
       }
