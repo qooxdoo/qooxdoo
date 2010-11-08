@@ -195,7 +195,7 @@
       "desc"    : "extension job for debugging dependencies",
 
       "extend" : ["common"],
-      "include" : ["demobrowser.demo.io.HttpRequest_1"],
+      "include" : ["demobrowser.demo.data.ExtendedTree"],
       "log" :
       {
         "dependencies" : { "type": "using"}
