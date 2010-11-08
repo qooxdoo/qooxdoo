@@ -68,7 +68,7 @@ msgstr "Hoch"
 
 #: qx/locale/Key.js:93
 msgid "key_short_Right"
-msgstr "Rechts "
+msgstr "Rechts"
 
 #: qx/locale/Key.js:94
 msgid "key_short_Down"
@@ -188,7 +188,7 @@ msgstr "Bild hoch"
 
 #: qx/locale/Key.js:125
 msgid "key_full_PageDown"
-msgstr "Bild runter "
+msgstr "Bild runter"
 
 #: qx/locale/Key.js:126
 msgid "key_full_End"
