@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Arial, "sans-serif";
+}
+
+div {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 1.2em;
+  padding: 5px 10px;
+  margin: 0 0 15px 0;
+  color: #225DA4;
+  border-bottom: 1px solid #225DA4;
+}
+
+#qxtestrunner_autframe {
+  margin: 10px 10px 0 10px;
+  width: 98%;
+  height: 150px;
+  border: 1px inset black;
+}
+
+#qxtestrunner_tests {
+  float: left;
+  width: 42%;
+  margin: 10px 0 30px 0;
+  font-size: 0.9em;
+}
+
+#qxtestrunner_tests ul {
+  border-top: 1px solid #E5E5E5;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#qxtestrunner_tests ul li {
+  font-size: 0.8em;
+  border-bottom: 1px solid #E5E5E5;
+  background-color: #F4F4F4;
+}
+
+#qxtestrunner_results {
+  width: 58%;
+  margin: 10px 0 30px 42%;
+  font-size: 0.9em;
+}
+
+#qxtestrunner_results ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#qxtestrunner_results ul li {
+  margin: 0 0 2px 0;
+  padding: 2px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-weight: bold;
+  font-size: 1em;
+  color: #134275;  
+}
+
+#qxtestrunner_results .success {
+  background-color: #FAFFED;
+  border-left: 2px solid #DEFF83;
+}
+
+#qxtestrunner_results .wait {
+  background-color: #FFFBC4;
+  border-left: 2px solid #FFFFD8;
+}
+
+#qxtestrunner_results .skip {
+  background-color: #F4F4F4;
+  border-left: 2px solid #E5E5E5;
+  color: #6EA4BC;
+}
+
+#qxtestrunner_results .failure,
+#qxtestrunner_results .error {
+  background-color: #FEF4F4;
+  border-left: 2px solid #9D1111;
+}
+
+#aut iframe {
+  width: 100%;
+}
+
+#qxtestrunner_footer {
+  position: fixed;
+  background-color: #DEDEDE;
+  bottom: 0px;
+  width: 100%;
+  border-top: 1px solid #225DA4;
+}
+
+#qxtestrunner_status {
+  margin: 4px;
+}
+
+#qxtestrunner_status .error {
+  color: #FF0000;
+}

@@ -1,0 +1,35 @@
+{
+  "info" : 
+  {
+    "name" : "TestRunner2",
+
+    "summary" : "Unit testing framework",
+    "description" : "A modular test runner application to run JSUnit-like unit tests.",
+    
+    "keywords" : ["unit", "test", "test runner"],
+    "homepage" : "http://demo.qooxdoo.org/",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Daniel Wagner (d_wagner)",
+        "email" : "daniel.wagner@1und1.de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "testrunner2",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "add-in"
+  }
+}
+

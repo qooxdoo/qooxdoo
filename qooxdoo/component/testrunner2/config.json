@@ -1,0 +1,178 @@
+{
+  "name"    : "testrunner2",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "testrunner2",
+    "QOOXDOO_PATH" : "../..",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : ".",
+    "TEST_NAMESPACE" : "${APPLICATION}.test",
+    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*"
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "source-script-packages" :
+    {
+      "extend" : ["source-script"],
+      
+      "packages" :
+      {
+        "parts"  :
+        {
+          "boot"     :
+          {
+            "include" : [ "${APPLICATION}.Application",  "${TEST_NAMESPACE}.DemoTest"]
+          },
+          "${TEST_NAMESPACE}.ui" :
+          {
+            "include" : [ "${TEST_NAMESPACE}.ui.*" ]
+          },
+          "${TEST_NAMESPACE}.data" :
+          {
+            "include" : [ "${TEST_NAMESPACE}.data.*" ]
+          }
+        }
+      },
+      
+      "settings" :
+      {
+        "qx.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
+      }
+    },
+    
+    "build-files" :
+    {
+      "copy-files" :
+      {
+        "=files" :
+        [
+          "index-console.html",
+          "index-iframe-source.html",
+          "index-iframe.html",
+          "index-inline.html",
+          "html"
+        ]
+      }
+    },
+    
+    "build-script" :
+    {
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/${APPLICATION}-{testrunner2.view}-{testrunner2.testOrigin}.js"
+        }
+      },
+      
+      "settings" :
+      {
+        "qx.testNameSpace" : "${TEST_NAMESPACE}"
+      }
+    },
+    
+    "build" :
+    {
+      "variants" :
+      {
+        "testrunner2.view" : ["html"],
+        "testrunner2.testOrigin" : ["iframe"]
+      },
+      
+      "=run" :
+      [
+        "build-script",
+        "build-tests-script"
+      ]
+    },
+    
+    "source" :
+    {
+      "variants" :
+      {
+        "testrunner2.view" : ["html"],
+        "testrunner2.testOrigin" : ["iframe"]
+      },
+      
+      "=run" :
+      [
+        "source-script",
+        "source-tests-script"
+      ]
+    },
+    
+    "source-script" :
+    {
+      "extend" : ["testrunner2::source-script"],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "./source/script/${APPLICATION}-{testrunner2.view}-{testrunner2.testOrigin}.js"
+        }
+      },
+      
+      "settings" :
+      {
+        "qx.testNameSpace" : "${TEST_NAMESPACE}"
+      }
+    },
+    
+    "source-tests-script" :
+    {
+      "extend" : ["testrunner2::source-tests-script"],
+    
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file"    : "./source/script/tests-source.js",
+          "app-root"    : "./source/html"
+        }
+      },
+      
+      "let" :
+      {
+        "QOOXDOO_PATH" : "../../../qooxdoo.trunk"
+      }
+    },
+    
+    "test-inline-source" :
+    {
+      "run" : ["source-script-packages"],
+      
+      "variants" :
+      {
+        "testrunner2.view" : ["html"],
+        "testrunner2.testOrigin" : ["inline"]
+      }
+    },
+    
+    "test-console-source" :
+    {
+      "extend" : ["source"],
+      
+      "variants" :
+      {
+        "testrunner2.view" : ["console"],
+        "testrunner2.testOrigin" : ["inline"]
+      }
+    }
+    
+  }
+}
