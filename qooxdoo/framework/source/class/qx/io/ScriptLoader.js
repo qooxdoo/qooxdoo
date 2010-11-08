@@ -39,6 +39,9 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
     /** {Boolean} Whether the request is running */
     __running : null,
 
+    /** {Boolean} Whether the current loader is disposed */
+    __disposed : null,
+
     /** {Function} Callback method to execute */
     __callback : null,
 
@@ -70,7 +73,10 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
         throw new Error("Another request is still running!");
       }
 
+      // Since load can be invoked more than one time on the same instance,
+      // reset internal status
       this.__running = true;
+      this.__disposed = false;
 
       // Place script element into head
       var head = document.getElementsByTagName("head")[0];
@@ -123,10 +129,10 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      */
     dispose : function(status)
     {
-      if (this._disposed) {
+      if (this.__disposed) {
         return;
       }
-      this._disposed = true;
+      this.__disposed = true;
 
       // Get script
       var script = this.__elem;
@@ -151,8 +157,8 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
           // Safari fails with an "maximum recursion depth exceeded" error if
           // many files are loaded
 
-          // IE may call the callback before the contents is evaluated if the
-          // script is serverd directly from the browser cache
+          // IE may call the callback before the content is evaluated if the
+          // script is served directly from the browser cache
 
           var self = this;
           setTimeout(qx.event.GlobalError.observeMethod(function()
