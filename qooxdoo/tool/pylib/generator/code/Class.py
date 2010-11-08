@@ -434,17 +434,9 @@ class Class(Resource):
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
-            global cnt
-            depsi = [None]
-            def foo():
-                deps = buildShallowDeps()
-                depsi[0] = buildTransitiveDeps(deps)
-                cache.writemulti(cacheId, depsi[0])
-            import cProfile
-            #cProfile.runctx("foo()", globals(), locals(), "/home/thron7/tmp/prof/deps.prof"+str(cnt))
-            foo()
-            cnt += 1
-            deps = depsi[0]
+            deps = buildShallowDeps()
+            deps = buildTransitiveDeps(deps)
+            cache.writemulti(cacheId, deps)
         
         return deps, cached
 
