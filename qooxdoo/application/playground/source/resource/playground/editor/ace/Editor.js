@@ -3585,7 +3585,7 @@ require.def("ace/RenderLoop", ["ace/lib/event"], function(m) {
           var h = this;
           m.addListener(window, "message", function(i) {
             if(i.source == window && h.callback && i.data == h.messageName) {
-              i.stopPropagation();
+              m.stopPropagation(i);
               h.callback()
             }
           });
