@@ -99,11 +99,11 @@ class Class(Resource):
 
     def _getClassCache(self):
         cache = self.context["cache"]
-        classInfo, _ = cache.read(self.cacheId, self.path)
+        classInfo, modTime = cache.read(self.cacheId, self.path)
         if classInfo:
-            return classInfo
+            return classInfo, modTime
         else:
-            return {}
+            return {}, None
 
     def _writeClassCache(self, data):
         cache = self.context["cache"]
@@ -198,9 +198,9 @@ class Class(Resource):
 
     def classVariants(self, generate=True):
 
-        classinfo = self._getClassCache()
+        classinfo, _ = self._getClassCache()
         classvariants = None
-        if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
+        if 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
                 tree = self.tree({})  # get complete tree
                 classvariants = self._variantsFromTree(tree)       # get variants used in qx.core.Variant...(<variant>,...)
@@ -440,14 +440,18 @@ class Class(Resource):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
-        deps, cacheModTime = cache.readmulti(cacheId, self.path)
+        #deps, cacheModTime = cache.readmulti(cacheId, self.path)
+        classInfo, cacheModTime = self._getClassCache()
+        deps =  classInfo[cacheId] if cacheId in classInfo else None
 
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
             deps = buildTransitiveDeps(deps)
-            cache.writemulti(cacheId, deps)
+            #cache.writemulti(cacheId, deps)
+            classInfo[cacheId] = deps
+            self._writeClassCache(classInfo)
         
         return deps, cached
 
