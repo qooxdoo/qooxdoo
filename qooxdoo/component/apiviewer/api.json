@@ -124,6 +124,12 @@
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*"],
 
+      "variants" :
+      {
+        "qx.aspects" : ["off"],
+        "qx.debug" : ["off"]
+      },
+
       "copy-resources" :
       {
         "target" : "${BUILD_PATH}"
