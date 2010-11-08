@@ -99,8 +99,8 @@ qx.Class.define("playground.view.Editor",
       var highlightDisabled = false;
       // FF2 does not have that...
       // also block the editor for IE which seems not to work
-      // http://github.com/ajaxorg/editor/issues/issue/6            
       if (!document.createElement("div").getBoundingClientRect || qx.bom.client.Browser.NAME == "ie") {
+      // https://github.com/ajaxorg/ace/issues/issue/3
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
       } else {

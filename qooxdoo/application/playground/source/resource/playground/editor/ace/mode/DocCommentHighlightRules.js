@@ -1,52 +1,15 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/mode/DocCommentHighlightRules",
-    [
-        "ace/lib/oop",
-        "ace/mode/TextHighlightRules"
-    ], function(oop, TextHighlightRules) {
-
-var DocCommentHighlightRules = function() {
-
-    this.$rules = {
-        "start" : [ {
-            token : "doc-comment", // closing comment
-            regex : "\\*\\/",
-            next : "start"
-        }, {
-            token : "doc-comment-tag",
-            regex : "@[\\w\\d_]+"
-        }, {
-            token : "doc-comment",
-            regex : "\s+"
-        }, {
-            token : "doc-comment",
-            regex : "[^@\\*]+"
-        }, {
-            token : "doc-comment",
-            regex : "."
-        }]
-    };
-};
-
-oop.inherits(DocCommentHighlightRules, TextHighlightRules);
-
-(function() {
-
-    this.getStartRule = function(start) {
-        return {
-            token : "doc-comment", // doc comment
-            regex : "\\/\\*\\*",
-            next: start
-        };
-    };
-
-}).call(DocCommentHighlightRules.prototype);
-
-return DocCommentHighlightRules;
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/mode/DocCommentHighlightRules", ["ace/lib/oop", "ace/mode/TextHighlightRules"], function(b, c) {
+  var a = function() {
+    this.$rules = {start:[{token:"comment.doc", regex:"\\*\\/", next:"start"}, {token:"comment.doc.tag", regex:"@[\\w\\d_]+"}, {token:"comment.doc", regex:"s+"}, {token:"comment.doc", regex:"[^@\\*]+"}, {token:"comment.doc", regex:"."}]}
+  };
+  b.inherits(a, c);
+  (function() {
+    this.getStartRule = function(d) {
+      return{token:"comment.doc", regex:"\\/\\*(?=\\*)", next:d}
+    }
+  }).call(a.prototype);
+  return a
 });

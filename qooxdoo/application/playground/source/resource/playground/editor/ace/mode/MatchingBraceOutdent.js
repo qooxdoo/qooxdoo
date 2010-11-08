@@ -1,52 +1,32 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/mode/MatchingBraceOutdent",
-    ["ace/Range"],
-    function(Range) {
-
-var MatchingBraceOutdent = function() {};
-
-(function() {
-
-    this.checkOutdent = function(line, input) {
-        if (! /^\s+$/.test(line))
-            return false;
-
-        return /^\s*\}/.test(input);
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/mode/MatchingBraceOutdent", ["ace/Range"], function(f) {
+  var e = function() {
+  };
+  (function() {
+    this.checkOutdent = function(a, b) {
+      if(!/^\s+$/.test(a)) {
+        return false
+      }return/^\s*\}/.test(b)
     };
-
-    this.autoOutdent = function(doc, row) {
-        var line = doc.getLine(row);
-        var match = line.match(/^(\s*\})/);
-
-        if (!match) return 0;
-
-        var column = match[1].length;
-        var openBracePos = doc.findMatchingBracket({row: row, column: column});
-
-        if (!openBracePos || openBracePos.row == row) return 0;
-
-        var indent = this.$getIndent(doc.getLine(openBracePos.row));
-        doc.replace(new Range(row, 0, row, column-1), indent);
-
-        return indent.length - (column-1);
+    this.autoOutdent = function(a, b) {
+      var c = a.getLine(b).match(/^(\s*\})/);
+      if(!c) {
+        return 0
+      }c = c[1].length;
+      var d = a.findMatchingBracket({row:b, column:c});
+      if(!d || d.row == b) {
+        return 0
+      }d = this.$getIndent(a.getLine(d.row));
+      a.replace(new f(b, 0, b, c - 1), d);
+      return d.length - (c - 1)
     };
-
-    this.$getIndent = function(line) {
-        var match = line.match(/^(\s+)/);
-        if (match) {
-            return match[1];
-        }
-
-        return "";
-    };
-
-}).call(MatchingBraceOutdent.prototype);
-
-return MatchingBraceOutdent;
+    this.$getIndent = function(a) {
+      if(a = a.match(/^(\s+)/)) {
+        return a[1]
+      }return""
+    }
+  }).call(e.prototype);
+  return e
 });

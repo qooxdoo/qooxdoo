@@ -1,45 +1,31 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
 require.def("ace/UndoManager", function() {
-
-var UndoManager = function() {
+  var b = function() {
     this.$undoStack = [];
-    this.$redoStack = [];
-};
-
-(function() {
-
-    this.$doc = null;
-    this.setDocument = function(doc) {
-        this.$doc = doc;
+    this.$redoStack = []
+  };
+  (function() {
+    this.execute = function(a) {
+      var c = a.args[0];
+      this.$doc = a.args[1];
+      this.$undoStack.push(c)
     };
-
-    this.notify = function(deltas) {
-        this.$undoStack.push(deltas);
-    };
-
     this.undo = function() {
-        var deltas = this.$undoStack.pop();
-        if (deltas) {
-            this.$doc.undoChanges(deltas);
-            this.$redoStack.push(deltas);
-        }
+      var a = this.$undoStack.pop();
+      if(a) {
+        this.$doc.undoChanges(a);
+        this.$redoStack.push(a)
+      }
     };
-
     this.redo = function() {
-        var deltas = this.$redoStack.pop();
-        if (deltas) {
-            this.$doc.redoChanges(deltas);
-            this.$undoStack.push(deltas);
-        }
-    };
-
-}).call(UndoManager.prototype);
-
-return UndoManager;
+      var a = this.$redoStack.pop();
+      if(a) {
+        this.$doc.redoChanges(a);
+        this.$undoStack.push(a)
+      }
+    }
+  }).call(b.prototype);
+  return b
 });

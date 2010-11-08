@@ -1,45 +1,33 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
 require.def("ace/layer/Gutter", [], function() {
-
-var Gutter = function(parentEl) {
+  var d = function(a) {
     this.element = document.createElement("div");
     this.element.className = "ace_layer ace_gutter-layer";
-    parentEl.appendChild(this.element);
-
+    a.appendChild(this.element);
     this.$breakpoints = [];
-};
-
-(function() {
-
-    this.setBreakpoints = function(rows) {
-        this.$breakpoints = rows.concat();
-
-        if (this.$config)
-            this.update(this.$config);
+    this.$decorations = []
+  };
+  (function() {
+    this.addGutterDecoration = function(a, b) {
+      this.$decorations[a] || (this.$decorations[a] = "");
+      this.$decorations[a] += " ace_" + b
     };
-
-    this.update = function(config) {
-        this.$config = config;
-
-        var html = [];
-        for ( var i = config.firstRow; i <= config.lastRow; i++) {
-            html.push("<div class='ace_gutter-cell",
-                this.$breakpoints[i] ? " ace_breakpoint" : "",
-                "' style='height:", config.lineHeight, "px;'>", (i+1), "</div>");
-            html.push("</div>");
-        }
-
-        this.element.innerHTML = html.join("");
-        this.element.style.height = config.minHeight + "px";
+    this.removeGutterDecoration = function(a, b) {
+      this.$decorations[a] = this.$decorations[a].replace(" ace_" + b, "")
     };
-
-}).call(Gutter.prototype);
-
-return Gutter;
+    this.setBreakpoints = function(a) {
+      this.$breakpoints = a.concat()
+    };
+    this.update = function(a) {
+      this.$config = a;
+      for(var b = [], c = a.firstRow;c <= a.lastRow;c++) {
+        b.push("<div class='ace_gutter-cell", this.$decorations[c] || "", this.$breakpoints[c] ? " ace_breakpoint" : "", "' style='height:", a.lineHeight, "px;'>", c + 1, "</div>");
+        b.push("</div>")
+      }this.element.innerHTML = b.join("");
+      this.element.style.height = a.minHeight + "px"
+    }
+  }).call(d.prototype);
+  return d
 });

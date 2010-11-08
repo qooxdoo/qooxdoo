@@ -1,116 +1,81 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/TextInput", ["ace/lib/event"], function(event) {
-
-var TextInput = function(parentNode, host) {
-
-    var text = document.createElement("textarea");
-    var style = text.style;
-    style.position = "absolute";
-    style.left = "-10000px";
-    style.top = "-10000px";
-    parentNode.appendChild(text);
-
-    var PLACEHOLDER = String.fromCharCode(0);
-    sendText();
-
-    var inCompostion = false;
-    var copied = false;
-
-    function sendText() {
-        if (!copied) {
-            var value = text.value;
-            if (value) {
-                if (value.charCodeAt(value.length-1) == PLACEHOLDER.charCodeAt(0)) {
-                    value = value.slice(0, -1);
-                    if (value)
-                        host.onTextInput(value);
-                } else
-                    host.onTextInput(value);
-            }
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/TextInput", ["ace/lib/event"], function(b) {
+  return function(l, c) {
+    function e() {
+      if(!f) {
+        var d = a.value;
+        if(d) {
+          if(d.charCodeAt(d.length - 1) == j.charCodeAt(0)) {
+            (d = d.slice(0, -1)) && c.onTextInput(d)
+          }else {
+            c.onTextInput(d)
+          }
         }
-        copied = false;
-
-        // Safari doesn't fire copy events if no text is selected
-        text.value = PLACEHOLDER;
-        text.select();
+      }f = false;
+      a.value = j;
+      a.select()
     }
-
-    var onTextInput = function(e) {
-        setTimeout(function() {
-            if (!inCompostion)
-                sendText();
-        }, 0);
+    var a = document.createElement("textarea"), h = a.style;
+    h.position = "absolute";
+    h.left = "-10000px";
+    h.top = "-10000px";
+    l.appendChild(a);
+    var j = String.fromCharCode(0);
+    e();
+    var i = false, f = false, g = function() {
+      setTimeout(function() {
+        i || e()
+      }, 0)
+    }, k = function() {
+      c.onCompositionUpdate(a.value)
     };
-
-    var onCompositionStart = function(e) {
-        inCompostion = true;
-        sendText();
-        text.value = "";
-        host.onCompositionStart();
-        setTimeout(onCompositionUpdate, 0);
-    };
-
-    var onCompositionUpdate = function() {
-        host.onCompositionUpdate(text.value);
-    };
-
-    var onCompositionEnd = function() {
-        inCompostion = false;
-        host.onCompositionEnd();
-        onTextInput();
-    };
-
-    var onCopy = function() {
-        copied = true;
-        text.value = host.getCopyText();
-        text.select();
-        copied = true;
-    };
-
-    var onCut = function() {
-        copied = true;
-        text.value = host.getCopyText();
-        host.onCut();
-        text.select();
-    };
-
-    event.addListener(text, "keypress", onTextInput);
-    event.addListener(text, "textInput", onTextInput);
-    event.addListener(text, "paste", onTextInput);
-    event.addListener(text, "propertychange", onTextInput);
-
-    event.addListener(text, "copy", onCopy);
-    event.addListener(text, "cut", onCut);
-
-    event.addListener(text, "compositionstart", onCompositionStart);
-    event.addListener(text, "compositionupdate", onCompositionUpdate);
-    event.addListener(text, "compositionend", onCompositionEnd);
-
-    event.addListener(text, "blur", function() {
-        host.onBlur();
+    b.addListener(a, "keypress", g);
+    b.addListener(a, "textInput", g);
+    b.addListener(a, "paste", g);
+    b.addListener(a, "propertychange", g);
+    b.addListener(a, "copy", function() {
+      f = true;
+      a.value = c.getCopyText();
+      a.select();
+      f = true;
+      setTimeout(e, 0)
     });
-
-    event.addListener(text, "focus", function() {
-        host.onFocus();
-        text.select();
+    b.addListener(a, "cut", function() {
+      f = true;
+      a.value = c.getCopyText();
+      c.onCut();
+      a.select();
+      setTimeout(e, 0)
     });
-
+    b.addListener(a, "compositionstart", function() {
+      i = true;
+      e();
+      a.value = "";
+      c.onCompositionStart();
+      setTimeout(k, 0)
+    });
+    b.addListener(a, "compositionupdate", k);
+    b.addListener(a, "compositionend", function() {
+      i = false;
+      c.onCompositionEnd();
+      g()
+    });
+    b.addListener(a, "blur", function() {
+      c.onBlur()
+    });
+    b.addListener(a, "focus", function() {
+      c.onFocus();
+      a.select()
+    });
     this.focus = function() {
-        host.onFocus();
-        text.select();
-        text.focus();
+      c.onFocus();
+      a.select();
+      a.focus()
     };
-
     this.blur = function() {
-        text.blur();
-    };
-};
-
-return TextInput;
+      a.blur()
+    }
+  }
 });

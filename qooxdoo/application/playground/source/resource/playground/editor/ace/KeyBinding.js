@@ -1,122 +1,57 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/KeyBinding",
-    ["ace/ace",
-     "ace/conf/keybindings/default_mac",
-     "ace/conf/keybindings/default_win",
-     "ace/PluginManager",
-     "ace/commands/DefaultCommands"],
-    function(ace, default_mac, default_win, PluginManager) {
-
-var KeyBinding = function(element, editor, config) {
-    this.setConfig(config);
-
-    var _self = this;
-    ace.addKeyListener(element, function(e) {
-        var hashId = 0 | (e.ctrlKey ? 1 : 0) | (e.altKey ? 2 : 0)
-            | (e.shiftKey ? 4 : 0) | (e.metaKey ? 8 : 0);
-        var key = _self.keyNames[e.keyCode];
-
-        var commandName = (_self.config.reverse[hashId] || {})[(key
-            || String.fromCharCode(e.keyCode)).toLowerCase()];
-        var command = PluginManager.commands[commandName];
-
-        if (command) {
-            command(editor, editor.getSelection());
-            return ace.stopEvent(e);
-        }
-    });
-};
-
-(function() {
-    this.keyMods = {"ctrl": 1, "alt": 2, "option" : 2, "shift": 4, "meta": 8, "command": 8};
-
-    this.keyNames = {
-        "8"  : "Backspace",
-        "9"  : "Tab",
-        "13" : "Enter",
-        "27" : "Esc",
-        "32" : "Space",
-        "33" : "PageUp",
-        "34" : "PageDown",
-        "35" : "End",
-        "36" : "Home",
-        "37" : "Left",
-        "38" : "Up",
-        "39" : "Right",
-        "40" : "Down",
-        "45" : "Insert",
-        "46" : "Delete",
-        "107": "+",
-        "112": "F1",
-        "113": "F2",
-        "114": "F3",
-        "115": "F4",
-        "116": "F5",
-        "117": "F6",
-        "118": "F7",
-        "119": "F8",
-        "120": "F9",
-        "121": "F10",
-        "122": "F11",
-        "123": "F12"
-    };
-
-    function splitSafe(s, separator, limit, bLowerCase) {
-        return (bLowerCase && s.toLowerCase() || s)
-            .replace(/(?:^\s+|\n|\s+$)/g, "")
-            .split(new RegExp("[\\s ]*" + separator + "[\\s ]*", "g"), limit || 999);
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/KeyBinding", ["ace/lib/core", "ace/lib/event", "ace/conf/keybindings/default_mac", "ace/conf/keybindings/default_win", "ace/PluginManager", "ace/commands/DefaultCommands"], function(m, k, n, o, p) {
+  var l = function(i, g, j) {
+    this.setConfig(j);
+    var a = this;
+    k.addKeyListener(i, function(b) {
+      var c = (a.config.reverse[0 | (b.ctrlKey ? 1 : 0) | (b.altKey ? 2 : 0) | (b.shiftKey ? 4 : 0) | (b.metaKey ? 8 : 0)] || {})[(a.keyNames[b.keyCode] || String.fromCharCode(b.keyCode)).toLowerCase()];
+      if(c = p.commands[c]) {
+        c(g, g.getSelection());
+        return k.stopEvent(b)
+      }
+    })
+  };
+  (function() {
+    function i(a, b, c, e) {
+      return(e && a.toLowerCase() || a).replace(/(?:^\s+|\n|\s+$)/g, "").split(new RegExp("[\\s ]*" + b + "[\\s ]*", "g"), c || 999)
     }
-
-    function parseKeys(keys, val, ret) {
-        var key,
-            hashId = 0,
-            parts  = splitSafe(keys, "\\-", null, true),
-            i      = 0,
-            l      = parts.length;
-
-        for (; i < l; ++i) {
-            if (this.keyMods[parts[i]])
-                hashId = hashId | this.keyMods[parts[i]];
-            else
-                key = parts[i] || "-"; //when empty, the splitSafe removed a '-'
+    function g(a, b, c) {
+      var e, f = 0;
+      a = i(a, "\\-", null, true);
+      for(var d = 0, h = a.length;d < h;++d) {
+        if(this.keyMods[a[d]]) {
+          f |= this.keyMods[a[d]]
+        }else {
+          e = a[d] || "-"
         }
-
-        (ret[hashId] || (ret[hashId] = {}))[key] = val;
-        return ret;
+      }(c[f] || (c[f] = {}))[e] = b;
+      return c
     }
-
-    function objectReverse(obj, keySplit) {
-        var i, j, l, key,
-            ret = {};
-        for (i in obj) {
-            key = obj[i];
-            if (keySplit && typeof key == "string") {
-                key = key.split(keySplit);
-                for (j = 0, l = key.length; j < l; ++j)
-                    parseKeys.call(this, key[j], i, ret);
-            }
-            else {
-                parseKeys.call(this, key, i, ret);
-            }
+    function j(a, b) {
+      var c, e, f, d, h = {};
+      for(c in a) {
+        d = a[c];
+        if(b && typeof d == "string") {
+          d = d.split(b);
+          e = 0;
+          for(f = d.length;e < f;++e) {
+            g.call(this, d[e], c, h)
+          }
+        }else {
+          g.call(this, d, c, h)
         }
-        return ret;
+      }return h
     }
-
-    this.setConfig = function(config) {
-        this.config = config || (ace.isMac
-            ? default_mac
-            : default_win);
-        if (typeof this.config.reverse == "undefined")
-            this.config.reverse = objectReverse.call(this, this.config, "|");
-    };
-
-}).call(KeyBinding.prototype);
-
-return KeyBinding;
+    this.keyMods = {ctrl:1, alt:2, option:2, shift:4, meta:8, command:8};
+    this.keyNames = {"8":"Backspace", "9":"Tab", "13":"Enter", "27":"Esc", "32":"Space", "33":"PageUp", "34":"PageDown", "35":"End", "36":"Home", "37":"Left", "38":"Up", "39":"Right", "40":"Down", "45":"Insert", "46":"Delete", "107":"+", "112":"F1", "113":"F2", "114":"F3", "115":"F4", "116":"F5", "117":"F6", "118":"F7", "119":"F8", "120":"F9", "121":"F10", "122":"F11", "123":"F12"};
+    this.setConfig = function(a) {
+      this.config = a || (m.isMac ? n : o);
+      if(typeof this.config.reverse == "undefined") {
+        this.config.reverse = j.call(this, this.config, "|")
+      }
+    }
+  }).call(l.prototype);
+  return l
 });

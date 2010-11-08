@@ -1,102 +1,49 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
 require.def("ace/Tokenizer", [], function() {
-
-var Tokenizer = function(rules) {
-    this.rules = rules;
-
+  var k = function(f) {
+    this.rules = f;
     this.regExps = {};
-    for ( var key in this.rules) {
-        var state = this.rules[key];
-        var ruleRegExps = [];
-
-        for ( var i = 0; i < state.length; i++) {
-            ruleRegExps.push(state[i].regex);
-        };
-
-        this.regExps[key] = new RegExp("(?:(" + ruleRegExps.join(")|(")
-                + ")|(.))", "g");
+    for(var a in this.rules) {
+      f = this.rules[a];
+      for(var b = [], c = 0;c < f.length;c++) {
+        b.push(f[c].regex)
+      }this.regExps[a] = new RegExp("(?:(" + b.join(")|(") + ")|(.))", "g")
     }
-};
-
-(function() {
-
-    this.getLineTokens = function(line, startState) {
-        var currentState = startState;
-        var state = this.rules[currentState];
-        var re = this.regExps[currentState];
-        re.lastIndex = 0;
-
-        var match, tokens = [];
-
-        var lastIndex = 0;
-
-        var token = {
-            type: null,
-            value: ""
-        };
-
-        while (match = re.exec(line)) {
-            var type = "text";
-            var value = match[0];
-
-            if (re.lastIndex == lastIndex) { throw new Error("tokenizer error"); }
-            lastIndex = re.lastIndex;
-
-            window.LOG && jstestdriver.console.log(currentState, match);
-
-            for ( var i = 0; i < state.length; i++) {
-                if (match[i + 1]) {
-                    if (typeof state[i].token == "function") {
-                        type = state[i].token(match[0]);
-                    }
-                    else {
-                        type = state[i].token;
-                    }
-
-                    if (state[i].next && state[i].next !== currentState) {
-                        currentState = state[i].next;
-                        var state = this.rules[currentState];
-                        var lastIndex = re.lastIndex;
-
-                        var re = this.regExps[currentState];
-                        re.lastIndex = lastIndex;
-                    }
-                    break;
-                }
-            };
-
-            if (token.type !== type) {
-                if (token.type) {
-                    tokens.push(token);
-                }
-                token = {
-                    type: type,
-                    value: value
-                };
-            } else {
-                token.value += value;
-            }
-        };
-
-        if (token.type) {
-            tokens.push(token);
+  };
+  (function() {
+    this.getLineTokens = function(f, a) {
+      a = a;
+      var b = this.rules[a], c = this.regExps[a];
+      c.lastIndex = 0;
+      for(var g, h = [], i = 0, e = {type:null, value:""};g = c.exec(f);) {
+        var j = "text", l = g[0];
+        if(c.lastIndex == i) {
+          throw new Error("tokenizer error");
+        }i = c.lastIndex;
+        window.LOG && console.log(a, g);
+        for(var d = 0;d < b.length;d++) {
+          if(g[d + 1]) {
+            j = typeof b[d].token == "function" ? b[d].token(g[0]) : b[d].token;
+            if(b[d].next && b[d].next !== a) {
+              a = b[d].next;
+              b = this.rules[a];
+              i = c.lastIndex;
+              c = this.regExps[a];
+              c.lastIndex = i
+            }break
+          }
+        }if(e.type !== j) {
+          e.type && h.push(e);
+          e = {type:j, value:l}
+        }else {
+          e.value += l
         }
-
-        window.LOG && jstestdriver.console.log(tokens, currentState);
-
-        return {
-            tokens : tokens,
-            state : currentState
-        };
-    };
-
-}).call(Tokenizer.prototype);
-
-return Tokenizer;
+      }e.type && h.push(e);
+      window.LOG && console.log(h, a);
+      return{tokens:h, state:a}
+    }
+  }).call(k.prototype);
+  return k
 });

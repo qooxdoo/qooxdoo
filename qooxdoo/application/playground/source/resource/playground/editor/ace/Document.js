@@ -1,665 +1,461 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/Document",
-    [
-        "ace/lib/oop",
-        "ace/lib/lang",
-        "ace/MEventEmitter",
-        "ace/Selection",
-        "ace/mode/Text",
-        "ace/Range"
-    ], function(oop, lang, MEventEmitter, Selection, TextMode, Range) {
-
-var Document = function(text, mode) {
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter", "ace/Selection", "ace/mode/Text", "ace/Range"], function(l, i, m, n, o, g) {
+  var j = function(a, b) {
     this.modified = true;
     this.lines = [];
-    this.selection = new Selection(this);
+    this.selection = new n(this);
     this.$breakpoints = [];
-
     this.listeners = [];
-    if (mode) {
-        this.setMode(mode);
-    }
-
-    if (lang.isArray(text)) {
-        this.$insertLines(0, text);
-    } else {
-        this.$insert({row: 0, column: 0}, text);
-    }
-};
-
-(function() {
-
-    oop.implement(this, MEventEmitter);
-
+    b && this.setMode(b);
+    i.isArray(a) ? this.$insertLines(0, a) : this.$insert({row:0, column:0}, a)
+  };
+  (function() {
+    l.implement(this, m);
     this.$undoManager = null;
-
-    this.$split = function(text) {
-        return text.split(/\r\n|\r|\n/);
+    this.$split = function(a) {
+      return a.split(/\r\n|\r|\n/)
     };
-
-    this.setValue = function(text) {
-        var args = [0, this.lines.length];
-        args.push.apply(args, this.$split(text));
-        this.lines.splice.apply(this.lines, args);
-        this.modified = true;
-        this.fireChangeEvent(0);
+    this.setValue = function(a) {
+      var b = [0, this.lines.length];
+      b.push.apply(b, this.$split(a));
+      this.lines.splice.apply(this.lines, b);
+      this.modified = true;
+      this.fireChangeEvent(0)
     };
-
     this.toString = function() {
-        return this.lines.join(this.$getNewLineCharacter());
+      return this.lines.join(this.$getNewLineCharacter())
     };
-
     this.getSelection = function() {
-        return this.selection;
+      return this.selection
     };
-
-    this.fireChangeEvent = function(firstRow, lastRow) {
-        var data = {
-            firstRow: firstRow,
-            lastRow: lastRow
-        };
-        this.$dispatchEvent("change", { data: data});
+    this.fireChangeEvent = function(a, b) {
+      this.$dispatchEvent("change", {data:{firstRow:a, lastRow:b}})
     };
-
-    this.setUndoManager = function(undoManager) {
-        this.$undoManager = undoManager;
-        this.$deltas = [];
-
-        if (this.$informUndoManager) {
-            this.$informUndoManager.cancel();
-        }
-
-        if (undoManager) {
-            undoManager.setDocument(this);
-            var self = this;
-            this.$informUndoManager = lang.deferredCall(function() {
-                if (self.$deltas.length > 0)
-                    undoManager.notify(self.$deltas);
-                self.$deltas = [];
-            });
-        }
-    };
-
-    this.$defaultUndoManager = {
-        undo: function() {},
-        redo: function() {}
-    };
-
-    this.getUndoManager = function() {
-        return this.$undoManager || this.$defaultUndoManager;
-    },
-
-    this.getTabString = function() {
-        if (this.getUseSoftTabs()) {
-            return new Array(this.getTabSize()+1).join(" ");
-        } else {
-            return "\t";
-        }
-    };
-
-    this.$useSoftTabs = true;
-    this.setUseSoftTabs = function(useSoftTabs) {
-        if (this.$useSoftTabs === useSoftTabs) return;
-
-        this.$useSoftTabs = useSoftTabs;
-    };
-
-    this.getUseSoftTabs = function() {
-        return this.$useSoftTabs;
-    };
-
-    this.$tabSize = 4;
-    this.setTabSize = function(tabSize) {
-        if (this.$tabSize === tabSize) return;
-
-        this.modified = true;
-        this.$tabSize = tabSize;
-        this.$dispatchEvent("changeTabSize");
-    };
-
-    this.getTabSize = function() {
-        return this.$tabSize;
-    };
-
-    this.getBreakpoints = function() {
-        return this.$breakpoints;
-    };
-
-    this.setBreakpoints = function(rows) {
-        this.$breakpoints = [];
-        for (var i=0; i<rows.length; i++) {
-            this.$breakpoints[rows[i]] = true;
-        }
-        this.$dispatchEvent("changeBreakpoint", {});
-    };
-
-    this.clearBreakpoints = function() {
-        this.$breakpoints = [];
-        this.$dispatchEvent("changeBreakpoint", {});
-    };
-
-    this.setBreakpoint = function(row) {
-        this.$breakpoints[row] = true;
-        this.$dispatchEvent("changeBreakpoint", {});
-    };
-
-    this.clearBreakpoint = function(row) {
-        delete this.$breakpoints[row];
-        this.$dispatchEvent("changeBreakpoint", {});
-    };
-
-    this.$detectNewLine = function(text) {
-        var match = text.match(/^.*?(\r?\n)/m);
-        if (match) {
-            this.$autoNewLine = match[1];
-        } else {
-            this.$autoNewLine = "\n";
-        }
-    };
-
-    this.$getNewLineCharacter = function() {
-      switch (this.$newLineMode) {
-          case "windows":
-              return "\r\n";
-
-          case "unix":
-              return "\n";
-
-          case "auto":
-              return this.$autoNewLine;
+    this.setUndoManager = function(a) {
+      this.$undoManager = a;
+      this.$deltas = [];
+      this.$informUndoManager && this.$informUndoManager.cancel();
+      if(a) {
+        var b = this;
+        this.$informUndoManager = i.deferredCall(function() {
+          b.$deltas.length > 0 && a.execute({action:"aceupdate", args:[b.$deltas, b]});
+          b.$deltas = []
+        })
       }
-    },
-
+    };
+    this.$defaultUndoManager = {undo:function() {
+    }, redo:function() {
+    }};
+    this.getUndoManager = function() {
+      return this.$undoManager || this.$defaultUndoManager
+    };
+    this.getTabString = function() {
+      return this.getUseSoftTabs() ? i.stringRepeat(" ", this.getTabSize()) : "\t"
+    };
+    this.$useSoftTabs = true;
+    this.setUseSoftTabs = function(a) {
+      if(this.$useSoftTabs !== a) {
+        this.$useSoftTabs = a
+      }
+    };
+    this.getUseSoftTabs = function() {
+      return this.$useSoftTabs
+    };
+    this.$tabSize = 4;
+    this.setTabSize = function(a) {
+      if(!(isNaN(a) || this.$tabSize === a)) {
+        this.modified = true;
+        this.$tabSize = a;
+        this.$dispatchEvent("changeTabSize")
+      }
+    };
+    this.getTabSize = function() {
+      return this.$tabSize
+    };
+    this.getBreakpoints = function() {
+      return this.$breakpoints
+    };
+    this.setBreakpoints = function(a) {
+      this.$breakpoints = [];
+      for(var b = 0;b < a.length;b++) {
+        this.$breakpoints[a[b]] = true
+      }this.$dispatchEvent("changeBreakpoint", {})
+    };
+    this.clearBreakpoints = function() {
+      this.$breakpoints = [];
+      this.$dispatchEvent("changeBreakpoint", {})
+    };
+    this.setBreakpoint = function(a) {
+      this.$breakpoints[a] = true;
+      this.$dispatchEvent("changeBreakpoint", {})
+    };
+    this.clearBreakpoint = function(a) {
+      delete this.$breakpoints[a];
+      this.$dispatchEvent("changeBreakpoint", {})
+    };
+    this.$detectNewLine = function(a) {
+      this.$autoNewLine = (a = a.match(/^.*?(\r?\n)/m)) ? a[1] : "\n"
+    };
+    this.tokenRe = /^[\w\d]+/g;
+    this.nonTokenRe = /^[^\w\d]+/g;
+    this.getWordRange = function(a, b) {
+      var c = this.getLine(a), d = false;
+      if(b > 0) {
+        d = !!c.charAt(b - 1).match(this.tokenRe)
+      }d || (d = !!c.charAt(b).match(this.tokenRe));
+      d = d ? this.tokenRe : this.nonTokenRe;
+      var e = b;
+      if(e > 0) {
+        do {
+          e--
+        }while(e >= 0 && c.charAt(e).match(d));
+        e++
+      }for(b = b;b < c.length && c.charAt(b).match(d);) {
+        b++
+      }return new g(a, e, a, b)
+    };
+    this.$getNewLineCharacter = function() {
+      switch(this.$newLineMode) {
+        case "windows":
+          return"\r\n";
+        case "unix":
+          return"\n";
+        case "auto":
+          return this.$autoNewLine
+      }
+    };
     this.$autoNewLine = "\n";
     this.$newLineMode = "auto";
-    this.setNewLineMode = function(newLineMode) {
-        if (this.$newLineMode === newLineMode) return;
-
-        this.$newLineMode = newLineMode;
+    this.setNewLineMode = function(a) {
+      if(this.$newLineMode !== a) {
+        this.$newLineMode = a
+      }
     };
-
     this.getNewLineMode = function() {
-        return this.$newLineMode;
+      return this.$newLineMode
     };
-
     this.$mode = null;
-    this.setMode = function(mode) {
-        if (this.$mode === mode) return;
-
-        this.$mode = mode;
-        this.$dispatchEvent("changeMode");
+    this.setMode = function(a) {
+      if(this.$mode !== a) {
+        this.$mode = a;
+        this.$dispatchEvent("changeMode")
+      }
     };
-
     this.getMode = function() {
-        if (!this.$mode) {
-            this.$mode = new TextMode();
-        }
-        return this.$mode;
+      if(!this.$mode) {
+        this.$mode = new o
+      }return this.$mode
     };
-
     this.$scrollTop = 0;
-    this.setScrollTopRow = function(scrollTopRow) {
-        if (this.$scrollTop === scrollTopRow) return;
-
-        this.$scrollTop = scrollTopRow;
-        this.$dispatchEvent("changeScrollTop");
+    this.setScrollTopRow = function(a) {
+      if(this.$scrollTop !== a) {
+        this.$scrollTop = a;
+        this.$dispatchEvent("changeScrollTop")
+      }
     };
-
     this.getScrollTopRow = function() {
-        return this.$scrollTop;
+      return this.$scrollTop
     };
-
     this.getWidth = function() {
-        this.$computeWidth();
-        return this.width;
+      this.$computeWidth();
+      return this.width
     };
-
     this.getScreenWidth = function() {
-        this.$computeWidth();
-        return this.screenWith;
+      this.$computeWidth();
+      return this.screenWith
     };
-
     this.$computeWidth = function() {
-        if (this.modified) {
-            this.modified = false;
-
-            var lines = this.lines;
-            var longestLine = 0;
-            var longestScreenLine = 0;
-            var tabSize = this.getTabSize();
-
-            for ( var i = 0; i < lines.length; i++) {
-                var len = lines[i].length;
-                longestLine = Math.max(longestLine, len);
-
-                lines[i].replace("\t", function(m) {
-                    len += tabSize-1;
-                    return m;
-                });
-                longestScreenLine = Math.max(longestScreenLine, len);
-            }
-            this.width = longestLine;
-            this.screenWith = longestScreenLine;
-        }
+      if(this.modified) {
+        this.modified = false;
+        for(var a = this.lines, b = 0, c = 0, d = this.getTabSize(), e = 0;e < a.length;e++) {
+          var f = a[e].length;
+          b = Math.max(b, f);
+          a[e].replace("\t", function(h) {
+            f += d - 1;
+            return h
+          });
+          c = Math.max(c, f)
+        }this.width = b;
+        this.screenWith = c
+      }
     };
-
-    this.getLine = function(row) {
-        return this.lines[row] || "";
+    this.getLine = function(a) {
+      return this.lines[a] || ""
     };
-
-    this.getLines = function(firstRow, lastRow) {
-        return this.lines.slice(firstRow, lastRow+1);
+    this.getDisplayLine = function(a) {
+      var b = (new Array(this.getTabSize() + 1)).join(" ");
+      return this.lines[a].replace(/\t/g, b)
     };
-
+    this.getLines = function(a, b) {
+      return this.lines.slice(a, b + 1)
+    };
     this.getLength = function() {
-        return this.lines.length;
+      return this.lines.length
     };
-
-    this.getTextRange = function(range) {
-        if (range.start.row == range.end.row) {
-            return this.lines[range.start.row].substring(range.start.column,
-                                                         range.end.column);
-        }
-        else {
-            var lines = [];
-            lines.push(this.lines[range.start.row].substring(range.start.column));
-            lines.push.apply(lines, this.getLines(range.start.row+1, range.end.row-1));
-            lines.push(this.lines[range.end.row].substring(0, range.end.column));
-            return lines.join(this.$getNewLineCharacter());
-        }
+    this.getTextRange = function(a) {
+      if(a.start.row == a.end.row) {
+        return this.lines[a.start.row].substring(a.start.column, a.end.column)
+      }else {
+        var b = [];
+        b.push(this.lines[a.start.row].substring(a.start.column));
+        b.push.apply(b, this.getLines(a.start.row + 1, a.end.row - 1));
+        b.push(this.lines[a.end.row].substring(0, a.end.column));
+        return b.join(this.$getNewLineCharacter())
+      }
     };
-
-    this.findMatchingBracket = function(position) {
-        if (position.column == 0) return null;
-
-        var charBeforeCursor = this.getLine(position.row).charAt(position.column-1);
-        if (charBeforeCursor == "") return null;
-
-        var match = charBeforeCursor.match(/([\(\[\{])|([\)\]\}])/);
-        if (!match) {
-            return null;
-        }
-
-        if (match[1]) {
-            return this.$findClosingBracket(match[1], position);
-        } else {
-            return this.$findOpeningBracket(match[2], position);
-        }
+    this.findMatchingBracket = function(a) {
+      if(a.column == 0) {
+        return null
+      }var b = this.getLine(a.row).charAt(a.column - 1);
+      if(b == "") {
+        return null
+      }b = b.match(/([\(\[\{])|([\)\]\}])/);
+      if(!b) {
+        return null
+      }return b[1] ? this.$findClosingBracket(b[1], a) : this.$findOpeningBracket(b[2], a)
     };
-
-    this.$brackets = {
-        ")": "(",
-        "(": ")",
-        "]": "[",
-        "[": "]",
-        "{": "}",
-        "}": "{"
-    };
-
-    this.$findOpeningBracket = function(bracket, position) {
-        var openBracket = this.$brackets[bracket];
-
-        var column = position.column - 2;
-        var row = position.row;
-        var depth = 1;
-
-        var line = this.getLine(row);
-
-        while (true) {
-            while(column >= 0) {
-                var char = line.charAt(column);
-                if (char == openBracket) {
-                    depth -= 1;
-                    if (depth == 0) {
-                        return {row: row, column: column};
-                    }
-                }
-                else if (char == bracket) {
-                    depth +=1;
-                }
-                column -= 1;
+    this.$brackets = {")":"(", "(":")", "]":"[", "[":"]", "{":"}", "}":"{"};
+    this.$findOpeningBracket = function(a, b) {
+      var c = this.$brackets[a], d = b.column - 2;
+      b = b.row;
+      for(var e = 1, f = this.getLine(b);;) {
+        for(;d >= 0;) {
+          var h = f.charAt(d);
+          if(h == c) {
+            e -= 1;
+            if(e == 0) {
+              return{row:b, column:d}
             }
-            row -=1;
-            if (row < 0) break;
-
-            var line = this.getLine(row);
-            var column = line.length-1;
-        }
-        return null;
-    };
-
-    this.$findClosingBracket = function(bracket, position) {
-        var closingBracket = this.$brackets[bracket];
-
-        var column = position.column;
-        var row = position.row;
-        var depth = 1;
-
-        var line = this.getLine(row);
-        var lineCount = this.getLength();
-
-        while (true) {
-            while(column < line.length) {
-                var char = line.charAt(column);
-                if (char == closingBracket) {
-                    depth -= 1;
-                    if (depth == 0) {
-                        return {row: row, column: column};
-                    }
-                }
-                else if (char == bracket) {
-                    depth +=1;
-                }
-                column += 1;
+          }else {
+            if(h == a) {
+              e += 1
             }
-            row +=1;
-            if (row >= lineCount) break;
-
-            var line = this.getLine(row);
-            var column = 0;
-        }
-        return null;
+          }d -= 1
+        }b -= 1;
+        if(b < 0) {
+          break
+        }f = this.getLine(b);
+        d = f.length - 1
+      }return null
     };
-
-    this.insert = function(position, text, fromUndo) {
-        var end = this.$insert(position, text, fromUndo);
-        this.fireChangeEvent(position.row, position.row == end.row ? position.row
-                : undefined);
-        return end;
-    };
-
-    this.$insertLines = function(row, lines, fromUndo) {
-        if (lines.length == 0)
-            return;
-
-        var args = [row, 0];
-        args.push.apply(args, lines);
-        this.lines.splice.apply(this.lines, args);
-
-        if (!fromUndo && this.$undoManager) {
-            var nl = this.$getNewLineCharacter();
-            this.$deltas.push({
-                action: "insertText",
-                range: new Range(row, 0, row + lines.length, 0),
-                text: lines.join(nl) + nl
-            });
-            this.$informUndoManager.schedule();
-        }
-    },
-
-    this.$insert = function(position, text, fromUndo) {
-        if (text.length == 0)
-            return position;
-
-        this.modified = true;
-        if (this.lines.length <= 1) {
-            this.$detectNewLine(text);
-        }
-
-        var newLines = this.$split(text);
-
-        if (this.$isNewLine(text)) {
-            var line = this.lines[position.row] || "";
-            this.lines[position.row] = line.substring(0, position.column);
-            this.lines.splice(position.row + 1, 0, line.substring(position.column));
-
-            var end = {
-                row : position.row + 1,
-                column : 0
-            };
-        }
-        else if (newLines.length == 1) {
-            var line = this.lines[position.row] || "";
-            this.lines[position.row] = line.substring(0, position.column) + text
-                    + line.substring(position.column);
-
-            var end = {
-                row : position.row,
-                column : position.column + text.length
-            };
-        }
-        else {
-            var line = this.lines[position.row] || "";
-            var firstLine = line.substring(0, position.column) + newLines[0];
-            var lastLine = newLines[newLines.length - 1] + line.substring(position.column);
-
-            this.lines[position.row] = firstLine;
-            this.$insertLines(position.row + 1, [lastLine], fromUndo);
-
-            if (newLines.length > 2) {
-                this.$insertLines(position.row + 1, newLines.slice(1, -1), fromUndo);
+    this.$findClosingBracket = function(a, b) {
+      var c = this.$brackets[a], d = b.column;
+      b = b.row;
+      for(var e = 1, f = this.getLine(b), h = this.getLength();;) {
+        for(;d < f.length;) {
+          var k = f.charAt(d);
+          if(k == c) {
+            e -= 1;
+            if(e == 0) {
+              return{row:b, column:d}
             }
-
-            var end = {
-                row : position.row + newLines.length - 1,
-                column : newLines[newLines.length - 1].length
-            };
-        }
-
-        if (!fromUndo && this.$undoManager) {
-            var nl = this.$getNewLineCharacter();
-            this.$deltas.push({
-                action: "insertText",
-                range: Range.fromPoints(position, end),
-                text: text
-            });
-            this.$informUndoManager.schedule();
-        }
-
-        return end;
-    };
-
-    this.$isNewLine = function(text) {
-        return (text == "\r\n" || text == "\r" || text == "\n");
-    };
-
-    this.remove = function(range, fromUndo) {
-        if (range.isEmpty())
-            return range.start;
-
-        this.$remove(range, fromUndo);
-
-        this.fireChangeEvent(range.start.row,
-                             !range.isMultiLine() ? range.start.row
-                                     : undefined);
-
-        return range.start;
-    };
-
-    this.$remove = function(range, fromUndo) {
-        if (range.isEmpty())
-            return;
-
-        if (!fromUndo && this.$undoManager) {
-            var nl = this.$getNewLineCharacter();
-            this.$deltas.push({
-                action: "removeText",
-                range: range.clone(),
-                text: this.getTextRange(range)
-            });
-            this.$informUndoManager.schedule();
-        }
-
-        this.modified = true;
-
-        var firstRow = range.start.row;
-        var lastRow = range.end.row;
-
-        var row = this.getLine(firstRow).substring(0, range.start.column)
-                + this.getLine(lastRow).substring(range.end.column);
-
-        this.lines.splice(firstRow, lastRow - firstRow + 1, row);
-
-
-        return range.start;
-    };
-
-    this.undoChanges = function(deltas) {
-        this.selection.clearSelection();
-        for (var i=deltas.length-1; i>=0; i--) {
-            var delta = deltas[i];
-            if (delta.action == "insertText") {
-                this.remove(delta.range, true);
-                this.selection.moveCursorToPosition(delta.range.start);
-            } else {
-                this.insert(delta.range.start, delta.text, true);
-                this.selection.setSelectionRange(delta.range);
+          }else {
+            if(k == a) {
+              e += 1
             }
-        }
-    },
-
-    this.redoChanges = function(deltas) {
-        this.selection.clearSelection();
-        for (var i=0; i<deltas.length; i++) {
-            var delta = deltas[i];
-            if (delta.action == "insertText") {
-                this.insert(delta.range.start, delta.text, true);
-                this.selection.setSelectionRange(delta.range);
-            } else {
-                this.remove(delta.range, true);
-                this.selection.moveCursorToPosition(delta.range.start);
-            }
-        }
-    },
-
-    this.replace = function(range, text) {
-        this.$remove(range);
-        if (text) {
-            var end = this.$insert(range.start, text);
-        }
-        else {
-            end = range.start;
-        }
-
-        var lastRemoved = range.end.column == 0 ? range.end.column - 1
-                : range.end.column;
-        this.fireChangeEvent(range.start.row, lastRemoved == end.row ? lastRemoved
-                : undefined);
-
-        return end;
+          }d += 1
+        }b += 1;
+        if(b >= h) {
+          break
+        }f = this.getLine(b);
+        d = 0
+      }return null
     };
-
-    this.indentRows = function(range, indentString) {
-        for (var row=range.start.row; row<= range.end.row; row++) {
-            this.$insert({row: row, column:0}, indentString);
+    this.insert = function(a, b, c) {
+      b = this.$insert(a, b, c);
+      this.fireChangeEvent(a.row, a.row == b.row ? a.row : undefined);
+      return b
+    };
+    this.$insertLines = function(a, b, c) {
+      if(b.length != 0) {
+        var d = [a, 0];
+        d.push.apply(d, b);
+        this.lines.splice.apply(this.lines, d);
+        if(!c && this.$undoManager) {
+          c = this.$getNewLineCharacter();
+          this.$deltas.push({action:"insertText", range:new g(a, 0, a + b.length, 0), text:b.join(c) + c});
+          this.$informUndoManager.schedule()
         }
-        this.fireChangeEvent(range.start.row, range.end.row);
-        return indentString.length;
+      }
     };
-
-    this.outdentRows = function(range, indentString) {
-        outdentLength = indentString.length;
-
-        for (var i=range.start.row; i<= range.end.row; i++) {
-            if (this.getLine(i).substr(0, outdentLength) !== indentString) {
-                return 0;
-            }
+    this.$insert = function(a, b, c) {
+      if(b.length == 0) {
+        return a
+      }this.modified = true;
+      this.lines.length <= 1 && this.$detectNewLine(b);
+      var d = this.$split(b);
+      if(this.$isNewLine(b)) {
+        var e = this.lines[a.row] || "";
+        this.lines[a.row] = e.substring(0, a.column);
+        this.lines.splice(a.row + 1, 0, e.substring(a.column));
+        d = {row:a.row + 1, column:0}
+      }else {
+        if(d.length == 1) {
+          e = this.lines[a.row] || "";
+          this.lines[a.row] = e.substring(0, a.column) + b + e.substring(a.column);
+          d = {row:a.row, column:a.column + b.length}
+        }else {
+          e = this.lines[a.row] || "";
+          var f = e.substring(0, a.column) + d[0];
+          e = d[d.length - 1] + e.substring(a.column);
+          this.lines[a.row] = f;
+          this.$insertLines(a.row + 1, [e], true);
+          d.length > 2 && this.$insertLines(a.row + 1, d.slice(1, -1), true);
+          d = {row:a.row + d.length - 1, column:d[d.length - 1].length}
         }
-
-        var deleteRange = new Range(0, 0, 0, outdentLength);
-
-        for (var i=range.start.row; i<= range.end.row; i++)
-        {
-            deleteRange.start.row = i;
-            deleteRange.end.row = i;
-            this.$remove(deleteRange);
+      }if(!c && this.$undoManager) {
+        this.$deltas.push({action:"insertText", range:g.fromPoints(a, d), text:b});
+        this.$informUndoManager.schedule()
+      }return d
+    };
+    this.$isNewLine = function(a) {
+      return a == "\r\n" || a == "\r" || a == "\n"
+    };
+    this.remove = function(a, b) {
+      if(a.isEmpty()) {
+        return a.start
+      }this.$remove(a, b);
+      this.fireChangeEvent(a.start.row, a.isMultiLine() ? undefined : a.start.row);
+      return a.start
+    };
+    this.$remove = function(a, b) {
+      if(!a.isEmpty()) {
+        if(!b && this.$undoManager) {
+          this.$getNewLineCharacter();
+          this.$deltas.push({action:"removeText", range:a.clone(), text:this.getTextRange(a)});
+          this.$informUndoManager.schedule()
+        }this.modified = true;
+        b = a.start.row;
+        var c = a.end.row, d = this.getLine(b).substring(0, a.start.column) + this.getLine(c).substring(a.end.column);
+        this.lines.splice(b, c - b + 1, d);
+        return a.start
+      }
+    };
+    this.undoChanges = function(a) {
+      this.selection.clearSelection();
+      for(var b = a.length - 1;b >= 0;b--) {
+        var c = a[b];
+        if(c.action == "insertText") {
+          this.remove(c.range, true);
+          this.selection.moveCursorToPosition(c.range.start)
+        }else {
+          this.insert(c.range.start, c.text, true);
+          this.selection.clearSelection()
         }
-
-        this.fireChangeEvent(range.start.row, range.end.row);
-        return -outdentLength;
+      }
     };
-
-    this.moveLinesUp = function(firstRow, lastRow) {
-        if (firstRow <= 0) return 0;
-
-        var removed = this.lines.splice(firstRow, lastRow-firstRow+1);
-        this.$insertLines(firstRow-1, removed);
-
-        this.fireChangeEvent(firstRow-1, lastRow);
-        return -1;
-    };
-
-    this.moveLinesDown = function(firstRow, lastRow) {
-        if (lastRow >= this.lines.length-1) return 0;
-
-        var removed = this.lines.splice(firstRow, lastRow-firstRow+1);
-        this.$insertLines(firstRow+1, removed);
-
-        this.fireChangeEvent(firstRow, lastRow+1);
-        return 1;
-    };
-
-    this.duplicateLines = function(firstRow, lastRow) {
-        var firstRow = this.$clipRowToDocument(firstRow);
-        var lastRow = this.$clipRowToDocument(lastRow);
-
-        var lines = this.getLines(firstRow, lastRow);
-        this.$insertLines(firstRow, lines);
-
-        var addedRows = lastRow - firstRow + 1;
-        this.fireChangeEvent(firstRow);
-
-        return addedRows;
-    };
-
-    this.$clipRowToDocument = function(row) {
-        return Math.max(0, Math.min(row, this.lines.length-1));
-    };
-
-    this.documentToScreenColumn = function(row, docColumn) {
-        var tabSize = this.getTabSize();
-
-        var screenColumn = 0;
-        var remaining = docColumn;
-
-        var line = this.getLine(row).split("\t");
-        for (var i=0; i<line.length; i++) {
-            var len = line[i].length;
-            if (remaining > len) {
-                remaining -= (len + 1);
-                screenColumn += len + tabSize;
-            }
-            else {
-                screenColumn += remaining;
-                break;
-            }
+    this.redoChanges = function(a) {
+      this.selection.clearSelection();
+      for(var b = 0;b < a.length;b++) {
+        var c = a[b];
+        if(c.action == "insertText") {
+          this.insert(c.range.start, c.text, true);
+          this.selection.setSelectionRange(c.range)
+        }else {
+          this.remove(c.range, true);
+          this.selection.moveCursorToPosition(c.range.start)
         }
-
-        return screenColumn;
+      }
     };
-
-    this.screenToDocumentColumn = function(row, screenColumn) {
-        var tabSize = this.getTabSize();
-
-        var docColumn = 0;
-        var remaining = screenColumn;
-
-        var line = this.getLine(row).split("\t");
-        for (var i=0; i<line.length; i++) {
-            var len = line[i].length;
-            if (remaining >= len + tabSize) {
-                remaining -= (len + tabSize);
-                docColumn += (len + 1);
-            }
-            else if (remaining > len){
-                docColumn += len;
-                break;
-            }
-            else {
-                docColumn += remaining;
-                break;
-            }
+    this.replace = function(a, b) {
+      this.$remove(a);
+      b = b ? this.$insert(a.start, b) : a.start;
+      var c = a.end.column == 0 ? a.end.column - 1 : a.end.column;
+      this.fireChangeEvent(a.start.row, c == b.row ? c : undefined);
+      return b
+    };
+    this.indentRows = function(a, b) {
+      b.replace("\t", this.getTabString());
+      for(var c = a.start.row;c <= a.end.row;c++) {
+        this.$insert({row:c, column:0}, b)
+      }this.fireChangeEvent(a.start.row, a.end.row);
+      return b.length
+    };
+    this.outdentRows = function(a) {
+      for(var b = new g(0, 0, 0, 0), c = this.getTabSize(), d = a.start.row;d <= a.end.row;++d) {
+        var e = this.getLine(d);
+        b.start.row = d;
+        b.end.row = d;
+        for(var f = 0;f < c;++f) {
+          if(e.charAt(f) != " ") {
+            break
+          }
+        }if(f < c && e.charAt(f) == "\t") {
+          b.start.column = f;
+          b.end.column = f + 1
+        }else {
+          b.start.column = 0;
+          b.end.column = f
+        }if(d == a.start.row) {
+          a.start.column -= b.end.column - b.start.column
+        }if(d == a.end.row) {
+          a.end.column -= b.end.column - b.start.column
+        }this.$remove(b)
+      }this.fireChangeEvent(a.start.row, a.end.row);
+      return a
+    };
+    this.moveLinesUp = function(a, b) {
+      if(a <= 0) {
+        return 0
+      }var c = this.lines.slice(a, b + 1);
+      this.$remove(new g(a, 0, b + 1, 0));
+      this.$insertLines(a - 1, c);
+      this.fireChangeEvent(a - 1, b);
+      return-1
+    };
+    this.moveLinesDown = function(a, b) {
+      if(b >= this.lines.length - 1) {
+        return 0
+      }var c = this.lines.slice(a, b + 1);
+      this.$remove(new g(a, 0, b + 1, 0));
+      this.$insertLines(a + 1, c);
+      this.fireChangeEvent(a, b + 1);
+      return 1
+    };
+    this.duplicateLines = function(a, b) {
+      a = this.$clipRowToDocument(a);
+      b = this.$clipRowToDocument(b);
+      var c = this.getLines(a, b);
+      this.$insertLines(a, c);
+      b = b - a + 1;
+      this.fireChangeEvent(a);
+      return b
+    };
+    this.$clipRowToDocument = function(a) {
+      return Math.max(0, Math.min(a, this.lines.length - 1))
+    };
+    this.documentToScreenColumn = function(a, b) {
+      var c = this.getTabSize(), d = 0;
+      b = b;
+      a = this.getLine(a).split("\t");
+      for(var e = 0;e < a.length;e++) {
+        var f = a[e].length;
+        if(b > f) {
+          b -= f + 1;
+          d += f + c
+        }else {
+          d += b;
+          break
         }
-        return docColumn;
+      }return d
     };
-
-}).call(Document.prototype);
-
-return Document;
+    this.screenToDocumentColumn = function(a, b) {
+      var c = this.getTabSize(), d = 0;
+      b = b;
+      a = this.getLine(a).split("\t");
+      for(var e = 0;e < a.length;e++) {
+        var f = a[e].length;
+        if(b >= f + c) {
+          b -= f + c;
+          d += f + 1
+        }else {
+          d += b > f ? f : b;
+          break
+        }
+      }return d
+    }
+  }).call(j.prototype);
+  return j
 });

@@ -1,98 +1,61 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/mode/JavaScript",
-    [
-        "ace/lib/oop",
-        "ace/mode/Text",
-        "ace/Tokenizer",
-        "ace/mode/JavaScriptHighlightRules",
-        "ace/mode/MatchingBraceOutdent",
-        "ace/Range"
-    ], function(oop, TextMode, Tokenizer, JavaScriptHighlightRules, MatchingBraceOutdent, Range) {
-
-var JavaScript = function() {
-    this.$tokenizer = new Tokenizer(new JavaScriptHighlightRules().getRules());
-    this.$outdent = new MatchingBraceOutdent();
-};
-oop.inherits(JavaScript, TextMode);
-
-(function() {
-
-    this.toggleCommentLines = function(state, doc, range) {
-        var outdent = true;
-        var outentedRows = [];
-        var re = /^(\s*)\/\//;
-
-        for (var i=range.start.row; i<= range.end.row; i++) {
-            if (!re.test(doc.getLine(i))) {
-                outdent = false;
-                break;
-            }
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/mode/JavaScript", ["ace/lib/oop", "ace/mode/Text", "ace/Tokenizer", "ace/mode/JavaScriptHighlightRules", "ace/mode/MatchingBraceOutdent", "ace/Range"], function(h, i, j, k, l, m) {
+  var g = function() {
+    this.$tokenizer = new j((new k).getRules());
+    this.$outdent = new l
+  };
+  h.inherits(g, i);
+  (function() {
+    this.toggleCommentLines = function(d, b, e) {
+      var c = true;
+      d = /^(\s*)\/\//;
+      for(var a = e.start.row;a <= e.end.row;a++) {
+        if(!d.test(b.getLine(a))) {
+          c = false;
+          break
         }
-
-        if (outdent) {
-            var deleteRange = new Range(0, 0, 0, 0);
-            for (var i=range.start.row; i<= range.end.row; i++)
-            {
-                var line = doc.getLine(i).replace(re, "$1");
-                deleteRange.start.row = i;
-                deleteRange.end.row = i;
-                deleteRange.end.column = line.length + 2;
-                doc.replace(deleteRange, line);
-            }
-            return -2;
-        }
-        else {
-            return doc.indentRows(range, "//");
-        }
+      }if(c) {
+        c = new m(0, 0, 0, 0);
+        for(a = e.start.row;a <= e.end.row;a++) {
+          var f = b.getLine(a).replace(d, "$1");
+          c.start.row = a;
+          c.end.row = a;
+          c.end.column = f.length + 2;
+          b.replace(c, f)
+        }return-2
+      }else {
+        return b.indentRows(e, "//")
+      }
     };
-
-    this.getNextLineIndent = function(state, line, tab) {
-        var indent = this.$getIndent(line);
-
-        var tokenizedLine = this.$tokenizer.getLineTokens(line, state);
-        var tokens = tokenizedLine.tokens;
-        var endState = tokenizedLine.state;
-
-        if (tokens.length && tokens[tokens.length-1].type == "comment") {
-            return indent;
+    this.getNextLineIndent = function(d, b, e) {
+      var c = this.$getIndent(b), a = this.$tokenizer.getLineTokens(b, d), f = a.tokens;
+      a = a.state;
+      if(f.length && f[f.length - 1].type == "comment") {
+        return c
+      }if(d == "start") {
+        if(d = b.match(/^.*[\{\(\[]\s*$/)) {
+          c += e
         }
-
-        if (state == "start") {
-            var match = line.match(/^.*[\{\(\[]\s*$/);
-            if (match) {
-                indent += tab;
-            }
-        } else if (state == "doc-start") {
-            if (endState == "start") {
-                return "";
-            }
-            var match = line.match(/^\s*(\/?)\*/);
-            if (match) {
-                if (match[1]) {
-                    indent += " ";
-                }
-                indent += "* ";
-            }
+      }else {
+        if(d == "doc-start") {
+          if(a == "start") {
+            return""
+          }if(d = b.match(/^\s*(\/?)\*/)) {
+            if(d[1]) {
+              c += " "
+            }c += "* "
+          }
         }
-
-        return indent;
+      }return c
     };
-
-    this.checkOutdent = function(state, line, input) {
-        return this.$outdent.checkOutdent(line, input);
+    this.checkOutdent = function(d, b, e) {
+      return this.$outdent.checkOutdent(b, e)
     };
-
-    this.autoOutdent = function(state, doc, row) {
-        return this.$outdent.autoOutdent(doc, row);
-    };
-
-}).call(JavaScript.prototype);
-
-return JavaScript;
+    this.autoOutdent = function(d, b, e) {
+      return this.$outdent.autoOutdent(b, e)
+    }
+  }).call(g.prototype);
+  return g
 });

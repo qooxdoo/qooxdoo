@@ -1,51 +1,30 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/mode/Text",
-    [
-        "ace/Tokenizer",
-        "ace/mode/TextHighlightRules",
-    ], function(Tokenizer, TextHighlightRules) {
-
-var Text = function() {
-    this.$tokenizer = new Tokenizer(new TextHighlightRules().getRules());
-};
-
-(function() {
-
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/mode/Text", ["ace/Tokenizer", "ace/mode/TextHighlightRules"], function(c, d) {
+  var b = function() {
+    this.$tokenizer = new c((new d).getRules())
+  };
+  (function() {
     this.getTokenizer = function() {
-        return this.$tokenizer;
+      return this.$tokenizer
     };
-
-    this.toggleCommentLines = function(state, doc, range) {
-        return 0;
+    this.toggleCommentLines = function() {
+      return 0
     };
-
-    this.getNextLineIndent = function(state, line, tab) {
-        return "";
+    this.getNextLineIndent = function() {
+      return""
     };
-
-    this.checkOutdent = function(state, line, input) {
-        return false;
+    this.checkOutdent = function() {
+      return false
     };
-
-    this.autoOutdent = function(state, doc, row) {
+    this.autoOutdent = function() {
     };
-
-    this.$getIndent = function(line) {
-        var match = line.match(/^(\s+)/);
-        if (match) {
-            return match[1];
-        }
-
-        return "";
-    };
-
-}).call(Text.prototype);
-
-return Text;
+    this.$getIndent = function(a) {
+      if(a = a.match(/^(\s+)/)) {
+        return a[1]
+      }return""
+    }
+  }).call(b.prototype);
+  return b
 });

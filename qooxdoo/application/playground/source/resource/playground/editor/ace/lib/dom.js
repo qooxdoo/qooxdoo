@@ -1,98 +1,70 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-
-if (!require.def) require.def = require("requireJS-node")(module);
-
-require.def("ace/lib/dom", ["ace/lib/lang"], function(lang) {
-
-    var dom = {};
-
-    dom.setText = function(elem, text) {
-        if (elem.innerText !== undefined) {
-            elem.innerText = text;
-        }
-        if (elem.textContent !== undefined) {
-            elem.textContent = text;
-        }
-    };
-
-    dom.hasCssClass = function(el, name) {
-        var classes = el.className.split(/\s+/g);
-        return lang.arrayIndexOf(classes, name) !== -1;
-    };
-
-    dom.addCssClass = function(el, name) {
-        if (!dom.hasCssClass(el, name)) {
-            el.className += " " + name;
-        }
-    };
-
-    dom.removeCssClass = function(el, name) {
-        var classes = el.className.split(/\s+/g);
-        while (true) {
-            var index = lang.arrayIndexOf(classes, name);
-            if (index == -1) {
-                break;
-            }
-            classes.splice(index, 1);
-        }
-        el.className = classes.join(" ");
-    };
-
-    dom.getInnerWidth = function(element) {
-        return (parseInt(dom.computedStyle(element, "paddingLeft"))
-                + parseInt(dom.computedStyle(element, "paddingRight")) + element.clientWidth);
-    };
-
-    dom.getInnerHeight = function(element) {
-        return (parseInt(dom.computedStyle(element, "paddingTop"))
-                + parseInt(dom.computedStyle(element, "paddingBottom")) + element.clientHeight);
-    };
-
-    dom.computedStyle = function(element, style) {
-        if (window.getComputedStyle) {
-            return (window.getComputedStyle(element, "") || {})[style] || "";
-        }
-        else {
-            return element.currentStyle[style];
-        }
-    };
-
-    dom.scrollbarWidth = function() {
-
-        var inner = document.createElement('p');
-        inner.style.width = "100%";
-        inner.style.height = "200px";
-
-        var outer = document.createElement("div");
-        var style = outer.style;
-
-        style.position = "absolute";
-        style.left = "-10000px";
-        style.overflow = "hidden";
-        style.width = "200px";
-        style.height = "150px";
-
-        outer.appendChild(inner);
-        document.body.appendChild(outer);
-        var noScrollbar = inner.offsetWidth;
-
-        style.overflow = "scroll";
-        var withScrollbar = inner.offsetWidth;
-
-        if (noScrollbar == withScrollbar) {
-            withScrollbar = outer.clientWidth;
-        }
-
-        document.body.removeChild(outer);
-
-        return noScrollbar-withScrollbar;
-    };
-
-    return dom;
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+if(!require.def) {
+  require.def = require("requireJS-node")(module, require)
+}require.def("ace/lib/dom", ["ace/lib/lang"], function(f) {
+  var c = {};
+  c.setText = function(a, b) {
+    if(a.innerText !== undefined) {
+      a.innerText = b
+    }if(a.textContent !== undefined) {
+      a.textContent = b
+    }
+  };
+  c.hasCssClass = function(a, b) {
+    a = a.className.split(/\s+/g);
+    return f.arrayIndexOf(a, b) !== -1
+  };
+  c.addCssClass = function(a, b) {
+    c.hasCssClass(a, b) || (a.className += " " + b)
+  };
+  c.removeCssClass = function(a, b) {
+    for(var d = a.className.split(/\s+/g);;) {
+      var e = f.arrayIndexOf(d, b);
+      if(e == -1) {
+        break
+      }d.splice(e, 1)
+    }a.className = d.join(" ")
+  };
+  c.importCssString = function(a, b) {
+    b = b || document;
+    if(b.createStyleSheet) {
+      b.createStyleSheet().cssText = a
+    }else {
+      var d = b.createElement("style");
+      d.appendChild(b.createTextNode(a));
+      b.getElementsByTagName("head")[0].appendChild(d)
+    }
+  };
+  c.getInnerWidth = function(a) {
+    return parseInt(c.computedStyle(a, "paddingLeft")) + parseInt(c.computedStyle(a, "paddingRight")) + a.clientWidth
+  };
+  c.getInnerHeight = function(a) {
+    return parseInt(c.computedStyle(a, "paddingTop")) + parseInt(c.computedStyle(a, "paddingBottom")) + a.clientHeight
+  };
+  c.computedStyle = function(a, b) {
+    return window.getComputedStyle ? (window.getComputedStyle(a, "") || {})[b] || "" : a.currentStyle[b]
+  };
+  c.scrollbarWidth = function() {
+    var a = document.createElement("p");
+    a.style.width = "100%";
+    a.style.height = "200px";
+    var b = document.createElement("div"), d = b.style;
+    d.position = "absolute";
+    d.left = "-10000px";
+    d.overflow = "hidden";
+    d.width = "200px";
+    d.height = "150px";
+    b.appendChild(a);
+    document.body.appendChild(b);
+    var e = a.offsetWidth;
+    d.overflow = "scroll";
+    a = a.offsetWidth;
+    if(e == a) {
+      a = b.clientWidth
+    }document.body.removeChild(b);
+    return e - a
+  };
+  return c
 });

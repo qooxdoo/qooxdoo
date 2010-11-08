@@ -1,405 +1,378 @@
-/**
- * Ajax.org Code Editor (ACE)
- *
- * @copyright 2010, Ajax.org Services B.V.
- * @license LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
- * @author Fabian Jakobs <fabian AT ajax DOT org>
- */
-require.def("ace/VirtualRenderer",
-    [
-         "ace/ace",
-         "ace/lib/oop",
-         "ace/lib/lang",
-         "ace/layer/Gutter",
-         "ace/layer/Marker",
-         "ace/layer/Text",
-         "ace/layer/Cursor",
-         "ace/ScrollBar",
-         "ace/MEventEmitter"
-    ], function(ace, oop, lang, GutterLayer, MarkerLayer, TextLayer, CursorLayer, ScrollBar, MEventEmitter) {
-
-var VirtualRenderer = function(container) {
-    this.container = container;
-    ace.addCssClass(this.container, "ace_editor");
-
+/*
+ LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
+*/
+require.def("ace/VirtualRenderer", ["ace/lib/oop", "ace/lib/lang", "ace/lib/dom", "ace/lib/event", "ace/layer/Gutter", "ace/layer/Marker", "ace/layer/Text", "ace/layer/Cursor", "ace/ScrollBar", "ace/RenderLoop", "ace/MEventEmitter", 'text!ace/css/editor.css!.ace_editor {\n  position: absolute;\n  overflow: hidden;\n\n  font-family: "Menlo", "Monaco", "Courier New", monospace;\n  font-size: 12px;  \n}\n\n.ace_scroller {\n  position: absolute;\n  overflow-x: scroll;\n  overflow-y: hidden;     \n}\n\n.ace_gutter {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  height: 100%;\n}\n\n.ace_editor .ace_sb {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  right: 0;\n}\n\n.ace_editor .ace_sb div {\n  position: absolute;\n  width: 1px;\n  left: 0px;\n}\n\n.ace_editor .ace_printMargin {\n  position: absolute;\n  height: 100%;\n}\n\n.ace_layer {\n  z-index: 0;\n  position: absolute;\n  overflow: hidden;  \n  white-space: nowrap;\n  height: 100%;\n}\n\n.ace_text-layer {\n  font-family: Monaco, "Courier New", monospace;\n  color: black;\n}\n\n.ace_cursor-layer {\n  cursor: text;\n}\n\n.ace_cursor {\n  z-index: 3;\n  position: absolute;\n}\n\n.ace_line {\n  white-space: nowrap;\n}\n\n.ace_marker-layer {\n}\n\n.ace_marker-layer .ace_step {\n  position: absolute;\n  z-index: 2;\n}\n\n.ace_marker-layer .ace_selection {\n  position: absolute;\n  z-index: 3;\n}\n\n.ace_marker-layer .ace_bracket {\n  position: absolute;\n  z-index: 4;\n}\n\n.ace_marker-layer .ace_active_line {\n  position: absolute;\n  z-index: 1;\n}'], 
+function(k, h, e, i, l, m, n, o, p, q, r, j) {
+  e.importCssString(j);
+  j = function(a, b) {
+    this.container = a;
+    e.addCssClass(this.container, "ace_editor");
+    this.setTheme(b);
     this.scroller = document.createElement("div");
     this.scroller.className = "ace_scroller";
     this.container.appendChild(this.scroller);
-
     this.$gutter = document.createElement("div");
     this.$gutter.className = "ace_gutter";
     this.container.appendChild(this.$gutter);
-
     this.content = document.createElement("div");
     this.content.style.position = "absolute";
     this.scroller.appendChild(this.content);
-
-    this.$gutterLayer = new GutterLayer(this.$gutter);
-    this.$markerLayer = new MarkerLayer(this.content);
-
-    var textLayer = this.$textLayer = new TextLayer(this.content);
-    this.canvas = textLayer.element;
-
-    this.characterWidth = textLayer.getCharacterWidth();
-    this.lineHeight = textLayer.getLineHeight();
-
-    this.$cursorLayer = new CursorLayer(this.content);
-
-    this.layers = [ this.$markerLayer, textLayer, this.$cursorLayer ];
-
-    this.scrollBar = new ScrollBar(container);
-    this.scrollBar.addEventListener("scroll", lang.bind(this.onScroll, this));
-
+    this.$gutterLayer = new l(this.$gutter);
+    this.$markerLayer = new m(this.content);
+    var c = this.$textLayer = new n(this.content);
+    this.canvas = c.element;
+    this.characterWidth = c.getCharacterWidth();
+    this.lineHeight = c.getLineHeight();
+    this.$cursorLayer = new o(this.content);
+    this.layers = [this.$markerLayer, c, this.$cursorLayer];
+    this.scrollBar = new p(a);
+    this.scrollBar.addEventListener("scroll", h.bind(this.onScroll, this));
     this.scrollTop = 0;
-
-    this.cursorPos = {
-        row : 0,
-        column : 0
-    };
-
-    this.$drawCallbacks = [];
-
-    this.$updatePrintMargin();
-    this.onResize();
-
-    var self = this;
+    this.cursorPos = {row:0, column:0};
+    var d = this;
     this.$textLayer.addEventListener("changeCharaterSize", function() {
-        self.characterWidth = textLayer.getCharacterWidth();
-        self.lineHeight = textLayer.getLineHeight();
-        self.onResize();
+      d.characterWidth = c.getCharacterWidth();
+      d.lineHeight = c.getLineHeight();
+      d.$loop.schedule(d.CHANGE_FULL)
     });
-    ace.addListener(this.$gutter, "click", lang.bind(this.$onGutterClick, this));
-    ace.addListener(this.$gutter, "dblclick", lang.bind(this.$onGutterClick, this));
-};
-
-(function() {
-
-    ace.implement(this, MEventEmitter);
-
-    this.setDocument = function(doc) {
-        this.lines = doc.lines;
-        this.doc = doc;
-        this.$cursorLayer.setDocument(doc);
-        this.$markerLayer.setDocument(doc);
-        this.$textLayer.setDocument(doc);
+    i.addListener(this.$gutter, "click", h.bind(this.$onGutterClick, this));
+    i.addListener(this.$gutter, "dblclick", h.bind(this.$onGutterClick, this));
+    this.$size = {width:0, height:0, scrollerHeight:0, scrollerWidth:0};
+    this.$loop = new q(h.bind(this.$renderChanges, this));
+    this.$loop.schedule(this.CHANGE_FULL);
+    this.$updatePrintMargin();
+    this.setPadding(4)
+  };
+  (function() {
+    this.showGutter = true;
+    this.CHANGE_CURSOR = 1;
+    this.CHANGE_MARKER = 2;
+    this.CHANGE_GUTTER = 4;
+    this.CHANGE_SCROLL = 8;
+    this.CHANGE_LINES = 16;
+    this.CHANGE_TEXT = 32;
+    this.CHANGE_SIZE = 64;
+    this.CHANGE_FULL = 128;
+    k.implement(this, r);
+    this.setDocument = function(a) {
+      this.lines = a.lines;
+      this.doc = a;
+      this.$cursorLayer.setDocument(a);
+      this.$markerLayer.setDocument(a);
+      this.$textLayer.setDocument(a);
+      this.$loop.schedule(this.CHANGE_FULL)
     };
-
-    this.setTokenizer = function(tokenizer) {
-        this.$textLayer.setTokenizer(tokenizer);
+    this.updateLines = function(a, b) {
+      if(b === undefined) {
+        b = Infinity
+      }if(this.$changedLines) {
+        if(this.$changedLines.firstRow > a) {
+          this.$changedLines.firstRow = a
+        }if(this.$changedLines.lastRow < b) {
+          this.$changedLines.lastRow = b
+        }
+      }else {
+        this.$changedLines = {firstRow:a, lastRow:b}
+      }this.$loop.schedule(this.CHANGE_LINES)
     };
-
-    this.$onGutterClick = function(e) {
-        var pageX = ace.getDocumentX(e);
-        var pageY = ace.getDocumentY(e);
-
-        var event = {
-            row: this.screenToTextCoordinates(pageX, pageY).row,
-            htmlEvent: e
-        };
-
-        var type = "gutter" + e.type;
-        this.$dispatchEvent(type, event);
+    this.updateText = function() {
+      this.$loop.schedule(this.CHANGE_TEXT)
     };
-
+    this.updateFull = function() {
+      this.$loop.schedule(this.CHANGE_FULL)
+    };
+    this.onResize = function() {
+      this.$loop.schedule(this.CHANGE_SIZE);
+      var a = e.getInnerHeight(this.container);
+      if(this.$size.height != a) {
+        this.$size.height = a;
+        this.scroller.style.height = a + "px";
+        this.scrollBar.setHeight(a);
+        if(this.doc) {
+          this.scrollToY(this.getScrollTop());
+          this.$loop.schedule(this.CHANGE_FULL)
+        }
+      }a = e.getInnerWidth(this.container);
+      if(this.$size.width != a) {
+        this.$size.width = a;
+        var b = this.showGutter ? this.$gutter.offsetWidth : 0;
+        this.scroller.style.left = b + "px";
+        this.scroller.style.width = Math.max(0, a - b - this.scrollBar.getWidth()) + "px"
+      }this.$size.scrollerWidth = this.scroller.clientWidth;
+      this.$size.scrollerHeight = this.scroller.clientHeight
+    };
+    this.setTokenizer = function(a) {
+      this.$tokenizer = a;
+      this.$textLayer.setTokenizer(a);
+      this.$loop.schedule(this.CHANGE_TEXT)
+    };
+    this.$onGutterClick = function(a) {
+      var b = i.getDocumentX(a), c = i.getDocumentY(a);
+      this.$dispatchEvent("gutter" + a.type, {row:this.screenToTextCoordinates(b, c).row, htmlEvent:a})
+    };
     this.$showInvisibles = true;
-    this.setShowInvisibles = function(showInvisibles) {
-        this.$showInvisibles = showInvisibles;
-        this.$textLayer.setShowInvisibles(showInvisibles);
+    this.setShowInvisibles = function(a) {
+      this.$showInvisibles = a;
+      this.$textLayer.setShowInvisibles(a);
+      this.$loop.schedule(this.CHANGE_TEXT)
     };
-
     this.getShowInvisibles = function() {
-        return this.showInvisibles;
+      return this.$showInvisibles
     };
-
     this.$showPrintMargin = true;
-    this.setShowPrintMargin = function(showPrintMargin) {
-        this.$showPrintMargin = showPrintMargin;
-        this.$updatePrintMargin();
+    this.setShowPrintMargin = function(a) {
+      this.$showPrintMargin = a;
+      this.$updatePrintMargin()
     };
-
     this.getShowPrintMargin = function() {
-        return this.$showPrintMargin;
+      return this.$showPrintMargin
     };
-
     this.$printMarginColumn = 80;
-    this.setPrintMarginColumn = function(showPrintMargin) {
-        this.$printMarginColumn = showPrintMargin;
-        this.$updatePrintMargin();
+    this.setPrintMarginColumn = function(a) {
+      this.$printMarginColumn = a;
+      this.$updatePrintMargin()
     };
-
     this.getPrintMarginColumn = function() {
-        return this.$printMarginColumn;
+      return this.$printMarginColumn
     };
-
+    this.setShowGutter = function(a) {
+      this.$gutter.style.display = a ? "block" : "none";
+      this.showGutter = a;
+      this.onResize()
+    };
     this.$updatePrintMargin = function() {
-        if (!this.$showPrintMargin && !this.$printMarginEl)
-            return;
-
-        if (!this.$printMarginEl) {
-            this.$printMarginEl = document.createElement("div");
-            this.$printMarginEl.className = "ace_printMargin";
-            this.content.insertBefore(this.$printMarginEl, this.$cursorLayer.element);
-        }
-
-        var style = this.$printMarginEl.style;
-        style.left = (this.characterWidth * this.$printMarginColumn) + "px";
-        style.visibility = this.$showPrintMargin ? "visible" : "hidden";
+      if(this.$showPrintMargin || this.$printMarginEl) {
+        if(!this.$printMarginEl) {
+          this.$printMarginEl = document.createElement("div");
+          this.$printMarginEl.className = "ace_printMargin";
+          this.content.insertBefore(this.$printMarginEl, this.$textLayer.element)
+        }var a = this.$printMarginEl.style;
+        a.left = this.characterWidth * this.$printMarginColumn + "px";
+        a.visibility = this.$showPrintMargin ? "visible" : "hidden"
+      }
     };
-
     this.getContainerElement = function() {
-        return this.container;
+      return this.container
     };
-
     this.getMouseEventTarget = function() {
-        return this.content;
+      return this.content
     };
-
     this.getFirstVisibleRow = function() {
-        return this.layerConfig.firstRow || 0;
+      return(this.layerConfig || {}).firstRow || 0
     };
-
+    this.getFirstFullyVisibleRow = function() {
+      if(!this.layerConfig) {
+        return 0
+      }return this.layerConfig.firstRow + (this.layerConfig.offset == 0 ? 0 : 1)
+    };
+    this.getLastFullyVisibleRow = function() {
+      if(!this.layerConfig) {
+        return 0
+      }return this.layerConfig.firstRow - 1 + Math.floor((this.layerConfig.height + this.layerConfig.offset) / this.layerConfig.lineHeight)
+    };
     this.getLastVisibleRow = function() {
-        return this.layerConfig.lastRow || 0;
+      return(this.layerConfig || {}).lastRow || 0
     };
-
-    this.onResize = function()
-    {
-        var height = ace.getInnerHeight(this.container);
-        this.scroller.style.height = height + "px";
-        this.scrollBar.setHeight(height);
-
-        var width = ace.getInnerWidth(this.container);
-        var gutterWidth = this.$gutter.offsetWidth;
-        this.scroller.style.left = gutterWidth + "px";
-        this.scroller.style.width = Math.max(0, width - gutterWidth - this.scrollBar.getWidth()) + "px";
-
-        if (this.doc) {
-            this.$updateScrollBar();
-            this.scrollToY(this.getScrollTop());
-            this.draw();
-        }
+    this.$padding = null;
+    this.setPadding = function(a) {
+      this.$padding = a;
+      this.content.style.padding = "0 " + a + "px";
+      this.$loop.schedule(this.CHANGE_FULL)
     };
-
-    this.onScroll = function(e) {
-        this.scrollToY(e.data);
+    this.onScroll = function(a) {
+      this.scrollToY(a.data)
     };
-
     this.$updateScrollBar = function() {
-        this.scrollBar.setInnerHeight(this.doc.getLength() * this.lineHeight);
-        this.scrollBar.setScrollTop(this.scrollTop);
+      this.scrollBar.setInnerHeight(this.doc.getLength() * this.lineHeight);
+      this.scrollBar.setScrollTop(this.scrollTop)
     };
-
-    this.updateLines = function(firstRow, lastRow) {
-        var layerConfig = this.layerConfig;
-
-        // if the update changes the width of the document do a full redraw
-        if (layerConfig.width != this.$getLongestLine())
-            return this.$draw(false);
-
-        if (firstRow > layerConfig.lastRow + 1) { return; }
-        if (lastRow < layerConfig.firstRow) { return; }
-
-        // if the last row is unknown -> redraw everything
-        if (lastRow === undefined) {
-            this.draw();
-            return;
+    this.$renderChanges = function(a) {
+      if(!(!a || !this.doc || !this.$tokenizer)) {
+        if(!this.layerConfig || a & this.CHANGE_FULL || a & this.CHANGE_SIZE || a & this.CHANGE_TEXT || a & this.CHANGE_LINES || a & this.CHANGE_SCROLL) {
+          this.$computeLayerConfig()
+        }if(a & this.CHANGE_FULL) {
+          this.$textLayer.update(this.layerConfig);
+          this.showGutter && this.$gutterLayer.update(this.layerConfig);
+          this.$markerLayer.update(this.layerConfig);
+          this.$cursorLayer.update(this.layerConfig);
+          this.$updateScrollBar()
+        }else {
+          if(a & this.CHANGE_SCROLL) {
+            a & this.CHANGE_TEXT || a & this.CHANGE_LINES ? this.$textLayer.scrollLines(this.layerConfig) : this.$textLayer.update(this.layerConfig);
+            this.showGutter && this.$gutterLayer.update(this.layerConfig);
+            this.$markerLayer.update(this.layerConfig);
+            this.$cursorLayer.update(this.layerConfig);
+            this.$updateScrollBar()
+          }else {
+            if(a & this.CHANGE_TEXT) {
+              this.$textLayer.update(this.layerConfig);
+              this.showGutter && this.$gutterLayer.update(this.layerConfig)
+            }else {
+              if(a & this.CHANGE_LINES) {
+                this.$updateLines();
+                this.$updateScrollBar()
+              }else {
+                if(a & this.CHANGE_SCROLL) {
+                  this.$textLayer.scrollLines(this.layerConfig);
+                  this.showGutter && this.$gutterLayer.update(this.layerConfig)
+                }
+              }
+            }a & this.CHANGE_GUTTER && this.showGutter && this.$gutterLayer.update(this.layerConfig);
+            a & this.CHANGE_CURSOR && this.$cursorLayer.update(this.layerConfig);
+            a & this.CHANGE_MARKER && this.$markerLayer.update(this.layerConfig);
+            a & this.CHANGE_SIZE && this.$updateScrollBar()
+          }
         }
-
-        // else update only the changed rows
-        this.$textLayer.updateLines(layerConfig, firstRow, lastRow);
+      }
     };
-
-    this.draw = function(scrollOnly, callback) {
-        this.$draw(scrollOnly);
-        callback && callback();
-//        if (this.$drawTimer) {
-//            clearInterval(this.$drawTimer);
-//            this.scrollOnly = this.scrollOnly && scrollOnly;
-//        } else {
-//            this.scollOnly = scrollOnly;
-//        }
-//
-//        if (callback)
-//            this.$drawCallbacks.push(callback);
-//
-//        var _self = this;
-//        this.$drawTimer = setTimeout(function() {
-//            _self.$draw(_self.scrollOnly);
-//            for (var i=0; i<_self.$drawCallbacks.length; i++)
-//                _self.$drawCallbacks[i]();
-//
-//            _self.$drawCallbacks = [];
-//            delete _self.$drawTimer;
-//        }, 0);
+    this.$computeLayerConfig = function() {
+      var a = this.scrollTop % this.lineHeight, b = this.$size.scrollerHeight + this.lineHeight, c = this.$getLongestLine(), d = !this.layerConfig ? true : this.layerConfig.width != c, g = Math.ceil(b / this.lineHeight), f = Math.max(0, Math.round((this.scrollTop - a) / this.lineHeight));
+      g = Math.min(this.lines.length, f + g) - 1;
+      this.layerConfig = {width:c, padding:this.$padding, firstRow:f, lastRow:g, lineHeight:this.lineHeight, characterWidth:this.characterWidth, minHeight:b, offset:a, height:this.$size.scrollerHeight};
+      for(f = 0;f < this.layers.length;f++) {
+        g = this.layers[f];
+        if(d) {
+          g.element.style.width = c + "px"
+        }
+      }this.$gutterLayer.element.style.marginTop = -a + "px";
+      this.content.style.marginTop = -a + "px";
+      this.content.style.width = c + "px";
+      this.content.style.height = b + "px"
     };
-
-    this.$draw = function(scrollOnly) {
-        //var start = new Date();
-
-        var lines = this.lines;
-
-        var offset = this.scrollTop % this.lineHeight;
-        var minHeight = this.scroller.clientHeight + offset;
-
-        var longestLine = this.$getLongestLine();
-        var widthChanged = this.layerConfig && (this.layerConfig.width != longestLine);
-
-        var lineCount = Math.ceil(minHeight / this.lineHeight);
-        var firstRow = Math.round((this.scrollTop - offset) / this.lineHeight);
-        var lastRow = Math.min(lines.length, firstRow + lineCount) - 1;
-
-        var layerConfig = this.layerConfig = {
-            width : longestLine,
-            firstRow : firstRow,
-            lastRow : lastRow,
-            lineHeight : this.lineHeight,
-            characterWidth : this.characterWidth,
-            minHeight : minHeight,
-            scrollOnly: !!scrollOnly
-        };
-
-        this.content.style.marginTop = (-offset) + "px";
-        this.content.style.height = minHeight + "px";
-
-        for ( var i = 0; i < this.layers.length; i++) {
-            var layer = this.layers[i];
-
-            if (widthChanged) {
-                var style = layer.element.style;
-                style.width = longestLine + "px";
-            }
-
-            layer.update(layerConfig);
-        };
-
-        this.$gutterLayer.element.style.marginTop = (-offset) + "px";
-        this.$gutterLayer.update(layerConfig);
-
-        //console.log("compute", new Date() - start, "ms")
-        this.$updateScrollBar();
-        //console.log("compute+render", new Date() - start, "ms")
+    this.$updateLines = function() {
+      var a = this.$changedLines.firstRow, b = this.$changedLines.lastRow;
+      this.$changedLines = null;
+      var c = this.layerConfig;
+      if(c.width != this.$getLongestLine()) {
+        return this.$textLayer.update(c)
+      }if(!(a > c.lastRow + 1)) {
+        if(!(b < c.firstRow)) {
+          if(b === Infinity) {
+            this.showGutter && this.$gutterLayer.update(c);
+            this.$textLayer.update(c)
+          }else {
+            this.$textLayer.updateLines(c, a, b)
+          }
+        }
+      }
     };
-
     this.$getLongestLine = function() {
-        var charCount = this.doc.getScreenWidth();
-        if (this.$showInvisibles)
-            charCount += 1;
-
-        return Math.max(this.scroller.clientWidth, Math.round(charCount * this.characterWidth));
+      var a = this.doc.getScreenWidth();
+      if(this.$showInvisibles) {
+        a += 1
+      }return Math.max(this.$size.scrollerWidth - this.$padding * 2, Math.round(a * this.characterWidth))
     };
-
-    this.addMarker = function(range, clazz, type) {
-        return this.$markerLayer.addMarker(range, clazz, type);
+    this.addMarker = function(a, b, c) {
+      a = this.$markerLayer.addMarker(a, b, c);
+      this.$loop.schedule(this.CHANGE_MARKER);
+      return a
     };
-
-    this.removeMarker = function(markerId) {
-        this.$markerLayer.removeMarker(markerId);
+    this.removeMarker = function(a) {
+      this.$markerLayer.removeMarker(a);
+      this.$loop.schedule(this.CHANGE_MARKER)
     };
-
-    this.setBreakpoints = function(rows) {
-        this.$gutterLayer.setBreakpoints(rows);
+    this.addGutterDecoration = function(a, b) {
+      this.$gutterLayer.addGutterDecoration(a, b);
+      this.$loop.schedule(this.CHANGE_GUTTER)
     };
-
-    this.updateCursor = function(position, overwrite) {
-        this.$cursorLayer.setCursor(position, overwrite);
-        this.$cursorLayer.update(this.layerConfig);
+    this.removeGutterDecoration = function(a, b) {
+      this.$gutterLayer.removeGutterDecoration(a, b);
+      this.$loop.schedule(this.CHANGE_GUTTER)
     };
-
+    this.setBreakpoints = function(a) {
+      this.$gutterLayer.setBreakpoints(a);
+      this.$loop.schedule(this.CHANGE_GUTTER)
+    };
+    this.updateCursor = function(a, b) {
+      this.$cursorLayer.setCursor(a, b);
+      this.$loop.schedule(this.CHANGE_CURSOR)
+    };
     this.hideCursor = function() {
-        this.$cursorLayer.hideCursor();
+      this.$cursorLayer.hideCursor()
     };
-
     this.showCursor = function() {
-        this.$cursorLayer.showCursor();
+      this.$cursorLayer.showCursor()
     };
-
     this.scrollCursorIntoView = function() {
-        var pos = this.$cursorLayer.getPixelPosition();
-
-        var left = pos.left;
-        var top = pos.top;
-
-        if (this.getScrollTop() > top) {
-            this.scrollToY(top);
-        }
-
-        if (this.getScrollTop() + this.scroller.clientHeight < top
-                + this.lineHeight) {
-            this.scrollToY(top + this.lineHeight - this.scroller.clientHeight);
-        }
-
-        if (this.scroller.scrollLeft > left) {
-            this.scroller.scrollLeft = left;
-        }
-
-        if (this.scroller.scrollLeft + this.scroller.clientWidth < left
-                + this.characterWidth) {
-            this.scroller.scrollLeft = Math.round(left + this.characterWidth
-                    - this.scroller.clientWidth);
-        }
-    },
-
+      var a = this.$cursorLayer.getPixelPosition(), b = a.left + this.$padding;
+      a = a.top;
+      this.getScrollTop() > a && this.scrollToY(a);
+      this.getScrollTop() + this.$size.scrollerHeight < a + this.lineHeight && this.scrollToY(a + this.lineHeight - this.$size.scrollerHeight);
+      this.scroller.scrollLeft > b && this.scrollToX(b);
+      this.scroller.scrollLeft + this.$size.scrollerWidth < b + this.characterWidth && this.scrollToX(Math.round(b + this.characterWidth - this.$size.scrollerWidth))
+    };
     this.getScrollTop = function() {
-        return this.scrollTop;
+      return this.scrollTop
     };
-
+    this.getScrollLeft = function() {
+      return this.scroller.scrollLeft
+    };
     this.getScrollTopRow = function() {
-        return this.scrollTop / this.lineHeight;
+      return this.scrollTop / this.lineHeight
     };
-
-    this.scrollToRow = function(row) {
-        this.scrollToY(row * this.lineHeight);
+    this.scrollToRow = function(a) {
+      this.scrollToY(a * this.lineHeight)
     };
-
-    this.scrollToY = function(scrollTop) {
-        var maxHeight = this.lines.length * this.lineHeight
-                - this.scroller.clientHeight;
-        var scrollTop = Math.max(0, Math.min(maxHeight, scrollTop));
-
-        if (this.scrollTop !== scrollTop) {
-            this.scrollTop = scrollTop;
-            this.$updateScrollBar();
-            this.draw(true);
-        }
+    this.scrollToY = function(a) {
+      a = Math.max(0, Math.min(this.lines.length * this.lineHeight - this.$size.scrollerHeight, a));
+      if(this.scrollTop !== a) {
+        this.scrollTop = a;
+        this.$loop.schedule(this.CHANGE_SCROLL)
+      }
     };
-
-    this.scrollBy = function(deltaX, deltaY) {
-        deltaY && this.scrollToY(this.scrollTop + deltaY);
-        deltaX && (this.scroller.scrollLeft += deltaX);
+    this.scrollToX = function(a) {
+      if(a <= this.$padding) {
+        a = 0
+      }this.scroller.scrollLeft = a
     };
-
-    this.screenToTextCoordinates = function(pageX, pageY) {
-        var canvasPos = this.scroller.getBoundingClientRect();
-
-        var col = Math.round((pageX + this.scroller.scrollLeft - canvasPos.left)
-                / this.characterWidth);
-        var row = Math.floor((pageY + this.scrollTop - canvasPos.top)
-                / this.lineHeight);
-
-        return {
-            row : row,
-            column : this.doc.screenToDocumentColumn(Math.max(0, Math.min(row, this.doc.getLength()-1)), col)
-        };
+    this.scrollBy = function(a, b) {
+      b && this.scrollToY(this.scrollTop + b);
+      a && this.scrollToX(this.scroller.scrollLeft + a)
     };
-
+    this.screenToTextCoordinates = function(a, b) {
+      var c = this.scroller.getBoundingClientRect();
+      a = Math.round((a + this.scroller.scrollLeft - c.left - this.$padding) / this.characterWidth);
+      b = Math.floor((b + this.scrollTop - c.top) / this.lineHeight);
+      return{row:b, column:this.doc.screenToDocumentColumn(Math.max(0, Math.min(b, this.doc.getLength() - 1)), a)}
+    };
+    this.textToScreenCoordinates = function(a, b) {
+      var c = this.scroller.getBoundingClientRect();
+      b = this.padding + Math.round(this.doc.documentToScreenColumn(a, b) * this.characterWidth);
+      a = a * this.lineHeight;
+      return{pageX:c.left + b - this.getScrollLeft(), pageY:c.top + a - this.getScrollTop()}
+    };
     this.visualizeFocus = function() {
-        ace.addCssClass(this.container, "ace_focus");
+      e.addCssClass(this.container, "ace_focus")
     };
-
     this.visualizeBlur = function() {
-        ace.removeCssClass(this.container, "ace_focus");
+      e.removeCssClass(this.container, "ace_focus")
     };
-
-    this.showComposition = function(position) {
+    this.showComposition = function() {
     };
-
-    this.setCompositionText = function(text) {
+    this.setCompositionText = function() {
     };
-
     this.hideComposition = function() {
     };
-
-}).call(VirtualRenderer.prototype);
-
-return VirtualRenderer;
+    this.setTheme = function(a) {
+      function b(d) {
+        c.$theme && e.removeCssClass(c.container, c.$theme);
+        c.$theme = d ? d.cssClass : null;
+        c.$theme && e.addCssClass(c.container, c.$theme);
+        if(c.$size) {
+          c.$size.width = 0;
+          c.onResize()
+        }
+      }
+      var c = this;
+      if(!a || typeof a == "string") {
+        a = a || "ace/theme/TextMate";
+        require([a], function(d) {
+          b(d)
+        })
+      }else {
+        b(a)
+      }c = this
+    }
+  }).call(j.prototype);
+  return j
 });
