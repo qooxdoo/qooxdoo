@@ -47,7 +47,7 @@ QXGLOBALS = [
     r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
     ]
 
-_memo1_ = [None, None]  # for memoizing getScript()
+_memo = [None, None]  # for memoizing getScript()
 
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
 
@@ -68,10 +68,11 @@ class Class(Resource):
         self.source     = u''  # source text of this class
         #self.ast        = None # ecmascript.frontend.tree instance
         #self.type      = "" # PROPERTY
-        self.scopes     = None # an ecmascript.frontend.Script instance
+        #self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
         self._assetRegex= None  # regex from #asset hints, for resource matching
+        self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
 
         console = context["console"]
         cache   = context["cache"]
@@ -95,6 +96,18 @@ class Class(Resource):
         
 
     type = property(_getType)
+
+    def _getClassCache(self):
+        cache = self.context["cache"]
+        classInfo, _ = cache.read(self.cacheId, self.path)
+        if classInfo:
+            return classInfo
+        else:
+            return {}
+
+    def _writeClassCache(self, data):
+        cache = self.context["cache"]
+        cache.write(self.cacheId, data)
 
 
     # --------------------------------------------------------------------------
@@ -185,9 +198,7 @@ class Class(Resource):
 
     def classVariants(self, generate=True):
 
-        cache     = self.context["cache"]
-        cacheId   = "class-%s" % (self.path,)
-        classinfo, _ = cache.readmulti(cacheId, self.path)
+        classinfo = self._getClassCache()
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
@@ -196,7 +207,7 @@ class Class(Resource):
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
-                cache.writemulti(cacheId, classinfo)
+                self._writeClassCache (classinfo)
         else:
             classvariants = classinfo['svariants']
 
@@ -690,7 +701,7 @@ class Class(Resource):
                 rnode = rnode.parent
             return rnode
 
-        def getScript(node, fileId, __memo=[None,None]):
+        def getScript(node, fileId):
             # TODO: checking the root nodes is a fix, as they sometimes differ (because of caching)
             # -- looking up nodes in a Script() uses object identity for comparison; sometimes, the
             #    tree _analyzeClassDepsNode works on and the tree Script is built from are not the
@@ -700,14 +711,14 @@ class Class(Resource):
             #    using __memo allows at least to re-use the existing script when a class is worked
             #    on and this method is called successively for the same tree.
             rootNode = findRoot(node)
-            if __memo[0] == rootNode:
+            if _memo[0] == rootNode:
                 #print "-- re-using scopes for: %s" % fileId
-                script = __memo[1]
+                script = _memo[1]
             else:
                 #print "-- re-calculating scopes for: %s" % fileId
                 script = Script(rootNode, fileId)
-                __memo[0] = rootNode
-                __memo[1] = script
+                _memo[0] = rootNode
+                _memo[1] = script
             return script
             
             #if not self.scopes:
