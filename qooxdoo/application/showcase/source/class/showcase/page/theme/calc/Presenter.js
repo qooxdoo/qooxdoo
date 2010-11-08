@@ -82,7 +82,11 @@ qx.Class.define("showcase.page.theme.calc.Presenter",
 
       var view = this.getView();
 
-      model.bind("operator", view, "operation");
+      model.bind("operator", view, "operation", {
+        converter : function(data) {
+          return data ? data : "";
+        }
+      });
       model.bind("memory", view, "memory", {
         converter : function(memory) {
           return memory === null ? false : true;
