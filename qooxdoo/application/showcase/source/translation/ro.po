@@ -1,0 +1,137 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2009-12-10 14:36+0100\n"
+"PO-Revision-Date: 2010-11-08 16:08+0200\n"
+"Last-Translator: Gabriel Munteanu <gabriel.munteanu@1and1.ro>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: showcase/page/i18n/Content.js:141
+msgid "Form Elements"
+msgstr "Elemente de formular"
+
+#: showcase/page/i18n/Content.js:147
+#: showcase/page/i18n/Content.js:249
+msgid "Territory code:"
+msgstr "Cod postal:"
+
+#: showcase/page/i18n/Content.js:157
+msgid "Localized ComboBox:"
+msgstr "ComboBox localizată:"
+
+#: showcase/page/i18n/Content.js:160
+#: showcase/page/i18n/Content.js:195
+msgid "Cut"
+msgstr "Taie"
+
+#: showcase/page/i18n/Content.js:161
+#: showcase/page/i18n/Content.js:197
+msgid "Paste"
+msgstr "Lipește"
+
+#: showcase/page/i18n/Content.js:162
+#: showcase/page/i18n/Content.js:196
+msgid "Copy"
+msgstr "Copiază"
+
+#: showcase/page/i18n/Content.js:169
+msgid "A date:"
+msgstr "O dată:"
+
+#: showcase/page/i18n/Content.js:192
+msgid "Undo"
+msgstr "Desfă"
+
+#: showcase/page/i18n/Content.js:193
+msgid "Redo"
+msgstr "Refă"
+
+#: showcase/page/i18n/Content.js:198
+msgid "Delete"
+msgstr "Şterge"
+
+#: showcase/page/i18n/Content.js:199
+msgid "Select All"
+msgstr "Selectează tot"
+
+#: showcase/page/i18n/Content.js:201
+msgid "Search"
+msgstr "Caută"
+
+#: showcase/page/i18n/Content.js:202
+msgid "Search Again"
+msgstr "Caută din nou"
+
+#: showcase/page/i18n/Content.js:204
+msgid "Command Menu (keyboard shortcuts)"
+msgstr "Meniu de comandă (scurtături de tastatură)"
+
+#: showcase/page/i18n/Content.js:213
+msgid "Locale Information"
+msgstr "Informație despre localizare"
+
+#: showcase/page/i18n/Content.js:246
+msgid "Locale:"
+msgstr "Localizare:"
+
+#: showcase/page/i18n/Content.js:252
+msgid "Date format short:"
+msgstr "Format dată scurt:"
+
+#: showcase/page/i18n/Content.js:254
+msgid "Date short:"
+msgstr "Dată scurtă:"
+
+#: showcase/page/i18n/Content.js:257
+msgid "Date format medium:"
+msgstr "Format dată mediu:"
+
+#: showcase/page/i18n/Content.js:259
+msgid "Date medium:"
+msgstr "Dată medie:"
+
+#: showcase/page/i18n/Content.js:262
+msgid "Date format long:"
+msgstr "Format dată lung:"
+
+#: showcase/page/i18n/Content.js:264
+msgid "Date long:"
+msgstr "Dată lungă:"
+
+#: showcase/page/i18n/Content.js:267
+msgid "Date format full:"
+msgstr "Format dată întreg:"
+
+#: showcase/page/i18n/Content.js:269
+msgid "Date full:"
+msgstr "Dată întreagă:"
+
+#: showcase/page/i18n/Content.js:272
+msgid "Time format short:"
+msgstr "Format oră curt:"
+
+#: showcase/page/i18n/Content.js:274
+msgid "Time short:"
+msgstr "Oră scurtă:"
+
+#: showcase/page/i18n/Content.js:277
+msgid "Time format long:"
+msgstr "Format oră lung:"
+
+#: showcase/page/i18n/Content.js:279
+msgid "Time long:"
+msgstr "Oră lungă:"
+
+#: showcase/page/i18n/Content.js:282
+msgid "Week start:"
+msgstr "Începutul săptămânii:"
+
+#: showcase/page/i18n/Content.js:285
+msgid "Format of %1:"
+msgstr "Formatul %1:"
+

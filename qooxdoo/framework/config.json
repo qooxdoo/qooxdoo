@@ -37,7 +37,7 @@
     "QOOXDOO_PATH" : "..",
     "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
-    "LOCALES"      : [ "de", "en", "es", "fr", "it", "nl", "sv" ],
+    "LOCALES"      : [ "de", "en", "es", "fr", "it", "nl", "sv","ro" ],
     "CACHE"        : "${TMPDIR}/cache"
   },
 
