@@ -690,23 +690,30 @@ class Class(Resource):
                 rnode = rnode.parent
             return rnode
 
-        def getScript(node, fileId, ):
-            ## TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
-            #rootNode = findRoot(node)
-            ##if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
-            #if _memo1_[0] == rootNode:
-            #    #print "-- re-using scopes for: %s" % fileId
-            #    script = _memo1_[1]
-            #else:
-            #    #print "-- re-calculating scopes for: %s" % fileId
-            #    script = Script(rootNode, fileId)
-            #    _memo1_[0], _memo1_[1] = rootNode, script
-            #return script
+        def getScript(node, fileId, __memo=[None,None]):
+            # TODO: checking the root nodes is a fix, as they sometimes differ (because of caching)
+            # -- looking up nodes in a Script() uses object identity for comparison; sometimes, the
+            #    tree _analyzeClassDepsNode works on and the tree Script is built from are not the
+            #    same in memory, e.g. when the tree is re-read from disk; then those comparisons
+            #    fail (although the nodes are semantically the same); hence we have to
+            #    re-calculate the Script (which is expensive!) when the root node object changes;
+            #    using __memo allows at least to re-use the existing script when a class is worked
+            #    on and this method is called successively for the same tree.
+            rootNode = findRoot(node)
+            if __memo[0] == rootNode:
+                #print "-- re-using scopes for: %s" % fileId
+                script = __memo[1]
+            else:
+                #print "-- re-calculating scopes for: %s" % fileId
+                script = Script(rootNode, fileId)
+                __memo[0] = rootNode
+                __memo[1] = script
+            return script
             
-            if not self.scopes:
-                rootNode = findRoot(node)
-                self.scopes = Script(rootNode, fileId)
-            return self.scopes
+            #if not self.scopes:
+            #    rootNode = findRoot(node)
+            #    self.scopes = Script(rootNode, fileId)
+            #return self.scopes
 
         def getLeadingId(idStr):
             leadingId = idStr
