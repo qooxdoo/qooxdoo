@@ -68,7 +68,7 @@ msgstr "Hoch"
 
 #: qx/locale/Key.js:93
 msgid "key_short_Right"
-msgstr "Rechts "
+msgstr "Rechts"
 
 #: qx/locale/Key.js:94
 msgid "key_short_Down"
@@ -188,7 +188,7 @@ msgstr "Bild hoch"
 
 #: qx/locale/Key.js:125
 msgid "key_full_PageDown"
-msgstr "Bild runter "
+msgstr "Bild runter"
 
 #: qx/locale/Key.js:126
 msgid "key_full_End"
@@ -323,13 +323,13 @@ msgstr "Nächstes Jahr"
 msgid "This field is required"
 msgstr "Dieses Feld ist erforderlich"
 
-#: qx/ui/table/Table.js:1809
+#: qx/ui/table/Table.js:1875
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: qx/ui/table/Table.js:1811
+#: qx/ui/table/Table.js:1877
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
@@ -339,34 +339,34 @@ msgstr[1] "%1 von %2 Zeilen"
 msgid "Reset column widths"
 msgstr "Spaltenbreite zurücksetzen"
 
-#: qx/util/Validate.js:87
+#: qx/util/Validate.js:89
 msgid "%1 is not a number."
 msgstr "%1 ist keine Nummer."
 
-#: qx/util/Validate.js:120
+#: qx/util/Validate.js:126
 msgid "'%1' is not an email address."
 msgstr "'%1' ist keine Emailadresse."
 
-#: qx/util/Validate.js:150
+#: qx/util/Validate.js:161
 msgid "%1 is not a string."
 msgstr "%1 ist keine Zeichenkette."
 
-#: qx/util/Validate.js:181
+#: qx/util/Validate.js:195
 msgid "%1 is not an url."
 msgstr "%1 ist keine URL."
 
-#: qx/util/Validate.js:213
+#: qx/util/Validate.js:234
 msgid "%1 is not a color! %2"
 msgstr "%1 ist keine Farbe! %2"
 
-#: qx/util/Validate.js:239
+#: qx/util/Validate.js:258
 msgid "%1 is not in the range from [%2, %3]."
 msgstr "%1 liegt nicht im Intervall [%2, %3]."
 
-#: qx/util/Validate.js:261
+#: qx/util/Validate.js:281
 msgid "%1 is not in %2"
 msgstr "%1 ist nicht in %2"
 
-#: qx/util/Validate.js:284
+#: qx/util/Validate.js:305
 msgid "%1 does not fit %2."
 msgstr "%1 passt nicht zu %2."
