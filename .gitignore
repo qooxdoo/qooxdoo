@@ -1,3 +1,23 @@
+#
+# All directories
+#
+*.pyc
+*.pyo
+*.pot
+
+#
+# Directories + Wildcard
+#
+.settings/*
+qooxdoo/cache/*
+qooxdoo/framework/test/*
+qooxdoo/frontend/framework/source/class/qx/locale/data/*
+qooxdoo/frontend/application/demobrowser/source/class/demo/translation/*
+qooxdoo/frontend/framework/source/class/qx/locale/translation/*
+
+#
+# Directories
+#
 qooxdoo/framework/cache
 qooxdoo/application/playground/test
 qooxdoo/application/feedreader/api
@@ -11,4 +31,22 @@ qooxdoo/component/inspector/test
 qooxdoo/component/inspector/api
 qooxdoo/documentation/manual/build
 qooxdoo/application/feedreader/inspector
-.settings/*
+qooxdoo/application/demobrowser/source/script/
+qooxdoo/application/demobrowser/config.demo.json
+qooxdoo/application/demobrowser/build
+qooxdoo/application/demobrowser/cache/
+qooxdoo/application/feedreader/source/script/
+qooxdoo/application/feedreader/build
+qooxdoo/application/playground/source/script
+qooxdoo/application/playground/build
+qooxdoo/application/playground/api
+qooxdoo/application/performance/test
+qooxdoo/application/showcase/source/script
+qooxdoo/application/showcase/build
+qooxdoo/application/showcase/cache
+qooxdoo/component/apiviewer/source/script/
+qooxdoo/component/testrunner/source/script/
+qooxdoo/frontend/application/demobrowser/source/script
+qooxdoo/frontend/application/playground/source/script
+qooxdoo/frontend/framework/.cache
+qooxdoo/framework/api
