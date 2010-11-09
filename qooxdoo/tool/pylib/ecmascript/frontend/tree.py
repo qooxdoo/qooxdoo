@@ -64,6 +64,7 @@ class Node(object):
 
     def __init__ (self, type):
         self.type = type
+        self.children = []
 
     def __str__(self):
         return nodeToXmlStringNR(self)
@@ -143,6 +144,20 @@ class Node(object):
 
     def hasChildren(self, ignoreComments = False):
         if not ignoreComments:
+            return self.children
+        else:
+            return [c for c in self.children if c.type not in ("comment", "commentsBefore", "commentsAfter")]
+
+    def hasChildren1(self, ignoreComments = False):
+        if not hasattr(self, "children"):
+            return False
+        elif not ignoreComments:
+            return self.children
+        else:
+            return [c for c in self.children if c.type not in ("comment", "commentsBefore", "commentsAfter")]
+
+    def hasChildren1(self, ignoreComments = False):
+        if not ignoreComments:
             return hasattr(self, "children") and len(self.children) > 0
         else:
             if not hasattr(self, "children"):
@@ -157,8 +172,8 @@ class Node(object):
             if childNode.hasParent():
                 childNode.parent.removeChild(childNode)
 
-            if not self.hasChildren():
-                self.children = []
+            #if not self.hasChildren():
+            #    self.children = []
 
             if index != None:
                 self.children.insert(index, childNode)
@@ -171,8 +186,8 @@ class Node(object):
         if self.hasChildren():
             self.children.remove(childNode)
             childNode.parent = None
-            if len(self.children) == 0:
-                del self.children
+            #if len(self.children) == 0:
+            #    del self.children
 
     def replaceChild(self, oldChild, newChild):
         if self.hasChildren():
