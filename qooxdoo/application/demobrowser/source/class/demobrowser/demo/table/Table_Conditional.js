@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.table.Table_Conditional",
       newRenderer.addNumericCondition(">", 950, "center", "#00CCFF", null, "bold");
       table.getTableColumnModel().setDataCellRenderer(2, newRenderer);
 
-      var renderer = new qx.ui.table.cellrenderer.Image(19, 16);
+      var renderer = new qx.ui.table.cellrenderer.Image();
       table.getTableColumnModel().setDataCellRenderer(3, renderer);
 
       return table;
