@@ -250,15 +250,14 @@ qx.Class.define("qx.test.Xml",
       var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
       var node = doc.createElement("a");
       var namespaceURI = "http://www.w3.org/2000/xmlns/";
-      qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "xmlns:href", "foo");
+      qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "href", "foo");
       
-      var nodeVal;
       if (node.getAttributeNS) {
-        nodeVal = node.getAttributeNS(namespaceURI, "href");
-      } else {
-        nodeVal = node.getAttributeNode("xmlns:href").value;
+        this.assertEquals("foo", node.getAttributeNS(namespaceURI, "href"));
       }
-      this.assertEquals("foo", nodeVal);
+      else {
+        this.assertEquals(namespaceURI, node.getAttributeNode("href").namespaceURI);
+      }
     }
   }
 });
