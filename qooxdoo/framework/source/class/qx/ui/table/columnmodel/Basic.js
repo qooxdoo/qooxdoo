@@ -330,8 +330,11 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Sets the data renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @param renderer {qx.ui.table.ICellRenderer} the new data renderer the column should get.
-     * @return {void}
+     * @param renderer {qx.ui.table.ICellRenderer} the new data renderer 
+     *   the column should get.
+     * @return {qx.ui.table.ICellRenderer?null} If an old rendere was set and 
+     *   it was not the default rendere, the old rendere is returnd for 
+     *   pooling or dipsosing.
      */
     setDataCellRenderer : function(col, renderer)
     {
@@ -342,12 +345,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
+      this.__columnDataArr[col].dataRenderer = renderer;
+
       var oldRenderer = this.__columnDataArr[col].dataRenderer;
       if (oldRenderer !== this.__dataRenderer) {
-        oldRenderer.dispose();
+        return oldRenderer;
       }
-
-      this.__columnDataArr[col].dataRenderer = renderer;
+      return null;
     },
 
 
