@@ -96,10 +96,12 @@ In addition there is a built in default conversion which takes care of the defau
 Managing bindings
 -----------------
 If you want to manage the bindings, there are some ways to get that. First aspect of managing is showing the existing bindings. You can find all these function on the static ``qx.data.SingleValueBinding`` class or parts of it on every object.
+
   * **getAllBindingsForObject** is a function which is in the data binding class and returns all bindings for the given object. The object needs to be the source object.
   * **getAllBindings** returns all bindings in a special map for all objects.
 
 Another way of managing is removing. There are three ways to remove bindings.
+
   * **removeBindingFromObject** removes the given binding from the given source object. As an id you should use exactly the id returned during the creation of the binding.
   * **removeAllBindingsForObject** removes all binding from the source object. After that, the object is not synchronized anymore.
   * **removeAllBindings** removes all single value bindings in the whole application. Be careful to use that function. Perhaps other parts of the application use the bindings and also that will be removed!
@@ -109,6 +111,7 @@ Another way of managing is removing. There are three ways to remove bindings.
 Debugging
 ---------
 Working with bindings is in most cases some magic and it just works. But the worse part of that magic is, if it does not work. For that the data binding component offers two methods for debugging on the static ``qx.data.SingleValueBinding`` class.
+
   * **showBindingInLog** shows the given binding in the qooxdoo logger as a string. The result could look something like this: *Binding from 'qx.ui.form.TextField[1t]' (name) to the object 'qx.ui.form.TextField[1y]' (name).* That shows the source object and property and the target object and property.
   * **showAllBindingsInLog** shows all bindings in the way the first method shows the bindings.
 
