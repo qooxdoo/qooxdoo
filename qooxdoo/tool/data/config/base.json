@@ -341,6 +341,11 @@
 
       "extend" : ["common"],
 
+      "variants" :
+      {
+        "qx.debug" : ["off"]
+      },
+
       "copy-resources" :
       {
         "target"          : "${BUILD_PATH}",
