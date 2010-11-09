@@ -147,10 +147,22 @@ qx.Class.define("qx.ui.splitpane.Pane",
         case "splitter":
           control = new qx.ui.splitpane.Splitter(this);
           this._add(control, {type : id});
+          control.addListener("move", this.__onSplitterMove, this);
           break;
       }
 
       return control || this.base(arguments, id);
+    },
+
+
+    /**
+     * Move handler for the spliiter which takes care of the external 
+     * triggered resize of children.
+     * 
+     * @param e {qx.event.type.Data} The data even of move.
+     */
+    __onSplitterMove : function(e) {
+      this.__setBlockerPosition(e.getData());
     },
 
 
@@ -176,7 +188,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
-        if (bounds.hight == 0 || bounds.width == 0) {
+        if (bounds.height == 0 || bounds.width == 0) {
           this.__blocker.hide();
         } else {
           this.__blocker.show();
@@ -262,25 +274,57 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Helper for setting the blocker to the right position, which depends on 
      * the offset, orientation and the current position of the splitter.
+     * 
+     * @param bounds {Map?null} If the bounds of the splitter are known, 
+     *   they can be added.
      */
-    __setBlockerPosition : function() {
+    __setBlockerPosition : function(bounds) {
       var splitter = this.getChildControl("splitter");
       var offset = this.getOffset();
       var splitterBounds = splitter.getBounds();
       var splitterElem = splitter.getContainerElement().getDomElement();
 
+      // do nothing if the splitter is not ready
+      if (!splitterElem) {
+        return;
+      }
+
       // recalculate the dimensions of the blocker
       if (this.__isHorizontal) {
-        if (splitterBounds && splitterBounds.width) {
-          var left = qx.bom.element.Location.getPosition(splitterElem).left;
-          this.__blocker.setWidth(offset, splitterBounds.width);
-          this.__blocker.setLeft(offset, left);      
+        // get the width either of the given bounds or of the read bounds
+        var width = null;
+        if (bounds) {
+          width = bounds.width;
+        } else if (splitterBounds) {
+          width = splitterBounds.width;
         }
+        var left = bounds && bounds.left;
+
+        if (width) {
+          if (!left) {
+            left = qx.bom.element.Location.getPosition(splitterElem).left;
+          }
+          this.__blocker.setWidth(offset, width);
+          this.__blocker.setLeft(offset, left);
+        }
+
+      // vertical case
       } else {
-        if (splitterBounds && splitterBounds.height) {
-          var top = qx.bom.element.Location.getPosition(splitterElem).top;
-          this.__blocker.setHeight(offset, splitterBounds.height);
-          this.__blocker.setTop(offset, top);  
+        // get the height either of the given bounds or of the read bounds
+        var height = null;
+        if (bounds) {
+          height = bounds.height;
+        } else if (splitterBounds) {
+          height = splitterBounds.height;
+        }
+        var top =  bounds && bounds.top;
+
+        if (height) {
+          if (!top) {
+            top = qx.bom.element.Location.getPosition(splitterElem).top;
+          }
+          this.__blocker.setHeight(offset, height);
+          this.__blocker.setTop(offset, top);
         }    
       }
     },
@@ -334,7 +378,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     getChildren : function() {
       return this.__children;
     },
-
 
 
     /*
