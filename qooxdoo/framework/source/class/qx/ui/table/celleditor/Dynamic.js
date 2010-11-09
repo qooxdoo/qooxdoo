@@ -48,6 +48,8 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     {
       this.setCellEditorFactoryFunction(cellEditorFactoryFunction);
     }
+    
+    this.__infos = {};
   },
 
 
@@ -91,8 +93,9 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
 
   members :
   {
-
     __cellEditorFactory : null,
+    __infos : null,
+
 
     /**
      * Creates the cell editor based on the cellEditorFactory instance
@@ -113,6 +116,9 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
 
       this.__cellEditorFactory = cellEditorFactoryFunction(cellInfo);
       var cellEditor = this.__cellEditorFactory.createCellEditor(cellInfo);
+      
+      // save the cell info to the editor (needed for getting teh value)
+      this.__infos[cellEditor.toHashCode()] = cellInfo;
 
       return cellEditor;
     },
@@ -126,7 +132,10 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertFunction(cellEditorFactoryFunction, "No function provided! Aborting.");
       }
-
+      
+      var cellInfo = this.__infos[cellEditor.toHashCode()];
+      // update the propper factory
+      this.__cellEditorFactory = cellEditorFactoryFunction(cellInfo);
       var value = this.__cellEditorFactory.getCellEditorValue(cellEditor);
       return value;
     }
