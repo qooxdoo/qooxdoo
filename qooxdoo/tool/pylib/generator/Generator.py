@@ -182,9 +182,9 @@ class Generator(object):
             {
               "type"   : "JClassDepJob"
             },
-            "test-interaction" :
+            "simulate" :
             {
-              "type"   : "JClassDepJob"
+              "type"   : "JSimpleJob"
             }
           }
 
@@ -505,6 +505,8 @@ class Generator(object):
                     self.runMigration(config.get("library"))
                 elif trigger == "shell":
                     self.runShellCommands()
+                elif trigger == "simulate":
+                    self.runSimulation()
                 elif trigger == "slice-images":
                     self.runImageSlicing()
                 else:
@@ -565,8 +567,6 @@ class Generator(object):
                     self.runUpdateTranslation()
                 elif trigger == "pretty-print":
                     self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
-                elif trigger == "test-interaction":
-                    self.runInteractionTest()
                 else:
                     pass
 
@@ -1761,57 +1761,24 @@ class Generator(object):
         return
 
 
-    def runInteractionTest(self):
-        self._console.info("Running GUI test...")
+    def runSimulation(self):
+        self._console.info("Running Simulation...")
         
-        simulationConfig = {
-          "autHost" : self._job.get("test-interaction/aut-host", "file://"),
-          "autPath" : self._job.get("test-interaction/aut-path", ""),
-          "testBrowser" : self._job.get("test-interaction/test-browser", "*firefox3"),
-          "selServer" : self._job.get("test-interaction/selenium-host", "localhost"),
-          "selPort" : self._job.get("test-interaction/selenium-port", "4444"),
-          "qxPath" : self._config.get("let/QOOXDOO_PATH"),
-          "autName" : self._config.get("let/APPLICATION")
-        }
-        
-        app = self._config.get("let/APPLICATION")
-        for lib in self._libraries:
-            if lib.getNamespace() == app:
-                simulationConfig["classPath"] = lib._classPath
-        
-        testInclude = self._job.get("test-interaction/test-include", None)
-        if testInclude:
-            testInclude = self._expandRegExps(testInclude)
-            simulationConfig["testClasses"] = "[" + ",".join(testInclude) + "]"
-        else:
-            simulationConfig["application"] = self._job.get("test-interaction/test-application", None)
-        
-        simulationConfigString = ""
-        for key, value in simulationConfig.iteritems():
-            simulationConfigString += " %s=%s" %(key, value)
-        
-        options = self._job.get("test-interaction/simulation-options", "")
-        if options:
-            options = " ".join(options)
-        
-        javaClassPath = self._job.get("test-interaction/java-classpath", False)
+        javaClassPath = self._job.get("simulate/java-classpath", False)
         if javaClassPath:
             javaClassPath = "-cp %s" %javaClassPath
+            
+        rhinoClass = self._job.get("simulate/rhino-class", False)
         
-        if self._job.get("test-interaction/rhino-debugger", False):
-            rhinoClass = "org.mozilla.javascript.tools.debugger.Main"
-        else:
-            rhinoClass = "org.mozilla.javascript.tools.shell.Main"
+        runnerScript = self._job.get("simulate/simulator-script")
         
-        runnerScript = " %s/tool/rhino/Runner.js" %simulationConfig["qxPath"]
-        
-        cmd = "java %s %s %s %s %s" %(javaClassPath, rhinoClass, runnerScript, simulationConfigString, options)        
+        cmd = "java %s %s %s" %(javaClassPath, rhinoClass, runnerScript)        
         
         self._console.debug("Selenium start command: " + cmd)
         shell = ShellCmd()
         shell.execute_logged(cmd, self._console, True)
-
-
+        
+    
     def _splitIncludeExcludeList(self, data):
         intelli = []
         explicit = []
