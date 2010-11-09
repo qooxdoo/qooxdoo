@@ -18,9 +18,11 @@ Requirements
 Please make sure to have read the detailed :doc:`requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:
 
 * *client*: any major web browser
-* *server*: any HTTP-aware backend. During development the local file system should also be ok
+* *server*: any HTTP-aware backend. During development the local file system should also be ok (*)
 * *operating system*: any
 * *tools*: Python required
+
+(*) Developers using Chrome should note that there is a known issue loading reasonably complex qooxdoo applications (such as the API viewer or the demo browser) via the file:// protocol. It is recommended to Chrome users to use the HTTP protocol, even while developing.
 
 .. _pages/getting_started/helloworld#download:
 
