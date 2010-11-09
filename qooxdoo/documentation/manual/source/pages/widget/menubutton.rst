@@ -8,6 +8,7 @@ The MenuButton looks like a normal button, but it opens a menu when clicking on 
 
 Preview Image
 -------------
+
 |MenuButton|
 
 .. |MenuButton| image:: /pages/widget/menubutton.png

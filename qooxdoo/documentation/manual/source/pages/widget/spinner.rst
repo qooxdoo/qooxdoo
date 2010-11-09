@@ -8,6 +8,7 @@ A Spinner widget is a control that allows you to adjust a numerical value, typic
 
 Preview Image
 -------------
+
 |Spinner|
 
 .. |Spinner| image:: /pages/widget/spinner.png

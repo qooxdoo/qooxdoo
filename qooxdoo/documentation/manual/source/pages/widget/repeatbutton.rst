@@ -8,6 +8,7 @@ The RepeatButton is a special button, which fires an event, while the mouse butt
 
 Preview Image
 -------------
+
 |RepeatButton|
 
 .. |RepeatButton| image:: /pages/widget/button.png

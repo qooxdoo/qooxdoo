@@ -8,6 +8,7 @@ The ToolBar widget is responsible for displaying a toolbar in the application. T
 
 Preview Image
 -------------
+
 |widget/toolbar.jpg|
 
 .. |widget/toolbar.jpg| image:: /pages/widget/toolbar.jpg
@@ -49,6 +50,7 @@ For further structuring in the toolbar, a Separator is available in the package 
 
 Diagram
 -------
+
 |widget/toolbar_uml.png|
 
 .. |widget/toolbar_uml.png| image:: /pages/widget/toolbar_uml.png

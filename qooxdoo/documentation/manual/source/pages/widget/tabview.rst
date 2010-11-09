@@ -11,6 +11,7 @@ The buttons are positioned on one of the tab view's edges.
 
 Preview Image
 -------------
+
 |widget/tabview.png|
 
 .. |widget/tabview.png| image:: /pages/widget/tabview.png

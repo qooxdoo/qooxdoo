@@ -8,6 +8,7 @@ A CheckBox widget for Boolean values.
 
 Preview Image
 -------------
+
 |CheckBox|
 
 .. |CheckBox| image:: /pages/widget/checkbox.png

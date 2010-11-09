@@ -8,6 +8,7 @@ A TextArea some long text. The TextArea is classic GUI element.
 
 Preview Image
 -------------
+
 |TextArea|
 
 .. |TextArea| image:: /pages/widget/textfield.png

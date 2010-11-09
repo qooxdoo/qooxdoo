@@ -10,6 +10,7 @@ The orientation property states if the widgets should be aligned horizontally or
 
 Preview Image
 -------------
+
 |widget/splitpane.png|
 
 .. |widget/splitpane.png| image:: /pages/widget/splitpane.png

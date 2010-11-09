@@ -8,6 +8,7 @@ The MenuBar is a Widget to create a classic menu bar for an application.
 
 Preview Image
 -------------
+
 |:MenuBar|
 
 .. |:MenuBar| image:: /pages/widget/menubar.png

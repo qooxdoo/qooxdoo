@@ -194,6 +194,7 @@ Example for a fully extended doc comment:
     };
 
 This comment is shown in the API viewer like this:
+
 |Example output of the API viewer|
 
 .. |Example output of the API viewer| image:: /pages/development/apiviewer-example.png

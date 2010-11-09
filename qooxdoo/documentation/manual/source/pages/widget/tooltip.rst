@@ -8,6 +8,7 @@ A Tooltip provides additional information for widgets when the user hovers over 
 
 Preview Image
 -------------
+
 |widget/tooltip.png|
 
 .. |widget/tooltip.png| image:: /pages/widget/tooltip.png

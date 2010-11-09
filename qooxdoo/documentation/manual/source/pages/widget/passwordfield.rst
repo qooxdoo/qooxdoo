@@ -8,6 +8,7 @@ The PasswordField widget is a special TextField witch show the input hidden.
 
 Preview Image
 -------------
+
 |PasswordField|
 
 .. |PasswordField| image:: /pages/widget/passwordfield.png

@@ -8,6 +8,7 @@ A Button widget is used to display plain text and/or an icon. The button support
 
 Preview Image
 -------------
+
 |Button widget|
 
 .. |Button widget| image:: /pages/widget/button.png

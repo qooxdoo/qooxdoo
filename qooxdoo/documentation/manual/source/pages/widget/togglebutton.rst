@@ -8,6 +8,7 @@ The ToggleButton widget is a classic GUI ToggleButton with to states: pressed or
 
 Preview Image
 -------------
+
 |ToggleButton|
 
 .. |ToggleButton| image:: /pages/widget/togglebuttom.png
