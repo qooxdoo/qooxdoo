@@ -59,6 +59,8 @@ qx.Class.define("qx.locale.Manager",
     if (variant !== "") {
       locale += "_" + variant;
     }
+    
+    this.__clientLocale = locale;
 
     this.setLocale(locale || this.__defaultLocale);
   },
@@ -186,6 +188,7 @@ qx.Class.define("qx.locale.Manager",
     __language : null,
     __translations : null,
     __locales : null,
+    __clientLocale : null,
 
     /**
      * Get the language code of the current locale
@@ -257,6 +260,8 @@ qx.Class.define("qx.locale.Manager",
     // property apply
     _applyLocale : function(value, old)
     {
+        if(!(value in this.__locales || value==this.__clientLocale))
+            qx.log.Logger.warn("Locale: " + value+" not available.");
       this.__locale = value;
       this.__language = this.__extractLanguage(value);
     },
