@@ -36,11 +36,18 @@ import Scanner
 # Generator to turn low-level token tuples into Scanner.Token objects and
 # provide and eof Token.
 def tokens_2_obj(content):
-    scanner = Scanner.Scanner(content)
+    #scanner = Scanner.Scanner(content)
+    scanner = Scanner.Scanner(content).__iter__()
     Token   = Scanner.Token
-    for stoken in scanner:
+    arg     = None
+    #for stoken in scanner:
+    while True:
+        try:
+            stoken = scanner.send(arg)  # pass arg, to switch low-level scan mode (s. parseCommentI)
+        except StopIteration:
+            break
         token = Token(stoken)
-        yield token
+        arg = (yield token)
     yield Token(('eof', '', token.spos+token.len, 0))
 
 
@@ -289,6 +296,10 @@ def parseRegexp1(scanner):
 ##
 # parse an inline comment // ...
 def parseCommentI(scanner):
+    result = scanner.next('\n')  # inform the low-level scanner to switch to commentI
+    return result.value
+
+def parseCommentI1(scanner):
     result = ""
     for token in scanner:
         if token.name == 'nl':
@@ -298,14 +309,19 @@ def parseCommentI(scanner):
     return result
 
 
-def parseCommentI1(scanner):
-    tokens = parseDelimited (scanner, '\n')  # TODO: assumes universal newline!
-    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
-
-
 ##
 # parse a multiline comment /* ... */
 def parseCommentM(scanner):
+    res = []
+    while True:
+        token = scanner.next(r'\*/')  # inform the low-level scanner to switch to commentM
+        res.append(token.value)
+        if not Scanner.is_last_escaped(token.value):
+            break
+        # run-away comments bomb in the above scanner.next()
+    return u"".join(res)
+
+def parseCommentM1(scanner):
     result = []
     res    = u""
     for token in scanner:
@@ -320,10 +336,6 @@ def parseCommentM(scanner):
         raise SyntaxException("Run-away comment", res)
 
     return res
-
-def parseCommentM1(scanner):
-    tokens = parseDelimited(scanner, '*/')
-    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
 
 
 ##

@@ -100,9 +100,14 @@ class Scanner(IterObject):
         |(?P<op> \W)            # what remains (operators)
         ''', re.VERBOSE|re.DOTALL|re.MULTILINE|re.UNICODE) # re.LOCALE?!
 
+    # individual regex for comment ends, to search fast-forward
+    commentEnd         = {}
+    commentEnd['\n']   = re.compile('(?P<commI>.*(?=\n|$))', re.UNICODE)
+    commentEnd[r'\*/'] = re.compile(r'(?P<commM>.*?\*/)',  re.DOTALL|re.MULTILINE|re.UNICODE)
+
     # yields :
     # ( <group_name> , <scan_string> , <start_pos> , <scan_length> )
-    def __iter__(self):
+    def __iter__1(self):
         miter = self.patt.finditer(self.inData)
         for mo in miter:
             mo_lastgroup = mo.lastgroup
@@ -112,6 +117,26 @@ class Scanner(IterObject):
                 raise AssertionError, "There's a scan gap before: %s (at pos %d)" % (mo.group(), self.next_start)
             self.next_start = mend   # match range is [mo.start(), mo.end()[
             yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend - mstart)
+
+
+    def __iter__(self):
+        commentEnd = None
+        inData     = self.inData
+        lenData    = len(inData)
+        cursor     = 0
+        while cursor < lenData:
+            if commentEnd:
+                mo = self.commentEnd[commentEnd].search(inData[cursor:])
+            else:
+                mo = self.patt.match(inData[cursor:])
+            if mo:
+                mo_lastgroup = mo.lastgroup
+                mstart       = cursor
+                mend         = mo.end()
+                cursor       += mend
+                commentEnd = (yield (mo_lastgroup, mo.group(mo_lastgroup), cursor, mend))
+            else:
+                raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 
 
 ##
@@ -161,9 +186,9 @@ class LQueue(object):
         self.iterator = iterator
         self.queue     = deque(())
 
-    def next(self):
+    def next(self, arg=None):
         if len(self.queue) == 0:
-            self.queue.append(self.iterator.next())
+            self.queue.append(self.iterator.send(arg))
         return self.queue.popleft()
 
     ##
@@ -224,7 +249,20 @@ def is_last_escaped(s):
 
 if __name__ == "__main__":
     file = open(sys.argv[1]).read()
-    tokenizer = Scanner(file)
-    for tok in tokenizer:
+    tokenizer = Scanner(file).__iter__()
+    #for tok in tokenizer:
+    #    print tok
+    c = None
+    while True:
+        try:
+            tok = tokenizer.send(c)
+        except StopIteration:
+            break
+        if tok[1] ==  '//':
+            c = '\n'
+        elif tok[1] == '/*':
+            c = r'\*/'
+        else:
+            c = None
         print tok
 
