@@ -186,6 +186,7 @@ class DependencyLoader(object):
         result = []
         warn_deps = []
 
+        # No dependency calculation
         if len(includeWithDeps) == 0:
             self._console.info("Including all known classes")
             result = self._classesObj.keys()
@@ -195,10 +196,12 @@ class DependencyLoader(object):
             for classId in excludeWithDeps:
                 result.remove(classId)
 
+        # Calculate dependencies
         else:
             self._console.info(" ", feed=False)
 
             for item in includeWithDeps:
+                # calculate dependencies and add required classes
                 classlistFromClassRecursive(item, excludeWithDeps, variants, result, warn_deps)
 
             if self._console.getLevel() is "info":

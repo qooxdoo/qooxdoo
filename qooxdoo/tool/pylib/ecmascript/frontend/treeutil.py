@@ -385,7 +385,8 @@ def inlineIfStatement(ifNode, conditionValue):
         defList.set("line", ifNode.get("line"))
         for definition in definitions:
             if definition.hasChildren():
-                del definition.children
+                #del definition.children
+                definition.children = []
             defList.addChild(definition)
 
         # move defList to higher node

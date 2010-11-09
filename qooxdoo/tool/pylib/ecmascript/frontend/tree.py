@@ -64,6 +64,7 @@ class Node(object):
 
     def __init__ (self, type):
         self.type = type
+        self.parent = None
         self.children = []
 
     def __str__(self):
@@ -100,14 +101,8 @@ class Node(object):
         if len(self.attributes) == 0:
             del self.attributes
 
-
-
-
-
-
-
     def hasParent(self):
-        return hasattr(self, "parent") and self.parent != None
+        return self.parent
 
     ##
     # checks whether the node hierarchy leading to node ends with contextPath, ie.
@@ -120,7 +115,7 @@ class Node(object):
 
         currNode = self
         for parent in reversed(parents):
-            if currNode.hasParent():
+            if currNode.parent:
                 if parent == '*' or currNode.parent.type == parent:
                     currNode = currNode.parent
                 else:
@@ -136,7 +131,7 @@ class Node(object):
     def getParentChain(self):
         chain = []
         currNode = self
-        while currNode.hasParent():
+        while currNode.parent:
             chain.append(currNode.parent.type)
             currNode = currNode.parent
         return reversed (chain)
@@ -148,32 +143,10 @@ class Node(object):
         else:
             return [c for c in self.children if c.type not in ("comment", "commentsBefore", "commentsAfter")]
 
-    def hasChildren1(self, ignoreComments = False):
-        if not hasattr(self, "children"):
-            return False
-        elif not ignoreComments:
-            return self.children
-        else:
-            return [c for c in self.children if c.type not in ("comment", "commentsBefore", "commentsAfter")]
-
-    def hasChildren1(self, ignoreComments = False):
-        if not ignoreComments:
-            return hasattr(self, "children") and len(self.children) > 0
-        else:
-            if not hasattr(self, "children"):
-                return False
-
-            for child in self.children:
-                if child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter":
-                    return True
-
     def addChild(self, childNode, index = None):
         if childNode:
-            if childNode.hasParent():
+            if childNode.parent:
                 childNode.parent.removeChild(childNode)
-
-            #if not self.hasChildren():
-            #    self.children = []
 
             if index != None:
                 self.children.insert(index, childNode)
@@ -183,28 +156,21 @@ class Node(object):
         return self
 
     def removeChild(self, childNode):
-        if self.hasChildren():
+        if self.children:
             self.children.remove(childNode)
             childNode.parent = None
-            #if len(self.children) == 0:
-            #    del self.children
 
     def replaceChild(self, oldChild, newChild):
-        if self.hasChildren():
-            if newChild.hasParent():
+        if self.children:
+            if newChild.parent:
                 newChild.parent.removeChild(newChild)
 
             self.children.insert(self.children.index(oldChild), newChild)
             newChild.parent = self
             self.children.remove(oldChild)
 
-
-
-
-
-
     def getChild(self, type, mandatory = True):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.type == type:
                     return child
@@ -219,7 +185,7 @@ class Node(object):
             if self.type in type:
                 return True
 
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.hasChildRecursive(type):
                     return True
@@ -227,7 +193,7 @@ class Node(object):
         return False
 
     def hasChild(self, type):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if isinstance(type, basestring):
                     if child.type == type:
@@ -239,7 +205,7 @@ class Node(object):
         return False
 
     def getChildrenLength(self, ignoreComments=False):
-        if self.hasChildren():
+        if self.children:
             if ignoreComments:
                 counter = 0
                 for child in self.children:
@@ -269,7 +235,7 @@ class Node(object):
             makeComplex = True
 
         elif self.type == "block":
-            if self.hasChildren():
+            if self.children:
                 counter = 0
                 for child in self.children:
                     if child.type != "commentsAfter":
@@ -278,7 +244,7 @@ class Node(object):
                             makeComplex = True
 
         elif self.type == "loop":
-            if self.get("loopType") == "IF" and self.hasParent() and self.parent.type == "elseStatement":
+            if self.get("loopType") == "IF" and self.parent and self.parent.type == "elseStatement":
                 pass
             else:
                 makeComplex = True
@@ -318,12 +284,12 @@ class Node(object):
 
 
 
-        if not self.hasChildren():
+        if not self.children:
             isComplex = False
 
         elif self.type == "block":
             counter = 0
-            if self.hasChildren():
+            if self.children:
                 for child in self.children:
                     if child.type != "commentsAfter":
                         counter += 1
@@ -342,17 +308,17 @@ class Node(object):
                     isComplex = False
 
                 # in else, try to find the mode of the previous if first
-                elif self.hasParent() and self.parent.type == "elseStatement":
+                elif self.parent and self.parent.type == "elseStatement":
                     isComplex = self.parent.parent.getChild("statement").hasComplexBlock()
 
                 # in if, try to find the mode of the parent if (if existent)
-                elif self.hasParent() and self.parent.type == "statement" and self.parent.parent.type == "loop" and self.parent.parent.get("loopType") == "IF":
-                    if self.parent.parent.hasParent() and self.parent.parent.parent.hasParent():
+                elif self.parent and self.parent.type == "statement" and self.parent.parent.type == "loop" and self.parent.parent.get("loopType") == "IF":
+                    if self.parent.parent.parent and self.parent.parent.parent.parent:
                         if self.parent.parent.parent.parent.type == "loop":
                             isComplex = self.parent.parent.parent.parent.getChild("statement").hasComplexBlock()
 
                 # in catch/finally, try to find the mode of the try statement
-                elif self.hasParent() and self.parent.hasParent() and self.parent.parent.type in ["catch", "finally"]:
+                elif self.parent and self.parent.parent and self.parent.parent.type in ["catch", "finally"]:
                     isComplex = self.parent.parent.parent.getChild("statement").hasComplexBlock()
 
         elif self.type == "elseStatement":
@@ -385,7 +351,7 @@ class Node(object):
 
 
     def hasComplexChildren(self):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.makeComplex():
                     return True
@@ -408,7 +374,7 @@ class Node(object):
 
 
     def getChildPosition(self, searchedChild, ignoreComments = False):
-        if self.hasChildren() and searchedChild in self.children:
+        if self.children and searchedChild in self.children:
             if ignoreComments:
                 counter = 0
                 for child in self.children:
@@ -426,7 +392,7 @@ class Node(object):
 
 
     def getChildByPosition(self, pos, mandatory = True, ignoreComments = False):
-        if self.hasChildren():
+        if self.children:
             i = 0
             for child in self.children:
                 if ignoreComments and child.type in ["comment", "commentsBefore", "commentsAfter"]:
@@ -443,7 +409,7 @@ class Node(object):
 
 
     def getChildByAttribute(self, key, value, mandatory = True):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.get(key,mandatory) == value:
                     return child
@@ -452,7 +418,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
     def getChildByTypeAndAttribute(self, type, key, value, mandatory = True):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.type == type and child.get(key,mandatory) == value:
                     return child
@@ -461,7 +427,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no child with type " + type + " and attribute " + key + " = " + value, self)
 
     def getFirstChild(self, mandatory = True, ignoreComments = False):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if ignoreComments and child.type in ["comment", "commentsBefore", "commentsAfter"]:
                     continue
@@ -472,7 +438,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no children", self)
 
     def getLastChild(self, mandatory = True, ignoreComments = False):
-        if self.hasChildren():
+        if self.children:
             if not ignoreComments:
                 return self.children[-1]
             else:
@@ -490,7 +456,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no children", self)
 
     def getPreviousSibling(self, mandatory = True, ignoreComments = False):
-        if self.hasParent():
+        if self.parent:
             prev = None
             for child in self.parent.children:
 
@@ -509,7 +475,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no previous sibling", self)
 
     def getFollowingSibling(self, mandatory = True, ignoreComments = False):
-        if self.hasParent():
+        if self.parent:
             prev = None
 
             for child in self.parent.children:
@@ -526,13 +492,13 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no following sibling", self)
 
     def isFirstChild(self, ignoreComments = False):
-        if not self.hasParent():
+        if not self.parent:
             return False
 
         return self.parent.getFirstChild(False, ignoreComments) == self
 
     def isLastChild(self, ignoreComments = False):
-        if not self.hasParent():
+        if not self.parent:
             return False
 
         return self.parent.getLastChild(False, ignoreComments) == self
@@ -564,7 +530,7 @@ class Node(object):
         return self._getAllChildrenOfType(type, [])
 
     def _getAllChildrenOfType(self, type, found=[]):
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 if child.type == type:
                     found.append(child)
@@ -597,7 +563,7 @@ class Node(object):
         "A generator/iterator method, to traverse a tree and 'yield' each node"
         yield self
 
-        if self.hasChildren():
+        if self.children:
             for child in self.children:
                 for node in child.nodeIter():
                     yield node
@@ -606,7 +572,7 @@ class Node(object):
         """As an alternative, a pure recursion walk that applies a function fn to each node.
            This allows to control the recursion through fn's return value.
            Signature of fn: fn(node,isLeaf)."""
-        if not self.hasChildren():
+        if not self.children:
             rc = fn(self,True)
             return
         else:
