@@ -237,6 +237,31 @@ qx.Class.define("qx.xml.Element",
     {
       var node = this.selectSingleNode(element, query);
       return qx.dom.Node.getText(node);
-    }
+    },
+
+
+    /**
+     * Adds or sets an attribute with the given namespace on a node
+     * 
+     * @param document {Document} The node's parent document, created e.g. by 
+     * {@link qx.xml.Document#create}
+     * @param element {Element} XML/DOM element to modify
+     * @param namespaceUri {String} Namespace URI
+     * @param name {String} Attribute name
+     * @param value {String} Attribute value
+     * @signature function(document, element, namespaceUri, name, value)
+     */
+    setAttributeNS : qx.core.Variant.select("qx.client",
+    {
+      "mshtml": function(document, element, namespaceUri, name, value) {
+        var attr = document.createNode(2, name, namespaceUri);
+        attr.nodeValue = value;
+        element.setAttributeNode(attr);
+      },
+      
+      "default" : function(document, element, namespaceUri, name, value) {
+        element.setAttributeNS(namespaceUri, name, value);        
+      }
+    })
   }
 });

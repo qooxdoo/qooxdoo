@@ -238,6 +238,27 @@ qx.Class.define("qx.test.Xml",
       this.assertEquals(2, templates.length, "getElementsByTagNameNS for element nodes failed!");
 
       this.assertEquals("xsl:template", templates[0].tagName, "getElementsByTagNameNS for element nodes failed!");
+    },
+    
+    
+    /**
+     * TODOC
+     * 
+     */
+    testSetAttributeNS : function()
+    {
+      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
+      var node = doc.createElement("a");
+      var namespaceURI = "http://www.w3.org/2000/xmlns/";
+      qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "xmlns:href", "foo");
+      
+      var nodeVal;
+      if (node.getAttributeNS) {
+        nodeVal = node.getAttributeNS(namespaceURI, "href");
+      } else {
+        nodeVal = node.getAttributeNode("xmlns:href").value;
+      }
+      this.assertEquals("foo", nodeVal);
     }
   }
 });
