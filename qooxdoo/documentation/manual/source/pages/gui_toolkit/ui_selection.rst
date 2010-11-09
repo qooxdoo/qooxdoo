@@ -32,6 +32,7 @@ One possible solution was to have the same methods and events for single and mul
 
 Selection Interfaces
 ====================
+
 |Selection API Interfaces|
 
 .. |Selection API Interfaces| image:: /pages/gui_toolkit/new_selection_api.png

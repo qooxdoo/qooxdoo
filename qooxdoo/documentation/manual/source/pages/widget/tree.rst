@@ -8,6 +8,7 @@ The tree package contains classes that allow you to build up visual trees, like 
 
 Preview Image
 -------------
+
 |widget/tree.png|
 
 .. |widget/tree.png| image:: /pages/widget/tree.png
@@ -29,6 +30,7 @@ A ``Tree`` contains items in an hierarchically structure. The first item inside 
 
 UML Diagram
 -----------
+
 |widget/tree_uml.png|
 
 .. |widget/tree_uml.png| image:: /pages/widget/tree_uml.png

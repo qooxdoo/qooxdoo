@@ -8,6 +8,7 @@ The Menu is a widget that contains different widgets to create a classic menu st
 
 Preview Image
 -------------
+
 |:Menu|
 
 .. |:Menu| image:: /pages/widget/menu.png
@@ -58,6 +59,7 @@ To create a submenu structure, each item (but not separator) can contain a menu 
 
 Diagram
 -------
+
 |Menu_UML|
 
 .. |Menu_UML| image:: /pages/widget/menu_uml.png

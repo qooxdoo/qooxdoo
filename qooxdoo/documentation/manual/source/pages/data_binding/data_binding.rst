@@ -16,6 +16,7 @@ The main idea
 -------------
 
 The main idea of qooxdoo's data binding component is best summarized by the following diagram.
+
 |databindingarchitecture.jpg|
 
 .. |databindingarchitecture.jpg| image:: databindingarchitecture.jpg

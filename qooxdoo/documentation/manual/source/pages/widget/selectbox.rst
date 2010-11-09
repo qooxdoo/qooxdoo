@@ -8,6 +8,7 @@ The SelectBox has the same act like the ComboBox, but the SelectBox doesn't allo
 
 Preview Image
 -------------
+
 |SelectBox|
 
 .. |SelectBox| image:: /pages/widget/selectbox.png

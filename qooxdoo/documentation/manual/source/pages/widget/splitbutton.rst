@@ -8,6 +8,7 @@ The SplitButton acts like a normal button, but it opens a menu when clicking on 
 
 Preview Image
 -------------
+
 |SplitButton|
 
 .. |SplitButton| image:: /pages/widget/splitbutton.png

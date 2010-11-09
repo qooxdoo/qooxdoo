@@ -8,6 +8,7 @@ A ComboBox widget is used to select items from a list or allow customer input. T
 
 Preview Image
 -------------
+
 |ComboBox|
 
 .. |ComboBox| image:: /pages/widget/combobox.png

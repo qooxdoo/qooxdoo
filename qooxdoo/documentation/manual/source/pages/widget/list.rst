@@ -8,6 +8,7 @@ A List widget has items with plain text and/or icon.
 
 Preview Image
 -------------
+
 |List|
 
 .. |List| image:: /pages/widget/list.png

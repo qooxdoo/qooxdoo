@@ -8,6 +8,7 @@ The window widget is similar to Windows’ MDI child windows.
 
 Preview Image
 -------------
+
 |widget/window.png|
 
 .. |widget/window.png| image:: /pages/widget/window.png

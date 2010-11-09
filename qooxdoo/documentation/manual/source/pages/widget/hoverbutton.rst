@@ -8,6 +8,7 @@ The HoverButton is an :doc:`atom`, which fires repeatedly execute events while t
 
 Preview Image
 -------------
+
 |HoverButton|
 
 .. |HoverButton| image:: /pages/widget/button.png
