@@ -162,8 +162,8 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // remove all items without firing an event
         selection.toArray().splice(0, selection.getLength());
       } else {
-        // remove all with firing an event
-        selection.splice(0, this.getSelection().getLength());
+        // remove all with firing an event and get rid of the new array
+        selection.splice(0, this.getSelection().getLength()).dispose();
       }
 
       // go through the target selection
@@ -253,8 +253,8 @@ qx.Mixin.define("qx.data.controller.MSelection",
           if (!qx.lang.Array.contains(
             targetSelectionItems, this.getSelection().getItem(i)
           )) {
-            // remove the current element
-            this.getSelection().splice(i, 1);
+            // remove the current element and get rid of the return array
+            this.getSelection().splice(i, 1).dispose();
           }
         }
 
@@ -264,8 +264,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
         this.__selectItem(
           this.getSelection().getItem(this.getSelection().length - 1)
         );
-        // remove the other items from the selection data array
-        this.getSelection().splice(0, this.getSelection().getLength() - 1);
+        // remove the other items from the selection data array and get 
+        // rid of the return array
+        this.getSelection().splice(
+          0, this.getSelection().getLength() - 1
+        ).dispose();
       }
 
       // reset the changing flag
