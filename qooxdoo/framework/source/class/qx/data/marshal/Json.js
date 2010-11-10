@@ -145,7 +145,8 @@ qx.Class.define("qx.data.marshal.Json",
 
       // create the properties map
       var properties = {};
-      var members = {};
+      // include the disposeItem for the dispose process.
+      var members = {__disposeItem : this.__disposeItem};
       for (var key in data) {
         // stip the unwanted characters
         key = key.replace(/-/g, "");
@@ -196,10 +197,45 @@ qx.Class.define("qx.data.marshal.Json",
         extend : superClass,
         include : mixins,
         properties : properties,
-        members : members
+        members : members,
+        destruct : this.__disposeProperties
       };
 
       qx.Class.define("qx.data.model." + hash, newClass);
+    },
+
+
+    /**
+     * Destructor for all created classes which disposes all stuff stored in 
+     * the properties.
+     */
+    __disposeProperties : function() {
+      var properties = qx.util.PropertyUtil.getAllProperties(this.constructor);
+      for (var desc in properties) {
+        this.__disposeItem(this.get(properties[desc].name));
+      };
+    },
+    
+    
+    /**
+     * Helper for disposing items of the created class.
+     * 
+     * @param item {var} The item to dispose.
+     */
+    __disposeItem : function(item) {
+      if (!(item instanceof qx.core.Object)) {
+        // ignore all non objects
+        return;
+      }
+      // dispose all entires of an array
+      if (qx.Class.implementsInterface(item, qx.data.IListData)) {
+        // dispose all items of the array
+        for (var i=0; i < item.getLength(); i++) {
+          this.__disposeItem(item.getItem(i));
+        };
+      }
+
+      item.dispose();
     },
 
 
