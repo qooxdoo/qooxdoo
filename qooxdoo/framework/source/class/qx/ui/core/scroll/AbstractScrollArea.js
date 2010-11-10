@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       // horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
       var scrollbar = (showY) ? this.getChildControl("scrollbar-y", true) : ( showX ? this.getChildControl("scrollbar-x", true) : null );
       if (scrollbar) {
-        scrollbar.scrollBySteps(e.getWheelDelta());
+        scrollbar.scrollBySteps(Math.ceil(e.getWheelDelta()));
 
         // Stop bubbling and native event only if a scrollbar is visible
         e.stop();
