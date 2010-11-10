@@ -97,20 +97,6 @@ qx.Class.define("testrunner2.unit.TestResult", {
       }
 
       this.fireDataEvent("startTest", test);
-      
-      try {
-        var require = test.getTestClass()["@require " + test.getName()];
-        if (require) {
-          test.getTestClass().require(require);
-        }
-      } catch(ex) {
-        if (ex.classname == "testrunner2.unit.RequirementError") {
-          this._createError("skip", ex, test);
-        } else {
-          this._createError("failure", ex, test);
-        }
-        return;
-      }
 
       if (this._timeout[test.getFullName()])
       {
@@ -237,10 +223,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
     {
       test.tearDown();
       var testClass = test.getTestClass();
-      var specificTearDown = "@tearDown " + test.getName();
-      if (!testClass[specificTearDown]) { 
-        specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
-      }
+      var specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
       }
