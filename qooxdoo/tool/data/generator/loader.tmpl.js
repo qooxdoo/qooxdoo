@@ -139,8 +139,16 @@ qx.$$loader.signalStartup = function ()
 qx.$$loader.init = function(){
   var l=qx.$$loader;
   if (l.urisBefore.length>0){
-    loadScriptList(l.urisBefore, function(){return;});
+    loadScriptList(l.urisBefore, function(){
+      l.initUris();
+    });
+  } else {
+    l.initUris();
   }
+}
+
+qx.$$loader.initUris = function(){
+  var l=qx.$$loader;
   var bootPackageHash=l.packageHashes[l.parts[l.boot][0]];
   if (l.bootIsInline){
     l.importPackageData(qx.$$packageData[bootPackageHash]);
