@@ -21,24 +21,12 @@
       "run" :
       [
         "build-resources",
-        //"build-files",
+        "build-files",
         "build-script",
         "build-tests-script",
         "build-tests-resources",
         "build-tests-files"
-      ],
-      
-      "copy-files" :
-      {
-        "files" :
-        [
-          "index.html",
-          "html"
-        ],
-
-        "target" : "${BUILD_PATH}",
-        "source" : "${TESTRUNNER_ROOT}/source"
-      }
+      ]
     },
     
     "build-inline" :
@@ -48,7 +36,7 @@
       "run" :
       [
         "build-resources",
-        //"build-files",
+        "build-files",
         "build-inline-script"
         //TODO: build-tests-resources, build-tests-files
       ],
@@ -86,7 +74,6 @@
       }
     },
     
-    /*
     "build-files" :
     {
       "extend" : ["testrunner2-common"],
@@ -95,10 +82,7 @@
       {
         "files" :
         [
-          "index-console.html",
-          "index-iframe-source.html",
-          "index-iframe.html",
-          "index-inline.html",
+          "index.html",
           "html"
         ],
 
@@ -106,7 +90,6 @@
         "source" : "${TESTRUNNER_ROOT}/source"
       }
     },
-    */
     
     "build-script" :
     {
@@ -118,7 +101,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTRUNNER}.js" // this should be relative to 'target'
+          "file" : "${BUILD_PATH}/script/testrunner.js" // this should be relative to 'target'
         },
         "code" :
         {
@@ -129,6 +112,12 @@
           "script"   : "script",
           "add-nocache-param" : false
         }
+      },
+      
+      "variants" :
+      {
+        "testrunner2.view" : ["html"],
+        "testrunner2.testOrigin" : ["iframe"]
       },
       
       "compile" : { "type" : "build" }
@@ -144,7 +133,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
+          "file" : "${BUILD_PATH}/script/testrunner.js"
         },
         "uris" : 
         {
@@ -154,6 +143,12 @@
         {
           "locales" : "${LOCALES}"
         }
+      },
+      
+      "variants" :
+      {
+        "testrunner2.view" : ["html"],
+        "testrunner2.testOrigin" : ["iframe"]
       },
       
       "compile" : { "type" : "source" }
@@ -302,7 +297,7 @@
       "run" :
       [
         "build-resources",
-        //"build-files",
+        "build-files",
         "build-script",
         "source-tests-script"
       ],
