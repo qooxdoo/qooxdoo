@@ -35,7 +35,10 @@ qx.Class.define("qx.data.store.Json",
 
 
   /**
-   * @param url {String|null} The url where to find the data.
+   * @param url {String|null} The url where to find the data. The store starts 
+   *   loading as soon as the URL is give. If you want to change some details
+   *   concerning the request, add null here and set the URL as soon as 
+   *   everything is set up.
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
    */
@@ -48,9 +51,7 @@ qx.Class.define("qx.data.store.Json",
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
 
-    if (url != null) {
-      this.setUrl(url);
-    }
+    this.setUrl(url);
   },
 
 
@@ -96,7 +97,8 @@ qx.Class.define("qx.data.store.Json",
     url : {
       check: "String",
       apply: "_applyUrl",
-      event: "changeUrl"
+      event: "changeUrl",
+      nullable: true
     }
   },
 
@@ -127,6 +129,12 @@ qx.Class.define("qx.data.store.Json",
       this.__request = new qx.io.remote.Request(
         url, "GET", "application/json"
       );
+      
+      // register the internal even before the user has the change to 
+      // register its own event in the delegate
+      this.__request.addListener(
+        "completed", this.__requestCompleteHandler, this
+      );
 
       // check for the request configuration hook
       var del = this._delegate;
@@ -134,9 +142,6 @@ qx.Class.define("qx.data.store.Json",
         this._delegate.configureRequest(this.__request);
       }
 
-      this.__request.addListener(
-        "completed", this.__requestCompleteHandler, this
-      );
       // mapp the state to its own state
       this.__request.addListener("changeState", function(ev) {
         this.setState(ev.getData());
