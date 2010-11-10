@@ -8,8 +8,7 @@
     "QOOXDOO_PATH" : "../..",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
-    //"TEST_INCLUDE" : "${APPLICATION}.test.*",
-    "TEST_INCLUDE" : "qx.test.*",
+    "TEST_INCLUDE" : "${APPLICATION}.test.*",
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "THEME"        : "qx.theme.Modern"
@@ -42,8 +41,7 @@
         "qx.theme"         : "${THEME}",
         "qx.version"       : "${QOOXDOO_VERSION}",
         //"qx.testPageUri"   : "html/tests.html",
-        //"qx.testNameSpace" : "${APPLICATION}.test",  // this is common, but not mandatory
-        "qx.testNameSpace" : "qx.test",
+        "qx.testNameSpace" : "${APPLICATION}.test",  // this is common, but not mandatory
         "testrunner.title" : "${APPLICATION}"
       },
 
