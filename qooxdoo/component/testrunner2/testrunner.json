@@ -131,11 +131,6 @@
         }
       },
       
-      "settings" :
-      {
-        "qx.testPageUri"   : "./html/tests.html"
-      },
-      
       "compile" : { "type" : "build" }
     },
     
@@ -159,11 +154,6 @@
         {
           "locales" : "${LOCALES}"
         }
-      },
-      
-      "settings" :
-      {
-        "qx.testPageUri"   : "./html/tests-source.html"
       },
       
       "compile" : { "type" : "source" }
