@@ -220,7 +220,11 @@ qx.Class.define("testrunner2.view.Html", {
           this.__stopButton.disabled = false;
           break;
         case "finished" :
-          this.setStatus("Test suite finished");
+          var statusText = "Test suite finished. ";
+          statusText += " Passed: " + this.getSuccessfulTestCount();
+          statusText += " Failed: " + this.getFailedTestCount();
+          statusText += " Skipped: " + this.getSkippedTestCount();
+          this.setStatus(statusText);
           this.__runButton.disabled = true;
           this.__stopButton.disabled = true;
           break;
