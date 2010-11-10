@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #asset(qx/test/*)
+#ignore(qx.Test)
 
 ************************************************************************ */
 
@@ -579,6 +580,24 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       // check the model
       this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
+    },
+    
+    
+    testDeepModelDispose : function() {
+      var data = {a: [{}, {}], o: {}, n: null};
+      var model = qx.data.marshal.Json.createModel(data);
+      // get all references
+      var o = model.getO();
+      var a = model.getA();
+      var c0 = model.getA().getItem(0);
+      var c1 = model.getA().getItem(1);
+      // dispose the model
+      model.dispose();
+      this.assertTrue(model.isDisposed(), "model");
+      this.assertTrue(o.isDisposed(), "object");
+      this.assertTrue(a.isDisposed(), "array");
+      this.assertTrue(c0.isDisposed(), "array item");
+      this.assertTrue(c1.isDisposed(), "array item");
     }
 
   }
