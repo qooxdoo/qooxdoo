@@ -75,6 +75,28 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       this.assertIcon(item, this.ICON_OPENED);
     },
 
+    // Opened icon should not be set to closed icon when icon property is set
+    testSetIconNotInterfereWithCurrent : function() {
+      var item = this.__item;
+      item.setOpen(true);
+
+      item.setIconOpened(this.ICON_OPENED);
+      item.setIcon(this.ICON_CLOSED);
+
+      this.assertIcon(item, this.ICON_OPENED);
+    },
+
+    // Closed icon should not be set to opened icon when iconOpened property is set
+    testSetIconOpenedNotInterfereWithCurrent : function() {
+      var item = this.__item;
+      item.setOpen(false);
+
+      item.setIcon(this.ICON_CLOSED);
+      item.setIconOpened(this.ICON_OPENED);
+
+      this.assertIcon(item, this.ICON_CLOSED);
+    },
+
     assertIcon : function(item, expected) {
       this.assertEquals(expected, item.getChildControl('icon').getSource(),
         "Unexpected source for icon child control");

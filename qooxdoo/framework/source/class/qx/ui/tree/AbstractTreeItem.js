@@ -383,7 +383,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     // property apply
     _applyIcon : function(value, old)
     {
-      this.__setIconSource(value);
+      if (!this.isOpen()) {
+        this.__setIconSource(value);
+      }
     },
 
 
