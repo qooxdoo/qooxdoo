@@ -160,7 +160,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
             this.callTearDown(test);
           } catch(except) {}
           this._createError("failure", ex, test);
-        } else if (ex.classname == "testrunner2.unit.RequirementError") {
+        } else if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", ex, test);
           } else {
           try {
