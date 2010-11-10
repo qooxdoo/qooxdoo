@@ -80,10 +80,7 @@ qx.Class.define("testrunner2.test.DemoTest",
 
       this.wait();
     },
-    
-    
-    //"@require testSsl" : [ ["Opera", ">=", 9] ],
-    //"@require testSsl" : ["ssl"],
+
     testSsl : function() 
     {
       this.require(["ssl"]);
@@ -115,7 +112,6 @@ qx.Class.define("testrunner2.test.DemoTest",
     },
     
     tearDownTestAsyncBom : function()
-    //"@tearDown testAsyncBom" : function()
     {
       this.info("test specific teardown for testAsyncBom");
       qx.event.Registration.removeAllListeners(this._el);
