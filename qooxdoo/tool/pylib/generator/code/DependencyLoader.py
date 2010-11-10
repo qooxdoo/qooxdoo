@@ -289,11 +289,6 @@ class DependencyLoader(object):
             "ignore" : static['ignore'],
         }
 
-        #if fileId == "demobrowser.demo.data.model.Node":
-        #    import pprint
-        #    pprint.pprint(deps)
-        #    #import pydb; pydb.debugger()
-
         return deps, cached
 
 
