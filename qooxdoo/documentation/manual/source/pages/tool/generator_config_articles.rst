@@ -103,13 +103,12 @@ In the build version without dedicated I18N parts (case 2.1), those class data i
 Compile cache
 -------------
 
-The main payload of the ``:ref:`cache <pages/tool/generator_config_ref#cache_key>``` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
+The main payload of the :ref:`cache <pages/tool/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
 
-The default for the cache directory is beneath the system TMP directory. To find out where this is either run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this :ref:`snippet <pages/snippets#finding_your_system-wide_tmp_directory>`.
+The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this :ref:`snippet <pages/snippets#finding_your_system-wide_tmp_directory>`.
 
 The compile cache directory can become very large in terms of contained files, and a count of a couple of thousand files is not unusual. You should take care that your file system is equipped to comply with these demands. Additionally, disk I/O is regularly high on this directory so a fast, local disk is recommendable. Don't use a network drive :-) .
 
-A word of advice is also in place for the time being: Cache management is not optimal currently. If you experience strange results or error messages during development, deleting the cache directory is sometimes the necessary and sufficient cure. We hope to improve this in the future.
 
 .. _pages/tool/generator_config_articles#let_key:
 
@@ -154,7 +153,7 @@ With imported jobs top-level definitions will take precedence over any definitio
 "log" Key
 =========
 
-Logging is an important part of any reasonably complex application. The Generator does a fair bit of logging to the console by default, listing the jobs it performs, adding details of important processing steps and reporting on errors and potential inconsistencies. The ``:ref:`log <pages/tool/generator_config_ref#log>``` key lets you specify further options and tailor the Generator console output to your needs. You can e.g. add logging of unused classes in a  particular library/name space.
+Logging is an important part of any reasonably complex application. The Generator does a fair bit of logging to the console by default, listing the jobs it performs, adding details of important processing steps and reporting on errors and potential inconsistencies. The :ref:`log <pages/tool/generator_config_ref#log>` key lets you specify further options and tailor the Generator console output to your needs. You can e.g. add logging of unused classes in a  particular library/name space.
 
 .. _pages/tool/generator_config_articles#extend_key:
 
@@ -166,7 +165,7 @@ Logging is an important part of any reasonably complex application. The Generato
 Job resolution
 --------------
 
-``extend`` and ``run`` keywords are currently the only keywords that reference other jobs. These references have to be resolved, by looking them up (or "evaluating" the names) in some context. One thing to note here is that job names are evaluated **in the context of the current job map**. As you will see (see section on :ref:`top-level "include"s <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`), a single configuration might eventually contain jobs from multiple config files, the local job definitions, and zero to many imported job maps (from other config files), which again might contain imported configs. From within any map, only those jobs are referenceable that are **contained** somewhere in this map. Unqualified names (like "myjob") are taken to refer to jobs on the same level as the current job, path-like names (containing "/") are taken to signify a job in some nested name space down from the current level. Particularly, this means you can never reference a job in a map which is "parallel" to the current job map. It's only jobs on the same level or deeper.
+``extend`` and ``run`` keywords are currently the only keywords that reference other jobs. These references have to be resolved, by looking them up (or "evaluating" the names) in some context. One thing to note here is that job names are evaluated **in the context of the current configuration**. As you will see (see section on :ref:`top-level "include"s <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`), a single configuration might eventually contain jobs from multiple config files, the local job definitions, and zero to many imported job maps (from other config files), which again might contain imported configs. From within any map, only those jobs are referenceable that are **contained** somewhere in this map. Unqualified names (like "myjob") are taken to refer to jobs on the same level as the current job, path-like names (containing "/") are taken to signify a job in some nested name space down from the current level. Particularly, this means you can never reference a job in a map which is "parallel" to the current job map. It's only jobs on the same level or deeper.
 
 This is particularly important for imported configs (imported with a top-level "include" keyword, see further :ref:`down <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`). Those configs get attached to the local "jobs" map under a dedicated key (their "name space" if you will). If in this imported map there is a "run" job (see the :ref:`next section <pages/tool/generator_config_articles#extending_jobs>`) using unqualified job names, these job names will be resolved using the imported map, not the top-level map. If the nested "run" job uses path-like job names, these jobs will be searched for **relative** to the nested map. You get it?!
 
@@ -605,7 +604,7 @@ So in short, the ``ROOT``, ``BUILD_PATH``, ``API_INCLUDE`` and ``API_EXCLUDE`` m
 "optimize" Key
 ==============
 
-The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/generator_config_ref#compile>`. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. Currently, there are four categories which can be optimized.
+The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/generator_config_ref#compile>`. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. The best way to set this key is by setting the :doc:`OPTIMIZE macro </pages/tool/generator_config_macros>` in your config's global *let* section. Currently, there are four categories which can be optimized.
 
 .. _pages/tool/generator_config_articles#strings:
 
