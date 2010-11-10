@@ -275,9 +275,21 @@ div.body h6 {
     font-family: {{ theme_headfont }};
     font-weight: bold;
     color: {{ theme_headtextcolor }};
+    line-height: 130%;
+}
+
+div.body h1,
+div.body h2 {
     margin: 0px -20px 4px 0px;
     padding: 16px 0 3px 0px;
-    line-height: 130%;
+}
+
+div.body h3,
+div.body h4,
+div.body h5,
+div.body h6 {
+    margin: 0px -20px 4px 0px;
+    padding: 0px 0 3px 0px;
 }
 
 div.body h3,
@@ -293,8 +305,8 @@ div.body h1 { margin-top: 0; font-size: 24px; }
 div.body h2 { font-size: 20px; }
 div.body h3 { font-size: 18px; }
 div.body h4 { font-size: 16px; }
-div.body h5 { font-size: 15px; }
-div.body h6 { font-size: 14px; }
+div.body h5 { font-size: 14px; }
+div.body h6 { font-size: 12px; }
 
 a.headerlink {
     color: {{ theme_headlinkcolor }};
