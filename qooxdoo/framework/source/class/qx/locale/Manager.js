@@ -260,8 +260,12 @@ qx.Class.define("qx.locale.Manager",
     // property apply
     _applyLocale : function(value, old)
     {
-        if(!(value in this.__locales || value==this.__clientLocale))
-            qx.log.Logger.warn("Locale: " + value+" not available.");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (!(value in this.__locales || value == this.__clientLocale)) {
+          qx.log.Logger.warn("Locale: " + value+" not available.");
+        }
+      }
+
       this.__locale = value;
       this.__language = this.__extractLanguage(value);
     },
