@@ -112,12 +112,24 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * Any URI String supported by qx.ui.basic.Image to display a icon
+     * URI of "closed" icon. Can be any URI String supported by qx.ui.basic.Image.
      **/
     icon :
     {
       check : "String",
       apply : "_applyIcon",
+      nullable : true,
+      themeable : true
+    },
+
+
+    /**
+     * URI of "opened" icon. Can be any URI String supported by qx.ui.basic.Image.
+     **/
+    iconOpened :
+    {
+      check : "String",
+      apply : "_applyIconOpened",
       nullable : true,
       themeable : true
     },
@@ -151,6 +163,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     __labelAdded : null,
     __iconAdded : null,
     __spacer : null,
+    __closedIcon : null,
 
 
     /**
@@ -370,9 +383,15 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     // property apply
     _applyIcon : function(value, old)
     {
-      var icon = this.getChildControl("icon", true);
-      if (icon) {
-        icon.setSource(value);
+      this.__setIconSource(value);
+    },
+
+
+    // property apply
+    _applyIconOpened : function(value, old)
+    {
+      if (this.isOpen()) {
+        this.__setIconSource(value);
       }
     },
 
@@ -390,6 +409,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     // property apply
     _applyOpen : function(value, old)
     {
+      
       if (this.hasChildren()) {
         this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
       }
@@ -399,7 +419,41 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         open.setOpen(value);
       }
 
+      //
+      // Determine source of icon for "opened" or "closed" state
+      //
+      var source;
+      
+      // Opened
+      if (value) {
+        source = this.getIconOpened();
+      }
+      
+      // Closed
+      else {
+        source = this.getIcon();
+      }
+      
+      
+      if (source) {
+        this.__setIconSource(source);
+      }
+
       value ? this.addState("opened") : this.removeState("opened");
+
+    },
+
+    /**
+    * Set source of icon child control
+    * 
+    * @param url {String} The URL of the icon
+    * @return {void}
+    */
+    __setIconSource : function(url) {
+      var icon = this.getChildControl("icon", true);
+      if (icon) {
+        icon.setSource(url);
+      }
     },
 
 
