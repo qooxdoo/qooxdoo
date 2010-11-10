@@ -47,6 +47,16 @@
         "qx.nativeScrollBars" : true
       }
     },
+
+
+    "build-resources" : // this is just to match the variants of build-script
+    {
+      "variants" :
+      {
+        "=qx.debug" : ["on"]
+      }
+    },
+
     
     "source" :
     {
