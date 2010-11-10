@@ -254,7 +254,8 @@ qx.Class.define("qx.data.Array",
      *   at the given position.
      * @param varargs {var} All following parameters will be added at the given
      *   position to the array.
-     * @return {qx.data.Array} An array containing the removed elements.
+     * @return {qx.data.Array} An data array containing the removed elements. 
+     *   Keep in to dispose this one, even if you don't use it!
      */
     splice: function(startIndex, amount, varargs) {
       // store the old length
