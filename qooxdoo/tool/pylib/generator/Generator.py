@@ -1819,7 +1819,7 @@ class Generator(object):
         generator = self
         #generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
         copier = copytool.CopyTool(generator._console)
-        args      = ['-s', '-u', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
+        args      = ['-s', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
         copier.parse_args(args)
         copier.do_work()
 
