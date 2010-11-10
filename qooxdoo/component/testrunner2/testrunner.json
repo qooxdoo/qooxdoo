@@ -32,10 +32,7 @@
       {
         "files" :
         [
-          //"index-console.html",
-          //"index-iframe-source.html",
           "index-iframe.html",
-          //"index-inline.html",
           "html"
         ],
 
@@ -60,9 +57,6 @@
       {
         "files" :
         [
-          //"index-console.html",
-          //"index-iframe-source.html",
-          //"index-iframe.html",
           "index-inline.html",
           "html"
         ],
@@ -124,7 +118,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTRUNNER}-{testrunner2.view}-{testrunner2.testOrigin}.js" // this should be relative to 'target'
+          "file" : "${BUILD_PATH}/script/${TESTRUNNER}.js" // this should be relative to 'target'
         },
         "code" :
         {
@@ -155,7 +149,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${APPLICATION}-{testrunner2.view}-{testrunner2.testOrigin}.js"
+          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
         },
         "uris" : 
         {
@@ -327,10 +321,7 @@
       {
         "files" :
         [
-          //"index-console.html",
-          "index-iframe-source.html",
-          //"index-iframe.html",
-          //"index-inline.html",
+          "index-source.html",
           "html"
         ],
 

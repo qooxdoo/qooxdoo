@@ -60,10 +60,7 @@
       {
         "=files" :
         [
-          "index-console.html",
-          "index-iframe-source.html",
-          "index-iframe.html",
-          "index-inline.html",
+          "index.html",
           "html"
         ]
       }
@@ -71,19 +68,11 @@
     
     "build-script" :
     {
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "${BUILD_PATH}/script/${APPLICATION}-{testrunner2.view}-{testrunner2.testOrigin}.js"
-        }
-      },
-      
       "settings" :
       {
         "qx.testNameSpace" : "${TEST_NAMESPACE}"
       }
-    },
+    },  
     
     "build" :
     {
@@ -95,8 +84,10 @@
       
       "=run" :
       [
+        "build-resources",
+        "build-files",
         "build-script",
-        "build-tests-script"
+        "testrunner2::build-tests-script"
       ]
     },
     
@@ -123,7 +114,7 @@
       {
         "paths" :
         {
-          "file" : "./source/script/${APPLICATION}-{testrunner2.view}-{testrunner2.testOrigin}.js"
+          "file" : "./source/script/${APPLICATION}.js"
         }
       },
       
