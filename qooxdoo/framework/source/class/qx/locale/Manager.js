@@ -59,6 +59,8 @@ qx.Class.define("qx.locale.Manager",
     if (variant !== "") {
       locale += "_" + variant;
     }
+    
+    this.__clientLocale = locale;
 
     this.setLocale(locale || this.__defaultLocale);
   },
@@ -79,7 +81,7 @@ qx.Class.define("qx.locale.Manager",
      *
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String} The translated string
+     * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     tr : function(messageId, varargs)
@@ -100,7 +102,7 @@ qx.Class.define("qx.locale.Manager",
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} singular form if equals 1, otherwise plural
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String} The translated string
+     * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
@@ -125,7 +127,7 @@ qx.Class.define("qx.locale.Manager",
      * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String} The translated string
+     * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     trc : function(hint, messageId, varargs)
@@ -186,6 +188,7 @@ qx.Class.define("qx.locale.Manager",
     __language : null,
     __translations : null,
     __locales : null,
+    __clientLocale : null,
 
     /**
      * Get the language code of the current locale
@@ -257,6 +260,12 @@ qx.Class.define("qx.locale.Manager",
     // property apply
     _applyLocale : function(value, old)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (!(value in this.__locales || value == this.__clientLocale)) {
+          qx.log.Logger.warn("Locale: " + value+" not available.");
+        }
+      }
+
       this.__locale = value;
       this.__language = this.__extractLanguage(value);
     },
