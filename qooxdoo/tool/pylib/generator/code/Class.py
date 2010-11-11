@@ -904,7 +904,7 @@ class Class(Resource):
         #
         # @param deps accumulator variable set((c1,m1), (c2,m2),...)
         
-        def getTransitiveDepsR1(dependencyItem, variants, totalDeps):
+        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
 
             # We don't add the in-param to the global result
             classId  = dependencyItem.name
@@ -987,7 +987,7 @@ class Class(Resource):
             return localDeps
 
 
-        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
+        def getTransitiveDepsR1(dependencyItem, variants, totalDeps):
 
             # We don't add the in-param to the global result
             classId  = dependencyItem.name
