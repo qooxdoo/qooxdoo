@@ -149,9 +149,7 @@ qx.Class.define("qx.ui.control.Progressbar",
       from = Math.round(from * 100);
       to = Math.round(to * 100);
 
-      var progress = this.getChildControl("progress");
-      var dom = progress.getContainerElement().getDomElement();
-      this.add(progress, { width: to + "%" });
+      this.add(this.getChildControl("progress"), { width: to + "%" });
     }
   }
 });
