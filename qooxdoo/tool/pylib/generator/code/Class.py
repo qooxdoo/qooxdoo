@@ -136,7 +136,7 @@ class Class(Resource):
             #print "Caching %s" % cacheId
             tree.cacheId = cacheId
             # add scope analysis
-            tree.scopes  = Script(tree, self.id)
+            #tree.scopes  = Script(tree, self.id)
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
 
             console.outdent()
@@ -184,7 +184,7 @@ class Class(Resource):
                 #print "Caching %s" % cacheId
                 opttree.cacheId = cacheId
                 # add scope analysis
-                opttree.scopes  = Script(opttree, self.id)
+                #opttree.scopes  = Script(opttree, self.id)
                 cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return opttree
@@ -719,7 +719,7 @@ class Class(Resource):
             #    using __memo allows at least to re-use the existing script when a class is worked
             #    on and this method is called successively for the same tree.
             rootNode = findRoot(node)
-            return rootNode.scopes
+            #return rootNode.scopes
 
             if _memo[0] == rootNode:
                 #print "-- re-using scopes for: %s" % fileId

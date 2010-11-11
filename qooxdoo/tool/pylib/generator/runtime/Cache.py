@@ -302,6 +302,16 @@ class Cache(object):
             memcache[cacheId] = {'time': time.time(), 'content':content}
 
 
+    def remove(self, cacheId, writeToFile=False):
+        if cacheId in memcache:
+           entry = memcache[cacheId]
+           del memcache[cacheId]
+           return entry['content'], entry['time']
+        else:
+            return None, None
+
+
+
 ##
 # Caching decorator
 def caching(cacheobj, keyfn):
