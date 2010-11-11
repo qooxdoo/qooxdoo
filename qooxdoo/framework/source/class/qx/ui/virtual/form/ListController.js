@@ -47,8 +47,6 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     if (target != null) {
       this.setTarget(target);
     }
-    
-    this.__lookupTable = [];
   },
 
 
