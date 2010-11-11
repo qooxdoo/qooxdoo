@@ -51,7 +51,9 @@ qx.Class.define("qx.data.store.Json",
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
 
-    this.setUrl(url);
+    if (url != null) {
+      this.setUrl(url);      
+    }
   },
 
 
