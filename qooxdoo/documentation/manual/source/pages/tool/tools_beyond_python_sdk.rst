@@ -21,10 +21,10 @@ Python Modules
    * - `elementtree <http://effbot.org/zone/element-index.htm>`_
      - `old-style Python <http://effbot.org/zone/copyright.htm>`_ `(HPND) <http://www.opensource.org/licenses/historical.php>`_
  
-   * - `graph <http://code.google.com/p/python-graph>`_
+   * - `graph <http://pypi.python.org/pypi/python-graph>`_
      - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
  
-   * - `polib <http://code.google.com/p/polib>`_
+   * - `polib <http://pypi.python.org/pypi/polib>`_
      - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
  
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
@@ -32,6 +32,9 @@ Python Modules
  
    * - `textile <http://code.google.com/p/pytextile/>`_
      - `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+ 
+   * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
+     - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
 .. _pages/tools_beyond_python_sdk#other:
 
