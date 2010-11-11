@@ -258,6 +258,19 @@ qx.Class.define("qx.test.Xml",
       else {
         this.assertEquals(namespaceURI, node.getAttributeNode("qxid").namespaceURI);
       }
+    },
+
+    testCreateSubElementNS : function()
+    {
+      var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>.</body></html>';
+      var doc = qx.xml.Document.fromString(xmlStr);
+      var parent = doc.getElementsByTagName("em")[0];
+      var namespaceUri = "http://qooxdoo.org";
+      var subElem = qx.xml.Element.createSubElementNS(doc, parent, "foo", namespaceUri);
+      
+      var createdNode = qx.xml.Element.getElementsByTagNameNS(doc.documentElement, namespaceUri, "foo")[0];
+      this.assertEquals(subElem, createdNode);
+      this.assertTrue(subElem.parentNode == parent);
     }
   }
 });

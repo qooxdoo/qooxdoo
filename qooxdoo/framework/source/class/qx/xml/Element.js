@@ -262,6 +262,39 @@ qx.Class.define("qx.xml.Element",
       "default" : function(document, element, namespaceUri, name, value) {
         element.setAttributeNS(namespaceUri, name, value);        
       }
+    }),
+    
+    
+    /**
+     * Creates an element with the given namespace and appends it to an existing
+     * element
+     * 
+     * @param document {Document} The node's parent document, created e.g. by 
+     * {@link qx.xml.Document#create}
+     * @param parent {Element} The parent element for the new sub-element
+     * @param name {String} The new element's name
+     * @param namespaceUri {String} Namespace URI for the new element
+     * @signature function(document, parent, name, namespaceUri)
+     * 
+     * @return {Element} The newly created sub-element
+     */
+    createSubElementNS: qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(document, parent, name, namespaceUri) {
+        var node = document.createNode(1, name, namespaceUri);
+        parent.appendChild(node);
+        return node;
+      },
+      
+      "default" : function(document, parent, name, namespaceUri) {
+        // the "x" prefix has no importance. when there's a conflict,
+        // mozilla engine assigns an alternative prefix automatically.
+        // not putting a prefix means to assign default namespace prefix
+        // to the given namespace uri.
+        var node = document.createElementNS(namespaceUri, "x:" + name);
+        parent.appendChild(node);
+        return node;
+      }
     })
   }
 });
