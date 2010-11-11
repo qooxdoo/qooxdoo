@@ -95,12 +95,24 @@ class Class(Resource):
     type = property(_getType)
 
 
+    def _getClassCache(self):
+        cache = self.context["cache"]
+        classInfo, modTime = cache.read(self.cacheId, self.path)
+        if classInfo:
+            return classInfo, modTime
+        else:
+            return {}, None
+ 
+    def _writeClassCache(self, data):
+        cache = self.context["cache"]
+        cache.write(self.cacheId, data)
+
+
     # --------------------------------------------------------------------------
     #   Tree Interface
     # --------------------------------------------------------------------------
 
-    def _getSourceTree(self, cacheId):
-        tradeSpaceForSpeed = False
+    def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
 
         # Lookup for unoptimized tree
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
@@ -135,10 +147,10 @@ class Class(Resource):
 
         classVariants    = []
         tree             = None
-        classVariants    = getClassVariants(self.id, self.path, None, context["cache"], context["console"], generate=False) # just check the cache
+        classVariants    = self.classVariants(generate=False) # just check the cache
         if classVariants == None:
-            tree = self._getSourceTree(unoptCacheId)
-            classVariants= getClassVariantsFromTree(tree, context["console"])
+            tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
+            classVariants= self._variantsFromTree(tree)
 
         relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "tree-%s-%s" % (self.path, util.toString(relevantVariants))
@@ -153,7 +165,7 @@ class Class(Resource):
             if tree:
                 opttree = tree
             else:
-                opttree = self._getSourceTree(unoptCacheId)
+                opttree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
             # do we have to optimze?
             if cacheId == unoptCacheId:
                 return opttree
@@ -187,7 +199,7 @@ class Class(Resource):
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
                 tree = self.tree({})  # get complete tree
-                classvariants = getClassVariantsFromTree(tree, self.context["console"])       # get variants used in qx.core.Variant...(<variant>,...)
+                classvariants = self._variantsFromTree(tree)       # get variants used in qx.core.Variant...(<variant>,...)
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
@@ -197,10 +209,33 @@ class Class(Resource):
 
         return classvariants
 
+    ##
+    # helper that operates on ecmascript.frontend.tree
+    #
+    # This helper is used by both, tree() and classVariants(), to resolve mutual
+    # recursion where tree() calls classVariants(), and classVariants() calls tree().
+    #
+    def _variantsFromTree(self, node):
+        classvariants = set([])
+        # mostly taken from ecmascript.transform.optimizer.variantoptimizer
+        variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
+        for variant in variants:
+            if not variant.hasParentContext("call/operand"):
+                continue
+            variantMethod = treeutil.selectNode(variant, "identifier[4]/@name")
+            if variantMethod not in ["select", "isSet", "compilerIsSet"]:
+                continue
+            firstParam = treeutil.selectNode(variant, "../../params/1")
+            if firstParam and treeutil.isStringLiteral(firstParam):
+                classvariants.add(firstParam.get("value"))
+            else:
+                console.warn("! qx.core.Variant call without literal argument")
+        return classvariants
 
-    # -------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     #   Compile Interface
-    # -------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def getCode(self, optimize=None, variants={}, format=False, source_with_comments=False):
         result = u''
@@ -1386,48 +1421,4 @@ def projectClassVariantsToCurrent(classVariants, variantSet):
         if key in classVariants:
             res[key] = variantSet[key]
     return res
-
-
-##
-# helper that operates on ecmascript.frontend.tree
-def getClassVariantsFromTree(node, console):
-    classvariants = set([])
-    # mostly taken from ecmascript.transform.optimizer.variantoptimizer
-    variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
-    for variant in variants:
-        if not variant.hasParentContext("call/operand"):
-            continue
-        variantMethod = treeutil.selectNode(variant, "identifier[4]/@name")
-        if variantMethod not in ["select", "isSet", "compilerIsSet"]:
-            continue
-        firstParam = treeutil.selectNode(variant, "../../params/1")
-        if firstParam and treeutil.isStringLiteral(firstParam):
-            classvariants.add(firstParam.get("value"))
-        else:
-            console.warn("! qx.core.Variant call without literal argument")
-
-    return classvariants
-
-##
-# look for places where qx.core.Variant.select|isSet|.. are called
-# and return the list of first params (the variant name)
-# @cache
-
-def getClassVariants(fileId, filePath, treeLoader, cache, console, generate=True):
-
-    cacheId   = "class-%s" % (filePath,)
-    classinfo, _ = cache.readmulti(cacheId, filePath)
-    classvariants = None
-    if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
-        if generate:
-            tree = treeLoader.getTree(fileId, {})  # get complete tree
-            classvariants = getClassVariantsFromTree(tree, console)       # get variants used in qx.core.Variant...(<variant>,...)
-            if classinfo == None:
-                classinfo = {}
-            classinfo['svariants'] = classvariants
-            cache.writemulti(cacheId, classinfo)
-    else:
-        classvariants = classinfo['svariants']
-
-    return classvariants
 
