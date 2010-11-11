@@ -591,6 +591,24 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "effect",
         styleBottom : "solid"
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "progressbar" : 
+    {
+      decorator: qx.ui.decoration.Single,
+      
+      style: 
+      {
+        backgroundColor: "#FFF",
+        width: 1,
+        color: "border-separator"
+      }
     }
   }
 });

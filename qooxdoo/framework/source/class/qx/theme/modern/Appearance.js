@@ -2819,6 +2819,32 @@ qx.Theme.define("qx.theme.modern.Appearance",
           backgroundColor : "white"
         };
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSBAR
+    ---------------------------------------------------------------------------
+    */
+    "progressbar": 
+    {
+      style: function(states) {
+        return {
+          decorator: "progressbar",
+          padding: [1],
+          backgroundColor: "white"
+        }
+      }
+    },
+    
+    "progressbar/progress": 
+    {
+      style: function(states) {
+        return {
+          decorator: "selected"
+        }
+      }
     }
   }
 });

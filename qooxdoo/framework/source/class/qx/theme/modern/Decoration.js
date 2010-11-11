@@ -936,7 +936,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       APPLICATION
@@ -953,7 +952,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
 
-    }
+    },
 
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "progressbar" : 
+    {
+      decorator: qx.ui.decoration.Single,
+      
+      style: 
+      {
+        width: 1,
+        color: "border-input"
+      }
+    }
   }
 });
