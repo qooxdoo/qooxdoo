@@ -27,9 +27,6 @@ Python Modules
    * - `polib <http://code.google.com/p/polib>`_
      - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
  
-   * - `robocopy <http://code.activestate.com/recipes/231501/>`_
-     - `Python <http://www.python.org/psf/license/>`_ (see `Note <http://code.activestate.com/help/terms/>`_)
- 
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
  
