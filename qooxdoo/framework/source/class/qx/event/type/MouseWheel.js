@@ -29,8 +29,19 @@ qx.Class.define("qx.event.type.MouseWheel",
      * The maximal mesured scroll wheel delta.
      * @internal
      */
-    MAXSCROLL : 1
+    MAXSCROLL : 1,
+    
+    
+    /**
+     * Calculation factor for browsers with known problems with the
+     * automatic calculation.
+     * @internal
+     */
+    BROWSER_FACTOR : {
+      "gecko" : 1
+    }
   },
+
 
   members :
   {
@@ -48,6 +59,12 @@ qx.Class.define("qx.event.type.MouseWheel",
      * @param delta {Number} The mouse delta.
      */
     __normalize : function(delta) {      
+      // special case for knwon browsers
+      var id = qx.bom.client.Engine.NAME;
+      if (qx.event.type.MouseWheel.BROWSER_FACTOR[id]) {
+        return qx.event.type.MouseWheel.BROWSER_FACTOR[id] * delta;
+      }
+      
       // store the max value
       var absDelta = Math.abs(delta)
       if (qx.event.type.MouseWheel.MAXSCROLL < absDelta) {
@@ -70,7 +87,6 @@ qx.Class.define("qx.event.type.MouseWheel",
     /**
      * Get the amount the wheel has been scrolled
      *
-     * @signature function()
      * @return {Integer} Scroll wheel movement
      */
     getWheelDelta : function() {
