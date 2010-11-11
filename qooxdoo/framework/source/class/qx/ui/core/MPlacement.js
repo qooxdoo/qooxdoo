@@ -268,14 +268,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       if (visible) {
         
         var bounds = this.getBounds();
-        var elemBounds = visible.getBounds();
+        var elemLocation = visible.getContentLocation();
         
         // if we have bounds for both elements
-        if (bounds && elemBounds) {
-          var elemLeft = elemBounds.left;
-          var elemRight = elemBounds.left + elemBounds.width;
-          var elemTop = elemBounds.top;
-          var elemBottom = elemBounds.top + elemBounds.height;          
+        if (bounds && elemLocation) {         
           var bottom = top + bounds.height;
           var right = left + bounds.width;
 
@@ -294,10 +290,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
           //   ---------
           //     | 4 |
           if (
-            (right > elemLeft && left < elemRight) && 
-            (bottom > elemTop && top < elemBottom)
+            (right > elemLocation.left && left < elemLocation.right) && 
+            (bottom > elemLocation.top && top < elemLocation.bottom)
           ) {
-            left = Math.max(elemLeft - bounds.width, 0);
+            left = Math.max(elemLocation.left - bounds.width, 0);
           }
         }
       }
@@ -305,7 +301,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       if (this.getDomMove()) {
         this.setDomPosition(left, top);
       } else {
-        this.setLayoutProperties({ left: left, top: top });
+        this.setLayoutProperties({left: left, top: top});
       }
     },
 
