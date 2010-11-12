@@ -114,7 +114,7 @@
       {
         "paths" :
         {
-          "file" : "./source/script/${APPLICATION}.js"
+          "file" : "./source/script/testrunner.js"
         }
       },
       
