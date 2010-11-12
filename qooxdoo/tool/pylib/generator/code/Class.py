@@ -194,9 +194,7 @@ class Class(Resource):
 
     def classVariants(self, generate=True):
 
-        cache     = self.context["cache"]
-        cacheId   = "class-%s" % (self.path,)
-        classinfo, _ = cache.readmulti(cacheId, self.path)
+        classinfo, _ = self._getClassCache()
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
@@ -205,7 +203,7 @@ class Class(Resource):
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
-                cache.writemulti(cacheId, classinfo)
+                self._writeClassCache (classinfo)
         else:
             classvariants = classinfo['svariants']
 
@@ -436,14 +434,17 @@ class Class(Resource):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
-        deps, cacheModTime = cache.readmulti(cacheId, self.path)
+        classInfo, cacheModTime = self._getClassCache()
+        deps =  classInfo[cacheId] if cacheId in classInfo else None
 
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
             deps = buildTransitiveDeps(deps)
-            cache.writemulti(cacheId, deps)
+            classInfo[cacheId] = deps
+            self._writeClassCache(classInfo)
+
         
         return deps, cached
 
