@@ -1391,13 +1391,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var icon, iconOpened;
         if (states.small) {
-          icon = states.opened ? "icon/16/places/folder.png" : "icon/16/places/folder-open.png";
+          icon = states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png";
           iconOpened = "icon/16/places/folder-open.png";
         } else if (states.large) {
-          icon = states.opened ? "icon/32/places/folder.png" : "icon/32/places/folder-open.png";
+          icon = states.opened ? "icon/32/places/folder-open.png" : "icon/32/places/folder.png";
           iconOpened = "icon/32/places/folder-open.png";
         } else {
-          icon = states.opened ? "icon/22/places/folder.png" : "icon/22/places/folder-open.png";
+          icon = states.opened ? "icon/22/places/folder-open.png" : "icon/22/places/folder.png";
           iconOpened = "icon/22/places/folder-open.png";
         }
 

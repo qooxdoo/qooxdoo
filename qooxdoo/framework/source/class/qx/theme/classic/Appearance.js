@@ -1200,7 +1200,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [2, 3, 2, 0],
-          icon : states.opened ? "icon/16/places/folder.png" : "icon/16/places/folder-open.png",
+          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
           iconOpened : "icon/16/places/folder-open.png"
         };
       }
