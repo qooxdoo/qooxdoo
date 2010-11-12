@@ -66,6 +66,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenClosed : function() {
       var item = this.__item;
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIcon(item));
     },
@@ -73,6 +74,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     testIconWhenClosedWithIcon: function() {
       var item = this.__item;
       item.setIcon(this.ICON_CLOSED);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_CLOSED);
     },
@@ -80,6 +82,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     testIconWhenClosedWithIconOpened: function() {
       var item = this.__item;
       item.setIconOpened(this.ICON_OPENED);
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIcon(item));
     },
@@ -88,6 +91,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       var item = this.__item;
       item.setIcon(this.ICON_CLOSED);
       item.setIconOpened(this.ICON_OPENED);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_CLOSED);
     },
@@ -99,6 +103,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     testIconWhenOpened : function() {
       var item = this.__item;
       item.setOpen(true);
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIconOpened(item));
     },
@@ -107,6 +112,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       var item = this.__item;
       item.setOpen(true);
       item.setIcon(this.ICON_CLOSED);
+      this.flush();
 
       // At first thought, you probably think this is correct...
       //
@@ -124,6 +130,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       var item = this.__item;
       item.setOpen(true);
       item.setIconOpened(this.ICON_OPENED);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_OPENED);
     },
@@ -133,6 +140,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setOpen(true);
       item.setIcon(this.ICON_CLOSED);
       item.setIconOpened(this.ICON_OPENED);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_OPENED);
     },
@@ -146,6 +154,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       var item = this.__item;
       item.setOpen(true);
       item.setOpen(false);
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIcon(item));
     },
@@ -155,6 +164,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIcon(this.ICON_CLOSED);
       item.setOpen(true);
       item.setOpen(false);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_CLOSED);
     },
@@ -164,6 +174,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIconOpened(this.ICON_CLOSED);
       item.setOpen(true);
       item.setOpen(false);
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIcon(item));
     },
@@ -174,6 +185,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIconOpened(this.ICON_OPENED);
       item.setOpen(true);
       item.setOpen(false);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_CLOSED);
     },
@@ -187,6 +199,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       var item = this.__item;
       item.setOpen(false);
       item.setOpen(true);
+      this.flush();
 
       this.__assertIcon(item, this.__themeValueIconOpened(item));
     },
@@ -196,6 +209,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIcon(this.ICON_CLOSED);
       item.setOpen(false);
       item.setOpen(true);
+      this.flush();
 
       // At first thought, you probably think this is correct...
       //
@@ -214,6 +228,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIconOpened(this.ICON_OPENED);
       item.setOpen(false);
       item.setOpen(true);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_OPENED);
     },
@@ -224,6 +239,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       item.setIconOpened(this.ICON_OPENED);
       item.setOpen(false);
       item.setOpen(true);
+      this.flush();
 
       this.__assertIcon(item, this.ICON_OPENED);
     },
