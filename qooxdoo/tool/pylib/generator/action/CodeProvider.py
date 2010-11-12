@@ -176,7 +176,7 @@ def _handleI18N(script, generator):
                 needs_cldr = True
 
     # get i18n data
-    trans_dat = generator._locale.getTranslationData_1(class_list, script.variants, script.locales, 
+    trans_dat = generator._locale.getTranslationData(class_list, script.variants, script.locales, 
                                                        addUntranslatedEntries=True)
     loc_dat   = None
     if needs_cldr:

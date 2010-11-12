@@ -214,7 +214,7 @@ class Locale(object):
         return s.replace(r'\\', '\\')
 
 
-    def getTranslationData_1(self, classList, variants, targetLocales, addUntranslatedEntries=False):
+    def getTranslationData(self, classList, variants, targetLocales, addUntranslatedEntries=False):
 
         def extractTranslations(pot,po):
             po.getIdIndex()

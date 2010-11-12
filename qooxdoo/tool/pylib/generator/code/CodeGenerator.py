@@ -700,7 +700,7 @@ class CodeGenerator(object):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
-            pac_dat = self._locale.getTranslationData_1(package.classes, variants, locales, addUntranslatedEntries) # .po data
+            pac_dat = self._locale.getTranslationData  (package.classes, variants, locales, addUntranslatedEntries) # .po data
             loc_dat = self._locale.getLocalizationData (package.classes, locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
             if i18n_with_packages:
