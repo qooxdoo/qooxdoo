@@ -145,7 +145,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         catch(ex)
         {
           try {
-            test.tearDown();
+            this.tearDown(test);
           }
           catch(ex) {
             /* Any exceptions here are likely caused by setUp having failed
@@ -189,12 +189,12 @@ qx.Class.define("qx.dev.unit.TestResult",
 
         } else if (ex.classname == "qx.core.AssertionError") {
           try {
-            test.tearDown();
+            this.tearDown(test);
           } catch(ex) {}
           this._createError("failure", ex, test);
         } else {
           try {
-            test.tearDown();
+            this.tearDown(test);
           } catch(ex) {}
           this._createError("error", ex, test);
         }
@@ -203,7 +203,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       if (!error)
       {
         try {
-          test.tearDown();
+          this.tearDown(test);
           this.fireDataEvent("endTest", test);
         } catch(ex) {
           var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
@@ -232,6 +232,23 @@ qx.Class.define("qx.dev.unit.TestResult",
 
       this.fireDataEvent(eventName, error);
       this.fireDataEvent("endTest", test);
+    },
+    
+    
+    /**
+     * Calls the generic tearDown method on the test class, then the specific
+     * tearDown for the test, if one is defined.
+     * 
+     * @param test {Object} The test object (first argument of {@link #run})
+     */
+    tearDown : function(test)
+    {
+      test.tearDown();
+      var testClass = test.getTestClass();
+      var specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
+      if (testClass[specificTearDown]) {
+        testClass[specificTearDown]();
+      }
     }
   },
 

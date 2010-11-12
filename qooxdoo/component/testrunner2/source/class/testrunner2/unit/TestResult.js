@@ -113,7 +113,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
         catch(ex)
         {
           try {
-            this.callTearDown(test);
+            this.tearDown(test);
           }
           catch(ex) {
             /* Any exceptions here are likely caused by setUp having failed
@@ -157,14 +157,14 @@ qx.Class.define("testrunner2.unit.TestResult", {
 
         } else if (ex.classname == "qx.core.AssertionError") {
           try {
-            this.callTearDown(test);
+            this.tearDown(test);
           } catch(except) {}
           this._createError("failure", ex, test);
         } else if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", ex, test);
           } else {
           try {
-            this.callTearDown(test);
+            this.tearDown(test);
           } catch(except) {}
           this._createError("error", ex, test);
         }
@@ -174,7 +174,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
       if (savedExceptions && savedExceptions.length > 0) {
         var error = true;
         try {
-          this.callTearDown(test);
+          this.tearDown(test);
         } catch(except) {}
         this._createError("failure", savedExceptions[0], test);
       }
@@ -182,7 +182,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
       if (!error)
       {
         try {
-          this.callTearDown(test);
+          this.tearDown(test);
           this.fireDataEvent("endTest", test);
         } catch(ex) {
           var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
@@ -210,23 +210,6 @@ qx.Class.define("testrunner2.unit.TestResult", {
         }
       }
       */
-    },
-    
-    
-    /**
-     * Calls the test class' generic tearDown, then the test function's specific
-     * tearDown, if any.
-     * 
-     * @param test {Object} The test object (first argument of {@link #run})
-     */
-    callTearDown : function(test)
-    {
-      test.tearDown();
-      var testClass = test.getTestClass();
-      var specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
-      if (testClass[specificTearDown]) {
-        testClass[specificTearDown]();
-      }
     }
   }
 
