@@ -70,7 +70,8 @@ class Class(Resource):
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
         self._assetRegex= None  # regex from #asset hints, for resource matching
-
+        self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
+ 
         console = context["console"]
         cache   = context["cache"]
 
@@ -188,7 +189,8 @@ class Class(Resource):
     ##
     # look for places where qx.core.Variant.select|isSet|.. are called
     # and return the list of first params (the variant name)
-    # @cache
+    # 
+    # Is used internally, but should also be usable as public interface.
 
     def classVariants(self, generate=True):
 
@@ -510,10 +512,6 @@ class Class(Resource):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
-
-            #if self.id == "qx.event.Registration" and "__handlers" in assembled:
-            #    print assembled
-            #    import pydb; pydb.debugger()
 
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
@@ -885,89 +883,6 @@ class Class(Resource):
         #
         # @param deps accumulator variable set((c1,m1), (c2,m2),...)
         
-        def getTransitiveDepsR1(dependencyItem, variants, totalDeps):
-
-            # We don't add the in-param to the global result
-            classId  = dependencyItem.name
-            methodId = dependencyItem.attribute
-            function_pruned = False
-
-            # Check known class
-            if classId not in self._classesObj:
-                console.debug("Skipping unknown class of dependency: %s#%s (%s:%d)" % (classId, methodId,
-                              dependencyItem.requestor, dependencyItem.line))
-                console.outdent()
-                return set()
-
-            console.debug("%s#%s dependencies:" % (classId, methodId))
-            console.indent()
-
-            # Check cache
-            filePath= self._classesObj[classId].path
-            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            localDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
-            if localDeps != None:
-                console.debug("using cached result")
-                console.outdent()
-                return localDeps
-
-            # Calculate deps
-            localDeps = set()
-
-            # find the defining class
-            classObj = self._classesObj[classId]
-            defClassId, attribNode = classObj.findClassForFeature(methodId, variants)
-
-            # lookup error
-            if not defClassId:
-                console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId, 
-                              methodId, dependencyItem.requestor, dependencyItem.line))
-            
-            # skip non-function attributes -- not here!
-            #elif attribNode and isinstance(attribNode, Node) and not treeutil.selectNode(attribNode, "function"):
-            #    pass
-
-            else:
-                defDepsItem = DependencyItem(defClassId, methodId, classId)
-                # method of super class/mixin
-                if defClassId != classId:
-                    self.resultAdd(defDepsItem, localDeps)
-
-                if isinstance(attribNode, Node):
-
-                    if (attribNode.getChild("function", False)       # is it a function(){..} value?
-                        and not dependencyItem.isCall                # and the reference was no call
-                       ):
-                        function_pruned = True
-                        pass                                         # don't lift those deps
-                    else:
-                        # Get the method's immediate deps
-                        depslist = []
-
-                        # TODO: is this the right API?!
-                        classObj = self._classesObj[defClassId]
-                        classObj._analyzeClassDepsNode(attribNode, depslist, True, variants)
-                        console.debug( "dependencies of '%s#%s': %r" % (defClassId, methodId, depslist))
-
-                        for depsItem in depslist:
-                            if depsItem in totalDeps:
-                                continue
-                            if self.resultAdd(depsItem, localDeps):
-                                # Recurse dependencies
-                                downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
-                                localDeps.update(downstreamDeps)
-
-            # Cache update
-            # ---   i cannot cache currently, if the deps of a function are pruned
-            #       when the function is passed as a ref, rather than called (s. above
-            #       around 'attribNode.getChild("function",...)')
-            if not function_pruned:
-                cache.write(cacheId, localDeps, memory=True, writeToFile=False)
-             
-            console.outdent()
-            return localDeps
-
-
         def getTransitiveDepsR(dependencyItem, variants, totalDeps):
 
             # We don't add the in-param to the global result
