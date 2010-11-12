@@ -383,18 +383,39 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     // property apply
     _applyIcon : function(value, old)
     {
-      if (!this.isOpen()) {
+      // Set "closed" icon - even when "opened" - if no "opened" icon was user-defined
+      var userValueIconOpened = qx.util.PropertyUtil.getUserValue(this, "iconOpened");
+      if (!userValueIconOpened) {
+        this.__setIconSource(value);
+      } 
+      
+      else if (!this.isOpen()) {
         this.__setIconSource(value);
       }
+
     },
 
 
     // property apply
     _applyIconOpened : function(value, old)
     {
+      
       if (this.isOpen()) {
-        this.__setIconSource(value);
+        var userValueIcon = qx.util.PropertyUtil.getUserValue(this, "icon");
+        var userValueIconOpened = qx.util.PropertyUtil.getUserValue(this, "iconOpened");
+        
+        // ... both "closed" and "opened" icon were user-defined
+        if (userValueIcon && userValueIconOpened) {
+          this.__setIconSource(value);
+        } 
+        
+        // .. only "opened" icon was user-defined
+        else if (!userValueIcon && userValueIconOpened) {
+          this.__setIconSource(value);
+        }
       }
+      
+
     },
 
 
@@ -428,7 +449,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       
       // Opened
       if (value) {
-        source = this.getIconOpened();
+        // Never overwrite user-defined icon with themed "opened" icon
+        var userValueIconOpened = qx.util.PropertyUtil.getUserValue(this, "iconOpened");
+        source = userValueIconOpened ? this.getIconOpened() : null;
       }
       
       // Closed
