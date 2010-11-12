@@ -213,53 +213,6 @@ class Locale(object):
         # collapse \\ to \
         return s.replace(r'\\', '\\')
 
-    def getTranslationData(self, classList, variants, targetLocales):
-        # Generate POT file to filter PO files
-        self._console.debug("Compiling filter...")
-        pot = self.getPotFile(classList, variants)
-
-        if len(pot) == 0:
-            return {}
-
-        # Find all influenced namespaces
-        libnames = {}
-        for classId in classList:
-            ns = self._classes[classId]["namespace"]
-            libnames[ns] = True
-
-        # Create a map of locale => [pofiles]
-        PoFiles = {}
-        for libname in libnames:
-            liblocales = self._translation[libname]  # {"en": <translationEntry>, ...}
-
-            for locale in targetLocales:
-                if locale in liblocales:
-                    if not locale in PoFiles:
-                        PoFiles[locale] = []
-                    PoFiles[locale].append(liblocales[locale]["path"]) # collect all .po files for a given locale
-
-        # Load po files
-        blocks = {}
-        for locale in PoFiles:
-            self._console.debug("Processing translation: %s" % locale)
-            self._console.indent()
-
-            result = {}
-            for path in PoFiles[locale]:
-                self._console.debug("Reading file: %s" % path)
-
-                po = polib.pofile(path)
-                po.merge(pot)
-                translated = po.translated_entries()
-                
-                result.update(self.entriesToDict(translated))
-
-            self._console.debug("Formatting %s entries" % len(result))
-            blocks[locale] = result
-            self._console.outdent()
-
-        return blocks
-
 
     def getTranslationData_1(self, classList, variants, targetLocales, addUntranslatedEntries=False):
 
