@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -15,26 +15,28 @@
    Authors:
      * Adrian Olaru (adrianolaru)
 
-
 ************************************************************************ */
 
+
 /**
- * The Progress bar is designed to simply display the current % complete for a process. 
+ * The Progress bar is designed to simply display the current % complete 
+ * for a process.
  * 
  * The following example creates and adds a progress bar to the root element.
- * A listener alerts the user if the value is changed, and another one
- * when the progress is complete.
+ * A listener is used to show the user if the value is changed, 
+ * and another one when the progress is complete.
  *
  * <pre class='javascript'>
  * var pb = new qx.ui.control.Progressbar();
  * this.getRoot().add(pb, { left : 20, top: 20});
  *
- * pb.addListener("changeValue", function(e) {
- *   alert(e.getData());
+ * pb.addListener("change", function(e) {
+ *   this.debug(e.getData()); // % complete
+ *   this.debug(pb.getValue()); // absolute value 
  * });
  *
  * pb.addListener("complete", function(e) {
- *   alert("complete");
+ *   this.debug("complete");
  * });
  *
  * //set a value
@@ -45,6 +47,7 @@ qx.Class.define("qx.ui.control.Progressbar",
 {
   extend: qx.ui.container.Composite,
    
+
   /**
    * @param value {Number ? 0} Progress bar value
    * @param max {Number ? 100} Progress bar maximum value 
@@ -54,13 +57,15 @@ qx.Class.define("qx.ui.control.Progressbar",
     this._createChildControl("progress");
 
     this.set({
-      value: value || 0,
-      max: max || 100,
       width: 200,
       height: 20,
       layout: new qx.ui.layout.HBox()
     });
+
+    this.setValue(value || 0);
+    this.setMax(max || 100);
   },
+
   
   properties: 
   {
@@ -68,88 +73,144 @@ qx.Class.define("qx.ui.control.Progressbar",
     {
       refine: true,
       init: "progressbar"
-    },
-
-    /** The value of progress bar */
-    value: 
-    {
-      check: "Number",
-      init: 0,
-      nullable: false,
-      apply: "_applyValue"
-    },
-
-    /** The maximum value of progress bar */
-    max: 
-    {
-      check: "Number",
-      init: 100,
-      nullable: false,
-      apply: "_applyMax"
     }
   },
+
   
   events:
   {
     /**
-     * Fired on change of the property {@link #value}
-     */
-    changeValue: "qx.event.type.Data",
-
-    /**
      * Fired when the process is complete (value === maximum value)
      */
-    complete: "qx.event.type.Data"
+    complete: "qx.event.type.Event",
+
+
+    /**
+     * Fired when the % complete is changed.
+     */
+    change: "qx.event.type.Data"
   },
+
 
   members: 
   {
-    _createChildControlImpl: function(id) {
-      var control;
+    __bar: null,
+    __value: 0,
+    __max: 100,
 
+    
+    /**
+     * Returns the progress bar value. 
+     *
+     * @return progress bar value.
+     */
+    getValue: function() {
+      return this.__value;
+    },
+
+
+    /**
+     * Sets the value of the progress bar.
+     *
+     * @param value {Number} New value of the progress bar.
+     * @return The unmodified incoming value.
+     */
+    setValue: function(value) {
+      var max = this.getMax();
+
+      //do nothing if is not a number, 
+      //is negative 
+      //or is greater than Max
+      if (!qx.lang.Type.isNumber(value) || 
+          !isFinite(value) || 
+          value < 0 || 
+          value > max) {
+        return;
+      }
+
+      //set value
+      this.__value = value;
+
+      //update progress
+      this.__changeProgress(value / max);
+
+      return value;
+    },
+
+
+    /**
+     * Returns the maximum value of progress bar.
+     *
+     * @return maximum value of progress bar.
+     */
+    getMax: function() {
+      return this.__max;
+    },
+
+
+    /**
+     * Sets the maximum value of the progress bar.
+     *
+     * @param value {Number} New maximum value progress bar.
+     * @return The unmodified incoming value.
+     */
+    setMax: function(value) {
+      var max = value;
+      var val = this.getValue();
+
+      //do nothing if is not a number, 
+      //is negative or zero 
+      //or is smaller than Value
+      if (!qx.lang.Type.isNumber(max) || 
+          !isFinite(max) || 
+          max <= 0 ||
+          max < val) {
+        return;
+      }
+
+      //set max
+      this.__max = max;
+
+      //update progress
+      this.__changeProgress(val / max);
+
+      return max;
+    },
+
+
+    //overridden
+    _createChildControlImpl: function(id) {
       switch (id)
       {
         case "progress":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-          this._add(control, { width: "0%" });
+          this.__bar = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+          this._add(this.__bar, { width: "0%" });
           break;
       }
-      return control || this.base(arguments, id);
+      return this.__bar || this.base(arguments, id);
     },
 
-    _applyValue: function(newValue, oldValue) {
-      var max = this.getMax();
 
-      if (newValue) {
-        this.__changeProgress(oldValue/max, newValue/max);
-        //fire changeValue event
-        this.fireDataEvent("changeValue", newValue, oldValue);
-        //fire complete event
-        if (this.getValue() === this.getMax()) {
-          this.fireDataEvent("complete", newValue, oldValue);
-        }
-      }
-    },
-
-    _applyMax: function(newValue, oldValue) {
-      var value = this.getValue();
-
-      if (newValue) {
-        this.__changeProgress(value/oldValue, value/newValue);
-      }
-    },
-    
   /**
    * Update the progress bar. 
    *
-   * @param from {Number } current value of progress bar
-   * @param to {Number } future value fo progress bar
+   * @param value {Number} future value fo progress bar
    */
-    __changeProgress: function(from, to) {
-      from = Math.round(from * 100);
-      to = Math.round(to * 100);
+    __changeProgress: function(value) {
+      var to = Math.round(value * 100);
+      var from = parseInt(this.__bar.getLayoutProperties().width, 10);
 
-      this.add(this.getChildControl("progress"), { width: to + "%" });
+      this.__bar.setLayoutProperties({width: to + "%"});
+
+      //fire change event
+      if (to != from) {
+        this.fireDataEvent("change", to, from);
+      }
+
+      //fire complete event
+      if (to == 100) {
+        this.fireEvent("complete");
+      }
     }
   }
 });

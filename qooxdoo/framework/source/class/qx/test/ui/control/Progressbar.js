@@ -20,64 +20,103 @@ qx.Class.define("qx.test.ui.control.Progressbar",
 {
   extend : qx.dev.unit.TestCase,
 
+
   members :
   {
-    testConstructor: function() {
+    __pb : null,
 
-      //defaults
-      var pb = new qx.ui.control.Progressbar();
-      this.assertIdentical(pb.getValue(), 0);
-      this.assertIdentical(pb.getMax(), 100);
+    
+    tearDown : function() {
+      this.__pb.destroy();
+    },
+
+
+    testConstructor: function() {
+      //defaults 
+      var val = 0, max = 100;
+
+      this.__pb = new qx.ui.control.Progressbar();
+      this.assertIdentical(val, this.__pb.getValue());
+      this.assertIdentical(max, this.__pb.getMax());
 
       //value
-      var pb = new qx.ui.control.Progressbar(10);
-      this.assertIdentical(pb.getValue(), 10);
-      this.assertIdentical(pb.getMax(), 100);
+      val = 10;
+      this.__pb = new qx.ui.control.Progressbar(val);
+      this.assertIdentical(val, this.__pb.getValue());
+      this.assertIdentical(max, this.__pb.getMax());
 
       //value, max
-      pb = new qx.ui.control.Progressbar(10, 120);
-      this.assertIdentical(pb.getValue(), 10);
-      this.assertIdentical(pb.getMax(), 120);
+      max = 120;
+      this.__pb = new qx.ui.control.Progressbar(val, max);
+      this.assertIdentical(val, this.__pb.getValue());
+      this.assertIdentical(max, this.__pb.getMax());
     },
+
 
     testValue: function() {
-      var pb = new qx.ui.control.Progressbar(), val = 20;
+      var val = 20;
 
-      pb.setValue(val);
-      this.assertIdentical(pb.getValue(), val);
+      this.__pb = new qx.ui.control.Progressbar();
+      this.__pb.setValue(val);
+      this.assertIdentical(val, this.__pb.getValue());
+
+      //do nothing if you set a value smaller than 0.
+      this.__pb.setValue(-val);
+      this.assertIdentical(val, this.__pb.getValue());
+
+      //do nothing if you set a value greater than max.
+      this.__pb.setValue(this.__pb.getMax() + val);
+      this.assertIdentical(val, this.__pb.getValue());
     },
+
 
     testMax: function() {
-      var pb = new qx.ui.control.Progressbar(), max = 2000;
+      var max = 200, val = 20;
 
-      pb.setMax(max);
-      this.assertIdentical(pb.getMax(), max);
+      this.__pb = new qx.ui.control.Progressbar();
+      this.__pb.setMax(max);
+      this.assertIdentical(max, this.__pb.getMax());
+
+      //do nothing if you set max smaller than value.
+      this.__pb.setValue(val);
+      this.__pb.setMax(val-1);
+      this.assertIdentical(max, this.__pb.getMax());
+
+      max = 100;
+
+      //do nothing if you set max to 0.
+      this.__pb = new qx.ui.control.Progressbar();
+      this.__pb.setMax(0);
+      this.assertIdentical(max, this.__pb.getMax());
     },
 
-    testChangeValueEvent : function() {
-      var pb = new qx.ui.control.Progressbar(),
-          me = this, val = 10;
-    
-      this.assertEventFired(pb, "changeValue", function() {
-        pb.setValue(val);
+
+    testChangeEvent : function() {
+      var me = this, val = 10;
+
+      this.__pb = new qx.ui.control.Progressbar();
+      this.assertEventFired(this.__pb, "change", function() {
+        me.__pb.setValue(val);
       }, function(e){
-        me.assertIdentical(e.getOldData(), 0);
-        me.assertIdentical(e.getData(), val);
+        me.assertIdentical(0, e.getOldData());
+        me.assertIdentical(val, e.getData());
       }, "event not fired.");
     },
 
-    testCompleteEvent : function() {
-      var pb = new qx.ui.control.Progressbar(), 
-          max = pb.getMax();
-      this.assertEventFired(pb, "complete", function() {
-        pb.setValue(max);
-      }, function(e){}, "event not fired.");
 
-      max = 1270;
-      pb = new qx.ui.control.Progressbar(0, max);
-      this.assertEventFired(pb, "complete", function() {
-        pb.setValue(max);
-      }, function(e){}, "event not fired.");
+    testCompleteEvent : function() {
+      var me = this, max = this.__pb.getMax();
+
+      this.__pb = new qx.ui.control.Progressbar();
+      this.assertEventFired(this.__pb, "complete", function() {
+        me.__pb.setValue(max);
+      }, null, "event not fired.");
+
+      max = 200;
+      this.__pb = new qx.ui.control.Progressbar(0, max);
+      this.assertEventFired(this.__pb, "complete", function() {
+        me.__pb.setValue(max);
+      }, null, "event not fired.");
     }
   }
 });
