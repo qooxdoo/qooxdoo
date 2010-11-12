@@ -15,6 +15,27 @@ h1 {
   margin: 0 0 15px 0;
   color: #225DA4;
   border-bottom: 1px solid #225DA4;
+  background-image :
+  -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.1, rgb(214,214,214)),
+    color-stop(0.48, rgb(245,245,245))
+  );
+  background-image :
+  -moz-linear-gradient(
+    center bottom,
+    rgb(214,214,214) 10%,
+    rgb(245,245,245) 48%
+  );
+}
+
+#qxtestrunner_run,
+#qxtestrunner_stop,
+#qxtestrunner_iframesrc,
+#qxtestrunner_setiframesrc {
+  margin: 5px 0 5px 10px;
 }
 
 #qxtestrunner_autframe {
@@ -93,10 +114,24 @@ h1 {
 
 #qxtestrunner_footer {
   position: fixed;
-  background-color: #DEDEDE;
+  #background-color: #DEDEDE;
   bottom: 0px;
   width: 100%;
   border-top: 1px solid #225DA4;
+  background-image:
+  -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.1, rgb(245,245,245)),
+    color-stop(0.95, rgb(214,214,214))
+  );
+  background-image:
+  -moz-linear-gradient(
+    center bottom,
+    rgb(245,245,245) 10%,
+    rgb(214,214,214) 95%
+  )
 }
 
 #qxtestrunner_status {

@@ -86,6 +86,15 @@ qx.Class.define("testrunner2.view.Abstract", {
       check : "Array",
       init : [],
       event : "changeSelectedTests"
+    },
+    
+    /** URI of the application containing the test classes */
+    autUri :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeAutUri",
+      apply : "_applyAutUri"
     }
   },
   
@@ -165,9 +174,17 @@ qx.Class.define("testrunner2.view.Abstract", {
      * @param old {Array} Previous value
      */
     _applyInitialTestList : function(value, old)
-    {
-      
-    }
+    {},
+    
+    
+    /**
+     * Applies the AUT's URI, e.g. by setting an Iframe's source
+     * 
+     * @param value {String} AUT URI
+     * @param old {String} Previous value
+     */
+    _applyAutUri : function(value, old)
+    {}
   }
   
 });

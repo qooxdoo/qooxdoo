@@ -40,10 +40,8 @@ qx.Class.define("testrunner2.view.Html", {
   /**
    * @param rootElement {DOMElement?} DOM Element in which the result view 
    * should be created. Default: document.body
-   * @param autIframe {Boolean} Whether an iframe for the AUT should be created.
-   * Default: false 
    */
-  construct : function(rootElement, autIframe)
+  construct : function(rootElement)
   {
     var root = this.__rootElement = rootElement || document.body;
     var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner2/view/html/css/testrunner2.css");
@@ -63,13 +61,6 @@ qx.Class.define("testrunner2.view.Html", {
     elemControls.innerHTML += '<label for="qxtestrunner_togglepassed">Show successful tests</label>';
     
     root.appendChild(elemControls);
-    
-    if (autIframe) {
-      var elemAut = document.createElement("div");
-      elemAut.id = "qxtestrunner_aut";
-      this.__elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
-      root.appendChild(this.__elemIframe);
-    }
     
     var elemTestList = document.createElement("div");
     elemTestList.id = "qxtestrunner_tests";
@@ -266,6 +257,14 @@ qx.Class.define("testrunner2.view.Html", {
       this.__elemResultsList.innerHTML = "";
     },
     
+    /**
+     * Empties the test list
+     */
+    clearTestList : function()
+    {
+      this.__elemTestList.innerHTML = "";
+    },
+    
     
     /**
      * Visualizes the status of a single test result as it changes during test
@@ -350,6 +349,28 @@ qx.Class.define("testrunner2.view.Html", {
      */
     getIframe : function()
     {
+      if (this.__elemIframe) {
+        return this.__elemIframe;
+      }
+      
+      var controls = document.getElementById("qxtestrunner_controls");
+      var frameContainer = document.createElement("div");
+      qx.dom.Element.insertAfter(frameContainer, controls);
+      frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
+      frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
+      
+      var elemAut = document.createElement("div");
+      elemAut.id = "qxtestrunner_aut";
+      this.__elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
+      frameContainer.appendChild(this.__elemIframe);
+      
+      var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
+      qx.event.Registration.addListener(reloadBtn, "click", function(ev) {
+        var src = document.getElementById("qxtestrunner_iframesrc").value;
+        this.resetAutUri();
+        this.setAutUri(src);
+      }, this);
+      
       return this.__elemIframe;
     },
     
@@ -412,6 +433,9 @@ qx.Class.define("testrunner2.view.Html", {
     {
       this.setSelectedTests(value);
       
+      this.clearTestList();
+      this.clearResults();
+      
       for (var i=0,l=value.length; i<l; i++) {
         var listItem = document.createElement("li");
         var testName = value[i];
@@ -447,6 +471,22 @@ qx.Class.define("testrunner2.view.Html", {
       
       selectedTests.sort();
       this.setSelectedTests(selectedTests);
+    },
+    
+    
+    /**
+     * (Re)Loads the AUT in the iframe.
+     * 
+     * @param value {String} AUT URI
+     * @param old {String} Previous value
+     */
+    _applyAutUri : function(value, old)
+    {
+      if (!value || value == old) {
+        return;
+      }
+      document.getElementById("qxtestrunner_iframesrc").value = value;
+      qx.bom.Iframe.setSource(this.__elemIframe, value);
     }
     
   }

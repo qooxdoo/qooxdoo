@@ -41,8 +41,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     if (qx.core.Variant.isSet("testrunner2.view", "console")) {
       this.view = new testrunner2.view.Console();
     } else {
-      var createFrame = qx.core.Variant.isSet("testrunner2.testOrigin", "iframe");
-      this.view = new testrunner2.view.Html(null, createFrame);
+      this.view = new testrunner2.view.Html();
     }
     
     // Connect view and controller
@@ -64,8 +63,14 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     // Load unit tests
     if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
-      this._loadIframeTests();
-    } else {
+      // Load the tests from a standalone AUT
+      this.__iframe = this.view.getIframe(this._onLoadIframe, this);
+      qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
+      var src = qx.core.Setting.get("qx.testPageUri")
+      src += "?testclass=" + qx.core.Setting.get("qx.testNameSpace");
+      this.view.setAutUri(src);
+    } 
+    else {
       this._loadInlineTests();
     }
     
@@ -113,6 +118,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     /** List of tests selected by the user */
     selectedTests :
     {
+      nullable : true,
       init : null,
       apply : "_applySelectedTests"
     }
@@ -135,6 +141,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     /**
      * Loads test classes that are a part of the TestRunner application.
+     * 
+     * @param nameSpace {String|Object} Test namespace to be loaded
      */
     _loadInlineTests : function(nameSpace)
     {
@@ -143,21 +151,6 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.loader = new qx.dev.unit.TestLoaderInline();
       this.loader.setTestNamespace(nameSpace);
       this.__getTestData();
-    },
-    
-    
-    /**
-     * Loads test classes from a standalone test application using an iframe.
-     */
-    _loadIframeTests : function()
-    {
-      this.setTestSuiteState("loading");
-      this.__iframe = this.view.getIframe();
-      qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
-      var src = qx.core.Setting.get("qx.testPageUri");
-      src += "?testclass=" + qx.core.Setting.get("qx.testNameSpace");
-      qx.bom.Iframe.setSource(this.__iframe, src);
-      this.debug("Setting AUT URI: " + src);
     },
     
     
@@ -221,7 +214,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var functionName = currentTestFull.substr(currentTestFull.indexOf(":") + 1); 
       var testResult = this.__initTestResult();
       
-      this.loader.runTests(testResult, className, functionName);
+      var self = this;
+      window.setTimeout(function() {
+        self.loader.runTests(testResult, className, functionName);
+      }, 0);
     },
     
     
@@ -245,13 +241,20 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }
       
       testResult.addListener("startTest", function(e) {
-        /* EXPERIMENTAL
+        var test = e.getData();
+        
+        /* EXPERIMENTAL: Check if the test polluted the DOM
         if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+          if (this.frameWindow.qx.test && this.frameWindow.qx.test.ui &&
+              this.frameWindow.qx.test.ui.LayoutTestCase &&          
+              test.getTestClass() instanceof this.frameWindow.qx.test.ui.LayoutTestCase ) {
+            test.getTestClass().getRoot();
+            test.getTestClass().flush();
+          }
           this.__bodyLength = this.frameWindow.document.body.innerHTML.length;
         }
         */
         
-        var test = e.getData();
         this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
         this.view.addTestResult(this.currentTestData);
       }, this);
@@ -289,19 +292,26 @@ qx.Class.define("testrunner2.runner.TestRunner", {
           this.currentTestData.setState("success");
         }
         
-        /* EXPERIMENTAL
+        /* EXPERIMENTAL: Check if the test polluted the DOM
+        var fWin = this.frameWindow;
+        
         if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
-          if (!this.frameWindow.qx.test || !this.frameWindow.qx.test.ui ||
-              !this.frameWindow.qx.test.ui.LayoutTestCase ||
-              !e.getData().getTestClass() instanceof this.frameWindow.qx.test.ui.LayoutTestCase ) {
-            this.frameWindow.qx.ui.core.queue.Dispose.flush();
-            this.frameWindow.qx.ui.core.queue.Manager.flush();
-            if (this.__bodyLength != this.frameWindow.document.body.innerHTML.length) {
-              var error = new Error("Incomplete tearDown: The DOM was not reverted to its initial state!");
-              this.currentTestData.setException(error);
-              this.currentTestData.setState("error");
-            }  
+          fWin.qx.ui.core.queue.Dispose.flush();
+          fWin.qx.ui.core.queue.Manager.flush();
           
+          if (fWin.qx.bom && fWin.qx.bom.Label) {
+            if (fWin.qx.bom.Label._htmlElement) {
+              fWin.document.body.removeChild(fWin.qx.bom.Label._htmlElement);
+            }
+            if (fWin.qx.bom.Label._textElement) {
+              fWin.document.body.removeChild(fWin.qx.bom.Label._textElement);
+            }
+          }
+          
+          if (this.__bodyLength != fWin.document.body.innerHTML.length) {
+            var error = new Error("Incomplete tearDown: The DOM was not reverted to its initial state!");
+            this.currentTestData.setException(error);
+            this.currentTestData.setState("error");
           }
         }
         */
@@ -320,6 +330,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     _onLoadIframe : function(ev)
     {
+      if (ev) {
+        this.setTestSuiteState("loading");
+      }
+      
       if (!this.__loadAttempts) {
         this.__loadAttempts = 0;
       }
@@ -384,6 +398,12 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.setTestCount(value.length);
     },
     
+    
+    /**
+     * Logs any errors caught by qooxdoo's global error handling.
+     * 
+     * @param ex{Error} Caught exception
+     */
     _handleGlobalError : function(ex)
     {
       this.error(ex);
