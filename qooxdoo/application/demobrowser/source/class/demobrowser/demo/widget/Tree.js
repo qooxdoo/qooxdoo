@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/22/places/user-desktop.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.Tree",
 {
   extend : qx.application.Standalone,
@@ -56,7 +62,8 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       tree.setRoot(root);
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
-      te1.setOpen(true)
+      te1.setOpen(true);
+      te1.setIcon("icon/22/places/user-desktop.png");
       root.add(te1);
 
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
