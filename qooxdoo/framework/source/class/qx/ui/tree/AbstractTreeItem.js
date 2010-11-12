@@ -462,7 +462,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     },
 
-    /*
+    /**
     * Get user-defined value of "icon" property
     * 
     * @return {var} The user value of the property "icon"
@@ -471,7 +471,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       return qx.util.PropertyUtil.getUserValue(this, "icon");
     },
 
-    /*
+    /**
     * Get user-defined value of "iconOpened" property
     * 
     * @return {var} The user value of the property "iconOpened"
