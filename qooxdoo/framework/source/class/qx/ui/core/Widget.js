@@ -3882,7 +3882,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Removes this widget from its parent and dispose it.
+     * Removes this widget from its parent and disposes it.
      *
      * Please note that the widget is not disposed synchronously. The
      * real dispose happens after the next queue flush.
