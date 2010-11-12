@@ -98,7 +98,7 @@ class Class(Resource):
 
     def _getClassCache(self):
         cache = self.context["cache"]
-        classInfo, modTime = cache.read(self.cacheId, self.path)
+        classInfo, modTime = cache.read(self.cacheId, self.path, memory=True)
         if classInfo:
             return classInfo, modTime
         else:
@@ -106,7 +106,7 @@ class Class(Resource):
  
     def _writeClassCache(self, data):
         cache = self.context["cache"]
-        cache.write(self.cacheId, data)
+        cache.write(self.cacheId, data, memory=True)
 
 
     # --------------------------------------------------------------------------
