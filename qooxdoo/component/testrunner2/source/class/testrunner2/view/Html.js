@@ -43,76 +43,16 @@ qx.Class.define("testrunner2.view.Html", {
    */
   construct : function(rootElement)
   {
-    var root = this.__rootElement = rootElement || document.body;
+    this.__rootElement = rootElement || document.body;
     var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner2/view/html/css/testrunner2.css");
     qx.bom.Stylesheet.includeFile(styleSrc);
-    root.innerHTML += "<h1>qooxdoo Test Runner</h1>";
     
-    var elemControls = document.createElement("div");
-    elemControls.id = "qxtestrunner_controls";
-    elemControls.innerHTML = '<input type="submit" id="qxtestrunner_run" value="Run Tests"></input>';
-    elemControls.innerHTML += '<input type="submit" id="qxtestrunner_stop" value="Stop Tests"></input>';
-    
-    var stackToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglestack", checked: "checked"});
-    elemControls.appendChild(stackToggle);
-    elemControls.innerHTML += '<label for="qxtestrunner_togglestack">Show stack trace</label>';
-    
-    var passedToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglepassed", checked: "checked"});
-    elemControls.appendChild(passedToggle);
-    elemControls.innerHTML += '<label for="qxtestrunner_togglepassed">Show successful tests</label>';
-    
-    root.appendChild(elemControls);
-    
-    var elemTestControls = document.createElement("div");
-    var allTestsToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglealltests", checked: "checked"});
-    elemTestControls.appendChild(allTestsToggle);
-    elemTestControls.innerHTML += '<label for="qxtestrunner_togglealltests">Select/deselect all tests</label>';
-    root.appendChild(elemTestControls);
-    
-    var elemTestList = document.createElement("div");
-    elemTestList.id = "qxtestrunner_tests";
-    elemTestList.innerHTML += '<ul id="qxtestrunner_testlist"></ul>';
-    root.appendChild(elemTestList);
-    
-    var elemResults = document.createElement("div");
-    elemResults.id = "qxtestrunner_results";
-    elemResults.innerHTML = '<ul id="qxtestrunner_resultslist"></ul>';
-    root.appendChild(elemResults);
-    
-    var elemFooter = document.createElement("div");
-    elemFooter.id = "qxtestrunner_footer";
-    elemFooter.innerHTML = '<p id="qxtestrunner_status"></p>';
-    root.appendChild(elemFooter);
-    
-    this.__runButton = document.getElementById("qxtestrunner_run");
-    qx.event.Registration.addListener(this.__runButton, "click", function(ev) {
-      this.fireEvent("runTests");
-    }, this);
-    
-    this.__stopButton = document.getElementById("qxtestrunner_stop");
-    qx.event.Registration.addListener(this.__stopButton, "click", function(ev) {
-      this.fireEvent("stopTests");
-    }, this);
-    
-    allTestsToggle = document.getElementById("qxtestrunner_togglealltests");
-    qx.event.Registration.addListener(allTestsToggle, "change", function(ev) {
-      var checked = ev.getTarget().checked;
-      this.toggleAllTests(checked);      
-    }, this);
-    
-    stackToggle = document.getElementById("qxtestrunner_togglestack");
-    qx.event.Registration.addListener(stackToggle, "change", function(ev) {
-      this.setShowStack(ev.getData());
-    }, this);
-    
-    passedToggle = document.getElementById("qxtestrunner_togglepassed");
-    qx.event.Registration.addListener(passedToggle, "change", function(ev) {
-      this.setShowPassed(ev.getData());
-    }, this);
-    
-    this.__elemStatus = document.getElementById("qxtestrunner_status");
-    this.__elemTestList = document.getElementById("qxtestrunner_testlist");
-    this.__elemResultsList = document.getElementById("qxtestrunner_resultslist");
+    this._attachHeader();
+    this._attachMainControls();
+    this._attachTestControls();
+    this._attachTestList();
+    this._attachResultsList();
+    this._attachFooter();
   },
   
   
@@ -179,6 +119,325 @@ qx.Class.define("testrunner2.view.Html", {
     __runButton : null,
     __stopButton : null,
     
+    
+    /**
+     * Creates the header and attaches it to the root node.
+     */
+    _attachHeader : function()
+    {
+      this.__rootElement.innerHTML += "<h1>qooxdoo Test Runner</h1>";
+    },
+    
+    
+    /**
+     * Creates the main controls and attaches them to the root node.
+     */
+    _attachMainControls : function()
+    {
+      var elemControls = document.createElement("div");
+      elemControls.id = "qxtestrunner_controls";
+      elemControls.innerHTML = '<input type="submit" id="qxtestrunner_run" value="Run Tests"></input>';
+      elemControls.innerHTML += '<input type="submit" id="qxtestrunner_stop" value="Stop Tests"></input>';
+      
+      var stackToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglestack", checked: "checked"});
+      elemControls.appendChild(stackToggle);
+      elemControls.innerHTML += '<label for="qxtestrunner_togglestack">Show stack trace</label>';
+      
+      var passedToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglepassed", checked: "checked"});
+      elemControls.appendChild(passedToggle);
+      elemControls.innerHTML += '<label for="qxtestrunner_togglepassed">Show successful tests</label>';
+      
+      this.__rootElement.appendChild(elemControls);
+      
+      this.__runButton = document.getElementById("qxtestrunner_run");
+      qx.event.Registration.addListener(this.__runButton, "click", function(ev) {
+        this.fireEvent("runTests");
+      }, this);
+      
+      this.__stopButton = document.getElementById("qxtestrunner_stop");
+      qx.event.Registration.addListener(this.__stopButton, "click", function(ev) {
+        this.fireEvent("stopTests");
+      }, this);      
+      
+      var stackToggle = document.getElementById("qxtestrunner_togglestack");
+      qx.event.Registration.addListener(stackToggle, "change", function(ev) {
+        this.setShowStack(ev.getData());
+      }, this);
+      
+      var passedToggle = document.getElementById("qxtestrunner_togglepassed");
+      qx.event.Registration.addListener(passedToggle, "change", function(ev) {
+        this.setShowPassed(ev.getData());
+      }, this);
+    },
+    
+    
+    /**
+     * Creates the test selection controls and attaches them to the root node.
+     */
+    _attachTestControls : function()
+    {
+      var elemTestControls = document.createElement("div");
+      var allTestsToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglealltests", checked: "checked"});
+      elemTestControls.appendChild(allTestsToggle);
+      elemTestControls.innerHTML += '<label for="qxtestrunner_togglealltests">Select/deselect all tests</label>';
+      
+      this.__rootElement.appendChild(elemTestControls);
+      
+      allTestsToggle = document.getElementById("qxtestrunner_togglealltests");
+      qx.event.Registration.addListener(allTestsToggle, "change", function(ev) {
+        var checked = ev.getTarget().checked;
+        this.toggleAllTests(checked);      
+      }, this);
+    },
+    
+    
+    /**
+     * Creates the list of available tests and attaches it to the root node.
+     */
+    _attachTestList : function()
+    {
+      var elemTestList = document.createElement("div");
+      elemTestList.id = "qxtestrunner_tests";
+      elemTestList.innerHTML += '<ul id="qxtestrunner_testlist"></ul>';
+      
+      this.__rootElement.appendChild(elemTestList);
+      
+      this.__elemTestList = document.getElementById("qxtestrunner_testlist");
+    },
+    
+    
+    /**
+     * Creates the test results list and attaches it to the root node.
+     */
+    _attachResultsList : function()
+    {
+      var elemResults = document.createElement("div");
+      elemResults.id = "qxtestrunner_results";
+      elemResults.innerHTML = '<ul id="qxtestrunner_resultslist"></ul>';
+      
+      this.__rootElement.appendChild(elemResults);
+      
+      this.__elemResultsList = document.getElementById("qxtestrunner_resultslist");
+    },
+    
+    
+    /**
+     * Creates the footer/status bar and attaches it to the root node.
+     */
+    _attachFooter : function()
+    {
+      var elemFooter = document.createElement("div");
+      elemFooter.id = "qxtestrunner_footer";
+      elemFooter.innerHTML = '<p id="qxtestrunner_status"></p>';
+      
+      this.__rootElement.appendChild(elemFooter);
+      
+      this.__elemStatus = document.getElementById("qxtestrunner_status");
+    },
+    
+    
+    /**
+     * Empties the results display.
+     */
+    clearResults : function()
+    {
+      this.__elemResultsList.innerHTML = "";
+    },
+    
+    /**
+     * Empties the test list.
+     */
+    clearTestList : function()
+    {
+      this.__elemTestList.innerHTML = "";
+    },
+    
+    
+    /**
+     * Returns the iframe element the AUT should be loaded in.
+     * 
+     * @return {DOMElement} The iframe
+     */
+    getIframe : function()
+    {
+      if (this.__elemIframe) {
+        return this.__elemIframe;
+      }
+      
+      var controls = document.getElementById("qxtestrunner_controls");
+      var frameContainer = document.createElement("div");
+      qx.dom.Element.insertAfter(frameContainer, controls);
+      frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
+      frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
+      
+      var elemAut = document.createElement("div");
+      elemAut.id = "qxtestrunner_aut";
+      this.__elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
+      frameContainer.appendChild(this.__elemIframe);
+      
+      var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
+      qx.event.Registration.addListener(reloadBtn, "click", function(ev) {
+        var src = document.getElementById("qxtestrunner_iframesrc").value;
+        this.resetAutUri();
+        this.setAutUri(src);
+      }, this);
+      
+      return this.__elemIframe;
+    },
+    
+    
+    /**
+     * Selects or deselects all tests in the current test suite.
+     * 
+     * @param selected {Boolean} true = select all tests; false = deselect all 
+     * tests
+     */
+    toggleAllTests : function(selected)
+    {
+      var boxes = document.getElementsByTagName("input");
+      for (var i=0,l=boxes.length; i<l; i++) {
+        if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
+          boxes[i].checked = selected;
+          this.__toggleTestSelected(boxes[i].name, selected);
+        }
+      }
+    },
+    
+    
+    /**
+     * Simplifies a test function's fully qualified name so it can be used as an
+     * HTML ID.
+     * 
+     * @param testName {String} The test's full name
+     * @return {String} The ID string
+     */
+    __testNameToId : function(testName)
+    {
+      var id = testName.replace(/\./g, "");
+      id = id.replace(/\:/g, "");
+      return id;
+    },
+    
+    
+    /**
+     * Sets the CSS "display" attribute of all nodes with the given CSS class.
+     * 
+     * @param cssClass {String} CSS class name
+     * @param display {Boolean} Display value: true for "block", false for "none"
+     */
+    __setDisplayForClass : function(cssClass, display)
+    {
+      var displayVal = display ? "block" : "none";
+      var elems = qx.bom.Selector.query(cssClass, this.__rootElement);
+      for (var i=0,l=elems.length; i<l; i++) {
+        qx.bom.element.Style.set(elems[i], "display", displayVal);
+      }
+    },
+    
+    
+    /**
+     * Visualizes the status of a single test result as it changes during test
+     * execution.
+     * 
+     * @param testResultData {testrunner2.runner.TestResultData} test result 
+     * data object
+     */
+    _onTestChangeState : function(testResultData) {
+      var testName = testResultData.getName();
+      var state = testResultData.getState();
+      
+      switch (state) {
+        case "skip":
+          this.setSkippedTestCount(this.getSkippedTestCount() + 1);
+          break;
+        case "error":
+        case "failure":
+          this.setFailedTestCount(this.getFailedTestCount() + 1);
+          break;
+        case "success":
+          this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
+      }
+      
+      var exception =  testResultData.getException();
+      
+      var id = this.__testNameToId(testName);
+      var listItem = document.getElementById(id);
+      if (listItem) {
+        qx.bom.element.Attribute.set(listItem, "class", state);
+      } else {
+        var item = qx.bom.Element.create("li", {id : id, "class" : state});
+        if (this.__elemResultsList.firstChild) {
+          qx.dom.Element.insertBefore(item, this.__elemResultsList.firstChild);
+        } else {
+          this.__elemResultsList.appendChild(item);
+        }
+        item.innerHTML = testName;
+        listItem = document.getElementById(id);
+      }
+      
+      if (state == "success" && this.getShowPassed() === false) {
+        qx.bom.element.Style.set(listItem, "display", "none");
+      }
+      
+      if (exception) {
+        listItem.innerHTML += '<br/>' + exception;
+
+        var trace = testResultData.getStackTrace();
+        if (trace.length > 0) {
+          var stackDiv = document.createElement("div");
+          qx.bom.element.Class.add(stackDiv, "stacktrace");
+          stackDiv.innerHTML = 'Stack Trace:<br/>' + trace;
+          
+          var displayVal = this.getShowStack() ? "block" : "none";
+          qx.bom.element.Style.set(stackDiv, "display", displayVal);
+          listItem.appendChild(stackDiv);
+        }
+        
+      }
+    },
+    
+    
+    /**
+     * Listener for the checkbox associated with each test in the suite. 
+     * 
+     * @param ev {qx.event.type.Event} change event
+     */
+    __onToggleTest : function(ev)
+    {
+      var testName = ev.getTarget().name;
+      var selected = ev.getTarget().checked;
+      this.__toggleTestSelected(testName, selected);
+    },
+    
+    
+    /**
+     * Adds or removes a test from the list of selected tests.
+     * 
+     * @param ev {qx.event.type.Event} The change event from the checkbox 
+     * associated with the test
+     */
+    __toggleTestSelected : function(testName, selected)
+    {
+      var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
+      
+      if (selected && !qx.lang.Array.contains(selectedTests, testName)) {
+        selectedTests.push(testName);
+      }
+      else if (!selected && qx.lang.Array.contains(selectedTests, testName)) {
+        qx.lang.Array.remove(selectedTests, testName);
+      }
+      
+      selectedTests.sort();
+      this.setSelectedTests(selectedTests);
+    },
+    
+    
+    /*
+    ****************************************************************************
+       APPLY METHODS
+    ****************************************************************************
+    */
+    
     /**
      * Displays a status message.
      * @param value {String} The message to be displayed
@@ -241,6 +500,35 @@ qx.Class.define("testrunner2.view.Html", {
     
     
     /**
+     * Creates a list item with a checkbox and label for each test in the 
+     * current suite. Only tests with ticked checkboxes will be run.
+     * 
+     * @param value {Array} Full list of tests
+     * @param old {Array} Previous value
+     */
+    _applyInitialTestList : function(value, old)
+    {
+      this.setSelectedTests(value);
+      
+      this.clearTestList();
+      this.clearResults();
+      
+      for (var i=0,l=value.length; i<l; i++) {
+        var listItem = document.createElement("li");
+        var testName = value[i];
+        var checkBoxId = "cb_" + this.__testNameToId(testName);
+        var cb = qx.bom.Input.create("checkbox", {id: checkBoxId, name: testName, checked: "checked"});
+        listItem.appendChild(cb);
+        listItem.innerHTML += '<label for="' + checkBoxId + '">' + testName + '</label>';
+        this.__elemTestList.appendChild(listItem);
+                
+        cb = document.getElementById(checkBoxId);
+        qx.event.Registration.addListener(cb, "change", this.__onToggleTest, this);
+      }
+    },    
+    
+    
+    /**
      * Displays the amount of pending tests.
      * 
      * @param value {Integer} Amount of pending tests
@@ -262,128 +550,18 @@ qx.Class.define("testrunner2.view.Html", {
     
     
     /**
-     * Empties the results display.
-     */
-    clearResults : function()
-    {
-      this.__elemResultsList.innerHTML = "";
-    },
-    
-    /**
-     * Empties the test list
-     */
-    clearTestList : function()
-    {
-      this.__elemTestList.innerHTML = "";
-    },
-    
-    
-    /**
-     * Visualizes the status of a single test result as it changes during test
-     * execution.
+     * (Re)Loads the AUT in the iframe.
      * 
-     * @param testResultData {testrunner2.unit.TestResultData} test result data 
-     * object
+     * @param value {String} AUT URI
+     * @param old {String} Previous value
      */
-    _onTestChangeState : function(testResultData) {
-      var testName = testResultData.getName();
-      var state = testResultData.getState();
-      
-      switch (state) {
-        case "skip":
-          this.setSkippedTestCount(this.getSkippedTestCount() + 1);
-          break;
-        case "error":
-        case "failure":
-          this.setFailedTestCount(this.getFailedTestCount() + 1);
-          break;
-        case "success":
-          this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
-      }
-      
-      var exception =  testResultData.getException();
-      
-      var id = this.__testNameToId(testName);
-      var listItem = document.getElementById(id);
-      if (listItem) {
-        qx.bom.element.Attribute.set(listItem, "class", state);
-      } else {
-        var item = qx.bom.Element.create("li", {id : id, "class" : state});
-        if (this.__elemResultsList.firstChild) {
-          qx.dom.Element.insertBefore(item, this.__elemResultsList.firstChild);
-        } else {
-          this.__elemResultsList.appendChild(item);
-        }
-        item.innerHTML = testName;
-        listItem = document.getElementById(id);
-      }
-      
-      if (state == "success" && this.getShowPassed() === false) {
-        qx.bom.element.Style.set(listItem, "display", "none");
-      }
-      
-      if (exception) {
-        listItem.innerHTML += '<br/>' + exception;
-
-        var trace = testResultData.getStackTrace();
-        if (trace.length > 0) {
-          var stackDiv = document.createElement("div");
-          qx.bom.element.Class.add(stackDiv, "stacktrace");
-          stackDiv.innerHTML = 'Stack Trace:<br/>' + trace;
-          
-          var displayVal = this.getShowStack() ? "block" : "none";
-          qx.bom.element.Style.set(stackDiv, "display", displayVal);
-          listItem.appendChild(stackDiv);
-        }
-        
-      }
-    },
-          
-    
-    /**
-     * Simplifies a test function's fully qualified name so it can be used as an
-     * HTML ID.
-     * 
-     * @param testName {String} The test's full name
-     * @return {String} The ID string
-     */
-    __testNameToId : function(testName)
+    _applyAutUri : function(value, old)
     {
-      var id = testName.replace(/\./g, "");
-      id = id.replace(/\:/g, "");
-      return id;
-    },
-    
-    
-    /**
-     * Return the iframe element the AUT should be loaded in.
-     * @return {DOMElement} The iframe
-     */
-    getIframe : function()
-    {
-      if (this.__elemIframe) {
-        return this.__elemIframe;
+      if (!value || value == old) {
+        return;
       }
-      
-      var controls = document.getElementById("qxtestrunner_controls");
-      var frameContainer = document.createElement("div");
-      qx.dom.Element.insertAfter(frameContainer, controls);
-      frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
-      frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
-      
-      var elemAut = document.createElement("div");
-      elemAut.id = "qxtestrunner_aut";
-      this.__elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
-      frameContainer.appendChild(this.__elemIframe);
-      
-      var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
-      qx.event.Registration.addListener(reloadBtn, "click", function(ev) {
-        var src = document.getElementById("qxtestrunner_iframesrc").value;
-        this.resetAutUri();
-        this.setAutUri(src);
-      }, this);
-      
-      return this.__elemIframe;
+      document.getElementById("qxtestrunner_iframesrc").value = value;
+      qx.bom.Iframe.setSource(this.__elemIframe, value);
     },
     
     
@@ -415,120 +593,6 @@ qx.Class.define("testrunner2.view.Html", {
         return;
       }
       this.__setDisplayForClass(".success", value);
-    },
-    
-    
-    /**
-     * Sets the CSS "display" attribute of all nodes with the given CSS class.
-     * 
-     * @param cssClass {String} CSS class name
-     * @param display {Boolean} Display value: true for "block", false for "none"
-     */
-    __setDisplayForClass : function(cssClass, display)
-    {
-      var displayVal = display ? "block" : "none";
-      var elems = qx.bom.Selector.query(cssClass, this.__rootElement);
-      for (var i=0,l=elems.length; i<l; i++) {
-        qx.bom.element.Style.set(elems[i], "display", displayVal);
-      }
-    },
-    
-    
-    /**
-     * Creates a list item with a checkbox and label for each test in the 
-     * current suite. Only tests with ticked checkboxes will be run.
-     * 
-     * @param value {Array} Full list of tests
-     * @param old {Array} Previous value
-     */
-    _applyInitialTestList : function(value, old)
-    {
-      this.setSelectedTests(value);
-      
-      this.clearTestList();
-      this.clearResults();
-      
-      for (var i=0,l=value.length; i<l; i++) {
-        var listItem = document.createElement("li");
-        var testName = value[i];
-        var checkBoxId = "cb_" + this.__testNameToId(testName);
-        var cb = qx.bom.Input.create("checkbox", {id: checkBoxId, name: testName, checked: "checked"});
-        listItem.appendChild(cb);
-        listItem.innerHTML += '<label for="' + checkBoxId + '">' + testName + '</label>';
-        this.__elemTestList.appendChild(listItem);
-                
-        cb = document.getElementById(checkBoxId);
-        qx.event.Registration.addListener(cb, "change", this._onToggleTest, this);
-      }
-    },
-    
-    
-    /**
-     * Listener for the checkbox associated with each test in the suite. 
-     * 
-     * @param ev {qx.event.type.Event} change event
-     */
-    _onToggleTest : function(ev)
-    {
-      var testName = ev.getTarget().name;
-      var selected = ev.getTarget().checked;
-      this.__toggleTestSelected(testName, selected);
-    },
-    
-    
-    /**
-     * Adds or removes a test from the list of selected tests.
-     * 
-     * @param ev {qx.event.type.Event} The change event from the checkbox 
-     * associated with the test
-     */
-    __toggleTestSelected : function(testName, selected)
-    {
-      var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
-      
-      if (selected && !qx.lang.Array.contains(selectedTests, testName)) {
-        selectedTests.push(testName);
-      }
-      else if (!selected && qx.lang.Array.contains(selectedTests, testName)) {
-        qx.lang.Array.remove(selectedTests, testName);
-      }
-      
-      selectedTests.sort();
-      this.setSelectedTests(selectedTests);
-    },
-    
-    
-    /**
-     * Selects or deselects all tests in the current test suite.
-     * 
-     * @param selected {Boolean} true = select all tests; false = deselect all 
-     * tests
-     */
-    toggleAllTests : function(selected)
-    {
-      var boxes = document.getElementsByTagName("input");
-      for (var i=0,l=boxes.length; i<l; i++) {
-        if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
-          boxes[i].checked = selected;
-          this.__toggleTestSelected(boxes[i].name, selected);
-        }
-      }
-    },
-    
-    
-    /**
-     * (Re)Loads the AUT in the iframe.
-     * 
-     * @param value {String} AUT URI
-     * @param old {String} Previous value
-     */
-    _applyAutUri : function(value, old)
-    {
-      if (!value || value == old) {
-        return;
-      }
-      document.getElementById("qxtestrunner_iframesrc").value = value;
-      qx.bom.Iframe.setSource(this.__elemIframe, value);
     }
     
   }
