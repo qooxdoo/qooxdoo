@@ -71,6 +71,14 @@
       "settings" :
       {
         "qx.testNameSpace" : "${TEST_NAMESPACE}"
+      },
+      
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner.js"
+        }
       }
     },  
     
