@@ -30,6 +30,10 @@ qooxdoo/component/inspector/source/script
 qooxdoo/component/inspector/build
 qooxdoo/component/inspector/test
 qooxdoo/component/inspector/api
+qooxdoo/component/apiviewer/source/script
+qooxdoo/component/apiviewer/build
+qooxdoo/component/apiviewer/test
+qooxdoo/component/apiviewer/api
 qooxdoo/documentation/manual/build
 qooxdoo/application/feedreader/inspector
 qooxdoo/application/demobrowser/source/script/
@@ -45,7 +49,6 @@ qooxdoo/application/performance/test
 qooxdoo/application/showcase/source/script
 qooxdoo/application/showcase/build
 qooxdoo/application/showcase/cache
-qooxdoo/component/apiviewer/source/script/
 qooxdoo/component/testrunner/source/script/
 qooxdoo/frontend/application/demobrowser/source/script
 qooxdoo/frontend/application/playground/source/script
