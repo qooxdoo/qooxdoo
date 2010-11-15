@@ -57,39 +57,51 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
       var val = 20;
 
       this.__pb = new qx.ui.indicator.Progressbar();
-      this.__pb.setValue(val);
-      this.assertIdentical(val, this.__pb.getValue());
 
-      //do nothing if you set a value smaller than 0.
-      this.__pb.setValue(-val);
-      this.assertIdentical(val, this.__pb.getValue());
+      //returns exactly what was set
+      this.assertIdentical(val, this.__pb.setValue(val));
 
-      //do nothing if you set a value greater than max.
-      this.__pb.setValue(this.__pb.getMax() + val);
       this.assertIdentical(val, this.__pb.getValue());
+    },
+
+    testLimitValueToZero: function() {
+      this.__pb = new qx.ui.indicator.Progressbar();
+      this.__pb.setValue(-20);
+      this.assertIdentical(0, this.__pb.getValue());
+    },
+
+    testLimitValueToMax: function() {
+      this.__pb = new qx.ui.indicator.Progressbar();
+      this.__pb.setValue(this.__pb.getMax() + 1);
+      this.assertIdentical(this.__pb.getMax(), this.__pb.getValue());
     },
 
 
     testMax: function() {
-      var max = 200, val = 20;
-
+      var max = 200;
       this.__pb = new qx.ui.indicator.Progressbar();
-      this.__pb.setMax(max);
-      this.assertIdentical(max, this.__pb.getMax());
+      
+      //returns exactly what was set
+      this.assertIdentical(max, this.__pb.setMax(max));
 
-      //do nothing if you set max smaller than value.
-      this.__pb.setValue(val);
-      this.__pb.setMax(val-1);
-      this.assertIdentical(max, this.__pb.getMax());
-
-      max = 100;
-
-      //do nothing if you set max to 0.
-      this.__pb = new qx.ui.indicator.Progressbar();
-      this.__pb.setMax(0);
       this.assertIdentical(max, this.__pb.getMax());
     },
 
+    testDoNothingIfMaxIsSetToZero: function() {
+      this.__pb = new qx.ui.indicator.Progressbar();
+      this.__pb.setMax(0);
+
+      //default is 100
+      this.assertIdentical(100, this.__pb.getMax());
+    },
+
+    testLimitMaxToValue: function() {
+      var val = 20;
+      this.__pb = new qx.ui.indicator.Progressbar();
+      this.__pb.setValue(val);
+      this.__pb.setMax(val-1);
+      this.assertIdentical(val, this.__pb.getMax());
+    },
 
     testChangeEvent : function() {
       var me = this, val = 10;

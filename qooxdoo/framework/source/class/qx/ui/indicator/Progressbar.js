@@ -119,13 +119,19 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       var max = this.getMax();
 
       //do nothing if is not a number, 
-      //is negative 
-      //or is greater than Max
       if (!qx.lang.Type.isNumber(value) || 
-          !isFinite(value) || 
-          value < 0 || 
-          value > max) {
+          !isFinite(value)){
         return;
+      }
+
+      // limit value to 0
+      if (value < 0) {
+        value = 0;
+      }
+
+      // limit value to max
+      if (value > max) {
+        value = max;
       }
 
       //set value
@@ -160,12 +166,15 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
       //do nothing if is not a number, 
       //is negative or zero 
-      //or is smaller than Value
       if (!qx.lang.Type.isNumber(max) || 
           !isFinite(max) || 
-          max <= 0 ||
-          max < val) {
+          max <= 0) {
         return;
+      }
+
+      //limit max to a greater than 0 value
+      if (max < val) { 
+        max = val;
       }
 
       //set max
