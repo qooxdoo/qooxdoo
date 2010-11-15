@@ -246,10 +246,36 @@ class Class(Resource):
                 result = strip_comments(result)
         # compiled versions
         else:
-            tree   = self.optimize(self.tree(variants), optimize)
-            result = self.compile(tree, format)
+            #tree   = self.optimize(self.tree(variants), optimize)
+            #result = self.compile(tree, format)
+            result = self._getCompiled(optimize, variants, format)
 
         return result
+
+
+    def _getCompiled(self, optimize, variants, format):
+
+        classVariants     = self.classVariants()
+        relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+        variantsId        = util.toString(relevantVariants)
+
+        optimizeId = self._getOptimizeId(optimize)
+
+        cacheId = "compiledn-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format)
+        compiled, _ = cache.read(cacheId, self.path)
+
+        if compiled == None:
+            tree   = self.optimize(self.tree(variants), optimize)
+            compiled = self.compile(tree, format)
+            cache.write(cacheId, compiled)
+
+        return compiled
+
+
+    def _getOptimizeId(self, optimize):
+        optimize = copy.copy(optimize)
+        optimize.sort()
+        return "[%s]" % ("-".join(optimize))
 
 
     def compile(self, tree, format=False):

@@ -776,12 +776,24 @@ class Generator(object):
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     ignored_names.append(classId) # fix self-references from Class.dependencies()
 
+                    # collapse multiple occurrences of same class
+                    loads = []
                     for dep in classDeps["load"]:
+                        if dep.name not in (x.name for x in loads):
+                            loads.append(dep)
+                    runs = []
+                    for dep in classDeps["run"]:
+                        if dep.name not in (x.name for x in runs):
+                            runs.append(dep)
+
+                    # yield dependencies
+                    for dep in loads:
                         if dep.name not in ignored_names:
                             yield (packageId, classId, dep.name, 'load')
 
-                    for dep in classDeps["run"]:
-                        if dep.name not in ignored_names:
+                    load_names = [x.name for x in loads]
+                    for dep in runs:
+                        if dep.name not in ignored_names and dep.name not in load_names:
                             yield (packageId, classId, dep.name, 'run')
 
                     if not hasVisibleDeps(classId):
@@ -809,12 +821,23 @@ class Generator(object):
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     ignored_names.append(classId) # fix self-references from Class.dependencies()
 
+                    # collapse multiple occurrences of same class
+                    loads = []
                     for dep in classDeps["load"]:
+                        if dep.name not in (x.name for x in loads):
+                            loads.append(dep)
+                    runs = []
+                    for dep in classDeps["run"]:
+                        if dep.name not in (x.name for x in runs):
+                            runs.append(dep)
+
+                    # collect dependencies
+                    for dep in loads:
                         if dep.name not in ignored_names:
                             if dep.name not in depsMap:
                                 depsMap[dep.name] = (packageId, [], [])  # the packageId is bogus here
                             depsMap[dep.name][1].append(classId)
-                    for dep in classDeps["run"]:
+                    for dep in runs:
                         if dep.name not in ignored_names:
                             if dep.name not in depsMap:
                                 depsMap[dep.name] = (packageId, [], [])

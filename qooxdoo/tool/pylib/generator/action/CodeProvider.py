@@ -66,6 +66,7 @@ def _handleCode(script, generator):
     builds  = context.jobconf.get("provider/compile",  ["source"])
 
     for buildtype in builds:
+        context.console.info("Processing %s version of classes:\t" % buildtype, False)
         if buildtype == "source":
             targetdir = approot + "/code"
             filetool.directory(targetdir)
@@ -73,10 +74,14 @@ def _handleCode(script, generator):
             targetdir = approot + "/code-build"
             filetool.directory(targetdir)
             optimize = context.jobconf.get("compile-options/code/optimize", ["variables","basecalls","strings"])
+            variantsettings = context.jobconf.get("variants", {})
+            variantSets = util.computeCombinations(variantsettings)
         else:
             raise ConfigurationError("Unknown provider compile type '%s'" % buildtype)
 
-        for clazz in script.classesObj:
+        numClasses = len(script.classesObj)
+        for num, clazz in enumerate(script.classesObj):
+            context.console.progress(num+1, numClasses)
             # register library (for _handleResources)
             if clazz.library.namespace not in libraries:
                 libraries[clazz.library.namespace] = clazz.library
@@ -88,7 +93,7 @@ def _handleCode(script, generator):
                 if buildtype == "source":
                     shutil.copy(clazz.path, targetpath)
                 elif buildtype == "build":
-                    code = clazz.getCode(optimize)
+                    code = clazz.getCode(optimize, variantSets[0]) # only support for a single variant set!
                     filetool.save(targetpath, code)
 
     return
