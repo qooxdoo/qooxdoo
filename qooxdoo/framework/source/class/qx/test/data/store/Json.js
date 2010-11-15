@@ -385,6 +385,31 @@ qx.Class.define("qx.test.data.store.Json",
       }, 100);
 
       this.wait();
+    },
+    
+    
+    testDisposeOldModel: function(){
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          // check if the new model is not the old model
+          this.assertNotEquals(fakeModel, model);
+          // check if the old model has been disposed
+          this.assertTrue(fakeModel.isDisposed());
+        }, this);
+      }, this);
+
+      // set a fake model
+      var fakeModel = new qx.core.Object();
+      this.__store.setModel(fakeModel);
+
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
+      var self = this;
+      window.setTimeout(function(){
+        self.__store.setUrl(url);
+      }, 100);
+
+      this.wait();
     }
 
 
