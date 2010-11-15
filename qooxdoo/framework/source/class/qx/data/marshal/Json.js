@@ -227,6 +227,10 @@ qx.Class.define("qx.data.marshal.Json",
         // ignore all non objects
         return;
       }
+      // ignore already disposed items (could happen during shutdown)
+      if (item.isDisposed()) {
+        return;
+      }
       // dispose all entires of an array
       if (qx.Class.implementsInterface(item, qx.data.IListData)) {
         // dispose all items of the array
