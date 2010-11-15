@@ -221,6 +221,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * array is the same as in the target widget.
      */
     _updateSelection: function() {
+      // do nothing if no target is set
+      if (!this.getTarget()) {
+        return;
+      }
+      
       // mark the change process in a flag
       this._startSelectionModification();
 
