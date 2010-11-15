@@ -172,8 +172,16 @@ qx.Class.define("qx.data.store.Json",
 
         // create the class
         this._marshaler.toClass(data, true);
+
+        var oldModel = this.getModel();
+
         // set the initial data
         this.setModel(this._marshaler.toModel(data));
+
+        // get rid of the old model
+        if (oldModel && oldModel.dispose) {
+          oldModel.dispose();
+        }
 
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
