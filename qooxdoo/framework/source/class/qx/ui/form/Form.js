@@ -240,6 +240,17 @@ qx.Class.define("qx.ui.form.Form",
       }
       return items;
     }
+  },
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+    // holding references to widgets --> must set to null
+    this.__groups = this._buttons = this._buttonOptions = null;
   }
 });
