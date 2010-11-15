@@ -57,7 +57,9 @@
  *  </tr><tr>
  *  <td>qx.dynlocale     <td>[ "on", "off" ]                    <td>"on"
  *  </tr><tr>
- *  <td>qx.mobile     <td>[ "on", "off" ]                    <td>"off"
+ *  <td>qx.mobile.emulatetouch     <td>[ "on", "off" ]                    <td>"off"
+ *  </tr><tr>
+ *  <td>qx.mobile.nativescroll     <td>[ "on", "off" ]                    <td>"off"
  *  </tr>
  * </table>
  */
@@ -396,7 +398,8 @@ qx.Bootstrap.define("qx.core.Variant",
     statics.define("qx.debug", [ "on", "off" ], "on");
     statics.define("qx.aspects", [ "on", "off" ], "off");
     statics.define("qx.dynlocale", [ "on", "off" ], "on");
-    statics.define("qx.mobile", [ "on", "off" ], "off");
+    statics.define("qx.mobile.emulatetouch", [ "on", "off" ], "off");
+    statics.define("qx.mobile.nativescroll", [ "on", "off" ], "off");
 
     statics.__init();
   }
