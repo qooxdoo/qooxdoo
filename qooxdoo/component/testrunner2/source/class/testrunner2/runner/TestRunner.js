@@ -177,9 +177,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         testCount += testRep[i].tests.length;
       }
       this.testList.sort();
-      this.setTestSuiteState("ready");
       this.setTestCount(testCount);
       this.setInitialTestList(this.testList);
+      this.setTestSuiteState("ready");
     },
     
     
