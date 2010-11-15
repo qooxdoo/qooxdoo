@@ -206,5 +206,17 @@ qx.Class.define("qx.ui.form.Resetter",
         qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
       );
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+    // holding references to widgets --> must set to null
+    this.__items = null;
   }
 });
