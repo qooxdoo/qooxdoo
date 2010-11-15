@@ -629,10 +629,6 @@ class Generator(object):
             if "copy-resources" in jobTriggers:
                 self.runResources(script)
             if "compile" in jobTriggers:
-                # get parts config; sets
-                # script.boot
-                # script.parts['boot']=[0,1,3]
-                # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             if "provider" in jobTriggers:

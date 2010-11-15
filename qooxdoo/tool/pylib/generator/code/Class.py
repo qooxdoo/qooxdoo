@@ -246,8 +246,6 @@ class Class(Resource):
                 result = strip_comments(result)
         # compiled versions
         else:
-            #tree   = self.optimize(self.tree(variants), optimize)
-            #result = self.compile(tree, format)
             result = self._getCompiled(optimize, variants, format)
 
         return result
@@ -258,10 +256,10 @@ class Class(Resource):
         classVariants     = self.classVariants()
         relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
+        optimizeId        = self._getOptimizeId(optimize)
 
-        optimizeId = self._getOptimizeId(optimize)
-
-        cacheId = "compiledn-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format)
+        # Caution: This sharing cached compiled classes with TreeCompiler!
+        cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format)
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
@@ -291,15 +289,23 @@ class Class(Resource):
         return compiler.compile(tree, options, format)
 
 
-    def optimize(self, tree, optimize=[]):
+    def optimize(self, tree, optimize=[], featureMap={}):
         if not optimize:
             return tree
         
+        # 'statics' has to come before 'privates', as it needs the original key names in tree
+        if "statics" in optimize:
+            if not featureMap:
+                console.warn("Empty feature map passed to static methods optimization; skipping")
+            elif self.type == 'static' and self.id in featureMap:
+                featureoptimizer.patch(tree, self.id, featureMap[self.id])
+
         if "basecalls" in optimize:
             basecalloptimizer.patch(tree)
 
         if "privates" in optimize:
             console.warn("Cannot optimize private fields on individual class; skipping")
+            pass
 
         if "strings" in optimize:
             tree = self._stringOptimizer(tree)

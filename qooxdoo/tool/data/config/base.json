@@ -377,7 +377,8 @@
 
       ,"let" :
       {
-        "PROVIDER_ROOT" : "./provider"
+        "PROVIDER_ROOT" : "./provider",
+        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings"] 
       }
       
       ,"run" : [
@@ -413,7 +414,7 @@
         {
           "locales"  : "${LOCALES}",
           "format"   : false,
-          "optimize" : ["variables", "basecalls", "strings"] 
+          "optimize" : "${PROVIDER_OPTIMIZE}"
         }
       }
 
