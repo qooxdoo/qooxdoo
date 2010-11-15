@@ -187,7 +187,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       var target = qx.bom.Event.getTarget(domEvent);
       // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
-      if (qx.core.Variant.isSet("qx.client", "gecko|webkit"))
+      if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
