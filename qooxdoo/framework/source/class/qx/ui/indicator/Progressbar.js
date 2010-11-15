@@ -21,7 +21,11 @@
 /**
  * The Progress bar is designed to simply display the current % complete 
  * for a process.
- * 
+ *
+ * The Value is limited between 0 and Maximum value. 
+ * It's not allowed to set a Maximum value of 0.  If you set a Maximum value 
+ * bigger than 0, but smaller than Value, it will be limited to Value. 
+ *
  * The following example creates and adds a progress bar to the root element.
  * A listener is used to show the user if the value is changed, 
  * and another one when the progress is complete.
@@ -54,6 +58,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
    */
   construct: function(value, max) {
     this.base(arguments);
+
     this._createChildControl("progress");
 
     this.set({
@@ -62,8 +67,13 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       layout: new qx.ui.layout.HBox()
     });
 
-    this.setValue(value || 0);
-    this.setMax(max || 100);
+    if (value != null) {
+      this.setValue(value);
+    }
+
+    if (max != null) {
+      this.setMax(max);
+    }
   },
 
   
@@ -94,7 +104,6 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
   members: 
   {
-    __bar: null,
     __value: 0,
     __max: 100,
 
@@ -118,9 +127,8 @@ qx.Class.define("qx.ui.indicator.Progressbar",
     setValue: function(value) {
       var max = this.getMax();
 
-      //do nothing if is not a number, 
-      if (!qx.lang.Type.isNumber(value) || 
-          !isFinite(value)){
+      //do nothing if is not a number
+      if (!qx.lang.Type.isNumber(value) || !isFinite(value)) {
         return;
       }
 
@@ -164,11 +172,8 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       var max = value;
       var val = this.getValue();
 
-      //do nothing if is not a number, 
-      //is negative or zero 
-      if (!qx.lang.Type.isNumber(max) || 
-          !isFinite(max) || 
-          max <= 0) {
+      //do nothing if is not a number, is negative or zero 
+      if (!qx.lang.Type.isNumber(max) || !isFinite(max) || max <= 0) {
         return;
       }
 
@@ -189,34 +194,37 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
     //overridden
     _createChildControlImpl: function(id) {
+      var control;
+
       switch (id)
       {
         case "progress":
-          this.__bar = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-          this._add(this.__bar, { width: "0%" });
+          control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+          this._add(control, { width: "0%" });
           break;
       }
-      return this.__bar || this.base(arguments, id);
+      return control || this.base(arguments, id);
     },
 
 
   /**
    * Update the progress bar. 
    *
-   * @param value {Number} future value fo progress bar
+   * @param value {Number} future value of progress bar
    */
     __changeProgress: function(value) {
+      var bar = this.getChildControl("progress");
       var to = Math.round(value * 100);
-      var from = parseInt(this.__bar.getLayoutProperties().width, 10);
+      var from = parseInt(bar.getLayoutProperties().width, 10);
 
-      this.__bar.setLayoutProperties({width: to + "%"});
+      bar.setLayoutProperties({width: to + "%"});
 
       //fire change event
       if (to != from) {
         this.fireDataEvent("change", to, from);
       }
 
-      //fire complete event
+      //fire complete event if 100% complete
       if (to == 100) {
         this.fireEvent("complete");
       }
