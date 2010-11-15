@@ -130,7 +130,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
       return {
         getTable : function() { return table; },
         getTablePaneModel : function() { return paneModel; },
-        getTablePane : function() { return pane; }
+        getTablePane : function() { return pane; },
+        getShowCellFocusIndicator : function() { return true; }
       }
     },
 
