@@ -47,6 +47,7 @@ qx.Class.define("testrunner2.view.Html", {
     var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner2/view/html/css/testrunner2.css");
     qx.bom.Stylesheet.includeFile(styleSrc);
     root.innerHTML += "<h1>qooxdoo Test Runner</h1>";
+    
     var elemControls = document.createElement("div");
     elemControls.id = "qxtestrunner_controls";
     elemControls.innerHTML = '<input type="submit" id="qxtestrunner_run" value="Run Tests"></input>';
@@ -62,9 +63,15 @@ qx.Class.define("testrunner2.view.Html", {
     
     root.appendChild(elemControls);
     
+    var elemTestControls = document.createElement("div");
+    var allTestsToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglealltests", checked: "checked"});
+    elemTestControls.appendChild(allTestsToggle);
+    elemTestControls.innerHTML += '<label for="qxtestrunner_togglealltests">Select/deselect all tests</label>';
+    root.appendChild(elemTestControls);
+    
     var elemTestList = document.createElement("div");
     elemTestList.id = "qxtestrunner_tests";
-    elemTestList.innerHTML = '<ul id="qxtestrunner_testlist"></ul>';
+    elemTestList.innerHTML += '<ul id="qxtestrunner_testlist"></ul>';
     root.appendChild(elemTestList);
     
     var elemResults = document.createElement("div");
@@ -87,7 +94,12 @@ qx.Class.define("testrunner2.view.Html", {
       this.fireEvent("stopTests");
     }, this);
     
-    // Why is this necessary?
+    allTestsToggle = document.getElementById("qxtestrunner_togglealltests");
+    qx.event.Registration.addListener(allTestsToggle, "change", function(ev) {
+      var checked = ev.getTarget().checked;
+      this.toggleAllTests(checked);      
+    }, this);
+    
     stackToggle = document.getElementById("qxtestrunner_togglestack");
     qx.event.Registration.addListener(stackToggle, "change", function(ev) {
       this.setShowStack(ev.getData());
@@ -446,8 +458,21 @@ qx.Class.define("testrunner2.view.Html", {
         this.__elemTestList.appendChild(listItem);
                 
         cb = document.getElementById(checkBoxId);
-        qx.event.Registration.addListener(cb, "change", this.__toggleTestSelected, this);
+        qx.event.Registration.addListener(cb, "change", this._onToggleTest, this);
       }
+    },
+    
+    
+    /**
+     * Listener for the checkbox associated with each test in the suite. 
+     * 
+     * @param ev {qx.event.type.Event} change event
+     */
+    _onToggleTest : function(ev)
+    {
+      var testName = ev.getTarget().name;
+      var selected = ev.getTarget().checked;
+      this.__toggleTestSelected(testName, selected);
     },
     
     
@@ -457,20 +482,37 @@ qx.Class.define("testrunner2.view.Html", {
      * @param ev {qx.event.type.Event} The change event from the checkbox 
      * associated with the test
      */
-    __toggleTestSelected : function(ev)
+    __toggleTestSelected : function(testName, selected)
     {
-      var testName = ev.getTarget().name;      
       var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
       
-      if (ev.getTarget().checked && !qx.lang.Array.contains(selectedTests, testName)) {
+      if (selected && !qx.lang.Array.contains(selectedTests, testName)) {
         selectedTests.push(testName);
       }
-      else if (!ev.getTarget().checked && qx.lang.Array.contains(selectedTests, testName)) {
+      else if (!selected && qx.lang.Array.contains(selectedTests, testName)) {
         qx.lang.Array.remove(selectedTests, testName);
       }
       
       selectedTests.sort();
       this.setSelectedTests(selectedTests);
+    },
+    
+    
+    /**
+     * Selects or deselects all tests in the current test suite.
+     * 
+     * @param selected {Boolean} true = select all tests; false = deselect all 
+     * tests
+     */
+    toggleAllTests : function(selected)
+    {
+      var boxes = document.getElementsByTagName("input");
+      for (var i=0,l=boxes.length; i<l; i++) {
+        if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
+          boxes[i].checked = selected;
+          this.__toggleTestSelected(boxes[i].name, selected);
+        }
+      }
     },
     
     
