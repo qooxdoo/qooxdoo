@@ -581,7 +581,7 @@ qx.Class.define("testrunner2.view.Html", {
         return;
       }
 
-      //this.setSelectedTests(value);
+      this.setSelectedTests(value);
       
       this.clearTestList();
       this.clearResults();
