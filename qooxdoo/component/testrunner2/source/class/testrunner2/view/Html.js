@@ -373,8 +373,7 @@ qx.Class.define("testrunner2.view.Html", {
      */
     __testNameToId : function(testName)
     {
-      var id = testName.replace(/\./g, "");
-      id = id.replace(/\:/g, "");
+      var id = testName.replace(/[\W]/ig, "")
       return id;
     },
     
