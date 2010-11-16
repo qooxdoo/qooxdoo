@@ -168,19 +168,16 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       testRep = qx.lang.Json.parse(testRep);
       
       this.testList = [];
-      var testCount = 0;
       
       for (var i=0,l=testRep.length; i<l; i++) {
         var testClassName = testRep[i].classname;
         for (var j=0,m=testRep[i].tests.length; j<m; j++) {
           this.testList.push(testClassName + ":" + testRep[i].tests[j]);
         }
-        testCount += testRep[i].tests.length;
       }
       this.testList.sort();
       this.setInitialTestList(this.testList);
       this.setTestSuiteState("ready");
-      this.setTestCount(testCount);
     },
     
     
