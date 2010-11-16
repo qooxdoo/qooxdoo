@@ -544,11 +544,12 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @param value {String} The new value.
      */
     __fireChangeValueEvent : function(value) {
-      if (this.__oldValue != value) {
+      var old = this.__oldValue;
+      this.__oldValue = value;
+      if (old != value) {
         this.fireNonBubblingEvent(
-          "changeValue", qx.event.type.Data, [value, this.__oldValue]
+          "changeValue", qx.event.type.Data, [value, old]
         );
-        this.__oldValue = value;
       }
     },
 
