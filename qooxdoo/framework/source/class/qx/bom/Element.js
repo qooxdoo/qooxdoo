@@ -26,6 +26,7 @@
 #require(qx.event.handler.DragDrop)
 #require(qx.event.handler.Element)
 #require(qx.event.handler.Appear)
+#require(qx.event.handler.Touch)
 
 ************************************************************************ */
 

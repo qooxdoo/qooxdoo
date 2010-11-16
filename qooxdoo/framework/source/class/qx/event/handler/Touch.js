@@ -14,8 +14,15 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
-     * Tino butz (tbtz)
+     * Tino Butz (tbtz)
      * Christian Hagendorn (chris_schmidt)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#require(qx.event.handler.UserAction)
+#require(qx.event.handler.Orientation)
 
 ************************************************************************ */
 
