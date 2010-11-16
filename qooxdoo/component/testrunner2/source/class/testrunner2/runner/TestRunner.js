@@ -372,7 +372,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       /*
        * Get the value of qx.testParts from the AUT frame. This setting won't 
-       * usually be defined so we need to wrap it in a tr/catch block.
+       * usually be defined so we need to wrap it in a try/catch block.
        * In IE, try/catch won't catch errors from other frames so we have to use
        * the frame's eval to execute the code in the right scope.
        * If the setting is defined, eval returns an instance of the frame 
@@ -388,7 +388,6 @@ qx.Class.define("testrunner2.runner.TestRunner", {
           return [];\
         }\
       })();"
-      //var frameParts = this.frameWindow.eval("(function() {try { return qx.core.Setting.get('qx.testParts');} catch(ex) {return [];}})()");
       var frameParts = this.frameWindow.eval(closure);
       for (var i = 0; i < frameParts.length; i++) {
         this.__testParts.push(frameParts[i]);
