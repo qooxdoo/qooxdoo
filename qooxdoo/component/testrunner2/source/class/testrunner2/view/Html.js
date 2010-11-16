@@ -525,11 +525,15 @@ qx.Class.define("testrunner2.view.Html", {
       {
         case "loading" :
           this.setStatus("Loading tests...");
+          this.__domElements.filterInput.disabled = true;
+          this.__domElements.allTestsToggle.disabled = true;
           this.__domElements.runButton.disabled = true;
           this.__domElements.stopButton.disabled = true;
           break;
         case "ready" :
           this.setStatus("Test suite ready");
+          this.__domElements.filterInput.disabled = false;
+          this.__domElements.allTestsToggle.disabled = false;
           this.__domElements.runButton.disabled = false;
           this.__domElements.stopButton.disabled = true;
           this.setFailedTestCount(0);
@@ -537,6 +541,8 @@ qx.Class.define("testrunner2.view.Html", {
           break;
         case "running" :
           this.setStatus("Running tests...");
+          this.__domElements.filterInput.disabled = true;
+          this.__domElements.allTestsToggle.disabled = true;
           this.__domElements.runButton.disabled = true;
           this.__domElements.stopButton.disabled = false;
           break;
@@ -546,11 +552,15 @@ qx.Class.define("testrunner2.view.Html", {
           statusText += " Failed: " + this.getFailedTestCount();
           statusText += " Skipped: " + this.getSkippedTestCount();
           this.setStatus(statusText);
+          this.__domElements.filterInput.disabled = true;
+          this.__domElements.allTestsToggle.disabled = true;
           this.__domElements.runButton.disabled = true;
           this.__domElements.stopButton.disabled = true;
           break;
         case "aborted" :
           this.setStatus("Test run stopped");
+          this.__domElements.filterInput.disabled = false;
+          this.__domElements.allTestsToggle.disabled = false;
           this.__domElements.runButton.disabled = false;
           this.__domElements.stopButton.disabled = true;
           break;
