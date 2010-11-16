@@ -57,6 +57,13 @@ Form Widgets
 
 :doc:`checkbox`, :doc:`list`, :doc:`slider`
 
+.. _pages/widget#indicators:
+
+Indicators
+==========
+:doc:`progressbar`
+
+
 .. .. _pages/widget#other:
 .. 
 .. Other

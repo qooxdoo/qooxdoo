@@ -42,3 +42,4 @@
    tooltip.rst
    tree.rst
    window.rst
+   progressbar.rst
