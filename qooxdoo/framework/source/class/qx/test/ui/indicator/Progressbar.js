@@ -37,19 +37,19 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
 
       this.__pb = new qx.ui.indicator.Progressbar();
       this.assertIdentical(val, this.__pb.getValue());
-      this.assertIdentical(max, this.__pb.getMax());
+      this.assertIdentical(max, this.__pb.getMaximum());
 
       //value
       val = 10;
       this.__pb = new qx.ui.indicator.Progressbar(val);
       this.assertIdentical(val, this.__pb.getValue());
-      this.assertIdentical(max, this.__pb.getMax());
+      this.assertIdentical(max, this.__pb.getMaximum());
 
       //value, max
       max = 120;
       this.__pb = new qx.ui.indicator.Progressbar(val, max);
       this.assertIdentical(val, this.__pb.getValue());
-      this.assertIdentical(max, this.__pb.getMax());
+      this.assertIdentical(max, this.__pb.getMaximum());
     },
 
 
@@ -70,37 +70,37 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
       this.assertIdentical(0, this.__pb.getValue());
     },
 
-    testLimitValueToMax: function() {
+    testLimitValueToMaximum: function() {
       this.__pb = new qx.ui.indicator.Progressbar();
-      this.__pb.setValue(this.__pb.getMax() + 1);
-      this.assertIdentical(this.__pb.getMax(), this.__pb.getValue());
+      this.__pb.setValue(this.__pb.getMaximum() + 1);
+      this.assertIdentical(this.__pb.getMaximum(), this.__pb.getValue());
     },
 
 
-    testMax: function() {
+    testMaximum: function() {
       var max = 200;
       this.__pb = new qx.ui.indicator.Progressbar();
       
       //returns exactly what was set
-      this.assertIdentical(max, this.__pb.setMax(max));
+      this.assertIdentical(max, this.__pb.setMaximum(max));
 
-      this.assertIdentical(max, this.__pb.getMax());
+      this.assertIdentical(max, this.__pb.getMaximum());
     },
 
-    testDoNothingIfMaxIsSetToZero: function() {
+    testDoNothingIfMaximumIsSetToZero: function() {
       this.__pb = new qx.ui.indicator.Progressbar();
-      this.__pb.setMax(0);
+      this.__pb.setMaximum(0);
 
       //default is 100
-      this.assertIdentical(100, this.__pb.getMax());
+      this.assertIdentical(100, this.__pb.getMaximum());
     },
 
-    testLimitMaxToValue: function() {
+    testLimitMaximumToValue: function() {
       var val = 20;
       this.__pb = new qx.ui.indicator.Progressbar();
       this.__pb.setValue(val);
-      this.__pb.setMax(val-1);
-      this.assertIdentical(val, this.__pb.getMax());
+      this.__pb.setMaximum(val-1);
+      this.assertIdentical(val, this.__pb.getMaximum());
     },
 
     testChangeEvent : function() {
@@ -117,7 +117,7 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
 
 
     testCompleteEvent : function() {
-      var me = this, max = this.__pb.getMax();
+      var me = this, max = this.__pb.getMaximum();
 
       this.__pb = new qx.ui.indicator.Progressbar();
       this.assertEventFired(this.__pb, "complete", function() {

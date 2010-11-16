@@ -54,9 +54,9 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
   /**
    * @param value {Number ? 0} Progress bar value
-   * @param max {Number ? 100} Progress bar maximum value 
+   * @param maximum {Number ? 100} Progress bar maximum value 
    */
-  construct: function(value, max) {
+  construct: function(value, maximum) {
     this.base(arguments);
 
     this._createChildControl("progress");
@@ -71,8 +71,8 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       this.setValue(value);
     }
 
-    if (max != null) {
-      this.setMax(max);
+    if (maximum != null) {
+      this.setMaximum(maximum);
     }
   },
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
   members: 
   {
     __value: 0,
-    __max: 100,
+    __maximum: 100,
 
     
     /**
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
      * @return The unmodified incoming value.
      */
     setValue: function(value) {
-      var max = this.getMax();
+      var max = this.getMaximum();
 
       //do nothing if is not a number
       if (!qx.lang.Type.isNumber(value) || !isFinite(value)) {
@@ -157,8 +157,8 @@ qx.Class.define("qx.ui.indicator.Progressbar",
      *
      * @return maximum value of progress bar.
      */
-    getMax: function() {
-      return this.__max;
+    getMaximum: function() {
+      return this.__maximum;
     },
 
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
      * @param value {Number} New maximum value progress bar.
      * @return The unmodified incoming value.
      */
-    setMax: function(value) {
+    setMaximum: function(value) {
       var max = value;
       var val = this.getValue();
 
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       }
 
       //set max
-      this.__max = max;
+      this.__maximum = max;
 
       //update progress
       this.__changeProgress(val / max);
