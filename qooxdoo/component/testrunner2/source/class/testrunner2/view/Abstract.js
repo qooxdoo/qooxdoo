@@ -77,6 +77,9 @@ qx.Class.define("testrunner2.view.Abstract", {
     /** List of tests in the current suite */
     initialTestList :
     {
+      check : "Array",
+      init : null,
+      nullable : true,
       apply : "_applyInitialTestList"
     },
     

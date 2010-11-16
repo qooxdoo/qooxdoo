@@ -38,6 +38,15 @@ h1 {
   margin: 5px 0 5px 10px;
 }
 
+#qxtestrunner_testcontrols {
+  font-size: 1em;
+  margin: 5px 10px 0 10px;
+}
+
+#qxtestrunner_testcontrols input {
+  margin-left: 10px;
+}
+
 #qxtestrunner_autframe {
   margin: 10px 10px 0 10px;
   width: 98%;

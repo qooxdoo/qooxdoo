@@ -110,7 +110,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     /** Flat list of all tests in the current suite */
     initialTestList :
     {
-      init : [],
+      init : null,
+      nullable : true,
       check : "Array",
       event : "changeInitialTestList"
     },
@@ -177,9 +178,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         testCount += testRep[i].tests.length;
       }
       this.testList.sort();
-      this.setTestCount(testCount);
       this.setInitialTestList(this.testList);
       this.setTestSuiteState("ready");
+      this.setTestCount(testCount);
     },
     
     
@@ -389,6 +390,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     _applySelectedTests : function(value, old)
     {
+      if (!value) {
+        return;
+      }
       this.testList = value;
       // Make sure the value is applied even if it didn't change so the view is
       // updated
