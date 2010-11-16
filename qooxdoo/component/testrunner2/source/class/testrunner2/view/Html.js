@@ -532,6 +532,7 @@ qx.Class.define("testrunner2.view.Html", {
           break;
         case "ready" :
           this.setStatus("Test suite ready");
+          this._applyTestCount(this.getTestCount());
           this.__domElements.filterInput.disabled = false;
           this.__domElements.allTestsToggle.disabled = false;
           this.__domElements.runButton.disabled = false;
