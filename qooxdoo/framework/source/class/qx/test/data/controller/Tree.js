@@ -148,6 +148,26 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model = null;
       this.__tree.dispose();
     },
+    
+    
+    testModelChange: function(){
+      // set model to null
+      this.__controller.setModel(null);
+
+      // set the same model again (forces the tree to redraw)
+      this.__controller.setModel(this.__model);
+
+      var d  = new qx.test.TreeNode();
+      d.setName("d");
+
+      var model = this.__model;
+      // add the new model
+      this.wait(100, function() {
+        model.getChildren().push(d);        
+      });
+
+      // d will be disposed by the model
+    },
 
 
     testFolderCreation: function() {
