@@ -89,7 +89,7 @@ The build system allows you to tailor where those resources are stored, so you c
     - without dedicated I18N parts: class data is allocated in each individual package, corresponding to the contained class code that needs it
     - with dedicated I18N parts: class data is in dedicated I18N packages
 
-The term *"dedicated I18N parts"* refers to the possibility to split translated strings and CLDR data out in separate parts, one for each language (see :ref:`packages/i18n-with-boot <pages/tool/generator_config_ref#packages>`). Like with other parts, those parts have to be actively loaded by the application (using `qx.io.PartLoader.require <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.io.PartLoader>`_).
+The term *"dedicated I18N parts"* refers to the possibility to split translated strings and CLDR data out in separate parts, one for each language (see :ref:`packages/i18n-with-boot <pages/tool/generator_config_ref#packages>`). Like with other parts, those parts have to be actively loaded by the application (using `qx.io.PartLoader.require <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.PartLoader>`_).
 
 In the build version without dedicated I18N parts (case 2.1), those class data is stored as is needed by the code of the package. This may mean that the same data is stored in multiple packages, as e.g. two packages might use the same image or translated string. This is to ensure optimal independence of packages among each other so they can be loaded independently, and is resolved at the browser (ie. resource data is stored uniquely in memory).
 
@@ -391,12 +391,12 @@ So how does the generator create all of those URIs in the final application code
 
 So for example a graphics file in the qooxdoo framework might get referenced using the following components 
 
-* [1] *"../../qooxdoo-1.2-sdk/framework/"* 
+* [1] *"../../qooxdoo-%{version}-sdk/framework/"* 
 * [2] *"source/resource/qx/"*
 * [3] *"static/blank.gif"*
 
 to produce the final URI 
-*"../../qooxdoo-1.2-sdk/framework/source/resource/qx/static/ blank.gif"*.
+*"../../qooxdoo-%{version}-sdk/framework/source/resource/qx/static/ blank.gif"*.
 
 These general parts have the following meaning:
 
@@ -426,7 +426,7 @@ For the **build** version, dedicated keys :ref:`uris/script <pages/tool/generato
 
 Since [1.2] is always known (otherwise the whole library would not be found), only [1.1] has to be given in the config. The properties of this approach, compared to specifying just [1], are:
 
-* *The application root can be specified individually for each compile job.* This means you could have more than one application root in your project, e.g. when your main application offers an iframe, into which another application from the same project is loaded; qooxdoo's `Demobrowser <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ application takes advantage of exactly this.
+* *The application root can be specified individually for each compile job.* This means you could have more than one application root in your project, e.g. when your main application offers an iframe, into which another application from the same project is loaded; qooxdoo's `Demobrowser <http://demo.qooxdoo.org/%{version}/demobrowser>`_ application takes advantage of exactly this.
 
 * *Relative file system paths have to match with relative URIs in the running application.* So this approach won't work if e.g the relative path from your config directory to the library makes no sense when the app is run from a web server.
 
@@ -502,7 +502,7 @@ Here are the details:
 * Setting *packages/i18n-with-boot: false* removes this data from the loader script.
 * Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code. As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part "en_US"). Each package is a normal qooxdoo package with only the data section, and without the code section. (See :doc:`/pages/development/parts_overview` for more details).
 
-So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be converted. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/1.2.x/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
+So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be converted. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
 
 .. _pages/tool/generator_config_articles#include_key_top-level_-_adding_features:
 
