@@ -69,6 +69,28 @@ qx.Class.define("qx.test.ui.layout.Grid",
     },
 
 
+    testRowSpanWithoutFlex : function() {
+      // test with spacing
+      this._gridLayout.setSpacingY(6);
+      
+      var w1 = new qx.test.ui.layout.LayoutItem(100, 100);
+      this._gridWidget.add(w1, {row: 0, column: 1});
+
+      var w2 = new qx.test.ui.layout.LayoutItem(100, 100);
+      this._gridWidget.add(w2, {row: 1, column: 1});
+
+      var w3 = new qx.test.ui.layout.LayoutItem(100, 300);
+      this._gridWidget.add(w3, {row: 0, column: 0, rowSpan: 2});
+
+      this.flush();
+      this.assertEquals(300, this._gridWidget.bounds.height);
+      
+      w1.dispose();
+      w2.dispose();
+      w3.dispose();
+    },
+
+
     testGetCellWidget : function()
     {
       var grid = this._gridLayout;
