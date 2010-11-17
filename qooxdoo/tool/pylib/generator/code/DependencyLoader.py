@@ -97,11 +97,12 @@ class DependencyLoader(object):
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result)
         # Sort classes
-        self._console.info("Sorting %s classes..." % len(result))
+        self._console.info("Sorting %s classes " % len(result), False)
         if  self._jobconf.get("dependencies/sort-topological", False):
             result = self.sortClassesTopological(result, variants)
         else:
             result = self.sortClasses(result, variants, buildType)
+        self._console.nl()
 
         if self._console.getLevel() == "debug":
             self._console.indent()
@@ -326,7 +327,10 @@ class DependencyLoader(object):
                 return
 
             # reading dependencies
-            deps, _ = self.getCombinedDeps(classId, variants, buildType)
+            deps, cached = self.getCombinedDeps(classId, variants, buildType)
+
+            if self._console.getLevel() is "info":
+                self._console.dot("%s" % "." if cached else "*")
 
             # path is needed for recursion detection
             if not classId in path:
