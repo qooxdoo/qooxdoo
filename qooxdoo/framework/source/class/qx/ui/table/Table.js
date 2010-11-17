@@ -870,7 +870,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (!this.__columnModel)
       {
-        var columnModel = this.__columnModel = this.getNewTableColumnModel()(this)
+        var columnModel = this.__columnModel = this.getNewTableColumnModel()(this);
 
         columnModel.addListener("visibilityChanged", this._onColVisibilityChanged, this);
         columnModel.addListener("widthChanged", this._onColWidthChanged, this);
@@ -2053,7 +2053,7 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       // Inform listeners who may want to insert menu items at the end
-      var data =
+      data =
       {
         table        : this,
         menu         : menu,
