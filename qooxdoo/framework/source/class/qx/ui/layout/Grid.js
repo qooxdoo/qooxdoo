@@ -872,14 +872,25 @@ qx.Class.define("qx.ui.layout.Grid",
         // increment the preferred row sizes.
         if (prefSpanHeight < hint.height)
         {
-          var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            rowFlexes, hint.height, prefSpanHeight
-          );
+          if (!qx.lang.Object.isEmpty(rowFlexes)) {
+            var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
+              rowFlexes, hint.height, prefSpanHeight
+            );
 
-          for (var j=0; j<widgetProps.rowSpan; j++)
-          {
-            var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
-            rowHeights[widgetRow+j].height += offset;
+            for (var k=0; k<widgetProps.rowSpan; k++)
+            {
+              var offset = rowIncrements[widgetRow+k] ? rowIncrements[widgetRow+k].offset : 0;
+              rowHeights[widgetRow+k].height += offset;
+            }
+          // row is too small and we have no flex value set
+          } else {
+            var totalSpacing = vSpacing * (widgetProps.rowSpan - 1);
+            var availableHeight = hint.height - totalSpacing;
+            // check how high each row has to be to fit the set height
+            var rowHeight = Math.floor(availableHeight / widgetProps.rowSpan);
+            for (var k = 0; k < widgetProps.rowSpan; k++) {
+              rowHeights[widgetRow + k].height = rowHeight;
+            }
           }
         }
 
@@ -890,7 +901,7 @@ qx.Class.define("qx.ui.layout.Grid",
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
             rowFlexes, hint.minHeight, minSpanHeight
           );
-
+          
           for (var j=0; j<widgetProps.rowSpan; j++)
           {
             var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
