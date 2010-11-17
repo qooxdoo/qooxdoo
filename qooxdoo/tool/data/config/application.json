@@ -25,6 +25,11 @@
     {
       "path" : "${QOOXDOO_PATH}/component/inspector/inspector.json",
       "as"   : "inspector"
+    },
+    
+    {
+      "path" : "${QOOXDOO_PATH}/component/simulator/simulator.json",
+      "as"   : "simulator"
     }
   ],
 
@@ -208,6 +213,18 @@
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
         "BUILD_PATH"      : "${ROOT}/test"
+      }
+    },
+    
+    "simulation" :
+    {
+      "extend" : ["simulator::simulation"],
+      
+      "let" :
+      {
+        "SIMULATOR_ROOT" : "${QOOXDOO_PATH}/component/simulator",
+        "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*",
+        "BUILD_PATH"      : "${ROOT}/simulator"
       }
     }
   }
