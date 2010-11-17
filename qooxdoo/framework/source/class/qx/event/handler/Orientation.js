@@ -109,6 +109,7 @@ qx.Class.define("qx.event.handler.Orientation",
     __window : null,
     __nativeEventType : null,
     __currentOrientation : null,
+    __onNativeWrapper : null,
 
 
     /*
