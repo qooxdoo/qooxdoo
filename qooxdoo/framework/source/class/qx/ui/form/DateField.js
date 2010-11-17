@@ -213,7 +213,9 @@ qx.Class.define("qx.ui.form.DateField",
     {
       // if old is undefined or null do nothing
       if(!old)
-        return;
+        {
+          return;
+        }
       // get the date with the old date format
       try
       {
