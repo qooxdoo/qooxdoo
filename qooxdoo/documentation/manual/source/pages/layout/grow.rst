@@ -36,5 +36,5 @@ Alternative Names
 API
 ---
 | Here is a link to the API of the layout manager:
-| `qx.ui.layout.Grow <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Grow>`_
+| `qx.ui.layout.Grow <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Grow>`_
 

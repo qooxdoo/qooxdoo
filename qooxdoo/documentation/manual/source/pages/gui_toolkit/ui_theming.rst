@@ -5,7 +5,7 @@ Theming
 
 qooxdoo includes two themes:
 
-* ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo 1.2
+* ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo %{version}
 * ``Classic`` - a more lightweight, MS Windows oriented theme
 
 Here some screenshots:
@@ -96,7 +96,7 @@ Part of a sample color theme:
 
 Following names are recognized as named colors: ``black``, ``white``, ``silver``, ``gray``, ``maroon``, ``red``, ``purple``, ``fuchsia``, ``green``, ``lime``, ``olive``, ``yellow``, ``navy``, ``blue``, ``teal``, ``aqua``, ``orange``, ``brown``.
 
-The color values are set in the class `qx.util.ColorUtil <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ColorUtil>`_
+The color values are set in the class `qx.util.ColorUtil <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.ColorUtil>`_
 
 .. _pages/ui_theming#decoration_theme:
 

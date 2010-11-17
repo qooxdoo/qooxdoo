@@ -43,12 +43,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Canvas demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Canvas.html>`_
+* `Canvas demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-Canvas.html>`_
 
 .. _pages/widget/canvas#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `Canvas API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Canvas>`_
+| `Canvas API <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.embed.Canvas>`_
 

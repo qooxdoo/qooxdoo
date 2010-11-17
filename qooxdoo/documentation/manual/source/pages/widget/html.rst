@@ -43,7 +43,7 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
-* `HTML embed demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-HtmlEmbed.html>`_
+* `HTML embed demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-HtmlEmbed.html>`_
 
 .. _pages/widget/html#api:
 
@@ -51,5 +51,5 @@ API
 ---
 
 | Here is a link to the API of the Widget:
-| `HTML Embed API <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Html>`_
+| `HTML Embed API <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.embed.Html>`_
 

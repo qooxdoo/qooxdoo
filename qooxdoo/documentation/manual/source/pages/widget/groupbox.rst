@@ -39,12 +39,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
-* `Demo showing all groupBox types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~GroupBox.html>`_
+* `Demo showing all groupBox types <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~GroupBox.html>`_
 
 .. _pages/widget/groupbox#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.groupbox.GroupBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.groupbox>`_
+| `qx.ui.groupbox.GroupBox <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.groupbox>`_
 

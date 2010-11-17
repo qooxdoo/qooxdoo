@@ -17,13 +17,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `This demo shows how spacers can be used to configure vraiable spacing in a grid. <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Spacer_Grid.html>`_
-* `This demo shows how spacers can be used to configure vraiable spacing in a box layout. <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Spacer_HBox.html>`_
+* `This demo shows how spacers can be used to configure vraiable spacing in a grid. <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Spacer_Grid.html>`_
+* `This demo shows how spacers can be used to configure vraiable spacing in a box layout. <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Spacer_HBox.html>`_
 
 .. _pages/widget/spacer#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.core.Spacer <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.Spacer>`_
+| `qx.ui.core.Spacer <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.core.Spacer>`_
 

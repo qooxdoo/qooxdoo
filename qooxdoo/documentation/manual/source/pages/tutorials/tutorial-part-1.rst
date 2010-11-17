@@ -8,7 +8,7 @@ Tutorial Part 1: The Beginning of a twitter App
 The Missing Manual
 ==================
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial </pages/getting_started/helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/1.2/feedreader>`_.
+We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial </pages/getting_started/helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
 As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
@@ -49,7 +49,7 @@ The first part is to create a Window. As the :doc:`Window <../widget/window>` co
         }
     });
 
-We have created our own class extending the qooxdoo Window. In the constructor, we already set the caption of the window, which is the `first constructor parameter of the qooxdoo window <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.window.Window>`_. So you already have guessed it, ``this.base(arguments)`` calls the overridden method of the superclass, in this case the constructor.
+We have created our own class extending the qooxdoo Window. In the constructor, we already set the caption of the window, which is the `first constructor parameter of the qooxdoo window <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Window>`_. So you already have guessed it, ``this.base(arguments)`` calls the overridden method of the superclass, in this case the constructor.
 To test the window, we need to create an instance of it in the main application. Add these two lines of code in the Application.js file to create and open the window.
 
 ::

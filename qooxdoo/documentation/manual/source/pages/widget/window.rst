@@ -42,8 +42,8 @@ The widgets implements all known metaphors from a window:
 
 The package ``qx.ui.window`` contains two other classes that can be used to create a MDI Application:
  
-* The `Desktop <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Desktop>`_ can act as container for windows. It can be used to define a clipping region for internal windows.
-* The `Manager <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Manager>`_ handle the z-order and modality blocking of windows managed the connected desktop.
+* The `Desktop <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Desktop>`_ can act as container for windows. It can be used to define a clipping region for internal windows.
+* The `Manager <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Manager>`_ handle the z-order and modality blocking of windows managed the connected desktop.
 
 .. _pages/widget/window#demos:
 
@@ -51,15 +51,15 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Demonstrate different window types <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Window.html>`_
-* `Windows with using a Desktop <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Desktop.html>`_
-* `A window containing a table demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#table~Table.html>`_
-* `A calculator demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Calculator.html>`_
+* `Demonstrate different window types <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Window.html>`_
+* `Windows with using a Desktop <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Desktop.html>`_
+* `A window containing a table demo <http://demo.qooxdoo.org/%{version}/demobrowser/#table~Table.html>`_
+* `A calculator demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Calculator.html>`_
 
 .. _pages/widget/window#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.window.Window <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Window>`_
+| `qx.ui.window.Window <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Window>`_
 

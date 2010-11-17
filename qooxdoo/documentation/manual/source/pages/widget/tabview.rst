@@ -45,12 +45,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Horizontal and vertical TabViews with a different amount of pages <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~TabView.html>`_
+* `Horizontal and vertical TabViews with a different amount of pages <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget~TabView.html>`_
 
 .. _pages/widget/tabview#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.tabview <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.tabview>`_
+| `qx.ui.tabview <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.tabview>`_
 

@@ -18,7 +18,7 @@ Test Runner provides a convenient interface to test classes that have been writt
 
 .. note::
 
-    See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/1.2.x/testrunner/>`_. 
+    See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/%{version}/testrunner/>`_. 
 
 The Test Runner framework can also be deployed for *your own* application. It provides a GUI, a layer of infrastructure and a certain interface for arbitrary test classes. So now you can write your own test classes and take advantage of the Test Runner environment.
 
@@ -45,7 +45,7 @@ Writing Test Classes
 
     * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
     * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see :doc:`Variants <variants>`). 
-    * See the documentation for the ```qx.dev.unit.TestCase <http://demo.qooxdoo.org/1.2/apiviewer/#qx.dev.unit.TestCase>`_`` class for more information on the available assertions.
+    * See the documentation for the ```qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_`` class for more information on the available assertions.
 
 .. _pages/frame_apps_testrunner#asynchronous_tests:
 

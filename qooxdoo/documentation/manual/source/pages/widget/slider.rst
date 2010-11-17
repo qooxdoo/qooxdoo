@@ -33,13 +33,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Slider demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Slider.html>`_
-* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `Slider demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Slider.html>`_
+* `Form demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/slider#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.Slider <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.Slider>`_
+| `qx.ui.form.Slider <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.Slider>`_
 

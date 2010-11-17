@@ -56,12 +56,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `Flow layout demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Flow.html>`_
+* `Flow layout demo <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Flow.html>`_
 
 .. _pages/layout/flow#api:
 
 API
 ---
 | Here is a link to the API of the layout manager:
-| `qx.ui.layout.Flow <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Flow>`_
+| `qx.ui.layout.Flow <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Flow>`_
 

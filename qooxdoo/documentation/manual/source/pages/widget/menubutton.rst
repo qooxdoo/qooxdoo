@@ -36,13 +36,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Menu demo that contains a MenuButton <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_
-* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `Menu demo that contains a MenuButton <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html>`_
+* `Form demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/menubutton#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.MenuButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.MenuButton>`_
+| `qx.ui.form.MenuButton <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.MenuButton>`_
 

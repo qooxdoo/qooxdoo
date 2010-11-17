@@ -36,13 +36,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Login dialog <http://demo.qooxdoo.org/1.2.x/demobrowser/#animation~Login.html>`_
-* `Show a form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `Login dialog <http://demo.qooxdoo.org/%{version}/demobrowser/#animation~Login.html>`_
+* `Show a form demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/passwordfield#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.PasswordField <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.PasswordField>`_
+| `qx.ui.form.PasswordField <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.PasswordField>`_
 

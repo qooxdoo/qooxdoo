@@ -26,12 +26,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Two stack containers. The first not dynamic, the second dynamic. <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_
+* `Two stack containers. The first not dynamic, the second dynamic. <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~StackContainer.html>`_
 
 .. _pages/widget/stack#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.container.Stack <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.Stack>`_
+| `qx.ui.container.Stack <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.Stack>`_
 

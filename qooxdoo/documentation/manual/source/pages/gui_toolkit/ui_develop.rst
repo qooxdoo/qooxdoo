@@ -29,7 +29,7 @@ The following methods may be used to manage children:
 
 It is possible to use any layout available. To setup the layout just use ``_setLayout`` and to read it out afterwards use ``_getLayout``.
 
-For details refer at the API documentation of `qx.ui.core.Widget <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget>`_.
+For details refer at the API documentation of `qx.ui.core.Widget <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget>`_.
 
 .. _pages/gui_toolkit/ui_develop#child_controls:
 

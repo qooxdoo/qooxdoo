@@ -61,14 +61,14 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Toolbar with all features <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~ToolBar.html>`_
-* `Toolbar in a browser demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Browser.html>`_
-* `Toolbar with other menus <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_
+* `Toolbar with all features <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~ToolBar.html>`_
+* `Toolbar in a browser demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Browser.html>`_
+* `Toolbar with other menus <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html>`_
 
 .. _pages/widget/toolbar#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.toolbar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.toolbar>`_
+| `qx.ui.toolbar <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.toolbar>`_
 

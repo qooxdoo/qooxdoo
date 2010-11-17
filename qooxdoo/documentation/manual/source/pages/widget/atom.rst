@@ -28,12 +28,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `A simple Atom demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Atom.html>`_
+* `A simple Atom demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Atom.html>`_
 
 .. _pages/widget/atom#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.basic.Atom <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.basic.Atom>`_
+| `qx.ui.basic.Atom <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Atom>`_
 

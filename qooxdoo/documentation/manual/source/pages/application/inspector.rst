@@ -9,7 +9,7 @@ qooxdoo Inspector is a powerful development tool perfectly suited for *live* deb
 |Inspector|
 
 .. |inspector| image:: /pages/application/inspector.png
-                       :target: http://demo.qooxdoo.org/1.2.x/inspector/
+                       :target: http://demo.qooxdoo.org/%{version}/inspector/
 
 `See it in action <http://demo.qooxdoo.org/current/inspector>`_, debugging the qooxdoo feedreader demo application.
 

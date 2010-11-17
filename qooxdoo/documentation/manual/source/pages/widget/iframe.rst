@@ -38,7 +38,7 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
-* `Iframe demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-Iframe.html>`_
+* `Iframe demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-Iframe.html>`_
 
 .. _pages/widget/iframe#api:
 
@@ -46,5 +46,5 @@ API
 ---
 
 | Here is a link to the API of the Widget:
-| `API for Iframe <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.embed.Iframe>`_
+| `API for Iframe <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.embed.Iframe>`_
 

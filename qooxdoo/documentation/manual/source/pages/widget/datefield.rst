@@ -31,13 +31,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `DateField Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~DateField.html>`_
-* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `DateField Demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~DateField.html>`_
+* `Form demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/datefield#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.DateField <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.DateField>`_
+| `qx.ui.form.DateField <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.DateField>`_
 

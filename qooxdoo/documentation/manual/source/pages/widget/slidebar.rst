@@ -34,12 +34,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `SlideBar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-SlideBar.html>`_
+* `SlideBar demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-SlideBar.html>`_
 
 .. _pages/widget/slidebar#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.container.SlideBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.SlideBar>`_
+| `qx.ui.container.SlideBar <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.SlideBar>`_
 

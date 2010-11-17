@@ -58,7 +58,7 @@ Properties in interfaces state that each class implementing this interface must 
 Members
 -------
 
-The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in `qx.core.MAssert <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.MAssert>`_ are used to check the incoming parameters.
+The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in `qx.core.MAssert <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.MAssert>`_ are used to check the incoming parameters.
 
 .. _pages/interfaces#statics:
 
@@ -163,6 +163,6 @@ References
 ----------
 
 * :doc:`interface_quickref` - a syntax quick reference for interfaces
-* `API Documentation for Interface <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Interface>`_
+* `API Documentation for Interface <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.Interface>`_
 
   

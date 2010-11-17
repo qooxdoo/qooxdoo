@@ -56,18 +56,18 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `Simple docks <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock.html>`_
-* `Docks with auto sizing and spacings <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_AutoSize.html>`_
-* `Docks with flex sizes (growing) <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_FlexGrowing.html>`_
-* `Docks with flex sizes (shrinking) <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_FlexShrinking.html>`_
-* `Docks with child margins <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_Margin.html>`_
-* `Docks with percent sizes <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_PercentSize.html>`_
-* `Docks with separators <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Dock_Separator.html>`_
+* `Simple docks <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock.html>`_
+* `Docks with auto sizing and spacings <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_AutoSize.html>`_
+* `Docks with flex sizes (growing) <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_FlexGrowing.html>`_
+* `Docks with flex sizes (shrinking) <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_FlexShrinking.html>`_
+* `Docks with child margins <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_Margin.html>`_
+* `Docks with percent sizes <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_PercentSize.html>`_
+* `Docks with separators <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Dock_Separator.html>`_
 
 .. _pages/layout/dock#api:
 
 API
 ---
 | Here is a link to the API of the layout manager:
-| `qx.ui.layout.Dock <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Dock>`_
+| `qx.ui.layout.Dock <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Dock>`_
 

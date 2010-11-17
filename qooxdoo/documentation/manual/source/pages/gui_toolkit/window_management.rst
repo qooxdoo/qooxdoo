@@ -65,9 +65,9 @@ Like I said, windows can be added to widgets which implement the IDesktop interf
 
 Related documentation
 ---------------------
-`Window widget <http://manual.qooxdoo.org/1.2.x/pages/widget/window.html>`_
+`Window widget <http://manual.qooxdoo.org/%{version}/pages/widget/window.html>`_
 
 
 Demos and API
 -------------
-To find out more, you can check the `desktop demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~Desktop.html>`_ and the `API reference <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.window>`_. 
+To find out more, you can check the `desktop demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget~Desktop.html>`_ and the `API reference <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window>`_. 

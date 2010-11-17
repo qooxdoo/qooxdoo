@@ -410,7 +410,7 @@ Configuration
    
    * - properties
      - Map
-     - Map of property definitions. For a description of the format of a property definition see `qx.core.Property <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Property>`_.
+     - Map of property definitions. For a description of the format of a property definition see `qx.core.Property <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Property>`_.
    
    * - members
      - Map
@@ -418,11 +418,11 @@ Configuration
    
    * - settings	
      - Map
-     - Map of settings for this class. For a description of the format of a setting see `qx.core.Setting <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Setting>`_.
+     - Map of settings for this class. For a description of the format of a setting see `qx.core.Setting <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Setting>`_.
    
    * - variants	
      - Map
-     - Map of settings for this class. For a description of the format of a setting see `qx.core.Variant <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.core.Variant>`_.
+     - Map of settings for this class. For a description of the format of a setting see `qx.core.Variant <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Variant>`_.
    
    * - events	
      - Map	 
@@ -440,4 +440,4 @@ References
 ----------
 
 * :doc:`class_quickref` - a quick syntax overview
-* `API Documentation for Class <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Class>`_
+* `API Documentation for Class <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.Class>`_

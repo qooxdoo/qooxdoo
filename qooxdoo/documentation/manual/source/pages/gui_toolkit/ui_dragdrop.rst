@@ -9,14 +9,14 @@ qooxdoo comes with a powerful event-based layer which supports drag&drop with fu
 
 You may like to see an example first:
 
-* `Drag&Drop for Lists <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~DragDrop.html>`_
+* `Drag&Drop for Lists <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~DragDrop.html>`_
 
 .. _pages/gui_toolkit/ui_dragdrop#basics:
 
 Basics
 ======
 
-To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~draggable>`_ and  `droppable <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~droppable>`_ must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
+To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget~draggable>`_ and  `droppable <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget~droppable>`_ must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
 
 ::
 

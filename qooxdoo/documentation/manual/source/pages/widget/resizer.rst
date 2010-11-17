@@ -35,12 +35,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Resizer demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Resizer.html>`_
+* `Resizer demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html>`_
 
 .. _pages/widget/resizer#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.container.Resizer <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.Resizer>`_
+| `qx.ui.container.Resizer <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.Resizer>`_
 

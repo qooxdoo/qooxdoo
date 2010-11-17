@@ -40,7 +40,7 @@ A List widget can be used to show a list of items. These items could selected in
 * ``additive``: The same selection like ``multi``, but each item, which the user clicked on it is added or removed to the selection.
 * ``one``: The same selection like ``single``, but one must selected.
 
-The item which are added to the list are ``ListItem``. For more details see: `ListItem <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ListItem>`_.
+The item which are added to the list are ``ListItem``. For more details see: `ListItem <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem>`_.
 
 .. _pages/widget/list#demos:
 
@@ -48,14 +48,14 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `List Demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ 
-* `Lists with Drag and Drop <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~DragDrop.html>`_
-* `List with re-size support <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Resizer.html>`_
+* `List Demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html>`_ 
+* `Lists with Drag and Drop <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~DragDrop.html>`_
+* `List with re-size support <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html>`_
 
 .. _pages/widget/list#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`_
+| `qx.ui.form.List <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List>`_
 

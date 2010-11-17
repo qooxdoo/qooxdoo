@@ -115,5 +115,5 @@ What if you want to to bring your own code to the generated model classes or if 
 * Add your code as a mixin to the created model classes.
 * Use your own class instead of the created model classes.
 
-Take a look at the API-Documentation of the ```qx.data.store.IStoreDelegate <http://demo.qooxdoo.org/1.2/apiviewer/index.html#qx.data.store.IStoreDelegate>`_`` to see the available methods and how to implement them.
+Take a look at the API-Documentation of the ```qx.data.store.IStoreDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.data.store.IStoreDelegate>`_`` to see the available methods and how to implement them.
 

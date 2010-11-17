@@ -19,10 +19,10 @@ Online Demos
 
 Take a look at the online demos to see the use of inline widgets in action.
 
-* `Absolute positioning demo <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Page.html>`_
-* `Page flow using Inline <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Inline.html>`_
-* `Dynamic resize for Inline <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Inline_Dynamic_Resize.html>`_
-* `Inline window <http://demo.qooxdoo.org/1.2.x/demobrowser/demo/root/Inline_Window.html>`_
+* `Absolute positioning demo <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Page.html>`_
+* `Page flow using Inline <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Inline.html>`_
+* `Dynamic resize for Inline <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Inline_Dynamic_Resize.html>`_
+* `Inline window <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Inline_Window.html>`_
 
 .. _pages/gui_toolkit/ui_inline#setup_an_inline_application:
 
@@ -77,7 +77,7 @@ Instead of using ``qx.application.Standalone`` as a base application class you n
 Absolute Positioning
 --------------------
 
-Adding a widget to the page without regarding the page flow is a no-brainer. Just create the desired widget and add it to the application root. As the application root is an instance of `qx.ui.layout.Basic <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.layout.Basic>`_ you only can use ``left`` and ``top`` coordinates to position your widgets.
+Adding a widget to the page without regarding the page flow is a no-brainer. Just create the desired widget and add it to the application root. As the application root is an instance of `qx.ui.layout.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Basic>`_ you only can use ``left`` and ``top`` coordinates to position your widgets.
 
 .. note::
 

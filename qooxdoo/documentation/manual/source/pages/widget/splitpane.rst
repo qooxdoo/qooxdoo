@@ -38,12 +38,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `SplitPane that can toggle its orientation and hide/show panes <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget-SplitPane.html>`_
+* `SplitPane that can toggle its orientation and hide/show panes <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-SplitPane.html>`_
 
 .. _pages/widget/splitpane#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.splitpane <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.splitpane>`_
+| `qx.ui.splitpane <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.splitpane>`_
 

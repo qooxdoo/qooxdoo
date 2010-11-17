@@ -36,15 +36,15 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
-* `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
-* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
-* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`__
+* `A simple scroll container demo <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~ScrollContainer_Simple.html>`_
+* `After resize the content matches the size of the scroll container. <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~ScrollContainer_ResizeMatch.html>`_
+* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~ScrollContainer_EdgeCaseWidth.html>`_
+* `Content and container size can be changed. Display of scroll bars configurable. <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~ScrollContainer_EdgeCaseHeight.html>`__
 
 .. _pages/widget/scroll#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.container.Scroll <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.container.Scroll>`_
+| `qx.ui.container.Scroll <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.Scroll>`_
 

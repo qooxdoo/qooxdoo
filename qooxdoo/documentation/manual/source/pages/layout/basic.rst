@@ -53,12 +53,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the layout:
 
-* `A demo of the Basic layout <http://demo.qooxdoo.org/1.2.x/demobrowser/#layout~Basic.html>`_
+* `A demo of the Basic layout <http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Basic.html>`_
 
 .. _pages/layout/basic#api:
 
 API
 ---
 | Here is a link to the API of the layout manager:
-| `qx.ui.layout.Basic <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.layout.Basic>`_
+| `qx.ui.layout.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Basic>`_
 

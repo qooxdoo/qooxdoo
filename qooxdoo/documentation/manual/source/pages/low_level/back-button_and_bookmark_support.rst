@@ -10,7 +10,7 @@ Overview
 
 Many Ajax applications break the browser back button and bookmarking support. Since the main page is never reloaded, the URL of the application never changes and no new entries are added to the browser history.
 
-Fortunately it is possible to restore the expected behavior with a JavaScript history manager like the one included with qooxdoo (`qx.bom.History <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History>`_).
+Fortunately it is possible to restore the expected behavior with a JavaScript history manager like the one included with qooxdoo (`qx.bom.History <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.History>`_).
 
 .. _pages/back-button_and_bookmark_support#adding_history_support_to_an_application:
 
@@ -51,7 +51,7 @@ This is the code to read the initial state (`getState API documentation <http://
 Add Event Listener to History Changes
 =====================================
 
-Each time the history changes by hitting the browser's back or forward button, the history manager dispatches a ``request`` event. The event object holds information about the new state. The application must add an event listener to this event and update the application state (`request API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History~request>`_):
+Each time the history changes by hitting the browser's back or forward button, the history manager dispatches a ``request`` event. The event object holds information about the new state. The application must add an event listener to this event and update the application state (`request API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.History~request>`_):
 
 ::
 
@@ -68,7 +68,7 @@ Each time the history changes by hitting the browser's back or forward button, t
 Update History on Application State Changes
 ===========================================
 
-Every time the application state changes, the history manager must be informed about the new state. A state change in the API viewer would for example occur if the user selects another class (`addToHistory API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.History~addToHistory>`_).
+Every time the application state changes, the history manager must be informed about the new state. A state change in the API viewer would for example occur if the user selects another class (`addToHistory API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.History~addToHistory>`_).
 
 ::
 

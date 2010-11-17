@@ -110,7 +110,7 @@ When you use the third method above and you do not use the *Modern* theme, you m
 Obtaining the URL for a resource
 ================================
 
-To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.util.ResourceManager>`_:
+To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.ResourceManager>`_:
 
 ::
 

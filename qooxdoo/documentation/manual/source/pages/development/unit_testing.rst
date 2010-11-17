@@ -3,7 +3,7 @@
 Unit Testing
 ************
 
-qooxdoo comes with its own, nicely integrated unit testing environment and the corresponding application called `Testrunner <http://demo.qooxdoo.org/1.2.x/testrunner>`_. While being similar to JSUnit, the solution that ships with the qooxdoo SDK does not require any additional software. 
+qooxdoo comes with its own, nicely integrated unit testing environment and the corresponding application called `Testrunner <http://demo.qooxdoo.org/%{version}/testrunner>`_. While being similar to JSUnit, the solution that ships with the qooxdoo SDK does not require any additional software. 
 
 If you look at the component section of a qooxdoo distribution, you will find the Test Runner tailored to test the functionality of the qooxdoo *framework*. It provides a convenient interface to test classes that have been written to that end. You can run single tests, or a whole suite of them at once.
 

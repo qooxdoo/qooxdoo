@@ -31,14 +31,14 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Scroll bar demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#widget~ScrollBar.html>`_
-* `A simple scroll container demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#ui~ScrollContainer_Simple.html>`_
+* `Scroll bar demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget~ScrollBar.html>`_
+* `A simple scroll container demo <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~ScrollContainer_Simple.html>`_
 
 .. _pages/widget/scrollbar#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.core.ScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.ScrollBar>`_
-| `qx.ui.core.NativeScrollBar <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.scroll.NativeScrollBar>`_
+| `qx.ui.core.ScrollBar <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.core.scroll.ScrollBar>`_
+| `qx.ui.core.NativeScrollBar <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.core.scroll.NativeScrollBar>`_
 

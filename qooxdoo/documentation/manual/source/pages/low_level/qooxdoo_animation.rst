@@ -5,8 +5,8 @@ qooxdoo Animation
 
 qooxdoo Animation is a low level animation layer which comes with several effects to animate DOM elements. An effect changes one or more attributes of a DOM element from a start to an end value in the given time either linear or using a transition function. Effects can be stacked in a queue and orderd by assigning a startup delay.
 
-* `API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.fx>`_
-* `Demos <http://demo.qooxdoo.org/1.2.x/demobrowser/#animation~Login.html>`_
+* `API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.fx>`_
+* `Demos <http://demo.qooxdoo.org/%{version}/demobrowser/#animation~Login.html>`_
 * `Issues <http://bugzilla.qooxdoo.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&product=framework&component=fx&long_desc_type=substring&long_desc=&bug_file_loc_type=allwordssubstr&bug_file_loc=&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&votes=&chfieldfrom=&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=>`_
 
 .. _pages/qooxdoo_animation#usage:

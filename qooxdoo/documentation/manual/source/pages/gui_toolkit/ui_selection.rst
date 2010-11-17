@@ -9,15 +9,15 @@ Here is a list of widgets which support single and/or multi selection:
 
 * Multi Selection:
   
-  * `Tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree.Tree>`__
-  * `List <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`__
+  * `Tree <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Tree.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tree.Tree>`__
+  * `List <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List>`__
 
 * Single Selection:
   
-  * `SelectBox <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`__
-  * `RadioGroup <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RadioGroup>`__
-  * `TabView <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tabview.TabView>`__
-  * `Stack <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.container.Stack>`__
+  * `SelectBox <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~SelectBox.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.SelectBox>`__
+  * `RadioGroup <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~RadioButton.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.RadioGroup>`__
+  * `TabView <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tabview.TabView>`__
+  * `Stack <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.container.Stack>`__
 
 .. _pages/ui_selection#what_was_wrong_with_the_old_api_in_0.8.x:
 
@@ -65,7 +65,7 @@ The re-using of the methods requires a uniform handling for setting and getting 
 
 Single Selection
 ================
-The listed single selection widgets above implement the ``ISingleSelection``. To implement the behavior they use the `MSingleSelectionHandling <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.MSingleSelectionHandling>`_ mixin. The mixin offers the methods for selection handling and it also initialize the manager for selection management.
+The listed single selection widgets above implement the ``ISingleSelection``. To implement the behavior they use the `MSingleSelectionHandling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.MSingleSelectionHandling>`_ mixin. The mixin offers the methods for selection handling and it also initialize the manager for selection management.
 
 The widget itself configures the mixin for allowing an empty selection or not. Dependent on the configuration, the ``resetSelection`` clears the current selection (empty array) or selects the first selectable element.
 
@@ -75,7 +75,7 @@ The user interactions (mouse and keyboard) are managed from the widget, which on
 
 Multi Selection
 ===============
-The multi selection implementation has hardly changed. The widgets supporting multiselection, also listed above, have already used a mixin called `MSelectionHandling <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.MSelectionHandling>`_ for selection handling. It offers, like the mixin for the single selection, the methods for selection and initializes the selection manager. The mixin has only been changed to be conform to the new ``IMultiSelection`` interface.
+The multi selection implementation has hardly changed. The widgets supporting multiselection, also listed above, have already used a mixin called `MSelectionHandling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.MSelectionHandling>`_ for selection handling. It offers, like the mixin for the single selection, the methods for selection and initializes the selection manager. The mixin has only been changed to be conform to the new ``IMultiSelection`` interface.
 
 .. _pages/ui_selection#selection_modes:
 
@@ -119,7 +119,7 @@ How to use the selection API
 Single Selection
 ----------------
 
-The example below shows how to use the single selection API, this example uses the `SelectBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.SelectBox>`__ widget:
+The example below shows how to use the single selection API, this example uses the `SelectBox <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.SelectBox>`__ widget:
 
 ::
 
@@ -160,7 +160,7 @@ The SelectBox's implemention doesn't allow empty selections, so if the first ite
 Multi Selection
 ---------------
 
-The next example uses the `List <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.List>`__ widget:
+The next example uses the `List <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List>`__ widget:
 
 ::
 
@@ -195,14 +195,14 @@ The output could look like this:
 
 .. _pages/ui_selection#how_to_migrate_from_the_0.8.x_to_the_1.2.x_selection_api:
 
-How to migrate from the 0.8.x to the 1.2.x selection API
+How to migrate from the 0.8.x to the %{version} selection API
 ========================================================
 
 .. note::
 
     The old selection API is set to deprecated. This mean that the old selection API can still be used, but deprecation warnings occur in the source version of the application. So the old code runs with using the old selection API, but in the future the deprecated methods will be removed, so please change as soon as possible to the new selection API. 
 
-By changing the framework applications, like the `Demo Browser <http://demo.qooxdoo.org/1.2.x/demobrowser/>`_, to the new selection API, useful steps have been found:
+By changing the framework applications, like the `Demo Browser <http://demo.qooxdoo.org/%{version}/demobrowser/>`_, to the new selection API, useful steps have been found:
 
 (1) Search the source code for only one widget that uses the old selection API.
 (2) Replace the old method/event with the new one, but only for the classes that contain a reference from the widget.

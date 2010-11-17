@@ -49,13 +49,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Complex demo which shows many features of the tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree.html>`_
-* `A multi column tree <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Tree_Columns.html>`_
+* `Complex demo which shows many features of the tree <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Tree.html>`_
+* `A multi column tree <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Tree_Columns.html>`_
 
 .. _pages/widget/tree#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.tree <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.tree>`_
+| `qx.ui.tree <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tree>`_
 

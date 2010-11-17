@@ -59,11 +59,11 @@ Windows |image0|
 
 .. |image0| image:: windows.png
 
-Installing `ActivePython <http://www.activestate.com/Products/activepython/index.mhtml>`_ for Windows is trivial. Now let's create an application named ``custom`` in ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``: 
+Installing `ActivePython <http://www.activestate.com/Products/activepython/index.mhtml>`_ for Windows is trivial. Now let's create an application named ``custom`` in ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``: 
 
 ::
 
-    C:\qooxdoo-1.2-sdk\tool\bin\create-application.py --name=custom --out=C:
+    C:\qooxdoo-%{version}-sdk\tool\bin\create-application.py --name=custom --out=C:
 
 .. _pages/getting_started/helloworld#cygwin:
 
@@ -72,11 +72,11 @@ Cygwin |image1|
 
 .. |image1| image:: cygwin.png
 
-To create your application ``custom`` to ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-1.2-sdk``, call the script as follows:
+To create your application ``custom`` to ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``, call the script as follows:
 
 ::
 
-    /cygdrive/c/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=C:
+    /cygdrive/c/qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --out=C:
 
 .. _pages/getting_started/helloworld#mac_linux:
 
@@ -86,11 +86,11 @@ Mac |image2| , Linux |image3|
 .. |image2| image:: macosx.png
 .. |image3| image:: linux.png
 
-To create an application ``custom`` in your home directory, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-1.2-sdk``, call the script as follows:
+To create an application ``custom`` in your home directory, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
 
 ::
 
-    /opt/qooxdoo-1.2-sdk/tool/bin/create-application.py --name=custom --out=.
+    /opt/qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --out=.
 
 .. _pages/getting_started/helloworld#run_your_application:
 

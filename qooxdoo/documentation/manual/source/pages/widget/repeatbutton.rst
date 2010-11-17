@@ -34,13 +34,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Button demo with all supported buttons <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Button.html>`_
-* `Form showcase demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `Button demo with all supported buttons <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Button.html>`_
+* `Form showcase demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/repeatbutton#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.RepeatButton <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.RepeatButton>`_
+| `qx.ui.form.RepeatButton <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.RepeatButton>`_
 

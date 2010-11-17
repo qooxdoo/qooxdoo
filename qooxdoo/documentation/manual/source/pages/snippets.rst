@@ -14,7 +14,7 @@ General
 
 Demo Browser
 ------------
-The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/1.2.x/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <tool/generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
+The **Demo Browser** has a large number of simple examples. You can use the `online version <http://demo.qooxdoo.org/%{version}/demobrowser>`_ or if you've downloaded and :doc:`built the SDK <tool/generator_usage>`, you can use your local copy in ``application/demobrowser/build`` subdirectory of your SDK installation.
 
 .. _pages/snippets#show_html_created_by_qooxdoo:
 
@@ -85,7 +85,7 @@ Center a window on screen
 Here is the solution:
 
 ..
-  <button onclick="window.open('http://demo.qooxdoo.org/1.2.x/playground#{code:\``+encodeURIComponent(this.parentNode.parentNode.getElementsByTagName('pre')[0].innerHTML.replace(/(<[^>]*?>|&amp;nbsp;)/g, ``)) + '\'}')">Run ...</button>
+  <button onclick="window.open('http://demo.qooxdoo.org/%{version}/playground#{code:\``+encodeURIComponent(this.parentNode.parentNode.getElementsByTagName('pre')[0].innerHTML.replace(/(<[^>]*?>|&amp;nbsp;)/g, ``)) + '\'}')">Run ...</button>
 
 ::
 
@@ -166,7 +166,7 @@ Implementing a context-menu is as easy as never before.
        return menu;
     }
 
-This little code snippet is taken from the `online demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_. Just right-click at the list.
+This little code snippet is taken from the `online demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html>`_. Just right-click at the list.
 
 .. _pages/snippets#disable_the_browser_context_menu:
 
@@ -244,7 +244,7 @@ Modal windows
 -------------
 
 Modal windows are windows which have to be closed (e.g. via it's buttons like "OK" or "Cancel") before any other UI element can be used. In qooxdoo a special blocker element is used to prevent user actions on other elements than the open modal window. The blocker element can be styled (e.g. it can have an semi-transparent background) to accent that the window is a modal one.
-The blocker is included in every root widget (`qx.ui.root.Application <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Application>`_, `qx.ui.root.Inline <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Inline>`_, `qx.ui.root.Page <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.root.Page>`_) and in `qx.ui.window.Desktop <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.window.Desktop>`_.
+The blocker is included in every root widget (`qx.ui.root.Application <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Application>`_, `qx.ui.root.Inline <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Inline>`_, `qx.ui.root.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Page>`_) and in `qx.ui.window.Desktop <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Desktop>`_.
 
 ::
 

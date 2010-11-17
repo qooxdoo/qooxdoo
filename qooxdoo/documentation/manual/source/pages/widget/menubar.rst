@@ -31,12 +31,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `MenuBar with all features <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~MenuBar.html>`_ 
+* `MenuBar with all features <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~MenuBar.html>`_ 
 
 .. _pages/widget/menubar#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.menubar.MenuBar <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.menubar.MenuBar>`_
+| `qx.ui.menubar.MenuBar <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menubar.MenuBar>`_
 

@@ -5,7 +5,7 @@ Java RPC
 
 .. note::
 
-    This information refers to releases up to 0.7.x. It needs to be updated for the current releases 1.2.x.
+    This information refers to releases up to 0.7.x. It needs to be updated for the current releases %{version}.
 
 .. _pages/rpc_java#building_a_qooxdoo_test_application:
 

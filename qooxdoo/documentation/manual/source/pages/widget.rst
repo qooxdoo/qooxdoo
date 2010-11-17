@@ -48,4 +48,4 @@ There are no explicit widget demos since the widget is typically sub classed.
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.core.Widget <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#qx.ui.core.Widget>`_
+| `qx.ui.core.Widget <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.core.Widget>`_

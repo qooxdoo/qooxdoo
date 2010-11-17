@@ -31,12 +31,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Simple example for the PopUp widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Popup.html>`_
+* `Simple example for the PopUp widget <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Popup.html>`_
 
 .. _pages/widget/popup#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.popup <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.popup>`_
+| `qx.ui.popup <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.popup>`_
 

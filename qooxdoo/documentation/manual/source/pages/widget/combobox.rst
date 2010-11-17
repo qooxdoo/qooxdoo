@@ -35,13 +35,13 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `ComboBox demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~ComboBox.html>`_
-* `Form demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#showcase~Form.html>`_
+* `ComboBox demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~ComboBox.html>`_
+* `Form demo <http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html>`_
 
 .. _pages/widget/combobox#api:
 
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.form.ComboBox <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.form.ComboBox>`_
+| `qx.ui.form.ComboBox <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ComboBox>`_
 

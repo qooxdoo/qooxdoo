@@ -3,7 +3,7 @@
 HTML Editing
 ************
 
-HtmlArea is a html editing widget which is part of the framework. This widget is available as `low-level <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.bom.htmlarea.HtmlArea>`_ and `UI-level <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.embed.HtmlArea>`_ implementation. The first targets traditional webpages / single-page applications and the latter Rich Internet Applications (RIA) as preferred usecase.
+HtmlArea is a html editing widget which is part of the framework. This widget is available as `low-level <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.htmlarea.HtmlArea>`_ and `UI-level <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.embed.HtmlArea>`_ implementation. The first targets traditional webpages / single-page applications and the latter Rich Internet Applications (RIA) as preferred usecase.
 
 Here you can find some interesting technical info.
 
@@ -16,7 +16,7 @@ Demo
    :width: 515px
    :alt: HtmlArea screenshot
    :align: center
-   :target: http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~HtmlArea.html
+   :target: http://demo.qooxdoo.org/%{version}/demobrowser/#widget~HtmlArea.html
 
 .. _pages/ui_html_editing#setup:
 

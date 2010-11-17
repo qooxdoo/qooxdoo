@@ -19,7 +19,7 @@ If you create a new application with *create-application.py* you'll find a pre-c
 application.json and base.json
 ------------------------------
 
-The configuration infrastructure of qooxdoo 1.2 is based on two main configuration files, both in the *tool/data/config* folder, *application.json* and *base.json*.
+The configuration infrastructure of qooxdoo %{version} is based on two main configuration files, both in the *tool/data/config* folder, *application.json* and *base.json*.
 
 *base.json* defines all the basic jobs that a normal application would want to deploy. Most significant are the *source* and *build* jobs that create the source and build version of an application, respectively. Other jobs contained here are concerned with cleaning up (*clean* and *distclean*), creating translation files (*translate*) or formatting the Javascript code (*pretty*). It is also basic in the sense that it doesn't rely on any other config file.
 

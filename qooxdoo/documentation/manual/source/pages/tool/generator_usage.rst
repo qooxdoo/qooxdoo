@@ -83,7 +83,7 @@ As a few quick hints at how you would invoke the generator, here are the most co
 * ``generate.py source``  -- when you just started to create your application and every time you have added new classes to it.
 * ``generate.py build``  -- when you have completed your application and/or want to create an optimized, deployable version of it.
 * ``generate.py api``  -- when your application is getting complex and/or you want to have a local version of the standard `Apiviewer <http://api.qooxdoo.org>`_ application that includes the documentation of all of your application classes.
-* ``generate.py test``  -- when you have created unit test classes for your application and want to run them in the `Testrunner <http://demo.qooxdoo.org/1.2.x/testrunner>`_ frame application.
+* ``generate.py test``  -- when you have created unit test classes for your application and want to run them in the `Testrunner <http://demo.qooxdoo.org/%{version}/testrunner>`_ frame application.
 
 The :doc:`/pages/getting_started/helloworld` tutorial will give the complete steps how to start a project and get going.
 

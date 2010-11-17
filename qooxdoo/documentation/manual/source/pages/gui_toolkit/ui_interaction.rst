@@ -42,7 +42,7 @@ Every mouse event propagates the screen (e.g. ``getScreenLeft()``), document (e.
 
 During every mouse event it is possible to check the status of modifier keys pressed through the methods ``isCtrlPressed()``, ``isAltPressed()`` or ``isShiftPressed()``. The pressed button can be detected by calling one of the following methods: ``isLeftPressed()``, ``isMiddlePressed()`` or ``isRightPressed()`` on the mouse event.
 
-Also have a look at `the API documentation of the MouseEvent <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
+Also have a look at `the API documentation of the MouseEvent <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
 
 .. _pages/gui_toolkit/ui_interaction#event_capturing:
 
@@ -60,18 +60,18 @@ Mouse capturing is used inside of qooxdoo e.g. in menus, split panes or sliders.
 Keyboard Support
 ================
 
-DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers may be used (instead of un-unified key codes) which is much more comfortable than known from most web application frameworks. Basically each key on the keyboard has a name like ``Ctrl``, ``Shift``, ``F3`` or ``Enter``. A complete list of all supported keys is available in `the API documentation <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier>`_. 
+DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers may be used (instead of un-unified key codes) which is much more comfortable than known from most web application frameworks. Basically each key on the keyboard has a name like ``Ctrl``, ``Shift``, ``F3`` or ``Enter``. A complete list of all supported keys is available in `the API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier>`_. 
 
 All the typical key sequence events ``keyup``, ``keydown`` and ``keypress`` support the key identifier. The ``keypress`` event is repeated during the time the key is pressed. This way ``keypress`` is the best candidate for most action related keyboard events. Only use ``keyup`` and ``keydown`` when you *really* depend on the status of the key otherwise please prefer the ``keypress`` event.
 
-To handle character inputs e.g. on text boxes, there is a special ``keyinput`` event which has nice unified accessors ``getChar()`` and ``getCharCode()`` to detect the pressed character. This even respects the effects modifier keys have automatically e.g. supporting German umlauts. The API lists all available methods of the used `KeyInput <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.event.type.KeyInput>`_ event.
+To handle character inputs e.g. on text boxes, there is a special ``keyinput`` event which has nice unified accessors ``getChar()`` and ``getCharCode()`` to detect the pressed character. This even respects the effects modifier keys have automatically e.g. supporting German umlauts. The API lists all available methods of the used `KeyInput <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.KeyInput>`_ event.
 
 .. _pages/gui_toolkit/ui_interaction#working_with_commands:
 
 Working with Commands
 =====================
 
-Commands (`API <http://demo.qooxdoo.org/1.2/apiviewer/#qx.ui.core.Command>`__) are used to bundle a command to be used by multiple buttons. It may also be used to define a global shortcut to be used for this action.
+Commands (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Command>`__) are used to bundle a command to be used by multiple buttons. It may also be used to define a global shortcut to be used for this action.
 
 Creating new commands is as easy as possible. A shortcut can be defined easily through the constructor e.g.:
 
@@ -92,7 +92,7 @@ Good keyboard support also means good focus support. One major feature is the se
 Focus handling in qooxdoo also means sophisticated support for the ``Tab`` key. While qooxdoo may also use the possibilities given by the browser (not so much), without doing any modification, the default adds qooxdoo's own layer for tab focus handling. This layer supports focus roots. A focus root is basically a widget which manage tab sequences on their own. This is often true for any type of Windows inside complex applications. Instead of leaving the window when reaching the last widget in a Window qooxdoo starts with the first widget in that window again. The tab handling in qooxdoo is based on coordinates of each widget on the screen. It follows the visible structure and not the internal application (or even markup) structure. This is often seen as a huge benefit as it improves the usability of such applications out-of-the-box.
 It is also possible to define a ``tabIndex`` on widgets which should be reachable in a static hard-coded way. It is suggested to not use that feature that much. The automatic handling works quite good out of the box without hard-wiring every widget to a specific tab position.
 
-To make a widget focusable just enable the property ``focusable`` (`API <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~focusable>`__) on it. For most widgets this will also means that the widget is reachable using the ``Tab`` key, but this depends on the widget's implementation of the method ``isTabable()``.
+To make a widget focusable just enable the property ``focusable`` (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget~focusable>`__) on it. For most widgets this will also means that the widget is reachable using the ``Tab`` key, but this depends on the widget's implementation of the method ``isTabable()``.
 
 Every widget could function as a focus root. To register a widget as a focus root just call the method ``addRoot()`` of the ``FocusHandler`` like this:
 

@@ -26,7 +26,7 @@ A theme normally consists of a set of entries. Each entry has a key which is bas
 Selectors
 =========
 
-In the most basic form each selector is identical to an appearance ID. This appearance ID is the value stored in the ``appearance`` property (`API <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.core.Widget~appearance>`_) of each widget.
+In the most basic form each selector is identical to an appearance ID. This appearance ID is the value stored in the ``appearance`` property (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget~appearance>`_) of each widget.
 
 The child control system ignores this appearance entry for widgets which function as a child control of another widget. In these cases the selector is the combination of the appearance ID of the parent widget plus the ID of the child control.
 

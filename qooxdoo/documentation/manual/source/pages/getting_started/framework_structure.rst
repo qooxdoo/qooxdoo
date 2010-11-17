@@ -7,16 +7,16 @@ When exploring the framework source, the following overview will give you an ide
 
 **application** - sample applications (for end users)
 
-* ``demobrowser`` - for browsing a large number of demos (`online <http://demo.qooxdoo.org/1.2.x/demobrowser>`__)
-* ``feedreader`` - a sample rich internet application (`online <http://demo.qooxdoo.org/1.2.x/feedreader>`__)
-* ``portal`` - a showcase for low-level features, i.e. without widgets (`online <http://demo.qooxdoo.org/1.2.x/portal>`__)
-* ``playground`` - an interactive playground without the need to install qooxdoo (`online <http://demo.qooxdoo.org/1.2.x/playground>`__)
+* ``demobrowser`` - for browsing a large number of demos (`online <http://demo.qooxdoo.org/%{version}/demobrowser>`__)
+* ``feedreader`` - a sample rich internet application (`online <http://demo.qooxdoo.org/%{version}/feedreader>`__)
+* ``portal`` - a showcase for low-level features, i.e. without widgets (`online <http://demo.qooxdoo.org/%{version}/portal>`__)
+* ``playground`` - an interactive playground without the need to install qooxdoo (`online <http://demo.qooxdoo.org/%{version}/playground>`__)
 
 **component** - helper applications (used internally)
 
 * ``apiviewer`` - API reference (for ``generate.py api``) (`online <http://api.qooxdoo.org>`__)
 * ``skeleton`` - blue print for custom applications (for ``create-application.py``)
-* ``testrunner`` - unit testing framework (for ``generate.py test / test-source``) (`online <http://demo.qooxdoo.org/1.2.x/testrunner>`__)
+* ``testrunner`` - unit testing framework (for ``generate.py test / test-source``) (`online <http://demo.qooxdoo.org/%{version}/testrunner>`__)
 
 **framework** - main frontend part of the framework
 

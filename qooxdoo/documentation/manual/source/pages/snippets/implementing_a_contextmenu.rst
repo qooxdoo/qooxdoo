@@ -38,5 +38,5 @@ Implementing a context-menu is as easy as never before.
        return menu;
     }
 
-This little code snippet is taken from the `online demo <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Menu.html>`_. Just right-click at the list.
+This little code snippet is taken from the `online demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html>`_. Just right-click at the list.
 

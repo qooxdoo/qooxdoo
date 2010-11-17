@@ -34,7 +34,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Meaningful name of the demo <http://demo.qooxdoo.org/1.2.x/demobrowser/index.html#>`_ **TODO:** set the link
+* `Meaningful name of the demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#>`_ **TODO:** set the link
 * **TODO:** *More than one demo possible ...*
 
 .. _pages/widget/template#api:
@@ -42,5 +42,5 @@ Here are some links that demonstrate the usage of the widget:
 API
 ---
 Here is a link to the API of the Widget:
-`complete package and classname <http://demo.qooxdoo.org/1.2.x/apiviewer/index.html#>`_ **TODO:** set the link
+`complete package and classname <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#>`_ **TODO:** set the link
 

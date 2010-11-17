@@ -166,4 +166,4 @@ References
 ----------
 
 * :doc:`mixin_quickref` -  a quick syntax reference for mixins
-* `API Documentation for Mixin <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.Mixin>`_
+* `API Documentation for Mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.Mixin>`_
