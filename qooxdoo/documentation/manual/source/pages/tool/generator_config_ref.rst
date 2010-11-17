@@ -517,8 +517,7 @@ Define libraries to be taken into account for this job. Takes an array of maps.
   [
     {
       "manifest"   : "<path>",
-      "uri"        : "<from_html_to_manifest_dir>",
-      "namespace"  : "<string>"
+      "uri"        : "<from_html_to_manifest_dir>"
     }
   ]
 
@@ -526,7 +525,6 @@ Each map can contain the keys
 
 * **manifest** *(required)* : path to the "Manifest" file of the library; may be relative to config file location; may use ``contrib:%%//%%`` scheme 
 * **uri** : URI prefix from your HTML file to the directory of the library's "Manifest" file
-* **namespace** : alternative name space string, which takes precedence of the one provided by the library's "Manifest" file.
 
 :ref:`Special section <pages/tool/generator_config_articles#library_key_and_manifest_files>`
 
