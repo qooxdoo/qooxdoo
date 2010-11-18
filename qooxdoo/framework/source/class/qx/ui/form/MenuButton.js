@@ -172,6 +172,9 @@ qx.Class.define("qx.ui.form.MenuButton",
     // overridden
     _onMouseDown : function(e)
     {
+      // call the base function to get into the capture phase [BUG #4340]
+      this.base(arguments, e);
+
       var menu = this.getMenu();
       if (menu)
       {
