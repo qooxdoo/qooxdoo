@@ -179,8 +179,20 @@ class Repository:
     console.info("Generating demos for all known libraries")
     console.indent()
     
+    buildQueue = {}
     for libraryName, library in self.children.iteritems():
-      library.buildAllDemos(buildTarget, demoBrowser, copyDemos)        
+      libraryQueue = library.buildAllDemos(buildTarget, demoBrowser, copyDemos)
+      for qxVersion, jobData in libraryQueue.iteritems():
+        if not qxVersion in buildQueue:
+          buildQueue[qxVersion] = []
+        buildQueue[qxVersion].extend(jobData)
+    
+    for qxVersion, jobData in buildQueue.iteritems():
+      console.info("Linking %s demos against qooxdoo %s" %(repr(len(jobData)), qxVersion))
+      console.info("Clearing cache")
+      runGenerator(".", "clean-cache")
+      for job in jobData:
+        runBuildJob(job, qxVersion)
     
     console.outdent()
   
@@ -290,8 +302,14 @@ class Library:
       return "No readme file found."
     
   def buildAllDemos(self, buildTarget, demoBrowser, copyDemos):
+    buildQueue = {}
     for versionName, version in self.children.iteritems():
-      version.buildAllDemos(buildTarget, demoBrowser, copyDemos)
+      versionQueue = version.buildAllDemos(buildTarget, demoBrowser, copyDemos)
+      for qxVersion, jobData in versionQueue.iteritems():
+        if not qxVersion in buildQueue:
+          buildQueue[qxVersion] = []
+        buildQueue[qxVersion].extend(jobData)
+    return buildQueue
 
 
 class LibraryVersion:
@@ -423,12 +441,15 @@ class LibraryVersion:
   
   
   def buildAllDemos(self, buildTarget="build", demoBrowser=None, copyDemos=False):    
+    buildQueue = {}
     qxVersions = self.manifest["info"]["qooxdoo-versions"]
     for variantName, variant in self.children.iteritems():
       # build version: link demo against each compatible qooxdoo version
       if buildTarget == "build":
         #get the compatible qooxdoo versions of the library version
         for qxVersion in qxVersions:
+          if not qxVersion in buildQueue:
+            buildQueue[qxVersion] = []
           if qxVersion[:2] == "0.":
             console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
             continue
@@ -444,43 +465,21 @@ class LibraryVersion:
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
           }
           
-          console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variantName, self.parent.name, self.name) )
-          variant.build(buildTarget, macro)
-          buildOk = True
+          jobData = (variant, buildTarget, macro, demoBrowser)
+          buildQueue[qxVersion].append(jobData)
           
-          for issue in variant.issues:
-            if buildTarget in issue:
-              buildOk = False
-              console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(self.parent.name, self.name, variantName, buildTarget, qxVersion))
-              console.warn(repr(issue[buildTarget]))
-          
-          if demoBrowser and buildOk:
-            demoData = copy.deepcopy(variant.data)
-            demoData["tags"].append( "qxVersion_" + qxVersion)
-            self.data["tests"].append(demoData)
-          
-      # source version of demo
       elif buildTarget == "source":
-        console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variantName, self.parent.name, self.name) )
-        variant.build(buildTarget)
-        buildOk = True
-        
-        for issue in variant.issues:
-          if buildTarget in issue:
-            buildOk = False
-            console.warn("%s %s demo %s %s generation failed!" %(self.parent.name, self.name, variantName, buildTarget))
-            console.warn(issue[buildTarget])
-        if demoBrowser and buildOk:
-          demoBrowserBase = os.path.split(demoBrowser)[0]
-          for qxVersion in qxVersions:
-            if qxVersion[:2] == "0.":
-              console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
-              continue
-            demoData = copy.deepcopy(variant.data)
-            demoData["tags"].append( "qxVersion_" + qxVersion)
-            self.data["tests"].append(demoData)
-            
-            self._copyHtmlFile(variantName, buildTarget, demoBrowserBase, qxVersion)
+        qxVersion = self.manifest["info"]["qooxdoo-versions"][0]
+        if not qxVersion in buildQueue:
+          buildQueue[qxVersion] = []
+        macro = {
+          "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
+        }
+        jobData = (variant, buildTarget, macro, demoBrowser)
+        buildQueue[qxVersion].append(jobData)
+    
+    
+    return buildQueue
 
 
   # creates an HTML file for the demo in the demobrowser's "demo" dir by 
@@ -589,17 +588,46 @@ class Demo:
     manifestPath = os.path.join(self.path, "Manifest.json")
     return getDataFromJsonFile(manifestPath)
 
+
+def runBuildJob(jobData, qxVersion):
+  variant = jobData[0]
+  buildTarget = jobData[1]
+  macro = jobData[2]
+  demoBrowser = jobData[3]
+  console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variant.name, variant.parent.parent.name, variant.parent.name) )
+  variant.build(buildTarget, macro)
+  buildOk = True
   
+  for issue in variant.issues:
+    if buildTarget in issue:
+      buildOk = False
+      console.warn("%s %s demo %s %s generation against qooxdoo %s failed!" %(variant.parent.parent.name, variant.parent.name, variant.name, buildTarget, qxVersion))
+      console.warn(repr(issue[buildTarget]))
+  
+  if demoBrowser and buildOk:
+    demoData = copy.deepcopy(variant.data)
+    demoData["tags"].append( "qxVersion_" + qxVersion)
+    variant.parent.data["tests"].append(demoData)  
+
+
 def runGenerator(path, job, macro=False):
   startPath = os.getcwd()
+  console.debug("Changing working dir to " + path)
   os.chdir(path)
-  cmd = "python generate.py "
-  if macro:
+  cmd = "python "
+  if not macro:
+    cmd += "generate.py "
+  else:
+    if "QOOXDOO_PATH" in macro:
+      cmd += macro["QOOXDOO_PATH"] + "/tool/bin/generator.py "
+    else:
+      cmd += "generate.py "
     for key, value in macro.iteritems():
       cmd += '-m "%s:%s" ' %(key,value)
   cmd += job
   console.debug("Running generator: %s" %cmd)
   rcode, output, errout = shell.execute_piped(cmd)
+  console.debug("Returning to original dir: " + startPath)
   os.chdir(startPath)
   
   return (rcode,output,errout)
