@@ -217,6 +217,8 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Return the available application locales
      *
+     * This corresponds to the LOCALES setting in config.json
+     *
      * @return {String[]} array of available locales
      */
     getAvailableLocales : function()
