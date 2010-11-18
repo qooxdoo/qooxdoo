@@ -29,8 +29,8 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
   
   members :
   {
-    ICON_CLOSED : "qx/icon/Oxygen/22/emotes/face-plain.png",
-    ICON_OPENED : "qx/icon/Oxygen/22/emotes/face-smile.png",
+    icon_closed : "qx/icon/Oxygen/22/emotes/face-plain.png",
+    icon_opened : "qx/icon/Oxygen/22/emotes/face-smile.png",
     __tree : null,
     __root : null,
     __aa   : null,
@@ -73,15 +73,15 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenClosedWithIcon: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
+      item.setIcon(this.icon_closed);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     testIconWhenClosedWithIconOpened: function() {
       var item = this.__item;
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIconOpened(this.icon_opened);
       this.flush();
 
       this.__assertIcon(item, this.__themeValueIcon(item));
@@ -89,11 +89,11 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenClosedWithIconAndIconOpened: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIcon(this.icon_closed);
+      item.setIconOpened(this.icon_opened);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     //
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     testIconWhenOpenedWithIcon : function() {
       var item = this.__item;
       item.setOpen(true);
-      item.setIcon(this.ICON_CLOSED);
+      item.setIcon(this.icon_closed);
       this.flush();
 
       // At first thought, you probably think this is correct...
@@ -123,26 +123,26 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       //     before the property "openIcon" was introduced
       //
       // Expect user-defined value of property "icon"
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     testIconWhenOpenedWithIconOpened: function() {
       var item = this.__item;
       item.setOpen(true);
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIconOpened(this.icon_opened);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_OPENED);
+      this.__assertIcon(item, this.icon_opened);
     },
 
     testIconWhenOpenedWithIconAndIconOpened: function() {
       var item = this.__item;
       item.setOpen(true);
-      item.setIcon(this.ICON_CLOSED);
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIcon(this.icon_closed);
+      item.setIconOpened(this.icon_opened);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_OPENED);
+      this.__assertIcon(item, this.icon_opened);
     },
 
     //
@@ -161,17 +161,17 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenOpenedThenClosedWithIcon: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
+      item.setIcon(this.icon_closed);
       item.setOpen(true);
       item.setOpen(false);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     testIconWhenOpenedThenClosedWithIconOpened: function() {
       var item = this.__item;
-      item.setIconOpened(this.ICON_CLOSED);
+      item.setIconOpened(this.icon_closed);
       item.setOpen(true);
       item.setOpen(false);
       this.flush();
@@ -181,13 +181,13 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenOpenedThenClosedWithIconAndIconOpened: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIcon(this.icon_closed);
+      item.setIconOpened(this.icon_opened);
       item.setOpen(true);
       item.setOpen(false);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     //
@@ -206,7 +206,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     testIconWhenClosedThenOpenedWithIcon: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
+      item.setIcon(this.icon_closed);
       item.setOpen(false);
       item.setOpen(true);
       this.flush();
@@ -220,28 +220,28 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
       //     before the property "openIcon" was introduced
       //
       // Expect user-defined value of property "icon"
-      this.__assertIcon(item, this.ICON_CLOSED);
+      this.__assertIcon(item, this.icon_closed);
     },
 
     testIconWhenClosedThenOpenedWithIconOpened: function() {
       var item = this.__item;
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIconOpened(this.icon_opened);
       item.setOpen(false);
       item.setOpen(true);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_OPENED);
+      this.__assertIcon(item, this.icon_opened);
     },
 
     testIconWhenClosedThenOpenedWithIconAndIconOpened: function() {
       var item = this.__item;
-      item.setIcon(this.ICON_CLOSED);
-      item.setIconOpened(this.ICON_OPENED);
+      item.setIcon(this.icon_closed);
+      item.setIconOpened(this.icon_opened);
       item.setOpen(false);
       item.setOpen(true);
       this.flush();
 
-      this.__assertIcon(item, this.ICON_OPENED);
+      this.__assertIcon(item, this.icon_opened);
     },
 
     //
