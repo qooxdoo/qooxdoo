@@ -273,6 +273,12 @@ qx.Class.define("qx.ui.form.Slider",
       {
         case "knob":
           control = new qx.ui.core.Widget();
+
+          //fixes #Bug 4020
+          //when slider is used as a inner control for another widget
+          //the knob looses it's appearance...
+          control.setAppearance("slider/knob");
+
           control.addListener("resize", this._onUpdate, this);
           control.addListener("mouseover", this._onMouseOver);
           control.addListener("mouseout", this._onMouseOut);
@@ -282,9 +288,6 @@ qx.Class.define("qx.ui.form.Slider",
 
       return control || this.base(arguments, id);
     },
-
-
-
 
 
     /*
