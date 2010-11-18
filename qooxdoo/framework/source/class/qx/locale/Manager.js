@@ -217,8 +217,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Return the available application locales
      *
-     * This corresponds to the Makefile APPLICATION_LOCALES setting
-     *
      * @return {String[]} array of available locales
      */
     getAvailableLocales : function()
