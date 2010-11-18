@@ -1,0 +1,132 @@
+/*
+  Including this file, the config.demo.json has to provide for each demo the
+  following jobs (example demo "ui.Widget"):
+  "source-ui.Widget" : {
+    "let" : { "DPACKAGE" : "ui", "DSNAME" : "Widget" }
+    "extend" : ["common-ui.Widget", "default-source"]
+  }
+  "source-ui.Widget-Classic" : {
+    "extend" : ["default-source-Classic"]
+  }
+  "source-ui.Widget-Modern" : {
+    "extend" : ["default-source-Modern"]
+  }
+  "build-ui.Widget"  : {
+    "let" : { "DPACKAGE" : "ui", "DSNAME" : "Widget" }
+    "extend" : ["default-build"]
+  }
+  "build-ui.Widget-Classic" : {
+    "extend" : ["default-build-Classic"]
+  }
+  "build-ui.Widget-Modern" : {
+    "extend" : ["default-build-Modern"]
+  }
+*/
+{
+  "jobs" :
+  {
+    /*
+      uses: (e.g. for demo "ui.Widget")
+        DPACKAGE  ("ui") - containing package, required
+        DSNAME    ("Widget") - simple demo name, required
+        DNAME     ("ui.Widget") - demo name, provided
+        DCLASS    ("demobrowser.demo.ui.Widget") - demo class id, provided
+        BUILDTYPE ("source") - source or build, provided
+    */
+
+    // -- common stuff ----
+
+    "default-demo" :
+    {
+      "let" : {
+        "APPLICATION" : "demobrowser.demo",
+        "DNAME"       : "${DPACKAGE}.${DSNAME}",
+        "DCLASS"      : "${APPLICATION}.${DNAME}",
+        "LOCALES"     : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"]
+      },
+      "library" : [
+        { "manifest" : "../../framework/Manifest.json" },
+        { "manifest" : "Manifest.demo.json" }
+      ],
+      "include" : [
+        "${DCLASS}",
+        "${DTHEME}",
+        "qx.log.appender.Native",
+        "qx.log.appender.Console",
+        "qx.dev.ObjectSummary",
+        "qx.dev.Pollution"
+      ],
+      "asset-let" : {
+        "qx.icontheme" : ["Oxygen", "Tango"],
+        "qx.theme"     : ["Classic", "Modern"]
+      },
+      "cache" : { "compile" : "${TMPDIR}/cache" },
+      "settings" : {
+        "qx.application" : "${DCLASS}",
+        "qx.theme"       : "${DTHEME}",
+        "qx.allowUrlVariants" : "true",
+        "qx.allowUrlSettings" : "true"
+      },
+      "variants" : {
+        "qx.${DPACKAGE}" : ["on"]
+      },
+      "compile-options" : {
+        "paths" : {
+          "file"     : "${BUILDTYPE}/script/${DCLASS}-${DTHEME}.js",
+          "app-root" : "${BUILDTYPE}/demo/yyy"
+        },
+        "uris" : {
+          "script"   : "../../script",
+          "resource" : "../../resource"
+        },
+        "code" : {
+          "locales"  : "${LOCALES}",
+          "format"   : true,
+          "optimize" : [ "variables", "basecalls", "strings", "privates" ]
+        }
+      }
+    }
+
+    // -- source stuff ----------------
+
+    ,"default-source" :
+    {
+      "extend" : ["default-demo", "__all-source__"],
+      "let" : { "BUILDTYPE" : "source" },
+      "run" : ["source-${DNAME}-Classic", "source-${DNAME}-Modern"]    
+    }
+
+    ,"default-source-Classic" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Classic"}
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    },
+
+    ,"default-source-Modern" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Modern"}
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    }
+
+    // -- build stuff ----------------
+
+    ,"default-build" :
+    {
+      "extend" : ["default-demo", "__all-build__"],
+      "let" : { "BUILDTYPE" : "build" },
+      "run" : ["build-${DNAME}-Classic", "build-${DNAME}-Modern"]    
+    }
+
+    ,"default-build-Classic" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Classic"}
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    },
+
+    ,"default-build-Modern" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Modern"}
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    }
+  }
+}
