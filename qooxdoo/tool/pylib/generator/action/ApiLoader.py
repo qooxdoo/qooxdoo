@@ -19,6 +19,13 @@
 #
 ################################################################################
 
+##
+# ApiLoader - Interface class for the generator to the API data generation back-
+#             end; creates the raw Json data for the Apiviewer (using api.
+#             backend.api), the search index, and is capable of checking
+#             internal links.
+##
+
 import sys, os, re
 
 from misc import filetool

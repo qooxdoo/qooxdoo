@@ -23,7 +23,12 @@
 ##
 # MODULE DESCRIPTIOIN
 #
-#  api.py -- generate Apiviewer data from class sources
+#  api.py -- Generates a tree of documentation nodes from a JavaScript synatx
+#            tree, walking the syntax tree and picking out ecmascript.frontend.
+#            comment nodes; uses ecmascript.frontend.tree.Node for the tree;
+#            creates a suitable tree structure to hold the individual JSDoc
+#            comments (which are -unfortunately- formatted in e.f.comment into
+#            HTML).
 ##
 
 import sys, os, re
