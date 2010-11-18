@@ -55,11 +55,6 @@ Miscellaneous
 .. toctree::
    :maxdepth: 2
 
-   snippets
-   development/enterprise_application_development
-   development/antipatterns
-   development/development_tools
-
    development/variants
    Internationalization, Localization <development/internationalization>
    development/image_clipping_and_combining
