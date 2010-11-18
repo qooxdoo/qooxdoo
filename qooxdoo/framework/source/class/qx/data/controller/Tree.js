@@ -616,6 +616,8 @@ qx.Class.define("qx.data.controller.Tree",
         var oldRef = this.__childrenRef[children.toHashCode()];
         children.removeListenerById(oldRef.changeListenerId);
         model.removeListenerById(oldRef.changeChildernListenerId);
+        // also remove all its children [BUG #4296]
+        this.__removeAllFolders(treeFolder);
 
         // delete the model reference
         delete this.__childrenRef[children.toHashCode()];
