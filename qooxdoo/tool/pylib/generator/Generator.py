@@ -165,7 +165,8 @@ class Generator(object):
 
             "provider" :
             {
-              "type" : "JCompileJob",
+              #"type" : "JCompileJob",
+              "type" : "JClassDepJob",
             },
 
             "shell" :
@@ -567,6 +568,16 @@ class Generator(object):
                     self.runUpdateTranslation()
                 elif trigger == "pretty-print":
                     self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
+                elif trigger == "provider":
+                    script = Script()
+                    script.classesObj = self._classesObj.values()
+                    variantData = getVariants()
+                    variantSets = util.computeCombinations(variantData)
+                    script.variants = variantSets[0] 
+                    script.libraries = self._libraries
+                    script.namespace = self.getAppName()
+                    script.locales = config.get("compile-options/code/locales", [])
+                    CodeProvider.runProvider(script, self)
                 else:
                     pass
 
@@ -631,9 +642,9 @@ class Generator(object):
             if "compile" in jobTriggers:
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
 
-            if "provider" in jobTriggers:
-                script.locales = config.get("compile-options/code/locales", [])
-                CodeProvider.runProvider(script, self)
+            #if "provider" in jobTriggers:
+            #    script.locales = config.get("compile-options/code/locales", [])
+            #    CodeProvider.runProvider(script, self)
 
             # debug tasks
             self.runLogDependencies(script)
