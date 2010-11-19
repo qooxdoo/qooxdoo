@@ -336,9 +336,8 @@ qx.Class.define("qx.bom.Label",
           size.width++;
         }
       }
-      // IE9 (1.9.7616.6000) Preview 4 fix for bug #4038
-      // TODO check if the fix is needed with the next IE9 release
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION == 9) {
+      // IE9 has problems with the text size calculation for details have a look at bug #4038
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION >= 9) {
         size.width++;
       }
       return size;
