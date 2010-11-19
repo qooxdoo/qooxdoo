@@ -59,7 +59,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * this DOM structure to only use DIV elements which do not have a negative
      * performance impact. See Bug #2185 for details.
      */
-    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml"),
+    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 9,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
