@@ -356,13 +356,15 @@ The descriptive string provided here will be used when listing jobs on the comma
 exclude
 =======
 
-Exclude classes to be processed in the job. Takes an array of class specifiers.
+Exclude classes from processing in the job. Takes an array of class specifiers.
 
 ::
 
   "exclude" : ["qx.util.*"]
 
-The class specifiers can include simple wildcards like 'qx.util.*' denoting a whole set of classes. A leading '=' in front of a class specifier means 'without dependencies' (like '=qx.util.*'). These classes are e.g. excluded from the generated Javascript.
+Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like "qx.util.*" denoting class id's matching this pattern, including sub-name spaces. 
+
+A leading '=' in front of a class specifier (like "=qx.util.*") means 'without dependencies'. That means the classes themselves are exempted, but their dependencies added in. Be aware that this requires that *all* dependencies have to be calculated upfront, including for those classes specified in this key, resulting in increased compile time and generator logging. It also means that the final class list might contain classes that are not used by any of the remaining classes. Usually, specifying classes without '=' is what you want.
 
 .. _pages/tool/generator_config_ref#export:
 
