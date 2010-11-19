@@ -117,6 +117,7 @@ def _handleResources(script, generator, filtered=True):
         return
 
     # ----------------------------------------------------------------------
+    context.console.info("Processing resources: ", False)
     approot = context.jobconf.get("provider/app-root", "./provider")
     filetool.directory(approot+"/data")
     filetool.directory(approot+"/resource")
@@ -147,7 +148,9 @@ def _handleResources(script, generator, filtered=True):
 
     # get resource info
     resinfos = {}
-    for res in allresources:
+    numResources = len(allresources)
+    for num,res in enumerate(allresources):
+        context.console.progress(num+1, numResources)
         # fake a classId-like resourceId ("a.b.c"), for filter matching
         resId = os.path.splitext(res)[0]
         resId = resId.replace("/", ".")
@@ -169,6 +172,8 @@ def _handleResources(script, generator, filtered=True):
 
 
 def _handleI18N(script, generator):
+    context.console.info("Processing localisation data")
+    context.console.indent()
     approot = context.jobconf.get("provider/app-root", "./provider")
 
     # get class projection
@@ -181,15 +186,20 @@ def _handleI18N(script, generator):
                 needs_cldr = True
 
     # get i18n data
+    context.console.info("Getting translations")
     trans_dat = generator._locale.getTranslationData(class_list, script.variants, script.locales, 
                                                        addUntranslatedEntries=True)
     loc_dat   = None
     if needs_cldr:
+        context.console.info("Getting CLDR data")
         loc_dat   = generator._locale.getLocalizationData(class_list, script.locales)
 
 
     # write translation and cldr files
-    for lang in trans_dat:
+    context.console.info("Writing localisation files: ", False)
+    numTrans = len(trans_dat)
+    for num,lang in enumerate(trans_dat):
+        context.console.progress(num+1, numTrans)
 
         # translations
         transmap  = {}
@@ -217,4 +227,5 @@ def _handleI18N(script, generator):
             localemap['cldr'] = cldr_entry
             filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
 
+    context.console.outdent()
     return
