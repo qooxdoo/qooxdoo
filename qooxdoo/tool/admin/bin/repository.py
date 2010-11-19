@@ -188,11 +188,12 @@ class Repository:
         buildQueue[qxVersion].extend(jobData)
     
     for qxVersion, jobData in buildQueue.iteritems():
-      console.info("Linking %s demos against qooxdoo %s" %(repr(len(jobData)), qxVersion))
-      console.info("Clearing cache")
-      runGenerator(".", "clean-cache")
-      for job in jobData:
-        runBuildJob(job, qxVersion)
+      if len(jobData) > 0:
+        console.info("Linking %s demos against qooxdoo %s" %(repr(len(jobData)), qxVersion))
+        console.info("Clearing cache")
+        runGenerator(".", "clean-cache")
+        for job in jobData:
+          runBuildJob(job, qxVersion)
     
     console.outdent()
   
@@ -463,6 +464,7 @@ class LibraryVersion:
           macro = {
             "BUILD_PATH" : buildPath,
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
+            #"CACHE"        : "${TMPDIR}/cache/" + qxVersion
           }
           
           jobData = (variant, buildTarget, macro, demoBrowser)
@@ -474,6 +476,7 @@ class LibraryVersion:
           buildQueue[qxVersion] = []
         macro = {
           "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
+          #"CACHE"        : "${TMPDIR}/cache/" + qxVersion
         }
         jobData = (variant, buildTarget, macro, demoBrowser)
         buildQueue[qxVersion].append(jobData)
