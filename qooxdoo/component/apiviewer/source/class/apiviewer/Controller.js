@@ -132,9 +132,18 @@ qx.Class.define("apiviewer.Controller",
         }, this, 0);
       }, this);
 
-      req.addListener("failed", function(evt) {
+      var failed = function(evt) {
         this.error("Couldn't load file: " + url);
-      }, this);
+        if (window.location.protocol == "file:") {
+          alert("Failed to load API data from the file system.\n\n" +
+                "The security settings of your browser may prohibit AJAX " +
+                "when using the file protocol. Please try the http protocol " +
+                "instead.");
+        }
+      };
+
+      req.addListener("failed", failed, this);
+      req.addListener("aborted", failed, this);
 
       var loadStart = new Date();
       req.send();
