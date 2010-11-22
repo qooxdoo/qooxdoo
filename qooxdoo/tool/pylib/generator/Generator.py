@@ -951,7 +951,8 @@ class Generator(object):
             # Message key deps
             for classId in data:
                 classKeys, _ = self._locale.getTranslation(classId, {})
-                transIds  = set(x['id'] for x in classKeys) # strip duplicates
+                transIds  = set(x['id'] for x in classKeys) # get the msgid's, uniquely
+                transIds.update(x['plural'] for x in classKeys if 'plural' in x) # add plural keys
                 transKeys = ["/translation/i18n-${lang}#" + x for x in transIds]
                 data[classId]["run"].extend(transKeys)
 
