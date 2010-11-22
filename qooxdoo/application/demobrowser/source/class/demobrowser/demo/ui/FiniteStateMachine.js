@@ -98,8 +98,8 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       o.set(
         {
           width : 600,
-          wrap : true,
-          rich : true
+          rich : true,
+          wrap : true
         });
       container.add(o, {left: 50});
       var maze = new demobrowser.demo.util.FSMMaze(10, 10, 50, 240);
