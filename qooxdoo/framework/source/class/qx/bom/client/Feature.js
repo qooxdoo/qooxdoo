@@ -93,7 +93,7 @@ qx.Class.define("qx.bom.client.Feature",
      * {Boolean} Whether the browser supports CSS class lists
      *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
      */
-    HTML5_CLASSLIST : (
+    HTML5_CLASSLIST : !!(
       document.documentElement.classList &&
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
