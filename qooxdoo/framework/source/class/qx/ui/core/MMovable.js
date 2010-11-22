@@ -190,7 +190,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parentLocation = parent.getContentLocation();
       var parentBounds = parent.getBounds();
 
-      // Added a blocker, this solves the issue described in bug report #1462
+      // Added a blocker, this solves the issue described in [BUG #1462]
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (!parent.isContentBlocked()) {
           this.__blockerAdded = true;
@@ -278,7 +278,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       // Remove drag state
       this.removeState("move");
 
-      // Removed blocker, this solves the issue described in bug report #1462
+      // Removed blocker, this solves the issue described in [BUG #1462]
       var parent = this.getLayoutParent();
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (this.__blockerAdded) {

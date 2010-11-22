@@ -191,13 +191,13 @@ qx.Class.define("qx.event.handler.Focus",
     */
 
     /**
-     * Focusses the given DOM element
+     * Focuses the given DOM element
      *
      * @param element {Element} DOM element to focus
      */
     focus : function(element)
     {
-      // Fixed timing issue with IE, see bug report #3267
+      // Fixed timing issue with IE, see [BUG #3267]
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         window.setTimeout(function()
@@ -207,7 +207,7 @@ qx.Class.define("qx.event.handler.Focus",
             element.focus();
 
             // Fixed cursor position issue with IE, only when nothing is selected.
-            // See bug report #3519 for details.
+            // See [BUG #3519] for details.
             var selection = qx.bom.Selection.get(element);
             if (selection.length == 0) {
               var textRange = element.createTextRange();

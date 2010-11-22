@@ -962,8 +962,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
         if (treeItem.hasChildrenContainer()) {
           var treeItemChildContainer = treeItem.getChildrenContainer();
-          if (container.getChildren().indexOf(treeItemChildContainer) >= 0){ //Sometimes not, see bug 3038
-             container.remove(treeItemChildContainer);
+          if (container.getChildren().indexOf(treeItemChildContainer) >= 0) { 
+            // Sometimes not, see bug #3038
+            container.remove(treeItemChildContainer);
           }
         }
         qx.lang.Array.remove(this.__children, treeItem);

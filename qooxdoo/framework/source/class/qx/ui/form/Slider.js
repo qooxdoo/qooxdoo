@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.form.Slider",
         case "knob":
           control = new qx.ui.core.Widget();
 
-          //fixes #Bug 4020
+          //fixes [BUG #4020]
           //when slider is used as a inner control for another widget
           //the knob looses it's appearance...
           control.setAppearance("slider/knob");

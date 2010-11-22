@@ -3348,7 +3348,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           }
           catch (exc)
           {
-            // @see Bug 3142
+            // [BUG #3142]
             // ignore this exception: NOT_FOUND_ERR: DOM Exception 8
           }
 

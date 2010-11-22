@@ -329,7 +329,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     },
 
 
-    // Bug 2088
+    // [BUG #2088]
     testDeepSelection : function() {
       qx.Class.define("qx.demo.Kid",
       {
