@@ -43,7 +43,8 @@ qx.Mixin.define("qx.ui.form.MModelProperty",
     model :
     {
       nullable: true,
-      event: "changeModel"
+      event: "changeModel",
+      dereference : true
     }
   }
 });

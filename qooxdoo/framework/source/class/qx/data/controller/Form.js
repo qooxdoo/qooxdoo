@@ -77,7 +77,8 @@ qx.Class.define("qx.data.controller.Form",
       check: "qx.core.Object",
       apply: "_applyModel",
       event: "changeModel",
-      nullable: true
+      nullable: true,
+      dereference: true
     },
 
 
@@ -88,7 +89,8 @@ qx.Class.define("qx.data.controller.Form",
       apply: "_applyTarget",
       event: "changeTarget",
       nullable: true,
-      init: null
+      init: null,
+      dereference: true
     }
   },
 
