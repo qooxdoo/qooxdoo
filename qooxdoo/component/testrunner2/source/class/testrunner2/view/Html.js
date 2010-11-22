@@ -115,6 +115,7 @@ qx.Class.define("testrunner2.view.Html", {
   {    
     __domElements : null,
     __testNameToId : null,
+    __filterTimer : null,
     
     /**
      * Creates the header and attaches it to the root node.
@@ -609,7 +610,7 @@ qx.Class.define("testrunner2.view.Html", {
         var testName = value[i];
         var key = this.__simplifyName(testName);
         this.__testNameToId[key] = testName;
-        var checkboxId = "cb_" + key
+        var checkboxId = "cb_" + key;
         var cb = qx.bom.Input.create("checkbox", {id: checkboxId, checked: "checked"});
         listItem.appendChild(cb);
         listItem.innerHTML += '<label for="' + checkboxId + '">' + testName + '</label>';
