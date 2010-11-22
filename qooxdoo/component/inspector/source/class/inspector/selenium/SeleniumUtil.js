@@ -78,21 +78,23 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
 
       var parent = widget.getLayoutParent();
       var twin = false;
-      var childIndex = 0;
+      var childIndex = null;
       var children = [];
-      try {
+      
+      if (parent.getChildren) {
         children = children.concat(parent.getChildren());
-      } catch(ex) {
-        // no getChildren
       }
-      try {
-        children = children.concat(parent._getChildren());
-      } catch(ex) {
-        // no _getChildren
+      if (parent._getChildren) {
+        var internalChildren = parent._getChildren();
+        for (var x=0,y=internalChildren.length; x<y; x++) {
+          if (!qx.lang.Array.contains(children, internalChildren[x])) {
+            children.push(internalChildren[x]);
+          }
+        }
       }
 
       for (var i=0,l=children.length; i<l; i++) {
-        if (children[i] == widget) {
+        if (children[i] == widget && childIndex === null) {
           childIndex = i;
         }
         else if (children[i].classname == widget.classname) {
