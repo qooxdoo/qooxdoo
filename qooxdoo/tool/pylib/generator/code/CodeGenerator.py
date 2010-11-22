@@ -691,13 +691,13 @@ class CodeGenerator(object):
         if "C" not in locales:
             locales.append("C")
 
-        self._console.info("Processing translations for %s locales..." % len(locales))
+        self._console.info("Processing translations for %s locales " % len(locales))
         self._console.indent()
 
         packageTranslations = []
         i18n_with_packages  = self._job.get("packages/i18n-with-boot", True)
         for pos, package in enumerate(packages):
-            self._console.debug("Package: %s" % pos)
+            self._console.info("Package %s: " % pos, False)
             self._console.indent()
 
             pac_dat = self._locale.getTranslationData  (package.classes, variants, locales, addUntranslatedEntries) # .po data

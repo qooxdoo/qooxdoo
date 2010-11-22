@@ -21,6 +21,7 @@
 
 import os, sys, re
 import time, datetime
+import cPickle as pickle
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
@@ -216,7 +217,7 @@ class Locale(object):
 
     def getTranslationData(self, classList, variants, targetLocales, addUntranslatedEntries=False):
 
-        def extractTranslations(pot,po):
+        def extractTranslations(pot, po):
             po.getIdIndex()
             for potentry in pot:
                 #otherentry = po.find(potentry.msgid)   # this is slower on average than my own functions (bec. 'getattr')
@@ -228,6 +229,8 @@ class Locale(object):
                         for pos in otherentry.msgstr_plural:
                             potentry.msgstr_plural[pos] = otherentry.msgstr_plural[pos]
             return
+
+        # -------------------------------------------------------------------------
 
         # Find all influenced namespaces
         libnames = {}
@@ -248,12 +251,15 @@ class Locale(object):
 
         # Load po files and process their content
         blocks = {}
+        mainpot = self.getPotFile(classList, variants)  # pot file for this package
+        mainpotS = pickle.dumps(mainpot)
         # loop through locales
         for locale in PoFiles:
             # ----------------------------------------------------------------------
             # Generate POT file to filter PO files
             self._console.debug("Compiling filter...")
-            pot = self.getPotFile(classList, variants)  # pot file for this package
+            # need a fresh pot, as it will be modified
+            pot = pickle.loads(mainpotS)  # copy.deepcopy(mainpot) chokes on overridden Array.append
 
             if len(pot) == 0:
                 return {}
@@ -266,8 +272,13 @@ class Locale(object):
             for path in PoFiles[locale]:
                 self._console.debug("Reading file: %s" % path)
 
-                po = polib.pofile(path)
-                extractTranslations(pot,po)
+                # .po files are only read-accessed
+                cacheId = "pofile-%s" % path
+                po, _ = self._cache.read(cacheId, path, memory=True)
+                if po == None:
+                    po = polib.pofile(path)
+                    self._cache.write(cacheId, po, memory=True)
+                extractTranslations(pot, po)
 
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
@@ -348,8 +359,11 @@ class Locale(object):
         self._console.indent()
         
         result = {}
-        for classId in content:
-            translation = self.getTranslation(classId, variants) # should be a method on clazz
+        numClass = len(content)
+        for num,classId in enumerate(content):
+            translation, cached = self.getTranslation(classId, variants) # should be a method on clazz
+            #self._console.dot('.' if cached else '*')
+            self._console.progress(num+1, numClass)
 
             for source in translation:
                 #msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
@@ -390,15 +404,17 @@ class Locale(object):
         classVariants     = self._classesObj[fileId].classVariants()
         relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
+        cached            = True
 
         cacheId = "translation-%s-%s" % (filePath, variantsId)
 
         translation, _ = self._cache.readmulti(cacheId, filePath)
         if translation != None:
-            return translation
+            return translation, cached
 
         self._console.debug("Looking for translation strings: %s..." % fileId)
         self._console.indent()
+        cached = False
 
         #tree = self._treeLoader.getTree(fileId, variants)
         tree = self._classesObj[fileId].tree(variants)
@@ -414,7 +430,7 @@ class Locale(object):
         self._console.outdent()
         self._cache.writemulti(cacheId, translation)
 
-        return translation
+        return translation, cached
 
 
 

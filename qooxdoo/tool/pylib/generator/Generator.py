@@ -950,7 +950,7 @@ class Generator(object):
 
             # Message key deps
             for classId in data:
-                classKeys = self._locale.getTranslation(classId, {})
+                classKeys, _ = self._locale.getTranslation(classId, {})
                 transIds  = set(x['id'] for x in classKeys) # strip duplicates
                 transKeys = ["/translation/i18n-${lang}#" + x for x in transIds]
                 data[classId]["run"].extend(transKeys)
