@@ -340,6 +340,7 @@ qx.Class.define("portal.box.Resizable",
           {
             if (groupBoxInnerDimensions.width >= newWidth) {
               qx.bom.element.Style.set(this.__element, "width", newContentWidth + 'px');
+              this.__box.getData().width=newContentWidth;
             }
           }
         }
