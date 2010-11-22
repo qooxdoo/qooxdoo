@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
     moveSeconds : 0.2
   },
 
-  construct : function(origin, maze, facing)
+  construct : function(origin, maze, facing, view)
   {
     // Determine this mouse's name
     var mouseName = demobrowser.demo.util.FSMMouse.nextMouse.toString();
@@ -121,7 +121,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         opacity : 0.0,
         zIndex  : 9999
       });
-    qx.core.Init.getApplication().getRoot().add(this.mouseImage, 
+    view.add(this.mouseImage, 
       {top: this.currentLocation.top, left: this.currentLocation.left});
 
     //============================================================
@@ -243,14 +243,14 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
             if (maze.getSouthCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH, view);
             }
 
             // See if we can go north
             if (maze.getNorthCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH, view);
             }
           }
 
@@ -262,7 +262,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getEastCell(_this.currentCell) !== null)
           {
             // We can.  Create a clone to go that way
-            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST);
+            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST, view);
 
             // We only look behind us once.
             _this.bLookBehind = false;
@@ -298,14 +298,14 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
             if (maze.getSouthCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH, view);
             }
 
             // See if we can go north
             if (maze.getNorthCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH, view);
             }
           }
 
@@ -317,7 +317,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getWestCell(_this.currentCell) !== null)
           {
             // We can.  Create a clone to go that way
-            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST);
+            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST, view);
 
             // We only look behind us once.
             _this.bLookBehind = false;
@@ -353,14 +353,14 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
             if (maze.getWestCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST, view);
             }
 
             // See if we can go east
             if (maze.getEastCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST, view);
             }
           }
 
@@ -372,7 +372,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getNorthCell(_this.currentCell) !== null)
           {
             // We can.  Create a clone to go that way
-            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH);
+            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.NORTH, view);
 
             // We only look behind us once.
             _this.bLookBehind = false;
@@ -408,14 +408,14 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
             if (maze.getWestCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.WEST, view);
             }
 
             // See if we can go east
             if (maze.getEastCell(_this.currentCell) !== null)
             {
               // We can.  Create a clone to go that way
-              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST);
+              new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.EAST, view);
             }
           }
 
@@ -427,7 +427,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getSouthCell(_this.currentCell) !== null)
           {
             // We can.  Create a clone to go that way
-            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH);
+            new demobrowser.demo.util.FSMMouse(_this, maze, demobrowser.demo.util.FSMMaze.Direction.SOUTH, view);
 
             // We only look behind us once.
             _this.bLookBehind = false;
@@ -712,7 +712,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         qx.event.Timer.once(
           function()
           {
-            qx.core.Init.getApplication().getRoot().remove(this.mouseImage);
+            view.remove(this.mouseImage);
             this.mouseImage.dispose();
             this.mouseImage = null;
             this.dispose();

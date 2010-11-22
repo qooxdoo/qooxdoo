@@ -81,7 +81,13 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
         "FadingOut, and Zombie (about to dispose)." +
         "<p>" +
         "<u>The finite state diagram is below the maze.</u>";
-
+      
+      var scroll = new qx.ui.container.Scroll();
+      this.getRoot().add(scroll, {edge: 0});
+      
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      scroll.add(container);
+      
       var o;
       
       // Ensure that the FSM diagram gets copied during build (and cached)
@@ -95,12 +101,12 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
           wrap : true,
           rich : true
         });
-      this.getRoot().add(o, {left: 50});
+      container.add(o, {left: 50});
       var maze = new demobrowser.demo.util.FSMMaze(10, 10, 50, 240);
-      this.getRoot().add(maze, {left: 50, top: 240});
+      container.add(maze, {left: 50, top: 240});
 
       o = new qx.ui.basic.Image("demobrowser/demo/ui/FsmMiceMaze.png", 800);
-      this.getRoot().add(o, {left: 50, top: 800});
+      container.add(o, {left: 50, top: 800});
 
       // Determine (randomly) the facing direction of the initial mouse
       var facing;
@@ -126,8 +132,9 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       }
 
       // Create the initial mouse
-      var mouse = new demobrowser.demo.util.FSMMouse(null, maze, facing);
+      var mouse = new demobrowser.demo.util.FSMMouse(null, maze, facing, container);
     },
+
 
 
     /**
