@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.FiniteStateMachine", 
+qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
 {
   extend : qx.application.Standalone,
 
@@ -81,15 +81,15 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
         "FadingOut, and Zombie (about to dispose)." +
         "<p>" +
         "<u>The finite state diagram is below the maze.</u>";
-      
+
       var scroll = new qx.ui.container.Scroll();
       this.getRoot().add(scroll, {edge: 0});
-      
+
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       scroll.add(container);
-      
+
       var o;
-      
+
       // Ensure that the FSM diagram gets copied during build (and cached)
       o = new qx.ui.basic.Image("demobrowser/demo/ui/FsmMiceMaze.png");
       o = null;               // image no longer needed

@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.util.FSMMaze", 
+qx.Class.define("demobrowser.demo.util.FSMMaze",
 {
   extend : qx.ui.container.Composite,
 
@@ -97,12 +97,12 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
     // at http://www.mazeworks.com/mazegen/mazetut/index.htm
     //
 
-    var             cellStack = [];
-    var             visitedCells = 1;
-    var             totalCells = this.numRows * this.numCols;
-    var             currentCell;
-    var             neighbors;
-    var             neighbor;
+    var cellStack = [];
+    var visitedCells = 1;
+    var totalCells = this.numRows * this.numCols;
+    var currentCell;
+    var neighbors;
+    var neighbor;
 
     // Start with some random cell
     currentCell =
@@ -229,15 +229,15 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
         case demobrowser.demo.util.FSMMaze.Direction.WEST:
           neighborWall.setWidthLeft(0);
           break;
-        
+
         case demobrowser.demo.util.FSMMaze.Direction.SOUTH:
           neighborWall.setWidthBottom(0);
           break;
-        
+
         case demobrowser.demo.util.FSMMaze.Direction.EAST:
           neighborWall.setWidthRight(0);
           break;
-        
+
         case demobrowser.demo.util.FSMMaze.Direction.NORTH:
           neighborWall.setWidthTop(0);
           break;

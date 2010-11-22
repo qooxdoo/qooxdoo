@@ -40,15 +40,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
     this.base(arguments, mouseName);
 
     // Enable all debugging
-    
+
     // var FSM = qx.util.fsm.FiniteStateMachine;
     // this.setDebugFlags(FSM.DebugFlags.EVENTS |
     //                    FSM.DebugFlags.TRANSITIONS |
     //                    FSM.DebugFlags.FUNCTION_DETAIL |
     //                    FSM.DebugFlags.OBJECT_NOT_FOUND);
-    
+
     this.setDebugFlags(0);
-    
+
     // Update next mouse's name
     ++demobrowser.demo.util.FSMMouse.nextMouse;
 
@@ -121,7 +121,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         opacity : 0.0,
         zIndex  : 9999
       });
-    view.add(this.mouseImage, 
+    view.add(this.mouseImage,
       {top: this.currentLocation.top, left: this.currentLocation.left});
 
     //============================================================
