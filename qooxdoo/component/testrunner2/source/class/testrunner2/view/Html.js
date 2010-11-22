@@ -114,7 +114,7 @@ qx.Class.define("testrunner2.view.Html", {
   members :
   {    
     __domElements : null,
-    
+    __testNameToId : null,
     
     /**
      * Creates the header and attaches it to the root node.
@@ -314,7 +314,8 @@ qx.Class.define("testrunner2.view.Html", {
             continue;
           }
           boxes[i].checked = selected;
-          this.__toggleTestSelected(boxes[i].name, selected);
+          var testName = this.__testNameToId[boxes[i].id.substr(3)];
+          this.__toggleTestSelected(testName, selected);
         }
       }
     },
@@ -340,7 +341,8 @@ qx.Class.define("testrunner2.view.Html", {
       this.hideAllTestListEntries();
       if (matches.length > 0) {
         for (var i=0,l=matches.length; i<l; i++) {
-          var checkboxId = "cb_" + this.__testNameToId(matches[i]);
+          var key = this.__simplifyName(matches[i]);
+          var checkboxId = "cb_" + key;
           var box = document.getElementById(checkboxId);
           box.parentNode.style.display = "block";
           if (this.__domElements.allTestsToggle.checked) {
@@ -366,15 +368,15 @@ qx.Class.define("testrunner2.view.Html", {
     
     
     /**
-     * Simplifies a test function's fully qualified name so it can be used as an
-     * HTML ID.
+     * Simplifies a test function's fully qualified name so it can be used as a
+     * map key.
      * 
      * @param testName {String} The test's full name
-     * @return {String} The ID string
+     * @return {String} The simplified string
      */
-    __testNameToId : function(testName)
+    __simplifyName : function(testName)
     {
-      var id = testName.replace(/[\W]/ig, "")
+      var id = testName.replace(/[\W]/ig, "");
       return id;
     },
     
@@ -419,20 +421,19 @@ qx.Class.define("testrunner2.view.Html", {
       }
       
       var exception =  testResultData.getException();
-      
-      var id = this.__testNameToId(testName);
-      var listItem = document.getElementById(id);
+      var key = this.__simplifyName(testName);
+      var listItem = document.getElementById(key);
       if (listItem) {
         qx.bom.element.Attribute.set(listItem, "class", state);
       } else {
-        var item = qx.bom.Element.create("li", {id : id, "class" : state});
+        var item = qx.bom.Element.create("li", {id : key, "class" : state});
         if (this.__domElements.elemResultsList.firstChild) {
           qx.dom.Element.insertBefore(item, this.__domElements.elemResultsList.firstChild);
         } else {
           this.__domElements.elemResultsList.appendChild(item);
         }
         item.innerHTML = testName;
-        listItem = document.getElementById(id);
+        listItem = document.getElementById(key);
       }
       
       if (state == "success" && this.getShowPassed() === false) {
@@ -464,7 +465,7 @@ qx.Class.define("testrunner2.view.Html", {
      */
     __onToggleTest : function(ev)
     {
-      var testName = ev.getTarget().name;
+      var testName = this.__testNameToId[ev.getTarget().id.substr(3)];
       var selected = ev.getTarget().checked;
       this.__toggleTestSelected(testName, selected);
     },
@@ -591,20 +592,22 @@ qx.Class.define("testrunner2.view.Html", {
       }
 
       this.setSelectedTests(value);
-      
+      this.__testNameToId = {};
       this.clearTestList();
       this.clearResults();
       
       for (var i=0,l=value.length; i<l; i++) {
         var listItem = document.createElement("li");
         var testName = value[i];
-        var checkBoxId = "cb_" + this.__testNameToId(testName);
-        var cb = qx.bom.Input.create("checkbox", {id: checkBoxId, name: testName, checked: "checked"});
+        var key = this.__simplifyName(testName);
+        this.__testNameToId[key] = testName;
+        var checkboxId = "cb_" + key
+        var cb = qx.bom.Input.create("checkbox", {id: checkboxId, checked: "checked"});
         listItem.appendChild(cb);
-        listItem.innerHTML += '<label for="' + checkBoxId + '">' + testName + '</label>';
+        listItem.innerHTML += '<label for="' + checkboxId + '">' + testName + '</label>';
         this.__domElements.elemTestList.appendChild(listItem);
                 
-        cb = document.getElementById(checkBoxId);
+        cb = document.getElementById(checkboxId);
         qx.event.Registration.addListener(cb, "change", this.__onToggleTest, this);
       }
     },    
