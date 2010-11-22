@@ -19,6 +19,16 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(demobrowser/demo/ui/FsmMiceMaze.png)
+#asset(demobrowser/demo/ui/mouse-north.gif)
+#asset(demobrowser/demo/ui/mouse-east.gif)
+#asset(demobrowser/demo/ui/mouse-south.gif)
+#asset(demobrowser/demo/ui/mouse-west.gif)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.ui.FiniteStateMachine", 
 {
   extend : qx.application.Standalone,
@@ -75,7 +85,7 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       var o;
       
       // Ensure that the FSM diagram gets copied during build (and cached)
-      o = new qx.ui.basic.Image("demobrowser/image/FsmMiceMaze.png");
+      o = new qx.ui.basic.Image("demobrowser/demo/ui/FsmMiceMaze.png");
       o = null;               // image no longer needed
 
       o = new qx.ui.basic.Label(description);
@@ -87,10 +97,9 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
         });
       this.getRoot().add(o, {left: 50});
       var maze = new demobrowser.demo.util.FSMMaze(10, 10, 50, 240);
-      // maze.addToDocument();
       this.getRoot().add(maze, {left: 50, top: 240});
 
-      o = new qx.ui.basic.Image("demobrowser/image/FsmMiceMaze.png", 800);
+      o = new qx.ui.basic.Image("demobrowser/demo/ui/FsmMiceMaze.png", 800);
       this.getRoot().add(o, {left: 50, top: 800});
 
       // Determine (randomly) the facing direction of the initial mouse

@@ -64,7 +64,6 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
     // Initialize the cells and walls arrays.  Walls are Border objects;
     // Cells are HorizontalBoxLayout objects.
     this.cells = [];
-    this.walls = [];
 
     // Each element of mazeInfo is a bitmap of walls
     // (demobrowser.demo.util.FSMMaze.Direction.*)
@@ -74,21 +73,18 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
     for (row = 0; row < this.numRows; row++)
     {
       this.cells[row] = [];
-      this.walls[row] = [];
       this.mazeInfo[row] = [];
 
       for (col = 0; col < this.numCols; col++)
       {
-        // Instantiate a border for this cell with all sides 1 pixel wide
-        this.walls[row][col] = new qx.ui.decoration.Single(1, "solid", "black");
 
         // Instantiate this cell
         this.cells[row][col] = new qx.ui.container.Composite();
         this.cells[row][col].setLayout(new qx.ui.layout.HBox());
-
-        // Apply the border ot the cell
-        this.cells[row][col].setDecorator(this.walls[row][col]);
         this.add(this.cells[row][col], {row: row, column: col});
+
+        // Apply the border on the cell
+        this.cells[row][col].setDecorator(new qx.ui.decoration.Single(1, "solid", "black"));
 
         // We're starting with all walls intact.  Note that.
         // See // demobrowser.demo.util.FSMMaze.Direction.* for the bit field values.
@@ -191,52 +187,62 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
           ~neighbor.neighborWall;
 
         // Step 3: Actually remove the wall on the current cell
+        var currentWall = new qx.ui.decoration.Single(1, "solid", "black");
+        var previousWall = this.cells[currentCell.row][currentCell.col].getDecorator();
+        currentWall.set({
+          widthLeft: previousWall.getWidthLeft(),
+          widthBottom: previousWall.getWidthBottom(),
+          widthRight: previousWall.getWidthRight(),
+          widthTop: previousWall.getWidthTop()
+        });
         switch(neighbor.currentCellWall)
         {
         case demobrowser.demo.util.FSMMaze.Direction.WEST:
-          this.walls[currentCell.row][currentCell.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[currentCell.row][currentCell.col].setWidthLeft(0);
+          currentWall.setWidthLeft(0);
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.SOUTH:
-          this.walls[currentCell.row][currentCell.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[currentCell.row][currentCell.col].setWidthBottom(0);
+          currentWall.setWidthBottom(0);
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.EAST:
-          this.walls[currentCell.row][currentCell.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[currentCell.row][currentCell.col].setWidthRight(0);
+          currentWall.setWidthRight(0);
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.NORTH:
-          this.walls[currentCell.row][currentCell.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[currentCell.row][currentCell.col].setWidthTop(0);
+          currentWall.setWidthTop(0);
           break;
         }
+        this.cells[currentCell.row][currentCell.col].setDecorator(currentWall);
 
         // Step 4: Actually remove the wall on the neighbor cell
+        var neighborWall = new qx.ui.decoration.Single(1, "solid", "black");
+        var previousNeighborWall = this.cells[neighbor.row][neighbor.col].getDecorator();
+        neighborWall.set({
+          widthLeft: previousNeighborWall.getWidthLeft(),
+          widthBottom: previousNeighborWall.getWidthBottom(),
+          widthRight: previousNeighborWall.getWidthRight(),
+          widthTop: previousNeighborWall.getWidthTop()
+        });
         switch(neighbor.neighborWall)
         {
         case demobrowser.demo.util.FSMMaze.Direction.WEST:
-          this.walls[neighbor.row][neighbor.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[neighbor.row][neighbor.col].setWidthLeft(0);
+          neighborWall.setWidthLeft(0);
           break;
-
+        
         case demobrowser.demo.util.FSMMaze.Direction.SOUTH:
-          this.walls[neighbor.row][neighbor.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[neighbor.row][neighbor.col].setWidthBottom(0);
+          neighborWall.setWidthBottom(0);
           break;
-
+        
         case demobrowser.demo.util.FSMMaze.Direction.EAST:
-          this.walls[neighbor.row][neighbor.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[neighbor.row][neighbor.col].setWidthRight(0);
+          neighborWall.setWidthRight(0);
           break;
-
+        
         case demobrowser.demo.util.FSMMaze.Direction.NORTH:
-          this.walls[neighbor.row][neighbor.col] = new qx.ui.decoration.Single(1, "solid", "black");
-          this.walls[neighbor.row][neighbor.col].setWidthTop(0);
+          neighborWall.setWidthTop(0);
           break;
         }
+        this.cells[neighbor.row][neighbor.col].setDecorator(neighborWall);
 
         // Push currentCell onto the cell stack
         cellStack.push({ row : currentCell.row, col : currentCell.col });
@@ -460,9 +466,11 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
         {
           height : size,
           width : size,
-          top : (this.cellSize - size) / 2,
-          left : (this.cellSize - size) / 2
+          paddingTop : (this.cellSize - size) / 2,
+          paddingLeft : (this.cellSize - size) / 2,
+          rich : true
         });
+      // {top: (this.cellSize - size) / 2, left: (this.cellSize - size) / 2}
       this.cells[cell.row][cell.col].add(o);
     }
   }

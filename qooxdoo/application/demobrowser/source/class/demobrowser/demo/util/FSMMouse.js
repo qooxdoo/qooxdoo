@@ -40,16 +40,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
     this.base(arguments, mouseName);
 
     // Enable all debugging
-    /*
-    var FSM = qx.util.fsm.FiniteStateMachine;
-        this.setDebugFlags(FSM.DebugFlags.EVENTS |
-                           FSM.DebugFlags.TRANSITIONS |
-                           FSM.DebugFlags.FUNCTION_DETAIL |
-                           FSM.DebugFlags.OBJECT_NOT_FOUND);
-
-    */
+    
+    // var FSM = qx.util.fsm.FiniteStateMachine;
+    // this.setDebugFlags(FSM.DebugFlags.EVENTS |
+    //                    FSM.DebugFlags.TRANSITIONS |
+    //                    FSM.DebugFlags.FUNCTION_DETAIL |
+    //                    FSM.DebugFlags.OBJECT_NOT_FOUND);
+    
     this.setDebugFlags(0);
-
+    
     // Update next mouse's name
     ++demobrowser.demo.util.FSMMouse.nextMouse;
 
@@ -97,22 +96,22 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
     {
     case demobrowser.demo.util.FSMMaze.Direction.NORTH:
       this.mouseImage =
-        new qx.ui.basic.Image("demobrowser/image/mouse-north.gif");
+        new qx.ui.basic.Image("demobrowser/demo/ui/mouse-north.gif");
       break;
 
     case demobrowser.demo.util.FSMMaze.Direction.EAST:
       this.mouseImage =
-        new qx.ui.basic.Image("demobrowser/image/mouse-east.gif");
+        new qx.ui.basic.Image("demobrowser/demo/ui/mouse-east.gif");
       break;
 
     case demobrowser.demo.util.FSMMaze.Direction.SOUTH:
       this.mouseImage =
-        new qx.ui.basic.Image("demobrowser/image/mouse-south.gif");
+        new qx.ui.basic.Image("demobrowser/demo/ui/mouse-south.gif");
       break;
 
     case demobrowser.demo.util.FSMMaze.Direction.WEST:
       this.mouseImage =
-        new qx.ui.basic.Image("demobrowser/image/mouse-west.gif");
+        new qx.ui.basic.Image("demobrowser/demo/ui/mouse-west.gif");
       break;
     }
 
@@ -122,10 +121,8 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         opacity : 0.0,
         zIndex  : 9999
       });
-    // this.mouseImage.addToDocument();
-    maze.add(this.mouseImage, {row: this.currentLocation.top, column: this.currentLocation.left});
-
-
+    qx.core.Init.getApplication().getRoot().add(this.mouseImage, 
+      {top: this.currentLocation.top, left: this.currentLocation.left});
 
     //============================================================
     // Create the finite state machine's states and transitions
@@ -280,11 +277,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getCellTopLeft(_this.destinationCell);
 
             // Dispatch an event to cause us to continue.
-            _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            var event = new qx.event.type.Event();
+            event.setType("KickInTheAss");
+            _this.eventListener(event);
           }
           else
           {
-            _this.eventListener(new qx.event.type.Event("Die"));
+            var event = new qx.event.type.Event();
+            event.setType("Die");
+            _this.eventListener(event);
           }
           break;
 
@@ -331,11 +332,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getCellTopLeft(_this.destinationCell);
 
             // Dispatch an event to cause us to continue.
-            _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            var event = new qx.event.type.Event();
+            event.setType("KickInTheAss");
+            _this.eventListener(event);
           }
           else
           {
-            _this.eventListener(new qx.event.type.Event("Die"));
+            var event = new qx.event.type.Event();
+            event.setType("Die");
+            _this.eventListener(event);
           }
           break;
 
@@ -382,11 +387,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getCellTopLeft(_this.destinationCell);
 
             // Dispatch an event to cause us to continue.
-            _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            var event = new qx.event.type.Event();
+            event.setType("KickInTheAss")
+            _this.eventListener(event);
           }
           else
           {
-            _this.eventListener(new qx.event.type.Event("Die"));
+            var event = new qx.event.type.Event();
+            event.setType("Die");
+            _this.eventListener(event);
           }
           break;
 
@@ -433,11 +442,15 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
               maze.getCellTopLeft(_this.destinationCell);
 
             // Dispatch an event to cause us to continue.
-            _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            var event = new qx.event.type.Event();
+            event.setType("KickInTheAss");
+            _this.eventListener(event);
           }
           else
           {
-            _this.eventListener(new qx.event.type.Event("Die"));
+            var event = new qx.event.type.Event();
+            event.setType("Die");
+            _this.eventListener(event);
           }
           break;
         }
@@ -623,25 +636,37 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         case demobrowser.demo.util.FSMMaze.Direction.WEST:
           _this.currentLocation.left =
             Math.round(_this.currentLocation.left - moveAmount);
-          _this.mouseImage.setLeft(_this.currentLocation.left);
+          _this.mouseImage.setLayoutProperties({
+            left: _this.currentLocation.left,
+            top: _this.currentLocation.top
+          });
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.SOUTH:
           _this.currentLocation.top =
             Math.round(_this.currentLocation.top + moveAmount);
-          _this.mouseImage.setTop(_this.currentLocation.top);
+          _this.mouseImage.setLayoutProperties({
+            left: _this.currentLocation.left,
+            top: _this.currentLocation.top
+          });
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.EAST:
           _this.currentLocation.left =
             Math.round(_this.currentLocation.left + moveAmount);
-          _this.mouseImage.setLeft(_this.currentLocation.left);
+          _this.mouseImage.setLayoutProperties({
+            left: _this.currentLocation.left,
+            top: _this.currentLocation.top
+          });
           break;
 
         case demobrowser.demo.util.FSMMaze.Direction.NORTH:
           _this.currentLocation.top =
             Math.round(_this.currentLocation.top - moveAmount);
-          _this.mouseImage.setTop(_this.currentLocation.top);
+          _this.mouseImage.setLayoutProperties({
+            left: _this.currentLocation.left,
+            top: _this.currentLocation.top
+          });
           break;
         }
       }
@@ -687,7 +712,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
         qx.event.Timer.once(
           function()
           {
-            this.getRoot().remove(this.mouseImage);
+            qx.core.Init.getApplication().getRoot().remove(this.mouseImage);
             this.mouseImage.dispose();
             this.mouseImage = null;
             this.dispose();
@@ -719,10 +744,12 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
       // Add event listener to interval
       timer.addListener(
         "interval",
-        function(e)
+        function()
         {
           timer.dispose();
-          this.eventListener(new qx.event.type.Event("oneshot"));
+          var event = new qx.event.type.Event();
+          event.setType("oneshot");
+          this.eventListener(event);
         },
         this);
 
