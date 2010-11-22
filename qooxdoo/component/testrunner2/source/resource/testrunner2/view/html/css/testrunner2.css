@@ -57,7 +57,8 @@ h1 {
 #qxtestrunner_tests {
   float: left;
   width: 42%;
-  margin: 10px 0 30px 0;
+  margin-top: 10px;
+  padding-bottom: 30px;
   font-size: 0.9em;
 }
 
