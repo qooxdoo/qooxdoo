@@ -93,12 +93,11 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      * {Boolean} Whether the browser supports CSS class lists
      *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
      */
-    HTML5_CLASSLIST : (
-      document.documentElement.classList &&
+    HTML5_CLASSLIST : !!(document.documentElement.classList &&
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
 
-    /** {BOOLEAN} Wether the device is touch enabled. */
+    /** {BOOLEAN} Whether the device is touch enabled. */
     TOUCH : ("ontouchstart" in window),
 
     /** {BOOLEAN} Whether the client supports placeholders for input fields */
