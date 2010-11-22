@@ -150,6 +150,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     // triggered by mouse or keyboard [BUG #3344]
     _userInteraction : false,
 
+    __oldScrollTop : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -833,7 +834,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseOver : function(event)
     {
-      // this is a method invloced by a user interaction so be carefull
+      // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
+      // by keyboard interaction. We have to ignore the event to avoid a selection for 
+      // "mouseover" (quick selection). For more details see #
+      if(this.__oldScrollTop != null && 
+         this.__oldScrollTop != this._getScroll().top)
+      {
+        this.__oldScrollTop = null;
+        return;
+      }
+
+      // this is a method invoked by a user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
@@ -1515,6 +1526,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
           }
 
+          this.__oldScrollTop = this._getScroll().top;
           this._scrollItemIntoView(next);
         }
       }
