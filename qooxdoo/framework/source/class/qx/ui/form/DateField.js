@@ -212,10 +212,10 @@ qx.Class.define("qx.ui.form.DateField",
     _applyDateFormat : function(value, old)
     {
       // if old is undefined or null do nothing
-      if(!old)
-        {
-          return;
-        }
+      if (!old) {
+        return;
+      }
+
       // get the date with the old date format
       try
       {
