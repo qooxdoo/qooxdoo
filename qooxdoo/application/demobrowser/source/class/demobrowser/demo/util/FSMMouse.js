@@ -119,12 +119,11 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
     // Position the mouse and make it initially transparent
     this.mouseImage.set(
       {
-        top     : this.currentLocation.top,
-        left    : this.currentLocation.left,
         opacity : 0.0,
         zIndex  : 9999
       });
-    this.mouseImage.addToDocument();
+    // this.mouseImage.addToDocument();
+    maze.add(this.mouseImage, {row: this.currentLocation.top, column: this.currentLocation.left});
 
 
 
@@ -718,7 +717,7 @@ qx.Class.define("demobrowser.demo.util.FSMMouse",
       var timer = new qx.event.Timer(timeout);
 
       // Add event listener to interval
-      timer.addEventListener(
+      timer.addListener(
         "interval",
         function(e)
         {

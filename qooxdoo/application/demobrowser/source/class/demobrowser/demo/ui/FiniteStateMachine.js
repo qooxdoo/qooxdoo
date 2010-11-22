@@ -39,9 +39,6 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
     main : function()
     {
       this.base(arguments);
-      
-      var rootLogger = qx.log.Logger.ROOT_LOGGER;
-      rootLogger.removeAllAppenders();
 
       // Enable logging in debug variant
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -84,22 +81,17 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       o = new qx.ui.basic.Label(description);
       o.set(
         {
-          left : 50,
           width : 600,
-          wrap : true
+          wrap : true,
+          rich : true
         });
-      o.addToDocument();
-
+      this.getRoot().add(o, {left: 50});
       var maze = new demobrowser.demo.util.FSMMaze(10, 10, 50, 240);
-      maze.addToDocument();
+      // maze.addToDocument();
+      this.getRoot().add(maze, {left: 50, top: 240});
 
       o = new qx.ui.basic.Image("demobrowser/image/FsmMiceMaze.png", 800);
-      o.set(
-        {
-          left : 50,
-          top : 800
-        });
-      o.addToDocument();
+      this.getRoot().add(o, {left: 50, top: 800});
 
       // Determine (randomly) the facing direction of the initial mouse
       var facing;
