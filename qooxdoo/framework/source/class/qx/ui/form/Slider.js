@@ -15,7 +15,6 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
-     * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
 
@@ -103,9 +102,6 @@ qx.Class.define("qx.ui.form.Slider",
     } else {
       this.initOrientation();
     }
-
-    //set default size
-    this.__setSize(100);
   },
 
 
@@ -1053,19 +1049,6 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       this._updateKnobPosition();
-    },
-
-
-    /**
-     * Sets the width or height depending on the orientation.
-     * If the orientation is horizontal, the width is set,
-     * otherwise the height is set.
-     *
-     * @param value {Integer} The size of the slider.
-     * @return {void}
-     */
-    __setSize: function(value) {
-      this.__isHorizontal ? this.setWidth(value) : this.setHeight(value);
     }
   }
 });
