@@ -111,7 +111,8 @@ qx.Class.define("qx.data.controller.Tree",
       check: "qx.core.Object",
       apply: "_applyModel",
       event: "changeModel",
-      nullable: true
+      nullable: true,
+      dereference: true
     },
 
 
@@ -120,7 +121,8 @@ qx.Class.define("qx.data.controller.Tree",
     {
       apply: "_applyTarget",
       event: "changeTarget",
-      init: null
+      init: null,
+      dereference: true
     },
 
 
