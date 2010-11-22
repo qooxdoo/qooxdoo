@@ -176,11 +176,12 @@ qx.Class.define("qx.bom.Selection",
         else
         {
           var range = qx.bom.Range.get(node);
-          // if you select nothing , it returns zero
-          if(range.text.length==0)
-            {
-               return 0;
-            }
+
+          // if nothing was selected, return zero
+          if(range.text.length == 0) {
+            return 0;
+          }
+
           var parentElement = range.parentElement();
 
           // get a range which holds the text of the parent element
