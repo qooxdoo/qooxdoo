@@ -78,7 +78,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
 
       var parent = widget.getLayoutParent();
       var twin = false;
-      var childIndex = 0;
+      var childIndex = null;
       var children = [];
       try {
         children = children.concat(parent.getChildren());
@@ -92,7 +92,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       }
 
       for (var i=0,l=children.length; i<l; i++) {
-        if (children[i] == widget) {
+        if (children[i] == widget && childIndex === null) {
           childIndex = i;
         }
         else if (children[i].classname == widget.classname) {
