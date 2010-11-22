@@ -275,6 +275,31 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
+    testResetSelectionSingle: function(){
+      this.__setUpString();
+      
+      var box = new qx.ui.form.SelectBox();
+      this.__controller.setTarget(box);
+      
+      var model = new qx.data.Array(["x", "y", "z"]); 
+      
+      this.__controller.getSelection().push("b");
+      
+      // change the model (should reset the selection)
+      this.__controller.setModel(model);
+      
+      // first element should be selected because its a select box
+      
+      this.wait(100, function() {
+        this.assertEquals("x", this.__controller.getSelection().getItem(0));
+
+        model.dispose();
+        box.destroy();
+      }, this);
+
+    },
+
+
     testSelectionSingle: function() {
       this.__setUpString();
 

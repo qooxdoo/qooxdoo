@@ -265,15 +265,22 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
       // if its a single selection target
       } else if (this.__targetSupportsSingleSelection()) {
-        // select the last selected item (old selection will be removed anyway)
-        this.__selectItem(
-          this.getSelection().getItem(this.getSelection().length - 1)
-        );
-        // remove the other items from the selection data array and get 
-        // rid of the return array
-        this.getSelection().splice(
-          0, this.getSelection().getLength() - 1
-        ).dispose();
+        // get the model which should be selected
+        var item = this.getSelection().getItem(this.getSelection().length - 1);
+        if (item) {
+          // select the last selected item (old selection will be removed anyway)
+          this.__selectItem(item);
+          // remove the other items from the selection data array and get 
+          // rid of the return array
+          this.getSelection().splice(
+            0, this.getSelection().getLength() - 1
+          ).dispose();
+        } else {
+          // if there is no item to select (e.g. new model set [BUG #4125]), 
+          // reset the selection
+          this.getTarget().resetSelection();
+        }
+
       }
 
       // reset the changing flag
