@@ -17,11 +17,28 @@
 
 ************************************************************************ */
 
+/* *********************************************************************
+#asset(qx/test/xmlhttp/echo_header.php)
+************************************************************************ */
+
 /**
  * Adds support for verification of infrastructure requirements to unit test
  * classes.
  */
 qx.Mixin.define("qx.dev.unit.MRequirements", {
+  
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  statics :
+  {
+    /** {Boolean} Result of {@link #hasPhp}. Stored as class member to avoid 
+     * repeating the check. */
+    __hasPhp : null
+  },
   
   /*
   *****************************************************************************
@@ -30,6 +47,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
   */
   members :
   {
+    
     /**
      * Verifies a list of infrastructure requirements by checking for 
      * corresponding "has" methods. Throws RequirementErrors for unmet 
@@ -73,6 +91,44 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     hasHttp : function()
     {
       return document.location.protocol.indexOf("http") == 0;
+    },
+    
+    
+    /**
+     * Checks if the server supports PHP. 
+     * 
+     * @return {Boolean} Whether PHP is supported by the backend
+     */
+    hasPhp : function()
+    {
+      if (qx.dev.unit.MRequirements.__hasPhp != null) {
+        return qx.dev.unit.MRequirements.__hasPhp;
+      }
+      
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/xmlhttp/echo_header.php");
+      var req = new qx.bom.Request();
+      
+      req.onload = qx.lang.Function.bind(function() {
+        try {
+          var version = qx.lang.Json.parse(req.responseText);
+          qx.dev.unit.MRequirements.__hasPhp = true;
+        } catch(ex) {
+          qx.dev.unit.MRequirements.__hasPhp = false;
+        }
+      }, this);
+      
+      req.onerror = req.abort = qx.lang.Function.bind(function() {
+        qx.dev.unit.MRequirements.__hasPhp = false;
+      }, this);      
+      
+      req.open("POST", url, false);
+      try {
+        req.send();
+      } catch(ex) {
+        qx.dev.unit.MRequirements.__hasPhp = false;
+      }
+      
+      return qx.dev.unit.MRequirements.__hasPhp;
     },
     
     
