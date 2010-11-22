@@ -307,6 +307,7 @@ qx.Class.define("testrunner2.view.Html", {
      */
     toggleAllTests : function(selected, onlyVisible)
     {
+      var testsToModify = [];
       var boxes = document.getElementsByTagName("input");
       for (var i=0,l=boxes.length; i<l; i++) {
         if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
@@ -315,9 +316,10 @@ qx.Class.define("testrunner2.view.Html", {
           }
           boxes[i].checked = selected;
           var testName = this.__testNameToId[boxes[i].id.substr(3)];
-          this.__toggleTestSelected(testName, selected);
+          testsToModify.push(testName);
         }
       }
+      this.__toggleTestsSelected(testsToModify, selected);
     },
     
     
@@ -340,6 +342,7 @@ qx.Class.define("testrunner2.view.Html", {
       this.toggleAllTests(false, false);
       this.hideAllTestListEntries();
       if (matches.length > 0) {
+        var testsToModify = [];
         for (var i=0,l=matches.length; i<l; i++) {
           var key = this.__simplifyName(matches[i]);
           var checkboxId = "cb_" + key;
@@ -347,9 +350,10 @@ qx.Class.define("testrunner2.view.Html", {
           box.parentNode.style.display = "block";
           if (this.__domElements.allTestsToggle.checked) {
             box.checked = true;
-            this.__toggleTestSelected(matches[i], true);
+            testsToModify.push(matches[i]);
           }
         }
+        this.__toggleTestsSelected(testsToModify, true);
       }
       qx.bom.Cookie.set("testFilter", term);
     },
@@ -467,25 +471,29 @@ qx.Class.define("testrunner2.view.Html", {
     {
       var testName = this.__testNameToId[ev.getTarget().id.substr(3)];
       var selected = ev.getTarget().checked;
-      this.__toggleTestSelected(testName, selected);
+      this.__toggleTestsSelected([testName], selected);
     },
     
     
     /**
-     * Adds or removes a test from the list of selected tests.
+     * Adds or removes tests from the list of selected tests.
      * 
-     * @param ev {qx.event.type.Event} The change event from the checkbox 
-     * associated with the test
+     * @param test {String[]} List of tests to be added or removed
+     * @param selected {Boolean} Whether the given tests should be added to or
+     * removed from the selection
      */
-    __toggleTestSelected : function(testName, selected)
+    __toggleTestsSelected : function(tests, selected)
     {
       var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
       
-      if (selected && !qx.lang.Array.contains(selectedTests, testName)) {
-        selectedTests.push(testName);
-      }
-      else if (!selected && qx.lang.Array.contains(selectedTests, testName)) {
-        qx.lang.Array.remove(selectedTests, testName);
+      for (var i=0,l=tests.length; i<l; i++) {
+        var testName = tests[i];
+        if (selected && !qx.lang.Array.contains(selectedTests, testName)) {
+          selectedTests.push(testName);
+        }
+        else if (!selected && qx.lang.Array.contains(selectedTests, testName)) {
+          qx.lang.Array.remove(selectedTests, testName);
+        }
       }
       
       selectedTests.sort();
