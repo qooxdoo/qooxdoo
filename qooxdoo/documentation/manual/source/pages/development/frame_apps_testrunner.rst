@@ -34,7 +34,7 @@ This section assumes that your qooxdoo application bears on the structure of the
 Writing Test Classes
 --------------------
 
-* You have to code test classes that perform the indiviudal tests. These test classes have to comply to the following constraints:
+* You have to code test classes that perform the individual tests. These test classes have to comply to the following constraints:
 
   * They have to be within the name space of your application.
   * They have to be derived from ``qx.dev.unit.TestCase``.
@@ -45,7 +45,20 @@ Writing Test Classes
 
     * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
     * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug variant ``qx.debug`` is on (see :doc:`Variants <variants>`). 
-    * See the documentation for the ```qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_`` class for more information on the available assertions.
+    * See the documentation for the `qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_ class for more information on the available assertions.
+
+.. _pages/frame_apps_testrunner#generic_setup_teardown:
+
+Generic setUp and tearDown
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Test classes can optionally define a ``setUp`` method. This is used to initialize common objects needed by some or all of the tests in the class. Since ``setUp`` is executed before each test, it helps to ensure that each test function runs in a "clean" environment.
+Similarly, a method named ``tearDown`` will be executed after each test, e.g. to dispose any objects created by ``setUp`` or the test itself.
+
+.. _pages/frame_apps_testrunner#specific_teardown:
+
+Specific tearDown
+^^^^^^^^^^^^^^^^^
+For cases where the generic class-wide ``tearDown`` isn't enough, methods using the naming convention ``tearDown<TestFunctionName>`` can be defined. A method named e.g. ``tearDownTestFoo`` would be called after ``testFoo`` and the generic ``tearDown`` of the class were executed.
 
 .. _pages/frame_apps_testrunner#asynchronous_tests:
 
