@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
   extend : qx.core.Object,
   implement : [qx.ui.virtual.core.IWidgetCellProvider,
                qx.ui.list.core.IListProvider],
-  include : [qx.ui.list.core.MWidgetCellController],
+  include : [qx.ui.list.core.MWidgetController],
 
   /**
    * Creates the <code>WidgetCellProvider</code>

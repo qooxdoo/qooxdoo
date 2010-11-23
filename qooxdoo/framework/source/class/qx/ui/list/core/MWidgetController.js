@@ -23,7 +23,7 @@
  *
  * The mixin controls the binding between model and item.
  */
-qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
+qx.Mixin.define("qx.ui.list.core.MWidgetController",
 {
   construct : function() {
     this.__boundItems = [];

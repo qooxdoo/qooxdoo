@@ -54,7 +54,7 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
      * Sets up the binding for the given item and index.
      *
      * For every property you want to bind, use
-     * {@link MWidgetCellController#bindProperty} like this:
+     * {@link MWidgetController#bindProperty} like this:
      * <code>
      * controller.bindProperty("path.in.the.model", "label", options, item, id);
      * </code>
