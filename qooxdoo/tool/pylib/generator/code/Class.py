@@ -1051,7 +1051,7 @@ class Class(Resource):
         classVariants     = self.classVariants()
         relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
-        cacheId           = "messages-%s-%s" % (self.path, variantsId)
+        cacheId           = "messages-%s" % (variantsId,)
         cached            = True
 
         #messages, _ = cache.readmulti(cacheId, self.path)
