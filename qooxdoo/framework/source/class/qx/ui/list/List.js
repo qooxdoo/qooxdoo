@@ -159,8 +159,8 @@ qx.Class.define("qx.ui.list.List",
     /** {qx.ui.virtual.layer.Row} background renderer */
     _background : null,
 
-    /** {qx.ui.list.core.WidgetCellProvider} provider for widget cell rendering */
-    _widgetCellProvider : null,
+    /** {qx.ui.list.core.IListProvider} provider for widget cell rendering */
+    _provider : null,
 
     /** {qx.ui.virtual.layer.WidgetCell} widget cell renderer. */
     _layer : null,
@@ -202,6 +202,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _init : function()
     {
+      this._provider = new qx.ui.list.provider.WidgetProvider(this);
       this.__lookupTable = [];
       
       this.getPane().addListener("resize", this._onResize, this);
@@ -224,8 +225,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _initLayer : function()
     {
-      this._widgetCellProvider = new qx.ui.list.core.WidgetCellProvider(this);
-      this._layer = new qx.ui.virtual.layer.WidgetCell(this._widgetCellProvider);
+      this._layer = this._provider.getCellLayer();
       this.getPane().addLayer(this._layer);
     },
 
@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.list.List",
         old.removeListener("change", this._onModelChange, this);
       }
 
-      this._widgetCellProvider.removeBindings();
+      this._provider.removeBindings();
       this.__buildUpLookupTable();
     },
 
@@ -249,27 +249,27 @@ qx.Class.define("qx.ui.list.List",
 
     // apply method
     _applyLabelPath : function(value, old) {
-      this._widgetCellProvider.setLabelPath(value);
+      this._provider.setLabelPath(value);
     },
 
     // apply method
     _applyIconPath : function(value, old) {
-      this._widgetCellProvider.setIconPath(value);
+      this._provider.setIconPath(value);
     },
 
     // apply method
     _applyLabelOptions : function(value, old) {
-      this._widgetCellProvider.setLabelOptions(value);
+      this._provider.setLabelOptions(value);
     },
 
     // apply method
     _applyIconOptions : function(value, old) {
-      this._widgetCellProvider.setIconOptions(value);
+      this._provider.setIconOptions(value);
     },
 
     // apply method
     _applyDelegate : function(value, old) {
-      this._widgetCellProvider.setDelegate(value);
+      this._provider.setDelegate(value);
       this.__buildUpLookupTable();
     },
 
@@ -397,10 +397,10 @@ qx.Class.define("qx.ui.list.List",
   destruct : function()
   {
     this._background.dispose();
-    this._widgetCellProvider.dispose();
+    this._provider.dispose();
     this._layer.dispose();
     this._background = null;
-    this._widgetCellProvider = null;
+    this._provider = null;
     this._layer = null;
   }
 });

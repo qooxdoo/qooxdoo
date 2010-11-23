@@ -166,23 +166,6 @@ qx.Mixin.define("qx.ui.list.core.MWidgetCellController",
     },
 
     /**
-     * Creates a cell renderer.
-     *
-     * @return {qx.ui.virtual.cell.AbstractWidget} The created cell renderer..
-     */
-    _createCellRenderer : function() {
-      var delegate = this.getDelegate();
-
-      if (delegate != null && delegate.createCellRenderer != null) {
-        var renderer = delegate.createCellRenderer();
-      } else {
-        var renderer = new qx.ui.virtual.cell.ListItemWidgetCell();
-      }
-
-      return renderer;
-    },
-
-    /**
      * Configure the passed item if a delegate is set and the needed
      * function {@link IControllerDelegate#configureItem} is available.
      *

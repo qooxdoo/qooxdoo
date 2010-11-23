@@ -133,9 +133,9 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
           }
 
           if (wasAdded) {
-            self._widgetCellProvider.styleSelectabled(widget);
+            self._provider.styleSelectabled(widget);
           } else {
-            self._widgetCellProvider.styleUnselectabled(widget);
+            self._provider.styleUnselectabled(widget);
           }
         }
       }

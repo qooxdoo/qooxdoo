@@ -24,10 +24,11 @@
  * which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
  */
-qx.Class.define("qx.ui.list.core.WidgetCellProvider",
+qx.Class.define("qx.ui.list.provider.WidgetProvider",
 {
   extend : qx.core.Object,
-  implement : qx.ui.virtual.core.IWidgetCellProvider,
+  implement : [qx.ui.virtual.core.IWidgetCellProvider,
+               qx.ui.list.core.IListProvider],
   include : [qx.ui.list.core.MWidgetCellController],
 
   /**
@@ -39,7 +40,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
   {
     this.base(arguments);
 
-    this._cellRenderer = this._createCellRenderer();
+    this._cellRenderer = this.getCellRenderer();
     this._list = list;
 
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
@@ -70,6 +71,23 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     poolCellWidget : function(widget) {
       this._removeBindingsFrom(widget);
       this._cellRenderer.pool(widget);
+    },
+    
+    // interface implementation
+    getCellLayer : function() {
+      return new qx.ui.virtual.layer.WidgetCell(this);
+    },
+
+    // interface implementation
+    getCellRenderer : function() 
+    {
+      var delegate = this.getDelegate();
+      
+      if (delegate != null && delegate.createCellRenderer != null) {
+        return delegate.createCellRenderer();
+      } else {
+        return new qx.ui.virtual.cell.ListItemWidgetCell();
+      }
     },
 
     /**
@@ -109,7 +127,7 @@ qx.Class.define("qx.ui.list.core.WidgetCellProvider",
     _onChangeDelegate : function(event)
     {
       this._cellRenderer.dispose();
-      this._cellRenderer = this._createCellRenderer();
+      this._cellRenderer = this.getCellRenderer();
       this._cellRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
