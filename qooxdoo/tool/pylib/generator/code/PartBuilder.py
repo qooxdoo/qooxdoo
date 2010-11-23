@@ -660,6 +660,7 @@ class PartBuilder(object):
 
         for package in packages:
             package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)
+        self._console.nl() # terminate dots
 
         #script.packageIdsSorted = [x.id for x in packages]
 
