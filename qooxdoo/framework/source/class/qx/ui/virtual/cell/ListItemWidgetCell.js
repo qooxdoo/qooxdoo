@@ -29,20 +29,11 @@ qx.Class.define("qx.ui.virtual.cell.ListItemWidgetCell",
 {
   extend : qx.ui.virtual.cell.AbstractWidget,
 
-  events :
-  {
-    /** Fired when a new <code>ListItem</code> is created. */
-    "created" : "qx.event.type.Data"
-  },
-
   members :
   {
     // overridden
     _createWidget : function() {
-      var widget = new qx.ui.form.ListItem();
-      this.fireDataEvent("created", widget);
-
-      return widget;
+      return new qx.ui.form.ListItem();
     },
 
     // overridden

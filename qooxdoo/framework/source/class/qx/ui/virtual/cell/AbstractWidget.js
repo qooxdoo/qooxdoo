@@ -15,6 +15,13 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
   },
 
 
+  events :
+  {
+    /** Fired when a new <code>LayoutItem</code> is created. */
+    "created" : "qx.event.type.Data"
+  },
+
+
   members :
   {
     __pool : null,
@@ -75,7 +82,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     // interface implementation
     getCellWidget : function(data, states)
     {
-      var widget = this.__pool.pop() || this._createWidget();
+      var widget = this.__getWidgetFromPool();
       this.updateStates(widget, states);
       this.updateData(widget, data);
       return widget;
@@ -85,6 +92,26 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     // interface implementation
     pool : function(widget) {
       this.__pool.push(widget);
+    },
+
+
+    /**
+     * Returns a <code>LayoutItem</code> from the pool, when the pool is empty
+     * a new <code>LayoutItem</code> is created.
+     * 
+     * @return {qx.ui.core.LayoutItem} The cell widget
+     */
+    __getWidgetFromPool : function()
+    {
+      var widget = this.__pool.pop();
+
+      if (widget == null)
+      {
+        widget = this._createWidget();
+        this.fireDataEvent("created", widget);
+      }
+
+      return widget;
     }
   },
 

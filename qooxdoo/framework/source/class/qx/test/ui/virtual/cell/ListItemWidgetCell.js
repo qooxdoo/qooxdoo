@@ -42,15 +42,24 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
 
     testCreateWidget : function()
     {
-      var item = this.__cell._createWidget();
+      var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
     },
 
     testEvent : function()
     {
       var that = this;
+      var widget = null;
       this.assertEventFired(this.__cell, "created", function() {
-        that.__cell._createWidget();
+        widget = that.__cell.getCellWidget();
+      }, function(e) {
+        that.assertInterface(e.getData(), qx.ui.form.ListItem);
+      });
+
+      this.__cell.pool(widget);
+
+      this.assertEventNotFired(this.__cell, "created", function() {
+        that.__cell.getCellWidget();
       }, function(e) {
         that.assertInterface(e.getData(), qx.ui.form.ListItem);
       });
