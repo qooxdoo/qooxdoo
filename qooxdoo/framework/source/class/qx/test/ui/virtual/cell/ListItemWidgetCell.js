@@ -85,6 +85,19 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.__cell.updateData(item)
       this.assertNull(item.getLabel());
       this.assertNull(item.getIcon());
+    },
+
+    testUpdateWrongData : function()
+    {
+      var item = new qx.ui.form.ListItem();
+      var data = {
+        banana : "joe"
+      };
+
+      var that = this;
+      this.assertException(function() {
+        that.__cell.updateData(item, data)
+      });
     }
   }
 });
