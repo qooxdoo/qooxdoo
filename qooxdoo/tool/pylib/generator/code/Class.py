@@ -1051,11 +1051,12 @@ class Class(Resource):
         classVariants     = self.classVariants()
         relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
+        cacheId           = "messages-%s-%s" % (self.path, variantsId)
         cached            = True
 
-        cacheId = "messages-%s-%s" % (self.path, variantsId)
-
-        messages, _ = cache.readmulti(cacheId, self.path)
+        #messages, _ = cache.readmulti(cacheId, self.path)
+        classInfo, cacheModTime = self._getClassCache()
+        messages = classInfo[cacheId] if cacheId in classInfo else None
         if messages != None:
             return messages, cached
 
@@ -1074,7 +1075,9 @@ class Class(Resource):
             console.debug("Found %s message strings" % len(messages))
 
         console.outdent()
-        cache.writemulti(cacheId, messages)
+        #cache.writemulti(cacheId, messages)
+        classInfo[cacheId] = messages
+        self._writeClassCache(classInfo)
 
         return messages, cached
 
