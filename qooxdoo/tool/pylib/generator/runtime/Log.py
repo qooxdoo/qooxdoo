@@ -155,15 +155,15 @@ class Log(object):
 
 
     def warn(self, msg, feed=True):
-        self.log(msg, "warning", feed)
+        self.log("Warning: %s" % msg, "warning", feed)
 
 
     def error(self, msg, feed=True):
-        self.write("!!! %s" % msg, "error", feed)
+        self.write("Error: %s" % msg, "error", feed)
 
 
     def fatal(self, msg, feed=True):
-        self.log(msg, "fatal", "fatal", feed)
+        self.log("Fatal: %s" % msg, "fatal", feed)
 
 
     def progress(self, pos, length):

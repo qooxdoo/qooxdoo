@@ -360,7 +360,7 @@ class Generator(object):
             self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeNoDeps)))
 
             if len(excludeCfg) > 0:
-                self._console.warn("Excludes may break code!")
+                self._console.warn("Excludes may break code (%r)" % excludeCfg)
 
             self._console.outdent()
 
@@ -373,7 +373,7 @@ class Generator(object):
                     expanded = self._expandRegExp(entry)
                     nexcludeWithDeps.extend(expanded)
                 except RuntimeError:
-                    self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
+                    self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
             excludeWithDeps = nexcludeWithDeps
 
             nexcludeNoDeps = []
@@ -382,7 +382,7 @@ class Generator(object):
                     expanded = self._expandRegExp(entry)
                     nexcludeNoDeps.extend(expanded)
                 except RuntimeError:
-                    self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
+                    self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
             excludeNoDeps = nexcludeNoDeps
 
             self._console.outdent()
