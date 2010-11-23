@@ -285,6 +285,7 @@ qx.Class.define("qx.bom.Viewport",
      * * <code>90</code>: "Landscape (left, screen turned counterclockwise)"
      * * <code>180</code>: "Portrait (upside-down portrait)"
      *
+     * @param win {Window?window} The window to query
      * @return {Integer} The current orientation in degree
      */
     getOrientation : function(win)
