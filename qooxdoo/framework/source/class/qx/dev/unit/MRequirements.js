@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /* *********************************************************************
-#asset(qx/test/xmlhttp/echo_header.php)
+#asset(qx/test/xmlhttp/php_version.php)
 ************************************************************************ */
 
 /**
@@ -105,12 +105,13 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
         return qx.dev.unit.MRequirements.__hasPhp;
       }
       
-      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/xmlhttp/echo_header.php");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/xmlhttp/php_version.php");
+      console.log(url);
       var req = new qx.bom.Request();
       
       req.onload = qx.lang.Function.bind(function() {
         try {
-          var version = qx.lang.Json.parse(req.responseText);
+          qx.lang.Json.parse(req.responseText);
           qx.dev.unit.MRequirements.__hasPhp = true;
         } catch(ex) {
           qx.dev.unit.MRequirements.__hasPhp = false;
