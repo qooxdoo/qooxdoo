@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _initLayer : function()
     {
-      this._layer = this._provider.getCellLayer();
+      this._layer = this._provider.getLayer();
       this.getPane().addLayer(this._layer);
     },
 

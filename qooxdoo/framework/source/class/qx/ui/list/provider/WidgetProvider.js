@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
   {
     this.base(arguments);
 
-    this._cellRenderer = this.getCellRenderer();
+    this._cellRenderer = this.getItemRenderer();
     this._list = list;
 
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
@@ -74,12 +74,12 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     },
     
     // interface implementation
-    getCellLayer : function() {
+    getLayer : function() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
     // interface implementation
-    getCellRenderer : function() 
+    getItemRenderer : function() 
     {
       var delegate = this.getDelegate();
       
@@ -88,6 +88,11 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       } else {
         return new qx.ui.virtual.cell.ListItemWidgetCell();
       }
+    },
+
+    // interface implementation
+    getGroupRenderer : function() {
+      throw new Error("Feature not implemented!");
     },
 
     /**
@@ -127,7 +132,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     _onChangeDelegate : function(event)
     {
       this._cellRenderer.dispose();
-      this._cellRenderer = this.getCellRenderer();
+      this._cellRenderer = this.getItemRenderer();
       this._cellRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();

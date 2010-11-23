@@ -21,8 +21,10 @@ qx.Interface.define("qx.ui.list.core.IListProvider",
 {
   members :
   {
-    getCellLayer : function() {},
+    getLayer : function() {},
 
-    getCellRenderer : function() {}
+    getItemRenderer : function() {},
+
+    getGroupRenderer : function() {}
   }
 });
