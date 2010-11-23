@@ -64,7 +64,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     // Load unit tests
     if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
       // Load the tests from a standalone AUT
-      this.__iframe = this.view.getIframe(this._onLoadIframe, this);
+      this.__iframe = this.view.getIframe();
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
       var src = qx.core.Setting.get("qx.testPageUri")
       src += "?testclass=" + qx.core.Setting.get("qx.testNameSpace");
@@ -328,7 +328,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     _onLoadIframe : function(ev)
     {
-      if (ev) {
+      if (ev && ev.getType() == "load") {
         this.setTestSuiteState("loading");
       }
       
