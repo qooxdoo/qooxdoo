@@ -369,7 +369,7 @@ qx.Class.define("portal.dragdrop.Manager",
      * @param left {Integer} current x coordinate
      * @return {void}
      */
-    checkGroupBox : function(left)
+    checkGroupBox : function(left,width)
     {
       // check at first the current groupBox
       if (this.__groupBoxInfos[this.__currentGroupBox].left <= left &&
@@ -381,7 +381,7 @@ qx.Class.define("portal.dragdrop.Manager",
       {
         if (info != this.__currentGroupBox)
         {
-          if (this.__groupBoxInfos[info].left <= left && this.__groupBoxInfos[info].right >= left)
+          if (this.__groupBoxInfos[info].left <= left+width && this.__groupBoxInfos[info].right >= left)
           {
             this.__currentGroupBox = info;
             this.__groupBoxChange  = true;

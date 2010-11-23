@@ -223,7 +223,7 @@ qx.Class.define("portal.box.Draggable",
       // with this timeout everything is a little bit smoother
       qx.event.Timer.once(function()
       {
-        this.checkGroupBox(left);
+        this.checkGroupBox(left,parseInt(this.getActiveBox().getData().width));
         this.onDragMove(top, left);
       }, portal.dragdrop.Manager.getInstance(), 0);
     }
