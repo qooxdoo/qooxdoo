@@ -167,7 +167,8 @@ qx.Class.define("qx.bom.Input",
           element.selectedIndex = -1;
         }
       }
-      else if (type === "text" && qx.core.Variant.isSet("qx.client", "mshtml"))
+      else if ((type === "text" || type === "textarea") && 
+        qx.core.Variant.isSet("qx.client", "mshtml")) 
       {
         // These flags are required to detect self-made property-change
         // events during value modification. They are used by the Input
