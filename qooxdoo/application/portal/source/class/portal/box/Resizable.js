@@ -166,7 +166,7 @@ qx.Class.define("portal.box.Resizable",
       var handle = this.__handles[orientation];
 
       Registration.addListener(handle, "mousedown", this.__mouseDownListener, this);
-      Registration.addListener(document.body, "mouseup", this.__mouseUpListener, this);
+      Registration.addListener(document, "mouseup", this.__mouseUpListener, this);
 
       if (this.__options.autoHide)
       {
@@ -221,7 +221,7 @@ qx.Class.define("portal.box.Resizable",
       if (e.isLeftPressed())
       {
         // dynamically add "mousemove" listener
-        qx.event.Registration.addListener(document.body, "mousemove", this.__mouseMoveListener, this, true);
+        qx.event.Registration.addListener(document, "mousemove", this.__mouseMoveListener, this, true);
         this.__capturingPhase = true;
 
         var target = e.getTarget();
@@ -249,7 +249,7 @@ qx.Class.define("portal.box.Resizable",
       if (this.__capturingPhase)
       {
         // remove the "mousemove" listener at the end of the resize operation
-        qx.event.Registration.removeListener(document.body, "mousemove", this.__mouseMoveListener, this, true);
+        qx.event.Registration.removeListener(document, "mousemove", this.__mouseMoveListener, this, true);
 
         portal.box.Util.sendToBack(this.__element);
 
