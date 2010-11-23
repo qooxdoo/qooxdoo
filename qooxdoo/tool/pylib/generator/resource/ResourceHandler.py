@@ -26,13 +26,6 @@ from generator import Context
 
 class ResourceHandler(object):
 
-    def __init__(self, generatorobj, librariesObj):
-        global console
-        self._genobj  = generatorobj
-        console  = Context.console
-
-
-
     ##
     # Create a resource structure suitable for serializing. The main simpli-
     # fication is that no resource *selection* is done in this method. It basi-
@@ -46,7 +39,8 @@ class ResourceHandler(object):
     #   resource structure {"gui/test.png" : [32, 32, "png", "gui"], ...}
     # or:
     #   {"gui" : {"test.png" : [32, 32, "png", "gui"], ...}, ...}
-    def createResourceStruct(self, resources, formatAsTree=False, updateOnlyExistingSprites=False):
+    @staticmethod
+    def createResourceStruct(resources, formatAsTree=False, updateOnlyExistingSprites=False):
         
         skippatt = re.compile(r'\.(meta|py)$', re.I)
         result = {}
@@ -82,7 +76,8 @@ class ResourceHandler(object):
     # Map resources to classes.
     # Takes a list of Library's and a list of Class'es, and modifies the
     # classes' .resources member to hold suitable resources from the Libs.
-    def mapResourcesToClasses(self, libs, classes):
+    @staticmethod
+    def mapResourcesToClasses(libs, classes, assetMacros={}):
         
         # Resource list
         resources = []
@@ -96,7 +91,7 @@ class ResourceHandler(object):
         
         # Asset pattern list  -- this is basically an optimization, to condense
         # asset patterns
-        assetMacros = self._genobj._job.get('asset-let',{})
+        #assetMacros = self._genobj._job.get('asset-let',{})
         assetHints  = []
         for clazz in classes:
             assetHints.extend(clazz.getAssets(assetMacros))
@@ -118,7 +113,7 @@ class ResourceHandler(object):
         # Now that the resource mapping is done, check if we have unfullfilled hints
         for hint in assetHints:
             if not hint.seen:
-                console.warn("! Warning: No resource matched #asset(%s) (%s)" % (hint.source, hint.clazz.id))
+                Context.console.warn("No resource matched #asset(%s) (%s)" % (hint.source, hint.clazz.id))
         
         return classes
 

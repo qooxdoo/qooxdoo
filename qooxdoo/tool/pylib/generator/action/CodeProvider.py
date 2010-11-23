@@ -26,6 +26,7 @@ from misc import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType import PathType
 from generator import Context as context
 from generator.resource.ImageInfo import ImgInfoFmt
+from generator.resource.ResourceHandler import ResourceHandler
 from generator.config.Config import ConfigurationError
 
 global inclregexps, exclregexps
@@ -144,7 +145,7 @@ def _handleResources(script, generator, filtered=True):
         #        allresources[resid] = resValue.flatten()
         #    else:
         #        allresources[resid] = resValue
-        allresources = generator._resourceHandler.createResourceStruct(reslist, updateOnlyExistingSprites = False)
+        allresources = ResourceHandler.createResourceStruct(reslist, updateOnlyExistingSprites = False)
 
     # get resource info
     resinfos = {}

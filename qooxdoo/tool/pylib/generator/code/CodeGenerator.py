@@ -24,6 +24,7 @@ import urllib, urlparse, optparse, pprint
 from generator.config.Lang      import Lang
 from generator.code.Part        import Part
 from generator.code.Package     import Package
+from generator.resource.ResourceHandler import ResourceHandler
 from ecmascript                 import compiler
 from misc                       import filetool, json, Path
 from misc.ExtMap                import ExtMap
@@ -36,7 +37,7 @@ console = None
 
 class CodeGenerator(object):
 
-    def __init__(self, cache_, console_, config, job, settings, locale, resourceHandler, classes):
+    def __init__(self, cache_, console_, config, job, settings, locale, classes):
         global console, cache
         self._cache   = cache_
         self._console = console_
@@ -44,7 +45,6 @@ class CodeGenerator(object):
         self._job     = job
         self._settings     = settings
         self._locale     = locale
-        self._resourceHandler = resourceHandler
         self._classes = classes
 
         console = console_
@@ -762,7 +762,7 @@ class CodeGenerator(object):
                 package_classes   = [x for x in script.classesObj if x.id in package.classes]
                 for clazz in package_classes:
                     package_resources.extend(clazz.resources)
-                package.data.resources = rh.createResourceStruct(package_resources, formatAsTree=resources_tree,
+                package.data.resources = ResourceHandler.createResourceStruct(package_resources, formatAsTree=resources_tree,
                                                              updateOnlyExistingSprites=True)
             return
 
@@ -772,13 +772,13 @@ class CodeGenerator(object):
         compConf       = self._job.get ("compile-options")
         compConf       = ExtMap (compConf)
         resources_tree = compConf.get ("code/resources-tree", False)
-        rh             = self._resourceHandler
 
-        classes = rh.mapResourcesToClasses (libraries, script.classesObj)
+        classes = ResourceHandler.mapResourcesToClasses (libraries, script.classesObj,
+                                            self._job.get("asset-let", {}))
         filteredResources = []
         for clazz in classes:
             filteredResources.extend(clazz.resources)
-        resdata = rh.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+        resdata = ResourceHandler.createResourceStruct (filteredResources, formatAsTree=resources_tree,
                                            updateOnlyExistingSprites=True)
         # add resource info to packages
         addResourceInfoToPackages(script)

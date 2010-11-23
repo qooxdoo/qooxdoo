@@ -540,8 +540,7 @@ class Generator(object):
         #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
         self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-        self._resourceHandler= ResourceHandler(self, self._libraries)
-        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
+        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classes)
 
         # Preprocess include/exclude lists
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
@@ -912,7 +911,6 @@ class Generator(object):
             exclregexps = self._job.get("provider/exclude", [])
             inclregexps = map(textutil.toRegExp, inclregexps)
             exclregexps = map(textutil.toRegExp, exclregexps)
-            rh          = self._resourceHandler
 
             data = {}
             # Class deps
@@ -942,7 +940,7 @@ class Generator(object):
             # class list
             classObjs = [x for x in script.classesObj if x.id in data.keys()]
             # map resources to class.resources
-            classObjs = rh.mapResourcesToClasses(script.libraries, classObjs)
+            classObjs = ResourceHandler.mapResourcesToClasses(script.libraries, classObjs, self._job.get("asset-let", {}))
 
             for clazz in classObjs:
                 reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
@@ -1329,10 +1327,9 @@ class Generator(object):
         resTargetRoot = self._job.get("copy-resources/target", "build")
         resTargetRoot = self._config.absPath(resTargetRoot)
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
-        rh            = self._resourceHandler
 
         # map resources to class.resources
-        classList = rh.mapResourcesToClasses(script.libraries, classList)
+        classList = ResourceHandler.mapResourcesToClasses(script.libraries, classList, self._job.get("asset-let", {}))
 
         self._console.indent()
         # make resources to copy unique
