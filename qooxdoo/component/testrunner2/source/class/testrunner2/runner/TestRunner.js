@@ -182,6 +182,51 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     
     /**
+     * Wraps all assert* methods included in qx.dev.unit.TestCase in try/catch
+     * blocks. Caught exceptions are stored in an Array and attached to the test
+     * function. The idea here is that exceptions shouldn't abort the test 
+     * execution (this has caused some extremely hard to debug problems in the
+     * qooxdoo framework unit tests in the past).
+     * 
+     * Doing this in the Testrunner application is a temporary solution: It 
+     * really should be done in qx.dev.unit.TestCase, but that would break 
+     * backwards compatibility with the existing testrunner component. Once 
+     * testrunner2 has fully replaced testrunner, this code should be moved.
+     * 
+     * @param autWindow {DOMWindow?} The test application's window. Default: The
+     * Testrunner's window.
+     */
+    __wrapAssertions : function(autWindow)
+    {
+      var win = autWindow || window;
+      var tCase = win.qx.dev.unit.TestCase.prototype;
+      for (var prop in tCase) {
+        if (prop.indexOf("assert") == 0 && typeof tCase[prop] == "function") {
+          // store original assertion func
+          var originalName = "__" + prop;
+          tCase[originalName] = tCase[prop];
+          // create wrapped assertion func
+          tCase[prop] = function() {
+            var argumentsArray = win.qx.lang.Array.fromArguments(arguments);
+            try {
+              this[arguments.callee.originalName].apply(self, argumentsArray);
+            } catch(ex) {
+              var testFunction = arguments.callee.caller;
+              // attach any exceptions to the test function that called the
+              // assertion
+              if (!testFunction._exceptions || !(testFunction._exceptions instanceof win.Array)) {
+                testFunction._exceptions = [];
+              }
+              testFunction._exceptions.push(ex);
+            }
+          };
+          tCase[prop].originalName = originalName;
+        }
+      }
+    },
+    
+    
+    /**
      * Runs all tests in the list.
      */
     runTests : function()
@@ -393,6 +438,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         this.__testParts.push(frameParts[i]);
       }
       
+      this.__wrapAssertions(this.frameWindow);
       this.__getTestData();
     },
     
