@@ -42,6 +42,7 @@ class Lang(object):
                 INCLUDE_KEY : types.ListType,
                 "name"      : types.StringTypes,
                 "export"    : types.ListType,
+                "default-job" : types.StringTypes,
                 }
     JOB_LEVEL_KEYS = {
                 "add-script"    : types.ListType,

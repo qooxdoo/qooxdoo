@@ -109,11 +109,10 @@ Arguments:
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
-    if not args:
-        parser.print_help()
-        sys.exit(1)
-    else:
+    if args:
         options.jobs = args[0].split(',')
+    else:
+        options.jobs = []
 
         
     # Initialize console
@@ -137,7 +136,6 @@ Arguments:
     appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
     console.head(u"Initializing: %s" % appname.decode('utf-8'), True)
     console.info(u"Configuration: %s" % options.config)
-    console.info(u"Jobs: %s" % ", ".join(options.jobs))
 
     # Load application configuration
     config = Config(console, options.config, **options.letmacros)
@@ -160,8 +158,12 @@ Arguments:
     # Check jobs
     availableJobs = config.getExportedJobsList()
     if len(options.jobs) == 0:
-        listJobs(console, availableJobs, config)
-        sys.exit(1)
+        default_job = config.get("default-job", "")
+        if default_job:
+            options.jobs.append(default_job)
+        else:
+            listJobs(console, availableJobs, config)
+            sys.exit(1)
         
     else:
         for job in options.jobs:
@@ -169,6 +171,8 @@ Arguments:
                 console.warn("No such job: %s" % job)
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
+
+    console.info(u"Jobs: %s" % ", ".join(options.jobs))
 
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
