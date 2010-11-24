@@ -25,5 +25,14 @@
  */
 qx.Class.define("qx.event.type.Tap", 
 {
-    extend : qx.event.type.Touch
+    extend : qx.event.type.Touch,
+
+
+    members :
+    {
+      // overridden
+      _isTouchEnd : function() {
+        return true;
+      }
+    }
 });

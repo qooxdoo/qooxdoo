@@ -272,9 +272,22 @@ qx.Class.define("qx.event.type.Touch",
        */
       __getEventSpecificTouches : function()
       {
-        var isTouchEnd = this.getType() == "touchend" || this.getType() == "touchcancel";
-        var touches = (isTouchEnd ? this.getChangedTargetTouches(): this.getTargetTouches());
+        var touches = (this._isTouchEnd() ? this.getChangedTargetTouches(): this.getTargetTouches());
         return touches;
+      },
+
+
+      /**
+       * Indicates if the event occurs during the "touchend" phase. Needed to
+       * determine the event specific touches. Override this method if you derive
+       * from this class and want to indicate that the specific event occurred
+       * during the "touchend" phase.
+       * 
+       * @return {Boolean} Whether the event occurred during the "touchend" phase
+       */
+      _isTouchEnd : function()
+      {
+        return (this.getType() == "touchend" || this.getType() == "touchcancel");
       }
     }
   });
