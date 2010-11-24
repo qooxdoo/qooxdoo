@@ -1659,7 +1659,7 @@ class Generator(object):
             else:
                 excRegex = re.compile("^$")  # catch-none
 
-            classesFiltered = (c for c in classes if not excRegex.search(c))
+            classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
             return classesFiltered
 
         if not self._job.get('lint-check', False):
@@ -1684,7 +1684,7 @@ class Generator(object):
         lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
         classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
         for pos, classId in enumerate(classesToCheck):
-            #self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classes[classId]['path']))
+            self._console.debug("Checking %s" % classId)
             self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classesObj[classId].path))
 
         self._console.outdent()
