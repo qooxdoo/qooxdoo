@@ -109,6 +109,9 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      * @param item {qx.ui.core.Widget} widget to style.
      */
     styleSelectabled : function(item) {
+      if(item == null) {
+        return;
+      }
       this._cellRenderer.updateStates(item, {selected: 1});
     },
 
@@ -118,7 +121,28 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      * @param item {qx.ui.core.Widget} widget to style.
      */
     styleUnselectabled : function(item) {
+      if(item == null) {
+        return;
+      }
       this._cellRenderer.updateStates(item, {});
+    },
+    
+    /**
+     * Returns if the passed row can be selected or not.
+     *
+     * @param row {Integer} row to select.
+     * @return {Boolean} <code>true</code> when the row can be selected,
+     *    <code>false</code> otherwise.
+     */
+    isSelectable : function(row)
+    {
+      var widget = this._list._layer.getRenderedCellWidget(row, 0);
+
+      if (widget != null && !this.__ignoreChangeSelection) {
+        return widget.isEnabled();
+      } else {
+        return true;
+      }
     },
 
     /**

@@ -119,7 +119,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       var self = this;
       var selectionDelegate = {
         isItemSelectable : function(item) {
-          return self._isSelectable(item);
+          return self._provider.isSelectable(item);
         },
 
         styleSelectable : function(item, type, wasAdded) {
@@ -128,10 +128,6 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
           }
 
           var widget = self._layer.getRenderedCellWidget(item, 0);
-          if(widget == null) {
-            return;
-          }
-
           if (wasAdded) {
             self._provider.styleSelectabled(widget);
           } else {
@@ -146,24 +142,6 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
-    },
-
-    /**
-     * Returns if the passed row can be selected or not.
-     *
-     * @param row {Integer} row to select.
-     * @return {Boolean} <code>true</code> when the row can be selected,
-     *    <code>false</code> otherwise.
-     */
-    _isSelectable : function(row)
-    {
-      var widget = this._layer.getRenderedCellWidget(row, 0);
-
-      if (widget != null && !this.__ignoreChangeSelection) {
-        return widget.isEnabled();
-      } else {
-        return true;
-      }
     },
 
     // apply method
