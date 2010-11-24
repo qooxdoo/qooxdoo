@@ -132,7 +132,7 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       }
 
       // Create the initial mouse
-      var mouse = new demobrowser.demo.util.FSMMouse(null, maze, facing, container);
+      new demobrowser.demo.util.FSMMouse(null, maze, facing, container);
     },
 
 
