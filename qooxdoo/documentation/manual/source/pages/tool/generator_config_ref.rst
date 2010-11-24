@@ -5,7 +5,7 @@ Reference Listing of Config Keys
 
 This page contains the complete list of configuration keys and their sub-structures.
 
-Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should to be present in the job for the current key to function properly. E.g. the key :ref:`pages/tool/generator_config_ref#compile` will use the peer-key :ref:`pages/tool/generator_config_ref#cache` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
+Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should be present in the job for the current key to function properly. E.g. the key :ref:`pages/tool/generator_config_ref#compile` will use the peer-key :ref:`pages/tool/generator_config_ref#cache` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
 
 .. _pages/tool/generator_config_ref#add-script:
 
@@ -319,6 +319,21 @@ Possible keys are
 * **target** : root target directory to copy resources to; may be relative to the config file location (default: "build")
 
 Unlike :ref:`pages/tool/generator_config_ref#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shadow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :ref:`pages/tool/generator_config_ref#library` key.
+
+
+.. _pages/tool/generator_config_ref#default-job:
+
+default-job
+============
+
+Default job to be run. Takes a string.
+
+::
+
+  "default-job" : "source"
+
+If this key is present in a configuration file, the named job will be run by default when no job argument is passed to the generator on the command line.
+
 
 .. _pages/tool/generator_config_ref#dependencies:
 

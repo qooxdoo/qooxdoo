@@ -22,7 +22,7 @@ The configuration file that drives the generator adheres to the `JSON specificat
     }
   }
 
-The job names ``job1``, ..., ``jobN`` are freely chooseable but must form a valid key. JavaScript-style comments (/*...*/ and %%//%%...) are permissible but only in rather robust places, like after a comma or directly after opening or before closing parentheses, but e.g. not between a key and its value.
+The job names ``job1``, ..., ``jobN`` are freely chooseable names but must form a valid key. JavaScript-style comments (/*...*/ and %%//%%...) are permissible but only in rather robust places, like after a comma or directly after opening or before closing parentheses, but e.g. not between a key and its value.
 
 Quick links:
 
@@ -83,7 +83,7 @@ Here is an example of a minimal config file that defines a single job to create 
 
         "cache" :
         {
-          "compile" : { "path" : "../../cache2" }
+          "compile" : "../../cache2"
         }
       }
     }
@@ -155,12 +155,16 @@ First, here is an overview table, to list all possible keys in a job (unless oth
   * - **Structure-changing Keys**
     - **Description**
 
-  * - export
+  * - default-job (top-level)
+    - Default job to be run.
+  * - export (top-level)
     - List of jobs to be exported to other config files.
   * - extend
     - Extend the current job with other jobs.
   * - include (top-level)
     - Include external config files.
+  * - jobs (top-level)
+    - Define jobs.
   * - let
     - Define macros.
   * - let (top-level)
@@ -215,7 +219,7 @@ First, here is an overview table, to list all possible keys in a job (unless oth
     - **Description**                               
   * - desc
     - A descriptive string for the job.                 
-  * - name
+  * - name (top-level)
     - A descriptive string for the configuration file.  
 
 .. _pages/tool/generator_config#listing_of_keys_in_context:
@@ -228,8 +232,13 @@ This shows the complete possible contents of the top-level configuration map. Fu
 * :ref:`name <pages/tool/generator_config_ref#name>` A name or descriptive text for the configuration file.
 
 * :ref:`include <pages/tool/generator_config_ref#include_top-level>` Include external config files. Takes a list of maps, where each map specifies an external configuration file, and options how to include it. (See special section on the :ref:`include key <pages/tool/generator_config_articles#include_key_top-level_-_adding_features>`)
+
 * :ref:`let <pages/tool/generator_config_ref#let_top-level>` Define default macros. Takes a map (see the description of the job-level 'let' further down). This let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+
 * :ref:`export <pages/tool/generator_config_ref#export>` List of jobs to be exported if this config file is included by another.
+
+* :ref:`default-job <pages/tool/generator_config_ref#default-job>` The name of a job to be run as default, i.e. when invoking the generator without job arguments.
+
 * :ref:`jobs <pages/tool/generator_config_ref#jobs>` Map of jobs. Each key is the name of a job.
 
   * *<jobname>* Each job's value is a map describing the job. The describing map can have any number of the following keys:
