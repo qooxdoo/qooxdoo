@@ -22,6 +22,8 @@
       ]
     }
   ],
+  
+  "default-job" : "source",
 
   "let" :
   {

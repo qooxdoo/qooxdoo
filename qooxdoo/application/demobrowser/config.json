@@ -50,6 +50,8 @@
     "translation",
     "migration"
   ],
+  
+  "default-job" : "source",
 
   "let" :
   {

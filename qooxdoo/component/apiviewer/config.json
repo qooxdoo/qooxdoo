@@ -28,6 +28,8 @@
       ]
     }
   ],
+  
+  "default-job" : "source",
 
   "let" : 
   {

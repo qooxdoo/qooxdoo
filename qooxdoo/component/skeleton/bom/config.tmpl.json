@@ -6,6 +6,8 @@
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
   },
+  
+  "default-job" : "source",
 
   "jobs" :
   {

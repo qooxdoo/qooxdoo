@@ -20,6 +20,8 @@
     }
   ],
   
+  "default-job" : "source",
+  
   "export" :
   [
     "api",

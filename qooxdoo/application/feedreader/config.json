@@ -10,7 +10,8 @@
       "path" : "image.json"
     }
   ],
-
+  
+  "default-job" : "source",
 
   "let" :
   {

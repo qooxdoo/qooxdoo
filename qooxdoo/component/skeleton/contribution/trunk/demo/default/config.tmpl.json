@@ -28,6 +28,8 @@
     "test-source",
     "translation"
   ],
+  
+  "default-job" : "source",
 
   "let" :
   {
