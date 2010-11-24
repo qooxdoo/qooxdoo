@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/layer/Marker", ["ace/Range"], function(h) {
-  var i = function(c) {
+define(function(h) {
+  var i = h("../range");
+  h = function(c) {
     this.element = document.createElement("div");
     this.element.className = "ace_layer ace_marker-layer";
     c.appendChild(this.element);
@@ -38,10 +36,10 @@ require.def("ace/layer/Marker", ["ace/Range"], function(h) {
       }
     };
     this.drawTextMarker = function(c, a, e, b) {
-      var d = a.start.row, f = new h(d, a.start.column, d, this.doc.getLine(d).length);
+      var d = a.start.row, f = new i(d, a.start.column, d, this.doc.getLine(d).length);
       this.drawSingleLineMarker(c, f, e, b);
       d = a.end.row;
-      f = new h(d, 0, d, a.end.column);
+      f = new i(d, 0, d, a.end.column);
       this.drawSingleLineMarker(c, f, e, b);
       for(d = a.start.row + 1;d < a.end.row;d++) {
         f.start.row = d;
@@ -69,6 +67,6 @@ require.def("ace/layer/Marker", ["ace/Range"], function(h) {
       a = Math.round(a.start.column * b.characterWidth);
       c.push("<div class='", e, "' style='", "height:", d, "px;", "width:", f, "px;", "top:", g, "px;", "left:", a, "px;'></div>")
     }
-  }).call(i.prototype);
-  return i
+  }).call(h.prototype);
+  return h
 });

@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/layer/Text", ["ace/lib/oop", "ace/lib/dom", "ace/MEventEmitter"], function(m, n, o) {
-  var k = function(a) {
+define(function(k) {
+  var m = k("../lib/oop"), n = k("../lib/dom"), o = k("../event_emitter");
+  k = function(a) {
     this.element = document.createElement("div");
     this.element.className = "ace_layer ace_text-layer";
     a.appendChild(this.element);

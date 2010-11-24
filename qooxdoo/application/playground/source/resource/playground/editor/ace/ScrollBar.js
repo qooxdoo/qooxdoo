@@ -1,13 +1,11 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/ScrollBar", ["ace/lib/oop", "ace/lib/lang", "ace/lib/dom", "ace/lib/event", "ace/MEventEmitter"], function(c, d, e, f, g) {
-  var b = function(a) {
+define(function(a) {
+  var c = a("./lib/oop"), d = a("./lib/lang"), e = a("./lib/dom"), f = a("./lib/event"), g = a("./event_emitter");
+  a = function(b) {
     this.element = document.createElement("div");
     this.element.className = "ace_sb";
     this.inner = document.createElement("div");
     this.element.appendChild(this.inner);
-    a.appendChild(this.element);
+    b.appendChild(this.element);
     this.width = e.scrollbarWidth();
     this.element.style.width = this.width;
     f.addListener(this.element, "scroll", d.bind(this.onScroll, this))
@@ -20,15 +18,15 @@ require.def("ace/ScrollBar", ["ace/lib/oop", "ace/lib/lang", "ace/lib/dom", "ace
     this.getWidth = function() {
       return this.width
     };
-    this.setHeight = function(a) {
-      this.element.style.height = Math.max(0, a - this.width) + "px"
+    this.setHeight = function(b) {
+      this.element.style.height = Math.max(0, b - this.width) + "px"
     };
-    this.setInnerHeight = function(a) {
-      this.inner.style.height = a + "px"
+    this.setInnerHeight = function(b) {
+      this.inner.style.height = b + "px"
     };
-    this.setScrollTop = function(a) {
-      this.element.scrollTop = a
+    this.setScrollTop = function(b) {
+      this.element.scrollTop = b
     }
-  }).call(b.prototype);
-  return b
+  }).call(a.prototype);
+  return a
 });

@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/BackgroundTokenizer", ["ace/lib/oop", "ace/MEventEmitter"], function(i, j) {
-  var h = function(a, c) {
+define(function(f) {
+  var i = f("./lib/oop"), j = f("./event_emitter");
+  f = function(a, c) {
     this.running = false;
     this.textLines = [];
     this.lines = [];
@@ -11,17 +9,17 @@ require.def("ace/BackgroundTokenizer", ["ace/lib/oop", "ace/MEventEmitter"], fun
     var b = this;
     this.$worker = function() {
       if(b.running) {
-        for(var e = new Date, f = b.currentLine, d = b.textLines, g = 0, k = c.getLastVisibleRow();b.currentLine < d.length;) {
+        for(var e = new Date, g = b.currentLine, d = b.textLines, h = 0, k = c.getLastVisibleRow();b.currentLine < d.length;) {
           b.lines[b.currentLine] = b.$tokenizeRows(b.currentLine, b.currentLine)[0];
           b.currentLine++;
-          g += 1;
-          if(g % 5 == 0 && new Date - e > 20) {
-            b.fireUpdateEvent(f, b.currentLine - 1);
+          h += 1;
+          if(h % 5 == 0 && new Date - e > 20) {
+            b.fireUpdateEvent(g, b.currentLine - 1);
             b.running = setTimeout(b.$worker, b.currentLine < k ? 20 : 100);
             return
           }
         }b.running = false;
-        b.fireUpdateEvent(f, d.length - 1)
+        b.fireUpdateEvent(g, d.length - 1)
       }
     }
   };
@@ -57,10 +55,10 @@ require.def("ace/BackgroundTokenizer", ["ace/lib/oop", "ace/MEventEmitter"], fun
       c(this.$tokenizeRows(a, a)[0].state)
     };
     this.$tokenizeRows = function(a, c) {
-      var b = [], e = "start", f = false;
+      var b = [], e = "start", g = false;
       if(a > 0 && this.lines[a - 1]) {
         e = this.lines[a - 1].state;
-        f = true
+        g = true
       }for(a = a;a <= c;a++) {
         if(this.lines[a]) {
           d = this.lines[a];
@@ -70,12 +68,12 @@ require.def("ace/BackgroundTokenizer", ["ace/lib/oop", "ace/MEventEmitter"], fun
           var d = this.tokenizer.getLineTokens(this.textLines[a] || "", e);
           e = d.state;
           b.push(d);
-          if(f) {
+          if(g) {
             this.lines[a] = d
           }
         }
       }return b
     }
-  }).call(h.prototype);
-  return h
+  }).call(f.prototype);
+  return f
 });

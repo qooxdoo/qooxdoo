@@ -1,10 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-if(!require.def) {
-  require.def = require("requireJS-node")(module, require)
-}require.def("ace/MEventEmitter", ["ace/lib/lang"], function(e) {
-  var d = {};
+define(function(d) {
+  var e = d("./lib/lang");
+  d = {};
   d.$dispatchEvent = function(a, b) {
     this.$eventRegistry = this.$eventRegistry || {};
     var c = this.$eventRegistry[a];

@@ -1,7 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/mode/TextHighlightRules", [], function() {
+define(function() {
   var f = function() {
     this.$rules = {start:[{token:"text", regex:".+"}]}
   };

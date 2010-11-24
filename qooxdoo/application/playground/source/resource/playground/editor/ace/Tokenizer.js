@@ -1,7 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/Tokenizer", [], function() {
+define(function() {
   var k = function(f) {
     this.rules = f;
     this.regExps = {};

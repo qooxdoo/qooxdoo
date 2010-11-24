@@ -141,11 +141,11 @@ qx.Class.define("playground.view.Editor",
        require(
          {baseUrl: "resource/playground/editor"},
          [
-             "ace/Editor",
-             "ace/VirtualRenderer",
-             "ace/Document",
-             "ace/mode/JavaScript",
-             "ace/UndoManager"
+             "ace/editor",
+             "ace/virtual_renderer",
+             "ace/document",
+             "ace/mode/javascript",
+             "ace/undomanager"
          ], function(
            Editor, Renderer, Document, JavaScriptMode, UndoManager
           ) { 

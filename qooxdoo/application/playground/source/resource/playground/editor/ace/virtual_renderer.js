@@ -1,12 +1,10 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/VirtualRenderer", ["ace/lib/oop", "ace/lib/lang", "ace/lib/dom", "ace/lib/event", "ace/layer/Gutter", "ace/layer/Marker", "ace/layer/Text", "ace/layer/Cursor", "ace/ScrollBar", "ace/RenderLoop", "ace/MEventEmitter", 'text!ace/css/editor.css!.ace_editor {\n  position: absolute;\n  overflow: hidden;\n\n  font-family: "Menlo", "Monaco", "Courier New", monospace;\n  font-size: 12px;  \n}\n\n.ace_scroller {\n  position: absolute;\n  overflow-x: scroll;\n  overflow-y: hidden;     \n}\n\n.ace_gutter {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  height: 100%;\n}\n\n.ace_editor .ace_sb {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  right: 0;\n}\n\n.ace_editor .ace_sb div {\n  position: absolute;\n  width: 1px;\n  left: 0px;\n}\n\n.ace_editor .ace_printMargin {\n  position: absolute;\n  height: 100%;\n}\n\n.ace_layer {\n  z-index: 0;\n  position: absolute;\n  overflow: hidden;  \n  white-space: nowrap;\n  height: 100%;\n}\n\n.ace_text-layer {\n  font-family: Monaco, "Courier New", monospace;\n  color: black;\n}\n\n.ace_cursor-layer {\n  cursor: text;\n}\n\n.ace_cursor {\n  z-index: 3;\n  position: absolute;\n}\n\n.ace_line {\n  white-space: nowrap;\n}\n\n.ace_marker-layer {\n}\n\n.ace_marker-layer .ace_step {\n  position: absolute;\n  z-index: 2;\n}\n\n.ace_marker-layer .ace_selection {\n  position: absolute;\n  z-index: 3;\n}\n\n.ace_marker-layer .ace_bracket {\n  position: absolute;\n  z-index: 4;\n}\n\n.ace_marker-layer .ace_active_line {\n  position: absolute;\n  z-index: 1;\n}'], 
-function(k, h, e, i, l, m, n, o, p, q, r, j) {
-  e.importCssString(j);
-  j = function(a, b) {
+define(["require", "exports", "module", 'text!ace/css/editor.css!.ace_editor {\n  position: absolute;\n  overflow: hidden;\n\n  font-family: "Menlo", "Monaco", "Courier New", monospace;\n  font-size: 12px;  \n}\n\n.ace_scroller {\n  position: absolute;\n  overflow-x: scroll;\n  overflow-y: hidden;     \n}\n\n.ace_gutter {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  height: 100%;\n}\n\n.ace_editor .ace_sb {\n  position: absolute;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  right: 0;\n}\n\n.ace_editor .ace_sb div {\n  position: absolute;\n  width: 1px;\n  left: 0px;\n}\n\n.ace_editor .ace_printMargin {\n  position: absolute;\n  height: 100%;\n}\n\n.ace_layer {\n  z-index: 0;\n  position: absolute;\n  overflow: hidden;  \n  white-space: nowrap;\n  height: 100%;\n}\n\n.ace_text-layer {\n  font-family: Monaco, "Courier New", monospace;\n  color: black;\n}\n\n.ace_cursor-layer {\n  cursor: text;\n}\n\n.ace_cursor {\n  z-index: 3;\n  position: absolute;\n}\n\n.ace_line {\n  white-space: nowrap;\n}\n\n.ace_marker-layer {\n}\n\n.ace_marker-layer .ace_step {\n  position: absolute;\n  z-index: 2;\n}\n\n.ace_marker-layer .ace_selection {\n  position: absolute;\n  z-index: 3;\n}\n\n.ace_marker-layer .ace_bracket {\n  position: absolute;\n  z-index: 4;\n}\n\n.ace_marker-layer .ace_active_line {\n  position: absolute;\n  z-index: 1;\n}', 
+"./lib/oop", "./lib/oop", "./lib/event", "./layer/gutter", "./layer/marker", "./layer/text", "./layer/cursor", "./scrollbar", "./renderloop", "./event_emitter"], function(d, k, u, l) {
+  var m = d("./lib/oop"), i = d("./lib/lang"), f = d("./lib/dom"), j = d("./lib/event"), n = d("./layer/gutter"), o = d("./layer/marker"), p = d("./layer/text"), q = d("./layer/cursor"), r = d("./scrollbar"), s = d("./renderloop"), t = d("./event_emitter");
+  f.importCssString(l);
+  k = function(a, b) {
     this.container = a;
-    e.addCssClass(this.container, "ace_editor");
+    f.addCssClass(this.container, "ace_editor");
     this.setTheme(b);
     this.scroller = document.createElement("div");
     this.scroller.className = "ace_scroller";
@@ -17,28 +15,28 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
     this.content = document.createElement("div");
     this.content.style.position = "absolute";
     this.scroller.appendChild(this.content);
-    this.$gutterLayer = new l(this.$gutter);
-    this.$markerLayer = new m(this.content);
-    var c = this.$textLayer = new n(this.content);
+    this.$gutterLayer = new n(this.$gutter);
+    this.$markerLayer = new o(this.content);
+    var c = this.$textLayer = new p(this.content);
     this.canvas = c.element;
     this.characterWidth = c.getCharacterWidth();
     this.lineHeight = c.getLineHeight();
-    this.$cursorLayer = new o(this.content);
+    this.$cursorLayer = new q(this.content);
     this.layers = [this.$markerLayer, c, this.$cursorLayer];
-    this.scrollBar = new p(a);
-    this.scrollBar.addEventListener("scroll", h.bind(this.onScroll, this));
+    this.scrollBar = new r(a);
+    this.scrollBar.addEventListener("scroll", i.bind(this.onScroll, this));
     this.scrollTop = 0;
     this.cursorPos = {row:0, column:0};
-    var d = this;
+    var e = this;
     this.$textLayer.addEventListener("changeCharaterSize", function() {
-      d.characterWidth = c.getCharacterWidth();
-      d.lineHeight = c.getLineHeight();
-      d.$loop.schedule(d.CHANGE_FULL)
+      e.characterWidth = c.getCharacterWidth();
+      e.lineHeight = c.getLineHeight();
+      e.$loop.schedule(e.CHANGE_FULL)
     });
-    i.addListener(this.$gutter, "click", h.bind(this.$onGutterClick, this));
-    i.addListener(this.$gutter, "dblclick", h.bind(this.$onGutterClick, this));
+    j.addListener(this.$gutter, "click", i.bind(this.$onGutterClick, this));
+    j.addListener(this.$gutter, "dblclick", i.bind(this.$onGutterClick, this));
     this.$size = {width:0, height:0, scrollerHeight:0, scrollerWidth:0};
-    this.$loop = new q(h.bind(this.$renderChanges, this));
+    this.$loop = new s(i.bind(this.$renderChanges, this));
     this.$loop.schedule(this.CHANGE_FULL);
     this.$updatePrintMargin();
     this.setPadding(4)
@@ -53,7 +51,7 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
     this.CHANGE_TEXT = 32;
     this.CHANGE_SIZE = 64;
     this.CHANGE_FULL = 128;
-    k.implement(this, r);
+    m.implement(this, t);
     this.setDocument = function(a) {
       this.lines = a.lines;
       this.doc = a;
@@ -83,7 +81,7 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
     };
     this.onResize = function() {
       this.$loop.schedule(this.CHANGE_SIZE);
-      var a = e.getInnerHeight(this.container);
+      var a = f.getInnerHeight(this.container);
       if(this.$size.height != a) {
         this.$size.height = a;
         this.scroller.style.height = a + "px";
@@ -92,7 +90,7 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
           this.scrollToY(this.getScrollTop());
           this.$loop.schedule(this.CHANGE_FULL)
         }
-      }a = e.getInnerWidth(this.container);
+      }a = f.getInnerWidth(this.container);
       if(this.$size.width != a) {
         this.$size.width = a;
         var b = this.showGutter ? this.$gutter.offsetWidth : 0;
@@ -107,7 +105,7 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
       this.$loop.schedule(this.CHANGE_TEXT)
     };
     this.$onGutterClick = function(a) {
-      var b = i.getDocumentX(a), c = i.getDocumentY(a);
+      var b = j.getDocumentX(a), c = j.getDocumentY(a);
       this.$dispatchEvent("gutter" + a.type, {row:this.screenToTextCoordinates(b, c).row, htmlEvent:a})
     };
     this.$showInvisibles = true;
@@ -226,13 +224,13 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
       }
     };
     this.$computeLayerConfig = function() {
-      var a = this.scrollTop % this.lineHeight, b = this.$size.scrollerHeight + this.lineHeight, c = this.$getLongestLine(), d = !this.layerConfig ? true : this.layerConfig.width != c, g = Math.ceil(b / this.lineHeight), f = Math.max(0, Math.round((this.scrollTop - a) / this.lineHeight));
-      g = Math.min(this.lines.length, f + g) - 1;
-      this.layerConfig = {width:c, padding:this.$padding, firstRow:f, lastRow:g, lineHeight:this.lineHeight, characterWidth:this.characterWidth, minHeight:b, offset:a, height:this.$size.scrollerHeight};
-      for(f = 0;f < this.layers.length;f++) {
-        g = this.layers[f];
-        if(d) {
-          g.element.style.width = c + "px"
+      var a = this.scrollTop % this.lineHeight, b = this.$size.scrollerHeight + this.lineHeight, c = this.$getLongestLine(), e = !this.layerConfig ? true : this.layerConfig.width != c, h = Math.ceil(b / this.lineHeight), g = Math.max(0, Math.round((this.scrollTop - a) / this.lineHeight));
+      h = Math.min(this.lines.length, g + h) - 1;
+      this.layerConfig = {width:c, padding:this.$padding, firstRow:g, lastRow:h, lineHeight:this.lineHeight, characterWidth:this.characterWidth, minHeight:b, offset:a, height:this.$size.scrollerHeight};
+      for(g = 0;g < this.layers.length;g++) {
+        h = this.layers[g];
+        if(e) {
+          h.element.style.width = c + "px"
         }
       }this.$gutterLayer.element.style.marginTop = -a + "px";
       this.content.style.marginTop = -a + "px";
@@ -342,10 +340,10 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
       return{pageX:c.left + b - this.getScrollLeft(), pageY:c.top + a - this.getScrollTop()}
     };
     this.visualizeFocus = function() {
-      e.addCssClass(this.container, "ace_focus")
+      f.addCssClass(this.container, "ace_focus")
     };
     this.visualizeBlur = function() {
-      e.removeCssClass(this.container, "ace_focus")
+      f.removeCssClass(this.container, "ace_focus")
     };
     this.showComposition = function() {
     };
@@ -354,10 +352,10 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
     this.hideComposition = function() {
     };
     this.setTheme = function(a) {
-      function b(d) {
-        c.$theme && e.removeCssClass(c.container, c.$theme);
-        c.$theme = d ? d.cssClass : null;
-        c.$theme && e.addCssClass(c.container, c.$theme);
+      function b(e) {
+        c.$theme && f.removeCssClass(c.container, c.$theme);
+        c.$theme = e ? e.cssClass : null;
+        c.$theme && f.addCssClass(c.container, c.$theme);
         if(c.$size) {
           c.$size.width = 0;
           c.onResize()
@@ -365,14 +363,14 @@ function(k, h, e, i, l, m, n, o, p, q, r, j) {
       }
       var c = this;
       if(!a || typeof a == "string") {
-        a = a || "ace/theme/TextMate";
-        require([a], function(d) {
-          b(d)
+        a = a || "ace/theme/textmate";
+        d([a], function(e) {
+          b(e)
         })
       }else {
         b(a)
       }c = this
     }
-  }).call(j.prototype);
-  return j
+  }).call(k.prototype);
+  return k
 });

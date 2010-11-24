@@ -1,7 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/UndoManager", function() {
+define(function() {
   var b = function() {
     this.$undoStack = [];
     this.$redoStack = []

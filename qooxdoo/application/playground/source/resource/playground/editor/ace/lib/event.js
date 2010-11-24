@@ -1,10 +1,5 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-if(!require.def) {
-  require.def = require("requireJS-node")(module, require)
-}require.def("ace/lib/event", ["ace/lib/core"], function(i) {
-  var c = {};
+define(function(m) {
+  var i = m("./core"), c = {};
   c.addListener = function(a, e, d) {
     if(a.addEventListener) {
       return a.addEventListener(e, d, false)

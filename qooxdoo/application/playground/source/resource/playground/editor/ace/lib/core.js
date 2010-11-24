@@ -1,9 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-if(!require.def) {
-  require.def = require("requireJS-node")(module, require)
-}require.def("ace/lib/core", function() {
+define(function() {
   var a = {}, d = (navigator.platform.match(/mac|win|linux/i) || ["other"])[0].toLowerCase();
   a.isWin = d == "win";
   a.isMac = d == "mac";

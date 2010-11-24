@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/RenderLoop", ["ace/lib/event"], function(d) {
-  var e = function(b) {
+define(function(c) {
+  var e = c("./lib/event");
+  c = function(b) {
     this.onRender = b;
     this.pending = false;
     this.changes = 0
@@ -25,9 +23,9 @@ require.def("ace/RenderLoop", ["ace/lib/event"], function(d) {
       this.setTimeoutZero = function(b) {
         if(!this.attached) {
           var a = this;
-          d.addListener(window, "message", function(c) {
-            if(c.source == window && a.callback && c.data == a.messageName) {
-              d.stopPropagation(c);
+          e.addListener(window, "message", function(d) {
+            if(d.source == window && a.callback && d.data == a.messageName) {
+              e.stopPropagation(d);
               a.callback()
             }
           });
@@ -40,6 +38,6 @@ require.def("ace/RenderLoop", ["ace/lib/event"], function(d) {
         setTimeout(b, 0)
       }
     }
-  }).call(e.prototype);
-  return e
+  }).call(c.prototype);
+  return c
 });

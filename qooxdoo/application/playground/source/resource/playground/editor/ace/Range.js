@@ -1,7 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/Range", function() {
+define(function() {
   var c = function(a, b, d, e) {
     this.start = {row:a, column:b};
     this.end = {row:d, column:e}

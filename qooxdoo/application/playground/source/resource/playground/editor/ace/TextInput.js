@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/TextInput", ["ace/lib/event"], function(b) {
-  return function(l, c) {
+define(function(l) {
+  var b = l("./lib/event");
+  return function(m, c) {
     function e() {
       if(!f) {
         var d = a.value;
@@ -21,7 +19,7 @@ require.def("ace/TextInput", ["ace/lib/event"], function(b) {
     h.position = "absolute";
     h.left = "-10000px";
     h.top = "-10000px";
-    l.appendChild(a);
+    m.appendChild(a);
     var j = String.fromCharCode(0);
     e();
     var i = false, f = false, g = function() {

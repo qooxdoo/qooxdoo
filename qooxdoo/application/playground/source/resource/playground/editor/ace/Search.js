@@ -1,19 +1,16 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/Search", ["ace/lib/lang", "ace/lib/oop", "ace/Range"], function(o, q, r) {
-  var l = function() {
+define(function(o) {
+  var p = o("./lib/lang"), r = o("./lib/oop"), s = o("./range"), l = function() {
     this.$options = {needle:"", backwards:false, wrap:false, caseSensitive:false, wholeWord:false, scope:l.ALL, regExp:false}
   };
   l.ALL = 1;
   l.SELECTION = 2;
   (function() {
     this.set = function(a) {
-      q.mixin(this.$options, a);
+      r.mixin(this.$options, a);
       return this
     };
     this.getOptions = function() {
-      return o.copyObject(this.$options)
+      return p.copyObject(this.$options)
     };
     this.find = function(a) {
       if(!this.$options.needle) {
@@ -81,10 +78,10 @@ require.def("ace/Search", ["ace/lib/lang", "ace/lib/oop", "ace/Range"], function
       }}
     };
     this.$rangeFromMatch = function(a, b, c) {
-      return new r(a, b, a, b + c)
+      return new s(a, b, a, b + c)
     };
     this.$assembleRegExp = function() {
-      var a = this.$options.regExp ? this.$options.needle : o.escapeRegExp(this.$options.needle);
+      var a = this.$options.regExp ? this.$options.needle : p.escapeRegExp(this.$options.needle);
       if(this.$options.wholeWord) {
         a = "\\b" + a + "\\b"
       }var b = "g";
@@ -100,8 +97,8 @@ require.def("ace/Search", ["ace/lib/lang", "ace/lib/oop", "ace/Range"], function
       }
       var c = this.$options.scope == l.SELECTION, g = a.getSelection().getRange(), d = a.getSelection().getCursor(), i = c ? g.start.row : 0, k = c ? g.start.column : 0, j = c ? g.end.row : a.getLength() - 1, h = this.$options.wrap;
       return{forEach:function(e) {
-        for(var f = d.row, m = b(f), n = d.column, p = false;!e(m, n, f);) {
-          if(p) {
+        for(var f = d.row, m = b(f), n = d.column, q = false;!e(m, n, f);) {
+          if(q) {
             return
           }f++;
           n = 0;
@@ -113,7 +110,7 @@ require.def("ace/Search", ["ace/lib/lang", "ace/lib/oop", "ace/Range"], function
               return
             }
           }if(f == d.row) {
-            p = true
+            q = true
           }m = b(f)
         }
       }}

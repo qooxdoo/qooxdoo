@@ -1,12 +1,10 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/mode/JavaScript", ["ace/lib/oop", "ace/mode/Text", "ace/Tokenizer", "ace/mode/JavaScriptHighlightRules", "ace/mode/MatchingBraceOutdent", "ace/Range"], function(h, i, j, k, l, m) {
-  var g = function() {
+define(function(f) {
+  var h = f("../lib/oop"), i = f("./text"), j = f("../tokenizer"), k = f("./javascript_highlight_rules"), l = f("./matching_brace_outdent"), m = f("../range");
+  f = function() {
     this.$tokenizer = new j((new k).getRules());
     this.$outdent = new l
   };
-  h.inherits(g, i);
+  h.inherits(f, i);
   (function() {
     this.toggleCommentLines = function(d, b, e) {
       var c = true;
@@ -19,20 +17,20 @@ require.def("ace/mode/JavaScript", ["ace/lib/oop", "ace/mode/Text", "ace/Tokeniz
       }if(c) {
         c = new m(0, 0, 0, 0);
         for(a = e.start.row;a <= e.end.row;a++) {
-          var f = b.getLine(a).replace(d, "$1");
+          var g = b.getLine(a).replace(d, "$1");
           c.start.row = a;
           c.end.row = a;
-          c.end.column = f.length + 2;
-          b.replace(c, f)
+          c.end.column = g.length + 2;
+          b.replace(c, g)
         }return-2
       }else {
         return b.indentRows(e, "//")
       }
     };
     this.getNextLineIndent = function(d, b, e) {
-      var c = this.$getIndent(b), a = this.$tokenizer.getLineTokens(b, d), f = a.tokens;
+      var c = this.$getIndent(b), a = this.$tokenizer.getLineTokens(b, d), g = a.tokens;
       a = a.state;
-      if(f.length && f[f.length - 1].type == "comment") {
+      if(g.length && g[g.length - 1].type == "comment") {
         return c
       }if(d == "start") {
         if(d = b.match(/^.*[\{\(\[]\s*$/)) {
@@ -56,6 +54,6 @@ require.def("ace/mode/JavaScript", ["ace/lib/oop", "ace/mode/Text", "ace/Tokeniz
     this.autoOutdent = function(d, b, e) {
       return this.$outdent.autoOutdent(b, e)
     }
-  }).call(g.prototype);
-  return g
+  }).call(f.prototype);
+  return f
 });

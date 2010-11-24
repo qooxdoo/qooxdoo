@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/layer/Cursor", ["ace/lib/dom"], function(c) {
-  var d = function(a) {
+define(function(b) {
+  var d = b("../lib/dom");
+  b = function(a) {
     this.element = document.createElement("div");
     this.element.className = "ace_layer ace_cursor-layer";
     a.appendChild(this.element);
@@ -14,9 +12,9 @@ require.def("ace/layer/Cursor", ["ace/lib/dom"], function(c) {
     this.setDocument = function(a) {
       this.doc = a
     };
-    this.setCursor = function(a, b) {
+    this.setCursor = function(a, c) {
       this.position = {row:a.row, column:this.doc.documentToScreenColumn(a.row, a.column)};
-      b ? c.addCssClass(this.cursor, "ace_overwrite") : c.removeCssClass(this.cursor, "ace_overwrite")
+      c ? d.addCssClass(this.cursor, "ace_overwrite") : d.removeCssClass(this.cursor, "ace_overwrite")
     };
     this.hideCursor = function() {
       this.isVisible = false;
@@ -50,9 +48,9 @@ require.def("ace/layer/Cursor", ["ace/lib/dom"], function(c) {
     this.update = function(a) {
       if(this.position) {
         this.config = a;
-        var b = Math.round(this.position.column * a.characterWidth), e = this.position.row * a.lineHeight;
-        this.pixelPos = {left:b, top:e};
-        this.cursor.style.left = b + "px";
+        var c = Math.round(this.position.column * a.characterWidth), e = this.position.row * a.lineHeight;
+        this.pixelPos = {left:c, top:e};
+        this.cursor.style.left = c + "px";
         this.cursor.style.top = e - a.firstRow * a.lineHeight + "px";
         this.cursor.style.width = a.characterWidth + "px";
         this.cursor.style.height = a.lineHeight + "px";
@@ -60,6 +58,6 @@ require.def("ace/layer/Cursor", ["ace/lib/dom"], function(c) {
         this.restartTimer()
       }
     }
-  }).call(d.prototype);
-  return d
+  }).call(b.prototype);
+  return b
 });

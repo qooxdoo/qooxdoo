@@ -1,9 +1,4 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-if(!require.def) {
-  require.def = require("requireJS-node")(module, require)
-}require.def("ace/lib/oop", function() {
+define(function() {
   var c = {};
   c.inherits = function(a, b) {
     var d = function() {

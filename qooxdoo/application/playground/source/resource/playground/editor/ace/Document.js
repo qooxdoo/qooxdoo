@@ -1,15 +1,13 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter", "ace/Selection", "ace/mode/Text", "ace/Range"], function(l, i, m, n, o, g) {
-  var j = function(a, b) {
+define(function(g) {
+  var l = g("./lib/oop"), j = g("./lib/lang"), m = g("./event_emitter"), n = g("./selection"), o = g("./mode/text"), h = g("./range");
+  g = function(a, b) {
     this.modified = true;
     this.lines = [];
     this.selection = new n(this);
     this.$breakpoints = [];
     this.listeners = [];
     b && this.setMode(b);
-    i.isArray(a) ? this.$insertLines(0, a) : this.$insert({row:0, column:0}, a)
+    j.isArray(a) ? this.$insertLines(0, a) : this.$insert({row:0, column:0}, a)
   };
   (function() {
     l.implement(this, m);
@@ -39,7 +37,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       this.$informUndoManager && this.$informUndoManager.cancel();
       if(a) {
         var b = this;
-        this.$informUndoManager = i.deferredCall(function() {
+        this.$informUndoManager = j.deferredCall(function() {
           b.$deltas.length > 0 && a.execute({action:"aceupdate", args:[b.$deltas, b]});
           b.$deltas = []
         })
@@ -52,7 +50,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       return this.$undoManager || this.$defaultUndoManager
     };
     this.getTabString = function() {
-      return this.getUseSoftTabs() ? i.stringRepeat(" ", this.getTabSize()) : "\t"
+      return this.getUseSoftTabs() ? j.stringRepeat(" ", this.getTabSize()) : "\t"
     };
     this.$useSoftTabs = true;
     this.setUseSoftTabs = function(a) {
@@ -114,7 +112,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
         e++
       }for(b = b;b < c.length && c.charAt(b).match(d);) {
         b++
-      }return new g(a, e, a, b)
+      }return new h(a, e, a, b)
     };
     this.$getNewLineCharacter = function() {
       switch(this.$newLineMode) {
@@ -172,9 +170,9 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
         for(var a = this.lines, b = 0, c = 0, d = this.getTabSize(), e = 0;e < a.length;e++) {
           var f = a[e].length;
           b = Math.max(b, f);
-          a[e].replace("\t", function(h) {
+          a[e].replace("\t", function(i) {
             f += d - 1;
-            return h
+            return i
           });
           c = Math.max(c, f)
         }this.width = b;
@@ -222,14 +220,14 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       b = b.row;
       for(var e = 1, f = this.getLine(b);;) {
         for(;d >= 0;) {
-          var h = f.charAt(d);
-          if(h == c) {
+          var i = f.charAt(d);
+          if(i == c) {
             e -= 1;
             if(e == 0) {
               return{row:b, column:d}
             }
           }else {
-            if(h == a) {
+            if(i == a) {
               e += 1
             }
           }d -= 1
@@ -243,7 +241,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
     this.$findClosingBracket = function(a, b) {
       var c = this.$brackets[a], d = b.column;
       b = b.row;
-      for(var e = 1, f = this.getLine(b), h = this.getLength();;) {
+      for(var e = 1, f = this.getLine(b), i = this.getLength();;) {
         for(;d < f.length;) {
           var k = f.charAt(d);
           if(k == c) {
@@ -257,7 +255,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
             }
           }d += 1
         }b += 1;
-        if(b >= h) {
+        if(b >= i) {
           break
         }f = this.getLine(b);
         d = 0
@@ -275,7 +273,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
         this.lines.splice.apply(this.lines, d);
         if(!c && this.$undoManager) {
           c = this.$getNewLineCharacter();
-          this.$deltas.push({action:"insertText", range:new g(a, 0, a + b.length, 0), text:b.join(c) + c});
+          this.$deltas.push({action:"insertText", range:new h(a, 0, a + b.length, 0), text:b.join(c) + c});
           this.$informUndoManager.schedule()
         }
       }
@@ -306,7 +304,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
           d = {row:a.row + d.length - 1, column:d[d.length - 1].length}
         }
       }if(!c && this.$undoManager) {
-        this.$deltas.push({action:"insertText", range:g.fromPoints(a, d), text:b});
+        this.$deltas.push({action:"insertText", range:h.fromPoints(a, d), text:b});
         this.$informUndoManager.schedule()
       }return d
     };
@@ -374,7 +372,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       return b.length
     };
     this.outdentRows = function(a) {
-      for(var b = new g(0, 0, 0, 0), c = this.getTabSize(), d = a.start.row;d <= a.end.row;++d) {
+      for(var b = new h(0, 0, 0, 0), c = this.getTabSize(), d = a.start.row;d <= a.end.row;++d) {
         var e = this.getLine(d);
         b.start.row = d;
         b.end.row = d;
@@ -400,7 +398,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       if(a <= 0) {
         return 0
       }var c = this.lines.slice(a, b + 1);
-      this.$remove(new g(a, 0, b + 1, 0));
+      this.$remove(new h(a, 0, b + 1, 0));
       this.$insertLines(a - 1, c);
       this.fireChangeEvent(a - 1, b);
       return-1
@@ -409,7 +407,7 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
       if(b >= this.lines.length - 1) {
         return 0
       }var c = this.lines.slice(a, b + 1);
-      this.$remove(new g(a, 0, b + 1, 0));
+      this.$remove(new h(a, 0, b + 1, 0));
       this.$insertLines(a + 1, c);
       this.fireChangeEvent(a, b + 1);
       return 1
@@ -456,6 +454,6 @@ require.def("ace/Document", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter",
         }
       }return d
     }
-  }).call(j.prototype);
-  return j
+  }).call(g.prototype);
+  return g
 });

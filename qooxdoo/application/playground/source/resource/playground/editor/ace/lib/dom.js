@@ -1,10 +1,5 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-if(!require.def) {
-  require.def = require("requireJS-node")(module, require)
-}require.def("ace/lib/dom", ["ace/lib/lang"], function(f) {
-  var c = {};
+define(function(g) {
+  var f = g("./lang"), c = {};
   c.setText = function(a, b) {
     if(a.innerText !== undefined) {
       a.innerText = b

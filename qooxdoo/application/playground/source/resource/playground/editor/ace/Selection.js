@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/Selection", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter", "ace/Range"], function(g, h, i, e) {
-  var f = function(a) {
+define(function(d) {
+  var g = d("./lib/oop"), h = d("./lib/lang"), i = d("./event_emitter"), f = d("./range");
+  d = function(a) {
     this.doc = a;
     this.clearSelection();
     this.selectionLead = {row:0, column:0}
@@ -42,10 +40,10 @@ require.def("ace/Selection", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter"
       if(this.isEmpty()) {
         this.moveCursorTo(this.selectionLead.row, this.selectionLead.column + a)
       }else {
-        var b = this.getSelectionAnchor(), c = this.getSelectionLead(), d = this.isBackwards();
-        if(!d || b.column !== 0) {
+        var b = this.getSelectionAnchor(), c = this.getSelectionLead(), e = this.isBackwards();
+        if(!e || b.column !== 0) {
           this.setSelectionAnchor(b.row, b.column + a)
-        }if(d || c.column !== 0) {
+        }if(e || c.column !== 0) {
           this.$moveSelection(function() {
             this.moveCursorTo(c.row, c.column + a)
           })
@@ -58,7 +56,7 @@ require.def("ace/Selection", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter"
     };
     this.getRange = function() {
       var a = this.selectionAnchor || this.selectionLead, b = this.selectionLead;
-      return this.isBackwards() ? e.fromPoints(b, a) : e.fromPoints(a, b)
+      return this.isBackwards() ? f.fromPoints(b, a) : f.fromPoints(a, b)
     };
     this.clearSelection = function() {
       if(this.selectionAnchor) {
@@ -182,17 +180,17 @@ require.def("ace/Selection", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter"
       this.moveCursorTo(0, 0)
     };
     this.moveCursorWordRight = function() {
-      var a = this.selectionLead.row, b = this.selectionLead.column, c = this.doc.getLine(a), d = c.substring(b);
+      var a = this.selectionLead.row, b = this.selectionLead.column, c = this.doc.getLine(a), e = c.substring(b);
       this.doc.nonTokenRe.lastIndex = 0;
       this.doc.tokenRe.lastIndex = 0;
       if(b == c.length) {
         this.moveCursorRight()
       }else {
-        if(this.doc.nonTokenRe.exec(d)) {
+        if(this.doc.nonTokenRe.exec(e)) {
           b += this.doc.nonTokenRe.lastIndex;
           this.doc.nonTokenRe.lastIndex = 0
         }else {
-          if(this.doc.tokenRe.exec(d)) {
+          if(this.doc.tokenRe.exec(e)) {
             b += this.doc.tokenRe.lastIndex;
             this.doc.tokenRe.lastIndex = 0
           }
@@ -252,6 +250,6 @@ require.def("ace/Selection", ["ace/lib/oop", "ace/lib/lang", "ace/MEventEmitter"
     this.$clone = function(a) {
       return{row:a.row, column:a.column}
     }
-  }).call(f.prototype);
-  return f
+  }).call(d.prototype);
+  return d
 });

@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/mode/MatchingBraceOutdent", ["ace/Range"], function(f) {
-  var e = function() {
+define(function(e) {
+  var f = e("../range");
+  e = function() {
   };
   (function() {
     this.checkOutdent = function(a, b) {

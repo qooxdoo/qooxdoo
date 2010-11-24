@@ -1,8 +1,6 @@
-/*
- LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.txt>
-*/
-require.def("ace/mode/Text", ["ace/Tokenizer", "ace/mode/TextHighlightRules"], function(c, d) {
-  var b = function() {
+define(function(a) {
+  var c = a("../tokenizer"), d = a("./text_highlight_rules");
+  a = function() {
     this.$tokenizer = new c((new d).getRules())
   };
   (function() {
@@ -20,11 +18,11 @@ require.def("ace/mode/Text", ["ace/Tokenizer", "ace/mode/TextHighlightRules"], f
     };
     this.autoOutdent = function() {
     };
-    this.$getIndent = function(a) {
-      if(a = a.match(/^(\s+)/)) {
-        return a[1]
+    this.$getIndent = function(b) {
+      if(b = b.match(/^(\s+)/)) {
+        return b[1]
       }return""
     }
-  }).call(b.prototype);
-  return b
+  }).call(a.prototype);
+  return a
 });
