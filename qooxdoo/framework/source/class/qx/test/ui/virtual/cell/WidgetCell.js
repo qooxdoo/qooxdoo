@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
+qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
     __cell : null,
 
     setUp : function() {
-      this.__cell = new qx.ui.virtual.cell.ListItemWidgetCell();
+      this.__cell = new qx.ui.virtual.cell.WidgetCell();
     },
 
     tearDown : function() {
@@ -42,6 +42,29 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
 
     testCreateWidget : function()
     {
+      var item = this.__cell.getCellWidget();
+      this.assertQxWidget(item);
+    },
+
+    testCreateWidgetWithDelegate : function()
+    {
+      this.__setUpDelegate();
+      var item = this.__cell.getCellWidget();
+      this.assertInterface(item, qx.ui.form.ListItem);
+    },
+
+    testPoolOnDelegateChange : function()
+    {
+      var item1 = this.__cell.getCellWidget();
+      this.assertQxWidget(item1);
+
+      var item2 = this.__cell.getCellWidget();
+      this.assertQxWidget(item2);
+
+      this.__cell.pool(item1);
+      this.__cell.pool(item2);
+
+      this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
     },
@@ -53,7 +76,7 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.assertEventFired(this.__cell, "created", function() {
         widget = that.__cell.getCellWidget();
       }, function(e) {
-        that.assertInterface(e.getData(), qx.ui.form.ListItem);
+        that.assertQxWidget(e.getData());
       });
 
       this.__cell.pool(widget);
@@ -61,13 +84,14 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.assertEventNotFired(this.__cell, "created", function() {
         that.__cell.getCellWidget();
       }, function(e) {
-        that.assertInterface(e.getData(), qx.ui.form.ListItem);
+        that.assertQxWidget(e.getData());
       });
     },
 
     testUpdateData : function()
     {
-      var item = new qx.ui.form.ListItem();
+      this.__setUpDelegate();
+      var item = this.__cell.getCellWidget();
       var data = {
         label: "label 1",
         icon: "qx/icon/22/emotes/face-angel.png"
@@ -80,7 +104,8 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
 
     testUpdateEmptyData : function()
     {
-      var item = new qx.ui.form.ListItem();
+      this.__setUpDelegate();
+      var item = this.__cell.getCellWidget();
 
       this.__cell.updateData(item)
       this.assertNull(item.getLabel());
@@ -89,7 +114,7 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
 
     testUpdateWrongData : function()
     {
-      var item = new qx.ui.form.ListItem();
+      var item = this.__cell.getCellWidget();
       var data = {
         banana : "joe"
       };
@@ -98,6 +123,16 @@ qx.Class.define("qx.test.ui.virtual.cell.ListItemWidgetCell",
       this.assertException(function() {
         that.__cell.updateData(item, data)
       });
+    },
+    
+    __setUpDelegate : function()
+    {
+      this.__cell.setDelegate(
+      {
+        createWidget : function() {
+          return new qx.ui.form.ListItem();
+       }
+      }); 
     }
   }
 });

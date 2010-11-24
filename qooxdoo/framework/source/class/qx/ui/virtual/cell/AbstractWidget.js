@@ -94,6 +94,18 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
       this.__pool.push(widget);
     },
 
+    /**
+     * Cleanup all <code>LayoutItem</code> and destroy them.
+     */
+    _cleanupPool : function() {
+      var widget = this.__pool.pop();
+
+      while(widget)
+      {
+        widget.destroy();
+        widget = this.__pool.pop();
+      }
+    },
 
     /**
      * Returns a <code>LayoutItem</code> from the pool, when the pool is empty

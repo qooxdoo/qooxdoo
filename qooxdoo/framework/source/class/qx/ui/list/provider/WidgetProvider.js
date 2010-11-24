@@ -86,7 +86,15 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       if (delegate != null && delegate.createCellRenderer != null) {
         return delegate.createCellRenderer();
       } else {
-        return new qx.ui.virtual.cell.ListItemWidgetCell();
+        var renderer = new qx.ui.virtual.cell.WidgetCell();
+        renderer.setDelegate(
+        {
+          createWidget : function() {
+            return new qx.ui.form.ListItem();
+          }
+        });
+
+        return renderer;
       }
     },
 
