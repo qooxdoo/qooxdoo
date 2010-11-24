@@ -1510,7 +1510,9 @@ class Generator(object):
 
         def extractFromPrefixSpec(prefixSpec):
             prefix = altprefix = ""
-            if len(prefixSpec) == 2 :  # prefixSpec = [ prefix, altprefix ]
+            if not prefixSpec or not isinstance(prefixSpec, types.ListType):
+                self._console.warn("Missing or incorrect prefix spec, might lead to incorrect resource id's.")
+            elif len(prefixSpec) == 2 :  # prefixSpec = [ prefix, altprefix ]
                 prefix, altprefix = prefixSpec
             elif len(prefixSpec) == 1:
                 prefix            = prefixSpec[0]
@@ -1533,7 +1535,7 @@ class Generator(object):
             imgDict = {}
             inputStruct = imageSpec['input']
             for group in inputStruct:
-                prefixSpec = group.get('prefix')
+                prefixSpec = group.get('prefix', [])
                 prefix, altprefix = extractFromPrefixSpec(prefixSpec)
                 if prefix:
                     prefix = self._config.absPath(prefix)
@@ -1562,10 +1564,10 @@ class Generator(object):
 
         images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
-            imageId= getImageId(image, imgspec.get('prefix', None))
-            image  = self._config.absPath(image)  # abs output path
             self._console.info("Creating image %s" % image)
             self._console.indent()
+            imageId= getImageId(image, imgspec.get('prefix', []))
+            image  = self._config.absPath(image)  # abs output path
             config = {}
 
             # create a dict of clipped image objects - for later look-up
