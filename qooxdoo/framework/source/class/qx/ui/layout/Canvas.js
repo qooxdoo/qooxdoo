@@ -23,7 +23,7 @@
  *
  * It is possible to position a widget relative to the right or bottom edge of
  * the available space. It further supports stretching between left and right
- * or top and bottom e.g. <code>left=20</code> and <code>right=20<code> would
+ * or top and bottom e.g. <code>left=20</code> and <code>right=20</code> would
  * keep a margin of 20 pixels to both edges. The Canvas layout has support for
  * percent dimensions and locations.
  *
