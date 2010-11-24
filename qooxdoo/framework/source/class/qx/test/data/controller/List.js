@@ -614,7 +614,7 @@ qx.Class.define("qx.test.data.controller.List",
         this.resume(function() {
           // test for the first selected item (one selection)
           this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
-          this.assertEquals("2", this.__controller.getSelection().getItem(0), "Selection does not work.");          
+          this.assertEquals("1", this.__controller.getSelection().getItem(0), "Selection does not work.");          
           selectBox.dispose();
 
         }, this);
