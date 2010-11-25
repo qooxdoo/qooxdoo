@@ -111,13 +111,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
       nullable : true,
       apply : "_applyGroup"
     },
-    
+
     triState :
     {
       check : "Boolean",
-      nullable : false,
       apply : "_applyTriState",
-      init : false
+      nullable : true,
+      init : null
     }
   },
 
@@ -152,23 +152,21 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param old {Boolean} Previous value
      */
     _applyValue : function(value, old) {
-      if (value) {
-        this.addState("checked");
-        this.removeState("undetermined");
-      } else {
-        this.removeState("checked");
+      value ? this.addState("checked") : this.removeState("checked");
+
+      if (this.isTriState()) {
+        if (value === null) {
+          this.addState("checked");
+          this.addState("undetermined");
+        } else {
+          this.removeState("undetermined");
+        }
       }
     },
 
 
     _applyTriState : function(value, old) {
-      if (value) {
-        if (!this.isValue()) {
-          this.addState("undetermined");
-        }
-      } else {
-        this.removeState("undetermined");
-      }
+      this._applyValue(this.getValue());
     },
 
 
