@@ -156,9 +156,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
       if (this.isTriState()) {
         if (value === null) {
-          this.addState("checked");
           this.addState("undetermined");
-        } else {
+        } else if (old === null) {
           this.removeState("undetermined");
         }
       }

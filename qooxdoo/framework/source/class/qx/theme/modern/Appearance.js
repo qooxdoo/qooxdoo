@@ -298,14 +298,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon = "checkbox-checked-focused";
         } else if (states.checked && states.disabled) {
           icon = "checkbox-checked-disabled";
-        } else if (states.checked && states.undetermined) {
-          icon = "checkbox-checked-undetermined"
         } else if (states.checked && states.pressed) {
           icon = "checkbox-checked-pressed";
         } else if (states.checked && states.hovered) {
           icon = "checkbox-checked-hovered";
         } else if (states.checked) {
           icon = "checkbox-checked";
+        } else if (states.undetermined) {
+          icon = "checkbox-undetermined"
         } else if (states.focused) {
           icon = "checkbox-focused";
         } else if (states.pressed) {

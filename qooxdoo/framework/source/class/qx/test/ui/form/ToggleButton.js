@@ -65,9 +65,9 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       button.setTriState(true);
       button.setValue(null);
 
-      // [v] checked
+      // [x] checked
       // [v] undetermined
-      this.assertState(button, "checked");
+      this.assertNotState(button, "checked");
       this.assertState(button, "undetermined");
     },
 
@@ -76,15 +76,16 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       button.setValue(null);
       button.setTriState(true);
 
-      // [v] checked
+      // [x] checked
       // [v] undetermined
-      this.assertState(button, "checked");
+      this.assertNotState(button, "checked");
       this.assertState(button, "undetermined");
     },
 
     testCheckTri: function(){
       var button = this.__button;
       button.setTriState(true);
+      button.setValue(null);
       button.setValue(true);
 
       // [v] checked
@@ -96,6 +97,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     testUncheckTri: function(){
       var button = this.__button;
       button.setTriState(true);
+      button.setValue(null);
       button.setValue(false);
 
       // [x] checked
