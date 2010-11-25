@@ -29,11 +29,11 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
     /**
      * java.lang.System.out 
      */
-    __OUT : java.lang.System.out,
+    __OUT : null,
     /**
      * java.lang.System.err 
      */
-    __ERR : java.lang.System.err,
+    __ERR : null,
 
     /**
      * Writes a message to the shell. Errors will be sent to STDERR, everything
@@ -110,6 +110,14 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
       }
     }
 
+  },
+  
+  defer : function()
+  {
+    if (typeof(java) !== "undefined") {
+      qx.log.appender.RhinoConsole.__OUT = java.lang.System.out;
+      qx.log.appender.RhinoConsole.__ERR = java.lang.System.err
+    }
   }
 
 });
