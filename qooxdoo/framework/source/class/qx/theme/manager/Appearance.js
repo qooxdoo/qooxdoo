@@ -135,6 +135,19 @@ qx.Class.define("qx.theme.manager.Appearance",
             }
           }
         }
+        
+
+        // check if we find a control fitting in the appearance [BUG #4020]
+        for (var i = 0; i < end.length - 1; i++) {
+          // remove the first id, it has already been checked at startup
+          end.shift();
+          // build a new subid without the former first id
+          var baseid = end.join(divider);
+          var resolved = this.__resolveId(baseid, theme);
+          if (resolved) {
+            return resolved;
+          }
+        }
 
         // check for the fallback
         if (defaultId != null) {
