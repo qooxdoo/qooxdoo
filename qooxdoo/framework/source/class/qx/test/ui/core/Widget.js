@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#ignore(qx.test.ui.core.W)
+
+************************************************************************ */
 qx.Class.define("qx.test.ui.core.Widget",
 {
   extend : qx.test.ui.LayoutTestCase,
@@ -237,7 +242,6 @@ qx.Class.define("qx.test.ui.core.Widget",
         this.setVisibility("visible");
       });
 
-      var self = this;
       var listener2 = scroll.addListener("appear", function(ev) {
         var scrollPane = this._getChildren()[0];
         scrollTop = scrollPane.getContentElement().getDomElement().scrollTop;
@@ -253,6 +257,31 @@ qx.Class.define("qx.test.ui.core.Widget",
         scroll.removeListenerById(listener2);
         scroll.destroy();
       }, this);
+    },
+    
+    
+    testCreateChildControlHash: function(){
+      qx.Class.define("qx.test.ui.core.W", {
+        extend : qx.ui.core.Widget,
+        
+        members : {
+          _createChildControlImpl: function(id, hash) {
+            this.test = id + "-" + hash;
+            return this;
+          }
+        }
+      });
+      
+      var w = new qx.test.ui.core.W();
+      
+      w.getChildControl("affe#afffe");
+      this.assertEquals("affe-afffe", w.test);
+      
+      w.getChildControl("affe#afffe#juhu");
+      this.assertEquals("affe-afffe#juhu", w.test);
+      
+      w.dispose();
+      qx.Class.undefine("qx.test.ui.core.W");
     }
   }
 });

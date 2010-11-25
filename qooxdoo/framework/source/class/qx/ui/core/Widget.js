@@ -3669,7 +3669,9 @@ qx.Class.define("qx.ui.core.Widget",
       if (pos == -1) {
         var control = this._createChildControlImpl(id);
       } else {
-        var control = this._createChildControlImpl(id.substring(0, pos));
+        var control = this._createChildControlImpl(
+          id.substring(0, pos), id.substring(pos + 1, id.length)
+        );
       }
 
       if (!control) {
@@ -3706,10 +3708,13 @@ qx.Class.define("qx.ui.core.Widget",
      * should be overwritten by classes which extends this one
      * to support new child control types.
      *
-     * @param id {String} ID of the child control
+     * @param id {String} ID of the child control. If a # is used, the id is 
+     *   the part infront of the #.
+     * @param hash {String?undefined} If a child control name contains a #,
+     *   all text following the # will be the hash argument.
      * @return {qx.ui.core.Widget} The created control or <code>null</code>
      */
-    _createChildControlImpl : function(id) {
+    _createChildControlImpl : function(id, hash) {
       return null;
     },
 
