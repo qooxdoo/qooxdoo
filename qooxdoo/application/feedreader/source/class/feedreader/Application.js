@@ -528,7 +528,7 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
-      this.__toolBarView.singalLoading("settings", true);
+      this.__toolBarView.signalLoading("settings", true);
       qx.io.PartLoader.require(["settings"], function()
       {
         // if the window is not created
@@ -544,7 +544,7 @@ qx.Class.define("feedreader.Application",
         this.__prefWindow.open();
         
         // signal the end of the loading
-        this.__toolBarView.singalLoading("settings", false);        
+        this.__toolBarView.signalLoading("settings", false);        
       }, this);
     },
 
@@ -563,7 +563,7 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      this.__toolBarView.singalLoading("addfeed", true);
+      this.__toolBarView.signalLoading("addfeed", true);
       qx.io.PartLoader.require(["addfeed"], function()
       {
         // if the window is not created
@@ -579,7 +579,7 @@ qx.Class.define("feedreader.Application",
         this.__addFeedWindow.open();
         
         // signal the end of the loading
-        this.__toolBarView.singalLoading("addfeed", false);
+        this.__toolBarView.signalLoading("addfeed", false);
       }, this);
     }
   },

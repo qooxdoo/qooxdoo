@@ -198,7 +198,7 @@ qx.Class.define("feedreader.view.ToolBar",
      * @param part {String} The name of the part currently loading.
      * @param loading {Boolean} ture, if the part is currently loading.
      */
-    singalLoading : function(part, loading) 
+    signalLoading : function(part, loading) 
     {
       // get the right button
       if (part == "addfeed") {
