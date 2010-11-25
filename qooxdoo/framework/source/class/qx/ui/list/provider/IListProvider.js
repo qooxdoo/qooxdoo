@@ -53,17 +53,17 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
     /**
      * Styles a selected item.
      *
-     * @param item {var} item to style.
+     * @param row {Integer} row to style.
      */
-    styleSelectabled : function(item) {},
+    styleSelectabled : function(row) {},
 
 
     /**
      * Styles a not selected item.
      *
-     * @param item {var} item to style.
+     * @param row {Integer} row to style.
      */
-    styleUnselectabled : function(item) {},
+    styleUnselectabled : function(row) {},
 
 
     /**

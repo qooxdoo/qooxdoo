@@ -73,9 +73,9 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._bindItem(widget, this._list._lookup(row));
 
       if(this._list._manager.isItemSelected(row)) {
-        this.styleSelectabled(widget);
+        this._styleSelectabled(widget);
       } else {
-        this.styleUnselectabled(widget);
+        this._styleUnselectabled(widget);
       }
 
       return widget;
@@ -123,20 +123,18 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
 
     // interface implementation
-    styleSelectabled : function(item) {
-      if(item == null) {
-        return;
-      }
-      this._cellRenderer.updateStates(item, {selected: 1});
+    styleSelectabled : function(row)
+    {
+      var widget = this.__getWidgetFrom(row);
+      this._styleSelectabled(widget);
     },
 
 
     // interface implementation
-    styleUnselectabled : function(item) {
-      if(item == null) {
-        return;
-      }
-      this._cellRenderer.updateStates(item, {});
+    styleUnselectabled : function(row)
+    {
+      var widget = this.__getWidgetFrom(row);
+      this._styleUnselectabled(widget);
     },
 
 
@@ -153,6 +151,33 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Styles a selected item.
+     *
+     * @param widget {qx.ui.core.Widget} widget to style.
+     */
+    _styleSelectabled : function(widget) {
+      this.__updateStates(widget, {selected: 1});
+    },
+
+
+    /**
+     * Styles a not selected item.
+     *
+     * @param widget {qx.ui.core.Widget} widget to style.
+     */
+    _styleUnselectabled : function(widget) {
+      this.__updateStates(widget, {});
+    },
+
+    
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
@@ -184,6 +209,40 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._cellRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Helper method to get the widget from the passed row.
+     * 
+     * @param row {Integer} row to search.
+     * @param {qx.ui.core.Widget|null} The found widget or <code>null</code> when no widget found.
+     */
+    __getWidgetFrom : function(row) {
+      return this._list._layer.getRenderedCellWidget(row, 0);
+    },
+
+
+    /**
+     * Helper method to update the states from a widget.
+     * 
+     * @param widget {qx.ui.core.Widget} widget to set states.
+     * @param states {Map} the state to set.
+     */
+    __updateStates : function(widget, states)
+    {
+      if(widget == null) {
+        return;
+      }
+
+      this._cellRenderer.updateStates(widget, states);
     }
   },
 
