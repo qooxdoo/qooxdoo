@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     {
       var widget = this._list._layer.getRenderedCellWidget(row, 0);
 
-      if (widget != null && !this.__ignoreChangeSelection) {
+      if (widget != null) {
         return widget.isEnabled();
       } else {
         return true;
