@@ -213,7 +213,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       } else {
         return false;
       }
-    }
+    },
 
 
     /*
