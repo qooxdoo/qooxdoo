@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     // register execute event
     this.addListener("execute", this._onExecute, this);
+
   },
 
 
@@ -100,7 +101,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       nullable : true,
       event : "changeValue",
       apply : "_applyValue",
-      init: false
+      init : false
     },
 
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons. */
@@ -109,6 +110,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
       check  : "qx.ui.form.RadioGroup",
       nullable : true,
       apply : "_applyGroup"
+    },
+    
+    triState :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyTriState",
+      init : false
     }
   },
 
@@ -143,7 +152,23 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param old {Boolean} Previous value
      */
     _applyValue : function(value, old) {
-      value ? this.addState("checked") : this.removeState("checked");
+      if (value) {
+        this.addState("checked");
+        this.removeState("undetermined");
+      } else {
+        this.removeState("checked");
+      }
+    },
+
+
+    _applyTriState : function(value, old) {
+      if (value) {
+        if (!this.isValue()) {
+          this.addState("undetermined");
+        }
+      } else {
+        this.removeState("undetermined");
+      }
     },
 
 

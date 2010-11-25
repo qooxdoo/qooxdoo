@@ -32,31 +32,39 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.flush();
     },
     
+    //
+    // 2-state button
+    //
+    
     testInitial: function(){
       var button = this.__button;
-      this.assertIdentical(false, button.getValue());
+      this.assertFalse(button.getValue());
+      this.assertNotState(button, "checked");
+      this.assertNotState(button, "undetermined");
     },
     
-    testChecked: function(){
+    testCheck: function(){
       var button = this.__button;
       button.addListener("execute", function() {
         this.resume(function() {
-          this.assertIdentical(true, button.getValue());
-        }, this)
+          this.assertTrue(button.getValue());
+          this.assertState(button, "checked");
+        }, this);
       }, this);
       
       this.executeOn(button);
       this.wait();
     },
     
-    testUnchecked: function() {
+    testUncheck: function() {
       var button = this.__button;
       button.setValue(true);
       
       button.addListener("execute", function() {
         this.resume(function() {
-          this.assertIdentical(false, button.getValue());
-        }, this)
+          this.assertFalse(button.getValue());
+          this.assertNotState(button, "checked");
+        }, this);
       }, this);
       
       this.executeOn(button);
@@ -65,16 +73,69 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     
     testToggle: function(attribute){
       var button = this.__button;
+      
+      // Check
       this.immediateExecuteOn(button);
       
       button.addListener("execute", function() {
         this.resume(function() {
-          this.assertIdentical(false, button.getValue());
-        }, this)
+          this.assertFalse(button.getValue());
+          this.assertNotState(button, "checked");
+          this.assertNotState(button, "undetermined");
+        }, this);
+      }, this);
+      
+      // Uncheck
+      this.executeOn(button);
+      
+      this.wait();
+    },
+    
+    //
+    // 3-state button
+    //
+    
+    testInitialTri: function(attribute){
+      var button = this.__button;
+      button.setTriState(true);
+      this.assertFalse(button.getValue());
+      this.assertState(button, "undetermined");
+      this.assertNotState(button, "checked");
+    },
+    
+    testCheckTri: function(){
+      var button = this.__button;
+      button.setTriState(true);
+      button.addListener("execute", function() {
+        this.resume(function() {
+          this.assertTrue(button.getValue());
+          this.assertState(button, "checked");
+          this.assertNotState(button, "undetermined");
+        }, this);
       }, this);
       
       this.executeOn(button);
       this.wait();
+    },
+    
+    testCycleTri: function() {
+      
+    },
+    
+    testUncheckTri: function() {
+      
+    },
+    
+    //
+    // Helper methods
+    //
+    
+    assertState: function(widget, state) {
+      this.assertTrue(widget.hasState(state), "State " + state + " not set");
+    },
+    
+    assertNotState: function(widget, state) {
+      this.assertFalse(widget.hasState(state), "State " + state + " is set");
     },
     
     executeOn: function(widget) {
