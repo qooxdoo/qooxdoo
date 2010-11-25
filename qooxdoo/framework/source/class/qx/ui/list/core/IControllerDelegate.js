@@ -42,13 +42,13 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
     configureItem : function(item) {},
 
     /**
-     * Creates a cell renderer which will be used for rendering. Be sure to
+     * Creates a item cell which will be used for rendering. Be sure to
      * implement the {@link #bindItem} function as well to get the needed
      * properties bound.
      *
-     * @return {qx.ui.virtual.cell.AbstractWidget} A new created cell renderer.
+     * @return {var} A new created item cell.
      */
-    createCellRenderer : function() {},
+    createItem : function() {},
 
     /**
      * Sets up the binding for the given item and index.

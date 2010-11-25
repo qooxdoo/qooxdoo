@@ -99,21 +99,20 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     // interface implementation
     createItemRenderer : function() 
     {
-      var delegate = this.getDelegate();
-      
-      if (delegate != null && delegate.createCellRenderer != null) {
-        return delegate.createCellRenderer();
-      } else {
-        var renderer = new qx.ui.virtual.cell.WidgetCell();
-        renderer.setDelegate(
-        {
-          createWidget : function() {
-            return new qx.ui.form.ListItem();
-          }
-        });
+      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createItem");
 
-        return renderer;
+      if (createWidget == null) {
+        createWidget = function() {
+          return new qx.ui.form.ListItem();
+        }
       }
+
+      var renderer = new qx.ui.virtual.cell.WidgetCell();
+      renderer.setDelegate({
+        createWidget : createWidget
+      });
+
+      return renderer;
     },
 
 

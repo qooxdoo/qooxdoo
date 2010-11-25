@@ -64,8 +64,8 @@ qx.Class.define("demobrowser.demo.virtual.ExtendedList",
         configureItem : function(item) {
           item.setPadding(3);
         },
-        createCellRenderer : function() {
-          return new demobrowser.demo.virtual.cell.CheckBoxWidgetCell();
+        createItem : function() {
+          return new qx.ui.form.CheckBox();
         },
         bindItem : function(controller, item, id) {
           controller.bindProperty("name", "label", null, item, id);
