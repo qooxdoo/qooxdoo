@@ -59,40 +59,44 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       widgets.push(new qx.ui.form.SelectBox());
       this.getRoot().add(widgets[6], {left: 20, top: 300});
 
-      // checkbox
+      // checkbox (unchecked)
       widgets.push(new qx.ui.form.CheckBox());
       this.getRoot().add(widgets[7], {left: 20, top: 330});
 
+      // checkbox (undetermined)
+      widgets.push(new qx.ui.form.CheckBox().set({triState: true, value: null}));
+      this.getRoot().add(widgets[8], {left: 20, top: 350});
+
       // radiobutton
       widgets.push(new qx.ui.form.RadioButton());
-      this.getRoot().add(widgets[8], {left: 20, top: 350});
+      this.getRoot().add(widgets[9], {left: 20, top: 370});
 
       // group box
       widgets.push(new qx.ui.groupbox.GroupBox("I am a box"));
-      this.getRoot().add(widgets[9], {left: 240, top: 70});
+      this.getRoot().add(widgets[10], {left: 240, top: 70});
 
       // radio group box
       widgets.push(new qx.ui.groupbox.RadioGroupBox("I am a box"));
-      this.getRoot().add(widgets[10], {left: 240, top: 170});
+      this.getRoot().add(widgets[11], {left: 240, top: 170});
 
       // check group box
       widgets.push(new qx.ui.groupbox.CheckGroupBox("I am a box"));
-      this.getRoot().add(widgets[11], {left: 240, top: 270});
+      this.getRoot().add(widgets[12], {left: 240, top: 270});
 
       // list
       widgets.push(new qx.ui.form.List());
-      this.getRoot().add(widgets[12], {left: 390, top: 70});
+      this.getRoot().add(widgets[13], {left: 390, top: 70});
       for (var i = 0; i < 10; i++) {
-        widgets[12].add(new qx.ui.form.ListItem("Item " + (i + 1)));
+        widgets[13].add(new qx.ui.form.ListItem("Item " + (i + 1)));
       }
 
       // date field
       widgets.push(new qx.ui.form.DateField());
-      this.getRoot().add(widgets[13], {left: 390, top: 280});
+      this.getRoot().add(widgets[14], {left: 390, top: 280});
 
       // date chooser
       widgets.push(new qx.ui.control.DateChooser());
-      this.getRoot().add(widgets[14], {left: 530, top: 70});
+      this.getRoot().add(widgets[15], {left: 530, top: 70});
 
       // radioGroup
       var radioGroup = new qx.ui.form.RadioGroup();
