@@ -26,7 +26,7 @@ To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/%{versi
   var dropTarget = new qx.ui.form.List;
   dropTarget.setDroppable(true);
 
-The basic drag&drop should start working with these properties enabled, but it will show the no-drop cursor over all potential target. To fix this one needs to register actions (and optionally data types) supported by the drag target. This can be done during the ``dragstart`` event which is fired on the drag target:
+The basic drag&drop should start working with these properties enabled, but it will show the no-drop cursor over all potential targets. To fix this one needs to register actions (and optionally data types) supported by the drag target. This can be done during the ``dragstart`` event which is fired on the drag target:
 
 ::
 
@@ -63,9 +63,9 @@ To register some types write a listener for ``dragstart``:
     e.addType("html/list");
   });
 
-This is basically only the registration for the types which could be theoratically delivered to the target. The IDs used are just strings. They have no special meaning. They could be identical to typical mime-types like ``text/plain`` but there is no need for this. 
+This is basically only the registration for the types which could theoretically be delivered to the target. The IDs used are just strings. They have no special meaning. They could be identical to typical mime-types like ``text/plain`` but there is no need for this. 
 
-The preparation of the data (if not directly available) is done lazy by the ``droprequest`` event which will explained later. The next step is to let the target work with the incoming data. The following code block appends all the dropped children to the end of the list.
+The preparation of the data (if not directly available) is done lazily by the ``droprequest`` event which will explained later. The next step is to let the target work with the incoming data. The following code block appends all the dropped children to the end of the list.
 
 ::
 
@@ -77,7 +77,7 @@ The preparation of the data (if not directly available) is done lazy by the ``dr
     }  
   });
 
-The last step needed to get the thing fly is to prepare the data for being dragged around. This might look like the following example:
+The last step needed to get the thing to fly is to prepare the data for being dragged around. This might look like the following example:
 
 ::
 
@@ -118,7 +118,7 @@ One thing one might consider is to add support for multiple actions. In the abov
     e.addType("html/list");
   });
 
-The action to use is modifyable by the user through pressing of modifier keys during the drag&drop process. The preparation of the data is done through the ``droprequest`` as well. Here one can use the action (call ``e.getCurrentAction()`` to get the selected action) to apply different modifications on the original data. A modified version of the above listed code might look like the following:
+The action to use is modifiable by the user through pressing of modifier keys during the drag&drop process. The preparation of the data is done through the ``droprequest`` as well. Here one can use the action (call ``e.getCurrentAction()`` to get the selected action) to apply different modifications on the original data. A modified version of the code listed above might look like the following:
 
 ::
 
@@ -159,7 +159,7 @@ The action to use is modifyable by the user through pressing of modifier keys du
     e.addData(type, result);
   });
 
-Like known from major operating systems there are exactly three actions supported:
+As known from major operating systems, exactly three actions are supported:
 
 * ``move``
 * ``copy``
@@ -183,7 +183,7 @@ There are a few other pleasantries. For example it is possible for ``droppable``
     }
   });
 
-This could be used to dynamically accepting or disallowing specific types of drop events depending on the application status or any other given condition. The user then gets a ``nodrop`` cursor to signalize that the hovered target do not accept the data. To query the source object for supported types or actions one call the methods ``supportsAction`` or ``supportsType`` on the incoming event object.
+This could be used to dynamically accept or disallow specific types of drop events depending on the application status or any other given condition. The user then gets a ``nodrop`` cursor to signal that the hovered target does not accept the data. To query the source object for supported types or actions one would call the methods ``supportsAction`` or ``supportsType`` on the incoming event object.
 
 Something comparable is possible during the ``dragstart`` event:
 
@@ -196,16 +196,16 @@ Something comparable is possible during the ``dragstart`` event:
     }
   });
 
-This prevents the drag of data from the source widget when some runtime condition is not solved. This is especially useful to call some external functionality to check whether a desired action is possible. In this case it might also depend on the other properties of the source widget e.g. in a mail program it is possible to drag the selection of the tree to another folder, with one exception: the inbox. This could easily solved with such a feature.
+This prevents the dragging of data from the source widget when some runtime condition is not solved. This is especially useful to call some external functionality to check whether a desired action is possible. In this case it might also depend on the other properties of the source widget e.g. in a mail program it is possible to drag the selection of the tree to another folder, with one exception: the inbox. This could easily be solved with such a feature.
 
 .. _pages/gui_toolkit/ui_dragdrop#drag_session:
 
 Drag Session
 ============
 
-During the drag session the ``drag`` event is fired for every move of the mouse. This event may be used to "attach" an image or widget to the mouse cursor to indicate the type of data or object dragged around. It may also use for render a line during a reordering drag&drop session (see next paragraph). It supports the methods ``getDocumentLeft`` and ``getDocumentTop`` known from the ``mousemove`` event. This data may be used for the positioning of a cursor.
+During the drag session the ``drag`` event is fired for every move of the mouse. This event may be used to "attach" an image or widget to the mouse cursor to indicate the type of data or object dragged around. It may also be used to render a line during a reordering drag&drop session (see next paragraph). It supports the methods ``getDocumentLeft`` and ``getDocumentTop`` known from the ``mousemove`` event. This data may be used for the positioning of a cursor.
 
-When hovering a widget the ``dragover`` event is fired on the "interims" target. When leaving the widget the ``dragleave`` event is fired. The ``dragover`` is cancelable and has information about the related target (the source widget) through ``getRelatedTarget`` on the incoming event object.
+When hovering a widget the ``dragover`` event is fired on the "interim" target. When leaving the widget the ``dragleave`` event is fired. The ``dragover`` is cancelable and has information about the related target (the source widget) through ``getRelatedTarget`` on the incoming event object.
 
 Another quite useful event is the ``dragend`` event which is fired at every end of the drag session. This event is fired in both cases, when the transaction has modified anything or not. It is fired when pressing Escape or stopping the session any other way as well.
 
@@ -246,7 +246,7 @@ Items may also be reordered inside one widget using the drag&drop API. This acti
       // Insert before the marker
       this.addBefore(sel[i], orig);
 
-      // Recover selection as it get lost during child move
+      // Recover selection as it gets lost during child move
       this.addToSelection(sel[i]);
     }
   });
