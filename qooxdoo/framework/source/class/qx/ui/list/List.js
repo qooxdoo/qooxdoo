@@ -383,6 +383,7 @@ qx.Class.define("qx.ui.list.List",
       }
       
       this._runDelegateFilter(model);
+      this._runDelegateSorter(model);
       this.__updateRowCount();
     },
     
@@ -401,6 +402,29 @@ qx.Class.define("qx.ui.list.List",
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
         }
+      }
+    },
+
+
+    /**
+     * Invokes a sorting using the sorter given in the delegate.
+     *
+     * @param model {qx.data.IListData} The model.
+     */
+    _runDelegateSorter : function (model)
+    {
+      if (this.__lookupTable.length == 0) {
+        return;
+      }
+
+      var sorter = qx.util.Delegate.getMethod(this.getDelegate(), "sorter");
+
+      if (sorter != null)
+      {
+        this.__lookupTable.sort(function(a, b)
+        {
+          return sorter(model.getItem(a), model.getItem(b));
+        });
       }
     }
   },

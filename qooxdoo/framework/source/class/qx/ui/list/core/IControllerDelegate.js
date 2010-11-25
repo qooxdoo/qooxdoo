@@ -41,6 +41,7 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
      */
     configureItem : function(item) {},
 
+
     /**
      * Creates a item cell which will be used for rendering. Be sure to
      * implement the {@link #bindItem} function as well to get the needed
@@ -49,6 +50,27 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
      * @return {var} A new created item cell.
      */
     createItem : function() {},
+
+
+    /**
+     * Filter checks the current data and returns a boolean if the data should
+     * appear in the filtered data set or not.
+     *
+     * @param data {var} The data which will be checked.
+     * @return {Boolean} True, if the data passes the filter, false otherwise.
+     */
+    filter : function(data) {},
+
+
+    /**
+     * If a sorter function is given, this will be used to compare the items.
+     * 
+     * @param a {var} value to compare.
+     * @param b {var} value to compare.
+     * @return {Integer} should return a negative value if a < b, zero if a = b, or a positive value if a > b.
+     */
+    sorter : function(a, b) {},
+
 
     /**
      * Sets up the binding for the given item and index.
