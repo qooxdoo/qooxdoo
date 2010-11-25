@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import os, sys, re, optparse, codecs, demjson, copy
+import os, sys, re, optparse, codecs, demjson, copy, tempfile
 import qxenviron
 from generator.runtime.Log import Log
 from generator.runtime.ShellCmd import ShellCmd
@@ -190,8 +190,6 @@ class Repository:
     for qxVersion, jobData in buildQueue.iteritems():
       if len(jobData) > 0:
         console.info("Linking %s demos against qooxdoo %s" %(repr(len(jobData)), qxVersion))
-        console.info("Clearing cache")
-        runGenerator(".", "clean-cache")
         for job in jobData:
           runBuildJob(job, qxVersion)
     
@@ -461,10 +459,11 @@ class LibraryVersion:
             demoPath = os.path.join(demoBrowser, "demo", self.parent.name, self.name)
             buildPath = os.path.join(demoPath, variantName, qxVersion)
           
+          tempdir = tempfile.gettempdir()
           macro = {
             "BUILD_PATH" : buildPath,
-            "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
-            #"CACHE"        : "${TMPDIR}/cache/" + qxVersion
+            "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
+            "CACHE"        : tempdir + "/cache/" + qxVersion
           }
           
           jobData = (variant, buildTarget, macro, demoBrowser)
@@ -474,9 +473,10 @@ class LibraryVersion:
         qxVersion = self.manifest["info"]["qooxdoo-versions"][0]
         if not qxVersion in buildQueue:
           buildQueue[qxVersion] = []
+        tempdir = tempfile.gettempdir()
         macro = {
-          "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion
-          #"CACHE"        : "${TMPDIR}/cache/" + qxVersion
+          "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
+          "CACHE"        : tempdir + "/cache/" + qxVersion
         }
         jobData = (variant, buildTarget, macro, demoBrowser)
         buildQueue[qxVersion].append(jobData)
