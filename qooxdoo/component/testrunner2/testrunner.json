@@ -38,8 +38,9 @@
       [
         "build-resources",
         "build-files",
-        "build-inline-script"
-        //TODO: build-tests-resources, build-tests-files
+        "build-inline-script",
+        "build-tests-resources",
+        "build-tests-files"
       ],
       
       "copy-files" :
