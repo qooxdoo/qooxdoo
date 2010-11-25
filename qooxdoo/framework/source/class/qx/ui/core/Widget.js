@@ -523,8 +523,10 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Mapping to native style property opacity.
      *
-     *  The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
-     *  Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
+     * The uniform opacity setting to be applied across an entire object. 
+     * Behaves like the new CSS-3 Property.
+     * Any values outside the range 0.0 (fully transparent) to 1.0 
+     * (fully opaque) will be clamped to this range.
      */
     opacity :
     {
@@ -1019,7 +1021,11 @@ qx.Class.define("qx.ui.core.Widget",
       var first = manager.resolve(a).getInsets();
       var second = manager.resolve(b).getInsets();
 
-      if (first.top != second.top || first.right != second.right || first.bottom != second.bottom || first.left != second.left) {
+      if (first.top != second.top || 
+          first.right != second.right || 
+          first.bottom != second.bottom || 
+          first.left != second.left
+      ) {
         return true;
       }
 
@@ -1128,7 +1134,9 @@ qx.Class.define("qx.ui.core.Widget",
         if (this.__layoutManager && this.hasLayoutChildren()) {
           this.__layoutManager.renderLayout(innerWidth, innerHeight);
         } else if (this.hasLayoutChildren()) {
-          throw new Error("At least one child in control " + this._findTopControl() + " requires a layout, but no one was defined!");
+          throw new Error("At least one child in control " + 
+            this._findTopControl() + 
+            " requires a layout, but no one was defined!");
         }
       }
 
@@ -1344,7 +1352,8 @@ qx.Class.define("qx.ui.core.Widget",
 
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            var msg = "The layout of the widget" + this.toString() + " returned an invalid size hint!";
+            var msg = "The layout of the widget" + this.toString() + 
+              " returned an invalid size hint!";
             this.assertInteger(hint.width, "Wrong 'left' argument. " + msg);
             this.assertInteger(hint.height, "Wrong 'top' argument. " + msg);
           }
@@ -1977,7 +1986,8 @@ qx.Class.define("qx.ui.core.Widget",
     _addBefore : function(child, before, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertInArray(before, this._getChildren(), "The 'before' widget is not a child of this widget!");
+        this.assertInArray(before, this._getChildren(), 
+          "The 'before' widget is not a child of this widget!");
       }
 
       if (child == before) {
@@ -2003,14 +2013,16 @@ qx.Class.define("qx.ui.core.Widget",
      * Add a widget after another already inserted widget
      *
      * @param child {LayoutItem} widget to add
-     * @param after {LayoutItem} widget, after which the new widget will be inserted
+     * @param after {LayoutItem} widget, after which the new widget will 
+     *   be inserted
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
      */
     _addAfter : function(child, after, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertInArray(after, this._getChildren(), "The 'after' widget is not a child of this widget!");
+        this.assertInArray(after, this._getChildren(), 
+          "The 'after' widget is not a child of this widget!");
       }
 
       if (child == after) {
@@ -2326,7 +2338,9 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (value && typeof value === "object") {
           if (qx.ui.core.Widget.DEBUG) {
-            this.warn("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
+            this.warn("Decorator instances may increase memory usage and " + 
+              "processing time. Often it is better to lay them out to a " + 
+              "theme file. Hash code of decorator object: " + value);
           }
         }
       }
@@ -2797,7 +2811,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Combine parent control IDs, add top level appearance, filter result
         // to not include positioning information anymore (e.g. #3)
-        selector = this.__appearanceSelector = id.reverse().join("/").replace(/#[0-9]+/g, "");
+        selector = id.reverse().join("/").replace(/#[0-9]+/g, "");
+        this.__appearanceSelector = selector;
       }
 
       // Query current selector
@@ -2821,7 +2836,9 @@ qx.Class.define("qx.ui.core.Widget",
           for (var prop in newData)
           {
             if (!this[styler[prop]]) {
-              throw new Error(this.classname + ' has no themeable property "' + prop + '" while styling ' + selector);
+              throw new Error(this.classname + 
+                ' has no themeable property "' + prop + 
+                '" while styling ' + selector);
             }
           }
         }
@@ -3761,11 +3778,16 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Supported modes:
      *
-     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
-     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
-     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
-     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
-     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     * * <code>margin</code>: Calculate from the margin box of the element 
+     *   (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element 
+     *   (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box 
+     *   (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box 
+     *   (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box 
+     *   (relevant for static/relative positioned content).
      *
      * @param mode {String} A supported option. See comment above.
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
@@ -3780,15 +3802,21 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Computes the location of the content element in context of the document dimensions.
+     * Computes the location of the content element in context of the document 
+     * dimensions.
      *
      * Supported modes:
      *
-     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
-     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
-     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
-     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
-     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     * * <code>margin</code>: Calculate from the margin box of the element 
+     *   (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, 
+     *   uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to 
+     *   border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute 
+     *   positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for 
+     *   static/relative positioned content).
      *
      * @param mode {String} A supported option. See comment above.
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
