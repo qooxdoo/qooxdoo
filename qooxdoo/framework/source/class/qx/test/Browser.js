@@ -60,36 +60,6 @@ qx.Class.define("qx.test.Browser",
           i++;
         }
       }
-    },
-    testTryCatchFinally : function()
-    {
-      try
-      {
-        var intValue = 1;
-        var testVar;
-        try
-        {
-          // just a line of js code to generate an error
-          testVar.nonExistentFunction();
-        }
-        catch(e)
-        {
-          if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
-            intValue--;
-          }
-          throw e;
-        }
-        finally
-        {
-          if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
-            intValue--;
-          }
-        }
-      }
-      catch(e)
-      {
-        this.assertEquals(0,intValue, "intValue must be zero");
-      }
     }
   }
 });

@@ -219,9 +219,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
         finally
         {
-          if(!(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7)) {
-            finallyCode();
-          }
+          finallyCode();
         }
       }
     }),

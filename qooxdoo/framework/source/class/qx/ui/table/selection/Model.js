@@ -420,9 +420,7 @@ qx.Class.define("qx.ui.table.selection.Model",
             throw e;
           }
           finally {
-            if(!(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7)) {
-              this.setBatchMode(false);
-            }
+            this.setBatchMode(false);
           }
           this._fireChangeSelection();
           return;
