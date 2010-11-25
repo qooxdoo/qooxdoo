@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Virtual list widget for virtual widget rendering.
  *
  * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
@@ -28,6 +26,7 @@ qx.Class.define("qx.ui.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
   include : [qx.ui.list.core.MSelectionHandling],
+
 
   /**
    * Creates the <code>List</code> with the passed model.
@@ -49,6 +48,7 @@ qx.Class.define("qx.ui.list.List",
     this.initItemHeight();
   },
 
+
   properties :
   {
     // overridden
@@ -58,12 +58,14 @@ qx.Class.define("qx.ui.list.List",
       init : "virtual-list"
     },
 
+
     // overridden
     focusable :
     {
       refine : true,
       init : true
     },
+
 
     // overridden
     width :
@@ -72,12 +74,14 @@ qx.Class.define("qx.ui.list.List",
       init : 100
     },
 
+
     // overridden
     height :
     {
       refine : true,
       init : 200
     },
+
 
     /** Data array containing the data which should be shown in the list. */
     model :
@@ -89,6 +93,7 @@ qx.Class.define("qx.ui.list.List",
       deferredInit : true
     },
 
+
     /** Default item height */
     itemHeight :
     {
@@ -97,6 +102,7 @@ qx.Class.define("qx.ui.list.List",
       apply : "_applyRowHeight",
       themeable : true
     },
+
 
     /**
      * The path to the property which holds the information that should be
@@ -108,6 +114,7 @@ qx.Class.define("qx.ui.list.List",
       apply: "_applyLabelPath",
       nullable: true
     },
+
 
     /**
      * The path to the property which holds the information that should be
@@ -121,6 +128,7 @@ qx.Class.define("qx.ui.list.List",
       nullable: true
     },
 
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -131,6 +139,7 @@ qx.Class.define("qx.ui.list.List",
       nullable: true
     },
 
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -140,6 +149,7 @@ qx.Class.define("qx.ui.list.List",
       apply: "_applyIconOptions",
       nullable: true
     },
+
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -154,18 +164,24 @@ qx.Class.define("qx.ui.list.List",
     }
   },
 
+
   members :
   {
     /** {qx.ui.virtual.layer.Row} background renderer */
     _background : null,
 
-    /** {qx.ui.list.core.IListProvider} provider for widget cell rendering */
+
+    /** {qx.ui.list.core.IListProvider} provider for cell rendering */
     _provider : null,
 
-    /** {qx.ui.virtual.layer.WidgetCell} widget cell renderer. */
+
+    /** {qx.ui.virtual.layer.Abstract} layer for which containing the items. */
     _layer : null,
-    
+
+
+    /** {Array} lookup table for sorting etc. */
     __lookupTable : null,
+
 
     // overridden
     _createChildControlImpl : function(id)
@@ -180,6 +196,49 @@ qx.Class.define("qx.ui.list.List",
       }
       return control || this.base(arguments, id);
     },
+
+
+    /**
+     * Initialized the virtual list.
+     */
+    _init : function()
+    {
+      this._provider = new qx.ui.list.provider.WidgetProvider(this);
+      this.__lookupTable = [];
+      
+      this.getPane().addListener("resize", this._onResize, this);
+
+      this._initBackground();
+      this._initLayer();
+    },
+
+
+    /**
+     * Initialized the background renderer.
+     */
+    _initBackground : function()
+    {
+      this._background = this.getChildControl("row-layer");
+      this.getPane().addLayer(this._background);
+    },
+
+
+    /**
+     * Initialized the widget cell renderer.
+     */
+    _initLayer : function()
+    {
+      this._layer = this._provider.getLayer();
+      this.getPane().addLayer(this._layer);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
 
     /**
      * Returns the model data from the passed row.
@@ -197,37 +256,23 @@ qx.Class.define("qx.ui.list.List",
       }
     },
 
-    /**
-     * Initialized the virtual list.
-     */
-    _init : function()
-    {
-      this._provider = new qx.ui.list.provider.WidgetProvider(this);
-      this.__lookupTable = [];
-      
-      this.getPane().addListener("resize", this._onResize, this);
-
-      this._initBackground();
-      this._initLayer();
-    },
 
     /**
-     * Initialized the background renderer.
+     * Performs a lookup.
+     *
+     * @param index {Number} The index to look at.
      */
-    _initBackground : function()
-    {
-      this._background = this.getChildControl("row-layer");
-      this.getPane().addLayer(this._background);
+    _lookup : function(index) {
+      return this.__lookupTable[index];
     },
 
-    /**
-     * Initialized the widget cell renderer.
-     */
-    _initLayer : function()
-    {
-      this._layer = this._provider.getLayer();
-      this.getPane().addLayer(this._layer);
-    },
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
 
     // apply method
     _applyModel : function(value, old)
@@ -242,36 +287,50 @@ qx.Class.define("qx.ui.list.List",
       this.__buildUpLookupTable();
     },
 
+
     // apply method
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
+
 
     // apply method
     _applyLabelPath : function(value, old) {
       this._provider.setLabelPath(value);
     },
 
+
     // apply method
     _applyIconPath : function(value, old) {
       this._provider.setIconPath(value);
     },
+
 
     // apply method
     _applyLabelOptions : function(value, old) {
       this._provider.setLabelOptions(value);
     },
 
+
     // apply method
     _applyIconOptions : function(value, old) {
       this._provider.setIconOptions(value);
     },
+
 
     // apply method
     _applyDelegate : function(value, old) {
       this._provider.setDelegate(value);
       this.__buildUpLookupTable();
     },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
 
     /**
      * Event handler for the resize event.
@@ -282,6 +341,7 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
 
+
     /**
      * Event handler for the model change event.
      *
@@ -290,6 +350,14 @@ qx.Class.define("qx.ui.list.List",
     _onModelChange : function(e) {
       this.__buildUpLookupTable();
     },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
 
     /**
      * Helper method to update the row count.
@@ -300,6 +368,7 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().fullUpdate();
     },
     
+
     /**
      * Internal method for building the lookup table.
      */
@@ -317,6 +386,7 @@ qx.Class.define("qx.ui.list.List",
       this.__updateRowCount();
     },
     
+
     /**
      * Invokes a filtering using the filter given in the delegate.
      *
@@ -334,6 +404,7 @@ qx.Class.define("qx.ui.list.List",
       }
     },
     
+
     /**
      * Returns the delegate method given my its name.
      *
@@ -352,6 +423,7 @@ qx.Class.define("qx.ui.list.List",
       return null;
     },
     
+
     /**
      * Checks, if the given delegate is valid or if a specific method is given.
      *
@@ -382,17 +454,9 @@ qx.Class.define("qx.ui.list.List",
       }
 
       return false;
-    },
-    
-    /**
-     * Performs a lookup.
-     *
-     * @param index {Number} The index to look at.
-     */
-    _lookup : function(index) {
-      return this.__lookupTable[index];
     }
   },
+
 
   destruct : function()
   {
