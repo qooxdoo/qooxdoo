@@ -94,7 +94,7 @@ qx.Class.define("qx.bom.client.Flash",
 
         for (var i=0; i<splitInput.length; i++)
         {
-          var diff = parseInt(system[i]) - parseInt(splitInput[i]);
+          var diff = parseInt(system[i], 10) - parseInt(splitInput[i], 10);
           if (diff > 0) {
             return (this._cachedSupportsVersion[input] = true);
           } else if (diff < 0) {

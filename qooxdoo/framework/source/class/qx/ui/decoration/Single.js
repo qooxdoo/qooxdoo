@@ -371,11 +371,11 @@ qx.Class.define("qx.ui.decoration.Single",
       element.style.height = height + "px";
       
       element.style.left = 
-        (parseInt(element.style.left) + 
+        (parseInt(element.style.left, 10) + 
         insets.left - 
         this.getWidthLeft()) + "px";
       element.style.top = 
-        (parseInt(element.style.top) + 
+        (parseInt(element.style.top, 10) + 
         insets.top - 
         this.getWidthTop()) + "px";      
     },

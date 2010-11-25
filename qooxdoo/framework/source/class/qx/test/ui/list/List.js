@@ -119,7 +119,7 @@ qx.Class.define("qx.test.ui.list.List",
       
       var delegate = {
         filter : function(data) {
-          return ((parseInt(data.slice(5, data.length)) - 1) % 2 == 0);
+          return ((parseInt(data.slice(5, data.length), 10) - 1) % 2 == 0);
         } 
       }
       this._list.setDelegate(delegate);

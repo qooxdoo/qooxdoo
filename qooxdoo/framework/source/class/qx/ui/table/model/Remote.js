@@ -430,13 +430,13 @@ qx.Class.define("qx.ui.table.model.Remote",
         // There is currently no request running -> Start a new one
         // NOTE: We load one more block above and below to have a smooth
         //       scrolling into the next block without blank cells
-        var firstBlock = parseInt(firstRowIndex / blockSize) - 1;
+        var firstBlock = parseInt(firstRowIndex / blockSize, 10) - 1;
 
         if (firstBlock < 0) {
           firstBlock = 0;
         }
 
-        var lastBlock = parseInt(lastRowIndex / blockSize) + 1;
+        var lastBlock = parseInt(lastRowIndex / blockSize, 10) + 1;
 
         if (lastBlock >= totalBlockCount) {
           lastBlock = totalBlockCount - 1;
@@ -634,7 +634,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       {
         var blockSize = this.getBlockSize();
         var blockCount = Math.ceil(this.getRowCount() / blockSize);
-        var startBlock = parseInt(rowIndex / blockSize);
+        var startBlock = parseInt(rowIndex / blockSize, 10);
 
         // Remove the row and move the rows of all following blocks
         for (var block=startBlock; block<=blockCount; block++)
@@ -712,7 +712,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     getRowData : function(rowIndex)
     {
       var blockSize = this.getBlockSize();
-      var block = parseInt(rowIndex / blockSize);
+      var block = parseInt(rowIndex / blockSize, 10);
       var blockData = this.__rowBlockCache[block];
 
       if (blockData == null)

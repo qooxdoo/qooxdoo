@@ -743,7 +743,7 @@ qx.Class.define("qx.data.SingleValueBinding",
               + name + " does not work.");
           }
           if (arrayIndex !== "last") {
-            if (arrayIndex == "" || isNaN(parseInt(arrayIndex))) {
+            if (arrayIndex == "" || isNaN(parseInt(arrayIndex, 10))) {
               throw new Error("No number or 'last' value hast been given"
                 + " in a array binding: " + name + " does not work.");
             }
@@ -1016,7 +1016,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       // to integer
       if ((dataType == "Number" || dataType == "String") &&
           (targetCheck == "Integer" || targetCheck == "PositiveInteger")) {
-        data = parseInt(data);
+        data = parseInt(data, 10);
       }
 
       // to string

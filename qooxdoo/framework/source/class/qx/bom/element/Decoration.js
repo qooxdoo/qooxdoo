@@ -539,12 +539,12 @@ qx.Class.define("qx.bom.element.Decoration",
       {
         var backgroundPosition = style.backgroundPosition.split(" ");
 
-        left = parseInt(backgroundPosition[0]);
+        left = parseInt(backgroundPosition[0], 10);
         if (isNaN(left)) {
           left = backgroundPosition[0];
         }
 
-        top = parseInt(backgroundPosition[1]);
+        top = parseInt(backgroundPosition[1], 10);
         if (isNaN(top)) {
           top = backgroundPosition[1];
         }

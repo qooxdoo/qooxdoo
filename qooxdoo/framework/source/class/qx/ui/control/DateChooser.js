@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           }
           else
           {
-            var day = parseInt(dayLabel.getValue());
+            var day = parseInt(dayLabel.getValue(), 10);
 
             if (day == newDay) {
               dayLabel.addState("selected");

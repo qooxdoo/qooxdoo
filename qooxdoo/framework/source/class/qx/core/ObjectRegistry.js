@@ -230,7 +230,7 @@ qx.Class.define("qx.core.ObjectRegistry",
       // sort the objects! Remove the objecs created at startup
       // as late as possible
       hashes.sort(function(a, b) {
-        return parseInt(b)-parseInt(a);
+        return parseInt(b, 10)-parseInt(a, 10);
       });
 
       var obj, i=0, l=hashes.length;

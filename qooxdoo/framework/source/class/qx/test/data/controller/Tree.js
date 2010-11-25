@@ -998,7 +998,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       {
         nodes[i] = new qx.test.TreeNode();
         if (i != 0) {
-          nodes[parseInt(Math.random() * i)].getChildren().push(nodes[i]);
+          nodes[parseInt(Math.random() * i, 10)].getChildren().push(nodes[i]);
         }
       }
 

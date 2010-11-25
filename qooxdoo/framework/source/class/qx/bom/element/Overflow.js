@@ -47,7 +47,7 @@ qx.Class.define("qx.bom.element.Overflow",
       var Style = qx.bom.element.Style;
 
       var getStyleSize = function(el, propertyName) {
-        return parseInt(Style.get(el, propertyName)) || 0;
+        return parseInt(Style.get(el, propertyName), 10) || 0;
       };
 
       var getBorderRight = function(el)

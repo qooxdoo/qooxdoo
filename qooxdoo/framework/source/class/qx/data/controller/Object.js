@@ -151,7 +151,7 @@ qx.Class.define("qx.data.controller.Object",
           } else {
             var open = targetProperty.indexOf("[");
             var index = parseInt(
-              targetProperty.substring(open + 1, targetProperty.length - 1)
+              targetProperty.substring(open + 1, targetProperty.length - 1), 10
             );
             targetProperty = targetProperty.substring(0, open);
             var targetArray = targetObject["get" + qx.lang.String.firstUp(targetProperty)]();

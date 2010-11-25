@@ -79,7 +79,7 @@ qx.Class.define("qx.data.store.Jsonp",
 
       var prefix = url.indexOf("?") == -1 ? "?" : "&";
       url += prefix + this.getCallbackParam() + "=";
-      var id = parseInt(this.toHashCode());
+      var id = parseInt(this.toHashCode(), 10);
 
       qx.data.store.Jsonp[id] = this;
       url += 'qx.data.store.Jsonp[' + id + '].callback';

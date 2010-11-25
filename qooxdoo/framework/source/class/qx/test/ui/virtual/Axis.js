@@ -68,7 +68,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       sizes[200] = 30;
       sizes[600] = this.defaultSize;
       for (var key in sizes) {
-        this.axis.setItemSize(parseInt(key), sizes[key]);
+        this.axis.setItemSize(parseInt(key, 10), sizes[key]);
       }
 
       for (var i=0; i<this.count; i++) {
@@ -121,7 +121,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       sizes[200] = d+20;
       sizes[600] = d;
       for (var key in sizes) {
-        this.axis.setItemSize(parseInt(key), sizes[key]);
+        this.axis.setItemSize(parseInt(key, 10), sizes[key]);
       }
 
       // exact start position
@@ -290,7 +290,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       sizes[200] = d+20;
       sizes[600] = d;
       for (var key in sizes) {
-        this.axis.setItemSize(parseInt(key), sizes[key]);
+        this.axis.setItemSize(parseInt(key, 10), sizes[key]);
       }
 
       this.assertEquals(0*d, this.axis.getItemPosition(0));
