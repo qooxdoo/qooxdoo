@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
   implement : [
    qx.ui.virtual.core.IWidgetCellProvider,
-   qx.ui.list.core.IListProvider
+   qx.ui.list.provider.IListProvider
   ],
 
   include : [qx.ui.list.core.MWidgetController],

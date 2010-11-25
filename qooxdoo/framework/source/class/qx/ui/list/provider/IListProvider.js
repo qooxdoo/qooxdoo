@@ -18,11 +18,11 @@
 ************************************************************************ */
 
 /**
- * This interface needs to implemented from all {@} providers.
+ * This interface needs to implemented from all {@link qx.ui.list.List} providers.
  * 
  * @internal
  */
-qx.Interface.define("qx.ui.list.core.IListProvider",
+qx.Interface.define("qx.ui.list.provider.IListProvider",
 {
   members :
   {

@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.list.List",
     _background : null,
 
 
-    /** {qx.ui.list.core.IListProvider} provider for cell rendering */
+    /** {qx.ui.list.provider.IListProvider} provider for cell rendering */
     _provider : null,
 
 
