@@ -18,21 +18,26 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
- * The provider implemets the {@link qx.ui.virtual.core.IWidgetCellProvider} API,
+ * The provider implements the {@link qx.ui.virtual.core.IWidgetCellProvider} API,
  * which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
+ * 
+ * @internal
  */
 qx.Class.define("qx.ui.list.provider.WidgetProvider",
 {
   extend : qx.core.Object,
-  implement : [qx.ui.virtual.core.IWidgetCellProvider,
-               qx.ui.list.core.IListProvider],
+
+  implement : [
+   qx.ui.virtual.core.IWidgetCellProvider,
+   qx.ui.list.core.IListProvider
+  ],
+
   include : [qx.ui.list.core.MWidgetController],
 
+
   /**
-   * Creates the <code>WidgetCellProvider</code>
+   * Creates the <code>WidgetProvider</code>
    *
    * @param list {qx.ui.list.List} list to provide.
    */
@@ -40,17 +45,26 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
   {
     this.base(arguments);
 
-    this._cellRenderer = this.getItemRenderer();
+    this._cellRenderer = this.createItemRenderer();
     this._list = list;
 
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
+  
   members :
   {
-    /** {} the used cell renderer */
+    /** {qx.ui.virtual.cell.WidgetCell} the used cell renderer */
     _cellRenderer : null,
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
 
     // interface implementation
     getCellWidget : function(row, column)
@@ -67,19 +81,23 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       return widget;
     },
 
+
     // interface implementation
     poolCellWidget : function(widget) {
       this._removeBindingsFrom(widget);
       this._cellRenderer.pool(widget);
     },
     
+
+
     // interface implementation
-    getLayer : function() {
+    createLayer : function() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
+
     // interface implementation
-    getItemRenderer : function() 
+    createItemRenderer : function() 
     {
       var delegate = this.getDelegate();
       
@@ -98,16 +116,14 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       }
     },
 
+
     // interface implementation
-    getGroupRenderer : function() {
+    createGroupRenderer : function() {
       throw new Error("Feature not implemented!");
     },
 
-    /**
-     * Styles a selected item.
-     *
-     * @param item {qx.ui.core.Widget} widget to style.
-     */
+
+    // interface implementation
     styleSelectabled : function(item) {
       if(item == null) {
         return;
@@ -115,25 +131,17 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._cellRenderer.updateStates(item, {selected: 1});
     },
 
-    /**
-     * Styles a not selected item.
-     *
-     * @param item {qx.ui.core.Widget} widget to style.
-     */
+
+    // interface implementation
     styleUnselectabled : function(item) {
       if(item == null) {
         return;
       }
       this._cellRenderer.updateStates(item, {});
     },
-    
-    /**
-     * Returns if the passed row can be selected or not.
-     *
-     * @param row {Integer} row to select.
-     * @return {Boolean} <code>true</code> when the row can be selected,
-     *    <code>false</code> otherwise.
-     */
+
+
+    // interface implementation
     isSelectable : function(row)
     {
       var widget = this._list._layer.getRenderedCellWidget(row, 0);
@@ -144,6 +152,14 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
         return true;
       }
     },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
 
     /**
      * Event handler for the created widget event.
@@ -156,6 +172,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._configureItem(widget);
     },
 
+
     /**
      * Event handler for the change delegate event.
      *
@@ -164,12 +181,13 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     _onChangeDelegate : function(event)
     {
       this._cellRenderer.dispose();
-      this._cellRenderer = this.getItemRenderer();
+      this._cellRenderer = this.createItemRenderer();
       this._cellRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
     }
   },
+
 
   destruct : function()
   {

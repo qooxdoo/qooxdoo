@@ -17,14 +17,62 @@
 
 ************************************************************************ */
 
+/**
+ * This interface needs to implemented from all {@} providers.
+ * 
+ * @internal
+ */
 qx.Interface.define("qx.ui.list.core.IListProvider",
 {
   members :
   {
-    getLayer : function() {},
+    /**
+     * Creates a layer for item and group rendering.
+     * 
+     * @return {qx.ui.virtual.layer.Abstract} new layer.
+     */
+    createLayer : function() {},
 
-    getItemRenderer : function() {},
 
-    getGroupRenderer : function() {}
+    /**
+     * Creates a renderer for item rendering.
+     * 
+     * @return {var} new item renderer.
+     */
+    createItemRenderer : function() {},
+
+
+    /**
+     * Creates a renderer for group rendering.
+     * 
+     * @return {var} new group renderer.
+     */
+    createGroupRenderer : function() {},
+
+
+    /**
+     * Styles a selected item.
+     *
+     * @param item {var} item to style.
+     */
+    styleSelectabled : function(item) {},
+
+
+    /**
+     * Styles a not selected item.
+     *
+     * @param item {var} item to style.
+     */
+    styleUnselectabled : function(item) {},
+
+
+    /**
+     * Returns if the passed row can be selected or not.
+     *
+     * @param row {Integer} row to select.
+     * @return {Boolean} <code>true</code> when the row can be selected,
+     *    <code>false</code> otherwise.
+     */
+    isSelectable : function(row) {}
   }
 });

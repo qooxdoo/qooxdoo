@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.list.List",
     _provider : null,
 
 
-    /** {qx.ui.virtual.layer.Abstract} layer for which containing the items. */
+    /** {qx.ui.virtual.layer.Abstract} layer which containing the items. */
     _layer : null,
 
 
@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _initLayer : function()
     {
-      this._layer = this._provider.getLayer();
+      this._layer = this._provider.createLayer();
       this.getPane().addLayer(this._layer);
     },
 
