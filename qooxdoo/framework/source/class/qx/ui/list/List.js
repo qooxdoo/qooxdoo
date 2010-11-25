@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _runDelegateFilter : function (model)
     {
-      var filter = this._getDelegate("filter");
+      var filter = qx.util.Delegate.getMethod(this.getDelegate(), "filter");
 
       for (var i = 0,l = model.length; i < l; ++i)
       {
@@ -402,58 +402,6 @@ qx.Class.define("qx.ui.list.List",
           this.__lookupTable.push(i);
         }
       }
-    },
-    
-
-    /**
-     * Returns the delegate method given my its name.
-     *
-     * @param method {String} The name of the delegate method.
-     * @return {Function|null} The requested method or null, if no method is set.
-     */
-    _getDelegate : function (method)
-    {
-      var delegate = this.getDelegate();
-
-      if (this._containsDelegateMethod(delegate, method))
-      {
-        return delegate[method];
-      }
-
-      return null;
-    },
-    
-
-    /**
-     * Checks, if the given delegate is valid or if a specific method is given.
-     *
-     * @param delegate {Object} The delegate object.
-     * @param specificMethod {String} The name of the method to search for.
-     * @return {Boolean} True, if everything was ok.
-     */
-    _containsDelegateMethod : function (delegate, specificMethod)
-    {
-      var Type = qx.lang.Type;
-
-      if (Type.isObject(delegate))
-      {
-        if (Type.isString(specificMethod))
-        {
-          return Type.isFunction(delegate[specificMethod]);
-        }
-        else
-        {
-          for (var methodName in this._validDelegates)
-          {
-            if (Type.isFunction(delegate[methodName]))
-            {
-              return true;
-            }
-          }
-        }
-      }
-
-      return false;
     }
   },
 
