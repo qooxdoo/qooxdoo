@@ -98,6 +98,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     testInitialTri: function(attribute){
       var button = this.__button;
       button.setTriState(true);
+      
       this.assertFalse(button.getValue());
       this.assertState(button, "undetermined");
       this.assertNotState(button, "checked");
@@ -106,6 +107,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     testCheckTri: function(){
       var button = this.__button;
       button.setTriState(true);
+      
       button.addListener("execute", function() {
         this.resume(function() {
           this.assertTrue(button.getValue());
@@ -118,12 +120,49 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.wait();
     },
     
-    testCycleTri: function() {
+    testDoubleCheckTri: function() {
+      var button = this.__button;
+      button.setTriState(true);
       
+      // Check
+      this.executeOn(button);
+      
+      button.addListener("execute", function() {
+        this.resume(function() {
+          this.assertTrue(button.getValue());
+          this.assertState(button, "checked");
+          this.assertNotState(button, "undetermined");
+        }, this);
+      }, this);
+      
+      // Uncheck
+      this.executeOn(button);
+      
+      this.wait();
     },
     
-    testUncheckTri: function() {
+    testTripleCheckTri: function() {
+      var button = this.__button;
+      button.setTriState(true);
       
+      // Check
+      this.executeOn(button);
+      
+      // Uncheck
+      this.executeOn(button);
+      
+      button.addListener("execute", function() {
+        this.resume(function() {
+          this.assertFalse(button.getValue());
+          this.assertState(button, "undetermined");
+          this.assertNotState(button, "checked");
+        }, this);
+      }, this);
+      
+      // Reset
+      this.executeOn(button);
+      
+      this.wait();
     },
     
     //
