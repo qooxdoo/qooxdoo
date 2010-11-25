@@ -106,7 +106,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         html.add(
           description.substring(lastPos, hit.index) +
           this.createItemLinkHtml(hit[1], packageBaseClass)
-          );
+        );
 
         lastPos = hit.index + hit[0].length;
       }
@@ -251,15 +251,15 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           }
 
           var linkHtml = [
-          '<span style="white-space: nowrap;">',
-          (typeof iconCode != "undefined" ? iconCode : ""),
-          '<a style="' + style + '" href="' + protocol, '//',
-          host,
-          pathname, '#', fullItemName,
-          '" onclick="return false;"',
-          '" onmouseup="apiviewer.TabViewController.instance.onSelectItem(\'',
-          fullItemName, '\'); return false;"', ' title="',
-          fullItemName, '">', label, '</a></span>'
+            '<span style="white-space: nowrap;">',
+            (typeof iconCode != "undefined" ? iconCode : ""),
+            '<a style="' + style + '" href="' + protocol, '//',
+            host,
+            pathname, '#', fullItemName,
+            '" onclick="return false;"',
+            '" onmouseup="apiviewer.TabViewController.instance.onSelectItem(\'',
+            fullItemName, '\'); return false;"', ' title="',
+            fullItemName, '">', label, '</a></span>'
           ];
 
           return linkHtml.join("");
@@ -296,7 +296,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           seeAlsoHtml.add(
             '<div class="item-detail-headline">', "See also:", '</div>',
             '<div class="item-detail-text">', seeAlsoLinks, '</div>'
-            )
+          );
           return seeAlsoHtml.get()
         }
       }
@@ -318,14 +318,14 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       if (
         node.getClass().getType() != "mixin" &&
         node.getClass() != currentClassDocNode
-        )
-        {
+      )
+      {
         var html = new qx.util.StringBuilder(
           '<div class="item-detail-headline">', "Inherited from:", '</div>',
           '<div class="item-detail-text">',
           apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
           '</div>'
-          );
+        );
         return html.get();
       }
       else
@@ -350,7 +350,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           '<div class="item-detail-text">',
           apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
           '</div>'
-          );
+        );
         return html.get();
       }
       else
@@ -377,7 +377,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
             '</div>'
-            );
+          );
           return html.get();
         }
       }
@@ -589,7 +589,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       {
         var html = new qx.util.StringBuilder(
           '<div class="item-detail-error">', "Documentation errors:", '</div>'
-          );
+        );
 
         for (var i=0; i<errors.length; i++)
         {
@@ -688,7 +688,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
             '</div>'
-            );
+          );
         }
       }
       return html.get();
@@ -841,7 +841,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           node.getName(), "'" ,
           ((parentNode != currentDocNode) ? ",'" + parentNode.getFullName() + "'" : ""),
           ')"/>'
-          );
+        );
       }
       else
       {
@@ -861,7 +861,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           node.getName(), "'",
           ((parentNode != currentDocNode) ? ",'" + parentNode.getFullName() + "'" : ""),
           ')">'
-          );
+        );
       } else {
         html.add('>');
       }
@@ -918,7 +918,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         '<span onclick="', this.__encodeObject(viewer),
         '.togglePanelVisibility(', this.__encodeObject(this), ')">',
         uppercaseLabelText, '</span>'
-        );
+      );
 
       html.add('</h2><div></div></div>');
 
@@ -1078,10 +1078,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       {
         var html = new qx.util.StringBuilder(
           '<table cellspacing="0" cellpadding="0" class="info" width="100%">'
-          );
+        );
 
-        for (var i=0; i<nodes.length; i++)
-        {
+        for (var i=0; i<nodes.length; i++) {
           html.add(this.getItemHtml(nodes[i], currentClassDocNode, false));
         }
 
