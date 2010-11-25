@@ -19,15 +19,16 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The mixin controls the binding between model and item.
+ * 
+ * @internal
  */
 qx.Mixin.define("qx.ui.list.core.MWidgetController",
 {
   construct : function() {
     this.__boundItems = [];
   },
+
 
   properties :
   {
@@ -41,6 +42,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       nullable: true
     },
 
+
     /**
      * The path to the property which holds the information that should be
      * shown as a icon. This is only needed if objects are stored in the model
@@ -52,6 +54,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       nullable: true
     },
 
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -61,6 +64,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       nullable: true
     },
 
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -69,6 +73,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     {
       nullable: true
     },
+
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -82,10 +87,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     }
   },
 
+
   members :
   {
     /** {Array} which contains the bounded items */
     __boundItems : null,
+
 
     /**
      * Helper-Method for binding the default properties (label and icon) from
@@ -112,6 +119,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
+
     /**
      * Helper-Method for binding a given property from the model to the target
      * widget.
@@ -132,6 +140,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
       this.__addBinding(targetWidget, id);
     },
+
 
     /**
      * Helper-Method for binding a given property from the target widget to
@@ -154,6 +163,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       this.__addBinding(sourceWidget, id);
     },
 
+
     /**
      * Remove all bindings from all bounded items.
      */
@@ -164,6 +174,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         this._removeBindingsFrom(item);
       }
     },
+
 
     /**
      * Configure the passed item if a delegate is set and the needed
@@ -180,6 +191,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
+
     /**
      * Sets up the binding for the given item and index.
      *
@@ -195,6 +207,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         this.bindDefaultProperties(item, index);
       }
     },
+
 
     /**
      * Removes the binding of the given item.
@@ -220,6 +233,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
+
     /**
      * Helper method to create the path for binding.
      *
@@ -234,6 +248,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
       return bindPath;
     },
+
 
     /**
      * Helper method to save the binding for the widget.
@@ -254,6 +269,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
+
     /**
      * Helper method which returns all bound id from the widget.
      *
@@ -272,6 +288,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       return bindings;
     }
   },
+
 
   destruct : function() {
     this.__boundItems = null;
