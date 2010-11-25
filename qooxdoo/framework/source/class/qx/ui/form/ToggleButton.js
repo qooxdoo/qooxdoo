@@ -112,6 +112,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
       apply : "_applyGroup"
     },
 
+    /**
+    * Whether the button has a third state. Use this for tri-state checkboxes.
+    *
+    * When enabled, the value null of the property value stands for "undetermined",
+    * while true is mapped to "enabled" and false to "disabled" as usual. Note
+    * that the value property is set to false initially.
+    *
+    */
     triState :
     {
       check : "Boolean",
@@ -163,7 +171,12 @@ qx.Class.define("qx.ui.form.ToggleButton",
       }
     },
 
-
+    /**
+    * Apply value property when triState property is modified.
+    *
+    * @param value {Boolean} Current value
+    * @param old {Boolean} Previous value
+    */
     _applyTriState : function(value, old) {
       this._applyValue(this.getValue());
     },
