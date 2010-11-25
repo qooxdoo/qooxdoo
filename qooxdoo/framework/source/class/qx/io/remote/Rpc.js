@@ -564,7 +564,7 @@ qx.Class.define("qx.io.remote.Rpc",
         this.debug("TIMEOUT OCCURRED");
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.timeout,
-                           "Local time-out expired");
+                           "Local time-out expired for "+ whichMethod);
         id = this.getSequenceNumber();
         handleRequestFinished("timeout", eventTarget);
       });
@@ -573,7 +573,7 @@ qx.Class.define("qx.io.remote.Rpc",
       {
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.abort,
-                           "Aborted");
+                           "Aborted " + whichMethod);
         id = this.getSequenceNumber();
         handleRequestFinished("aborted", eventTarget);
       });
