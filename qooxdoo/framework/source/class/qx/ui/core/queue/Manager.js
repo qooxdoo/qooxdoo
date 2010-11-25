@@ -200,6 +200,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
           self.__scheduled = false;
           self.__inFlush = false;
           self.__retries += 1;
+          
+          // this hack is used to fix bug 3688
+          if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
+            finallyCode();
+          }
 
           if (self.__retries <= self.MAX_RETRIES) {
             self.scheduleFlush();
@@ -214,7 +219,9 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
         finally
         {
-          finallyCode();
+          if(!(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7)) {
+            finallyCode();
+          }
         }
       }
     }),

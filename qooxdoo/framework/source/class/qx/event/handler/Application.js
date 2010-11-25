@@ -333,12 +333,18 @@ qx.Class.define("qx.event.handler.Application",
         catch (e)
         {
           // IE doesn't execute the "finally" block if no "catch" block is present
+          // this hack is used to fix bug 3688
+          if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
+            qx.core.ObjectRegistry.shutdown();
+          }
           throw e;
         }
         finally
         {
           // Execute registry shutdown
-          qx.core.ObjectRegistry.shutdown();
+          if(!(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7)) {
+            qx.core.ObjectRegistry.shutdown();
+          }
         }
 
       }
