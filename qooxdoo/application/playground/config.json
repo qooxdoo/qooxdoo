@@ -37,6 +37,7 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
+        "qx.log.appender.RhinoConsole",
         "playground.test.*"
       ],
 
