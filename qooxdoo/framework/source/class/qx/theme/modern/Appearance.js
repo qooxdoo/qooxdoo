@@ -302,6 +302,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon = "checkbox-checked-pressed";
         } else if (states.checked && states.hovered) {
           icon = "checkbox-checked-hovered";
+        } else if (states.undetermined && states.focused) {
+          icon = "checkbox-undetermined-focused"
+        } else if (states.undetermined && states.hovered) {
+          icon = "checkbox-undetermined-hovered"
         } else if (states.checked) {
           icon = "checkbox-checked";
         } else if (states.undetermined) {
