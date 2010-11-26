@@ -153,27 +153,31 @@
       }
     },
     
-    "test-inline-source" :
+    "source-inline-script" :
     {
-      "run" : ["source-script-packages"],
+      "extend" : ["source-script", "testrunner2::tests-common"]
+    },
+    
+    "source-inline" :
+    {
+      "run" : [ "source-inline-script" ],
       
-      "variants" :
+      "=variants" :
       {
         "testrunner2.view" : ["html"],
         "testrunner2.testOrigin" : ["inline"]
       }
     },
-    
-    "test-console-source" :
+        
+    "source-console" :
     {
-      "extend" : ["source"],
+      "run" : [ "source-inline-script" ],
       
-      "variants" :
+      "=variants" :
       {
         "testrunner2.view" : ["console"],
         "testrunner2.testOrigin" : ["inline"]
       }
     }
-    
   }
 }
