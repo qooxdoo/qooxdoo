@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      * Helper method to get the widget from the passed row.
      *
      * @param row {Integer} row to search.
-     * @param {qx.ui.core.Widget|null} The found widget or <code>null</code> when no widget found.
+     * @return {qx.ui.core.Widget|null} The found widget or <code>null</code> when no widget found.
      */
     __getWidgetFrom : function(row) {
       return this._list._layer.getRenderedCellWidget(row, 0);
