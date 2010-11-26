@@ -25,53 +25,53 @@
 qx.Class.define("qx.dev.unit.RequirementError", {
 
   extend : Error,
-  
-  
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param requirement {String} The requirement ID, e.g. "SSL"
-   * @param message {String?} Optional error message 
+   * @param message {String?} Optional error message
    */
   construct : function(requirement, message) {
-    
+
     this.__message = message || "Requirement not met";
     this.__requirement = requirement;
-    
+
     Error.call(this, this.__message);
-    
+
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  members : 
+  members :
   {
     __message : null,
     __requirement : null,
-    
-    
+
+
     /**
      * Returns the ID of the requirement that was not satisfied.
-     * 
+     *
      * @return {String} The requirement ID
      */
     getRequirement : function()
     {
       return this.__requirement;
     },
-    
-    
+
+
     /**
      * Returns a string representation of the error.
-     * 
+     *
      * @return {String} Error message
      */
     toString : function()

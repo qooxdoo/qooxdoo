@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -23,7 +23,7 @@
  *
  * Tap event object.
  */
-qx.Class.define("qx.event.type.Tap", 
+qx.Class.define("qx.event.type.Tap",
 {
     extend : qx.event.type.Touch,
 
@@ -31,7 +31,7 @@ qx.Class.define("qx.event.type.Tap",
     members :
     {
       // overridden
-      _isTouchEnd : function() {
+      _isTouchEnd : function() {
         return true;
       }
     }

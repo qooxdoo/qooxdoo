@@ -60,7 +60,7 @@ qx.Class.define("qx.event.type.MouseWheel",
             return -(this._native.wheelDelta / 120);
           }
 
-          
+
         } else {
           // windows safaris behave different than on OSX
           if (qx.bom.client.Platform.WIN) {
@@ -73,7 +73,7 @@ qx.Class.define("qx.event.type.MouseWheel",
             factor = 40;
             // Safari 5.0 or 5.0.1
             if (
-              qx.bom.client.Engine.VERSION == 533.16 || 
+              qx.bom.client.Engine.VERSION == 533.16 ||
               qx.bom.client.Engine.VERSION == 533.17 ||
               qx.bom.client.Engine.VERSION == 533.18
             ) {

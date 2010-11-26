@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
         that.__cell.updateData(item, data)
       });
     },
-    
+
     __setUpDelegate : function()
     {
       this.__cell.setDelegate(
@@ -132,7 +132,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
         createWidget : function() {
           return new qx.ui.form.ListItem();
        }
-      }); 
+      });
     }
   }
 });

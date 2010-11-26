@@ -94,7 +94,7 @@ qx.Class.define("qx.bom.Label",
       else
       {
         style.whiteSpace = "nowrap";
-        
+
         if (!qx.bom.client.Feature.CSS_TEXT_OVERFLOW && qx.bom.client.Feature.XUL)
         {
           var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");

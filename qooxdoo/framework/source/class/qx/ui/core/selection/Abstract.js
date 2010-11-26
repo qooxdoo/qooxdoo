@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __anchorItem : null,
     __mouseDownOnSelected : null,
 
-    // A flag that signals a user interaction, which means the selection change 
+    // A flag that signals a user interaction, which means the selection change
     // was triggered by mouse or keyboard [BUG #3344]
     _userInteraction : false,
 
@@ -835,9 +835,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     handleMouseOver : function(event)
     {
       // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
-      // by keyboard interaction. We have to ignore the event to avoid a selection for 
+      // by keyboard interaction. We have to ignore the event to avoid a selection for
       // "mouseover" (quick selection). For more details see [BUG #4225]
-      if(this.__oldScrollTop != null && 
+      if(this.__oldScrollTop != null &&
          this.__oldScrollTop != this._getScroll().top)
       {
         this.__oldScrollTop = null;

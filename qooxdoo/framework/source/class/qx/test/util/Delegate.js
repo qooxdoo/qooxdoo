@@ -30,7 +30,7 @@ qx.Class.define("qx.test.util.Delegate",
     {
       this.__delegate = {
         STATIC : true,
-        
+
         myMethod : function() {}
       };
     },

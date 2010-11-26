@@ -230,10 +230,10 @@ qx.Class.define("qx.ui.decoration.Grid",
       {
         var assertMessageTop = "The value of the property 'topSlice' is null! " +
           "Please verify the image '" + prefix + "-t" + ext + "' is present.";
-        
+
         var assertMessageLeft = "The value of the property 'leftSlice' is null! " +
           "Please verify the image '" + prefix + "-l" + ext + "' is present.";
-        
+
         qx.core.Assert.assertNotNull(topSlice, assertMessageTop);
         qx.core.Assert.assertNotNull(leftSlice, assertMessageLeft);
       }

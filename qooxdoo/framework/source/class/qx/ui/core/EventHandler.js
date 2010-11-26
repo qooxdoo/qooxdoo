@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       drag : 1,
       dragchange : 1,
       droprequest : 1,
-      
+
       // touch events
       touchstart : 1,
       touchend : 1,

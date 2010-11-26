@@ -31,7 +31,7 @@
  *
  * This class provides a unified touch event handler.
  */
-qx.Class.define("qx.event.handler.Touch", 
+qx.Class.define("qx.event.handler.Touch",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
@@ -116,9 +116,9 @@ qx.Class.define("qx.event.handler.Touch",
      */
     TAP_MAX_DISTANCE : 10,
 
-    /** {Integer} The minimum distance of a swipe. Only if the x or y distance 
+    /** {Integer} The minimum distance of a swipe. Only if the x or y distance
      *      of the performed swipe is greater as or equal the value of this
-     *      constant, a swipe event is fired. 
+     *      constant, a swipe event is fired.
      */
     SWIPE_MIN_DISTANCE : 11,
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.event.handler.Touch",
   {
     __onTouchEventWrapper : null,
     __onMouseEventWrapper : null,
-    
+
     __manager : null,
     __window : null,
     __root : null,
@@ -152,7 +152,7 @@ qx.Class.define("qx.event.handler.Touch",
     __startTime : null,
     __isSingleTouchGesture : null,
 
-    // Checks if the mouse movement is happening while simulating a touch event 
+    // Checks if the mouse movement is happening while simulating a touch event
     __isInTouch : false,
 
     __originalTarget : null,
@@ -186,7 +186,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Return the target of the event.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @return {Element} Event target
      */
@@ -217,7 +217,7 @@ qx.Class.define("qx.event.handler.Touch",
       if (!target) {
         target = this.__getTarget(domEvent);
       }
-      
+
       var type = type || domEvent.type;
 
       if (target && target.nodeType)
@@ -237,7 +237,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Checks if a gesture was made and fires the gesture event.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
@@ -252,11 +252,11 @@ qx.Class.define("qx.event.handler.Touch",
       if (type == "touchstart")
       {
         this.__gestureStart(domEvent, target);
-      } 
+      }
       else if (type == "touchmove") {
         this.__gestureChange(domEvent, target);
       }
-      else if (type == "touchend") 
+      else if (type == "touchend")
       {
         this.__gestureEnd(domEvent, target);
       }
@@ -265,7 +265,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Helper method for gesture start.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
@@ -281,7 +281,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Helper method for gesture change.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
@@ -289,14 +289,14 @@ qx.Class.define("qx.event.handler.Touch",
     {
       // Abort a single touch gesture when another touch occurs.
       if (this.__isSingleTouchGesture && domEvent.changedTouches.length > 1) {
-        this.__isSingleTouchGesture = false; 
+        this.__isSingleTouchGesture = false;
       }
     },
 
 
     /**
      * Helper method for gesture end.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
@@ -312,11 +312,11 @@ qx.Class.define("qx.event.handler.Touch",
         };
 
         var clazz = qx.event.handler.Touch;
-        if (this.__originalTarget == target 
+        if (this.__originalTarget == target
             && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
             && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {
           this.__fireEvent(domEvent, "tap", target, qx.event.type.Tap);
-        } 
+        }
         else
         {
           var swipe = this.__getSwipeGesture(domEvent, target, deltaCoordinates);
@@ -331,7 +331,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Returns the swipe gesture when the user performed a swipe.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      * @param deltaCoordinates {Map} delta x/y coordinates since the gesture started.
@@ -365,7 +365,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Normalizes a mouse event to a touch event.
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
@@ -402,7 +402,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Checks if the left mouse button is pressed.
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      * @return {Boolean} Whether the left mouse button is pressed
@@ -427,7 +427,7 @@ qx.Class.define("qx.event.handler.Touch",
      * Creates and returns a Touch mock object.
      * Fore more information see:
      * http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      * @return {Object} The Touch mock object
@@ -545,7 +545,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Handler for the native touch events.
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} The touch event from the browser.
      */
@@ -557,7 +557,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Handler for the native mouse events.
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} The mouse event from the browser.
      */
@@ -581,7 +581,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     /**
      * Called by an event handler.
-     * 
+     *
      * @param domEvent {Event} DOM event
      * @param type {String ? null} type of the event
      */

@@ -68,7 +68,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     qx.bom.element.Style.set(this.__frame, "display", "none");
 
     // Create form element with textarea as conduit for request data.
-    // The target of the form is the hidden iframe, which means the response 
+    // The target of the form is the hidden iframe, which means the response
     // coming back from the server is written into the iframe.
     this.__form = qx.bom.Element.create("form", {id: vFormName, name: vFormName, target: vFrameName});
     qx.bom.element.Style.set(this.__form, "display", "none");
@@ -271,7 +271,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
 
       // Timing-issue in Opera
-      // Do not switch state to complete in case load event fires before content 
+      // Do not switch state to complete in case load event fires before content
       // of iframe was updated
       if (qx.bom.client.Engine.NAME == "opera" && this.getIframeHtmlContent() == "") {
         return;
@@ -624,7 +624,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       qx.event.Registration.removeListener(this.__frame, "load", this._onload, this);
       qx.bom.Event.removeNativeListener(this.__frame, "readystatechange", this.__onreadystatechangeWrapper);
-      
+
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
       if (qx.core.Variant.isSet("qx.client", "gecko")) {

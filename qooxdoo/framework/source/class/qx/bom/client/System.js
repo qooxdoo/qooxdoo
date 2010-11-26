@@ -217,13 +217,13 @@ qx.Bootstrap.define("qx.bom.client.System",
 
       if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent))
       {
-		if (RegExp("iPad").test(navigator.userAgent)) {
-	      this.IPAD = true;
-	      this.NAME = "ipad";
-		} else {
-	      this.IPHONE = true;
-	      this.NAME = "iphone";
-		}
+    if (RegExp("iPad").test(navigator.userAgent)) {
+        this.IPAD = true;
+        this.NAME = "ipad";
+    } else {
+        this.IPHONE = true;
+        this.NAME = "iphone";
+    }
       }
       else
       {

@@ -505,7 +505,7 @@ qx.Class.define("qx.test.data.DataArray",
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
       var self = this;
-      
+
       this.assertEventFired(a, "change", function () {
         a.setItem(0, 4);
       }, function(e) {
@@ -514,11 +514,11 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals("add", e.getData().type, "Wrong type in the event.");
         self.assertEquals(4, e.getData().items[0], "Wrong item in the event.");
       }, "Change event not fired!");
-      
+
       // set the same thing again and check if we get a second event
       this.assertEventNotFired(a, "change", function () {
         a.setItem(0, 4);
-      }, "Change event fired!");      
+      }, "Change event fired!");
       a.dispose();
     },
 

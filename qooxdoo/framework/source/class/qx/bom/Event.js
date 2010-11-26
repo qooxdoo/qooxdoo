@@ -78,8 +78,8 @@ qx.Class.define("qx.bom.Event",
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to add 
-     *    the event handler for the capturing phase or the bubbling phase. 
+     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to add
+     *    the event handler for the capturing phase or the bubbling phase.
      */
     addNativeListener : function(target, type, listener, useCapture)
     {
@@ -98,8 +98,8 @@ qx.Class.define("qx.bom.Event",
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to remove 
-     *    the event handler for the capturing phase or the bubbling phase. 
+     * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to remove
+     *    the event handler for the capturing phase or the bubbling phase.
      */
     removeNativeListener : function(target, type, listener, useCapture)
     {
@@ -158,7 +158,7 @@ qx.Class.define("qx.bom.Event",
         }
 
         return e.relatedTarget;
-      } 
+      }
       else if (e.fromElement !== undefined && e.type === "mouseover") {
         return e.fromElement;
       } else if (e.toElement !== undefined) {
@@ -184,7 +184,7 @@ qx.Class.define("qx.bom.Event",
         // Firefox 3 does not fire a "contextmenu" event if the mousedown
         // called "preventDefault" => don't prevent the default behavior for
         // right clicks.
-        if (qx.core.Variant.isSet("qx.client", "gecko") && 
+        if (qx.core.Variant.isSet("qx.client", "gecko") &&
             qx.bom.client.Engine.VERSION >= 1.9 &&
             e.type == "mousedown" &&
             e.button == 2) {
@@ -242,7 +242,7 @@ qx.Class.define("qx.bom.Event",
      * @param target {Element} DOM element to fire event on
      * @param type {String} Name of the event to fire
      * @return {Boolean} A value that indicates whether any of the event handlers called {@link #preventDefault}.
-     *  <code>true</code> The default action is permitted, <code>false</code> the caller should prevent the default action. 
+     *  <code>true</code> The default action is permitted, <code>false</code> the caller should prevent the default action.
      */
     fire : function(target, type)
     {

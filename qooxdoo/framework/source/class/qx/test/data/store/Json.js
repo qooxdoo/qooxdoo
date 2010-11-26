@@ -386,8 +386,8 @@ qx.Class.define("qx.test.data.store.Json",
 
       this.wait();
     },
-    
-    
+
+
     testDisposeOldModel: function(){
       this.__store.addListener("loaded", function() {
         this.resume(function() {

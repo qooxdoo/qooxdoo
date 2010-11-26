@@ -64,7 +64,7 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
 
     /**
      * If a sorter function is given, this will be used to compare the items.
-     * 
+     *
      * @param a {var} value to compare.
      * @param b {var} value to compare.
      * @return {Integer} should return a negative value if a < b, zero if a = b, or a positive value if a > b.

@@ -19,15 +19,15 @@
 
 
 /**
- * The Progress bar is designed to simply display the current % complete 
+ * The Progress bar is designed to simply display the current % complete
  * for a process.
  *
- * The Value is limited between 0 and Maximum value. 
- * It's not allowed to set a Maximum value of 0.  If you set a Maximum value 
- * bigger than 0, but smaller than Value, it will be limited to Value. 
+ * The Value is limited between 0 and Maximum value.
+ * It's not allowed to set a Maximum value of 0.  If you set a Maximum value
+ * bigger than 0, but smaller than Value, it will be limited to Value.
  *
  * The following example creates and adds a progress bar to the root element.
- * A listener is used to show the user if the value is changed, 
+ * A listener is used to show the user if the value is changed,
  * and another one when the progress is complete.
  *
  * <pre class='javascript'>
@@ -36,7 +36,7 @@
  *
  * pb.addListener("change", function(e) {
  *   this.debug(e.getData()); // % complete
- *   this.debug(pb.getValue()); // absolute value 
+ *   this.debug(pb.getValue()); // absolute value
  * });
  *
  * pb.addListener("complete", function(e) {
@@ -47,14 +47,14 @@
  * pb.setValue(20);
  * </pre>
  */
-qx.Class.define("qx.ui.indicator.Progressbar", 
+qx.Class.define("qx.ui.indicator.Progressbar",
 {
   extend: qx.ui.container.Composite,
-   
+
 
   /**
    * @param value {Number ? 0} Progress bar value
-   * @param maximum {Number ? 100} Progress bar maximum value 
+   * @param maximum {Number ? 100} Progress bar maximum value
    */
   construct: function(value, maximum) {
     this.base(arguments);
@@ -76,17 +76,17 @@ qx.Class.define("qx.ui.indicator.Progressbar",
     }
   },
 
-  
-  properties: 
+
+  properties:
   {
-    appearance: 
+    appearance:
     {
       refine: true,
       init: "progressbar"
     }
   },
 
-  
+
   events:
   {
     /**
@@ -102,14 +102,14 @@ qx.Class.define("qx.ui.indicator.Progressbar",
   },
 
 
-  members: 
+  members:
   {
     __value: 0,
     __maximum: 100,
 
-    
+
     /**
-     * Returns the progress bar value. 
+     * Returns the progress bar value.
      *
      * @return progress bar value.
      */
@@ -172,13 +172,13 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       var max = value;
       var val = this.getValue();
 
-      //do nothing if is not a number, is negative or zero 
+      //do nothing if is not a number, is negative or zero
       if (!qx.lang.Type.isNumber(max) || !isFinite(max) || max <= 0) {
         return;
       }
 
       //limit max to a greater than 0 value
-      if (max < val) { 
+      if (max < val) {
         max = val;
       }
 
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
 
   /**
-   * Update the progress bar. 
+   * Update the progress bar.
    *
    * @param value {Number} future value of progress bar
    */

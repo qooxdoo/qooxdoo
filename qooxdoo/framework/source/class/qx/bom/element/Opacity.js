@@ -74,7 +74,7 @@ qx.Class.define("qx.bom.element.Opacity",
 
   statics :
   {
-    /** 
+    /**
      * {Boolean} <code>true</code> when the style attribute "opacity" is supported,
      * <code>false</code> otherwise.
      */
@@ -163,17 +163,17 @@ qx.Class.define("qx.bom.element.Opacity",
           {
             opacity = 1;
           }
-  
+
           if (opacity < 0.00001) {
             opacity = 0;
           }
-  
+
           // IE has trouble with opacity if it does not have layout (hasLayout)
           // Force it by setting the zoom level
           if (!element.currentStyle || !element.currentStyle.hasLayout) {
             element.style.zoom = 1;
           }
-  
+
           // Remove old alpha filter and add new one
           element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
         }
@@ -272,16 +272,16 @@ qx.Class.define("qx.bom.element.Opacity",
         else
         {
           var filter = qx.bom.element.Style.get(element, "filter", mode, false);
-  
+
           if (filter)
           {
             var opacity = filter.match(/alpha\(opacity=(.*)\)/);
-  
+
             if (opacity && opacity[1]) {
               return parseFloat(opacity[1]) / 100;
             }
           }
-  
+
           return 1.0;
         }
       },

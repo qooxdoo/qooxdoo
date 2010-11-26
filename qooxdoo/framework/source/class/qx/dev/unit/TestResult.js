@@ -233,12 +233,12 @@ qx.Class.define("qx.dev.unit.TestResult",
       this.fireDataEvent(eventName, error);
       this.fireDataEvent("endTest", test);
     },
-    
-    
+
+
     /**
      * Calls the generic tearDown method on the test class, then the specific
      * tearDown for the test, if one is defined.
-     * 
+     *
      * @param test {Object} The test object (first argument of {@link #run})
      */
     tearDown : function(test)

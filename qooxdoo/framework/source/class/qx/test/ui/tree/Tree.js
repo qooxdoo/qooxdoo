@@ -260,12 +260,12 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertIdentical(item1, this._tree.getNextNodeOf(item3), "check: 1 after 3");
     },
 
-    __printChildren : function(children) 
+    __printChildren : function(children)
     {
       var result = "";
       for (var i = 0; i < children.length; i++) {
         result += children[i].getLabel();
-        
+
         if (i < children.length - 1) {
           result += "->";
         }

@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     __defaultHeight : 16,
     __imageData : null,
 
-    // overridden 
+    // overridden
     _insetY : 2,
 
     /**
@@ -79,9 +79,9 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * @return {Map} A map having the following attributes:
      *           <ul>
      *           <li>
-     *             "url": (type string) must be the URL of the image to show. 
-     *             The url given must either be managed by the {@link qx.util.ResourceManager} 
-     *             or pre-loaded with {@link qx.io.ImageLoader}. This is to make sure that 
+     *             "url": (type string) must be the URL of the image to show.
+     *             The url given must either be managed by the {@link qx.util.ResourceManager}
+     *             or pre-loaded with {@link qx.io.ImageLoader}. This is to make sure that
      *             the renderer knows the dimensions and the format of the image.
      *           </li>
      *           <li>"imageWidth": (type int) the width of the image in pixels.</li>

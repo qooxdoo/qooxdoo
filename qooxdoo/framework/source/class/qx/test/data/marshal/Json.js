@@ -581,8 +581,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       // check the model
       this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
     },
-    
-    
+
+
     testDeepModelDispose : function() {
       var data = {a: [{}, {}], o: {}, n: null};
       var model = qx.data.marshal.Json.createModel(data);

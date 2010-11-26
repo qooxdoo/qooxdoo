@@ -115,11 +115,11 @@ qx.Class.define("qx.log.appender.Util",
 
       return pad+str;
     },
-    
-    
+
+
     /**
-     * User-defined formatter for stack trace information. If the value is a 
-     * function, it will be called with the raw stack trace string as the only 
+     * User-defined formatter for stack trace information. If the value is a
+     * function, it will be called with the raw stack trace string as the only
      * argument. The return value is then appended to the log message.
      */
     FORMAT_STACK : null,
@@ -197,7 +197,7 @@ qx.Class.define("qx.log.appender.Util",
       {
         item = items[i];
         msg = item.text;
-        
+
         if (item.trace && item.trace.length > 0) {
           if (typeof(this.FORMAT_STACK) == "function") {
             msg += "\n" + this.FORMAT_STACK(item.trace);

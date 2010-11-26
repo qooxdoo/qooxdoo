@@ -24,33 +24,33 @@
  */
 qx.Mixin.define("qx.ui.core.MPlacement",
 {
-  
+
   statics : {
     __visible : null,
-    
+
     /**
-     * Set the always visible element. If an element is set, the 
-     * {@link #moveTo} method takes care of every move and tries not to cover 
+     * Set the always visible element. If an element is set, the
+     * {@link #moveTo} method takes care of every move and tries not to cover
      * the given element with a movable widget like a popup or context menu.
-     * 
+     *
      * @param elem {qx.ui.core.Widget} The widget which should always be visible.
      */
     setVisibleElement : function(elem) {
       this.__visible = elem;
     },
-    
+
     /**
      * Returns the given always visible element. See {@link #setVisibleElement}
      * for more details.
-     * 
+     *
      * @return {qx.ui.core.Widget|null} The given widget.
      */
     getVisibleElement : function() {
       return this.__visible;
     }
   },
-  
-  
+
+
   properties :
   {
     /**
@@ -252,10 +252,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Sets the position. Uses low-level, high-performance DOM
      * methods when the property {@link #domMove} is enabled.
-     * Checks if a always visible element is set and moves the widget to not 
+     * Checks if a always visible element is set and moves the widget to not
      * overlay the always visible widget if possible. The algorithm tries to
      * move the widget as far left as necessary but not of the screen.
-     * ({@link #setVisibleElement}) 
+     * ({@link #setVisibleElement})
      *
      * @param left {Integer} The left position
      * @param top {Integer} The top position
@@ -263,20 +263,20 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     moveTo : function(left, top)
     {
       var visible = qx.ui.core.MPlacement.getVisibleElement();
-      
+
       // if we have a always visible element
       if (visible) {
-        
+
         var bounds = this.getBounds();
         var elemLocation = visible.getContentLocation();
-        
+
         // if we have bounds for both elements
-        if (bounds && elemLocation) {         
+        if (bounds && elemLocation) {
           var bottom = top + bounds.height;
           var right = left + bounds.width;
 
-          // horizontal placement wrong 
-          // each number is for the upcomming check (huge element is 
+          // horizontal placement wrong
+          // each number is for the upcomming check (huge element is
           // the always visible, eleme prefixed)
           //     | 3 |
           //   ---------
@@ -290,14 +290,14 @@ qx.Mixin.define("qx.ui.core.MPlacement",
           //   ---------
           //     | 4 |
           if (
-            (right > elemLocation.left && left < elemLocation.right) && 
+            (right > elemLocation.left && left < elemLocation.right) &&
             (bottom > elemLocation.top && top < elemLocation.bottom)
           ) {
             left = Math.max(elemLocation.left - bounds.width, 0);
           }
         }
       }
-      
+
       if (this.getDomMove()) {
         this.setDomPosition(left, top);
       } else {

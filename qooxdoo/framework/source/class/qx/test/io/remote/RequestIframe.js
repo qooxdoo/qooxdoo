@@ -38,10 +38,10 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
 
       for (var i = 0; i < 2 ; i++) {
         var request = new qx.io.remote.Request(url, "GET", "text/plain");
-        
+
         // Force qx.io.remote.IFrameTransport implementation
         request.setFileUpload(true);
-        
+
         request.addListener("aborted", this.responseError, this);
         request.addListener("failed", this.responseError, this);
         request.addListener("timeout", this.responseError, this);

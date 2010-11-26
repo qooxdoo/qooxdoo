@@ -433,9 +433,9 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
       item.dispose();
     },
-    
-    
-    testModelPropertyBinding : function() 
+
+
+    testModelPropertyBinding : function()
     {
       // create the controller
       this.__controller = new qx.data.controller.List(null, this.__list, "name");
@@ -448,13 +448,13 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       // set the filter
       this.__controller.setDelegate(delegate);
       this.__controller.setModel(this.__model);
-      
+
       // test the right set model properties
       for (var i = 0; i < this.__list.getChildren().length; i++) {
         var child = this.__list.getChildren()[i];
         this.assertEquals("icon" + i, child.getModel());
       };
-      
+
       // test selection
       this.__controller.getSelection().push("icon1");
       this.assertEquals("icon1", this.__list.getSelection()[0].getModel());

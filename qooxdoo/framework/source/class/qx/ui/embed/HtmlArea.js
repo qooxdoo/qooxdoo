@@ -190,8 +190,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       var deprecatedFunction = qx.ui.embed.HtmlArea.isBlockNode;
       var deprecationMessage = "Please use the method 'qx.dom.Node.isBlockNode' instead.";
-      qx.log.Logger.deprecatedMethodWarning(deprecatedFunction, deprecationMessage);  
-      
+      qx.log.Logger.deprecatedMethodWarning(deprecatedFunction, deprecationMessage);
+
       return qx.dom.Node.isBlockNode(node);
     },
 

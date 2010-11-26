@@ -116,15 +116,15 @@ qx.Class.define("qx.test.ui.list.List",
           filteredModel.push("item " + (i + 1));
         }
       }
-      
+
       var delegate = {
         filter : function(data) {
           return ((parseInt(data.slice(5, data.length), 10) - 1) % 2 == 0);
-        } 
+        }
       }
       this._list.setDelegate(delegate);
       this.flush();
-      
+
       this.assertModelEqualsRowData(filteredModel, this._list);
       this.assertEquals(filteredModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
     },
@@ -146,7 +146,7 @@ qx.Class.define("qx.test.ui.list.List",
       }
       this._list.setDelegate(delegate);
       this.flush();
-      
+
       this.assertModelEqualsRowData(sortedModel, this._list);
       this.assertEquals(sortedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
     },
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.ui.list.List",
 
         filter : function(data) {
           return ((parseInt(data.slice(5, data.length)) - 1) % 2 == 0);
-        } 
+        }
       }
       this._list.setDelegate(delegate);
       this.flush();
@@ -209,12 +209,12 @@ qx.Class.define("qx.test.ui.list.List",
 
       for (var i = 0; i < 10; i++) {
         var widget = this._list._layer.getRenderedCellWidget(i,0);
-        
+
         if (widget == null) {
           // row is not rendered
           continue;
         }
-        
+
         if (i != disabledItem) {
           this.assertTrue(widget.isEnabled());
         } else {

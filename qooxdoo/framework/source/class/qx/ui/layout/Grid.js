@@ -901,7 +901,7 @@ qx.Class.define("qx.ui.layout.Grid",
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
             rowFlexes, hint.minHeight, minSpanHeight
           );
-          
+
           for (var j=0; j<widgetProps.rowSpan; j++)
           {
             var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;

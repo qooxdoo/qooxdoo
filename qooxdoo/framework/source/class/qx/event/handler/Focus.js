@@ -921,7 +921,7 @@ qx.Class.define("qx.event.handler.Focus",
 
     /**
      * Fix for bug #2602.
-     * 
+     *
      * @signature function(target)
      * @param target {Element} target element from mouse up event
      * @return {Element} Element to activate;

@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Log appender for qooxdoo applications running in Mozilla Rhino. Writes log 
+ * Log appender for qooxdoo applications running in Mozilla Rhino. Writes log
  * messages to STDOUT/STDERR.
  */
 
@@ -27,20 +27,20 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
   statics:
   {
     /**
-     * java.lang.System.out 
+     * java.lang.System.out
      */
     __OUT : null,
     /**
-     * java.lang.System.err 
+     * java.lang.System.err
      */
     __ERR : null,
 
     /**
      * Writes a message to the shell. Errors will be sent to STDERR, everything
      * else goes to STDOUT
-     * 
+     *
      * @param logMessage {String} Message to be logged
-     * @param level {String} Log level. One of "debug", "info", "warn", "error" 
+     * @param level {String} Log level. One of "debug", "info", "warn", "error"
      */
     log : function(logMessage, level)
     {
@@ -53,18 +53,18 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
 
     /**
      * Logs a debug message
-     * 
-     * @param logMessage {String} Message to be logged 
+     *
+     * @param logMessage {String} Message to be logged
      */
     debug : function(logMessage)
     {
       this.log(logMessage, "debug");
     },
-    
+
     /**
      * Logs an info message
-     * 
-     * @param logMessage {String} Message to be logged 
+     *
+     * @param logMessage {String} Message to be logged
      */
     info : function(logMessage)
     {
@@ -73,8 +73,8 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
 
     /**
      * Logs a warning message
-     * 
-     * @param logMessage {String} Message to be logged 
+     *
+     * @param logMessage {String} Message to be logged
      */
     warn : function(logMessage)
     {
@@ -83,8 +83,8 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
 
     /**
      * Logs an error message
-     * 
-     * @param logMessage {String} Message to be logged 
+     *
+     * @param logMessage {String} Message to be logged
      */
     error : function(logMessage)
     {
@@ -93,7 +93,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
 
     /**
      * Process a log entry object from qooxdoo's logging system.
-     * 
+     *
      * @param entry {Map} Log entry object
      */
     process : function(entry)
@@ -104,14 +104,14 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
           var items = entry[prop];
           for (var p in items) {
             var item = items[p];
-            this[level](item.text);            
+            this[level](item.text);
           }
         }
       }
     }
 
   },
-  
+
   defer : function()
   {
     if (typeof(java) !== "undefined") {

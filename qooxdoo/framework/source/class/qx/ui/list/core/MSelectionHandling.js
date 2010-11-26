@@ -38,7 +38,7 @@
  *   this.debug("Selection: " + list.getSelection().getItem(0));
  * }, this);
  * </pre>
- * 
+ *
  * @internal
  */
 qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
@@ -262,7 +262,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this.__ignoreManagerChangeSelection = false;
     },
 
- 
+
     /**
      * Synchronized the selection form the manager with the local one.
      */

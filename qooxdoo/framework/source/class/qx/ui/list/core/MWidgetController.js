@@ -20,7 +20,7 @@
 
 /**
  * The mixin controls the binding between model and item.
- * 
+ *
  * @internal
  */
 qx.Mixin.define("qx.ui.list.core.MWidgetController",

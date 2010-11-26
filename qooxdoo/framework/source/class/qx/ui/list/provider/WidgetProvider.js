@@ -21,7 +21,7 @@
  * The provider implements the {@link qx.ui.virtual.core.IWidgetCellProvider} API,
  * which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.ui.list.provider.WidgetProvider",
@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
-  
+
   members :
   {
     /** {qx.ui.virtual.cell.WidgetCell} the used cell renderer */
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._removeBindingsFrom(widget);
       this._cellRenderer.pool(widget);
     },
-    
+
 
 
     // interface implementation
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
 
     // interface implementation
-    createItemRenderer : function() 
+    createItemRenderer : function()
     {
       var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createItem");
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this.__updateStates(widget, {});
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
@@ -221,7 +221,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
     /**
      * Helper method to get the widget from the passed row.
-     * 
+     *
      * @param row {Integer} row to search.
      * @param {qx.ui.core.Widget|null} The found widget or <code>null</code> when no widget found.
      */
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
     /**
      * Helper method to update the states from a widget.
-     * 
+     *
      * @param widget {qx.ui.core.Widget} widget to set states.
      * @param states {Map} the state to set.
      */

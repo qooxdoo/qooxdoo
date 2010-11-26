@@ -28,7 +28,7 @@ qx.Class.define("qx.test.dom.Hierarchy",
     {
       this.__renderedElement = qx.bom.Element.create("div");
       document.body.appendChild(this.__renderedElement);
-      
+
       this.__unRenderedElement = qx.bom.Element.create("div");
     },
 
@@ -37,18 +37,18 @@ qx.Class.define("qx.test.dom.Hierarchy",
     {
       document.body.removeChild(this.__renderedElement);
       this.__renderedElement = null;
-      
+
       this.__unRenderedElement = null;
     },
-    
-    
+
+
     testIsRendered : function()
     {
       this.assertTrue(qx.dom.Hierarchy.isRendered(this.__renderedElement));
       this.assertFalse(qx.dom.Hierarchy.isRendered(this.__unRenderedElement));
     },
-    
-    
+
+
     testIsRenderedIframe : function()
     {
       this.__iframe = qx.bom.Iframe.create();
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.dom.Hierarchy",
         }, this);
       }, this);
 
-      this.wait(10000);      
+      this.wait(10000);
     }
   }
 });

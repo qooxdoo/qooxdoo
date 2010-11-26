@@ -37,7 +37,7 @@
  *
  * This class provides a handler for the orientation event.
  */
-qx.Class.define("qx.event.handler.Orientation", 
+qx.Class.define("qx.event.handler.Orientation",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
@@ -184,7 +184,7 @@ qx.Class.define("qx.event.handler.Orientation",
 
     /**
      * Handler for the native orientation change event.
-     * 
+     *
      * @signature function(domEvent)
      * @param domEvent {Event} The touch event from the browser.
      */

@@ -20,9 +20,9 @@
 /**
  * EXPERIMENTAL!
  *
- * Cell renderer can be used for Widget rendering. The Widget creation can be configured with the 
+ * Cell renderer can be used for Widget rendering. The Widget creation can be configured with the
  * {@link #delegate} property:
- * 
+ *
  * <pre class="javascript">
  * widgetCell.setDelegate(
  * {
@@ -31,13 +31,13 @@
  *   }
  * });
  * </pre>
- * 
+ *
  * When the {@link #delegate} property is not used {@link qx.ui.core.Widget} instances are created as
- * fallback. 
+ * fallback.
  *
  * The {@link #updateData} method can be used to update any Widget property. Just use a <code>Map</code>
  * with property name as key:
- * 
+ *
  * <pre class="javascript">
  * // widget is a qx.ui.form.ListItem instance
  * widgetCell.updateData(widget,
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.virtual.cell.WidgetCell",
     // overridden
     _createWidget : function() {
       var delegate = this.getDelegate();
-      
+
       if (delegate != null && delegate.createWidget != null) {
         return delegate.createWidget();
       } else {

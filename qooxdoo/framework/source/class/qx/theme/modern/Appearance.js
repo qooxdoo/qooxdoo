@@ -2833,7 +2833,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       PROGRESSBAR
     ---------------------------------------------------------------------------
     */
-    "progressbar": 
+    "progressbar":
     {
       style: function(states) {
         return {
@@ -2843,8 +2843,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    "progressbar/progress": 
+
+    "progressbar/progress":
     {
       style: function(states) {
         return {

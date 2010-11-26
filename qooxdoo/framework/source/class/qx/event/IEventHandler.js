@@ -35,7 +35,7 @@ qx.Interface.define("qx.event.IEventHandler",
 
     /** {Integer} The event target must be a qooxdoo object */
     TARGET_OBJECT: 4,
-    
+
     /** {Integer} The event target must be a document node */
     TARGET_DOCUMENT: 8
   },

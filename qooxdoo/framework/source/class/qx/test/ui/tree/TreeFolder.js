@@ -23,10 +23,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.TreeFolder", 
+qx.Class.define("qx.test.ui.tree.TreeFolder",
 {
   extend : qx.test.ui.LayoutTestCase,
-  
+
   members :
   {
     icon_closed : "qx/icon/Oxygen/22/emotes/face-plain.png",
@@ -37,7 +37,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     __ab   : null,
     __item : null,
 
-    setUp : function() 
+    setUp : function()
     {
       // Build tree that looks like this:
       //
@@ -261,7 +261,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
         "Unexpected source for icon child control");
     },
 
-    tearDown : function() 
+    tearDown : function()
     {
       this.__tree.destroy();
       this.__root.destroy();

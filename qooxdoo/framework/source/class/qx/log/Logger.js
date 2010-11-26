@@ -450,7 +450,7 @@ qx.Class.define("qx.log.Logger",
       // Add relation fields
       if (object)
       {
-        // Do not explicitly check for instanceof qx.core.Object, in order not 
+        // Do not explicitly check for instanceof qx.core.Object, in order not
         // to introduce an unwanted load-time dependency
         if (object.$$hash !== undefined) {
           entry.object = object.$$hash;
@@ -529,7 +529,7 @@ qx.Class.define("qx.log.Logger",
      * @param value {var} Incoming value
      * @param deep {Boolean?false} Whether arrays and maps should be
      *    serialized for a limited number of items
-     * @return {Map} Contains the keys <code>type</code>, <code>text</code> and 
+     * @return {Map} Contains the keys <code>type</code>, <code>text</code> and
      * <code>trace</code>.
      */
     __serialize : function(value, deep)

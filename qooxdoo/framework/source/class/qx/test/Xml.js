@@ -239,11 +239,11 @@ qx.Class.define("qx.test.Xml",
 
       this.assertEquals("xsl:template", templates[0].tagName, "getElementsByTagNameNS for element nodes failed!");
     },
-    
-    
+
+
     /**
      * TODOC
-     * 
+     *
      */
     testSetAttributeNS : function()
     {
@@ -251,7 +251,7 @@ qx.Class.define("qx.test.Xml",
       var node = doc.createElement("a");
       var namespaceURI = "http://www.qooxdoo.org/";
       qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "qxid", "foo");
-      
+
       if (node.getAttributeNS) {
         this.assertEquals("foo", node.getAttributeNS(namespaceURI, "qxid"));
       }
@@ -267,7 +267,7 @@ qx.Class.define("qx.test.Xml",
       var parent = doc.getElementsByTagName("em")[0];
       var namespaceUri = "http://qooxdoo.org";
       var subElem = qx.xml.Element.createSubElementNS(doc, parent, "foo", namespaceUri);
-      
+
       var createdNode = qx.xml.Element.getElementsByTagNameNS(doc.documentElement, namespaceUri, "foo")[0];
       this.assertEquals(subElem, createdNode);
       this.assertTrue(subElem.parentNode == parent);

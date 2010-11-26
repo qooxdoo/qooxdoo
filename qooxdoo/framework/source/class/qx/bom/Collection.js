@@ -1671,7 +1671,7 @@
        * into a document, without ruining the original semantic qualities of a
        * document. This works by going through the first element provided (which
        * is generated, on the fly, from the provided HTML) and finds the deepest
-       * descendant element within its structure -- it is that element, which 
+       * descendant element within its structure -- it is that element, which
        * will wrap everything else.
        *
        * @param content {String|Element} Element or HTML markup used for wrapping

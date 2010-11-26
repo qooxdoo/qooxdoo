@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -23,7 +23,7 @@
  *
  * Swipe event object.
  */
-qx.Class.define("qx.event.type.Swipe", 
+qx.Class.define("qx.event.type.Swipe",
 {
     extend : qx.event.type.Touch,
 
@@ -48,14 +48,14 @@ qx.Class.define("qx.event.type.Swipe",
 
 
       // overridden
-      _isTouchEnd : function() {
+      _isTouchEnd : function() {
         return true;
       },
 
 
       /**
        * Returns the start time of the performed swipe.
-       * 
+       *
        * @return {Integer} the start time
        */
       getStartTime : function() {
@@ -65,7 +65,7 @@ qx.Class.define("qx.event.type.Swipe",
 
       /**
        * Returns the duration the performed swipe took.
-       * 
+       *
        * @return {Integer} the duration
        */
       getDuration : function() {
@@ -75,7 +75,7 @@ qx.Class.define("qx.event.type.Swipe",
 
       /**
        * Returns whether the performed swipe was on the x or y axis.
-       * 
+       *
        * @return {String} "x"/"y" axis
        */
       getAxis : function() {
@@ -87,7 +87,7 @@ qx.Class.define("qx.event.type.Swipe",
        * Returns the direction of the performed swipe in reference to the axis.
        * y = up / down
        * x = left / right
-       * 
+       *
        * @return {String} the direction
        */
       getDirection : function() {
@@ -97,7 +97,7 @@ qx.Class.define("qx.event.type.Swipe",
 
       /**
        * Returns the velocity of the performed swipe.
-       * 
+       *
        * @return {Number} the velocity
        */
       getVelocity : function() {
@@ -107,7 +107,7 @@ qx.Class.define("qx.event.type.Swipe",
 
       /**
        * Returns the distance of the performed swipe.
-       * 
+       *
        * @return {Integer} the distance
        */
       getDistance : function() {

@@ -34,7 +34,7 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
      * @param names {String[]} An array of names for the form items.
      * @param title {String?} A title of the group you are adding.
      * @param itemsOptions {Array?null} The added additional data.
-     * @param headerOptions {Map?null} The options map as defined by the form 
+     * @param headerOptions {Map?null} The options map as defined by the form
      *   for the current group header.
      */
     addItems : function(items, names, title, itemsOptions, headerOptions) {},

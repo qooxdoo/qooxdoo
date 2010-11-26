@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.list.List",
     {
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
       this.__lookupTable = [];
-      
+
       this.getPane().addListener("resize", this._onResize, this);
 
       this._initBackground();
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().getRowConfig().setItemCount(this.__lookupTable.length);
       this.getPane().fullUpdate();
     },
-    
+
 
     /**
      * Internal method for building the lookup table.
@@ -375,18 +375,18 @@ qx.Class.define("qx.ui.list.List",
     __buildUpLookupTable : function()
     {
       this.__lookupTable = [];
-      
+
       var model = this.getModel();
 
       if (model == null) {
         return;
       }
-      
+
       this._runDelegateFilter(model);
       this._runDelegateSorter(model);
       this.__updateRowCount();
     },
-    
+
 
     /**
      * Invokes a filtering using the filter given in the delegate.

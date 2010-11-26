@@ -27,15 +27,15 @@ qx.Class.define("qx.test.bom.element.Dimension",
     {
       this.__inlineElement = document.createElement("span");
       document.body.appendChild(this.__inlineElement);
-      
+
       this.__inlineElementWithPadding = document.createElement("span");
       this.__inlineElementWithPadding.style.padding = "2px";
       document.body.appendChild(this.__inlineElementWithPadding);
-      
+
       this.__blockElement = document.createElement("div");
       this.__blockElement.style.width = "200px";
       document.body.appendChild(this.__blockElement);
-      
+
       this.__blockElementWithPadding = document.createElement("div");
       this.__blockElementWithPadding.style.padding = "2px";
       this.__blockElementWithPadding.style.width = "200px";
@@ -47,13 +47,13 @@ qx.Class.define("qx.test.bom.element.Dimension",
     {
       document.body.removeChild(this.__inlineElement);
       this.__inlineElement = null;
-      
+
       document.body.removeChild(this.__inlineElementWithPadding);
       this.__inlineElementWithPadding = null;
-      
+
       document.body.removeChild(this.__blockElement);
       this.__blockElement = null;
-      
+
       document.body.removeChild(this.__blockElementWithPadding);
       this.__blockElementWithPadding = null;
     },
@@ -68,12 +68,12 @@ qx.Class.define("qx.test.bom.element.Dimension",
       this.assertEquals(0, qx.bom.element.Dimension.getContentWidth(this.__inlineElementWithPadding));
     },
 
-    
+
     testContentWidthOfBlockElement : function() {
       this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElement));
     },
-    
-    
+
+
     testContentWidthOfBlockElementWithPadding : function() {
       this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElementWithPadding));
     }

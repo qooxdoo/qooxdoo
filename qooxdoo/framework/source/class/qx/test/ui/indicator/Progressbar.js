@@ -25,14 +25,14 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
   {
     __pb : null,
 
-    
+
     tearDown : function() {
       this.__pb.destroy();
     },
 
 
     testConstructor: function() {
-      //defaults 
+      //defaults
       var val = 0, max = 100;
 
       this.__pb = new qx.ui.indicator.Progressbar();
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.indicator.Progressbar",
     testMaximum: function() {
       var max = 200;
       this.__pb = new qx.ui.indicator.Progressbar();
-      
+
       //returns exactly what was set
       this.assertIdentical(max, this.__pb.setMaximum(max));
 

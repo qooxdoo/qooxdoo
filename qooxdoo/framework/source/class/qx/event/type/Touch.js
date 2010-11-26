@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -27,7 +27,7 @@
  * For more information see:
  *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
  */
-qx.Class.define("qx.event.type.Touch", 
+qx.Class.define("qx.event.type.Touch",
 {
     extend : qx.event.type.Dom,
 
@@ -79,11 +79,11 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns an array of native Touch objects representing all current 
+       * Returns an array of native Touch objects representing all current
        * touches on the document.
        * Returns an empty array for the "touchend" event.
-       * 
-       * @return {Object[]} Array of touch objects. For more information see: 
+       *
+       * @return {Object[]} Array of touch objects. For more information see:
        *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getAllTouches : function() {
@@ -92,11 +92,11 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns an array of native Touch objects representing all touches 
+       * Returns an array of native Touch objects representing all touches
        * associated with the event target element.
        * Returns an empty array for the "touchend" event.
        *
-       * @return {Object[]} Array of touch objects. For more information see: 
+       * @return {Object[]} Array of touch objects. For more information see:
        *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getTargetTouches : function() {
@@ -105,17 +105,17 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns an array of native Touch objects representing all touches of 
+       * Returns an array of native Touch objects representing all touches of
        * the target element that changed in this event.
        *
-       * On the "touchstart" event the array contains all touches that were 
+       * On the "touchstart" event the array contains all touches that were
        * added to the target element.
-       * On the "touchmove" event the array contains all touches that were 
+       * On the "touchmove" event the array contains all touches that were
        * moved on the target element.
-       * On the "touchend" event the array contains all touches that used 
+       * On the "touchend" event the array contains all touches that used
        * to be on the target element.
        *
-       * @return {Object[]} Array of touch objects. For more information see: 
+       * @return {Object[]} Array of touch objects. For more information see:
        *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getChangedTargetTouches : function() {
@@ -124,9 +124,9 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Checks whether more than one touch is associated with the event target 
+       * Checks whether more than one touch is associated with the event target
        * element.
-       * 
+       *
        * @return {Boolean} Is multi-touch
        */
       isMultiTouch : function() {
@@ -135,13 +135,13 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * iOS only: Returns the distance between two fingers since the start of the event. 
+       * iOS only: Returns the distance between two fingers since the start of the event.
        * The distance is a multiplier of the initial distance.
        * Initial value: 1.0.
-       * Gestures: 
-       * < 1.0, pinch close / zoom out. 
+       * Gestures:
+       * < 1.0, pinch close / zoom out.
        * > 1.0, pinch open / to zoom in.
-       * 
+       *
        * @return The scale distance between two fingers
        */
       getScale : function() {
@@ -152,7 +152,7 @@ qx.Class.define("qx.event.type.Touch",
       /**
        * iOS only: Returns the delta of the rotation since the start of the event, in degrees.
        * Initial value is 0.0
-       * Clockwise > 0 
+       * Clockwise > 0
        * Counter-clockwise < 0.
        *
        * @return {Float} The rotation delta
@@ -238,9 +238,9 @@ qx.Class.define("qx.event.type.Touch",
 
       /**
        * Returns the unique identifier for a certain touch object.
-       * 
+       *
        * @param touchIndex {Integer ? 0) The index of the Touch object
-       * @return {Integer} Unique identifier of the touch object 
+       * @return {Integer} Unique identifier of the touch object
        */
       getIdentifier : function(touchIndex) {
         return this.__getEventSpecificTouch(touchIndex).identifier;
@@ -249,10 +249,10 @@ qx.Class.define("qx.event.type.Touch",
 
       /**
        * Returns an event specific touch on the target element. This function is
-       * used as the "touchend" event only offers Touch objects in the 
-       * changedTouches array. 
+       * used as the "touchend" event only offers Touch objects in the
+       * changedTouches array.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object to 
+       * @param touchIndex {Integer ? 0) The index of the Touch object to
        *     retrieve
        * @return {Object} A native Touch object
        */
@@ -264,8 +264,8 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns the event specific touches on the target element. This function 
-       * is used as the "touchend" event only offers Touch objects in the 
+       * Returns the event specific touches on the target element. This function
+       * is used as the "touchend" event only offers Touch objects in the
        * changedTouches array.
        *
        * @return {Object[]} Array of native Touch objects
@@ -282,7 +282,7 @@ qx.Class.define("qx.event.type.Touch",
        * determine the event specific touches. Override this method if you derive
        * from this class and want to indicate that the specific event occurred
        * during the "touchend" phase.
-       * 
+       *
        * @return {Boolean} Whether the event occurred during the "touchend" phase
        */
       _isTouchEnd : function()

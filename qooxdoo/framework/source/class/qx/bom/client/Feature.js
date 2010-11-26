@@ -79,13 +79,13 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
     CSS_POINTER_EVENTS : false,
-    
+
     /** {BOOLEAN} Whether the client supports XUL */
     XUL : false,
-    
+
     /** {BOOLEAN} Whether the client supports the "text-overflow" CSS property */
     CSS_TEXT_OVERFLOW : (
-      "textOverflow" in document.documentElement.style || 
+      "textOverflow" in document.documentElement.style ||
       "OTextOverflow" in document.documentElement.style
     ),
 
@@ -118,28 +118,28 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
-      this.SVG = document.implementation && document.implementation.hasFeature && 
-        (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || 
+      this.SVG = document.implementation && document.implementation.hasFeature &&
+        (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ||
         document.implementation.hasFeature(
-          "http://www.w3.org/TR/SVG11/feature#BasicStructure", 
+          "http://www.w3.org/TR/SVG11/feature#BasicStructure",
           "1.1"
         )
       );
       this.VML = qx.bom.client.Engine.MSHTML;
-      
+
       try {
         document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
         this.XUL = true;
       } catch (e) {
         this.XUL = false;
       }
-      
+
       var i = document.createElement("input");
       this.PLACEHOLDER = "placeholder" in i;
-      
+
       // Check if browser reports that pointerEvents is a known style property
       if ("pointerEvents" in document.documentElement.style) {
-        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229). 
+        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
         // Do not rely on pointer events in Opera until this browser issue is fixed.
         if (qx.bom.client.Engine.OPERA) {
           this.CSS_POINTER_EVENTS = false;

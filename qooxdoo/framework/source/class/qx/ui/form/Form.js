@@ -71,13 +71,13 @@ qx.Class.define("qx.ui.form.Form",
      * @param name {String?null} The name which is used by the data binding
      *   controller {@link qx.data.controller.Form}.
      * @param validatorContext {var?null} The context of the validator.
-     * @param options {Map?null} An additional map containin custom data which 
+     * @param options {Map?null} An additional map containin custom data which
      *   will be available in your form renderer specific to the added item.
      */
     add : function(item, label, validator, name, validatorContext, options) {
       if (this.__isFirstAdd()) {
         this.__groups.push({
-          title: null, items: [], labels: [], names: [], 
+          title: null, items: [], labels: [], names: [],
           options: [], headerOptions: {}
         });
       }
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.form.Form",
      * *Hint:* The order of all add calls represent the order in the layout.
      *
      * @param title {String} The title of the group header.
-     * @param options {Map?null} A special set of custom data which will be 
+     * @param options {Map?null} A special set of custom data which will be
      *   given to the renderer.
      */
     addGroupHeader : function(title, options) {
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.Form",
         this._groupCounter++;
       }
       this.__groups.push({
-        title: title, items: [], labels: [], names: [], 
+        title: title, items: [], labels: [], names: [],
         options: [], headerOptions: options
       });
     },
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.form.Form",
      * *Hint:* The order of all add calls represent the order in the layout.
      *
      * @param button {qx.ui.form.Button} The button to add.
-     * @param options {Map?null} An additional map containin custom data which 
+     * @param options {Map?null} An additional map containin custom data which
      *   will be available in your form renderer specific to the added button.
      */
     addButton : function(button, options) {
@@ -226,10 +226,10 @@ qx.Class.define("qx.ui.form.Form",
     getButtons : function() {
       return this._buttons;
     },
-    
-    
+
+
     /**
-     * Accessor method for the renderer which returns all added options for 
+     * Accessor method for the renderer which returns all added options for
      * the buttons in an array.
      * @return {Array} An array containing all added options for the buttons.
      * @internal

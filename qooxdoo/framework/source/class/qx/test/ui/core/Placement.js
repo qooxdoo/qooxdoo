@@ -16,14 +16,14 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Placement", 
+qx.Class.define("qx.test.ui.core.Placement",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
-  {    
+  {
     __nogo : null,
-    
+
     setUp : function() {
       this.__nogo = new qx.ui.core.Widget().set({
         backgroundColor: "red",
@@ -31,61 +31,61 @@ qx.Class.define("qx.test.ui.core.Placement",
         height: 300
       });
       this.getRoot().add(this.__nogo, {left: 150});
-      
+
       // set the always visible element
-      qx.ui.core.MPlacement.setVisibleElement(this.__nogo);      
+      qx.ui.core.MPlacement.setVisibleElement(this.__nogo);
     },
-    
+
     tearDown : function() {
-      qx.ui.core.MPlacement.setVisibleElement(null);      
+      qx.ui.core.MPlacement.setVisibleElement(null);
       this.__nogo.destroy();
     },
-    
-    __testAlwaysVisibleElement : function(w) 
+
+    __testAlwaysVisibleElement : function(w)
     {
        // modify the placed widget
        w.setWidth(100);
        w.setVisibility("visible");
        // render the widgets
        this.flush();
-       
+
        // move and flush
        w.moveTo(100, 0);
        this.flush();
-       
+
        // the right position of the widget should be left of the nogo
        var bounds = w.getBounds();
        var right = bounds.left + bounds.width;
        this.assertEquals(150, right);
        this.assertEquals(50, bounds.left);
     },
-    
-    
+
+
     testVisibleWithPopoup : function() {
       var w = new qx.ui.popup.Popup();
       this.__testAlwaysVisibleElement(w);
       w.destroy();
     },
-    
+
     testVisibleWithMenu : function() {
       var w = new qx.ui.menu.Menu();
       this.__testAlwaysVisibleElement(w);
       w.destroy();
     },
-    
-    
-    __testAlwaysVisibleElementTooBig : function(w) 
+
+
+    __testAlwaysVisibleElementTooBig : function(w)
     {
        // modify the placed widget
        w.setWidth(200);
        w.setVisibility("visible");
        // render the widgets
        this.flush();
-       
+
        // move and flush
        w.moveTo(100, 0);
        this.flush();
-       
+
        // The widget should be moved to the left border of the screen and still
        // overlap the visible item
        var bounds = w.getBounds();
@@ -93,87 +93,87 @@ qx.Class.define("qx.test.ui.core.Placement",
        this.assertEquals(200, right);
        this.assertEquals(0, bounds.left);
     },
-    
-    
+
+
     testVisibleWithPopoupTooBig : function() {
       var w = new qx.ui.popup.Popup();
       this.__testAlwaysVisibleElementTooBig(w);
       w.destroy();
     },
-    
+
     testVisibleWithMenuTooBig : function() {
       var w = new qx.ui.menu.Menu();
       this.__testAlwaysVisibleElementTooBig(w);
       w.destroy();
     },
-    
-    
-    __testAlwaysVisibleElementAbove : function(w) 
+
+
+    __testAlwaysVisibleElementAbove : function(w)
     {
-      
+
       this.__nogo.setLayoutProperties({top: 100});
-      
+
        // modify the placed widget
        w.setWidth(100);
        w.setVisibility("visible");
        // render the widgets
        this.flush();
-       
+
        // move and flush
        w.moveTo(100, 0);
        this.flush();
-       
+
        // Positions should be as set
        var bounds = w.getBounds();
        var right = bounds.left + bounds.width;
        this.assertEquals(200, right);
        this.assertEquals(100, bounds.left);
     },
-    
-    
+
+
     testVisibleWithPopoupAbove : function() {
       var w = new qx.ui.popup.Popup();
       this.__testAlwaysVisibleElementAbove(w);
       w.destroy();
     },
-    
+
     testVisibleWithMenuAbove : function() {
       var w = new qx.ui.menu.Menu();
       this.__testAlwaysVisibleElementAbove(w);
       w.destroy();
     },
-    
-    
-    __testAlwaysVisibleElementBelow : function(w) 
-    {      
+
+
+    __testAlwaysVisibleElementBelow : function(w)
+    {
        // modify the placed widget
        w.setWidth(100);
        w.setVisibility("visible");
        // render the widgets
        this.flush();
-       
+
        // move and flush
        w.moveTo(100, 400);
        this.flush();
-       
+
        // Positions should be as set
        var bounds = w.getBounds();
        var right = bounds.left + bounds.width;
        this.assertEquals(200, right);
        this.assertEquals(100, bounds.left);
     },
-    
-    
+
+
     testVisibleWithPopoupBelow : function() {
       var w = new qx.ui.popup.Popup();
       this.__testAlwaysVisibleElementBelow(w);
       w.destroy();
     },
-    
+
     testVisibleWithMenuBelow : function() {
       var w = new qx.ui.menu.Menu();
       this.__testAlwaysVisibleElementBelow(w);
       w.destroy();
-    }    
+    }
   }
 });

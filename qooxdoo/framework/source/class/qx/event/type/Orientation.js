@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -38,7 +38,7 @@
  *
  * Orientation event object.
  */
-qx.Class.define("qx.event.type.Orientation", 
+qx.Class.define("qx.event.type.Orientation",
 {
     extend : qx.event.type.Event,
 
@@ -97,14 +97,14 @@ qx.Class.define("qx.event.type.Orientation",
 
     /**
      * Returns the current orientation of the viewport in degree.
-     * 
+     *
      * All possible values and their meaning:
-     * 
+     *
      * * <code>0</code>: "Portrait"
      * * <code>-90</code>: "Landscape (right, screen turned clockwise)"
      * * <code>90</code>: "Landscape (left, screen turned counterclockwise)"
      * * <code>180</code>: "Portrait (upside-down portrait)"
-     * 
+     *
      * @return {Integer} The current orientation in degree
      */
     getOrientation: function() {

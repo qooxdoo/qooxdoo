@@ -212,7 +212,7 @@ qx.Class.define("qx.dom.Hierarchy",
         if (!element.parentNode || !element.offsetParent) {
           return false;
         }
-        
+
         var doc = element.ownerDocument || element.document;
         return doc.body.contains(element);
       },
@@ -220,13 +220,13 @@ qx.Class.define("qx.dom.Hierarchy",
       "gecko" : function(element)
       {
         // Gecko way, DOM3 method
-        var doc = element.ownerDocument || element.document;       
+        var doc = element.ownerDocument || element.document;
         return !!(doc.compareDocumentPosition(element) & 16);
       },
 
       "default" : function(element)
       {
-        // Fast check for all elements which are not in the DOM 
+        // Fast check for all elements which are not in the DOM
         if (!element.parentNode || !element.offsetParent) {
           return false;
         }

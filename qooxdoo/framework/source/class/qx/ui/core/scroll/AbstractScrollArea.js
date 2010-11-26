@@ -52,17 +52,17 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
-    
+
     // touch support
     if (qx.bom.client.Feature.TOUCH) {
       // touch move listener for touch scrolling
       this.addListener("touchmove", this._onTouchMove, this);
-      
+
       // reset the delta on every touch session
       this.addListener("touchstart", function() {
         this.__old = {"x": 0, "y": 0};
       }, this);
-      
+
       this.__old = {};
       this.__impulseTimerId = {};
     }
@@ -161,8 +161,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   {
     __old : null,
     __impulseTimerId : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -459,14 +459,14 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
         e.stop();
       }
     },
-    
-    
+
+
     /**
      * Event handler for the touch move.
      *
      * @param e {qx.event.type.Touch} The touch event
      */
-    _onTouchMove : function(e) 
+    _onTouchMove : function(e)
     {
       this._onTouchMoveDirectional("x", e);
       this._onTouchMoveDirectional("y", e);
@@ -474,22 +474,22 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       // Stop bubbling and native event
       e.stop();
     },
-    
-    
+
+
     /**
      * Touch move handler for one direction.
-     * 
+     *
      * @param dir {String} Either 'x' or 'y'
      * @param e {qx.event.type.Touch} The touch event
      */
-    _onTouchMoveDirectional : function(dir, e) 
+    _onTouchMoveDirectional : function(dir, e)
     {
       var docDir = (dir == "x" ? "Left" : "Top");
 
       // current scrollbar
       var scrollbar = this.getChildControl("scrollbar-" + dir, true);
       var show = this._isChildControlVisible("scrollbar-" + dir);
-      
+
       if (show && scrollbar) {
         // get the delta for the current direction
         if(this.__old[dir] == 0) {
@@ -507,16 +507,16 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           clearTimeout(this.__impulseTimerId[dir]);
           this.__impulseTimerId[dir] = null;
         }
-        
+
         // set up a new timer for the current direction
-        this.__impulseTimerId[dir] = 
+        this.__impulseTimerId[dir] =
           setTimeout(qx.lang.Function.bind(function(delta) {
             this.__handleScrollImpulse(delta, dir);
           }, this, delta), 100);
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Helper for momentum scrolling.
      * @param delta {Number} The delta from the last scrolling.
@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     __handleScrollImpulse : function(delta, dir) {
       // delete the old timer id
       this.__impulseTimerId[dir] = null;
-      
+
       // do nothing if the scrollbar is not visible or we don't need to scroll
       var show = this._isChildControlVisible("scrollbar-" + dir);
       if (delta == 0 || !show) {
@@ -540,13 +540,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       }
 
       // set up a new timer with the new delta
-      this.__impulseTimerId[dir] = 
+      this.__impulseTimerId[dir] =
         setTimeout(qx.lang.Function.bind(function(delta, dir) {
           this.__handleScrollImpulse(delta, dir);
         }, this, delta, dir), 20);
 
       // scroll the desired new delta
-      var scrollbar = this.getChildControl("scrollbar-" + dir, true);      
+      var scrollbar = this.getChildControl("scrollbar-" + dir, true);
       scrollbar.scrollBy(delta);
     },
 

@@ -277,9 +277,9 @@ qx.Class.define("qx.bom.Viewport",
 
     /**
      * Returns the current orientation of the viewport in degree.
-     * 
+     *
      * All possible values and their meaning:
-     * 
+     *
      * * <code>0</code>: "Portrait"
      * * <code>-90</code>: "Landscape (right, screen turned clockwise)"
      * * <code>90</code>: "Landscape (left, screen turned counterclockwise)"

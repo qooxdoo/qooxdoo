@@ -68,16 +68,16 @@ qx.Class.define("qx.bom.Element",
     __allowMarkup : {},
 
     /**
-     * Detects if the DOM support a <code>document.createElement</code> call with a 
+     * Detects if the DOM support a <code>document.createElement</code> call with a
      * <code>String</code> as markup like:
-     * 
+     *
      * <pre class="javascript">
      * document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
      * </pre>
      *
      * Element creation with markup is not standard compatible with Document Object Model (Core) Level 1, but
      * Internet Explorer supports it. With an exception that IE9 in IE9 standard mode is standard compatible and
-     * doesn't support element creation with markup. 
+     * doesn't support element creation with markup.
      *
      * @param win {Window?} Window to check for
      * @return {Boolean} <code>true</code> if the DOM supports it, <code>false</code> otherwise.

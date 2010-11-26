@@ -229,8 +229,8 @@ qx.Class.define("qx.test.ui.form.FormManager",
       b2.dispose();
       b1.dispose();
     },
-    
-    
+
+
     testAddTwoWithOptions: function(){
       // add the widgets
       this.__form.add(this.__tf1, "TF1", null, "tf1", null, {a:1});
@@ -243,8 +243,8 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(1, view.groups[0].options[0].a);
       this.assertEquals(2, view.groups[0].options[1].a);
     },
-    
-    
+
+
     testAddTwoWithButtonsOptions : function() {
       var b1 = new qx.ui.form.Button();
       var b2 = new qx.ui.form.RepeatButton();

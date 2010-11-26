@@ -189,12 +189,12 @@ qx.Class.define("qx.event.handler.Mouse",
       // Fire user action event
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type||domEvent.type]);
     },
-    
-    
+
+
     /**
-     * Internal target for checking the target and mouse type for mouse 
+     * Internal target for checking the target and mouse type for mouse
      * scrolling on a feature detection base.
-     * 
+     *
      * @return {Map} A map containing two keys, target and type.
      */
     __getMouseWheelTarget: function(){
@@ -202,7 +202,7 @@ qx.Class.define("qx.event.handler.Mouse",
       var targets = [this.__window, this.__root, this.__root.body];
       var target = this.__window;
       var type = "DOMMouseScroll";
-      
+
       for (var i = 0; i < targets.length; i++) {
         if (qx.bom.Event.supportsEvent(targets[i], "mousewheel")) {
           type = "mousewheel";
@@ -210,8 +210,8 @@ qx.Class.define("qx.event.handler.Mouse",
           break;
         }
       };
-      
-      return {type: type, target: target};      
+
+      return {type: type, target: target};
     },
 
 
@@ -516,7 +516,7 @@ qx.Class.define("qx.event.handler.Mouse",
         if (domEvent.target !== undefined) {
           return;
         }
-      
+
         if (type == "mouseup" && this.__lastEventType == "click") {
           this.__fireEvent(domEvent, "mousedown", target);
         } else if (type == "dblclick") {

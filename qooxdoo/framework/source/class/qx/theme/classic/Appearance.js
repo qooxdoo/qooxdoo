@@ -2545,7 +2545,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       PROGRESSBAR
     ---------------------------------------------------------------------------
     */
-    "progressbar": 
+    "progressbar":
     {
       style: function(states) {
         return {
@@ -2555,8 +2555,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
-    "progressbar/progress": 
+
+    "progressbar/progress":
     {
       style: function(states) {
         return {

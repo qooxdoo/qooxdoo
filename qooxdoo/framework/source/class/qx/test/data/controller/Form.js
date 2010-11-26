@@ -664,13 +664,13 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__model.setTf1("AFFE");
       this.assertNotEquals("AFFE", this.__tf1.getValue());
     },
-    
-    
+
+
     testBindingCreateMissingOne : function() {
       // add a unknown item
       var tf = new qx.ui.form.TextField();
       this.__form.add(tf, "Unknown");
-      
+
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
 

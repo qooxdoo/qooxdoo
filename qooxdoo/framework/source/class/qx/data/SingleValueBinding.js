@@ -535,7 +535,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           eventName = "change" + qx.lang.String.firstUp(propertyname);
         } else {
           throw new qx.core.AssertionError(
-            "Binding property " + propertyname + " of object " + source + 
+            "Binding property " + propertyname + " of object " + source +
             " not possible: No event available. "
           );
         }

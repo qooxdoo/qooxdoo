@@ -107,29 +107,29 @@ qx.Class.define("qx.ui.window.Manager",
         // take the first window as active window
         active = active || win;
 
-        // We use only every second z index to easily insert a blocker between 
-        // two windows         
-        // Modal Windows stays on top of AlwaysOnTop Windows, which stays on 
+        // We use only every second z index to easily insert a blocker between
+        // two windows
+        // Modal Windows stays on top of AlwaysOnTop Windows, which stays on
         // top of Normal Windows.
         if (win.isModal()) {
           win.setZIndex(zIndexModal);
           this.__desktop.blockContent(zIndexModal - 1);
           zIndexModal +=2;
           //just activate it if it's modal
-          active = win; 
+          active = win;
 
         } else if (win.isAlwaysOnTop()) {
           win.setZIndex(zIndexOnTop);
           zIndexOnTop +=2;
-          
+
         } else {
           win.setZIndex(zIndex);
-          zIndex +=2;          
+          zIndex +=2;
         }
 
         // store the active window
-        if (!active.isModal() && 
-            win.isActive() || 
+        if (!active.isModal() &&
+            win.isActive() ||
             win.getZIndex() > active.getZIndex()) {
           active = win;
         }

@@ -141,9 +141,9 @@ qx.Class.define("qx.test.io.ImageLoader",
 
       this.wait();
     },
-    
-    
-    testAbort : function() 
+
+
+    testAbort : function()
     {
       var aborted = false;
       this.__imageSource = null;
@@ -154,7 +154,7 @@ qx.Class.define("qx.test.io.ImageLoader",
       }, this);
 
       qx.io.ImageLoader.abort(this.__imageUri);
-      
+
       this.assertTrue(aborted);
     }
   }

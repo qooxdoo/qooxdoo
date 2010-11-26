@@ -79,7 +79,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #number} method.
      *
      * @param value {var} The value to check.
-     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a
      *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?undefined} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a
@@ -118,7 +118,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #email} method.
      *
      * @param value {var} The value to check.
-     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a
      *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not
@@ -156,7 +156,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #string} method.
      *
      * @param value {var} The value to check.
-     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a
      *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a string.
@@ -192,7 +192,7 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #url} method.
      *
      * @param value {var} The value to check.
-     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a
      *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a url.
@@ -230,8 +230,8 @@ qx.Class.define("qx.util.Validate",
      * use the {@link #color} method.
      *
      * @param value {var} The value to check.
-     * @param formItem {qx.ui.form.IForm} The form item to check if used in a 
-     *   {@link qx.ui.form.Form}.     
+     * @param formItem {qx.ui.form.IForm} The form item to check if used in a
+     *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
      * @throws {qx.core.ValidationError} If the value parameter is not a color.
      */

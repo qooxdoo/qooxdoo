@@ -599,11 +599,11 @@ qx.Theme.define("qx.theme.classic.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "progressbar" : 
+    "progressbar" :
     {
       decorator: qx.ui.decoration.Single,
-      
-      style: 
+
+      style:
       {
         backgroundColor: "#FFF",
         width: 1,

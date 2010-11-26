@@ -21,7 +21,7 @@ Authors:
 #asset(qx/test/xmlhttp/echo_get_request.php)
 */
 
-qx.Class.define("qx.test.io.remote.transport.Iframe", 
+qx.Class.define("qx.test.io.remote.transport.Iframe",
 {
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,
@@ -38,7 +38,7 @@ qx.Class.define("qx.test.io.remote.transport.Iframe",
         this.needsPHPWarning();
         return;
       }
-      
+
       this.request.addListener("completed", function() {
         this.resume(function() {
           var response = this.request.getIframeHtmlContent();
@@ -49,12 +49,12 @@ qx.Class.define("qx.test.io.remote.transport.Iframe",
           this.assertEquals("my_param=expected", response["_data_"], "Response is wrong!");
         }, this);
       }, this);
-      
+
       // Send request
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/echo_get_request.php"));
       this.request.setParameters({my_param: "expected"});
-      this.request.send(); 
-      
+      this.request.send();
+
       this.wait();
     }
   }

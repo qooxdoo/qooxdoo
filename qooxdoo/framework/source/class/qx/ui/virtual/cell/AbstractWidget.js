@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     /**
      * Returns a <code>LayoutItem</code> from the pool, when the pool is empty
      * a new <code>LayoutItem</code> is created.
-     * 
+     *
      * @return {qx.ui.core.LayoutItem} The cell widget
      */
     __getWidgetFromPool : function()

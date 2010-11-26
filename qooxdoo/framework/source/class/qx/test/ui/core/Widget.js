@@ -258,12 +258,12 @@ qx.Class.define("qx.test.ui.core.Widget",
         scroll.destroy();
       }, this);
     },
-    
-    
+
+
     testCreateChildControlHash: function(){
       qx.Class.define("qx.test.ui.core.W", {
         extend : qx.ui.core.Widget,
-        
+
         members : {
           _createChildControlImpl: function(id, hash) {
             this.test = id + "-" + hash;
@@ -271,15 +271,15 @@ qx.Class.define("qx.test.ui.core.Widget",
           }
         }
       });
-      
+
       var w = new qx.test.ui.core.W();
-      
+
       w.getChildControl("affe#afffe");
       this.assertEquals("affe-afffe", w.test);
-      
+
       w.getChildControl("affe#afffe#juhu");
       this.assertEquals("affe-afffe#juhu", w.test);
-      
+
       w.dispose();
       qx.Class.undefine("qx.test.ui.core.W");
     }

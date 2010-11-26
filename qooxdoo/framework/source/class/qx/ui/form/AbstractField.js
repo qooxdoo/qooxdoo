@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
-      this.addListener("syncAppearance", this._syncPlaceholder, this);      
+      this.addListener("syncAppearance", this._syncPlaceholder, this);
     }
 
     // translation support
@@ -312,8 +312,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * Note: This was introduced to fix BUG#1585
      *
-     * @param innerHeight {Integer} The inner height of the element. 
-     * @param element {Element} The element. 
+     * @param innerHeight {Integer} The inner height of the element.
+     * @param element {Element} The element.
      */
     _renderContentElement : function(innerHeight, element) {
       //use it in child classes
@@ -830,7 +830,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     // property apply
-    _applyPlaceholder : function(value, old) 
+    _applyPlaceholder : function(value, old)
     {
       if (this.__useQxPlaceholder) {
         this.__getPlaceholderElement().setValue(value);

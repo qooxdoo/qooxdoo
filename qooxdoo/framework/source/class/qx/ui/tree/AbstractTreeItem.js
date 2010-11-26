@@ -387,8 +387,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       // user-defined
       if (!this.__getUserValueIconOpened()) {
         this.__setIconSource(value);
-      } 
-      
+      }
+
       else if (!this.isOpen()) {
         this.__setIconSource(value);
       }
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     // property apply
     _applyIconOpened : function(value, old)
     {
-      
+
       if (this.isOpen()) {
 
         // ... both "closed" and "opened" icon were user-defined
@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     /**
     * Get user-defined value of "icon" property
-    * 
+    *
     * @return {var} The user value of the property "icon"
     */
     __getUserValueIcon : function() {
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     /**
     * Get user-defined value of "iconOpened" property
-    * 
+    *
     * @return {var} The user value of the property "iconOpened"
     */
     __getUserValueIconOpened : function() {
@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     /**
     * Set source of icon child control
-    * 
+    *
     * @param url {String} The URL of the icon
     * @return {void}
     */
@@ -962,7 +962,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
         if (treeItem.hasChildrenContainer()) {
           var treeItemChildContainer = treeItem.getChildrenContainer();
-          if (container.getChildren().indexOf(treeItemChildContainer) >= 0) { 
+          if (container.getChildren().indexOf(treeItemChildContainer) >= 0) {
             // Sometimes not, see bug #3038
             container.remove(treeItemChildContainer);
           }

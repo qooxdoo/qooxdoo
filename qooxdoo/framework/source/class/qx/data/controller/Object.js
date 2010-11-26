@@ -140,7 +140,7 @@ qx.Class.define("qx.data.controller.Object",
             options, reverseOptions
           );
         } else {
-          // in shutdown situations, it may be that something is already 
+          // in shutdown situations, it may be that something is already
           // disposed [BUG #4343]
           if (targetObject.isDisposed() || qx.core.ObjectRegistry.inShutDown) {
             continue;

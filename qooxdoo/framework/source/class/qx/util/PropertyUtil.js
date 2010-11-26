@@ -31,7 +31,7 @@ qx.Class.define("qx.util.PropertyUtil",
      * Get the property map of the given class
      *
      * @param clazz {Class} a qooxdoo class
-     * @return {Map} A properties map as defined in {@link qx.Class#define} 
+     * @return {Map} A properties map as defined in {@link qx.Class#define}
      *   including the properties of included mixins and not including refined
      *   properties.
      */
@@ -45,8 +45,8 @@ qx.Class.define("qx.util.PropertyUtil",
      * superclasses!
      *
      * @param clazz {Class} a qooxdoo class
-     * @return {Map} The properties map as defined in {@link qx.Class#define} 
-     *   including the properties of included mixins of the current class and 
+     * @return {Map} The properties map as defined in {@link qx.Class#define}
+     *   including the properties of included mixins of the current class and
      *   all superclasses.
      */
     getAllProperties : function(clazz)

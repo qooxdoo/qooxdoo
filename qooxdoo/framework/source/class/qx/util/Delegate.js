@@ -40,7 +40,7 @@ qx.Class.define("qx.util.Delegate",
 
       return null;
     },
-  
+
 
 
     /**

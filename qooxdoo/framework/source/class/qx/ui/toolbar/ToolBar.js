@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     // add needed layout
     this._setLayout(new qx.ui.layout.HBox());
-    
+
     // initialize the overflow handling
     this.__removedItems = [];
     this.__removePriority = [];
@@ -100,21 +100,21 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       themeable : true,
       apply : "_applySpacing"
     },
-    
-    /** 
-     * Widget which will be shown if at least one toolbar item is hidden. 
-     * Keep in mind to add this widget to the toolbar before you set it as 
+
+    /**
+     * Widget which will be shown if at least one toolbar item is hidden.
+     * Keep in mind to add this widget to the toolbar before you set it as
      * indicator!
      */
-    overflowIndicator : 
+    overflowIndicator :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
       apply : "_applyOverflowIndicator"
     },
-    
+
     /** Enables the overflow handling which automatically removes items.*/
-    overflowHandling : 
+    overflowHandling :
     {
       init : false,
       check : "Boolean",
@@ -129,8 +129,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      EVENTS
   *****************************************************************************
   */
-  
-  events : 
+
+  events :
   {
     /** Fired if an item will be hidden by the {@link #overflowHandling}.*/
     "hideItem" : "qx.event.type.Data",
@@ -147,19 +147,19 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   */
 
   members :
-  { 
+  {
     /*
     ---------------------------------------------------------------------------
       OVERFLOW HANDLING
     ---------------------------------------------------------------------------
-    */  
-    
+    */
+
     __removedItems : null,
-    __removePriority : null,    
-        
-    
+    __removePriority : null,
+
+
     // overridden
-    _computeSizeHint : function() 
+    _computeSizeHint : function()
     {
       // get the original hint
       var hint = this.base(arguments);
@@ -175,24 +175,24 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
       return hint;
     },
-    
-    
+
+
     /**
      * Resize event handler.
-     * 
+     *
      * @param e {qx.event.type.Data} The resize event.
      */
     _onResize : function(e) {
       this._recalculateOverflow(e.getData().width);
     },
-    
-    
+
+
     /**
      * Responsible for calculation the overflow based on the available width.
-     * 
+     *
      * @param width {Integer} The available width.
      */
-    _recalculateOverflow : function(width) 
+    _recalculateOverflow : function(width)
     {
       // do nothing if overflow handling is not enabled
       if (!this.getOverflowHandling()) {
@@ -218,10 +218,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
           var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
           var childWidth = childToHide.getSizeHint().width + margins;
           this.__hideChild(childToHide);
-          
+
           // new width is the requiredWidth - the removed childs width
           requiredWidth -= childWidth;
-          
+
           // show the overflowWidgetWidth
           if (overflowWidget && overflowWidget.getVisibility() != "visible") {
             overflowWidget.setVisibility("visible");
@@ -229,8 +229,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             requiredWidth += overflowWidgetWidth;
           }
         } while (requiredWidth > width);
-       
-      // if we can possibly show something 
+
+      // if we can possibly show something
       } else {
         do {
           var removedChild = this.__removedItems[0];
@@ -240,8 +240,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             var removedChildWidth = removedChild.getSizeHint().width + margins;
             // if it just fits in || it fits in when we remove the overflow widget
             if (
-                width > requiredWidth + removedChildWidth + this.getSpacing() || 
-                (this.__removedItems.length == 1 && 
+                width > requiredWidth + removedChildWidth + this.getSpacing() ||
+                (this.__removedItems.length == 1 &&
                     width > requiredWidth + removedChildWidth - overflowWidgetWidth + this.getSpacing()
                 )
             ) {
@@ -258,27 +258,27 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         } while (width >= requiredWidth && this.__removedItems.length > 0);
       }
     },
-    
-    
+
+
     /**
      * Helper to show a toolbar item.
-     * 
+     *
      * @param child {qx.ui.core.Widget} The widget to show.
      */
-    __showChild : function(child) 
+    __showChild : function(child)
     {
       child.setVisibility("visible");
       this.__removedItems.shift();
       this.fireDataEvent("showItem", child)
     },
-    
-    
+
+
     /**
      * Helper to exclude a toolbar item.
-     * 
+     *
      * @param child {qx.ui.core.Widget} The widget to exclude.
      */
-    __hideChild : function(child) 
+    __hideChild : function(child)
     {
       // ignore the call if no child is given
       if (!child) {
@@ -288,17 +288,17 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       child.setVisibility("excluded");
       this.fireDataEvent("hideItem", child);
     },
-    
-    
+
+
     /**
-     * Responsible for returning the next item to remove. In It checks the 
+     * Responsible for returning the next item to remove. In It checks the
      * priorities added by {@link #setRemovePriority}. If all priorized widgets
      * already excluded, it takes the widget added at last.
-     * 
+     *
      * @return {qx.ui.core.Widget|null} The widget which should be removed next.
      *   If null is returned, no widget is availablew to remove.
      */
-    _getNextToHide : function() 
+    _getNextToHide : function()
     {
       // get the elements by priority
       for (var i = this.__removePriority.length - 1; i >= 0; i--) {
@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
           return item;
         }
       };
-      
+
       // if there is non found by priority, check all available widgets
       var children = this._getChildren();
       for (var i = children.length -1; i >= 0; i--) {
@@ -323,20 +323,20 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         }
       };
     },
-    
-    
+
+
     /**
-     * The removal of the toolbar items is priority based. You can change these 
-     * priorities with this method. The higer a priority, the earlier is will 
-     * be excluded. Remmeber to use every priority only once! If you want 
+     * The removal of the toolbar items is priority based. You can change these
+     * priorities with this method. The higer a priority, the earlier is will
+     * be excluded. Remmeber to use every priority only once! If you want
      * override an already set priority, use the override parameter.
      * Keep in mind to only use already added items.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The item to give the priority.
      * @param priority {Integer} The priority, higher means removed earlier.
      * @param override {Boolean} true, if the priority should be overridden.
      */
-    setRemovePriority : function(item, priority, override) 
+    setRemovePriority : function(item, priority, override)
     {
       // security check for overriding priorities
       if (!override && this.__removePriority[priority] != undefined) {
@@ -344,8 +344,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
       this.__removePriority[priority] = item;
     },
-    
-    
+
+
     // property apply
     _applyOverflowHandling : function(value, old)
     {
@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       // recalculate if possible
       var bounds = this.getBounds()
       if (bounds && bounds.width) {
-        this._recalculateOverflow(bounds.width);        
+        this._recalculateOverflow(bounds.width);
       }
 
       // if the handling has been enabled
@@ -385,15 +385,15 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         this.__removedItems = [];
       }
     },
-    
-    
+
+
     // property apply
-    _applyOverflowIndicator : function(value, old) 
+    _applyOverflowIndicator : function(value, old)
     {
       if (old) {
         this._remove(old);
       }
-      
+
       if (value) {
         // check if its a child of the toolbar
         if (this._indexOf(value) == -1) {
@@ -403,14 +403,14 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         value.setVisibility("excluded");
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MENU OPEN
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     __allowMenuOpenHover : false,
 
     /**
@@ -507,8 +507,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       return buttons;
     }
   },
-  
-  
+
+
   destruct : function() {
     if (this.hasListener("resize")) {
       this.removeListener("resize", this._onResize, this);

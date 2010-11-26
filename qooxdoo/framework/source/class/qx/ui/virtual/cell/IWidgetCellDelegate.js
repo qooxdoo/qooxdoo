@@ -32,7 +32,7 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCellDelegate",
   members :
   {
     /**
-     * Creates a <code>Widget</code> which will be used for rendering. 
+     * Creates a <code>Widget</code> which will be used for rendering.
      *
      * @return {qx.ui.core.LayoutItem} A new created <code>Widget</code>.
      */

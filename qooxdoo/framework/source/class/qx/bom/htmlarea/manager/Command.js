@@ -1976,13 +1976,13 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
     /**
-     * Checks the formatting at the beginning of a line and resets the 
+     * Checks the formatting at the beginning of a line and resets the
      * formatting manually if necessary.
-     * 
-     * This workaround fixes the wrong behaviour of Gecko browser which does 
-     * not remove the formatting itself if the cursor is at the beginning of a 
-     * new line and the user has not entered any text yet. 
-     * 
+     *
+     * This workaround fixes the wrong behaviour of Gecko browser which does
+     * not remove the formatting itself if the cursor is at the beginning of a
+     * new line and the user has not entered any text yet.
+     *
      * @param attribute {String} Style attribute to check for
      * @param value {String} Style attribute value to check for
      * @return {Boolean} Whether the formatting was removed manually
@@ -1996,7 +1996,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         var ancestors = qx.dom.Hierarchy.getAncestors(focusNode);
         ancestors.unshift(focusNode);
 
-        var Node = qx.dom.Node; 
+        var Node = qx.dom.Node;
         var Style = qx.bom.element.Style;
         var currentElement = ancestors.shift();
         while (ancestors.length > 0)
@@ -2011,7 +2011,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           {
             Style.reset(currentElement, attribute);
             return true;
-          } 
+          }
 
           currentElement = ancestors.shift();
         }
@@ -2022,28 +2022,28 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
     /**
-     * Special implementation for Gecko browser to fix the wrong formatting 
+     * Special implementation for Gecko browser to fix the wrong formatting
      * at the beginning of a new line.
-     * 
+     *
      * @param value {String} command value
      * @param commandObject {Object} command infos
      * @return {Boolean} Success of operation
-     * 
+     *
      * @signature function(value, commandObject)
      */
     __setBold : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(value, commandObject)
       {
-        // Checks for any "font-weight: bold" formatting and resets it 
+        // Checks for any "font-weight: bold" formatting and resets it
         // manually if present
         if (this.__syncFormattingAtBeginOfLine("fontWeight", "bold")) {
-          return true;          
+          return true;
         } else {
           return this.__executeCommand(commandObject.identifier, false, value);
         }
       },
-      
+
       "default" : function(value, commandObject) {
         return this.__executeCommand(commandObject.identifier, false, value);
       }
@@ -2051,28 +2051,28 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
     /**
-     * Special implementation for Gecko browser to fix the wrong formatting 
+     * Special implementation for Gecko browser to fix the wrong formatting
      * at the beginning of a new line.
-     * 
+     *
      * @param value {String} command value
      * @param commandObject {Object} command infos
      * @return {Boolean} Success of operation
-     * 
+     *
      * @signature function(value, commandObject)
      */
     __setItalic : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(value, commandObject)
       {
-        // Checks for any "font-style: italic" formatting and resets it 
+        // Checks for any "font-style: italic" formatting and resets it
         // manually if present
         if (this.__syncFormattingAtBeginOfLine("fontStyle", "italic")) {
-          return true;          
+          return true;
         } else {
           return this.__executeCommand(commandObject.identifier, false, value);
-        }    
+        }
       },
-      
+
       "default" : function(value, commandObject) {
         return this.__executeCommand(commandObject.identifier, false, value);
       }
@@ -2080,9 +2080,9 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
      /**
-      * Special implementation for Gecko browser to fix the wrong formatting 
+      * Special implementation for Gecko browser to fix the wrong formatting
       * at the beginning of a new line.
-      * 
+      *
       * Special implementation for webkit browser to set the text-decoration
       * underline. In webkit the apply of text-decoration is different to other
       * browsers and cannot be performed with an <code>execCommand</code>
@@ -2096,13 +2096,13 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      {
        "gecko" : function(value, commandObject)
        {
-         // Checks for any "text-decoration: underline" formatting and resets it 
+         // Checks for any "text-decoration: underline" formatting and resets it
          // manually if present
          if (this.__syncFormattingAtBeginOfLine("textDecoration", "underline")) {
-           return true;          
+           return true;
          } else {
            return this.__executeCommand(commandObject.identifier, false, value);
-         }    
+         }
        },
 
        "webkit" : function(value, commandObject)
@@ -2154,9 +2154,9 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
 
      /**
-      * Special implementation for Gecko browser to fix the wrong formatting 
+      * Special implementation for Gecko browser to fix the wrong formatting
       * at the beginning of a new line.
-      * 
+      *
       * Special implementation for webkit browser to set the text-decoration
       * strikethrough. In webkit the apply of text-decoration is different to other
       * browsers and cannot be performed with an <code>execCommand</code>
@@ -2164,20 +2164,20 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @param value {String} color info
       * @param commandObject {Object} command infos
       * @return {Boolean} Success of operation
-      * 
+      *
       * @signature function(value, commandObject)
       */
      __setStrikeThrough  : qx.core.Variant.select("qx.client",
      {
        "gecko" : function(value, commandObject)
        {
-         // Checks for any "text-decoration: line-through" formatting and resets 
+         // Checks for any "text-decoration: line-through" formatting and resets
          // it manually if present
          if (this.__syncFormattingAtBeginOfLine("textDecoration", "line-through")) {
-           return true;          
+           return true;
          } else {
            return this.__executeCommand(commandObject.identifier, false, value);
-         }    
+         }
        },
 
        "webkit" : function(value, commandObject)

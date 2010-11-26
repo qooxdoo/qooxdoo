@@ -73,10 +73,10 @@ qx.Class.define("qx.event.type.KeySequence",
 
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
-     * of the W3C DOM 3 event specification 
+     * of the W3C DOM 3 event specification
      * (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
      *
-     * Printable keys are represented by a unicode string, non-printable keys 
+     * Printable keys are represented by a unicode string, non-printable keys
      * have one of the following values:
      *
      * <table>
@@ -126,17 +126,17 @@ qx.Class.define("qx.event.type.KeySequence",
       return this._identifier;
     },
 
-    
+
     /**
-     * Returns the native keyCode and is best used on keydown/keyup events to 
-     * check which physical key was pressed. 
-     * Don't use this on keypress events because it's erroneous and 
-     * inconsistent across browsers. But it can be used to detect which key is 
+     * Returns the native keyCode and is best used on keydown/keyup events to
+     * check which physical key was pressed.
+     * Don't use this on keypress events because it's erroneous and
+     * inconsistent across browsers. But it can be used to detect which key is
      * exactly pressed (e.g. for num pad keys).
-     * In any regular case, you should use {@link #getKeyIdentifier} which 
+     * In any regular case, you should use {@link #getKeyIdentifier} which
      * takes care of all cross browser stuff.
      *
-     * The key codes are not character codes, they are just ASCII codes to 
+     * The key codes are not character codes, they are just ASCII codes to
      * identify the keyboard (or other input devices) keys.
      *
      * @return {Number} The key code.

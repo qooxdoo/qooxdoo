@@ -26,19 +26,19 @@ qx.Class.define("qx.test.dom.Node",
 
     setUp : function()
     {
-      var blockNodeList = [ "body", "h1", "h2", "h3", "h4", "h5", "div", "blockquote", 
-                            "hr", "form", "textarea", "fieldset", "iframe", 
-                            "ul", "ol", "li", "dl", "dt", "dd", "p", "quote", 
-                            "pre", "table", "thead", "tbody", "tfoot", "tr", 
+      var blockNodeList = [ "body", "h1", "h2", "h3", "h4", "h5", "div", "blockquote",
+                            "hr", "form", "textarea", "fieldset", "iframe",
+                            "ul", "ol", "li", "dl", "dt", "dd", "p", "quote",
+                            "pre", "table", "thead", "tbody", "tfoot", "tr",
                             "td", "th", "iframe", "address" ];
 
       var inlineNodeList = [ "a", "span", "abbr", "acronym", "dfn", "object", "param",
                              "em", "strong", "code", "b", "i", "tt", "samp",
                              "kbd", "var", "big", "small", "br", "bdo", "cite",
                              "del", "ins", "q", "sub", "sup", "img", "map" ];
-      
+
       this.__blockNodes = [];
-      
+
       var blockElement;
       for (var i=0, j=blockNodeList.length; i<j; i++)
       {
@@ -46,9 +46,9 @@ qx.Class.define("qx.test.dom.Node",
         document.body.appendChild(blockElement);
         this.__blockNodes.push(blockElement);
       }
-      
+
       this.__inlineNodes = [];
-      
+
       var inlineElement;
       for (var i=0, j=inlineNodeList.length; i<j; i++)
       {
@@ -65,14 +65,14 @@ qx.Class.define("qx.test.dom.Node",
         document.body.removeChild(this.__blockNodes[i]);
       }
       this.__blockNodes = null;
-      
+
       for (var i=0, j=this.__inlineNodes.length; i<j; i++) {
         document.body.removeChild(this.__inlineNodes[i]);
       }
       this.__inlineNodes = null;
     },
-    
-    
+
+
     testBlockNodes : function()
     {
       var blockNode;
@@ -80,10 +80,10 @@ qx.Class.define("qx.test.dom.Node",
       {
         this.info("Testing node " + qx.dom.Node.getName(this.__blockNodes[i]));
         this.assertTrue(qx.dom.Node.isBlockNode(this.__blockNodes[i]));
-      }      
+      }
     },
-    
-    
+
+
     testInlineNodes : function()
     {
       var inlineNode;

@@ -167,13 +167,13 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           return widget.getContentElement().getAttribute("placeholder");
         } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
           return widget.getChildControl("textfield").getContentElement().getAttribute("placeholder");
-        }        
+        }
       } else {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           return widget.getContainerElement().getChildren()[1].getValue();
         } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
           return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getValue();
-        }        
+        }
       }
     },
 
@@ -181,13 +181,13 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       if (qx.bom.client.Feature.PLACEHOLDER) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           var contentElem = widget.getContentElement();
-          return widget.getValue() == null && 
-            contentElem.getAttribute("placeholder") != "" && 
+          return widget.getValue() == null &&
+            contentElem.getAttribute("placeholder") != "" &&
             contentElem.getAttribute("placeholder") != null &&
             !qx.ui.core.FocusHandler.getInstance().isFocused(widget);
         } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
           var contentElem = widget.getChildControl("textfield").getContentElement();
-          return widget.getChildControl("textfield").getValue() == null && 
+          return widget.getChildControl("textfield").getValue() == null &&
             contentElem.getAttribute("placeholder") != "" &&
             contentElem.getAttribute("placeholder") != null &&
             !qx.ui.core.FocusHandler.getInstance().isFocused(widget);

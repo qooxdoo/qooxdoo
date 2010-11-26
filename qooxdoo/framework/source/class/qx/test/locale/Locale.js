@@ -29,19 +29,19 @@ qx.Class.define("qx.test.locale.Locale",
 
   members :
   {
-    
+
     setUp : function() {
       var manager = qx.locale.Manager.getInstance();
       this.__defaultLocale = manager.getLocale();
     },
-    
-    
+
+
     tearDown : function() {
       var manager = qx.locale.Manager.getInstance();
-      manager.setLocale(this.__defaultLocale);      
+      manager.setLocale(this.__defaultLocale);
     },
-    
-    
+
+
     testTranslation : function()
     {
       this.assertNotUndefined(qx.locale.Manager);
@@ -126,9 +126,9 @@ qx.Class.define("qx.test.locale.Locale",
       cars = cars.translate();
       this.assertEquals("5 Autos", cars);
     },
-    
-    
-    testInvalidMessage : function() 
+
+
+    testInvalidMessage : function()
     {
       this.assertNotUndefined(qx.locale.Manager);
       var manager = qx.locale.Manager.getInstance();

@@ -91,7 +91,7 @@ qx.Class.define("qx.event.type.Drag",
       if (this._native == null) {
         return 0;
       }
-      
+
       if (this._native.pageX !== undefined) {
         return this._native.pageX;
       } else {

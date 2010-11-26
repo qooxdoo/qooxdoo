@@ -147,8 +147,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *
      * @param source {String} Image source to load
      * @param callback {Function} Callback function to execute
-     *   The first parameter of the callback is the given source url, the 
-     *   second parameter is the data entry which contains additional 
+     *   The first parameter of the callback is the given source url, the
+     *   second parameter is the data entry which contains additional
      *   information about the image.
      * @param context {Object} Context in which the given callback should be executed
      */
@@ -209,20 +209,20 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
     /**
      * Abort the loading for the given url.
-     * 
+     *
      * @param source {String} URL of the image to abort its loading.
      */
     abort : function (source)
     {
       var entry = this.__data[source];
-      
+
       if (entry && !entry.loaded)
       {
         entry.aborted = true;
-        
+
         var callbacks = entry.callbacks;
         var element = entry.element;
-        
+
         // Cleanup listeners
         element.onload = element.onerror = null;
 
@@ -230,12 +230,12 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         delete entry.callbacks;
         delete entry.element;
         delete entry.loading;
-        
+
         for (var i=0, l=callbacks.length; i<l; i+=2) {
           callbacks[i].call(callbacks[i+1], source, entry);
-        } 
+        }
       }
-      
+
       this.__data[source] = null;
     },
 
@@ -283,7 +283,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       delete entry.loading;
       delete entry.callbacks;
       delete entry.element;
-      
+
       // Execute callbacks
       for (var i=0, l=callbacks.length; i<l; i+=2) {
         callbacks[i].call(callbacks[i+1], source, entry);
