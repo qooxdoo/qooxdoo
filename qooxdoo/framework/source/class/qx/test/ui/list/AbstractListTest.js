@@ -29,21 +29,21 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
 
     _list : null,
 
+
     setUp : function()
     {
       this.base(arguments);
 
       this._model = new qx.data.Array();
 
-      for (var i = 0; i < 100; i++) {
-        this._model.push("item " + (i + 1));
-      }
+      this.createModelData();
 
       this._list = new qx.ui.list.List(this._model);
       this.getRoot().add(this._list);
 
       this.flush();
     },
+
 
     tearDown : function()
     {
@@ -52,6 +52,11 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
       this._list.destroy();
       this._list = null;
       this._model = null;
+    },
+
+
+    createModelData : function() {
+      throw new Error("Abstract 'createModelData' method call!");
     }
   }
 });

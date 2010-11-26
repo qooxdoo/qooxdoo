@@ -29,6 +29,14 @@ qx.Class.define("qx.test.ui.list.List",
 
   members :
   {
+    createModelData : function()
+    {
+      for (var i = 0; i < 100; i++) {
+        this._model.push("item " + (i + 1));
+      }
+    },
+
+
     testCreation : function()
     {
       this._list.setWidth(300);
@@ -42,6 +50,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(0, this._list.getSelection().getLength());
     },
+
 
     testChangeModelSize : function()
     {
@@ -58,6 +67,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
     },
 
+
     testChangeModelContent : function()
     {
       this._model.setItem(0, "new item");
@@ -68,6 +78,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
       this.assertEquals("new item", this._list._layer.getRenderedCellWidget(0,0).getLabel());
     },
+
 
     testResetModel : function()
     {
@@ -87,6 +98,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(this._list.getModel().getLength(), this._list.getPane().getRowConfig().getItemCount(), "b");
     },
+
 
     testComplexModel : function()
     {
@@ -108,6 +120,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals("qx/icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
     },
 
+
     testFilter : function()
     {
       var filteredModel = new qx.data.Array();
@@ -128,6 +141,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertModelEqualsRowData(filteredModel, this._list);
       this.assertEquals(filteredModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
     },
+
 
     testSorter : function()
     {
@@ -184,6 +198,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertModelEqualsRowData(sortedModel, this._list);
       this.assertEquals(sortedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
     },
+
 
     testDisabledElements : function()
     {
