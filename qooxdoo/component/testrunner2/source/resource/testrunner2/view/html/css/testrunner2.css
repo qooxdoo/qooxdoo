@@ -96,6 +96,14 @@ h1 {
   color: #134275;  
 }
 
+#qxtestrunner_results ul li ul li {
+  margin: 3px 0 3px 10px;
+}
+
+#qxtestrunner_results .stacktrace {
+  font-weight: normal;
+}
+
 #qxtestrunner_results .success {
   background-color: #FAFFED;
   border-left: 2px solid #DEFF83;

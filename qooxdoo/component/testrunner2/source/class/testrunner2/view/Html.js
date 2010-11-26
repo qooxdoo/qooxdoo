@@ -446,10 +446,12 @@ qx.Class.define("testrunner2.view.Html", {
       }
       
       if (exceptions && exceptions.length > 0) {
+        var errorList = document.createElement("ul");
         for (var i=0,l=exceptions.length; i<l; i++) {
           var error = exceptions[i].exception;
-          listItem.innerHTML += '<br/>' + error;
-  
+          var errorItem = document.createElement("li");
+          errorItem.innerHTML += error;
+           
           var trace = testResultData.getStackTrace(error);
           if (trace.length > 0) {
             var stackDiv = document.createElement("div");
@@ -458,10 +460,12 @@ qx.Class.define("testrunner2.view.Html", {
             
             var displayVal = this.getShowStack() ? "block" : "none";
             qx.bom.element.Style.set(stackDiv, "display", displayVal);
-            listItem.appendChild(stackDiv);
+            errorItem.appendChild(stackDiv);
+            
+            errorList.appendChild(errorItem);
           }
         }
-        
+        listItem.appendChild(errorList);
       }
     },
     
