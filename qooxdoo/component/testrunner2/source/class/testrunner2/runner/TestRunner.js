@@ -150,6 +150,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.setTestSuiteState("loading");
       this.loader = new qx.dev.unit.TestLoaderInline();
       this.loader.setTestNamespace(nameSpace);
+      this.__wrapAssertions();
       this.__getTestData();
     },
     

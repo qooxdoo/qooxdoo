@@ -138,15 +138,15 @@ qx.Class.define("testrunner2.view.Console", {
     {
       var testName = testResultData.getName();
       var state = testResultData.getState();
-      var exception = testResultData.getException();
+      var exceptions = testResultData.getExceptions();
       
       //Update test results map
       if (!this.__testResults[testName]) {
         this.__testResults[testName] = {};        
       }
       this.__testResults[testName].state = state;
-      if (exception) {
-        this.__testResults[testName].exception = exception;
+      if (exceptions) {
+        this.__testResults[testName].exceptions = exceptions;
       }
       
       var level;
@@ -164,8 +164,8 @@ qx.Class.define("testrunner2.view.Console", {
       
       this[level](testName + " : " + state);
       
-      if (state == "error") {
-        this.error(exception);
+      if (state == "error" && exceptions) {
+        this.error(exceptions);
       }
     },
     
