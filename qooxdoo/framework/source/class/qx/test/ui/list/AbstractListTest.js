@@ -34,8 +34,6 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
     {
       this.base(arguments);
 
-      this._model = new qx.data.Array();
-
       this.createModelData();
 
       this._list = new qx.ui.list.List(this._model);

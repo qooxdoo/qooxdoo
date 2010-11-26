@@ -31,6 +31,8 @@ qx.Class.define("qx.test.ui.list.List",
   {
     createModelData : function()
     {
+      this._model = new qx.data.Array();
+
       for (var i = 0; i < 100; i++) {
         this._model.push("item " + (i + 1));
       }

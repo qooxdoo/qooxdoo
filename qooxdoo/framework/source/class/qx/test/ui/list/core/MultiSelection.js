@@ -29,6 +29,15 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
       this._list.setSelectionMode("multi");
     },
 
+    createModelData : function()
+    {
+      this._model = new qx.data.Array();
+
+      for (var i = 0; i < 100; i++) {
+        this._model.push("item " + (i + 1));
+      }
+    },
+
     testSelection : function()
     {
       var selection = this._list.getSelection();
