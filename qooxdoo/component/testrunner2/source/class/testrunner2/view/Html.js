@@ -425,7 +425,7 @@ qx.Class.define("testrunner2.view.Html", {
           this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
       }
       
-      var exception =  testResultData.getException();
+      var exceptions =  testResultData.getExceptions();
       var key = this.__simplifyName(testName);
       var listItem = document.getElementById(key);
       if (listItem) {
@@ -445,18 +445,21 @@ qx.Class.define("testrunner2.view.Html", {
         qx.bom.element.Style.set(listItem, "display", "none");
       }
       
-      if (exception) {
-        listItem.innerHTML += '<br/>' + exception;
-
-        var trace = testResultData.getStackTrace();
-        if (trace.length > 0) {
-          var stackDiv = document.createElement("div");
-          qx.bom.element.Class.add(stackDiv, "stacktrace");
-          stackDiv.innerHTML = 'Stack Trace:<br/>' + trace;
-          
-          var displayVal = this.getShowStack() ? "block" : "none";
-          qx.bom.element.Style.set(stackDiv, "display", displayVal);
-          listItem.appendChild(stackDiv);
+      if (exceptions && exceptions.length > 0) {
+        for (var i=0,l=exceptions.length; i<l; i++) {
+          var error = exceptions[i].exception;
+          listItem.innerHTML += '<br/>' + error;
+  
+          var trace = testResultData.getStackTrace(error);
+          if (trace.length > 0) {
+            var stackDiv = document.createElement("div");
+            qx.bom.element.Class.add(stackDiv, "stacktrace");
+            stackDiv.innerHTML = 'Stack Trace:<br/>' + trace;
+            
+            var displayVal = this.getShowStack() ? "block" : "none";
+            qx.bom.element.Style.set(stackDiv, "display", displayVal);
+            listItem.appendChild(stackDiv);
+          }
         }
         
       }
@@ -479,7 +482,7 @@ qx.Class.define("testrunner2.view.Html", {
     /**
      * Adds or removes tests from the list of selected tests.
      * 
-     * @param test {String[]} List of tests to be added or removed
+     * @param tests {String[]} List of tests to be added or removed
      * @param selected {Boolean} Whether the given tests should be added to or
      * removed from the selection
      */
@@ -615,6 +618,17 @@ qx.Class.define("testrunner2.view.Html", {
         listItem.appendChild(cb);
         listItem.innerHTML += '<label for="' + checkboxId + '">' + testName + '</label>';
         this.__domElements.elemTestList.appendChild(listItem);
+        
+        /*
+        var html = "<li>";
+        var testName = value[i];
+        var key = this.__simplifyName(testName);
+        this.__testNameToId[key] = testName;
+        var checkboxId = "cb_" + key;
+        html += '<input checked="checked" type="checkbox" id="' + checkboxId + '" >'
+        html += '<label for="' + checkboxId + '">' + testName + '</label></li>';
+        this.__domElements.elemTestList.innerHTML += html;
+        */
                 
         cb = document.getElementById(checkboxId);
         qx.event.Registration.addListener(cb, "change", this.__onToggleTest, this);

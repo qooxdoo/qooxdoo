@@ -61,11 +61,19 @@ qx.Class.define("testrunner2.test.DemoTest",
       this.assertEquals(4, 3+1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
+    
+    testException : function()
+    {
+      this.assertException(function() {
+        throw new Error("Ya darn varmint!");
+      }, Error, "varmint");
+    },
 
     testFail: function () 
     {
       this.assertTrue(false, "Well, what did you expect?");
-      this.debug("Executed code after failed assertion!");
+      this.assertEquals(0, 1, "Nope");
+      //alert("Executed code after failed assertion!");
     },
     
     testAsyncSimple : function()

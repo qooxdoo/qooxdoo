@@ -57,26 +57,9 @@ qx.Class.define("testrunner2.unit.TestResult", {
     
     run : function(test, testFunction, self, resume)
     {
-      /* EXPERIMENTAL
+      /*
       if (!resume) {
-        var testInst = test.getTestClass();
-        testInst.__addedListeners = [];
-        if (!qx.event.Registration.addListenerOriginal) {
-          qx.event.Registration.addListenerOriginal = qx.event.Registration.addListener;
-          qx.event.Registration.addListener = function(target, type, listener, self, capture) {
-            var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
-            var store = true;
-            if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0) 
-                 || (self && self.classname && self.classname.indexOf("testrunner2.unit") == 0) ) {
-              store = false;              
-            }
-            if (store) {
-              //console.log("adding listener " + target.toString() + " " + type);
-              testInst.__addedListeners.push([target, listenerId]);
-            }
-            return listenerId;          
-          }
-        }
+        this.__wrapAddListener(test.getTestClass()[test.getName()]);
       }
       */
       
@@ -87,7 +70,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
       if (resume && !this._timeout[test.getFullName()]) {
         this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
-        this._createError("failure", qxEx, test);
+        this._createError("failure", [qxEx], test);
+        //this.__removeListeners(test.getTestClass()[test.getName()]);
         return;
       }
       
@@ -120,7 +104,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
                previously, so we'll ignore them. */ 
           }
           var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
-          this._createError("error", qxEx, test);
+          this._createError("error", [qxEx], test);
+          //this.__removeListeners(test.getTestClass()[test.getName()]);
           return;
         }
       }
@@ -159,14 +144,14 @@ qx.Class.define("testrunner2.unit.TestResult", {
           try {
             this.tearDown(test);
           } catch(except) {}
-          this._createError("failure", ex, test);
+          this._createError("failure", [ex], test);
         } else if (ex.classname == "qx.dev.unit.RequirementError") {
-            this._createError("skip", ex, test);
+            this._createError("skip", [ex], test);
           } else {
           try {
             this.tearDown(test);
           } catch(except) {}
-          this._createError("error", ex, test);
+          this._createError("error", [ex], test);
         }
       }
       
@@ -176,7 +161,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
         try {
           this.tearDown(test);
         } catch(except) {}
-        this._createError("failure", savedExceptions[0], test);
+        this._createError("failure", savedExceptions, test);
       }
 
       if (!error)
@@ -186,30 +171,75 @@ qx.Class.define("testrunner2.unit.TestResult", {
           this.fireDataEvent("endTest", test);
         } catch(ex) {
           var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
-          this._createError("error", qxEx, test);
+          this._createError("error", [qxEx], test);
         }
       }
       
-      /* EXPERIMENTAL
-      // no timeout means the test is done
+      /*      
       if (!this._timeout[test.getFullName()]) {
-        // remove listeners added during test execution
-        var testInst = test.getTestClass();
-        if (testInst.__addedListeners) {
-          var listeners = testInst.__addedListeners;
-          for (var i=0,l=listeners.length; i<l; i++) {
-            var target = listeners[i][0];
-            var id = listeners[i][1];
-            try {
-              qx.event.Registration.removeListenerById(target, id);
-              //console.log("Removed listener from object " + target);
-            } catch(ex) {
-              //console.log("couldn't remove listener from object " + target);          
-            }
-          }
-        }
+        this.__removeListeners(test.getTestClass()[test.getName()]);
       }
       */
+    },
+    
+    
+    /**
+     * Fire an error event
+     *
+     * @param eventName {String} Name of the event
+     * @param exceptions {Error[]} The exception(s), which caused the test to fail
+     * @param test {TestSuite|TestFunction} The test
+     * @return {void}
+     */
+    _createError : function(eventName, exceptions, test)
+    {
+      var errors = [];
+      for (var i=0,l=exceptions.length; i<l; i++) {
+        // WebKit and Opera
+        errors.push({
+          exception : exceptions[i],
+          test      : test
+        });
+      }
+
+      this.fireDataEvent(eventName, errors);
+      this.fireDataEvent("endTest", test);
+    },
+    
+    
+    __wrapAddListener : function(testFunction)
+    {
+      testFunction._addedListeners = [];
+      if (!qx.event.Registration.addListenerOriginal) {
+        qx.event.Registration.addListenerOriginal = qx.event.Registration.addListener;
+        qx.event.Registration.addListener = function(target, type, listener, self, capture) {
+          var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
+          var store = true;
+          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0) 
+               || (self && self.classname && self.classname.indexOf("testrunner2.unit") == 0) ) {
+            store = false;              
+          }
+          if (store) {
+            testFunction._addedListeners.push([target, listenerId]);
+          }
+          return listenerId;          
+        }
+      }
+    },
+    
+    __removeListeners : function(testFunction)
+    {
+      // remove listeners added during test execution
+      if (testFunction._addedListeners) {
+        var listeners = testFunction._addedListeners;
+        for (var i=0,l=listeners.length; i<l; i++) {
+          var target = listeners[i][0];
+          var id = listeners[i][1];
+          try {
+            qx.event.Registration.removeListenerById(target, id);
+          } catch(ex) {}
+        }
+      }
     }
   }
 

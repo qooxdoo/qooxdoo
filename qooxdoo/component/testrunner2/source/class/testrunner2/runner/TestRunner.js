@@ -46,7 +46,6 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     // Connect view and controller
     this.view.addListener("runTests", function() {
-      this.setTestSuiteState("running");
       this.runTests();
     }, this);
     
@@ -214,7 +213,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
               var testFunction = arguments.callee.caller;
               // attach any exceptions to the test function that called the
               // assertion
-              if (!testFunction._exceptions || !(testFunction._exceptions instanceof win.Array)) {
+              if (!testFunction._exceptions) {
                 testFunction._exceptions = [];
               }
               testFunction._exceptions.push(ex);
@@ -231,8 +230,15 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     runTests : function()
     {
-      if (this.getTestSuiteState() == "aborted") {
-        return;
+      var suiteState = this.getTestSuiteState();
+      switch (suiteState) {
+        case "ready":
+          this.setTestSuiteState("running");
+          break;
+        case "aborted":
+        case "error":
+        case "finished":
+          return;
       }
       
       if (this.testList.length == 0) {
@@ -303,33 +309,25 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }, this);
       
       testResult.addListener("wait", function(e) {
-        //var test = e.getData();
         this.currentTestData.setState("wait");
       }, this);
       
       testResult.addListener("failure", function(e) {
-        var ex = e.getData().exception;
-        this.currentTestData.setException(ex);
+        this.currentTestData.setExceptions(e.getData());
         this.currentTestData.setState("failure");
-        //var test = e.getData().test;
       }, this);
       
       testResult.addListener("error", function(e) {
-        //var test = e.getData();
-        var ex = e.getData().exception;
-        this.currentTestData.setException(ex);
+        this.currentTestData.setExceptions(e.getData());
         this.currentTestData.setState("error");
       }, this);
       
       testResult.addListener("skip", function(e) {
-        //var test = e.getData();
-        var ex = e.getData().exception;
-        this.currentTestData.setException(ex);
+        this.currentTestData.setExceptions(e.getData());
         this.currentTestData.setState("skip");
       }, this);
       
       testResult.addListener("endTest", function(e) {
-        //var test = e.getData();
         var state = this.currentTestData.getState();
         if (state == "start") {
           this.currentTestData.setState("success");
@@ -353,7 +351,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
           
           if (this.__bodyLength != fWin.document.body.innerHTML.length) {
             var error = new Error("Incomplete tearDown: The DOM was not reverted to its initial state!");
-            this.currentTestData.setException(error);
+            this.currentTestData.setExceptions([error]);
             this.currentTestData.setState("error");
           }
         }
