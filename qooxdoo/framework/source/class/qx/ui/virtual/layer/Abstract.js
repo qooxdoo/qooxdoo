@@ -21,7 +21,7 @@
 /**
  * EXPERIMENTAL!
  *
- * Abstract base class for layers o a virtual pane.
+ * Abstract base class for layers of a virtual pane.
  *
  * This class queues calls to {@link #fullUpdate}, {@link #updateLayerWindow}
  * and {@link #updateLayerData} and only performs the absolute necessary
