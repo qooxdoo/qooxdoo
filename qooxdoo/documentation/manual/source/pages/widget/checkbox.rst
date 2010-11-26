@@ -24,7 +24,9 @@ Features
 
 Description
 -----------
-The CheckBox widget is a normal widget for a GUI Application. The CheckBox supports an optional plain text.
+The CheckBox is a common widget found in many GUI applications. A CheckBox can be checked or not checked, either by mouse or keyboard. When the tri-state mode is enabled, there is an additional third state. The third state means that the CheckBox was neither not checked nor checked, i.e. the state of the CheckBox is undetermined.
+
+The CheckBox supports an optional plain text.
 
 Also it is possible to combine a CheckBox with a TreeItem to construct a complex widget.
 
