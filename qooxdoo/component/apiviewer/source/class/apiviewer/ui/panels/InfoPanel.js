@@ -215,7 +215,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
               if (itemNode)
               {
-                className = itemNode.getClass().getFullName();
+                if(itemNode.getNodeType()!=='package') {
+                  className = itemNode.getClass().getFullName();
+                }
                 var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode);
                 var iconCode = apiviewer.ui.ClassViewer.createImageHtml(iconUrl);
 
