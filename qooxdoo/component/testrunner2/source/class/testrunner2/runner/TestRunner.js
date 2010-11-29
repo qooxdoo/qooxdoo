@@ -234,11 +234,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var suiteState = this.getTestSuiteState();
       switch (suiteState) {
         case "ready":
+        case "finished":
           this.setTestSuiteState("running");
           break;
         case "aborted":
         case "error":
-        case "finished":
           return;
       }
       
@@ -453,7 +453,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       if (!value) {
         return;
       }
-      this.testList = value;
+      this.testList = qx.lang.Array.clone(value);
       // Make sure the value is applied even if it didn't change so the view is
       // updated
       if (value.length == this.getTestCount()) {

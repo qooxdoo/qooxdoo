@@ -148,6 +148,9 @@ qx.Class.define("testrunner2.view.Html", {
       
       this.__domElements.runButton = document.getElementById("qxtestrunner_run");
       qx.event.Registration.addListener(this.__domElements.runButton, "click", function(ev) {
+        if (this.getTestSuiteState() == "finished" ) {
+          this.reset();
+        }
         this.fireEvent("runTests");
       }, this);
       
@@ -387,6 +390,22 @@ qx.Class.define("testrunner2.view.Html", {
     
     
     /**
+     * Resets the result counters, clears the results display and reapplies the
+     * test selection so that the suite can be run again.
+     */
+    reset : function()
+    {
+      this.resetFailedTestCount();
+      this.resetSuccessfulTestCount();
+      this.resetSkippedTestCount();
+      this.clearResults();
+      var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
+      this.resetSelectedTests();
+      this.setSelectedTests(selectedTests);
+    },
+    
+    
+    /**
      * Sets the CSS "display" attribute of all nodes with the given CSS class.
      * 
      * @param cssClass {String} CSS class name
@@ -577,9 +596,9 @@ qx.Class.define("testrunner2.view.Html", {
           statusText += " Failed: " + this.getFailedTestCount();
           statusText += " Skipped: " + this.getSkippedTestCount();
           this.setStatus(statusText);
-          this.__domElements.filterInput.disabled = true;
-          this.__domElements.allTestsToggle.disabled = true;
-          this.__domElements.runButton.disabled = true;
+          this.__domElements.filterInput.disabled = false;
+          this.__domElements.allTestsToggle.disabled = false;
+          this.__domElements.runButton.disabled = false;
           this.__domElements.stopButton.disabled = true;
           break;
         case "aborted" :
