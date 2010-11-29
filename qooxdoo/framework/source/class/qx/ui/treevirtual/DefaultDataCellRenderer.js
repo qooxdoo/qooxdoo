@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
     {
       // Return the style for the div for the cell.  If there's cell-specific
       // style information provided, append it.
-      var html = this.base(arguments, cellInfo) + qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE;
+      var html = this.base(arguments, cellInfo);
       return html;
     }
   }
