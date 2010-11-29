@@ -51,6 +51,139 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
+    testUnidirectionalDeep: function() {
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+      
+      this.__form.add(this.__tf1, "label1", null, "a.tf1");
+      this.__form.add(this.__tf2, "label2", null, "a.tf2");
+      // just create the controller
+      var c = new qx.data.controller.Form(null, this.__form, true);
+      var model = c.createModel();
+      // check if the binding from the model to the view works
+      model.getA().setTf1("affe");
+      this.assertEquals("affe", this.__tf1.getValue());
+      
+      // check if the other direction does not work
+      this.__tf2.setValue("affee");
+      this.assertEquals("init", model.getA().getTf2());
+
+      // use the commit method
+      c.updateModel();
+      this.assertEquals("affee", model.getA().getTf2());
+
+      // distroy the controller
+      c.dispose();
+      model.dispose();
+    },
+
+
+    testUnidirectionalSelectionOptions: function(){
+      // just create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form, true);
+
+      var sb = new qx.ui.form.SelectBox();
+      var i1 = new qx.ui.form.ListItem("a").set({model: "a"});
+      var i2 = new qx.ui.form.ListItem("b").set({model: "b"});
+      sb.add(i1);
+      sb.add(i2);
+
+      this.__form.add(sb, "Sb");
+      c.setModel(null);
+      c.addBindingOptions("Sb", 
+        {converter : function(data) { return data && data.substr(0, 1);}}, 
+        {converter : function(data) { return data + "-item"}}
+      );
+      var m = c.createModel();
+      
+      // check that the init value is set
+      this.assertEquals("a-item", m.getSb());
+
+      sb.setSelection([i2]);
+      this.assertEquals("a-item", m.getSb());
+
+      c.updateModel();
+      this.assertEquals("b-item", m.getSb());
+
+      // distroy
+      sb.dispose();
+      c.dispose();
+      m.dispose();
+    },
+
+
+    testUnidirectionalOptions: function(){
+      // just create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form, true);
+
+      c.addBindingOptions("tf1", 
+        {converter : function(data) { return data && data.substr(0, data.length - 1);}}, 
+        {converter : function(data) { return data + "a"}}
+      );
+
+      // check if the other direction does not work
+      this.__tf1.setValue("affe");
+      this.assertEquals(null, this.__model.getTf1());
+
+      // use the commit method
+      c.updateModel();
+      this.assertEquals("affea", this.__model.getTf1());
+
+      // distroy the controller
+      c.dispose();
+    },
+
+
+    testUnidirectionalSelection: function(){
+      // just create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form, true);
+
+      var sb = new qx.ui.form.SelectBox();
+      var i1 = new qx.ui.form.ListItem("a").set({model: "a"});
+      var i2 = new qx.ui.form.ListItem("b").set({model: "b"});
+      sb.add(i1);
+      sb.add(i2);
+
+      this.__form.add(sb, "Sb");
+      var m = c.createModel();
+
+      // check that the init value is set
+      this.assertEquals("a", m.getSb());
+
+      sb.setSelection([i2]);
+      this.assertEquals("a", m.getSb());
+
+      c.updateModel();
+      this.assertEquals("b", m.getSb());
+
+      // distroy
+      sb.dispose();
+      c.dispose();
+      m.dispose();
+    },
+
+
+    testUnidirectional: function(){
+      // just create the controller
+      var c = new qx.data.controller.Form(this.__model, this.__form, true);
+
+      // check if the binding from the model to the view works
+      this.__model.setTf1("affe");
+      this.assertEquals("affe", this.__tf1.getValue());
+      
+      // check if the other direction does not work
+      this.__tf2.setValue("affee");
+      this.assertEquals(null, this.__model.getTf2());
+
+      // use the commit method
+      c.updateModel();
+      this.assertEquals("affee", this.__model.getTf2());
+
+      // distroy the controller
+      c.dispose();
+    },
+
+
     testCreateEmpty : function() {
       // just create the controller
       var c = new qx.data.controller.Form();

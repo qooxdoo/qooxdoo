@@ -419,7 +419,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             listenerIds[j] = target.addListener(eventName, listeners[j]);
            }
 
-          qx.data.SingleValueBinding.__updateTarget(
+          qx.data.SingleValueBinding.updateTarget(
             sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
           );
         };
@@ -461,8 +461,10 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
+     * 
+     * @internal
      */
-    __updateTarget : function(
+    updateTarget : function(
       sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
