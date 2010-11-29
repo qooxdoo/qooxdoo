@@ -84,8 +84,13 @@ qx.Class.define("testrunner2.runner.TestResultData",
     {
       "default" : function()
       {
-        if (this.getException()) {
-          return this.getException().toString();
+        if (this.getExceptions() && this.getExceptions().length > 0) {
+          var exceptions = this.getExceptions();
+          var message = "";
+          for (var i=0,l=exceptions.length; i<l; i++) {
+            message += exceptions[i].toString() + " ";
+          }
+          return message;          
         } else {
           return "";
         }
@@ -93,15 +98,18 @@ qx.Class.define("testrunner2.runner.TestResultData",
 
       "opera" : function()
       {
-        if (this.getException())
-        {
-          var msg = this.getException().message + "";
-
-          if (msg.indexOf("Backtrace:") < 0) {
-            return this.getException().toString();
-          } else {
-            return qx.lang.String.trim(msg.split("Backtrace:")[0]);
+        if (this.getExceptions() && this.getExceptions().length > 0) {
+          var exceptions = this.getExceptions();
+          var message = "";
+          for (var i=0,l=exceptions.length; i<l; i++) {
+            var msg = exceptions[i].message + "";
+            if (msg.indexOf("Backtrace:") < 0) {
+              message += exceptions[i].toString();
+            } else {
+              message += qx.lang.String.trim(msg.split("Backtrace:")[0]);
+            }
           }
+          return message;
         }
         else
         {
