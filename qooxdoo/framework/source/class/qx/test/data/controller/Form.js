@@ -312,13 +312,21 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
+      c.addBindingOptions("tf1", 
+        {converter : function(data) {
+          return data && data.substr(0, 1);
+        }}, 
+        {converter : function(data) {
+          return data + "-";
+        }}
+      );
       var model = c.createModel();
 
       // check if the model and the form still have the initial value
       this.assertEquals("A", this.__tf1.getValue());
       this.assertEquals("B", this.__tf2.getValue());
       this.assertTrue(this.__cb.getValue());
-      this.assertEquals("A", model.getTf1());
+      this.assertEquals("A-", model.getTf1());
       this.assertEquals("B", model.getTf2());
       this.assertTrue(model.getCb());
 
@@ -328,7 +336,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__cb.setValue(true);
 
       // check the binding
-      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+      this.assertEquals(this.__tf1.getValue() + "-", model.getTf1());
       this.assertEquals(this.__tf2.getValue(), model.getTf2());
       this.assertEquals(this.__cb.getValue(), model.getCb());
 
@@ -338,7 +346,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__cb.setValue(false);
 
       // check the binding
-      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+      this.assertEquals(this.__tf1.getValue() + "-", model.getTf1());
       this.assertEquals(this.__tf2.getValue(), model.getTf2());
       this.assertEquals(this.__cb.getValue(), model.getCb());
 
@@ -348,7 +356,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__model.setCb(true);
 
       // check the binding
-      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+      this.assertEquals(this.__tf1.getValue() + "-", model.getTf1());
       this.assertEquals(this.__tf2.getValue(), model.getTf2());
       this.assertEquals(this.__cb.getValue(), model.getCb());
 
