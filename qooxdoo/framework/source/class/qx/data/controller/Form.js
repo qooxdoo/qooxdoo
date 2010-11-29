@@ -167,13 +167,19 @@ qx.Class.define("qx.data.controller.Form",
           if (i + 1 == names.length) {
             // check if the target is a selection
             var clazz = items[name].constructor;
+            var itemValue = null;
             if (qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection)) {
               // use the first element of the selection because passed to the
               // marshaler (and its single selection anyway) [BUG #3541]
-              currentData[names[i]] = items[name].getModelSelection().getItem(0) || null;
+              itemValue = items[name].getModelSelection().getItem(0) || null;
             } else {
-              currentData[names[i]] = items[name].getValue();
+              itemValue = items[name].getValue();
             }
+            // call the converter if available [BUG #4382]
+            if (this.__bindingOptions[name] && this.__bindingOptions[name][1]) {
+              itemValue = this.__bindingOptions[name][1].converter(itemValue);
+            }
+            currentData[names[i]] = itemValue;
           } else {
             // if its not the last element, check if the object exists
             if (!currentData[names[i]]) {
