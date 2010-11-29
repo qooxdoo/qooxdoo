@@ -90,6 +90,16 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       if (value) {
         value.add(this);
       }
+    },
+    
+    
+    // overridden
+    _onExecute : function(e) {
+      if (this.getGroup().getAllowEmptySelection()) {
+        this.toggleValue();
+      } else {
+        this.setValue(true);
+      }
     }
   }
 });
