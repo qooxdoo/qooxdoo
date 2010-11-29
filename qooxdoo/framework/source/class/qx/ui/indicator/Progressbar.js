@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
    */
     __changeProgress: function(value) {
       var bar = this.getChildControl("progress");
-      var to = Math.round(value * 100);
+      var to = Math.floor(value * 100);
       var from = parseInt(bar.getLayoutProperties().width, 10);
 
       bar.setLayoutProperties({width: to + "%"});
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
       }
 
       //fire complete event if 100% complete
-      if (to == 100) {
+      if (to === 100) {
         this.fireEvent("complete");
       }
     }
