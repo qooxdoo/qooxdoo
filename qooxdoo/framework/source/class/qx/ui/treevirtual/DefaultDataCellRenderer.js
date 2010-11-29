@@ -23,42 +23,5 @@
  */
 qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
 {
-  extend : qx.ui.table.cellrenderer.Default,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-  * Create a new instance of a Default Data Cell Renderer
-  */
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // overridden
-    _getCellStyle : function(cellInfo)
-    {
-      // Return the style for the div for the cell.  If there's cell-specific
-      // style information provided, append it.
-      var html = this.base(arguments, cellInfo);
-      return html;
-    }
-  }
+  extend : qx.ui.table.cellrenderer.Default
 });
