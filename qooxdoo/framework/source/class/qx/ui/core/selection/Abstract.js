@@ -551,12 +551,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Finds the selectable instance from a mouse event
      *
      * @param event {qx.event.type.Mouse} The mouse event
-     * @return {Object} The resulting selectable
+     * @return {Object|null} The resulting selectable
      */
     _getSelectableFromMouseEvent : function(event)
     {
       var target = event.getTarget();
-      return this._isSelectable(target) ? target : null;
+      // check for target (may be null when leaving the viewport) [BUG #4378]
+      if (target && this._isSelectable(target)) {
+        return target;
+      }
+      return null;
     },
 
 
