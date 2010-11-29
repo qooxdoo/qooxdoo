@@ -451,7 +451,7 @@ qx.Class.define("testrunner2.view.Html", {
           var error = exceptions[i].exception;
           var errorItem = document.createElement("li");
           errorItem.innerHTML += error;
-           
+          
           var trace = testResultData.getStackTrace(error);
           if (trace.length > 0) {
             var stackDiv = document.createElement("div");
@@ -461,9 +461,8 @@ qx.Class.define("testrunner2.view.Html", {
             var displayVal = this.getShowStack() ? "block" : "none";
             qx.bom.element.Style.set(stackDiv, "display", displayVal);
             errorItem.appendChild(stackDiv);
-            
-            errorList.appendChild(errorItem);
           }
+          errorList.appendChild(errorItem);
         }
         listItem.appendChild(errorList);
       }
