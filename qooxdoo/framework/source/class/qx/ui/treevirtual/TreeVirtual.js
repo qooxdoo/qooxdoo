@@ -71,9 +71,15 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *     <dt>dataModel</dt>
    *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
    *     <dt>treeDataCellRenderer</dt>
-   *       <dd>new qx.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
+   *       <dd>
+   *         Instance of {@link qx.ui.treevirtual.SimpleTreeDataCellRenderer}.
+   *         Custom data cell renderer for the tree column.
+   *       </dd>
    *     <dt>defaultDataCellRenderer</dt>
-   *       <dd>new qx.ui.treevirtual.DefaultDataCellRenderer()</dd>
+   *       <dd>
+   *         Instance of {@link qx.ui.treevirtual.DefaultDataCellRenderer}.
+   *         Custom data cell renderer for all columns other than the tree column.
+   *       </dd>
    *     <dt>dataRowRenderer</dt>
    *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
    *     <dt>selectionManager</dt>
