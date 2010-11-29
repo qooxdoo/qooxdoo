@@ -45,8 +45,10 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
   {
     this.base(arguments);
 
-    this._cellRenderer = this.createItemRenderer();
     this._list = list;
+
+    this._cellRenderer = this.createItemRenderer();
+    this._groupRenderer = this.createGroupRenderer();
 
     this._cellRenderer.addListener("created", this._onWidgetCreated, this);
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
@@ -59,6 +61,10 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     _cellRenderer : null,
 
 
+    /** {qx.ui.virtual.cell.WidgetCell} the used group renderer */
+    _groupRenderer : null,
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -69,13 +75,27 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     // interface implementation
     getCellWidget : function(row, column)
     {
-      var widget = this._cellRenderer.getCellWidget();
-      this._bindItem(widget, this._list._lookup(row));
+      var widget = null;
 
-      if(this._list._manager.isItemSelected(row)) {
-        this._styleSelectabled(widget);
-      } else {
-        this._styleUnselectabled(widget);
+      if (!this._list._isGroup(row))
+      {
+        widget = this._cellRenderer.getCellWidget();
+        widget.setUserData("cell.type", "item");
+        this._bindItem(widget, this._list._lookup(row));
+
+        if(this._list._manager.isItemSelected(row)) {
+          this._styleSelectabled(widget);
+        } else {
+          this._styleUnselectabled(widget);
+        }
+      }
+      else
+      {
+        widget = this._groupRenderer.getCellWidget({value: null});
+        widget.setUserData("cell.type", "header");
+
+        // TODO this is due to binding feature is missing
+        widget.setValue(this._list._getDataFromRow(row));
       }
 
       return widget;
@@ -85,9 +105,13 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     // interface implementation
     poolCellWidget : function(widget) {
       this._removeBindingsFrom(widget);
-      this._cellRenderer.pool(widget);
-    },
 
+      if (widget.getUserData("cell.type") == "item") {
+        this._cellRenderer.pool(widget);
+      } else if (widget.getUserData("cell.type") == "header") {
+        this._groupRenderer.pool(widget);
+      }
+    },
 
 
     // interface implementation
@@ -118,7 +142,28 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
     // interface implementation
     createGroupRenderer : function() {
-      throw new Error("Feature not implemented!");
+      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createHeader");
+
+      if (createWidget == null) {
+        createWidget = function() {
+          var group = new qx.ui.basic.Label();
+
+          // TODO add appearance for header
+          group.setDecorator("selected");
+          group.setPadding([4, 8, 4, 8]);
+          group.setTextColor("text-selected");
+          group.setTextAlign("right");
+
+          return group;
+        }
+      }
+
+      var renderer = new qx.ui.virtual.cell.WidgetCell();
+      renderer.setDelegate({
+        createWidget : createWidget
+      });
+
+      return renderer;
     },
 
 
@@ -250,6 +295,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
   destruct : function()
   {
     this._cellRenderer.dispose();
-    this._cellRenderer = null;
+    this._groupRenderer.dispose();
+    this._cellRenderer = this._groupRenderer = null;
   }
 });

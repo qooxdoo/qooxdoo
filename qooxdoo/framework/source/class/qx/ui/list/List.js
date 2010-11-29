@@ -183,6 +183,16 @@ qx.Class.define("qx.ui.list.List",
     __lookupTable : null,
 
 
+    /** {Array} lookup table for getting the group name form the row */
+    __lookupTableForGroup : null,
+
+
+    /** {Array} contains all groups with the items as children. The key is 
+     * the group name and the value is an <code>Array</code> containing the 
+     * row number from each item. */
+    __groupHashMap : null,
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -205,6 +215,9 @@ qx.Class.define("qx.ui.list.List",
     {
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
       this.__lookupTable = [];
+
+      this.__groupHashMap = [];
+      this.__lookupTableForGroup = [];
 
       this.getPane().addListener("resize", this._onResize, this);
 
@@ -247,7 +260,13 @@ qx.Class.define("qx.ui.list.List",
      * @return {var|null} the model data from the row.
      */
     _getDataFromRow : function(row) {
-      var data = this.getModel().getItem(this._lookup(row));
+      var data = null;
+
+      if (this._isGroup(row)) {
+        data = this.__lookupTableForGroup[row];
+      } else {
+        data = this.getModel().getItem(this._lookup(row));
+      }
 
       if (data != null) {
         return data;
@@ -264,6 +283,18 @@ qx.Class.define("qx.ui.list.List",
      */
     _lookup : function(index) {
       return this.__lookupTable[index];
+    },
+
+
+    /**
+     * Checks if the passed row is a group or an item.
+     * 
+     * @param row {Integer} row to check.
+     * @return {Boolean} <code>true</code> when the row is a group element,
+     *  <code>false</code> when the row is an item element.
+     */
+    _isGroup : function(row) {
+      return !!this.__lookupTableForGroup[row];
     },
 
 
@@ -384,6 +415,7 @@ qx.Class.define("qx.ui.list.List",
 
       this._runDelegateFilter(model);
       this._runDelegateSorter(model);
+      this._runDelegateGroup(model);
       this.__updateRowCount();
     },
 
@@ -426,6 +458,70 @@ qx.Class.define("qx.ui.list.List",
           return sorter(model.getItem(a), model.getItem(b));
         });
       }
+    },
+
+
+    /**
+     * Invokes a grouping using the group result given in the delegate.
+     *
+     * @param model {qx.data.IListData} The model.
+     */
+    _runDelegateGroup : function (model)
+    {
+      var groupMethod = qx.util.Delegate.getMethod(this.getDelegate(), "group");
+
+      if (groupMethod != null)
+      {
+        for (var i = 0,l = this.__lookupTable.length; i < l; ++i)
+        {
+          var row = this.__lookupTable[i];
+          var item = this.getModel().getItem(row);
+          var group = groupMethod(item);
+
+          this.__addGroup(group, row);
+        }
+        this.__lookupTable = this.__createLookupFromGroup();
+      }
+    },
+
+
+    /**
+     * Adds a row the the group.
+     * 
+     * @param name {String} the group name.
+     * @param row {Integer} row number to add.
+     */
+    __addGroup : function(name, row)
+    {
+      if (this.__groupHashMap[name] == null) {
+        this.__groupHashMap[name] = [];
+      }
+      this.__groupHashMap[name].push(row);
+    },
+
+
+    /**
+     * Creates a lookup table form the internal group hash map.
+     * 
+     * @return {Array} the lookup table based on the internal group hash map.
+     */
+    __createLookupFromGroup : function()
+    {
+      var result = [];
+      var row = 0;
+      for (var group in this.__groupHashMap)
+      {
+        result.push(group);
+        this.__lookupTableForGroup[row] = group;
+        row++;
+
+        var groupMembers = this.__groupHashMap[group];
+        for (var i = 0,l = groupMembers.length; i < l; i++) {
+          result.push(groupMembers[i]);
+          row++;
+        }
+      }
+      return result;
     }
   },
 
