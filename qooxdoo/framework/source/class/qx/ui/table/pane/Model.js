@@ -44,9 +44,7 @@ qx.Class.define("qx.ui.table.pane.Model",
   {
     this.base(arguments);
 
-    tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-
-    this.__tableColumnModel = tableColumnModel;
+    this.setTableColumnModel(tableColumnModel);
   },
 
 
@@ -149,7 +147,13 @@ qx.Class.define("qx.ui.table.pane.Model",
      */
     setTableColumnModel : function(tableColumnModel)
     {
+      if (this.__tableColumnModel) {
+        this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
+        this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onColVisibilityChanged, this);
+      }
       this.__tableColumnModel = tableColumnModel;
+      this.__tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
+      this.__tableColumnModel.addListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
       this.__columnCount = null;
     },
 
@@ -167,6 +171,18 @@ qx.Class.define("qx.ui.table.pane.Model",
       // TODO: Check whether the column is in this model (This is a little bit
       //     tricky, because the column could _have been_ in this model, but is
       //     not in it after the change)
+      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+    },
+
+
+    /**
+     * Event handler. Called when the cell renderer of a column has changed.
+     *
+     * @param evt {Map} the event.
+     * @return {void}
+     */
+    _onHeaderCellRendererChanged : function(evt)
+    {
       this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
@@ -289,6 +305,11 @@ qx.Class.define("qx.ui.table.pane.Model",
   */
 
   destruct : function() {
+    if (this.__tableColumnModel)
+    {
+      this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
+      this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onColVisibilityChanged, this);
+    }
     this.__tableColumnModel = null;
   }
 });

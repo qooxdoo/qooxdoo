@@ -81,7 +81,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>toOverXPos: The new overall x position of the column.</li>
      * </ul>
      */
-    "orderChanged" : "qx.event.type.Data"
+    "orderChanged" : "qx.event.type.Data",
+
+    /**
+     * Fired when the cell renderer of a column has changed. 
+     * The data property of the event is a map having the following attributes:
+     * <ul>
+     *   <li>col: The model index of the column that was moved.</li>
+     * </ul>
+     */
+    "headerCellRendererChanged" : "qx.event.type.Data"
   },
 
 
@@ -305,6 +314,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__columnDataArr[col].headerRenderer = renderer;
+      this.fireDataEvent("headerCellRendererChanged", {col:col});
     },
 
 
