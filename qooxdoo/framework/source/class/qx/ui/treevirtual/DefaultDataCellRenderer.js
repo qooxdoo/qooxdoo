@@ -55,8 +55,7 @@ qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
     // overridden
     _getCellStyle : function(cellInfo)
     {
-      // Return the style for the div for the cell.  If there's cell-specific
-      // style information provided, append it.
+      // Return the style for the div for the cell.
       var html = this.base(arguments, cellInfo);
       return html;
     }
