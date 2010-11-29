@@ -25,7 +25,7 @@ Features
 
 Description
 -----------
-The button is a classic GUI element, that supports two states: pressed and not pressed. The state is changed by a mouse (click) or keyboard (enter or space) event. There is an additional third state when the tri-state mode is enabled. The third state means that the widget was neither not pressed nor pressed, i.e. the state of the button is undetermined.
+The button is a classic GUI element, that supports two states: pressed and not pressed. The state is changed by a mouse (click) or keyboard (enter or space) event. There is an additional third state when the tri-state mode is enabled. The third state means that the widget was neither pressed nor unpressed, i.e. the state of the button is undetermined.
 
 .. _pages/widget/togglebutton#demos:
 
