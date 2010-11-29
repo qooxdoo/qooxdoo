@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   members :
   {
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

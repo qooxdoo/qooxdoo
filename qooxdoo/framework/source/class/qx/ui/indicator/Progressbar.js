@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.indicator.Progressbar",
 
 
     //overridden
-    _createChildControlImpl: function(id) {
+    _createChildControlImpl: function(id, hash) {
       var control;
 
       switch (id)

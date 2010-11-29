@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   members :
   {
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

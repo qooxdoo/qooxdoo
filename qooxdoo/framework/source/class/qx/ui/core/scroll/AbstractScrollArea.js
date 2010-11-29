@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     */
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

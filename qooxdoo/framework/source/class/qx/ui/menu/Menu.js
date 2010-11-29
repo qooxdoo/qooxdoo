@@ -522,7 +522,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

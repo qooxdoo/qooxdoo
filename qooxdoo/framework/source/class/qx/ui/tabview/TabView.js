@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

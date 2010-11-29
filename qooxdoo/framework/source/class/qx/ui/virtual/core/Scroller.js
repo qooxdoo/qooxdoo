@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     */
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       if (id == "pane") {
         return this.__pane;

@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

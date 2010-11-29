@@ -438,7 +438,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

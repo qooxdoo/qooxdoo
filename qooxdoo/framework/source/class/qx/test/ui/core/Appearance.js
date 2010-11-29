@@ -132,7 +132,7 @@ qx.Class.define("qx.test.ui.core.Test", {
     this._setLayout(new qx.ui.layout.Grow());
   },
   members : {
-    _createChildControlImpl : function(id) {
+    _createChildControlImpl : function(id, hash) {
       if (id == "text") {
         var control = new qx.ui.form.TextField("affe");
         this._add(control)

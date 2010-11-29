@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 

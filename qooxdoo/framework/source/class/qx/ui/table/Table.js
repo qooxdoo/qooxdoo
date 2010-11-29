@@ -709,7 +709,7 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 
