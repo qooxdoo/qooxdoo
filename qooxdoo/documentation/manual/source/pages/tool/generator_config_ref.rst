@@ -915,7 +915,7 @@ Triggers the execution of external commands. Takes a map.
 
 Possible keys are 
 
-* **command** : command string or list of command strings to execute by shell 
+* **command** : command string or list of command strings to execute by shell
 
 *Note*: Generally, the command string is passed to the executing shell "as is", with one exception: Relative paths are absolutized, so you can run those jobs from remote directories. In order to achieve this, all strings of the command are searched for path separators (e.g. '/' on Posix systems, '\\' on Windows - be sure to encode this as '\\\\' on Windows as '\\' is the Json escape character). Those strings are regarded as paths and - unless they are already absolute - are absolutized, relative to the path of the current config. So e.g. instead of writing ::
 
@@ -926,6 +926,28 @@ you should write ::
     "cp ./file1 ./file2"
 
 and it will work from everywhere.
+
+.. _pages/tool/generator_config_ref#simulate:
+
+simulate
+=====
+
+Runs a suite of GUI tests (simulated interaction). Takes a map.
+
+::
+
+  "simulate" :
+  {
+    "java-classpath" : "path/js.jar;path/selenium-java-client-driver.jar:${SIMULATOR_ROOT}/tool",
+    "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
+    "simulator-script" : "${BUILD_PATH}/script/simulator.js"
+  }
+  
+Possible keys are 
+
+* **java-classpath** : List of Java classes and/or packages that should be available to the simulation app
+* **rhino-class** : Full name of the Mozilla Rhino class that should be used to run the simulation
+* **simulator-script** : Path of the generated simulation application to be run
 
 .. _pages/tool/generator_config_ref#slice-images:
 

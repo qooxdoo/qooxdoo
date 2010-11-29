@@ -63,10 +63,14 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
  
    * - ROOT 
      - application root dir (rel. to config dir) 
-     - "." 
+     - "."
+     
+   * - SIMULATION_INCLUDE
+     - class pattern to search for GUI test classes 
+     - "${APPLICATION}.simulation.*" 
  
    * - TEST_INCLUDE 
-     - class pattern to search for test classes 
+     - class pattern to search for unit test classes 
      - "${APPLICATION}.test.*" 
  
    * - TESTS_SCRIPT 
