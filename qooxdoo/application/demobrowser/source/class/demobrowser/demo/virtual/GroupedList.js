@@ -110,6 +110,8 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       };
       list.setDelegate(delegate);
       
+      list.setSelection(this.__list.getSelection());
+      
       container.add(list, {top: 20});
       
       return container;
@@ -147,6 +149,8 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         }
       };
       list.setDelegate(delegate);
+      
+      list.setSelection(this.__list.getSelection());
       
       container.add(list, {top: 20});
       
