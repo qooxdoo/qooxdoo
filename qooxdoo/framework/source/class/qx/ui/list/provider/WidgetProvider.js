@@ -91,11 +91,9 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       }
       else
       {
-        widget = this._groupRenderer.getCellWidget({value: null});
+        widget = this._groupRenderer.getCellWidget();
         widget.setUserData("cell.type", "header");
-
-        // TODO this is due to binding feature is missing
-        widget.setValue(this._list._getDataFromRow(row));
+        this._bindGroupItem(widget, row);
       }
 
       return widget;

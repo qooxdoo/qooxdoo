@@ -142,7 +142,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     {
       var bindPath = this.__getBindPath(index, sourcePath);
 
-      var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
+      var bindTarget = this._list;
+      if (this._list._isGroup(index)) {
+        bindTarget = this._list._lookupTableForGroup;
+      }
+
+      var id = bindTarget.bind(bindPath, targetWidget, targetProperty, options);
       this.__addBinding(targetWidget, id);
     },
 
@@ -215,6 +220,23 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
 
     /**
+     * Sets up the binding for the given group item and index.
+     *
+     * @param item {qx.ui.core.Widget} The internally created and used item.
+     * @param index {Integer} The index of the item.
+     */
+    _bindGroupItem : function(item, index) {
+      var delegate = this.getDelegate();
+
+      if (delegate != null && delegate.bindGroupItem != null) {
+        delegate.bindGroupItem(this, item, index);
+      } else {
+        this.bindProperty(null, "value", null, item, index);
+      }
+    },
+
+
+    /**
      * Removes the binding of the given item.
      *
      * @param item {qx.ui.core.Widget} The item which the binding should
@@ -229,7 +251,11 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         try {
           this._list.removeBinding(id);
         } catch(e) {
-          item.removeBinding(id);
+          try {
+            this._list._lookupTableForGroup.removeBinding(id);
+          } catch(e) {
+            item.removeBinding(id);
+          }
         }
       }
 
@@ -248,9 +274,14 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     __getBindPath : function(index, path)
     {
       var bindPath = "model[" + index + "]";
+      if (this._list._isGroup(index)) {
+        bindPath = "[" + index + "]";
+      }
+
       if (path != null && path != "") {
         bindPath += "." + path;
       }
+
       return bindPath;
     },
 
