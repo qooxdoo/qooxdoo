@@ -272,7 +272,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      *
      * @param index {Integer} The index of the item.
      * @param path {String|null} The path to the property.
-     * @param path {String} The type <code>["item", "group"]</code>.
+     * @param type {String} The type <code>["item", "group"]</code>.
      */
     __getBindPath : function(index, path, type)
     {
