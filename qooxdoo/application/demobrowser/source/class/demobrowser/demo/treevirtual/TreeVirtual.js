@@ -1,6 +1,12 @@
 /**
  * Test large trees.  This one adds a Spam branch with 3000 leaf nodes.
  */
+ 
+ /* ************************************************************************
+
+ #asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
+
+ ************************************************************************ */
 qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual",
 {
   extend : qx.application.Standalone,
@@ -19,7 +25,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual",
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
       tree.set({
-              width  : 400
+              width  : 400,
+              rowHeight: 22
             });
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
@@ -50,7 +57,9 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual",
       te = dataModel.addBranch(te1, "Trash", true);
       tree.nodeSetCellStyle(te, "background-color: cyan;");
 
-      var te2 = dataModel.addBranch(null, "Inbox", true);
+      var te2 = dataModel.addBranch(
+        null, "Inbox", true, false, "icon/22/apps/internet-mail.png"
+      );
 
       te = dataModel.addBranch(te2, "Spam", false);
 

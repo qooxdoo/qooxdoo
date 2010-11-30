@@ -393,6 +393,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                                           bAlwaysShowOpenCloseSymbol,
                                           bExcludeFirstLevelTreeLines);
 
+        var rowHeight = cellInfo.table.getRowHeight();
+
         html += this._addImage(
         {
           url         : imageData.icon,
@@ -400,11 +402,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             top         : 0 + (imageData.paddingTop || 0),
             left        : pos + (imageData.paddingLeft || 0),
-            width       : 19,
-            height      : 16
-          }
+            width       : rowHeight + 3,
+            height      : rowHeight
+          },
+          imageWidth  : rowHeight,
+          imageHeight : rowHeight
         });
-        pos += 19;
+        pos += rowHeight + 3;
       }
 
       return (
@@ -451,6 +455,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageUrl = o.icon;
       }
 
+      var rowHeight = cellInfo.table.getRowHeight();
+
       var html = this._addImage(
       {
         url         : imageUrl,
@@ -458,15 +464,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         {
           top         : 0,
           left        : pos,
-          width       : 19,
-          height      : 16
-        }
+          width       : rowHeight + 3,
+          height      : rowHeight
+        },
+        imageWidth  : rowHeight,
+        imageHeight : rowHeight
       });
 
       return (
         {
           html : html,
-          pos  : pos + 19
+          pos  : pos + rowHeight + 3
         });
     },
 
