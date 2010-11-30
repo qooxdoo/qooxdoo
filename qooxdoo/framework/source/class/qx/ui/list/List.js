@@ -188,14 +188,18 @@ qx.Class.define("qx.ui.list.List",
     __lookupTable : null,
 
 
-    /** {qx.data.Array} lookup table for getting the group name form the row */
-    _lookupTableForGroup : null,
+    /** {qx.data.Array} contains all group names */
+    _groups : null,
+
+
+    /** {Array} lookup table for getting the group index form the row */
+    __lookupTableForGroup : null,
 
 
     /**
      * {Map} contains all groups with the items as children. The key is 
      * the group name and the value is an <code>Array</code> containing the 
-     * row number from each item. 
+     * model index from each item. 
      */
     __groupHashMap : null,
 
@@ -223,8 +227,9 @@ qx.Class.define("qx.ui.list.List",
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
 
       this.__lookupTable = [];
+      this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
-      this._lookupTableForGroup = new qx.data.Array();
+      this._groups = new qx.data.Array();
 
       this.getPane().addListener("resize", this._onResize, this);
 
@@ -270,7 +275,7 @@ qx.Class.define("qx.ui.list.List",
       var data = null;
 
       if (this._isGroup(row)) {
-        data = this._lookupTableForGroup.getItem(row);
+        data = this._groups.getItem(this._lookupGroup(row));
       } else {
         data = this.getModel().getItem(this._lookup(row));
       }
@@ -287,6 +292,8 @@ qx.Class.define("qx.ui.list.List",
      * Performs a lookup from row to model index.
      *
      * @param row {Number} The row to look at.
+     * @return {Number} The model index or 
+     *   <code>-1</code> when the row is a group item.
      */
     _lookup : function(row) {
       return this.__lookupTable[row];
@@ -294,9 +301,23 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * Performs a lookup from row to group index.
+     *
+     * @param row {Number} The row to look at.
+     * @return {Number} The group index or 
+     *   <code>-1</code> when the row is a not a group item.
+     */
+    _lookupGroup : function(row) {
+      return this.__lookupTableForGroup.indexOf(row);
+    },
+
+
+    /**
      * Performs a lookup from model index to row.
      *
      * @param index {Number} The index to look at.
+     * @@return {Number} The row or <code>-1</code> 
+     *  when the index is not a model index.
      */
     _reverseLookup : function(index) {
       return this.__lookupTable.indexOf(index);
@@ -311,7 +332,7 @@ qx.Class.define("qx.ui.list.List",
      *  <code>false</code> when the row is an item element.
      */
     _isGroup : function(row) {
-      return !!this._lookupTableForGroup.getItem(row);
+      return this._lookup(row) == -1;
     },
 
 
@@ -423,10 +444,9 @@ qx.Class.define("qx.ui.list.List",
     __buildUpLookupTable : function()
     {
       this.__lookupTable = [];
+      this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
-
-      this._lookupTableForGroup.dispose();
-      this._lookupTableForGroup = new qx.data.Array();
+      this._groups.removeAll();
 
       var model = this.getModel();
 
@@ -495,11 +515,11 @@ qx.Class.define("qx.ui.list.List",
       {
         for (var i = 0,l = this.__lookupTable.length; i < l; ++i)
         {
-          var row = this.__lookupTable[i];
-          var item = this.getModel().getItem(row);
+          var index = this.__lookupTable[i];
+          var item = this.getModel().getItem(index);
           var group = groupMethod(item);
 
-          this.__addGroup(group, row);
+          this.__addGroup(group, index);
         }
         this.__lookupTable = this.__createLookupFromGroup();
       }
@@ -507,17 +527,17 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Adds a row the the group.
+     * Adds a model index the the group.
      * 
      * @param name {String} the group name.
-     * @param row {Integer} row number to add.
+     * @param index {Integer} model index to add.
      */
-    __addGroup : function(name, row)
+    __addGroup : function(name, index)
     {
       if (this.__groupHashMap[name] == null) {
         this.__groupHashMap[name] = [];
       }
-      this.__groupHashMap[name].push(row);
+      this.__groupHashMap[name].push(index);
     },
 
 
@@ -534,7 +554,8 @@ qx.Class.define("qx.ui.list.List",
       {
         // indicate that the value is a group
         result.push(-1);
-        this._lookupTableForGroup.setItem(row, group);
+        this.__lookupTableForGroup.push(row);
+        this._groups.push(group);
         row++;
 
         var groupMembers = this.__groupHashMap[group];
@@ -553,8 +574,8 @@ qx.Class.define("qx.ui.list.List",
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
-    this._lookupTableForGroup.dispose();
-    this._background = this._provider = this._layer = this.__lookupTable = 
-      this._lookupTableForGroup = this.__groupHashMap = null;
+    this._groups.dispose();
+    this._background = this._provider = this._layer = this._groups = 
+      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = null;
   }
 });

@@ -92,8 +92,8 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       else
       {
         widget = this._groupRenderer.getCellWidget();
-        widget.setUserData("cell.type", "header");
-        this._bindGroupItem(widget, row);
+        widget.setUserData("cell.type", "group");
+        this._bindGroupItem(widget, this._list._lookupGroup(row));
       }
 
       return widget;
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
       if (widget.getUserData("cell.type") == "item") {
         this._itemRenderer.pool(widget);
-      } else if (widget.getUserData("cell.type") == "header") {
+      } else if (widget.getUserData("cell.type") == "group") {
         this._groupRenderer.pool(widget);
       }
     },

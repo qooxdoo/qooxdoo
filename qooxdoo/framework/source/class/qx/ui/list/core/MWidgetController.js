@@ -140,11 +140,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
-      var bindPath = this.__getBindPath(index, sourcePath);
+      var type = targetWidget.getUserData("cell.type")
+      var bindPath = this.__getBindPath(index, sourcePath, type);
 
       var bindTarget = this._list;
-      if (this._list._isGroup(index)) {
-        bindTarget = this._list._lookupTableForGroup;
+      if (type == "group") {
+        bindTarget = this._list._groups;
       }
 
       var id = bindTarget.bind(bindPath, targetWidget, targetProperty, options);
@@ -167,7 +168,8 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
-      var bindPath = this.__getBindPath(index, targetPath);
+      var type = sourceWidget.getUserData("cell.type")
+      var bindPath = this.__getBindPath(index, targetPath, type);
 
       var id = sourceWidget.bind(sourcePath, this, bindPath, options);
       this.__addBinding(sourceWidget, id);
@@ -252,7 +254,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
           this._list.removeBinding(id);
         } catch(e) {
           try {
-            this._list._lookupTableForGroup.removeBinding(id);
+            this._list._groups.removeBinding(id);
           } catch(e) {
             item.removeBinding(id);
           }
@@ -270,11 +272,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      *
      * @param index {Integer} The index of the item.
      * @param path {String|null} The path to the property.
+     * @param path {String} The type <code>["item", "group"]</code>.
      */
-    __getBindPath : function(index, path)
+    __getBindPath : function(index, path, type)
     {
       var bindPath = "model[" + index + "]";
-      if (this._list._isGroup(index)) {
+      if (type == "group") {
         bindPath = "[" + index + "]";
       }
 
