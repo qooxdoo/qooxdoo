@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
     this.setLabel("Form");
     this.setLayout(new qx.ui.layout.Canvas());
     
-    this.__initWidgets();
+    this._initWidgets();
     this._initControls(this.__widgets, {disabled: true, hovered: true, focused: true, invalid: true});
   },
 
@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
     
     // __initControls: null,
     
-    __initWidgets: function() 
+    _initWidgets: function() 
     {
       this.__widgets = new qx.type.Array();
       

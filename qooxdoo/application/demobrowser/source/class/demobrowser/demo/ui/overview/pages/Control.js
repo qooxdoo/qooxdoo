@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
     this.add(this.__container, {top: 40});
     
-    this.__initWidgets();
+    this._initWidgets();
     this._initControls(this.__widgets, {disabled: true})
   },
 
@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
     
     __container: null,
     
-    __initWidgets: function() {
+    _initWidgets: function() {
       var widgets = this.__widgets = new qx.type.Array();
       
       var colorSelector = new qx.ui.control.ColorSelector();

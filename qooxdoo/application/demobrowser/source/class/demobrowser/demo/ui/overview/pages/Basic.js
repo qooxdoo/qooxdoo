@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
     this.add(this.__container, {top: 40});
     
-    this.__initWidgets();
+    this._initWidgets();
     this._initControls(this.__widgets, {disabled: true});
   },
 
@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
     
     __container: null,
     
-    __initWidgets: function() 
+    _initWidgets: function() 
     {
       var widgets = this.__widgets = new qx.type.Array();
       
