@@ -183,8 +183,8 @@ qx.Class.define("qx.ui.list.List",
     __lookupTable : null,
 
 
-    /** {Array} lookup table for getting the group name form the row */
-    __lookupTableForGroup : null,
+    /** {qx.data.Array} lookup table for getting the group name form the row */
+    _lookupTableForGroup : null,
 
 
     /** {Map} contains all groups with the items as children. The key is 
@@ -214,10 +214,10 @@ qx.Class.define("qx.ui.list.List",
     _init : function()
     {
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
-      this.__lookupTable = [];
 
+      this.__lookupTable = [];
       this.__groupHashMap = {};
-      this.__lookupTableForGroup = [];
+      this._lookupTableForGroup = new qx.data.Array();
 
       this.getPane().addListener("resize", this._onResize, this);
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.list.List",
       var data = null;
 
       if (this._isGroup(row)) {
-        data = this.__lookupTableForGroup[row];
+        data = this._lookupTableForGroup.getItem(row);
       } else {
         data = this.getModel().getItem(this._lookup(row));
       }
@@ -304,7 +304,7 @@ qx.Class.define("qx.ui.list.List",
      *  <code>false</code> when the row is an item element.
      */
     _isGroup : function(row) {
-      return !!this.__lookupTableForGroup[row];
+      return !!this._lookupTableForGroup.getItem(row);
     },
 
 
@@ -416,6 +416,10 @@ qx.Class.define("qx.ui.list.List",
     __buildUpLookupTable : function()
     {
       this.__lookupTable = [];
+      this.__groupHashMap = {};
+
+      this._lookupTableForGroup.dispose();
+      this._lookupTableForGroup = new qx.data.Array();
 
       var model = this.getModel();
 
@@ -522,7 +526,7 @@ qx.Class.define("qx.ui.list.List",
       for (var group in this.__groupHashMap)
       {
         result.push(group);
-        this.__lookupTableForGroup[row] = group;
+        this._lookupTableForGroup.setItem(row, group);
         row++;
 
         var groupMembers = this.__groupHashMap[group];
@@ -541,8 +545,8 @@ qx.Class.define("qx.ui.list.List",
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
-    this._background = null;
-    this._provider = null;
-    this._layer = null;
+    this._lookupTableForGroup.dispose();
+    this._background = this._provider = this._layer = this.__lookupTable = 
+      this._lookupTableForGroup = this.__groupHashMap = null;
   }
 });
