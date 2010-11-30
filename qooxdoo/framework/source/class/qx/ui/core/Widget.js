@@ -857,7 +857,7 @@ qx.Class.define("qx.ui.core.Widget",
         // dereference "weak" reference to the widget.
         if (widgetKey != null) {
           var widget = qx.core.ObjectRegistry.fromHashCode(widgetKey);
-          // check for ánonymous widgets
+          // check for anonymous widgets
           if (!considerAnonymousState || !widget.getAnonymous()) {
             return widget;
           }
@@ -2479,8 +2479,9 @@ qx.Class.define("qx.ui.core.Widget",
         var manager = qx.locale.Manager.getInstance();
         this.__toolTipTextListenerId = manager.addListener("changeLocale",
           function() {
-            if (value && value.translate) {
-              this.setToolTipText(value.translate());
+            var toolTipText = this.getToolTipText();
+            if (toolTipText && toolTipText.translate) {
+              this.setToolTipText(toolTipText.translate());
             }
           }
         , this);
