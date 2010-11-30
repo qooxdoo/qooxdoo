@@ -81,13 +81,30 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
         width: 450,
         height: 400
       });
+      
+      // Since the decorator requires a bit of extra code, we set
+      // an decorator for demonstration purpose here. Of course,
+      // you may not need a decorator.
+      isle.setDecorator("main");
      
       isle.addListenerOnce("appear", function() {
-        new google.maps.Map(isle.getContentElement().getDomElement(), {
+        var map = new google.maps.Map(isle.getContentElement().getDomElement(), {
             zoom: 13,
-            center: new google.maps.LatLng(49.011899,8.403311),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
+        
+        // Fix for [BUG #4178]
+        // Make sure zIndex of map element is higher than zIndex of decorator
+        // (Maps apparently resets zIndex on init)
+        google.maps.event.addListenerOnce(map, "center_changed", function() {
+          // Wait for DOM
+          window.setTimeout(function() {
+            var zIndex = isle.getContentElement().getStyle('zIndex');
+            isle.getContentElement().getDomElement().style.zIndex = zIndex;
+          }, 500);
+        });
+        
+        map.setCenter(new google.maps.LatLng(49.011899,8.403311));
       });
       return isle;
     }
