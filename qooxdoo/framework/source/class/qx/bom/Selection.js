@@ -155,6 +155,9 @@ qx.Class.define("qx.bom.Selection",
     {
       "mshtml" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node))
         {
           var documentRange = qx.bom.Range.get();
@@ -176,11 +179,6 @@ qx.Class.define("qx.bom.Selection",
         else
         {
           var range = qx.bom.Range.get(node);
-
-          // if nothing was selected, return zero
-          if(range.text.length == 0) {
-            return 0;
-          }
 
           var parentElement = range.parentElement();
 
@@ -224,6 +222,9 @@ qx.Class.define("qx.bom.Selection",
 
       "gecko|webkit" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node)) {
           return node.selectionStart;
         }
@@ -244,6 +245,9 @@ qx.Class.define("qx.bom.Selection",
 
       "default" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node)) {
           return node.selectionStart;
         } else {
@@ -264,6 +268,9 @@ qx.Class.define("qx.bom.Selection",
     {
       "mshtml" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node))
         {
           var documentRange = qx.bom.Range.get();
@@ -328,6 +335,9 @@ qx.Class.define("qx.bom.Selection",
 
       "gecko|webkit" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node)) {
           return node.selectionEnd;
         }
@@ -348,6 +358,9 @@ qx.Class.define("qx.bom.Selection",
 
       "default" : function(node)
       {
+        if(this.getLength(node)<1) {
+          return -1;
+        }
         if (this.__isInputOrTextarea(node)) {
           return node.selectionEnd;
         } else {
