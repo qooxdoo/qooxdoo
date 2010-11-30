@@ -186,6 +186,10 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     // interface implementation
     isSelectable : function(row)
     {
+      if (this._list._isGroup(row)) {
+        return false;
+      }
+
       var widget = this._list._layer.getRenderedCellWidget(row, 0);
 
       if (widget != null) {
