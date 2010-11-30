@@ -277,12 +277,22 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Performs a lookup.
+     * Performs a lookup from row to model index.
+     *
+     * @param row {Number} The row to look at.
+     */
+    _lookup : function(row) {
+      return this.__lookupTable[row];
+    },
+
+
+    /**
+     * Performs a lookup from model index to row.
      *
      * @param index {Number} The index to look at.
      */
-    _lookup : function(index) {
-      return this.__lookupTable[index];
+    _reverseLookup : function(index) {
+      return this.__lookupTable.indexOf(index);
     },
 
 

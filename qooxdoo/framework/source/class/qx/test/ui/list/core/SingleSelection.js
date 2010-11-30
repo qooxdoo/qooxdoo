@@ -97,6 +97,17 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
           self.assertEquals(2, self._list._manager.getSelectedItem());
         }
       );
+    },
+    
+    testSelectionWithSorter : function()
+    {
+      this._list.setDelegate({
+        sorter : function(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        }
+      });
+      
+      this.testSelection();
     }
   }
 });

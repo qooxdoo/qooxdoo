@@ -217,7 +217,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       {
         var item = selection.getItem(i);
         var index = this.getModel().indexOf(item);
-        newSelection.push(index);
+        newSelection.push(this._reverseLookup(index));
       }
 
       try {

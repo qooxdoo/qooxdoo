@@ -125,6 +125,17 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
           ])), "On List");
         }
       );
+    },
+    
+    testSelectionWithSorter : function()
+    {
+      this._list.setDelegate({
+        sorter : function(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        }
+      });
+      
+      this.testSelection();
     }
   }
 });
