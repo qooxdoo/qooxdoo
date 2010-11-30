@@ -25,12 +25,12 @@
 
 /**
  * Demonstrates qx.ui.embed(...):
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Embed", 
+qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
 {
   extend: qx.ui.tabview.Page,
 
@@ -39,15 +39,15 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
   construct: function()
   {
     this.base(arguments);
-    
+
     this.setLabel("Embed");
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     var gridLayout = new qx.ui.layout.Grid(100, 10);
     gridLayout.setColumnFlex(1, 1);
     this.__container = new qx.ui.container.Composite(gridLayout);
     this.add(this.__container, {top: 40, width: "100%", height: "100%"});
-    
+
     this._initWidgets();
     this._initControls(this.__widgets, {disabled: true});
   },
@@ -55,14 +55,14 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
   members :
   {
     __widgets: null,
-    
+
     __container: null,
-    
-    _initWidgets: function() 
+
+    _initWidgets: function()
     {
       var widgets = this.__widgets = new qx.type.Array();
       var label;
-      
+
       // Flash
       label = new qx.ui.basic.Label("Flash");
       this.__container.add(label, {row: 0, column: 0});
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
       flash.getContentElement().setParam("bgcolor", "#FF6600");
       widgets.push(flash);
       this.__container.add(flash, {row: 1, column: 0, colSpan: 2});
-      
+
       // Canvas
       label = new qx.ui.basic.Label("Canvas");
       this.__container.add(label, {row: 2, column: 0});
@@ -92,14 +92,14 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
       canvas.addListener("redraw", this.__draw, this);
       widgets.push(canvas);
       this.__container.add(canvas, {row: 3, column: 0});
-      
+
       // HTML
       label = new qx.ui.basic.Label("HTML");
       this.__container.add(label, {row: 2, column: 1});
-      
+
       var htmlContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       this.__container.add(htmlContainer, {row: 3, column: 1});
-      
+
       var html1 = "<div style='background-color: white; text-align: center;'>" +
                     "<i style='color: red;'><b>H</b></i>" +
                     "<b>T</b>" +
@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
       richWidget.setMaxWidth(200);
       htmlContainer.add(richWidget);
     },
-    
+
     __draw: function(e) {
       var data = e.getData();
       var ctx = data.context;

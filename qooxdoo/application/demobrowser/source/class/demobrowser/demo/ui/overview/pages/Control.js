@@ -19,14 +19,14 @@
 
 /**
  * Demonstrates qx.ui.control(...):
- * 
+ *
  * ColorSelector
  * ColorPopup
  * DateChooser
- * 
+ *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Control", 
+qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
 {
   extend: qx.ui.tabview.Page,
 
@@ -35,13 +35,13 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
   construct: function()
   {
     this.base(arguments);
-    
+
     this.setLabel("Control");
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
     this.add(this.__container, {top: 40});
-    
+
     this._initWidgets();
     this._initControls(this.__widgets, {disabled: true})
   },
@@ -49,21 +49,21 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
   members:
   {
     __widgets: null,
-    
+
     __container: null,
-    
+
     _initWidgets: function() {
       var widgets = this.__widgets = new qx.type.Array();
-      
+
       // ColorSelector
       var colorSelector = new qx.ui.control.ColorSelector();
       widgets.push(colorSelector);
       this.__container.add(colorSelector);
-      
+
       // ColorPopup
       var colorPopup = new qx.ui.control.ColorPopup();
       colorPopup.exclude();
-      
+
       var openColorPopup = new qx.ui.form.Button("Open Color Popup").set({maxWidth: 150});
       widgets.push(openColorPopup);
       this.__container.add(openColorPopup);
@@ -72,13 +72,12 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
         colorPopup.placeToWidget(openColorPopup);
         colorPopup.show();
       });
-      
+
       // DateChooser
       var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 200});
       widgets.push(dateChooser);
       this.__container.add(dateChooser);
-      
+
     }
   }
 });
- 

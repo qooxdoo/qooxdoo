@@ -25,12 +25,12 @@
 
 /**
  * Demonstrates qx.ui.basic(...):
- * 
+ *
  * Label, Image, Atom
- * 
+ *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Basic", 
+qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
 {
   extend: qx.ui.tabview.Page,
 
@@ -39,14 +39,14 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
   construct: function()
   {
     this.base(arguments);
-    
+
     this.setLabel("Basic");
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     // Work-around to vertically align HBox at the top
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
     this.add(this.__container, {top: 40});
-    
+
     this._initWidgets();
     this._initControls(this.__widgets, {disabled: true});
   },
@@ -54,23 +54,23 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
   members :
   {
     __widgets: null,
-    
+
     __container: null,
-    
-    _initWidgets: function() 
+
+    _initWidgets: function()
     {
       var widgets = this.__widgets = new qx.type.Array();
-      
+
       // Label
       var label = new qx.ui.basic.Label("Label").set({alignY: "middle"});
       widgets.push(label);
       this.__container.add(label);
-      
+
       // Image
       var image = new qx.ui.basic.Atom("Image", "icon/32/status/dialog-information.png");
       widgets.push(image);
-      this.__container.add(image);      
-      
+      this.__container.add(image);
+
       // Atom
       var atom = new qx.ui.basic.Atom("Atom", "icon/32/status/dialog-information.png");
       widgets.push(atom);

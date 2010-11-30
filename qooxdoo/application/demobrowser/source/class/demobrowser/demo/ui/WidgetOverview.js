@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.WidgetOverview", 
+qx.Class.define("demobrowser.demo.ui.WidgetOverview",
 {
   extend : qx.application.Standalone,
 
@@ -25,15 +25,15 @@ qx.Class.define("demobrowser.demo.ui.WidgetOverview",
   construct: function()
   {
     this.base(arguments);
-    
+
   },
 
   members:
   {
-    main: function() 
+    main: function()
     {
       this.base(arguments);
-      
+
       // Enable logging in debug variant
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         // support native logging capabilities, e.g. Firebug for Firefox
@@ -41,18 +41,18 @@ qx.Class.define("demobrowser.demo.ui.WidgetOverview",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-      
+
       var doc = this.getRoot();
       var scroll = new qx.ui.container.Scroll();
       doc.add(scroll, {edge: 0});
-      
+
       var tabView = new demobrowser.demo.ui.overview.TabView();
       tabView.set({
         minWidth: 800,
         minHeight: 600
       })
       scroll.add(tabView);
-      
+
     }
   }
 });

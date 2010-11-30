@@ -19,19 +19,19 @@
 
 /**
  * Demonstrates qx.ui.form(...):
- * 
- * AbstractField, AbstractSelectBox, Button, CheckBox, ComboBox, DateField, 
- * HoverButton, List, ListItem, MenuButton, PasswordField, RadioButton, 
- * RadioButtonGroup, RepeatButton, SelectBox, Slider, Spinner, SplitButton, 
+ *
+ * AbstractField, AbstractSelectBox, Button, CheckBox, ComboBox, DateField,
+ * HoverButton, List, ListItem, MenuButton, PasswordField, RadioButton,
+ * RadioButtonGroup, RepeatButton, SelectBox, Slider, Spinner, SplitButton,
  * TextArea, TextField, ToggleButton
- * 
+ *
  */
-qx.Class.define("demobrowser.demo.ui.overview.pages.Form", 
+qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
 {
   extend: qx.ui.tabview.Page,
-  
+
   include: demobrowser.demo.ui.overview.MControls,
-  
+
   statics:
   {
     ITEM_SIZE: 3
@@ -40,10 +40,10 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setLabel("Form");
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     this._initWidgets();
     this._initControls(this.__widgets, {disabled: true, hovered: true, focused: true, invalid: true});
   },
@@ -51,13 +51,13 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
   members :
   {
     __widgets : null,
-    
+
     // __initControls: null,
-    
-    _initWidgets: function() 
+
+    _initWidgets: function()
     {
       this.__widgets = new qx.type.Array();
-      
+
       /****************************************
        * TEXT INPUT
        ***************************************/
@@ -159,7 +159,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       /****************************************
        * BUTTONS
        ***************************************/
-       
+
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
       buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       buttonGroupBox.setWidth(210);
@@ -196,7 +196,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       label.setBuddy(menueButton);
       buttonGroupBox.add(label, {row: 3, column: 0});
       buttonGroupBox.add(menueButton, {row: 3, column: 1});
-      
+
       // Hover button
       var hoverButton = new qx.ui.form.HoverButton("HoverButton");
       this.__widgets.push(hoverButton);
@@ -204,8 +204,8 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       label.setBuddy(hoverButton);
       buttonGroupBox.add(label, {row: 4, column: 0});
       buttonGroupBox.add(hoverButton, {row: 4, column: 1});
-      
-      
+
+
       // Split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.createMenuForSplitButton());
       this.__widgets.push(splitButton);
@@ -272,7 +272,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       numberGroupBox.add(label, {row: 1, column: 0});
       numberGroupBox.add(slider, {row: 1, column: 1});
     },
-  
+
     createItems: function(widget)
     {
       for (var i = 0; i < this.self(arguments).ITEM_SIZE; i++) {

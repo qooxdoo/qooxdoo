@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.overview.TabView", 
+qx.Class.define("demobrowser.demo.ui.overview.TabView",
 {
   extend : qx.ui.tabview.TabView,
 
@@ -25,7 +25,7 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__init();
   },
 
@@ -35,15 +35,15 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       // Basic
       var basic = new demobrowser.demo.ui.overview.pages.Basic();
       this.add(basic);
-      
+
       // Control
       var control = new demobrowser.demo.ui.overview.pages.Control();
       this.add(control);
-      
+
       // Form
       var form = new demobrowser.demo.ui.overview.pages.Form();
       this.add(form);
-      
+
       // Embed
       var embed = new demobrowser.demo.ui.overview.pages.Embed();
       this.add(embed);
