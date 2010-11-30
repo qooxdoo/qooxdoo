@@ -5,7 +5,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: you@your.org\n"
 "POT-Creation-Date: 2009-12-10 14:36+0100\n"
 "PO-Revision-Date: 2010-11-08 16:08+0200\n"
-"Last-Translator: Gabriel Munteanu <gabriel.munteanu@1and1.ro>\n"
+"Last-Translator: Gabriel Munteanu <gabriel DOT munteanu AT 1and1 DOT ro>\n"
 "Language-Team: Team <yourteam@your.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,8 +15,7 @@ msgstr ""
 msgid "Form Elements"
 msgstr "Elemente de formular"
 
-#: showcase/page/i18n/Content.js:147
-#: showcase/page/i18n/Content.js:249
+#: showcase/page/i18n/Content.js:147 showcase/page/i18n/Content.js:249
 msgid "Territory code:"
 msgstr "Cod postal:"
 
@@ -24,18 +23,15 @@ msgstr "Cod postal:"
 msgid "Localized ComboBox:"
 msgstr "ComboBox localizată:"
 
-#: showcase/page/i18n/Content.js:160
-#: showcase/page/i18n/Content.js:195
+#: showcase/page/i18n/Content.js:160 showcase/page/i18n/Content.js:195
 msgid "Cut"
 msgstr "Taie"
 
-#: showcase/page/i18n/Content.js:161
-#: showcase/page/i18n/Content.js:197
+#: showcase/page/i18n/Content.js:161 showcase/page/i18n/Content.js:197
 msgid "Paste"
 msgstr "Lipește"
 
-#: showcase/page/i18n/Content.js:162
-#: showcase/page/i18n/Content.js:196
+#: showcase/page/i18n/Content.js:162 showcase/page/i18n/Content.js:196
 msgid "Copy"
 msgstr "Copiază"
 
@@ -134,4 +130,3 @@ msgstr "Începutul săptămânii:"
 #: showcase/page/i18n/Content.js:285
 msgid "Format of %1:"
 msgstr "Formatul %1:"
-
