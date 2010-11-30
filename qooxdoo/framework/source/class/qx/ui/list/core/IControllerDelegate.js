@@ -73,6 +73,16 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
 
 
     /**
+     * Gives the user the opportunity to group there model.
+     * 
+     * @param data {var} The data which will be checked.
+     * @return {String|null} The group name for the data or <code>null</code>
+     *   when the data has no group.
+     */
+    group : function(data) {},
+
+
+    /**
      * Sets up the binding for the given item and index.
      *
      * For every property you want to bind, use
