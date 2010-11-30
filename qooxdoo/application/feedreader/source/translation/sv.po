@@ -13,15 +13,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: feedreader/Application.js:143
+#: feedreader/Application.js:163
 msgid "Static Feeds"
 msgstr "Statiska flöden"
 
-#: feedreader/Application.js:173
+#: feedreader/Application.js:193
 msgid "User Feeds"
 msgstr "Användarflöden"
 
-#: feedreader/Application.js:531
+#: feedreader/Application.js:557
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo driven)"
 
@@ -53,38 +53,38 @@ msgstr "Poster"
 msgid "Language"
 msgstr "Språk"
 
-#: feedreader/view/PreferenceWindow.js:137
+#: feedreader/view/PreferenceWindow.js:138
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: feedreader/view/PreferenceWindow.js:140
+#: feedreader/view/PreferenceWindow.js:141
 msgid "OK"
 msgstr "OK"
 
-#: feedreader/view/ToolBar.js:60
+#: feedreader/view/ToolBar.js:58
 msgid "Add feed"
 msgstr "Lägg till flöde"
 
-#: feedreader/view/ToolBar.js:64
+#: feedreader/view/ToolBar.js:62
 msgid "Remove feed"
 msgstr "Ta bort flöde"
 
-#: feedreader/view/ToolBar.js:75
+#: feedreader/view/ToolBar.js:73
 msgid "Reload"
 msgstr "Uppdatera"
 
-#: feedreader/view/ToolBar.js:78
+#: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Ladda om flödena. (%1)"
 
-#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: feedreader/view/ToolBar.js:89
+#: feedreader/view/ToolBar.js:87
 msgid "Open preferences window."
 msgstr "Öppna inställningsfönstret"
 
-#: feedreader/view/ToolBar.js:102
+#: feedreader/view/ToolBar.js:96
 msgid "Help"
 msgstr "Hjälp"

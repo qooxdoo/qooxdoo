@@ -12,15 +12,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:143
+#: feedreader/Application.js:163
 msgid "Static Feeds"
 msgstr "Statische Feeds"
 
-#: feedreader/Application.js:173
+#: feedreader/Application.js:193
 msgid "User Feeds"
 msgstr "Gebruiker Feeds"
 
-#: feedreader/Application.js:531
+#: feedreader/Application.js:557
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -52,50 +52,38 @@ msgstr "Berichten"
 msgid "Language"
 msgstr "Taal"
 
-#: feedreader/view/PreferenceWindow.js:137
+#: feedreader/view/PreferenceWindow.js:138
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: feedreader/view/PreferenceWindow.js:140
+#: feedreader/view/PreferenceWindow.js:141
 msgid "OK"
 msgstr "OK"
 
-#: feedreader/view/ToolBar.js:60
+#: feedreader/view/ToolBar.js:58
 msgid "Add feed"
 msgstr "Feed toevoegen"
 
-#: feedreader/view/ToolBar.js:64
+#: feedreader/view/ToolBar.js:62
 msgid "Remove feed"
 msgstr "Feed verwijderen"
 
-#: feedreader/view/ToolBar.js:75
+#: feedreader/view/ToolBar.js:73
 msgid "Reload"
 msgstr "Herladen"
 
-#: feedreader/view/ToolBar.js:78
+#: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Feeds herladen. (%1)"
 
-#: feedreader/view/ToolBar.js:87 feedreader/view/PreferenceWindow.js:48
+#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: feedreader/view/ToolBar.js:89
+#: feedreader/view/ToolBar.js:87
 msgid "Open preferences window."
 msgstr "Open voorkeuren venster."
 
-#: feedreader/view/ToolBar.js:102
+#: feedreader/view/ToolBar.js:96
 msgid "Help"
 msgstr "Help"
-
-#~ msgid "Please enter a title."
-#~ msgstr "Voer a.u.b. een titel in."
-
-#~ msgid "Please enter a url."
-#~ msgstr "Voer a.u.b. een URL in."
-
-#~ msgid "Title:"
-#~ msgstr "Titel:"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
