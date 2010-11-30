@@ -19,49 +19,49 @@ msgstr ""
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:332 playground/Application.js:377
+#: playground/Application.js:336 playground/Application.js:381
 msgid "Showing gist %1"
 msgstr ""
 
-#: playground/Application.js:337 playground/Application.js:384
+#: playground/Application.js:341 playground/Application.js:388
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:403
+#: playground/Application.js:407
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:406
+#: playground/Application.js:410
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:423
+#: playground/Application.js:427
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:447
+#: playground/Application.js:451
 msgid "No such user found."
 msgstr ""
 
-#: playground/Application.js:510
+#: playground/Application.js:516
 msgid "Gist contains no content."
 msgstr ""
 
-#: playground/Application.js:516
+#: playground/Application.js:522
 msgid "Can't load the gist."
 msgstr ""
 
-#: playground/Application.js:608
+#: playground/Application.js:614
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:611
+#: playground/Application.js:617
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:668
+#: playground/Application.js:676
 msgid "%1 (modified)"
 msgstr ""
 
@@ -81,59 +81,59 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: playground/view/Toolbar.js:47
+#: playground/view/Toolbar.js:45
 msgid "Run"
 msgstr ""
 
-#: playground/view/Toolbar.js:50
+#: playground/view/Toolbar.js:48
 msgid "Run the source code"
 msgstr ""
 
-#: playground/view/Toolbar.js:57
+#: playground/view/Toolbar.js:55
 msgid "Samples"
 msgstr ""
 
-#: playground/view/Toolbar.js:60
+#: playground/view/Toolbar.js:58
 msgid "Select a sample"
 msgstr ""
 
-#: playground/view/Toolbar.js:65
+#: playground/view/Toolbar.js:63
 msgid "Syntax Highlighting"
 msgstr ""
 
-#: playground/view/Toolbar.js:80
+#: playground/view/Toolbar.js:78
 msgid "gist support"
 msgstr ""
 
-#: playground/view/Toolbar.js:105 playground/view/Log.js:36
+#: playground/view/Toolbar.js:99 playground/view/Log.js:36
 msgid "Log"
 msgstr ""
 
-#: playground/view/Toolbar.js:108
+#: playground/view/Toolbar.js:102
 msgid "Show log output"
 msgstr ""
 
-#: playground/view/Toolbar.js:115
+#: playground/view/Toolbar.js:109
 msgid "Shorten URL"
 msgstr ""
 
-#: playground/view/Toolbar.js:118
+#: playground/view/Toolbar.js:112
 msgid "Use tinyurl to shorten the url."
 msgstr ""
 
-#: playground/view/Toolbar.js:125
+#: playground/view/Toolbar.js:119
 msgid "API Viewer"
 msgstr ""
 
-#: playground/view/Toolbar.js:128
+#: playground/view/Toolbar.js:122
 msgid "Open the qooxdoo API Viewer"
 msgstr ""
 
-#: playground/view/Toolbar.js:135
+#: playground/view/Toolbar.js:129
 msgid "Manual"
 msgstr ""
 
-#: playground/view/Toolbar.js:138
+#: playground/view/Toolbar.js:132
 msgid "Open the qooxdoo Manual"
 msgstr ""
 
