@@ -179,7 +179,12 @@ qx.Class.define("qx.ui.list.List",
     _layer : null,
 
 
-    /** {Array} lookup table for sorting etc. */
+    /**
+     * {Array} lookup table to get the model index from a row. To get the
+     * correct value after applying filter, sorter, group. 
+     * 
+     * Note the value <code>-1</code> indicates that the value is a group item.
+     */
     __lookupTable : null,
 
 
@@ -187,9 +192,11 @@ qx.Class.define("qx.ui.list.List",
     _lookupTableForGroup : null,
 
 
-    /** {Map} contains all groups with the items as children. The key is 
+    /**
+     * {Map} contains all groups with the items as children. The key is 
      * the group name and the value is an <code>Array</code> containing the 
-     * row number from each item. */
+     * row number from each item. 
+     */
     __groupHashMap : null,
 
 
@@ -525,7 +532,8 @@ qx.Class.define("qx.ui.list.List",
       var row = 0;
       for (var group in this.__groupHashMap)
       {
-        result.push(group);
+        // indicate that the value is a group
+        result.push(-1);
         this._lookupTableForGroup.setItem(row, group);
         row++;
 
