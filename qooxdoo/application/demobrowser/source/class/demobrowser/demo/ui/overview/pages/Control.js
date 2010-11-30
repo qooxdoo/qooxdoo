@@ -20,7 +20,9 @@
 /**
  * Demonstrates qx.ui.control(...):
  * 
- * 
+ * ColorSelector
+ * ColorPopup
+ * DateChooser
  * 
  */
 
