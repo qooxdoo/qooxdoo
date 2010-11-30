@@ -142,10 +142,12 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
     // interface implementation
     createGroupRenderer : function() {
-      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createHeader");
+      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createGroupItem");
 
-      if (createWidget == null) {
-        createWidget = function() {
+      if (createWidget == null)
+      {
+        createWidget = function()
+        {
           var group = new qx.ui.basic.Label();
 
           // TODO add appearance for header

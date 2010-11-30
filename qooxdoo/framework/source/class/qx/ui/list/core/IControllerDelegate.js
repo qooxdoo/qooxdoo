@@ -35,11 +35,20 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
   {
     /**
      * Gives the user the opportunity to set individual styles and properties
-     * on the by the controller created widgets.
+     * on the by the controller created item widget cells.
      *
      * @param item {var} Item to modify.
      */
     configureItem : function(item) {},
+
+
+    /**
+     * Gives the user the opportunity to set individual styles and properties
+     * on the by the controller created group widget cells.
+     *
+     * @param item {var} Group to modify.
+     */
+    configureGroupItem : function(item) {},
 
 
     /**
@@ -50,6 +59,48 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
      * @return {var} A new created item cell.
      */
     createItem : function() {},
+
+
+    /**
+     * Creates a group cell which will be used for rendering. Be sure to
+     * implement the {@link #bindGroupItem} function as well to get the needed
+     * properties bound.
+     *
+     * @return {var} A new created item cell.
+     */
+    createGroupItem : function() {},
+
+
+    /**
+     * Sets up the binding for the given item and index.
+     *
+     * For every property you want to bind, use
+     * {@link MWidgetController#bindProperty} like this:
+     * <code>
+     * controller.bindProperty("path.in.the.model", "label", options, item, id);
+     * </code>
+     *
+     * @param controller {var} The currently used controller.
+     * @param item {qx.ui.core.Widget} The created and used item.
+     * @param id {Integer} The id for the binding.
+     */
+    bindItem : function(controller, item, id) {},
+
+
+    /**
+     * Sets up the binding for the given group item and index.
+     *
+     * For every property you want to bind, use
+     * {@link MWidgetController#bindProperty} like this:
+     * <code>
+     * controller.bindProperty("path.in.the.model", "label", options, item, id);
+     * </code>
+     *
+     * @param controller {var} The currently used controller.
+     * @param item {qx.ui.core.Widget} The created and used group item.
+     * @param id {Integer} The id for the binding.
+     */
+    bindGroupItem : function(controller, item, id) {},
 
 
     /**
@@ -79,22 +130,6 @@ qx.Interface.define("qx.ui.list.core.IControllerDelegate",
      * @return {String|null} The group name for the data or <code>null</code>
      *   when the data has no group.
      */
-    group : function(data) {},
-
-
-    /**
-     * Sets up the binding for the given item and index.
-     *
-     * For every property you want to bind, use
-     * {@link MWidgetController#bindProperty} like this:
-     * <code>
-     * controller.bindProperty("path.in.the.model", "label", options, item, id);
-     * </code>
-     *
-     * @param controller {var} The currently used controller.
-     * @param item {qx.ui.core.Widget} The created and used item.
-     * @param id {Integer} The id for the binding.
-     */
-    bindItem : function(controller, item, id) {}
+    group : function(data) {}
   }
 });
