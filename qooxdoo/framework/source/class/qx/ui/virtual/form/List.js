@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
 
     // overridden
-    _createChildControlImpl : function(id)
+    _createChildControlImpl : function(id, hash)
     {
       var control;
 
