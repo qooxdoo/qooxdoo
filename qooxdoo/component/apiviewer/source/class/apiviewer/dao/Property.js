@@ -131,7 +131,7 @@ qx.Class.define("apiviewer.dao.Property",
     },
 
     isNullable : function() {
-      return this.getDocNode()._docNode.attributes.allowNull || false;
+      return this.getDocNode()._docNode.attributes.allowNull === "true";
     },
 
     getDefaultValue : function() {
