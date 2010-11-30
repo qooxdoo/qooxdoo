@@ -105,7 +105,8 @@ Compile cache
 
 The main payload of the :ref:`cache <pages/tool/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
 
-The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this :ref:`snippet <pages/snippets#finding_your_system-wide_tmp_directory>`.
+The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docu
+mentation/general/snippets#finding_your_system-wide_tmp_directory>`__.
 
 The compile cache directory can become very large in terms of contained files, and a count of a couple of thousand files is not unusual. You should take care that your file system is equipped to comply with these demands. Additionally, disk I/O is regularly high on this directory so a fast, local disk is recommendable. Don't use a network drive :-) .
 
@@ -466,7 +467,7 @@ For a general introduction to parts and packages see this separate :doc:`documen
 parts/<part_name>/include
 -------------------------
 
-The way the part system is currently implemented has some caveats in the way *parts/*/include* keys and the general :ref:`pages/tool/generator_config_ref#include` key interact:
+The way the part system is currently implemented has some caveats in the way *parts/\*/include* keys and the general :ref:`pages/tool/generator_config_ref#include` key interact:
 
 a) The general "include" key, i.e. the class list with all dependencies fully expanded, provides the "master list" of classes for the given application. All classes given in the part "include"s, including all their dependencies, are checked against this list. If any of those classes is not in the master list, it will not be included in the app.
 

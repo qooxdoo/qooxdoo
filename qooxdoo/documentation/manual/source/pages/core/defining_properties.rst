@@ -372,7 +372,7 @@ Transforming incoming values
 You can transform incoming values before they are stored by using the transform key to the corresponding property definition.  The transform method occurs before the check and apply functions and can also throw an error if the value passed to it is invalid.  This  method is useful if you wish accept different formats or value types for a property.
 
 Example
-^^^^^^^
+-------
 
 Here we define both a check and transform method for the width property. Though the check method requires that the property be a integer, we can use the transform method to accept a string and transform it into an integer. Note that we can still rely on the check method to catch any other incorrect values, such as if the user mistakenly assigned a Widget to the property.
 

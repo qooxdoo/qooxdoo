@@ -930,7 +930,7 @@ and it will work from everywhere.
 .. _pages/tool/generator_config_ref#simulate:
 
 simulate
-=====
+========
 
 Runs a suite of GUI tests (simulated interaction). Takes a map.
 
