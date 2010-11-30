@@ -27,7 +27,6 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
     {
       this.base(arguments);
 
-
       var widgets = [];
 
       // spinner
