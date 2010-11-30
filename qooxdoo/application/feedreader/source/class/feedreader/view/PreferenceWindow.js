@@ -97,6 +97,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
                         "fr" : "Français",
                         "it" : "Italiano",
                         "nl" : "Nederlands",
+                        "ro" : "Română",
                         "sv" : "Svenska" };
 
       var localeManager = qx.locale.Manager.getInstance();
