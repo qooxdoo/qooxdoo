@@ -27,6 +27,10 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
   members :
   {
     __list : null,
+    
+    __listGroupedByName : null,
+    
+    __listGroupedByGroup : null,
   
     main: function()
     {
