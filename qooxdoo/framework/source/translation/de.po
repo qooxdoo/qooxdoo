@@ -230,28 +230,28 @@ msgstr "Windowstaste"
 msgid "key_full_Apps"
 msgstr "Kontextmenü"
 
-#: qx/test/locale/Locale.js:72 qx/test/locale/Locale.js:75
-#: qx/test/locale/Locale.js:78
+#: qx/test/locale/Locale.js:85 qx/test/locale/Locale.js:88
+#: qx/test/locale/Locale.js:91
 msgid "test One car"
 msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
 #: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:60
+#: qx/test/locale/Locale.js:73 qx/test/locale/Locale.js:148
 msgid "test one"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:64
-#: qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:77
+#: qx/test/locale/Locale.js:81
 msgid "test Hello %1!"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:81
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:99
+#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:149
 msgid "test two"
 msgstr ""
 
@@ -323,13 +323,13 @@ msgstr "Nächstes Jahr"
 msgid "This field is required"
 msgstr "Dieses Feld ist erforderlich"
 
-#: qx/ui/table/Table.js:1875
+#: qx/ui/table/Table.js:1907
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: qx/ui/table/Table.js:1877
+#: qx/ui/table/Table.js:1909
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
@@ -339,34 +339,34 @@ msgstr[1] "%1 von %2 Zeilen"
 msgid "Reset column widths"
 msgstr "Spaltenbreite zurücksetzen"
 
-#: qx/util/Validate.js:89
+#: qx/util/Validate.js:91
 msgid "%1 is not a number."
 msgstr "%1 ist keine Nummer."
 
-#: qx/util/Validate.js:126
+#: qx/util/Validate.js:130
 msgid "'%1' is not an email address."
 msgstr "'%1' ist keine Emailadresse."
 
-#: qx/util/Validate.js:161
+#: qx/util/Validate.js:167
 msgid "%1 is not a string."
 msgstr "%1 ist keine Zeichenkette."
 
-#: qx/util/Validate.js:195
+#: qx/util/Validate.js:203
 msgid "%1 is not an url."
 msgstr "%1 ist keine URL."
 
-#: qx/util/Validate.js:234
+#: qx/util/Validate.js:244
 msgid "%1 is not a color! %2"
 msgstr "%1 ist keine Farbe! %2"
 
-#: qx/util/Validate.js:258
+#: qx/util/Validate.js:268
 msgid "%1 is not in the range from [%2, %3]."
 msgstr "%1 liegt nicht im Intervall [%2, %3]."
 
-#: qx/util/Validate.js:281
+#: qx/util/Validate.js:291
 msgid "%1 is not in %2"
 msgstr "%1 ist nicht in %2"
 
-#: qx/util/Validate.js:305
+#: qx/util/Validate.js:315
 msgid "%1 does not fit %2."
 msgstr "%1 passt nicht zu %2."

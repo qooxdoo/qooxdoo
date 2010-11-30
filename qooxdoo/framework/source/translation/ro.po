@@ -1,4 +1,4 @@
-# English
+# Romanian
 # 
 msgid ""
 msgstr ""
@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-19 10:11+0200\n"
 "PO-Revision-Date: 2010-11-08 11:45+0200\n"
-"Last-Translator: Gabriel Munteanu <gabriel.munteanu@1and1.ro>\n"
+"Last-Translator: Gabriel Munteanu <gabriel DOT munteanu AT 1and1 DOT ro>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -236,16 +236,8 @@ msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qx/test/locale/Locale.js:148
-msgid "one"
-msgstr ""
-
-#: qx/test/locale/Locale.js:149
-msgid "two"
-msgstr ""
-
 #: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:73
+#: qx/test/locale/Locale.js:73 qx/test/locale/Locale.js:148
 msgid "test one"
 msgstr ""
 
@@ -258,7 +250,7 @@ msgstr ""
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:99
+#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:149
 msgid "test two"
 msgstr ""
 
