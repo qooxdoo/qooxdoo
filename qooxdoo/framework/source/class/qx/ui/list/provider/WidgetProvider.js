@@ -47,18 +47,18 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
     this._list = list;
 
-    this._cellRenderer = this.createItemRenderer();
+    this._itemRenderer = this.createItemRenderer();
     this._groupRenderer = this.createGroupRenderer();
 
-    this._cellRenderer.addListener("created", this._onWidgetCreated, this);
+    this._itemRenderer.addListener("created", this._onWidgetCreated, this);
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
 
   members :
   {
-    /** {qx.ui.virtual.cell.WidgetCell} the used cell renderer */
-    _cellRenderer : null,
+    /** {qx.ui.virtual.cell.WidgetCell} the used item renderer */
+    _itemRenderer : null,
 
 
     /** {qx.ui.virtual.cell.WidgetCell} the used group renderer */
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
       if (!this._list._isGroup(row))
       {
-        widget = this._cellRenderer.getCellWidget();
+        widget = this._itemRenderer.getCellWidget();
         widget.setUserData("cell.type", "item");
         this._bindItem(widget, this._list._lookup(row));
 
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._removeBindingsFrom(widget);
 
       if (widget.getUserData("cell.type") == "item") {
-        this._cellRenderer.pool(widget);
+        this._itemRenderer.pool(widget);
       } else if (widget.getUserData("cell.type") == "header") {
         this._groupRenderer.pool(widget);
       }
@@ -255,9 +255,9 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      */
     _onChangeDelegate : function(event)
     {
-      this._cellRenderer.dispose();
-      this._cellRenderer = this.createItemRenderer();
-      this._cellRenderer.addListener("created", this._onWidgetCreated, this);
+      this._itemRenderer.dispose();
+      this._itemRenderer = this.createItemRenderer();
+      this._itemRenderer.addListener("created", this._onWidgetCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
     },
@@ -293,15 +293,15 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
         return;
       }
 
-      this._cellRenderer.updateStates(widget, states);
+      this._itemRenderer.updateStates(widget, states);
     }
   },
 
 
   destruct : function()
   {
-    this._cellRenderer.dispose();
+    this._itemRenderer.dispose();
     this._groupRenderer.dispose();
-    this._cellRenderer = this._groupRenderer = null;
+    this._itemRenderer = this._groupRenderer = null;
   }
 });
