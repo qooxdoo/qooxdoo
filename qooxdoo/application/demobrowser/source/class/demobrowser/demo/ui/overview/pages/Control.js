@@ -53,9 +53,28 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
     _initWidgets: function() {
       var widgets = this.__widgets = new qx.type.Array();
       
+      // ColorSelector
       var colorSelector = new qx.ui.control.ColorSelector();
       widgets.push(colorSelector);
       this.__container.add(colorSelector);
+      
+      // ColorPopup
+      var colorPopup = new qx.ui.control.ColorPopup();
+      colorPopup.exclude();
+      
+      var openColorPopup = new qx.ui.form.Button("Open Color Popup").set({maxWidth: 150});
+      widgets.push(openColorPopup);
+      this.__container.add(openColorPopup);
+      openColorPopup.addListener("execute", function()
+      {
+        colorPopup.placeToWidget(openColorPopup);
+        colorPopup.show();
+      });
+      
+      // DateChooser
+      var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 200});
+      widgets.push(dateChooser);
+      this.__container.add(dateChooser);
       
     }
   }

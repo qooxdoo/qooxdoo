@@ -61,14 +61,17 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Basic",
     {
       var widgets = this.__widgets = new qx.type.Array();
       
+      // Label
       var label = new qx.ui.basic.Label("Label").set({alignY: "middle"});
       widgets.push(label);
       this.__container.add(label);
       
+      // Image
       var image = new qx.ui.basic.Atom("Image", "icon/32/status/dialog-information.png");
       widgets.push(image);
       this.__container.add(image);      
       
+      // Atom
       var atom = new qx.ui.basic.Atom("Atom", "icon/32/status/dialog-information.png");
       widgets.push(atom);
       this.__container.add(atom);
