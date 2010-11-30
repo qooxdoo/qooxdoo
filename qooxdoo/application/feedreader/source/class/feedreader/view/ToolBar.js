@@ -65,7 +65,7 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(this.__removeBtn);
 
 
-    // Add a sepearator
+    // Add a separator
     this.addSeparator();
 
 
@@ -77,7 +77,7 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(reloadBtn);
 
 
-    // Add a sepearator
+    // Add a separator
     this.addSeparator();
 
 
@@ -99,7 +99,7 @@ qx.Class.define("feedreader.view.ToolBar",
     aboutBtn.setToolTipText("(" + aboutCmd.toString() + ")");
     this.add(aboutBtn);
     
-    // enable doverflow handling
+    // enable overflow handling
     this.setOverflowHandling(true);
     
     // add a button for overflow handling
