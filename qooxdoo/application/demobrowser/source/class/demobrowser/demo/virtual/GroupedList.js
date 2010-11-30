@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/16/categories/system.png)
+#asset(qx/icon/${qx.icontheme}/16/categories/office.png)
+#asset(qx/icon/${qx.icontheme}/16/emotes/face-laugh.png)
+
+************************************************************************ */
+
 /**
  * @tag noPlayground
  */
@@ -146,6 +154,31 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
           
         group : function(model) {
           return model.getGroup();
+        },
+
+        configureGroupItem : function(item) {
+          item.setBackgroundColor("gray");
+          item.setTextColor("white");
+        },
+        
+        createGroupItem : function() {
+          return new qx.ui.form.ListItem();
+        },
+
+        bindGroupItem : function(controller, item, id) {
+          controller.bindProperty(null, "label", null, item, id);
+          controller.bindProperty(null, "icon", {
+            converter : function(data) {
+              switch(data) {
+                case "Undefined":
+                  return "icon/16/categories/system.png";
+                case "Friends":
+                  return "icon/16/emotes/face-laugh.png";
+                case "Colleagues":
+                  return "icon/16/categories/office.png";
+              }
+            }
+          }, item, id);
         }
       };
       list.setDelegate(delegate);

@@ -192,7 +192,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * Configure the passed item if a delegate is set and the needed
      * function {@link IControllerDelegate#configureItem} is available.
      *
-     * @param item {qx.ui.core.Widget} item to configer.
+     * @param item {qx.ui.core.Widget} item to configure.
      */
     _configureItem : function(item)
     {
@@ -200,6 +200,22 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
       if (delegate != null && delegate.configureItem != null) {
         delegate.configureItem(item);
+      }
+    },
+
+
+    /**
+     * Configure the passed item if a delegate is set and the needed
+     * function {@link IControllerDelegate#configureGroupItem} is available.
+     *
+     * @param item {qx.ui.core.Widget} item to configure.
+     */
+    _configureGroupItem : function(item)
+    {
+      var delegate = this.getDelegate();
+
+      if (delegate != null && delegate.configureGroupItem != null) {
+        delegate.configureGroupItem(item);
       }
     },
 

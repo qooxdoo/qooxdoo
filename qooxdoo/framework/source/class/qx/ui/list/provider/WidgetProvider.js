@@ -50,7 +50,8 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     this._itemRenderer = this.createItemRenderer();
     this._groupRenderer = this.createGroupRenderer();
 
-    this._itemRenderer.addListener("created", this._onWidgetCreated, this);
+    this._itemRenderer.addListener("created", this._onItemCreated, this);
+    this._groupRenderer.addListener("created", this._onGroupItemCreated, this);
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
@@ -235,14 +236,26 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
 
     /**
-     * Event handler for the created widget event.
+     * Event handler for the created item widget event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onWidgetCreated : function(event)
+    _onItemCreated : function(event)
     {
       var widget = event.getData();
       this._configureItem(widget);
+    },
+
+
+    /**
+     * Event handler for the created item widget event.
+     *
+     * @param event {qx.event.type.Data} fired event.
+     */
+    _onGroupItemCreated : function(event)
+    {
+      var widget = event.getData();
+      this._configureGroupItem(widget);
     },
 
 
@@ -255,7 +268,10 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     {
       this._itemRenderer.dispose();
       this._itemRenderer = this.createItemRenderer();
-      this._itemRenderer.addListener("created", this._onWidgetCreated, this);
+      this._itemRenderer.addListener("created", this._onItemCreated, this);
+      this._groupRenderer.dispose();
+      this._groupRenderer = this.createGroupRenderer();
+      this._groupRenderer.addListener("created", this._onGroupItemCreated, this);
       this.removeBindings();
       this._list.getPane().fullUpdate();
     },
