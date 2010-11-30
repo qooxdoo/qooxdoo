@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.list.List",
     __lookupTableForGroup : null,
 
 
-    /** {Array} contains all groups with the items as children. The key is 
+    /** {Map} contains all groups with the items as children. The key is 
      * the group name and the value is an <code>Array</code> containing the 
      * row number from each item. */
     __groupHashMap : null,
@@ -216,7 +216,7 @@ qx.Class.define("qx.ui.list.List",
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
       this.__lookupTable = [];
 
-      this.__groupHashMap = [];
+      this.__groupHashMap = {};
       this.__lookupTableForGroup = [];
 
       this.getPane().addListener("resize", this._onResize, this);
