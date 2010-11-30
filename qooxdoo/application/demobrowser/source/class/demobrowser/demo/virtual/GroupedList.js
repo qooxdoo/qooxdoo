@@ -160,7 +160,9 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
   
   destruct : function()
   {
-    this.__model.dispose();
-    this.__model = null;
+    this.__list.dispose();
+    this.__listGroupedByName.dispose();
+    this.__listGroupedByGroup.dispose();
+    this.__list = this.__listGroupedByName = this.__listGroupedByGroup = null;
   }
 });
