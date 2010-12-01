@@ -25,6 +25,8 @@ qx.Class.define("simulator.unit.TestCase", {
 
   extend : qx.dev.unit.TestCase,
   
+  include : [simulator.MSeleniumUtil, qx.core.MAssert],
+  
   members :
   {
     __simulation : null,
