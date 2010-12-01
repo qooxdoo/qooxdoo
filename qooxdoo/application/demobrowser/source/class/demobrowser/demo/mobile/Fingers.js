@@ -51,8 +51,8 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
- 
-      
+
+
       // root element
       var backgroundStyles = {
         "width" : "100%",
@@ -60,10 +60,30 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
         "backgroundColor" : "black",
         "margin" : "0px"        
       };
+
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
       root.setRoot(true);
       
+
+
+      if (!qx.bom.client.Engine.WEBKIT || (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+      {
+        var warningLabelStyle = {
+          "color" : "green",
+          "position" : "absolute",
+          "font-family": 'Lucida Grande',
+          "font-size" : "12px",
+          "left" : "30px",
+          "top" : "20px"
+        };
+        var label = new qx.html.Element("div", warningLabelStyle);
+        root.add(label);
+        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser on a touch-enabled device.</b>");
+        return;
+      }
+
+
       // description label
       var lableStyles = {
         "color" : "white",

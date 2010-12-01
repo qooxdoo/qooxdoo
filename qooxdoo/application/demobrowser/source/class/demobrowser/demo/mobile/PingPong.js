@@ -72,9 +72,24 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
       root.setRoot(true);
-      
-      
-      
+
+
+      if (!qx.bom.client.Engine.WEBKIT || (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+      {
+        var warningLabelStyle = {
+          "color" : "green",
+          "font-family": 'Lucida Grande',
+          "font-size" : "12px",
+          "position" : "absolute",
+          "left" : "30px",
+          "top" : "20px"
+        };
+        var label = new qx.html.Element("div", warningLabelStyle);
+        root.add(label);
+        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser on a touch-enabled device.</b>");
+        return;
+      }
+
       // Field
       var leftField = this.__createField("left");
       root.add(leftField);

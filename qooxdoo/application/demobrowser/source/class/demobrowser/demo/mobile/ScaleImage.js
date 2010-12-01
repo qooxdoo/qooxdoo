@@ -64,6 +64,24 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
       container.useElement(document.body);
       container.setRoot(true);
 
+
+      if (!qx.bom.client.Engine.WEBKIT || (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+      {
+        var warningLabelStyle = {
+          "color" : "green",
+          "position" : "absolute",
+          "font-family": 'Lucida Grande',
+          "font-size" : "12px",
+          "left" : "30px",
+          "top" : "20px"
+        };
+        var label = new qx.html.Element("div", warningLabelStyle);
+        container.add(label);
+        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser on a touch-enabled device.</b>");
+        return;
+      }
+
+
       var imgUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/mobile/qooxdoo-logo.png");
       var imageStyle = {
           "width" : "200px",

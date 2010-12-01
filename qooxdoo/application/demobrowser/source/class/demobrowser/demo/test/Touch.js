@@ -59,6 +59,23 @@ qx.Class.define("demobrowser.demo.test.Touch",
       container.useElement(document.body);
       container.setRoot(true);
 
+
+      if (!qx.bom.client.Engine.WEBKIT || (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+      {
+        var warningLabelStyle = {
+          "color" : "green",
+          "position" : "absolute",
+          "font-family": 'Lucida Grande',
+          "font-size" : "12px",
+          "left" : "30px",
+          "top" : "20px"
+        };
+        var label = new qx.html.Element("div", warningLabelStyle);
+        container.add(label);
+        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser on a touch-enabled device.</b>");
+        return;
+      }
+
       container.add(this.__createTouchArea(10,10, "green", "One"));
       container.add(this.__createTouchArea(110,10, "blue", "Two"));
 
