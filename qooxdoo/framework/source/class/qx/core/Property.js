@@ -31,8 +31,8 @@
  * Internal class for handling of dynamic properties. Should only be used
  * through the methods provided by {@link qx.Class}.
  *
- * For a complete documentation of properties take a
- * look at http://manual.qooxdoo.org/current/pages/core.html#properties.
+ * For a complete documentation of properties take a look at 
+ * http://manual.qooxdoo.org/1.3/pages/core.html#properties.
  *
  *
  * *Normal properties*
