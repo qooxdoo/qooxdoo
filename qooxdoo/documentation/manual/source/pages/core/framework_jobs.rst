@@ -10,7 +10,7 @@ This page describes the jobs that are available in the framework. Mainly this is
 Framework Jobs
 ==============
 
-These jobs can be invoked with the generator, as ``generate.py <jobname>``.
+These jobs can be invoked in the *framework/* directory with the generator, as ``generate.py <jobname>``.
 
 .. _pages/tool/framework_jobs#api:
 
