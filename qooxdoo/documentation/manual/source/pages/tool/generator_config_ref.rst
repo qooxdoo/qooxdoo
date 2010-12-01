@@ -938,14 +938,16 @@ Runs a suite of GUI tests (simulated interaction). Takes a map.
 
   "simulate" :
   {
-    "java-classpath" : "path/js.jar;path/selenium-java-client-driver.jar:${SIMULATOR_ROOT}/tool",
+    "java-classpath" : "path/js.jar;path/selenium-java-client-driver.jar",
+    "qxselenium-path" : "${SIMULATOR_ROOT}/tool",
     "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
     "simulator-script" : "${BUILD_PATH}/script/simulator.js"
   }
   
 Possible keys are 
 
-* **java-classpath** : List of Java classes and/or packages that should be available to the simulation app
+* **java-classpath** : Java classpath argument for Rhino. Must point to the Selenium client driver and Rhino JARs
+* **qxselenium-path** : Location of the QxSelenium Java class
 * **rhino-class** : Full name of the Mozilla Rhino class that should be used to run the simulation
 * **simulator-script** : Path of the generated simulation application to be run
 
