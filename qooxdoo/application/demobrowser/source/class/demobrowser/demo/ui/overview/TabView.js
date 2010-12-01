@@ -47,6 +47,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       // Embed
       var embed = new demobrowser.demo.ui.overview.pages.Embed();
       this.add(embed);
+      
+      // EmbedFrame
+      var embed = new demobrowser.demo.ui.overview.pages.EmbedFrame();
+      this.add(embed);
     }
   }
 });
