@@ -34,7 +34,7 @@ msgstr "Shift"
 
 #: qx/locale/Key.js:85
 msgid "key_short_Control"
-msgstr "CTRL"
+msgstr "Ctrl"
 
 #: qx/locale/Key.js:86
 msgid "key_short_Control_Mac"
@@ -54,7 +54,7 @@ msgstr "Meta"
 
 #: qx/locale/Key.js:90
 msgid "key_short_Escape"
-msgstr "ESC"
+msgstr "Esc"
 
 #: qx/locale/Key.js:91
 msgid "key_short_Left"
@@ -74,39 +74,39 @@ msgstr "Ner"
 
 #: qx/locale/Key.js:95
 msgid "key_short_PageUp"
-msgstr "PGUP"
+msgstr "PgUp"
 
 #: qx/locale/Key.js:96
 msgid "key_short_PageDown"
-msgstr "PGDN"
+msgstr "PgDn"
 
 #: qx/locale/Key.js:97
 msgid "key_short_End"
-msgstr "END"
+msgstr "End"
 
 #: qx/locale/Key.js:98
 msgid "key_short_Home"
-msgstr "HOME"
+msgstr "Home"
 
 #: qx/locale/Key.js:99
 msgid "key_short_Insert"
-msgstr "INS"
+msgstr "Ins"
 
 #: qx/locale/Key.js:100
 msgid "key_short_Delete"
-msgstr "DEL"
+msgstr "Del"
 
 #: qx/locale/Key.js:101
 msgid "key_short_NumLock"
-msgstr "NUM"
+msgstr "Num"
 
 #: qx/locale/Key.js:102
 msgid "key_short_PrintScreen"
-msgstr "PRNSCN"
+msgstr "PrnScn"
 
 #: qx/locale/Key.js:103
 msgid "key_short_Scroll"
-msgstr "SCL"
+msgstr "Scroll"
 
 #: qx/locale/Key.js:104
 msgid "key_short_Pause"
@@ -126,7 +126,7 @@ msgstr "Backspace"
 
 #: qx/locale/Key.js:110
 msgid "key_full_Tab"
-msgstr "Tabb"
+msgstr "Tab"
 
 #: qx/locale/Key.js:111
 msgid "key_full_Space"
@@ -331,7 +331,7 @@ msgstr[1] "%1 rader"
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "en av en rad"
-msgstr[1] "%1 of %2 rader"
+msgstr[1] "%1 av %2 rader"
 
 #: qx/ui/table/columnmodel/Resize.js:199
 msgid "Reset column widths"
@@ -343,7 +343,7 @@ msgstr "%1 är inget nummer."
 
 #: qx/util/Validate.js:130
 msgid "'%1' is not an email address."
-msgstr "'%1' är inte en emailadress."
+msgstr "'%1' är inte en e-postadress."
 
 #: qx/util/Validate.js:167
 msgid "%1 is not a string."
