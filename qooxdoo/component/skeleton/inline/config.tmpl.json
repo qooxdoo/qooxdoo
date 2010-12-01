@@ -24,6 +24,8 @@
     "profiling",
     "source",
     "source-all",
+    "simulation-build",
+    "simulation-run",
     "test",
     "test-source",
     "translation"
