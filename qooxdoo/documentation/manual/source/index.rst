@@ -22,11 +22,6 @@
 Manual |version|
 ****************
 
-.. note::
- 
-   This is preliminary documentation for an unreleased qooxdoo version. You might be interested in consulting the documentation of `released versions <http://qooxdoo.org/documentation>`_.
-
-
 .. only:: html
 
    **Download** offline version (`.pdf <qooxdoo.pdf>`__)
