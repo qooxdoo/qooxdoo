@@ -148,12 +148,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
         createWidget = function()
         {
           var group = new qx.ui.basic.Label();
-
-          // TODO add appearance for header
-          group.setDecorator("selected");
-          group.setPadding([4, 8, 4, 8]);
-          group.setTextColor("text-selected");
-          group.setTextAlign("right");
+          group.setAppearance("group-item");
 
           return group;
         }

@@ -2782,6 +2782,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "group-item" :
+    {
+      include : "label",
+      alias : "label",
+      
+      style : function(states)
+      {
+        return {
+          padding : 4,
+          backgroundColor : "#BABABA",
+          textColor : "white",
+          font: "bold"
+        };
+      }
+    },
+
     "column-layer" : "widget",
 
     "cell" :

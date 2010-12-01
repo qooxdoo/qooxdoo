@@ -2512,6 +2512,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "row-layer" : "widget",
     "column-layer" : "widget",
 
+    "group-item" :
+    {
+      include : "label",
+      alias : "label",
+      
+      style : function(states)
+      {
+        return {
+          padding : 4,
+          backgroundColor : "#BABABA",
+          textColor : "white",
+          font: "bold"
+        };
+      }
+    },
+
     "cell" :
     {
       style : function(states)
