@@ -7,10 +7,11 @@ GUI Toolkit
 
    gui_toolkit/ui_overview
 
-Widgets
-=======
+Widgets Introduction
+====================
 
 .. toctree::
+   :maxdepth: 1
 
    widget
    gui_toolkit/ui_widgets
@@ -25,10 +26,15 @@ Widgets
    gui_toolkit/window_management   
    ui_html_editing
 
+Widget Reference
+----------------
+* :doc:`Widget reference </pages/widget/widget_ref>`
+
 Layouts
 =======
 
 .. toctree::
+   :maxdepth: 2
 
    gui_toolkit/ui_layouting
 
@@ -36,6 +42,7 @@ Themes
 ======
 
 .. toctree::
+   :maxdepth: 1
 
    gui_toolkit/ui_theming
    gui_toolkit/ui_appearance
