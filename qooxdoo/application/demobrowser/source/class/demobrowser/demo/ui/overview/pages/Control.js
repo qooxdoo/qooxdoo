@@ -54,18 +54,23 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
 
     _initWidgets: function() {
       var widgets = this.__widgets = new qx.type.Array();
+      var label;
 
       // ColorSelector
+      label = new qx.ui.basic.Label("ColorSelector");
       var colorSelector = new qx.ui.control.ColorSelector();
       widgets.push(colorSelector);
+      this.__container.add(label);
       this.__container.add(colorSelector);
 
       // ColorPopup
+      label = new qx.ui.basic.Label("ColorPopup");
       var colorPopup = new qx.ui.control.ColorPopup();
       colorPopup.exclude();
 
       var openColorPopup = new qx.ui.form.Button("Open Color Popup").set({maxWidth: 150});
       widgets.push(openColorPopup);
+      this.__container.add(label);
       this.__container.add(openColorPopup);
       openColorPopup.addListener("execute", function()
       {
@@ -75,7 +80,9 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Control",
 
       // DateChooser
       var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 200});
+      label = new qx.ui.basic.Label("DateChooser");
       widgets.push(dateChooser);
+      this.__container.add(label);
       this.__container.add(dateChooser);
 
     }

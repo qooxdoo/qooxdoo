@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.ui.WidgetOverview",
       var tabView = new demobrowser.demo.ui.overview.TabView();
       tabView.set({
         minWidth: 800,
-        minHeight: 600
+        minHeight: 800
       })
       scroll.add(tabView);
 
