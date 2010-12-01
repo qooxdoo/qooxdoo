@@ -101,3 +101,40 @@ Create the Test Application
   After that, you just reload the backend application by hitting the reload button to the right to see and test your changes in the TestRunner.
 * If you're working on an application based on qx.application.Native or qx.application.Inline (e.g. by starting with an Inline skeleton), you can run ``generate.py test-native`` or ``generate.py test-inline`` to create a test application of the same type as your actual application. The TestRunner's index file will be called ``index-native.html`` or ``index-inline.html``, respectively.
 
+Test Runner 2 (Experimental)
+****************************
+
+As an alternative to the "regular" Test Runner GUI, test applications can be run in the new "testrunner2" component. This is a modular unit testing GUI that makes use of framework features such as data binding that were introduced after the original Test Runner was created.
+Its main advantage is separation of logic and UI so that specialized views for different use cases can be created, such as a lightweight HTML GUI for use on mobile devices, or a "headless" UI for server-side tests running in Rhino or node.js. 
+
+Test Runner 2 is designed to be fully backwards compatible with existing unit test suites. At any time, developers can switch between the old an new runners using the ``TESTRUNNER_TYPE`` configuration macro. This can be defined in an application's config.json file or on the command line: 
+
+::
+
+    generate.py test -m TESTRUNNER_TYPE:testrunner2
+
+The generated files and directories use the same names as the original Test Runner.
+
+Defining Test Requirements
+==========================
+
+Test Requirements are a new feature only supported by Test Runner 2. Basically, they are conditions that must be met before a test can be run. For example, a test might rely on the application having been loaded over HTTPS and would give false results otherwise.
+Requirements are defined for individual tests; if one or more aren't satisfied, the test code won't be executed and the test will be marked as "skipped" in Test Runner 2's results list.
+
+Using Requirements
+---------------------
+
+The make use of the requirements feature, test classes must include the `MRequirements mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_.
+The mixin defines a method ``require`` that takes an array of strings: The requirement IDs. This method is called from a test function **before** the actual logic of the test, e.g.:
+
+::
+
+    testSslRequest : function()
+    {
+      this.require(["ssl"]);
+      // test code goes here
+    }
+    
+``require`` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. ``hasSsl``. This method is the called with the requirement ID as the only parameter. If it returns ``true``, the test code will be executed. Otherwise a `RequirementError <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError>`_ is thrown. Test Runner 2 will catch these and mark the test as "skipped" in the results list. Any test code after the ``require`` call will not be executed.
+
+In addition to the verification methods in MRequirements, test developers can define their own right in the test class.
