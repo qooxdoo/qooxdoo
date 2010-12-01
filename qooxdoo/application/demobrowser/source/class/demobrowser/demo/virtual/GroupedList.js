@@ -157,7 +157,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         },
 
         configureGroupItem : function(item) {
-          item.setBackgroundColor("gray");
+          item.setBackgroundColor("#005E00");
           item.setTextColor("white");
         },
         
