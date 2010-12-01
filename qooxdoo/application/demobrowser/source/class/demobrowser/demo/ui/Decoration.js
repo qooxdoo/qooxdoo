@@ -59,6 +59,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration",
       for (var key in decorations)
       {
         box.add(new qx.ui.basic.Label(key).set({
+          rich: true,
+          wrap: true,
           decorator: key,
           padding: 5,
           height: 80,
