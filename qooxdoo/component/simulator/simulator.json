@@ -103,7 +103,8 @@
     {
       "simulate" : 
       {
-        "java-classpath" : "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar:${SIMULATOR_ROOT}/tool",
+        "java-classpath" : "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar",
+        "qxselenium-path" : "${SIMULATOR_ROOT}/tool",
         "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
         "simulator-script" : "${BUILD_PATH}/script/simulator.js"
       }

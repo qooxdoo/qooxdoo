@@ -1795,9 +1795,17 @@ class Generator(object):
     def runSimulation(self):
         self._console.info("Running Simulation...")
         
-        javaClassPath = self._job.get("simulate/java-classpath", False)
-        if javaClassPath:
-            javaClassPath = "-cp %s" %javaClassPath
+        classPathSeparator = ":"
+        if util.getPlatformInfo()[0] == "Windows":
+            classPathSeparator = ";"
+        
+        javaClassPath = "-cp "
+        configClassPath = self._job.get("simulate/java-classpath", False)
+        if configClassPath:
+            javaClassPath += configClassPath
+        
+        qxSeleniumPath = self._job.get("simulate/qxselenium-path", False) 
+        javaClassPath += classPathSeparator + qxSeleniumPath
             
         rhinoClass = self._job.get("simulate/rhino-class", False)
         
