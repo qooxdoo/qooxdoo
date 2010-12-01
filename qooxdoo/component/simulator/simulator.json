@@ -90,7 +90,7 @@
         "qx.simulation.selPort" : 4444,
         "qx.simulation.testBrowser" : "*firefox3",
         "qx.simulation.autHost" : "http://localhost",
-        "qx.simulation.autPath" : "${APPLICATION}/source/index.html",
+        "qx.simulation.autPath" : "/${APPLICATION}/source/index.html",
         
         "qx.simulation.globalErrorLogging" : false,
         "qx.simulation.testEvents" : false,
