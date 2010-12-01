@@ -94,7 +94,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       var item = this.__cell.getCellWidget();
       var data = {
         label: "label 1",
-        icon: "qx/icon/22/emotes/face-angel.png"
+        icon: "icon/22/emotes/face-angel.png"
       };
 
       this.__cell.updateData(item, data)

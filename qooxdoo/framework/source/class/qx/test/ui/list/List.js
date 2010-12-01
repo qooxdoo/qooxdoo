@@ -106,7 +106,7 @@ qx.Class.define("qx.test.ui.list.List",
     {
       var rawData = [];
       for (var i = 0; i < 10; i++) {
-        rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png"};
+        rawData[i] = {label: "Item " + i, icon: "icon/16/places/folder.png"};
       }
       var model = qx.data.marshal.Json.createModel(rawData);
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertModelEqualsRowData(model, this._list);
       this.assertEquals(model.getLength(), this._list.getPane().getRowConfig().getItemCount());
       this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5,0).getLabel());
-      this.assertEquals("qx/icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
+      this.assertEquals("icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
     },
 
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.test.ui.list.List",
       var disabledItem = 3;
       var rawData = [];
       for (var i = 0; i < 10; i++) {
-        rawData[i] = {label: "Item " + i, icon: "qx/icon/16/places/folder.png", enabled: (i != disabledItem)};
+        rawData[i] = {label: "Item " + i, icon: "icon/16/places/folder.png", enabled: (i != disabledItem)};
       }
       var model = qx.data.marshal.Json.createModel(rawData);
 
