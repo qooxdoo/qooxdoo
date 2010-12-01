@@ -89,8 +89,8 @@
         "qx.simulation.selServer" : "localhost",
         "qx.simulation.selPort" : 4444,
         "qx.simulation.testBrowser" : "*firefox3",
-        "qx.simulation.autHost" : "file://",
-        "qx.simulation.autPath" : "${ROOT}/source/index.html",
+        "qx.simulation.autHost" : "http://localhost",
+        "qx.simulation.autPath" : "${APPLICATION}/source/index.html",
         
         "qx.simulation.globalErrorLogging" : false,
         "qx.simulation.testEvents" : false,
@@ -107,15 +107,6 @@
         "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
         "simulator-script" : "${BUILD_PATH}/script/simulator.js"
       }
-    },
-    
-    "simulation" :
-    {
-      "run" :
-      [
-        "simulation-build",
-        "simulation-run"
-      ]
     }
   }
 }
