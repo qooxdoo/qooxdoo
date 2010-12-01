@@ -1,3 +1,5 @@
+.. _pages/development/simulator#simulator:
+
 Simulator
 *********
 
@@ -18,41 +20,67 @@ Feature Highlights
 * Write Selenium test cases as qooxdoo classes
 * Use the JUnit-style setUp, test*, tearDown pattern
 * Define test jobs using the qooxdoo toolchain's powerful configuration system
-* Utilize the standard Selenium API and the qooxdoo user extensions
+* Utilize the standard Selenium API and the qooxdoo user extensions to locate and interact with qooxdoo widgets
 * Capture and log exceptions thrown in the tested application
 
 How it works
 ------------
 
-Similar to qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes (extending a common test case base class) are included into this application, which extends qx.application.Native and uses a simplified loader so it can run in Rhino.  
-The test application 
+Similar to LINK unit tests, Simulator tests are defined are qooxdoo classes living in the application's source directory. As such they support qooxdoo's OO features such as inheritance and nested namespaces. The ``setUp, testSomething, tearDown`` pattern is supported, as well as all assertion functions defined by LINK qx.core.MAssert.
 
-Required libraries
-------------------
+The main API that is used to define the test logic is QxSelenium, which means the LINK DefaultSelenium API plus the Locator strategies and commands from the LINK qooxdoo user extensions for Selenium.
 
-The first step is to download the required external libraries: 
-# `Selenium RC <http://seleniumhq.org/download/>`_
-# `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_
-# TODO: Simulator user extensions
+Similar to qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends qx.application.Native and uses a simplified loader so it can run in Rhino.  
 
-The Simulator is known to work with Selenium RC versions 1.0.3 and 2.0 a5 and Rhino 1.7R2.
+A separate Generator job then runs the Simulation in Mozilla Rhino: The Selenium RC server loads the AUT in opened in the configured browser, tests are executed one by one and results are written to the Shell. 
+
+Setting up the test environment
+-------------------------------
+
+Required Libraries
+==================
+
+The Simulator needs the following external resources to run: 
+* Java Runtime Environment: Versions 1.5 and 1.6 are known to work 
+* `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 have been tested successfully.
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 and later.
+* `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution. Use the latest trunk version from SVN.
 
 Generator Configuration
------------------------
+=======================
 
 The "simulation-build" and "simulation-run" jobs are responsible for building the test application and launching the test suite, respectively. By shadowing these job in your application's config.json you can set the necessary configuration options. 
-The "settings" section of the "simulation-build " job tells the Simulator where the application under test (AUT) is located and how to test it. 
-The "simulate" section of the "simulation-run" job provides environment settings needed to run the tests.
-An example:
+
+simulation-build
+^^^^^^^^^^^^^^^^
+
+The "settings" section of the "simulation-build" job tells the Simulator where the application under test (AUT) is located and how to test it.
+The following example shows the minimum configuration needed to build a Simulator application that will test the source version of the current library in Firefox 3 using a Selenium RC server instance running on the same machine:
 
 ::
 
     "simulation-build" :
     {
-      "qx.simulation.autHost" : "http://localhost",
-      "qx.simulation.autPath" : "/${APPLICATION}/source/index.html"
-    },
-  
+      "settings" :
+      {
+        "qx.simulation.testBrowser" : "*firefox3",
+        "qx.simulation.selServer" : "localhost",
+        "qx.simulation.selPort" : 4444,
+        "qx.simulation.autHost" : "http://localhost",
+        "qx.simulation.autPath" : "/${APPLICATION}/source/index.html"
+      }
+    }
+
+See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-build>` for a listing of all supported settings and their default values.
+
+simulation-build
+^^^^^^^^^^^^^^^^
+
+The "simulate" section of the "simulation-run" job provides environment settings needed to run the tests.
+In most cases, it should only be necessary to configure the location of the Selenium Client Driver and Mozilla Rhino JAR files:
+
+::
+
     "simulation-run" :
     {
       "simulate" : 
@@ -61,36 +89,20 @@ An example:
       }
     }
 
-Here is a list of all supported options and their meaning:
-
-"settings" Key
-==============
-* **qx.simulation.testBrowser** (String, default: ``*firefox3``): A browser launcher as supported by Selenium RC (see the Selenium documentation for details)
-* **qx.simulation.autHost** (String, default: ``http://localhost``): Protocol and host name by which the application can be accessed
-* **qx.simulation.autPath** (String, default: ``<applicationName>/source/index.html``): Path of the tested application
-* **qx.simulation.selServer** (String, default: ``localhost``): Host name of the Selenium RC server to be used for the test
-* **qx.simulation.selPort** (Integer, default: ``4444``): The Selenium RC server's port number
-* **qx.simulation.globalErrorLogging** (Boolean, default: ``false``): Log uncaught exceptions in the AUT (see TODO:LINK Special Features)
-* **qx.simulation.testEvents** (Boolean, default: ``false``): Activate AUT event testing support (see TODO:LINK Special Features)
-* **qx.simulation.applicationLog** (Boolean, default: ``false``) : Capture the AUT's log messages (see TODO:LINK Special Features)
-
-"simulate" Key
-==============
-* **java-classpath** (String, default: ``${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar``): Java classpath argument for the Rhino application 
-* **rhino-class** (String, default: ``org.mozilla.javascript.tools.shell.Main``): The Rhino class that should run the test code. Use ``org.mozilla.javascript.tools.debugger.Main`` to run the test application in Rhino's debugging tool
-* **simulator-script** (String, default: ``${BUILD_PATH}/script/simulator.js``): The path of the generated Simulator application
-
+See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-run>` for a listing of all supported keys and their default values.
 
 Writing Test Cases
-------------------
+==================
 TODOC
 
 Starting the Selenium RC server
--------------------------------
-TODOC
+===============================
+
+The Selenium RC server can run on a separate machine from the one that hosts the AUT and runs the Simulator.
 
 Running the Tests
-------------------
+=================
+
 TODOC
 
 
