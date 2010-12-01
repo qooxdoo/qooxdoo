@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
   {
     this.base(arguments);
 
-    this.setLabel("Menu/Toolbar");
+    this.setLabel("Toolbar/Menu");
     this.setLayout(new qx.ui.layout.Canvas());
 
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -59,27 +59,55 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
 
     _initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      // var widgets = this.__widgets = new qx.type.Array();
       var label;
-      
-      label = new qx.ui.basic.Label("Menu/Toolbar");
+
+      //
+      // Toolbar & Menu
+      //
+
+      label = new qx.ui.basic.Label("Toolbar & Menu");
       this.__container.add(label, {left: 0, top: 0});
       this.__container.add(this.getMenuBar(), {left: 0, top: 20});
+
+      //
+      // Menu (with slidebar)
+      //
+      // (Evil hacks below)
+      //
+
+      label = new qx.ui.basic.Label("Menu (with slidebar)");
+
+      // Add menu and label to container with fixed height
+      var subContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      subContainer.setHeight(120);
+      var buttonMenu = this.getButtonMenu();
+      this.__container.add(subContainer, {left: 0, top: 70});
+      subContainer.add(label, {left: 0, top: 0});
+      subContainer.add(buttonMenu, {left: 0, top: 0});
+
+      // Open menu when label appears
+      label.addListener("appear", function() {
+          buttonMenu.openAtPoint({left: 0, top: 20});
+      });
+
+      // Brute force. Do not hide menu on click.
+      buttonMenu.hide = buttonMenu.exclude = function() {};
     },
 
     getMenuBar : function()
     {
       var frame = new qx.ui.container.Composite(new qx.ui.layout.Grow);
       frame.setDecorator("main");
-      
+
       //
       // ToolBar
       //
-      
+
       var toolbar = new qx.ui.toolbar.ToolBar;
       toolbar.setWidth(200);
       frame.add(toolbar);
-      
+
       // Part
       var firstPart = new qx.ui.toolbar.Part;
       var secondPart = new qx.ui.toolbar.Part;
@@ -87,11 +115,11 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
       toolbar.add(firstPart);
       toolbar.addSpacer();
       toolbar.add(secondPart);
-      
+
       // SplitButton
       var splitButton = new qx.ui.toolbar.SplitButton("Toolbar SplitButton", "icon/16/actions/go-previous.png", this.getSplitButtonMenu());
       splitButton.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar SplitButton"));
-      
+
       // Button
       var toolbarButton = new qx.ui.toolbar.Button("Toolbar Button", "icon/16/actions/document-new.png");
       toolbarButton.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar Button"));
@@ -100,7 +128,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
       firstPart.addSeparator();
       firstPart.add(toolbarButton);
       firstPart.setShow("icon");
-      
+
       // MenuButton
       var menuButton = new qx.ui.toolbar.MenuButton("Toolbar MenuButton");
       menuButton.setMenu(this.getButtonMenu());
@@ -112,11 +140,11 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
     getSplitButtonMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
-      
+
       //
       // Menu
       //
-      
+
       // MenuButton
       var button1 = new qx.ui.menu.Button("Menu MenuButton");
       var button2 = new qx.ui.menu.Button("Menu MenuButton");
@@ -132,18 +160,18 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
     getButtonMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
-      
+
       //
       // Menu
       //
-      
+
       // MenuButton
       var button = new qx.ui.menu.Button("Menu MenuButton", "icon/16/actions/document-new.png");
-      
+
       // CheckBox
       var checkBox = new qx.ui.menu.CheckBox("Menu MenuCheckBox");
       var checkBoxChecked = new qx.ui.menu.CheckBox("Menu MenuCheckBox").set({value: true});
-      
+
       // RadioButton
       var radioButton = new qx.ui.menu.RadioButton("Menu RadioButton");
       var radioButtonActive = new qx.ui.menu.RadioButton("Menu RadioButton").set({value: true});
