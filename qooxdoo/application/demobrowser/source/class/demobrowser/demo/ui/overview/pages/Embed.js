@@ -26,8 +26,10 @@
 /**
  * Demonstrates qx.ui.embed(...):
  *
- *
- *
+ * embed.Canvas
+ * embed.Flash
+ * embed.Html
+ * 
  */
 
 qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
