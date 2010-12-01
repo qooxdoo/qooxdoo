@@ -460,7 +460,7 @@ You can specify ``library`` keys in your own config in these ways:
 "packages" Key
 ==============
 
-For a general introduction to parts and packages see this separate :doc:`document </pages/development/parts_overview>`. Here is more information on specifics of the :ref:`pages/tool/generator_config_ref#packages` config key.
+For a general introduction to parts and packages see this separate :doc:`document </pages/development/parts_overview>`. Following here is more information on the specifics of some sub-keys of the :ref:`pages/tool/generator_config_ref#packages` config key.
 
 .. _pages/tool/generator_config_articles#parts/<part_name>/include:
 
@@ -469,23 +469,23 @@ parts/<part_name>/include
 
 The way the part system is currently implemented has some caveats in the way *parts/\*/include* keys and the general :ref:`pages/tool/generator_config_ref#include` key interact:
 
-a) The general "include" key, i.e. the class list with all dependencies fully expanded, provides the "master list" of classes for the given application. All classes given in the part "include"s, including all their dependencies, are checked against this list. If any of those classes is not in the master list, it will not be included in the app.
+a) The general *include* key provides the "master list" of classes for the given application. This master list is extended with all their recursive dependencies. All classes given in a part's *include*, including all their dependencies, are checked against this list. If any of those classes is not in the master list, it will not be included in the final app.
 
-Therefore, you cannot include classes in parts that are not covered by the  general "include". If you want to use e.g. "qx.bom.*" in a part, you have to  add "qx.bom.*" to the general "include" list. Otherwise, only classes within  qx.bom.* that actually derive from the general include key will be actually  included, and the rest will be discarded. Motto:
+   Therefore, you cannot include classes in parts that are not covered by the  general *include* key. If you want to use e.g. *qx.bom.\** in a part, you have to  add ``"qx.bom.*"`` to the general *include* list. Otherwise, only classes within  *qx.bom.\** that actually derive from the general include key will be actually  included, and the rest will be discarded. Motto:
 
-*"The general include key is a filter for all classes in parts."*
+   *"The general include key is a filter for all classes in parts."*
 
-b) Any class that is in the master list that is never listed in one of the  parts, either directly or as dependency, will not be included in the app. That  means you have to **actively** make sure that all classes from the general "include" get - directly or indirectly - listed in one of the parts, or they  will not be in the final app. Motto:
+b) Any class that is in the master list that is never listed in one of the  parts, either directly or as dependency, will not be included in the app. That  means you have to **actively** make sure that all classes from the general *include* get - directly or indirectly - referenced in one of the parts, or they  will not be in the final app. Motto:
 
-*"The parts' include keys are a filter for all classes in the general include  key."*
+   *"The parts' include keys are a filter for all classes in the general include  key."*
 
-Or, to put both aspects in a single statement: The classes in the app are  exactly those in the **intersection** of the classes defined through the general  "include" key and all the classes defined by the "include" keys of the parts. Currently, the application developer has to make sure that they match, ie. that  the classes specified through the parts together sum up to the global class  list!
+   Or, to put both aspects in a single statement: The classes in the final app are  exactly those in the **intersection** of the classes referenced through the general *include* key and all the classes referenced by the *include* keys of the parts. Currently, the application developer has to make sure that they match, ie. that the classes specified through the parts together sum up to the global class list!
 
-There is another caveat that concerns the relation between "include"s of  different parts:
+   There is another caveat that concerns the relation between *include*'s of  different parts:
 
-c) Any class that is listed in a part's "include" (file globs expanded) will  not be included in another part. - But this also means that if two parts list  the same class, it won't be included in either of them!
+c) Any class that is listed in a part's *include* (file globs expanded) will  not be included in another part. - But this also means that if two parts list  the same class, it won't be included in either of them!
 
-This is e.g. the case in a sample application, where the *boot* part lists 'qx.bom.client.Engine' and the *core* part lists 'qx.bom.*' which also expands to qx.bom.client.Engine eventually. That's the reason why qx.bom.client.Engine would not be contained in the final application at all.
+   This is e.g. the case in a sample application, where the *boot* part lists *qx.bom.client.Engine* and the *core* part lists *qx.bom.\** which also expands to *qx.bom.client.Engine* eventually. That's the reason why *qx.bom.client.Engine* would not be contained in either of those parts, and hence would not be contained in the final application at all.
 
 .. _pages/tool/generator_config_articles#i18n-with-boot:
 
@@ -494,16 +494,15 @@ i18n-with-boot
 
 Setting this sub-key to *false* will result in I18N information (translations, CLDR data, ...) being put in their own separate parts. The utility of this is:
 
-* The loader package gets smaller, which allows for faster application startup
-* You can handle I18N data more individually
+* The code packages get smaller, which allows for faster application startup.
+* You can handle I18N data more individually.
 
 Here are the details:
 
-* By default, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data in the application loader (which in turn is per default integrated with the first package, the boot package, but that's a different story).
-* Setting *packages/i18n-with-boot: false* removes this data from the loader script.
-* Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code. As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part "en_US"). Each package is a normal qooxdoo package with only the data section, and without the code section. (See :doc:`/pages/development/parts_overview` for more details).
+* By default, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data in the application packages. In the source version, where there are no generated packages, this data is integrated with the loader. Setting *packages/i18n-with-boot: false* removes this data from the code packages (loader or otherwise; don't think too much about the key name).
+* Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code. As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part *en_US*). Each package is a normal qooxdoo package with only the data section, and without the code section.
 
-So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be converted. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
+So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be displayed. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
 
 .. _pages/tool/generator_config_articles#include_key_top-level_-_adding_features:
 
