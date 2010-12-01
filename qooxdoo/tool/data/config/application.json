@@ -218,7 +218,7 @@
     
     "simulation-run" :
     {
-      "desc" : "create a runner app for simulated interaction tests of the current library",
+      "desc" : "(experimental) launches simulated interaction tests generated with simulation-build",
     
       "extend" : ["simulator::simulation-run"],
       
@@ -231,7 +231,7 @@
     
     "simulation-build" :
     {
-      "desc" : "launches a suite of simulated interaction tests generated using simulation-run",
+      "desc" : "(experimental) create a runner app for simulated interaction tests",
     
       "extend" : ["simulator::simulation-build"],
       
