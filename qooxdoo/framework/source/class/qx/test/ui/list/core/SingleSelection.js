@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this._list.getSelection().getLength(), "On List");
-      this.assertTrue(selection.equals(new qx.data.Array([this._model.getItem(1)])), "On List");
+      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(1)]), "On List");
 
       // check selection from manager
       var item = this._list._manager.getSelectedItem();
@@ -58,7 +58,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this._list.getSelection().getLength(), "On List");
-      this.assertTrue(selection.equals(new qx.data.Array([this._model.getItem(2)])), "On List");
+      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(2)]), "On List");
 
       // check selection from manager
       var selection = this._list._manager.getSelection();
