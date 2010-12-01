@@ -165,6 +165,13 @@ qx.Class.define("qx.ui.list.List",
   },
 
 
+  statics :
+  {
+    /** {String} The default group name is used for items which don't fit into a group. */
+    DEFAULT_GROUP_NAME : "???"
+  },
+
+
   members :
   {
     /** {qx.ui.virtual.layer.Row} background renderer */
@@ -534,6 +541,10 @@ qx.Class.define("qx.ui.list.List",
      */
     __addGroup : function(name, index)
     {
+      if (name == null) {
+        name = this.self(arguments).DEFAULT_GROUP_NAME;
+      }
+
       if (this.__groupHashMap[name] == null) {
         this.__groupHashMap[name] = [];
       }

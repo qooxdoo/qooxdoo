@@ -153,7 +153,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         },
           
         group : function(model) {
-          return model.getGroup();
+          return model.getGroup ? model.getGroup() : null;
         },
 
         configureGroupItem : function(item) {
@@ -170,7 +170,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
           controller.bindProperty(null, "icon", {
             converter : function(data) {
               switch(data) {
-                case "Undefined":
+                case qx.ui.list.List.DEFAULT_GROUP_NAME:
                   return "icon/16/categories/system.png";
                 case "Friends":
                   return "icon/16/emotes/face-laugh.png";

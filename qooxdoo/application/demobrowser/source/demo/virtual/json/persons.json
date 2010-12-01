@@ -2,28 +2,23 @@
   "persons": [
     {
       "lastname": "Weidner",
-      "firstname": "Ludwig",
-      "group": "Undefined"
+      "firstname": "Ludwig"
     },
     {
       "lastname": "Mengel",
-      "firstname": "Sonnhard",
-      "group": "Undefined"
+      "firstname": "Sonnhard"
     },
     {
       "lastname": "Rehbein",
-      "firstname": "Margarita",
-      "group": "Undefined"
+      "firstname": "Margarita"
     },
     {
       "lastname": "Sänger",
-      "firstname": "Mareike",
-      "group": "Undefined"
+      "firstname": "Mareike"
     },
     {
       "lastname": "Warnke",
-      "firstname": "Rigbert",
-      "group": "Undefined"
+      "firstname": "Rigbert"
     },
     {
       "lastname": "Grabowski",
@@ -62,13 +57,11 @@
     },
     {
       "lastname": "Lotz",
-      "firstname": "Wunnibald",
-      "group": "Undefined"
+      "firstname": "Wunnibald"
     },
     {
       "lastname": "Schlicht",
-      "firstname": "Irmingard",
-      "group": "Undefined"
+      "firstname": "Irmingard"
     },
     {
       "lastname": "Engert",
@@ -97,13 +90,11 @@
     },
     {
       "lastname": "Pauls",
-      "firstname": "Gernfried",
-      "group": "Undefined"
+      "firstname": "Gernfried"
     },
     {
       "lastname": "Kempf",
-      "firstname": "Armgard",
-      "group": "Undefined"
+      "firstname": "Armgard"
     },
     {
       "lastname": "Krug",
@@ -132,13 +123,11 @@
     },
     {
       "lastname": "Schwabe",
-      "firstname": "Trauthilde",
-      "group": "Undefined"
+      "firstname": "Trauthilde"
     },
     {
       "lastname": "Prill",
-      "firstname": "Nico",
-      "group": "Undefined"
+      "firstname": "Nico"
     },
     {
       "lastname": "Bork",
@@ -152,8 +141,7 @@
     },
     {
       "lastname": "Schanz",
-      "firstname": "Thielo",
-      "group": "Undefined"
+      "firstname": "Thielo"
     },
     {
       "lastname": "Gerth",
@@ -162,8 +150,7 @@
     },
     {
       "lastname": "Daum",
-      "firstname": "Rolf",
-      "group": "Undefined"
+      "firstname": "Rolf"
     },
     {
       "lastname": "Weigert",
@@ -172,13 +159,11 @@
     },
     {
       "lastname": "Vogelsang",
-      "firstname": "Ernstfried",
-      "group": "Undefined"
+      "firstname": "Ernstfried"
     },
     {
       "lastname": "Jahn",
-      "firstname": "Huberta",
-      "group": "Undefined"
+      "firstname": "Huberta"
     },
     {
       "lastname": "Mies",
@@ -187,8 +172,7 @@
     },
     {
       "lastname": "Stratmann",
-      "firstname": "Lorenz",
-      "group": "Undefined"
+      "firstname": "Lorenz"
     },
     {
       "lastname": "Meinel",
@@ -202,8 +186,7 @@
     },
     {
       "lastname": "Mahler",
-      "firstname": "Irmi",
-      "group": "Undefined"
+      "firstname": "Irmi"
     },
     {
       "lastname": "Fritz",
@@ -212,13 +195,11 @@
     },
     {
       "lastname": "Thimm",
-      "firstname": "Irmo",
-      "group": "Undefined"
+      "firstname": "Irmo"
     },
     {
       "lastname": "Friedl",
-      "firstname": "Katharine",
-      "group": "Undefined"
+      "firstname": "Katharine"
     },
     {
       "lastname": "Hohl",
@@ -242,8 +223,7 @@
     },
     {
       "lastname": "Pietschmann",
-      "firstname": "Frohmut",
-      "group": "Undefined"
+      "firstname": "Frohmut"
     },
     {
       "lastname": "Posselt",
@@ -252,8 +232,7 @@
     },
     {
       "lastname": "Speidel",
-      "firstname": "Sigward",
-      "group": "Undefined"
+      "firstname": "Sigward"
     },
     {
       "lastname": "Hopp",
@@ -267,8 +246,7 @@
     },
     {
       "lastname": "Stecher",
-      "firstname": "Elif",
-      "group": "Undefined"
+      "firstname": "Elif"
     },
     {
       "lastname": "Himmel",
@@ -282,8 +260,7 @@
     },
     {
       "lastname": "Stamm",
-      "firstname": "Selina",
-      "group": "Undefined"
+      "firstname": "Selina"
     },
     {
       "lastname": "Lucas",
@@ -307,8 +284,7 @@
     },
     {
       "lastname": "Hartwig",
-      "firstname": "Magret",
-      "group": "Undefined"
+      "firstname": "Magret"
     },
     {
       "lastname": "Rüther",
@@ -387,13 +363,11 @@
     },
     {
       "lastname": "Menzel",
-      "firstname": "Margita",
-      "group": "Undefined"
+      "firstname": "Margita"
     },
     {
       "lastname": "Ruck",
-      "firstname": "Volkmar",
-      "group": "Undefined"
+      "firstname": "Volkmar"
     },
     {
       "lastname": "Menne",
@@ -412,8 +386,7 @@
     },
     {
       "lastname": "Klaiber",
-      "firstname": "Milica",
-      "group": "Undefined"
+      "firstname": "Milica"
     },
     {
       "lastname": "Kaspar",
@@ -422,8 +395,7 @@
     },
     {
       "lastname": "Sorge",
-      "firstname": "Debora",
-      "group": "Undefined"
+      "firstname": "Debora"
     },
     {
       "lastname": "Pelz",
@@ -432,8 +404,7 @@
     },
     {
       "lastname": "Engelmann",
-      "firstname": "Urszula",
-      "group": "Undefined"
+      "firstname": "Urszula"
     },
     {
       "lastname": "Feller",
@@ -467,8 +438,7 @@
     },
     {
       "lastname": "Niggemann",
-      "firstname": "Isabel",
-      "group": "Undefined"
+      "firstname": "Isabel"
     },
     {
       "lastname": "Koller",
@@ -487,13 +457,11 @@
     },
     {
       "lastname": "Hepp",
-      "firstname": "Gottwalt",
-      "group": "Undefined"
+      "firstname": "Gottwalt"
     },
     {
       "lastname": "Meisel",
-      "firstname": "Brandolf",
-      "group": "Undefined"
+      "firstname": "Brandolf"
     },
     {
       "lastname": "Dorsch",

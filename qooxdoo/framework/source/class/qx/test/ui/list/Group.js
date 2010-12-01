@@ -62,6 +62,40 @@ qx.Class.define("qx.test.ui.list.Group",
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list._groups.getLength(), "On List");
     },
+
+    testDefaultGroup : function()
+    {
+      var groupedModel = qx.data.marshal.Json.createModel([
+        "L", "Luise Siemer", 
+        "T", "Trauhard Franke", "Trixi Clauß", 
+        qx.ui.list.List.DEFAULT_GROUP_NAME, "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz", 
+        "F", "Florine Bähr", 
+        "P", "Pankratius Hill", 
+        "G", "Gerlinda Seel",
+        "C", "Cecilia Hemmer", 
+        "R", "Rosely Fröhlich", "Riana Dirks", 
+        "A", "Annemargret Hunger", 
+        "D", "Dietgar Münster", 
+        "B", "Bertwin Joseph", 
+        "E", "Edwina Schwarz"
+      ]);
+
+      var delegate = {
+        group : function(item) {
+          var group = item.charAt(0).toUpperCase();
+          if (group == "S") {
+            return null;
+          }
+          return item.charAt(0).toUpperCase();
+        }
+      };
+      this._list.setDelegate(delegate);
+      this.flush();
+
+      this.assertModelEqualsRowData(groupedModel, this._list);
+      this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
+      this.assertEquals(12, this._list._groups.getLength(), "On List");
+    },
     
     testGroupWithSorter : function()
     {
