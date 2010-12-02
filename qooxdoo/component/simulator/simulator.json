@@ -8,7 +8,7 @@
     "SIMULATOR_ROOT" : ".",
     "BUILD_PATH"      : "${ROOT}/simulator",
     "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*",
-    "SIMULATOR_CLASSPATH" : "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"
+    "SIMULATOR_CLASSPATH" : ["${SIMULATOR_ROOT}/tool/js.jar", "${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"]
   },
   
   "jobs" :
