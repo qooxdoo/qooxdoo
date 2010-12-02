@@ -2791,7 +2791,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : 4,
-          backgroundColor : "#BABABA",
+          decorator : "group-item",
           textColor : "white",
           font: "bold"
         };

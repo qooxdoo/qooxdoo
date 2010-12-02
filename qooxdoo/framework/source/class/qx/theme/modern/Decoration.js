@@ -969,6 +969,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width: 1,
         color: "border-input"
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      VIRTUAL WIDGETS
+    ---------------------------------------------------------------------------
+    */
+
+    "group-item" :
+    {
+      decorator : qx.ui.decoration.Background,
+
+      style :
+      {
+        backgroundImage  : "decoration/group-item.png",
+        backgroundRepeat : "scale"
+      }
     }
   }
 });
