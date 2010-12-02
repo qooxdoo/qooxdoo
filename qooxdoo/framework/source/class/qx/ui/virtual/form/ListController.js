@@ -45,6 +45,8 @@ qx.Class.define("qx.ui.virtual.form.ListController",
   {
     this.base(arguments);
 
+    this.__lookupTable = [];
+
     this.setSelection(new qx.data.Array());
 
     if (model != null) {
