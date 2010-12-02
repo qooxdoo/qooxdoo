@@ -71,6 +71,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       });
       container.add(title);
 
+      // Creates model data
       var rawData = [];
       for (var i = 0; i < 2500; i++)
       {
@@ -79,8 +80,9 @@ qx.Class.define("demobrowser.demo.virtual.List",
           icon: (i % 4) ? "16" : "48"
         }
       }
-
       var model = qx.data.marshal.Json.createModel(rawData);
+
+      // Creates the list and configures it
       var list = this.__configList = new qx.ui.list.List(model).set({
         scrollbarX: "on",
         selectionMode : "multi",
@@ -92,13 +94,16 @@ qx.Class.define("demobrowser.demo.virtual.List",
           return "icon/" + data + "/places/folder.png";
         }}
       });
+      container.add(list, {top: 20});
 
       var that = this;
       var delegate = {
+        // Binds the demo show mode property with each list item
         configureItem : function(item) {
           that.bind("showMode", item, "show");
         },
 
+        // Uses the default binding and disabled each ninth list item
         bindItem : function(controller, item, id) {
           controller.bindDefaultProperties(item, id);
           controller.bindProperty("label", "enabled", {
@@ -108,13 +113,14 @@ qx.Class.define("demobrowser.demo.virtual.List",
           }, item, id);
         }
       };
+      
+      // sets the delegate to the list
       list.setDelegate(delegate);
-      container.add(list, {top: 20});
 
       // Pre-Select "Item No 20"
       list.getSelection().push(model.getItem(20));
 
-      // log change selection
+      // log all changes on the selection
       list.getSelection().addListener("change", function(e) {
         var selection = list.getSelection();
         for (var i = 0; i < selection.getLength(); i++) {
@@ -122,7 +128,8 @@ qx.Class.define("demobrowser.demo.virtual.List",
         }
       }, this);
 
-      // TODO implement auto sizing
+      // Sets the list item size to all items.
+      // This is needed, because we use images with different size.
       var rowConfig = list.getPane().getRowConfig();
       for (var i = 0; i < 2500; i++)
       {
@@ -133,7 +140,9 @@ qx.Class.define("demobrowser.demo.virtual.List",
         }
       }
 
-      // Configure Elements
+      /* ***********************************************
+       * Configure Elements
+       * ********************************************* */
       var single = new qx.ui.form.RadioButton("Single Selection");
       var multi = new qx.ui.form.RadioButton("Multi Selection");
       var additive = new qx.ui.form.RadioButton("Additive Selection");
@@ -167,7 +176,6 @@ qx.Class.define("demobrowser.demo.virtual.List",
       container.add(dragCheck, {left: 160, top: 200});
       container.add(quickCheck, {left: 160, top: 220});
 
-      // Configure behavior
       var selectionMode = new qx.ui.form.RadioGroup(single, multi, additive, one);
       selectionMode.setSelection([multi]);
       selectionMode.addListener("changeSelection", this.onSelectionModeChange, this);
@@ -191,6 +199,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       });
       container.add(title);
 
+      // Creates the mode data
       var model = new qx.data.Array();
       for (var i = 0; i < 250; i++)
       {
@@ -198,6 +207,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
         model.push(item);
       }
 
+      // Creates the list and configures it
       var list = new qx.ui.list.List(model).set({
         selectionMode : "one",
         height: 280,
@@ -229,6 +239,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
                  "Daniel","Lennard","Marvin","Jannis","Tobias","Dominic","Marlon","Marc",
                  "Johannes","Jonathan","Julius","Colin","Joel","Kevin","Vincent","Robin"];
 
+      // Creates the model data and the new selection
       var model = new qx.data.Array();
       var selection = new qx.data.Array();
       for (var i = 0; i < l3l.length; i++)
@@ -241,6 +252,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
         }
       }
 
+      // Creates the list and configures it
       var list = new qx.ui.list.List(model).set({
         selectionMode : "additive",
         height: 200,
@@ -250,6 +262,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       });
       container.add(list, {top: 20});
 
+      // Set the new selection
       list.setSelection(selection);
 
       return container;

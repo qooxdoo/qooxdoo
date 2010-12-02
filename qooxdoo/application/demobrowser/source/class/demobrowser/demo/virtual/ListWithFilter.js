@@ -18,9 +18,6 @@
 
 ************************************************************************ */
 
-/**
- * @tag filter
- */
 qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
 {
   extend : qx.application.Standalone,
@@ -31,17 +28,15 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
     {
       this.base(arguments);
 
-      // create the data
+      // Creates the model data
       var rawData = [];
       for (var i = 0; i < 8; i++) {
         rawData.push(i);
       }
       var data = new qx.data.Array(rawData);
 
-      // create the widget
+      // Creates the list.
       var list = new qx.ui.list.List(data);
-
-      // add the widgets to the document
       this.getRoot().add(list, {left: 10, top: 80});
 
       // create the delegates for the filter
@@ -76,6 +71,7 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
       addItemButton.setWidth(120);
       this.getRoot().add(addItemButton, {left: 130, top: 80});
       addItemButton.addListener("execute", function() {
+        // Creates a new item and add it the model
         data.push(data.length);
       }, this);
 
@@ -83,6 +79,7 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
       removeItemButton.setWidth(120);
       this.getRoot().add(removeItemButton, {left: 130, top: 115});
       removeItemButton.addListener("execute", function() {
+        // Remove the last item from the model
         data.pop();
       }, this);
 
@@ -100,6 +97,7 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
       changeFilterButton.setWidth(120);
       this.getRoot().add(changeFilterButton, {left: 130, top: 185});
       changeFilterButton.addListener("execute", function() {
+        // Toggle between the odd and even filter
         list.getDelegate() == delegateOdd ? list.setDelegate(delegateEven) : list.setDelegate(delegateOdd);
       }, this);
 
@@ -107,6 +105,7 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
       removeFilterButton.setWidth(120);
       this.getRoot().add(removeFilterButton, {left: 130, top: 220});
       removeFilterButton.addListener("execute", function() {
+        // Remove the filter
         list.setDelegate(null);
       }, this);
 
@@ -114,22 +113,23 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
       reverseButton.setWidth(120);
       this.getRoot().add(reverseButton, {left: 130, top: 255});
       reverseButton.addListener("execute", function() {
+        // Reverse the model data
         data.reverse();
       }, this);
 
 
-       /* ***********************************************
-        * DESCRIPTIONS
-        * ********************************************* */
-       // List Selection sync description
-       var description = new qx.ui.basic.Label();
-       description.setRich(true);
-       description.setWidth(200);
-       description.setValue(
-         "<b>Filtered List</b><br/>"
-         + "List showing numbered items, bound to a data array."
-       );
-       this.getRoot().add(description, {left: 20, top: 10});
+      /* ***********************************************
+       * DESCRIPTIONS
+       * ********************************************* */
+      // List Selection sync description
+      var description = new qx.ui.basic.Label();
+      description.setRich(true);
+      description.setWidth(200);
+      description.setValue(
+        "<b>Filtered List</b><br/>"
+        + "List showing numbered items, bound to a data array."
+      );
+      this.getRoot().add(description, {left: 20, top: 10});
     }
   }
 });
