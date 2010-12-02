@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   statics :
   {
-    /*
+    /**
      * Selection Modes {int}
      *
      *   NONE
@@ -300,7 +300,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *   MULTIPLE_INTERVAL_TOGGLE
      *     Like MULTIPLE_INTERVAL, but clicking on an item toggles its selection state.
      */
-
     SelectionMode :
     {
       NONE :

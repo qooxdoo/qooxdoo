@@ -32,10 +32,39 @@ qx.Bootstrap.define("qx.dev.Profile",
 {
   statics :
   {
+    /**
+     * Storage for profiling data
+     * 
+     * @internal 
+     */
     __profileData : {},
+    
+    /**
+     * Array for call stack-like data types.
+     * 
+     * @internal
+     */
     __callStack : [],
+    
+    /**
+     * Flag marking profiler run.
+     * 
+     * @internal
+     */
     __doProfile : true,
+    
+    /**
+     * Profiler execution time. Subtracted for more accurate calculations.
+     * 
+     * @internal 
+     */
     __callOverhead : undefined,
+    
+    /**
+     * Amount of times to run calculation of profiler overhead.
+     * 
+     * @internal
+     */
     __calibrateCount : 4000,
 
 

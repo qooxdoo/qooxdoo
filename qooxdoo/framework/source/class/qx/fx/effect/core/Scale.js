@@ -144,6 +144,12 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
   statics :
   {
+    
+    /**
+     * Storage for original style definitions (dimension and position).
+     * 
+     * @internal 
+     */
     originalStyle : {
       'top'      : null,
       'left'     : null,
@@ -152,6 +158,11 @@ qx.Class.define("qx.fx.effect.core.Scale",
       'fontSize' : null
     },
 
+    /**
+     * Storage for different font size units.
+     * 
+     * @internal 
+     */
     fontTypes : {
       'em' : 'em',
       'px' : 'px',

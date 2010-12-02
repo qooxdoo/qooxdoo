@@ -31,6 +31,11 @@ qx.Class.define("qx.locale.Date",
 {
   statics :
   {
+    /**
+     * Reference to the locale manager.
+     * 
+     * @internal
+     */
     __mgr : qx.locale.Manager.getInstance(),
 
 

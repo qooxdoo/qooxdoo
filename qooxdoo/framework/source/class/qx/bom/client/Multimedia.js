@@ -33,7 +33,12 @@ qx.Class.define("qx.bom.client.Multimedia",
 
   statics :
   {
-    // filled with additional data at initialization
+    /**
+     * Database of supported features.
+     * Filled with additional data at initialization
+     *
+     * @internal
+     */
     __db :
     {
       quicktime :

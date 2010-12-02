@@ -50,7 +50,11 @@ qx.Class.define("qx.bom.Element",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} A list of all attributes which needs to be part of the initial element to work correctly */
+    /** 
+     * {Map} A list of all attributes which needs to be part of the initial element to work correctly 
+     *
+     * @internal
+     */
     __initialAttributes :
     {
       "onload" : true,
@@ -63,8 +67,18 @@ qx.Class.define("qx.bom.Element",
       "disabled" : true
     },
 
+    /**
+     * Stores helper element for element creation in WebKit
+     * 
+     * @internal 
+     */
     __helperElement : {},
 
+    /**
+     * Saves whether a helper element is needed for each window.
+     * 
+     * @internal
+     */
     __allowMarkup : {},
 
     /**

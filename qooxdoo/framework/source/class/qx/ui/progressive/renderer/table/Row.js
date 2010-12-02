@@ -76,10 +76,25 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   statics :
   {
+    /**
+     * Storage for each progressive.
+     * 
+     * @internal
+     */
     __clazz : null,
 
+    /**
+     * Default row padding.
+     * 
+     * @internal
+     */
     __padding : 6, // modify padding parameter below too if this changes
 
+    /**
+     * Default style sheet for table cells.
+     * 
+     * @internal
+     */
     __tableCellStyleSheet :
         "  position: absolute;" +
         "  top: 0px;" +

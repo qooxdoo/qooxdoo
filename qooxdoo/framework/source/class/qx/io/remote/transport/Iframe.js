@@ -97,6 +97,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
   statics :
   {
+    /**
+     * Capabilities of this transport type.
+     * 
+     * @internal 
+     */
     handles :
     {
       synchronous           : false,
@@ -126,8 +131,12 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     ---------------------------------------------------------------------------
     */
 
-    // For reference:
-    // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
+    /**
+     * For reference:
+     * http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
+     * 
+     * @internal 
+     */
     _numericMap :
     {
       "uninitialized" : 1,

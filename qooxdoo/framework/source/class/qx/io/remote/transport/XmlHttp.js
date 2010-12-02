@@ -38,6 +38,11 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
   statics :
   {
+    /**
+     * Capabilities of this transport type.
+     * 
+     * @internal 
+     */
     handles :
     {
       synchronous           : true,
@@ -48,7 +53,20 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
     },
 
+    /**
+     * Array of request objects.
+     * 
+     * @internal
+     * @deprecated
+     */
     requestObjects : [],
+    
+    /**
+     * Request object count
+     * 
+     * @internal
+     * @deprecated
+     */
     requestObjectCount : 0,
 
 

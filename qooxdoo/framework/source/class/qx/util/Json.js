@@ -75,6 +75,11 @@ qx.Class.define("qx.util.Json",
      */
     CONVERT_DATES : null,
 
+    /**
+     * Mapping from types to function names.
+     * 
+     * @internal 
+     */
     __map :
     {
       "function"  : "__convertFunction",
@@ -142,6 +147,11 @@ qx.Class.define("qx.util.Json",
       return '"' + result + '"';
     },
 
+    /**
+     * Mapping for string escape.
+     * 
+     * @internal 
+     */
     __convertStringEscape :
     {
       '\b' : '\\b',

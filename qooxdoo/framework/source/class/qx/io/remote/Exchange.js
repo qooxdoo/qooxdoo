@@ -111,11 +111,32 @@ qx.Class.define("qx.io.remote.Exchange",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Predefined order of types.
+     * 
+     * @internal
+     */
     typesOrder : [ "qx.io.remote.transport.XmlHttp", "qx.io.remote.transport.Iframe", "qx.io.remote.transport.Script" ],
 
+    /**
+     * Marker for initialized types.
+     * 
+     * @internal
+     */
     typesReady : false,
 
+    /**
+     * Map of all available types.
+     * 
+     * @internal 
+     */
     typesAvailable : {},
+    
+    /**
+     * Map of all supported types.
+     * 
+     * @internal 
+     */
     typesSupported : {},
 
 
@@ -195,25 +216,26 @@ qx.Class.define("qx.io.remote.Exchange",
     ---------------------------------------------------------------------------
     */
 
-    /*
-    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/0e6a34e4-f90c-489d-acff-cb44242fafc6.asp
-
-    0: UNINITIALIZED
-    The object has been created, but not initialized (the open method has not been called).
-
-    1: LOADING
-    The object has been created, but the send method has not been called.
-
-    2: LOADED
-    The send method has been called, but the status and headers are not yet available.
-
-    3: INTERACTIVE
-    Some data has been received. Calling the responseBody and responseText properties at this state to obtain partial results will return an error, because status and response headers are not fully available.
-
-    4: COMPLETED
-    All the data has been received, and the complete data is available in the
-    */
-
+    /**
+     *http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/0e6a34e4-f90c-489d-acff-cb44242fafc6.asp
+     *
+     * 0: UNINITIALIZED
+     * The object has been created, but not initialized (the open method has not been called).
+     *
+     * 1: LOADING
+     * The object has been created, but the send method has not been called.
+     * 
+     * 2: LOADED
+     * The send method has been called, but the status and headers are not yet available.
+     * 
+     * 3: INTERACTIVE
+     * Some data has been received. Calling the responseBody and responseText properties at this state to obtain partial results will return an error, because status and response headers are not fully available.
+     * 
+     * 4: COMPLETED
+     * All the data has been received, and the complete data is available in the
+     * 
+     * @internal
+     */
     _nativeMap :
     {
       0 : "created",
