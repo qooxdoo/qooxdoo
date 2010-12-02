@@ -7,7 +7,7 @@
     "ROOT"         : "."
   },
   
-  "default-job" : "source",
+  "default-job" : "build",
 
   "jobs" :
   {
@@ -16,8 +16,7 @@
       "library" :
       [
         {
-          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
         }
       ],
 
