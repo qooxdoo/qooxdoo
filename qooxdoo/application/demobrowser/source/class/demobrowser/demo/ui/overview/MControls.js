@@ -57,6 +57,20 @@ qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
         controls.add(toggleHovered);
       }
       
+      if (options.selected) {
+        var toggleSelected = new qx.ui.form.ToggleButton("Selected");
+        toggleSelected.addListener("changeValue", function(e) {
+          widgets.forEach(function(widget, index) {
+            if (!widget.hasState("selected")) {
+              widget.addState("selected");
+            } else {
+              widget.removeState("selected");
+            }
+          });
+        }, this);
+        controls.add(toggleSelected);
+      }
+      
       if (options.focused) {
         var toggleFocused = new qx.ui.form.ToggleButton("Focused");
         toggleFocused.addListener("changeValue", function(e) {

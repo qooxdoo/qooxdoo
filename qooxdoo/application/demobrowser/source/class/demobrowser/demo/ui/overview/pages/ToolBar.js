@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
     this.add(this.__container, {top: 40});
 
     this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true, hovered: true});
+    this._initControls(this.__widgets, {disabled: true, hovered: true, selected: true});
   },
 
   members :
