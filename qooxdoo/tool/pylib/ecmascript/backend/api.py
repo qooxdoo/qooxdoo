@@ -806,7 +806,7 @@ def handleConstantDefinition(item, classNode):
     classNode.addListChild("constants", node)
 
 
-def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True):
+def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True, checkReturn=False):
 
     node = tree.Node("method")
     node.set("name", name)
@@ -905,6 +905,61 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     if reportMissingDesc and not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
 
+    # Check whether return value documentation is correct
+    if checkReturn:
+        hasComment = len(commentAttributes) > 0
+        isInterface = classNode.get("type", False) == "interface"
+        
+        hasSignatureDef = False
+        for docItem in commentAttributes:
+            if docItem["category"] == "signature":
+                hasSignatureDef = True
+      
+        #overrides = False
+        #if len(commentAttributes) == 0:
+        #    superClassName = classNode.get("superClass", False)
+        #    if superClassName:
+        #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+        #        while superClassNode:
+        #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+            
+        isAbstract = classNode.get("isAbstract", False) 
+        for attrib in commentAttributes:
+            if "category" in attrib:
+                if attrib["category"] == "abstract":
+                    isAbstract = True
+        
+        if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
+            #from pydbgr.api import debug
+            
+            hasReturnValue = False
+            for returnNode in nodeIterator(funcItem, ["return"]):
+                if returnNode.hasChild("expression"):
+                    hasReturnValue = True
+            
+            hasReturnDoc = False
+            if comment.getAttrib(commentAttributes, "return"):
+                hasVoidType = False
+                if "type" in comment.getAttrib(commentAttributes, "return"):
+                    for typeDef in comment.getAttrib(commentAttributes, "return")["type"]:
+                        if typeDef["type"] == "void":
+                            hasVoidType = True
+                if not hasVoidType:        
+                    hasReturnDoc = True
+            
+            if hasReturnDoc and not hasReturnValue:
+                #debug()
+                msg = classNode.get("fullName") + "#" + name + " documents a returned value but returns nothing!"
+                print msg
+                #printDocError(funcItem, msg)
+                addError(node, "Documentation for return value but returns nothing.", funcItem)
+            if hasReturnValue and not hasReturnDoc:
+                #debug()
+                msg = classNode.get("fullName") + "#" + name + " missing documentation for returned value!"
+                print msg
+                #printDocError(funcItem, msg)
+                addError(node, "Missing documentation for return value.", funcItem)
+    
     return node
 
 
