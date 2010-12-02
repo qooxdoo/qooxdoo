@@ -108,19 +108,26 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindDefaultProperties : function(item, index)
     {
-      // bind model first
-      this.bindProperty(
-        "", "model", null, item, index
-      );
-
-      this.bindProperty(
-        this.getLabelPath(), "label", this.getLabelOptions(), item, index
-      );
-
-      if (this.getIconPath() != null) {
+      if(item.getUserData("cell.type") != "group")
+      {
+        // bind model first
         this.bindProperty(
-          this.getIconPath(), "icon", this.getIconOptions(), item, index
+          "", "model", null, item, index
         );
+
+        this.bindProperty(
+          this.getLabelPath(), "label", this.getLabelOptions(), item, index
+        );
+
+        if (this.getIconPath() != null) {
+          this.bindProperty(
+            this.getIconPath(), "icon", this.getIconOptions(), item, index
+          );
+        }
+      }
+      else
+      {
+        this.bindProperty(null, "value", null, item, index);
       }
     },
 
@@ -249,7 +256,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       if (delegate != null && delegate.bindGroupItem != null) {
         delegate.bindGroupItem(this, item, index);
       } else {
-        this.bindProperty(null, "value", null, item, index);
+        this.bindDefaultProperties(item, index);
       }
     },
 
