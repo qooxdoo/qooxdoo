@@ -18,9 +18,10 @@
 ************************************************************************ */
 
 /**
- * Implements single and multi selection handling.
+ * Implements the different selection modes single, multi, additive and one
+ * selection with there drag and quick selection.
  *
- * Example:
+ * Example how to use selection:
  * <pre class="javascript">
  * var rawData = [];
  * for (var i = 0; i < 2500; i++) {

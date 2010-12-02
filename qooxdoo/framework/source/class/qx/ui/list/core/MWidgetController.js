@@ -95,16 +95,20 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
 
     /**
-     * Helper-Method for binding the default properties (label and icon) from
-     * the model to the target widget.
+     * Helper-Method for binding the default properties from
+     * the model to the target widget. The used default properties
+     * depends on the passed item. When the passed item is
+     * a list item the "label" and "icon" property is used.
+     * When the passed item is a group item the "value" property is
+     * used.  
      *
      * This method should only be called in the
-     * {@link IControllerDelegate#bindItem} function
+     * {@link IListDelegate#bindItem} function
      * implemented by the {@link #delegate} property.
      *
-     * @param item {qx.ui.form.ListItem} The internally created and used
-     *   ListItem.
-     * @param index {Integer} The index of the ListItem.
+     * @param item {qx.ui.core.Widget} The internally created and used
+     *   list or group item.
+     * @param index {Integer} The index of the item.
      */
     bindDefaultProperties : function(item, index)
     {
@@ -136,7 +140,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * Helper-Method for binding a given property from the model to the target
      * widget.
      * This method should only be called in the
-     * {@link IControllerDelegate#bindItem} function implemented by the
+     * {@link IListDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
      * @param sourcePath {String | null} The path to the property in the model.
@@ -164,7 +168,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * Helper-Method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
-     * {@link IControllerDelegate#bindItem} function implemented by the
+     * {@link IListDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
      * @param targetPath {String | null} The name of the property in the target.
@@ -197,7 +201,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
     /**
      * Configure the passed item if a delegate is set and the needed
-     * function {@link IControllerDelegate#configureItem} is available.
+     * function {@link IListDelegate#configureItem} is available.
      *
      * @param item {qx.ui.core.Widget} item to configure.
      */
@@ -213,7 +217,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
     /**
      * Configure the passed item if a delegate is set and the needed
-     * function {@link IControllerDelegate#configureGroupItem} is available.
+     * function {@link IListDelegate#configureGroupItem} is available.
      *
      * @param item {qx.ui.core.Widget} item to configure.
      */
