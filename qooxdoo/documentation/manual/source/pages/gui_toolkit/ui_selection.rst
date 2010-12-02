@@ -19,15 +19,6 @@ Here is a list of widgets which support single and/or multi selection:
   * `TabView <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~TabView.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tabview.TabView>`__
   * `Stack <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~StackContainer.html>`_ `(API) <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.container.Stack>`__
 
-.. _pages/ui_selection#what_was_wrong_with_the_old_api_in_0.8.x:
-
-What was wrong with the old API in 0.8.x?
-=========================================
-
-The `old selection API <http://qooxdoo.org/documentation/0.8/ui_selection>`_ had different methods for single and multi selection and partially different events, because an interface describing the specification was missing. To offer a consistent API an interface specification was needed. The standardization has shown that having only one interface for single and multi selection is not enough, because it would be possible to have different events for multi and single selection (remember, all multi selection widgets also support single selection).
-
-One possible solution was to have the same methods and events for single and multi selection. This is possible if the single and multi selection both work with arrays. Due to that fact it is possible to change widgets without having to worry about the selection method, because the method and event names don't change.
-
 .. _pages/ui_selection#selection_interfaces:
 
 Selection Interfaces
@@ -192,88 +183,3 @@ The output should look like this:
 
     (1) Selection (event): qx.ui.form.ListItem[1p],qx.ui.form.ListItem[2a]
     (2) Selection (list): qx.ui.form.ListItem[1p],qx.ui.form.ListItem[2a]
-
-.. _pages/ui_selection#how_to_migrate_from_the_0.8.x_to_the_1.2.x_selection_api:
-
-How to migrate from the 0.8.x to the %{version} selection API
-========================================================
-
-Through updating the framework applications, like the `Demo Browser <http://demo.qooxdoo.org/%{version}/demobrowser/>`_, to the new selection API, useful steps have been found:
-
-(1) Search the source code for only one widget that uses the old selection API.
-(2) Replace the old method/event with the new one, but only for the classes that contain a reference to the widget.
-(3) Run ``generate.py source``, start the application and test your changes.
-(4) If the application runs without errors go to step one and choose the next widget, otherwise fix the problem.
-(5) If you have searched for all widgets and renamed the old methods/events in these classes, search for the old method/event names in the complete source code and rename them if they are actually using the old API.
-(6) Run ``generate.py source``, start your application and test your changes again.
-(7) If there are no errors or deprecation warnings while testing your code, you have finished the migration.
-
-.. _pages/ui_selection#what_does_rename_the_method/event_mean:
-
-What does 'rename' the method/event mean?
------------------------------------------
-
-It means to replace the old method/event names with the new method/event names, but don't forget to customize the **method parameter** and **return values**!!! If you only rename the method/event-names you will get many errors!!!
-
-The examples below show some use cases for renaming the old methods/events. 
-
-All examples started with step (1) searching for ``qx.ui.form.SelectBox``. We found the variable ``__group`` that references a ``SelectBox`` instance.
-
-.. _pages/ui_selection#example_for_renaming_setselected_to_setselection:
-
-Example for renaming 'setSelected' to 'setSelection'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-::
-
-    this.__group.setSelected(firstItem);
-
-      /*
-       * To rename this method, we have to change the method 'setSelected'
-       * to 'setSelection' and put the 'firstItem' into an array.
-       */
-
-      this.__group.setSelection([firstItem]);
-
-.. _pages/ui_selection#example_renaming_getselected_to_getselection:
-
-Example for renaming 'getSelected' to 'getSelection'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-::
-
-    var selectedGroup = this.__group.getSelected();
-
-      /*
-       * To rename this method, we have to change the method 'getSelected'
-       * to 'getSelection' and select the first element from the returned array.
-       */
-
-      var selectedGroup = this.__group.getSelection()[0];
-
-.. _pages/ui_selection#example_renaming_changeselected_to_changeselection:
-
-Example for renaming 'changeSelected' to 'changeSelection'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-::
-
-    this.__group.addListener("changeSelected", function(event) {
-        var selectedGroup = event.getData();
-      });
-
-      /*
-       * To rename this event, we have to change the name 'changeSelected'
-       * to 'changeSelection' and select the first element from the data array.
-       */
-
-      this.__group.addListener("changeSelection", function(event) {
-        var selectedGroup = event.getData()[0];
-      });
-
-.. note::
-
-    don't just mindlessly rename methods and events. Errors will only occur if the code part is executed, so they might not be immediately noticeable.
-
-    If you're not sure that a method or event should be renamed, add a **TODO** comment and rename it later: Try to execute the code part and see if you get a deprecation warning. 
-
