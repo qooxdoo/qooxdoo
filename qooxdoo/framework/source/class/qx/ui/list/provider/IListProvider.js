@@ -115,7 +115,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
 
     /**
      * Delegation object, which can have one or more functions defined by the
-     * {@link qx.ui.list.core.IControllerDelegate} interface.
+     * {@link qx.ui.list.core.IListDelegate} interface.
      *
      * @param delegate {Object} delegation object.
      */

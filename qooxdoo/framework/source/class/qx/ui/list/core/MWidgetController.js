@@ -77,7 +77,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
     /**
      * Delegation object, which can have one or more functions defined by the
-     * {@link qx.ui.list.core.IControllerDelegate} interface.
+     * {@link qx.ui.list.core.IListDelegate} interface.
      */
     delegate :
     {

@@ -27,7 +27,7 @@
  * for the visible items a widget and reuse them. This saves both creation time 
  * and memory.
  * 
- * With the {@link qx.ui.list.core.IControllerDelegate} interface it is possible
+ * With the {@link qx.ui.list.core.IListDelegate} interface it is possible
  * to configure the behavior for the list (item and group renderer configuration, 
  * filtering, sorting, grouping, etc.).
  * 
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Delegation object, which can have one or more functions defined by the
-     * {@link qx.ui.list.core.IControllerDelegate} interface.
+     * {@link qx.ui.list.core.IListDelegate} interface.
      */
     delegate :
     {

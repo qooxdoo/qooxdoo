@@ -29,7 +29,7 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.ui.list.core.IControllerDelegate",
+qx.Interface.define("qx.ui.list.core.IListDelegate",
 {
   members :
   {
