@@ -20,10 +20,10 @@
 ************************************************************************ */
 
 /**
- * Objects, which are used as delegates for a data binding controller may
+ * Objects, which are used as delegates for the <code>qx.ui.list.List</code> may
  * implement any of the methods described in this interface. The delegate does
  * not need implement all of the methods of this interface. If a method is not
- * implemented the controller provides a default implementation.
+ * implemented the <code>qx.ui.list.List</code> provides a default implementation.
  *
  * Note: This interface is meant to document the delegate but should not be
  * listed in the <code>implement</code> key of a class unless all methods are
@@ -37,7 +37,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * Gives the user the opportunity to set individual styles and properties
      * on the by the controller created item widget cells.
      *
-     * @param item {var} Item to modify.
+     * @param item {qx.ui.core.Widget} Item to modify.
      */
     configureItem : function(item) {},
 
@@ -46,7 +46,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * Gives the user the opportunity to set individual styles and properties
      * on the by the controller created group widget cells.
      *
-     * @param item {var} Group to modify.
+     * @param item {qx.ui.core.Widget} Group to modify.
      */
     configureGroupItem : function(item) {},
 
@@ -56,7 +56,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * implement the {@link #bindItem} function as well to get the needed
      * properties bound.
      *
-     * @return {var} A new created item cell.
+     * @return {qx.ui.core.Widget} A new created item cell.
      */
     createItem : function() {},
 
@@ -66,7 +66,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * implement the {@link #bindGroupItem} function as well to get the needed
      * properties bound.
      *
-     * @return {var} A new created item cell.
+     * @return {qx.ui.core.Widget} A new created item cell.
      */
     createGroupItem : function() {},
 
@@ -80,7 +80,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * controller.bindProperty("path.in.the.model", "label", options, item, id);
      * </code>
      *
-     * @param controller {var} The currently used controller.
+     * @param controller {MWidgetController} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
@@ -93,10 +93,10 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * For every property you want to bind, use
      * {@link MWidgetController#bindProperty} like this:
      * <code>
-     * controller.bindProperty("path.in.the.model", "label", options, item, id);
+     * controller.bindProperty(null, "value", options, item, id);
      * </code>
      *
-     * @param controller {var} The currently used controller.
+     * @param controller {MWidgetController} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used group item.
      * @param id {Integer} The id for the binding.
      */
@@ -104,31 +104,40 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
 
     /**
-     * Filter checks the current data and returns a boolean if the data should
-     * appear in the filtered data set or not.
+     * Gives the user the opportunity to filer the model. The filter
+     * method have to return a <code>true</code> when the passed data should be
+     * shown and <code>false</code> when the padded data should be
+     * ignored.
      *
      * @param data {var} The data which will be checked.
-     * @return {Boolean} True, if the data passes the filter, false otherwise.
+     * @return {Boolean} <code>true</code>, if the data passes the filter, 
+     *   <code>false</code> otherwise.
      */
     filter : function(data) {},
 
 
     /**
-     * If a sorter function is given, this will be used to compare the items.
+     * Gives the user the opportunity to sort the model. The sorter method
+     * should return a negative value if a < b, zero if a = b, or a positive
+     * value if a > b.
      *
      * @param a {var} value to compare.
      * @param b {var} value to compare.
-     * @return {Integer} should return a negative value if a < b, zero if a = b, or a positive value if a > b.
+     * @return {Integer} should return a negative value if a < b, zero 
+     *   if a = b, or a positive value if a > b.
      */
     sorter : function(a, b) {},
 
 
     /**
-     * Gives the user the opportunity to group there model.
+     * Gives the user the opportunity to group there model. The group method
+     * should return the group name as <code>String</code> or <code>null<code>
+     * when the data has no group. But keep in mind that returning <code>null</code>
+     * does not filter the data, it only set the data to the default group. 
      * 
      * @param data {var} The data which will be checked.
      * @return {String|null} The group name for the data or <code>null</code>
-     *   when the data has no group.
+     *   when the data should set to the default group.
      */
     group : function(data) {}
   }
