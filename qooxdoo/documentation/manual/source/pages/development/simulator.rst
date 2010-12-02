@@ -6,56 +6,73 @@ Simulator
 Overview
 --------
 
-The purpose of the Simulator component is to help developers rapidly develop and run a suite of Selenium tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
-To do so it uses a combination of qooxdoo's own toolchain, Mozilla Rhino and Selenium RC.
+The purpose of the Simulator component is to help developers rapidly develop and run a suite of simulated user interaction tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
+To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`_.
 
 .. note::
 
     The Simulator is a highly experimental feature; the API is by no means finalized. It is included in this qooxdoo release as a preview.    
-    Also, the Simulator is *not* intended as a replacement for any existing test setup, e.g. using JUnit. It is merely one of many ways to run Selenium tests on a qooxdoo application.
+    Also, the Simulator is *not* intended as a replacement for any existing automated test setup, e.g. using Selenium with JUnit. It is merely one of many ways to run Selenium tests on a qooxdoo application.
 
 Feature Highlights
 ------------------
 
-* Write Selenium test cases as qooxdoo classes
+The Simulator enables developers to:
+
+* Define Selenium test cases by writing qooxdoo classes
 * Use the JUnit-style setUp, test*, tearDown pattern
-* Define test jobs using the qooxdoo toolchain's powerful configuration system
+* Define test jobs using the qooxdoo toolchain's configuration system
 * Utilize the standard Selenium API and the qooxdoo user extensions to locate and interact with qooxdoo widgets
-* Capture and log exceptions thrown in the tested application
+* Capture and log uncaught exceptions thrown in the tested application
+* Use Selenium RC to run tests in `many different browser/platform combinations <http://seleniumhq.org/about/platforms.html#browsers>`_
+* Write custom logger classes using qooxdoo's flexible logging system
 
 How it works
 ------------
 
-Similar to LINK unit tests, Simulator tests are defined are qooxdoo classes living in the application's source directory. As such they support qooxdoo's OO features such as inheritance and nested namespaces. The ``setUp, testSomething, tearDown`` pattern is supported, as well as all assertion functions defined by LINK qx.core.MAssert.
+Similar to :ref:`unit tests <pages/unit_testing#unit_testing>`, Simulator test cases are defined as qooxdoo classes living in the application's source directory. As such they support qooxdoo's OO features such as inheritance and nested namespaces. The setUp, testSomething, tearDown pattern is supported, as well as all assertion functions defined by `qx.core.MAssert <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.MAssert>`_.
 
-The main API that is used to define the test logic is QxSelenium, which means the LINK DefaultSelenium API plus the Locator strategies and commands from the LINK qooxdoo user extensions for Selenium.
+The main API that is used to define the test logic is **QxSelenium**, which means the `DefaultSelenium API <http://release.seleniumhq.org/selenium-remote-control/0.9.0/doc/java/>`_ plus the Locator strategies and commands from the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator#selenium_user_extension_for_qooxdoo>`_.
 
-Similar to qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends qx.application.Native and uses a simplified loader so it can run in Rhino.  
+As with qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends `qx.application.Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_ and uses a simplified loader so it can run in Rhino.
 
-A separate Generator job then runs the Simulation in Mozilla Rhino: The Selenium RC server loads the AUT in opened in the configured browser, tests are executed one by one and results are written to the Shell. 
+A separate Generator job is used to start Rhino and instruct it to load the Simulator application, which uses Selenium's Java API to send test commands to a Selenium RC server (over HTTP, so the server can run on a separate machine). The Server then launches the selected browser, loads the qooxdoo application to be tested and executes the commands specified in the test case.
 
 Setting up the test environment
 -------------------------------
+
+The following sections describe the steps necessary to set up Simulator tests for an application based on qooxdoo's GUI or inline skeleton.
 
 Required Libraries
 ==================
 
 The Simulator needs the following external resources to run: 
+
 * Java Runtime Environment: Versions 1.5 and 1.6 are known to work 
-* `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 have been tested successfully.
-* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 and later.
+* `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
 * `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution. Use the latest trunk version from SVN.
+
+The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
+
+The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server.
 
 Generator Configuration
 =======================
 
-The "simulation-build" and "simulation-run" jobs are responsible for building the test application and launching the test suite, respectively. By shadowing these job in your application's config.json you can set the necessary configuration options. 
+Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java Client Driver and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file):
 
-simulation-build
-^^^^^^^^^^^^^^^^
+::
 
-The "settings" section of the "simulation-build" job tells the Simulator where the application under test (AUT) is located and how to test it.
-The following example shows the minimum configuration needed to build a Simulator application that will test the source version of the current library in Firefox 3 using a Selenium RC server instance running on the same machine:
+    "let" :
+    {
+      "SIMULATOR_CLASSPATH" : "../selenium/selenium-java-client-driver.jar;../rhino/js.jar"
+    } 
+
+Additional options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details. 
+
+The "settings" section of the "simulation-build" job configures where the AUT is located and how to reach the Selenium RC server that will launch the test browser and run the test commands.
+The following example shows the minimum configuration needed to build a Simulator application that will test the source version of the current library in Firefox 3 using a Selenium RC server instance running on the same machine (localhost):
 
 ::
 
@@ -73,36 +90,41 @@ The following example shows the minimum configuration needed to build a Simulato
 
 See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-build>` for a listing of all supported settings and their default values.
 
-simulation-build
-^^^^^^^^^^^^^^^^
+.. note::
 
-The "simulate" section of the "simulation-run" job provides environment settings needed to run the tests.
-In most cases, it should only be necessary to configure the location of the Selenium Client Driver and Mozilla Rhino JAR files:
+    Since these settings are integrated into the Simulator application by qooxdoo's compile process, the simulation-build job **must** be run again whenever configuration settings were modified. Future versions of the Simulator will get rid of this limitation by using a more flexible configuration approach.
 
-::
-
-    "simulation-run" :
-    {
-      "simulate" : 
-      {
-        "java-classpath" : "/library/path/selenium-java-client-driver.jar;/library/path/js.jar"
-      }
-    }
-
-See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-run>` for a listing of all supported keys and their default values.
 
 Writing Test Cases
 ==================
 TODOC
 
+Generating the Simulator
+========================
+The "simulation-build" job is used to generate the Simulator application (in the AUT's root directory):
+
+::
+
+  generate.py simulation-build
+
 Starting the Selenium RC server
 ===============================
 
-The Selenium RC server can run on a separate machine from the one that hosts the AUT and runs the Simulator.
+The Selenium RC server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extenions for Selenium mentioned above:
+
+::
+
+  java -jar selenium-server.jar -userExtensions ../some/path/user-extensions.js
+  
+Note that the user extension file **must** be named *user-extensions.js*. 
 
 Running the Tests
 =================
 
-TODOC
+The test suite is executed using the "simulation-run" job (in the AUT's root directory):
 
+::
 
+  generate.py simulation-run
+
+By default, test results will be written to the shell.
