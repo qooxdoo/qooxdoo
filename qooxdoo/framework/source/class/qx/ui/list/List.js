@@ -18,8 +18,48 @@
 ************************************************************************ */
 
 /**
- * Virtual list widget for virtual widget rendering.
+ * The <code>qx.ui.list.List</code> is based on the virtual infrastructure and
+ * supports filtering, sorting, grouping, single selection, multi selection,
+ * data binding and custom rendering.
+ * 
+ * Using the virtual infrastructure has considerable advantages when the items
+ * to render (model) are huge, because the virtual infrastructure creates only
+ * for the visible items a widget and reuse them. This saves both creation time 
+ * and memory.
+ * 
+ * With the {@link qx.ui.list.core.IControllerDelegate} interface it is possible
+ * to configure the behavior for the list (item and group renderer configuration, 
+ * filtering, sorting, grouping, etc.).
+ * 
+ * Here an example how to use the widget:
+ * <pre class="javascript">
+ * //create the model data
+ * var rawData = [];
+ * for (var i = 0; i < 2500; i++) {
+ *  rawData[i] = "Item No " + i;
+ * }
+ * var model = qx.data.marshal.Json.createModel(rawData);
+ * 
+ * //create the list
+ * var list = new qx.ui.list.List(model);
+ * 
+ * //configure the behavior from the list
+ * var delegate = {
+ *   sorter : function(a, b) {
+ *     return a > b ? 1 : a < b ? -1 : 0;
+ *   }
+ * };
+ * list.setDelegate(delegate);
+ * 
+ * //Pre-Select "Item No 20"
+ * list.getSelection().push(model.getItem(20));
  *
+ * //log change selection
+ * list.getSelection().addListener("change", function(e) {
+ *   this.debug("Selection: " + list.getSelection().getItem(0));
+ * }, this);
+ * </pre>
+ * 
  * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
  */
 qx.Class.define("qx.ui.list.List",
@@ -29,7 +69,7 @@ qx.Class.define("qx.ui.list.List",
 
 
   /**
-   * Creates the <code>List</code> with the passed model.
+   * Creates the <code>qx.ui.list.List</code> with the passed model.
    *
    * @param model {qx.data.Array|null} model for the list.
    */
@@ -256,7 +296,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Initialized the widget cell renderer.
+     * Initialized the layer for rendering.
      */
     _initLayer : function()
     {
