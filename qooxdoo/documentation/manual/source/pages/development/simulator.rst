@@ -80,11 +80,11 @@ The following example shows the minimum configuration needed to build a Simulato
     {
       "settings" :
       {
-        "qx.simulation.testBrowser" : "*firefox3",
-        "qx.simulation.selServer" : "localhost",
-        "qx.simulation.selPort" : 4444,
-        "qx.simulation.autHost" : "http://localhost",
-        "qx.simulation.autPath" : "/${APPLICATION}/source/index.html"
+        "simulator.testBrowser" : "*firefox3",
+        "simulator.selServer" : "localhost",
+        "simulator.selPort" : 4444,
+        "simulator.autHost" : "http://localhost",
+        "simulator.autPath" : "/${APPLICATION}/source/index.html"
       }
     }
 

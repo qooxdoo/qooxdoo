@@ -153,35 +153,35 @@ Creates a runner application (the :ref:`pages/development/simulator#simulator`) 
 
 The Simulator is configured using the ":ref:`pages/tool/generator_config_ref#settings`" key of this job. The following settings are supported:
 
-* **qx.simulation.testBrowser** (String, default: ``*firefox3``)
+* **simulator.testBrowser** (String, default: ``*firefox3``)
   
   * A browser launcher as supported by Selenium RC (see the Selenium documentation for details).
   
-* **qx.simulation.autHost** (String, default: ``http://localhost``)
+* **simulator.autHost** (String, default: ``http://localhost``)
   
   * Protocol and host name that Selenium should use to access the application to be tested
   
-* **qx.simulation.autPath** (String, default: ``/<applicationName>/source/index.html``)
+* **simulator.autPath** (String, default: ``/<applicationName>/source/index.html``)
 
   * Server path of the tested application.
   
-* **qx.simulation.selServer** (String, default: ``localhost``)
+* **simulator.selServer** (String, default: ``localhost``)
 
   * Host name of the machine running the Selenium RC server instance to be used for the test.
 
-* **qx.simulation.selPort** (Integer, default: ``4444``)
+* **simulator.selPort** (Integer, default: ``4444``)
 
   * Number of the port the Selenium RC server is listening on
 
-* **qx.simulation.globalErrorLogging** (Boolean, default: ``false``)
+* **simulator.globalErrorLogging** (Boolean, default: ``false``)
 
   * Log uncaught exceptions in the AUT.
 
-* **qx.simulation.testEvents** (Boolean, default: ``false``)
+* **simulator.testEvents** (Boolean, default: ``false``)
 
   * Activate AUT event testing support.
   
-* **qx.simulation.applicationLog** (Boolean, default: ``false``)
+* **simulator.applicationLog** (Boolean, default: ``false``)
 
   * Capture the AUT's log output.
 

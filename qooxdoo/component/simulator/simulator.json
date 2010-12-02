@@ -75,7 +75,7 @@
       "settings" :
       {
         "qx.application" : "simulator.unit.TestLoader",
-        "qx.simulation.nameSpace" : "${APPLICATION}.simulation",
+        "simulator.nameSpace" : "${APPLICATION}.simulation",
         "qx.globalErrorHandling" : "off"
       }
       
@@ -87,16 +87,16 @@
       
       "settings" :
       {
-        "qx.simulation.selServer" : "localhost",
-        "qx.simulation.selPort" : 4444,
-        "qx.simulation.testBrowser" : "*firefox3",
-        "qx.simulation.autHost" : "http://localhost",
-        "qx.simulation.autPath" : "/${APPLICATION}/source/index.html",
+        "simulator.selServer" : "localhost",
+        "simulator.selPort" : 4444,
+        "simulator.testBrowser" : "*firefox3",
+        "simulator.autHost" : "http://localhost",
+        "simulator.autPath" : "/${APPLICATION}/source/index.html",
         
-        "qx.simulation.globalErrorLogging" : false,
-        "qx.simulation.testEvents" : false,
-        "qx.simulation.applicationLog" : false,
-        "qx.simulation.disposerDebug" : false
+        "simulator.globalErrorLogging" : false,
+        "simulator.testEvents" : false,
+        "simulator.applicationLog" : false,
+        "simulator.disposerDebug" : false
       }
     },
     

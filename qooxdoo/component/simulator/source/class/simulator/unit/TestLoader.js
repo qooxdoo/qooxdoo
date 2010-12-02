@@ -43,17 +43,17 @@ qx.Class.define("simulator.unit.TestLoader", {
     main : function()
     {
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      var nameSpace = qx.core.Setting.get("qx.simulation.nameSpace");
+      var nameSpace = qx.core.Setting.get("simulator.nameSpace");
       
       var qxSelenium = simulator.QxSelenium.create(
-        qx.core.Setting.get("qx.simulation.selServer"),
-        qx.core.Setting.get("qx.simulation.selPort"),
-        qx.core.Setting.get("qx.simulation.testBrowser"),
-        qx.core.Setting.get("qx.simulation.autHost"));
+        qx.core.Setting.get("simulator.selServer"),
+        qx.core.Setting.get("simulator.selPort"),
+        qx.core.Setting.get("simulator.testBrowser"),
+        qx.core.Setting.get("simulator.autHost"));
       
       var simulation = this.simulation = new simulator.QxSimulation(qxSelenium, 
-        qx.core.Setting.get("qx.simulation.autHost"),
-        qx.core.Setting.get("qx.simulation.autPath"),
+        qx.core.Setting.get("simulator.autHost"),
+        qx.core.Setting.get("simulator.autPath"),
         this._getOptionalSettings());
       
       simulation.startSession();
@@ -80,7 +80,7 @@ qx.Class.define("simulator.unit.TestLoader", {
       var names = simulator.unit.TestLoader.SETTING_NAMES;
       for (var i=0,l=names.length; i<l; i++) {
         try {
-          settings[names[i]] = qx.core.Setting.get("qx.simulation." + names[i]);
+          settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);
         } catch(ex) {
           settings[names[i]] = null;
         }
