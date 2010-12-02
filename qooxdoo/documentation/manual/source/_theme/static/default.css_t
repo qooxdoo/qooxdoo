@@ -108,6 +108,7 @@ div.document {
 div.documentwrapper {
     float: left;
     width: 100%;
+    margin-right: -300px;
 }
 
 div.bodywrapper {
@@ -176,13 +177,15 @@ div.sphinxsidebar {
     height: auto;
     {%- endif %}
     {%- if theme_rightsidebar|tobool %}
-    float: right;
+    float: left;
     {%- if theme_stickysidebar|tobool %}
     right: 0;
     {%- endif %}
     {%- endif %}
     width: 300px;
-    margin-top: -40px;
+    position: relative;
+    top: -40px;
+    margin: 0;
 }
 
 {%- if theme_stickysidebar|tobool %}
