@@ -362,6 +362,20 @@ qx.Class.define("qx.bom.Element",
     },
 
 
+    /**
+     * Tests if the element matches the selector
+     *
+     * @param element {Element} DOM element to test against
+     * @param selector {String} Valid selector (CSS3 + extensions)
+     * @return {Boolean} whether the element can be selected by the selector or not
+     */
+    matchesSelector : function(element,selector) {
+      if (selector) {
+        return qx.bom.Selector.query(selector,element.parentNode).length>0;
+      } else {
+        return false;
+      }
+    },
 
 
     /*
