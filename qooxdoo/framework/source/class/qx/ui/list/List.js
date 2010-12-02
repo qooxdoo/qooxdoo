@@ -22,16 +22,16 @@
  * supports filtering, sorting, grouping, single selection, multi selection,
  * data binding and custom rendering.
  * 
- * Using the virtual infrastructure has considerable advantages when the items
- * to render (model) are huge, because the virtual infrastructure creates only
- * for the visible items a widget and reuse them. This saves both creation time 
- * and memory.
+ * Using the virtual infrastructure has considerable advantages when there is a
+ * huge amount of model items to render because the virtual infrastructure only
+ * creates widgets for visible items and reuses them. This saves both creation 
+ * time and memory.
  * 
  * With the {@link qx.ui.list.core.IListDelegate} interface it is possible
- * to configure the behavior for the list (item and group renderer configuration, 
+ * to configure the list's behavior (item and group renderer configuration, 
  * filtering, sorting, grouping, etc.).
  * 
- * Here an example how to use the widget:
+ * Here's an example of how to use the widget:
  * <pre class="javascript">
  * //create the model data
  * var rawData = [];
@@ -43,7 +43,7 @@
  * //create the list
  * var list = new qx.ui.list.List(model);
  * 
- * //configure the behavior from the list
+ * //configure the lists's behavior
  * var delegate = {
  *   sorter : function(a, b) {
  *     return a > b ? 1 : a < b ? -1 : 0;
@@ -54,7 +54,7 @@
  * //Pre-Select "Item No 20"
  * list.getSelection().push(model.getItem(20));
  *
- * //log change selection
+ * //log selection changes
  * list.getSelection().addListener("change", function(e) {
  *   this.debug("Selection: " + list.getSelection().getItem(0));
  * }, this);
@@ -146,7 +146,8 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * The path to the property which holds the information that should be
-     * shown as a label. This is only needed if objects are stored in the model.
+     * displayed as a label. This is only needed if objects are stored in the 
+     * model.
      */
     labelPath :
     {
@@ -158,8 +159,8 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * The path to the property which holds the information that should be
-     * shown as a icon. This is only needed if objects are stored in the model
-     * and if the icon should be shown.
+     * displayed as an icon. This is only needed if objects are stored in the 
+     * model and icons should be displayed.
      */
     iconPath :
     {
@@ -192,7 +193,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Delegation object, which can have one or more functions defined by the
+     * Delegation object which can have one or more functions defined by the
      * {@link qx.ui.list.core.IListDelegate} interface.
      */
     delegate :
@@ -215,7 +216,7 @@ qx.Class.define("qx.ui.list.List",
     _provider : null,
 
 
-    /** {qx.ui.virtual.layer.Abstract} layer which containing the items. */
+    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
     _layer : null,
 
 
@@ -232,14 +233,14 @@ qx.Class.define("qx.ui.list.List",
     _groups : null,
 
 
-    /** {Array} lookup table for getting the group index form the row */
+    /** {Array} lookup table for getting the group index from the row */
     __lookupTableForGroup : null,
 
 
     /**
      * {Map} contains all groups with the items as children. The key is 
-     * the group name and the value is an <code>Array</code> containing the 
-     * model index from each item. 
+     * the group name and the value is an <code>Array</code> containing each 
+     * item's model index. 
      */
     __groupHashMap : null,
 
@@ -260,7 +261,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Initialized the virtual list.
+     * Initializes the virtual list.
      */
     _init : function()
     {
@@ -279,7 +280,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Initialized the background renderer.
+     * Initializes the background renderer.
      */
     _initBackground : function()
     {
@@ -289,7 +290,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Initialized the layer for rendering.
+     * Initializes the layer for rendering.
      */
     _initLayer : function()
     {
@@ -306,10 +307,10 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Returns the model data from the passed row.
+     * Returns the model data for the given row.
      *
-     * @param row {Integer} row to get data.
-     * @return {var|null} the model data from the row.
+     * @param row {Integer} row to get data for.
+     * @return {var|null} the row's model data.
      */
     _getDataFromRow : function(row) {
       var data = null;
@@ -333,7 +334,7 @@ qx.Class.define("qx.ui.list.List",
      *
      * @param row {Number} The row to look at.
      * @return {Number} The model index or 
-     *   <code>-1</code> when the row is a group item.
+     *   <code>-1</code> if the row is a group item.
      */
     _lookup : function(row) {
       return this.__lookupTable[row];
@@ -345,7 +346,7 @@ qx.Class.define("qx.ui.list.List",
      *
      * @param row {Number} The row to look at.
      * @return {Number} The group index or 
-     *   <code>-1</code> when the row is a not a group item.
+     *   <code>-1</code> if the row is a not a group item.
      */
     _lookupGroup : function(row) {
       return this.__lookupTableForGroup.indexOf(row);
@@ -356,8 +357,8 @@ qx.Class.define("qx.ui.list.List",
      * Performs a lookup from model index to row.
      *
      * @param index {Number} The index to look at.
-     * @@return {Number} The row or <code>-1</code> 
-     *  when the index is not a model index.
+     * @return {Number} The row or <code>-1</code> 
+     *  if the index is not a model index.
      */
     _reverseLookup : function(index) {
       return this.__lookupTable.indexOf(index);
@@ -368,8 +369,8 @@ qx.Class.define("qx.ui.list.List",
      * Checks if the passed row is a group or an item.
      * 
      * @param row {Integer} row to check.
-     * @return {Boolean} <code>true</code> when the row is a group element,
-     *  <code>false</code> when the row is an item element.
+     * @return {Boolean} <code>true</code> if the row is a group element,
+     *  <code>false</code> if the row is an item element.
      */
     _isGroup : function(row) {
       return this._lookup(row) == -1;
@@ -502,7 +503,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Invokes a filtering using the filter given in the delegate.
+     * Invokes filtering using the filter given in the delegate.
      *
      * @param model {qx.data.IListData} The model.
      */
@@ -520,7 +521,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Invokes a sorting using the sorter given in the delegate.
+     * Invokes sorting using the sorter given in the delegate.
      *
      * @param model {qx.data.IListData} The model.
      */
@@ -543,7 +544,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Invokes a grouping using the group result given in the delegate.
+     * Invokes grouping using the group result given in the delegate.
      *
      * @param model {qx.data.IListData} The model.
      */

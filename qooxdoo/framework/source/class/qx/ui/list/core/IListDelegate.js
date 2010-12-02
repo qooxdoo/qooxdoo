@@ -20,14 +20,15 @@
 ************************************************************************ */
 
 /**
- * Objects, which are used as delegates for the <code>qx.ui.list.List</code> may
+ * Objects which are used as delegates for the <code>qx.ui.list.List</code> may
  * implement any of the methods described in this interface. The delegate does
- * not need implement all of the methods of this interface. If a method is not
- * implemented the <code>qx.ui.list.List</code> provides a default implementation.
+ * not need to implement all the methods of this interface. If a method is not
+ * implemented the <code>qx.ui.list.List</code> provides a default 
+ * implementation.
  *
  * Note: This interface is meant to document the delegate but should not be
  * listed in the <code>implement</code> key of a class unless all methods are
- * really implemented.
+ * actually implemented.
  */
 qx.Interface.define("qx.ui.list.core.IListDelegate",
 {
@@ -35,7 +36,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
   {
     /**
      * Gives the user the opportunity to set individual styles and properties
-     * on the by the controller created item widget cells.
+     * on the item widget cells created by the controller.
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
@@ -44,7 +45,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
     /**
      * Gives the user the opportunity to set individual styles and properties
-     * on the by the controller created group widget cells.
+     * on the group widget cells created by the controller.
      *
      * @param item {qx.ui.core.Widget} Group to modify.
      */
@@ -52,7 +53,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
 
     /**
-     * Creates a item cell which will be used for rendering. Be sure to
+     * Creates an item cell which will be used for rendering. Be sure to
      * implement the {@link #bindItem} function as well to get the needed
      * properties bound.
      *
@@ -104,20 +105,19 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
 
     /**
-     * Gives the user the opportunity to filer the model. The filter
-     * method have to return a <code>true</code> when the passed data should be
-     * shown and <code>false</code> when the padded data should be
-     * ignored.
+     * Gives the user the opportunity to filter the model. The filter
+     * method has to return <code>true</code> if the given data should be
+     * shown and <code>false</code> if the given data should be ignored.
      *
-     * @param data {var} The data which will be checked.
-     * @return {Boolean} <code>true</code>, if the data passes the filter, 
+     * @param data {var} The data to be checked.
+     * @return {Boolean} <code>true</code> if the data passes the filter, 
      *   <code>false</code> otherwise.
      */
     filter : function(data) {},
 
 
     /**
-     * Gives the user the opportunity to sort the model. The sorter method
+     * Gives the user the opportunity to sort the model. The sorting method
      * should return a negative value if a < b, zero if a = b, or a positive
      * value if a > b.
      *
@@ -130,14 +130,14 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
 
     /**
-     * Gives the user the opportunity to group there model. The group method
+     * Gives the user the opportunity to group the model. The group method
      * should return the group name as <code>String</code> or <code>null<code>
-     * when the data has no group. But keep in mind that returning <code>null</code>
-     * does not filter the data, it only set the data to the default group. 
+     * if the data has no group. But keep in mind that returning <code>null</code>
+     * does not filter the data, it only adds the data to the default group. 
      * 
-     * @param data {var} The data which will be checked.
+     * @param data {var} The data to be checked.
      * @return {String|null} The group name for the data or <code>null</code>
-     *   when the data should set to the default group.
+     *   if the data should set to the default group.
      */
     group : function(data) {}
   }
