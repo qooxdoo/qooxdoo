@@ -15,7 +15,7 @@ Core Widgets
 Content Widgets
 ===============
 
-:doc:`label`, :doc:`image`, :doc:`atom`, :doc:`tree`
+:doc:`label`, :doc:`image`, :doc:`atom`, :doc:`tree`, :doc:`table`
 
 .. _pages/widget#container_widgets:
 
