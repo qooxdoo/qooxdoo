@@ -139,10 +139,12 @@ qx.Class.define("qx.util.DisposeUtil",
       // Dispose all content
       try
       {
+        var entry;
         for (var key in data)
         {
-          if (data.hasOwnProperty(key)) {
-            data[key].dispose();
+          entry = data[key];
+          if (data.hasOwnProperty(key) && entry) {
+            entry.dispose();
           }
         }
       }
