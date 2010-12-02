@@ -229,9 +229,9 @@ qx.Class.define("qx.ui.embed.Flash",
 
     /**
      * Returns the DOM element of the Flash movie.
-     * 
+     *
      * Note: If you call the method before the widget is rendered, it will
-     * always return <code>null</code>. Therefore call the method after 
+     * always return <code>null</code>. Therefore call the method after
      * the {@link #appear} event is fired.
      *
      * @return {Element|null} The DOM element of the Flash movie.

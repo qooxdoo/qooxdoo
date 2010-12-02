@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     __defaultHeight : 16,
     __imageData : null,
 
-    // overridden 
+    // overridden
     _insetY : 2,
 
     /**

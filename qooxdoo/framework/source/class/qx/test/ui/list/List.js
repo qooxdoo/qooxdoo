@@ -132,12 +132,12 @@ qx.Class.define("qx.test.ui.list.List",
 
       for (var i = 0; i < 10; i++) {
         var widget = this._list._layer.getRenderedCellWidget(i,0);
-        
+
         if (widget == null) {
           // row is not rendered
           continue;
         }
-        
+
         if (i != disabledItem) {
           this.assertTrue(widget.isEnabled());
         } else {

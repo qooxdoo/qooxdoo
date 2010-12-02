@@ -107,7 +107,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       this.__selectionArrayListenerId = value.addListener(
         "change", this.__changeSelectionArray, this
       );
-      
+
       // apply the new selection
       this._updateSelection();
     },
@@ -225,7 +225,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       if (!this.getTarget()) {
         return;
       }
-      
+
       // mark the change process in a flag
       this._startSelectionModification();
 
@@ -270,13 +270,13 @@ qx.Mixin.define("qx.data.controller.MSelection",
         if (item) {
           // select the last selected item (old selection will be removed anyway)
           this.__selectItem(item);
-          // remove the other items from the selection data array and get 
+          // remove the other items from the selection data array and get
           // rid of the return array
           this.getSelection().splice(
             0, this.getSelection().getLength() - 1
           ).dispose();
         } else {
-          // if there is no item to select (e.g. new model set [BUG #4125]), 
+          // if there is no item to select (e.g. new model set [BUG #4125]),
           // reset the selection
           this.getTarget().resetSelection();
         }

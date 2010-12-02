@@ -251,7 +251,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     nativeReleaseCapture : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element) {
-        // IE swallows the focus event when the capture is directly set, due to the 
+        // IE swallows the focus event when the capture is directly set, due to the
         // capture should also removed with a timeout.
         // See bug report http://bugzilla.qooxdoo.org/show_bug.cgi?id=3427 for details.
         qx.event.Timer.once(function() {

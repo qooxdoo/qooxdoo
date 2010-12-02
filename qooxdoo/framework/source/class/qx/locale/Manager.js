@@ -59,7 +59,7 @@ qx.Class.define("qx.locale.Manager",
     if (variant !== "") {
       locale += "_" + variant;
     }
-    
+
     this.__clientLocale = locale;
 
     this.setLocale(locale || this.__defaultLocale);

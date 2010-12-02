@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.decoration.Double",
           (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
         outerStyles = '';
       }
-      
+
       var width = this.getWidthTop();
       if (width > 0) {
         outerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
@@ -302,12 +302,12 @@ qx.Class.define("qx.ui.decoration.Double",
         var bottomInset = insets.bottom - this.getInnerWidthBottom();
         var leftInset = insets.left - this.getInnerWidthLeft();
         var rightInset = insets.right - this.getInnerWidthRight();
-        
+
         // Substract outer border
         var innerWidth = width - leftInset - rightInset;
         var innerHeight = height - topInset - bottomInset;
       }
-      
+
       // Fix to keep applied size above zero
       // Makes issues in IE7 when applying value like '-4px'
       if (innerWidth < 0) {
@@ -317,19 +317,19 @@ qx.Class.define("qx.ui.decoration.Double",
       if (innerHeight < 0) {
         innerHeight = 0;
       }
-      
+
       element.firstChild.style.width = innerWidth + "px";
       element.firstChild.style.height = innerHeight + "px";
-      
-      element.style.left = 
-        (parseInt(element.style.left) + 
-        insets.left - 
-        this.getWidthLeft() - 
+
+      element.style.left =
+        (parseInt(element.style.left) +
+        insets.left -
+        this.getWidthLeft() -
         this.getInnerWidthLeft()) + "px";
-      element.style.top = 
-        (parseInt(element.style.top) + 
-        insets.top - 
-        this.getWidthTop() - 
+      element.style.top =
+        (parseInt(element.style.top) +
+        insets.top -
+        this.getWidthTop() -
         this.getInnerWidthTop()) + "px";
     }
   },

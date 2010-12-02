@@ -91,8 +91,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
         value.add(this);
       }
     },
-    
-    
+
+
     // overridden
     _onExecute : function(e) {
       var grp = this.getGroup();

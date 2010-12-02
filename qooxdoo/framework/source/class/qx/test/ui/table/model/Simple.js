@@ -38,16 +38,16 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       this.assertEquals(100, data.id);
       this.assertEquals("test", data.col1);
       this.assertEquals("test2", data.col2);
-      
+
       // change the data
       tableModel.setValue(0, 0, "affe");
 
-      data = tableModel.getRowDataAsMap(0);      
+      data = tableModel.getRowDataAsMap(0);
       // check the changed data
       this.assertEquals(100, data.id);
       this.assertEquals("affe", data.col1);
       this.assertEquals("test2", data.col2);
-      
+
       tableModel.dispose();
     }
   }

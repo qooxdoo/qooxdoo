@@ -254,7 +254,7 @@ qx.Class.define("qx.data.Array",
      *   at the given position.
      * @param varargs {var} All following parameters will be added at the given
      *   position to the array.
-     * @return {qx.data.Array} An data array containing the removed elements. 
+     * @return {qx.data.Array} An data array containing the removed elements.
      *   Keep in to dispose this one, even if you don't use it!
      */
     splice: function(startIndex, amount, varargs) {
@@ -368,7 +368,7 @@ qx.Class.define("qx.data.Array",
     /**
      * Replacement function for the setting of an array value.
      * array[0] = "a" should be array.setItem(0, "a").
-     * A change event will be fired if the value changes. Setting the same 
+     * A change event will be fired if the value changes. Setting the same
      * value again will not lead to a change event.
      *
      * @param index {Number} The index of the array element.

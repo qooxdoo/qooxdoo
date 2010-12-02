@@ -344,7 +344,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
       catch(ex)
       {
-        this.error("Request " + request + " handler " + requestHandler + 
+        this.error("Request " + request + " handler " + requestHandler +
           " threw an error: ", ex);
 
         // Issue an "aborted" event so the application gets notified.

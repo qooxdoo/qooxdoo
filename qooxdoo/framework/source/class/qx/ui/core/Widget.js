@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.core.Widget",
         {@link qx.event.type.Mouse#getButton} for more details.*/
     click : "qx.event.type.Mouse",
 
-    /** Widget is double clicked using left or middle button. 
+    /** Widget is double clicked using left or middle button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
     dblclick : "qx.event.type.Mouse",
 
@@ -819,7 +819,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the widget, which contains the given DOM element.
      *
      * @param element {Element} The DOM element to search the widget for.
-     * @param considerAnonymousState {Boolean?false} If true, anonymous widget 
+     * @param considerAnonymousState {Boolean?false} If true, anonymous widget
      *   will not be returned.
      * @return {qx.ui.core.Widget} The widget containing the element.
      */

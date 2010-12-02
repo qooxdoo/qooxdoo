@@ -581,8 +581,8 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.assertEquals("456", this.__a.getName());
       this.assertEquals("123", this.__b1.getName());
     },
-    
-    
+
+
     testDeepTargetChange3ResetNotNull : function()
     {
       // set up the target chain
@@ -591,16 +591,16 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.__b2.setChild(this.__b1);
 
       this.__a.setName(null);
-      
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "child.child.name");      
+
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "child.child.name");
       this.assertEquals(this.__a.getName(), this.__b2.getName());
 
       this.__a.setName("nnnnn");
       this.assertEquals(this.__a.getName(), this.__b2.getName());
-      
+
       this.__a.setName(null);
-      this.assertEquals(this.__a.getName(), this.__b2.getName());      
-    }    
+      this.assertEquals(this.__a.getName(), this.__b2.getName());
+    }
 
   }
 });

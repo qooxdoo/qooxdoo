@@ -135,7 +135,7 @@ qx.Class.define("qx.theme.manager.Appearance",
             }
           }
         }
-        
+
 
         // check if we find a control fitting in the appearance [BUG #4020]
         for (var i = 0; i < end.length - 1; i++) {

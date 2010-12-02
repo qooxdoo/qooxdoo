@@ -266,9 +266,9 @@ qx.Class.define("qx.test.ui.table.Table",
       // check that the table is not scrolled back to the top
       this.assertEquals(100, table.getPaneScroller(0).getScrollY());
     },
-    
-    
-    testFocusAfterRemove : function() 
+
+
+    testFocusAfterRemove : function()
     {
       var tableModelSimple = new qx.ui.table.model.Simple();
       tableModelSimple.setColumns([ "Location", "Team" ]);
@@ -290,7 +290,7 @@ qx.Class.define("qx.test.ui.table.Table",
       // check if the selection and the focus is gone
       this.assertEquals(null, tableSimple.getFocusedRow()); // dont use assertNull because it can be undefined
       this.assertEquals(0, tableSimple.getSelectionModel().getSelectedCount());
-      
+
       tableSimple.dispose();
       tableModelSimple.dispose();
     }

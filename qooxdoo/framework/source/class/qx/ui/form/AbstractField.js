@@ -299,14 +299,14 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * Note: This was introduced to fix BUG#1585
      *
-     * @param innerHeight {Integer} The inner height of the element. 
-     * @param element {Element} The element. 
+     * @param innerHeight {Integer} The inner height of the element.
+     * @param element {Element} The element.
      */
     _renderContentElement : function(innerHeight, element) {
       //use it in child classes
     },
 
-    
+
     // overridden
     _createContentElement : function()
     {

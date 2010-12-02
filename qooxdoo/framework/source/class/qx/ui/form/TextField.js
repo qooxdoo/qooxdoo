@@ -56,17 +56,17 @@ qx.Class.define("qx.ui.form.TextField",
       init : false
     }
   },
-  
+
   members : {
-    
+
     // overridden
     _renderContentElement : function(innerHeight, element) {
-     // this solution doesn't work with allowGrowY : true and 
+     // this solution doesn't work with allowGrowY : true and
      // a composite layout with 2 elements :
      // the textField with flex : 1 and a button.
      // needs more thought
      //
-     // if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+     // if (qx.core.Variant.isSet("qx.client", "mshtml") &&
      //     qx.bom.client.Engine.VERSION < 9)
      // {
      //   var pixel = "px";

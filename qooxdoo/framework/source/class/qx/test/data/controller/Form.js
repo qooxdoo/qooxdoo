@@ -312,10 +312,10 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
-      c.addBindingOptions("tf1", 
+      c.addBindingOptions("tf1",
         {converter : function(data) {
           return data && data.substr(0, 1);
-        }}, 
+        }},
         {converter : function(data) {
           return data + "-";
         }}

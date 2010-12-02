@@ -72,7 +72,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
     testRowSpanWithoutFlex : function() {
       // test with spacing
       this._gridLayout.setSpacingY(6);
-      
+
       var w1 = new qx.test.ui.layout.LayoutItem(100, 100);
       this._gridWidget.add(w1, {row: 0, column: 1});
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
 
       this.flush();
       this.assertEquals(300, this._gridWidget.bounds.height);
-      
+
       w1.dispose();
       w2.dispose();
       w3.dispose();

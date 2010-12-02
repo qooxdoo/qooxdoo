@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       if (rowData == null || rowData.originalData == null) {
         return rowData;
       } else {
-        return rowData.originalData;      
+        return rowData.originalData;
       }
     },
 
@@ -177,15 +177,15 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     getRowDataAsMap : function(rowIndex)
     {
-      var rowData = this.__rowArr[rowIndex];      
-      
+      var rowData = this.__rowArr[rowIndex];
+
       if (rowData != null) {
         var map = {};
         // get the current set data
         for (var col = 0; col < this.getColumnCount(); col++) {
           map[this.getColumnId(col)] = rowData[col];
         }
-        
+
         if (rowData.originalData != null) {
           // merge in the meta data
           for (var key in rowData.originalData) {

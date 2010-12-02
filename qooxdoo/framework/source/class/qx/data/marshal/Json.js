@@ -206,7 +206,7 @@ qx.Class.define("qx.data.marshal.Json",
 
 
     /**
-     * Destructor for all created classes which disposes all stuff stored in 
+     * Destructor for all created classes which disposes all stuff stored in
      * the properties.
      */
     __disposeProperties : function() {
@@ -215,11 +215,11 @@ qx.Class.define("qx.data.marshal.Json",
         this.__disposeItem(this.get(properties[desc].name));
       };
     },
-    
-    
+
+
     /**
      * Helper for disposing items of the created class.
-     * 
+     *
      * @param item {var} The item to dispose.
      */
     __disposeItem : function(item) {

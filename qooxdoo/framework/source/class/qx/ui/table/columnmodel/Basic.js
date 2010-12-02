@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     "orderChanged" : "qx.event.type.Data",
 
     /**
-     * Fired when the cell renderer of a column has changed. 
+     * Fired when the cell renderer of a column has changed.
      * The data property of the event is a map having the following attributes:
      * <ul>
      *   <li>col: The model index of the column that was moved.</li>
@@ -301,10 +301,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Sets the data renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @param renderer {qx.ui.table.ICellRenderer} the new data renderer 
+     * @param renderer {qx.ui.table.ICellRenderer} the new data renderer
      *   the column should get.
-     * @return {qx.ui.table.ICellRenderer?null} If an old rendere was set and 
-     *   it was not the default rendere, the old rendere is returnd for 
+     * @return {qx.ui.table.ICellRenderer?null} If an old rendere was set and
+     *   it was not the default rendere, the old rendere is returnd for
      *   pooling or dipsosing.
      */
     setDataCellRenderer : function(col, renderer)
