@@ -7,7 +7,8 @@
     "CACHE"        : "${TMPDIR}/cache",
     "SIMULATOR_ROOT" : ".",
     "BUILD_PATH"      : "${ROOT}/simulator",
-    "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*"
+    "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*",
+    "SIMULATOR_CLASSPATH" : "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"
   },
   
   "jobs" :
@@ -103,7 +104,7 @@
     {
       "simulate" : 
       {
-        "java-classpath" : "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar",
+        "java-classpath" : "${SIMULATOR_CLASSPATH}",
         "qxselenium-path" : "${SIMULATOR_ROOT}/tool",
         "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
         "simulator-script" : "${BUILD_PATH}/script/simulator.js"
