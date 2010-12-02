@@ -2516,7 +2516,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       include : "label",
       alias : "label",
-      
+
       style : function(states)
       {
         return {

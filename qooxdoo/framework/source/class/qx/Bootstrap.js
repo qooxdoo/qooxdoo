@@ -360,7 +360,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * IE does not return "shadowed" keys even if they are defined directly
      * in the object.
-     * 
+     *
      * @internal
      */
     __shadowedKeys :
@@ -446,7 +446,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     },
 
 
-    /** 
+    /**
      * Mapping from JavaScript string representation of objects to names
      * @internal
      */

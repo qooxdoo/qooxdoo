@@ -126,7 +126,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
         }
       );
     },
-    
+
     testSelectionWithSorter : function()
     {
       this._list.setDelegate({
@@ -134,7 +134,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
           return a < b ? 1 : a > b ? -1 : 0;
         }
       });
-      
+
       this.testSelection();
     }
   }

@@ -140,8 +140,8 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Mshtml has proprietary pixel* properties for locations and dimensions
      * which return the pixel value. Used by getComputed() in mshtml variant.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     __mshtmlPixel :
     {
@@ -155,7 +155,7 @@ qx.Class.define("qx.bom.element.Style",
 
     /**
      * Whether a special class is available for the processing of this style.
-     * 
+     *
      * @internal
      */
     __special :

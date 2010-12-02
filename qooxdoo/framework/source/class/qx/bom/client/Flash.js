@@ -73,9 +73,9 @@ qx.Class.define("qx.bom.client.Flash",
     /** {Boolean} Whether the flash version uses the new security model or not (since 9.0.151.0 && 10.0.12.36) */
     STRICT_SECURITY_MODEL : false,
 
-    /** 
+    /**
      * Storage for supported Flash versions.
-     * 
+     *
      * @internal
      */
     _cachedSupportsVersion : {},

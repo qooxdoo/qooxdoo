@@ -54,7 +54,7 @@ qx.Class.define("qx.test.data.controller.Form",
     testUnidirectionalDeep: function() {
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
-      
+
       this.__form.add(this.__tf1, "label1", null, "a.tf1");
       this.__form.add(this.__tf2, "label2", null, "a.tf2");
       // just create the controller
@@ -63,7 +63,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check if the binding from the model to the view works
       model.getA().setTf1("affe");
       this.assertEquals("affe", this.__tf1.getValue());
-      
+
       // check if the other direction does not work
       this.__tf2.setValue("affee");
       this.assertEquals("init", model.getA().getTf2());
@@ -90,12 +90,12 @@ qx.Class.define("qx.test.data.controller.Form",
 
       this.__form.add(sb, "Sb");
       c.setModel(null);
-      c.addBindingOptions("Sb", 
-        {converter : function(data) { return data && data.substr(0, 1);}}, 
+      c.addBindingOptions("Sb",
+        {converter : function(data) { return data && data.substr(0, 1);}},
         {converter : function(data) { return data + "-item"}}
       );
       var m = c.createModel();
-      
+
       // check that the init value is set
       this.assertEquals("a-item", m.getSb());
 
@@ -116,8 +116,8 @@ qx.Class.define("qx.test.data.controller.Form",
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
-      c.addBindingOptions("tf1", 
-        {converter : function(data) { return data && data.substr(0, data.length - 1);}}, 
+      c.addBindingOptions("tf1",
+        {converter : function(data) { return data && data.substr(0, data.length - 1);}},
         {converter : function(data) { return data + "a"}}
       );
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check if the binding from the model to the view works
       this.__model.setTf1("affe");
       this.assertEquals("affe", this.__tf1.getValue());
-      
+
       // check if the other direction does not work
       this.__tf2.setValue("affee");
       this.assertEquals(null, this.__model.getTf2());
@@ -445,10 +445,10 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
-      c.addBindingOptions("tf1", 
+      c.addBindingOptions("tf1",
         {converter : function(data) {
           return data && data.substr(0, 1);
-        }}, 
+        }},
         {converter : function(data) {
           return data + "-";
         }}

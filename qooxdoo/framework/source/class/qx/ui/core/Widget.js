@@ -444,9 +444,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * The decorator property points to an object, which is responsible
-     * for drawing the widget's decoration, e.g. border, background or shadow. 
-     * 
-     * This can be a decorator object or a string pointing to a decorator 
+     * for drawing the widget's decoration, e.g. border, background or shadow.
+     *
+     * This can be a decorator object or a string pointing to a decorator
      * defined in the decoration theme.
      */
     decorator :
@@ -464,8 +464,8 @@ qx.Class.define("qx.ui.core.Widget",
      * The decorator used to render the widget's outline/shadow. The decorator's
      * insets are interpreted as the amount of pixels the shadow extends the
      * widget's size.
-     * 
-     * This can be a decorator object or a string pointing to a decorator 
+     *
+     * This can be a decorator object or a string pointing to a decorator
      * defined in the decoration theme.
      *
      * Note that shadows work only properly in top level widgets like menus, windows

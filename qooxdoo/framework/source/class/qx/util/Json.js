@@ -77,8 +77,8 @@ qx.Class.define("qx.util.Json",
 
     /**
      * Mapping from types to function names.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     __map :
     {
@@ -149,8 +149,8 @@ qx.Class.define("qx.util.Json",
 
     /**
      * Mapping for string escape.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     __convertStringEscape :
     {

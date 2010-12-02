@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
         }
       );
     },
-    
+
     testSelectionWithSorter : function()
     {
       this._list.setDelegate({
@@ -106,7 +106,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
           return a < b ? 1 : a > b ? -1 : 0;
         }
       });
-      
+
       this.testSelection();
     }
   }

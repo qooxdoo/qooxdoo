@@ -67,43 +67,43 @@ qx.Class.define("qx.io.remote.transport.Script",
   {
     /**
      * Unique identifier for each instance.
-     * 
+     *
      * @internal
      */
     __uniqueId : 0,
-    
+
     /**
      * Registry for all script transport instances.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     _instanceRegistry : {},
 
     /**
      * Internal URL parameter prefix.
-     *  
+     *
      * @internal
      */
     ScriptTransport_PREFIX : "_ScriptTransport_",
-    
+
     /**
      * Internal URL parameter ID.
-     *  
+     *
      * @internal
      */
     ScriptTransport_ID_PARAM : "_ScriptTransport_id",
-    
+
     /**
      * Internal URL parameter data prefix.
-     *  
+     *
      * @internal
      */
     ScriptTransport_DATA_PARAM : "_ScriptTransport_data",
 
     /**
      * Capabilities of this transport type.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     handles :
     {
@@ -136,8 +136,8 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * For reference:
      * http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
-     * 
-     * @internal 
+     *
+     * @internal
      */
     _numericMap :
     {

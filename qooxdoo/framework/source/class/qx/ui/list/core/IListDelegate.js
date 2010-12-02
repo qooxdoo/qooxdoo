@@ -23,7 +23,7 @@
  * Objects which are used as delegates for the <code>qx.ui.list.List</code> may
  * implement any of the methods described in this interface. The delegate does
  * not need to implement all the methods of this interface. If a method is not
- * implemented the <code>qx.ui.list.List</code> provides a default 
+ * implemented the <code>qx.ui.list.List</code> provides a default
  * implementation.
  *
  * Note: This interface is meant to document the delegate but should not be
@@ -110,7 +110,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * shown and <code>false</code> if the given data should be ignored.
      *
      * @param data {var} The data to be checked.
-     * @return {Boolean} <code>true</code> if the data passes the filter, 
+     * @return {Boolean} <code>true</code> if the data passes the filter,
      *   <code>false</code> otherwise.
      */
     filter : function(data) {},
@@ -123,7 +123,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @param a {var} value to compare.
      * @param b {var} value to compare.
-     * @return {Integer} should return a negative value if a < b, zero 
+     * @return {Integer} should return a negative value if a < b, zero
      *   if a = b, or a positive value if a > b.
      */
     sorter : function(a, b) {},
@@ -133,8 +133,8 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * Gives the user the opportunity to group the model. The group method
      * should return the group name as <code>String</code> or <code>null<code>
      * if the data has no group. But keep in mind that returning <code>null</code>
-     * does not filter the data, it only adds the data to the default group. 
-     * 
+     * does not filter the data, it only adds the data to the default group.
+     *
      * @param data {var} The data to be checked.
      * @return {String|null} The group name for the data or <code>null</code>
      *   if the data should set to the default group.

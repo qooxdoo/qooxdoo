@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     "orderChanged" : "qx.event.type.Data",
 
     /**
-     * Fired when the cell renderer of a column has changed. 
+     * Fired when the cell renderer of a column has changed.
      * The data property of the event is a map having the following attributes:
      * <ul>
      *   <li>col: The model index of the column that was moved.</li>

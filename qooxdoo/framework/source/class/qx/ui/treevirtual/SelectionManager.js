@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           }
 
           // Was the click on the open/close button?  That button begins at
-          // (node.level - 1) * (rowHeight + 3) + 2 (the latter for padding), 
+          // (node.level - 1) * (rowHeight + 3) + 2 (the latter for padding),
           // and has width (rowHeight + 3). We add a bit of latitude to that.
           var x = evt.getViewportLeft();
           var latitude = 2;

@@ -23,11 +23,11 @@ qx.Class.define("qx.test.ui.list.Group",
 
   members :
   {
-    __names : ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr", 
+    __names : ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
        "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
-       "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger", 
+       "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
-  
+
     createModelData : function() {
       this._model = qx.data.marshal.Json.createModel(this.__names);
     },
@@ -36,17 +36,17 @@ qx.Class.define("qx.test.ui.list.Group",
     testGroup : function()
     {
       var groupedModel = qx.data.marshal.Json.createModel([
-        "L", "Luise Siemer", 
-        "T", "Trauhard Franke", "Trixi Clauß", 
-        "S", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz", 
-        "F", "Florine Bähr", 
-        "P", "Pankratius Hill", 
+        "L", "Luise Siemer",
+        "T", "Trauhard Franke", "Trixi Clauß",
+        "S", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz",
+        "F", "Florine Bähr",
+        "P", "Pankratius Hill",
         "G", "Gerlinda Seel",
-        "C", "Cecilia Hemmer", 
-        "R", "Rosely Fröhlich", "Riana Dirks", 
-        "A", "Annemargret Hunger", 
-        "D", "Dietgar Münster", 
-        "B", "Bertwin Joseph", 
+        "C", "Cecilia Hemmer",
+        "R", "Rosely Fröhlich", "Riana Dirks",
+        "A", "Annemargret Hunger",
+        "D", "Dietgar Münster",
+        "B", "Bertwin Joseph",
         "E", "Edwina Schwarz"
       ]);
 
@@ -66,17 +66,17 @@ qx.Class.define("qx.test.ui.list.Group",
     testDefaultGroup : function()
     {
       var groupedModel = qx.data.marshal.Json.createModel([
-        "L", "Luise Siemer", 
-        "T", "Trauhard Franke", "Trixi Clauß", 
-        "???", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz", 
-        "F", "Florine Bähr", 
-        "P", "Pankratius Hill", 
+        "L", "Luise Siemer",
+        "T", "Trauhard Franke", "Trixi Clauß",
+        "???", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz",
+        "F", "Florine Bähr",
+        "P", "Pankratius Hill",
         "G", "Gerlinda Seel",
-        "C", "Cecilia Hemmer", 
-        "R", "Rosely Fröhlich", "Riana Dirks", 
-        "A", "Annemargret Hunger", 
-        "D", "Dietgar Münster", 
-        "B", "Bertwin Joseph", 
+        "C", "Cecilia Hemmer",
+        "R", "Rosely Fröhlich", "Riana Dirks",
+        "A", "Annemargret Hunger",
+        "D", "Dietgar Münster",
+        "B", "Bertwin Joseph",
         "E", "Edwina Schwarz"
       ]);
 
@@ -96,21 +96,21 @@ qx.Class.define("qx.test.ui.list.Group",
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list._groups.getLength(), "On List");
     },
-    
+
     testGroupWithSorter : function()
     {
       var groupedModel = qx.data.marshal.Json.createModel([
-        "T", "Trixi Clauß", "Trauhard Franke", 
-        "S", "Sigurd Adolph", "Sigmund Kurz", "Sarina Wilde", 
-        "R", "Rosely Fröhlich", "Riana Dirks", 
-        "P", "Pankratius Hill", 
-        "L", "Luise Siemer", 
-        "G", "Gerlinda Seel", 
-        "F", "Florine Bähr", 
-        "E", "Edwina Schwarz", 
-        "D", "Dietgar Münster", 
-        "C", "Cecilia Hemmer", 
-        "B", "Bertwin Joseph", 
+        "T", "Trixi Clauß", "Trauhard Franke",
+        "S", "Sigurd Adolph", "Sigmund Kurz", "Sarina Wilde",
+        "R", "Rosely Fröhlich", "Riana Dirks",
+        "P", "Pankratius Hill",
+        "L", "Luise Siemer",
+        "G", "Gerlinda Seel",
+        "F", "Florine Bähr",
+        "E", "Edwina Schwarz",
+        "D", "Dietgar Münster",
+        "C", "Cecilia Hemmer",
+        "B", "Bertwin Joseph",
         "A", "Annemargret Hunger"
       ]);
 

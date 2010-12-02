@@ -461,7 +461,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
-     * 
+     *
      * @internal
      */
     updateTarget : function(

@@ -21,16 +21,16 @@
  * The <code>qx.ui.list.List</code> is based on the virtual infrastructure and
  * supports filtering, sorting, grouping, single selection, multi selection,
  * data binding and custom rendering.
- * 
+ *
  * Using the virtual infrastructure has considerable advantages when there is a
  * huge amount of model items to render because the virtual infrastructure only
- * creates widgets for visible items and reuses them. This saves both creation 
+ * creates widgets for visible items and reuses them. This saves both creation
  * time and memory.
- * 
+ *
  * With the {@link qx.ui.list.core.IListDelegate} interface it is possible
- * to configure the list's behavior (item and group renderer configuration, 
+ * to configure the list's behavior (item and group renderer configuration,
  * filtering, sorting, grouping, etc.).
- * 
+ *
  * Here's an example of how to use the widget:
  * <pre class="javascript">
  * //create the model data
@@ -39,10 +39,10 @@
  *  rawData[i] = "Item No " + i;
  * }
  * var model = qx.data.marshal.Json.createModel(rawData);
- * 
+ *
  * //create the list
  * var list = new qx.ui.list.List(model);
- * 
+ *
  * //configure the lists's behavior
  * var delegate = {
  *   sorter : function(a, b) {
@@ -50,7 +50,7 @@
  *   }
  * };
  * list.setDelegate(delegate);
- * 
+ *
  * //Pre-Select "Item No 20"
  * list.getSelection().push(model.getItem(20));
  *
@@ -59,7 +59,7 @@
  *   this.debug("Selection: " + list.getSelection().getItem(0));
  * }, this);
  * </pre>
- * 
+ *
  * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
  */
 qx.Class.define("qx.ui.list.List",
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * The path to the property which holds the information that should be
-     * displayed as a label. This is only needed if objects are stored in the 
+     * displayed as a label. This is only needed if objects are stored in the
      * model.
      */
     labelPath :
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * The path to the property which holds the information that should be
-     * displayed as an icon. This is only needed if objects are stored in the 
+     * displayed as an icon. This is only needed if objects are stored in the
      * model and icons should be displayed.
      */
     iconPath :
@@ -222,8 +222,8 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * {Array} lookup table to get the model index from a row. To get the
-     * correct value after applying filter, sorter, group. 
-     * 
+     * correct value after applying filter, sorter, group.
+     *
      * Note the value <code>-1</code> indicates that the value is a group item.
      */
     __lookupTable : null,
@@ -238,9 +238,9 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * {Map} contains all groups with the items as children. The key is 
-     * the group name and the value is an <code>Array</code> containing each 
-     * item's model index. 
+     * {Map} contains all groups with the items as children. The key is
+     * the group name and the value is an <code>Array</code> containing each
+     * item's model index.
      */
     __groupHashMap : null,
 
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.list.List",
      * Performs a lookup from row to model index.
      *
      * @param row {Number} The row to look at.
-     * @return {Number} The model index or 
+     * @return {Number} The model index or
      *   <code>-1</code> if the row is a group item.
      */
     _lookup : function(row) {
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.list.List",
      * Performs a lookup from row to group index.
      *
      * @param row {Number} The row to look at.
-     * @return {Number} The group index or 
+     * @return {Number} The group index or
      *   <code>-1</code> if the row is a not a group item.
      */
     _lookupGroup : function(row) {
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.list.List",
      * Performs a lookup from model index to row.
      *
      * @param index {Number} The index to look at.
-     * @return {Number} The row or <code>-1</code> 
+     * @return {Number} The row or <code>-1</code>
      *  if the index is not a model index.
      */
     _reverseLookup : function(index) {
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Checks if the passed row is a group or an item.
-     * 
+     *
      * @param row {Integer} row to check.
      * @return {Boolean} <code>true</code> if the row is a group element,
      *  <code>false</code> if the row is an item element.
@@ -569,7 +569,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Adds a model index the the group.
-     * 
+     *
      * @param name {String} the group name.
      * @param index {Integer} model index to add.
      */
@@ -588,7 +588,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Creates a lookup table form the internal group hash map.
-     * 
+     *
      * @return {Array} the lookup table based on the internal group hash map.
      */
     __createLookupFromGroup : function()
@@ -620,7 +620,7 @@ qx.Class.define("qx.ui.list.List",
     this._provider.dispose();
     this._layer.dispose();
     this._groups.dispose();
-    this._background = this._provider = this._layer = this._groups = 
+    this._background = this._provider = this._layer = this._groups =
       this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = null;
   }
 });

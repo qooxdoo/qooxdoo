@@ -40,8 +40,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   {
     /**
      * Capabilities of this transport type.
-     * 
-     * @internal 
+     *
+     * @internal
      */
     handles :
     {
@@ -55,15 +55,15 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Array of request objects.
-     * 
+     *
      * @internal
      * @deprecated
      */
     requestObjects : [],
-    
+
     /**
      * Request object count
-     * 
+     *
      * @internal
      * @deprecated
      */

@@ -52,9 +52,9 @@ qx.Class.define("qx.data.controller.Form",
    *   given object will be set as {@link #model} property.
    * @param target {qx.ui.form.Form | null} The form which contains the form
    *   items. The given form will be set as {@link #target} property.
-   * @param selfUpdate {Boolean?false} If set to true, you need to call the 
-   *   {@link #updateModel} method to get the data in the form to the model. 
-   *   Otherwise, the data will be synced automatically on every chagne of 
+   * @param selfUpdate {Boolean?false} If set to true, you need to call the
+   *   {@link #updateModel} method to get the data in the form to the model.
+   *   Otherwise, the data will be synced automatically on every chagne of
    *   the form.
    */
   construct : function(model, target, selfUpdate)
@@ -205,8 +205,8 @@ qx.Class.define("qx.data.controller.Form",
     /**
      * Responsible for synching the data from entered in the form to the model.
      * Please keep in mind that this method only works if you create the form
-     * with <code>selfUpdate</code> set to true. Otherwise, this method will 
-     * do nothing because updates will be synched automatically on every 
+     * with <code>selfUpdate</code> set to true. Otherwise, this method will
+     * do nothing because updates will be synched automatically on every
      * change.
      */
     updateModel: function(){
@@ -214,7 +214,7 @@ qx.Class.define("qx.data.controller.Form",
       if (!this._selfUpdate || !this.getModel() || !this.getTarget()) {
         return;
       }
-      
+
       var items = this.getTarget().getItems();
       for (var name in items) {
         var item = items[name];

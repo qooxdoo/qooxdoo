@@ -100,7 +100,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * depends on the passed item. When the passed item is
      * a list item the "label" and "icon" property is used.
      * When the passed item is a group item the "value" property is
-     * used.  
+     * used.
      *
      * This method should only be called in the
      * {@link IListDelegate#bindItem} function
