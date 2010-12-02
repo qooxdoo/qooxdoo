@@ -41,9 +41,18 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(20)); 
-      this.getRoot().add(container, {top: 120, left: 20, right: 20, bottom: 20});
-      
+      var firstExample = this.createFirstExample();
+      var secondExample = this.createSecondExample();
+      var thirdExample = this.createThirdExample();
+
+      this.loadData();
+
+      /* ***********************************************
+       * Layout and description
+       * ********************************************* */
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      this.getRoot().add(container, {edge : 20});
+
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(470);
@@ -58,13 +67,14 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         + "by first name and groups it by the 'group' model property. The "
         + "third list is configured  to use a customized group item for rendering."
       );
-      this.getRoot().add(description, {left: 20, top: 10});
-      
-      container.add(this.createFirstExample());
-      container.add(this.createSecondExample());
-      container.add(this.createThirdExample());
-      
-      this.loadData();
+      container.add(description);
+
+      var listContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(20)); 
+      container.add(listContainer, {flex: 1});
+
+      listContainer.add(firstExample);
+      listContainer.add(secondExample);
+      listContainer.add(thirdExample);
     },
 
     loadData : function()
