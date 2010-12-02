@@ -1,7 +1,7 @@
 .. _pages/development/simulator#simulator:
 
-Simulator
-*********
+Simulator (Experimental)
+************************
 
 Overview
 --------
@@ -48,14 +48,18 @@ Required Libraries
 
 The Simulator needs the following external resources to run: 
 
-* Java Runtime Environment: Versions 1.5 and 1.6 are known to work 
+* Java Runtime Environment: Version 1.6 is known to work 
 * `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
-* `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution. Use the latest trunk version from SVN.
+* `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution: Use the latest trunk version from SVN.
 
 The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
 
 The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server.
+
+.. note::
+
+  The qooxdoo User Extensions for Selenium will be moved into the Simulator component for a future release so that it will no longer be necessary to download the file or check out the contribution repository.
 
 Generator Configuration
 =======================
@@ -96,19 +100,25 @@ See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-build>
 
 
 Writing Test Cases
-==================
-TODOC
+------------------
+
+The following articles describe the QxSelenium API in greater detail than can be covered here:
+
+* `The qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator/selenium-user-extension>`_
+* `How to write qooxdoo tests with Selenium <http://qooxdoo.org/contrib/project/simulator/qooxdoo-tests-with-selenium>`_
+
+Also, qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers.
 
 Generating the Simulator
-========================
-The "simulation-build" job is used to generate the Simulator application (in the AUT's root directory):
+------------------------
+The "simulation-build" job explained above is used to generate the Simulator application (in the AUT's root directory):
 
-::
+.. note::
 
   generate.py simulation-build
 
 Starting the Selenium RC server
-===============================
+-------------------------------
 
 The Selenium RC server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extenions for Selenium mentioned above:
 
@@ -116,15 +126,33 @@ The Selenium RC server must be started with the *-userExtensions* command line o
 
   java -jar selenium-server.jar -userExtensions ../some/path/user-extensions.js
   
-Note that the user extension file **must** be named *user-extensions.js*. 
+Note that the user extension file **must** be named *user-extensions.js*.
 
 Running the Tests
-=================
+-------------------------------
 
-The test suite is executed using the "simulation-run" job (in the AUT's root directory):
+Once the Simulator application is configured and compiled and the Selenium RC server is running, the test suite can be executed using the "simulation-run" job:
 
 ::
 
   generate.py simulation-run
 
-By default, test results will be written to the shell.
+The Simulator's default logger writes the result of each test to the shell as it's executed. The full output looks something like this:
+
+::
+
+  ============================================================================
+      EXECUTING: SIMULATION-RUN
+  ============================================================================
+  >>> Initializing cache...
+  >>> Running Simulation...
+  >>> Load runtime: 360ms
+  >>> Simulator run on Thu, 02 Dec 2010 15:57:30 GMT
+  >>> Application under test: http://localhost/~dwagner/workspace/myApplication/source/index.html
+  >>> Platform: Linux
+  >>> User agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12
+  >>> PASS  myapplication.simulation.DemoSimulation:testButtonPresent
+  >>> PASS  myapplication.simulation.DemoSimulation:testButtonClick
+  >>> Main runtime: 11476ms
+  >>> Finalize runtime: 0ms
+  >>> Done
