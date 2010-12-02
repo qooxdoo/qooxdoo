@@ -527,7 +527,7 @@ qx.Class.define("qx.ui.layout.Dock",
       // Process height for flex stretching/shrinking
       if (allocatedHeight != availHeight)
       {
-        flexibles = [];
+        flexibles = {};
         grow = allocatedHeight < availHeight;
 
         for (var i=0; i<length; i++)

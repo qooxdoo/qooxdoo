@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.layout.Util",
      * potential of the given elements (being in the range of
      * their min/max values)
      *
-     * @param flexibles {Map[]) Each entry must have these keys:
+     * @param flexibles {Map} Each entry must have these keys:
      *   <code>id</code>, <code>potential</code> and <code>flex</code>.
      *   The ID is used in the result map as the key for the user to work
      *   with later (e.g. upgrade sizes etc. to respect the given offset)
