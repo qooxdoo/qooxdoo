@@ -57,7 +57,13 @@ Form Widgets
 
 :doc:`checkbox`, :doc:`list`, :doc:`slider`
 
-.. _pages/widget#indicators:
+.. _pages/widget#virtualwidgets:
+
+Virtual Widgets
+===============
+:doc:`virtuallist`
+
+.. _pages/widget#virtuallist:
 
 Indicators
 ==========
