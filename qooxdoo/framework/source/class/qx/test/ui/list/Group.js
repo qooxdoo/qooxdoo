@@ -68,7 +68,7 @@ qx.Class.define("qx.test.ui.list.Group",
       var groupedModel = qx.data.marshal.Json.createModel([
         "L", "Luise Siemer", 
         "T", "Trauhard Franke", "Trixi Clauß", 
-        qx.ui.list.List.DEFAULT_GROUP_NAME, "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz", 
+        "???", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz", 
         "F", "Florine Bähr", 
         "P", "Pankratius Hill", 
         "G", "Gerlinda Seel",

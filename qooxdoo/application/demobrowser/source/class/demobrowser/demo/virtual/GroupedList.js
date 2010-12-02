@@ -170,12 +170,12 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
           controller.bindProperty(null, "icon", {
             converter : function(data) {
               switch(data) {
-                case qx.ui.list.List.DEFAULT_GROUP_NAME:
-                  return "icon/16/categories/system.png";
                 case "Friends":
                   return "icon/16/emotes/face-laugh.png";
                 case "Colleagues":
                   return "icon/16/categories/office.png";
+                default:
+                  return "icon/16/categories/system.png";
               }
             }
           }, item, id);
