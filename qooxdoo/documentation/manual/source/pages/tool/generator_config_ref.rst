@@ -946,10 +946,10 @@ Runs a suite of GUI tests (simulated interaction). Takes a map.
   
 Possible keys are 
 
-* **java-classpath** : Java classpath argument for Rhino. Must point to the Selenium client driver and Rhino JARs
-* **qxselenium-path** : Location of the QxSelenium Java class
-* **rhino-class** : Full name of the Mozilla Rhino class that should be used to run the simulation
-* **simulator-script** : Path of the generated simulation application to be run
+* **java-classpath** : Java classpath argument for Rhino application. Must point to the Selenium client driver and Rhino JARs. (default: *${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar*)
+* **qxselenium-path** : Location of the QxSelenium Java class. (default: *${SIMULATOR_ROOT}/tool*)
+* **rhino-class** : Full name of the Mozilla Rhino class that should be used to run the simulation. Set to *org.mozilla.javascript.tools.debugger.Main* to run the test application in Rhino's visual debugger. (default: *org.mozilla.javascript.tools.shell.Main*)
+* **simulator-script** : Path of the compiled Simulator application to be run. (default: *${ROOT}/simulator/script/simulator.js*)
 
 .. _pages/tool/generator_config_ref#slice-images:
 
