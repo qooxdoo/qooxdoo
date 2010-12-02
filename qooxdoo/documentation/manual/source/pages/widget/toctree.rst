@@ -15,15 +15,16 @@
    image.rst
    label.rst
    list.rst
+   menu.rst
    menubar.rst
    menubutton.rst
-   menu.rst
    passwordfield.rst
    popup.rst
+   progressbar.rst
    repeatbutton.rst
    resizer.rst
-   scrollbar.rst
    scroll.rst
+   scrollbar.rst
    selectbox.rst
    slidebar.rst
    slider.rst
@@ -32,6 +33,7 @@
    splitbutton.rst
    splitpane.rst
    stack.rst
+   table.rst
    tabview.rst
    template.rst
    textarea.rst
@@ -42,4 +44,3 @@
    tooltip.rst
    tree.rst
    window.rst
-   progressbar.rst
