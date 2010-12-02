@@ -24,6 +24,13 @@
  * a virtual list.
  *
  * This code is highly experimental and there will be API changes.
+ * 
+ * @deprecated This 'qx.ui.virtual.form.List' is deprecated use 'qx.ui.list.List' 
+ *   instead. The current 'qx.ui.list.List' doens't support HTML rendering, but 
+ *   it will have this feature in the future. Due to the missing HTML rendering 
+ *   feature we suggest only to use deprecated 'qx.ui.virtual.form.List' 
+ *   implementation when the HTML rendering feature is needed otherwise use 
+ *   'qx.ui.list.List'.
  */
 qx.Class.define("qx.ui.virtual.form.ListController",
 {
