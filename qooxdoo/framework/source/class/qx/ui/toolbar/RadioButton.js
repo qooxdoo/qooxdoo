@@ -95,7 +95,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     
     // overridden
     _onExecute : function(e) {
-      if (this.getGroup().getAllowEmptySelection()) {
+      var grp = this.getGroup();
+      if (grp && grp.getAllowEmptySelection()) {
         this.toggleValue();
       } else {
         this.setValue(true);
