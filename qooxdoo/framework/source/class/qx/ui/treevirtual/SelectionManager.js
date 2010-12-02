@@ -139,14 +139,14 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           }
 
           // Was the click on the open/close button?  That button begins at
-          // (node.level - 1) * 19 + 2 (the latter for padding), and has width
-          // 19.  We add a bit of latitude to that.
+          // (node.level - 1) * (rowHeight + 3) + 2 (the latter for padding), 
+          // and has width (rowHeight + 3). We add a bit of latitude to that.
           var x = evt.getViewportLeft();
           var latitude = 2;
+          var rowHeight = _this.__table.getRowHeight();
+          var buttonPos = left + (node.level - 1) * (rowHeight + 3) + 2;
 
-          var buttonPos = left + (node.level - 1) * 19 + 2;
-
-          if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
+          if (x >= buttonPos - latitude && x <= buttonPos + rowHeight + 3 + latitude)
           {
             // Yup.  Toggle the opened state for this node.
             dataModel.setState(node, { bOpened : ! node.bOpened });
