@@ -66,7 +66,7 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
 
     "let" :
     {
-      "SIMULATOR_CLASSPATH" : "../selenium/selenium-java-client-driver.jar;../rhino/js.jar"
+      "SIMULATOR_CLASSPATH" : ["../selenium/selenium-java-client-driver.jar", "../rhino/js.jar"]
     } 
 
 Additional options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details. 

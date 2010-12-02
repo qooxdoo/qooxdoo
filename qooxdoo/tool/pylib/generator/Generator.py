@@ -1795,25 +1795,26 @@ class Generator(object):
     def runSimulation(self):
         self._console.info("Running Simulation...")
         
+        javaBin = "java"
+        javaClassPath = "-cp "
+        configClassPath = self._job.get("simulate/java-classpath", [])
+        qxSeleniumPath = self._job.get("simulate/qxselenium-path", False)
+        if qxSeleniumPath:
+            configClassPath.append(qxSeleniumPath)
+        
         classPathSeparator = ":"
         if util.getPlatformInfo()[0] == "Windows":
             classPathSeparator = ";"
         
-        javaClassPath = "-cp "
-        configClassPath = self._job.get("simulate/java-classpath", False)
-        if configClassPath:
-            javaClassPath += configClassPath
+        javaClassPath += classPathSeparator.join(configClassPath)            
         
-        qxSeleniumPath = self._job.get("simulate/qxselenium-path", False) 
-        javaClassPath += classPathSeparator + qxSeleniumPath
-            
-        rhinoClass = self._job.get("simulate/rhino-class", False)
+        rhinoClass = self._job.get("simulate/rhino-class", "org.mozilla.javascript.tools.shell.Main")
         
         runnerScript = self._job.get("simulate/simulator-script")
         
-        cmd = "java %s %s %s" %(javaClassPath, rhinoClass, runnerScript)        
+        cmd = "%s %s %s %s" %(javaBin, javaClassPath, rhinoClass, runnerScript)        
         
-        self._console.debug("Selenium start command: " + cmd)
+        self._console.info("Selenium start command: " + cmd)
         shell = ShellCmd()
         shell.execute_logged(cmd, self._console, True)
         
