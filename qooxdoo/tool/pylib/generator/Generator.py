@@ -1814,7 +1814,7 @@ class Generator(object):
         
         cmd = "%s %s %s %s" %(javaBin, javaClassPath, rhinoClass, runnerScript)        
         
-        self._console.info("Selenium start command: " + cmd)
+        self._console.debug("Selenium start command: " + cmd)
         shell = ShellCmd()
         shell.execute_logged(cmd, self._console, True)
         
