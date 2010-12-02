@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(20)); 
       this.getRoot().add(container, {edge: 20});
       
-      container.add(this.createFirtExample());
+      container.add(this.createFirstExample());
       container.add(this.createSecondExample());
       container.add(this.createThirdExample());
       
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       store.bind("model.persons", this.__listGroupedByGroup, "model");
     },
     
-    createFirtExample : function()
+    createFirstExample : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
