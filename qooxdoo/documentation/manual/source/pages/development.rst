@@ -7,6 +7,7 @@ Debugging
 ==========
 
 .. toctree::
+   :maxdepth: 2
 
    development/logging
    development/debugging
@@ -17,6 +18,7 @@ Performance
 ===========
 
 .. toctree::
+   :maxdepth: 2
 
    development/memory_management
    development/profiling
@@ -25,10 +27,12 @@ Testing
 =======
 
 .. toctree::
+   :maxdepth: 2
 
    development/unit_testing
    development/frame_apps_testrunner
    development/framework_unit_testing
+   development/simulator
 
 .. _index#parts:
 
@@ -36,6 +40,7 @@ Parts
 =====
 
 .. toctree::
+   :maxdepth: 2
 
    development/parts_overview
    development/parts_using

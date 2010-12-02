@@ -95,3 +95,13 @@ Developer Tools
   A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.
   
   `Online demo <http://demo.qooxdoo.org/%{version}/inspector>`__
+
+.. toctree::
+   :maxdepth: 1
+
+   development/simulator
+
+..
+
+  A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.
+  
