@@ -49,14 +49,14 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       description.setWidth(470);
       description.setValue(
         "<b>Grouped List</b><br/>"
-        + "Loading the json file <a href='json/persons.json' target='_blank'>"
+        + "Loads the json file <a href='json/persons.json' target='_blank'>"
         + "persons.json</a> and binds the created model to all list widgets. "
-        + "The first list shows only the row data and converter for the label "
-        + "(concatenate the first and last name). "
-        + "The second list sorts the list by first name and groups the items "
-        + "by first name. The third list sorts the list by first name and "
-        + " groupes it by the 'group' model property. The third list is configuerd "
-        + " to use a own group item for rendering."
+        + "The first list shows only the row data and uses a converter for the "
+        + "label that concatenates the first and last name. "
+        + "The second list sorts the items by last name and groups the items "
+        + "by the first letter of the last name. The third list sorts the items "
+        + "by first name and groups it by the 'group' model property. The "
+        + "third list is configured  to use a customized group item for rendering."
       );
       this.getRoot().add(description, {left: 20, top: 10});
       
