@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.virtual.ExtendedList",
 {
   extend : qx.application.Standalone,

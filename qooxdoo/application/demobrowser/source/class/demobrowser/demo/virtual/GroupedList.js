@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.virtual.GroupedList",
 {
   extend : qx.application.Standalone,
