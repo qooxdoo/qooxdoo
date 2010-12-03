@@ -61,7 +61,6 @@ qx.Class.define("showcase.page.databinding.Page",
 
     __tryThis : {
       "Detail View" : "Clicking a tweet in the list shows the details.",
-      "Friends" : "The friends button displays the list of followers (Requires credentials).",
       "Change Tweet" : "Enter your twitter username in the text field and press \"Show\" to see your recent tweets."
     },
 
