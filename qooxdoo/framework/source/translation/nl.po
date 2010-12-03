@@ -228,28 +228,28 @@ msgstr "Windowstoets"
 msgid "key_full_Apps"
 msgstr "Contextmenu"
 
-#: qx/test/locale/Locale.js:72 qx/test/locale/Locale.js:75
-#: qx/test/locale/Locale.js:78
+#: qx/test/locale/Locale.js:85 qx/test/locale/Locale.js:88
+#: qx/test/locale/Locale.js:91
 msgid "test One car"
 msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
 #: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:60
+#: qx/test/locale/Locale.js:73 qx/test/locale/Locale.js:148
 msgid "test one"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:64
-#: qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:77
+#: qx/test/locale/Locale.js:81
 msgid "test Hello %1!"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:81
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:99
+#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:149
 msgid "test two"
 msgstr ""
 
@@ -321,13 +321,13 @@ msgstr "Volgend jaar"
 msgid "This field is required"
 msgstr "Dit veld is verplicht"
 
-#: qx/ui/table/Table.js:1809
+#: qx/ui/table/Table.js:1879
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "een rij"
 msgstr[1] "%1 rijen"
 
-#: qx/ui/table/Table.js:1811
+#: qx/ui/table/Table.js:1881
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Een van een rij"
@@ -337,34 +337,34 @@ msgstr[1] "%1 van %2 rijen"
 msgid "Reset column widths"
 msgstr "Kolombreedte herstellen"
 
-#: qx/util/Validate.js:87
+#: qx/util/Validate.js:89
 msgid "%1 is not a number."
 msgstr "%1 is geen nummer."
 
-#: qx/util/Validate.js:120
+#: qx/util/Validate.js:126
 msgid "'%1' is not an email address."
 msgstr "'%1' is geen email adres."
 
-#: qx/util/Validate.js:150
+#: qx/util/Validate.js:161
 msgid "%1 is not a string."
 msgstr "%1 is geen string."
 
-#: qx/util/Validate.js:181
+#: qx/util/Validate.js:195
 msgid "%1 is not an url."
 msgstr "%1 is geen url."
 
-#: qx/util/Validate.js:213
+#: qx/util/Validate.js:234
 msgid "%1 is not a color! %2"
 msgstr "%1 is geen kleur! %2"
 
-#: qx/util/Validate.js:239
+#: qx/util/Validate.js:258
 msgid "%1 is not in the range from [%2, %3]."
 msgstr "%1 is niet in het bereik van [%2, %3]."
 
-#: qx/util/Validate.js:261
+#: qx/util/Validate.js:281
 msgid "%1 is not in %2"
 msgstr "%1 is niet in %2"
 
-#: qx/util/Validate.js:284
+#: qx/util/Validate.js:305
 msgid "%1 does not fit %2."
 msgstr "%1 past niet %2."

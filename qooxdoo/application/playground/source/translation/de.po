@@ -66,7 +66,7 @@ msgstr "Starte Anwendung"
 msgid "Successfully started"
 msgstr "Anwendung gestartet"
 
-#: playground/Application.js:668
+#: playground/Application.js:670
 msgid "%1 (modified)"
 msgstr "%1 (geändert)"
 

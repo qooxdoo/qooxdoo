@@ -61,7 +61,7 @@ msgstr ""
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:668
+#: playground/Application.js:670
 msgid "%1 (modified)"
 msgstr ""
 
