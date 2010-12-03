@@ -308,7 +308,7 @@ qx.Class.define("feedreader.Application",
       } else if (value == "error") {
         return "icon/22/actions/process-stop.png";
       }
-      return null;
+      return "icon/22/places/folder-open.png";
     },
 
 
