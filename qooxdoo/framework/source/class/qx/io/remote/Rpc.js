@@ -76,7 +76,7 @@
  * (qx.io.remote.Rpc.callAsyncListeners).
  * <p>
  * You may also find the server writer's guide helpful:
- *   http://qooxdoo.org/documentation/Rpc_server_writer_guide
+ *   http://manual.qooxdoo.org/1.2.2/pages/communication/rpc_server_writer_guide.html
  */
 
  /**
