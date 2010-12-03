@@ -2442,8 +2442,9 @@ qx.Class.define("qx.ui.core.Widget",
         var manager = qx.locale.Manager.getInstance();
         this.__toolTipTextListenerId = manager.addListener("changeLocale",
           function() {
-            if (value && value.translate) {
-              this.setToolTipText(value.translate());
+            var toolTipText = this.getToolTipText();
+            if (toolTipText && toolTipText.translate) {
+              this.setToolTipText(toolTipText.translate());
             }
           }
         , this);
