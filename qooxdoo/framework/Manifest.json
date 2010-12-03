@@ -12,18 +12,50 @@
     "license" : "LGPL/EPL",
     "authors" : 
     [
-      {
-        "name" : "Alexander Steitz (aback)",
-        "email" : "alexander.steitz@1und1.de"
-      },
-      {
-        "name" : "Martin Wittemann (martinwittemann)",
-        "email" : "martin.wittemann@1und1.de"
-      },
-      {
-        "name" : "Andreas Ecker (ecker)",
-        "email" : "ecker@users.sourceforge.net"
-      }
+     {
+       "name" : "Alexander Steitz (aback)",
+       "email" : "alexander DOT steitz AT 1und1 DOT de"
+     },
+     {
+       "name" : "Adrian Olaru (adrianolaru)",
+       "email" : "adrian DOT olaru AT 1and1 DOT ro"
+     },
+     {
+       "name" : "Christian Hagendorn (chris_schmidt)",
+       "email" : "christian DOT hagendorn AT 1und1 DOT de"
+     },
+     {
+       "name" : "Derrell Lipman (derrell)",
+       "email" : "derrell DOT lipman AT unwireduniverse DOT com"
+     },
+     {
+       "name" : "Daniel Wagner (d_wagner)",
+       "email" : "daniel DOT wagner AT 1und1 DOT de"
+     },
+     {
+       "name" : "Andreas Ecker (ecker)",
+       "email" : "andreas DOT ecker AT 1und1 DOT de"
+     },
+     {
+       "name" : "Gabriel Munteanu (gabios)",
+       "email" : "gabriel DOT munteanu AT 1and1 DOT ro"
+     },
+     {
+       "name" : "Martin Wittemann (martinwittemann)",
+       "email" : "martin DOT wittemann AT 1und1 DOT de"
+     },
+     {
+       "name" : "Tino Butz (tbtz)",
+       "email" : "tino DOT butz AT 1und1 DOT de"
+     },
+     {
+       "name" : "Thomas Herchenröder (thron7)",
+       "email" : "thron7 AT users DOT sourceforge DOT net"
+     },
+     {
+       "name" : "Tristan Koch (tristankoch)",
+       "email" : "tristan DOT koch AT 1und1 DOT de"
+     }
     ],
 
     "version"         : "1.3",
