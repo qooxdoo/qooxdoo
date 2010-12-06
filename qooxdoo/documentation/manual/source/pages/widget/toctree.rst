@@ -43,4 +43,5 @@
    toolbar.rst
    tooltip.rst
    tree.rst
+   virtuallist.rst
    window.rst
