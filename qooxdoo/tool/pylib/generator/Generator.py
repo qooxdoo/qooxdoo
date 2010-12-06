@@ -1718,15 +1718,15 @@ class Generator(object):
         for lib in libs:
             libPaths.append(os.path.join(lib['path'], lib['class']))
 
-        mig_opts = ""
+        mig_opts = []
         if migSettings.get('from-version', False):
-            mig_opts += "--from-version %s" % migSettings.get('from-version')
+            mig_opts.extend(["--from-version", migSettings.get('from-version')])
         if migSettings.get('migrate-html'):
-            mig_opts += " --migrate-html"
-        mig_opts += " --class-path %s" % ",".join(libPaths)
+            mig_opts.append("--migrate-html")
+        mig_opts.extend(["--class-path", ",".join(libPaths)])
 
-        shcmd = "python %s %s" % (migratorCmd, mig_opts)
-        self._console.debug("Invoking migrator as: \"%s\"" % shcmd)
+        shcmd = " ".join(textutil.quoteCommandArgs([sys.executable, migratorCmd] + mig_opts))
+        self._console.debug("Invoking migrator as: '%s'" % shcmd)
         self._shellCmd.execute(shcmd)
 
         self._console.outdent()
