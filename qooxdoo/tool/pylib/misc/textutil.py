@@ -115,9 +115,24 @@ def toRegExp(text):
 
 ##
 # a tweaked version of the above; returns a string (for better post-processing),
-
 def toRegExpS(text):
     return "^(" + text.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
+
+
+##
+# quote shell command line arguments appropriatly (e.g. when containing spaces)
+def quoteCommandArgs(argv):
+    argv1 = []
+    if sys.platform == "win32":
+        for arg in argv:
+            if arg.find(' ')>-1:
+                argv1.append('"%s"' % arg)
+            else:
+                argv1.append(arg)
+    else:
+        argv1 = ['"%s"' % x for x in argv]  # quote argv elements
+    return argv1
+
 
 
 def main():
