@@ -17,6 +17,7 @@
     "distclean",
     "fix",
     "info",
+    "inspector",
     "lint",
     "migration",
     "pretty",
