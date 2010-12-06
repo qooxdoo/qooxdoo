@@ -792,10 +792,12 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (this.__placeholder == null) {
         // create the placeholder
         this.__placeholder = new qx.html.Label();
+        var colorManager = qx.theme.manager.Color.getInstance();
         this.__placeholder.setStyles({
           "visibility" : "hidden",
           "zIndex" : 6,
-          "position" : "absolute"
+          "position" : "absolute",
+          "color" : colorManager.resolve("text-placeholder")
         });
         this.getContainerElement().add(this.__placeholder);
       }
