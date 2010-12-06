@@ -102,7 +102,12 @@ qx.Class.define("qx.fx.effect.core.Fade",
     {
       this.base(arguments);
 
-      qx.bom.element.Opacity.set(this._getElement(), position);
+      if (qx.bom.client.Engine.MSHTML && position == 1) {
+        // For IE it't better to remove the opacity filter instead of using it.
+        qx.bom.element.Opacity.reset(this._getElement());
+      } else {
+        qx.bom.element.Opacity.set(this._getElement(), position);
+      }
     },
 
 
