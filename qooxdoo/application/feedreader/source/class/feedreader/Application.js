@@ -520,6 +520,8 @@ qx.Class.define("feedreader.Application",
     {
       var loader = feedreader.io.FeedLoader.getInstance();
       loader.loadAll(this.__feedFolder);
+      // remove the article which is currently on the screen
+      this.__articleView.setArticle(null);
     },
 
 
