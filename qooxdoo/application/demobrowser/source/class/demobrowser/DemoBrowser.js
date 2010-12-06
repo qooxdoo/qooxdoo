@@ -251,6 +251,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     _leftComposite : null,
     _infosplit : null,
     _demoView : null,
+    __autorunTimer : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -654,9 +655,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     treeGetSelection : function(e)
     {
       var treeNode = this.tree.getSelection()[0];
-      if (treeNode.getParent == this._tree.getRoot()) {
-        this.setPlayDemos("category");
-      }
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
     },
@@ -799,11 +797,14 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      // If the button was clicked, decide what to play based on tree selection
-      if (e && e.getType() === "execute") {
+      // Decide what to play based on tree selection
+      if (e && (e.getType() === "execute" || e.getType() === "interval")) {
         if (this.tests.selected === "") {
           this.setPlayDemos("all");
         } else if (this.tests.selected.indexOf("html") > 0) {
+          if (this.__autorunTimer) {
+            this.__autorunTimer.stop();
+          }
           this.setPlayDemos("current");
         } else {
           this.setPlayDemos("category");
@@ -943,7 +944,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.playNext();
         } else {
           var self = this;
-          qx.event.Timer.once(this.playNext, self, 5000);
+          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 5000);
         }
       } else {
         // Remove stop button, display run button
