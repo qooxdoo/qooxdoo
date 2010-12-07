@@ -84,7 +84,6 @@ qx.Class.define("inspector.selenium.View", {
 
     var pane = new qx.ui.splitpane.Pane("vertical");
     this.add(pane, {flex: 1});
-    window.pane = pane;
 
     // Table
     this._table = this.__getTable();
