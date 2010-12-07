@@ -47,12 +47,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Simple example for the Progressbar widget <http://demo.qooxdoo.org/1.2.x/demobrowser/#widget~Progressbar.html>`_
+* `Simple example for the Progressbar widget <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Progressbar.html>`_
 
 .. _pages/widget/progressbar#api:
 
 API
 ---
 | Here is a link to the API of the widget:
-| `qx.ui.indicator.progressbar <http://demo.qooxdoo.org/1.2.x/apiviewer/#qx.ui.indicator.progressbar>`_
+| `qx.ui.indicator.progressbar <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.indicator.Progressbar>`_
 
