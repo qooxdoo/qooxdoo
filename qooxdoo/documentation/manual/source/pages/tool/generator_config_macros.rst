@@ -49,6 +49,10 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - path to the qooxdoo installation root dir 
      - <undef> 
  
+   * - QOOXDOO_VERSION 
+     - the current qooxdoo version
+     - |version|
+
    * - QXICONTHEME 
      - icon theme to use for this application 
      - ["Tango"] 
