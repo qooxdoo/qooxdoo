@@ -1285,6 +1285,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var otherSamp = this.tree.getNextNodeOf(currSamp);
         if (!otherSamp) {
+          this.setPlayDemos("current");
           this._stopbutton.setVisibility("excluded");
           this._runbutton.setVisibility("visible");
           return;
