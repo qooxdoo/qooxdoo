@@ -256,7 +256,7 @@ qx.Class.define("inspector.selenium.View", {
             }
           }
         }
-        var locator = inspector.selenium.SeleniumUtil.getQxhLocator(this.__selectedWidget, root);
+        var locator = inspector.selenium.SeleniumUtil.getQxhLocator(this.__selectedWidget, root, iframeWindow);
         var command = "qxClick";
         rowArr = [command, locator, "", this.__availableCommands ];
       }
