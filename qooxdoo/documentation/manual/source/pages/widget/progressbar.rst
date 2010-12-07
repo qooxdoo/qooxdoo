@@ -1,6 +1,6 @@
 .. _pages/widget/indicators#progressbar:
 
-Progressbar
+ProgressBar
 ***********
 The progress bar is an indicator widget.
 
@@ -47,12 +47,12 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `Simple example for the Progressbar widget <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Progressbar.html>`_
+* `Simple example for the ProgressBar widget <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~ProgressBar.html>`_
 
 .. _pages/widget/progressbar#api:
 
 API
 ---
 | Here is a link to the API of the widget:
-| `qx.ui.indicator.progressbar <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.indicator.Progressbar>`_
+| `qx.ui.indicator.ProgressBar <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.indicator.ProgressBar>`_
 

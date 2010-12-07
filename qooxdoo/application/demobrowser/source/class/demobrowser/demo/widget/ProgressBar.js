@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Progressbar",
+qx.Class.define("demobrowser.demo.widget.ProgressBar",
 {
   extend : qx.application.Standalone,
 
@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.widget.Progressbar",
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box);
 
-      var pb = new qx.ui.indicator.Progressbar(0, 200);
+      var pb = new qx.ui.indicator.ProgressBar(0, 200);
       var slider = new qx.ui.form.Slider().set({minimum:0, maximum: 200});
       var info = new qx.ui.basic.Label();
 

@@ -31,7 +31,7 @@
  * and another one when the progress is complete.
  *
  * <pre class='javascript'>
- * var pb = new qx.ui.indicator.Progressbar();
+ * var pb = new qx.ui.indicator.ProgressBar();
  * this.getRoot().add(pb, { left : 20, top: 20});
  *
  * pb.addListener("change", function(e) {
@@ -47,7 +47,7 @@
  * pb.setValue(20);
  * </pre>
  */
-qx.Class.define("qx.ui.indicator.Progressbar",
+qx.Class.define("qx.ui.indicator.ProgressBar",
 {
   extend: qx.ui.container.Composite,
 
