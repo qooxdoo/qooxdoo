@@ -109,10 +109,12 @@ qx.Class.define("inspector.components.Selector",
     __onChangeApplication : function(e)
     {
       this.__applicationWindow = this.__model.getWindow();
+      var applicationRoot = qx.core.Init.getApplication().getRoot();
 
       if (this.__applicationWindow == null) {
         // It's important to remove the old references from the old
         // Iframe object instances
+        applicationRoot.removeListener("resize", this.__updateCatchClickLayer, this);
         this.__catchClickLayer = null;
         this.__highlighter = null;
         return;
@@ -120,6 +122,8 @@ qx.Class.define("inspector.components.Selector",
 
       this.__catchClickLayer = this.__createCatchClickLayer();
       this.__highlighter = this.__createHighlighter();
+
+      applicationRoot.addListener("resize", this.__updateCatchClickLayer, this);
     },
 
     /**
@@ -207,8 +211,8 @@ qx.Class.define("inspector.components.Selector",
     __addToApplicationRoot : function(widget)
     {
       var applicationRoot = this.__model.getApplication().getRoot();
-
       var win = this.__applicationWindow;
+
       if (win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
         applicationRoot.add(widget, {edge: 0});
       }
@@ -412,6 +416,31 @@ qx.Class.define("inspector.components.Selector",
     {
       var win = this.__applicationWindow;
       return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);
+    },
+
+    /**
+     * Helper methide to update the "CatchClickLayer" size.
+     * 
+     * @param e {qx.event.type.Data} the resize event.
+     */
+    __updateCatchClickLayer : function(e)
+    {
+      var win = this.__applicationWindow;
+
+      if (win != null && this.__catchClickLayer != null
+          && this.__highlighter != null)
+      {
+        this.__highlighter.hide();
+
+        // Flush the queue and set the size asynchronous, 
+        // otherwise the resize doesn't work
+        qx.ui.core.queue.Manager.flush();
+        qx.event.Timer.once(function()
+        {
+          this.__catchClickLayer.setHeight(qx.bom.Document.getHeight(win));
+          this.__catchClickLayer.setWidth(qx.bom.Document.getWidth(win));
+        }, this, 0);
+      }
     }
   },
 
