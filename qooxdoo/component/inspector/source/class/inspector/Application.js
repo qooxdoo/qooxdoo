@@ -195,7 +195,7 @@ qx.Class.define("inspector.Application",
 
         // also break if its undefined
         if (this.__checkCount > 30) {
-          throw new Error("qooxdoo not found!");
+          throw new Error("No qooxdoo application root found!");
         }
         try {
           // try to get the root element of the application
@@ -211,7 +211,6 @@ qx.Class.define("inspector.Application",
             this._loadedWindow.document;
 
             // if we get here, there are no security restrictions - try again
-            throw new Error("qooxdoo isn't ready at the moment!");
             return false;
 
           } catch(ex) {
