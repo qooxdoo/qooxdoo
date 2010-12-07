@@ -130,7 +130,10 @@ qx.Class.define("playground.view.gist.GistMenu",
 
     // overridden
     _applySelectedButton : function(value, old) {
-      this.__userNameChange.focusTextField(value == this.__userNameChange);
+      if (value == this.__userNameChange) {
+        this.__userNameChange.focusTextField(true);
+      }
+
       this.base(arguments, value, old);
     },
 

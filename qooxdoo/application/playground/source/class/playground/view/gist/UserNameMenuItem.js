@@ -95,6 +95,7 @@ qx.Class.define("playground.view.gist.UserNameMenuItem",
           return;
         }
       }
+      // default action
       onKeyPressRight.call(manager, menu);
     };
 
