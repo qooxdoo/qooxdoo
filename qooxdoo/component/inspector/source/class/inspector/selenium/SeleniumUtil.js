@@ -75,7 +75,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
      */
     getQxhLocatorStep : function(widget, autWin)
     {
-      var autWindow = autWin || win;
+      var autWindow = autWin || window;
       var classname = widget.classname;
       var step = '[@classname="' + classname + '"]';
       if (classname.indexOf("qx.") == 0) {
