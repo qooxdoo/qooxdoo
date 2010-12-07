@@ -137,7 +137,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       var widget = this._list._layer.getRenderedCellWidget(0,0);
       widget.setLabel("abcde");
-      
+
       this.flush();
 
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount(), "Model size <-> pane size");
