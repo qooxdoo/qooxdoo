@@ -153,7 +153,9 @@
       ],
       "exclude" :
       [
-        "qx.test.*"
+        "qx.test.*",
+        "${APPLICATION}.test.*",
+        "${APPLICATION}.simulation.*"
       ],
 
       "compile-options" :
@@ -392,7 +394,7 @@
     {
       // will only run when invoked from "provider"
       "include" : [ "=${APPLICATION}.*" ]
-      ,"exclude" : [ "=${APPLICATION}.test.*" ]
+      ,"exclude" : [ "=${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
       ,"log" : 
       { 
@@ -419,7 +421,7 @@
       }
 
       ,"include" : [ "${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
       ,"variants" :
       {
@@ -430,7 +432,7 @@
       {
         "app-root" : "${PROVIDER_ROOT}",
         "include"  : ["${APPLICATION}.*"],
-        "exclude"  : ["${APPLICATION}.test.*"],
+        "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
         "compile"  : ["source", "build"]
       }
     },
@@ -451,7 +453,7 @@
       }
       
       ,"include" : [ "${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
       ,"compile-options" : 
       {
@@ -467,7 +469,7 @@
       {
         "app-root" : "${PROVIDER_ROOT}",
         "include"  : ["${APPLICATION}.*"],
-        "exclude"  : ["${APPLICATION}.test.*"],
+        "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
         "compile"  : ["source", "build"]
       }
 
