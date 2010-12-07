@@ -479,7 +479,7 @@ qx.Class.define("playground.Application",
     {
       var query = 'select * from github.gist.list where user="' + username + '"';
       var delegate = {manipulateData : function(data) {
-        if (data.query.results) {
+        if (data && data.query && data.query.results) {
           if (data.query.results.gists.gist) {
             if (qx.lang.Type.isArray(data.query.results.gists.gist)) {
               return data.query.results.gists.gist;
