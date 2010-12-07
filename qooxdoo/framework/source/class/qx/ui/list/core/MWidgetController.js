@@ -182,7 +182,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var type = sourceWidget.getUserData("cell.type")
       var bindPath = this.__getBindPath(index, targetPath, type);
 
-      var id = sourceWidget.bind(sourcePath, this, bindPath, options);
+      var id = sourceWidget.bind(sourcePath, this._list, bindPath, options);
       this.__addBinding(sourceWidget, id);
     },
 

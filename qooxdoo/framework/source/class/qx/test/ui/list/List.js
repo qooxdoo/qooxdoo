@@ -123,6 +123,29 @@ qx.Class.define("qx.test.ui.list.List",
     },
 
 
+    testReverseBinding : function()
+    {
+      var delegate = {
+        bindItem : function(controller, item, id) {
+          controller.bindDefaultProperties(item, id);
+          controller.bindPropertyReverse(null, "label", null, item, id);
+        }
+      };
+      this._list.setDelegate(delegate);
+
+      this.flush();
+
+      var widget = this._list._layer.getRenderedCellWidget(0,0);
+      widget.setLabel("abcde");
+      
+      this.flush();
+
+      this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount(), "Model size <-> pane size");
+      this.assertEquals("abcde", this._list._layer.getRenderedCellWidget(0,0).getLabel(), "Widget value");
+      this.assertEquals("abcde", this._list.getModel().getItem(0), "Model value");
+    },
+
+
     testFilter : function()
     {
       var filteredModel = new qx.data.Array();
