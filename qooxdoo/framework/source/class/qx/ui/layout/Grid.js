@@ -71,7 +71,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://manual.qooxdoo.org/1.2/pages/layout/grid.html'>
+ * <a href='http://manual.qooxdoo.org/1.3/pages/layout/grid.html'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Grid",
