@@ -21,7 +21,7 @@ msgstr "Fils statiques"
 msgid "User Feeds"
 msgstr "Fils de l'utilisateur"
 
-#: feedreader/Application.js:557
+#: feedreader/Application.js:559
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 

@@ -22,7 +22,7 @@ msgstr "Feeds Estáticos"
 msgid "User Feeds"
 msgstr "Feeds del Usuario"
 
-#: feedreader/Application.js:557
+#: feedreader/Application.js:559
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 

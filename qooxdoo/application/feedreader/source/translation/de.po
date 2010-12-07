@@ -20,7 +20,7 @@ msgstr "Vordefinierte Quellen"
 msgid "User Feeds"
 msgstr "Eigene Quellen"
 
-#: feedreader/Application.js:557
+#: feedreader/Application.js:559
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
