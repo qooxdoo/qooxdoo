@@ -26,7 +26,7 @@ Here's an example. We create a default progress bar (value is 0, and the maximum
 
 ::
 
-    var pb = new qx.ui.indicator.Progressbar();
+    var pb = new qx.ui.indicator.ProgressBar();
     this.getRoot().add(pb, { left : 20, top: 20});
 
     pb.addListener("change", function(e) {
