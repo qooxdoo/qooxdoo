@@ -3,11 +3,12 @@
 Controller
 ==========
 
-The general idea of controllers is connecting a view component to a set of data stored in a model. The kind of controller you need depends on the view component. Currently there are three types of controller available: 
+The general idea of controllers is connecting a view component to a set of data stored in a model. The kind of controller you need depends on the view component. Currently there are four types of controller available: 
 
 * Object Controller
 * List Controller
-* Tree controller
+* Tree Controller
+* Form Controller
 
 You may miss the table controller. The currently available table will not be changed and therefore will not implement data binding features. The new virtual table, which is currently under development, will be considered for data binding.
 
