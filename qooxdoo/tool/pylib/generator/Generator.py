@@ -1795,8 +1795,11 @@ class Generator(object):
     def runSimulation(self):
         self._console.info("Running Simulation...")
         
+        argv    = []
         javaBin = "java"
-        javaClassPath = "-cp "
+        javaClassPath = "-cp"
+        argv.extend((javaBin, javaClassPath))
+
         configClassPath = self._job.get("simulate/java-classpath", [])
         qxSeleniumPath = self._job.get("simulate/qxselenium-path", False)
         if qxSeleniumPath:
@@ -1806,13 +1809,13 @@ class Generator(object):
         if util.getPlatformInfo()[0] == "Windows":
             classPathSeparator = ";"
         
-        javaClassPath += classPathSeparator.join(configClassPath)            
+        argv.append(classPathSeparator.join(configClassPath))
         
         rhinoClass = self._job.get("simulate/rhino-class", "org.mozilla.javascript.tools.shell.Main")
-        
         runnerScript = self._job.get("simulate/simulator-script")
+        argv.extend((rhinoClass, runnerScript))
         
-        cmd = "%s %s %s %s" %(javaBin, javaClassPath, rhinoClass, runnerScript)        
+        cmd = " ".join(textutil.quoteCommandArgs(argv))
         
         self._console.debug("Selenium start command: " + cmd)
         shell = ShellCmd()
