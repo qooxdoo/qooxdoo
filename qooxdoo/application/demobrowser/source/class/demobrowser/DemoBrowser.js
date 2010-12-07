@@ -952,7 +952,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.playNext();
         } else {
           var self = this;
-          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 5000);
+          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 2000);
         }
       } else {
         // Remove stop button, display run button
@@ -1301,6 +1301,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (otherSamp.getParent() == this.tree.getRoot()) {
           if (this.getPlayDemos() == "category") {
             if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
+              this.setPlayDemos("current");
               this._stopbutton.setVisibility("excluded");
               this._runbutton.setVisibility("visible");
               return;
