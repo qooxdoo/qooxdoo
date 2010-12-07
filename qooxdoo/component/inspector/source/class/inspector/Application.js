@@ -208,7 +208,7 @@ qx.Class.define("inspector.Application",
           // check if inspect fails because of security restrictions
           try {
             // check if we can access the iframe
-            this._loadedWindow.document
+            this._loadedWindow.document;
 
             // if we get here, there are no security restrictions - try again
             throw new Error("qooxdoo isn't ready at the moment!");
