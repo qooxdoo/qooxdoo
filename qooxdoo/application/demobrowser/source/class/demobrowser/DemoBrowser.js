@@ -113,9 +113,17 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._searchTextField.setLiveUpdate(true);
     this._searchTextField.setAppearance("widget");
     this._searchTextField.setPlaceholder("Filter...");
-    this._searchTextField.addListener("changeValue", function(e) {
-      this.filter(e.getData());
+    
+    var filterTimer = new qx.event.Timer(500);
+    filterTimer.addListener("interval", function(ev) {
+      this.filter(this._searchTextField.getValue());
+      filterTimer.stop();
     }, this);
+    
+    this._searchTextField.addListener("changeValue", function(ev) {
+      filterTimer.restart();
+    }, this);
+    
     searchComposlite.add(this._searchTextField, {flex: 1});
 
     // create the status of the tree
@@ -1294,6 +1302,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (otherSamp.getParent() == this.tree.getRoot()) {
           if (this.getPlayDemos() == "category") {
             if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
+              this.setPlayDemos("current");
               this._stopbutton.setVisibility("excluded");
               this._runbutton.setVisibility("visible");
               return;
