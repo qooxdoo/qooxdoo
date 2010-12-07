@@ -69,6 +69,13 @@ Indicators
 ==========
 :doc:`progressbar`
 
+.. Toctree for all widgets (important for inclusion in PDF)
+
+.. toctree::
+   :hidden:
+
+   toctree.rst
+
 
 .. .. _pages/widget#other:
 .. 
