@@ -555,6 +555,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Check for property
       if(itemNode.isFromProperty && itemNode.isFromProperty()) {
         uiModel.setExpandProperties(true);
+        if(itemNode.isProtected()) {
+          uiModel.setShowProtected(true);
+        }
+        if(itemNode.isPrivate()) {
+          uiModel.setShowPrivate(true);
+        }
       }
       else if (itemNode.getListName() == "methods")
       {
