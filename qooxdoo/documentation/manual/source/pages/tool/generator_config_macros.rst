@@ -53,6 +53,10 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - path to the qooxdoo installation root dir 
      - <undef> 
  
+   * - QOOXDOO_VERSION 
+     - the current qooxdoo version
+     - %{version}
+ 
    * - QXICONTHEME 
      - icon theme to use for this application 
      - ["Tango"] 
@@ -71,7 +75,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
  
    * - SIMULATOR_CLASSPATH
      - Java classpath argument for GUI test runner
-     - "${SIMULATOR_ROOT}/tool/js.jar:${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"
+     - "${SIMULATOR_ROOT}/tool/js.jar: ${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"
 
    * - SIMULATOR_ROOT
      - path to the framework's simulator component
