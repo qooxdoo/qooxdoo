@@ -8,6 +8,13 @@
 
 ************************************************************************ */
 
+/**
+ * This class demonstrates how to define simulated interaction tests for your 
+ * application. See the manual for details:
+ * {@link http://manual.qooxdoo.org/1.3/pages/development/simulator.html}
+ * 
+ * @lint ignoreUndefined(simulator)
+ */
 qx.Class.define("${Namespace}.simulation.DemoSimulation", {
 
   extend : simulator.unit.TestCase,
