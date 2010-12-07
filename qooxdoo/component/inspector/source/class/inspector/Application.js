@@ -21,7 +21,7 @@
 
 #asset(inspector/*)
 #asset(qx/icon/Tango/16/actions/view-refresh.png)
-#ignore(qxinspector.local)
+#ignore(qxinspector)
 
 ************************************************************************ */
 
