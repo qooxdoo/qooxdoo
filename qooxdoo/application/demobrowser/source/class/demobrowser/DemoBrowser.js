@@ -952,7 +952,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.playNext();
         } else {
           var self = this;
-          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 2000);
+          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 5000);
         }
       } else {
         // Remove stop button, display run button
