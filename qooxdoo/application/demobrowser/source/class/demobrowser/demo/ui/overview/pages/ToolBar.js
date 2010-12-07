@@ -230,7 +230,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
     //
     // (Evil hacks below)
     getMenuWithSlideBar : function() {
-      label = new qx.ui.basic.Label("Menu (with slidebar)");
+      var label = new qx.ui.basic.Label("Menu (with slidebar)");
 
       var subContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       subContainer.setHeight(120);
