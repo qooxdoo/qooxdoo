@@ -61,17 +61,11 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       /* ***********************************************
        * CONTROLS
        * ********************************************* */
-       var friendsButton = new qx.ui.form.Button("Friends");
-       this.getRoot().add(friendsButton, {left: 10, top: 55});
-       friendsButton.addListener("execute", function() {
-         store.setUrl("http://twitter.com/statuses/friends_timeline.json");
-       }, this);
-
        // create the user textfield and button
        var userButton = new qx.ui.form.Button("User");
-       this.getRoot().add(userButton, {left: 90, top: 55});
+       this.getRoot().add(userButton, {left: 10, top: 55});
        var userName = new qx.ui.form.TextField("wittemann");
-       this.getRoot().add(userName, {left: 140, top: 55});
+       this.getRoot().add(userName, {left: 60, top: 55});
        userButton.addListener("execute", function() {
          var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json"
          if (store.getUrl() == url) {
