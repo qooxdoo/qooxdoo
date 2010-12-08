@@ -66,7 +66,7 @@ Learn more
   http://qooxdoo.org/about/release_notes
 
 * User manual
-  http://manual.qooxdoo.org/1.2
+  http://manual.qooxdoo.org/1.3
 
 * API documentation
   http://api.qooxdoo.org
