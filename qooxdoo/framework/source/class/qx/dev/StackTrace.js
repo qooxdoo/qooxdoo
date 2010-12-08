@@ -261,6 +261,10 @@ qx.Class.define("qx.dev.StackTrace",
     {
       var scriptDir = "/source/class/";
       var jsPos = fileName.indexOf(scriptDir);
+      var paramPos = fileName.indexOf("?");
+      if (paramPos >= 0) {
+        fileName = fileName.substring(0, paramPos);
+      }
       var className = (jsPos == -1) ? fileName : fileName.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
       return className;
     }
