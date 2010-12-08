@@ -21,7 +21,7 @@ GUI Toolkit
 
 Despite being a pure JavaScript framework, qooxdoo is quite on par with GUI toolkits like Qt or  SWT when it comes to advanced yet easy to implement user interfaces. It offers a full-blown set of widgets that are hardly distinguishable from elements of native desktop applications. Full built-in support for keyboard navigation, focus and tab handling and drag & drop is provided. Dimensions can be specified as static, auto-sizing, stretching, percentage, weighted flex or min/max or even as combinations of those. All widgets are based on powerful and flexible layout managers which are a key to many of the advanced layout capabilities. Interface description is done programmatically in JavaScript for maximum performance.
 
-No HTML has to be used and augmented to define the interface. The qooxdoo developer does not even have to know CSS to `style the interface <http://qooxdoo.org/documentation/general/styling_without_css_know-how>`_. Clean and easy-to-configure themes for appearance, colors, borders, fonts and icons allow for a full-fledged styling that even supports runtime switching.
+No HTML has to be used and augmented to define the interface. The qooxdoo developer does not even have to know CSS to `style the interface <http://qooxdoo.org/documentation/general/styling_without_css_know-how>`_. Clean and easy-to-configure themes for appearance, colors, borders, fonts and icons allow for a full-fledged styling.
 
 .. _pages/introduction/about#ajax:
 
