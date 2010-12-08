@@ -318,6 +318,15 @@ qx.Class.define("inspector.selenium.View", {
         tableModel.removeRows(row - i, 1);
       }
     },
+    
+    /**
+     * Clears the table model data.
+     */
+    __clearTableData : function()
+    {
+      var tableModel = this._table.getTableModel();
+      tableModel.setData([]);
+    },
 
     /**
      * Creates the Selenium commands table
@@ -543,6 +552,20 @@ qx.Class.define("inspector.selenium.View", {
       this.__seleneseTestCase.addListener("changeSeleneseCommands", this.__importCommands, this);
       
       this.__seleneseTestCase.open();
+    },
+    
+    /**
+     * Deletes all commands after asking for confirmation. 
+     */
+    clearTable : function()
+    {
+      if (this._table.getTableModel().getRowCount() > 0) {
+        var clear = confirm("Delete current test command list?");
+        if (clear) {
+          this.__clearTableData();
+        }
+      }
+            
     },
 
     /**

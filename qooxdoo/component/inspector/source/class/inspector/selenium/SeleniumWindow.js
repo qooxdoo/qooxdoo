@@ -85,17 +85,33 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
     /**
      * If the Inspected application changes, add the Selenium scripts to its
-     * window
+     * window and ask the user if the command list should be cleared.
      * 
      * @param e {qx.event.type.Event} changeApplication event
      */
     __onChangeApplication : function(e) {
+      // The "changeApplication" event is fired twice each time the inspected
+      // application changes, so we use a timer to prevent doing everything
+      // again
+      if (!this.__appChangeTimer) {
+        this.__appChangeTimer = new qx.event.Timer(3000);
+        this.__appChangeTimer.addListener("interval", function(ev) {
+          this.__appChangeTimer.setEnabled(false);
+        }, this);
+      }
+      if (this.__appChangeTimer.isEnabled()) {
+        // timer is running, do nothing
+        return;
+      } else {
+        this.__appChangeTimer.start();
+      }
       // Immediately load scripts if cookies are set
       var coreScripts = qx.bom.Cookie.get("coreScripts");
       var userExt = qx.bom.Cookie.get("userExt");
       if (coreScripts && userExt) {
         this.__view.setSeleniumScripts([coreScripts, userExt]);
       }
+      this.__view.clearTable();
     }
   },
 
