@@ -216,7 +216,8 @@ qx.Class.define("inspector.selenium.View", {
         allowGrowY : false,
         width : 50,
         marginTop : 10,
-        marginLeft : 5
+        marginLeft : 5,
+        liveUpdate : true
       });
       this._speedSlider.setValue(5);
       part2.add(this._speedSlider);
