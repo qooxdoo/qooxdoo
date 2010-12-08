@@ -78,5 +78,5 @@ Here are some links that demonstrate the usage of the widget:
 API
 ---
 | Here is a link to the API of the widget:
-| `qx.ui.indicator.progressbar <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.List>`_
+| `qx.ui.list.List <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.List>`_
 
