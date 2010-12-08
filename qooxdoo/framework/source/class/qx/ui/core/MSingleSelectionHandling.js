@@ -100,7 +100,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
           this.__getManager().setSelected(items[0]);
           break;
         default:
-          throw new Error("Could only select one item, but the selection " +
+          throw new Error("Could only select one item, but the selection" +
             " array contains " + items.length + " items!");
       }
     },
