@@ -240,7 +240,13 @@ qx.Class.define("inspector.selenium.View", {
       this._recordButton = new qx.ui.toolbar.CheckBox(null,
           "icon/22/actions/media-record.png");
       part2.add(this._recordButton);
-      this._recordButton.setToolTipText("Automatically add a new command for each inspected widget");
+      var recOpts = {
+        converter : function(data) {
+          return data ? "Stop adding commands for inspected widgets" : 
+          "Automatically add a new command for each inspected widget";
+        }
+      };
+      this._recordButton.bind("value", this._recordButton, "toolTipText", recOpts);
 
       this._exportButton = new qx.ui.toolbar.CheckBox(null, "icon/22/actions/window-new.png");
       part2.add(this._exportButton);
