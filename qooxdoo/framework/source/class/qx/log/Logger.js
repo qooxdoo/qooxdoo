@@ -125,7 +125,7 @@ qx.Class.define("qx.log.Logger",
       this.__appender[id] = appender;
       appender.$$id = id;
       var levels = this.__levels;
-      
+
       // Insert previous messages
       var entries = this.__buffer.getAllLogEvents();
       for (var i=0, l=entries.length; i<l; i++) {
