@@ -64,6 +64,8 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
 
     __changeInspectedListenerID : null,
 
+    __appChangeTimer : null,
+
     /**
      * Set the window's initial size and location
      */
@@ -121,5 +123,6 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;
+    this.__appChangeTimer.dispose();
   }
 });
