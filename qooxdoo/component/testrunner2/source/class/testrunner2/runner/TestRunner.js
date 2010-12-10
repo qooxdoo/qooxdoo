@@ -59,14 +59,22 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     if (qx.core.Variant.isSet("testrunner2.view", "html")) {
       qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
     }
+        
+    // Test namespace set by URI parameter
+    var params = location.search;
+    if (params.indexOf("testclass=") > 0 ) {
+      this._testNameSpace = params.substr(params.indexOf("testclass=") + 10);
+    } else {
+      this._testNameSpace = qx.core.Setting.get("qx.testNameSpace");
+    }
     
     // Load unit tests
     if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
       // Load the tests from a standalone AUT
       this.__iframe = this.view.getIframe();
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
-      var src = qx.core.Setting.get("qx.testPageUri")
-      src += "?testclass=" + qx.core.Setting.get("qx.testNameSpace");
+      var src = qx.core.Setting.get("qx.testPageUri");      
+      src += "?testclass=" + this._testNameSpace;
       this.view.setAutUri(src);
     } 
     else {
@@ -137,6 +145,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     __loadTimer : null,
     __loadAttempts : null,
     __testParts : null,
+    _testNameSpace : null,
   
     
     /**
@@ -146,7 +155,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     _loadInlineTests : function(nameSpace)
     {
-      nameSpace = nameSpace || qx.core.Setting.get("qx.testNameSpace");
+      nameSpace = nameSpace || this._testNameSpace;
       this.setTestSuiteState("loading");
       this.loader = new qx.dev.unit.TestLoaderInline();
       this.loader.setTestNamespace(nameSpace);
