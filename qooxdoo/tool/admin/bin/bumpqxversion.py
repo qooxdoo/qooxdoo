@@ -32,7 +32,7 @@ import sys, os, re, string, types, codecs
 
 qxversion_regexp = r'[\w\.-]+'
 
-# Files to change: { "path_from_QXROOT": [<regex_to_replace>] }
+# Files to change: { "path_from_QXROOT": [<regex_to_replace>, ...] }
 # <regex_to_replace> -- provide a regexp that captures the version string
 #                       with a bit of context, and put parens around the place
 #                       where the version string itself is; this will be
