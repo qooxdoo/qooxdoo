@@ -33,25 +33,32 @@ import sys, os, re, string, types, codecs
 qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4' or '1.4-pre'
 
 # Files to change: { "path_from_QXROOT": [<regex_to_replace>, ...] }
-# <regex_to_replace> -- provide a regexp that captures the version string
-#                       with a bit of context, and put parens around the place
-#                       where the version string itself is; this will be
-#                       replaced.
+# <regex_to_replace> -- provide a regexp that captures some occurrences of the
+#                       version string in that particular file, with a bit of
+#                       context, and put parens around the place where the
+#                       version string itself is; this will be replaced.
 # ! If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release
 Files = {
-    "./version.txt" : [r'^(.*)$'],
-    "./index.html"  : [r'var qxversion = "(%s)"' % qxversion_regexp],
-    "./readme.txt"  : [ r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp ],
+    "./version.txt" : [
+        r'^(.*)$'
+        ],
+    "./index.html"  : [
+        r'var qxversion = "(%s)"'    % qxversion_regexp
+        ],
+    "./readme.txt"  : [ 
+        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp 
+        ],
     "./framework/Manifest.json" : [
-        r'"version"\s*:\s*"(%s)"' % qxversion_regexp,
+        r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
         r'"qooxdoo-versions"\s*:\s*\["(%s)"\]' % qxversion_regexp,
-    ],
+        ],
     "./documentation/manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
-    ],
+        ],
     "./application/demobrowser/source/demo/welcome.html" : [
-        r'var qxversion = "(%s)"' % qxversion_regexp],
+        r'var qxversion = "(%s)"'    % qxversion_regexp,
+        ],
 }
 
 # - End config -----------------------------------------------------------------
