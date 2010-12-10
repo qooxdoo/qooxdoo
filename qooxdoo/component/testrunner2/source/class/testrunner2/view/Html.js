@@ -278,6 +278,7 @@ qx.Class.define("testrunner2.view.Html", {
       
       var controls = document.getElementById("qxtestrunner_controls");
       var frameContainer = document.createElement("div");
+      frameContainer.id = "qxtestrunner_framecontainer";
       qx.dom.Element.insertAfter(frameContainer, controls);
       frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
       frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
@@ -298,6 +299,20 @@ qx.Class.define("testrunner2.view.Html", {
       }, this);
       
       return this.__domElements.elemIframe;
+    },
+    
+    getLogAppenderElement : function()
+    {
+      if (this.__domElements.elemLogAppender) {
+        return this.__domElements.elemLogAppender;
+      }
+      
+      // Directly create DOM element to use
+      var logelem = this.__domElements.elemLogAppender = document.createElement("div");
+      logelem.id = "qxtestrunner_log";
+      qx.dom.Element.insertBefore(logelem, document.getElementById("qxtestrunner_testcontrols"));
+      
+      return this.__domElements.elemLogAppender;
     },
     
     

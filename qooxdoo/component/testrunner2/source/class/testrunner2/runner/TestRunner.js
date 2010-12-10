@@ -59,6 +59,16 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     if (qx.core.Variant.isSet("testrunner2.view", "html")) {
       qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
     }
+    
+    // Get log appender element from view
+    if (this.view.getLogAppenderElement) {
+      this.__logappender = new qx.log.appender.Element();
+      qx.log.Logger.unregister(this.__logappender);
+      this.__logappender.setElement(this.view.getLogAppenderElement());
+      if (!qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+        qx.log.Logger.register(this.__logappender);        
+      }
+    }
         
     // Test namespace set by URI parameter
     var params = location.search;
@@ -144,6 +154,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     __iframe : null,
     __loadTimer : null,
     __loadAttempts : null,
+    __logAppender : null,
     __testParts : null,
     _testNameSpace : null,
   
@@ -338,6 +349,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }, this);
       
       testResult.addListener("endTest", function(e) {
+        if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+          this.__fetchIframeLog();
+        }
+        
         var state = this.currentTestData.getState();
         if (state == "start") {
           this.currentTestData.setState("success");
@@ -480,6 +495,22 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     _handleGlobalError : function(ex)
     {
       this.error(ex);
+    },
+    
+    __fetchIframeLog : function()
+    {
+      var w = qx.bom.Iframe.getWindow(this.__iframe);
+
+      var logger;
+      if (w.qx && w.qx.log && w.qx.log.Logger)
+      {
+        logger = w.qx.log.Logger;
+        //logger.setLevel(this.getLogLevel());
+        // Register to flush the log queue into the appender.
+        logger.register(this.__logappender);
+        logger.clear();
+        logger.unregister(this.__logappender);
+      }
     }
     
   }

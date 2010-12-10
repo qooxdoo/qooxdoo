@@ -39,19 +39,41 @@ h1 {
 }
 
 #qxtestrunner_testcontrols {
+  clear: both;
   font-size: 1em;
   margin: 5px 10px 0 10px;
+}
+
+#qxtestrunner_iframesrc {
+  width: 82%
 }
 
 #qxtestrunner_testcontrols input {
   margin-left: 10px;
 }
 
-#qxtestrunner_autframe {
-  margin: 10px 10px 0 10px;
-  width: 98%;
+#qxtestrunner_framecontainer {
+  float: left;
+  width: 40%;
+  margin: 10px 10px 10 10px;
   height: 150px;
+}
+
+#qxtestrunner_framecontainer iframe {
   border: 1px inset black;
+  width: 96%;
+  height: 120px;
+  margin-left: 10px;
+}
+
+#qxtestrunner_log {
+  border: 1px solid black;
+  width: 58%;
+  height: 150px;
+  margin: 0px 0 10px 40%;
+  overflow: auto;
+  font-family: Courier, monotype;
+  font-size: 0.8em;
 }
 
 #qxtestrunner_tests {
