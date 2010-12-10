@@ -30,7 +30,7 @@ import sys, os, re, string, types, codecs
 
 # - Config section -------------------------------------------------------------
 
-qxversion_regexp = r'[\w\.-]+'
+qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4' or '1.4-pre'
 
 # Files to change: { "path_from_QXROOT": [<regex_to_replace>, ...] }
 # <regex_to_replace> -- provide a regexp that captures the version string
