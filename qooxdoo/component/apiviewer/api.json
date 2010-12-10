@@ -14,7 +14,7 @@
         "API_INCLUDE"    : ["*"],
         "API_EXCLUDE"    : [],
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
-        "CACHE"          : "${TMPDIR}/cache"
+        "CACHE"          : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
       },
 
       "library" :

@@ -9,7 +9,7 @@
     "TEST_INCLUDE" : "${APPLICATION}.test.*",
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "THEME"        : "qx.theme.Modern"
   },
 

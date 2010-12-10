@@ -13,7 +13,7 @@
   "let" :
   {
     "APPLICATION"  : "demobrowser",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "QOOXDOO_PATH" : "../..",
     "THEME"        : "demobrowser.Theme"
   },

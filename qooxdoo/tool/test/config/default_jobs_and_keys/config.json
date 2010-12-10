@@ -47,7 +47,7 @@
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv"],
     "TEST_INCLUDE" : "${APPLICATION}.*",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "${QOOXDOO_PATH}/application/${APPLICATION}"
   }
 

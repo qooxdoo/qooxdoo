@@ -5,7 +5,7 @@
   {
     "APPLICATION"  : "inspector",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "THEME"        : "inspector.theme.Theme",
     "ICONTHEME"    : ["Tango"],    
     "INSPECTOR_ROOT"  : ".",

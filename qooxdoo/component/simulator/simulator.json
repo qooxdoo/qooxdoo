@@ -4,7 +4,7 @@
   "let" :
   {
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "SIMULATOR_ROOT" : ".",
     "BUILD_PATH"      : "${ROOT}/simulator",
     "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*",

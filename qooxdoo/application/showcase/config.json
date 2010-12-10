@@ -17,7 +17,7 @@
     "QXTHEME"      : "showcase.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en", "en_GB", "en_US", "de", "de_DE", "de_AT", "es", "es_ES", "es_MX","ro" ],
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
 

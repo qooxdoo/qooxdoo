@@ -35,7 +35,7 @@
   {
     "APPLICATION"  : "apiviewer",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },

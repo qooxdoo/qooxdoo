@@ -28,7 +28,7 @@
       "APPLICATION"  : "simulator",
       "QOOXDOO_PATH" : "../..",
       "QXTHEME"      : "qx.theme.Modern",
-      "CACHE"        : "${TMPDIR}/cache",
+      "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
       "API_EXCLUDE" : ["qx.test.*"]
   }
 }

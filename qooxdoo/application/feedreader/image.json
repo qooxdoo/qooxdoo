@@ -11,7 +11,7 @@
       {
         "RESPATH" : "./source/resource",
         "QXRESPATH" : "${QOOXDOO_PATH}/framework/source/resource",
-        "CACHE"   : "${TMPDIR}/cache"
+        "CACHE"   : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
       },
    
       "cache" :

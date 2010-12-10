@@ -315,7 +315,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
           "the application types. (Default: %default)"
     )
     parser.add_option(
-        "--cache", dest="cache", metavar="PATH", default="${TMPDIR}/cache",
+        "--cache", dest="cache", metavar="PATH", default="${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
         help="Path to the cache directory; will be entered into config.json's CACHE macro (Default: %default)"
     )
 

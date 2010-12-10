@@ -38,7 +38,7 @@
     "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
     "LOCALES"      : [ "de", "en", "es", "fr", "it", "nl", "sv","ro" ],
-    "CACHE"        : "${TMPDIR}/cache"
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
 
   "jobs":

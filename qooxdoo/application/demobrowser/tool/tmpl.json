@@ -34,7 +34,7 @@
 
       "cache" :
       {
-        "compile" : "${TMPDIR}/cache"
+        "compile" : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
       },
 
       "settings" :

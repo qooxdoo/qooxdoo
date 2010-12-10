@@ -58,7 +58,7 @@
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
     "TEST_INCLUDE"   : "${APPLICATION}.*",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "QOOXDOO_PATH" : "../..",
     "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"
