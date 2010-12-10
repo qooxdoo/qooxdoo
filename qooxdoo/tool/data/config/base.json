@@ -6,8 +6,7 @@
   {
     "ROOT"         : ".",
     "QOOXDOO_PATH" : "../../..",
-    //"CACHE"        : "cache",
-    "CACHE"        : "${TMPDIR}/cache",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "CACHE_KEY"    : 
     {
       "compile"      : "${CACHE}",
