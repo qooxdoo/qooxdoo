@@ -23,14 +23,21 @@
 # NAME
 #  bumpqxversion.py <version-string> -- set various version strings in the
 #                                       framework to <version-string>
+#  - add new files in the 'Files' map
 ##
 
 import sys, os, re, string, types, codecs
 
+# - Config section -------------------------------------------------------------
+
 qxversion_regexp = r'[\w\.-]+'
 
 # Files to change: { "path_from_QXROOT": [<regex_to_replace>] }
-
+# <regex_to_replace> -- provide a regexp that captures the version string
+#                       with a bit of context, and put parens around the place
+#                       where the version string itself is; this will be
+#                       replaced.
+# ! If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release
 Files = {
     "./version.txt" : [r'^(.*)$'],
     "./index.html"  : [r'var qxversion = "(%s)"' % qxversion_regexp],
@@ -47,6 +54,8 @@ Files = {
         r'var qxversion = "(%s)"' % qxversion_regexp],
 }
 
+# - End config -----------------------------------------------------------------
+
 def patch(mo): 
     rel_start1 = mo.start(1) - mo.start(0)
     rel_end1   = mo.end(1)   - mo.start(0)
@@ -58,7 +67,7 @@ def main(new_vers):
         print "patching qooxdoo version in: %s" % f
         cont = codecs.open(f, 'rU', 'utf-8').read()
         for patt in Files[f]:
-            cont = re.sub(patt, patch, cont)
+            cont, cnt = re.subn(re.compile(patt, re.M), patch, cont) # compiling patt allows to add re.M
         codecs.open(f, 'w', 'utf-8').write(cont)
 
 if __name__ == "__main__":
