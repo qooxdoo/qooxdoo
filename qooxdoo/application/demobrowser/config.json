@@ -56,9 +56,7 @@
   "let" :
   {
     "APPLICATION"  : "demobrowser",
-    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
-    "TEST_INCLUDE"   : "${APPLICATION}.*",
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.demo.*", "${APPLICATION}.test.*"],
     "QOOXDOO_PATH" : "../..",
     "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"

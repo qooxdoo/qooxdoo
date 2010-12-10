@@ -36,9 +36,7 @@
     "APPLICATION"  : "performance",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "performance.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
 

@@ -14,11 +14,8 @@
   {
     "APPLICATION"  : "playground",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en", "de","ro"],
-    "TEST_INCLUDE" : "${APPLICATION}.test.*",
-    "API_EXCLUDE"  : ["${APPLICATION}.test.*"],
     "ROOT"         : "."
   },
   
