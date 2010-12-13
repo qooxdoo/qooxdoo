@@ -99,7 +99,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(cloneHeight > 10, "Scrolled area height must be larger than height of original textarea");
     },
     
-    "test: _getTotalHeight<br/> returns increased height when value gets longer": function() {
+    "test: _getScrolledAreaHeight<br/> returns increased height when value gets longer": function() {
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       textArea.setHeight(10);
@@ -117,7 +117,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(heightSecondStep > heightFirstStep, msg);
     },
 
-    "test: _getTotalHeight<br/> returns decreased height when value gets shorter": function() {
+    "test: _getScrolledAreaHeight<br/> returns decreased height when value gets shorter": function() {
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       textArea.setHeight(10);
