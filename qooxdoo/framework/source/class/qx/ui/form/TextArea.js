@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.form.TextArea",
     __autoSize: function() {
       if (this.isAutoSize()) {
         var value = this.getValue();
-        
+
         // Make sure size is computed based on current value
         var clone = this.__getAreaClone();
         if (clone) {
@@ -241,8 +241,19 @@ qx.Class.define("qx.ui.form.TextArea",
     _applyAutoSize: function(value, old) {
       if (value) {
         this.addListener("input", this.__autoSize, this);
+
+        // TODO
+        //
+        // this.getContentElement().getDomElement().style.overflowY
+        // --> ""
+        // this.getContentElement().getStyle("overflowY")
+        // --> "hidden"
+        //
+
+        this.getContentElement().setStyle("overflowY", "hidden");
       } else {
         this.removeListener("input", this.__autoSize);
+        this.getContentElement().setStyle("overflowY", "auto");
       }
 
     },
