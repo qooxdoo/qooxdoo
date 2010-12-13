@@ -105,6 +105,24 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(heightSecondStep > heightFirstStep, msg);
     },
 
+    "test: _getTotalHeight<br/> returns decreased height when value gets shorter": function() {
+      var textArea = this.__textArea;
+      textArea.setAutoSize(true);
+      textArea.setHeight(10);
+      
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      var heightFirstStep = textArea._getScrolledAreaHeight();
+      this.flush();
+      
+      textArea.setValue("Affe\nMaus\nElefant");
+      var heightSecondStep = textArea._getScrolledAreaHeight();
+      this.flush();
+      
+      var msg =  "Scrolled area height must decrease";
+      this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
+      this.assert(heightSecondStep < heightFirstStep, msg);
+    },
+
     "test: _getScrolledAreaHeight<br/> creates clone of textarea": function() {
       var textArea = this.__textArea;
       textArea._getScrolledAreaHeight();

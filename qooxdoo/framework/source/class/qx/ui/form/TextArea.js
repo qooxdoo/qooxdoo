@@ -99,6 +99,20 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     __areaClone : null,
     
+    // overridden
+    setValue : function(value)
+    {
+      value = this.base(arguments, value);
+      
+      if (this.isAutoSize()) {
+        var clone = this.__getAreaClone();
+        clone.value = value;
+        this.__scrollCloneToBottom(clone);
+      }
+      
+      return value;
+    },
+    
     /**
      * Handles the mouse wheel for scrolling the <code>TextArea</code>.
      *
@@ -138,6 +152,7 @@ qx.Class.define("qx.ui.form.TextArea",
     
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
+      
       return clone.scrollTop;
     },
     
@@ -168,13 +183,17 @@ qx.Class.define("qx.ui.form.TextArea",
       // Copy value
       clone.setValue(orig.getValue());
       
+      // Make sure scrollTop is actual height
+      this.__scrollCloneToBottom(clone[0]);
+      
       // Attach to DOM
       orig.before(clone);
       
-      // Scroll to bottom
-      clone.setScrollTop(10000);
-      
       return clone[0];
+    },
+    
+    __scrollCloneToBottom: function(clone) {
+      clone.scrollTop = 10000;
     },
     
     /*
