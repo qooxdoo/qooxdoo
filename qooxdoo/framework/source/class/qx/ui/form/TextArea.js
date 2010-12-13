@@ -78,6 +78,10 @@ qx.Class.define("qx.ui.form.TextArea",
       init : 20
     },
 
+    /**
+    * Whether the textarea should automatically grow or shrink when content
+    * does not fit.
+    */
     autoSize :
     {
       check : "Boolean",
@@ -133,6 +137,11 @@ qx.Class.define("qx.ui.form.TextArea",
     ---------------------------------------------------------------------------
     */
 
+    /**
+    * Set height of textarea so that content fits without scroll bar.
+    *
+    * @return {void}
+    */
     __autoSize: function() {
       if (this.isAutoSize()) {
         var value = this.getValue();
@@ -152,12 +161,22 @@ qx.Class.define("qx.ui.form.TextArea",
       }
     },
 
+    /**
+    * Get actual height of textarea
+    *
+    * @return {Integer} Height of textarea
+    */
     _getAreaHeight: function() {
       var area = this.getContentElement().getDomElement();
       var style = qx.bom.element.Style;
       return parseInt(style.get(area, "height", style.COMPUTED_MODE));
     },
 
+    /**
+    * Set actual height of textarea
+    *
+    * @param height {Integer} Desired height of textarea
+    */
     _setAreaHeight: function(height) {
       // Inner height is outer height minus vertical insets
       var insets = this.getInsets();
@@ -165,17 +184,33 @@ qx.Class.define("qx.ui.form.TextArea",
       this.setHeight(newOuterHeight);
     },
 
+    /**
+    * Get scrolled area height. Equals the total height of the textarea,
+    * as if no scroll-bar was visible.
+    *
+    * @return {Integer} Height of scrolled area
+    */
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
 
       return clone.scrollTop;
     },
 
+    /**
+    * Returns the hidden area clone.
+    *
+    * @return {Element} DOM Element
+    */
     __getAreaClone: function() {
       this.__areaClone = this.__areaClone || this.__createAreaClone();
       return this.__areaClone;
     },
 
+    /**
+    * Creates and hides area clone.
+    *
+    * @return {Element} DOM Element
+    */
     __createAreaClone: function() {
       var orig,
           clone;
@@ -207,8 +242,14 @@ qx.Class.define("qx.ui.form.TextArea",
       return clone[0];
     },
 
-    __scrollCloneToBottom: function(clone) {
-      clone.scrollTop = 10000;
+    /**
+    * Scroll textarea to bottom. That way, scrollTop reflects the height
+    * of the textarea.
+    *
+    * @param area {Element} The textarea to scroll
+    */
+    __scrollCloneToBottom: function(area) {
+      area.scrollTop = 10000;
     },
 
     /*
@@ -238,6 +279,7 @@ qx.Class.define("qx.ui.form.TextArea",
       this.getContentElement().setWrap(value);
     },
 
+    // property apply
     _applyAutoSize: function(value, old) {
       if (value) {
         this.addListener("input", this.__autoSize, this);
