@@ -169,6 +169,13 @@ qx.Class.define("testrunner2.view.Console", {
       }
     },
     
+    /**
+     * Returns the results of all tests that have been executed.
+     * 
+     * @return {Map} Key: The test's full name. Value: Map containing two keys:
+     * state (The test's result) and (if applicable) exceptions (array of errors
+     * that occured during the test's run).
+     */
     getTestResults : function()
     {
       return this.__testResults;

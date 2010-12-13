@@ -207,6 +207,16 @@ qx.Class.define("testrunner2.unit.TestResult", {
     },
     
     
+    /**
+     * EXPERIMENTAL
+     * Wraps the AUT's qx.event.Registration.addListener function so that it 
+     * stores references to all added listeners in an array attached to the 
+     * current test function. This is done so that any listeners left over after
+     * test execution can be removed to make sure they don't influence other 
+     * tests.
+     * 
+     * @param testFunction {qx.dev.unit.TestFunction} The current test
+     */
     __wrapAddListener : function(testFunction)
     {
       testFunction._addedListeners = [];
@@ -227,6 +237,12 @@ qx.Class.define("testrunner2.unit.TestResult", {
       }
     },
     
+    /**
+     * EXPERIMENTAL
+     * Removes any listeners left over after a test's run.
+     * 
+     * @param testFunction {qx.dev.unit.TestFunction} The current test
+     */
     __removeListeners : function(testFunction)
     {
       // remove listeners added during test execution

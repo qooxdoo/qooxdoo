@@ -497,6 +497,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.error(ex);
     },
     
+    /**
+     * Retrieves the AUT's log messages and writes them to the current appender.
+     */
     __fetchIframeLog : function()
     {
       var w = qx.bom.Iframe.getWindow(this.__iframe);

@@ -34,9 +34,9 @@ qx.Class.define("testrunner2.TestLoader",
   statics :
   {
     /**
-     * TODOC
+     * Returns the TestLoader instance
      *
-     * @return {var} TODOC
+     * @return {testrunner2.TestLoader} TestLoader instance
      */
     getInstance : function() {
       return this.instance;
@@ -51,11 +51,6 @@ qx.Class.define("testrunner2.TestLoader",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
     main : function()
     {
       testrunner2.TestLoader.instance = this;
