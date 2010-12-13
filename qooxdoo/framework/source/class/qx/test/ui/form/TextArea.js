@@ -33,14 +33,17 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     // Of course, <br/> in a function name is far from optimal
-
+    
+    //
+    // _setAreaHeight
+    //
+    
     "test: _setAreaHeight<br/> sets height of textarea": function() {
       var textArea = this.__textArea;
       textArea._setAreaHeight(100);
       this.flush();
 
-      var element = textArea.getContentElement().getDomElement();
-      var expectedHeight = parseInt(element.style.height)
+      var expectedHeight = textArea._getAreaHeight();
       this.assertEquals("100", expectedHeight, "Unexpected height of textarea element");
     },
 
@@ -53,21 +56,12 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var expectedHeight = insets.top + 100 + insets.bottom;
       this.assertEquals(expectedHeight, textArea.getHeight(), "Unexpected height of textarea widget");
     },
-
-    "test: _getTotalHeight<br/> returns scroll height of textarea when content triggers scrollbar": function() {
-      var textArea = this.__textArea;
-      textArea.setAutoSize(true);
-      textArea.setHeight(10);
-      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
-      this.flush();
-
-      var cloneHeight = textArea._getScrolledAreaHeight();
-      this.assert(cloneHeight > 10);
-    },
-
-    "test: _getTotalHeight<br/> creates clone of textarea": function() {
-    },
-
+    
+    
+    //
+    // _getAreaHeight
+    //
+    
     "test: _getAreaHeight<br/> gets actual height of textarea": function() {
       var textArea = this.__textArea;
       textArea.setHeight(100);
@@ -77,10 +71,59 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var expectedHeight = -insets.top + 100 -insets.bottom;
       this.assertEquals(expectedHeight, textArea._getAreaHeight(), "Unexpected height of textarea element");
     },
-
-    // "test: _getTotalHeight returns updated height when value changes": function() {
+    
     //
-    // },
+    // _getScrolledAreaHeight
+    //
+
+    "test: _getScrolledAreaHeight<br/> returns height larger than height of textarea when content triggers scrollbar": function() {
+      var textArea = this.__textArea;
+      textArea.setAutoSize(true);
+      textArea.setHeight(10);
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      this.flush();
+
+      var cloneHeight = textArea._getScrolledAreaHeight();
+      this.assert(cloneHeight > 10, "Scrolled area height must be larger than height of original textarea");
+    },
+    
+    "test: _getTotalHeight<br/> returns increased height when value gets longer": function() {
+      var textArea = this.__textArea;
+      textArea.setAutoSize(true);
+      textArea.setHeight(10);
+      
+      textArea.setValue("Affe\nMaus\nElefant");
+      var heightFirstStep = textArea._getScrolledAreaHeight();
+      this.flush();
+      
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      var heightSecondStep = textArea._getScrolledAreaHeight();
+      this.flush();
+      
+      var msg =  "Scrolled area height must increase";
+      this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
+      this.assert(heightSecondStep > heightFirstStep, msg);
+    },
+
+    "test: _getScrolledAreaHeight<br/> creates clone of textarea": function() {
+      var textArea = this.__textArea;
+      textArea._getScrolledAreaHeight();
+      this.flush();
+      
+      var textAreaCount = qx.bom.Collection.query("textarea").length;
+      this.assertEquals(2, textAreaCount);
+    },
+    
+    "test: dispose<br/> removes original and cloned textarea": function() {
+      var textArea = this.__textArea;
+      textArea._getScrolledAreaHeight();
+      this.flush();
+      textArea.dispose();
+      this.flush();
+      
+      var textAreaCount = qx.bom.Collection.query("textarea").length;
+      this.assertEquals(0, textAreaCount);
+    },
 
     // "test: textarea auto-grows when input would trigger scrollbar": function() {
     //
