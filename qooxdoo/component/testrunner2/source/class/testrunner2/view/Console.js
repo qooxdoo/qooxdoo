@@ -47,6 +47,7 @@ qx.Class.define("testrunner2.view.Console", {
   members :
   {
     __testResults : null,
+    __iframe : null,
     
     /**
      * Tells the TestRunner to run all configured tests.
@@ -95,13 +96,13 @@ qx.Class.define("testrunner2.view.Console", {
           this.setStatus("Loading tests...");
           break;
         case "ready" :
-          this.setStatus("Test suite ready");
+          this.setStatus("Test suite ready. Call qx.core.Init.getApplication().runner.view.run() to start tests.");
           break;
         case "running" :
           this.setStatus("Running tests...");
           break;
         case "finished" :
-          this.setStatus("Test suite finished");
+          this.setStatus("Test suite finished. Call qx.core.Init.getApplication().runner.view.getTestResults() to get the results.");
           break;
         case "aborted" :
           this.setStatus("Test run aborted");
@@ -179,6 +180,32 @@ qx.Class.define("testrunner2.view.Console", {
     getTestResults : function()
     {
       return this.__testResults;
+    },
+    
+    /**
+     * Returns the iframe element the AUT should be loaded in.
+     * 
+     * @return {DOMElement} The iframe
+     */
+    getIframe : function()
+    {
+      if (!this.__iframe) {
+        this.__iframe = qx.bom.Iframe.create();
+        document.body.appendChild(this.__iframe);
+      }
+      
+      return this.__iframe;
+    },
+    
+    /**
+     * (Re)Loads the AUT in the iframe.
+     * 
+     * @param value {String} AUT URI
+     * @param old {String} Previous value
+     */
+    _applyAutUri : function(value, old)
+    {
+      qx.bom.Iframe.setSource(this.__iframe, value);
     }
   }
 });
