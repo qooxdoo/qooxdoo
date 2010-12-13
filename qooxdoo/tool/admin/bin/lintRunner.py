@@ -107,7 +107,7 @@ class QxLint:
     print("Changing dir to " + workdir)
     os.chdir(workdir)
     print("Running Lint")
-    ret,out,err = qxtest.invokePiped("python generate.py lint")
+    ret,out,err = qxtest.invokePiped("%s generate.py lint" % sys.executable)
     
     if (ret > 0):
       raise RuntimeError, "Lint run failed. " + err

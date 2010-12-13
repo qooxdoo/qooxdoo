@@ -836,7 +836,7 @@ NOTE:    It is advised to do a 'generate.py distclean' before migrating any file
 Do you want to run 'distclean' now? [yes] : """)
 
     if choice.lower() in ["j", "ja", "y", "yes", ""]:
-        os.system("python ./generate.py distclean")
+        os.system("%s ./generate.py distclean" % sys.executable)
 
     choice = raw_input("""
 
