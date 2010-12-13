@@ -11,12 +11,11 @@ If you are migrating from a legacy verison of qooxdoo to %{version}, namely from
 
   You might want to create a backup of your application files first. The migration process changes source files in place, modifying your code base.
 
-* **Configuration(1)**
+* **Configuration**
 
-  Then, after you have unpacked the new qooxdoo SDK on your system, change references to the framework in your ``config.json`` and possibly in ``generate.py`` to point to the new version (look for "QOOXDOO_PATH").
-* **Configuration(2)**
-  
-  Check the current `release notes <http://qooxdoo.org/about/release_notes/%{version}#tooling>`_ and those of `previous releases <http://qooxdoo.org/about/release_notes>`_ between your current version and %{version} for changes to the generator configuration, as they have to be done by hand. Make sure you  apply them to your config.json as far as they affect your particular config file. For example, with 0.8.1 the config.json macro ``QOOXDOO_PATH`` does not include the trailing "framework" part anymore, so make sure to add that. E.g. if you list the qooxdoo framework Manifest.json explicitly in your config using QOOXDOO_PATH, make sure "/framework" is appended after the macro reference.
+  * Then, after you have unpacked the new qooxdoo SDK on your system, change references to it in your ``config.json`` and possibly in ``generate.py`` to point to the new version (look for "QOOXDOO_PATH"). Make sure that the path ends in the root directory of the SDK (like *.../qooxdoo-%{version}-sdk*).
+
+  * Check the current `release notes <http://qooxdoo.org/about/release_notes/%{version}#tooling>`_ and those of `previous releases <http://qooxdoo.org/about/release_notes>`_ between your current version and %{version} for changes to the generator configuration, as they have to be done by hand. Make sure you  apply them to your config.json as far as they affect you. For example, with 0.8.1 the config.json macro ``QOOXDOO_PATH`` does not include the trailing "framework" part anymore, so make sure to add that in references to the qooxdoo class library. E.g. if you list the qooxdoo framework Manifest.json explicitly in your config using QOOXDOO_PATH, it should read *${QOOXDOO_PATH}/framework/Manifest.json*.
   
   * Alternatively, particularly if you config.json is rather small, create a :ref:`separate gui skeleton <pages/getting_started/helloworld#create_your_application>` elsewhere and copy its config.json over to your application, and port the config settings from your old configuration to this file. This might be the simpler approach.
 
@@ -33,10 +32,12 @@ If you are migrating from a legacy verison of qooxdoo to %{version}, namely from
   
   Check the ``migration.log`` which is created during the run of the migration script. Check all hints and deprecation warnings in the log and apply them to your code.
 
-You now have an up-to-date source tree in your application. Run 
-::
+* **Test**
+
+  You now have an up-to-date source tree in your application. Run 
+  ::
 
     generate.py source
 
-to check that the generation process goes through and test your application in the browser.
+  to check that the generation process goes through and test your application in the browser.
 
