@@ -408,7 +408,7 @@ class QxTest:
         # generate the application
         self.log("Generating %s application." %target)
         
-        buildcmd = "python "
+        buildcmd = sys.executable + " "
         if target == "contribution":
           buildcmd += os.path.join(buildConf["stageDir"], target + "application", "trunk", "demo", "default", "generate.py")
         else:

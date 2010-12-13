@@ -617,7 +617,7 @@ def runGenerator(path, job, macro=False):
   startPath = os.getcwd()
   console.debug("Changing working dir to " + path)
   os.chdir(path)
-  cmd = "python "
+  cmd = sys.executable + " "
   if not macro:
     cmd += "generate.py "
   else:

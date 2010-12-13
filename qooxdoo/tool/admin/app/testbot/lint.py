@@ -63,7 +63,7 @@ class Lint:
         self.log.info("Running lint in directory %s" %workdir)
         startdir = os.getcwd()
         os.chdir(workdir)
-        ret,out,err = util.invokePiped("python generate.py lint")
+        ret,out,err = util.invokePiped(sys.executable + " generate.py lint")
         
         if (ret > 0):
             raise RuntimeError, "Lint run failed. " + err

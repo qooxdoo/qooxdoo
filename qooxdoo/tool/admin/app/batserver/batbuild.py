@@ -264,7 +264,7 @@ def main():
     release = options.release
     
     if (platform.system() == "Windows"):
-      buildconf['pycmd'] = "python "
+      buildconf['pycmd'] = sys.executable + " "
     
     if (options.demonMode):
         while (1):

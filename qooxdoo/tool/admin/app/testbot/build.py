@@ -20,6 +20,7 @@
 ################################################################################
 
 import os
+import sys
 import codecs
 import time
 import util
@@ -197,7 +198,7 @@ class Builder():
                 configOption = " -c %s" %test["config"]
             
             for job in jobList:
-                cmd = "python generate.py -s %s %s" %(configOption, job)
+                cmd = "%s generate.py -s %s %s" %(sys.executable, configOption, job)
                 result = Builder.__getGeneratorResultDict(job, test["path"])
                 logger.info("Running job: " + cmd)
                 (ret,out,err) = util.invokePiped(cmd)
@@ -223,7 +224,7 @@ class Builder():
         elif "config" in test:
             jobList = []
             import re
-            cmd = "python generate.py -c %s x" %test["config"]
+            cmd = "%s generate.py -c %s x" %(sys.executable, test["config"])
             (ret,out,err) = util.invokePiped(cmd)
             
             reg = re.compile("^  - (.+?)(?:\s|$)")

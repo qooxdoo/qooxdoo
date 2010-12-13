@@ -179,7 +179,7 @@ def goto_workdir(workdir):
     os.chdir(workdir)
 
 def run_workpack(wp,wo):
-    cmd = "python %s" % reduce(lambda a,b: a+" "+b,[wp]+wo)
+    cmd = "%s %s" %(sys.executable, reduce(lambda a,b: a+" "+b,[wp]+wo))
     print "Invoking external command: %s" % cmd
     sys.stdout.flush()
     rc = invoke_external(cmd)
