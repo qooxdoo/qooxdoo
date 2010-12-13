@@ -35,6 +35,18 @@ qx.Class.define("qx.test.ui.form.TextArea",
     // Of course, <br/> in a function name is far from optimal
     
     //
+    // "Plain" textarea
+    //
+    
+    "test: textarea<br/> set value": function() {
+      var textArea = this.__textArea;
+      textArea.setValue("Affe");
+      this.flush();
+      
+      this.assertEquals("Affe", textArea.getValue());
+    },
+    
+    //
     // _setAreaHeight
     //
     

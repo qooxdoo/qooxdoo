@@ -81,7 +81,8 @@ qx.Class.define("qx.ui.form.TextArea",
     autoSize :
     {
       check : "Boolean",
-      apply : "_applyAutoSize"
+      apply : "_applyAutoSize",
+      init : false
     }
     
   },
