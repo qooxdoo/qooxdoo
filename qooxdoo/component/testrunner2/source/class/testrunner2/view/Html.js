@@ -212,10 +212,16 @@ qx.Class.define("testrunner2.view.Html", {
      */
     _attachTestList : function()
     {
+      var parent = document.getElementById("qxtestrunner_testscontainer");
+      if (!parent) {
+        parent = document.createElement("div");
+        parent.id = "qxtestrunner_testscontainer";
+        this.__domElements.rootElement.appendChild(parent);
+      }
       var listContainer = document.createElement("div");
       listContainer.id = "qxtestrunner_tests";
       listContainer.innerHTML += '<ul id="qxtestrunner_testlist"></ul>';
-      this.__domElements.rootElement.appendChild(listContainer);
+      parent.appendChild(listContainer);
       this.__domElements.elemTestList = document.getElementById("qxtestrunner_testlist");
     },
     
@@ -225,10 +231,16 @@ qx.Class.define("testrunner2.view.Html", {
      */
     _attachResultsList : function()
     {
+      var parent = document.getElementById("qxtestrunner_testscontainer");
+      if (!parent) {
+        parent = document.createElement("div");
+        parent.id = "qxtestrunner_testscontainer";
+        this.__domElements.rootElement.appendChild(parent);
+      }
       var elemResults = document.createElement("div");
       elemResults.id = "qxtestrunner_results";
       elemResults.innerHTML = '<ul id="qxtestrunner_resultslist"></ul>';
-      this.__domElements.rootElement.appendChild(elemResults);
+      parent.appendChild(elemResults);
       this.__domElements.elemResultsList = document.getElementById("qxtestrunner_resultslist");
     },
     
@@ -276,10 +288,17 @@ qx.Class.define("testrunner2.view.Html", {
         return this.__domElements.elemIframe;
       }
       
-      var controls = document.getElementById("qxtestrunner_controls");
+      var parent = document.getElementById("qxtestrunner_framelogcontainer");
+      if (!parent) {
+        parent = document.createElement("div");
+        parent.id = "qxtestrunner_framelogcontainer";
+        var controls = document.getElementById("qxtestrunner_controls");
+        qx.dom.Element.insertAfter(parent, controls);
+      }
+      
       var frameContainer = document.createElement("div");
       frameContainer.id = "qxtestrunner_framecontainer";
-      qx.dom.Element.insertAfter(frameContainer, controls);
+      parent.appendChild(frameContainer);
       frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
       frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
       
@@ -301,16 +320,30 @@ qx.Class.define("testrunner2.view.Html", {
       return this.__domElements.elemIframe;
     },
     
+    /**
+     * Returns a DIV element that will be used by a 
+     * {@link qx.log.appender.Element} to display the AUT's log output.
+     * 
+     * @return {Element} DIV element
+     */
     getLogAppenderElement : function()
     {
       if (this.__domElements.elemLogAppender) {
         return this.__domElements.elemLogAppender;
       }
       
+      var parent = document.getElementById("qxtestrunner_framelogcontainer");
+      if (!parent) {
+        parent = document.createElement("div");
+        parent.id = "qxtestrunner_framelogcontainer";
+        var controls = document.getElementById("qxtestrunner_controls");
+        qx.dom.Element.insertAfter(parent, controls);
+      }
+      
       // Directly create DOM element to use
       var logelem = this.__domElements.elemLogAppender = document.createElement("div");
       logelem.id = "qxtestrunner_log";
-      qx.dom.Element.insertBefore(logelem, document.getElementById("qxtestrunner_testcontrols"));
+      parent.appendChild(logelem);
       
       return this.__domElements.elemLogAppender;
     },

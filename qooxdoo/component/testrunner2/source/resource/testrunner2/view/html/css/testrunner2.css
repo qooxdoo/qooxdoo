@@ -31,55 +31,85 @@ h1 {
   );
 }
 
+#qxtestrunner_controls {
+  padding: 0 10px 0 10px;
+  margin-bottom: 10px;
+}
+
 #qxtestrunner_run,
-#qxtestrunner_stop,
-#qxtestrunner_iframesrc,
+#qxtestrunner_stop {
+  margin-right: 10px;
+}
+
+#qxtestrunner_framelogcontainer {
+  height: 150px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+#qxtestrunner_framecontainer {
+  moz-box-sizing: border-box;
+  webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+  height: 150px;
+}
+
+#qxtestrunner_iframesrc {
+  margin: 0 0 0 10px;
+  position: relative;
+  top: -4px;
+}
+
 #qxtestrunner_setiframesrc {
-  margin: 5px 0 5px 10px;
+  margin: 0 0 0 10px;
+  position: relative;
+  top: -4px;
+}
+
+#qxtestrunner_framecontainer #qxtestrunner_iframesrc {
+  width: 86%;
+  margin-top: 0 !important;
+}
+
+#qxtestrunner_framecontainer iframe {
+  border: 1px inset black;
+  width: 98%;
+  height: 128px;
+  margin-left: 10px;
+}
+
+#qxtestrunner_log {
+  moz-box-sizing: border-box;
+  webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 49%;
+  height: 150px;
+  float: left;
+  border: 1px solid black;
+  overflow: auto;
+  font-family: Courier, monotype;
+  font-size: 0.8em;
 }
 
 #qxtestrunner_testcontrols {
   clear: both;
   font-size: 1em;
-  margin: 5px 10px 0 10px;
-}
-
-#qxtestrunner_iframesrc {
-  width: 82%
+  padding: 0 10px 0 10px;
+  margin-bottom: 10px;
 }
 
 #qxtestrunner_testcontrols input {
   margin-left: 10px;
 }
 
-#qxtestrunner_framecontainer {
-  float: left;
-  width: 40%;
-  margin: 10px 10px 10 10px;
-  height: 150px;
-}
-
-#qxtestrunner_framecontainer iframe {
-  border: 1px inset black;
-  width: 96%;
-  height: 120px;
-  margin-left: 10px;
-}
-
-#qxtestrunner_log {
-  border: 1px solid black;
-  width: 58%;
-  height: 150px;
-  margin: 0px 0 10px 40%;
-  overflow: auto;
-  font-family: Courier, monotype;
-  font-size: 0.8em;
+#qxtestrunner_testscontainer {
 }
 
 #qxtestrunner_tests {
   float: left;
   width: 42%;
-  margin-top: 10px;
   padding-bottom: 30px;
   font-size: 0.9em;
 }
@@ -99,7 +129,7 @@ h1 {
 
 #qxtestrunner_results {
   width: 58%;
-  margin: 10px 0 30px 42%;
+  margin: 0 0 30px 42%;
   font-size: 0.9em;
 }
 
