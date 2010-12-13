@@ -350,7 +350,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       testResult.addListener("endTest", function(e) {
         if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
-          this.__fetchIframeLog();
+          if (this.__logappender) {
+            this.__fetchIframeLog();
+          }
         }
         
         var state = this.currentTestData.getState();
