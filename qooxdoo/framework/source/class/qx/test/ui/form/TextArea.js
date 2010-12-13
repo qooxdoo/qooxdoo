@@ -17,52 +17,42 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.TextArea", 
+qx.Class.define("qx.test.ui.form.TextArea",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
     __textArea: null,
-    
-    setUp : function() 
+
+    setUp : function()
     {
       var textArea = this.__textArea = new qx.ui.form.TextArea();
       this.getRoot().add(textArea);
       this.flush();
     },
-    
-    "test: _getAreaHeight<br/> gets actual height of textarea": function() {
-      var textArea = this.__textArea;
-      textArea.setHeight(100);
-      this.flush();
-      
-      var insets = textArea.getInsets();
-      var expectedHeight = -insets.top + 100 -insets.bottom;
-      this.assertEquals(expectedHeight, textArea._getAreaHeight(), "Unexpected height of textarea element");
-    },
-    
+
+    // Of course, <br/> in a function name is far from optimal
+
     "test: _setAreaHeight<br/> sets height of textarea": function() {
       var textArea = this.__textArea;
       textArea._setAreaHeight(100);
       this.flush();
-      
+
       var element = textArea.getContentElement().getDomElement();
-      this.assertEquals("100px", element.style.height, "Unexpected height of textarea element");
+      var expectedHeight = parseInt(element.style.height)
+      this.assertEquals("100", expectedHeight, "Unexpected height of textarea element");
     },
 
     "test: _setAreaHeight<br/> adjusts height of the textarea's container": function() {
       var textArea = this.__textArea;
       textArea._setAreaHeight(100);
       this.flush();
-      
+
       var insets = textArea.getInsets();
       var expectedHeight = insets.top + 100 + insets.bottom;
       this.assertEquals(expectedHeight, textArea.getHeight(), "Unexpected height of textarea widget");
     },
-
-    // "test: _getTotalHeight creates clone of textarea": function() {
-    // },
 
     "test: _getTotalHeight<br/> returns scroll height of textarea when content triggers scrollbar": function() {
       var textArea = this.__textArea;
@@ -70,28 +60,41 @@ qx.Class.define("qx.test.ui.form.TextArea",
       textArea.setHeight(10);
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
-      
+
       var cloneHeight = textArea._getScrolledAreaHeight();
       this.assert(cloneHeight > 10);
     },
 
+    "test: _getTotalHeight<br/> creates clone of textarea": function() {
+    },
+
+    "test: _getAreaHeight<br/> gets actual height of textarea": function() {
+      var textArea = this.__textArea;
+      textArea.setHeight(100);
+      this.flush();
+
+      var insets = textArea.getInsets();
+      var expectedHeight = -insets.top + 100 -insets.bottom;
+      this.assertEquals(expectedHeight, textArea._getAreaHeight(), "Unexpected height of textarea element");
+    },
+
     // "test: _getTotalHeight returns updated height when value changes": function() {
-    //  
+    //
     // },
-    
+
     // "test: textarea auto-grows when input would trigger scrollbar": function() {
-    //  
+    //
     // },
 
     // "test: textarea auto-shrinks when removal would hide scrollbar": function() {
-    //  
+    //
     // },
 
     // "test: textarea auto-grow shows scrollbar when above limit": function() {
-    //  
+    //
     // },
-    
-    tearDown : function() 
+
+    tearDown : function()
     {
       this.__textArea.destroy();
     }
