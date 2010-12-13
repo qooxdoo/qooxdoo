@@ -104,19 +104,7 @@ qx.Class.define("qx.ui.form.TextArea",
     setValue : function(value)
     {
       value = this.base(arguments, value);
-      
-      if (this.isAutoSize()) {
-        // Make sure size is computed based on current value
-        var clone = this.__getAreaClone();
-        clone.value = value;
-        this.__scrollCloneToBottom(clone);
-        
-        // Increase height when input triggers scrollbar
-        var scrolledHeight = this._getScrolledAreaHeight();
-        if (scrolledHeight > this._getAreaHeight()) {
-          this._setAreaHeight(scrolledHeight);
-        }
-      }
+      this.__autoSize();
       
       return value;
     },
@@ -144,6 +132,24 @@ qx.Class.define("qx.ui.form.TextArea",
       AUTO SIZE
     ---------------------------------------------------------------------------
     */
+    
+    __autoSize: function() {
+      var value = this.getValue();
+      if (this.isAutoSize()) {
+        // Make sure size is computed based on current value
+        var clone = this.__getAreaClone();
+        if (clone) {
+          clone.value = value;
+          this.__scrollCloneToBottom(clone);
+
+          // Increase height when input triggers scrollbar
+          var scrolledHeight = this._getScrolledAreaHeight();
+          if (scrolledHeight > this._getAreaHeight()) {
+            this._setAreaHeight(scrolledHeight);
+          } 
+        }
+      }
+    },
     
     _getAreaHeight: function() {
       var area = this.getContentElement().getDomElement();
@@ -194,8 +200,8 @@ qx.Class.define("qx.ui.form.TextArea",
       // Make sure scrollTop is actual height
       this.__scrollCloneToBottom(clone[0]);
       
-      // Attach to DOM
-      orig.before(clone);
+      // Attach to DOM, but outside container
+      orig.parent().before(clone);
       
       return clone[0];
     },
@@ -232,6 +238,11 @@ qx.Class.define("qx.ui.form.TextArea",
     },
     
     _applyAutoSize: function(value, old) {
+      if (value) {
+        this.addListener("input", this.__autoSize, this);
+      } else {
+        this.removeListener("input", this.__autoSize);
+      }
       
     },
     
