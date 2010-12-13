@@ -7,7 +7,7 @@ Overview
 --------
 
 The purpose of the Simulator component is to help developers rapidly develop and run a suite of simulated user interaction tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
-To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`_.
+To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`__.
 
 .. note::
 
@@ -49,7 +49,7 @@ Required Libraries
 The Simulator needs the following external resources to run: 
 
 * Java Runtime Environment: Version 1.6 is known to work 
-* `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
+* `Selenium RC <http://seleniumhq.org/download/>`__: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
 * `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution: Use the latest trunk version from SVN.
 
