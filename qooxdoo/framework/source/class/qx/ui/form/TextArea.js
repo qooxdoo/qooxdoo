@@ -77,14 +77,14 @@ qx.Class.define("qx.ui.form.TextArea",
       check : "Integer",
       init : 20
     },
-    
+
     autoSize :
     {
       check : "Boolean",
       apply : "_applyAutoSize",
       init : false
     }
-    
+
   },
 
 
@@ -99,16 +99,16 @@ qx.Class.define("qx.ui.form.TextArea",
   members :
   {
     __areaClone : null,
-    
+
     // overridden
     setValue : function(value)
     {
       value = this.base(arguments, value);
       this.__autoSize();
-      
+
       return value;
     },
-    
+
     /**
      * Handles the mouse wheel for scrolling the <code>TextArea</code>.
      *
@@ -126,16 +126,17 @@ qx.Class.define("qx.ui.form.TextArea",
         e.stop();
       }
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       AUTO SIZE
     ---------------------------------------------------------------------------
     */
-    
+
     __autoSize: function() {
-      var value = this.getValue();
       if (this.isAutoSize()) {
+        var value = this.getValue();
+        
         // Make sure size is computed based on current value
         var clone = this.__getAreaClone();
         if (clone) {
@@ -146,42 +147,42 @@ qx.Class.define("qx.ui.form.TextArea",
           var scrolledHeight = this._getScrolledAreaHeight();
           if (scrolledHeight > this._getAreaHeight()) {
             this._setAreaHeight(scrolledHeight);
-          } 
+          }
         }
       }
     },
-    
+
     _getAreaHeight: function() {
       var area = this.getContentElement().getDomElement();
       var style = qx.bom.element.Style;
       return parseInt(style.get(area, "height", style.COMPUTED_MODE));
     },
-    
+
     _setAreaHeight: function(height) {
       // Inner height is outer height minus vertical insets
       var insets = this.getInsets();
       var newOuterHeight = insets.top + height + insets.bottom;
       this.setHeight(newOuterHeight);
     },
-    
+
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
-      
+
       return clone.scrollTop;
     },
-    
+
     __getAreaClone: function() {
       this.__areaClone = this.__areaClone || this.__createAreaClone();
       return this.__areaClone;
     },
-    
+
     __createAreaClone: function() {
       var orig,
           clone;
-      
+
       orig = qx.bom.Collection.create(this.getContentElement().getDomElement());
       clone = orig.clone();
-      
+
       // Push out of view
       // Zero height (i.e. scrolled area equals height)
       clone.setStyles({
@@ -189,27 +190,27 @@ qx.Class.define("qx.ui.form.TextArea",
         left: "-9999px",
         height: 0
       });
-      
+
       // Reset attributes
       clone.resetAttribute("id").resetAttribute("name").
             setAttribute("tabIndex", "-1");
-      
+
       // Copy value
       clone.setValue(orig.getValue());
-      
+
       // Make sure scrollTop is actual height
       this.__scrollCloneToBottom(clone[0]);
-      
+
       // Attach to DOM, but outside container
       orig.parent().before(clone);
-      
+
       return clone[0];
     },
-    
+
     __scrollCloneToBottom: function(clone) {
       clone.scrollTop = 10000;
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       FIELD API
@@ -236,16 +237,16 @@ qx.Class.define("qx.ui.form.TextArea",
     _applyWrap : function(value, old) {
       this.getContentElement().setWrap(value);
     },
-    
+
     _applyAutoSize: function(value, old) {
       if (value) {
         this.addListener("input", this.__autoSize, this);
       } else {
         this.removeListener("input", this.__autoSize);
       }
-      
+
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT

@@ -33,23 +33,23 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     // Of course, <br/> in a function name is far from optimal
-    
+
     //
     // "Plain" textarea
     //
-    
+
     "test: textarea<br/> set value": function() {
       var textArea = this.__textArea;
       textArea.setValue("Affe");
       this.flush();
-      
+
       this.assertEquals("Affe", textArea.getValue());
     },
-    
+
     //
     // _setAreaHeight
     //
-    
+
     "test: _setAreaHeight<br/> sets height of textarea": function() {
       var textArea = this.__textArea;
       textArea._setAreaHeight(100);
@@ -68,12 +68,12 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var expectedHeight = insets.top + 100 + insets.bottom;
       this.assertEquals(expectedHeight, textArea.getHeight(), "Unexpected height of textarea widget");
     },
-    
-    
+
+
     //
     // _getAreaHeight
     //
-    
+
     "test: _getAreaHeight<br/> gets actual height of textarea": function() {
       var textArea = this.__textArea;
       textArea.setHeight(100);
@@ -83,7 +83,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var expectedHeight = -insets.top + 100 -insets.bottom;
       this.assertEquals(expectedHeight, textArea._getAreaHeight(), "Unexpected height of textarea element");
     },
-    
+
     //
     // _getScrolledAreaHeight
     //
@@ -98,20 +98,20 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var cloneHeight = textArea._getScrolledAreaHeight();
       this.assert(cloneHeight > 10, "Scrolled area height must be larger than height of original textarea");
     },
-    
+
     "test: _getScrolledAreaHeight<br/> returns increased height when value gets longer": function() {
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       textArea.setHeight(10);
-      
+
       textArea.setValue("Affe\nMaus\nElefant");
       var heightFirstStep = textArea._getScrolledAreaHeight();
       this.flush();
-      
+
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       var heightSecondStep = textArea._getScrolledAreaHeight();
       this.flush();
-      
+
       var msg =  "Scrolled area height must increase";
       this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
       this.assert(heightSecondStep > heightFirstStep, msg);
@@ -121,15 +121,15 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       textArea.setHeight(10);
-      
+
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       var heightFirstStep = textArea._getScrolledAreaHeight();
       this.flush();
-      
+
       textArea.setValue("Affe\nMaus\nElefant");
       var heightSecondStep = textArea._getScrolledAreaHeight();
       this.flush();
-      
+
       var msg =  "Scrolled area height must decrease";
       this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
       this.assert(heightSecondStep < heightFirstStep, msg);
@@ -139,40 +139,40 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var textArea = this.__textArea;
       textArea._getScrolledAreaHeight();
       this.flush();
-      
+
       var textAreaCount = qx.bom.Collection.query("textarea").length;
       this.assertEquals(2, textAreaCount);
     },
-    
+
     "test: destroy<br/> removes original and cloned textarea": function() {
       var textArea = this.__textArea;
       textArea._getScrolledAreaHeight();
       this.flush();
       textArea.destroy();
       this.flush();
-      
+
       var textAreaCount = qx.bom.Collection.query("textarea").length;
       this.assertEquals(0, textAreaCount);
     },
-    
+
     //
     // Auto-Size
     //
-    
+
     "test: textarea with autoSize<br/> grows when input would trigger scrollbar": function() {
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       textArea.setHeight(10);
       this.flush();
-      
+
       textArea.setValue("Affe\nMaus\nElefant");
       var heightFirstStep = textArea._getAreaHeight();
       this.flush();
-      
+
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       var heightSecondStep = textArea._getAreaHeight();
       this.flush();
-      
+
       var msg =  "Area height must increase";
       this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
       this.assert(heightSecondStep > heightFirstStep, msg);
