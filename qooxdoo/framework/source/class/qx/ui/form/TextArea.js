@@ -106,9 +106,16 @@ qx.Class.define("qx.ui.form.TextArea",
       value = this.base(arguments, value);
       
       if (this.isAutoSize()) {
+        // Make sure size is computed based on current value
         var clone = this.__getAreaClone();
         clone.value = value;
         this.__scrollCloneToBottom(clone);
+        
+        // Increase height when input triggers scrollbar
+        var scrolledHeight = this._getScrolledAreaHeight();
+        if (scrolledHeight > this._getAreaHeight()) {
+          this._setAreaHeight(scrolledHeight);
+        }
       }
       
       return value;

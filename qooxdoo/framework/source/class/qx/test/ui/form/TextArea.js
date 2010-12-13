@@ -144,26 +144,49 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals(2, textAreaCount);
     },
     
-    "test: dispose<br/> removes original and cloned textarea": function() {
+    "test: destroy<br/> removes original and cloned textarea": function() {
       var textArea = this.__textArea;
       textArea._getScrolledAreaHeight();
       this.flush();
-      textArea.dispose();
+      textArea.destroy();
       this.flush();
       
       var textAreaCount = qx.bom.Collection.query("textarea").length;
       this.assertEquals(0, textAreaCount);
     },
+    
+    //
+    // Auto-Size
+    //
+    
+    "test: textarea with autoSize<br/> grows when input would trigger scrollbar": function() {
+      var textArea = this.__textArea;
+      textArea.setAutoSize(true);
+      textArea.setHeight(10);
+      this.flush();
+      
+      textArea.setValue("Affe\nMaus\nElefant");
+      var heightFirstStep = textArea._getAreaHeight();
+      this.flush();
+      
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      var heightSecondStep = textArea._getAreaHeight();
+      this.flush();
+      
+      var msg =  "Area height must increase";
+      this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
+      this.assert(heightSecondStep > heightFirstStep, msg);
+    },
 
-    // "test: textarea auto-grows when input would trigger scrollbar": function() {
+    // "test: textarea with autoSize<br/> shrinks when removal would hide scrollbar": function() {
     //
     // },
 
-    // "test: textarea auto-shrinks when removal would hide scrollbar": function() {
+    // "test: textarea with autoSize<br/> shows scrollbar when above limit": function() {
     //
     // },
 
-    // "test: textarea auto-grow shows scrollbar when above limit": function() {
+    // "test: textarea with autoSize<br/> does not grow when input fits": function() {
     //
     // },
 
