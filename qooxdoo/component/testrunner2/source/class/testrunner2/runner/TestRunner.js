@@ -62,11 +62,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     // Get log appender element from view
     if (this.view.getLogAppenderElement) {
-      this.__logappender = new qx.log.appender.Element();
-      qx.log.Logger.unregister(this.__logappender);
-      this.__logappender.setElement(this.view.getLogAppenderElement());
+      this.__logAppender = new qx.log.appender.Element();
+      qx.log.Logger.unregister(this.__logAppender);
+      this.__logAppender.setElement(this.view.getLogAppenderElement());
       if (!qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
-        qx.log.Logger.register(this.__logappender);        
+        qx.log.Logger.register(this.__logAppender);        
       }
     }
         
@@ -255,8 +255,12 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       switch (suiteState) {
         case "ready":
         case "finished":
-          this.setTestSuiteState("running");
-          break;
+          if (this.testList.length > 0) {
+            this.setTestSuiteState("running");
+            break;
+          } else {
+            return;
+          }
         case "aborted":
         case "error":
           return;
@@ -273,7 +277,15 @@ qx.Class.define("testrunner2.runner.TestRunner", {
           return;
         }
         else {
-          this.setTestSuiteState("finished");
+          var self = this;
+          /*
+           * Ugly hack: Since the tests are run asynchronously we can't rely on
+           * the queue to determine when everything is done.
+           * TODO: de-uglify this.
+           */
+          window.setTimeout(function() {
+            self.setTestSuiteState("finished");
+          }, 250);
           return;
         }
       }
@@ -350,7 +362,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       testResult.addListener("endTest", function(e) {
         if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
-          if (this.__logappender) {
+          if (this.__logAppender) {
             this.__fetchIframeLog();
           }
         }
@@ -512,9 +524,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         logger = w.qx.log.Logger;
         //logger.setLevel(this.getLogLevel());
         // Register to flush the log queue into the appender.
-        logger.register(this.__logappender);
+        logger.register(this.__logAppender);
         logger.clear();
-        logger.unregister(this.__logappender);
+        logger.unregister(this.__logAppender);
       }
     }
     
