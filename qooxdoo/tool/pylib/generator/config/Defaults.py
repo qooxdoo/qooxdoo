@@ -44,4 +44,5 @@ class Defaults(object):
         u"QOOXDOO_VERSION" : getQooxdooVersion(),
         u"USERNAME"        : os.getenv("USERNAME"),
         u"HOME"            : getUserHome("."),
+        u"PYTHON_CMD"      : sys.executable,
     }
