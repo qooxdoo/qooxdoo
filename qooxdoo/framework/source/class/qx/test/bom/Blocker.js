@@ -25,7 +25,7 @@ qx.Class.define("qx.test.bom.Blocker",
   {
 
     setUp : function() {
-      this.__blocker = new qx.bom.Blocker;
+      this.__blocker = new qx.bom.Blocker();
       this.__blocker.setBlockerZIndex(199);
 
       this.__blockedElement = qx.bom.Element.create("div");
@@ -46,6 +46,7 @@ qx.Class.define("qx.test.bom.Blocker",
     {
       this.__blocker.unblock();
       this.__blocker.dispose();
+      this.__blocker = null;
     },
 
     testBlockWholeDocument : function()
@@ -138,9 +139,9 @@ qx.Class.define("qx.test.bom.Blocker",
       var blockerElement = this.__blocker.getBlockerElement();
 
       if (qx.bom.client.Engine.MSHTML || qx.bom.client.Engine.OPERA) {
-        this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "#ff0000");
+        this.assertEquals("#ff0000", qx.bom.element.Style.get(blockerElement, "backgroundColor"));
       } else {
-        this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "rgb(255, 0, 0)");
+        this.assertEquals("rgb(255, 0, 0)", qx.bom.element.Style.get(blockerElement, "backgroundColor"));
       }
 
       this.__blocker.unblock();
@@ -153,7 +154,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker.block();
 
       var blockerElement = this.__blocker.getBlockerElement();
-      this.assertEquals(qx.bom.element.Opacity.get(blockerElement), 0.7);
+      this.assertEquals(0.7, qx.bom.element.Opacity.get(blockerElement));
 
       this.__blocker.unblock();
     },
