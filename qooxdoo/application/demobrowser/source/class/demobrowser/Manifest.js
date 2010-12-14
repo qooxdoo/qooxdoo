@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/apps/utilities-dictionary.png)
 
 ************************************************************************ */
 
@@ -30,7 +31,7 @@ qx.Class.define("demobrowser.Manifest", {
 
   extend : qx.ui.container.Scroll,
 
-  construct : function(manifestData)
+  construct : function(manifestData, features)
   {
     this.base(arguments);
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
@@ -42,12 +43,20 @@ qx.Class.define("demobrowser.Manifest", {
     if (manifestData) {
       this.setManifestData(manifestData);
     }
+    if (features) {
+      this.setFeatures(features);
+    }
   },
 
   properties : {
     manifestData :
     {
       apply : "_applyManifestData"
+    },
+    
+    features :
+    {
+      apply : "_applyFeatures"
     }
   },
 
@@ -55,6 +64,7 @@ qx.Class.define("demobrowser.Manifest", {
 
     __container : null,
     __runButton : null,
+    __apiviewerButton : null,
 
     _applyManifestData : function(value, old)
     {
@@ -71,6 +81,10 @@ qx.Class.define("demobrowser.Manifest", {
       // If there is a run button, it will be recycled
       try {
         this.__container.remove(this.__runButton);
+      } catch(ex) {}
+      // Ditto for the APIViewer button
+      try {
+        this.__container.remove(this.__apiviewerButton);
       } catch(ex) {}
       // everything else is replaced
       var kids = this.__container.getChildren();
@@ -92,9 +106,23 @@ qx.Class.define("demobrowser.Manifest", {
       this.__container.add(nameLabel);
 
       this.__container.add(this._getGroupBox("Info", this._getSortedInfo(value.info)));
-
-      if (value.isPlayable) {
-        this.__container.add(this._getRunButton());
+    },
+    
+    _applyFeatures : function(value, old)
+    {
+      if (value === old) {
+        return;
+      }
+      
+      for (var i=0,l=value.length; i<l; i++) {
+        switch(value[i]) {
+          case "demo":
+            this.__container.add(this._getRunButton());
+            break;
+          case "api":
+            this.__container.add(this._getApiViewerButton());
+            break;
+        }
       }
     },
 
@@ -153,6 +181,21 @@ qx.Class.define("demobrowser.Manifest", {
       this.__runButton = runButton;
 
       return runButton;
+    },
+    
+    _getApiViewerButton : function()
+    {
+      if (this.__apiviewerButton) {
+        return this.__apiviewerButton;
+      }
+      var apiviewerButton = new qx.ui.form.Button("Open API Viewer", "icon/22/apps/utilities-dictionary.png");
+      apiviewerButton.setAllowGrowX(false);
+      apiviewerButton.addListener("execute", function(ev) {
+        qx.core.Init.getApplication().viewer.openApiViewer();
+      }, this);
+      this.__apiviewerButton = apiviewerButton;
+
+      return apiviewerButton;
     },
 
     _getKeyVal : function(key, value)
@@ -226,7 +269,7 @@ qx.Class.define("demobrowser.Manifest", {
 
   destruct : function()
   {
-    this._disposeObjects("__container", "__runButton");
+    this._disposeObjects("__container", "__runButton", "__apiviewerButton");
   }
 
 });
