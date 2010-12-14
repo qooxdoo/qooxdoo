@@ -1685,7 +1685,7 @@ class Generator(object):
         classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
-            self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classesObj[classId].path))
+            self._shellCmd.execute('%s "%s" %s "%s"' % (sys.executable, lintCommand, lint_opts, self._classesObj[classId].path))
 
         self._console.outdent()
 
