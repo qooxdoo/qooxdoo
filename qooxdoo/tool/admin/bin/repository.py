@@ -173,15 +173,13 @@ class Repository:
     return libraries
 
 
-  def buildAllDemos(self, buildTarget="build", demoBrowser=None, copyDemos=False):
-    if demoBrowser:
-      demoBrowser = os.path.abspath(demoBrowser)
+  def buildAllDemos(self, buildTarget="build"):
     console.info("Generating demos for all known libraries")
     console.indent()
     
     buildQueue = {}
     for libraryName, library in self.children.iteritems():
-      libraryQueue = library.buildAllDemos(buildTarget, demoBrowser, copyDemos)
+      libraryQueue = library.buildAllDemos(buildTarget)
       for qxVersion, jobData in libraryQueue.iteritems():
         if not qxVersion in buildQueue:
           buildQueue[qxVersion] = []
@@ -233,16 +231,20 @@ class Repository:
         logLintResult(result)
 
 
-  def runGeneratorForAll(self, job, cwd=False):
+  def runGeneratorForAll(self, job, macro=False):
     console.indent()
     for libraryName, library in self.children.iteritems():
       for versionName, libraryVersion in library.children.iteritems():
+        if options.demobrowser and options.copydemos:
+          macro["BUILD_PATH"] = os.path.join(options.demobrowser, "demo", libraryName, versionName, job)
         console.info("Running job %s on %s %s..." %(job, libraryName, versionName))
-        ret, out, err = runGenerator(libraryVersion.path, job, cwd)
+        ret, out, err = runGenerator(libraryVersion.path, job, macro)
         console.debug(out)
         if ret > 0:
-          libraryVersion.issues.append( {job : errout} )
+          libraryVersion.issues.append( {job : err} )
           console.error(err)
+        else:
+          libraryVersion.data["jobsExecuted"].append(job)
     console.outdent()
     
 
@@ -300,10 +302,10 @@ class Library:
       self.issues.append("readmeMissing")
       return "No readme file found."
     
-  def buildAllDemos(self, buildTarget, demoBrowser, copyDemos):
+  def buildAllDemos(self, buildTarget):
     buildQueue = {}
     for versionName, version in self.children.iteritems():
-      versionQueue = version.buildAllDemos(buildTarget, demoBrowser, copyDemos)
+      versionQueue = version.buildAllDemos(buildTarget)
       for qxVersion, jobData in versionQueue.iteritems():
         if not qxVersion in buildQueue:
           buildQueue[qxVersion] = []
@@ -323,7 +325,8 @@ class LibraryVersion:
       "classname" : self.name,
       "tests" : [],
       "manifest" : self.manifest,
-      "readme" : self.readme    
+      "readme" : self.readme,
+      "jobsExecuted" : []
     }
     
     self._checkStructure()
@@ -439,7 +442,11 @@ class LibraryVersion:
     return demos
   
   
-  def buildAllDemos(self, buildTarget="build", demoBrowser=None, copyDemos=False):    
+  def buildAllDemos(self, buildTarget="build"):
+    if options.demobrowser:
+      demoBrowser = os.path.abspath(options.demobrowser)
+    else:
+      demoBrowser = None
     buildQueue = {}
     qxVersions = self.manifest["info"]["qooxdoo-versions"]
     for variantName, variant in self.children.iteritems():
@@ -453,7 +460,7 @@ class LibraryVersion:
             console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
             continue
           
-          if not (demoBrowser and copyDemos):
+          if not (demoBrowser and options.copydemos):
             buildPath = qxVersion
           else:
             demoPath = os.path.join(demoBrowser, "demo", self.parent.name, self.name)
@@ -596,7 +603,12 @@ def runBuildJob(jobData, qxVersion):
   variant = jobData[0]
   buildTarget = jobData[1]
   macro = jobData[2]
-  demoBrowser = jobData[3]
+
+  if options.demobrowser:
+    demoBrowser = os.path.abspath(options.demobrowser)
+  else:
+    demoBrowser = False
+  
   console.info("Generating %s version of demo variant %s for library %s version %s..." %(buildTarget, variant.name, variant.parent.parent.name, variant.parent.name) )
   variant.build(buildTarget, macro)
   buildOk = True
@@ -610,7 +622,11 @@ def runBuildJob(jobData, qxVersion):
   if demoBrowser and buildOk:
     demoData = copy.deepcopy(variant.data)
     demoData["tags"].append( "qxVersion_" + qxVersion)
-    variant.parent.data["tests"].append(demoData)  
+    variant.parent.data["tests"].append(demoData)
+    
+    if buildTarget == "source":
+      demoBrowserBase = os.path.split(demoBrowser)[0]
+      variant.parent._copyHtmlFile(variant.name, buildTarget, demoBrowserBase, qxVersion)
 
 
 def runGenerator(path, job, macro=False):
@@ -779,6 +795,7 @@ class LibraryValidator():
 
 
 def main():
+  global options
   (options,args) = getComputedConf()
   
   config = None
@@ -796,10 +813,7 @@ def main():
     for job in jobs:
       # build all demos
       if job[:6] == "demos-":
-        if options.demobrowser:
-          repository.buildAllDemos(job[6:], options.demobrowser, options.copydemos)
-        else:
-          repository.buildAllDemos(job[6:])
+        repository.buildAllDemos(job[6:])
       
       # store repository data JSON file in the demobrowser's script directory 
       elif job == "store-data":
@@ -812,7 +826,12 @@ def main():
       
       # any other job: run it on all library versions
       else:
-        repository.runGeneratorForAll(job)
+        tempdir = tempfile.gettempdir()
+        macro = {
+          "QOOXDOO_PATH" : "../../qooxdoo/trunk",
+          "CACHE"        : tempdir + "/cache/trunk"
+        }
+        repository.runGeneratorForAll(job, macro)
 
 
 if __name__ == '__main__':
