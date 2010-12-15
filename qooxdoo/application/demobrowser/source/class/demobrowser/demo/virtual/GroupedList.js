@@ -59,6 +59,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(470);
+      description.setSelectable(true);
       description.setValue(
         "<b>Grouped List</b><br/>"
         + "Loads the json file <a href='json/persons.json' target='_blank'>"

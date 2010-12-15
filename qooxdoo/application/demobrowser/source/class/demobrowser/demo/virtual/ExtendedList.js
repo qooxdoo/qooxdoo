@@ -39,14 +39,12 @@ qx.Class.define("demobrowser.demo.virtual.ExtendedList",
 
       // names
       var names = ["Max", "Jakob", "Tim", "Jack", "Dan", "Dustin", "Karl", "Jim"];
-      var emotes = ["embarrassed", "kiss", "plain", "sad", "surprise", "angel"];
 
       // create the data
       var rawData = [];
       for (var i = 0; i < 20; i++) {
         var person = new demobrowser.demo.data.model.Person();
         person.setName(names[i % names.length]);
-        person.setEmote(emotes[i % emotes.length]);
         person.setOnline(i % 3 == 0);
         rawData.push(person);
       }
@@ -108,6 +106,7 @@ qx.Class.define("demobrowser.demo.virtual.ExtendedList",
       var syncListDescription = new qx.ui.basic.Label();
       syncListDescription.setRich(true);
       syncListDescription.setWidth(410);
+      syncListDescription.setSelectable(true);
       syncListDescription.setValue(
         "<b>Displaying Checkboxes in a list</b><br/>"
         + "This list display a set of persons in a list as checkbox. Every "
