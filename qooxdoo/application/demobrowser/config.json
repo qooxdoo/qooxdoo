@@ -67,6 +67,8 @@
     {
       "desc"    : "common settings for Demobrowser jobs",
 
+      "extend"  : [ "cache" ],
+
       "library" :
       [
         {
@@ -96,11 +98,6 @@
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
         "qx.theme"     : ["Modern"]
-      },
-
-      "cache" :
-      {
-        "compile" : "${CACHE}"
       }
     },
 
