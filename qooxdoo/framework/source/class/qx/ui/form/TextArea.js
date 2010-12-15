@@ -284,15 +284,13 @@ qx.Class.define("qx.ui.form.TextArea",
       if (value) {
         this.addListener("input", this.__autoSize, this);
 
-        // TODO
-        //
-        // this.getContentElement().getDomElement().style.overflowY
-        // --> ""
-        // this.getContentElement().getStyle("overflowY")
-        // --> "hidden"
-        //
+        // This is done asynchronously on purpose. The style given would 
+        // otherwise be overridden by the DOM changes queued in the 
+        // property apply for wrap. See [BUG #4493] for more details.
+        this.addListenerOnce("appear", function() {
+          this.getContentElement().setStyle("overflowY", "hidden");
+        });
 
-        this.getContentElement().setStyle("overflowY", "hidden");
       } else {
         this.removeListener("input", this.__autoSize);
         this.getContentElement().setStyle("overflowY", "auto");
