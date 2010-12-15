@@ -131,12 +131,13 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
     /**
      * Gives the user the opportunity to group the model. The group method
-     * should return the group name as <code>String</code> or <code>null<code>
-     * if the data has no group. But keep in mind that returning <code>null</code>
-     * does not filter the data, it only adds the data to the default group.
+     * should return the group as <code>String</code>, <code>Object</code>
+     * or <code>null<code> if the data has no group. But keep in mind that 
+     * returning <code>null</code> does not filter the data, it only adds
+     * the data to the default group.
      *
      * @param data {var} The data to be checked.
-     * @return {String|null} The group name for the data or <code>null</code>
+     * @return {var|null} The group for the data or <code>null</code>
      *   if the data should set to the default group.
      */
     group : function(data) {}

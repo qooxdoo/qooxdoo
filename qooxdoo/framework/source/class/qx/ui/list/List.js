@@ -171,6 +171,19 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * The path to the property which holds the information that should be
+     * displayed as a group label. This is only needed if objects are stored in the
+     * model.
+     */
+    groupLabelPath :
+    {
+      check: "String",
+      apply: "_applyGroupLabelPath",
+      nullable: true
+    },
+
+
+    /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
@@ -188,6 +201,17 @@ qx.Class.define("qx.ui.list.List",
     iconOptions :
     {
       apply: "_applyIconOptions",
+      nullable: true
+    },
+
+
+    /**
+     * A map containing the options for the group label binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    groupLabelOptions :
+    {
+      apply: "_applyGroupLabelOptions",
       nullable: true
     },
 
@@ -417,6 +441,12 @@ qx.Class.define("qx.ui.list.List",
 
 
     // apply method
+    _applyGroupLabelPath : function(value, old) {
+      this._provider.setGroupLabelPath(value);
+    },
+
+
+    // apply method
     _applyLabelOptions : function(value, old) {
       this._provider.setLabelOptions(value);
     },
@@ -425,6 +455,12 @@ qx.Class.define("qx.ui.list.List",
     // apply method
     _applyIconOptions : function(value, old) {
       this._provider.setIconOptions(value);
+    },
+
+
+    // apply method
+    _applyGroupLabelOptions : function(value, old) {
+      this._provider.setGroupLabelOptions(value);
     },
 
 
@@ -560,7 +596,17 @@ qx.Class.define("qx.ui.list.List",
           var item = this.getModel().getItem(index);
           var group = groupMethod(item);
 
-          this.__addGroup(group, index);
+          if (this.__test == null) {
+            this.__test = {};
+          }
+
+          var name = group;
+          if (group != null && group.toHashCode != null && qx.lang.Type.isFunction(group.toHashCode)) {
+            name = group.toHashCode();
+            this.__test[name] = group;
+          }
+
+          this.__addGroup(name, index);
         }
         this.__lookupTable = this.__createLookupFromGroup();
       }
@@ -595,15 +641,20 @@ qx.Class.define("qx.ui.list.List",
     {
       var result = [];
       var row = 0;
-      for (var group in this.__groupHashMap)
+      for (var key in this.__groupHashMap)
       {
         // indicate that the value is a group
         result.push(-1);
         this.__lookupTableForGroup.push(row);
-        this._groups.push(group);
+
+        if (this.__test[key] == null) {
+          this._groups.push(key);
+        } else {
+          this._groups.push(this.__test[key]);
+        }
         row++;
 
-        var groupMembers = this.__groupHashMap[group];
+        var groupMembers = this.__groupHashMap[key];
         for (var i = 0,l = groupMembers.length; i < l; i++) {
           result.push(groupMembers[i]);
           row++;

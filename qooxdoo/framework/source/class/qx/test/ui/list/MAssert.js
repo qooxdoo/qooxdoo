@@ -24,12 +24,12 @@ qx.Mixin.define("qx.test.ui.list.MAssert",
     assertModelEqualsRowData : function(model, list)
     {
       for (var i = 0; i < model.getLength(); i++) {
-        this.assertEquals(model.getItem(i), list._getDataFromRow(i));
+        this.assertIdentical(model.getItem(i), list._getDataFromRow(i));
       }
     },
 
     assertDataArrayEquals : function(expected, value) {
-      this.assertEquals(expected.getLength(), value.getLength(), "The length of both arrays are not equal!");
+      this.assertIdentical(expected.getLength(), value.getLength(), "The length of both arrays are not equal!");
       for (var i = 0; i < expected.getLength(); i++) {
         this.assertTrue(value.contains(expected.getItem(i)), "The array doesn't contain item '" + expected.getItem(i) + "'");
       }

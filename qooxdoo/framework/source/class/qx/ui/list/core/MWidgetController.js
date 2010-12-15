@@ -56,6 +56,18 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
 
     /**
+     * The path to the property which holds the information that should be
+     * displayed as a group label. This is only needed if objects are stored in the
+     * model.
+     */
+    groupLabelPath :
+    {
+      check: "String",
+      nullable: true
+    },
+
+
+    /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
@@ -70,6 +82,16 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
     iconOptions :
+    {
+      nullable: true
+    },
+
+
+    /**
+     * A map containing the options for the group label binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    groupLabelOptions :
     {
       nullable: true
     },
@@ -116,7 +138,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       {
         // bind model first
         this.bindProperty(
-          "", "model", null, item, index
+            "", "model", null, item, index
         );
 
         this.bindProperty(
@@ -131,7 +153,9 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
       else
       {
-        this.bindProperty(null, "value", null, item, index);
+        this.bindProperty(
+          this.getGroupLabelPath(), "value", this.getGroupLabelOptions(), item, index
+        );
       }
     },
 
@@ -182,7 +206,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var type = sourceWidget.getUserData("cell.type")
       var bindPath = this.__getBindPath(index, targetPath, type);
 
-      var id = sourceWidget.bind(sourcePath, this._list, bindPath, options);
+      var bindTarget = this._list;
+      if (type == "group") {
+        bindTarget = this._list._groups;
+      }
+
+      var id = sourceWidget.bind(sourcePath, bindTarget, bindPath, options);
       this.__addBinding(sourceWidget, id);
     },
 
