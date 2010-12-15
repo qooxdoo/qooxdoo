@@ -98,6 +98,14 @@ qx.Class.define("qx.html.Input",
         qx.bom.Input.setValue(element, value);
       } else if (name === "wrap") {
         qx.bom.Input.setWrap(element, value);
+
+        // qx.bom.Input#setWrap has the side-effect that the CSS property
+        // overflow is set to "" via DOM methods, causing queue and DOM to get
+        // out of sync. Fix this.
+        var overflow = element.style.overflow;
+        this.setStyle("overflow", overflow);
+        this.setStyle("overflowY", overflow);
+        this.setStyle("overflowX", overflow);
       }
     },
 
