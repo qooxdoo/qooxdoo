@@ -36,14 +36,14 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
       this.getRoot().add(container, {top: 20, left: 20});
 
-      var textArea = new qx.ui.form.TextArea()
+      var textArea = new qx.ui.form.TextArea();
       textArea.set({
         placeholder: "Regular Text-Area",
         allowStretchY: false
       });
       container.add(textArea);
 
-      var textAreaAuto = new qx.ui.form.TextArea()
+      var textAreaAuto = new qx.ui.form.TextArea();
       textAreaAuto.set({
         placeholder: "Auto-Size Text-Area",
         allowStretchY: false,
