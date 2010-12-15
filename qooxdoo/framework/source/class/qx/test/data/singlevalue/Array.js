@@ -376,6 +376,20 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__a.getArray().setItem(0, "ONE");
       this.assertEquals("ONE", this.__label.getValue(), "[0] binding does not work!");
     },
+    
+    
+    testDirectTarget : function()
+    {
+      this.__label.setValue("affe");
+      // bind the first element of the array
+      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a.getArray(), "[0]");
+
+      // check the binding
+      this.assertEquals("affe", this.__a.getArray().getItem(0), "[0] binding does not work!");
+      // change the value
+      this.__label.setValue("AFFE");
+      this.assertEquals("AFFE", this.__a.getArray().getItem(0), "[0] binding does not work!");
+    },
 
 
     testChildrenDirect : function()
