@@ -607,7 +607,11 @@ qx.Class.define("qx.data.SingleValueBinding",
           var prop = lastProperty.substring(0, lastProperty.lastIndexOf("["));
 
           // get the array
-          var targetArray = target["get" + qx.lang.String.firstUp(prop)]();
+          var targetArray = targetObject;
+          if (!qx.Class.implementsInterface(targetArray, qx.data.IListData)) {
+            targetArray = target["get" + qx.lang.String.firstUp(prop)]();
+          }
+
           if (index == "last") {
             index = targetArray.length - 1;
           }
