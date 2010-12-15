@@ -89,6 +89,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
       // Create radio manager
       var radioManager = new qx.ui.form.RadioGroup();
+      var resetter = new qx.ui.form.Resetter();
 
       // Create the radio buttons for the languages
       var languages = { "en" : "English",
@@ -129,6 +130,8 @@ qx.Class.define("feedreader.view.PreferenceWindow",
         if (localeManager.getLanguage() == lang) {
           radioManager.setSelection([radioButton]);
         }
+
+        resetter.add(radioButton);
       }
 
       // add the button bar
@@ -136,10 +139,15 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       var buttonBar = new qx.ui.container.Composite(buttonBarLayout);
 
       var cancelButton = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
-      cancelButton.addListener("execute", this.close, this);
+      cancelButton.addListener("execute", function() {
+        resetter.reset();
+        this.close();
+      }, this);
 
       var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
-      okButton.addListener("execute", function(e){
+      okButton.addListener("execute", function(e) {
+        // set the current selected radio button as the new value to reset to
+        resetter.redefine();
         var selectedLanguage = radioManager.getSelection()[0].getUserData("language");
 
         qx.io.PartLoader.require([selectedLanguage], function ()
