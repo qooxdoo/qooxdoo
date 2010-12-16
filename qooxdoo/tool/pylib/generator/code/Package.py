@@ -37,10 +37,14 @@ from misc import securehash as sha
 from misc import json, util
 from misc.NameSpace import NameSpace
 
+console = None
+
 class Package(object):
 
     def __init__(self, id):
-        self.id         = id   # int representing bit mask for each using part turned on
+        global console
+        self.id         = id   # int representing initial bit mask for each using part turned on
+        self.part_mask  = id   # will be modified during mergers
         self.file       = ""   # potential file (base-)name that makes up the package, if desired
         self.classes    = []   # list of classes in this package
         #self.part_count       # property
@@ -53,13 +57,15 @@ class Package(object):
         self.compiled   = ""   # potential compiled string of the package classes
         self._hash      = ""   # property
 
+        console = Context.console
+
 
     def __repr__(self):
         return "<%s:%r>" % (self.__class__.__name__, self.id)
 
     
     def _part_count(self):
-        return util.countBitsOn(self.id)
+        return util.countBitsOn(self.part_mask)
 
     part_count = property(_part_count)
 
@@ -160,9 +166,14 @@ qx.Part.$$notifyLoad("%s", function() {
         return sorted(packages, cmp=clazz.compareByPartCount, reverse=True)
 
 
+    @classmethod
+    def sort(clazz, packages=[]):
+        return sorted(packages, cmp=clazz.compareFirstDeps, reverse=True)
+
+
     ##
     # a simple sort(cmp=) function, comparing only by part_count
-
+    #
     @staticmethod
     def compareByPartCount(a, b):
         return cmp(a.part_count, b.part_count)
@@ -171,7 +182,7 @@ qx.Part.$$notifyLoad("%s", function() {
     ##
     # a complex sort(cmp=) function, comparing by part_count and dependencies
     # (I would like to use this throughout, eliminating compareByPartCount)
-
+    #
     @staticmethod
     def compareWithDeps(a, b):
         if a.part_count != b.part_count:
@@ -185,6 +196,25 @@ qx.Part.$$notifyLoad("%s", function() {
                 return -1
             else:
                 msg = "Circular dependencies between packages: #%d - #%d" % (a.id, b.id)
-                console.warn("! "+msg)
+                console.warn(msg)
                 return 0
+
+    ##
+    # this is like compareWithDeps(), but honors package dependencies *first*, and
+    # resorts to part_count only when there are no dependency relations between
+    # the two packages
+    #
+    @staticmethod
+    def compareFirstDeps(a, b):
+        if a not in b.packageDeps and b not in a.packageDeps:  # unrelated, return cmp of part counts
+            return cmp(a.part_count, b.part_count)
+        elif a in b.packageDeps and b not in a.packageDeps:  # b needs a, so a is "larger" (must be earlier)
+            return 1
+        elif b in a.packageDeps and a not in b.packageDeps:  # other way round
+            return -1
+        else:
+            # b in a.packageDeps *and* a in b.packageDeps
+            msg = "Circular dependencies between packages: #%d - #%d" % (a.id, b.id)
+            console.warn(msg)
+            return 0
 

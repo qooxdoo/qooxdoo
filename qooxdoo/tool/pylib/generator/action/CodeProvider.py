@@ -124,7 +124,7 @@ def _handleResources(script, generator, filtered=True):
     filetool.directory(approot+"/resource")
     
     # quick copy of runLogResources, for fast results
-    packages   = script.packagesSortedSimple()
+    packages   = script.packagesSorted()
     parts      = script.parts
     variants   = script.variants
 

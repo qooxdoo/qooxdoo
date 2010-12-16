@@ -337,7 +337,7 @@ class PartBuilder(object):
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
-        allPackages = script.packagesSortedSimple()
+        allPackages = script.packagesSorted()
         allPackages.reverse()
 
         # make a dict {part.bit_mask: part}
@@ -347,7 +347,7 @@ class PartBuilder(object):
         oldpackages = set([])
         while oldpackages != set(script.packages):
             oldpackages = set(script.packages)
-            allPackages = script.packagesSortedSimple()
+            allPackages = script.packagesSorted()
             allPackages.reverse()
             
             # Test and optimize 'fromId'
@@ -420,7 +420,7 @@ class PartBuilder(object):
 
         # ----------------------------------------------------------------------
 
-        allPackages  = reversed(Package.simpleSort(packages))
+        allPackages  = reversed(Package.sort(packages))
                                 # sorting and reversing assures we try "smaller" package id's first
         additional_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
 
@@ -571,6 +571,8 @@ class PartBuilder(object):
                 if package not in part.packages:
                     # add package
                     part.packages.append(package)
+                    # update package's part bit mask
+                    package.part_mask |= part.bit_mask
                     # recurse
                     updatePartDependencies(part, package.packageDeps)
             return
@@ -640,7 +642,7 @@ class PartBuilder(object):
 
     def _getFinalPartData(self, script):
         parts      = script.parts
-        packageIds = [x.id for x in script.packagesSortedSimple()]
+        packageIds = [x.id for x in script.packagesSorted()]
 
         resultParts = {}
         for toId, fromId in enumerate(packageIds):
@@ -656,7 +658,7 @@ class PartBuilder(object):
 
 
     def _getFinalClassList(self, script):
-        packages   = script.packagesSortedSimple()
+        packages   = script.packagesSorted()
 
         for package in packages:
             package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)

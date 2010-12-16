@@ -66,6 +66,10 @@ class Script(object):
     # return sorted array of script's packages
     def packagesSortedSimple(self):
         return Package.simpleSort(self.packages)
+    
+    
+    def packagesSorted(self):
+        return Package.sort(self.packages)
 
     ##
     # generates part bitmasks

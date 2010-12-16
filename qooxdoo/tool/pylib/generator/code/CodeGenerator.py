@@ -76,7 +76,7 @@ class CodeGenerator(object):
             # return as string
             def partsMap(script):
                 partData = {}
-                packages = script.packagesSortedSimple()
+                packages = script.packagesSorted()
                 #print "packages: %r" % packages
                 for part in script.parts:
                     partData[part] = script.parts[part].packagesAsIndices(packages)
@@ -165,7 +165,7 @@ class CodeGenerator(object):
 
             result           = ""
             vals             = {}
-            packages         = script.packagesSortedSimple()
+            packages         = script.packagesSorted()
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
 
             # stringify data in globalCodes
@@ -334,7 +334,7 @@ class CodeGenerator(object):
         if compileType not in ("build", "source"):
             return
 
-        packages   = script.packagesSortedSimple()
+        packages   = script.packagesSorted()
         parts      = script.parts
         boot       = script.boot
         variants   = script.variants

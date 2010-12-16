@@ -302,7 +302,7 @@ class Generator(object):
                 # Computing packages
                 #boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
                 partPackages, _ = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
-                packageClasses = script.packagesSortedSimple()
+                packageClasses = script.packagesSorted()
 
                 #return boot, partPackages, packageClasses
                 return script.boot, script.parts, packageClasses
@@ -691,7 +691,7 @@ class Generator(object):
         if not self._job.get("log/classes-unused", False):
             return
 
-        packages   = script.packagesSortedSimple()
+        packages   = script.packagesSorted()
         parts      = script.parts
         variants   = script.variants
 
@@ -1253,7 +1253,7 @@ class Generator(object):
         if not depsLogConf:
            return
 
-        packages   = script.packagesSortedSimple()
+        packages   = script.packagesSorted()
         parts      = script.parts
         variants   = script.variants
 
@@ -1279,7 +1279,7 @@ class Generator(object):
         if not self._job.get("log/resources", False):
             return
 
-        packages   = script.packagesSortedSimple()
+        packages   = script.packagesSorted()
         parts      = script.parts
         variants   = script.variants
 
