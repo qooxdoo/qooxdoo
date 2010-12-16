@@ -282,6 +282,52 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("hidden", overflow);
     },
 
+    "test: textarea with autoSize<br/> shrinks when long line is unwrapped": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        height: 20
+      });
+      this.flush();
+
+      textArea.setValue("AffeMausElefantGiraffeTigerAffeMausElefantGiraffeTiger");
+      var wrapHeight = textArea.getHeight();
+
+      // Shrink
+      textArea.setWrap(false);
+      var noWrapHeight = textArea.getHeight();
+
+      var msg = "Must shrink when long line is unwrapped";
+      this.assertNotEquals(wrapHeight, noWrapHeight, msg);
+      this.assert(wrapHeight > noWrapHeight, msg);
+    },
+
+    "test: textarea with autoSize<br/> grows when long line is wrapped": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        height: 20,
+        wrap: false
+      });
+      this.flush();
+
+      textArea.setValue("AffeMausElefantGiraffeTigerAffeMausElefantGiraffeTiger");
+      this.flush();
+      var noWrapHeight = textArea.getHeight();
+
+      // Grow
+      textArea.setWrap(true);
+      var wrapHeight = textArea.getHeight();
+
+      var msg = "Must grow when long line is unwrapped";
+      this.assertNotEquals(wrapHeight, noWrapHeight, msg);
+      this.assert(wrapHeight > noWrapHeight, msg);
+
+      // TODO:
+      // this.assertEquals(initialWrapHeight, wrapHeight)
+
+    },
+
     // "test: textarea with autoSize<br/> does not grow when input fits": function() {
     //
     // },

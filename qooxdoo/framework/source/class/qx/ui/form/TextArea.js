@@ -157,14 +157,17 @@ qx.Class.define("qx.ui.form.TextArea",
         if (clone) {
 
           // Remember original area height
-          this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
+          // debugger;
+          // this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
+          // console.log("this.__originalAreaHeight", this.__originalAreaHeight);
 
           // Increase height when input triggers scrollbar
           var scrolledHeight = this._getScrolledAreaHeight();
           if (scrolledHeight != this._getAreaHeight()) {
 
-            // Never shrink below original height
-            var desiredHeight = Math.max(scrolledHeight, this.__originalAreaHeight);
+            // Never shrink below original area height, or content hint height
+            var minHeight = this.__originalAreaHeight || this._getContentHint().height;
+            var desiredHeight = Math.max(scrolledHeight, minHeight);
 
             // Never grow widget above autoSizeMaxHeight, if defined
             if (this.getAutoSizeMaxHeight()) {
@@ -224,12 +227,13 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
-      
+
       // Make sure size is computed based on current value
       clone.setValue(this.getValue());
-      
+      clone.setWrap(this.getWrap(), true);
+
       this.__scrollCloneToBottom(clone);
-      
+
       clone = clone.getDomElement();
       if (clone) {
         return clone.scrollTop;
@@ -348,6 +352,15 @@ qx.Class.define("qx.ui.form.TextArea",
       if (this.__getAreaClone()) {
         this.__autoSize();
       }
+    },
+
+    // property apply
+    _applyDimension : function() {
+      this.base(arguments);
+
+      var insets = this.getInsets();
+      this.__originalAreaHeight =
+        this.__originalAreaHeight || -insets.top + this.getHeight() -insets.bottom;
     },
 
     /*
