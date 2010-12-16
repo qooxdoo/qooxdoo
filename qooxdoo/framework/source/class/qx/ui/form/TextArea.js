@@ -151,13 +151,14 @@ qx.Class.define("qx.ui.form.TextArea",
     * @return {void}
     */
     __autoSize: function() {
-      if (this.isAutoSize()) {
-        var value = this.getValue();
+      if (this.getContentElement().getDomElement() && this.isAutoSize()) {
 
-        // Make sure size is computed based on current value
         var clone = this.__getAreaClone();
         if (clone) {
-          clone.value = value;
+
+          // Make sure size is computed based on current value
+          clone.setValue(this.getValue());
+
           this.__scrollCloneToBottom(clone);
 
           // Remember original area height
@@ -227,9 +228,10 @@ qx.Class.define("qx.ui.form.TextArea",
     * @return {Integer} Height of scrolled area
     */
     _getScrolledAreaHeight: function() {
-      var clone = this.__getAreaClone();
-
-      return clone.scrollTop;
+      var clone = this.__getAreaClone().getDomElement();
+      if (clone) {
+        return clone.scrollTop;
+      }
     },
 
     /**
@@ -251,14 +253,9 @@ qx.Class.define("qx.ui.form.TextArea",
       var orig,
           clone;
 
-      var elem = this.getContentElement().getDomElement();
+      orig = this.getContentElement();
 
-      if (!elem) {
-        return;
-      }
-
-      orig = qx.bom.Collection.create(elem);
-      clone = orig.clone();
+      clone = new qx.html.Input("textarea");
 
       // Push out of view
       // Zero height (i.e. scrolled area equals height)
@@ -268,20 +265,20 @@ qx.Class.define("qx.ui.form.TextArea",
         height: 0
       });
 
-      // Reset attributes
-      clone.resetAttribute("id").resetAttribute("name").
-            setAttribute("tabIndex", "-1");
+      // Set tab index
+      clone.setAttribute("tabIndex", "-1");
 
       // Copy value
       clone.setValue(orig.getValue());
 
+      // Attach to DOM
+      clone.insertAfter(orig);
+      qx.html.Element.flush();
+
       // Make sure scrollTop is actual height
-      this.__scrollCloneToBottom(clone[0]);
+      this.__scrollCloneToBottom(clone);
 
-      // Attach to DOM, but outside container
-      orig.parent().before(clone);
-
-      return clone[0];
+      return clone;
     },
 
     /**
@@ -290,8 +287,11 @@ qx.Class.define("qx.ui.form.TextArea",
     *
     * @param area {Element} The textarea to scroll
     */
-    __scrollCloneToBottom: function(area) {
-      area.scrollTop = 10000;
+    __scrollCloneToBottom: function(clone) {
+      var clone = clone.getDomElement();
+      if (clone) {
+        clone.scrollTop = 10000;
+      }
     },
 
     /*
@@ -319,6 +319,7 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyWrap : function(value, old) {
       this.getContentElement().setWrap(value);
+      this.__autoSize();
     },
 
     // property apply
