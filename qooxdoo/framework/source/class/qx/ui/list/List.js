@@ -269,6 +269,13 @@ qx.Class.define("qx.ui.list.List",
     __groupHashMap : null,
 
 
+    /**
+     * {Array} contains all groups keys for the {@link #__groupHashMap}. This is
+     * needed to get the added order for the group items.
+     */
+    __groupHashKeyOrder : null,
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -523,6 +530,8 @@ qx.Class.define("qx.ui.list.List",
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
+      this.__groupHashKeyOrder = [];
+      this.__test = {};
       this._groups.removeAll();
 
       var model = this.getModel();
@@ -596,10 +605,6 @@ qx.Class.define("qx.ui.list.List",
           var item = this.getModel().getItem(index);
           var group = groupMethod(item);
 
-          if (this.__test == null) {
-            this.__test = {};
-          }
-
           var name = group;
           if (group != null && group.toHashCode != null && qx.lang.Type.isFunction(group.toHashCode)) {
             name = group.toHashCode();
@@ -626,6 +631,7 @@ qx.Class.define("qx.ui.list.List",
       }
 
       if (this.__groupHashMap[name] == null) {
+        this.__groupHashKeyOrder.push(name);
         this.__groupHashMap[name] = [];
       }
       this.__groupHashMap[name].push(index);
@@ -641,8 +647,10 @@ qx.Class.define("qx.ui.list.List",
     {
       var result = [];
       var row = 0;
-      for (var key in this.__groupHashMap)
+      for (var i = 0; i < this.__groupHashKeyOrder.length; i++)
       {
+        var key = this.__groupHashKeyOrder[i]; 
+
         // indicate that the value is a group
         result.push(-1);
         this.__lookupTableForGroup.push(row);
@@ -655,8 +663,8 @@ qx.Class.define("qx.ui.list.List",
         row++;
 
         var groupMembers = this.__groupHashMap[key];
-        for (var i = 0,l = groupMembers.length; i < l; i++) {
-          result.push(groupMembers[i]);
+        for (var k = 0; k < groupMembers.length; k++) {
+          result.push(groupMembers[k]);
           row++;
         }
       }
