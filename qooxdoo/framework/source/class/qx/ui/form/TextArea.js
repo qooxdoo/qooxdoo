@@ -103,6 +103,7 @@ qx.Class.define("qx.ui.form.TextArea",
   members :
   {
     __areaClone : null,
+    __originalAreaHeight : null,
 
     // overridden
     setValue : function(value)
@@ -152,10 +153,14 @@ qx.Class.define("qx.ui.form.TextArea",
           clone.value = value;
           this.__scrollCloneToBottom(clone);
 
+          // Remember original area height
+          this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
+
           // Increase height when input triggers scrollbar
           var scrolledHeight = this._getScrolledAreaHeight();
-          if (scrolledHeight > this._getAreaHeight()) {
-            this._setAreaHeight(scrolledHeight);
+          if (scrolledHeight != this._getAreaHeight()) {
+            // Never shrink below original height
+            this._setAreaHeight(Math.max(scrolledHeight, this.__originalAreaHeight));
           }
         }
       }
@@ -284,8 +289,8 @@ qx.Class.define("qx.ui.form.TextArea",
       if (value) {
         this.addListener("input", this.__autoSize, this);
 
-        // This is done asynchronously on purpose. The style given would 
-        // otherwise be overridden by the DOM changes queued in the 
+        // This is done asynchronously on purpose. The style given would
+        // otherwise be overridden by the DOM changes queued in the
         // property apply for wrap. See [BUG #4493] for more details.
         this.addListenerOnce("appear", function() {
           this.getContentElement().setStyle("overflowY", "hidden");

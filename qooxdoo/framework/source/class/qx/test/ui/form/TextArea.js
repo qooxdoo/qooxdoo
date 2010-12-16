@@ -162,25 +162,63 @@ qx.Class.define("qx.test.ui.form.TextArea",
     "test: textarea with autoSize<br/> grows when input would trigger scrollbar": function() {
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
-      textArea.setHeight(10);
+      textArea.setHeight(20);
       this.flush();
 
       textArea.setValue("Affe\nMaus\nElefant");
-      var heightFirstStep = textArea._getAreaHeight();
+      var heightFirstStep = textArea.getHeight();
       this.flush();
 
+      // Additional input
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
-      var heightSecondStep = textArea._getAreaHeight();
+      var heightSecondStep = textArea.getHeight();
       this.flush();
 
-      var msg =  "Area height must increase";
+      var msg =  "Area height must increase (was: " + heightFirstStep +
+                 " is: " + heightSecondStep + ")";
       this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
       this.assert(heightSecondStep > heightFirstStep, msg);
     },
 
-    // "test: textarea with autoSize<br/> shrinks when removal would hide scrollbar": function() {
-    //
-    // },
+    "test: textarea with autoSize<br/> shrinks when removal would hide scrollbar": function() {
+      var textArea = this.__textArea;
+      textArea.setAutoSize(true);
+      textArea.setHeight(20);
+      this.flush();
+
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      var heightFirstStep = textArea.getHeight();
+      this.flush();
+
+      // Removal
+      textArea.setValue("Affe\nMaus\nElefant");
+      var heightSecondStep = textArea.getHeight();
+      this.flush();
+
+      var msg =  "Area height must decrease (was: " + heightFirstStep +
+                 " is: " + heightSecondStep + ")";
+      this.assert(heightSecondStep < heightFirstStep, msg);
+    },
+
+    "test: textarea with autoSize<br/> does not shrink below original height": function() {
+      var textArea = this.__textArea;
+      var originalHeight = 100;
+      textArea.setAutoSize(true);
+      textArea.setHeight(originalHeight);
+      this.flush();
+
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      this.flush();
+
+      // Removal
+      textArea.setValue("Affe\nMaus\nElefant");
+      var heightSecondStep = textArea.getHeight();
+      this.flush();
+
+      var msg =  "Area height shrinks below original height (is: " + heightSecondStep +
+                 " original: " + originalHeight + ")";
+      this.assert(!(heightSecondStep < originalHeight), msg);
+    },
 
     // "test: textarea with autoSize<br/> shows scrollbar when above limit": function() {
     //
