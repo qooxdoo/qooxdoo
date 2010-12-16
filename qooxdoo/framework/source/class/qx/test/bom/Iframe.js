@@ -58,6 +58,14 @@ qx.Class.define("qx.test.bom.Iframe",
           qx.bom.element.Attribute.get(this.__iframe, key),
           "Wrong value on attribute '" + key + "'");
       }
+    },
+
+    testGetWindow : function()
+    {
+      this.__iframe = qx.bom.Iframe.create();
+      qx.dom.Element.insertBegin(this.__iframe, document.body);
+      
+      this.assertNotNull(qx.bom.Iframe.getWindow(this.__iframe));
     }
   }
 });
