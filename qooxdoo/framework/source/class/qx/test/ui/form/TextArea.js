@@ -174,7 +174,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var heightSecondStep = textArea.getHeight();
       this.flush();
 
-      var msg =  "Area height must increase (was: " + heightFirstStep +
+      var msg =  "Widget height must increase (was: " + heightFirstStep +
                  " is: " + heightSecondStep + ")";
       this.assert(heightSecondStep > heightFirstStep, msg);
     },
@@ -194,7 +194,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var heightSecondStep = textArea.getHeight();
       this.flush();
 
-      var msg =  "Area height must decrease (was: " + heightFirstStep +
+      var msg =  "Widget height must decrease (was: " + heightFirstStep +
                  " is: " + heightSecondStep + ")";
       this.assert(heightSecondStep < heightFirstStep, msg);
     },
@@ -214,7 +214,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var heightSecondStep = textArea.getHeight();
       this.flush();
 
-      var msg =  "Area height shrinks below original height (is: " + heightSecondStep +
+      var msg =  "Widget height shrinks below original height (is: " + heightSecondStep +
                  " original: " + originalHeight + ")";
       this.assert(!(heightSecondStep < originalHeight), msg);
     },
@@ -235,7 +235,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var heightSecondStep = textArea.getHeight();
       this.flush();
 
-      var msg =  "Area height grows above maxHeight (is: " + heightSecondStep +
+      var msg =  "Widget height grows above maxHeight (is: " + heightSecondStep +
                  " maxHeight: " + maxHeight + ")";
       this.assert(!(heightSecondStep > maxHeight), msg);
     },
