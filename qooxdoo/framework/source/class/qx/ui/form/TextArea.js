@@ -87,6 +87,13 @@ qx.Class.define("qx.ui.form.TextArea",
       check : "Boolean",
       apply : "_applyAutoSize",
       init : false
+    },
+
+    autoSizeMaxHeight :
+    {
+      check : "Integer",
+      apply : "_applyAutoSizeMaxHeight",
+      nullable : true
     }
 
   },
@@ -159,8 +166,31 @@ qx.Class.define("qx.ui.form.TextArea",
           // Increase height when input triggers scrollbar
           var scrolledHeight = this._getScrolledAreaHeight();
           if (scrolledHeight != this._getAreaHeight()) {
+
             // Never shrink below original height
-            this._setAreaHeight(Math.max(scrolledHeight, this.__originalAreaHeight));
+            var desiredHeight = Math.max(scrolledHeight, this.__originalAreaHeight);
+
+            // Never grow widget above autoSizeMaxHeight, if defined
+            if (this.getAutoSizeMaxHeight()) {
+              var insets = this.getInsets();
+              var maxHeight = -insets.top + this.getAutoSizeMaxHeight() - insets.bottom;
+
+              // Should not be negative
+              if (maxHeight < 0 ) {
+                maxHeight = 0;
+              }
+
+              // Show scroll-bar when above autoSizeMaxHeight
+              if (desiredHeight > maxHeight) {
+                this.getContentElement().setStyle("overflowY", "auto");
+              } else {
+                this.getContentElement().setStyle("overflowY", "hidden");
+              }
+
+              desiredHeight = Math.min(desiredHeight, maxHeight);
+            }
+
+            this._setAreaHeight(desiredHeight);
           }
         }
       }
@@ -220,7 +250,13 @@ qx.Class.define("qx.ui.form.TextArea",
       var orig,
           clone;
 
-      orig = qx.bom.Collection.create(this.getContentElement().getDomElement());
+      var elem = this.getContentElement().getDomElement();
+
+      if (!elem) {
+        return;
+      }
+
+      orig = qx.bom.Collection.create(elem);
       clone = orig.clone();
 
       // Push out of view
@@ -301,6 +337,13 @@ qx.Class.define("qx.ui.form.TextArea",
         this.getContentElement().setStyle("overflowY", "auto");
       }
 
+    },
+
+    // property apply
+    _applyAutoSizeMaxHeight: function() {
+      if (this.__getAreaClone()) {
+        this.__autoSize();
+      }
     },
 
     /*

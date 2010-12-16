@@ -176,7 +176,6 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
       var msg =  "Area height must increase (was: " + heightFirstStep +
                  " is: " + heightSecondStep + ")";
-      this.assertNotEquals(heightSecondStep, heightFirstStep, msg);
       this.assert(heightSecondStep > heightFirstStep, msg);
     },
 
@@ -220,9 +219,68 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(!(heightSecondStep < originalHeight), msg);
     },
 
-    // "test: textarea with autoSize<br/> shows scrollbar when above limit": function() {
-    //
-    // },
+    "test: textarea with autoSize<br/> does not grow above maxHeight": function() {
+      var textArea = this.__textArea;
+      var maxHeight = 20;
+      textArea.set({
+        autoSize: true,
+        height: 20,
+        autoSizeMaxHeight: maxHeight,
+        value: "Affe\nMaus\nElefant"
+      });
+      this.flush();
+
+      // Additional input
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      var heightSecondStep = textArea.getHeight();
+      this.flush();
+
+      var msg =  "Area height grows above maxHeight (is: " + heightSecondStep +
+                 " maxHeight: " + maxHeight + ")";
+      this.assert(!(heightSecondStep > maxHeight), msg);
+    },
+
+    "test: textarea with autoSize<br/> shows scroll-bar when above maxHeight": function() {
+      var textArea = this.__textArea;
+      var maxHeight = 20;
+      textArea.set({
+        autoSize: true,
+        height: 20,
+        autoSizeMaxHeight: maxHeight,
+        value: "Affe\nMaus\nElefant"
+      });
+      this.flush();
+
+      // Additional input
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      this.flush();
+
+      var overflow = textArea.getContentElement().getStyle("overflowY");
+      this.assertEquals("auto", overflow);
+    },
+
+    "test: textarea with autoSize<br/> hides scroll-bar when finally below maxHeight": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        height: 20,
+        autoSizeMaxHeight: 20,
+        value: "Affe\nMaus\nElefant"
+      });
+      this.flush();
+
+      // Additional input
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      this.flush();
+
+      // Removal
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      textArea.setAutoSizeMaxHeight(300);
+      this.flush();
+
+      var overflow = textArea.getContentElement().getStyle("overflowY");
+      this.assertEquals("hidden", overflow);
+    },
 
     // "test: textarea with autoSize<br/> does not grow when input fits": function() {
     //

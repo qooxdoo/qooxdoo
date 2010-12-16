@@ -47,7 +47,8 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       textAreaAuto.set({
         placeholder: "Auto-Size Text-Area",
         allowStretchY: false,
-        autoSize: true
+        autoSize: true,
+        autoSizeMaxHeight: 300
       });
       container.add(textAreaAuto);
     }
