@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.form.TextArea",
     * @return {Integer} Height of textarea
     */
     _getAreaHeight: function() {
-      return parseInt(this.getContentElement().getStyle("height"));
+      return parseInt(this.getContentElement().getStyle("height"), 10);
     },
 
     /**
