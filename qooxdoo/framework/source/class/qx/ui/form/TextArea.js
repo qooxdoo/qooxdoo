@@ -156,11 +156,6 @@ qx.Class.define("qx.ui.form.TextArea",
         var clone = this.__getAreaClone();
         if (clone) {
 
-          // Make sure size is computed based on current value
-          clone.setValue(this.getValue());
-
-          this.__scrollCloneToBottom(clone);
-
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
 
@@ -228,7 +223,14 @@ qx.Class.define("qx.ui.form.TextArea",
     * @return {Integer} Height of scrolled area
     */
     _getScrolledAreaHeight: function() {
-      var clone = this.__getAreaClone().getDomElement();
+      var clone = this.__getAreaClone();
+      
+      // Make sure size is computed based on current value
+      clone.setValue(this.getValue());
+      
+      this.__scrollCloneToBottom(clone);
+      
+      clone = clone.getDomElement();
       if (clone) {
         return clone.scrollTop;
       }
