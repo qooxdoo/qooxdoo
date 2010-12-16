@@ -211,12 +211,13 @@ qx.Class.define("qx.ui.form.TextArea",
     * @param height {Integer} Desired height of textarea
     */
     _setAreaHeight: function(height) {
-      
-      // Inner height is outer height minus vertical insets
-      var insets = this.getInsets();
-      var newOuterHeight = insets.top + height + insets.bottom;
-      
-      this.setHeight(newOuterHeight);
+      if (this._getAreaHeight() !== height) {
+        // Inner height is outer height minus vertical insets
+        var insets = this.getInsets();
+        var newOuterHeight = insets.top + height + insets.bottom;
+
+        this.setHeight(newOuterHeight);
+      }
     },
 
     /**
