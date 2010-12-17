@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.list.Group",
        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
 
     createModelData : function() {
-      this._model = qx.data.marshal.Json.createModel(this.__names);
+      return qx.data.marshal.Json.createModel(this.__names);
     },
 
 

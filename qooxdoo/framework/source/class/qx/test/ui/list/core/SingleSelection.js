@@ -25,11 +25,13 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
   {
     createModelData : function()
     {
-      this._model = new qx.data.Array();
+      var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
-        this._model.push("item " + (i + 1));
+        model.push("item " + (i + 1));
       }
+
+      return model;
     },
 
     testSelection : function()

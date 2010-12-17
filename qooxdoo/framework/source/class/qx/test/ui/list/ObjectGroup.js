@@ -31,10 +31,36 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
     __groups : null,
        
     createModelData : function() {
-      this._model = new qx.data.Array();
+      var model = new qx.data.Array();
+      var groups = this.__groups = {};
+
+      for (var i = 0; i < this.__names.length; i++) {
+        var name = this.__names[i];
+        var groupName = name.charAt(0);
+        var group = groups[groupName];
+
+        if (group == null)
+        {
+          group = groups[groupName] = new qx.test.ui.list.fixture.GroupMock();
+          group.setName(groupName);
+        }
+
+        var item = new qx.test.ui.list.fixture.ItemMock();
+        item.setName(name);
+        item.setGroup(group);
+        model.push(item);
+      }
+
+      return model;
     },
 
-    
+
+    configureList : function() {
+      this._list.setLabelPath("name");
+      this._list.setGroupLabelPath("name");
+    },
+
+
     tearDown : function() {
       this.base(arguments);
       
@@ -57,29 +83,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       // "D", "Dietgar Münster",
       // "B", "Bertwin Joseph",
       // "E", "Edwina Schwarz"
-      
-      var groups = this.__groups = {};
-      
-      for (var i = 0; i < this.__names.length; i++) {
-        var name = this.__names[i];
-        var groupName = name.charAt(0);
-        var group = groups[groupName]; 
-        
-        if (group == null)
-        {
-          group = groups[groupName] = new qx.test.ui.list.fixture.GroupMock();
-          group.setName(groupName);
-        }
-        
-        var item = new qx.test.ui.list.fixture.ItemMock();
-        item.setName(name);
-        item.setGroup(group);
-        this._model.push(item);
-      }
-      
-      this._list.setLabelPath("name");
-      this._list.setGroupLabelPath("name");
-      
+
       var delegate = {
         group : function(item) {
           return item.getGroup();

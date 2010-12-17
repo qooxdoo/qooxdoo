@@ -34,9 +34,11 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
     {
       this.base(arguments);
 
-      this.createModelData();
-
+      this._model = this.createModelData();
       this._list = new qx.ui.list.List(this._model);
+
+      this.configureList();
+
       this.getRoot().add(this._list);
 
       this.flush();
@@ -55,6 +57,9 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
 
     createModelData : function() {
       throw new Error("Abstract 'createModelData' method call!");
-    }
+    },
+
+
+    configureList : function() {}
   }
 });
