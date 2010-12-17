@@ -38,11 +38,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
     
     // Create view
-    if (qx.core.Variant.isSet("testrunner2.view", "console")) {
-      this.view = new testrunner2.view.Console();
-    } else {
-      this.view = new testrunner2.view.Html();
-    }
+    var viewSetting = qx.core.Variant.get("testrunner2.view");
+    var viewClass = qx.Class.getByName(viewSetting);
+    this.view = new viewClass();
     
     // Connect view and controller
     this.view.addListener("runTests", function() {
@@ -55,10 +53,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     this.bind("testSuiteState", this.view, "testSuiteState");
     this.bind("testCount", this.view, "testCount");
     this.bind("initialTestList", this.view, "initialTestList");
-    
-    if (qx.core.Variant.isSet("testrunner2.view", "html")) {
-      qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
-    }
+    qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
     
     // Get log appender element from view
     if (this.view.getLogAppenderElement) {

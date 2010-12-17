@@ -6,6 +6,8 @@
     "QOOXDOO_PATH" : "../..",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner2",
+    "TESTRUNNER_VIEW" : "testrunner2.view.Html",
+    "TESTRUNNER_ORIGIN" : "iframe",
     "TEST_INCLUDE" : "${APPLICATION}.test.*",
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
@@ -118,8 +120,8 @@
       
       "variants" :
       {
-        "testrunner2.view" : ["html"],
-        "testrunner2.testOrigin" : ["iframe"]
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       },
       
       "compile" : { "type" : "build" }
@@ -149,8 +151,8 @@
       
       "variants" :
       {
-        "testrunner2.view" : ["html"],
-        "testrunner2.testOrigin" : ["iframe"]
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       },
       
       "compile" : { "type" : "source" }
@@ -171,7 +173,8 @@
 
       "include" :
       [
-        "testrunner2.Application"
+        "testrunner2.Application",
+        "${TESTRUNNER_VIEW}"
       ],
 
       "settings" :

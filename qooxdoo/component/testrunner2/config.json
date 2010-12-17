@@ -19,7 +19,9 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "TEST_NAMESPACE" : "${APPLICATION}.test",
-    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*"
+    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
+    "TESTRUNNER_VIEW" : "testrunner2.view.Html",
+    "TESTRUNNER_ORIGIN" : "iframe"
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -88,8 +90,8 @@
     {
       "variants" :
       {
-        "testrunner2.view" : ["html"],
-        "testrunner2.testOrigin" : ["iframe"]
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       },
       
       "=run" :
@@ -105,8 +107,8 @@
     {
       "variants" :
       {
-        "testrunner2.view" : ["html"],
-        "testrunner2.testOrigin" : ["iframe"]
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       },
       
       "=run" :
@@ -160,23 +162,34 @@
     
     "source-inline" :
     {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.Html",
+        "TESTRUNNER_ORIGIN" : "inline"
+      },
+    
       "run" : [ "source-inline-script" ],
       
       "=variants" :
       {
-        "testrunner2.view" : ["html"],
-        "testrunner2.testOrigin" : ["inline"]
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       }
     },
         
-    "source-console" :
+    "source-console-inline" :
     {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.Console",
+        "TESTRUNNER_ORIGIN" : "inline"
+      },
+    
       "run" : [ "source-inline-script" ],
       
       "=variants" :
       {
-        "testrunner2.view" : ["console"],
-        "testrunner2.testOrigin" : ["inline"]
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
       }
     }
   }
