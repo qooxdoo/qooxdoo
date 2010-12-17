@@ -87,13 +87,6 @@ qx.Class.define("qx.ui.form.TextArea",
       check : "Boolean",
       apply : "_applyAutoSize",
       init : false
-    },
-
-    autoSizeMaxHeight :
-    {
-      check : "Integer",
-      apply : "_applyAutoSizeMaxHeight",
-      nullable : true
     }
 
   },
@@ -352,13 +345,6 @@ qx.Class.define("qx.ui.form.TextArea",
         this.getContentElement().setStyle("overflowY", "auto");
       }
 
-    },
-
-    // property apply
-    _applyAutoSizeMaxHeight: function() {
-      if (this.__getAreaClone()) {
-        this.__autoSize();
-      }
     },
 
     // property apply
