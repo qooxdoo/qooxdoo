@@ -129,6 +129,26 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("auto", overflow);
     },
 
+    "test: textarea with autoSize<br/> shows scroll-bar when finally above maxHeight": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        value: "Affe\nMaus\nElefant"
+      });
+      this.flush();
+
+      // Grow
+      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
+      this.flush();
+      
+      // Limit height
+      textArea.setMaxHeight(50);
+      this.flush();
+
+      var overflow = textArea.getContentElement().getStyle("overflowY");
+      this.assertEquals("auto", overflow);
+    },
+
     "test: textarea with autoSize<br/> hides scroll-bar when finally below maxHeight": function() {
       var textArea = this.__textArea;
       textArea.set({

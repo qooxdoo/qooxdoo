@@ -153,20 +153,21 @@ qx.Class.define("qx.ui.form.TextArea",
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
 
-          // Increase height when input triggers scrollbar
           var scrolledHeight = this._getScrolledAreaHeight();
-          if (scrolledHeight != this._getAreaHeight()) {
 
-            // Show scoll-bar when above maxHeight, if defined
-            if (this.getMaxHeight()) {
-              var insets = this.getInsets();
-              var innerMaxHeight = -insets.top + this.getMaxHeight() - insets.bottom;
-              if (scrolledHeight > innerMaxHeight) {
-                  this.getContentElement().setStyle("overflowY", "auto");
-              } else {
-                  this.getContentElement().setStyle("overflowY", "hidden");
-              }
+          // Show scoll-bar when above maxHeight, if defined
+          if (this.getMaxHeight()) {
+            var insets = this.getInsets();
+            var innerMaxHeight = -insets.top + this.getMaxHeight() - insets.bottom;
+            if (scrolledHeight > innerMaxHeight) {
+                this.getContentElement().setStyle("overflowY", "auto");
+            } else {
+                this.getContentElement().setStyle("overflowY", "hidden");
             }
+          }
+
+          // Increase height, if required
+          if (scrolledHeight != this._getAreaHeight()) {
 
             // Never shrink below original area height
             var minHeight = this.__originalAreaHeight;
@@ -348,11 +349,15 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     // property apply
-    _applyDimension : function() {
+    _applyDimension : function(value) {
       this.base(arguments);
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__warnAutoSizeAndHeight();
+      }
+
+      if (value === this.getMaxHeight()) {
+        this.__autoSize();
       }
     },
 
