@@ -102,11 +102,49 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
 //    {
 //      throw new Error("not implemented");
 //    },
-//
-//    testGroupWithSorter : function()
-//    {
-//      throw new Error("not implemented");
-//    },
+
+    testGroupWithSorter : function()
+    {
+      // Expected result
+      // "T", "Trixi Clauß", "Trauhard Franke",
+      // "S", "Sigurd Adolph", "Sigmund Kurz", "Sarina Wilde",
+      // "R", "Rosely Fröhlich", "Riana Dirks",
+      // "P", "Pankratius Hill",
+      // "L", "Luise Siemer",
+      // "G", "Gerlinda Seel",
+      // "F", "Florine Bähr",
+      // "E", "Edwina Schwarz",
+      // "D", "Dietgar Münster",
+      // "C", "Cecilia Hemmer",
+      // "B", "Bertwin Joseph",
+      // "A", "Annemargret Hunger"
+
+      var sortedModel = new qx.data.Array();
+      var sorter = function(a, b) {
+        a = a.getName();
+        b = b.getName();
+        return a < b ? 1 : a > b ? -1 : 0;
+      };
+
+      for (var i = 0; i < this._model.getLength(); i++) {
+        sortedModel.push(this._model.getItem(i));
+      }
+      sortedModel.sort(sorter);
+      
+      var delegate = {
+        sorter : sorter,
+        group : function(item) {
+          return item.getGroup();
+        }
+      };
+      this._list.setDelegate(delegate);
+      this.flush();
+      
+      var groupedModel = this.__convertModel(sortedModel);
+      this.assertModelEqualsRowData(groupedModel, this._list);
+      this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
+      this.assertEquals(12, this._list._groups.getLength(), "On List");
+    },
     
     __convertModel : function(model) {
       var result = new qx.data.Array();
