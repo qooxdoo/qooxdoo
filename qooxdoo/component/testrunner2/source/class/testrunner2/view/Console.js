@@ -98,6 +98,9 @@ qx.Class.define("testrunner2.view.Console", {
         case "ready" :
           this.setStatus("Test suite ready. Call qx.core.Init.getApplication().runner.view.run() to start tests.");
           break;
+        case "error" :
+          this.setStatus("Couldn't load test suite!");
+          break;
         case "running" :
           this.setStatus("Running tests...");
           break;
