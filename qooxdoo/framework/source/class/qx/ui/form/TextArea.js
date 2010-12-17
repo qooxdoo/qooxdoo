@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
       clone = clone.getDomElement();
       if (clone) {
-        return clone.scrollTop;
+        return Math.max(clone.scrollTop, this._getAreaHeight());
       }
     },
 
