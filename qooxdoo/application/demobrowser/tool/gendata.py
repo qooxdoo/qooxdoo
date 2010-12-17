@@ -177,6 +177,84 @@ def CreateDemoJson():
 
 
 ##
+# generator to create config.demo.json
+
+def CreateNewDemoJson():
+    source = ""
+    build  = ""
+    scategories = {}
+    bcategories = {}
+    fJSON = "./config.demo.new.json"
+
+    # Pre-processing
+    JSON = open(fJSON,"w")
+    JSON.write('// This file is dynamically created by the generator!\n')
+    JSON.write('{\n')
+    # top-level includes
+    default_json = os.path.join('tool', 'default.json')
+    assert os.path.isfile(default_json)
+    JSON.write('  "include":  [ { "path" : "%s" } ],\n' % default_json)
+
+    # per-demo template file
+    json_tmpl = open(os.path.join('tool','tmpl.new.json'),"rU").read()
+
+    # jobs section
+    JSON.write('  "jobs":\n')
+    JSON.write('  {\n')
+
+    # Process demo html files
+    while True:
+        html = (yield)
+        #print html
+        if html == None:  # terminate the generator part and go to finalizing json file
+            break
+
+        category, name = demoCategoryFromFile(html)
+        #print ">>> Processing: %s.%s..." % (category, name)
+
+        # build classname
+        simple = "%s.%s" % (category,name)
+        source = source + ' "source-%s",' % simple
+        build  = build + ' "build-%s",' % simple
+        if not category in scategories:
+            scategories[category] = ""
+        scategories[category] += ' "source-%s",' % (simple,)
+        if not category in bcategories:
+            bcategories[category] = ""
+        bcategories[category] += ' "build-%s",' % (simple,)
+
+        # concat all
+        currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",name).replace("ZZZ",category)
+        JSON.write("%s," % currcont[:-1])
+        JSON.write("\n\n\n")
+
+    # Post-processing
+    for category in scategories:
+        JSON.write("""  "source-%s" : {
+            "run" : [
+            %s]
+          },\n\n""" % (category, scategories[category][:-1]))
+        JSON.write("""  "build-%s" : {
+            "run" : [
+            %s]
+          },\n\n""" % (category, bcategories[category][:-1]))
+
+    JSON.write("""  "source" : {
+        "run" : [
+         %s]
+      },\n\n""" % source[:-1] ) 
+
+    JSON.write("""  "build" : {
+        "run" : [
+         %s]
+      }\n  }\n}""" % build[:-1] ) 
+
+    JSON.close()
+
+    yield  # final yield to provide for .send(None) of caller
+
+
+##
 # extract the category and demo name from file path
 
 def demoCategoryFromFile(file):
@@ -271,6 +349,8 @@ def main(dest, scan):
     dataCreator.send(None)               # init it
     configCreator = CreateDemoJson()     # generator for the config.demo.json file
     configCreator.send(None)
+    configNewCreator = CreateNewDemoJson()
+    configNewCreator.send(None)
     jsFileCopier  = CopyJsFiles(dest)    # generator to copy demos' source JS to script dir
     jsFileCopier.send(None)
 
@@ -297,12 +377,14 @@ def main(dest, scan):
 
             dataCreator.send((htmlfile, category, item))   # process this demo for demodata.js
             configCreator.send(htmlfile) # process this file name for config.demo.json
+            configNewCreator.send(htmlfile) # process this file name for config.demo.json
             jsFileCopier.send(htmlfile)  # copy demo source file to script dir
 
 
     # Finalize
     dataCreator.send((None, None, None))    # finalize demodata.js
     configCreator.send(None)  # finalize config.demo.json
+    configNewCreator.send(None)  # finalize config.demo.json
     jsFileCopier.send(None)   # finalize file copying
 
     return

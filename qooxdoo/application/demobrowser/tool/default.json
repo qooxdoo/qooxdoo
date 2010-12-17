@@ -3,7 +3,7 @@
   following jobs (example demo "ui.Widget"):
   "source-ui.Widget" : {
     "let" : { "DPACKAGE" : "ui", "DSNAME" : "Widget" }
-    "extend" : ["common-ui.Widget", "default-source"]
+    "extend" : ["default-source"]
   }
   "source-ui.Widget-Classic" : {
     "extend" : ["default-source-Classic"]
@@ -91,20 +91,20 @@
 
     ,"default-source" :
     {
-      "extend" : ["default-demo", "__all-source__"],
+      "extend" : ["default-demo"],
       "let" : { "BUILDTYPE" : "source" },
-      "run" : ["source-${DNAME}-Classic", "source-${DNAME}-Modern"]    
+      "run" : ["demos::source-${DNAME}-Classic", "demos::source-${DNAME}-Modern"] // the jobs have to be named as they appear in config.demobrowser.json    
     }
 
     ,"default-source-Classic" :
     {
-      "let"     : {"DTHEME" : "qx.theme.Classic"}
+      "let"     : {"DTHEME" : "qx.theme.Classic"},
       "compile" : { "type"  : "${BUILDTYPE}" }
-    },
+    }
 
     ,"default-source-Modern" :
     {
-      "let"     : {"DTHEME" : "qx.theme.Modern"}
+      "let"     : {"DTHEME" : "qx.theme.Modern"},
       "compile" : { "type"  : "${BUILDTYPE}" }
     }
 
@@ -112,20 +112,20 @@
 
     ,"default-build" :
     {
-      "extend" : ["default-demo", "__all-build__"],
+      "extend" : ["default-demo"],
       "let" : { "BUILDTYPE" : "build" },
-      "run" : ["build-${DNAME}-Classic", "build-${DNAME}-Modern"]    
+      "run" : ["demos::build-${DNAME}-Classic", "demos::build-${DNAME}-Modern"]    
     }
 
     ,"default-build-Classic" :
     {
-      "let"     : {"DTHEME" : "qx.theme.Classic"}
+      "let"     : {"DTHEME" : "qx.theme.Classic"},
       "compile" : { "type"  : "${BUILDTYPE}" }
-    },
+    }
 
     ,"default-build-Modern" :
     {
-      "let"     : {"DTHEME" : "qx.theme.Modern"}
+      "let"     : {"DTHEME" : "qx.theme.Modern"},
       "compile" : { "type"  : "${BUILDTYPE}" }
     }
   }

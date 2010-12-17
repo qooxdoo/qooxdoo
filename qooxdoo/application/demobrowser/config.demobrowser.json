@@ -4,7 +4,8 @@
   "include" :
   [
     {
-      "path" : "./config.demo.json",
+      //"path" : "./config.demo.json",
+      "path" : "./config.demo.new.json",
       "as"   : "demos"
 
     }
@@ -12,7 +13,6 @@
 
   "let" :
   {
-    "APPLICATION"  : "demobrowser",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "QOOXDOO_PATH" : "../..",
     "THEME"        : "demobrowser.Theme"
@@ -20,9 +20,14 @@
 
   "jobs" :
   {
-    "common" :
+    "db-common" :
     {
       "desc"    : "common settings for Demobrowser jobs",
+
+      "let" : 
+      {
+        "APPLICATION"  : "demobrowser"
+      },
 
       "library" :
       [
@@ -71,7 +76,7 @@
     {
       "desc"    : "create includer script of Demobrowser",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
 
       "compile-options" :
       {
@@ -88,6 +93,8 @@
     "source-demos" :
     {
       "desc"    : "create source version for each demo",
+
+      "let"    : { "APPLICATION" : "demobrowser.demo" },
 
       "extend" : ["demos::source"]
     },
@@ -109,7 +116,7 @@
     {
       "desc"    : "create build script of Demobrowser",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
 
       "compile-options" :
       {
@@ -132,7 +139,7 @@
     {
       "desc"    : "copy files of Demobrowser to build dir",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
 
       "copy-files" :
       {
@@ -151,7 +158,7 @@
     {
       "desc"    : "copy necessary resources for Demobrowser/demos to build dir",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
 
       "include" :
       [
@@ -194,7 +201,7 @@
     {
       "desc"    : "extension job for debugging dependencies",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
       "include" : ["demobrowser.demo.data.ExtendedTree"],
       "log" :
       {
@@ -206,7 +213,7 @@
     {
       "desc"    : "extension job for debugging privates",
 
-      "extend" : ["common"],
+      "extend" : ["db-common"],
       "log" :
       {
         "privates" : "on"

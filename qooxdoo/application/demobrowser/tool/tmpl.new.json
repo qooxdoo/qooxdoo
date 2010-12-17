@@ -1,0 +1,31 @@
+    "source-XXX" : 
+    {
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY" },
+      "extend" : ["default-source"]
+    },
+
+    "source-XXX-Classic" :
+    {
+      "extend" : ["default-source-Classic"]
+    },
+
+    "source-XXX-Modern" :
+    {
+      "extend" : ["default-source-Modern"]
+    },
+
+    "build-XXX" :
+    {
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY" },
+      "extend" : ["default-build"]
+    },
+
+    "build-XXX-Classic" :
+    {
+      "extend" : ["default-build-Classic"]
+    },
+
+    "build-XXX-Modern" :
+    {
+      "extend" : ["default-build-Modern"]
+    }
