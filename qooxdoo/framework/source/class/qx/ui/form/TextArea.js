@@ -257,29 +257,44 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     __createAreaClone: function() {
       var orig,
-          clone;
+          clone,
+          cloneDom,
+          cloneHtml;
 
       orig = this.getContentElement();
 
-      clone = new qx.html.Input("textarea");
+      // An existing DOM element is required
+      if (!orig.getDomElement()) {
+        return;
+      }
+
+      // Create DOM clone
+      cloneDom = qx.bom.Collection.create(orig.getDomElement()).clone()[0];
+
+      // Convert to qx.html Element
+      cloneHtml = new qx.html.Input("textarea");
+      cloneHtml.useElement(cloneDom);
+      clone = cloneHtml;
 
       // Push out of view
       // Zero height (i.e. scrolled area equals height)
       clone.setStyles({
         position: "absolute",
-        left: "-9999px",
+        top: 0,
+        left: -9999,
         height: 0
       });
 
-      // Set tab index
+      // Fix attributes
+      clone.removeAttribute('id');
+      clone.removeAttribute('name');
       clone.setAttribute("tabIndex", "-1");
 
       // Copy value
       clone.setValue(orig.getValue());
 
       // Attach to DOM
-      clone.insertAfter(orig);
-      qx.html.Element.flush();
+      clone.insertBefore(orig);
 
       // Make sure scrollTop is actual height
       this.__scrollCloneToBottom(clone);
