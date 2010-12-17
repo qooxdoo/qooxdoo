@@ -201,7 +201,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
 
             textHtml.add(
               '<span class="parameter-type">',
-              apiviewer.ui.panels.InfoPanel.createItemLinkHtml(throwsEntryType),
+              throwsEntryType === throwsEntry.getDefaultType() ? throwsEntry.getDefaultType() : apiviewer.ui.panels.InfoPanel.createItemLinkHtml(throwsEntryType),
               '</span>'
             );
 
