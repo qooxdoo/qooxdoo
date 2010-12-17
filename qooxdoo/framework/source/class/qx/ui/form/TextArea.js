@@ -276,6 +276,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // Attach to DOM
       clone.insertBefore(orig);
+      qx.html.Element.flush();
 
       // Make sure scrollTop is actual height
       this.__scrollCloneToBottom(clone);

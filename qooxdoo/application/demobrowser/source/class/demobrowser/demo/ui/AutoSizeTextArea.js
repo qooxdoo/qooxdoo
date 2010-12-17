@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(20,20));
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(10,10));
       this.getRoot().add(container, {top: 20, left: 20});
 
       // First block
@@ -57,6 +57,24 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       container.add(label, {row: 0, column: 1});
       container.add(textAreaAuto, {row: 1, column: 1});
 
+      var label = new qx.ui.basic.Label();
+      label.setValue("Auto-Size (wrap-handling)");
+      var textAreaWrap = new qx.ui.form.TextArea();
+      textAreaWrap.set({
+        allowStretchY: false,
+        autoSize: true,
+        wrap: false,
+        value: this.__getLongValue()
+      });
+      var button = new qx.ui.form.ToggleButton("Wrap");
+      button.setAllowStretchX(false);
+      button.addListener("changeValue", function() {
+        textAreaWrap.toggleWrap();
+      });
+      container.add(label, {row: 0, column: 2});
+      container.add(textAreaWrap, {row: 1, column: 2});
+      container.add(button, {row: 2, column: 2});
+
       // Second block
 
       var label = new qx.ui.basic.Label();
@@ -76,11 +94,20 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       textAreaMax.set({
         allowStretchY: false,
         autoSize: true,
-        minHeight: 100,
-        maxHeight: 200
+        minHeight: 200,
+        maxHeight: 300
       });
       container.add(label, {row: 2, column: 1});
       container.add(textAreaMax, {row: 3, column: 1});
+
+    },
+
+    __getLongValue: function() {
+      var val = new qx.type.Array(200);
+      for(var i=0; i < val.length; i++) {
+        val[i] = "A";
+      }
+      return val.join("");
     }
   }
 });
