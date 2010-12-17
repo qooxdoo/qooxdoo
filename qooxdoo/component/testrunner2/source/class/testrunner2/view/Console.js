@@ -36,7 +36,6 @@ qx.Class.define("testrunner2.view.Console", {
   {
     qx.log.appender.Native;
     qx.log.appender.Console;
-    this.__testResults = {};
   },
   
   /*
@@ -54,6 +53,7 @@ qx.Class.define("testrunner2.view.Console", {
      */
     run : function()
     {
+      this.__testResults = {};
       this.fireEvent("runTests");
     },
     
