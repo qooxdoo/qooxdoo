@@ -105,13 +105,18 @@ qx.Class.define("qx.ui.popup.Manager",
 
 
     /**
-     * Excludes all currently open popups.
+     * Excludes all currently open popups,
+     * except those with {@link qx.ui.popup.Popup#autoHide} set to false.
      */
     hideAll : function()
     {
-      if (this.__objects) {
-        for (var i = 0; i < this.__objects.length; i++) {
-          this.__objects[i].exclude();
+      var current;
+      var objects = this.__objects;
+
+      if (objects) {
+        for (var i = 0, l = objects.length; i < l; i++) {
+          var current = objects[i];
+          current.getAutoHide() && current.exclude();
         }
       }
     },
