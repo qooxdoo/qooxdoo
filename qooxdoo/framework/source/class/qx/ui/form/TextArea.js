@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.form.TextArea",
     * Scroll textarea to bottom. That way, scrollTop reflects the height
     * of the textarea.
     *
-    * @param area {Element} The textarea to scroll
+    * @param clone {Element} The textarea to scroll
     */
     __scrollCloneToBottom: function(clone) {
       var clone = clone.getDomElement();
@@ -356,6 +356,11 @@ qx.Class.define("qx.ui.form.TextArea",
       }
     },
 
+    /**
+     * Warn when both autoSize and height property are set.
+     *
+     * @return {void}
+     */
     __warnAutoSizeAndHeight: function() {
       if (this.isAutoSize() && this.getHeight()) {
         this.warn("autoSize does not work when the height property is set. " +
