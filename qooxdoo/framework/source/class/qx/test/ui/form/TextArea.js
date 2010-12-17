@@ -112,33 +112,11 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(!(heightShrink < originalHeight), msg);
     },
 
-    "test: textarea with autoSize<br/> does not grow above maxHeight": function() {
-      var textArea = this.__textArea;
-      var maxHeight = 20;
-      textArea.set({
-        autoSize: true,
-        autoSizeMaxHeight: maxHeight,
-        value: "Affe\nMaus\nElefant"
-      });
-      this.flush();
-
-      // Grow
-      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
-      var heightSecondStep = textArea.getSizeHint().height;
-      this.flush();
-
-      var msg =  "Widget height grows above maxHeight (is: " + heightSecondStep +
-                 " maxHeight: " + maxHeight + ")";
-      this.assert(!(heightSecondStep > maxHeight), msg);
-    },
-
     "test: textarea with autoSize<br/> shows scroll-bar when above maxHeight": function() {
       var textArea = this.__textArea;
-      var maxHeight = 20;
       textArea.set({
         autoSize: true,
-        height: 50,
-        autoSizeMaxHeight: maxHeight,
+        maxHeight: 50,
         value: "Affe\nMaus\nElefant"
       });
       this.flush();
@@ -155,9 +133,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var textArea = this.__textArea;
       textArea.set({
         autoSize: true,
-        height: 50,
-        autoSizeMaxHeight: 20,
-        value: "Affe\nMaus\nElefant"
+        maxHeight: 50
       });
       this.flush();
 
@@ -166,8 +142,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
 
       // Shrink
-      textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
-      textArea.setAutoSizeMaxHeight(300);
+      textArea.setValue("Affe");
       this.flush();
 
       var overflow = textArea.getContentElement().getStyle("overflowY");

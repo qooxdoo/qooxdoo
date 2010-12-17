@@ -164,29 +164,20 @@ qx.Class.define("qx.ui.form.TextArea",
           var scrolledHeight = this._getScrolledAreaHeight();
           if (scrolledHeight != this._getAreaHeight()) {
 
-            // Never shrink below original area height, or content hint height
-            var minHeight = this.__originalAreaHeight || this._getContentHint().height;
-            var desiredHeight = Math.max(scrolledHeight, minHeight);
-
-            // Never grow widget above autoSizeMaxHeight, if defined
-            if (this.getAutoSizeMaxHeight()) {
+            // Show scoll-bar when above maxHeight, if defined
+            if (this.getMaxHeight()) {
               var insets = this.getInsets();
-              var maxHeight = -insets.top + this.getAutoSizeMaxHeight() - insets.bottom;
-
-              // Should not be negative
-              if (maxHeight < 0 ) {
-                maxHeight = 0;
-              }
-
-              // Show scroll-bar when above autoSizeMaxHeight
-              if (desiredHeight > maxHeight) {
-                this.getContentElement().setStyle("overflowY", "auto");
+              var innerMaxHeight = -insets.top + this.getMaxHeight() - insets.bottom;
+              if (scrolledHeight > innerMaxHeight) {
+                  this.getContentElement().setStyle("overflowY", "auto");
               } else {
-                this.getContentElement().setStyle("overflowY", "hidden");
+                  this.getContentElement().setStyle("overflowY", "hidden");
               }
-
-              desiredHeight = Math.min(desiredHeight, maxHeight);
             }
+
+            // Never shrink below original area height
+            var minHeight = this.__originalAreaHeight;
+            var desiredHeight = Math.max(scrolledHeight, minHeight);
 
             this._setAreaHeight(desiredHeight);
           }
@@ -344,7 +335,7 @@ qx.Class.define("qx.ui.form.TextArea",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__warnAutoSizeAndHeight();
       }
-      
+
       if (value) {
         this.__autoSize();
         this.addListener("input", this.__autoSize, this);
@@ -373,12 +364,12 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyDimension : function() {
       this.base(arguments);
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__warnAutoSizeAndHeight();
       }
     },
-    
+
     __warnAutoSizeAndHeight: function() {
       if (this.isAutoSize() && this.getHeight()) {
         this.warn("autoSize does not work when the height property is set. " +
@@ -386,7 +377,7 @@ qx.Class.define("qx.ui.form.TextArea",
                   "property instead.");
       }
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT
