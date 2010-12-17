@@ -1,27 +1,3 @@
-/*
-  Including this file, the config.demo.json has to provide for each demo the
-  following jobs (example demo "ui.Widget"):
-  "source-ui.Widget" : {
-    "let" : { "DPACKAGE" : "ui", "DSNAME" : "Widget" }
-    "extend" : ["default-source"]
-  }
-  "source-ui.Widget-Classic" : {
-    "extend" : ["default-source-Classic"]
-  }
-  "source-ui.Widget-Modern" : {
-    "extend" : ["default-source-Modern"]
-  }
-  "build-ui.Widget"  : {
-    "let" : { "DPACKAGE" : "ui", "DSNAME" : "Widget" }
-    "extend" : ["default-build"]
-  }
-  "build-ui.Widget-Classic" : {
-    "extend" : ["default-build-Classic"]
-  }
-  "build-ui.Widget-Modern" : {
-    "extend" : ["default-build-Modern"]
-  }
-*/
 {
   "jobs" :
   {
