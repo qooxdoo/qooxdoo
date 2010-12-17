@@ -341,6 +341,10 @@ qx.Class.define("qx.ui.form.TextArea",
 
     // property apply
     _applyAutoSize: function(value, old) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__warnAutoSizeAndHeight();
+      }
+      
       if (value) {
         this.__autoSize();
         this.addListener("input", this.__autoSize, this);
@@ -369,12 +373,20 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyDimension : function() {
       this.base(arguments);
-
-      var insets = this.getInsets();
-      this.__originalAreaHeight =
-        this.__originalAreaHeight || -insets.top + this.getHeight() -insets.bottom;
+      
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__warnAutoSizeAndHeight();
+      }
     },
-
+    
+    __warnAutoSizeAndHeight: function() {
+      if (this.isAutoSize() && this.getHeight()) {
+        this.warn("autoSize does not work when the height property is set. " +
+                  "If you want to set an initial height, use the minHeight " +
+                  "property instead.");
+      }
+    },
+    
     /*
     ---------------------------------------------------------------------------
       LAYOUT
