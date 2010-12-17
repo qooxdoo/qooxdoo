@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.form.TextArea",
   members :
   {
     __areaClone : null,
+    __areaHeight : null,
     __originalAreaHeight : null,
 
     // overridden
@@ -157,9 +158,7 @@ qx.Class.define("qx.ui.form.TextArea",
         if (clone) {
 
           // Remember original area height
-          // debugger;
-          // this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
-          // console.log("this.__originalAreaHeight", this.__originalAreaHeight);
+          this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
 
           // Increase height when input triggers scrollbar
           var scrolledHeight = this._getScrolledAreaHeight();
@@ -211,11 +210,8 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     _setAreaHeight: function(height) {
       if (this._getAreaHeight() !== height) {
-        // Inner height is outer height minus vertical insets
-        var insets = this.getInsets();
-        var newOuterHeight = insets.top + height + insets.bottom;
-
-        this.setHeight(newOuterHeight);
+        this.__areaHeight = height;
+        qx.ui.core.queue.Layout.add(this);
       }
     },
 
@@ -395,6 +391,10 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // 20 character wide
       hint.width = this._getTextSize().width * 20;
+
+      if (this.isAutoSize()) {
+        hint.height = this.__areaHeight || hint.height;
+      }
 
       return hint;
     }
