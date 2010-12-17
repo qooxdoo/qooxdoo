@@ -168,7 +168,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
       var heightSmall = textArea.getHeight();
 
-      // Additional input
+      // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
       var heightTall = textArea.getHeight();
@@ -188,12 +188,12 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
       var heightSmall = textArea.getHeight();
 
-      // Additional input
+      // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
       var heightTall = textArea.getHeight();
 
-      // Removal
+      // Shrink
       textArea.setValue("Affe\nMaus\nElefant");
       var heightShrink = textArea.getHeight();
       this.flush();
@@ -213,7 +213,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
 
-      // Removal
+      // Shrink
       textArea.setValue("Affe\nMaus\nElefant");
       var heightSecondStep = textArea.getHeight();
       this.flush();
@@ -234,7 +234,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       });
       this.flush();
 
-      // Additional input
+      // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       var heightSecondStep = textArea.getHeight();
       this.flush();
@@ -255,7 +255,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       });
       this.flush();
 
-      // Additional input
+      // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
 
@@ -273,11 +273,11 @@ qx.Class.define("qx.test.ui.form.TextArea",
       });
       this.flush();
 
-      // Additional input
+      // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
 
-      // Removal
+      // Shrink
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       textArea.setAutoSizeMaxHeight(300);
       this.flush();
