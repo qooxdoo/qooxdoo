@@ -276,6 +276,24 @@ qx.Class.define("qx.ui.list.List",
     __groupHashKeyOrder : null,
 
 
+    /**
+     * {Boolean} indicates when one or more <code>String</code> are used for grouping.
+     */
+    __groupStringsUsed : false,
+    
+    
+    /**
+     * {Boolean} indicates when one or more <code>Object</code> are used for grouping.
+     */
+    __groupObjectsUsed : false,
+
+    
+    /**
+     * {Boolean} indicates when a default group is used for grouping.
+     */
+    __defaultGroupUsed : false,
+    
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -301,6 +319,9 @@ qx.Class.define("qx.ui.list.List",
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
+      this.__groupStringsUsed = false;
+      this.__groupObjectsUsed = false;
+      this.__defaultGroupUsed = false;
       this._groups = new qx.data.Array();
 
       this.getPane().addListener("resize", this._onResize, this);
@@ -620,7 +641,9 @@ qx.Class.define("qx.ui.list.List",
     __addGroup : function(group, index)
     {
       // if group is null add to default group
-      if (group == null) {
+      if (group == null)
+      {
+        this.__defaultGroupUsed = true;
         group = "???";
       }
 
@@ -642,6 +665,8 @@ qx.Class.define("qx.ui.list.List",
      */
     __createLookupFromGroup : function()
     {
+      this.__checkGroupStructure();
+      
       var result = [];
       var row = 0;
       for (var i = 0; i < this.__groupHashKeyOrder.length; i++)
@@ -666,15 +691,16 @@ qx.Class.define("qx.ui.list.List",
     /**
      * Returns a unique group name for the passed group.
      * 
-     * @param group {Sting|Object} Group to find unique group name.
+     * @param group {String|Object} Group to find unique group name.
      * @return {String} Unique group name.
      */
     __getUniqueGroupName : function(group)
     {
-      var name = group;
-      if (qx.lang.Type.isObject(group))
+      var name = null;
+      if (!qx.lang.Type.isString(group))
       {
         var index = this._groups.indexOf(group);
+        this.__groupObjectsUsed = true;
         
         name = "group";
         if (index == -1) {
@@ -682,8 +708,27 @@ qx.Class.define("qx.ui.list.List",
         } else {
           name += index;
         }
+      } 
+      else
+      {
+        this.__groupStringsUsed = true;
+        var name = group;
       }
       return name;
+    },
+
+    
+    /**
+     * Checks that <code>Object</code> and <code>String</code> are not mixed
+     * as group identifier, otherwise an exception occurs.
+     */
+    __checkGroupStructure : function() {
+      if (this.__groupObjectsUsed && this.__defaultGroupUsed ||
+          this.__groupObjectsUsed && this.__groupStringsUsed)
+      {
+        throw new Error("GroupingTypeError: You can't mix 'Objects' and 'Strings' as" +
+        	" group identifier!");
+      }
     }
   },
 

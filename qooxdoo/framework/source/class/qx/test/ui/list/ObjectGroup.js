@@ -98,11 +98,88 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       this.assertEquals(12, this._list._groups.getLength(), "On List");
     },
 
-//    testDefaultGroup : function()
-//    {
-//      throw new Error("not implemented");
-//    },
+    testMixWithObjectsAndDefaultGroup : function()
+    {
+      var that = this;
+      this.assertException(function()
+      {
+        var delegate = {
+          group : function(item) {
+            var group = item.getGroup();
+            if (group.getName() == "A") {
+              return null;
+            }
+            return group;
+          }
+        };
+        that._list.setDelegate(delegate);
+        that.flush();
+      }, Error, /GroupingTypeError:/);
+    },
+      
 
+    testMixWithObjectsAndDefaultGroupAsFirstItem : function()
+    {
+      var that = this;
+      this.assertException(function()
+      {
+        var delegate = {
+          group : function(item) {
+            if (that._model.indexOf(item) == 0) {
+              return null;
+            }
+            return item.getGroup();
+          }
+        };
+        that._list.setDelegate(delegate);
+        that.flush();
+      }, Error, /GroupingTypeError:/);
+    },
+    
+    
+    testMixWithObjectsAndStrings : function()
+    {
+      var that = this;
+      this.assertException(function()
+      {
+        var delegate = {
+          group : function(item) {
+            var group = item.getGroup();
+            if (group.getName() == "A") {
+              return group.getName();
+            }
+            return group;
+          }
+        };
+        that._list.setDelegate(delegate);
+        that.flush();
+      }, Error, /GroupingTypeError:/);
+    },
+
+    
+    testMixWithObjectsStringsAndDefaultGroup : function()
+    {
+      var that = this;
+      this.assertException(function()
+      {
+        var delegate = {
+          group : function(item) {
+            var group = item.getGroup();
+            if (that._model.indexOf(item) == 0) {
+              return null;
+            }            
+            if (group.getName() == "A") {
+              return group.getName();
+            }
+            return group;
+          }
+        };
+        that._list.setDelegate(delegate);
+        that.flush();
+      }, Error, /GroupingTypeError:/);
+    },
+    
+    
     testGroupWithSorter : function()
     {
       // Expected result
