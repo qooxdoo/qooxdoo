@@ -280,19 +280,19 @@ qx.Class.define("qx.ui.list.List",
      * {Boolean} indicates when one or more <code>String</code> are used for grouping.
      */
     __groupStringsUsed : false,
-    
-    
+
+
     /**
      * {Boolean} indicates when one or more <code>Object</code> are used for grouping.
      */
     __groupObjectsUsed : false,
 
-    
+
     /**
      * {Boolean} indicates when a default group is used for grouping.
      */
     __defaultGroupUsed : false,
-    
+
 
     // overridden
     _createChildControlImpl : function(id, hash)
@@ -666,12 +666,12 @@ qx.Class.define("qx.ui.list.List",
     __createLookupFromGroup : function()
     {
       this.__checkGroupStructure();
-      
+
       var result = [];
       var row = 0;
       for (var i = 0; i < this.__groupHashKeyOrder.length; i++)
       {
-        var key = this.__groupHashKeyOrder[i]; 
+        var key = this.__groupHashKeyOrder[i];
 
         // indicate that the value is a group
         result.push(-1);
@@ -690,7 +690,7 @@ qx.Class.define("qx.ui.list.List",
 
     /**
      * Returns a unique group name for the passed group.
-     * 
+     *
      * @param group {String|Object} Group to find unique group name.
      * @return {String} Unique group name.
      */
@@ -701,14 +701,14 @@ qx.Class.define("qx.ui.list.List",
       {
         var index = this._groups.indexOf(group);
         this.__groupObjectsUsed = true;
-        
+
         name = "group";
         if (index == -1) {
            name += this._groups.getLength();
         } else {
           name += index;
         }
-      } 
+      }
       else
       {
         this.__groupStringsUsed = true;
@@ -717,7 +717,7 @@ qx.Class.define("qx.ui.list.List",
       return name;
     },
 
-    
+
     /**
      * Checks that <code>Object</code> and <code>String</code> are not mixed
      * as group identifier, otherwise an exception occurs.
@@ -727,7 +727,7 @@ qx.Class.define("qx.ui.list.List",
           this.__groupObjectsUsed && this.__groupStringsUsed)
       {
         throw new Error("GroupingTypeError: You can't mix 'Objects' and 'Strings' as" +
-        	" group identifier!");
+          " group identifier!");
       }
     }
   },
@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.list.List",
     this._layer.dispose();
     this._groups.dispose();
     this._background = this._provider = this._layer = this._groups =
-      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = 
+      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap =
       this.__groupHashKeyOrder = null;
   }
 });

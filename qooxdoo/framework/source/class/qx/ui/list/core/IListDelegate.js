@@ -131,13 +131,13 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
     /**
      * Gives the user the opportunity to group the model. The group method
-     * should return unique identifier for the passed data. 
-     * 
+     * should return unique identifier for the passed data.
+     *
      * Note: When you returning <code>null</code> the passed data will added
-     * to the default group, which is <code>???</code> from the type 
+     * to the default group, which is <code>???</code> from the type
      * <code>String</code>. But keep in mind that you can only use the default
-     * group feature when each other group identifier is also a <code>String</code>. 
-     * Otherwise an exception occurs, because you can't mix <code>Object</code> 
+     * group feature when each other group identifier is also a <code>String</code>.
+     * Otherwise an exception occurs, because you can't mix <code>Object</code>
      * and <code>String</code> group identifiers.
      *
      * @param data {var} The data to be checked.

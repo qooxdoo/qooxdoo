@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.list.fixture.ItemMock",
     {
       event : "changeName"
     },
-    
+
     group :
     {
       event : "changeGroup"

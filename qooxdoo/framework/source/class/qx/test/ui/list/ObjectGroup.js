@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
 
     __groups : null,
-       
+
     createModelData : function() {
       var model = new qx.data.Array();
       var groups = this.__groups = {};
@@ -63,10 +63,10 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
 
     tearDown : function() {
       this.base(arguments);
-      
+
       this.__groups == null;
     },
-    
+
 
     testGroup : function()
     {
@@ -116,7 +116,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
         that.flush();
       }, Error, /GroupingTypeError:/);
     },
-      
+
 
     testMixWithObjectsAndDefaultGroupAsFirstItem : function()
     {
@@ -135,8 +135,8 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
         that.flush();
       }, Error, /GroupingTypeError:/);
     },
-    
-    
+
+
     testMixWithObjectsAndStrings : function()
     {
       var that = this;
@@ -156,7 +156,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       }, Error, /GroupingTypeError:/);
     },
 
-    
+
     testMixWithObjectsStringsAndDefaultGroup : function()
     {
       var that = this;
@@ -167,7 +167,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
             var group = item.getGroup();
             if (that._model.indexOf(item) == 0) {
               return null;
-            }            
+            }
             if (group.getName() == "A") {
               return group.getName();
             }
@@ -178,8 +178,8 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
         that.flush();
       }, Error, /GroupingTypeError:/);
     },
-    
-    
+
+
     testGroupWithSorter : function()
     {
       // Expected result
@@ -207,7 +207,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
         sortedModel.push(this._model.getItem(i));
       }
       sortedModel.sort(sorter);
-      
+
       var delegate = {
         sorter : sorter,
         group : function(item) {
@@ -216,43 +216,43 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       };
       this._list.setDelegate(delegate);
       this.flush();
-      
+
       var groupedModel = this.__convertModel(sortedModel);
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list._groups.getLength(), "On List");
     },
-    
+
     __convertModel : function(model) {
       var result = new qx.data.Array();
-      
+
       // get all groups
       var groups = [];
       for (var i = 0; i < model.getLength(); i++)
       {
         var group = model.getItem(i).getGroup();
-        
+
         if (groups.indexOf(group) == -1) {
           groups.push(group);
         }
       }
-      
+
       // build results
       for (var i = 0; i < groups.length; i++)
       {
         result.push(groups[i]);
-        
+
         for (var k = 0; k < model.getLength(); k++)
         {
           var item = model.getItem(k);
           var group = item.getGroup();
-        
+
           if (groups[i] === group) {
             result.push(item);
           }
         }
       }
- 
+
       return result;
     }
   }
