@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
       clone = clone.getDomElement();
       if (clone) {
-        return Math.max(clone.scrollTop, this._getAreaHeight());
+        return clone.scrollTop;
       }
     },
 
@@ -346,6 +346,7 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyAutoSize: function(value, old) {
       if (value) {
+        this.__autoSize();
         this.addListener("input", this.__autoSize, this);
 
         // This is done asynchronously on purpose. The style given would
