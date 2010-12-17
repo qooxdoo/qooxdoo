@@ -531,7 +531,6 @@ qx.Class.define("qx.ui.list.List",
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
       this.__groupHashKeyOrder = [];
-      this.__test = {};
       this._groups.removeAll();
 
       var model = this.getModel();
@@ -605,13 +604,7 @@ qx.Class.define("qx.ui.list.List",
           var item = this.getModel().getItem(index);
           var group = groupMethod(item);
 
-          var name = group;
-          if (group != null && group.toHashCode != null && qx.lang.Type.isFunction(group.toHashCode)) {
-            name = group.toHashCode();
-            this.__test[name] = group;
-          }
-
-          this.__addGroup(name, index);
+          this.__addGroup(group, index);
         }
         this.__lookupTable = this.__createLookupFromGroup();
       }
@@ -621,18 +614,22 @@ qx.Class.define("qx.ui.list.List",
     /**
      * Adds a model index the the group.
      *
-     * @param name {String} the group name.
+     * @param group {String|Object|null} the group.
      * @param index {Integer} model index to add.
      */
-    __addGroup : function(name, index)
+    __addGroup : function(group, index)
     {
-      if (name == null) {
-        name = "???";
+      // if group is null add to default group
+      if (group == null) {
+        group = "???";
       }
 
-      if (this.__groupHashMap[name] == null) {
+      var name = this.__getUniqueGroupName(group);
+      if (this.__groupHashMap[name] == null)
+      {
         this.__groupHashKeyOrder.push(name);
         this.__groupHashMap[name] = [];
+        this._groups.push(group);
       }
       this.__groupHashMap[name].push(index);
     },
@@ -654,12 +651,6 @@ qx.Class.define("qx.ui.list.List",
         // indicate that the value is a group
         result.push(-1);
         this.__lookupTableForGroup.push(row);
-
-        if (this.__test[key] == null) {
-          this._groups.push(key);
-        } else {
-          this._groups.push(this.__test[key]);
-        }
         row++;
 
         var groupMembers = this.__groupHashMap[key];
@@ -669,6 +660,30 @@ qx.Class.define("qx.ui.list.List",
         }
       }
       return result;
+    },
+
+
+    /**
+     * Returns a unique group name for the passed group.
+     * 
+     * @param group {Sting|Object} Group to find unique group name.
+     * @return {String} Unique group name.
+     */
+    __getUniqueGroupName : function(group)
+    {
+      var name = group;
+      if (qx.lang.Type.isObject(group))
+      {
+        var index = this._groups.indexOf(group);
+        
+        name = "group";
+        if (index == -1) {
+           name += this._groups.getLength();
+        } else {
+          name += index;
+        }
+      }
+      return name;
     }
   },
 
@@ -680,6 +695,7 @@ qx.Class.define("qx.ui.list.List",
     this._layer.dispose();
     this._groups.dispose();
     this._background = this._provider = this._layer = this._groups =
-      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = null;
+      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = 
+      this.__groupHashKeyOrder = null;
   }
 });
