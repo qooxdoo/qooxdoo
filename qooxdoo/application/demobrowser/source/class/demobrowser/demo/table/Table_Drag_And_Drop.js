@@ -96,10 +96,9 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
 
       var selMap = [];
     
-      for (i=0; i<sel.length; i++)
+      for (var i=0; i<sel.length; i++)
       {
-        var interval = sel[i];
-        for (s = sel[i].minIndex; s <= sel[i].maxIndex; s++)
+        for (var s = sel[i].minIndex; s <= sel[i].maxIndex; s++)
         {
           var rowdata = this._table.getTableModel().getRowData(s);
           if (rowdata == null)
