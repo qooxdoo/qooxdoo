@@ -82,11 +82,6 @@ qx.Class.define("qx.theme.manager.Decoration",
         return null;
       }
 
-      var theme = this.getTheme();
-      if (!theme) {
-        return null;
-      }
-
       var cache = this.__dynamic;
       if (!cache) {
         cache = this.__dynamic = {};
@@ -100,6 +95,30 @@ qx.Class.define("qx.theme.manager.Decoration",
       var entry = theme.decorations[value];
       if (!entry) {
         return null;
+      }
+      
+      // create empty style map if necessary
+      if (!entry.style) {
+        entry.style = {};
+      }
+      
+      // check for inheritance
+      var currentEntry = entry;
+      while (currentEntry.include) {
+        currentEntry = theme.decorations[currentEntry.include];
+        // decoration key
+        if (!entry.decorator && currentEntry.decorator) {
+          entry.decorator = currentEntry.decorator;
+        }
+        
+        // styles key
+        if (currentEntry.style) {
+          for (var key in currentEntry.style) {
+            if (!entry.style[key]) {
+              entry.style[key] = currentEntry.style[key];
+            }
+          }
+        }
       }
 
       var clazz = entry.decorator;
