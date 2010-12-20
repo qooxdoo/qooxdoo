@@ -151,6 +151,14 @@ qx.Class.define("testrunner2.view.Console", {
       this.__testResults[testName].state = state;
       if (exceptions) {
         this.__testResults[testName].exceptions = exceptions;
+        var messages = [];
+        for (var i=0,l=exceptions.length; i<l; i++) {
+          var message = exceptions[i].exception.toString() + "\n";
+          //message += testResultData.getStackTrace(exceptions[i].exception);
+          messages.push(message);
+        }
+        this.__testResults[testName].messages = messages;
+        
       }
       
       var level;
@@ -176,13 +184,30 @@ qx.Class.define("testrunner2.view.Console", {
     /**
      * Returns the results of all tests that have been executed.
      * 
+     * @param exceptions {Boolean} Include an array of Error objects for any 
+     * test with exceptions
+     * 
      * @return {Map} Key: The test's full name. Value: Map containing two keys:
      * state (The test's result) and (if applicable) exceptions (array of errors
      * that occured during the test's run).
      */
-    getTestResults : function()
+    getTestResults : function(exceptions)
     {
-      return this.__testResults;
+      if (exceptions) {
+        return this.__testResults;
+      }
+      
+      var readableResults = {};
+      var res = this.__testResults;
+      for (var key in res) {
+        if (res.hasOwnProperty(key)) {
+          readableResults[key] = { state : res[key].state };
+          if (res[key].messages) {
+            readableResults[key].messages = res[key].messages;
+          }
+        }
+      }
+      return readableResults;
     },
     
     /**
