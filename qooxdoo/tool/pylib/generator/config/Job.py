@@ -143,7 +143,7 @@ class Job(object):
             for entry in extends:
                 # make best effort on macro expansion
                 if isinstance(entry, types.StringTypes):
-                    if entry.find('${') > -1:
+                    if Key.hasMacro(entry):
                         entry = letObj.expandMacros(entry)
                 # cyclic check: have we seen this already?
                 if entry in entryTrace:
@@ -204,7 +204,7 @@ class Job(object):
                 
                 # make best effort on macro expansion
                 if isinstance(subjob, types.StringTypes):
-                    if subjob.find('${') > -1:
+                    if Key.hasMacro(subjob):
                         subjob = letObj.expandMacros(subjob)
                 # get job object
                 subjobObj = self._getJob(subjob, config)
@@ -298,7 +298,7 @@ class Job(object):
 
     def _expandString(self, s, mapstr, mapbin):
         assert isinstance(s, types.StringTypes)
-        if s.find(r'${') == -1:  # optimization: no macro -> return
+        if not Key.hasMacro(s):  # optimization: no macro -> return
             return s
         macro = ""
         sub   = ""
@@ -350,8 +350,8 @@ class Job(object):
                 result[e] = enew
 
                 # expand in keys
-                if ((isinstance(e, types.StringTypes) and
-                        e.find(r'${')>-1)):
+                if (isinstance(e, types.StringTypes)
+                        and Key.hasMacro(e)):
                     enew = self._expandString(e, maps['str'], {}) # no bin expand here!
                     if enew == e:
                         #self._console.warn("! Empty expansion for macro in config key: \"%s\"" % e)
@@ -370,7 +370,7 @@ class Job(object):
 
         # strings
         elif isinstance(data, types.StringTypes):
-            if data.find(r'${')>-1:
+            if Key.hasMacro(data):
                 result = self._expandString(data, maps['str'], maps['bin'])
                 if result == data:
                     #self._console.warn("! Empty expansion for macro in config value: \"%s\"" % data)

@@ -156,8 +156,8 @@ class Let(Key):
                     data[e] = enew
 
                 # expand in keys
-                if ((isinstance(e, types.StringTypes) and
-                        e.find(r'${')>-1)):
+                if (isinstance(e, types.StringTypes)
+                        and Key.hasMacro(e)):
                     enew = self._expandString(e, maps['str'], {}) # no bin expand here!
                     data[enew] = data[e]
                     del data[e]
@@ -193,7 +193,7 @@ class Let(Key):
 
     def _expandString(self, s, mapstr, mapbin):
         assert isinstance(s, types.StringTypes)
-        if s.find(r'${') == -1:  # optimization: no macro -> return
+        if not Key.hasMacro(s):  # optimization: no macro -> return
             return s
         macro = ""
         sub   = ""
