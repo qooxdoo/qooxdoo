@@ -191,7 +191,7 @@ def CreateNewDemoJson():
     JSON.write('// This file is dynamically created by the generator!\n')
     JSON.write('{\n')
     # top-level includes
-    default_json = os.path.join('tool', 'default.json')
+    default_json = 'tool' + '/' + 'default.json'
     assert os.path.isfile(default_json)
     JSON.write('  "include":  [ { "path" : "%s" } ],\n' % default_json)
 
