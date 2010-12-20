@@ -197,6 +197,12 @@ qx.Class.define("qx.ui.form.TextArea",
       if (this._getAreaHeight() !== height) {
         this.__areaHeight = height;
         qx.ui.core.queue.Layout.add(this);
+
+        // Apply height directly. This works-around a visual glitch in WebKit
+        // browsers where a line-break causes the text to be moved upwards
+        // for one line. Since this change appears instantly whereas the queue
+        // is computed later, a flicker is visible.
+        qx.ui.core.queue.Manager.flush();
       }
     },
 
@@ -217,6 +223,13 @@ qx.Class.define("qx.ui.form.TextArea",
 
       clone = clone.getDomElement();
       if (clone) {
+
+        // Clone created but not yet in DOM. Try again.
+        if (!clone.parentNode) {
+          qx.html.Element.flush();
+          return this._getScrolledAreaHeight();
+        }
+
         return clone.scrollTop;
       }
     },
@@ -276,7 +289,6 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // Attach to DOM
       clone.insertBefore(orig);
-      qx.html.Element.flush();
 
       // Make sure scrollTop is actual height
       this.__scrollCloneToBottom(clone);
