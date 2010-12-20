@@ -38,6 +38,7 @@ qooxdoo/documentation/manual/build
 qooxdoo/application/feedreader/inspector
 qooxdoo/application/demobrowser/source/script/
 qooxdoo/application/demobrowser/config.demo.json
+qooxdoo/application/demobrowser/config.demo.new.json
 qooxdoo/application/demobrowser/build
 qooxdoo/application/demobrowser/cache/
 qooxdoo/application/feedreader/source/script/
