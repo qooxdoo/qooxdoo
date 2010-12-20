@@ -340,6 +340,18 @@ class Config(object):
 
 
 
+    ##
+    # Import the jobs of the configs listed with this config's top-level
+    # "include" key, so their jobs are locally available.
+    #
+    # Only jobs are imported, but global "let" keys are honored. Jobs can be
+    # imported with a prefix for their names (a "name space"), to avoid clashes
+    # with already existing job names.
+    # For each imported job, a synthetic local "ghost" is created, to do some
+    # pre-processing, and then the external job is merged into it. As all
+    # external config are kept in a member of the current config, all their jobs
+    # are available in their original form for later perusal (e.g. reference
+    # lookup).
     def resolveIncludes(self, includeTrace=[]):
 
         console.debug("including %s" % (self._fname.decode('utf-8') or "<unknown>",))
@@ -391,11 +403,15 @@ class Config(object):
                 self._includedConfigs.append(econfig)  # save external config for later reference
 
 
+    ##
+    # Jobs of external config are spliced into current job list
     def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
-        '''jobs of external config are spliced into current job list'''
+
         # Some helper functions
+        
+        ##
+        # Construct new job name for the imported job
         def createNewJobName(extJobEntry):
-            # Construct new job name for the imported job
             if (importJobsList and extJobEntry in importJobsList 
                 and isinstance(importJobsList[extJobEntry], types.DictType)):
                 newjobname = namepfx + importJobsList[extJobEntry]['as']
@@ -403,35 +419,36 @@ class Config(object):
                 newjobname = namepfx + extJobEntry  # create a job name
             return newjobname
 
-        def clashPrepare(newjobname):
-            '''do some householding and return a new job name'''
-            l.hasClash = True
-            l.clashname = newjobname
+        ##
+        # In case of a name collision, do some householding and return an
+        # alternate job name.
+        def clashPrepare(jobname):
             # import external job under different name
-            console.warn("! Shadowing job \"%s\" with local one" % newjobname)
+            console.warn("! Shadowing job \"%s\" with local one" % jobname)
             # construct a name prefix
             extConfigName = extConfig._fname or self.SHADOW_PREFIX
             extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
             # TODO: this might not be unique enough! (user could use extConfigName in 'as' param for other include)
-            newjobname = extConfigName + self.COMPOSED_NAME_SEP + newjobname
+            newjobname = extConfigName + self.COMPOSED_NAME_SEP + jobname
             return newjobname
 
-        def clashProcess():
+        def clashProcess(clashCase):
             # check whether the local job is protected
             jobMap = self.getJobsMap()
             if ((Key.OVERRIDE_KEY not in jobMap) or
-                (l.clashname not in jobMap[Key.OVERRIDE_KEY])):
+                (clashCase.name not in jobMap[Key.OVERRIDE_KEY])):
                 # put shaddowed job in the local 'extend'
                 if not newJob:
                     raise Error, "unsuitable new job"
-                localjob = self.getJob(l.clashname)
+                localjob = self.getJob(clashCase.name)
                 extList = localjob.getFeature('extend', [])
                 extList.append(newJob)
                 localjob.setFeature('extend', extList)
                 # add to config's shadowed list
                 self._shadowedJobs[newJob] = localjob
+            return
 
-
+        ##
         # Fix job references, but only for the jobs from the just imported config
         def patchJobReferences(job, key, renamedJobs):
             newlist = []
@@ -455,7 +472,7 @@ class Config(object):
             namepfx = ""         # job names will not be namespace'd
 
         renamedJobs = {}         # map for job renamings - done after all jobs have been imported
-        l           = NameSpace()  # for out-params of nested functions
+        clashCase   = NameSpace()  # to record a single clashing job name
 
         # Construct a map of import symbols (better lookup, esp. when aliased)
         importJobsList = {}
@@ -488,9 +505,12 @@ class Config(object):
             newjobname = createNewJobName(extJobEntry)
             
             # Check for name clashes
-            l.hasClash   = False
             if self.hasJob(newjobname):
+                clashCase.name_clashed = True
+                clashCase.name = newjobname
                 newjobname = clashPrepare(newjobname)
+            else:
+                clashCase.name_clashed = False  # reset
 
             # Now process the external job
             #   take essentially the external job into the local joblist
@@ -502,14 +522,14 @@ class Config(object):
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to original config
             if (newjobname != extJobEntry  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
-                and not l.hasClash):       # keep job references if there is shadowing
+                and not clashCase.name_clashed):       # keep job references if there is shadowing
                 renamedJobs[extJobEntry] = newjobname  # keep string reference for later binding
             self.addJob(newjobname, newJob)         # and add it
             newList.append(newJob)         # memorize jobs added from extConfig for later
 
             # Now process a possible name clash
-            if l.hasClash:
-                clashProcess()
+            if clashCase.name_clashed:
+                clashProcess(clashCase)
         
         # Fix job references, but only for the jobs from the just imported config
         # go through the list of just added jobs again
