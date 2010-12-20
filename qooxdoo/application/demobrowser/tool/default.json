@@ -65,13 +65,6 @@
 
     // -- source stuff ----------------
 
-    ,"default-source" :
-    {
-      "extend" : ["default-demo"],
-      "let" : { "BUILDTYPE" : "source" },
-      "run" : ["demos::source-${DNAME}-Classic", "demos::source-${DNAME}-Modern"] // the jobs have to be named as they appear in config.demobrowser.json    
-    }
-
     ,"default-source-Classic" :
     {
       "let"     : {"DTHEME" : "qx.theme.Classic"},
@@ -85,13 +78,6 @@
     }
 
     // -- build stuff ----------------
-
-    ,"default-build" :
-    {
-      "extend" : ["default-demo"],
-      "let" : { "BUILDTYPE" : "build" },
-      "run" : ["demos::build-${DNAME}-Classic", "demos::build-${DNAME}-Modern"]    
-    }
 
     ,"default-build-Classic" :
     {

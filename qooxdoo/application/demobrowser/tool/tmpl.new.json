@@ -1,7 +1,8 @@
     "source-XXX" : 
     {
-      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY" },
-      "extend" : ["default-source"]
+      "extend" : ["default-demo"],
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source" },
+      "run" : ["source-XXX-Classic", "source-XXX-Modern"]
     },
 
     "source-XXX-Classic" :
@@ -16,8 +17,9 @@
 
     "build-XXX" :
     {
-      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY" },
-      "extend" : ["default-build"]
+      "extend" : ["default-demo"],
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build" },
+      "run" : ["build-XXX-Classic", "build-XXX-Modern"]
     },
 
     "build-XXX-Classic" :
