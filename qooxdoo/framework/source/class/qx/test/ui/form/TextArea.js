@@ -189,7 +189,8 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
 
       // Grow
-      textArea.setValue("AffeMausElefantGiraffeTigerAffeMausElefantGiraffeTigerAffeMausElefantGiraffeTigerAffeMausElefantGiraffeTiger");
+      var longValue = this.__getLongValue();
+      textArea.setValue(longValue);
       this.flush();
       var wrapHeight = textArea.getSizeHint().height;
 
@@ -217,11 +218,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       //   return "AffeMausElefantGiraffeTiger";
       // }).join("");
 
-      var longValue = new qx.type.Array(10);
-      for(var i=0; i < longValue.length; i++) {
-        longValue[i] = "AffeMausElefantGiraffeTiger";
-      }
-      longValue = longValue.join("");
+      var longValue = this.__getLongValue();
 
       // Wrap
       textArea.setValue(longValue);
