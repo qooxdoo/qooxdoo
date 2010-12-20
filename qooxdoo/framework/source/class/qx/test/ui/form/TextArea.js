@@ -185,11 +185,6 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
     "test: textarea with autoSize<br/> shrinks when long line is unwrapped": function() {
 
-      // Text wrap not supported in older versions of Gecko
-      if (this.__legacyGecko()) {
-        return;
-      }
-
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       this.flush();
@@ -211,11 +206,6 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     "test: textarea with autoSize<br/> grows when long line is wrapped": function() {
-
-      // Text wrap not supported in older versions of Gecko
-      if (this.__legacyGecko()) {
-        return;
-      }
 
       var textArea = this.__textArea;
       textArea.set({
@@ -256,34 +246,11 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     __getLongValue: function() {
-      var val = new qx.type.Array(200);
+      var val = new qx.type.Array(50);
       for(var i=0; i < val.length; i++) {
-        val[i] = "A";
+        val[i] = "AAAAA ";
       }
       return val.join("");
-    },
-
-    __legacyGecko: function() {
-      var geckoVersion = function() {
-        var version = {};
-        var full = qx.bom.client.Engine.FULLVERSION.split(".");
-        version.major = full[0];
-        version.minor = full[1];
-        version.tiny = full[2];
-
-        return version;
-      }
-
-      if (qx.bom.client.Engine.GECKO &&
-          geckoVersion().major <= 2 &&
-          geckoVersion().minor <= 9 &&
-          geckoVersion().tiny  <= 1) {
-
-        this.warn("Skipping test");
-        return true;
-      }
-
-      return false;
     },
 
     tearDown : function()
