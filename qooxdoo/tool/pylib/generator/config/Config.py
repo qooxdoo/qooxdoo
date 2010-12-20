@@ -433,10 +433,13 @@ class Config(object):
 
 
         # Fix job references, but only for the jobs from the just imported config
-        def patchFeature(job, key, renamedJobs):
+        def patchJobReferences(job, key, renamedJobs):
             newlist = []
             oldlist = job.getFeature(key)
             for jobentry in oldlist:
+                if Key.hasMacro(jobentry) and renamedJobs:
+                    console.warn("Potential pitfall: Cannot rename job reference containing macros (%s#%s[\"%s\"]:%s)" \
+                                    % (extConfig._fname, extJob.name, key, oldlist))
                 if (isinstance(jobentry, types.StringTypes)
                     and jobentry in renamedJobs):
                     newlist.append(renamedJobs[jobentry])
@@ -514,7 +517,7 @@ class Config(object):
             # patch job references in 'run', 'extend', ... keys
             for key in Key.KEYS_WITH_JOB_REFS:
                 if job.hasFeature(key):
-                    patchFeature(job, key, renamedJobs)
+                    patchJobReferences(job, key, renamedJobs)
         
         return
 
