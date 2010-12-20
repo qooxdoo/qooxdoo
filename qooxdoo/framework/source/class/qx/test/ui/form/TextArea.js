@@ -46,6 +46,20 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("Affe", textArea.getValue());
     },
 
+    "test: textarea<br/> set minimal line-height": function() {
+      var textArea = this.__textArea;
+      this.flush();
+      var heightInitial = textArea.getSizeHint().height;
+
+      textArea.setMinimalLineHeight(1);
+      this.flush();
+      var heightSmall = textArea.getSizeHint().height;
+
+      var msg =  "Widget height must decrease (was: " + heightInitial +
+                 " is: " + heightSmall + ")";
+      this.assert(heightSmall < heightInitial, msg);
+    },
+
     //
     // Auto-Size
     //
@@ -140,7 +154,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       // Grow
       textArea.setValue("Affe\nMaus\nElefant\nGiraffe\nTiger");
       this.flush();
-      
+
       // Limit height
       textArea.setMaxHeight(50);
       this.flush();

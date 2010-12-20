@@ -77,7 +77,15 @@ qx.Class.define("qx.ui.form.TextArea",
       check : "Integer",
       init : 20
     },
-
+    
+    /** Minimal line height. On default this is set to four lines. */
+    minimalLineHeight :
+    {
+      check : "Integer",
+      apply : "_applyMinimalLineHeight",
+      init : 4
+    },
+    
     /**
     * Whether the textarea should automatically grow or shrink when content
     * does not fit.
@@ -336,7 +344,12 @@ qx.Class.define("qx.ui.form.TextArea",
       this.getContentElement().setWrap(value);
       this.__autoSize();
     },
-
+    
+    // property apply
+    _applyMinimalLineHeight : function() {
+      qx.ui.core.queue.Layout.add(this);
+    },
+    
     // property apply
     _applyAutoSize: function(value, old) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -398,8 +411,8 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       var hint = this.base(arguments);
 
-      // four lines of text by default
-      hint.height = hint.height * 4;
+      // lines of text
+      hint.height = hint.height * this.getMinimalLineHeight();
 
       // 20 character wide
       hint.width = this._getTextSize().width * 20;

@@ -85,8 +85,8 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         autoSize: true,
         minHeight: 200
       });
-      container.add(label, {row: 2, column: 0});
-      container.add(textAreaMin, {row: 3, column: 0});
+      container.add(label, {row: 3, column: 0});
+      container.add(textAreaMin, {row: 4, column: 0});
 
       var label = new qx.ui.basic.Label();
       label.setValue("Auto-Size (maximal height)");
@@ -97,8 +97,20 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         minHeight: 200,
         maxHeight: 300
       });
-      container.add(label, {row: 2, column: 1});
-      container.add(textAreaMax, {row: 3, column: 1});
+      container.add(label, {row: 3, column: 1});
+      container.add(textAreaMax, {row: 4, column: 1});
+
+      var label = new qx.ui.basic.Label();
+      label.setValue("Non-default minimal line height");
+      var textAreaSmall = new qx.ui.form.TextArea();
+      textAreaSmall.set({
+        allowStretchY: false,
+        autoSize: true,
+        minimalLineHeight: 1,
+        maxHeight : 300
+      });
+      container.add(label, {row: 3, column: 2});
+      container.add(textAreaSmall, {row: 4, column: 2});
 
     },
 
