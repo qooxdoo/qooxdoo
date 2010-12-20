@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       container.add(textAreaAuto, {row: 1, column: 1});
 
       var label = new qx.ui.basic.Label();
-      label.setValue("Auto-Size (wrap-handling)");
+      label.setValue("Wrap handling");
       var textAreaWrap = new qx.ui.form.TextArea();
       textAreaWrap.set({
         allowStretchY: false,
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       // Second block
 
       var label = new qx.ui.basic.Label();
-      label.setValue("Auto-Size (minimal height)");
+      label.setValue("Minimal height");
       var textAreaMin = new qx.ui.form.TextArea();
       textAreaMin.set({
         allowStretchY: false,
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       container.add(textAreaMin, {row: 4, column: 0});
 
       var label = new qx.ui.basic.Label();
-      label.setValue("Auto-Size (maximal height)");
+      label.setValue("Maximal height");
       var textAreaMax = new qx.ui.form.TextArea();
       textAreaMax.set({
         allowStretchY: false,
@@ -115,9 +115,9 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
     },
 
     __getLongValue: function() {
-      var val = new qx.type.Array(200);
+      var val = new qx.type.Array(50);
       for(var i=0; i < val.length; i++) {
-        val[i] = "A";
+        val[i] = "AAAAA ";
       }
       return val.join("");
     }
