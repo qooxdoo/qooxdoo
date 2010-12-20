@@ -57,6 +57,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
     selection :
     {
       check : "qx.data.Array",
+      event : "changeSelection",
       apply : "_applySelection",
       nullable : false,
       deferredInit : true
