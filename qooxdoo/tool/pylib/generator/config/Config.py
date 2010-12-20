@@ -23,7 +23,7 @@
 import os, sys, re, types, string, copy
 import simplejson
 from generator.config.Manifest import Manifest
-from generator.config.Lang import Lang
+from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
@@ -62,14 +62,14 @@ class Config(object):
             raise TypeError, str(data)
 
         # make sure there is at least an empty jobs map (for later filling)
-        if isinstance(self._data, types.DictType) and Lang.JOBS_KEY not in self._data:
-            self._data[Lang.JOBS_KEY] = {}
+        if isinstance(self._data, types.DictType) and Key.JOBS_KEY not in self._data:
+            self._data[Key.JOBS_KEY] = {}
         
         # incorporate let macros from letkwargs
         if letKwargs:
-            if not Lang.LET_KEY in self._data:
-                self._data[Lang.LET_KEY] = {}
-            self._data[Lang.LET_KEY].update(letKwargs)
+            if not Key.LET_KEY in self._data:
+                self._data[Key.LET_KEY] = {}
+            self._data[Key.LET_KEY].update(letKwargs)
 
         # expand macros for some top-level keys
         self.expandTopLevelKeys()
@@ -108,13 +108,13 @@ class Config(object):
 
     
     def expandTopLevelKeys(self):
-        if Lang.LET_KEY in self._data:
-            letObj = Let(self._data[Lang.LET_KEY])  # create a Let object from let map
+        if Key.LET_KEY in self._data:
+            letObj = Let(self._data[Key.LET_KEY])  # create a Let object from let map
             letObj.expandMacrosInLet()              # do self-expansion of macros
             for key in self._data:
-                if key == Lang.JOBS_KEY:            # skip 'jobs'; they expand later
+                if key == Key.JOBS_KEY:            # skip 'jobs'; they expand later
                     continue
-                elif key == Lang.LET_KEY:           # macro definitions have to remain re-evaluable
+                elif key == Key.LET_KEY:           # macro definitions have to remain re-evaluable
                     continue
                 else:
                     dat = letObj.expandMacros(self._data[key])
@@ -140,7 +140,7 @@ class Config(object):
     NS_SEP            = "/"    # this is to reference jobs from nested configs
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     SHADOW_PREFIX     = "XXX"  # this is a fall-back prefix for shadowed jobs
-    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % Lang.OVERRIDE_TAG)  # identify tag and extract orig. key
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % Key.OVERRIDE_TAG)  # identify tag and extract orig. key
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -204,8 +204,8 @@ class Config(object):
 
         # local job?
         # this also finds imported jobs, namespaced or not
-        if self._data.has_key(Lang.JOBS_KEY) and self._data[Lang.JOBS_KEY].has_key(job):
-            jobEntry = self._data[Lang.JOBS_KEY][job]
+        if self._data.has_key(Key.JOBS_KEY) and self._data[Key.JOBS_KEY].has_key(job):
+            jobEntry = self._data[Key.JOBS_KEY][job]
             if isinstance(jobEntry, Job):
                 # make sure it has link to this config
                 if not jobEntry.getConfig():
@@ -214,7 +214,7 @@ class Config(object):
             else:
                 # create Job object
                 jobObj = Job(job, jobEntry, self._console, self)
-                self._data[Lang.JOBS_KEY][job] = jobObj # overwrite map with obj
+                self._data[Key.JOBS_KEY][job] = jobObj # overwrite map with obj
                 return jobObj
         # job from included config? (to find required, but blocked jobs (e.g. through 'block' key)
         elif withIncludes:
@@ -241,8 +241,8 @@ class Config(object):
             return False
         
     def getJobsMap(self, default=None):
-        if Lang.JOBS_KEY in self._data:
-            return self._data[Lang.JOBS_KEY]
+        if Key.JOBS_KEY in self._data:
+            return self._data[Key.JOBS_KEY]
         else:
             return default
         
@@ -288,9 +288,9 @@ class Config(object):
                 jobsMap[cleankey] = jobsMap[jobName]
                 del jobsMap[jobName]
                 # add to override key
-                if not Lang.OVERRIDE_KEY in jobsMap:
-                    jobsMap[Lang.OVERRIDE_KEY] = []
-                jobsMap[Lang.OVERRIDE_KEY].append(cleankey)
+                if not Key.OVERRIDE_KEY in jobsMap:
+                    jobsMap[Key.OVERRIDE_KEY] = []
+                jobsMap[Key.OVERRIDE_KEY].append(cleankey)
                 # fix Job object property
                 if isinstance(jobsMap[cleankey], Job):
                     jobsMap[cleankey].name = cleankey
@@ -316,15 +316,15 @@ class Config(object):
         tl_keys = configMap.keys()
         for key in tl_keys:
             # does key exist?
-            if key not in Lang.TOP_LEVEL_KEYS.keys():
+            if key not in Key.TOP_LEVEL_KEYS.keys():
                 self._console.warn("! Unknown top-level config key \"%s\" - ignored." % key)
                 #raise RuntimeError("! Unknown top-level config key \"%s\" - ignored." % key)
             # does it have a correct value type?
-            elif not isinstance(configMap[key], Lang.TOP_LEVEL_KEYS[key]):
-                self.raiseConfigError("Incorrect value for top-level config key \"%s\" (expected %s)" % (key, Lang.TOP_LEVEL_KEYS[key]))
+            elif not isinstance(configMap[key], Key.TOP_LEVEL_KEYS[key]):
+                self.raiseConfigError("Incorrect value for top-level config key \"%s\" (expected %s)" % (key, Key.TOP_LEVEL_KEYS[key]))
 
         # check job-level
-        jobEntries = configMap[Lang.JOBS_KEY]
+        jobEntries = configMap[Key.JOBS_KEY]
         jobType    = types.DictType
         for jobentry in jobEntries:
             if not isinstance(jobEntries[jobentry], (jobType, Job)):
@@ -393,25 +393,6 @@ class Config(object):
 
     def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
         '''jobs of external config are spliced into current job list'''
-        if namespace:
-            namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
-        else:
-            namepfx = ""         # job names will not be namespace'd
-
-        renamedJobs = {}         # map for job renamings - done after all jobs have been imported
-        l           = NameSpace()  # for out-params of nested functions
-
-        # Construct a map of import symbols (better lookup, esp. when aliased)
-        importJobsList = {}
-        if impJobsList:
-            for e in impJobsList:
-                if isinstance(e, types.StringTypes):
-                    importJobsList[e]=None
-                elif isinstance(e, types.DictType):  # {name: <name>, as: <alias>}
-                    importJobsList[e['name']] = {'as': e['as']}
-                else:
-                    raise TypeError, "Illegal import entry: %s (Config: %s)" % (str(e), self._fname)
-
         # Some helper functions
         def createNewJobName(extJobEntry):
             # Construct new job name for the imported job
@@ -438,8 +419,8 @@ class Config(object):
         def clashProcess():
             # check whether the local job is protected
             jobMap = self.getJobsMap()
-            if ((Lang.OVERRIDE_KEY not in jobMap) or
-                (l.clashname not in jobMap[Lang.OVERRIDE_KEY])):
+            if ((Key.OVERRIDE_KEY not in jobMap) or
+                (l.clashname not in jobMap[Key.OVERRIDE_KEY])):
                 # put shaddowed job in the local 'extend'
                 if not newJob:
                     raise Error, "unsuitable new job"
@@ -451,12 +432,45 @@ class Config(object):
                 self._shadowedJobs[newJob] = localjob
 
 
+        # Fix job references, but only for the jobs from the just imported config
+        def patchFeature(job, key, renamedJobs):
+            newlist = []
+            oldlist = job.getFeature(key)
+            for jobentry in oldlist:
+                if (isinstance(jobentry, types.StringTypes)
+                    and jobentry in renamedJobs):
+                    newlist.append(renamedJobs[jobentry])
+                else:
+                    newlist.append(jobentry)
+            job.setFeature(key, newlist)
+
+        # -- Main --------------------------------------------------------------
+
+        if namespace:
+            namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
+        else:
+            namepfx = ""         # job names will not be namespace'd
+
+        renamedJobs = {}         # map for job renamings - done after all jobs have been imported
+        l           = NameSpace()  # for out-params of nested functions
+
+        # Construct a map of import symbols (better lookup, esp. when aliased)
+        importJobsList = {}
+        if impJobsList:
+            for e in impJobsList:
+                if isinstance(e, types.StringTypes):
+                    importJobsList[e]=None
+                elif isinstance(e, types.DictType):  # {name: <name>, as: <alias>}
+                    importJobsList[e['name']] = {'as': e['as']}
+                else:
+                    raise TypeError, "Illegal import entry: %s (Config: %s)" % (str(e), self._fname)
+
         # Merge global "let" -- currently disabled, see Bug#4126
-        #extLet = extConfig.get(Lang.LET_KEY, False)
+        #extLet = extConfig.get(Key.LET_KEY, False)
         #if extLet:
         #    tmp = extLet.copy()
-        #    tmp.update(self.get(Lang.LET_KEY, {}))  # this should probably be deepMerge
-        #    self.set(Lang.LET_KEY, tmp)
+        #    tmp.update(self.get(Key.LET_KEY, {}))  # this should probably be deepMerge
+        #    self.set(Key.LET_KEY, tmp)
         #    self.expandTopLevelKeys()  # we're making macro expansion in selected top-level keys eager
 
         # Go through the list of jobs to import
@@ -494,24 +508,11 @@ class Config(object):
             if l.hasClash:
                 clashProcess()
         
-
         # Fix job references, but only for the jobs from the just imported config
-        #   helper function
-        def patchFeature(job, key, renamedJobs):
-            newlist = []
-            oldlist = job.getFeature(key)
-            for jobentry in oldlist:
-                if (isinstance(jobentry, types.StringTypes)
-                    and jobentry in renamedJobs):
-                    newlist.append(renamedJobs[jobentry])
-                else:
-                    newlist.append(jobentry)
-            job.setFeature(key, newlist)
-
         # go through the list of just added jobs again
         for job in newList:  # there is no easy way to get newList from other data
             # patch job references in 'run', 'extend', ... keys
-            for key in Lang.KEYS_WITH_JOB_REFS:
+            for key in Key.KEYS_WITH_JOB_REFS:
                 if job.hasFeature(key):
                     patchFeature(job, key, renamedJobs)
         
@@ -524,8 +525,8 @@ class Config(object):
         console.indent()
 
         # while there are still 'run' jobs or unresolved jobs in the job list...
-        while ([x for x in jobList if self.getJob(x).hasFeature(Lang.RUN_KEY)] or 
-               [y for y in jobList if not self.getJob(y).hasFeature(Lang.RESOLVED_KEY)]):
+        while ([x for x in jobList if self.getJob(x).hasFeature(Key.RUN_KEY)] or 
+               [y for y in jobList if not self.getJob(y).hasFeature(Key.RESOLVED_KEY)]):
             jobList = self._resolveExtends(jobList)
             jobList = self._resolveRuns(jobList)
 
@@ -558,7 +559,7 @@ class Config(object):
     # @param     self     (IN) self
     # @param     jobs     (IN) list of names of jobs that might be 'run'-extended
     # @return    newjobs  (OUT) new list of jobs to run
-    # @exception RuntimeError  Lang.RESOLVED_KEY key missing in a job
+    # @exception RuntimeError  Key.RESOLVED_KEY key missing in a job
     #
     # DESCRIPTION
     #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
@@ -573,7 +574,7 @@ class Config(object):
         newJobList = []
         for jobName in jobNames:
             job = self.getJob(jobName)
-            if not job.hasFeature(Lang.RUN_KEY):
+            if not job.hasFeature(Key.RUN_KEY):
                 newJobList.append(job)
             else:
                 sublist = job.resolveRun(cfg=self)
@@ -746,127 +747,6 @@ class Config(object):
                 yield path, child
                 for path1, key in self.walk(data[child], "/".join((path, child))):
                     yield path1, key
-
-
-
-class Let(object):
-    '''Class representing a map with macros (typically under the 'let' key)'''
-
-    def __init__(self, letMap):
-        assert isinstance(letMap, types.DictType)
-        self._data = copy.deepcopy(letMap)
-
-    def expandMacrosInLet(self):
-        # TODO: this code duplicates a lot of Job._expandMacrosInLet
-        """ do macro expansion within the "let" dict;
-            this is a self-modifying operation, tampering self._data"""
-
-        letDict = self._data
-        keys = letDict.keys()
-        for k in keys:
-            kval = letDict[k]
-            
-            # construct a temporary mini-dict of translation maps for the calls to 
-            # expandMacros() further down
-            # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
-            if isinstance(kval, types.StringTypes):
-                kdicts = {'str': {k:kval}, 'bin': {}}
-            else:
-                kdicts = {'str': {}, 'bin': {k:kval}}
-                
-            # cycle through other keys of this dict
-            for k1 in keys:
-                if k != k1: # no expansion with itself!
-                    enew = self.expandMacros(letDict[k1], kdicts)
-                    if enew != letDict[k1]:
-                        console.debug("expanding: %s ==> %s" % (k1, str(enew)))
-                        letDict[k1] = enew
-
-        return letDict
-        
-
-    def expandMacros(self, dat, maps=None):
-        # TODO: this code duplicates a lot of Job._expandMacrosInValues
-        """ apply macro expansion on arbitrary values; takes care of recursive data like
-            lists and dicts; only actually applies macros when a string is encountered on 
-            the way (look for calls to _expandString());
-            this is a referential transparent operation, as long as self._data is unaltered"""
-        data = copy.deepcopy(dat) # make sure we return a copy of the argument data
-        
-        maps = maps or self._getLetMaps()
-
-        # arrays
-        if isinstance(data, types.ListType):
-            for e in range(len(data)):
-                enew = self.expandMacros(data[e], maps)
-                if enew != data[e]:
-                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
-                    data[e] = enew
-                    
-        # dicts
-        elif isinstance(data, types.DictType):
-            for e in data.keys(): # have to use keys() explicitly since i modify data in place
-                # expand in values
-                enew = self.expandMacros(data[e], maps)
-                if enew != data[e]:
-                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
-                    data[e] = enew
-
-                # expand in keys
-                if ((isinstance(e, types.StringTypes) and
-                        e.find(r'${')>-1)):
-                    enew = self._expandString(e, maps['str'], {}) # no bin expand here!
-                    data[enew] = data[e]
-                    del data[e]
-                    console.debug("expanding key: %s ==> %s" % (e, enew))
-
-        # strings
-        elif isinstance(data, types.StringTypes):
-            data = self._expandString(data, maps['str'], maps['bin'])
-
-        # leave everything else alone
-        else:
-            pass
-
-        return data
-
-
-    def _getLetMaps(self, letMap=None):
-        # TODO: this code duplicates code from Job.resolveMacros()
-        '''return the let map as a pair of string - bin maps'''
-        letMap = letMap or self._data
-
-        # separate strings from other values
-        letmaps = {}
-        letmaps['str'] = {}
-        letmaps['bin'] = {}
-        for k in letMap:
-            if isinstance(letMap[k], types.StringTypes):
-                letmaps['str'][k] = letMap[k]
-            else:
-                letmaps['bin'][k] = letMap[k]
-                    
-        return letmaps
-
-    def _expandString(self, s, mapstr, mapbin):
-        assert isinstance(s, types.StringTypes)
-        if s.find(r'${') == -1:  # optimization: no macro -> return
-            return s
-        macro = ""
-        sub   = ""
-        possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
-        if possiblyBin:
-            macro = possiblyBin.group(1)
-        if macro and (macro in mapbin.keys()):
-            replval = mapbin[macro]
-            if isinstance(replval, (types.DictType, types.ListType)):
-                sub = copy.deepcopy(replval)  # make sure macro values are not affected during value merges later
-            else:
-                sub = replval
-        else:
-            templ = string.Template(s)
-            sub = templ.safe_substitute(mapstr)
-        return sub
 
 
 # Late imports, for cross-importing

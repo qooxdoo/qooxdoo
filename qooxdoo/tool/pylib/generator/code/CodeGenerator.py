@@ -21,7 +21,7 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
-from generator.config.Lang      import Lang
+from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.resource.ResourceHandler import ResourceHandler
@@ -680,7 +680,7 @@ class CodeGenerator(object):
         variats = {}
 
         for key in variants:
-            if key in Lang.META_KEYS:
+            if key in Key.META_KEYS:
                 continue
             variats[key] = variants[key]
 

@@ -23,6 +23,7 @@
 import sys, os, optparse, string, types, pprint
 import qxenviron
 from misc.ExtendAction import ExtendAction
+from generator import Context
 from generator.Generator import Generator
 from generator.config.Config import Config
 from generator.runtime.Log import Log
@@ -124,6 +125,7 @@ Arguments:
         level = "info"
 
     console = Log(options.logfile, level)
+    Context.console = console
 
     # Treat verbosity of pre-job processing
     if options.config_verbose:
