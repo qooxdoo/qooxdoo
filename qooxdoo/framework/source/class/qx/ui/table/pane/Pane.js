@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
           // value, however, from createDataCellHtml, so assume those are
           // returning false.
           //
-          // Tested with http://tinyurl.com/2wexyzl
+          // Tested with http://tinyurl.com/333hyhv
           stopLoop =
             cellRenderer.createDataCellHtml(cellInfo, rowHtml) || false;
         }
