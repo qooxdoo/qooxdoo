@@ -90,7 +90,6 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
 
     _handleDropRequest: function(e) 
     { 
-      var action = e.getCurrentAction(); 
       var type = e.getCurrentType(); 
       var sel = this._table.getSelectionModel().getSelectedRanges();
 
