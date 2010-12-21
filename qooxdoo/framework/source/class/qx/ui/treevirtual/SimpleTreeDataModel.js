@@ -127,6 +127,24 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   },
 
 
+  properties :
+  {
+    /**
+     * Gives the user the opportunity to filter the model. The filter
+     * function is called for every node in the model. It gets as an argument the
+     * <code>node</code> object and has to return
+     * <code>true</code> if the given data should be shown and
+     * <code>false</code> if the given data should be ignored.
+     */
+    filter :
+    {
+      check : "Function",
+      nullable : true,
+      apply : "_applyFilter"
+    }
+  },
+
+
 
   /*
   *****************************************************************************
@@ -661,6 +679,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
       function render()
       {
+        var filter = _this.getFilter();
         var inorder = function(nodeId, level)
         {
           var child = null;
@@ -681,6 +700,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             if (child == null)
             {
               continue;
+            }
+
+            // Apply filter
+            if (filter)
+            {
+              if (!filter.call(_this, child)) {
+                continue;
+              }
             }
 
             // (Re-)assign this node's level
@@ -792,7 +819,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
           _this.fireDataEvent("dataChanged", data);
         }
-      }
+      };
 
       if (nodeArr instanceof Array)
       {
@@ -1097,6 +1124,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       return nodes;
+    },
+
+
+    // property apply
+    _applyFilter : function(value, old)
+    {
+      this.setData();
     }
   },
 
