@@ -427,7 +427,7 @@ qx.Class.define("qx.event.handler.Input",
     {
       "opera" : function(e)
       {
-        if (this.__onInputTimeoutId) {
+        if (this.__onInputTimeoutId && qx.bom.client.Browser.VERSION < 10.6) {
           window.clearTimeout(this.__onInputTimeoutId);
         }
       },
@@ -454,9 +454,10 @@ qx.Class.define("qx.event.handler.Input",
       var tag = target.tagName.toLowerCase();
       // ignore native input event when triggered by return in input element
       if (!this.__enter || tag !== "input") {
-        // opera needs a special treatment for input events because they are
-        // also fired on blur
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
+        // opera lower 10.6 needs a special treatment for input events because
+        // they are also fired on blur
+        if (qx.core.Variant.isSet("qx.client", "opera") &&
+            qx.bom.client.Browser.VERSION < 10.6) {
           this.__onInputTimeoutId = window.setTimeout(function() {
             qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
           }, 0);
