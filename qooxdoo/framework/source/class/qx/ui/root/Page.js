@@ -71,6 +71,12 @@ qx.Class.define("qx.ui.root.Page",
 
     // Register as root
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
+
+    // Avoid the automatically scroll in to view.
+    // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3236 for details.
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      this.setKeepFocus(true);
+    }
   },
 
 
