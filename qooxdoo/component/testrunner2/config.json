@@ -77,6 +77,12 @@
         "qx.testNameSpace" : "${TEST_NAMESPACE}"
       },
       
+      "include" :
+      [
+        "testrunner2.Application",
+        "${TESTRUNNER_VIEW}"
+      ],
+      
       "compile-options" :
       {
         "paths"  :
