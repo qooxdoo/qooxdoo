@@ -226,7 +226,7 @@ def CreateNewDemoJson():
         # concat all
         currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",name).replace("ZZZ",category)
         JSON.write("%s," % currcont[:-1])
-        JSON.write("\n\n\n")
+        JSON.write("\n\n")
 
     # Post-processing
     for category in scategories:

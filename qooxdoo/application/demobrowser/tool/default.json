@@ -63,29 +63,15 @@
       }
     }
 
-    // -- source stuff ----------------
+    // -- generic jobs for *-Classic, *-Modern ----------
 
-    ,"default-source-Classic" :
+    ,"default-Classic" :
     {
       "let"     : {"DTHEME" : "qx.theme.Classic"},
       "compile" : { "type"  : "${BUILDTYPE}" }
     }
 
-    ,"default-source-Modern" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Modern"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
-    }
-
-    // -- build stuff ----------------
-
-    ,"default-build-Classic" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Classic"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
-    }
-
-    ,"default-build-Modern" :
+    ,"default-Modern" :
     {
       "let"     : {"DTHEME" : "qx.theme.Modern"},
       "compile" : { "type"  : "${BUILDTYPE}" }

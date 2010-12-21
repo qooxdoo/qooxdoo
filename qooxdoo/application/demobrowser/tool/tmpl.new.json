@@ -2,32 +2,12 @@
     {
       "extend" : ["default-demo"],
       "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source" },
-      "run" : ["source-XXX-Classic", "source-XXX-Modern"]
-    },
-
-    "source-XXX-Classic" :
-    {
-      "extend" : ["default-source-Classic"]
-    },
-
-    "source-XXX-Modern" :
-    {
-      "extend" : ["default-source-Modern"]
+      "run" : ["default-Classic", "default-Modern"]
     },
 
     "build-XXX" :
     {
       "extend" : ["default-demo"],
       "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build" },
-      "run" : ["build-XXX-Classic", "build-XXX-Modern"]
-    },
-
-    "build-XXX-Classic" :
-    {
-      "extend" : ["default-build-Classic"]
-    },
-
-    "build-XXX-Modern" :
-    {
-      "extend" : ["default-build-Modern"]
+      "run" : ["default-Classic", "default-Modern"]
     }
