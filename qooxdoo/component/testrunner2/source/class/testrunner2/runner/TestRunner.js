@@ -444,8 +444,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }
       else {
         this.setTestSuiteState("error");
+        this.__loadAttempts = 0;
         return;
       }
+      
+      this.__loadAttempts = 0;
       
       /*
        * Get the value of qx.testParts from the AUT frame. This setting won't 

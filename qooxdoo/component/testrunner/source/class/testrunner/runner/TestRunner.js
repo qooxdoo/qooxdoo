@@ -1368,6 +1368,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
             // Prohibit the alert from being shown again
             this.__frameUnsafeAttempt = true;
+            this.__loadAttempts = 0;
 
             return;
           }
@@ -1396,6 +1397,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         }
       }
       else {
+        this.__loadAttempts = 0;
         alert(this.tr("The selected test file is invalid."));
         this.toolbar.setEnabled(true);
         this.widgets["statuspane.systeminfo"].setValue(this.tr("Invalid test file selected!"));
@@ -1403,6 +1405,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       //this.warn("loaded!!!!!");
+      this.__loadAttempts = 0;
 
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
