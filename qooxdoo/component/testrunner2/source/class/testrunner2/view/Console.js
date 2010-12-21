@@ -233,7 +233,7 @@ qx.Class.define("testrunner2.view.Console", {
      */
     _applyAutUri : function(value, old)
     {
-      qx.bom.Iframe.setSource(this.__iframe, value);
+      qx.bom.Iframe.setSource(this.getIframe(), value);
     }
   }
 });
