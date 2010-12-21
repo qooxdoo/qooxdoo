@@ -1,7 +1,5 @@
 /*
- * Demonstrate use of multiple columns in a tree, and the use of the
- * getHierarchy() method to retrieve the entire tree path of a node.
- * Allows various options to be manipulated.
+ * Demonstrate how to apply a filter to the SimpleTreeDataModel.
  */
 qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Filter",
 {
@@ -90,6 +88,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Filter",
       },this);
       commandFrame.add(textField);
 
+      // Set the filter
       var filter = qx.lang.Function.bind(function(node)
       {
         if (node.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
