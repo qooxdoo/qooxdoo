@@ -64,7 +64,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
       }, this);
       form.addButton(defaultButton);
     }
-    
+
     var okButton = new qx.ui.form.Button("OK");
     okButton.addListener("execute", function() {
       if (form.validate()) {

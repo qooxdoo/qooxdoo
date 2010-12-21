@@ -100,7 +100,7 @@ qx.Class.define("inspector.selenium.View", {
   properties : {
 
     /**
-     * Array containing the URIs of the Selenium Core and qooxdoo user 
+     * Array containing the URIs of the Selenium Core and qooxdoo user
      * extensions scripts
      */
     seleniumScripts : {
@@ -121,9 +121,9 @@ qx.Class.define("inspector.selenium.View", {
     __seleneseTestCase : null,
 
     /**
-     * Set the currently inspected widget. Add a locator for it if recording  
+     * Set the currently inspected widget. Add a locator for it if recording
      * mode is active
-     * 
+     *
      * @param widget {qx.ui.core.Widget} The inspected widget
      */
     select : function(widget) {
@@ -138,7 +138,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Returns the currently inspected widget
-     * 
+     *
      * @return {qx.ui.core.Widget}
      */
     getSelection : function() {
@@ -173,7 +173,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Creates the toolbar part containing the add and remove buttons
-     * 
+     *
      * @return {qx.ui.toolbar.Part}
      */
     __getToolbarPart1 : function()
@@ -199,7 +199,7 @@ qx.Class.define("inspector.selenium.View", {
     /**
      * Creates the toolbar part containing the speed slider and the run, record
      * and export buttons
-     * 
+     *
      * @return {qx.ui.toolbar.Part}
      */
     __getToolbarPart2 : function()
@@ -242,7 +242,7 @@ qx.Class.define("inspector.selenium.View", {
       part2.add(this._recordButton);
       var recOpts = {
         converter : function(data) {
-          return data ? "Stop adding commands for inspected widgets" : 
+          return data ? "Stop adding commands for inspected widgets" :
           "Automatically add a new command for each inspected widget";
         }
       };
@@ -260,7 +260,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Creates the toolbar part containing the options button
-     * 
+     *
      * @return {qx.ui.toolbar.Part}
      */
     __getToolbarPart3 : function()
@@ -279,7 +279,7 @@ qx.Class.define("inspector.selenium.View", {
     },
 
     /**
-     * Adds an entry to the Selenium commands table consisting of a command 
+     * Adds an entry to the Selenium commands table consisting of a command
      * (currently always "qxClick") and a locator for the currently inspected
      * widget
      */
@@ -324,7 +324,7 @@ qx.Class.define("inspector.selenium.View", {
         tableModel.removeRows(row - i, 1);
       }
     },
-    
+
     /**
      * Clears the table model data.
      */
@@ -336,7 +336,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Creates the Selenium commands table
-     * 
+     *
      * @return {qx.ui.table.Table} The commands table
      */
     __getTable : function()
@@ -384,11 +384,11 @@ qx.Class.define("inspector.selenium.View", {
 
       return table;
     },
-    
-    
+
+
     /**
      * Creates the "clear log" button and Selenium log level select box
-     * 
+     *
      * @return {qx.ui.container.Composite} Container with the log controls
      */
     __getLogControls : function()
@@ -409,20 +409,20 @@ qx.Class.define("inspector.selenium.View", {
         }
       }, this);
       logContainerInner.add(logLevelSelect);
-      
+
       var btnClear = new qx.ui.form.Button("Clear");
       btnClear.addListener("execute", function(ev) {
         this._logArea.setHtml("")
       }, this);
       logContainerInner.add(btnClear);
-      
+
       return logContainerInner;
     },
-    
+
 
     /**
-     * Creates the log output widget 
-     * 
+     * Creates the log output widget
+     *
      * @return {qx.ui.embed.Html} The log widget
      */
     __getLogArea : function()
@@ -556,12 +556,12 @@ qx.Class.define("inspector.selenium.View", {
       }, this);
 
       this.__seleneseTestCase.addListener("changeSeleneseCommands", this.__importCommands, this);
-      
+
       this.__seleneseTestCase.open();
     },
-    
+
     /**
-     * Deletes all commands after asking for confirmation. 
+     * Deletes all commands after asking for confirmation.
      */
     clearTable : function()
     {
@@ -571,7 +571,7 @@ qx.Class.define("inspector.selenium.View", {
           this.__clearTableData();
         }
       }
-            
+
     },
 
     /**
@@ -620,8 +620,8 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Loads the Selenium Core and qooxdoo user extensions scripts
-     * 
-     * @param value {String[]} Array containing the URIs for the Selenium Core 
+     *
+     * @param value {String[]} Array containing the URIs for the Selenium Core
      * and qooxdoo user extenions scripts
      * @param old {String[]|null} Old value
      */
@@ -664,14 +664,14 @@ qx.Class.define("inspector.selenium.View", {
       }
       loader.load(coreQueue);
     },
-    
+
     __importCommands : function(ev)
     {
       var rows = ev.getData();
       if (!rows || rows.length == 0) {
         return;
       };
-      
+
       var tableModel = this._table.getTableModel();
       var tableRowCount = tableModel.getRowCount();
       if (tableRowCount > 0) {
@@ -681,7 +681,7 @@ qx.Class.define("inspector.selenium.View", {
           tableModel.removeRows(0, tableRowCount);
         }
       }
-      
+
       for (var i=0,l=rows.length; i<l; i++) {
         var row = rows[i];
         row.push(this.__availableCommands);
@@ -693,7 +693,7 @@ qx.Class.define("inspector.selenium.View", {
     /**
      * Called once the script loader is done. Checks if the Selenium scripts
      * were loaded correctly and, if so, enables the toolbar
-     * 
+     *
      * @param ev {qx.event.type.Data} The script loader's "finished" event
      */
     __scriptsLoaded : function(ev)

@@ -75,10 +75,10 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       this.setWidth(550);
     },
 
-    
+
     /**
      * Inform the view that the inspected widget has changed
-     * 
+     *
      * @param widget {qx.ui.core.Widget} The new inspected widget
      */
     select: function(widget) {
@@ -88,7 +88,7 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     /**
      * If the Inspected application changes, add the Selenium scripts to its
      * window and ask the user if the command list should be cleared.
-     * 
+     *
      * @param e {qx.event.type.Event} changeApplication event
      */
     __onChangeApplication : function(e) {

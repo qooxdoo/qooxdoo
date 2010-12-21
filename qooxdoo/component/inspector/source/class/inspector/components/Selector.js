@@ -444,7 +444,7 @@ qx.Class.define("inspector.components.Selector",
 
     /**
      * Helper methide to update the "CatchClickLayer" size.
-     * 
+     *
      * @param e {qx.event.type.Data} the resize event.
      */
     __updateCatchClickLayer : function(e)
@@ -456,7 +456,7 @@ qx.Class.define("inspector.components.Selector",
       {
         this.__highlighter.hide();
 
-        // Flush the queue and set the size asynchronous, 
+        // Flush the queue and set the size asynchronous,
         // otherwise the resize doesn't work
         qx.ui.core.queue.Manager.flush();
         qx.event.Timer.once(function()
