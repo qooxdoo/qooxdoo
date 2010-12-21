@@ -451,8 +451,9 @@ qx.Class.define("qx.event.handler.Input",
     _onInput : qx.event.GlobalError.observeMethod(function(e)
     {
       var target = qx.bom.Event.getTarget(e);
-      // check if the enter key has been pressed (opera only)
-      if (!this.__enter) {
+      var tag = target.tagName.toLowerCase();
+      // ignore native input event when triggered by return in input element
+      if (!this.__enter || tag !== "input") {
         // opera needs a special treatment for input events because they are
         // also fired on blur
         if (qx.core.Variant.isSet("qx.client", "opera")) {
