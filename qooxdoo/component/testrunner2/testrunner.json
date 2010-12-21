@@ -8,6 +8,7 @@
     "TESTRUNNER"   : "testrunner2",
     "TESTRUNNER_VIEW" : "testrunner2.view.Html",
     "TESTRUNNER_ORIGIN" : "iframe",
+    "REPORT_SERVER" : false,
     "TEST_INCLUDE" : "${APPLICATION}.test.*",
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
@@ -182,7 +183,8 @@
         "qx.application"   : "testrunner2.Application",
         "qx.version"       : "${QOOXDOO_VERSION}",
         "qx.testNameSpace" : "${APPLICATION}.test",
-        "testrunner2.title" : "${APPLICATION}"
+        "testrunner2.title" : "${APPLICATION}",
+        "testrunner2.reportServer" : "${REPORT_SERVER}"
       },
 
       "cache" :
