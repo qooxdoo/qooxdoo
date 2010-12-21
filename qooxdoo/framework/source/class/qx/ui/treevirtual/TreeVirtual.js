@@ -667,7 +667,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
               var focusedRow = this.getFocusedRow();
               var node = dm.getNode(focusedRow);
 
-              if (! node.bHideOpenClose)
+              if (! node.bHideOpenClose &&
+                  node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
               {
                 dm.setState(node, { bOpened : ! node.bOpened });
               }

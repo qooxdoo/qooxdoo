@@ -170,7 +170,9 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
             case "Enter":
               // Toggle the open state if open/close is allowed
-              if (!node.bHideOpenClose) {
+              if (!node.bHideOpenClose &&
+                  node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) 
+              {
                 dataModel.setState(node, { bOpened : ! node.bOpened });
               }
 
