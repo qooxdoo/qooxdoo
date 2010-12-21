@@ -86,6 +86,7 @@ qx.Class.define("inspector.components.Selector",
     start : function()
     {
       if (this.__catchClickLayer != null) {
+        this.__updateCatchClickLayer();
         this.__catchClickLayer.show();
 
         // Flush queue before next user interaction occurs.
