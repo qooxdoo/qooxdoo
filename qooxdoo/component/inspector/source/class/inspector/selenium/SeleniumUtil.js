@@ -35,7 +35,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
      *
      * @param widget {qx.ui.core.Widget} The widget to locate
      * @param appRoot {qx.ui.root.Abstract} The application root widget
-     * @param autWin {DOMWindow} The Window object of the widget's parebt app. 
+     * @param autWin {DOMWindow} The Window object of the widget's parebt app.
      * Default: The current window
      * @return {String} The complete locator
      */
@@ -69,7 +69,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
      * Determines a qxh locator step for a given widget
      *
      * @param widget {qx.ui.core.Widget} The widget to find a step for
-     * @param autWin {DOMWindow} The Window object of the widget's parebt app. 
+     * @param autWin {DOMWindow} The Window object of the widget's parebt app.
      * Default: The current window
      * @return {String} Locator step
      */
@@ -86,7 +86,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
       var twin = false;
       var childIndex = null;
       var children = [];
-      
+
       if (parent.getChildren) {
         children = children.concat(parent.getChildren());
       }
@@ -99,7 +99,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
         }
       }
 
-      // Decide what kind of step to use: If the parent widget has multiple 
+      // Decide what kind of step to use: If the parent widget has multiple
       // children of the same class as the target widget, we can't use the
       // classname step type.
       for (var i=0,l=children.length; i<l; i++) {
@@ -108,7 +108,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
           childIndex = i;
         }
         // target is of the same class as child, can't use classname locator
-        else if (autWindow.qx.Class.getByName(children[i].classname) && 
+        else if (autWindow.qx.Class.getByName(children[i].classname) &&
                  widget instanceof autWindow.qx.Class.getByName(children[i].classname)) {
           twin = true;
         }

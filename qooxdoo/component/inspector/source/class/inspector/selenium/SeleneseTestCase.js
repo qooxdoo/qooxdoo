@@ -37,7 +37,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       height: 450,
       contentPadding: 5
     });
-    
+
     var topCont = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(topCont, {flex: 1});
     this._textArea = new qx.ui.form.TextArea();
@@ -53,14 +53,14 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
         this.__importSelenese(ev)
       }, this, 100)
     }, this);
-    
+
     botCont.add(btnImport);
     var btnCancel = new qx.ui.form.Button("Cancel");
     btnCancel.addListener("execute", function(ev) {
       this.close()
     }, this);
     botCont.add(btnCancel);
-    
+
     var url = url || "";
     var title = title || "untitled";
 
@@ -89,7 +89,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     ]
 
     this.__rows = [];
-    
+
     this.__helperDiv = document.createElement("div");
     this.__helperDiv.style.display = "none";
     this.addListenerOnce("appear", function(ev) {
@@ -104,7 +104,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       event : "changeSeleneseCommands"
     }
   },
-  
+
   members :
   {
     _textArea : null,
@@ -168,7 +168,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     {
       this._textArea.setValue(this.getSelenese());
     },
-    
+
     __importSelenese : function()
     {
       var sel = this._textArea.getValue();
@@ -179,14 +179,14 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       sel = sel.replace(/\r\n/g, "");
       sel = sel.replace(/\n/g, "");
       var body = /<body>(.*?)<\/body>/mg.exec(sel);
-      
+
       if (!body || body.length < 2) {
         alert("Invalid Selenese 2");
         return;
       }
       // too lazy to parse Selenese HTMl, let the browser handle it
       this.__helperDiv.innerHTML = body[1];
-      
+
       var rows = qx.bom.Selector.query("tbody tr", this.__helperDiv);
       var commands = [];
       for (var i=0, l=rows.length; i<l; i++) {
@@ -202,7 +202,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
         }
         commands.push(cmd);
       }
-      
+
       this.setSeleneseCommands(commands);
       this.close();
     }

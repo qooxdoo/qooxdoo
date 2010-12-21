@@ -34,8 +34,8 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
   events :
   {
     /**
-     * Fired after the queue was processed. Data is a map with the fields 
-     * "success" and "fail" (the amount of succesfully/unsuccessfully loaded 
+     * Fired after the queue was processed. Data is a map with the fields
+     * "success" and "fail" (the amount of succesfully/unsuccessfully loaded
      * URIs)
      */
     "finished" : "qx.event.type.Data"
@@ -61,7 +61,7 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
     /**
      * Processes the current URI queue. Fires the "finished" event once the
      * queue is empty.
-     * 
+     *
      * @param status {String} Current processing status
      */
     __flushQueue : function(status)
