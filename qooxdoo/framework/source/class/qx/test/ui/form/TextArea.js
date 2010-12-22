@@ -185,6 +185,10 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
     "test: textarea with autoSize<br/> shrinks when long line is unwrapped": function() {
 
+      if (!this.__supportsLiveWrap()) {
+        return;
+      }
+
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
       this.flush();
@@ -206,6 +210,10 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     "test: textarea with autoSize<br/> grows when long line is wrapped": function() {
+      
+      if (!this.__supportsLiveWrap()) {
+        return;
+      }
 
       var textArea = this.__textArea;
       textArea.set({
@@ -251,6 +259,18 @@ qx.Class.define("qx.test.ui.form.TextArea",
         val[i] = "AAAAA ";
       }
       return val.join("");
+    },
+
+    __supportsLiveWrap: function() {
+
+      // Opera and older versions of IE ignore changes to wrap settings
+      // once the textarea is in the DOM
+      var Engine = qx.bom.client.Engine;
+      if (Engine.OPERA || (Engine.MSHTML && Engine.FULLVERSION < 8)) {
+        this.warn("Skipping test");
+        return false;
+      }
+
     },
 
     tearDown : function()
