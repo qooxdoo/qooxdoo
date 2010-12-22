@@ -101,6 +101,7 @@ qx.Class.define("inspector.components.Selector",
     {
       if (this.__catchClickLayer != null) {
         this.__catchClickLayer.hide();
+        this.__onHighlighterInterval();
 
         // Flush queue before next user interaction occurs.
         qx.ui.core.queue.Manager.flush();
