@@ -387,8 +387,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         {
           var data =
           {
-            firstRow    : node.nodeId,
-            lastRow     : node.nodeId,
+            firstRow    : rowIndex,
+            lastRow     : rowIndex,
             firstColumn : columnIndex,
             lastColumn  : columnIndex
           };
@@ -687,7 +687,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
           // For each child of the specified node...
           var numChildren = _this._nodeArr[nodeId].children.length;
-
+          var index = 0;
+          var actualNumChildren = numChildren;
           for (var i=0; i<numChildren; i++)
           {
             // Determine the node id of this child
@@ -699,13 +700,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             // Skip deleted nodes
             if (child == null)
             {
+              actualNumChildren--;
               continue;
             }
 
             // Apply filter
             if (filter)
             {
-              if (!filter.call(_this, child)) {
+              if (!filter.call(_this, child))
+              {
+                actualNumChildren--;
                 continue;
               }
             }
@@ -714,10 +718,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             child.level = level;
 
             // Determine if we're the first child of our parent
-            child.bFirstChild = (i == 0);
+            child.bFirstChild = (index == 0);
 
             // Determine if we're the last child of our parent
-            child.lastChild = [ i == numChildren - 1 ];
+            child.lastChild = [ index == actualNumChildren - 1 ];
 
             // Get our parent.
             var parent = _this._nodeArr[child.parentNodeId];
@@ -790,6 +794,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
               // ... then add its children too.
               inorder(childNodeId, level + 1);
             }
+            index++;
           }
         };
 
