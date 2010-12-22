@@ -445,6 +445,11 @@ qx.Class.define("inspector.property.PropertyList", {
           throw new Error("Property activeWindow of an instance of qx.ui.root.Abstract is not (yet) ready!");
         } else {
           var value = this._controller.getQxObject()[getterName]();
+
+          // Special handling for appearance
+          if (getterName === "getAppearance") {
+            return new qx.ui.basic.Label();
+          }
         }
       } catch (ex) {
         return new qx.ui.basic.Label();
@@ -691,6 +696,20 @@ qx.Class.define("inspector.property.PropertyList", {
           throw new Error("Property activeWindow of an instance of qx.ui.root.Abstract is not (yet) ready!");
         } else {
           var value = this._controller.getQxObject()[getterName]();
+
+          // convert appearance id
+          if (getterName === "getAppearance") {
+            var obj = this._controller.getQxObject();
+            var id = [];
+
+            do {
+              id.push(obj.$$subcontrol||obj.getAppearance());
+            } while (obj = obj.$$subparent);
+
+            // Combine parent control IDs, add top level appearance, filter result
+            // to not include positioning information anymore (e.g. #3)
+            value = id.reverse().join("/").replace(/#[0-9]+/g, "");
+          }
         }
       } catch (ex) {
         layout.getCellWidget(row, 3).setVisibility("visible");
