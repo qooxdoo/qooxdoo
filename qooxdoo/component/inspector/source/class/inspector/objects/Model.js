@@ -62,6 +62,11 @@ qx.Class.define("inspector.objects.Model",
     __model : null,
 
     /**
+     * {Integer} indicates the current size from the object registry.
+     */
+    __registrySize : 0,
+
+    /**
      * Returns the registered objects from the inspected application.
      *
      * @return {Array} Returns all registered objects from the inspected
@@ -79,8 +84,8 @@ qx.Class.define("inspector.objects.Model",
      *   if no object exist with the hash code.
      */
     getObjectFromHashCode : function(hashCode) {
-      var objectRegestry = this.__model.getObjectRegistry();
-      return objectRegestry.fromHashCode(hashCode);
+      var objectRegistry = this.__model.getObjectRegistry();
+      return objectRegistry.fromHashCode(hashCode);
     },
 
     /**
@@ -107,7 +112,10 @@ qx.Class.define("inspector.objects.Model",
      *
      * @param event {qx.event.type.Event} the event.
      */
-    __onChangeApplication : function(event) {
+    __onChangeApplication : function(event)
+    {
+      this.__registrySize = this.__getRegistrySize();
+
       this.fireEvent("changeObjects");
     },
 
@@ -117,8 +125,29 @@ qx.Class.define("inspector.objects.Model",
      *
      * @param event {qx.event.type.Data} the event.
      */
-    __onChangeInspected : function(event) {
+    __onChangeInspected : function(event)
+    {
+      var currentSize = this.__getRegistrySize();
+      if (currentSize != this.__registrySize) {
+        this.fireEvent("changeObjects");
+      }
+
       this.fireDataEvent("changeInspected", event.getData(), event.getOldData());
+    },
+
+    /**
+     * Returns the current size from the object registry.
+     *
+     * @retun {Interger} current size from the object registry.
+     */
+    __getRegistrySize : function()
+    {
+      var objectRegistry = this.__model.getObjectRegistry();
+      if (objectRegistry != null) {
+        return qx.lang.Object.getLength(objectRegistry.getRegistry());
+      } else {
+        return 0;
+      }
     }
   },
 
