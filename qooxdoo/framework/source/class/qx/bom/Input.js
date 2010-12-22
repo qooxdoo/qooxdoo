@@ -250,7 +250,8 @@ qx.Class.define("qx.bom.Input",
 
     /**
      * Sets the text wrap behaviour of a text area element.
-     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
+     * This property uses the attribute "wrap" respectively 
+     * the style property "whiteSpace"
      *
      * @signature function(element, wrap)
      * @param element {Element} DOM element to modify
@@ -259,7 +260,14 @@ qx.Class.define("qx.bom.Input",
     setWrap : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element, wrap) {
-        element.wrap = wrap ? "soft" : "off";
+        var wrapValue = wrap ? "soft" : "off";
+
+        // Explicitly set overflow-y CSS property to auto when wrapped,
+        // allowing the vertical scroll-bar to appear if necessary
+        var styleValue = wrap ? "auto" : "";
+
+        element.wrap = wrapValue;
+        element.style.overflowY = styleValue;
       },
 
       "gecko|webkit" : function(element, wrap)
