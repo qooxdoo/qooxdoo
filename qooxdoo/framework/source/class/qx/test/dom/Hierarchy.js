@@ -39,6 +39,11 @@ qx.Class.define("qx.test.dom.Hierarchy",
       this.__renderedElement = null;
 
       this.__unRenderedElement = null;
+      
+      if (this.__iframe) {
+        document.body.removeChild(this.__iframe);
+        this.__iframe = null;
+      }
     },
 
 
