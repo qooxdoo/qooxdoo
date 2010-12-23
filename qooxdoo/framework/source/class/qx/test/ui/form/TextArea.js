@@ -210,7 +210,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     "test: textarea with autoSize<br/> grows when long line is wrapped": function() {
-      
+
       if (!this.__supportsLiveWrap()) {
         return;
       }
