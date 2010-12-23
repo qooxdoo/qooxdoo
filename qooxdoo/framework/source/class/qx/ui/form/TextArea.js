@@ -191,7 +191,24 @@ qx.Class.define("qx.ui.form.TextArea",
         // On init, the clone is not yet present. Try again on appear.
         } else {
           this.addListenerOnce("appear", function() {
+
+            // On init, the area has a scroll-bar – which is later hidden.
+            // Unfortunately, WebKit does not re-wrap text when the scroll-bar
+            // disappears. Therefore, hide scroll-bar and force re-wrap in
+            // WebKit. Otherwise, the height would be computed based on decreased
+            // width due to the scroll-bar in content
+            if (qx.bom.client.Engine.WEBKIT) {
+              var area = this.getContentElement();
+              var value = this.getValue();
+
+              area.setStyle("overflowY", "hidden", true);
+
+              this.setValue("");
+              this.setValue(value);
+            }
+
             this.__autoSize();
+
           }, this);
         }
       }
@@ -232,6 +249,7 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
+      var cloneDom = clone.getDomElement();
 
       // Compute based on current value
       var value = this.getValue();
@@ -241,21 +259,22 @@ qx.Class.define("qx.ui.form.TextArea",
         value = value + " ";
       }
 
+      // Force overflow "hidden", required in WebKit
+      cloneDom.style.overflow = "hidden";
+
       clone.setValue(value);
       clone.setWrap(this.getWrap(), true);
 
-      this.__scrollCloneToBottom(clone);
-
-      clone = clone.getDomElement();
-      if (clone) {
+      if (cloneDom) {
 
         // Clone created but not yet in DOM. Try again.
-        if (!clone.parentNode) {
+        if (!cloneDom.parentNode) {
           qx.html.Element.flush();
           return this._getScrolledAreaHeight();
         }
 
-        return clone.scrollTop;
+        this.__scrollCloneToBottom(clone);
+        return cloneDom.scrollTop;
       }
     },
 
@@ -303,7 +322,7 @@ qx.Class.define("qx.ui.form.TextArea",
         left: -9999,
         height: 0,
         overflow: "visible"
-      });
+      }, true);
 
       // Fix attributes
       clone.removeAttribute('id');
