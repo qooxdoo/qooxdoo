@@ -156,6 +156,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   {
     __tree           : null,
     __editableColArr : null,
+    __tempTreeData : null,
+    __recalculateLastChildFlags : null,
 
     /** Rows, resorted into tree order as necessary */
     _rowArr : null,
@@ -652,6 +654,217 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
 
     /**
+     * Orders the node and creates all data needed to render the tree.
+     * 
+     * @param nodeId {Integer}
+     *   A node identifier, as previously returned by {@link #addBranch} or
+     *   {@link #addLeaf}.
+     * @param level {Integer} the level in the hierarchy
+     */
+    __inorder : function(nodeId, level)
+    {
+      var filter = this.getFilter();
+      var child = null;
+      var childNodeId;
+
+      // For each child of the specified node...
+      var numChildren = this._nodeArr[nodeId].children.length;
+      var index = 0;
+      var children = this.__tempTreeData[nodeId] = [];
+      for (var i=0; i<numChildren; i++)
+      {
+        // Determine the node id of this child
+        childNodeId = this._nodeArr[nodeId].children[i];
+
+        // Get the child node
+        child = this._nodeArr[childNodeId];
+
+        // Skip deleted nodes or apply the filter
+        if (child == null || (filter && !filter.call(this, child))) {
+          this.__recalculateLastChildFlags = true;
+          continue;
+        }
+
+        // Remember the children so that we can add the lastChild flags later
+        children.push(child);
+
+        // (Re-)assign this node's level
+        child.level = level;
+
+        // Determine if we're the first child of our parent
+        child.bFirstChild = (index == 0);
+
+        // Set the last child flag of the node only when no node was skipped.
+        // Otherwise we will have to recalculate the last child flags, as 
+        // the parent or sibling node might become the first child.
+        if (!this.__recalculateLastChildFlags) {
+          this.__setLastChildFlag(child, i == numChildren - 1);
+        }
+
+        // Ensure there's an entry in the columnData array for each column
+        if (!child.columnData)
+        {
+          child.columnData = [ ];
+        }
+
+        if (child.columnData.length < this.getColumnCount())
+        {
+          child.columnData[this.getColumnCount() - 1] = null;
+        }
+
+        // Add this node to the row array.  Initialize a row data array.
+        var rowData = [ ];
+
+        // If additional column data is provided...
+        if (child.columnData)
+        {
+          // ... then add each column data.
+          for (var j=0; j<child.columnData.length; j++)
+          {
+            // Is this the tree column?
+            if (j == this._treeColumn)
+            {
+              // Yup.  Add the tree node data
+              rowData.push(child);
+            }
+            else
+            {
+              // Otherwise, add the column data verbatim.
+              rowData.push(child.columnData[j]);
+            }
+          }
+        }
+        else
+        {
+          // No column data.  Just add the tree node.
+          rowData.push(child);
+        }
+
+        // Track the _rowArr index for each node so we can handle
+        // selections.
+        this._nodeRowMap[child.nodeId] = this._rowArr.length;
+
+        // Add the row data to the row array
+        this._rowArr.push(rowData);
+
+        // If this node is selected, ...
+        if (child.bSelected)
+        {
+          // ... indicate so for the row.
+          rowData.selected = true;
+          this._selections[child.nodeId] = true;
+        }
+
+        // If this child is opened, ...
+        if (child.bOpened)
+        {
+          // ... then add its children too.
+          this.__inorder(childNodeId, level + 1);
+        }
+        index++;
+      }
+    },
+
+
+    /**
+     * Calcultes the lastChild flags to the nodes, so that the tree can render the 
+     * tree lines right.
+     * 
+     * @param nodeId {Integer}
+     *   A node identifier, as previously returned by {@link #addBranch} or
+     *   {@link #addLeaf}.
+     */
+    __calculateLastChildFlags : function(nodeId)
+    {
+      var tempTreeData = this.__tempTreeData;
+      var children =  tempTreeData[nodeId];
+      var numChildren = children.length;
+      for (var i = 0; i < numChildren; i++)
+      {
+        var child = children[i];
+
+        this.__setLastChildFlag(child, i == numChildren - 1);
+
+        var hasChildren = tempTreeData[child.nodeId] && tempTreeData[child.nodeId].length > 0;
+        if (hasChildren) {
+          this.__calculateLastChildFlags(child.nodeId);
+        }
+      }
+    },
+
+
+    /**
+     * Sets the last child flag for a node and all it's parents.
+     * 
+     * @param node {Object} the node object
+     * @param isLastChild {Boolean} whether the node is the last child
+     */
+    __setLastChildFlag : function(node, isLastChild)
+    {
+      // Determine if we're the last child of our parent
+      node.lastChild = [ isLastChild ];
+
+      // Get our parent.
+      var parent =  this._nodeArr[node.parentNodeId];
+
+      // For each parent node, determine if it is a last child
+      while (parent.nodeId)
+      {
+        var bLast = parent.lastChild[parent.lastChild.length - 1];
+        node.lastChild.unshift(bLast);
+        parent = this._nodeArr[parent.parentNodeId];
+      }
+    },
+
+
+    /**
+     * Renders the tree data.
+     */
+    __render : function()
+    {
+      // Reset the __tempTreeData 
+      this.__tempTreeData = [];
+      this.__recalculateLastChildFlags = false;
+
+      // Reset the row array
+      this._rowArr = [];
+
+      // Reset the _nodeArr -> _rowArr map
+      this._nodeRowMap = [];
+
+      // Reset the set of selections
+      this._selections = {};
+
+      // Begin in-order traversal of the tree from the root to regenerate
+      // _rowArr.
+      this.__inorder(0, 1);
+
+      // Reset the lastChild flags when needed, so that the tree can render the 
+      // tree lines right.
+      if (this.__recalculateLastChildFlags) {
+        this.__calculateLastChildFlags(0);
+      }
+
+      // Give the memory free 
+      this.__tempTreeData = null;
+
+      // Inform the listeners
+      if (this.hasListener("dataChanged"))
+      {
+        var data =
+        {
+          firstRow    : 0,
+          lastRow     : this._rowArr.length - 1,
+          firstColumn : 0,
+          lastColumn  : this.getColumnCount() - 1
+        };
+
+        this.fireDataEvent("dataChanged", data);
+      }
+    },
+
+
+    /**
      * Sets the whole data en bulk, or notifies the data model that node
      * modifications are complete.
      *
@@ -675,157 +888,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     setData : function(nodeArr)
     {
-      var _this = this;
-
-      function render()
-      {
-        var filter = _this.getFilter();
-        var inorder = function(nodeId, level)
-        {
-          var child = null;
-          var childNodeId;
-
-          // For each child of the specified node...
-          var numChildren = _this._nodeArr[nodeId].children.length;
-          var index = 0;
-          var actualNumChildren = numChildren;
-          for (var i=0; i<numChildren; i++)
-          {
-            // Determine the node id of this child
-            childNodeId = _this._nodeArr[nodeId].children[i];
-
-            // Get the child node
-            child = _this._nodeArr[childNodeId];
-
-            // Skip deleted nodes
-            if (child == null)
-            {
-              actualNumChildren--;
-              continue;
-            }
-
-            // Apply filter
-            if (filter)
-            {
-              if (!filter.call(_this, child))
-              {
-                actualNumChildren--;
-                continue;
-              }
-            }
-
-            // (Re-)assign this node's level
-            child.level = level;
-
-            // Determine if we're the first child of our parent
-            child.bFirstChild = (index == 0);
-
-            // Determine if we're the last child of our parent
-            child.lastChild = [ index == actualNumChildren - 1 ];
-
-            // Get our parent.
-            var parent = _this._nodeArr[child.parentNodeId];
-
-            // For each parent node, determine if it is a last child
-            while (parent.nodeId)
-            {
-              var bLast = parent.lastChild[parent.lastChild.length - 1];
-              child.lastChild.unshift(bLast);
-              parent = _this._nodeArr[parent.parentNodeId];
-            }
-
-            // Ensure there's an entry in the columnData array for each column
-            if (!child.columnData)
-            {
-              child.columnData = [ ];
-            }
-
-            if (child.columnData.length < _this.getColumnCount())
-            {
-              child.columnData[_this.getColumnCount() - 1] = null;
-            }
-
-            // Add this node to the row array.  Initialize a row data array.
-            var rowData = [ ];
-
-            // If additional column data is provided...
-            if (child.columnData)
-            {
-              // ... then add each column data.
-              for (var j=0; j<child.columnData.length; j++)
-              {
-                // Is this the tree column?
-                if (j == _this._treeColumn)
-                {
-                  // Yup.  Add the tree node data
-                  rowData.push(child);
-                }
-                else
-                {
-                  // Otherwise, add the column data verbatim.
-                  rowData.push(child.columnData[j]);
-                }
-              }
-            }
-            else
-            {
-              // No column data.  Just add the tree node.
-              rowData.push(child);
-            }
-
-            // Track the _rowArr index for each node so we can handle
-            // selections.
-            _this._nodeRowMap[child.nodeId] = _this._rowArr.length;
-
-            // Add the row data to the row array
-            _this._rowArr.push(rowData);
-
-            // If this node is selected, ...
-            if (child.bSelected)
-            {
-              // ... indicate so for the row.
-              rowData.selected = true;
-              _this._selections[child.nodeId] = true;
-            }
-
-            // If this child is opened, ...
-            if (child.bOpened)
-            {
-              // ... then add its children too.
-              inorder(childNodeId, level + 1);
-            }
-            index++;
-          }
-        };
-
-        // Reset the row array
-        _this._rowArr = [];
-
-        // Reset the _nodeArr -> _rowArr map
-        _this._nodeRowMap = [];
-
-        // Reset the set of selections
-        _this._selections = {};
-
-        // Begin in-order traversal of the tree from the root to regenerate
-        // _rowArr.
-        inorder(0, 1);
-
-        // Inform the listeners
-        if (_this.hasListener("dataChanged"))
-        {
-          var data =
-          {
-            firstRow    : 0,
-            lastRow     : _this._rowArr.length - 1,
-            firstColumn : 0,
-            lastColumn  : _this.getColumnCount() - 1
-          };
-
-          _this.fireDataEvent("dataChanged", data);
-        }
-      };
-
       if (nodeArr instanceof Array)
       {
         // Save the user-supplied data.
@@ -838,10 +900,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       // Re-render the row array
-      render();
+      this.__render();
 
       // Set selections in the selection model now
-      var selectionModel = _this.getTree().getSelectionModel();
+      var selectionModel = this.getTree().getSelectionModel();
       var selections = this._selections;
       for (var nodeId in selections)
       {
@@ -1142,7 +1204,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   destruct : function()
   {
     this._rowArr = this._nodeArr = this._nodeRowMap = this._selections =
-      this.__tree = null;
+      this.__tree = this.__tempTreeData = null;
   },
 
   defer : function(statics)
