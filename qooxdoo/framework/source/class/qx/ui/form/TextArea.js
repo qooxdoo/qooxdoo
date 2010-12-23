@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Jonathan Weiß (jonathan_rass)
+     * Tristan Koch (tristankoch)
 
 ************************************************************************ */
 
@@ -87,8 +88,14 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Whether the textarea should automatically grow or shrink when content
-    * does not fit.
+    * Whether the <code>TextArea</code> should automatically adjust to
+    * the height of the content.
+    *
+    * To set the initial height, modify {@link #minHeight}. If you wish
+    * to set a minHeight below four lines of text, also set
+    * {@link #minimalLineHeight}. In order to limit growing to a certain
+    * height, set {@link #maxHeight} respectively. Please note that
+    * autoSize is ignored when the {@link #height} property is in use.
     */
     autoSize :
     {
@@ -148,12 +155,12 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     /**
-    * Set height of textarea so that content fits without scroll bar.
+    * Adjust height of textarea so that content fits without scroll bar.
     *
     * @return {void}
     */
     __autoSize: function() {
-      if (this.getContentElement().getDomElement() && this.isAutoSize()) {
+      if (this.isAutoSize() && this.getContentElement().getDomElement()) {
 
         var clone = this.__getAreaClone();
         if (clone) {
@@ -174,15 +181,11 @@ qx.Class.define("qx.ui.form.TextArea",
             }
           }
 
-          // Increase height, if required
-          if (scrolledHeight != this._getAreaHeight()) {
+          // Never shrink below original area height
+          var desiredHeight = Math.max(scrolledHeight, this.__originalAreaHeight);
 
-            // Never shrink below original area height
-            var minHeight = this.__originalAreaHeight;
-            var desiredHeight = Math.max(scrolledHeight, minHeight);
-
-            this._setAreaHeight(desiredHeight);
-          }
+          // Set new height
+          this._setAreaHeight(desiredHeight);
         }
       }
     },
@@ -250,7 +253,7 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Returns the hidden area clone.
+    * Returns the area clone.
     *
     * @return {Element} DOM Element
     */
@@ -260,7 +263,7 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Creates and hides area clone.
+    * Creates and prepares the area clone.
     *
     * @return {Element} DOM Element
     */
@@ -402,7 +405,7 @@ qx.Class.define("qx.ui.form.TextArea",
      */
     __warnAutoSizeAndHeight: function() {
       if (this.isAutoSize() && this.getHeight()) {
-        this.warn("autoSize does not work when the height property is set. " +
+        this.warn("autoSize is ignored when the height property is set. " +
                   "If you want to set an initial height, use the minHeight " +
                   "property instead.");
       }
