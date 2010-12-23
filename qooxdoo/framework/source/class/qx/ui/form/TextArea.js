@@ -284,7 +284,8 @@ qx.Class.define("qx.ui.form.TextArea",
         position: "absolute",
         top: 0,
         left: -9999,
-        height: 0
+        height: 0,
+        overflow: "visible"
       });
 
       // Fix attributes
