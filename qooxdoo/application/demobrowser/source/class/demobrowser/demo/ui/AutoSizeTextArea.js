@@ -42,7 +42,8 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       label.setValue("Regular");
       var textArea = new qx.ui.form.TextArea();
       textArea.set({
-        allowStretchY: false
+        allowStretchY: false,
+        value: this.__getQxValue()
       });
       container.add(label, {row: 0, column: 0});
       container.add(textArea, {row: 1, column: 0});
@@ -52,6 +53,7 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       var textAreaAuto = new qx.ui.form.TextArea();
       textAreaAuto.set({
         allowStretchY: false,
+        value: this.__getQxValue(),
         autoSize: true
       });
       container.add(label, {row: 0, column: 1});
@@ -62,9 +64,9 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
       var textAreaWrap = new qx.ui.form.TextArea();
       textAreaWrap.set({
         allowStretchY: false,
+        value: this.__getQxValue(),
         autoSize: true,
-        wrap: false,
-        value: this.__getLongValue()
+        wrap: false
       });
       var button = new qx.ui.form.ToggleButton("Wrap");
       button.setAllowStretchX(false);
@@ -72,8 +74,10 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         textAreaWrap.toggleWrap();
       });
       container.add(label, {row: 0, column: 2});
-      container.add(textAreaWrap, {row: 1, column: 2});
-      container.add(button, {row: 2, column: 2});
+      var subContainer = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
+      container.add(subContainer, {row: 1, column: 2});
+      subContainer.add(textAreaWrap, {row: 0, column: 0});
+      subContainer.add(button, {row: 1, column: 0});
 
       // Second block
 
@@ -85,8 +89,8 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         autoSize: true,
         minHeight: 200
       });
-      container.add(label, {row: 3, column: 0});
-      container.add(textAreaMin, {row: 4, column: 0});
+      container.add(label, {row: 2, column: 0});
+      container.add(textAreaMin, {row: 3, column: 0});
 
       var label = new qx.ui.basic.Label();
       label.setValue("Maximal height");
@@ -97,8 +101,8 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         minHeight: 200,
         maxHeight: 300
       });
-      container.add(label, {row: 3, column: 1});
-      container.add(textAreaMax, {row: 4, column: 1});
+      container.add(label, {row: 2, column: 1});
+      container.add(textAreaMax, {row: 3, column: 1});
 
       var label = new qx.ui.basic.Label();
       label.setValue("Non-default minimal line height");
@@ -109,17 +113,16 @@ qx.Class.define("demobrowser.demo.ui.AutoSizeTextArea",
         minimalLineHeight: 1,
         maxHeight : 300
       });
-      container.add(label, {row: 3, column: 2});
-      container.add(textAreaSmall, {row: 4, column: 2});
+      container.add(label, {row: 2, column: 2});
+      container.add(textAreaSmall, {row: 3, column: 2});
 
     },
 
-    __getLongValue: function() {
-      var val = new qx.type.Array(50);
-      for(var i=0; i < val.length; i++) {
-        val[i] = "AAAAA ";
-      }
-      return val.join("");
+    __getQxValue: function() {
+      return "qooxdoo is a comprehensive and innovative framework for creating " +
+             "rich internet applications (RIAs). Leveraging object-oriented " +
+             "JavaScript allows developers to build impressive cross-browser " +
+             "applications. No HTML, CSS nor DOM knowledge is needed.";
     }
   }
 });
