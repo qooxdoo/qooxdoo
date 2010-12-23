@@ -223,8 +223,15 @@ qx.Class.define("qx.ui.form.TextArea",
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
 
-      // Make sure size is computed based on current value
-      clone.setValue(this.getValue());
+      // Compute based on current value
+      var value = this.getValue();
+
+      // Compensate for slightly off scroll height in IE
+      if (qx.bom.client.Engine.MSHTML) {
+        value = value + " ";
+      }
+
+      clone.setValue(value);
       clone.setWrap(this.getWrap(), true);
 
       this.__scrollCloneToBottom(clone);
