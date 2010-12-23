@@ -160,9 +160,10 @@ qx.Class.define("qx.ui.form.TextArea",
     * @return {void}
     */
     __autoSize: function() {
-      if (this.isAutoSize() && this.getContentElement().getDomElement()) {
+      if (this.isAutoSize()) {
 
         var clone = this.__getAreaClone();
+
         if (clone) {
 
           // Remember original area height
@@ -186,6 +187,12 @@ qx.Class.define("qx.ui.form.TextArea",
 
           // Set new height
           this._setAreaHeight(desiredHeight);
+
+        // On init, the clone is not yet present. Try again on appear.
+        } else {
+          this.addListenerOnce("appear", function() {
+            this.__autoSize();
+          }, this);
         }
       }
     },

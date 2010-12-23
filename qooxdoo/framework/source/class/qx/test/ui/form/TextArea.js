@@ -183,6 +183,30 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("hidden", overflow);
     },
 
+    "test: textarea with autoSize<br/> takes initial value into consideration": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        value: this.__getLongValue()
+      });
+
+      var textAreaNoValue = new qx.ui.form.TextArea();
+      textAreaNoValue.set({
+        autoSize: true,
+        value: ""
+      });
+      this.getRoot().add(textAreaNoValue, {left: 100});
+
+      this.flush();
+      var heightValue = textArea.getBounds().height;
+      var heightNoValue = textAreaNoValue.getBounds().height;
+
+      var msg = "Must be higher with long value than without value";
+      this.assert(heightValue > heightNoValue, msg);
+
+      textAreaNoValue.destroy();
+    },
+
     "test: textarea with autoSize<br/> shrinks when long line is unwrapped": function() {
 
       if (!this.__supportsLiveWrap()) {
