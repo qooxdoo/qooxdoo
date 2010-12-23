@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     /**
-    * Adjust height of textarea so that content fits without scroll bar.
+    * Adjust height of <code>TextArea</code> so that content fits without scroll bar.
     *
     * @return {void}
     */
@@ -198,18 +198,18 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Get actual height of textarea
+    * Get actual height of <code>TextArea</code>
     *
-    * @return {Integer} Height of textarea
+    * @return {Integer} Height of <code>TextArea</code>
     */
     _getAreaHeight: function() {
       return this.getInnerSize().height;
     },
 
     /**
-    * Set actual height of textarea
+    * Set actual height of <code>TextArea</code>
     *
-    * @param height {Integer} Desired height of textarea
+    * @param height {Integer} Desired height of <code>TextArea</code>
     */
     _setAreaHeight: function(height) {
       if (this._getAreaHeight() !== height) {
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Get scrolled area height. Equals the total height of the textarea,
+    * Get scrolled area height. Equals the total height of the <code>TextArea</code>,
     * as if no scroll-bar was visible.
     *
     * @return {Integer} Height of scrolled area
@@ -323,10 +323,10 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Scroll textarea to bottom. That way, scrollTop reflects the height
-    * of the textarea.
+    * Scroll <code>TextArea</code> to bottom. That way, scrollTop reflects the height
+    * of the <code>TextArea</code>.
     *
-    * @param clone {Element} The textarea to scroll
+    * @param clone {Element} The <code>TextArea</code> to scroll
     */
     __scrollCloneToBottom: function(clone) {
       var clone = clone.getDomElement();
