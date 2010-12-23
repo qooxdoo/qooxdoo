@@ -57,20 +57,6 @@ qx.Class.define("inspector.Application",
      * Toolbar
      */
     _toolbar : null,
-    _objectsButton : null,
-    _widgetsButton : null,
-    _consoleButton : null,
-    _propertyButton : null,
-    _seleniumButton : null,
-    _inspectButton : null,
-    _selectedWidgetLabel : null,
-    _urlTextField : null,
-    _reloadButton : null,
-
-    /*
-     * Windows
-     */
-    _consoleWindow : null,
 
     /*
      * Inspector
@@ -103,10 +89,7 @@ qx.Class.define("inspector.Application",
       }
 
       this.__inspectorModel = new inspector.components.InspectorModel(this);
-      this.__inspectorModel.addListener("changeInspected", this.__changeInspected, this);
-
       this.__selector = new inspector.components.Selector(this.__inspectorModel);
-
       this.__state = new inspector.components.State();
       this.__state.setIgnoreChanges(true);
 
@@ -124,7 +107,7 @@ qx.Class.define("inspector.Application",
 
       if (window.qxinspector != undefined && qxinspector.local)
       {
-        this._urlTextField.setVisibility("hidden");
+        this._toolbar.getTextField().setVisibility("hidden");
         startUrl = "index.html";
       }
       else {
@@ -138,7 +121,7 @@ qx.Class.define("inspector.Application",
       this._container.add(this._iFrame, {flex : 1});
 
       this._iFrame.addListener("load", this.__onLoad, this);
-      this._urlTextField.setValue(startUrl);
+      this._toolbar.getTextField().setValue(startUrl);
     },
 
     __onLoad : function() {
@@ -153,7 +136,7 @@ qx.Class.define("inspector.Application",
       } catch (ex) {}
 
       if (window.qxinspector == undefined) {
-        this._urlTextField.setValue(iFrameSource);
+        this._toolbar.getTextField().setValue(iFrameSource);
       }
 
       // save the url in a cookie
@@ -228,7 +211,7 @@ qx.Class.define("inspector.Application",
         }
       } catch (ex) {
         // signal that the inspector is not working
-        this._selectedWidgetLabel.setValue(
+        this._toolbar.getSelectedWidgetLabel().setValue(
           " Can not access the javascript in the iframe!"
         );
         this.__inspectorModel.setWindow(null);
@@ -244,73 +227,18 @@ qx.Class.define("inspector.Application",
     */
     __createToolbar: function() {
       // create the toolbar itself
-      this._toolbar = new qx.ui.toolbar.ToolBar();
-      this._toolbar.setDecorator("myToolbar");
-      this._toolbar._getLayout().setAlignY("middle");
+      this._toolbar = new inspector.view.ToolBar(this.__inspectorModel, this.__state);
       this._container.add(this._toolbar);
 
-      // create the headline label
-      var inspectorLabel = new qx.ui.basic.Label("qooxdoo Inspector");
-      inspectorLabel.setPaddingLeft(10);
-      inspectorLabel.setPaddingRight(5);
-      var font = new qx.bom.Font(12, ["Lucida Grande"])
-      font.setBold(true);
-      font.setItalic(true);
-      inspectorLabel.setFont(font);
-      this._toolbar.add(inspectorLabel);
-
-      // add a separator
-      this._toolbar.add(new qx.ui.toolbar.Separator());
-
-      // Objects window
-      this.__createWindow("Objects", inspector.objects.Window, "_objectsButton");
-
-      // Widgets window
-      this.__createWindow("Widgets", inspector.widgets.WidgetsWindow, "_widgetsButton");
-
-      // Property Window
-      this.__createWindow("Properties", inspector.property.PropertyWindow, "_propertyButton");
-
-      // Console window
-      this._consoleWindow = this.__createWindow("Console", inspector.console.ConsoleWindow, "_consoleButton");
-
-      // Selenium window
-      this.__createWindow("Selenium", inspector.selenium.SeleniumWindow, "_seleniumButton");
-
-      // add the third separator
-      this._toolbar.add(new qx.ui.toolbar.Separator());
-
-      // create the find button
-      this._inspectButton = new qx.ui.toolbar.CheckBox("Inspect widget", "inspector/images/icons/edit-find.png");
-      this._inspectButton.setAppearance("toolbar-button-bold");
-      this._toolbar.add(this._inspectButton);
-      this._inspectButton.addListener("changeValue", function(e) {
+      this._toolbar.addListener("changeTextFieldValue", this._reloadIframe, this);
+      this._toolbar.addListener("executeReloadButton", this._reloadIframe, this);
+      this._toolbar.addListener("changeInspectButtonValue", function(e) {
         if (e.getData()) {
           this.__selector.start();
         } else {
           this.__selector.stop();
         }
       }, this);
-
-      // Lable showing the selected widget
-      this._selectedWidgetLabel = new qx.ui.basic.Label();
-      this._selectedWidgetLabel.setRich(true);
-      this._toolbar.add(this._selectedWidgetLabel);
-
-      // add a spacer to seperate the url
-      this._toolbar.addSpacer();
-
-      // add the url textfield
-      this._urlTextField = new qx.ui.form.TextField();
-      this._urlTextField.setMarginRight(5);
-      this._urlTextField.setWidth(300);
-      this._toolbar.add(this._urlTextField);
-      this._urlTextField.addListener("changeValue", this._reloadIframe, this);
-
-      // reload button
-      this._reloadButton = new qx.ui.toolbar.Button(null, "icon/16/actions/view-refresh.png");
-      this._toolbar.add(this._reloadButton);
-      this._reloadButton.addListener("execute", this._reloadIframe, this);
     },
 
 
@@ -322,8 +250,8 @@ qx.Class.define("inspector.Application",
         iFrameSource = this._iFrame.getWindow().location.pathname;
       } catch (ex) {}
 
-      if (iFrameSource != this._urlTextField.getValue()) {
-        this._iFrame.setSource(this._urlTextField.getValue());
+      if (iFrameSource != this._toolbar.getTextField().getValue()) {
+        this._iFrame.setSource(this._toolbar.getTextField().getValue());
       }
       else
       {
@@ -338,44 +266,8 @@ qx.Class.define("inspector.Application",
     },
 
 
-    __createWindow : function(name, clazz, buttonRef)
-    {
-      var win = new clazz(name, this.__inspectorModel);
-      this.__state.add(win, name.toLowerCase());
-
-      var button = this[buttonRef] = new qx.ui.toolbar.CheckBox(name);
-      this._toolbar.add(button);
-
-      button.addListener("changeValue", function(e) {
-        e.getData() ? win.open() : win.close();
-      }, this);
-
-      button.addListener("changeEnabled", function(e) {
-        if (e.getData() == false) {
-          win.hide();
-        }
-      }, this);
-
-      win.addListener("open", function(e) {
-        button.setValue(true);
-      }, this);
-
-      win.addListener("close", function(e) {
-        button.setValue(false);
-      }, this);
-
-      return win;
-    },
-
-    __setEnabledToolbar : function(value)
-    {
-      this._objectsButton.setEnabled(value);
-      this._widgetsButton.setEnabled(value);
-      this._consoleButton.setEnabled(value);
-      this._propertyButton.setEnabled(value);
-      this._seleniumButton.setEnabled(value);
-      this._inspectButton.setEnabled(value);
-      this._selectedWidgetLabel.setEnabled(value);
+    __setEnabledToolbar : function(value) {
+      this._toolbar.setEnabledToolbar(value);
     },
 
 
@@ -384,17 +276,6 @@ qx.Class.define("inspector.Application",
       Selection functions
     -------------------------------------------------------------------------
     */
-    __changeInspected: function(e) {
-      this._inspectButton.setValue(false);
-
-      var object = e.getData();
-      if (object != null) {
-        this._selectedWidgetLabel.setValue("<tt>" + object.classname + "[" +
-          object.toHashCode() + "]</tt>");
-      }
-    },
-
-
     getSelectedObject : function() {
       return this.__inspectorModel.getInspected();
     },
@@ -403,9 +284,9 @@ qx.Class.define("inspector.Application",
     setWidgetByHash : function(hash, initiator) {
       // check the initiator
       if (initiator == "console") {
-        initiator = this._consoleWindow;
+        initiator = this._toolbar.getConsoleWindow();
         // tell the console to go to the default view
-        this._consoleWindow.goToDefaultView();
+        this._toolbar.getConsoleWindow().goToDefaultView();
       }
       var object = this._loadedWindow.qx.core.ObjectRegistry.fromHashCode(hash);
       this.__inspectorModel.setInspected(object);
@@ -413,17 +294,17 @@ qx.Class.define("inspector.Application",
 
 
     inspectObjectByDomSelecet: function(index, key) {
-      if (this._consoleWindow != null) {
-          this._consoleWindow.inspectObjectByDomSelecet(index, key);
+      if (this._toolbar.getConsoleWindow() != null) {
+          this._toolbar.getConsoleWindow().inspectObjectByDomSelecet(index, key);
       }
     },
 
 
     inspectObjectByInternalId: function(id) {
       // if the console exists
-      if (this._consoleWindow != null) {
+      if (this._toolbar.getConsoleWindow() != null) {
         // tell the consol to do the rest
-        this._consoleWindow.inspectObjectByInternalId(id);
+        this._toolbar.getConsoleWindow().inspectObjectByInternalId(id);
       }
     },
 
@@ -451,9 +332,6 @@ qx.Class.define("inspector.Application",
   destruct : function()
   {
     this._loadedWindow = null;
-    this._disposeObjects("_container", "_toolbar", "_objectsButton",
-      "_widgetsButton", "_propertyButton", "_consoleButton", "_seleniumButton",
-      "_inspectButton", "_selectedWidgetLabel", "_urlTextField",
-      "_reloadButton", "_iFrame", "__selector", "_consoleWindow");
+    this._disposeObjects("_container", "_toolbar", "_iFrame", "__selector");
   }
 });
