@@ -254,11 +254,6 @@ qx.Class.define("qx.ui.form.TextArea",
       // Compute based on current value
       var value = this.getValue();
 
-      // Compensate for slightly off scroll height in IE
-      if (qx.bom.client.Engine.MSHTML) {
-        value = value + " ";
-      }
-
       // Force overflow "hidden", required in WebKit
       cloneDom.style.overflow = "hidden";
 
@@ -274,6 +269,12 @@ qx.Class.define("qx.ui.form.TextArea",
         }
 
         this.__scrollCloneToBottom(clone);
+
+        // Compensate for slightly off scroll height in IE
+        if (qx.bom.client.Engine.MSHTML) {
+          return cloneDom.scrollTop + this._getTextSize().height;
+        }
+
         return cloneDom.scrollTop;
       }
     },
