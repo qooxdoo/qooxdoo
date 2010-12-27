@@ -74,6 +74,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var list = new demobrowser.demo.ui.overview.pages.List();
       this.add(list);
 
+      // Table
+      var table = new demobrowser.demo.ui.overview.pages.Table();
+      this.add(table);
+
       // Misc
       var misc = new demobrowser.demo.ui.overview.pages.Misc();
       this.add(misc);
