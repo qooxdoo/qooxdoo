@@ -27,6 +27,8 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
     this.base(arguments);
 
     this.__init();
+    this.addListener("changeSelection", this.__rememberCurrentTab, this);
+    this.__setCurrentTab();
   },
 
   members :
@@ -60,6 +62,23 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var window = new demobrowser.demo.ui.overview.pages.Window();
       this.add(window);
 
+    },
+
+    __rememberCurrentTab: function(e) {
+      qx.bom.Cookie.set("currentTab", e.getData()[0].getLabel());
+    },
+
+    __setCurrentTab: function() {
+      var cookie = qx.bom.Cookie.get("currentTab") ||
+                   qx.bom.Cookie.set("currentTab", "basic");
+
+      var currentTab = new qx.type.Array().append(this.getSelectables()).filter(function(tab) {
+        return tab.getLabel() == cookie;
+      })[0];
+
+      if (currentTab) {
+        this.setSelection([currentTab]);
+      }
     }
   }
 });
