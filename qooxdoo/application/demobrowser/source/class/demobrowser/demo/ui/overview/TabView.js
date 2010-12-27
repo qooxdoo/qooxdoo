@@ -59,8 +59,12 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       this.add(menu);
 
       // Window
-      var window = new demobrowser.demo.ui.overview.pages.Window();
-      this.add(window);
+      var win = new demobrowser.demo.ui.overview.pages.Window();
+      this.add(win);
+
+      // SplitPane
+      var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
+      this.add(splitPane);
 
     },
 
