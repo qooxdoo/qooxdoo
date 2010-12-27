@@ -56,6 +56,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var menu = new demobrowser.demo.ui.overview.pages.ToolBar();
       this.add(menu);
 
+      // Window
+      var window = new demobrowser.demo.ui.overview.pages.Window();
+      this.add(window);
+
     }
   }
 });
