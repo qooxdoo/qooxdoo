@@ -66,6 +66,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
       this.add(splitPane);
 
+      // Tree
+      var tree = new demobrowser.demo.ui.overview.pages.Tree();
+      this.add(tree);
+
     },
 
     __rememberCurrentTab: function(e) {
