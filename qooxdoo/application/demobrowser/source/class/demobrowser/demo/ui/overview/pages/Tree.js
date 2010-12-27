@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Tree",
     this.add(this.__container, {top: 40});
 
     this._initWidgets();
-    this._initControls(this.__widgets, {});
+    this._initControls(this.__widgets, {disabled: true});
   },
 
   members :

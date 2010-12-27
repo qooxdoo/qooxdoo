@@ -238,13 +238,24 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       booleanGroupBox.add(label, {row: 0, column: 0});
       booleanGroupBox.add(checkBox, {row: 0, column: 1});
 
+      // Tri-State check box
+      var triCheckBox = new qx.ui.form.CheckBox("Tri-State CheckBox").set({
+        triState: true,
+        value: null
+      });
+      this.__widgets.push(triCheckBox);
+      label = new qx.ui.basic.Label("Tri-State CheckBox:");
+      label.setBuddy(triCheckBox);
+      booleanGroupBox.add(label, {row: 1, column: 0});
+      booleanGroupBox.add(triCheckBox, {row: 1, column: 1});
+
       // Radio button
       var radioButton = new qx.ui.form.RadioButton("RadioButton");
       this.__widgets.push(radioButton);
       label = new qx.ui.basic.Label("RadioButtons:");
       label.setBuddy(radioButton);
-      booleanGroupBox.add(label, {row: 1, column: 0});
-      booleanGroupBox.add(radioButton, {row: 1, column: 1});
+      booleanGroupBox.add(label, {row: 2, column: 0});
+      booleanGroupBox.add(radioButton, {row: 2, column: 1});
 
       /****************************************
        * NUMBER INPUT
@@ -253,7 +264,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       numberGroupBox.setWidth(210);
-      this.add(numberGroupBox, {left: 330, top: 380});
+      this.add(numberGroupBox, {left: 330, top: 410});
 
       // Spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);

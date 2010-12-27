@@ -33,7 +33,8 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
 
   members :
   {
-    __init: function(){
+    __init: function() {
+
       // Basic
       var basic = new demobrowser.demo.ui.overview.pages.Basic();
       this.add(basic);
