@@ -70,6 +70,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var tree = new demobrowser.demo.ui.overview.pages.Tree();
       this.add(tree);
 
+      // List
+      var list = new demobrowser.demo.ui.overview.pages.List();
+      this.add(list);
+
     },
 
     __rememberCurrentTab: function(e) {
