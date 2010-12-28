@@ -259,7 +259,7 @@ qx.Class.define("qx.bom.Viewport",
      *
      * @signature function(win)
      * @param win {Window?window} The window to query
-     * @return {Integer} Scroll position from left edge, always a positive integer
+     * @return {Integer} Scroll position from top edge, always a positive integer
      */
     getScrollTop : qx.core.Variant.select("qx.client",
     {
