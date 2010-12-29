@@ -1122,14 +1122,16 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
       // Clone the node
       var nodeClone = node.cloneNode(true);
-
+      var innerHTML = nodeClone.innerHTML;
+      
       // Replace all ">" with space "> " to create new word borders
-      nodeClone.innerHTML = nodeClone.innerHTML.replace(/>/gi, "> ");
+      innerHTML = innerHTML.replace(/>/gi, "> ");
       // Remove all line breaks
-      nodeClone.innerHTML = nodeClone.innerHTML.replace(/\n/gi, " ");
+      innerHTML = innerHTML.replace(/\n/gi, " ");
       // Remove all comments
-      nodeClone.innerHTML = nodeClone.innerHTML.replace(/<!--.*-->/gi, "");
-
+      innerHTML = innerHTML.replace(/<!--.*-->/gi, "");
+      
+      nodeClone.innerHTML = innerHTML;
       var text  = qx.core.Variant.isSet("qx.client", "mshtml|opera") ? nodeClone.innerText : nodeClone.textContent;
       var words = text.match(qx.bom.htmlarea.HtmlArea.GetWordsRegExp);
 
