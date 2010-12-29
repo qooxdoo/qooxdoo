@@ -44,7 +44,9 @@ qx.Class.define("qx.html.Iframe",
   construct : function(url, styles, attributes)
   {
     this.base(arguments, "iframe", styles, attributes);
-    this._setProperty("source", url);
+
+    this.setSource(url);
+    this.__syncFrameUrl();
   },
 
 
@@ -75,6 +77,8 @@ qx.Class.define("qx.html.Iframe",
 
   members :
   {
+
+    __fullUrl: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -165,9 +169,10 @@ qx.Class.define("qx.html.Iframe",
      *
      * @param source {String} URL to be set.
      */
-    setSource : function(source)
+    setSource : function(source, direct)
     {
-      this._setProperty("source", source);
+      this.__trackFullUrl();
+      this._setProperty("source", source, direct);
       return this;
     },
 
@@ -217,6 +222,37 @@ qx.Class.define("qx.html.Iframe",
         this.setSource(null);
         this.setSource(url);
       }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    __trackFullUrl: function() {
+      this.addListenerOnce("load", function() {
+        var element = this.getDomElement();
+        this.__fullUrl = qx.bom.Iframe.queryCurrentUrl(element);
+      }, this);
+    },
+
+    __syncFrameUrl: function() {
+      this.addListener("load", function() {
+
+        if (this.__fullUrl) {
+          var element = this.getDomElement();
+          var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
+
+          if (currentUrl !== this.__fullUrl) {
+            this.setSource(currentUrl, true);
+          }
+        }
+      }, this);
     }
+
   }
 });
