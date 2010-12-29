@@ -78,6 +78,9 @@ qx.Class.define("qx.html.Iframe",
   members :
   {
 
+    /**
+    * URL of frame.
+    */
     __fullUrl: null,
 
     /*
@@ -168,6 +171,8 @@ qx.Class.define("qx.html.Iframe",
      * Sets iframe's source attribute to given value
      *
      * @param source {String} URL to be set.
+     * @param direct {Boolean?false} Whether the execution should be made
+     *  directly when possible
      */
     setSource : function(source, direct)
     {
@@ -233,13 +238,26 @@ qx.Class.define("qx.html.Iframe",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+    * Internally store actual URL of iframe.
+    *
+    * @return {void}
+    */
     __trackFullUrl: function() {
+
+      // Retrieve and store URL after load
       this.addListenerOnce("load", function() {
         var element = this.getDomElement();
         this.__fullUrl = qx.bom.Iframe.queryCurrentUrl(element);
       }, this);
     },
 
+    /**
+    * Sync actual URL of iframe with source property.
+    *
+    * @return {void}
+    */
     __syncFrameUrl: function() {
       this.addListener("load", function() {
 
