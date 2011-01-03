@@ -42,7 +42,7 @@ qx.Class.define("qx.test.html.Iframe",
       qx.html.Element.flush();
     },
 
-    "test: update source on browse": function() {
+    "test: update source on navigate": function() {
       var frame = this.__frame;
 
       // As soon as the original frame has loaded,

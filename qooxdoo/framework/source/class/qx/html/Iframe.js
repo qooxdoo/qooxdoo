@@ -46,7 +46,7 @@ qx.Class.define("qx.html.Iframe",
     this.base(arguments, "iframe", styles, attributes);
 
     this.setSource(url);
-    this.__syncFrameUrl();
+    this.addListener("navigate", this.__onNavigate, this);
   },
 
 
@@ -63,7 +63,9 @@ qx.Class.define("qx.html.Iframe",
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.event.type.Event",
+
+    "navigate" : "qx.event.type.Data"
   },
 
 
@@ -176,7 +178,6 @@ qx.Class.define("qx.html.Iframe",
      */
     setSource : function(source, direct)
     {
-      this.__trackFullUrl();
       this._setProperty("source", source, direct);
       return this;
     },
@@ -234,43 +235,21 @@ qx.Class.define("qx.html.Iframe",
 
     /*
     ---------------------------------------------------------------------------
-      HELPER
+      LISTENER
     ---------------------------------------------------------------------------
     */
 
-
     /**
-    * Internally store actual URL of iframe.
+    * Handle user navigation. Sync actual URL of iframe with source property.
     *
+    * @param e {qx.event.type.Data} navigate event
     * @return {void}
     */
-    __trackFullUrl: function() {
-
-      // Retrieve and store URL after load
-      this.addListenerOnce("load", function() {
-        var element = this.getDomElement();
-        this.__fullUrl = qx.bom.Iframe.queryCurrentUrl(element);
-      }, this);
-    },
-
-    /**
-    * Sync actual URL of iframe with source property.
-    *
-    * @return {void}
-    */
-    __syncFrameUrl: function() {
-      this.addListener("load", function() {
-
-        if (this.__fullUrl) {
-          var element = this.getDomElement();
-          var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
-
-          if (currentUrl !== this.__fullUrl) {
-            this.setSource(currentUrl, true);
-          }
-        }
-      }, this);
+    __onNavigate: function(e) {
+      var actualUrl = e.getData();
+      if (actualUrl) {
+        this.setSource(actualUrl, true);
+      }
     }
-
   }
 });

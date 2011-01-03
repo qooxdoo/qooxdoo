@@ -213,6 +213,9 @@ qx.Class.define("qx.bom.Iframe",
         {
           iframe.src = source;
         }
+
+      this.__setFullUrl(iframe);
+
       }
       catch(ex) {
         qx.log.Logger.warn("Iframe source could not be set!");
@@ -239,6 +242,23 @@ qx.Class.define("qx.bom.Iframe",
       catch(ex) {};
 
       return null;
+    },
+
+    /**
+    * Internally store actual URL of iframe.
+    *
+    * @param iframe {Element} DOM element of the iframe.
+    * @return {void}
+    */
+    __setFullUrl: function(iframe) {
+
+      // Retrieve and store URL once after load
+      var callback = function() {
+        qx.bom.Event.removeNativeListener(iframe, "load", callback);
+        iframe.$$fullUrl = qx.bom.Iframe.queryCurrentUrl(iframe);
+      }
+
+      qx.bom.Event.addNativeListener(iframe, "load", callback);
     }
 
   }
