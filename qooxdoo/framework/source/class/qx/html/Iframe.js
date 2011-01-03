@@ -96,9 +96,18 @@ qx.Class.define("qx.html.Iframe",
     {
       this.base(arguments, name, value);
 
-      if (name == "source")
-      {
+      if (name == "source") {
         var element = this.getDomElement();
+        var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
+
+        // Skip if frame is already on URL.
+        //
+        // Work-around for [BUG #4481], since setting the source property
+        // is required to get Iframe source and source property in sync.
+        if (qx.bom.Iframe.isSameLocation(currentUrl, value)) {
+          return;
+        }
+
         qx.bom.Iframe.setSource(element, value);
       }
     },

@@ -36,10 +36,8 @@ qx.Class.define("qx.test.html.Iframe",
       this.__doc = new qx.html.Root(helper);
       this.__doc.setAttribute("id", "doc");
 
-      var frame = this.__frame = new qx.html.Iframe("/");
-
+      var frame = this.__frame = new qx.html.Iframe();
       this.__doc.add(frame);
-      qx.html.Element.flush();
     },
 
     "test: update source on navigate": function() {
@@ -51,10 +49,47 @@ qx.Class.define("qx.test.html.Iframe",
         qx.bom.Iframe.setSource(frame.getDomElement(), "/affe/");
       });
 
+      qx.html.Element.flush();
+
       // Give changed frame some time to load
       this.wait(500, function() {
         this.assertMatch(frame.getSource(), "\/affe\/$");
       }, this);
+    },
+
+    "test: skip setting source if frame is already on URL": function() {
+      var frame = this.__frame;
+
+      // As soon as the original frame has loaded,
+      // fake user-action and browse
+      frame.addListenerOnce("load", function() {
+        qx.bom.Iframe.setSource(frame.getDomElement(), "/affe/");
+      });
+      qx.html.Element.flush();
+
+      var origSetSource;
+      frame.addListener("load", function() {
+
+        origSetSource = qx.bom.Iframe.setSource;
+        qx.bom.Iframe.setSource = function() {
+          throw "setSource";
+        };
+
+        try {
+          frame.setSource("/affe/");
+          qx.html.Element.flush();
+          this.resume();
+        } catch(e) {
+          this.resume(function() {
+            this.fail("Setting URL must be skipped");
+          });
+        }
+
+        qx.bom.Iframe.setSource = origSetSource;
+
+      }, this);
+
+      this.wait();
     },
 
     tearDown : function()
