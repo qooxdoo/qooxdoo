@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     if (source) {
       this.setSource(source);
     }
-    
+
     this._getIframeElement().addListener("navigate", this.__onNavigate, this);
   },
 
@@ -48,7 +48,9 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.event.type.Event",
+
+    "navigate" : "qx.event.type.Data"
   },
 
 
@@ -157,9 +159,12 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     */
     __onNavigate: function(e) {
       var actualUrl = e.getData();
+
       if (actualUrl) {
         this.setSource(actualUrl);
       }
+
+      this.fireDataEvent("navigate", actualUrl);
     }
   }
 })
