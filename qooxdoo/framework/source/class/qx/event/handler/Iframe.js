@@ -61,6 +61,14 @@ qx.Class.define("qx.event.handler.Iframe",
      * @param target {Element} DOM element which is the target of this event
      */
     onevent : qx.event.GlobalError.observeMethod(function(target) {
+
+      // Fire navigate event when actual URL diverges from stored URL
+      var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
+      if (currentUrl !== target.$$fullUrl) {
+        qx.event.Registration.fireEvent(target, "navigate", qx.event.type.Data, [currentUrl]);
+      }
+
+      // Always fire load event
       qx.event.Registration.fireEvent(target, "load");
     })
   },
@@ -91,33 +99,15 @@ qx.Class.define("qx.event.handler.Iframe",
 
     // interface implementation
     registerEvent : function(target, type, capture) {
-      if (type == "navigate") {
-        var listener = qx.lang.Function.listener(this.__onLoad, this);
-        qx.bom.Event.addNativeListener(target, "load", listener);
-      }
+      // Nothing needs to be done here
     },
 
 
     // interface implementation
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT-HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    __onLoad : function(domEvent) {
-      var target = qx.bom.Event.getTarget(domEvent);
-      var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
-
-      if (currentUrl !== target.$$fullUrl) {
-        qx.event.Registration.fireEvent(target, "navigate", qx.event.type.Data, [currentUrl]);
-      }
     }
+
 
   },
 
