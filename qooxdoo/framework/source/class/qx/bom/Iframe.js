@@ -214,7 +214,10 @@ qx.Class.define("qx.bom.Iframe",
           iframe.src = source;
         }
 
-      this.__setFullUrl(iframe);
+      // This is a programmer provided source. Remember URL for this source
+      // for later comparison with current URL. The current URL can diverge
+      // if the end-user navigates in the Iframe.
+      this.__rememberUrl(iframe);
 
       }
       catch(ex) {
@@ -246,18 +249,18 @@ qx.Class.define("qx.bom.Iframe",
 
 
     /**
-    * Internally store actual URL of iframe.
+    * Remember actual URL of iframe.
     *
     * @param iframe {Element} DOM element of the iframe.
     * @return {void}
     */
-    __setFullUrl: function(iframe)
+    __rememberUrl: function(iframe)
     {
 
-      // Retrieve and store URL once after load
+      // URL can only be detected after load. Retrieve and store URL once.
       var callback = function() {
         qx.bom.Event.removeNativeListener(iframe, "load", callback);
-        iframe.$$fullUrl = qx.bom.Iframe.queryCurrentUrl(iframe);
+        iframe.$$url = qx.bom.Iframe.queryCurrentUrl(iframe);
       }
 
       qx.bom.Event.addNativeListener(iframe, "load", callback);

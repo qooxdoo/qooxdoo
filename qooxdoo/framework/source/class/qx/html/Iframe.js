@@ -64,7 +64,10 @@ qx.Class.define("qx.html.Iframe",
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
     "load" : "qx.event.type.Event",
-
+    
+    /**
+    * The "navigate" event is fired when the user browses the iframe.
+    */
     "navigate" : "qx.event.type.Data"
   },
 
@@ -102,8 +105,9 @@ qx.Class.define("qx.html.Iframe",
 
         // Skip if frame is already on URL.
         //
-        // Work-around for [BUG #4481], since setting the source property
-        // is required to get Iframe source and source property in sync.
+        // When URL of Iframe and source property get out of sync, the source
+        // property needs to be updated [BUG #4481]. This is to make sure the
+        // same source is not set twice on the BOM level.
         if (value == currentUrl) {
           return;
         }

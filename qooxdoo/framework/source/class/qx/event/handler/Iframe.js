@@ -64,8 +64,10 @@ qx.Class.define("qx.event.handler.Iframe",
 
       // Fire navigate event when actual URL diverges from stored URL
       var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
-      if (currentUrl !== target.$$fullUrl) {
+
+      if (currentUrl !== target.$$url) {
         qx.event.Registration.fireEvent(target, "navigate", qx.event.type.Data, [currentUrl]);
+        target.$$url = currentUrl;
       }
 
       // Always fire load event

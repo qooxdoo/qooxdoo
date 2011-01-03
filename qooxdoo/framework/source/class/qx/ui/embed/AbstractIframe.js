@@ -49,7 +49,10 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
     "load" : "qx.event.type.Event",
-
+    
+    /**
+    * The "navigate" event is fired when the user browses the iframe.
+    */
     "navigate" : "qx.event.type.Data"
   },
 
