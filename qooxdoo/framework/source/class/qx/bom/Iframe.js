@@ -245,25 +245,6 @@ qx.Class.define("qx.bom.Iframe",
     },
 
 
-    isSameLocation : function(url, source)
-    {
-      if (url && source) {
-
-        // Shortcut
-        if (url === source) {
-          return true;
-        }
-
-        // Does the location of the frame match the source?
-        // Source can be relative, therefore wild-card current directory
-        source = qx.lang.String.escapeRegexpChars(source);
-        if (url.match(".*" + source + "$")) {
-          return true;
-        }
-      }
-    },
-
-
     /**
     * Internally store actual URL of iframe.
     *

@@ -76,12 +76,13 @@ qx.Class.define("qx.test.html.Iframe",
         };
 
         try {
-          frame.setSource("/affe/");
+          var url = qx.bom.Iframe.queryCurrentUrl(frame.getDomElement());
+          frame.setSource(url);
           qx.html.Element.flush();
           this.resume();
         } catch(e) {
           this.resume(function() {
-            this.fail("Setting URL must be skipped");
+            this.fail("Setting same URL must be skipped");
           });
         }
 

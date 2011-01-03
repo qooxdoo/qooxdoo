@@ -104,7 +104,7 @@ qx.Class.define("qx.html.Iframe",
         //
         // Work-around for [BUG #4481], since setting the source property
         // is required to get Iframe source and source property in sync.
-        if (qx.bom.Iframe.isSameLocation(currentUrl, value)) {
+        if (value == currentUrl) {
           return;
         }
 
