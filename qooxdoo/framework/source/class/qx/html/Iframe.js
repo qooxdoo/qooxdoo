@@ -182,12 +182,10 @@ qx.Class.define("qx.html.Iframe",
      * Sets iframe's source attribute to given value
      *
      * @param source {String} URL to be set.
-     * @param direct {Boolean?false} Whether the execution should be made
-     *  directly when possible
      */
-    setSource : function(source, direct)
+    setSource : function(source)
     {
-      this._setProperty("source", source, direct);
+      this._setProperty("source", source);
       return this;
     },
 
@@ -257,7 +255,7 @@ qx.Class.define("qx.html.Iframe",
     __onNavigate: function(e) {
       var actualUrl = e.getData();
       if (actualUrl) {
-        this.setSource(actualUrl, true);
+        this.setSource(actualUrl);
       }
     }
   }
