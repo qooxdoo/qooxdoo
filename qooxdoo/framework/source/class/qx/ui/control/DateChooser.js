@@ -124,7 +124,13 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * {string} The format for the date year label at the top center.
      */
-    MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy")
+    MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy"),
+    
+    /**
+     * {qx.util.format.DateFormat} The format for the weekday
+     * labels (the headers of the date table).
+     */
+    WEEKDAY_FORMAT : new qx.util.format.DateFormat("EE")
   },
 
 
@@ -663,7 +669,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
       var firstSundayInMonth = 1 + ((7 - firstDayOfWeek) % 7);
-      var weekDayFormat = new qx.util.format.DateFormat("EE");
+      var weekDayFormat = this.constructor.WEEKDAY_FORMAT;
 
       for (var i=0; i<7; i++)
       {
