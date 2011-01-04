@@ -31,6 +31,7 @@
 #asset(qx/icon/Tango/22/status/dialog-information.png)
 #asset(qx/icon/Tango/22/status/dialog-warning.png)
 #asset(qx/icon/Tango/22/status/dialog-error.png)
+#asset(qx/icon/Tango/22/actions/media-seek-forward.png)
 
 #asset(testrunner/image/*)
 
@@ -52,6 +53,8 @@ qx.Class.define("testrunner.runner.TestRunner",
   construct : function()
   {
     this.base(arguments);
+    
+    this.__menuItemStore = {};
 
     this.nameSpace = qx.core.Setting.get("qx.testNameSpace");
 
@@ -267,6 +270,9 @@ qx.Class.define("testrunner.runner.TestRunner",
      * Track unsafe attempt to access frame with URL.
      */
     __frameUnsafeAttempt : null,
+    
+    __overflowMenu : null,
+    __menuItemStore : null,
 
     /** This one is called by Application.js
      */
@@ -390,9 +396,141 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.f1.setShowStackTrace(this.stacktoggle.getValue());
       }, this);
 
+      // enable overflow handling
+      toolbar.setOverflowHandling(true);
+    
+      // add a button for overflow handling
+      var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
+      chevron.setAppearance("toolbar-button");  // hide the down arrow icon
+      toolbar.add(chevron);
+      toolbar.setOverflowIndicator(chevron);
+    
+      // set priorities for overflow handling
+      toolbar.setRemovePriority(part1, 3);
+      toolbar.setRemovePriority(part3, 2);
+      toolbar.setRemovePriority(part2, 1);
+      
+      // add the overflow menu
+      this.__overflowMenu = new qx.ui.menu.Menu();
+      chevron.setMenu(this.__overflowMenu);
+    
+      // add the listener
+      toolbar.addListener("hideItem", this._onHideItem, this);
+      toolbar.addListener("showItem", this._onShowItem, this);
+    
       return toolbar;
     },  // makeToolbar
 
+    /**
+     * Handler for the overflow handling which will be called on hide.
+     * @param e {qx.event.type.Data} The event.
+     */
+    _onHideItem : function(e) {
+      var partItem = e.getData();
+      var menuItems = this._getMenuItems(partItem);
+      for(var i=0,l=menuItems.length;i<l;i++){
+        menuItems[i].setVisibility("visible");
+      }
+    },
+    
+    
+    /**
+     * Handler for the overflow handling which will be called on show.
+     * @param e {qx.event.type.Data} The event.
+     */    
+    _onShowItem : function(e) {
+      var partItem = e.getData();
+      var menuItems = this._getMenuItems(partItem);
+      for(var i=0,l=menuItems.length;i<l;i++){
+        menuItems[i].setVisibility("excluded");
+      }
+    },
+    
+        
+    /**
+     * Helper for the overflow handling. It is responsible for returning a 
+     * corresponding menu item for the given toolbar item.
+     * 
+     * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
+     * @return {qx.ui.core.Widget} The coresponding menu items.
+     */
+    _getMenuItems : function(partItem) {
+      var cachedItems = [];
+      if (partItem instanceof qx.ui.toolbar.Part)
+      {
+        var partButtons = partItem.getChildren();
+        for(var i=0,l=partButtons.length;i<l;i++)
+        {
+          if(partButtons[i].getVisibility()=='excluded'){
+            continue;
+          }
+          var cachedItem = this.__menuItemStore[partButtons[i].toHashCode()];
+      
+          if (!cachedItem)
+          {
+            if(partButtons[i] instanceof qx.ui.toolbar.Button)
+            {
+              cachedItem = new qx.ui.menu.Button(
+                partButtons[i].getLabel().translate(),
+                partButtons[i].getIcon()
+                );
+              cachedItem.getChildControl('label',false).setRich(true);
+              cachedItem.setTextColor(partButtons[i].getTextColor());
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+            }
+            else if(partButtons[i] instanceof qx.ui.toolbar.CheckBox)
+            {
+              cachedItem = new qx.ui.menu.CheckBox(
+                partButtons[i].getLabel().translate()
+                );
+              cachedItem.setIcon(partButtons[i].getIcon());
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+            }
+             else if(partButtons[i] instanceof qx.ui.toolbar.MenuButton)
+             {
+              cachedItem = new qx.ui.menu.Button(
+                partButtons[i].getLabel().translate(),
+                partButtons[i].getIcon(),
+                partButtons[i].getCommand(),
+                partButtons[i].getMenu()
+                );
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+            }
+            else
+            {
+              cachedItem = new qx.ui.menu.Separator();
+            }
+            var listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'execute');
+            if(listeners && listeners.length>0)
+            {
+              for(var j=0,k=listeners.length;j<k;j++) {
+                cachedItem.addListener('execute',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
+              }
+            }
+            listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'changeValue');
+            if(listeners && listeners.length>0)
+            {
+              for(var j=0,k=listeners.length;j<k;j++) {
+                cachedItem.addListener('changeValue',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
+              }
+            }
+            listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'click');
+            if(listeners && listeners.length>0)
+            {
+              for(var j=0,k=listeners.length;j<k;j++) {
+                cachedItem.addListener('click',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
+              }
+            }
+            this.__overflowMenu.addAt(cachedItem, 0);
+            this.__menuItemStore[partButtons[i].toHashCode()] = cachedItem;
+            cachedItems.push(cachedItem);
+          }
+        }
+      }
+
+      return cachedItems;
+    },
+    
     /**
      * TODOC
      *
