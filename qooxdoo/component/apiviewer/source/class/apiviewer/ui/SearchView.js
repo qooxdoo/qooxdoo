@@ -214,6 +214,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
         sresult = this._searchIndex(search[0], search[1]);
+        sresult.sort(this._sortByIcons);
 
         this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
         this._tableModel.setData(sresult);
@@ -348,28 +349,32 @@ qx.Class.define("apiviewer.ui.SearchView",
       var icons =
       {
         "package":0,
-        "class":1,
-        "interface":2,
-        "mixin":3,
-        "method_public":4,
-        "method_protected":5,
-        "method_private":6,
-        "property":7,
-        "property_protected":8,
-        "property_private":9,
-        "event":10,
-        "constructor":11,
-        "constant":12,
-        "childControl":13
+        "class_abstract":1,
+        "class":2,
+        "class_singleton": 3,
+        "interface":4,
+        "mixin":5,
+        "method_public":6,
+        "method_protected":7,
+        "method_private":8,
+        "property":9,
+        "property_protected":10,
+        "property_private":11,
+        "event":12,
+        "constructor":13,
+        "constant":14,
+        "childcontrol":15
       };
       // Get the filename
-      var iconfile = a.substr(a.lastIndexOf("/")+1);
-      var iconfileNext = b.substr(b.lastIndexOf("/")+1);
+      var aType = a[0];
+      var bType = b[0];
+      var iconfile = aType.substr(aType.lastIndexOf("/")+1);
+      var iconfileNext = bType.substr(bType.lastIndexOf("/")+1);
       // Map the type to a number
-      a = icons[iconfile.substr(0, iconfile.length-6)];
-      b = icons[iconfileNext.substr(0, iconfileNext.length-6)];
+      aType = icons[iconfile.substr(0, iconfile.length-6)];
+      bType = icons[iconfileNext.substr(0, iconfileNext.length-6)];
 
-      return a - b;
+      return aType - bType;
     },
 
 
