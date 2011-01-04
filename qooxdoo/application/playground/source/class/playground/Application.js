@@ -134,6 +134,7 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
+      this.__toolbar.addListener("openDemoBrowser",this.__onDemoBrowser,this);
 
       // mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -306,6 +307,17 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Handler for opening the demo browser.
+     */
+    __onDemoBrowser : function() {
+      window.open(
+        "http://demo.qooxdoo.org/" +
+        qx.core.Setting.get("qx.version") +
+        "/demobrowser/"
+      );
+    },
+    
     // ***************************************************
     // HISTORY SUPPORT
     // ***************************************************

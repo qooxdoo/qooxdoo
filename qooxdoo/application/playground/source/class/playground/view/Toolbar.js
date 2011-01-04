@@ -134,6 +134,16 @@ qx.Class.define("playground.view.Toolbar",
       this.fireEvent("openManual");
     }, this);
     
+    // demobrowser button
+    var demoBrowserButton = new qx.ui.toolbar.Button(
+      this.tr("Demo Browser"), "icon/22/actions/application-exit.png"
+    );
+    this.add(demoBrowserButton);
+    demoBrowserButton.setToolTipText(this.tr("Open the qooxdoo Demo Browser"));
+    demoBrowserButton.addListener("execute", function() {
+      this.fireEvent("openDemoBrowser");
+    }, this);
+    
     // enable doverflow handling
     this.setOverflowHandling(true);
     
@@ -220,6 +230,11 @@ qx.Class.define("playground.view.Toolbar",
      * Event which will be fired to open the manual.
      */
     "openManual" : "qx.event.type.Event",
+    
+    /**
+     * Event which will be fired to open the demo browser.
+     */
+    "openDemoBrowser" : "qx.event.type.Event",
 
     /**
      * Event signaling that a new gist has been selected.

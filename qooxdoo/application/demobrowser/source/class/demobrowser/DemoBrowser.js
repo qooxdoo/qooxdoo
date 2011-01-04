@@ -38,6 +38,9 @@
 #asset(qx/icon/Tango/22/apps/internet-web-browser.png)
 #asset(qx/icon/Tango/22/mimetypes/executable.png)
 
+#asset(qx/icon/Tango/22/actions/help-contents.png)
+#asset(qx/icon/Tango/22/actions/help-about.png)
+
 ************************************************************************ */
 
 /**
@@ -340,7 +343,26 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
+    /**
+     * Handler for opening the api viewer.
+     */
+    __onApiOpen : function() {
+      window.open(
+        "http://demo.qooxdoo.org/" +
+        qx.core.Setting.get("qx.version") +
+        "/apiviewer/"
+      );
+    },
 
+
+    /**
+     * Handler for opening the manual.
+     */
+    __onManualOpen : function() {
+      var vers = (qx.core.Setting.get("qx.version").split("-")[0]);
+      window.open("http://manual.qooxdoo.org/" + vers);
+    },
+    
     /**
      * TODOC
      * @param e {Event} TODOC
@@ -439,6 +461,23 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         this.__playgroundButton = playgroundButton;
         this._navPart.add(playgroundButton);
+        
+        // api button
+        var apiButton = new qx.ui.toolbar.Button(
+          this.tr("API Viewer"), "icon/22/actions/help-contents.png"
+        );
+        this._navPart.add(apiButton);
+        apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
+        apiButton.addListener("execute", this.__onApiOpen, this);
+
+        // help button
+        var helpButton = new qx.ui.toolbar.Button(
+          this.tr("Manual"), "icon/22/actions/help-about.png"
+        );
+        this._navPart.add(helpButton);
+        helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
+        helpButton.addListener("execute", this.__onManualOpen, this);
+        
       }
 
 
