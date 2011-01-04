@@ -77,11 +77,25 @@ qx.Class.define("qx.html.Image",
         // Source can be null in certain circumstances.
         // See bug #3701 for details.
         if (source != null) {
+          // Normalize "" to null
+          source = source || null;
+
           qx.bom.element.Decoration.update(elem, source, repeat, styles);
         }
       }
     },
 
+    // overridden
+    _removeProperty : function(key, direct) {
+      if (key == "source") {
+        // Work-around check for null in #_applyProperty, introduced with fix
+        // for bug #3701. Use empty string that is later normalized to null.
+        // This fixes bug #4524.
+        this._setProperty(key, "", direct);
+      } else {
+        this._setProperty(key, null, direct);
+      }
+    },
 
     // overridden
     _createDomElement : function()
