@@ -61,7 +61,7 @@ qx.Class.define("qx.html.Image",
         // To prevent any wrong background-position or -repeat it is necessary
         // to reset those styles whenever a background-image is updated.
         // This is only necessary if any backgroundImage was set already.
-        // See Bug #3376 for details
+        // See bug #3376 for details
         var styles = this.getAllStyles();
 
         if (this.getNodeName() == "div" && this.getStyle("backgroundImage"))
