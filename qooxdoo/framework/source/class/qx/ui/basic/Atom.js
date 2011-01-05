@@ -323,6 +323,14 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyCenter : function(value, old) {
       this._getLayout().setCenter(value);
+    },
+
+
+    // overridden
+    _applySelectable : function(value, old) {
+      this.base(arguments, value, old);
+
+      this.getChildControl("label").setSelectable(value);
     }
   }
 });
