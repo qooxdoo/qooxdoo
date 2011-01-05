@@ -330,7 +330,10 @@ qx.Class.define("qx.ui.basic.Atom",
     _applySelectable : function(value, old) {
       this.base(arguments, value, old);
 
-      this.getChildControl("label").setSelectable(value);
+      var label = this.getChildControl("label", true);
+      if (label) {
+        this.getChildControl("label").setSelectable(value);
+      }
     }
   }
 });
