@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       if (!qx.bom.client.Feature.CANVAS)
       {
         var canvas1 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-        canvas1.add(new qx.ui.basic.Label("Canvas is not support by this browser!").set({
+        canvas1.add(new qx.ui.basic.Label("Canvas is not supported by this browser!").set({
           rich : true,
           alignX: "center",
           alignY: "middle"

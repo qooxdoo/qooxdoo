@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
 
 
     /**
-     * Fired when the % complete is changed.
+     * Fired when the % complete value is changed.
      */
     change: "qx.event.type.Data"
   },

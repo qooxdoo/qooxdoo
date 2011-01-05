@@ -295,7 +295,7 @@ qx.Class.define("qx.lang.Function",
      *
      * *Syntax*
      *
-     * <pre class='javascript'>qx.lang.Function.self(myFunction, [self, [varargs...]]);</pre>
+     * <pre class='javascript'>qx.lang.Function.bind(myFunction, [self, [varargs...]]);</pre>
      *
      * *Example*
      *
