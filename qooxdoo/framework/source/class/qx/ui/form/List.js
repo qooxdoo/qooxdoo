@@ -390,8 +390,22 @@ qx.Class.define("qx.ui.form.List",
       {
         item = items[i];
 
-        // get the label (consider ignoreCase and its default value (true))
-        var label = item.getLabel();
+        // get the content of the label; text content when rich
+        var label;
+
+        if (item.isRich()) {
+          var control = item.getChildControl("label", true);
+          if (control) {
+            var labelNode = control.getContentElement().getDomElement();
+            if (labelNode) {
+              label = qx.bom.element.Attribute.get(labelNode, "text");
+            }
+          }
+
+        } else {
+          label = item.getLabel();
+        }
+
         if (label != null) {
           if (label.translate) {
             label = label.translate();
