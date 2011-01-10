@@ -169,7 +169,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
     },
 
     /**
-     * Return the selection manager if it is already exists, otherwise creats
+     * Return the selection manager if it is already exists, otherwise creates
      * the manager.
      *
      * @return {qx.ui.core.SingleSelectionManager} Single selection manager.
