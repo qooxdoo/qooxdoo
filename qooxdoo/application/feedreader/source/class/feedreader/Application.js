@@ -63,6 +63,8 @@ qx.Class.define("feedreader.Application",
     __userFeedFolder : null,
     __staticFeedFolder: null,
 
+    __addFeedWindowLoaded : false,
+    __preferencesWindowLoaded : false,
 
     /*
     ---------------------------------------------------------------------------
@@ -530,9 +532,14 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
-      this.__toolBarView.signalLoading("settings", true);
+      if (!this.__preferencesWindowLoaded) {
+        this.__toolBarView.signalLoading("settings", true);        
+      }
       qx.io.PartLoader.require(["settings"], function()
       {
+        // mark as loaded
+        this.__preferencesWindowLoaded = true;
+
         // if the window is not created
         if (!this.__prefWindow)
         {
@@ -565,9 +572,13 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      this.__toolBarView.signalLoading("addfeed", true);
+      if (!this.__addFeedWindowLoaded) {
+        this.__toolBarView.signalLoading("addfeed", true);
+      }
+
       qx.io.PartLoader.require(["addfeed"], function()
       {
+        this.__addFeedWindowLoaded = true;
         // if the window is not created
         if (!this.__addFeedWindow)
         {
