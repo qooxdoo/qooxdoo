@@ -145,6 +145,8 @@ qx.Class.define("inspector.view.ToolBar",
 
     __menuItemStore : null,
 
+    __overflowMenu : null,
+
     getTextField : function() {
       return this._urlTextField;
     },
@@ -261,6 +263,24 @@ qx.Class.define("inspector.view.ToolBar",
   },
 
 
-  destruct : function() {
+  destruct : function()
+  {
+    this._separator.dispose();
+    this._inspectButton.dispose();
+    this._selectedWidgetLabel.dispose();
+    this._urlTextField.dispose();
+    this._reloadButton.dispose();
+    this._objectsButton.dispose();
+    this._widgetsButton.dispose();
+    this._propertyButton.dispose();
+    this._consoleButton.dispose();
+    this._seleniumButton.dispose();
+    this._consoleWindow.dispose();
+    this.__overflowMenu.dispose();
+
+    this._separator = this._inspectButton = this._selectedWidgetLabel = 
+      this._urlTextField = this._reloadButton = this._objectsButton =
+      this._widgetsButton = this._propertyButton = this._consoleButton = 
+      this._seleniumButton = this._consoleWindow = this.__overflowMenu = null;
   }
 });
