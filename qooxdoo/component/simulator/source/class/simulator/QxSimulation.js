@@ -66,12 +66,7 @@ qx.Class.define("simulator.QxSimulation", {
       this.qxSelenium.start();
       var autUri = this.__autHost + "" + this.__autPath;
       this.qxOpen(autUri);
-      var qxAppReady = 'var qxReady = false; try { if (' + 
-                  simulator.QxSimulation.AUTWINDOW + '.' + 
-                  simulator.QxSimulation.QXAPPLICATION + 
-                  ') { qxReady = true; } } catch(e) {} qxReady;';
-                            
-      this.qxSelenium.waitForCondition(qxAppReady, 30000);
+      this.waitForQxApplication();
       
       if (this._options.globalErrorLogging || this._options.testEvents) {
         qx.Class.include(simulator.QxSimulation, simulator.MGlobalErrorHandling);
@@ -92,6 +87,24 @@ qx.Class.define("simulator.QxSimulation", {
       }
 
     },
+    
+    
+    /**
+     * Waits until qx.core.Init.getApplication() in the AUT window returns 
+     * something.
+     * 
+     * @throws {Error} If the application isn't ready within 30 seconds
+     */
+    waitForQxApplication : function()
+    {
+      var qxAppReady = 'var qxReady = false; try { if (' + 
+                  simulator.QxSimulation.AUTWINDOW + '.' + 
+                  simulator.QxSimulation.QXAPPLICATION + 
+                  ') { qxReady = true; } } catch(e) {} qxReady;';
+                            
+      this.qxSelenium.waitForCondition(qxAppReady, 30000);
+    },
+    
     
     /**
      * Adds a map to the global selenium object in the AUT that is used to store
