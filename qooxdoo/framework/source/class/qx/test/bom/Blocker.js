@@ -153,7 +153,11 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker.block();
 
       var blockerElement = this.__blocker.getBlockerElement();
-      this.assertEquals(qx.bom.element.Opacity.get(blockerElement), 0.7);
+      var expected = 0.7;
+      if (qx.bom.client.Browser.NAME == "chrome") {
+        expected = 0.699999988079071;
+      }
+      this.assertEquals(expected, qx.bom.element.Opacity.get(blockerElement));
 
       this.__blocker.unblock();
     },
