@@ -89,30 +89,14 @@ qx.Class.define("qx.bom.Iframe",
      * @return {Window?null} The DOM window object of the iframe or null.
      * @signature function(iframe)
      */
-    getWindow : qx.core.Variant.select("qx.client",
+    getWindow : function(iframe)
     {
-      "mshtml|gecko|webkit" : function(iframe)
-      {
-        try {
-          return iframe.contentWindow;
-        } catch(ex) {
-          return null;
-        }
-      },
-
-      "default" : function(iframe)
-      {
-        try
-        {
-          var doc = this.getDocument(iframe);
-          return doc ? doc.defaultView : null;
-        }
-        catch(ex)
-        {
-          return null;
-        }
+      try {
+        return iframe.contentWindow;
+      } catch(ex) {
+        return null;
       }
-    }),
+    },
 
 
     /**
