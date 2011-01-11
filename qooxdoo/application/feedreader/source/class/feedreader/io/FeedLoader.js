@@ -68,8 +68,7 @@ qx.Class.define("feedreader.io.FeedLoader",
 
       var query = "select * from feed where url='" + feed.getUrl() + "'";
       var store = new qx.data.store.Yql(query, {manipulateData : function(data) {
-        // if the query was sucessful
-        if (data.query.results) {
+        try {
           data = data.query.results.item || data.query.results.entry;
           // normalize titles
           for (var i = 0; i < data.length; i++) {
@@ -78,8 +77,9 @@ qx.Class.define("feedreader.io.FeedLoader",
             }
           };
           return data;
+        } catch (e) {
+          return "failed";
         }
-        return "failed";
       }}, qx.bom.client.Feature.SSL);
       store.addListener("loaded", this.__createOnLoaded(feed), this);
       store.addListener("changeState",
