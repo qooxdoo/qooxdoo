@@ -44,7 +44,9 @@ qx.Class.define("qx.html.Iframe",
   construct : function(url, styles, attributes)
   {
     this.base(arguments, "iframe", styles, attributes);
-    this._setProperty("source", url);
+
+    this.setSource(url);
+    this.addListener("navigate", this.__onNavigate, this);
   },
 
 
@@ -61,7 +63,17 @@ qx.Class.define("qx.html.Iframe",
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.event.type.Event",
+    
+    /**
+    * The "navigate" event is fired whenever the location of the iframe
+    * changes.
+    * 
+    * Useful to track user navigation and internally used to keep the source
+    * property in sync. Only works when the destination source is of same
+    * origin than the page embedding the iframe.
+    */
+    "navigate" : "qx.event.type.Data"
   },
 
 
@@ -87,9 +99,19 @@ qx.Class.define("qx.html.Iframe",
     {
       this.base(arguments, name, value);
 
-      if (name == "source")
-      {
+      if (name == "source") {
         var element = this.getDomElement();
+        var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
+
+        // Skip if frame is already on URL.
+        //
+        // When URL of Iframe and source property get out of sync, the source
+        // property needs to be updated [BUG #4481]. This is to make sure the
+        // same source is not set twice on the BOM level.
+        if (value == currentUrl) {
+          return;
+        }
+
         qx.bom.Iframe.setSource(element, value);
       }
     },
@@ -216,6 +238,28 @@ qx.Class.define("qx.html.Iframe",
         var url = this.getSource();
         this.setSource(null);
         this.setSource(url);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LISTENER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+    * Handle user navigation. Sync actual URL of iframe with source property.
+    *
+    * @param e {qx.event.type.Data} navigate event
+    * @return {void}
+    */
+    __onNavigate: function(e) {
+      var actualUrl = e.getData();
+      if (actualUrl) {
+        this.setSource(actualUrl);
       }
     }
   }

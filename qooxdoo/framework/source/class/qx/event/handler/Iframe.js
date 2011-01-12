@@ -43,7 +43,8 @@ qx.Class.define("qx.event.handler.Iframe",
 
     /** {Map} Supported event types */
     SUPPORTED_TYPES : {
-      load: 1
+      load: 1,
+      navigate: 1
     },
 
     /** {Integer} Which target check to use */
@@ -60,6 +61,16 @@ qx.Class.define("qx.event.handler.Iframe",
      * @param target {Element} DOM element which is the target of this event
      */
     onevent : qx.event.GlobalError.observeMethod(function(target) {
+
+      // Fire navigate event when actual URL diverges from stored URL
+      var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
+
+      if (currentUrl !== target.$$url) {
+        qx.event.Registration.fireEvent(target, "navigate", qx.event.type.Data, [currentUrl]);
+        target.$$url = currentUrl;
+      }
+
+      // Always fire load event
       qx.event.Registration.fireEvent(target, "load");
     })
   },
@@ -98,6 +109,8 @@ qx.Class.define("qx.event.handler.Iframe",
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
     }
+
+
   },
 
 
