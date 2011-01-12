@@ -845,7 +845,15 @@ qx.Class.define("qx.event.handler.Focus",
 
         if (!this.__isSelectable(target))
         {
-          qx.bom.Event.preventDefault(domEvent);
+          // Prevent text selection.
+          //
+          // This causes [BUG #4518] in Opera 11, which is related to
+          // the browser bug described in [BUG #4543]. Work-around by not
+          // preventing the default, meaning that text selection is
+          // possible in Opera 11.
+          if (qx.bom.client.Browser.VERSION < 11) {
+            qx.bom.Event.preventDefault(domEvent);
+          }
 
           // The stopped event keeps the selection
           // of the previously focused element.
