@@ -217,6 +217,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
     this.__logSync.start();
+    
+    this.__infoWindow = new demobrowser.InfoWindow(this.tr("Info"));
+    this.__infoWindow.setAutoCenter(true);
   },
 
 
@@ -267,6 +270,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     _demoView : null,
     __autorunTimer : null,
     _urlWindow : null,
+    __infoWindow : null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -301,16 +305,24 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @lint ignoreDeprecated(alert)
      */
     __getObjectSummary : function()
     {
       var cw = this._iframe.getWindow();
+      var msg;
       if (cw && cw.qx) {
-        alert(cw.qx.dev.ObjectSummary.getInfo());
+        msg = cw.qx.dev.ObjectSummary.getInfo();
       } else {
-        alert("Unable to access namespace. Maybe no demo loaded.");
+        msg = "Unable to access namespace. Maybe no demo loaded.";
       }
+      
+      var area = new qx.ui.form.TextArea(msg);
+      area.setDecorator(null);
+      area.setAutoSize(true);
+      area.setMaxHeight(qx.bom.Viewport.getHeight() - 100);
+      this.__infoWindow.setContent(area);
+      this.__infoWindow.setWidth(400);
+      this.__infoWindow.show();
     },
 
     __openWindow : function()
@@ -343,7 +355,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         var url = this.playgroundUrl + "#" + encodeURIComponent(codeJson);
         window.open(url, "_blank");
       } else {
-        alert(this.tr("Could not open the Playground."));
+        var label = new qx.ui.basic.Label(this.tr("Could not open the Playground."));
+        this.__infoWindow.setContent(label);
+        this.__infoWindow.setWidth(200);
+        this.__infoWindow.show();
       }
     },
 
@@ -370,35 +385,48 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      * @param e {Event} TODOC
-     * @lint ignoreDeprecated(alert)
      */
     __disposeSample : function(e)
     {
       var cw = this._iframe.getWindow();
+      var msg;
       if (cw && cw.qx)
       {
         cw.qx.core.ObjectRegistry.shutdown();
-        alert("Done!");
+        msg = this.tr("Demo has been disposed.");
       }
       else
       {
-        alert("Unable to access application.");
+        msg = this.tr("Unable to access application.");
       }
+      
+      var label = new qx.ui.basic.Label(msg);
+      label.setRich(true);
+      label.setWrap(true);
+      this.__infoWindow.setContent(label);
+      this.__infoWindow.setWidth(350);
+      this.__infoWindow.show();
     },
 
     /**
      * TODOC
      * @param e {Event} TODOC
-     * @lint ignoreDeprecated(alert)
      */
     __showPollution : function(e)
     {
       var cw = this._iframe.getWindow();
+      var msg;
       if (cw && cw.qx) {
-        alert(cw.qx.dev.Pollution.getInfo());
+        msg = cw.qx.dev.Pollution.getInfo();
       } else {
-        alert("Unable to access application.");
+        msg = this.tr("Unable to access application.");
       }
+      var label = new qx.ui.basic.Label(msg);
+      label.setRich(true);
+      label.setWrap(true);
+      this.__infoWindow.setContent(label);
+      this.__infoWindow.setWidth(350);
+      this.__infoWindow.show();
     },
 
     __makeToolBar : function()
