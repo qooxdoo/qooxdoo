@@ -669,7 +669,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
       var firstSundayInMonth = 1 + ((7 - firstDayOfWeek) % 7);
-      var weekDayFormat = this.constructor.WEEKDAY_FORMAT;
+      var weekDayFormat = DateChooser.WEEKDAY_FORMAT;
 
       for (var i=0; i<7; i++)
       {
