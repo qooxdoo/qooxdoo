@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/static/blank.html)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.html.Iframe",
 {
   extend : qx.dev.unit.TestCase,
@@ -27,6 +33,7 @@ qx.Class.define("qx.test.html.Iframe",
     __doc: null,
     __frame: null,
     __origin: null,
+    __destSource: null,
 
     setUp : function()
     {
@@ -38,6 +45,47 @@ qx.Class.define("qx.test.html.Iframe",
 
       var frame = this.__frame = new qx.html.Iframe();
       this.__doc.add(frame);
+
+      // Source in parent directory is not of same origin
+      // when using file protocol – use non-existing file
+      // in same directory instead
+      if (window.location.protocol === "file:") {
+        this.__destSource = "blank.html";
+      } else {
+        this.__destSource = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+      }
+    },
+
+    "test: set source with same origin": function() {
+      var frame = this.__frame;
+
+      var source = this.__destSource;
+
+      frame.addListener("load", function() {
+        this.resume(function() {
+          var element = frame.getDomElement();
+          var currentUrl = qx.bom.Iframe.queryCurrentUrl(element) || element.src;
+          var source = frame.getSource();
+          var blank = "\/blank.html$";
+
+          var msg = function(actual) {
+            return "Must be " + currentUrl + ", but was " + actual;
+          }
+
+          // BOM
+          this.assertString(currentUrl);
+          this.assertMatch(currentUrl, blank, msg(currentUrl));
+
+          // HTML
+          this.assertString(source);
+          this.assertMatch(source, blank, msg(source));
+        });
+      }, this);
+
+      frame.setSource(source);
+      qx.html.Element.flush();
+
+      this.wait();
     },
 
     "test: update source on navigate": function() {
@@ -45,15 +93,16 @@ qx.Class.define("qx.test.html.Iframe",
 
       // As soon as the original frame has loaded,
       // fake user-action and browse
+      var source = this.__destSource;
       frame.addListenerOnce("load", function() {
-        qx.bom.Iframe.setSource(frame.getDomElement(), "/affe/");
+        qx.bom.Iframe.setSource(frame.getDomElement(), source);
       });
 
       qx.html.Element.flush();
 
       // Give changed frame some time to load
       this.wait(500, function() {
-        this.assertMatch(frame.getSource(), "\/affe\/$");
+        this.assertMatch(frame.getSource(), "\/blank.html$");
       }, this);
     },
 
@@ -62,8 +111,9 @@ qx.Class.define("qx.test.html.Iframe",
 
       // As soon as the original frame has loaded,
       // fake user-action and browse
+      var source = this.__destSource;
       frame.addListenerOnce("load", function() {
-        qx.bom.Iframe.setSource(frame.getDomElement(), "/affe/");
+        qx.bom.Iframe.setSource(frame.getDomElement(), source);
       });
       qx.html.Element.flush();
 
