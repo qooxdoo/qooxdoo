@@ -181,7 +181,7 @@ qx.Class.define("qx.bom.Iframe",
             if (qx.core.Variant.isSet("qx.client", "webkit") &&
                 qx.bom.client.Platform.MAC)
             {
-              var contentWindow = this.getContentWindow();
+              var contentWindow = this.getWindow(iframe);
               if (contentWindow) {
                 contentWindow.stop();
               }
