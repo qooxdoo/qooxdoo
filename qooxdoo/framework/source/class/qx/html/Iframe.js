@@ -83,11 +83,6 @@ qx.Class.define("qx.html.Iframe",
   members :
   {
 
-    /**
-    * URL of frame.
-    */
-    __fullUrl: null,
-
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
