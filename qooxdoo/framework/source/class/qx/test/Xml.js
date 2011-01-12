@@ -180,40 +180,6 @@ qx.Class.define("qx.test.Xml",
      *
      * @return {void}
      */
-    __testXHR : function()
-    {
-      function error(msg)
-      {
-        return function() {
-          failed = msg;
-        };
-      }
-
-      var req = new qx.io.remote.Request(qx.util.ResourceManager.getInstance().toUri("qx/data/qooxdoo-blog.xml"), "get", "text/xml");
-      req.setAsynchronous(false);
-      var failed = "";
-      var xmlDocument;
-      req.addListener("aborted", error("aborted"));
-      req.addListener("failed", error("failed"));
-      req.addListener("timeout", error("timeout"));
-
-      req.addListener("completed", function(e) {
-        xmlDocument = e.getData().getContent();
-      });
-
-      req.send();
-
-      this.assertEquals("", failed);
-      this.assertTrue(qx.dom.Node.isDocument(xmlDocument));
-      this.assertEquals("rss", xmlDocument.documentElement.tagName);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
     testGetElementsByTagNameNS : function()
     {
       var xmlStr =
