@@ -270,8 +270,14 @@ qx.Class.define("qx.ui.form.TextArea",
 
         this.__scrollCloneToBottom(clone);
 
-        // Compensate for slightly off scroll height in IE
         if (qx.bom.client.Engine.MSHTML) {
+          // Flush required for scrollTop to return correct value
+          // when initial value should be taken into consideration
+          if (!cloneDom.scrollTop) {
+            qx.html.Element.flush();
+          }
+
+          // Compensate for slightly off scroll height in IE
           return cloneDom.scrollTop + this._getTextSize().height;
         }
 
