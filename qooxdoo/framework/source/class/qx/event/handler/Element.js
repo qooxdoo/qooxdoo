@@ -67,6 +67,7 @@ qx.Class.define("qx.event.handler.Element",
     SUPPORTED_TYPES :
     {
       abort : true,    // Image elements
+      load : true, // Image elements
       scroll : true,
       select : true,
       reset : true,    // Form Elements
