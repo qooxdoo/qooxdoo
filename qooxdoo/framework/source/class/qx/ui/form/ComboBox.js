@@ -252,6 +252,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         if (popup.isVisible())
         {
           this._setPreselectedItem();
+          this.resetAllTextSelection();
           this.close();
           e.stop();
         }
@@ -471,6 +472,17 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     selectAllText : function() {
       this.getChildControl("textfield").selectAllText();
+    },
+
+
+    /**
+     * Clear any text selection, then select all text selection
+     *
+     * @return {void}
+     */
+    resetAllTextSelection: function() {
+      this.clearTextSelection();
+      this.selectAllText();
     }
   }
 });
