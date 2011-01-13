@@ -2461,7 +2461,11 @@ qx.Class.define("qx.html.Element",
      *
      * @param type {String} Name of the event
      * @param listener {Function} Function to execute on event
-     * @param self {Object} Execution context of given function
+     * @param self {Object} Reference to the 'this' variable inside
+     *         the event listener. When not given, the corresponding dispatcher
+     *         usually falls back to a default, which is the target
+     *         by convention. Note this is not a strict requirement, i.e.
+     *         custom dispatchers can follow a different strategy.
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {var} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.

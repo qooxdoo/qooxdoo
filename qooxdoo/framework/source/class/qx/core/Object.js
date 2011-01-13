@@ -336,7 +336,11 @@ qx.Class.define("qx.core.Object",
      *
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param self {Object} Reference to the 'this' variable inside
+     *         the event listener. When not given, the corresponding dispatcher
+     *         usually falls back to a default, which is the target
+     *         by convention. Note this is not a strict requirement, i.e.
+     *         custom dispatchers can follow a different strategy.
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
