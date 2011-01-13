@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     /**
-     * Clear any text selection, then select all text selection
+     * Clear any text selection, then select all text
      *
      * @return {void}
      */
