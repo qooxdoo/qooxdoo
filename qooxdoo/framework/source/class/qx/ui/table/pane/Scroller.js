@@ -374,11 +374,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var topRight = this.getTopRightWidget();
       var topRightWidth =
         topRight && topRight.isVisible() && topRight.getBounds() ?
-          topRight.getBounds().width :
+          topRight.getBounds().width + topRight.getMarginLeft() + topRight.getMarginRight() :
           0;
 
+      var scrollBar = this.__verScrollBar;
       var scrollBarWidth = this.getVerticalScrollBarVisible() ?
-        this.getVerticalScrollBarWidth() :
+        this.getVerticalScrollBarWidth() + scrollBar.getMarginLeft() + scrollBar.getMarginRight() :
         0;
 
       return Math.max(topRightWidth, scrollBarWidth);
