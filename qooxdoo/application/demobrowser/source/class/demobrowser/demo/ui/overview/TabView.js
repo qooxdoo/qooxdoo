@@ -35,37 +35,9 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
   {
     __init: function() {
 
-      // Basic
-      var basic = new demobrowser.demo.ui.overview.pages.Basic();
-      this.add(basic);
-
-      // Control
-      var control = new demobrowser.demo.ui.overview.pages.Control();
-      this.add(control);
-
       // Form
       var form = new demobrowser.demo.ui.overview.pages.Form();
       this.add(form);
-
-      // Embed
-      var embed = new demobrowser.demo.ui.overview.pages.Embed();
-      this.add(embed);
-
-      // EmbedFrame
-      var embedFrame = new demobrowser.demo.ui.overview.pages.EmbedFrame();
-      this.add(embedFrame);
-
-      // Menu
-      var menu = new demobrowser.demo.ui.overview.pages.ToolBar();
-      this.add(menu);
-
-      // Window
-      var win = new demobrowser.demo.ui.overview.pages.Window();
-      this.add(win);
-
-      // SplitPane
-      var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
-      this.add(splitPane);
 
       // Tree
       var tree = new demobrowser.demo.ui.overview.pages.Tree();
@@ -78,6 +50,34 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       // Table
       var table = new demobrowser.demo.ui.overview.pages.Table();
       this.add(table);
+
+      // Menu
+      var menu = new demobrowser.demo.ui.overview.pages.ToolBar();
+      this.add(menu);
+
+      // Window
+      var win = new demobrowser.demo.ui.overview.pages.Window();
+      this.add(win);
+
+      // Control
+      var control = new demobrowser.demo.ui.overview.pages.Control();
+      this.add(control);
+
+      // SplitPane
+      var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
+      this.add(splitPane);
+
+      // Embed
+      var embed = new demobrowser.demo.ui.overview.pages.Embed();
+      this.add(embed);
+
+      // EmbedFrame
+      var embedFrame = new demobrowser.demo.ui.overview.pages.EmbedFrame();
+      this.add(embedFrame);
+
+      // Basic
+      var basic = new demobrowser.demo.ui.overview.pages.Basic();
+      this.add(basic);
 
       // Misc
       var misc = new demobrowser.demo.ui.overview.pages.Misc();
