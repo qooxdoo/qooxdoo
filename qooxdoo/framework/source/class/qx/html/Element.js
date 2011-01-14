@@ -2461,7 +2461,7 @@ qx.Class.define("qx.html.Element",
      *
      * @param type {String} Name of the event
      * @param listener {Function} Function to execute on event
-     * @param self {Object} Reference to the 'this' variable inside
+     * @param self {Object ? null} Reference to the 'this' variable inside
      *         the event listener. When not given, the corresponding dispatcher
      *         usually falls back to a default, which is the target
      *         by convention. Note this is not a strict requirement, i.e.

@@ -815,7 +815,7 @@
        * @signature function(type, listener, self, capture)
        * @param type {String} Name of the event e.g. "click", "keydown", ...
        * @param listener {Function} Event listener function
-       * @param self {Object} Reference to the 'this' variable inside
+       * @param self {Object ? null} Reference to the 'this' variable inside
        *         the event listener. When not given, the corresponding dispatcher
        *         usually falls back to a default, which is the target
        *         by convention. Note this is not a strict requirement, i.e.
@@ -836,7 +836,7 @@
        * @signature function(type, listener, self, capture)
        * @param type {String} Name of the event
        * @param listener {Function} The pointer to the event listener
-       * @param self {Object} Reference to the 'this' variable inside
+       * @param self {Object ? null} Reference to the 'this' variable inside
        *         the event listener.
        * @param capture {Boolean} Whether to remove the event listener of
        *       the bubbling or of the capturing phase.

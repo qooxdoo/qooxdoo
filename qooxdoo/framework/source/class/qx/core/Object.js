@@ -336,7 +336,7 @@ qx.Class.define("qx.core.Object",
      *
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
-     * @param self {Object} Reference to the 'this' variable inside
+     * @param self {Object ? null} Reference to the 'this' variable inside
      *         the event listener. When not given, the corresponding dispatcher
      *         usually falls back to a default, which is the target
      *         by convention. Note this is not a strict requirement, i.e.
