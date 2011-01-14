@@ -86,6 +86,6 @@ qx.Class.define("qx.test.bom.element.Background",
                      "background-position:0 0;background-repeat:no-repeat;";
                      
       this.assertEquals(expected, cssStringBase64, "Compiled CSS string for base64 image is not valid!");
-    },
+    }
   }
 });
