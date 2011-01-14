@@ -86,6 +86,54 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.flush();
     },
 
+    testFocusTextOnClose: function() {
+      var combobox = this.__createComboBox();
+      this.getRoot().add(combobox);
+      this.flush();
+
+      // Open list popup
+      combobox.open();
+      this.flush();
+
+      // Select item
+      var list = combobox.getChildControl("list");
+      var item = list.findItem("Item 0");
+      list.setSelection([item]);
+      this.flush();
+
+      var msg = "Must focus on close";
+      var closeCombobox = qx.lang.Function.bind(combobox.close, combobox);
+      this.assertEventFired(combobox, "focusin", closeCombobox, null, msg);
+
+      msg = "Must select all text";
+      this.assertEquals("Item 0", combobox.getTextSelection(), msg);
+
+      this.getRoot().removeAll();
+      combobox.dispose();
+      this.flush();
+    },
+
+    testNotFocusTextOnCloseWhenInvisibleBefore: function() {
+      var combobox = this.__createComboBox();
+      this.getRoot().add(combobox);
+      this.flush();
+
+      // Enter value
+      combobox.setValue("Item 0");
+      this.flush();
+
+      var msg = "Must not focus";
+      var closeCombobox = qx.lang.Function.bind(combobox.close, combobox);
+      this.assertEventNotFired(combobox, "focusin", closeCombobox, null, msg);
+
+      msg = "Must not select all text";
+      this.assertNotEquals("Item 0", combobox.getTextSelection(), msg);
+
+      this.getRoot().removeAll();
+      combobox.dispose();
+      this.flush();
+    },
+
     __createComboBox : function(initValue)
     {
       var comboBox = new qx.ui.form.ComboBox();
