@@ -286,9 +286,9 @@ qx.Class.define("qx.ui.form.ComboBox",
       this._setPreselectedItem();
     },
 
-    
+
     /**
-     * Apply pre-selected item 
+     * Apply pre-selected item
      */
     _setPreselectedItem: function() {
       if (this.__preSelectedItem)
