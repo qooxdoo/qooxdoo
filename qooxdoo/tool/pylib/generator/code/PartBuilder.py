@@ -317,7 +317,7 @@ class PartBuilder(object):
     # Support for merging small packages.
     #
     # Small (as specified in the config) packages are detected, starting with 
-    # those that are used by the least parts, and are merged into packages that
+    # those that are used by the fewest parts, and are merged into packages that
     # are used by the same and more parts.
 
     def collapsePartsBySize(self, script, minPackageSize, minPackageSizeForUnshared):
