@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#asset(qx/static/blank.gif)
+
+************************************************************************ */
 /**
  * A special blocker element for the splitpane which is based on
  * {@link qx.html.Element} and takes care of the positioning of the div.
@@ -34,6 +39,13 @@ qx.Class.define("qx.ui.splitpane.Blocker",
       position: "absolute",
       zIndex: 11
     };
+
+    // IE needs some extra love here to convince it to block events.
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      styles.backgroundImage = "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")";
+      styles.backgroundRepeat = "repeat";
+    }
 
     this.base(arguments, "div", styles);
 
