@@ -371,7 +371,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         // When closing the popup text should selected and field should
         // have the focus. Identical to when reaching the field using the TAB key.
-        this.tabFocus();
+        //
+        // Only focus if popup was visible before. Fixes [BUG #4453].
+        if (e.getOldData() == "visible") {
+          this.tabFocus();
+        }
       }
 
       // In all cases: Remove focused state from button
