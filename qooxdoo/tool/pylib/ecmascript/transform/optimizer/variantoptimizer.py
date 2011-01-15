@@ -127,7 +127,7 @@ def processVariantSelect(callNode, variantMap):
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
             else:
-                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No default case found for (%s:%s) at" % (variantKey, fullKey), callNode))
+                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantMap[variantKey]), callNode))
         return True
 
     log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)

@@ -345,6 +345,11 @@ class Generator(object):
             for key in variantsRuntime:
                 variants[key] = [variantsRuntime[key]]
 
+            # sanity check variants
+            for key,val in variants.items():
+                if not isinstance(val, types.ListType):
+                    raise ValueError("Config error: Variant values must be lists: \"%s\":\"%r\"" % (key,val))
+
             return variants
 
 
