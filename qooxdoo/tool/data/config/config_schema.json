@@ -1,325 +1,325 @@
 // A schema description of the config.json format
+// json-schema.org / http://tools.ietf.org/html/draft-zyp-json-schema-03
 
 {
-  "name" : 
-  {
-    "descr" : "A name / short description for the configuration file",
-    "type"  : "string" 
-  },
+  "description" : "qooxdoo Configuration Json Schema, vers. 1.3",
+  "type" : "object",
 
-
-  "include" :
+  "properties" : 
   {
-    "descr" : "A list of libraries to include; each library is represented by a map",
-    "type"  : "list",
-    "children" :
-    [
+    "name" : 
+    {
+      "description" : "A name / short description for the configuration file",
+      "type"  : "string" 
+    },
+
+    "include" :
+    {
+      "description" : "A list of libraries to include; each library is represented by a map",
+      "type"  : "array",
+      "items" :
       {
-        "descr" : "A map describing a library",
-        "type"  : "map",
-        "children" : 
+        "description" : "A map describing a library",
+        "type"  : "object",
+        "properties" : 
         {
           "path" :
           {
-            "descr"  : "The path to the library's Manifest.json",
-            "occurs" : "mandatory",
+            "description"  : "The path to the library's Manifest.json",
+            "required" : true,
             "type"   : "string"
           },
           "uri"  :
           {
-            "descr"   : "The URI prefix from the index.html up to the libraries top folder",
-            "occurs"  : "optional",
+            "description"   : "The URI prefix from the index.html up to the libraries top folder",
             "type"    : "string"
           }
         }
       }
-    ]
-  },
+    },
 
-  "export" :
-  {
-    "descr" : "A list of job names exported by this configuration",
-    "type"  : "list",
-    "children" :
-    [
+    "export" :
+    {
+      "description" : "A list of job names exported by this configuration",
+      "type"  : "array",
+      "items" :
       {
-        "descr"  : "A job name from the current config",
+        "description"  : "A job name from the current config (including imported jobs)",
         "type"   : "string"
       }
-    ]
-  },
+    },
 
-  "let" :
-  {
-    "descr" : "A global map of macros; this will be included in every job",
-    "type"  : "map",
-    "children" : 
+    "let" :
     {
-      "<macro_name>" :
+      "description" : "A global map of macros; this will be included in every job",
+      "type"  : "object",
+      "properties" : 
       {
-        "descr" : "A macro name is an arbitrary but unique indentifier",
-        "type"  : "string|map|list"
-      }
-    }
-  },
-
-  "jobs" : 
-  {
-    "descr" : "A map of job entries",
-    "type"  : "map",
-    "children" :
-    {
-      "<job_entry>" :
-      {
-        "descr" : "A job description; <job_entry> is an arbitrary but unique identifier.",
-        "type"  : "map",
-        "children" :
+        "<macro_name>" :
         {
+          "description" : "A macro name is an arbitrary but unique indentifier",
+          //"type"  : "string|map|list"
+          "type"  : "string"
+        }
+      }
+    },
 
-          "api" :
+    "jobs" : 
+    {
+      "description" : "A map of job entries",
+      "type"  : "object",
+      "properties" :
+      {
+        "<job_entry>" :
+        {
+          "description" : "A job description; <job_entry> is an arbitrary but unique identifier.",
+          "type"  : "object",
+          "properties" :
           {
-            "descr" : "Triggers the generation of a custom Apiviewer application.",
-            "type"  : "map",
-            "children" :
-            {
-              "path" : 
-              {
-                "occurs" : "required",
-                "descr"  : "Path where the Apiviewer application is to be stored, relative to the current directory.",
-                "type"   : "string"
-              }
-            }
-          },
 
-          "cache" :
-          {
-            "descr"  : "Define the paths to cache directories, particularly to the compile cache.",
-            "type"   : "map",
-            "children" :
+            "api" :
             {
-              "compile"  :
+              "description" : "Triggers the generation of a custom Apiviewer application.",
+              "type"  : "object",
+              "properties" :
               {
-                "descr" : "path to the 'main' cache, the directory where compile results are cached, relative to the current (default: './cache')",
-                "type"  : "string"
-              },
-              "downloads" :
-              {
-                "descr"  : "directory where to put downloads (e.g. contrib:// libraries), relative to the current (default: './cache-downloads')",
-                "type"   : "string"
-              }
-            }
-          },
-          
-          "clean-files" :
-          {
-            "descr" : "Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.",
-            "type"  : "map",
-            "children" : 
-            {
-              "<doc_string>" :
-              {
-                "descr" : "arbitrary string explaining what get's cleaned",
-                "type"  : "list",
-                "children" :
-                [
-                  {
-                    "descr" : "file/path to be deleted; may be relative to config file location",
-                    "type"  : "string"
-                  }
-                ]
-              }
-            }
-          },
-
-          "combine-images" :
-          {
-            "descr" : "Triggers creation of a combined image file that contains various images.",
-            "type"  : "map",
-            "children" :
-            {
-              "images" :
-              {
-                "descr" : "map with combine entries",
-                "type"  : "map",
-                "children" :
+                "path" : 
                 {
-                  "<output_image>" :
-                  {
-                    "descr" : "path of output file; may be relative to the config file location",
-                    "type"  : "map",
-                    "children" :
-                    {
-                      "input" :
-                      {
-                        "descr"  : "lists the input image files (file globs allowed); may be relative to config file location",
-                        "occurs" : "required",
-                        "type"   : "list",
-                        "children" :
-                        [ 
-                          {
-                            "descr" : "path to an input image file",
-                            "type"  : "string"
-                          }
-                        ],
-                      },
+                  "required" : true,
+                  "description"  : "Path where the Apiviewer application is to be stored, relative to the current directory.",
+                  "type"   : "string"
+                }
+              }
+            },
 
-                      "layout" :
+            "cache" :
+            {
+              "description"  : "Define the paths to cache directories, particularly to the compile cache.",
+              "type"   : "object",
+              "properties" :
+              {
+                "compile"  :
+                {
+                  "description" : "path to the 'main' cache, the directory where compile results are cached, relative to the current (default: './cache')",
+                  "type"  : "string"
+                },
+                "downloads" :
+                {
+                  "description"  : "directory where to put downloads (e.g. contrib:// libraries), relative to the current (default: './cache-downloads')",
+                  "type"   : "string"
+                }
+              }
+            },
+            
+            "clean-files" :
+            {
+              "description" : "Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.",
+              "type"  : "object",
+              "properties" : 
+              {
+                "<doc_string>" :
+                {
+                  "description" : "arbitrary string explaining what get's cleaned",
+                  "type"  : "array",
+                  "properties" :
+                  [
+                    {
+                      "description" : "file/path to be deleted; may be relative to config file location",
+                      "type"  : "string"
+                    }
+                  ]
+                }
+              }
+            },
+
+            "combine-images" :
+            {
+              "description" : "Triggers creation of a combined image file that contains various images.",
+              "type"  : "object",
+              "properties" :
+              {
+                "images" :
+                {
+                  "description" : "map with combine entries",
+                  "type"  : "object",
+                  "properties" :
+                  {
+                    "<output_image>" :
+                    {
+                      "description" : "path of output file; may be relative to the config file location",
+                      "type"  : "object",
+                      "properties" :
                       {
-                        "descr" : "either “horizontal” or “vertical”; defines the layout of images within the combined image",
-                        "type"  : ["horizontal", "vertical"]
+                        "input" :
+                        {
+                          "description"  : "lists the input image files (file globs allowed); may be relative to config file location",
+                          "required" : true,
+                          "type"   : "array",
+                          "properties" :
+                          [ 
+                            {
+                              "description" : "path to an input image file",
+                              "type"  : "string"
+                            }
+                          ],
+                        },
+
+                        "layout" :
+                        {
+                          "description" : "either horizontal or vertical; defines the layout of images within the combined image",
+                          "enum"  : ["horizontal", "vertical"]
+                        }
                       }
                     }
                   }
                 }
               }
-            }
-          },
+            },
 
-          "compile-dist" :
-          {
-            "descr" : "Triggers the generation of the build version of the application.",
-            "type"  : "map",
-            "children" :
+            "compile-dist" :
             {
-              "file" :
+              "description" : "Triggers the generation of the build version of the application.",
+              "type"  : "object",
+              "properties" :
               {
-                "descr" : "the path to the compile output file, may be relative to config file location",
-                "occurs": "required",
-                "type"  : "string"
-              },
-              "root" :
-              {
-                "descr" : "relative path to the directory containing the app’s HTML",
-                "occurs": "required",
-                "type"  : "string"
-              },
-              "uri"  :
-              {
-                "descr" : "the path to the output file(s), relative to the application’s index.html",
-                "type"  : "string"
-              },
-              "gzip" :
-              {
-                "descr" : "whether to compress output file(s)",
-                "type"  : "boolean"
-              },
-              "optimize":
-              {
-                "descr" : "enable the named optimizations",
-                "type"  : "list",
-                "children" :
-                [
+                "file" :
+                {
+                  "description" : "the path to the compile output file, may be relative to config file location",
+                  "required" : true,
+                  "type"  : "string"
+                },
+                "root" :
+                {
+                  "description" : "relative path to the directory containing the app’s HTML",
+                  "required" : true,
+                  "type"  : "string"
+                },
+                "uri"  :
+                {
+                  "description" : "the path to the output file(s), relative to the application’s index.html",
+                  "type"  : "string"
+                },
+                "gzip" :
+                {
+                  "description" : "whether to compress output file(s)",
+                  "type"  : "boolean"
+                },
+                "optimize":
+                {
+                  "description" : "enable the named optimizations",
+                  "type"  : "array",
+                  "items" :
                   {
-                    "type"  : ["variables", "basecalls", "privates", "strings"],
+                    "enum"  : ["variables", "basecalls", "privates", "strings"],
                   }
-                ]
+                },
+                "resourceUri" :
+                {
+                  "description" : "relative path from html file to root of resource tree",
+                  "type"  : "string"
+                },
+                "locales" :
+                {
+                  "description" : "a list of locales to include (default: ['C'])",
+                  "type"  : "array",
+                  "properties" :
+                  [
+                    {
+                      "type" : "string"
+                    }
+                  ]
+                },
+                "format"  :
+                {
+                  "description" : "on/off, for simple output formatting (it adds some sensible line breaks to the output code)",
+                  "enum"  : ["on", "off"]
+                }
               },
-              "resourceUri" :
+        
+              "compile-source" :
               {
-                "descr" : "relative path from html file to root of resource tree",
-                "type"  : "string"
+                "description" : "Triggers generation of the source version of the application.",
               },
-              "locales" :
+    
+              "copy-files" : 
               {
-                "descr" : "a list of locales to include (default: ['C'])",
-                "type"  : "list",
-                "children" :
-                [
-                  {
-                    "type" : "string"
-                  }
-                ]
+                "description" : "Triggers files/directories to be copied, usually between source and build version.",
               },
-              "format"  :
+    
+              "copy-resources" :
               {
-                "descr" : "on/off, for simple output formatting (it adds some sensible line breaks to the output code)",
-                "type"  : ["on", "off"]
+                "description" : "Triggers the copying of resources, usually between source and build version.",
+              },
+    
+              "extend" :
+              {
+                "description" : "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
+              },
+    
+              "include" :
+              {
+                "description" : "List classes to be processed in the job. Takes an array of class specifiers.",
+              },
+    
+              "let" :
+              {
+                "description" : "Define macros. Takes a map where each key defines a macro and the value its expansion.",
+              },
+    
+              "library" :
+              {
+                "description" : "Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the “manifest” specification. (See special section on Manifest files).",
+              },
+    
+              "packages" :
+              {
+                "description" : "Define packages for the application. (See special section on packages).",
+              },
+    
+              "pretty-print" :
+              {
+                "description" : "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
+              },
+    
+              "require" :
+              {
+                "description" : "Define prerequisite classes. Takes a map, where the keys are class names and the values lists of prerequisite classes.",
+              },
+    
+              "run" :
+              {
+                "description" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
+              },
+    
+              "settings" :
+              {
+                "description" : "Define qooxdoo settings for the generated application.",
+              },
+    
+              "shell" :
+              {
+                "description" : "Triggers the execution of an external command.",
+              },
+    
+              "slice-images" :
+              {
+                "description" : "Triggers cutting images into regions.",
+              },
+    
+              "asset-let" :
+              {
+                "description" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
+              },
+    
+              "translate" :
+              {
+                "description" : "(Re-)generate .po files from source classes.",
+              },
+    
+              "variants" :
+              {
+                "description" : "Define variants for the generated application.",
               }
-            },
-      
-            "compile-source" :
-            {
-              "descr" : "Triggers generation of the source version of the application.",
-            },
-  
-            "copy-files" : 
-            {
-              "descr" : "Triggers files/directories to be copied, usually between source and build version.",
-            },
-  
-            "copy-resources" :
-            {
-              "descr" : "Triggers the copying of resources, usually between source and build version.",
-            },
-  
-            "extend" :
-            {
-              "descr" : "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
-            },
-  
-            "include" :
-            {
-              "descr" : "List classes to be processed in the job. Takes an array of class specifiers.",
-            },
-  
-            "let" :
-            {
-              "descr" : "Define macros. Takes a map where each key defines a macro and the value its expansion.",
-            },
-  
-            "library" :
-            {
-              "descr" : "Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the “manifest” specification. (See special section on Manifest files).",
-            },
-  
-            "packages" :
-            {
-              "descr" : "Define packages for the application. (See special section on packages).",
-            },
-  
-            "pretty-print" :
-            {
-              "descr" : "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
-            },
-  
-            "require" :
-            {
-              "descr" : "Define prerequisite classes. Takes a map, where the keys are class names and the values lists of prerequisite classes.",
-            },
-  
-            "run" :
-            {
-              "descr" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
-            },
-  
-            "settings" :
-            {
-              "descr" : "Define qooxdoo settings for the generated application.",
-            },
-  
-            "shell" :
-            {
-              "descr" : "Triggers the execution of an external command.",
-            },
-  
-            "slice-images" :
-            {
-              "descr" : "Triggers cutting images into regions.",
-            },
-  
-            "asset-let" :
-            {
-              "descr" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
-            },
-  
-            "translate" :
-            {
-              "descr" : "(Re-)generate .po files from source classes.",
-            },
-  
-            "variants" :
-            {
-              "descr" : "Define variants for the generated application.",
             }
           }
         }
