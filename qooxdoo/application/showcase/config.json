@@ -80,7 +80,7 @@
     {
       "copy-files" :
       {
-        "=files" : ["index.html", "blank.html"]
+        "=files" : ["index.html", "blank.html", "resource/static"]
       }
     },
     
