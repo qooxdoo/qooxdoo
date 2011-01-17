@@ -1,6 +1,6 @@
-qx.Class.define("performance.test.widget.WidgetWithGrid",
+qx.Class.define("qx.test.performance.widget.WidgetWithGrid",
 {
-  extend : performance.test.widget.AbstractWidget,
+  extend : qx.test.performance.widget.AbstractWidget,
 
   members :
   {

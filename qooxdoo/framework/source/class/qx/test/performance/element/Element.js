@@ -1,7 +1,7 @@
-qx.Class.define("performance.test.element.Element",
+qx.Class.define("qx.test.performance.element.Element",
 {
   extend : qx.dev.unit.TestCase,
-  include : performance.test.MMeasure,
+  include : qx.test.performance.MMeasure,
 
   members :
   {

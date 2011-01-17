@@ -1,6 +1,6 @@
-qx.Class.define("performance.test.widget.Composite",
+qx.Class.define("qx.test.performance.widget.Composite",
 {
-  extend : performance.test.widget.AbstractWidget,
+  extend : qx.test.performance.widget.AbstractWidget,
 
   members :
   {

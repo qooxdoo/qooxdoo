@@ -17,14 +17,18 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("performance.test.decorator.Single",
+qx.Class.define("qx.test.performance.decorator.Beveled",
 {
-  extend : performance.test.decorator.AbstractDecorator,
+  extend : qx.test.performance.decorator.AbstractDecorator,
 
   members :
   {
     createDecorator : function() {
-      return new qx.ui.decoration.Single(5, "solid", "red");
+      return new qx.ui.decoration.Beveled().set({
+        outerColor : "invalid",
+        innerColor : "border-focused-invalid",
+        insets: [1]
+      });
     }
   }
 });

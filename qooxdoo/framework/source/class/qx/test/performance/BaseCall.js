@@ -1,7 +1,7 @@
-qx.Class.define("performance.test.BaseCall",
+qx.Class.define("qx.test.performance.BaseCall",
 {
   extend : qx.dev.unit.TestCase,
-  include : performance.test.MMeasure,
+  include : qx.test.performance.MMeasure,
 
   members :
   {
@@ -9,7 +9,7 @@ qx.Class.define("performance.test.BaseCall",
 
     testBaseCall : function()
     {
-      var obj = new performance.test.Extend();
+      var obj = new qx.test.performance.Extend();
       var self = this;
       this.measure(
         "this.base()",
@@ -25,7 +25,7 @@ qx.Class.define("performance.test.BaseCall",
 
     testPlainCall : function()
     {
-      var obj = new performance.test.Extend();
+      var obj = new qx.test.performance.Extend();
       var self = this;
       this.measure(
           "Base.prototype.foo_base.call",
@@ -41,7 +41,7 @@ qx.Class.define("performance.test.BaseCall",
 
     testPlainApply : function()
     {
-      var obj = new performance.test.Extend();
+      var obj = new qx.test.performance.Extend();
       var self = this;
       this.measure(
         "Base.prototype.foo_base.apply",
@@ -57,7 +57,7 @@ qx.Class.define("performance.test.BaseCall",
   }
 });
 
-qx.Class.define("performance.test.Base", {
+qx.Class.define("qx.test.performance.Base", {
   extend : qx.core.Object,
 
   members : {
@@ -65,8 +65,8 @@ qx.Class.define("performance.test.Base", {
   }
 });
 
-qx.Class.define("performance.test.Extend", {
-  extend : performance.test.Base,
+qx.Class.define("qx.test.performance.Extend", {
+  extend : qx.test.performance.Base,
 
   members : {
     foo_base : function(a,b,c) {
@@ -74,11 +74,11 @@ qx.Class.define("performance.test.Extend", {
     },
 
     foo_call : function(a, b, c) {
-      performance.test.Base.prototype.foo_base.call(this, a, b, c);
+      qx.test.performance.Base.prototype.foo_base.call(this, a, b, c);
     },
 
     foo_apply : function(a, b, c) {
-      performance.test.Base.prototype.foo_base.apply(this, arguments);
+      qx.test.performance.Base.prototype.foo_base.apply(this, arguments);
     }
   }
 });

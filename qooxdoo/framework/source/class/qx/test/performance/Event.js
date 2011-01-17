@@ -16,10 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("performance.test.Event",
+qx.Class.define("qx.test.performance.Event",
 {
   extend : qx.dev.unit.TestCase,
-  include : performance.test.MMeasure,
+  include : qx.test.performance.MMeasure,
 
   events : {
     "plain" : "qx.event.type.Event",

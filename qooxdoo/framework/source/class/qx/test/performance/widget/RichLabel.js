@@ -1,6 +1,6 @@
-qx.Class.define("performance.test.widget.RichLabel",
+qx.Class.define("qx.test.performance.widget.RichLabel",
 {
-  extend : performance.test.widget.AbstractWidget,
+  extend : qx.test.performance.widget.AbstractWidget,
 
   members :
   {

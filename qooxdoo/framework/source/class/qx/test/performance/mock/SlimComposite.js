@@ -1,4 +1,4 @@
-qx.Class.define("performance.test.mock.SlimComposite",
+qx.Class.define("qx.test.performance.mock.SlimComposite",
 {
   extend : qx.ui.container.Composite,
 

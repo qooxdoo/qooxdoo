@@ -1,9 +1,9 @@
 /* ************************************************************************
 
-#require performance.test.RunnerPatch
+#require qx.test.performance.RunnerPatch
 
 ************************************************************************ */
-qx.Mixin.define("performance.test.MMeasure",
+qx.Mixin.define("qx.test.performance.MMeasure",
 {
   members :
   {
@@ -26,7 +26,9 @@ qx.Mixin.define("performance.test.MMeasure",
     measure : function(msg, callback, finalize, displayIterations)
     {
       // profiling
-      if (performance.test.RunnerPatch.ENABLE_PROFILE) {
+      var profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getProfile();
+      
+      if (profilingEnabled) {
         console.profile(msg);
       }
 
@@ -35,7 +37,7 @@ qx.Mixin.define("performance.test.MMeasure",
       var end = new Date();
 
       // profiling
-      if (performance.test.RunnerPatch.ENABLE_PROFILE) {
+      if (profilingEnabled) {
         console.profileEnd(msg);
       }
 
@@ -57,9 +59,9 @@ qx.Mixin.define("performance.test.MMeasure",
 
     log : function(msg, iterations, ownTime, renderTime)
     {
-      var app = this.getRunnerApplication ? this.getRunnerApplication() : qx.core.Init.getApplication();
-      if (app.logMeasurement) {
-        app.logMeasurement(this.classname, msg, iterations, ownTime, renderTime)
+      var runnerView = window.top.qx.core.Init.getApplication().runner.view;
+      if (runnerView.logMeasurement) {
+        runnerView.logMeasurement(this.classname, msg, iterations, ownTime, renderTime)
       }
       this.debug([msg, iterations, ownTime, renderTime].join("; "));
     }

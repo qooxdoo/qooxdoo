@@ -1,6 +1,6 @@
-qx.Class.define("performance.test.widget.Spinner",
+qx.Class.define("qx.test.performance.widget.Spinner",
 {
-  extend : performance.test.widget.AbstractWidget,
+  extend : qx.test.performance.widget.AbstractWidget,
 
   members :
   {

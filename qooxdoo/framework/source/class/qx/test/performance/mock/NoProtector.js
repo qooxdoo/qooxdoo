@@ -1,4 +1,4 @@
-qx.Class.define("performance.test.mock.NoProtector",
+qx.Class.define("qx.test.performance.mock.NoProtector",
 {
   extend : qx.ui.core.Widget,
 
