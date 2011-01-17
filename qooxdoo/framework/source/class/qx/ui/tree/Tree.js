@@ -546,7 +546,8 @@ qx.Class.define("qx.ui.tree.Tree",
 
     /**
      * Event handler for key press events. Open and close the current selected
-     * item on key left and right press.
+     * item on key left and right press. Jump to parent on key left if already
+     * closed.
      *
      * @param e {qx.event.type.KeySequence} key event.
      */
@@ -561,6 +562,8 @@ qx.Class.define("qx.ui.tree.Tree",
           case "Left":
             if (item.isOpenable() && item.isOpen()) {
               item.setOpen(false);
+            } else if (item.getParent()) {
+              this.setSelection([item.getParent()]);
             }
             break;
 
