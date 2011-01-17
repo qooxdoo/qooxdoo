@@ -4,8 +4,7 @@
   "include" :
   [
     {
-      //"path" : "./config.demo.json",
-      "path" : "./config.demo.new.json",
+      "path" : "./config.demo.json",
       "as"   : "demos"
 
     }
