@@ -25,6 +25,8 @@
     "test",
     "test-inline",
     "test-source",
+    "test-performance",
+    "test-performance-source",
     "translation",
     "qxoo-build",
     "qxoo-noopt"
@@ -182,7 +184,8 @@
 
       "let" :
       {
-        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"]
+        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
+        "TEST_EXCLUDE" : "qx.test.performance.*"
       }
     },
     
@@ -192,7 +195,8 @@
 
       "let" :
       {
-        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"]
+        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
+        "TEST_EXCLUDE" : "qx.test.performance.*"
       }
     },
 
@@ -213,7 +217,42 @@
     {
       "let" :
       {
-        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"]
+        "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
+        "TEST_EXCLUDE" : "qx.test.performance.*"
+      }
+    },
+    
+    "test-performance" :
+    {
+      "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
+      
+      "extend" : ["testrunner2::build"],
+      
+      "let" :
+      {
+        "TESTRUNNER_TYPE" : "testrunner2",
+        "TESTRUNNER_VIEW" : "testrunner2.view.Performance",
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
+        "TEST_INCLUDE"    : "qx.test.performance.*",
+        "TEST_EXCLUDE"    : "",
+        "BUILD_PATH"      : "${ROOT}/test"
+      }
+    },
+    
+    "test-performance-source" :
+    {
+      "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
+      
+      "extend" : ["testrunner2::build-with-tests-source"],
+      
+      "let" :
+      {
+        "TESTRUNNER_TYPE" : "testrunner2",
+        "TESTRUNNER_VIEW" : "testrunner2.view.Performance",
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
+        "TEST_INCLUDE"    : "qx.test.performance.*",
+        "TEST_EXCLUDE"    : "",
+        "BUILD_PATH"      : "${ROOT}/test"
       }
     },
 
