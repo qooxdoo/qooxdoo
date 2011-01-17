@@ -31,22 +31,17 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
       "cellContextmenu",
       function(e)
       {
-        // Stop any previously running timer
-        if (this._contextMenuTimer)
-        {
-          this._contextMenuTimer.dispose();
-          this._contextMenuTimer = null;
-        }
+        var contextMenu = this.getContextMenu();
 
         // Dispose of any previously existing context menu
-        if (this._contextMenu)
+        if (contextMenu && ! contextMenu.isDisposed())
         {
           // Dispose of the context menu.
-          this._contextMenu.hide();
+          contextMenu.hide();
           this.setContextMenu(null);
-          this.getApplicationRoot().remove(this._contextMenu);
-          this._contextMenu.dispose();
-          this._contextMenu = null;
+          this.getApplicationRoot().remove(contextMenu);
+          contextMenu.dispose();
+          contextMenu = null;
         }
 
         // Get the context menu handler for the column on which the context
@@ -56,51 +51,61 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
 
         // If there's no context menu handler for this column, we have nothing
         // to do.
-        if (contextMenuHandler == null) {
+        if (typeof contextMenuHandler !== "function") {
           return;
         }
+
+        // Get the context object for the handler function
+        var handlerContext = this.__contextMenuHandlerContext[col];
 
         // Get the data model
         var tableModel = this.getTableModel();
 
         // Create a context menu for this tree.
-        this._contextMenu = new qx.ui.menu.Menu();
+        contextMenu = new qx.ui.menu.Menu();
 
         // Don't display context menus from the context menu
-        this._contextMenu.addListener("contextmenu", function(e) {
+        contextMenu.addListener("contextmenu", function(e) {
           e.preventDefault();
         });
 
+        // This prevents the display of context menu on table header cells
+        contextMenu.addListenerOnce("disappear", function() {
+          this.setContextMenu(null);
+        }, this);
+
         // Call the context menu handler for this column.
-        var bShowContextMenu = contextMenuHandler(
+        var bShowContextMenu = contextMenuHandler.call(handlerContext,
           col,
           e.getRow(),
           this,
           tableModel,
-          this._contextMenu
+          contextMenu
         );
 
         // If we were told not to display the context menu...
         if (! bShowContextMenu)
         {
           // ... then we're all done here.
-          this._contextMenu.dispose();
+          contextMenu.dispose();
           return;
         }
 
         // Set the context menu
-        this.setContextMenu(this._contextMenu);
+        this.setContextMenu(contextMenu);
       },
       this);
 
     // Provide an array in which context menu handlers will be stored.  The
     // array is indexed by column number.
     this.__contextMenuHandler = [ ];
+    this.__contextMenuHandlerContext = [ ];
   },
 
   members :
   {
     __contextMenuHandler : null,
+    __contextMenuHandlerContext : null,
 
     /**
      * Add a handler for a context menu which is initiated in a specific
@@ -113,18 +118,43 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
      *   The function to call when a context menu request originates in the
      *   specified column. The handler is called with the following arguments:
      *   <ul>
-     *     <li><b>column</b>: (Integer) The number of the column in which the right click was issued</li>
-     *     <li><b>row</b>: (Integer) The number of the row in which the right click was issued</li>
-     *     <li><b>table</b>: {@link qx.ui.table.Table} The table in which the right click was issued</li>
-     *     <li><b>dataModel</b>: {@link qx.ui.table.model.Abstract} Complete data model of the table</li>
-     *     <li><b>contextMenu</b>: {qx.ui.menu.Menu} Menu in which buttons can be added to implement this context menu</li>
+     *     <li>
+     *       <b>column</b>: (Integer)
+     *       The number of the column in which the right click was issued
+     *     </li>
+     *     <li>
+     *       <b>row</b>: (Integer)
+     *       The number of the row in which the right click was issued
+     *     </li>
+     *     <li>
+     *       <b>table</b>: {@link qx.ui.table.Table}
+     *       The table in which the right click was issued
+     *     </li>
+     *     <li>
+     *       <b>dataModel</b>: {@link qx.ui.table.model.Abstract}
+     *       Complete data model of the table
+     *     </li>
+     *     <li>
+     *       <b>contextMenu</b>: {@link qx.ui.menu.Menu}
+     *       Menu in which buttons can be added to implement this context menu
+     *     </li>
      *   </ul>
+     *   The function must return a (Boolean), indicating whether the context
+     *   menu should be shown or not. The context menu will be shown when the
+     *   handler function returns <code>true</code>. When the handler function
+     *   returns <code>false</code> the context menu will <b>not</b> be shown.
+     *
+     * @param context {Object?this}
+     *   Optional execution context for the callback (i.e. "this").
+     *   If not provided, the {@link qx.ui.table.Table} object this mixin is
+     *   applied to is used.
      *
      * @return {void}
      */
-    setContextMenuHandler : function(col, handler)
+    setContextMenuHandler : function(col, handler, context)
     {
       this.__contextMenuHandler[col] = handler;
+      this.__contextMenuHandlerContext[col] = context || this;
     },
 
     /**
@@ -150,7 +180,9 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
     this.__contextMenuHandler = null;
+    this.__contextMenuHandlerContext = null;
   }
 });
