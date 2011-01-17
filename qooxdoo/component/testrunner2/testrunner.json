@@ -10,6 +10,7 @@
     "TESTRUNNER_ORIGIN" : "iframe",
     "REPORT_SERVER" : false,
     "TEST_INCLUDE" : "${APPLICATION}.test.*",
+    "TEST_EXCLUDE" : "",
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
@@ -216,6 +217,8 @@
       ],
 
       "include" : ["testrunner2.TestLoader", "testrunner2.unit.TestResult", "${TEST_INCLUDE}", "${QXTHEME}"],
+      
+      "exclude" : ["${TEST_EXCLUDE}"],
 
       "settings" :
       {
