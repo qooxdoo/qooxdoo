@@ -273,6 +273,29 @@ qx.Class.define("testrunner.runner.TestRunner",
     
     __overflowMenu : null,
     __menuItemStore : null,
+    __logLevelData :
+      {
+        debug :
+        {
+          label : "Debug",
+          icon : "icon/22/categories/system.png"
+        },
+        info :
+        {
+          label : "Information",
+          icon : "icon/22/status/dialog-information.png"
+        },
+        warn :
+        {
+          label : "Warning",
+          icon : "icon/22/status/dialog-warning.png"
+        },
+        error :
+        {
+          label : "Error",
+          icon : "icon/22/status/dialog-error.png"
+        }
+      },
 
     /** This one is called by Application.js
      */
@@ -477,6 +500,8 @@ qx.Class.define("testrunner.runner.TestRunner",
               cachedItem.getChildControl('label',false).setRich(true);
               cachedItem.setTextColor(partButtons[i].getTextColor());
               cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              partButtons[i].bind("enabled",cachedItem,"enabled");
+              cachedItem.setEnabled(partButtons[i].getEnabled());
             }
             else if(partButtons[i] instanceof qx.ui.toolbar.CheckBox)
             {
@@ -485,6 +510,10 @@ qx.Class.define("testrunner.runner.TestRunner",
                 );
               cachedItem.setIcon(partButtons[i].getIcon());
               cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              partButtons[i].bind("value",cachedItem,"value");
+              partButtons[i].bind("enabled",cachedItem,"enabled");
+              cachedItem.setEnabled(partButtons[i].getEnabled());
+              cachedItem.setValue(partButtons[i].getValue());
             }
              else if(partButtons[i] instanceof qx.ui.toolbar.MenuButton)
              {
@@ -495,6 +524,8 @@ qx.Class.define("testrunner.runner.TestRunner",
                 partButtons[i].getMenu()
                 );
               cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              var logLevelController = new qx.data.controller.Object(this);
+              logLevelController.addTarget(cachedItem, "icon", "logLevel", false, {converter: qx.lang.Function.bind(this.__logLevelIconConverter,this)});
             }
             else
             {
@@ -538,28 +569,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __createLogLevelMenu : function()
     {
-      var logLevelData = {
-        debug :
-        {
-          label : "Debug",
-          icon : "icon/22/categories/system.png"
-        },
-        info :
-        {
-          label : "Information",
-          icon : "icon/22/status/dialog-information.png"
-        },
-        warn :
-        {
-          label : "Warning",
-          icon : "icon/22/status/dialog-warning.png"
-        },
-        error :
-        {
-          label : "Error",
-          icon : "icon/22/status/dialog-error.png"
-        }
-      };
+      var logLevelData = this.__logLevelData;
 
       var levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
       var levelMenu = new qx.ui.menu.Menu();
@@ -590,17 +600,16 @@ qx.Class.define("testrunner.runner.TestRunner",
       }, this);
       levelMenu.add(errorButton);
 
-      var logLevelIconConverter = function(data) {
-        return logLevelData[data].icon;
-      }
-
       var logLevelController = new qx.data.controller.Object(this);
-      logLevelController.addTarget(levelbox, "icon", "logLevel", false, {converter: logLevelIconConverter});
+      logLevelController.addTarget(levelbox, "icon", "logLevel", false, {converter: qx.lang.Function.bind(this.__logLevelIconConverter,this)});
 
       return levelbox;
     },
 
-
+     __logLevelIconConverter: function(data) {
+        return this.__logLevelData[data].icon;
+      },
+      
     /**
      * TODOC
      *
