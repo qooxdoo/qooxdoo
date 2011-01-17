@@ -83,6 +83,8 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
+
+    this.addListener("keypress", this.__preventScrollWhenFocused);
   },
 
 
@@ -3236,6 +3238,41 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+    * Fix unexpected scrolling when pressing "Space" while a widget is focused.
+    *
+    * @param e {qx.event.type.Data} The data event
+    */
+    __preventScrollWhenFocused: function(e) {
+      // Space pressed
+      if (e.getKeyIdentifier() !== "Space") {
+        return;
+      }
+
+      var target = e.getTarget();
+
+      // Is focused. Allows scroll when container or root widget.
+      var focusHandler = qx.ui.core.FocusHandler.getInstance();
+      if (!focusHandler.isFocused(target)) {
+        return;
+      }
+
+      // Widget does not accept text input
+      var nodeName = target.getContentElement().getNodeName();
+      if (nodeName === "input" || nodeName === "textarea") {
+        return;
+      }
+
+      // Ultimately, prevent default
+      e.preventDefault();
+    },
 
 
     /*
