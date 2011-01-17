@@ -1832,7 +1832,7 @@ class Generator(object):
         explicit = []
 
         for entry in data:
-            if entry[0] == "=":
+            if len(entry) > 0 and entry[0] == "=":
                 explicit.append(entry[1:])
             else:
                 intelli.append(entry)
