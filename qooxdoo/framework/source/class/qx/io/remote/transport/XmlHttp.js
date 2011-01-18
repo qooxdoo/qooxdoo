@@ -53,22 +53,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
     },
 
-    /**
-     * Array of request objects.
-     *
-     * @internal
-     * @deprecated
-     */
-    requestObjects : [],
-
-    /**
-     * Request object count
-     *
-     * @internal
-     * @deprecated
-     */
-    requestObjectCount : 0,
-
 
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
