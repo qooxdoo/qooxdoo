@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
     this.add(this.__container, {top: 40, width: "100%", height: "100%"});
 
     this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
+    this._initControls(this.__widgets);
   },
 
   members :

@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.EmbedFrame",
     this.add(this.__container, {top: 40});
 
     this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
+    this._initControls(this.__widgets);
   },
 
   members :
