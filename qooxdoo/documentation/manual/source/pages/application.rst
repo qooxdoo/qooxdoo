@@ -99,7 +99,7 @@ Developer Tools
 .. toctree::
    :maxdepth: 1
 
-   development/simulator
+   application/simulator
 
 ..
 
