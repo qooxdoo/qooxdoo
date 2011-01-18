@@ -83,8 +83,12 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
 
    * - TEST_INCLUDE 
      - class pattern to search for unit test classes 
-     - "${APPLICATION}.test.*" 
+     - "${APPLICATION}.test.*"
  
+   * - TEST_EXCLUDE
+     - class pattern to exclude unit test classes 
+     - "${APPLICATION}.test.oldtests.*"
+
    * - TESTS_SCRIPT 
      - script file name for the test application (the "AUT") 
      - "tests.js" 
