@@ -55,6 +55,28 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.base(arguments);
     
     this.__menuItemStore = {};
+    this.__logLevelData = {
+        debug :
+        {
+          label : "Debug",
+          icon : "icon/22/categories/system.png"
+        },
+        info :
+        {
+          label : "Information",
+          icon : "icon/22/status/dialog-information.png"
+        },
+        warn :
+        {
+          label : "Warning",
+          icon : "icon/22/status/dialog-warning.png"
+        },
+        error :
+        {
+          label : "Error",
+          icon : "icon/22/status/dialog-error.png"
+        }
+      };
 
     this.nameSpace = qx.core.Setting.get("qx.testNameSpace");
 
@@ -273,29 +295,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     
     __overflowMenu : null,
     __menuItemStore : null,
-    __logLevelData :
-      {
-        debug :
-        {
-          label : "Debug",
-          icon : "icon/22/categories/system.png"
-        },
-        info :
-        {
-          label : "Information",
-          icon : "icon/22/status/dialog-information.png"
-        },
-        warn :
-        {
-          label : "Warning",
-          icon : "icon/22/status/dialog-warning.png"
-        },
-        error :
-        {
-          label : "Error",
-          icon : "icon/22/status/dialog-error.png"
-        }
-      },
+    __logLevelData : null,
 
     /** This one is called by Application.js
      */
@@ -429,8 +429,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.setOverflowIndicator(chevron);
     
       // set priorities for overflow handling
-      toolbar.setRemovePriority(part1, 3);
-      toolbar.setRemovePriority(part3, 2);
+      toolbar.setRemovePriority(part1, 2);
+      toolbar.setRemovePriority(part3, 3);
       toolbar.setRemovePriority(part2, 1);
       
       // add the overflow menu
