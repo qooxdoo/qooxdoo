@@ -653,9 +653,14 @@ qx.Class.define("qx.data.SingleValueBinding",
             );
             property = property.substring(0, property.indexOf("["));
           }
-          target = target["get" + qx.lang.String.firstUp(property)]();
+          // in case there is a property infront of the brackets
+          if (property != "") {
+            target = target["get" + qx.lang.String.firstUp(property)]();
+          }
+
+          // if there is an index, we can be sure its an array
           if (index != null) {
-            // check for the last notation
+            // check for the 'last' notation
             if (index == "last") {
               index = target.length - 1;
             }
