@@ -48,7 +48,9 @@
     "test",
     "test-source",
     "translation",
-    "migration"
+    "migration",
+    "simulation-build",
+    "simulation-run"
   ],
   
   "default-job" : "source",
