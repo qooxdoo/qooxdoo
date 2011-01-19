@@ -470,6 +470,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       nextbutt.addListener("execute", this.playNext, this);
       nextbutt.setToolTipText("Run next demo");
       this._navPart.add(nextbutt);
+      
+      var navButtonOptions =  {
+        converter : function(data) {
+          return data == "visible";
+        }
+      }
+      qx.data.SingleValueBinding.bind(this._runbutton, "visibility", prevbutt, "enabled", navButtonOptions);
+      qx.data.SingleValueBinding.bind(this._runbutton, "visibility", nextbutt, "enabled", navButtonOptions);
 
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
