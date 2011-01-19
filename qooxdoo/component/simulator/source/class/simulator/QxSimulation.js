@@ -283,6 +283,23 @@ qx.Class.define("simulator.QxSimulation", {
     },
     
     /**
+     * Logs the total duration of this simulation.
+     */
+    logRunTime : function()
+    {
+      var stopDate = new Date();
+      var elapsed = stopDate.getTime() - this.startDate.getTime();
+      elapsed = (elapsed / 1000);
+      var min = Math.floor(elapsed / 60);
+      var sec = Math.round(elapsed % 60);
+      if (sec < 10) {
+        sec = "0" + sec;
+      }
+    
+      this.info("Simulator run finished in: " + min + " minutes " + sec + " seconds.");
+    },
+    
+    /**
      * Pauses test execution for a given amount of time.
      * 
      * @param interval {Integer} Time (in milliseconds) to wait.

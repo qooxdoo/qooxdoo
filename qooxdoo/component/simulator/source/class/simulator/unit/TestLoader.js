@@ -65,6 +65,7 @@ qx.Class.define("simulator.unit.TestLoader", {
       var testResult = new simulator.unit.TestResult();
       suite.run(testResult);
       
+      simulation.logRunTime();
       simulation.qxSelenium.stop();
     },
     
