@@ -14,6 +14,7 @@ qx.Class.define("testrunner2.view.Performance", {
   construct : function()
   {
     this.base(arguments);
+    this.__measurements = [];
     var profileToggle = qx.bom.Input.create("checkbox", {id: "profile", checked : "checked"});
     document.body.appendChild(profileToggle);
     document.body.innerHTML += '<label for="profile">Enable console profiling</label><br/>';
@@ -47,7 +48,7 @@ qx.Class.define("testrunner2.view.Performance", {
     },
 
     
-    __measurements : [],
+    __measurements : null,
     
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
