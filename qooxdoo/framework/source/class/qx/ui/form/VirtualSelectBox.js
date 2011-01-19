@@ -21,11 +21,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
   extend : qx.ui.form.AbstractVirtualPopupList,
 
-  construct : function()
+  construct : function(model)
   {
-    this.base(arguments);
+    this.base(arguments, model);
 
-    this._createChildControl("atom");
+    var atom = this._createChildControl("atom");
     this._createChildControl("spacer");
     this._createChildControl("arrow");
 
@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     this.addListener("mouseout", this._onMouseOut, this);
 
     this.initSelection(new qx.data.Array());
+    this.bind("selection[0]", atom, "label", null);
   },
 
 
@@ -56,6 +57,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       nullable : false,
       deferredInit : true
     },
+
 
     /**
      * The path to the property which holds the information that should be
@@ -126,7 +128,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     // property apply
     _applySelection : function(value, old) {
-
+      this.getChildControl("dropdown").setSelection(value);
     },
 
 
@@ -149,15 +151,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     */
 
 
-    _handleKeyboard : function(event)
-    {
-    },
-
-
     _handleMouse : function(event)
     {
+      this.base(arguments, event);
+
       var type = event.getType();
-      
       if (type === "click") {
         this.toggle();
       }
@@ -192,6 +190,26 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       {
         this.removeState("pressed");
         this.addState("abandoned");
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+
+    _getAction : function(event)
+    {
+      var keyIdentifier = event.getKeyIdentifier();
+      var isOpen = this.getChildControl("dropdown").isVisible();
+
+      if (!isOpen && (keyIdentifier === "Enter" || keyIdentifier === "Space")) {
+        return "open";
+      } else {
+        return this.base(arguments, event);
       }
     }
   },

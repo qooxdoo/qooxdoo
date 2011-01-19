@@ -40,6 +40,14 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     this.addListener("mousewheel", this._handleMouse, this);
     this.addListener("blur", this._onBlur, this);
     this.addListener("resize", this._onResize, this);
+
+    this._createChildControl("dropdown");
+
+    if (model != null) {
+      this.initModel(model);
+    } else {
+      this.initModel(new qx.data.Array());
+    }
   },
 
 
@@ -58,6 +66,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       refine : true,
       init : 120
     },
+
 
     /** Data array containing the data which should be shown in the list. */
     model :
@@ -153,6 +162,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       init : 200
     },
 
+
     /**
      * Formatter which format the value from the selected <code>ListItem</code>.
      * Uses the default formatter {@link #_defaultFormat}.
@@ -203,7 +213,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     // property apply
     _applyModel : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setModel(value);
     },
 
 
@@ -245,7 +255,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     // property apply
     _applyMaxListHeight : function(value, old) {
-      this.getChildControl("list").setMaxHeight(value);
+      this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
     },
 
 
@@ -301,11 +311,55 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     _handleKeyboard : function(event)
     {
+      var action = this._getAction(event);
+
+      switch(action)
+      {
+        case "open":
+          this.open();
+          break;
+
+        case "close":
+          this.close();
+          break;
+
+        case "selectPrevious":
+          this.getChildControl("dropdown").selectPrevious();
+          break;
+
+        case "selectNext":
+          this.getChildControl("dropdown").selectNext();
+          break;
+
+        case "selectFirst":
+          this.getChildControl("dropdown").selectFirst();
+          break;
+
+        case "selectLast":
+          this.getChildControl("dropdown").selectLast();
+          break;
+
+        default:
+          this.getChildControl("dropdown")._handleKeyboard(event);
+          break;
+      }
     },
 
 
     _handleMouse : function(event)
     {
+      var type = event.getType();
+      var isOpen = this.getChildControl("dropdown").isVisible();
+
+      if (type === "mousewheel" && !isOpen)
+      {
+        var selectNext = event.getWheelDelta() > 0 ? true : false;
+        if (selectNext == true) {
+          this.getChildControl("dropdown").selectNext();
+        } else {
+          this.getChildControl("dropdown").selectPrevious();
+        }
+      }
     },
 
 
@@ -328,7 +382,24 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     _getAction : function(event)
     {
+      var keyIdentifier = event.getKeyIdentifier();
+      var isOpen = this.getChildControl("dropdown").isVisible();
 
+      if (!isOpen && event.isAltPressed() && (keyIdentifier === "Down" || keyIdentifier === "Up")) {
+        return "open";
+      } else if (isOpen && keyIdentifier === "Escape") {
+        return "close";
+      } else if (!isOpen && keyIdentifier === "Up") {
+        return "selectPrevious";
+      } else if (!isOpen && keyIdentifier === "Down") {
+        return "selectNext";
+      } else if (!isOpen && keyIdentifier === "PageUp") {
+        return "selectFirst";
+      } else if (!isOpen && keyIdentifier === "PageDown") {
+        return "selectLast";
+      } else {
+        return null;
+      }
     },
 
 

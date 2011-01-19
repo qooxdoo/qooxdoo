@@ -27,6 +27,10 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     this.base(arguments, new qx.ui.layout.VBox());
 
     this._target = target;
+
+    this._createChildControl("list");
+
+    this.initSelection(new qx.data.Array());
   },
 
 
@@ -75,7 +79,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       switch(id)
       {
         case "list":
-          control = new qx.ui.form.List().set({
+          control = new qx.ui.list.List().set({
             focusable: false,
             keepFocus: true,
             height: null,
@@ -85,6 +89,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
             quickSelection: true
           });
 
+          this.add(control, {flex: 1});
           break;
       }
 
@@ -133,25 +138,25 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     selectFirst : function()
     {
-
+      console.log("selectFirst")
     },
 
 
     selectLast : function()
     {
-
+      console.log("selectLast")
     },
 
 
     selectPrevious : function()
     {
-
+      console.log("selectPrevious")
     },
 
 
     selectNext : function()
     {
-
+      console.log("selectNext")
     },
 
 
@@ -163,6 +168,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     // property apply
     _applySelection : function(value, old) {
+      this.getChildControl("list").setSelection(value);
     },
 
 
@@ -174,6 +180,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     _handleKeyboard : function(event)
     {
+      var clone = event.clone();
+      clone.setTarget(this.getChildControl("list"));
+      clone.setBubbles(false);
+
+      console.log("on list")
+      this.getChildControl("list").dispatchEvent(clone);
     },
 
 
