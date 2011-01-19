@@ -19,7 +19,29 @@
 ************************************************************************ */
 
 /**
- * This singleton manages global resource aliases
+ * This singleton manages global resource aliases.
+ *
+ * The AliasManager supports simple prefix replacement on strings. There are
+ * some pre-defined aliases, and you can register your own with {@link #add}.
+ * The AliasManager is automatically invoked in various situations, e.g. when
+ * resolving the icon image for a button, so it is common to register aliases for
+ * <a href="http://manual.qooxdoo.org/1.4/pages/gui_toolkit/ui_resources.html">resource id's</a>.
+ * You can of course call the AliasManager's {@link #resolve}
+ * explicitly to get an alias resolution in any situation, but keep that
+ * automatic invocation of the AliasManager in mind when defining new aliases as
+ * they will be applied globally in many classes, not only your own.
+ *
+ * Examples:
+ * <ul>
+ *  <li> <code>foo</code> -> <code>bar/16pt/baz</code>  (resolves e.g. __"foo/a/b/c.png"__ to
+ *    __"bar/16pt/baz/a/b/c.png"__)
+ *  <li> <code>imgserver</code> -> <code>http&#058;&#047;&#047;imgs03.myserver.com/my/app/</code>
+ *    (resolves e.g. __"imgserver/a/b/c.png"__ to
+ *    __"http&#058;&#047;&#047;imgs03.myserver.com/my/app/a/b/c.png"__)
+ * </ul>
+ *
+ * For resources, only aliases that resolve to proper resource id's can be __managed__
+ * resources, and will be considered __unmanaged__ resources otherwise.
  */
 qx.Class.define("qx.util.AliasManager",
 {
@@ -61,7 +83,7 @@ qx.Class.define("qx.util.AliasManager",
     __aliases : null,
 
     /**
-     * pre process incoming dynamic value
+     * pre-process incoming dynamic value
      *
      * @param value {String} incoming value
      * @return {String} pre processed value
@@ -154,6 +176,17 @@ qx.Class.define("qx.util.AliasManager",
       }
 
       return dynamic[path] || path;
+    },
+
+
+    /**
+     * Get registered aliases
+     *
+     * @return {Map} the map of the currently registered alias:resolution pairs
+     */
+    getAliases : function()
+    {
+      return this.__aliases;
     }
   },
 
