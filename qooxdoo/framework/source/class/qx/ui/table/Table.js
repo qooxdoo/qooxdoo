@@ -706,6 +706,8 @@ qx.Class.define("qx.ui.table.Table",
     __columnModel : null,
     __emptyTableModel : null,
 
+    __hadVerticalScrollBar : null,
+
 
 
     // overridden
@@ -1984,7 +1986,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++)
       {
         var isLast = (i == (scrollerArr.length - 1));
-        var bHadVerticalScrollBar;
 
         // Only show the last vertical scrollbar
         scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
@@ -1993,14 +1994,22 @@ qx.Class.define("qx.ui.table.Table",
         if (isLast)
         {
           // ... then get the current (old) use of vertical scroll bar
-          bHadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
+          if (this.__hadVerticalScrollBar == null) {
+            this.__hadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
+            qx.event.Timer.once(function()
+            {
+              // reset the last visible state of the vertical scroll bar
+              // in a timeout to prevent infinity loops.
+              this.__hadVerticalScrollBar = null;
+            }, this, 0);
+          }
         }
 
         scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
 
         // If this is the last meta-column and the use of a vertical scroll bar
         // has changed...
-        if (isLast && verNeeded != bHadVerticalScrollBar)
+        if (isLast && verNeeded != this.__hadVerticalScrollBar)
         {
           // ... then dispatch an event to any awaiting listeners
           this.fireDataEvent("verticalScrollBarChanged", verNeeded);
