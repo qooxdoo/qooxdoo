@@ -1999,7 +1999,7 @@ qx.Class.define("qx.ui.table.Table",
             qx.event.Timer.once(function()
             {
               // reset the last visible state of the vertical scroll bar
-              // in a timeout to prevent infinity loops.
+              // in a timeout to prevent infinite loops.
               this.__hadVerticalScrollBar = null;
             }, this, 0);
           }
