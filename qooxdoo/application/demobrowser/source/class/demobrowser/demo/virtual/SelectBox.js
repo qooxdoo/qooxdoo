@@ -63,12 +63,12 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       // Creates the select box
       var selectBox = new qx.ui.form.VirtualSelectBox(model);
 
-      // Pre-Select "Item No 5"
+      // Pre-Select "Item No 6"
       selectBox.getSelection().push(model.getItem(5));
 
       // log all changes on the selection
       selectBox.getSelection().addListener("change", function(e) {
-        this.debug("Change selection: " + e.getData().getItem(0));
+        this.debug("Change selection: ", selectBox.getSelection().getItem(0));
       });
 
       container.add(selectBox);
