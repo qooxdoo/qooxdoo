@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       switch(id)
       {
         case "dropdown":
-          control = new qx.ui.form.VirtualDropDownList();
+          control = new qx.ui.form.VirtualDropDownList(this);
           break;
       }
 

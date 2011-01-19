@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           break;
 
         case "atom":
-          control = new qx.ui.basic.Atom(" ");
+          control = new qx.ui.basic.Atom("");
           control.setCenter(false);
           control.setAnonymous(true);
 
@@ -156,6 +156,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     _handleMouse : function(event)
     {
+      var type = event.getType();
+      
+      if (type === "click") {
+        this.toggle();
+      }
     },
 
 
