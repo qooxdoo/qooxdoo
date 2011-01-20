@@ -65,8 +65,13 @@ qx.Class.define("apiviewer.TabViewController",
 
       var page = this._tabView.getSelection()[0];
       page.setUserData("itemName", itemName);
-
-      return page.getChildren()[0].showItem(itemName);
+      if(itemName)
+      {
+        return page.getChildren()[0].showItem(itemName);
+      }
+      else {
+        return true;
+      }
     },
 
     openPackage : function(classNode, newTab)
