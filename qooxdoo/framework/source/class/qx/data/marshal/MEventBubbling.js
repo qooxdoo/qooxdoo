@@ -32,6 +32,11 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * matter what property changes. This event bubbles so the root model will
      * fire a change event on every change of its children properties too.
      *
+     * Note that properties are required to call
+     * {@link #_applyEventPropagation} on apply for changes to be tracked as
+     * desired. It is already taken care of that properties created with the
+     * {@link qx.data.marshal.Json} marshaler call this method.
+     *
      * The data will contain a map with the following three keys
      *   <li>value: The new value of the property</li>
      *   <li>name: The name of the property changed including its parent
