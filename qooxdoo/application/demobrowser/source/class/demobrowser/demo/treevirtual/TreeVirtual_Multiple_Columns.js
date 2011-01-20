@@ -182,6 +182,15 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     {
                       tree.setEnabled(! e.getData());
                     });
+
+      o = new qx.ui.form.CheckBox("Show column visibilty menu");
+      o.set({ value: true });
+      commandFrame.add(o, { top : 200, left : 0 });
+      o.addListener("changeValue",
+                    function(e)
+                    {
+                      tree.setColumnVisibilityButtonVisible(e.getData());
+                    });
     }
   }
 });
