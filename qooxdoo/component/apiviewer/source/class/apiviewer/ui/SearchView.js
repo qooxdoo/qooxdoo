@@ -374,7 +374,23 @@ qx.Class.define("apiviewer.ui.SearchView",
       aType = icons[iconfile.substr(0, iconfile.length-6)];
       bType = icons[iconfileNext.substr(0, iconfileNext.length-6)];
 
-      return aType - bType;
+      var diff = aType - bType;
+      if(diff==0)
+      {
+        if (a[1] < b[1])
+        {
+          return -1;
+        }
+        if (a[1] > b[1])
+        {
+          return 1;
+        }
+        return 0;
+      }
+      else
+      {
+        return aType - bType;
+      }
     },
 
 
