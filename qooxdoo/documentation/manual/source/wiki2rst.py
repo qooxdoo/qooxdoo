@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# requires: pyparsing, pandoc (ext.program)
+# syntax:
+#  wiki2rst.py pages pages/tutorials/tutorial-part-4-2.txt (single file)
+#  wiki2rst.py pages  (directory tree)
+
 import sys, os, re, codecs
 from pyparsing import *
 
