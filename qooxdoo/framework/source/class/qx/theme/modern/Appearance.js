@@ -2800,7 +2800,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "virtual-selectbox" : "selectbox",
     "virtual-selectbox/dropdown" : "popup",
-    "virtual-selectbox/dropdown/list" : "virtual-list",
+    "virtual-selectbox/dropdown/list" : {
+      alias : "virtual-list"
+    },
         
     "column-layer" : "widget",
 
