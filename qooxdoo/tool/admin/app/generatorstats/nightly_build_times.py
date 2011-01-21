@@ -113,6 +113,10 @@
 ##
 
 import sys, os, re, types, string, optparse
+
+# add qooxdoo module path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../pylib"))
+
 import datetime, time
 from pyparse.pyparsing import *
 from warnings import warn
