@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.virtual.SettingsList",
 
       // Items
       var data = [];
-      var names = ["python-minimal", "python2.6", "python-doc", "python-profiler"];
+      var names = ["Apple", "Orange", "Potato", "Carrot"];
       for (var i = 0; i < names.length; i++) {
         data[i] = {
           name : names[i],
@@ -61,8 +61,8 @@ qx.Class.define("demobrowser.demo.virtual.SettingsList",
         };
       }
       groups = qx.data.marshal.Json.createModel(groups, true);
-      groups.getItem(0).setName("basic");
-      groups.getItem(1).setName("additions");
+      groups.getItem(0).setName("Fruits");
+      groups.getItem(1).setName("Vegetables");
 
       // Assign group
       this.__data.toArray().forEach(function(item, index) {
@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.virtual.SettingsList",
       // Widgets
       var list = new qx.ui.list.List();
       list.setWidth(150);
-      this.getRoot().add(list, {left: 10, top: 10});
+      this.getRoot().add(list, {left: 20, top: 20});
 
       // Let the magic happen
       list.setDelegate(this);
