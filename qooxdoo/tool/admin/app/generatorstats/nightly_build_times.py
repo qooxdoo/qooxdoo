@@ -107,6 +107,9 @@
 #    DEF:portal=nightly_builds.rrd:portal:AVERAGE LINE2:portal#00FFFF:Portal  \
 #    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE LINE2:inspector#FF9933:Inspector
 #
+#    (For the actual used graph command see the template in the graph()
+#    routine).
+#
 ##
 
 import sys, os, re, types, string, optparse
@@ -321,11 +324,11 @@ def graph(args):
     CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Portal  \
     DEF:inspector=nightly_builds.rrd:inspector:AVERAGE \
     CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:Inspector \
+    DEF:demobrowser=nightly_builds.rrd:demobrowser:AVERAGE \
+    CDEF:mdemobrowser=demobrowser,60,/ LINE2:mdemobrowser#00FF00:Demobrowser \
     '''
 
     '''
-    DEF:demobrowser=nightly_builds.rrd:demobrowser:AVERAGE \
-    CDEF:mdemobrowser=demobrowser,60,/ LINE2:mdemobrowser#00FF00:Demobrowser \
     '''
 
     # last 4 weeks graph
