@@ -89,6 +89,7 @@ qx.Class.define("apiviewer.TabViewController",
       {
         if (currentPage instanceof clazz) {
           currentPage.setClassNode(classNode);
+          currentPage.setUserData("itemName", null);
         }
         else
         {
