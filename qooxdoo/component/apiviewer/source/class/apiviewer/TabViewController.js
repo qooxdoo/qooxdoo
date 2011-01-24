@@ -65,13 +65,8 @@ qx.Class.define("apiviewer.TabViewController",
 
       var page = this._tabView.getSelection()[0];
       page.setUserData("itemName", itemName);
-      if(itemName)
-      {
-        return page.getChildren()[0].showItem(itemName);
-      }
-      else {
-        return true;
-      }
+
+      return page.getChildren()[0].showItem(itemName);
     },
 
     openPackage : function(classNode, newTab)
@@ -94,6 +89,7 @@ qx.Class.define("apiviewer.TabViewController",
       {
         if (currentPage instanceof clazz) {
           currentPage.setClassNode(classNode);
+          currentPage.setUserData("itemName", null);
         }
         else
         {

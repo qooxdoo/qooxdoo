@@ -355,14 +355,17 @@ qx.Class.define("apiviewer.Controller",
       this._ignoreTabViewSelection = true;
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
-        if (!this._tabViewController.showItem(itemName))
+        if (itemName)
         {
-          this.error("Unknown item of class '"+ className +"': " + itemName);
-          alert("Unknown item of class '"+ className +"': " + itemName);
+          if (!this._tabViewController.showItem(itemName))
+          {
+            this.error("Unknown item of class '"+ className +"': " + itemName);
+            alert("Unknown item of class '"+ className +"': " + itemName);
 
-          this._updateHistory(className);
-          this._ignoreTabViewSelection = false;
-          return;
+            this._updateHistory(className);
+            this._ignoreTabViewSelection = false;
+            return;
+          }
         }
         this._updateHistory(fullItemName);
         this._ignoreTabViewSelection = false;
