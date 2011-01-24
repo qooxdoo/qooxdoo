@@ -85,6 +85,11 @@
 #        RRA:AVERAGE:0.5:3:90 \                # average 3 days and keep 3 month worth of these
 #        RRA:AVERAGE:0.5:6:60                  # average over 6 and keep roughly a year worth
 #
+#
+#  Inspect the Db:
+#
+#    rrdtool info nightly_builds.rrd
+#
 #  Update like this:
 #
 #    rrdtool update nightly_builds.rrd 1292676240:246:1565:205:425:428:164:117:230
