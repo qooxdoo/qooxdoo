@@ -1457,7 +1457,14 @@ qx.Class.define("qx.html.Element",
       {
         // Apply qooxdoo attribute
         this.setAttribute("qxSelectable", value ? "on" : "off");
-        this.setStyle("userSelect", value ? "text" : "none");
+
+        // In Chrome, the text of elements with the CSS property
+        // -webkit-user-select set to "none" is not searchable.
+        // Refer to qx.html.Root#__forcePreventSelection for
+        // more details and a work-around.
+        if (qx.bom.client.Browser.NAME !== "chrome") {
+          this.setStyle("userSelect", value ? "text" : "none");
+        }
       },
 
       "gecko" : function(value)
