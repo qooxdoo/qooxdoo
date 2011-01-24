@@ -447,6 +447,7 @@ qx.Class.define("qx.ui.list.List",
 
       this._provider.removeBindings();
       this.__buildUpLookupTable();
+      this._applyDefaultSelection();
     },
 
 
@@ -523,6 +524,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _onModelChange : function(e) {
       this.__buildUpLookupTable();
+      this._applyDefaultSelection();
     },
 
 

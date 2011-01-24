@@ -152,6 +152,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
+      this._manager._applyDefaultSelection();
     },
 
 
@@ -279,6 +280,16 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
         nativArray.push(this._getDataFromRow(managerSelection[i]));
       }
       localSelection.length = nativArray.length;
+    },
+    
+    
+    /**
+     * Helper Method to select default item.
+     */
+    _applyDefaultSelection : function() {
+      if (this._manager != null) {
+        this._manager._applyDefaultSelection();
+      }
     }
   },
 

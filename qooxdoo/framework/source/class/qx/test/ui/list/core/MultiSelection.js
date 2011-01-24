@@ -138,6 +138,52 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
       });
 
       this.testSelection();
+    },
+    
+    testOneSelection : function()
+    {
+      var selection = this._list.getSelection();
+      
+      this.assertEquals(0, selection.getLength());
+      
+      this._list.setSelectionMode("one");
+      
+      this.assertEquals(1, selection.getLength());
+      this.assertEquals(this._model.getItem(0), selection.getItem(0));
+    },
+    
+    testOneSelectionByChangingyModel : function()
+    {
+      var selection = this._list.getSelection();
+      
+      this.assertEquals(0, selection.getLength());
+      
+      var oldModel = this._model.copy();
+      this._model.removeAll();
+      
+      this._list.setSelectionMode("one");
+      this.assertEquals(0, selection.getLength());
+      
+      this._model = oldModel;
+      this._list.setModel(this._model);
+      
+      this.assertEquals(1, selection.getLength());
+      this.assertEquals(this._model.getItem(0), selection.getItem(0));
+    },
+    
+    testOneSelectionWithEmptyModel : function()
+    {
+      var selection = this._list.getSelection();
+      var oldModel = this._model.copy();
+      this._model.removeAll();
+      this._list.setSelectionMode("one");
+      
+      this.assertEquals(0, selection.getLength());
+
+      this._model.push(oldModel.getItem(2));
+      
+      this.assertEquals(1, selection.getLength());
+      this.assertEquals(this._model.getItem(0), selection.getItem(0));
     }
   }
 });
