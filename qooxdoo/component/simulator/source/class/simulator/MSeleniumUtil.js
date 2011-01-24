@@ -57,7 +57,7 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
      */
     getWidgetPropertyValueOrNull : function(locator, property)
     {
-      propertyName = qx.lang.String.firstUp(property);
+      var propertyName = qx.lang.String.firstUp(property);
       var snippet = 'selenium.getQxObjectFunction("' + locator +'", "get' + propertyName + '")';
       var propertyValue;
       try {
