@@ -809,7 +809,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       if (value === "one")
       {
         var first = this._getFirstSelectable();
-        if (first) {
+        if (first != null)
+        {
           this._setSelectedItem(first);
           this._scrollItemIntoView(first);
         }
