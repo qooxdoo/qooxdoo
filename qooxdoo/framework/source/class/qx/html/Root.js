@@ -105,8 +105,7 @@ qx.Class.define("qx.html.Root",
 
       if (node) {
         if (node.getAttribute("qxSelectable") === "off") {
-          // e.preventDefault();
-          e.getNativeEvent().preventDefault();
+          e.preventDefault();
         }
       }
 
