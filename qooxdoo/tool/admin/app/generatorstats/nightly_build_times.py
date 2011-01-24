@@ -223,7 +223,8 @@ def getLatestLogURL():
     logpattr = re.compile(logpatt)
     # get yesterday's log file name
     po = urllib.urlopen (baseurl)
-    assert po.getcode() == 200
+    # po.getcode() is 2.6, urlopen() bombs on rc other than 200
+    #assert po.getcode() == 200
     # go through the index listing
     index = po.readlines()
     for l in index:
@@ -254,7 +255,7 @@ def getTestLog(datasource):
         data_source, timestamp = getLatestLogURL()
     # get log file contents
     po = urllib.urlopen (data_source)
-    assert po.getcode() == 200
+    #assert po.getcode() == 200  # urlopen() bombs on rc != 200
     logdata = po.read()
     return logdata, timestamp
 
