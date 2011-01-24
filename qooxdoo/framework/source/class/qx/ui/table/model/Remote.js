@@ -259,11 +259,11 @@ qx.Class.define("qx.ui.table.model.Remote",
       if (this.__firstLoadingBlock != -1) {
         var cancelingSuceed = this._cancelCurrentRequest();
         if (cancelingSuceed) {
-          // The request was cancelled -> We're not loading any blocks any more
+          // The request was canceled -> We're not loading any blocks any more
           this.__firstLoadingBlock = -1;
           this.__ignoreCurrentRequest = false;
         } else {
-          // The request was not cancelled -> Ignore it
+          // The request was not canceled -> Ignore it
           this.__ignoreCurrentRequest = true;
         }
       }
@@ -330,13 +330,13 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         if (cancelingSuceed)
         {
-          // The request was cancelled -> We're not loading any blocks any more
+          // The request was canceled -> We're not loading any blocks any more
           this.__firstLoadingBlock = -1;
           this.__ignoreCurrentRequest = false;
         }
         else
         {
-          // The request was not cancelled -> Ignore it
+          // The request was not canceled -> Ignore it
           this.__ignoreCurrentRequest = true;
         }
       }
@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Should be overridden by subclasses if they are able to cancel requests. This
      * allows sending a new request directly after a call of {@link #reloadData}.
      *
-     * @return {Boolean} whether the request was cancelled.
+     * @return {Boolean} whether the request was canceled.
      */
     _cancelCurrentRequest : function() {
       return false;
