@@ -359,13 +359,13 @@ def options():
     sub_commands = ["harvest", "graph"]
 
     parser = optparse.OptionParser()
-    usage_str = ''
+    usage_str = '%s [harvest|graph] args...' % os.path.basename(__file__)
     parser.set_usage(usage_str)
 
     opts, args = parser.parse_args()
 
     if args[0] not in sub_commands:
-        parser.usage()
+        parser.print_usage()
         sys.exit(1)
 
     return opts, args
