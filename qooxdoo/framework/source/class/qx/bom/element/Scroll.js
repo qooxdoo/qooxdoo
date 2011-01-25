@@ -147,11 +147,9 @@ qx.Class.define("qx.bom.element.Scroll",
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
 
-          // Firefox 3 and Opera seem to fire the scroll event asynchronously.
-          // We fire another one a bit earlier here
-          if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
-            qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
-          }
+          // Browsers that follow the CSSOM View Spec fire the "scroll"
+          // event asynchronously. See #intoViewY for more details.
+          qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
         }
 
         if (parent === body) {
@@ -272,11 +270,15 @@ qx.Class.define("qx.bom.element.Scroll",
 
           parent.scrollTop += scrollDiff;
 
-          // Firefox 3 and Opera seem to fire the scroll event asynchronously.
-          // We fire another one a bit earlier here
-          if (qx.bom.client.Engine.GECKO || qx.bom.client.Engine.OPERA) {
-            qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
-          }
+          // Browsers that follow the CSSOM View Spec fire the "scroll"
+          // event asynchronously.
+          //
+          // The widget layer expects the "scroll" event to be fired before
+          // the "appear event". Fire non-bubbling "scroll" in all browsers,
+          // since a duplicate "scroll" should not cause any issues and it
+          // is hard to track which version of the browser engine started to
+          // follow the CSSOM Spec. Fixes [BUG #4570].
+          qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
         }
 
         if (parent === body) {
