@@ -386,13 +386,8 @@ class PartBuilder(object):
     def _getPreviousCommonPackage(self, mergePackage, packages):
 
         ##
-        # the next takes advantage of the fact that the package id encodes
-        # the parts a package is used by. if another package id has the
-        # same bits turned on, it is in the same parts. this is only
-        # true for the searchId package itself, and package id's that have
-        # more bits turned on (ie. are "greater"); hence, and due to 
-        # _sortPackages, they are earlier in the packages list of the
-        # corresponding parts
+        # if another package id has the same bits turned on, it is available
+        # in the same parts.
         def areInSameParts(mergePackage, package):  
             return (mergePackage.id & package.id) == mergePackage.id
 
@@ -408,11 +403,10 @@ class PartBuilder(object):
 
         ##
         # check that the targetPackage is loaded in (at least) those parts
-        # where mergePackage's deps are also loaded
+        # where mergePackage's deps are loaded
         def depsAvailWhereTarget (mergePackage, targetPackage):
             for depsPackage in mergePackage.packageDeps:
                 if not areInSameParts(targetPackage, depsPackage):
-                #if not targetPackage.id & depsPackage.id == targetPackage.id:
                     return False
             return True
 
@@ -431,11 +425,14 @@ class PartBuilder(object):
             if not noCircularDeps(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (circular dependencies)" % targetPackage.id)
                 if addtl_merge_constraints:
-                    continue
+                    continue   
+                # why accept this by default?
             if not depsAvailWhereTarget(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (dependencies not always available)" % targetPackage.id)
                 if addtl_merge_constraints:
-                    continue
+                    continue   
+                # why accept this by default?
+
             yield targetPackage
 
         yield None
