@@ -499,6 +499,22 @@ qx.Class.define("qx.ui.table.Table",
     },
 
     /**
+     * By default, the "cellContextmenu" event is fired only when a data cell
+     * is right-clicked. It is not fired when a right-click occurs in the
+     * empty area of the table below the last data row. By turning on this
+     * property, "cellContextMenu" events will also be generated when a
+     * right-click occurs in that empty area. In such a case, row identifier
+     * in the event data will be null, so event handlers can check (row ===
+     * null) to handle this case.
+     */
+    contextMenuFromDataCellsOnly :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyContextMenuFromDataCellsOnly"
+    },
+
+    /**
      * Whether the table should keep the first visible row complete. If set to false,
      * the first row may be rendered partial, depending on the vertical scroll value.
      */
@@ -1105,6 +1121,17 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].setShowCellFocusIndicator(value);
+      }
+    },
+
+
+    // property modifier
+    _applyContextMenuFromDataCellsOnly : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].setContextMenuFromDataCellsOnly(value);
       }
     },
 

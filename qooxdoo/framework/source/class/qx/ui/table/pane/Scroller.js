@@ -278,6 +278,22 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
+     * By default, the "cellContextmenu" event is fired only when a data cell
+     * is right-clicked. It is not fired when a right-click occurs in the
+     * empty area of the table below the last data row. By turning on this
+     * property, "cellContextMenu" events will also be generated when a
+     * right-click occurs in that empty area. In such a case, row identifier
+     * in the event data will be null, so event handlers can check (row ===
+     * null) to handle this case.
+     */
+    contextMenuFromDataCellsOnly :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+
+    /**
      * Whether to reset the selection when a header cell is clicked. Since
      * most data models do not have provisions to retain a selection after
      * sorting, the default is to reset the selection in this case. Some data
@@ -1441,7 +1457,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
-      if (this.__focusIndicator.isHidden() ||
+      /*
+       * The 'row' value will be null if the right-click was in the blank
+       * area below the last data row. Some applications desire to receive
+       * the context menu event anyway, and can set the property value of
+       * contextMenuFromDataCellsOnly to false to achieve that.
+       */
+      if (row === null && this.getContextMenuFromDataCellsOnly())
+      {
+        return;
+      }
+
+      if (! this.getShowCellFocusIndicator() ||
+          row === null ||
           (this.__lastMouseDownCell &&
            row == this.__lastMouseDownCell.row &&
            col == this.__lastMouseDownCell.col))
