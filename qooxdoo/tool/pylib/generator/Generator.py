@@ -1822,6 +1822,12 @@ class Generator(object):
         
         cmd = " ".join(textutil.quoteCommandArgs(argv))
         
+        settings = self._job.get("settings", None)
+        if settings:
+            settings = json.dumps(settings)
+            settings = "'settings=" + settings + "'"
+            cmd += " " + settings
+        
         self._console.debug("Selenium start command: " + cmd)
         shell = ShellCmd()
         shell.execute_logged(cmd, self._console, True)

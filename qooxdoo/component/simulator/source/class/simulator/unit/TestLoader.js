@@ -42,6 +42,10 @@ qx.Class.define("simulator.unit.TestLoader", {
     
     main : function()
     {
+      if (window.arguments) {
+        this._argumentsToSettings(window.arguments);
+      }
+      
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       var nameSpace = qx.core.Setting.get("simulator.nameSpace");
       
@@ -87,6 +91,33 @@ qx.Class.define("simulator.unit.TestLoader", {
         }
       }
       return settings;
+    },
+    
+    
+    /**
+     * Converts the value of the "settings" command line option to qx settings.
+     * 
+     * @param args {String[]} Rhino arguments object
+     */
+    _argumentsToSettings : function(args)
+    {
+      var opts;
+      for (var i=0, l=args.length; i<l; i++) {
+        if (args[i].indexOf("settings=") == 0) {
+          opts = args[i].substr(9);
+          break;
+        }
+      }
+      if (opts) {
+        opts = qx.lang.Json.parse(opts);
+        for (var prop in opts) {
+          try {
+            qx.core.Setting.define(prop, opts[prop]);
+          } catch(ex) {
+            this.error("Unable to define command-line setting " + prop + ": " + ex);
+          }
+        }
+      }
     }
   }
 });

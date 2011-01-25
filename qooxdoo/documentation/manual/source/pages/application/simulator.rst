@@ -73,14 +73,12 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
       "SIMULATOR_CLASSPATH" : ["../selenium/selenium-java-client-driver.jar", "../rhino/js.jar"]
     } 
 
-Additional options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details. 
-
-The "settings" section of the "simulation-build" job configures where the AUT is located and how to reach the Selenium RC server that will launch the test browser and run the test commands.
+The "settings" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium RC server that will launch the test browser and run the test commands.
 The following example shows the minimum configuration needed to build a Simulator application that will test the source version of the current library in Firefox 3 using a Selenium RC server instance running on the same machine (localhost):
 
 ::
 
-    "simulation-build" :
+    "simulation-run" :
     {
       "settings" :
       {
@@ -92,15 +90,16 @@ The following example shows the minimum configuration needed to build a Simulato
       }
     }
 
-See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-build>` for a listing of all supported settings and their default values.
-
-.. note::
-
-    Since these settings are integrated into the Simulator application by qooxdoo's compile process, the simulation-build job **must** be run again whenever configuration settings were modified. Future versions of the Simulator will get rid of this limitation by using a more flexible configuration approach.
-
+See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-run>` for a listing of all supported settings and their default values.
+Additional runtime options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details.
 
 Writing Test Cases
 ------------------
+
+As mentioned above, Simulator test cases are qooxdoo classes living (at least by default) in the application's **simulation** name space. 
+They inherit from simulator.unit.TestCase, which includes the assertion functions from qx.core.MAssert. 
+Simulator tests look very similar to qooxdoo unit tests as they follow the same pattern of **setUp**, **testSomething**, **tearDown**. Typically, each test* method will use the QxSelenium API to interact with some part of the AUT,
+then use assertions to check if the AUT's state has changed as expected, e.g. by querying the value of a qooxdoo property.
 
 The following articles describe the QxSelenium API in greater detail than can be covered here:
 
@@ -113,7 +112,7 @@ Generating the Simulator
 ------------------------
 The "simulation-build" job explained above is used to generate the Simulator application (in the AUT's root directory):
 
-.. note::
+::
 
   generate.py simulation-build
 
