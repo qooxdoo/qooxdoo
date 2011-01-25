@@ -142,13 +142,15 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     selectFirst : function()
     {
-      console.log("selectFirst")
+      var model = this.getChildControl("list").getModel();
+      this.__select(model, 0);
     },
 
 
     selectLast : function()
     {
-      console.log("selectLast")
+      var model = this.getChildControl("list").getModel();
+      this.__select(model, model.getLength() - 1);
     },
 
 
@@ -195,6 +197,16 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     _handleMouse : function(event)
     {
+    },
+    
+    
+    __select : function(model, index)
+    {
+      var selection = this.getSelection();
+      
+      if (model.getLength() > index) {
+        selection.splice(0, 1, model.getItem(index));
+      }
     }
   },
 

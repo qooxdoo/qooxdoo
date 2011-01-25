@@ -91,7 +91,24 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       
       this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
       this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
-    }
+    },
+    
+    testSelectFirst : function()
+    {
+      this.__dropdown.getSelection().push(this.__model.getItem(2));
+      
+      this.__dropdown.selectFirst();
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
+      this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
+    },
+    
+    testSelectLast : function()
+    {
+      this.__dropdown.selectLast();
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
+      this.assertEquals(this.__model.getItem(this.__model.getLength() - 1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
+    },
+    
   },
   
   destruct : function() {
