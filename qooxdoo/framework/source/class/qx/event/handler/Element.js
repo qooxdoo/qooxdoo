@@ -74,8 +74,8 @@ qx.Class.define("qx.event.handler.Element",
       submit : true   // Form Elements
     },
 
-    /** {MAP} Whether the event is cancleable */
-    CANCLEABLE :
+    /** {MAP} Whether the event is cancelable */
+    CANCELABLE :
     {
       selectstart: true
     },
@@ -169,7 +169,7 @@ qx.Class.define("qx.event.handler.Element",
       }
 
       var eventData = events[eventId];
-      var isCancelable = this.constructor.CANCLEABLE[eventData.type];
+      var isCancelable = this.constructor.CANCELABLE[eventData.type];
 
       qx.event.Registration.fireNonBubblingEvent(
         eventData.element, eventData.type,

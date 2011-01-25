@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired during a touch at the screen. */
     touchmove : "qx.event.type.Touch",
 
-    /** Fired if a touch at the screen is cancled. */
+    /** Fired if a touch at the screen is canceled. */
     touchcancel : "qx.event.type.Touch",
 
     /** Fired when a finger taps on the screen. */

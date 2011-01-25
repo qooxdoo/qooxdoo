@@ -54,10 +54,10 @@ qx.Class.define("performance.test.Event",
     },
 
 
-    testFireDataEventCancleable : function() {
+    testFireDataEventCancelable : function() {
       var that = this;
       this.measureRepeated(
-        "fire cancleable data events", function() {
+        "fire cancelable data events", function() {
           that.fireDataEvent("data", true, false, true);
         },
         function() {}, this.FIRE_ITERATIONS
