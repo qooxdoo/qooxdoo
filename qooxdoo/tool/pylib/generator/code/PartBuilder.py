@@ -27,7 +27,7 @@
 # - PartBuilder.getPackages()
 ##
 
-import sys
+import sys, collections
 from misc                   import util
 from generator.code.Part    import Part
 from generator.code.Package import Package
@@ -240,61 +240,60 @@ class PartBuilder(object):
 
 
     ##
-    # cut an initial set of packages out of the set of classes needed by the parts
-    # @returns {Map} { packageId : Package }
+    # Cut an initial set of packages out of the set of classes needed by the parts
+    # @returns {Array} [ Package ]
     def _getPackages(self, script):
         self._console.indent()
 
-        parts = script.parts
-        # Generating list of all classes
+        partObjs = script.parts.values()
+        # Generating list of all classes from the part dependencies
         allClasses = {}
-        for part in parts.values():
+        for part in partObjs:
             for classId in part.deps:
                 allClasses[classId] = True
+        allClasses = allClasses.keys()
 
         # Check for each class which part is using it;
         # create a package for each set of classes which
         # are used by the same combination of parts;
-        # track how many parts are using a particular package
         packages = {}
-        for classId in allClasses.keys():
-            pkgId     = 0
-
-            for part in parts.values():
+        for classId in allClasses:
+            pkgId = 0
+            # create part bit mask for this class
+            for part in partObjs:
                 if classId in part.deps:
-                    pkgId     |= part.bit_mask
-
-            if not packages.has_key(pkgId):
-                package            = Package(pkgId)
-                packages[pkgId]    = package
-
+                    pkgId |= part.bit_mask
+            # make sure target Package exists
+            if pkgId not in packages:
+                package = Package(pkgId)
+                packages[pkgId] = package
+            # store classId with this package
             packages[pkgId].classes.append(classId)
+        packages = packages.values()
 
-        # Which packages does a part use - and vice versa
-        for package in packages.values():
-            for part in parts.values():
+        # Register packages with using parts
+        for package in packages:
+            for part in partObjs:
                 if package.id & part.bit_mask:
                     part.packages.append(package)
-                    #package.parts.append(part)
                     
         # Register dependencies between Packages
-        for package in packages.values():
-            # get all direct deps of this package
+        for package in packages:
+            # get all direct (load)deps of this package
             allDeps = set(())
             for classId in package.classes:
-                classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                loadDeps    = set(x.name for x in classDeps['load'])
+                classDeps, _ = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                loadDeps = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 
-            # record the other packages in which these dependencies are located
+            # record the other packages in which these classes are contained
             for classId in allDeps:
-                for otherpackage in packages.values():
+                for otherpackage in packages:
                     if otherpackage != package and classId in otherpackage.classes:
-                        #print "-- package %s adding dependent package %s" % (package.id, otherpackage.id)
                         package.packageDeps.add(otherpackage)
          
         self._console.outdent()
-        return packages.values()
+        return packages
 
 
     def _computePackageSize(self, package, variants):
