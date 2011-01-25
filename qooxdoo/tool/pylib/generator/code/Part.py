@@ -30,8 +30,8 @@ class Part(object):
         self.name      = name
         self.bit_mask  = -1   # power of 2 identifying this part
         self.initial_deps = []   # initial deps, as defined in config
-        self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
-        self.packages  = []   # list of packages constituting this part
+        self.deps      = []   # list of classIds this part depends on, with defining classes from other parts excluded
+        self.packages  = []   # list of Packages constituting this part
         self.no_merge_private_package = False # whether the specific package in this part should be protected from merging
         self.is_ignored= False      # a part might get ignored, e.g. if it is empty
 

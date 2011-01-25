@@ -243,41 +243,51 @@ class PartBuilder(object):
     # Cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Array} [ Package ]
     def _getPackages(self, script):
+
+        ##
+        # Collect classes from parts, recording which class is used in which part
+        # @returns {Map} { classId : parts_bit_mask }
+        def getClassesFromParts(partObjs):
+            allClasses = collections.defaultdict(lambda: 0)
+            for part in partObjs:
+                for classId in part.deps:
+                    allClasses[classId] |= part.bit_mask  # a class used by multiple parts gets multiple bits
+            return allClasses
+
+        ##
+        # Create packages from classes
+        # @returns {Array} [ Package ]
+        def getPackagesFromClasses(allClasses):
+            packages = {}
+            for classId in allClasses:
+                pkgId = allClasses[classId]
+                # create a Package if necessary
+                if pkgId not in packages:
+                    package = Package(pkgId)
+                    packages[pkgId] = package
+                # store classId with this package
+                packages[pkgId].classes.append(classId)
+            return packages.values()
+
+        # ---------------------------------------------------------------
+
         self._console.indent()
 
-        partObjs = script.parts.values()
-        # Generating list of all classes from the part dependencies
-        allClasses = {}
-        for part in partObjs:
-            for classId in part.deps:
-                allClasses[classId] = True
-        allClasses = allClasses.keys()
+        parts = script.parts.values()
+        # generate list of all classes from the part dependencies
+        allClasses = getClassesFromParts(parts)
 
-        # Check for each class which part is using it;
-        # create a package for each set of classes which
-        # are used by the same combination of parts;
-        packages = {}
-        for classId in allClasses:
-            pkgId = 0
-            # create part bit mask for this class
-            for part in partObjs:
-                if classId in part.deps:
-                    pkgId |= part.bit_mask
-            # make sure target Package exists
-            if pkgId not in packages:
-                package = Package(pkgId)
-                packages[pkgId] = package
-            # store classId with this package
-            packages[pkgId].classes.append(classId)
-        packages = packages.values()
+        # Create a package for each set of classes which
+        # are used by the same parts
+        packages = getPackagesFromClasses(allClasses)
 
         # Register packages with using parts
         for package in packages:
-            for part in partObjs:
+            for part in parts:
                 if package.id & part.bit_mask:
                     part.packages.append(package)
                     
-        # Register dependencies between Packages
+        # Register dependencies between packages
         for package in packages:
             # get all direct (load)deps of this package
             allDeps = set(())
