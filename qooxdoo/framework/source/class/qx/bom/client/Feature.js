@@ -104,6 +104,18 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     PLACEHOLDER : false,
 
 
+    /** {BOOLEAN} Whether the client supports data urls or not. */
+    DATA_URL : (function() {
+      var data = new Image();
+      data.onload = data.onerror = function() {
+        if (data.width == 1 && data.height == 1) {
+          qx.bom.client.Feature.DATA_URL = true;
+        }
+      }
+      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      return false;
+    })(),
+
 
     /**
      * Internal initialize helper
