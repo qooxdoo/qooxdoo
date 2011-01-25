@@ -187,7 +187,7 @@ qx.Class.define("qx.util.AliasManager",
     getAliases : function()
     {
       var res = {};
-      for (key in this.__aliases){
+      for (var key in this.__aliases) {
         res[key] = this.__aliases[key];
       }
       return res;
