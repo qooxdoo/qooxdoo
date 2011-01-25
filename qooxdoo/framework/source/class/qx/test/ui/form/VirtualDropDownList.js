@@ -98,6 +98,19 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
     
     
+    testSelection : function()
+    {
+      var selection = this.__dropdown.getSelection();
+      
+      var that = this;
+      this.assertEventFired(selection, "change", function() {
+        selection.push(that.__model.getItem(2));
+      });
+      
+      this.__checkSelection(2);
+    },
+    
+    
     testSelectFirst : function()
     {
       var selection = this.__dropdown.getSelection();
