@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
 
-    this.initSelection(new qx.data.Array());
+    this.initSelection(this.getChildControl("dropdown").getSelection());
     this.bind("selection[0]", atom, "label", null);
   },
 
