@@ -242,7 +242,6 @@ class PartBuilder(object):
     ##
     # cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Map} { packageId : Package }
-
     def _getPackages(self, script):
         self._console.indent()
 
@@ -275,13 +274,9 @@ class PartBuilder(object):
         for package in packages.values():
             for part in parts.values():
                 if package.id & part.bit_mask:
-                    #part.packages.append(package.id)
                     part.packages.append(package)
-                    #package.parts.append(part.name)
                     #package.parts.append(part)
                     
-            #package.part_count = len(package.parts)
-
         # Register dependencies between Packages
         for package in packages.values():
             # get all direct deps of this package
