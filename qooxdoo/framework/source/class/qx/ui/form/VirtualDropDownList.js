@@ -24,6 +24,10 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
   construct : function(target)
   {
+    qx.core.Assert.assertNotNull(target, "Invalid parameter 'target'!");
+    qx.core.Assert.assertNotUndefined(target, "Invalid parameter 'target'!");
+    qx.core.Assert.assertInterface(target, qx.ui.form.AbstractVirtualPopupList, "Invalid parameter 'target'!");
+
     this.base(arguments, new qx.ui.layout.VBox());
 
     this._target = target;
