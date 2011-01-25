@@ -379,41 +379,39 @@ class PartBuilder(object):
 
 
 
-    def _getPreviousCommonPackage(self, searchPackage, packages):
-        # get the "smallest" package (in the sense of _sortPackages()) that is 
-        # in all parts searchPackage is in, and is earlier in the corresponding
-        # packages lists
-
-        def isCommonAndGreaterPackage(searchPackage, package):  
-            # the next takes advantage of the fact that the package id encodes
-            # the parts a package is used by. if another package id has the
-            # same bits turned on, it is in the same packages. this is only
-            # true for the searchId package itself and package id's that have
-            # more bits turned on (ie. are "greater"); hence, and due to 
-            # _sortPackages, they are earlier in the packages list of the
-            # corresponding parts
-            if searchPackage.id & package.id == searchPackage.id:
-                return True
-            return False
+    ##
+    # get the "smallest" package (in the sense of _sortPackages()) that is 
+    # in all parts mergePackage is in, and is earlier in the corresponding
+    # packages lists
+    def _getPreviousCommonPackage(self, mergePackage, packages):
 
         ##
-        # check if the deps of searchPackage have deps to targetPackage - 
-        # if merging searchPackage into targetPackage, this would be creating
-        # circular dependencies
+        # the next takes advantage of the fact that the package id encodes
+        # the parts a package is used by. if another package id has the
+        # same bits turned on, it is in the same parts. this is only
+        # true for the searchId package itself, and package id's that have
+        # more bits turned on (ie. are "greater"); hence, and due to 
+        # _sortPackages, they are earlier in the packages list of the
+        # corresponding parts
+        def areInSameParts(mergePackage, package):  
+            return (mergePackage.id & package.id) == mergePackage.id
 
-        def noCircularDeps(searchPackage, targetPackage):
-            for package in searchPackage.packageDeps:
+        ##
+        # check if the deps of mergePackage have deps to targetPackage - 
+        # if merging mergePackage into targetPackage, this would be creating
+        # circular dependencies
+        def noCircularDeps(mergePackage, targetPackage):
+            for package in mergePackage.packageDeps:
                 if targetPackage in package.packageDeps:
                     return False
             return True
 
         ##
         # check that the targetPackage is loaded in (at least) those parts
-        # where searchPackage's deps are also loaded
-
-        def depsAvailWhereTarget (searchPackage, targetPackage):
-            for depsPackage in searchPackage.packageDeps:
-                if not isCommonAndGreaterPackage(targetPackage, depsPackage):
+        # where mergePackage's deps are also loaded
+        def depsAvailWhereTarget (mergePackage, targetPackage):
+            for depsPackage in mergePackage.packageDeps:
+                if not areInSameParts(targetPackage, depsPackage):
                 #if not targetPackage.id & depsPackage.id == targetPackage.id:
                     return False
             return True
@@ -422,21 +420,21 @@ class PartBuilder(object):
 
         allPackages  = reversed(Package.sort(packages))
                                 # sorting and reversing assures we try "smaller" package id's first
-        additional_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
+        addtl_merge_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
 
         for targetPackage in allPackages:
-            if searchPackage.id == targetPackage.id:  # no self-merging ;)
+            if mergePackage.id == targetPackage.id:  # no self-merging ;)
                 continue
-            if not isCommonAndGreaterPackage(searchPackage, targetPackage):
+            if not areInSameParts(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (different parts using)" % targetPackage.id)
                 continue
-            if not noCircularDeps(searchPackage, targetPackage):
+            if not noCircularDeps(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (circular dependencies)" % targetPackage.id)
-                if additional_constraints:
+                if addtl_merge_constraints:
                     continue
-            if not depsAvailWhereTarget(searchPackage, targetPackage):
+            if not depsAvailWhereTarget(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (dependencies not always available)" % targetPackage.id)
-                if additional_constraints:
+                if addtl_merge_constraints:
                     continue
             yield targetPackage
 
