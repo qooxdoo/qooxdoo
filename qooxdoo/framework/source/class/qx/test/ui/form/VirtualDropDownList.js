@@ -37,11 +37,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     });
   },
   
+  
   members :
   {
     __target : null,
     __dropdown : null,
     __model : null,
+    
     
     setUp : function()
     {
@@ -56,6 +58,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.getRoot().add(this.__target);
     },
     
+    
     tearDown : function()
     {
       this.base(arguments);
@@ -65,17 +68,6 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.__target = null;
       this.__dropdown = null;
       this.__model = null;
-    },
-    
-    __createModelData : function()
-    {
-      var model = new qx.data.Array();
-
-      for (var i = 0; i < 100; i++) {
-        model.push("item " + (i + 1));
-      }
-
-      return model;
     },
     
     
@@ -94,6 +86,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       }, Error, "Invalid parameter 'target'!");
     },
     
+    
     testCreation : function()
     {
       var model = this.__dropdown.getChildControl("list").getModel();
@@ -104,54 +97,104 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.__checkSelection(0);
     },
     
+    
     testSelectFirst : function()
     {
       var selection = this.__dropdown.getSelection();
       selection.push(this.__model.getItem(2));
       
-      this.__dropdown.selectFirst();
+      var that = this;
+      this.assertEventFired(selection, "change", function() {
+        that.__dropdown.selectFirst();
+      });
+      
+      this.__checkSelection(0);
+      
+      this.assertEventNotFired(selection, "change", function() {
+        that.__dropdown.selectFirst();
+      });
       
       this.__checkSelection(0);
     },
     
+    
     testSelectLast : function()
     {
-      this.__dropdown.selectLast();
+      var selection = this.__dropdown.getSelection();
+      
+      var that = this;
+      this.assertEventFired(selection, "change", function() {
+        that.__dropdown.selectLast();
+      });
+      
+      this.__checkSelection(this.__model.getLength() - 1);
+      
+      var that = this;
+      this.assertEventNotFired(selection, "change", function() {
+        that.__dropdown.selectLast();
+      });
       
       this.__checkSelection(this.__model.getLength() - 1);
     },
+    
     
     testSelectPrevious : function()
     {
       var selection = this.__dropdown.getSelection();
       
-      this.__dropdown.selectPrevious();
+      var that = this;
+      this.assertEventNotFired(selection, "change", function() {
+        that.__dropdown.selectPrevious();
+      });
       
       this.__checkSelection(0);
       
       var index = 1;
       selection.push(this.__model.getItem(index));
       
-      this.__dropdown.selectPrevious();
+      var that = this;
+      this.assertEventFired(selection, "change", function() {
+        that.__dropdown.selectPrevious();
+      });
 
       this.__checkSelection(index - 1);
     },
+    
     
     testSelectNext : function()
     {
       var selection = this.__dropdown.getSelection();
       
-      this.__dropdown.selectNext();
+      var that = this;
+      this.assertEventFired(selection, "change", function() {
+        that.__dropdown.selectNext();
+      });
       
       this.__checkSelection(1);
       
       var index = this.__model.getLength() - 1;
       selection.push(this.__model.getItem(index));
       
-      this.__dropdown.selectNext();
+      var that = this;
+      this.assertEventNotFired(selection, "change", function() {
+        that.__dropdown.selectNext();
+      });
 
       this.__checkSelection(index);
     },
+    
+    
+    __createModelData : function()
+    {
+      var model = new qx.data.Array();
+
+      for (var i = 0; i < 100; i++) {
+        model.push("item " + (i + 1));
+      }
+
+      return model;
+    },
+    
     
     __checkSelection : function(modelIndex)
     {
@@ -161,6 +204,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.assertEquals(this.__model.getItem(modelIndex), selection.getItem(0), "Selection instance not equals!");
     }
   },
+  
   
   destruct : function() {
     qx.Class.undefine("qx.ui.form.AbstractVirtualPopupListMock");

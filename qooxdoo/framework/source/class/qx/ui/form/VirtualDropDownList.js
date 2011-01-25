@@ -228,8 +228,13 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     {
       var selection = this.getSelection();
       
-      if (model.getLength() > index) {
-        selection.splice(0, 1, model.getItem(index));
+      if (model.getLength() > index)
+      {
+        var item = model.getItem(index);
+        
+        if (!selection.contains(item)) {
+          selection.splice(0, 1, item);
+        }
       }
     }
   },
