@@ -156,13 +156,38 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     selectPrevious : function()
     {
-      console.log("selectPrevious")
+      var model = this.getChildControl("list").getModel();
+      
+      if (model.contains(this.getSelection().getItem(0)))
+      {
+        var index = model.indexOf(this.getSelection().getItem(0));
+        index = index - 1;
+        
+        if (index < 0) {
+          index = 0;
+        }
+        
+        this.__select(model, index);
+      }
     },
 
 
     selectNext : function()
     {
-      console.log("selectNext")
+      var model = this.getChildControl("list").getModel();
+      var index = model.indexOf(this.getSelection().getItem(0));
+      
+      if (model.contains(this.getSelection().getItem(0)))
+      {
+        var index = model.indexOf(this.getSelection().getItem(0));
+        index = index + 1;
+        
+        if (index >= model.getLength()) {
+          index = model.getLength() - 1;
+        }
+        
+        this.__select(model, index);
+      }
     },
 
 
@@ -190,7 +215,6 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       clone.setTarget(this.getChildControl("list"));
       clone.setBubbles(false);
 
-      console.log("on list")
       this.getChildControl("list").dispatchEvent(clone);
     },
 

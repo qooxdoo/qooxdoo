@@ -109,6 +109,35 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.assertEquals(this.__model.getItem(this.__model.getLength() - 1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
     },
     
+    testSelectPrevious : function()
+    {
+      this.__dropdown.selectPrevious();
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (1)");
+      this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (1)");
+      
+      var index = 1;
+      this.__dropdown.getSelection().push(this.__model.getItem(index));
+      
+      this.__dropdown.selectPrevious();
+
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (2)");
+      this.assertEquals(this.__model.getItem(index - 1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (2)");
+    },
+    
+    testSelectNext : function()
+    {
+      this.__dropdown.selectNext();
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (1)");
+      this.assertEquals(this.__model.getItem(1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (1)");
+      
+      var index = this.__model.getLength() - 1;
+      this.__dropdown.getSelection().push(this.__model.getItem(index));
+      
+      this.__dropdown.selectNext();
+
+      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (2)");
+      this.assertEquals(this.__model.getItem(index), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (2)");
+    }
   },
   
   destruct : function() {
