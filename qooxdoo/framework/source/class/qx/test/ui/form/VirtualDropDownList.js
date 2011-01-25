@@ -71,7 +71,8 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       return model;
     },
     
-    testCreation : function()
+    
+    testException : function()
     {
       this.assertException(function() {
         new qx.ui.form.VirtualDropDownList();
@@ -84,59 +85,75 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.assertException(function() {
         new qx.ui.form.VirtualDropDownList(new qx.ui.core.Widget());
       }, Error, "Invalid parameter 'target'!");
+    },
+    
+    testCreation : function()
+    {
+      var model = this.__dropdown.getChildControl("list").getModel();
+      var selection = this.__dropdown.getSelection();
       
-      this.assertEquals(this.__model.getLength(), this.__dropdown.getChildControl("list").getModel().getLength(), "Model length not equals!");
-      this.assertEquals(this.__model, this.__dropdown.getChildControl("list").getModel(), "Model instance not equals!");
-      this.assertEquals(this.__model, this.__dropdown.getChildControl("list").getModel(), "Model instance on list not equals!");
+      this.assertEquals(this.__model.getLength(), model.getLength(), "Model length not equals!");
+      this.assertEquals(this.__model, model, "Model instance not equals!");
       
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
-      this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
+      this.assertEquals(1, selection.getLength(), "Selection length not equals!");
+      this.assertEquals(this.__model.getItem(0), selection.getItem(0), "Selection instance not equals!");
     },
     
     testSelectFirst : function()
     {
-      this.__dropdown.getSelection().push(this.__model.getItem(2));
+      var selection = this.__dropdown.getSelection();
+      selection.push(this.__model.getItem(2));
       
       this.__dropdown.selectFirst();
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
-      this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
+      
+      this.assertEquals(1, selection.getLength(), "Selection length not equals!");
+      this.assertEquals(this.__model.getItem(0), selection.getItem(0), "Selection instance not equals!");
     },
     
     testSelectLast : function()
     {
+      var selection = this.__dropdown.getSelection();
+      
       this.__dropdown.selectLast();
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals!");
-      this.assertEquals(this.__model.getItem(this.__model.getLength() - 1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals!");
+      
+      this.assertEquals(1, selection.getLength(), "Selection length not equals!");
+      this.assertEquals(this.__model.getItem(this.__model.getLength() - 1), selection.getItem(0), "Selection instance not equals!");
     },
     
     testSelectPrevious : function()
     {
+      var selection = this.__dropdown.getSelection();
+      
       this.__dropdown.selectPrevious();
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (1)");
-      this.assertEquals(this.__model.getItem(0), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (1)");
+      
+      this.assertEquals(1, selection.getLength(), "Selection length not equals! (1)");
+      this.assertEquals(this.__model.getItem(0), selection.getItem(0), "Selection instance not equals! (1)");
       
       var index = 1;
-      this.__dropdown.getSelection().push(this.__model.getItem(index));
+      selection.push(this.__model.getItem(index));
       
       this.__dropdown.selectPrevious();
 
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (2)");
-      this.assertEquals(this.__model.getItem(index - 1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (2)");
+      this.assertEquals(1, selection.getLength(), "Selection length not equals! (2)");
+      this.assertEquals(this.__model.getItem(index - 1), selection.getItem(0), "Selection instance not equals! (2)");
     },
     
     testSelectNext : function()
     {
+      var selection = this.__dropdown.getSelection();
+      
       this.__dropdown.selectNext();
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (1)");
-      this.assertEquals(this.__model.getItem(1), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (1)");
+      
+      this.assertEquals(1, selection.getLength(), "Selection length not equals! (1)");
+      this.assertEquals(this.__model.getItem(1), selection.getItem(0), "Selection instance not equals! (1)");
       
       var index = this.__model.getLength() - 1;
-      this.__dropdown.getSelection().push(this.__model.getItem(index));
+      selection.push(this.__model.getItem(index));
       
       this.__dropdown.selectNext();
 
-      this.assertEquals(1, this.__dropdown.getSelection().getLength(), "Selection length not equals! (2)");
-      this.assertEquals(this.__model.getItem(index), this.__dropdown.getSelection().getItem(0), "Selection instance not equals! (2)");
+      this.assertEquals(1, selection.getLength(), "Selection length not equals! (2)");
+      this.assertEquals(this.__model.getItem(index), selection.getItem(0), "Selection instance not equals! (2)");
     }
   },
   
