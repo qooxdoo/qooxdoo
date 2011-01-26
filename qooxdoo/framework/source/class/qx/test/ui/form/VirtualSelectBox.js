@@ -20,30 +20,33 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
 {
   extend : qx.test.ui.LayoutTestCase,
 
+
   members :
   {
     __selectBox : null,
-    
+
+
     setUp : function()
     {
       this.base(arguments);
-      
+
       this.__model = this.__createModelData();
       this.__selectBox = new qx.ui.form.VirtualSelectBox(this.__model);
       this.getRoot().add(this.__selectBox);
 
       this.flush();
     },
-    
+
+
     tearDown : function()
     {
       this.base(arguments);
-      
+
       this.__selectBox.destroy();
       this.__selectBox = null;
       this.__model = null;
     },
-    
+
     __createModelData : function()
     {
       var model = new qx.data.Array();
@@ -54,13 +57,14 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
 
       return model;
     },
-    
+
+
     testCreation : function()
     {
       this.assertEquals(this.__model.getLength(), this.__selectBox.getModel().getLength(), "Model length not equals!");
       this.assertEquals(this.__model, this.__selectBox.getModel(), "Model instance not equals!");
       this.assertEquals(this.__model, this.__selectBox.getChildControl("dropdown").getChildControl("list").getModel(), "Model instance on list not equals!");
-      
+
       this.assertEquals(1, this.__selectBox.getSelection().getLength(), "Selection length not equals!");
       this.assertEquals(this.__model.getItem(0), this.__selectBox.getSelection().getItem(0), "Selection instance not equals!");
     }
