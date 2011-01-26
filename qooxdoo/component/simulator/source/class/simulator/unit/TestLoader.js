@@ -18,107 +18,29 @@
 ************************************************************************ */
 
 /**
- * Creates and runs a suite of integration tests using QxSelenium.
+ * Creates a suite of integration tests.
  */
 
 qx.Class.define("simulator.unit.TestLoader", {
 
-  extend : qx.application.Native,
+  extend : qx.core.Object,
 
-  statics :
+  properties :
   {
-    /**
-     * {Array} Names of optional configuration settings for the 
-     * {@link simulator.QxSimulation} instance to be used for this test. 
-     * Options are defined as settings in the "simulation" job.  
-     */
-    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
-                    "globalErrorLogging", "testEvents", "disposerDebug", 
-                    "applicationLog"]
+    /** The test suite */
+    suite : {
+      check    : "qx.dev.unit.TestSuite"
+    }
   },
   
-  members :
+  /**
+   * 
+   * @param nameSpace {String} Test namespace, e.g. myapplication.simulation.*
+   */
+  construct : function(nameSpace)
   {
-    
-    main : function()
-    {
-      if (window.arguments) {
-        this._argumentsToSettings(window.arguments);
-      }
-      
-      qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      var nameSpace = qx.core.Setting.get("simulator.nameSpace");
-      
-      var qxSelenium = simulator.QxSelenium.create(
-        qx.core.Setting.get("simulator.selServer"),
-        qx.core.Setting.get("simulator.selPort"),
-        qx.core.Setting.get("simulator.testBrowser"),
-        qx.core.Setting.get("simulator.autHost"));
-      
-      var simulation = this.simulation = new simulator.QxSimulation(qxSelenium, 
-        qx.core.Setting.get("simulator.autHost"),
-        qx.core.Setting.get("simulator.autPath"),
-        this._getOptionalSettings());
-      
-      simulation.startSession();
-      simulation.logEnvironment();
-      simulation.logUserAgent();
-      simulation.qxSelenium.setSpeed("1000");
-      
-      var suite = new qx.dev.unit.TestSuite(nameSpace);
-      var testResult = new simulator.unit.TestResult();
-      suite.run(testResult);
-      
-      simulation.logRunTime();
-      simulation.qxSelenium.stop();
-    },
-    
-    
-    /**
-     * Returns a map containing QxSimulation options.
-     * 
-     * @return {Map} Settings map
-     */
-    _getOptionalSettings : function()
-    {
-      var settings = {};
-      var names = simulator.unit.TestLoader.SETTING_NAMES;
-      for (var i=0,l=names.length; i<l; i++) {
-        try {
-          settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);
-        } catch(ex) {
-          settings[names[i]] = null;
-        }
-      }
-      return settings;
-    },
-    
-    
-    /**
-     * Converts the value of the "settings" command line option to qx settings.
-     * 
-     * @param args {String[]} Rhino arguments object
-     */
-    _argumentsToSettings : function(args)
-    {
-      var opts;
-      for (var i=0, l=args.length; i<l; i++) {
-        if (args[i].indexOf("settings=") == 0) {
-          opts = args[i].substr(9);
-          break;
-        }
-      }
-      if (opts) {
-        opts = qx.lang.Json.parse(opts);
-        for (var prop in opts) {
-          try {
-            qx.core.Setting.define(prop, opts[prop]);
-          } catch(ex) {
-            this.error("Unable to define command-line setting " + prop + ": " + ex);
-          }
-        }
-      }
-    }
+    var suite = new qx.dev.unit.TestSuite(nameSpace);
+    this.setSuite(suite);
   }
 });
 

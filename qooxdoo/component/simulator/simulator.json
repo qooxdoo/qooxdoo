@@ -36,7 +36,7 @@
         "qx.Mixin",
         "qx.Interface",
         "simulator.Init",
-        "simulator.unit.TestLoader",
+        "simulator.Application",
         "${SIMULATION_INCLUDE}"
       ],
       
@@ -74,7 +74,7 @@
       
       "settings" :
       {
-        "qx.application" : "simulator.unit.TestLoader",
+        "qx.application" : "simulator.Application",
         "simulator.nameSpace" : "${APPLICATION}.simulation",
         "qx.globalErrorHandling" : "off"
       }

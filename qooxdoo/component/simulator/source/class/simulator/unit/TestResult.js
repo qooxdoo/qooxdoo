@@ -18,7 +18,8 @@
 ************************************************************************ */
 
 /**
- * The test result class runs the test functions and logs the results.
+ * The test result class runs test functions and fires events as the test's 
+ * state changes.
  */
  
 qx.Class.define("simulator.unit.TestResult", {
@@ -28,7 +29,7 @@ qx.Class.define("simulator.unit.TestResult", {
   events :
   {
     /**
-     * Fired before the test is started
+     * Fired before the test function is called
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
@@ -41,14 +42,14 @@ qx.Class.define("simulator.unit.TestResult", {
     endTest   : "qx.event.type.Data",
 
     /**
-     * Fired if the test raised an {@link qx.core.AssertionError}
+     * Fired if an error was thrown during test execution
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     error     : "qx.event.type.Data",
 
     /**
-     * Fired if the test failed with a different exception
+     * Fired if the test raised an {@link qx.core.AssertionError}
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
@@ -77,29 +78,27 @@ qx.Class.define("simulator.unit.TestResult", {
         } catch(except) {}
         this.fireDataEvent("error", ex);
         this.fireDataEvent("endTest", test);
-        this.error("Error setting up " + test.getFullName() + ": " + ex);
         return;
       }
       
       try {
         testFunction.call(self);
-        this.info("PASS  " + test.getFullName());
       }
       catch(ex)
       {
         if (ex.classname == "qx.core.AssertionError") {
-          try {
-            test.tearDown();
-          } catch(except) {}
           this.fireDataEvent("failure", ex);
-          this.error("FAIL  " + test.getFullName() + "\n" + ex);
-        } else {
-          try {
-            test.tearDown();
-          } catch(except) {}
-          this.fireDataEvent("error", ex);
-          this.error("ERROR " + test.getFullName() + "\n" + ex);
         }
+        else {
+          this.fireDataEvent("error", ex);
+        }
+      }
+      
+      try {
+        test.tearDown();
+      } 
+      catch(ex) {
+        this.fireDataEvent("error", ex);
       }
       
       this.fireDataEvent("endTest", test);
