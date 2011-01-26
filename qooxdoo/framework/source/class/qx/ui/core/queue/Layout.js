@@ -57,6 +57,17 @@ qx.Class.define("qx.ui.core.queue.Layout",
       qx.ui.core.queue.Manager.scheduleFlush("layout");
     },
 
+    /**
+    * Check whether the queue has scheduled changes for a widget.
+    * Note that the layout parent can have changes scheduled that
+    * affect the children widgets.
+    *
+    * @param widget {qx.ui.core.Widget} Widget to check.
+    * @return {Boolean} Whether the widget given has layout changes queued.
+    */
+    isScheduled : function(widget) {
+      return !!this.__queue[widget.$$hash];
+    },
 
     /**
      * Update the layout of all widgets, which layout is marked as invalid.
