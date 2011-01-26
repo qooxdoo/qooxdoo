@@ -477,16 +477,20 @@ class LibraryVersion:
           buildQueue[qxVersion].append(jobData)
           
       elif buildTarget == "source":
-        qxVersion = self.manifest["info"]["qooxdoo-versions"][0]
-        if not qxVersion in buildQueue:
-          buildQueue[qxVersion] = []
-        tempdir = tempfile.gettempdir()
-        macro = {
-          "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
-          "CACHE"        : tempdir + "/cache/" + qxVersion
-        }
-        jobData = (variant, buildTarget, macro, demoBrowser)
-        buildQueue[qxVersion].append(jobData)
+        qxVersion = None
+        for compatibleVersion in self.manifest["info"]["qooxdoo-versions"]:
+          if compatibleVersion[:2] != "0.":
+            qxVersion = compatibleVersion
+        if qxVersion:
+          if not qxVersion in buildQueue:
+            buildQueue[qxVersion] = []
+          tempdir = tempfile.gettempdir()
+          macro = {
+            "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
+            "CACHE"        : tempdir + "/cache/" + qxVersion
+          }
+          jobData = (variant, buildTarget, macro, demoBrowser)
+          buildQueue[qxVersion].append(jobData)
     
     
     return buildQueue
