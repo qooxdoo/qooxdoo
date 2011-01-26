@@ -387,7 +387,7 @@ class PartBuilder(object):
     # get the "smallest" package (in the sense of _sortPackages()) that is 
     # in all parts mergePackage is in, and is earlier in the corresponding
     # packages lists
-    def _getPreviousCommonPackage(self, mergePackage, packages):
+    def _findMergeTarget(self, mergePackage, packages):
 
         ##
         # if another package id has the same bits turned on, it is available
@@ -396,7 +396,7 @@ class PartBuilder(object):
             return (mergePackage.id & package.id) == mergePackage.id
 
         ##
-        # check if the deps of mergePackage have deps to targetPackage - 
+        # check if any of the deps of mergePackage depend on targetPackage - 
         # if merging mergePackage into targetPackage, this would be creating
         # circular dependencies
         def noCircularDeps(mergePackage, targetPackage):
@@ -406,7 +406,7 @@ class PartBuilder(object):
             return True
 
         ##
-        # check that the targetPackage is loaded in (at least) those parts
+        # check that the targetPackage is loaded in those parts
         # where mergePackage's deps are loaded
         def depsAvailWhereTarget (mergePackage, targetPackage):
             for depsPackage in mergePackage.packageDeps:
@@ -593,7 +593,7 @@ class PartBuilder(object):
         self._console.indent()
         # find toPackage
         toPackage = None
-        for toPackage in self._getPreviousCommonPackage(fromPackage, packages):
+        for toPackage in self._findMergeTarget(fromPackage, packages):
             if toPackage == None:
                 break
             elif seen_targets != None:
