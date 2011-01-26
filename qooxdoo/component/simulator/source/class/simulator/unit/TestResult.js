@@ -25,6 +25,36 @@ qx.Class.define("simulator.unit.TestResult", {
 
   extend : qx.core.Object,
   
+  events :
+  {
+    /**
+     * Fired before the test is started
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    startTest : "qx.event.type.Data",
+
+    /** Fired after the test has finished
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    endTest   : "qx.event.type.Data",
+
+    /**
+     * Fired if the test raised an {@link qx.core.AssertionError}
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    error     : "qx.event.type.Data",
+
+    /**
+     * Fired if the test failed with a different exception
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    failure   : "qx.event.type.Data"
+  },  
+  
   members :
   {
     
@@ -37,12 +67,16 @@ qx.Class.define("simulator.unit.TestResult", {
      */
     run : function(test, testFunction, self)
     {
+      this.fireDataEvent("startTest", test);
+      
       try {
         test.setUp();
       } catch(ex) {
         try {
           test.tearDown();
-        } catch(ex) {}
+        } catch(except) {}
+        this.fireDataEvent("error", ex);
+        this.fireDataEvent("endTest", test);
         this.error("Error setting up " + test.getFullName() + ": " + ex);
         return;
       }
@@ -56,15 +90,19 @@ qx.Class.define("simulator.unit.TestResult", {
         if (ex.classname == "qx.core.AssertionError") {
           try {
             test.tearDown();
-          } catch(ex) {}
+          } catch(except) {}
+          this.fireDataEvent("failure", ex);
           this.error("FAIL  " + test.getFullName() + "\n" + ex);
         } else {
           try {
             test.tearDown();
-          } catch(ex) {}
+          } catch(except) {}
+          this.fireDataEvent("error", ex);
           this.error("ERROR " + test.getFullName() + "\n" + ex);
         }
       }
+      
+      this.fireDataEvent("endTest", test);
     }
   }
   
