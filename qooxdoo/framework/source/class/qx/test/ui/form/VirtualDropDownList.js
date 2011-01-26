@@ -103,7 +103,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var selection = this.__dropdown.getSelection();
       
       var that = this;
-      this.assertEventFired(selection, "change", function() {
+      this.__checkEvent(selection, function() {
         selection.push(that.__model.getItem(2));
       });
       
@@ -117,7 +117,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       selection.push(this.__model.getItem(2));
       
       var that = this;
-      this.assertEventFired(selection, "change", function() {
+      this.__checkEvent(selection, function() {
         that.__dropdown.selectFirst();
       });
       
@@ -136,7 +136,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var selection = this.__dropdown.getSelection();
       
       var that = this;
-      this.assertEventFired(selection, "change", function() {
+      this.__checkEvent(selection, function() {
         that.__dropdown.selectLast();
       });
       
@@ -166,7 +166,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       selection.push(this.__model.getItem(index));
       
       var that = this;
-      this.assertEventFired(selection, "change", function() {
+      this.__checkEvent(selection, function() {
         that.__dropdown.selectPrevious();
       });
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var selection = this.__dropdown.getSelection();
       
       var that = this;
-      this.assertEventFired(selection, "change", function() {
+      this.__checkEvent(selection, function() {
         that.__dropdown.selectNext();
       });
       
@@ -219,6 +219,15 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
       this.assertEquals(selection.getLength(), listSelection.getLength(), "Selection length not equals with list selection length!");
       this.assertEquals(selection.getItem(0), listSelection.getItem(0), "Selection instance not equals with list selection instance!");
+    },
+    
+    __checkEvent : function(target, callback) 
+    {
+      var count = 0;
+      this.assertEventFired(target, "change", callback, function() {
+        count++;
+      });
+      this.assertEquals(1, count, "The event is fired more than once!");
     }
   },
   
