@@ -219,9 +219,11 @@ qx.Class.define("qx.dev.Tokenizer",
      * indentation.
      *
      * @param javaScriptText {String} String of JavaScript code to tokenize
+     * @param forPreTag {Boolean ? false} Whatever the HTML should be generated
+     *   for a pre tag or not
      * @return {String} HTML fragment with the colored JavaScript code.
      */
-    javaScriptToHtml : function(javaScriptText)
+    javaScriptToHtml : function(javaScriptText, forPreTag)
     {
       var tokens = qx.dev.Tokenizer.tokenizeJavaScript(javaScriptText);
       var js = new qx.util.StringBuilder();
@@ -254,12 +256,12 @@ qx.Class.define("qx.dev.Tokenizer",
             break;
 
           case "nl":
-            var nl = qx.bom.client.Engine.MSHTML ? "<br>" : "\n";
+            var nl = qx.bom.client.Engine.MSHTML && !forPreTag ? "<br>" : "\n";
             js.add(nl);
             break;
 
           case "ws":
-            var ws = qx.bom.client.Engine.MSHTML ? "&nbsp;" : " ";
+            var ws = qx.bom.client.Engine.MSHTML && !forPreTag ? "&nbsp;" : " ";
             js.add(ws);
             break;
 
