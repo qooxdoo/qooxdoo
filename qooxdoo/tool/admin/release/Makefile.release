@@ -50,6 +50,7 @@ FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn
 CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
 
+# Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
@@ -82,6 +83,11 @@ release-sdk-svn-collect:
 	@echo "  * Extracting sources..."
 	@$(CMD_DIR) `dirname $(RELEASE_SDK)`
 	@$(CMD_SVN) export . $(RELEASE_SDK)
+
+	@echo "  * Preparing index.html..."
+	@cat ./index.html | \
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > $(RELEASE_SDK)/index.html
 
 	@echo "  * Synchronizing applications/components..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/buildtool/
