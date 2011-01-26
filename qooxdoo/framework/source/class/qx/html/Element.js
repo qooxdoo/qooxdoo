@@ -1737,6 +1737,7 @@ qx.Class.define("qx.html.Element",
       if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollLeft = x;
+        delete this.__lazyScrollX;
       }
       else
       {
@@ -1779,6 +1780,7 @@ qx.Class.define("qx.html.Element",
       if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollTop = y;
+        delete this.__lazyScrollY;
       }
       else
       {
