@@ -211,6 +211,56 @@ qx.Class.define("qx.test.ui.core.Widget",
       w.destroy();
     },
 
+    testScrollChildIntoViewChangesScheduled : function() {
+      var msg,
+          scrollPane,
+          scrollTopInitial,
+          scrollTop;
+
+      var scroll = new qx.ui.container.Scroll().set({
+        width: 100,
+        height: 100
+      });
+      this.getRoot().add(scroll);
+
+      var outer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      scroll.add(outer);
+
+      var inner1 = new qx.ui.core.Widget().set({
+        height: 100,
+        backgroundColor: "red"
+      });
+      outer.add(inner1);
+
+      var inner2 = new qx.ui.core.Widget().set({
+        height: 20,
+        backgroundColor: "green"
+      });
+      outer.add(inner2);
+
+      scrollPane = scroll._getChildren()[0];
+
+      // Scroll and flush
+      scroll.scrollChildIntoView(inner2);
+      this.flush();
+      scrollTopInitial = scrollPane.getContentElement().getDomElement().scrollTop;
+
+      // Scroll, do not flush
+      inner1.setHeight(200);
+      scroll.scrollChildIntoView(inner2);
+
+      qx.event.Timer.once(function() {
+        scrollTop = scrollPane.getContentElement().getDomElement().scrollTop;
+      }, this, 250);
+
+      this.wait(500, function() {
+        msg = "Must scroll further down, but was: " + scrollTopInitial + " is: " + scrollTop;
+        this.assert(scrollTop > scrollTopInitial, msg);
+        scroll.destroy();
+      }, this);
+
+    },
+
     testLazyScrollChildIntoViewY : function()
     {
       var scroll = new qx.ui.container.Scroll().set({
