@@ -1,8 +1,3 @@
-/* ************************************************************************
-
-#require qx.test.performance.RunnerPatch
-
-************************************************************************ */
 qx.Mixin.define("qx.test.performance.MMeasure",
 {
   members :
