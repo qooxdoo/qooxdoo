@@ -93,16 +93,17 @@ qx.Class.define("simulator.QxSimulation", {
      * Waits until qx.core.Init.getApplication() in the AUT window returns 
      * something.
      * 
-     * @throws {Error} If the application isn't ready within 30 seconds
+     * @param timeout {Integer} Time to wait (in milliseconds). Default: 3000
+     * @throws {Error} If the application isn't ready within the timeout
      */
-    waitForQxApplication : function()
+    waitForQxApplication : function(timeout)
     {
       var qxAppReady = 'var qxReady = false; try { if (' + 
                   simulator.QxSimulation.AUTWINDOW + '.' + 
                   simulator.QxSimulation.QXAPPLICATION + 
                   ') { qxReady = true; } } catch(e) {} qxReady;';
                             
-      this.qxSelenium.waitForCondition(qxAppReady, 30000);
+      this.qxSelenium.waitForCondition(qxAppReady, timeout || 30000);
     },
     
     
