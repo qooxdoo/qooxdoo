@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/**
+ * Basic class for a widgets which need a list as popup for example a select box. 
+ * Basically supports a drop-down as popup with a list and the whole children management.
+ *
+ * @childControl dropdown {qx.ui.form.VirtualDropDownList} The drop-down list.
+ */
 qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 {
   extend  : qx.ui.core.Widget,
@@ -25,6 +31,11 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
   type : "abstract",
 
 
+  /**
+   * Constructs the widget with the passed model.
+   * 
+   * @param model {qx.data.Array?null} The model data for the widget.
+   */
   construct : function(model)
   {
     this.base(arguments);
@@ -60,6 +71,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       init : true
     },
 
+    
     // overridden
     width :
     {
@@ -142,7 +154,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     },
 
 
-    /** Default item height */
+    /** Default item height. */
     itemHeight :
     {
       check : "Integer",
@@ -153,7 +165,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * The maximum height of the list popup. Setting this value to
+     * The maximum height of the drop-down list. Setting this value to
      * <code>null</code> will set cause the list to be auto-sized.
      */
     maxListHeight :
@@ -162,20 +174,6 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       apply : "_applyMaxListHeight",
       nullable: true,
       init : 200
-    },
-
-
-    /**
-     * Formatter which format the value from the selected <code>ListItem</code>.
-     * Uses the default formatter {@link #_defaultFormat}.
-     */
-    format :
-    {
-      check : "Function",
-      init : function(item) {
-        return this._defaultFormat(item);
-      },
-      nullable : true
     }
   },
 
@@ -190,6 +188,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       focused : true
     },
 
+    
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -269,16 +268,15 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * Shows the list popup.
+     * Shows the list drop-down.
      */
-    open : function()
-    {
+    open : function() {
       this.getChildControl("dropdown").open();
     },
 
 
     /**
-     * Hides the list popup.
+     * Hides the list drop-down.
      */
     close : function() {
       this.getChildControl("dropdown").close();
@@ -286,10 +284,9 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * Toggles the popup's visibility.
+     * Toggles the drop-down visibility.
      */
-    toggle : function()
-    {
+    toggle : function() {
       this.getChildControl("dropdown").toggle();
     },
 
@@ -304,13 +301,20 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     /**
      * Handler for the blur event of the current widget.
      *
-     * @param e {qx.event.type.Focus} The blur event.
+     * @param event {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(e) {
+    _onBlur : function(event) {
       this.close();
     },
 
 
+    /**
+     * Handles the complete keyboard events for user interaction. 
+     * If there is no defined user interaction {@link #_getAction}, 
+     * the event is delegated to the drop-down.
+     * 
+     * @param event {qx.event.type.KeySequence} The keyboard event.
+     */
     _handleKeyboard : function(event)
     {
       var action = this._getAction(event);
@@ -348,6 +352,11 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     },
 
 
+    /**
+     * Handles all mouse events dispatched on the widget.
+     * 
+     * @param event {qx.event.type.Mouse|qx.event.type.MouseWheel} The mouse event.
+     */
     _handleMouse : function(event)
     {
       var type = event.getType();
@@ -368,10 +377,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     /**
      * Updates list minimum size.
      *
-     * @param e {qx.event.type.Data} Data event
+     * @param event {qx.event.type.Data} Data event
      */
-    _onResize : function(e){
-      this.getChildControl("dropdown").setMinWidth(e.getData().width);
+    _onResize : function(event){
+      this.getChildControl("dropdown").setMinWidth(event.getData().width);
     },
 
 
@@ -382,6 +391,15 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     */
 
 
+    /**
+     * Returns the action dependent on the user interaction: <code>open</code>, 
+     * <code>close</code>, <code>selectPrevious</code>, <code>selectNext</code>,
+     * <code>selectFirst</code> or <code>selectLast</code>.
+     * 
+     * @param event {qx.event.type.KeySequence} The keyboard event.
+     * @return {String|null} The action or <code>null</code> when interaction doen't hit
+     *  any action. 
+     */
     _getAction : function(event)
     {
       var keyIdentifier = event.getKeyIdentifier();
@@ -402,16 +420,6 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       } else {
         return null;
       }
-    },
-
-
-    _defaultFormat : function(item)
-    {
     }
-  },
-
-
-  destruct : function()
-  {
   }
 });

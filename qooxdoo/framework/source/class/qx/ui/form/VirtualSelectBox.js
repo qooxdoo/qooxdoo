@@ -17,10 +17,19 @@
 
 ************************************************************************ */
 
+/**
+ * A form virtual widget which allows a single selection. Looks somewhat like
+ * a normal button, but opens a virtual list of items to select when clicking on it.
+ *
+ * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.
+ * @childControl atom {qx.ui.basic.Atom} Shows the text and icon of the content.
+ * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down list.
+ */
 qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
   extend : qx.ui.form.AbstractVirtualPopupList,
 
+  
   construct : function(model)
   {
     this.base(arguments, model);
@@ -53,7 +62,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
-    /** Current selected items */
+    /** Current selected items. */
     selection :
     {
       check : "qx.data.Array",
@@ -132,21 +141,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
-    __bindAtom : function() {
-      var atom = this.getChildControl("atom");
-
-      this.removeAllBindings();
-
-      var labelSourcePath = this.__getBindPath(this.getLabelPath());
-      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
-      
-      if (this.getIconPath() != null) {
-        var iconSourcePath = this.__getBindPath(this.getIconPath());
-        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
-      }
-    },
-    
-    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -179,6 +173,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     */
 
 
+    // overridden
     _handleMouse : function(event)
     {
       this.base(arguments, event);
@@ -190,9 +185,18 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
-    _onMouseOver : function(e)
+    /**
+     * Listener method for "mouseover" event.
+     * <ul>
+     * <li>Adds state "hovered"</li>
+     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
+     * </ul>
+     *
+     * @param event {Event} Mouse event
+     */
+    _onMouseOver : function(event)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || event.getTarget() !== this) {
         return;
       }
 
@@ -206,9 +210,18 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
-    _onMouseOut : function(e)
+    /**
+     * Listener method for "mouseout" event.
+     * <ul>
+     * <li>Removes "hovered" state</li>
+     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
+     * </ul>
+     *
+     * @param event {Event} Mouse event
+     */
+    _onMouseOut : function(event)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || event.getTarget() !== this) {
         return;
       }
 
@@ -229,6 +242,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     */
 
 
+    // overridden
     _getAction : function(event)
     {
       var keyIdentifier = event.getKeyIdentifier();
@@ -241,7 +255,31 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
     },
 
+    
+    /**
+     * Helper method to bind the selected item with the atom.
+     */
+    __bindAtom : function() {
+      var atom = this.getChildControl("atom");
 
+      this.removeAllBindings();
+
+      var labelSourcePath = this.__getBindPath(this.getLabelPath());
+      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
+      
+      if (this.getIconPath() != null) {
+        var iconSourcePath = this.__getBindPath(this.getIconPath());
+        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
+      }
+    },
+    
+
+    /**
+     * Helper Method to create bind path depended on the passed path.
+     * 
+     * @param path {String?null} The path to the property.
+     * @return {String} The created path.
+     */
     __getBindPath : function(path)
     {
       var bindPath = "selection[0]";

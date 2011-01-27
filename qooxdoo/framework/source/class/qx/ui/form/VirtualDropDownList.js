@@ -17,11 +17,21 @@
 
 ************************************************************************ */
 
+/**
+ * A drop-down (popup) widget which contains a virtual list for selection.
+ * 
+ * @childControl list {qx.ui.list.List} The virtual list.
+ */
 qx.Class.define("qx.ui.form.VirtualDropDownList",
 {
   extend  : qx.ui.popup.Popup,
 
 
+  /**
+   * Creates the drop-down list.
+   * 
+   * @param target {qx.ui.form.AbstractVirtualPopupList} The composite widget.
+   */
   construct : function(target)
   {
     qx.core.Assert.assertNotNull(target, "Invalid parameter 'target'!");
@@ -51,6 +61,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       init : false
     },
 
+    
     // overridden
     keepActive :
     {
@@ -59,7 +70,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
-    /** Current selected items */
+    /** Current selected items. */
     selection :
     {
       check : "qx.data.Array",
@@ -73,15 +84,19 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
   members :
   {
+    /** {qx.ui.form.AbstractVirtualPopupList} The composite widget. */
     _target : null,
 
-
+    
+    /** {var} The pre-selected model item. */
     _preselected : null,
 
-
+    
+    /** {Boolean} Indicator to ignore selection changes from the {@link #selection} array. */ 
     __ignoreSelection : false,
 
 
+    /** {Boolean} Indicator to ignore selection changes from the list. */
     __ignoreListSelection : false,
 
 
@@ -120,7 +135,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     /**
-     * Shows the list popup.
+     * Shows the list drop-down.
      */
     open : function()
     {
@@ -130,7 +145,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     /**
-     * Hides the list popup.
+     * Hides the list drop-down.
      */
     close : function() {
       this.hide();
@@ -138,7 +153,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     /**
-     * Toggles the popup's visibility.
+     * Toggles the drop-down visibility.
      */
     toggle : function()
     {
@@ -150,6 +165,9 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Selects the first item from the list.
+     */
     selectFirst : function()
     {
       var model = this.getChildControl("list").getModel();
@@ -157,6 +175,9 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Selects the last item from the list.
+     */
     selectLast : function()
     {
       var model = this.getChildControl("list").getModel();
@@ -164,6 +185,10 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Selects the previous item from the list, depends on which item is currently
+     * selected item.
+     */
     selectPrevious : function()
     {
       var model = this.getChildControl("list").getModel();
@@ -182,6 +207,10 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Selects the next item from the list, depends on which item is currently
+     * selected item.
+     */
     selectNext : function()
     {
       var model = this.getChildControl("list").getModel();
@@ -207,6 +236,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     ---------------------------------------------------------------------------
     */
 
+    
     // property apply
     _applySelection : function(value, old)
     {
@@ -226,6 +256,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Handles the complete keyboard events dispatched on the widget.
+     * 
+     * @param event {qx.event.type.KeySequence} The keyboard event.
+     */
     _handleKeyboard : function(event)
     {
       if (this.isVisible() && event.getKeyIdentifier() === "Enter") {
@@ -241,11 +277,23 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Handles all mouse events dispatched on the widget.
+     * 
+     * @param event {qx.event.type.Mouse} The mouse event.
+     */
     _handleMouse : function(event) {
       this.__selectPreselected();
     },
     
     
+    /**
+     * Handler for the local selection change. The method is responsible for
+     * the synchronization between the own selection and the selection
+     * form the list.
+     * 
+     * @param event {qx.event.type.Data} The data event.
+     */
     __onChangeSelection : function(event)
     {
       if (this.__ignoreSelection) {
@@ -265,6 +313,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    /**
+     * Handler for the selection change on the list. The method is responsible for
+     * the synchronization between the list selection and the own selection.
+     * 
+     * @param event {qx.event.type.Data} The data event.
+     */
     _onListChangeSelection : function(event)
     {
       if (this.__ignoreListSelection) {
@@ -284,6 +338,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    /**
+     * Handler for the own visibility changes. The method is responsible that
+     * the list selects the current selected item.
+     * 
+     * @param event {qx.event.type.Data} The event.
+     */
     __onChangeVisibility : function(event)
     {
       if (this.isVisible())
@@ -302,6 +362,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     */
     
     
+    /**
+     * Helper method to select passed index form the model.
+     * 
+     * @param model {qx.data.Array} The model for selection.
+     * @param index {Integer} Index to select.
+     */
     __select : function(model, index)
     {
       var selection = this.getSelection();
@@ -317,6 +383,10 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    /**
+     * Helper method to select the current preselected item, 
+     * also closes the drop-down.
+     */
     __selectPreselected : function()
     {
       if (this._preselected != null)
@@ -328,6 +398,13 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
+    /**
+     * Helper method to synchronize both selection. The target selection
+     * has the same selection like the source selection after the synchronization.
+     * 
+     * @param source {qx.data.Array} The source selection.
+     * @param target {qx.data.Array} The target selection.
+     */
     __synchronizeSelection : function(source, target)
     {
       if (source.equals(target)) {
@@ -350,10 +427,5 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
         target.removeAll();
       }
     }
-  },
-
-
-  destruct : function()
-  {
   }
 });
