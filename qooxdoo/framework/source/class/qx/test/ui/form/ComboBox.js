@@ -101,8 +101,12 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       list.setSelection([item]);
       this.flush();
 
+      var that = this;
       var msg = "Must focus on close";
-      var closeCombobox = qx.lang.Function.bind(combobox.close, combobox);
+      var closeCombobox = qx.lang.Function.bind(function() {
+        combobox.close();
+        that.flush();
+      }, combobox);
       this.assertEventFired(combobox, "focusin", closeCombobox, null, msg);
 
       msg = "Must select all text";
@@ -122,8 +126,12 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       combobox.setValue("Item 0");
       this.flush();
 
+      var that = this;
       var msg = "Must not focus";
-      var closeCombobox = qx.lang.Function.bind(combobox.close, combobox);
+      var closeCombobox = qx.lang.Function.bind(function() {
+        combobox.close();
+        that.flush();
+      }, combobox);
       this.assertEventNotFired(combobox, "focusin", closeCombobox, null, msg);
 
       msg = "Must not select all text";
