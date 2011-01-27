@@ -94,6 +94,8 @@ qx.Class.define("qx.html.Root",
     * Prevent text selection by force for browsers where disabling
     * text selection by means of CSS has undesirable side-effects,
     * e.g. text not being searchable in Chrome.
+    * 
+    * @param e {qx.event.type.Native} Selection event
     */
     __forcePreventSelection : function(e) {
       var node = e.getTarget();
