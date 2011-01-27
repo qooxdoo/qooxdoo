@@ -34,6 +34,9 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     var list = this._createChildControl("list");
     list.getSelection().addListener("change", this._onListChangeSelection, this);
+    list.addListener("mousedown", this._handleMouse, this);
+
+    this.addListener("changeVisibility", this.__onChangeVisibility, this);
 
     this.initSelection(new qx.data.Array());
   },
@@ -225,6 +228,11 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     _handleKeyboard : function(event)
     {
+      if (this.isVisible() && event.getKeyIdentifier() === "Enter") {
+        this.__selectPreselected();
+        return;
+      }
+
       var clone = event.clone();
       clone.setTarget(this.getChildControl("list"));
       clone.setBubbles(false);
@@ -233,8 +241,8 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
 
 
-    _handleMouse : function(event)
-    {
+    _handleMouse : function(event) {
+      this.__selectPreselected();
     },
     
     
@@ -276,6 +284,17 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    __onChangeVisibility : function(event)
+    {
+      if (this.isVisible())
+      {
+        var selection = this.getSelection();
+        var listSelection = this.getChildControl("list").getSelection();
+        this.__synchronizeSelection(selection, listSelection);
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -298,6 +317,17 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    __selectPreselected : function()
+    {
+      if (this._preselected != null)
+      {
+        var selection = this.getSelection();
+        selection.splice(0, 1, this._preselected);
+        this.close();
+      }
+    },
+
+
     __synchronizeSelection : function(source, target)
     {
       if (source.equals(target)) {

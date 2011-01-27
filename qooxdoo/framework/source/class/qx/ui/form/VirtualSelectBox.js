@@ -25,16 +25,21 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
   {
     this.base(arguments, model);
 
-    var atom = this._createChildControl("atom");
+    this._createChildControl("atom");
     this._createChildControl("spacer");
     this._createChildControl("arrow");
 
     // Register listener
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
+    this.addListener("changeLabelPath", this.__bindAtom, this);
+    this.addListener("changeLabelOptions", this.__bindAtom, this);
+    this.addListener("changeIconPath", this.__bindAtom, this);
+    this.addListener("changeIconOptions", this.__bindAtom, this);
 
     this.initSelection(this.getChildControl("dropdown").getSelection());
-    this.bind("selection[0]", atom, "label", null);
+
+    qx.ui.core.queue.Widget.add(this);
   },
 
 
@@ -67,6 +72,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     iconPath :
     {
       check: "String",
+      event : "changeIconPath",
       apply: "_applyIconPath",
       nullable: true
     },
@@ -79,6 +85,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     iconOptions :
     {
       apply: "_applyIconOptions",
+      event : "changeIconOptions",
       nullable: true
     }
   },
@@ -86,6 +93,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
   members :
   {
+    // overridden
+    syncWidget : function() {
+      this.__bindAtom();
+    },
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -119,6 +132,21 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
+    __bindAtom : function() {
+      var atom = this.getChildControl("atom");
+
+      this.removeAllBindings();
+
+      var labelSourcePath = this.__getBindPath(this.getLabelPath());
+      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
+      
+      if (this.getIconPath() != null) {
+        var iconSourcePath = this.__getBindPath(this.getIconPath());
+        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -134,13 +162,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     // property apply
     _applyIconPath : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
     },
 
 
     // property apply
     _applyIconOptions : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
     },
 
 
@@ -211,11 +239,23 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       } else {
         return this.base(arguments, event);
       }
+    },
+
+
+    __getBindPath : function(path)
+    {
+      var bindPath = "selection[0]";
+
+      if (path != null && path != "") {
+        bindPath += "." + path;
+      }
+
+      return bindPath;
     }
   },
 
 
-  destruct : function()
-  {
+  destruct : function() {
+    this.removeAllBindings();
   }
 });

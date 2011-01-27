@@ -101,6 +101,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     {
       check: "String",
       apply: "_applyLabelPath",
+      event: "changeLabelPath",
       nullable: true
     },
 
@@ -125,6 +126,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     labelOptions :
     {
       apply: "_applyLabelOptions",
+      event: "changeLabelOptions",
       nullable: true
     },
 
@@ -219,37 +221,37 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     // property apply
     _applyDelegate : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
     },
 
 
     // property apply
     _applyLabelPath : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setLabelPath(value);
     },
 
 
     // property apply
     _applyGroupLabelPath : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setGroupLabelPath(value);
     },
 
 
     // property apply
     _applyLabelOptions : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
     },
 
 
     // property apply
     _applyGroupLabelOptions : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setGroupLabelOptions(value);
     },
 
 
     // property apply
     _applyRowHeight : function(value, old) {
-
+      this.getChildControl("dropdown").getChildControl("list").setRowHeight(value);
     },
 
 
