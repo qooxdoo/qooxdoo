@@ -229,6 +229,7 @@ class PartBuilder(object):
             # Remove all unknown classes
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
                 if not classId in classList:
+                    self._console.warn("Removing unknown class dependency '%s' from config of part #%s" % (classId, part.name))
                     partClasses.remove(classId)
 
             # Store

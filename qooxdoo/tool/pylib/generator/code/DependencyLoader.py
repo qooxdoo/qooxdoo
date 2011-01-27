@@ -66,7 +66,8 @@ class DependencyLoader(object):
             # Resolve intelli include/exclude depdendencies
             if len(includeWithDeps) == 0 and len(includeNoDeps) > 0:
                 if len(excludeWithDeps) > 0:
-                    raise ValueError("Blocking is not supported when only explicit includes are defined!");
+                    #raise ValueError("Blocking is not supported when only explicit includes are defined!");
+                    pass
                 result = []
             else:
                 result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps, script)
@@ -74,7 +75,7 @@ class DependencyLoader(object):
             return result
 
 
-        def processExplicitCludes(result):
+        def processExplicitCludes(result, includeNoDeps, excludeNoDeps):
             # Explicit include/exclude
             if len(includeNoDeps) > 0 or len(excludeNoDeps) > 0:
                 self._console.info("Processing explicitely configured includes/excludes...")
@@ -95,7 +96,7 @@ class DependencyLoader(object):
             buildType = ""
 
         result = resolveDepsSmartCludes()
-        result = processExplicitCludes(result)
+        result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
         self._console.info("Sorting %s classes " % len(result), False)
         if  self._jobconf.get("dependencies/sort-topological", False):
