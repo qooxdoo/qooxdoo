@@ -37,20 +37,17 @@ qx.Class.define("simulator.TestRunner", {
   construct : function()
   {
     this.base(arguments);
-    
+    this.simulation = simulator.Init.getApplication().simulation;
     var testNameSpace = qx.core.Setting.get("simulator.nameSpace");
     var loader = new simulator.unit.TestLoader(testNameSpace);
     this.suite = loader.getSuite();
-          
-    var qxSelenium = this.getQxSelenium();
-    this.simulation = this.getSimulation(qxSelenium);
   },
   
   members :
   {
     simulation : null,
     suite : null,
-    __currentTest : null,
+    _currentTest : null,
     
     /**
      * Runs all tests in the current suite.
@@ -93,7 +90,7 @@ qx.Class.define("simulator.TestRunner", {
      */
     _testStarted : function(ev)
     {
-      this.__currentTest = ev.getData();
+      this._currentTest = ev.getData();
     },
     
     /**
@@ -106,7 +103,7 @@ qx.Class.define("simulator.TestRunner", {
     {
       var exception = ev.getData();
       this._addExceptionToTest(exception);
-      this.error("ERROR " + this.__currentTest.getFullName() + ": " + exception);
+      this.error("ERROR " + this._currentTest.getFullName() + ": " + exception);
     },
     
     /**
@@ -119,7 +116,7 @@ qx.Class.define("simulator.TestRunner", {
     {
       var exception = ev.getData();
       this._addExceptionToTest(exception);
-      this.error("FAIL  " + this.__currentTest.getFullName() + ": " + exception);
+      this.error("FAIL  " + this._currentTest.getFullName() + ": " + exception);
     },
     
     /**
@@ -130,8 +127,8 @@ qx.Class.define("simulator.TestRunner", {
      */
     _testEnded : function(ev)
     {
-      if (!this.__currentTest.exceptions) {
-        this.info("PASS  " + this.__currentTest.getFullName());
+      if (!this._currentTest.exceptions) {
+        this.info("PASS  " + this._currentTest.getFullName());
       }
     },
     
@@ -143,63 +140,10 @@ qx.Class.define("simulator.TestRunner", {
      */
     _addExceptionToTest : function(exception)
     {
-      if (!this.__currentTest.exceptions) {
-        this.__currentTest.exceptions = [];
+      if (!this._currentTest.exceptions) {
+        this._currentTest.exceptions = [];
       }
-      this.__currentTest.exceptions.push(exception);
-    },
-    
-    /**
-     * Returns a map containing QxSimulation options.
-     * 
-     * @return {Map} Settings map
-     */
-    _getOptionalSettings : function()
-    {
-      var settings = {};
-      var names = simulator.TestRunner.SETTING_NAMES;
-      for (var i=0,l=names.length; i<l; i++) {
-        try {
-          settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);
-        } catch(ex) {
-          settings[names[i]] = null;
-        }
-      }
-      return settings;
-    },
-    
-    /**
-     * Configures and returns a QxSelenium instance.
-     * 
-     * @return {simulator.QxSelenium}
-     */
-    getQxSelenium : function()
-    {
-      var qxSelenium = simulator.QxSelenium.create(
-        qx.core.Setting.get("simulator.selServer"),
-        qx.core.Setting.get("simulator.selPort"),
-        qx.core.Setting.get("simulator.testBrowser"),
-        qx.core.Setting.get("simulator.autHost"));
-      qxSelenium.setSpeed("1000");
-      
-      return qxSelenium;
-    },
-    
-    /**
-     * Configures and returns a QxSimulation instance.
-     * 
-     * @param qxSelenium {simulator.QxSelenium} QxSelenium instance to be used
-     * by this QxSimulation
-     * @return {simulator.QxSimulation}
-     */
-    getSimulation : function(qxSelenium)
-    {
-      var simulation = new simulator.QxSimulation(qxSelenium, 
-        qx.core.Setting.get("simulator.autHost"),
-        qx.core.Setting.get("simulator.autPath"),
-        this._getOptionalSettings());
-      
-      return simulation;
+      this._currentTest.exceptions.push(exception);
     }
   }
   

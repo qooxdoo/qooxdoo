@@ -32,6 +32,9 @@ qx.Class.define("simulator.Application", {
       
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
+      var qxSelenium = this.getQxSelenium();
+      this.simulation = this.getSimulation(qxSelenium);
+      
       this.runner = new simulator.TestRunner();
       this.runner.runTests();
     },
@@ -60,6 +63,59 @@ qx.Class.define("simulator.Application", {
           }
         }
       }
+    },
+    
+    /**
+     * Returns a map containing QxSimulation options.
+     * 
+     * @return {Map} Settings map
+     */
+    _getOptionalSettings : function()
+    {
+      var settings = {};
+      var names = simulator.TestRunner.SETTING_NAMES;
+      for (var i=0,l=names.length; i<l; i++) {
+        try {
+          settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);
+        } catch(ex) {
+          settings[names[i]] = null;
+        }
+      }
+      return settings;
+    },
+    
+    /**
+     * Configures and returns a QxSelenium instance.
+     * 
+     * @return {simulator.QxSelenium}
+     */
+    getQxSelenium : function()
+    {
+      var qxSelenium = simulator.QxSelenium.create(
+        qx.core.Setting.get("simulator.selServer"),
+        qx.core.Setting.get("simulator.selPort"),
+        qx.core.Setting.get("simulator.testBrowser"),
+        qx.core.Setting.get("simulator.autHost"));
+      qxSelenium.setSpeed("1000");
+      
+      return qxSelenium;
+    },
+    
+    /**
+     * Configures and returns a QxSimulation instance.
+     * 
+     * @param qxSelenium {simulator.QxSelenium} QxSelenium instance to be used
+     * by this QxSimulation
+     * @return {simulator.QxSimulation}
+     */
+    getSimulation : function(qxSelenium)
+    {
+      var simulation = new simulator.QxSimulation(qxSelenium, 
+        qx.core.Setting.get("simulator.autHost"),
+        qx.core.Setting.get("simulator.autPath"),
+        this._getOptionalSettings());
+      
+      return simulation;
     }
   }
   
