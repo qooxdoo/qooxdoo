@@ -122,6 +122,7 @@ class PartBuilder(object):
         self._console.info("Verifying Parts...")
         self._console.indent()
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
+        allpartsclasses = []
 
         for part in partsMap.values():
             if part.is_ignored:  # skip ignored parts
@@ -135,6 +136,7 @@ class PartBuilder(object):
                 for classId in package.classes:
                     classList.append(classId)
                     classPackage.append(packageIdx)
+            allpartsclasses.extend(classList)
             # 1) Check the initial part defining classes are included (trivial sanity)
             for classId in part.initial_deps:
                 if classId not in classList:
@@ -150,7 +152,10 @@ class PartBuilder(object):
                     classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                     loadDeps    = set(x.name for x in classDeps['load'])
                     ignoreDeps  = set(x.name for x in classDeps['ignore'])
-                    for depsId in loadDeps.difference(ignoreDeps): # + runDeps:
+                    # we cannot enforce run-time deps here, as e.g. the 'boot'
+                    # part necessarily lacks classes from subsequent parts
+                    # (that's the whole point of parts)
+                    for depsId in loadDeps.difference(ignoreDeps):
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
@@ -161,6 +166,12 @@ class PartBuilder(object):
                     #if missingDeps:  # there is a load dep not in the part
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
             self._console.outdent()
+
+        # 4) Check all classes from the global class list are contained in
+        # *some* part
+        missingclasses = set(x.id for x in script.classesObj).difference(allpartsclasses)
+        if missingclasses:
+            handleError("Not all necessary classes are covered by parts: %r" % missingclasses)
 
         self._console.outdent()
         return
