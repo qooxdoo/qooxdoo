@@ -274,7 +274,7 @@ qx.Class.define("qx.bom.element.Scroll",
           // event asynchronously.
           //
           // The widget layer expects the "scroll" event to be fired before
-          // the "appear event". Fire non-bubbling "scroll" in all browsers,
+          // the "appear" event. Fire non-bubbling "scroll" in all browsers,
           // since a duplicate "scroll" should not cause any issues and it
           // is hard to track which version of the browser engine started to
           // follow the CSSOM Spec. Fixes [BUG #4570].
