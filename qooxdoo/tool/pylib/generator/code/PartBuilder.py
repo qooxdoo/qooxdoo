@@ -152,7 +152,7 @@ class PartBuilder(object):
                     classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
                     loadDeps    = set(x.name for x in classDeps['load'])
                     ignoreDeps  = set(x.name for x in classDeps['ignore'])
-                    # we cannot enforce run-time deps here, as e.g. the 'boot'
+                    # we cannot enforce runDeps here, as e.g. the 'boot'
                     # part necessarily lacks classes from subsequent parts
                     # (that's the whole point of parts)
                     for depsId in loadDeps.difference(ignoreDeps):
@@ -207,7 +207,7 @@ class PartBuilder(object):
     def _getPartDeps(self, script, smartExclude):
         parts    = script.parts
         variants = script.variants
-        classList= script.classes
+        globalClassList = [x.id for x in script.classesObj]
 
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
@@ -225,7 +225,7 @@ class PartBuilder(object):
 
             # Remove unknown classes before checking dependencies
             for classId in part.deps[:]:
-                if not classId in classList:
+                if not classId in globalClassList :
                     part.deps.remove(classId)
 
             # Checking we have something to include
@@ -237,9 +237,9 @@ class PartBuilder(object):
             # Finally resolve the dependencies
             partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script)
 
-            # Remove all unknown classes
+            # Remove all unknown classes  -- TODO: Can this ever happen here?!
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
-                if not classId in classList:
+                if not classId in globalClassList:
                     self._console.warn("Removing unknown class dependency '%s' from config of part #%s" % (classId, part.name))
                     partClasses.remove(classId)
 
