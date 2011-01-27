@@ -32,7 +32,8 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     this._target = target;
 
-    this._createChildControl("list");
+    var list = this._createChildControl("list");
+    list.getSelection().addListener("change", this._onListChangeSelection, this);
 
     this.initSelection(new qx.data.Array());
   },
@@ -73,6 +74,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     _preselected : null,
+
+
+    __ignoreSelection : false,
+
+
+    __ignoreListSelection : false,
 
 
     // overridden
@@ -198,8 +205,15 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     */
 
     // property apply
-    _applySelection : function(value, old) {
-      this.getChildControl("list").setSelection(value);
+    _applySelection : function(value, old)
+    {
+      value.addListener("change", this.__onChangeSelection, this);
+      
+      if (old != null) {
+        old.removeListener("change", this.__onChangeSelection, this);
+      }
+
+      this.__synchronizeSelection(value, this.getChildControl("list").getSelection(value));
     },
 
 
@@ -224,6 +238,51 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     },
     
     
+    __onChangeSelection : function(event)
+    {
+      if (this.__ignoreSelection) {
+        return;
+      }
+
+      var selection = this.getSelection();
+      var listSelection = this.getChildControl("list").getSelection();
+
+      this.__ignoreListSelection = true;
+      this.__synchronizeSelection(selection, listSelection);
+      this.__ignoreListSelection = false;
+
+      this.__ignoreSelection = true;
+      this.__synchronizeSelection(listSelection, selection);
+      this.__ignoreSelection = false;
+    },
+    
+    
+    _onListChangeSelection : function(event)
+    {
+      if (this.__ignoreListSelection) {
+        return;
+      }
+      
+      var listSelection = this.getChildControl("list").getSelection();
+      var model = this.getChildControl("list").getModel();
+      
+      if (this.isVisible()) {
+        this._preselected = listSelection.getItem(0);
+      } else {
+        this.__ignoreSelection = true;
+        this.__synchronizeSelection(listSelection, this.getSelection());
+        this.__ignoreSelection = false;
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    
     __select : function(model, index)
     {
       var selection = this.getSelection();
@@ -235,6 +294,30 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
         if (!selection.contains(item)) {
           selection.splice(0, 1, item);
         }
+      }
+    },
+    
+    
+    __synchronizeSelection : function(source, target)
+    {
+      if (source.equals(target)) {
+        return;
+      }
+      
+      var nativeArray = target.toArray();
+      
+      qx.lang.Array.removeAll(nativeArray);
+      for (var i = 0; i < source.getLength(); i++) {
+        nativeArray.push(source.getItem(i));
+      }
+      target.length = nativeArray.length;
+
+      if (target.getLength() > 0)
+      {
+        var lastIndex = target.getLength() - 1;
+        target.splice(lastIndex, 1, target.getItem(lastIndex));
+      } else {
+        target.removeAll();
       }
     }
   },

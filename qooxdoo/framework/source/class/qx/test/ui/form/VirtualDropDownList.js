@@ -109,9 +109,17 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var that = this;
       this.__checkEvent(selection, function() {
         selection.push(that.__model.getItem(2));
-      });
+      }, 2);
 
       this.__checkSelection(2);
+      
+      
+      var that = this;
+      this.__checkEvent(selection, function() {
+        selection.splice(0, 1, that.__model.getItem(4));
+      }, 1);
+
+      this.__checkSelection(4);
     },
 
 
@@ -123,7 +131,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var that = this;
       this.__checkEvent(selection, function() {
         that.__dropdown.selectFirst();
-      });
+      }, 1);
 
       this.__checkSelection(0);
 
@@ -142,7 +150,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var that = this;
       this.__checkEvent(selection, function() {
         that.__dropdown.selectLast();
-      });
+      }, 1);
 
       this.__checkSelection(this.__model.getLength() - 1);
 
@@ -172,7 +180,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var that = this;
       this.__checkEvent(selection, function() {
         that.__dropdown.selectPrevious();
-      });
+      }, 1);
 
       this.__checkSelection(index - 1);
     },
@@ -185,7 +193,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var that = this;
       this.__checkEvent(selection, function() {
         that.__dropdown.selectNext();
-      });
+      }, 1);
 
       this.__checkSelection(1);
 
@@ -226,13 +234,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
-    __checkEvent : function(target, callback)
+    __checkEvent : function(target, callback, fired)
     {
       var count = 0;
       this.assertEventFired(target, "change", callback, function() {
         count++;
       });
-      this.assertEquals(1, count, "The event is fired more than once!");
+      this.assertEquals(fired, count, "The event is not fired the expected times!");
     }
   },
 
