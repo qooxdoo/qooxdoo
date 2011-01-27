@@ -43,7 +43,7 @@ qx.Class.define("simulator.unit.TestCase", {
         return this.__simulation;
       }
       
-      this.__simulation = simulator.Init.getApplication().runner.simulation;
+      this.__simulation = simulator.Init.getApplication().simulation;
       return this.__simulation;
     }
   }
