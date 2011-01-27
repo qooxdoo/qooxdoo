@@ -208,8 +208,8 @@ qx.Class.define("qx.ui.virtual.selection.Row",
         bottom: itemBottom
       }
     },
-    
-    
+
+
     /**
      * The default selection selects the first possible item when the
      * selection mode is "one" and no item is selected.

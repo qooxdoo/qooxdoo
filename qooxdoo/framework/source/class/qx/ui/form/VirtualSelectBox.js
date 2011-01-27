@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
   extend : qx.ui.form.AbstractVirtualPopupList,
 
-  
+
   construct : function(model)
   {
     this.base(arguments, model);
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
     },
 
-    
+
     /**
      * Helper method to bind the selected item with the atom.
      */
@@ -266,17 +266,17 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
       var labelSourcePath = this.__getBindPath(this.getLabelPath());
       this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
-      
+
       if (this.getIconPath() != null) {
         var iconSourcePath = this.__getBindPath(this.getIconPath());
         this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
       }
     },
-    
+
 
     /**
      * Helper Method to create bind path depended on the passed path.
-     * 
+     *
      * @param path {String?null} The path to the property.
      * @return {String} The created path.
      */

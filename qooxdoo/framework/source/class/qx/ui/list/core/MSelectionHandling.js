@@ -281,8 +281,8 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       }
       localSelection.length = nativArray.length;
     },
-    
-    
+
+
     /**
      * Helper Method to select default item.
      */

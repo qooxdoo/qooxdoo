@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Basic class for a widgets which need a list as popup for example a select box. 
+ * Basic class for a widgets which need a list as popup for example a select box.
  * Basically supports a drop-down as popup with a list and the whole children management.
  *
  * @childControl dropdown {qx.ui.form.VirtualDropDownList} The drop-down list.
@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
   /**
    * Constructs the widget with the passed model.
-   * 
+   *
    * @param model {qx.data.Array?null} The model data for the widget.
    */
   construct : function(model)
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       init : true
     },
 
-    
+
     // overridden
     width :
     {
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       focused : true
     },
 
-    
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -309,10 +309,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * Handles the complete keyboard events for user interaction. 
-     * If there is no defined user interaction {@link #_getAction}, 
+     * Handles the complete keyboard events for user interaction.
+     * If there is no defined user interaction {@link #_getAction},
      * the event is delegated to the drop-down.
-     * 
+     *
      * @param event {qx.event.type.KeySequence} The keyboard event.
      */
     _handleKeyboard : function(event)
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
     /**
      * Handles all mouse events dispatched on the widget.
-     * 
+     *
      * @param event {qx.event.type.Mouse|qx.event.type.MouseWheel} The mouse event.
      */
     _handleMouse : function(event)
@@ -392,13 +392,13 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * Returns the action dependent on the user interaction: <code>open</code>, 
+     * Returns the action dependent on the user interaction: <code>open</code>,
      * <code>close</code>, <code>selectPrevious</code>, <code>selectNext</code>,
      * <code>selectFirst</code> or <code>selectLast</code>.
-     * 
+     *
      * @param event {qx.event.type.KeySequence} The keyboard event.
      * @return {String|null} The action or <code>null</code> when interaction doen't hit
-     *  any action. 
+     *  any action.
      */
     _getAction : function(event)
     {

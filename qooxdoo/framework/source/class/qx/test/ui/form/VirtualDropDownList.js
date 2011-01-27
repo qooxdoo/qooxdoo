@@ -112,8 +112,8 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       }, 2);
 
       this.__checkSelection(2);
-      
-      
+
+
       var that = this;
       this.__checkEvent(selection, function() {
         selection.splice(0, 1, that.__model.getItem(4));
