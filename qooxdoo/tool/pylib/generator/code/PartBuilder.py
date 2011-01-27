@@ -171,7 +171,7 @@ class PartBuilder(object):
         # *some* part
         missingclasses = set(x.id for x in script.classesObj).difference(allpartsclasses)
         if missingclasses:
-            handleError("Not all necessary classes are covered by parts: %r" % missingclasses)
+            handleError("These necessary classes are not covered by parts: %r" % list(missingclasses))
 
         self._console.outdent()
         return
