@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.root.Abstract",
     qx.ui.core.queue.Visibility.add(this);
 
     this.initNativeHelp();
-    
+
     this.addListener("keypress", this.__preventScrollWhenFocused, this);
   },
 
