@@ -90,14 +90,16 @@ qx.Class.define("qx.html.Root",
       qx.html.Element._modified[this.$$hash] = this;
     },
 
-    /*
+    /**
     * Prevent text selection by force for browsers where disabling
     * text selection by means of CSS has undesirable side-effects,
     * e.g. text not being searchable in Chrome.
-    * 
+    *
     * @param e {qx.event.type.Native} Selection event
+    * @return {void}
     */
-    __forcePreventSelection : function(e) {
+    __forcePreventSelection : function(e)
+    {
       var node = e.getTarget();
 
       // Node can be of type "text". Get element node.
