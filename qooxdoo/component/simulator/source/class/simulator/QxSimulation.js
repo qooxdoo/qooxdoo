@@ -96,10 +96,11 @@ qx.Class.define("simulator.QxSimulation", {
      * @param timeout {Integer} Time to wait (in milliseconds). Default: 3000
      * @throws {Error} If the application isn't ready within the timeout
      */
-    waitForQxApplication : function(timeout)
+    waitForQxApplication : function(timeout, window)
     {
+      var qxWin = window || simulator.QxSimulation.AUTWINDOW;
       var qxAppReady = 'var qxReady = false; try { if (' + 
-                  simulator.QxSimulation.AUTWINDOW + '.' + 
+                  qxWin + '.' + 
                   simulator.QxSimulation.QXAPPLICATION + 
                   ') { qxReady = true; } } catch(e) {} qxReady;';
                             
