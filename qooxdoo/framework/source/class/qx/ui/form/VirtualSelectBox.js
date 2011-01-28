@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ *
  * A form virtual widget which allows a single selection. Looks somewhat like
  * a normal button, but opens a virtual list of items to select when clicking on it.
  *
@@ -59,6 +61,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     {
       refine : true,
       init : "virtual-selectbox"
+    },
+
+
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 120
     },
 
 

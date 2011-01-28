@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ *
  * Basic class for a widgets which need a list as popup for example a select box.
  * Basically supports a drop-down as popup with a list and the whole children management.
  *

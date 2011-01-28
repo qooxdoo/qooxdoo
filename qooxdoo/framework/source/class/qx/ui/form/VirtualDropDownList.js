@@ -18,9 +18,13 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ *
  * A drop-down (popup) widget which contains a virtual list for selection.
  *
  * @childControl list {qx.ui.list.List} The virtual list.
+ *
+ * @internal
  */
 qx.Class.define("qx.ui.form.VirtualDropDownList",
 {
@@ -347,6 +351,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
         var selection = this.getSelection();
         var listSelection = this.getChildControl("list").getSelection();
         this.__synchronizeSelection(selection, listSelection);
+        this.__adjustSize();
       }
     },
 
@@ -422,6 +427,64 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       } else {
         target.removeAll();
       }
+    },
+
+
+    /**
+     * Adjust the drop-down to the available width and height, by calling
+     * {@link #__adjustWidth} and {@link #__adjustHeight}.
+     */
+    __adjustSize : function()
+    {
+      this.__adjustWidth();
+      this.__adjustHeight();
+    },
+
+
+    /**
+     * Adjust the drop-down to the available width. The width
+     * is limited by the current with from the {@link #_target}.
+     */
+    __adjustWidth : function()
+    {
+      var width = this._target.getBounds().width;
+      this.setWidth(width);
+    },
+
+
+    /**
+     * Adjust the drop-down to the available height. Ensure that the list
+     * is never bigger that the max list height and the available space
+     * in the viewport.
+     */
+    __adjustHeight : function()
+    {
+      var availableHeigth = this.__getAvailableHeigth();
+      var maxListHeight = this._target.getMaxListHeight();
+      var list = this.getChildControl("list");
+      if (maxListHeight == null || maxListHeight > availableHeigth) {
+        list.setMaxHeight(availableHeigth);
+      } else if (maxListHeight < availableHeigth) {
+        list.setMaxHeight(maxListHeight);
+      }
+    },
+
+
+    /**
+     * Calculates the available height in the viewport.
+     *
+     * @return {Integer} Available height in the viewport.
+     */
+    __getAvailableHeigth : function()
+    {
+      var distance = this.getLayoutLocation(this._target);
+      var viewPortHeight = qx.bom.Viewport.getHeight();
+
+      // distance to the bottom and top borders of the viewport
+      var toTop = distance.top;
+      var toBottom = viewPortHeight - distance.bottom;
+
+      return toTop > toBottom ? toTop : toBottom;
     }
   }
 });
