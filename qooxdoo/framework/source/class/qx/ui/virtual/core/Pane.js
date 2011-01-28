@@ -132,8 +132,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     __columnSizes : null,
     __rowSizes : null,
 
-    DEBUG : false,
-
 
     /*
     ---------------------------------------------------------------------------
@@ -544,7 +542,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.right - paneRight < Math.min(rightAvailable, minRight)
       )
       {
-        this.DEBUG && console.log("prefetch x");
         var left = Math.min(this.__scrollLeft, maxLeft);
         var right = Math.min(rightAvailable, maxRight)
         this._setLayerWindow(
@@ -592,7 +589,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.bottom - paneBottom < Math.min(belowAvailable, minBelow)
       )
       {
-        this.DEBUG && console.log("prefetch y");
         var above = Math.min(this.__scrollTop, maxAbove);
         var below = Math.min(belowAvailable, maxBelow)
         this._setLayerWindow(
@@ -780,9 +776,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.__columnSizes = columnSizes;
       this.__rowSizes = rowSizes;
 
-      // TODO: debugging code
-      this.DEBUG && qx.ui.core.queue.Manager.flush();
-
       for (var i=0; i<this.__layers.length; i++)
       {
         var start = new Date();
@@ -794,15 +787,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           layer.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
         } else {
           layer.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);
-        }
-
-        // TODO: debugging code
-        if(this.DEBUG)
-        {
-          this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
-          var start = new Date();
-          qx.ui.core.queue.Manager.flush();
-          this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
         }
       }
     },
@@ -871,7 +855,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
       var bounds = this.getBounds();
 
-      this.DEBUG && console.log("full update");
       this._setLayerWindow(
         layers,
         this.__scrollLeft, this.__scrollTop,
@@ -927,7 +910,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.right >= paneWindow.right
       )
       {
-        this.DEBUG && console.log("scroll");
         // only update layer container offset
         this.__layerContainer.setUserBounds(
           this.__layerWindow.left - paneWindow.left,
@@ -938,7 +920,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       else
       {
-        this.DEBUG && console.log("update layer window");
         this._setLayerWindow(
           layers,
           this.__scrollLeft, this.__scrollTop,
