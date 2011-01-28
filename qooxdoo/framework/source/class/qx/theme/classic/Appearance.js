@@ -2528,6 +2528,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "virtual-selectbox" : "selectbox",
+    "virtual-selectbox/dropdown" : "popup",
+    "virtual-selectbox/dropdown/list" : {
+      alias : "virtual-list"
+    },
+
     "cell" :
     {
       style : function(states)
