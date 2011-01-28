@@ -65,9 +65,27 @@ qx.Mixin.define("simulator.MApplicationLogging",
     addRingBuffer : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
-      var rb = "new " + qxWin + ".qx.log.appender.RingBuffer()";
+      var rb = "(function() { var rb = " + qxWin + ".qx.log.appender.RingBuffer; return new rb(); })()";
+      //var rb = "new " + qxWin + ".qx.log.appender.RingBuffer()";
       this.storeEval(rb, "ringBuffer");  
       this.qxSelenium.getEval(qxWin + ".qx.log.Logger.register(selenium.qxStoredVars['ringBuffer'])");
+    },
+    
+    
+    /**
+     * Returns the contents of the RingBuffer storing the AUT's log messages.
+     * 
+     * @param win {String} JavaScript snippet that evaluates as a Window object
+     * 
+     * @return {String[]} Array of AUT log messages
+     */
+    getRingBufferEntries : function(win)
+    {
+      var qxWin = win || "selenium.qxStoredVars['autWindow']";
+      var debugLog = this.qxSelenium.getEval("selenium.qxStoredVars['autWindow']" +
+        ".qx.Simulation.getRingBufferEntries(" + qxWin + ")");
+      debugLog = String(debugLog);
+      return debugLog.split("|");
     }
 
   }

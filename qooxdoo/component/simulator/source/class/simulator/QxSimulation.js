@@ -258,11 +258,7 @@ qx.Class.define("simulator.QxSimulation", {
      */
     logRingBufferEntries : function()
     {
-      var debugLog = this.qxSelenium.getEval(simulator.QxSimulation.AUTWINDOW 
-        + ".qx.Simulation.getRingBufferEntries()");
-      debugLog = String(debugLog);
-      var debugLogArray = debugLog.split("|");
-      
+      var debugLogArray = this.getRingBufferEntries();
       for (var i=0,l=debugLogArray.length; i<l; i++) {
         this.info(debugLogArray[i]);
       }
