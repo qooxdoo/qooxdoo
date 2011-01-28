@@ -24,11 +24,11 @@ Suppose you have a settings dialog in your application that is only needed occas
 Add Parts to your Config
 ------------------------
 
-In your configuration file, add the following job (assuming you are using a standard GUI application with a name space of *custom*):
+In your configuration file, add the following job entries (assuming you are using a standard GUI application with a name space of *custom*):
 
 ::
 
-    "build-script": 
+    "my-parts-config": 
     {
       "packages" :
       {
@@ -44,16 +44,26 @@ In your configuration file, add the following job (assuming you are using a stan
           }
         }
       }
+    },
+
+    "source" :
+    {
+      "extend" : [ "my-parts-config" ]
+    },
+
+    "build" :
+    {
+      "extend" : [ "my-parts-config" ]
     }
 
-This will override the default *build-script* job, instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main *:ref:`include <pages/tool/generator_config_ref#include>`* list of class patterns for you application (the example mirrors this list of a standard GUI app). In the *settings* part, you carve out some top-level classes or name spaces that constitute the part you want to specify. In the example, this is just the name of the top-level dialog class.
+This will inject your part configuration into the standard build jobs (*source* and *build*), instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main :ref:`include <pages/tool/generator_config_ref#include>` list of class patterns for you application (the example above mirrors this list of a standard GUI app). In the part you want to separate from the initial boot part, like *settings* above, you carve out some top-level classes or name spaces that constitute the part you want to specify. In our example, this is just the name of the top-level dialog class.
 
 .. _pages/parts_using#add_part_loading_to_your_class_code:
 
 Add Part Loading to your Class Code
 -----------------------------------
 
-At a suitable spot in your application code, you have to load the *settings* part, e.g. when the "Open Settings Dialog" button is pressed. We put the loading action in the click event listener of the button:
+Next, you have to add code to your application to load any part other than the boot part. Carrying on with our example, at a suitable spot in your application code, you have to load the *settings* part, e.g. when some "Open Settings Dialog" button is pressed which is available from your main application class. We put the loading action in the click event listener of the button:
 
 ::
 
@@ -80,9 +90,33 @@ At a suitable spot in your application code, you have to load the *settings* par
 
 The main thing to note here is that upon pressing the "Open Settings Dialog" button *qx.io.PartLoader.require* is invoked to make sure the *settings* part will be loaded (It doesn't hurt to invoke this method multiple times, as the PartLoader knows which parts have been loaded already).
 
-The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the task that should be done once the part is successfully loaded. As you can see, the *custom.Settings* class, which is loaded with this part, is being instantiated.
+The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the code that should be run once the part is successfully loaded. As you can see, the *custom.Settings* class which is loaded with this part is being instantiated.
 
-These are the essential ingredients to set up and use parts in your application. For a general overview of parts in qooxdoo, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_0_8_2/qooxdoo/application/feedreader/>`_.
+This section also shows that you cannot run the same application with and without parts. In order to use parts, you have to "instrument" your application code with calls to *qx.io.PartLoader.require*, and currently there is no way these calls can fail gracefully. You have to make a decision. 
+
+These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_%{version}/qooxdoo/application/feedreader/>`_.
+
+
+
+In Depth: Configuring the "include" Key of your Parts
+=====================================================
+
+The most crucial and at the same time most difficult aspect of using parts is configuring the parts in your *config.json*. More specifically, the definition of the *include* key for each part requires thought and consideration to get right. This section tries to give you a set of technical guidelines to help you with that.
+
+**"include" lists must be free of overlap**
+    Don't list classes in the *include* list of one part which also appear in another. This becomes less obvious when you use wildcards in your *include* lists: ``[ "foo.bar.*" ]`` overlaps with ``[ "foo.bar.baz" ]``, and with ``[ "foo.*" ]``! So think of what these expressions will expand to. The generator will complain should two *include* lists overlap.
+
+**Don't put load dependencies of one part in the "include" list of another**
+    This is even less obvious. The base line is that you must not have classes in the *include* list of one part that are needed by classes of another part at load time. (Mind that this is **not** only referring to the *include* list of the other part, but to all its classes!). A good criterion to follow is: Stick to classes that are only used in some **member method** of another class. Then you are ususally on the safe side, and are only using classes for your part definition that are required by others at run time, not load time. (Counter examples would be classes that are used as super classes by others (they show up in their *extend* entry), or are used in the *defer* section of another class, or are used to directly initialize a map entry, like an attribute, of another class definition).
+    The generator will complain if load dependencies of one part are listed in the definition of another.
+
+**Don't group classes "physically"**
+    That means: Don't think about how classes are organized in terms of libraries or name spaces. This is not a good defining principle for parts. Try to think in terms of **logical** or **visual** components, and let the generator figure out which classes from which libraries and name spaces need to go into that part. Visual or logical components usually map to *execution paths* in your running app. A dialog, a window, a certain tab view that are only reached when the user makes some specific interactions with your application, thus following a specific execution path in your code, those are good candidates for defining a part. Of course, e.g. when you are using a library or contribution in your application which exhibits one class as its published API and which you instantiate at one specific point in your application, this might also make for a good part, but would be merely coincidential.
+
+**Don't define parts with framework classes**
+    This is just a concrete example of the previous point, but happens so often that it merrits its own mentioning. It is generally a bad idea to use framework classes to define a part. Framework classes should be free to be added where they are needed *by your classes' dependencies*. And although there are high-level widgets in the framework, like the DateChooser or the HtmlArea, you always have application code wrapped around them. Then it's good practice to forge this code into its own custom class, and make this class the entry point for a part.
+
+
 
 .. _pages/parts_using#advanced_usage:_part_collapsing:
 
