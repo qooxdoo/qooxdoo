@@ -94,6 +94,7 @@ qx.Class.define("simulator.QxSimulation", {
      * something.
      * 
      * @param timeout {Integer} Time to wait (in milliseconds). Default: 3000
+     * @param window {DOMWindow} Window the qooxdoo application is running in
      * @throws {Error} If the application isn't ready within the timeout
      */
     waitForQxApplication : function(timeout, window)
