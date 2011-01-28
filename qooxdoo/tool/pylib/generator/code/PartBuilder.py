@@ -69,6 +69,7 @@ class PartBuilder(object):
         # Compute packages
         script.packages = []  # array of Packages
         script.packages = self._createPackages(script)
+        self._checkPackagesAgainstClassList(script)
         script.sortParts()
 
         self._printPartStats(script)
@@ -124,6 +125,17 @@ class PartBuilder(object):
                 overlap = parthead.intersection(parthead1)
                 if overlap:
                     raise ConfigurationError("Part '%s' and '%s' have overlapping includes: %r" % (partid, partid1, list(overlap)))
+
+    ##
+    # Check all classes from the global class list are contained in
+    # *some* package
+    def _checkPackagesAgainstClassList(self, script):
+        allpackageclasses = set([])
+        for package in script.packages:
+            allpackageclasses.update(package.classes)
+        missingclasses = set(x.id for x in script.classesObj).difference(allpackageclasses)
+        if missingclasses:
+            raise ValueError("These necessary classes are not covered by parts: %r" % list(missingclasses))
 
 
     def verifyParts(self, partsMap, script):
