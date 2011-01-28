@@ -18,8 +18,6 @@
 
 ************************************************************************ */
 
-
-
 /**
  * EXPERIMENTAL!
  *
@@ -31,22 +29,16 @@ qx.Class.define("qx.ui.virtual.core.CellEvent",
   extend : qx.event.type.Mouse,
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-    /** The table row of the event target */
+    /** The table row of the event target. */
     row :
     {
       check : "Integer",
       nullable: true
     },
 
-    /** The table column of the event target */
+    /** The table column of the event target. */
     column :
     {
       check : "Integer",
@@ -55,29 +47,15 @@ qx.Class.define("qx.ui.virtual.core.CellEvent",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    /*
-     *****************************************************************************
-        CONSTRUCTOR
-     *****************************************************************************
-     */
-
      /**
-      * Initialize the event
+      * Initialize the event.
       *
-      * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller
-      * @param me {qx.event.type.Mouse} The original mouse event
-      * @param row {Integer?null} The cell's row index
-      * @param column {Integer?null} The cell's column index
+      * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller.
+      * @param me {qx.event.type.Mouse} The original mouse event.
+      * @param row {Integer?null} The cell's row index.
+      * @param column {Integer?null} The cell's column index.
       */
      init : function(scroller, me, row, column)
      {

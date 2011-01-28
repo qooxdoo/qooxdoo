@@ -38,11 +38,11 @@ qx.Interface.define("qx.ui.virtual.core.IHtmlCellProvider",
      * two-dimensional array.</li>
      * </ul>
      *
-     * @param row {Integer} The cell's row index
-     * @param column {Integer} The cell's column index
+     * @param row {Integer} The cell's row index.
+     * @param column {Integer} The cell's column index.
      *
      * @return {Map} Cell properties (see above.)
      */
-    getCellProperties : function(row, column) { }
+    getCellProperties : function(row, column) {}
   }
 });

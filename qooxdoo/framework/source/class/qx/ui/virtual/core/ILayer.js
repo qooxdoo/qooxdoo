@@ -35,10 +35,10 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * Note: This method can only be called after the widgets initial appear
      * event has been fired because it may work with the widget's DOM elements.
      *
-     * @param firstRow {Integer} Index of the first row to display
-     * @param firstColumn {Integer} Index of the first column to display
-     * @param rowSizes {Integer[]} Array of heights for each row to display
-     * @param columnSizes {Integer[]} Array of widths for each column to display
+     * @param firstRow {Integer} Index of the first row to display.
+     * @param firstColumn {Integer} Index of the first column to display.
+     * @param rowSizes {Integer[]} Array of heights for each row to display.
+     * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
     fullUpdate : function(
       firstRow, firstColumn,
@@ -62,10 +62,10 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * Note: This method can only be called after the widgets initial appear
      * event has been fired because it may work with the widget's DOM elements.
      *
-     * @param firstRow {Integer} Index of the first row to display
-     * @param firstColumn {Integer} Index of the first column to display
-     * @param rowSizes {Integer[]} Array of heights for each row to display
-     * @param columnSizes {Integer[]} Array of widths for each column to display
+     * @param firstRow {Integer} Index of the first row to display.
+     * @param firstColumn {Integer} Index of the first column to display.
+     * @param rowSizes {Integer[]} Array of heights for each row to display.
+     * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
     updateLayerWindow : function(
       firstRow, firstColumn,

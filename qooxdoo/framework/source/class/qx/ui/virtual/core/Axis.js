@@ -29,8 +29,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
   extend : qx.core.Object,
 
   /**
-   * @param defaultItemSize {Integer} The default size of the items
-   * @param itemCount {Integer} the number of item on the axis
+   * @param defaultItemSize {Integer} The default size of the items.
+   * @param itemCount {Integer} The number of item on the axis.
    */
   construct : function(defaultItemSize, itemCount)
   {
@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
   events :
   {
-    /** Every change to the axis configuration triggers this event */
+    /** Every change to the axis configuration triggers this event. */
     "change" : "qx.event.type.Event"
   },
 
@@ -57,9 +57,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Get the default size of the items
+     * Get the default size of the items.
      *
-     * @return {Integer} the default item size
+     * @return {Integer} The default item size.
      */
     getDefaultItemSize : function() {
       return this.defaultItemSize;
@@ -67,9 +67,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Set the default size the items
+     * Set the default size the items.
      *
-     * @param defaultItemSize {Integer} The default size of the items
+     * @param defaultItemSize {Integer} The default size of the items.
      */
     setDefaultItemSize : function(defaultItemSize)
     {
@@ -83,9 +83,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Get the number of items in the axis
+     * Get the number of items in the axis.
      *
-     * @return {Integer} The number of items
+     * @return {Integer} The number of items.
      */
     getItemCount : function() {
       return this.itemCount;
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     /**
      * Set the number of items in the axis.
      *
-     * @param itemCount {Integer} The new item count
+     * @param itemCount {Integer} The new item count.
      */
     setItemCount : function(itemCount)
     {
@@ -112,8 +112,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * Sets the size of a specific item. This allow item, which have a size
      * different from the default size.
      *
-     * @param index {Integer} index of the item to change
-     * @param size {Integer} New size of the item
+     * @param index {Integer} Index of the item to change.
+     * @param size {Integer} New size of the item.
      */
     setItemSize : function(index, size)
     {
@@ -140,10 +140,10 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Get the size of the item at the given index
+     * Get the size of the item at the given index.
      *
-     * @param index {Integer} index of the item to get the size for
-     * @return {Integer} Size of the item
+     * @param index {Integer} Index of the item to get the size for.
+     * @return {Integer} Size of the item.
      */
     getItemSize : function(index)
     {
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      *
      * Complexity: O(n log n) (n = number of custom sized cells)
      *
-     * @return {Map[]} the sorted list of ranges.
+     * @return {Map[]} The sorted list of ranges.
      */
     __getRanges : function()
     {
@@ -231,7 +231,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
 
       // fix first range
-      if (ranges[0].rangeStart > 0) {
+      if (ranges[0].rangeStart > 0)
+      {
         ranges.unshift({
           startIndex: 0,
           endIndex: ranges[0].startIndex-1,
@@ -257,7 +258,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      *
      * Complexity: O(log n) (n = number of custom sized cells)
      *
-     * @param position {Integer} the position
+     * @param position {Integer} The position.
      * @return {Map} The range, which contains the given position.
      */
     __findRangeByPosition : function(position)
@@ -285,9 +286,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Get the item and the offset into the item at the given position
+     * Get the item and the offset into the item at the given position.
      *
-     * @param position {Integer|null} The position to get the item for
+     * @param position {Integer|null} The position to get the item for.
      * @return {Map} A map with the keys <code>index</code> and
      *    <code>offset</code>. The index is the index of the item containing the
      *    position and offsets specifies offset into this item. If the position
@@ -324,7 +325,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Returns the range, which contains the position
+     * Returns the range, which contains the position.
      *
      * Complexity: O(log n) (n = number of custom sized cells)
      *
@@ -358,9 +359,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     /**
      * Get the start position of the item with the given index.
      *
-     * @param index {Integer} The item's index
+     * @param index {Integer} The item's index.
      * @return {Integer|null} The start position of the item. If the index is outside
-     *    of the axis range <code>null</code> is returned.‚
+     *    of the axis range <code>null</code> is returned.
      */
     getItemPosition : function(index)
     {
@@ -379,9 +380,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
 
     /**
-     * Returns the sum of all cell sizes
+     * Returns the sum of all cell sizes.
      *
-     * @return {Integer} The sum of all item sizes
+     * @return {Integer} The sum of all item sizes.
      */
     getTotalSize : function()
     {
@@ -394,15 +395,14 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * Get an array of item sizes starting with the item at "startIndex". The
      * sum of all sizes in the returned array is at least "minSizeSum".
      *
-     * @param startIndex {Integer} The index of the first item
-     * @param minSizeSum {Integer} The minimum sum of the item sizes
+     * @param startIndex {Integer} The index of the first item.
+     * @param minSizeSum {Integer} The minimum sum of the item sizes.
      * @return {Integer[]} List of item sizes starting with the size of the item
      *    at index <code>startIndex</code>. The sum of the item sizes is at least
      *    <code>minSizeSum</code>.
      */
     getItemSizes : function(startIndex, minSizeSum)
     {
-
       var customSizes = this.customSizes;
       var defaultSize = this.defaultItemSize;
 
@@ -422,11 +422,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     }
   },
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function() {
     this.customSizes = this.__ranges = null;
