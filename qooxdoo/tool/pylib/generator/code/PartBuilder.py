@@ -114,13 +114,13 @@ class PartBuilder(object):
 
 
     ##
-    # Check head lists are non-overlapping
+    # Check head lists (part.initial_deps) are non-overlapping
     # @param {Map} { partId : generator.code.Part }
     def _checkPartsConfig(self, parts):
         headclasses = dict((x.name,set(x.initial_deps)) for x in parts.values())
         for partid, parthead in headclasses.items():
             for partid1, parthead1 in ((x,y) for x,y in headclasses.items() if x!=partid):
-                print "Checking %s - %s" % (partid, partid1)
+                #print "Checking %s - %s" % (partid, partid1)
                 overlap = parthead.intersection(parthead1)
                 if overlap:
                     raise ConfigurationError("Part '%s' and '%s' have overlapping includes: %r" % (partid, partid1, list(overlap)))
@@ -250,7 +250,8 @@ class PartBuilder(object):
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script)
+            # do not allow blocked loaddeps, as this would make the part unloadable
+            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script, allowBlockLoaddeps=False)
 
             # Remove all unknown classes  -- TODO: Can this ever happen here?!
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop

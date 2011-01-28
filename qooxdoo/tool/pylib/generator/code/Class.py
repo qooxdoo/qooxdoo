@@ -1388,11 +1388,10 @@ class Class(Resource):
 
 
 class DependencyItem(object):
-    #__slots__ = ('name', 'attribute', 'requestor', 'line', 'inFunction')
     def __init__(self, name, attribute, requestor, line=-1, isLoadDep=False):
         self.name           = name       # "qx.Class" [dependency to (class)]
         assert isinstance(name, types.StringTypes)
-        self.attribute      = attribute  # "define"   [dependency to (attribute)]
+        self.attribute      = attribute  # "methodA"   [dependency to (class.attribute)]
         self.requestor      = requestor  # "gui.Application" [the one depending on this item]
         self.line           = line       # 147        [source line in dependent's file]
         self.isLoadDep      = isLoadDep  # True       [load or run dependency]
@@ -1408,6 +1407,11 @@ class DependencyItem(object):
         return hash(self.name + self.attribute)
 
 
+##
+# Throw this in cases of dependency problems
+class DependencyError(ValueError): pass
+
+ 
 ##
 # Auxiliary class for ClassDependencies() (although of more general appeal)
 class ClassMap(object):
@@ -1430,7 +1434,7 @@ class ClassMap(object):
         }
         return
 
-    
+
 ##
 # Captures the dependencies of a class (-file)
 # - the main purpose of this is to have an accessible, shallow representation of
