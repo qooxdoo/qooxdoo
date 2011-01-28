@@ -20,6 +20,18 @@
 qx.Class.define("simulator.Application", {
 
   extend : qx.application.Native,
+    
+  statics :
+  {
+    /**
+     * {Array} Names of optional configuration settings for the 
+     * {@link simulator.QxSimulation} instance to be used for this test. 
+     * Options are defined as settings in the "simulation" job.  
+     */
+    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
+                    "globalErrorLogging", "testEvents", "disposerDebug", 
+                    "applicationLog"]
+  },
   
   members :
   {
@@ -73,7 +85,7 @@ qx.Class.define("simulator.Application", {
     _getOptionalSettings : function()
     {
       var settings = {};
-      var names = simulator.TestRunner.SETTING_NAMES;
+      var names = simulator.Application.SETTING_NAMES;
       for (var i=0,l=names.length; i<l; i++) {
         try {
           settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);

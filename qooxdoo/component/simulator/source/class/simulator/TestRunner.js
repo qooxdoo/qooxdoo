@@ -22,18 +22,6 @@ qx.Class.define("simulator.TestRunner", {
 
   extend : qx.core.Object,
   
-  statics :
-  {
-    /**
-     * {Array} Names of optional configuration settings for the 
-     * {@link simulator.QxSimulation} instance to be used for this test. 
-     * Options are defined as settings in the "simulation" job.  
-     */
-    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
-                    "globalErrorLogging", "testEvents", "disposerDebug", 
-                    "applicationLog"]
-  },
-  
   construct : function()
   {
     this.base(arguments);
