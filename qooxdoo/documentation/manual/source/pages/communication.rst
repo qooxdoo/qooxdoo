@@ -23,10 +23,6 @@ RPC Servers
 
 .. toctree::
    
-   communication/rpc_java
-   communication/rpc_php
-   communication/rpc_perl
-   communication/rpc_python
    communication/rpc_server_writer_guide
 
 Specific Widget Communication
